@@ -22,51 +22,52 @@
                                 <label class="form-group has-float-label mb-4">
                                     <input id="business_name" type="text" class="form-control @error('business_name') is-invalid @enderror" name="business_name" value="{{ old('business_name') }}" required autocomplete="business_name" autofocus />
                                     <span>{{ __('Business Name') }}</span>
-                                </label>
                                 @error('business_name')
                                     <p class="invalid-feedback" role="alert">{{ $message }}</p>
                                 @enderror
+                                </label>
                             </div><!-- col-12 -->
 
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                 <label for="name" class="form-group has-float-label mb-4">
                                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus/>
                                     <span>{{ __('Full Name') }}</span>
-                                 </label>
-
-                                @error('name')
+                                    @error('name')
                                     <p class="invalid-feedback" role="alert">{{ $message }}</p>
                                 @enderror
+                                 </label>
+
+                                
                             </div><!-- col-12 -->
 
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                 <label for="email" class="form-group has-float-label mb-4">
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" />
                                     <span>{{ __('E-Mail Address') }}</span>
-                                </label>
                                 @error('email')
                                     <p class="invalid-feedback" role="alert">{{ $message }}</p>
                                 @enderror
+                                </label>
                             </div><!-- col-12 -->
 
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                               <label class="form-group has-float-label mb-4">
                                 <input class="form-control" type="tel" />
                                 <span>{{ __('Mobile Number') }}</span>
-                              </label>
                                 @error('mobile')
                                     <p class="invalid-feedback" role="alert">{{ $message }}</p>
                                 @enderror
+                              </label>
                             </div><!-- col-12 -->
 
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                 <label for="password" class="form-group has-float-label mb-4">
                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password"/>
                                     <span>{{ __('Password') }}</span>
-                                </label>
                                 @error('password')
                                     <p class="invalid-feedback" role="alert">{{ $message }}</p>
                                 @enderror
+                                </label>
                             </div><!-- col-12 -->       
                     
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
