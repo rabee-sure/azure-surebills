@@ -9,11 +9,6 @@
     <title>{{ config('app.name', 'Sure Bills') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="/css/all.css" />
 
   </head>
@@ -22,7 +17,7 @@
     @include('layouts.sidebar')
 
     <main>
-      <div class="container-fluid">
+      <div class="container-fluid" id="app">
         @yield('content')
       </div>
     </main>

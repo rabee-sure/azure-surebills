@@ -10,3 +10,4 @@
   </div>
 </footer>
 <script src="{{ mix('/js/all.js') }}"></script> 
+{{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
