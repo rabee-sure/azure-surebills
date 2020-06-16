@@ -1,3 +1,4 @@
+@auth
 <div class="menu">
   <div class="main-menu">
     <div class="scroll">
@@ -94,3 +95,4 @@
     </div>
   </div>
 </div>
+@endauth

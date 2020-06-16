@@ -1,5 +1,6 @@
 <nav class="navbar fixed-top">
   <div class="d-flex align-items-center navbar-left">
+    @auth
     <a href="#" class="menu-button d-none d-md-block">
       <svg class="main" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 17">
         <rect x="0.48" y="0.5" width="7" height="1" />
@@ -20,6 +21,7 @@
         <rect x="0.5" y="15.5" width="25" height="1" />
       </svg>
     </a>
+    @endauth
 
     <div class="search" data-search-path="Pages.Search.html?q=">
       <input placeholder="Search...">
@@ -28,7 +30,7 @@
     
   </div>
 
-  <a class="navbar-logo" href="Dashboard.Default.html">
+  <a class="navbar-logo" href="{{ url('/')}}">
     <span class="logo d-none d-xs-block"></span>
     <span class="logo-mobile d-block d-xs-none"></span>
   </a>
@@ -41,7 +43,7 @@
           <label class="custom-switch-btn" for="switchDark"></label>
         </div>
       </div>
-
+@auth
       <div class="position-relative d-none d-sm-inline-block">
         <a href="store-client.html" class="header-icon btn btn-empty" data-toggle="tooltip"
         data-placement="top" title="Store">
@@ -77,6 +79,7 @@
           </div>
         </div>
       </div>
+@endauth
 
       <button class="header-icon btn btn-empty d-none d-sm-inline-block" type="button" id="fullScreenButton">
         <i class="simple-icon-size-fullscreen"></i>
@@ -86,15 +89,42 @@
     </div>
 
     <div class="user d-inline-block">
-      <button class="btn btn-empty p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="name">Rehab AlTawari</span>
-        <span><img alt="Profile Picture" src="img/profile-pic-l.jpg" /></span>
-      </button>
-      <div class="dropdown-menu dropdown-menu-right mt-3">
-        <a class="dropdown-item" href="#">Account</a>
-        <a class="dropdown-item" href="#">Support</a>
-        <a class="dropdown-item" href="#">Sign out</a>
-      </div>
+      <!-- Authentication Links -->
+      @guest
+
+          <div class="position-relative d-none d-sm-inline-block">
+            <a href="{{ route('login') }}" class="header-icon btn btn-empty" >
+            {{ __('Login') }}
+            </a>
+          </div>
+
+          @if (Route::has('register'))
+            <div class="position-relative d-none d-sm-inline-block">
+              <a href="{{ route('register') }}" class="header-icon btn btn-empty" >
+              {{ __('Register') }}
+              </a>
+            </div>
+          @endif
+      @else
+        <button class="btn btn-empty p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="name">{{ Auth::user()->name }}</span>
+          <span><img alt="Profile Picture" src="img/profile-pic-l.jpg" /></span>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right mt-3">
+          <a class="dropdown-item" href="#">Account</a>
+          <a class="dropdown-item" href="#">Support</a>
+          <a class="dropdown-item" href="{{ route('logout') }}"
+             onclick="event.preventDefault();
+                           document.getElementById('logout-form').submit();">
+              {{ __('Logout') }}
+          </a>
+
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+          </form>
+        </div>
+      @endguest
+
     </div>
   </div>
 </nav>
