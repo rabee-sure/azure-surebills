@@ -6,13 +6,13 @@
         <li class="{{ Request::is('/') ? 'active' : '' }}">
           <a href="/" title="Dashboard">
             <i class="iconsminds-dashboard"></i>
-            <span>Dashboard</span>
+            <span>{{ __('Dashboard') }}</span>
           </a>
         </li>
         <li class="{{ Request::is('bills*') ? 'active' : '' }}">
           <a href="{{ route('bills.index') }}" title="Bills">
             <i class="iconsminds-testimonal"></i>
-            Bills
+           {{ __('Bills') }}
           </a>
         </li>
 {{--         <li>
@@ -42,7 +42,13 @@
         <li>
           <a href="#account" title="Account">
             <i class="iconsminds-male-2"></i>
-            Account
+            {{ __('Account') }}
+          </a>
+        </li>
+        <li>
+          <a href="#integration" title="Integration">
+            <i class="iconsminds-male-2"></i>
+            {{ __('Integration') }}
           </a>
         </li>
       </ul>
@@ -54,12 +60,12 @@
       <ul class="list-unstyled" data-link="store">
         <li>
           <a href="store.html">
-            <i class="iconsminds-clothing-store"></i> <span class="d-inline-block">Store page</span>
+            <i class="iconsminds-clothing-store"></i> <span class="d-inline-block">{{ __('Store page') }}</span>
           </a>
         </li>
         <li>
           <a href="products.html">
-            <i class="iconsminds-project"></i> <span class="d-inline-block">Products</span>
+            <i class="iconsminds-project"></i> <span class="d-inline-block">{{ __('Products') }}</span>
            </a>
         </li>
       </ul>
@@ -67,27 +73,39 @@
       <ul class="list-unstyled" data-link="account">
         <li>
           <a href="account-information.html">
-            <i class="iconsminds-id-card"></i> <span class="d-inline-block">Account Information</span>
+            <i class="iconsminds-id-card"></i> <span class="d-inline-block">{{ __('Account Information') }}</span>
           </a>
         </li>
         <li>
           <a href="bank-information.html">
-            <i class="iconsminds-bank"></i> <span class="d-inline-block">Bank Information</span>
+            <i class="iconsminds-bank"></i> <span class="d-inline-block">{{ __('Bank Information') }}</span>
            </a>
         </li>
         <li>
           <a href="business-information.html">
-            <i class="iconsminds-management"></i> <span class="d-inline-block">Business Information</span>
+            <i class="iconsminds-management"></i> <span class="d-inline-block">{{ __('Business Information') }}</span>
           </a>
         </li>
         <li>
           <a href="change-password.html">
-            <i class="iconsminds-type-pass"></i> <span class="d-inline-block">Change Password</span>
+            <i class="iconsminds-type-pass"></i> <span class="d-inline-block">{{ __('Change Password') }}</span>
           </a>
         </li>
         <li>
           <a href="notifications.html">
-            <i class="iconsminds-bell"></i> <span class="d-inline-block">Notifications</span>
+            <i class="iconsminds-bell"></i> <span class="d-inline-block">{{ __('Notifications') }}</span>
+          </a>
+        </li>
+      </ul>      
+      <ul class="list-unstyled" data-link="integration">
+        <li>
+          <a href="{{ route('integration')}}">
+            <i class="iconsminds-type-pass"></i> <span class="d-inline-block">{{ __('Integration') }}</span>
+          </a>
+        </li>
+        <li>
+          <a href="notifications.html">
+            <i class="iconsminds-bell"></i> <span class="d-inline-block">{{ __('Documentation') }}</span>
           </a>
         </li>
       </ul>

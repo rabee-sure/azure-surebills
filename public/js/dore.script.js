@@ -4588,6 +4588,7 @@ $.dore = function (element, options) {
 $.fn.dore = function (options) {
   return this.each(function () {
     if (undefined == $(this).data("dore")) {
+      console.log($.dore)
       var plugin = new $.dore(this, options);
       $(this).data("dore", plugin);
     }

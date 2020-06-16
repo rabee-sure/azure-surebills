@@ -23,3 +23,5 @@ Route::resource('bills', 'BillController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/integration', 'IntegrationController@index')->name('integration');
+Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');

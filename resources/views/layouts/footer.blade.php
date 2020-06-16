@@ -1,4 +1,4 @@
-<footer class="page-footer">
+<footer class="page-footer"> --}}
   <div class="footer-content">
     <div class="container-fluid">
       <div class="row">
@@ -9,5 +9,8 @@
     </div>
   </div>
 </footer>
+
+
 <script src="{{ mix('/js/all.js') }}"></script> 
-{{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+<script src="{{ asset('js/dore.script.js') }}"></script>
+<script src="{{ asset('js/app.js') }}" defer></script>
