@@ -24,9 +24,7 @@
                                     <span>{{ __('Business Name') }}</span>
                                 </label>
                                 @error('business_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <p class="invalid-feedback" role="alert">{{ $message }}</p>
                                 @enderror
                             </div><!-- col-12 -->
 
@@ -37,9 +35,7 @@
                                  </label>
 
                                 @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <p class="invalid-feedback" role="alert">{{ $message }}</p>
                                 @enderror
                             </div><!-- col-12 -->
 
@@ -49,9 +45,7 @@
                                     <span>{{ __('E-Mail Address') }}</span>
                                 </label>
                                 @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <p class="invalid-feedback" role="alert">{{ $message }}</p>
                                 @enderror
                             </div><!-- col-12 -->
 
@@ -61,9 +55,7 @@
                                 <span>{{ __('Mobile Number') }}</span>
                               </label>
                                 @error('mobile')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <p class="invalid-feedback" role="alert">{{ $message }}</p>
                                 @enderror
                             </div><!-- col-12 -->
 
@@ -73,9 +65,7 @@
                                     <span>{{ __('Password') }}</span>
                                 </label>
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <p class="invalid-feedback" role="alert">{{ $message }}</p>
                                 @enderror
                             </div><!-- col-12 -->       
                     
