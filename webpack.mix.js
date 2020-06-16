@@ -47,4 +47,19 @@ mix.js('resources/js/app.js', 'public/js')
         "public/css/component-custom-switch.min.css",
         "public/css/main.css",
     ], 'public/css/all.css')
+
+    .scripts([
+        "public/js/jquery-3.3.1.min.js",
+        "public/js/bootstrap.bundle.min.js",
+        "public/js/dore.script.js",
+        "public/js/scripts.js",
+    ],'public/js/auth.js')
+    .styles([
+        "public/fonts/iconsmind-s/css/iconsminds.css",
+        "public/fonts/simple-line-icons/css/simple-line-icons.css",
+        "public/css/bootstrap.min.css",
+        "public/css/bootstrap.rtl.only.min.css",
+        "public/css/bootstrap-float-label.min.css",
+        "public/css/main.css",
+    ], 'public/css/auth.css')
     .sass('resources/sass/app.scss', 'public/css');

@@ -19,3 +19,7 @@ Route::get('/', function () {
 
 Route::resource('bills', 'BillController');
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

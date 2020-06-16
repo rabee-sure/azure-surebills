@@ -2,5 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/js/all.js": "/js/all.js",
-    "/css/all.css": "/css/all.css"
+    "/css/all.css": "/css/all.css",
+    "/js/auth.js": "/js/auth.js",
+    "/css/auth.css": "/css/auth.css"
 }
