@@ -23,22 +23,18 @@
                         <label for="email" class="form-group has-float-label mb-4">
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus />
                             <span>{{ __('E-Mail Address') }}</span>
-                        </label>
                         @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                          <p class="invalid-feedback" role="alert">{{ $message }}</p>
                         @enderror
+                        </label>
 
                         <label for="password" class="form-group has-float-label mb-4">
                             <input id="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" type="password" placeholder="" />
                             <span>{{ __('Password') }}</span>
-                        </label>
                         @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                            <p class="invalid-feedback" role="alert">{{ $message }}</p>
                         @enderror
+                        </label>
 
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="form-check">
