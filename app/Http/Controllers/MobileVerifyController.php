@@ -14,6 +14,9 @@ class MobileVerifyController extends Controller
      */
     public function index()
     {
+    	if(auth()->user()->mobile_verified){
+    		return redirect('home');
+    	}
         return view('mobile_verify', ['user' => new UserResource(auth()->user())]);
     }
     /**
