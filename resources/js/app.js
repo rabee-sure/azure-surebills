@@ -39,11 +39,17 @@ Vue.component(
     require('./components/passport/PersonalAccessTokens.vue').default
 );
 
+Vue.component(
+    'mobile-active',
+    require('./components/MobileActive.vue').default
+);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+Vue.mixin(require('./trans'))
 
 const app = new Vue({
     el: '#app',

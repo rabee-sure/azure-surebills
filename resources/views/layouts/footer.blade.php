@@ -14,3 +14,7 @@
 <script src="{{ mix('/js/all.js') }}"></script> 
 <script src="{{ asset('js/dore.script.js') }}"></script>
 <script src="{{ asset('js/app.js') }}" defer></script>
+<script>
+    window._locale = '{{ app()->getLocale() }}';
+    window._translations = {!! cache('translations') !!};
+</script>

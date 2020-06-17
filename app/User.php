@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'business_name', 'mobile', 'mobile_sent_at', 'mobile_active_code'
     ];
 
     /**
@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'mobile_active_code'
     ];
 
     /**
@@ -36,5 +36,17 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'mobile_sent_at' => 'datetime',
     ];
+
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getMobileVerifiedAttribute()
+    {
+        return (bool) !isset($this->mobile_sent_at);
+    }
 }

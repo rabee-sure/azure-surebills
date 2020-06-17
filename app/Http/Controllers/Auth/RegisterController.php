@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -50,8 +51,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'business_name' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'mobile' => ['required', 'unique:users', 'regex:/^((?:[+?0?0?966]+)(?:\s?\d{2})(?:\s?\d{7}))$/'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -64,10 +67,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $mobile_active_code = str_pad(rand(0, pow(10, 4)-1), 4, '0', STR_PAD_LEFT);
         return User::create([
+            'business_name' => $data['business_name'],
             'name' => $data['name'],
             'email' => $data['email'],
+            'mobile' => $data['mobile'],
             'password' => Hash::make($data['password']),
+            'mobile_sent_at' => Carbon::now(),
+            'mobile_active_code' => $mobile_active_code,
         ]);
+
+        $this->sendMobileActiveCode($mobile_active_code);
+    }
+
+
+    /**
+     * Send USer Active Code To Mobile.
+     *
+     * @param  string  $active_code
+     */
+    protected function sendMobileActiveCode($active_code)
+    {
+        //TODO
     }
 }

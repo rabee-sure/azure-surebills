@@ -52,7 +52,7 @@
 
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                               <label class="form-group has-float-label mb-4">
-                                <input class="form-control" type="tel" />
+                                <input name="mobile" class="form-control @error('mobile') is-invalid @enderror" name="mobile" type="tel" value="{{ old('mobile') }}" required />
                                 <span>{{ __('Mobile Number') }}</span>
                                 @error('mobile')
                                     <p class="invalid-feedback" role="alert">{{ $message }}</p>

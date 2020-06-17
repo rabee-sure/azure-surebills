@@ -13,15 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
 
-Route::resource('bills', 'BillController');
+
+
 
 
 Auth::routes();
+Route::get('/mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
+Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/integration', 'IntegrationController@index')->name('integration');
-Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
+Route::middleware(['auth', 'mobile.verified'])->group(function () {
+	Route::resource('bills', 'BillController');
+	Route::get('/', function () {
+	    return view('home');
+	});
+	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/integration', 'IntegrationController@index')->name('integration');
+	Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
+});
