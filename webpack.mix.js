@@ -51,7 +51,7 @@ mix.js('resources/js/app.js', 'public/js')
     .scripts([
         "public/js/jquery-3.3.1.min.js",
         "public/js/bootstrap.bundle.min.js",
-        // "public/js/dore.script.js",
+        "public/js/dore.script.js",
         "public/js/scripts.js",
     ],'public/js/auth.js')
     .styles([
