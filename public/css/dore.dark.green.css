@@ -129,7 +129,7 @@ body {
 
 .logo-single {
   width: 110px;
-  height: 35px;
+  height: 50px;
   background: url("../img/logo-white.svg") no-repeat;
   background-position: center center;
   display: inline-block;
@@ -1464,7 +1464,7 @@ button {
 
 .logo {
   width: 110px;
-  height: 35px;
+  height: 50px;
   background: url("../img/logo-white.svg") no-repeat;
   background-position: center center;
   margin: 0 auto; }
@@ -3212,7 +3212,7 @@ div.error {
 .form-control.is-invalid,
 .was-validated .custom-select:invalid,
 .custom-select.is-invalid {
-  border-color: #424242 !important; }
+  border-color: #c43d4b !important; }
 
 .was-validated .form-control:valid,
 .form-control.is-valid,
