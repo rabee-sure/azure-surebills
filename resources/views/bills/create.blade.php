@@ -175,7 +175,7 @@
                 </div>
               </div><!-- form-group -->
             </div><!-- form-row -->
-            <div class="d-flex justify-content-start my-3">
+            <div class="d-flex justify-content-start mt-3">
               <button type="button" class="btn btn-primary btn-lg">Send</button>
             </div><!-- d-flex  -->
           </form>
