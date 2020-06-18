@@ -14,6 +14,10 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .scripts([
         "public/js/jquery-3.3.1.min.js",
+        "public/js/bootstrap.bundle.min.js"
+    ],'public/js/jbootstrap.js')
+    .scripts([
+        "public/js/jquery-3.3.1.min.js",
         "public/js/bootstrap.bundle.min.js",
         "public/js/Chart.bundle.min.js",
         "public/js/chartjs-plugin-datalabels.js",
@@ -49,8 +53,6 @@ mix.js('resources/js/app.js', 'public/js')
     ], 'public/css/all.css')
 
     .scripts([
-        "public/js/jquery-3.3.1.min.js",
-        "public/js/bootstrap.bundle.min.js",
         "public/js/dore.script.js",
         "public/js/scripts.js",
     ],'public/js/auth.js')
@@ -62,4 +64,7 @@ mix.js('resources/js/app.js', 'public/js')
         "public/css/bootstrap-float-label.min.css",
         "public/css/main.css",
     ], 'public/css/auth.css')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css')
+
+    .copy('vendor/proengsoft/laravel-jsvalidation/resources/views', 'resources/views/vendor/jsvalidation')
+    .copy('vendor/proengsoft/laravel-jsvalidation/public', 'public/vendor/jsvalidation');

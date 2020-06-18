@@ -20,7 +20,7 @@
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                 <label class="form-group has-float-label mb-4">
-                                    <input id="business_name" type="text" class="form-control @error('business_name') is-invalid @enderror" name="business_name" value="{{ old('business_name') }}" required autocomplete="business_name" autofocus />
+                                    <input id="business_name" type="text" class="form-control @error('business_name') is-invalid @enderror" name="business_name" value="{{ old('business_name') }}" autocomplete="business_name" autofocus />
                                     <span>{{ __('Business Name') }}</span>
                                 @error('business_name')
                                     <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -30,7 +30,7 @@
 
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                 <label for="name" class="form-group has-float-label mb-4">
-                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus/>
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" autocomplete="name" autofocus/>
                                     <span>{{ __('Full Name') }}</span>
                                     @error('name')
                                     <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -42,7 +42,7 @@
 
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                 <label for="email" class="form-group has-float-label mb-4">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" />
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" />
                                     <span>{{ __('E-Mail Address') }}</span>
                                 @error('email')
                                     <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -52,7 +52,7 @@
 
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                               <label class="form-group has-float-label mb-4">
-                                <input name="mobile" class="form-control @error('mobile') is-invalid @enderror" name="mobile" type="tel" value="{{ old('mobile') }}" required />
+                                <input name="mobile" class="form-control @error('mobile') is-invalid @enderror" name="mobile" type="tel" value="{{ old('mobile') }}" />
                                 <span>{{ __('Mobile Number') }}</span>
                                 @error('mobile')
                                     <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -62,7 +62,7 @@
 
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                 <label for="password" class="form-group has-float-label mb-4">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password"/>
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password"/>
                                     <span>{{ __('Password') }}</span>
                                 @error('password')
                                     <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -72,7 +72,7 @@
                     
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                 <label for="password-confirm" class="form-group has-float-label mb-4">
-                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" />
+                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password" />
                                     <span>{{ __('Confirm Password') }}</span>
                                 </label>
                             </div><!-- col-12 -->
@@ -112,6 +112,6 @@
     </div>
 @endsection
 
-{{-- @section('footer-scripts')
+@section('footer-scripts')
     {!! JsValidator::formRequest('App\Http\Requests\RegisterRequest', '#register-form') !!}
-@endsection --}}
+@endsection
