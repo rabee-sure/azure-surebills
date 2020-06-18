@@ -44,9 +44,9 @@ class MobileVerifyController extends Controller
     public function resendCode(Request $request)
     {
         $user = auth()->user();
-        $user->mobile_sent_at = Carbon::now();
-        $user->save();
-        return new UserResource($user);
+        $user->sendMobileCode();
 
+        return new UserResource($user);
     }
+
 }

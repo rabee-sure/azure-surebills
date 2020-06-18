@@ -80,37 +80,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $mobile_active_code = str_pad(rand(0, pow(10, 4)-1), 4, '0', STR_PAD_LEFT);
-        return User::create([
+        $user = User::create([
             'business_name' => $data['business_name'],
             'name' => $data['name'],
             'email' => $data['email'],
             'mobile' => $data['mobile'],
             'password' => Hash::make($data['password']),
-            'mobile_sent_at' => Carbon::now(),
-            'mobile_active_code' => !app()->environment('production') ? '0000' :$mobile_active_code,
         ]);
-        if(app()->environment('production')){
-            $this->sendMobileActiveCode($mobile_active_code, $data['mobile']);
-        }
-    }
-
-
-    /**
-     * Send USer Active Code To Mobile.
-     *
-     * @param  string  $active_code
-     */
-    protected function sendMobileActiveCode($active_code, $mobile_number)
-    {
-        $message = $this->formatSmsMessage($active_code);
-        $response = UnifonicFacade::send($mobile_number, $message);
-    }
-
-
-    private function formatSmsMessage($pin_number , $locale = 'en'){
-        $message = __('verification code : ',[],$locale) . $pin_number;
-        $message .= PHP_EOL;
-        return $message  ;
+        $user->sendMobileCode();
+        return $user;
     }
 }
