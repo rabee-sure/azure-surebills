@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MobileVerifyController extends Controller
@@ -33,5 +34,19 @@ class MobileVerifyController extends Controller
     		return response()->json([ 'success' => true]);
     	}
     	return response()->json([ 'success' => false]);
+    }   
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function resendCode(Request $request)
+    {
+        $user = auth()->user();
+        $user->mobile_sent_at = Carbon::now();
+        $user->save();
+        return new UserResource($user);
+
     }
 }

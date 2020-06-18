@@ -16,6 +16,7 @@
         "laravel/passport": "^9.2",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "multicaret/laravel-unifonic": "^1.0",
         "proengsoft/laravel-jsvalidation": "^4.0"
     },
     "require-dev": {

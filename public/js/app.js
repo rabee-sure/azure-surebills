@@ -1998,15 +1998,11 @@ __webpack_require__.r(__webpack_exports__);
             _this.timerCount--;
           }, 1000);
         }
-      },
-      immediate: true // This ensures the watcher is triggered upon creation
-
+      }
     }
   },
   mounted: function mounted() {
-    var now = moment();
-    var then = moment(this.user.mobile_sent_at); // this.timerCount = moment(now.diff(then), 'seconds').tz('Asia/Riyadh')._i
-
+    this.timerCount = this.user.diff_in_sec;
     console.log(this.timerCount);
   },
   methods: {
@@ -2025,6 +2021,17 @@ __webpack_require__.r(__webpack_exports__);
       });
       setTimeout(function () {
         _this2.is_loading = false;
+      }, 1000);
+    },
+    resendCode: function resendCode() {
+      var _this3 = this;
+
+      this.is_loading = true;
+      axios.post('/mobile_verify/resendCode').then(function (response) {
+        _this3.timerCount = response.data.data.diff_in_sec;
+      });
+      setTimeout(function () {
+        _this3.is_loading = false;
       }, 1000);
     }
   }
@@ -23942,104 +23949,121 @@ var render = function() {
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "verify_phone_page" }, [
-            _c("form", [
-              _c("div", { staticClass: "title" }, [
-                _vm._v(_vm._s(_vm.__("verify your phone number")))
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "desc" }, [
-                _vm._v(
-                  _vm._s(_vm.__("we sent You SMS Message Contain Apin Code"))
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.pin,
-                      expression: "pin"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "tel",
-                    placeholder: _vm.__("PIN"),
-                    maxlength: "4"
-                  },
-                  domProps: { value: _vm.pin },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.pin = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm.error != null
-                  ? _c("div", { staticClass: "invalid-pin" }, [
-                      _vm._v("invalid PIN")
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("hr"),
-              _vm._v(" "),
-              _c("div", { staticClass: "didnt_get_pin" }, [
-                _vm._v(
-                  "\n            " +
-                    _vm._s(_vm.__("didn’t Get The PIN")) +
-                    "\n            "
-                ),
-                _vm.timerCount > 0
-                  ? _c("div", [
-                      _vm._v(
-                        "\n              " +
-                          _vm._s(_vm.__("resending PIN in")) +
-                          " " +
-                          _vm._s(_vm.timerCount) +
-                          "  " +
-                          _vm._s(_vm.__("Second")) +
-                          "\n            "
-                      )
-                    ])
-                  : _c("div", [
-                      _c("a", { attrs: { href: "" } }, [
-                        _vm._v(_vm._s(_vm.__("Resend Code")))
-                      ])
-                    ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "d-flex justify-content-center" }, [
-                _c(
-                  "button",
+            _c("div", { staticClass: "title" }, [
+              _vm._v(_vm._s(_vm.__("verify your phone number")))
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "desc" }, [
+              _vm._v(
+                _vm._s(_vm.__("we sent You SMS Message Contain Apin Code"))
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                directives: [
                   {
-                    staticClass: "btn btn-primary btn-lg w-100",
-                    attrs: { type: "button", disabled: _vm.is_loading },
-                    on: { click: _vm.sendPinCode }
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pin,
+                    expression: "pin"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "tel",
+                  placeholder: _vm.__("PIN"),
+                  maxlength: "4"
+                },
+                domProps: { value: _vm.pin },
+                on: {
+                  keyup: function($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.sendPinCode($event)
                   },
-                  [
-                    _vm.is_loading
-                      ? _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.is_loading
-                      ? _c("span", [_vm._v(_vm._s(_vm.__("Loading...")) + " ")])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    !_vm.is_loading
-                      ? _c("span", [_vm._v(_vm._s(_vm.__("Verify")))])
-                      : _vm._e()
-                  ]
-                )
-              ])
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.pin = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.error != null
+                ? _c("div", { staticClass: "invalid-pin" }, [
+                    _vm._v("invalid PIN")
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", { staticClass: "didnt_get_pin" }, [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.__("didn’t Get The PIN")) +
+                  "\n            "
+              ),
+              _vm.timerCount > 0
+                ? _c("div", [
+                    _vm._v(
+                      "\n              " +
+                        _vm._s(_vm.__("resending PIN in")) +
+                        " " +
+                        _vm._s(_vm.timerCount) +
+                        "  " +
+                        _vm._s(_vm.__("Second")) +
+                        "\n            "
+                    )
+                  ])
+                : _c("div", [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.resendCode($event)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(_vm.__("Resend Code")))]
+                    )
+                  ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "d-flex justify-content-center" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-lg w-100",
+                  attrs: { type: "button", disabled: _vm.is_loading },
+                  on: { click: _vm.sendPinCode }
+                },
+                [
+                  _vm.is_loading
+                    ? _c("span", {
+                        staticClass: "spinner-border spinner-border-sm",
+                        attrs: { role: "status", "aria-hidden": "true" }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.is_loading
+                    ? _c("span", [_vm._v(_vm._s(_vm.__("Loading...")) + " ")])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.is_loading
+                    ? _c("span", [_vm._v(_vm._s(_vm.__("Verify")))])
+                    : _vm._e()
+                ]
+              )
             ])
           ])
         ])
@@ -37999,8 +38023,8 @@ module.exports = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -3095,7 +3095,6 @@ $.dore = function (element, options) {
 
       function getSelectedRows() {
         //Getting Selected Ones
-        console.log($dataTableRows.rows('.selected').data());
       }
 
       $("#searchDatatable").on("keyup", function (event) {
@@ -3419,7 +3418,6 @@ $.dore = function (element, options) {
         url: "https://httpbin.org/post",
         init: function () {
           this.on("success", function (file, responseText) {
-            console.log(responseText);
           });
         },
         thumbnailWidth: 160,
@@ -4225,7 +4223,6 @@ $.dore = function (element, options) {
 
       $("#smartWizardValidation .finish-btn").on("click", function (event) {
         if (checkWizardValidation($('#smartWizardValidation #form-step-1'))) {
-          console.log("Form Done");
           return false;
         }
         return true;
@@ -4588,7 +4585,6 @@ $.dore = function (element, options) {
 $.fn.dore = function (options) {
   return this.each(function () {
     if (undefined == $(this).data("dore")) {
-      console.log($.dore)
       var plugin = new $.dore(this, options);
       $(this).data("dore", plugin);
     }

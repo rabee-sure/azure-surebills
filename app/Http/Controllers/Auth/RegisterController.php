@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Multicaret\Unifonic\UnifonicFacade;
 
 class RegisterController extends Controller
 {
@@ -87,10 +88,11 @@ class RegisterController extends Controller
             'mobile' => $data['mobile'],
             'password' => Hash::make($data['password']),
             'mobile_sent_at' => Carbon::now(),
-            'mobile_active_code' => app()->isLocal() ? '0000' :$mobile_active_code,
+            'mobile_active_code' => !app()->environment('production') ? '0000' :$mobile_active_code,
         ]);
-
-        $this->sendMobileActiveCode($mobile_active_code);
+        if(app()->environment('production')){
+            $this->sendMobileActiveCode($mobile_active_code, $data['mobile']);
+        }
     }
 
 
@@ -99,8 +101,16 @@ class RegisterController extends Controller
      *
      * @param  string  $active_code
      */
-    protected function sendMobileActiveCode($active_code)
+    protected function sendMobileActiveCode($active_code, $mobile_number)
     {
-        //TODO
+        $message = $this->formatSmsMessage($active_code);
+        $response = UnifonicFacade::send($mobile_number, $message);
+    }
+
+
+    private function formatSmsMessage($pin_number , $locale = 'en'){
+        $message = __('verification code : ',[],$locale) . $pin_number;
+        $message .= PHP_EOL;
+        return $message  ;
     }
 }

@@ -3,11 +3,11 @@
     <div class="card">
       <div class="card-body">
         <div class="verify_phone_page">
-          <form>
+
             <div class="title">{{ __('verify your phone number') }}</div>
             <div class="desc">{{ __('we sent You SMS Message Contain Apin Code') }}</div>
             <div class="form-group">
-              <input type="tel" class="form-control" v-model="pin" :placeholder="__('PIN')" maxlength="4">
+              <input @keyup.enter="sendPinCode" type="tel" class="form-control" v-model="pin" :placeholder="__('PIN')" maxlength="4">
               <div v-if="error != null" class="invalid-pin">invalid PIN</div>
             </div><!-- form-group -->
             <!-- <b>{{ __('verification code /PIN') }}</b> -->
@@ -18,7 +18,7 @@
                 {{ __('resending PIN in') }} {{ timerCount}}  {{__('Second') }}
               </div>
               <div v-else>
-                <a href="">{{ __('Resend Code')}}</a>
+                <a href="" @click.prevent="resendCode" >{{ __('Resend Code')}}</a>
               </div>
             </div><!-- didnt_get_pin -->
             <div class="d-flex justify-content-center">
@@ -28,7 +28,7 @@
                   <span v-if="!is_loading">{{ __('Verify') }}</span>
               </button>
             </div><!-- d-flex  -->
-          </form>
+
         </div><!-- verify_phone_page -->
       </div><!-- card-body -->
     </div><!-- card -->
@@ -55,14 +55,10 @@
                         }, 1000);
                     }
                 },
-                immediate: true // This ensures the watcher is triggered upon creation
             }
         },
         mounted() {
-            var now = moment();
-            var then = moment(this.user.mobile_sent_at);
-            // this.timerCount = moment(now.diff(then), 'seconds').tz('Asia/Riyadh')._i
-
+            this.timerCount = this.user.diff_in_sec
             console.log(this.timerCount)
         },
         methods: {
@@ -77,6 +73,16 @@
                     }else{
                         this.error = this.__('ffffff');
                     }
+                });
+                setTimeout(() => {
+                    this.is_loading = false
+                }, 1000);
+            },     
+            resendCode() {
+                this.is_loading = true
+                axios.post('/mobile_verify/resendCode')
+                .then(response => {
+                  this.timerCount = response.data.data.diff_in_sec
                 });
                 setTimeout(() => {
                     this.is_loading = false

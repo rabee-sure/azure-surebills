@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9caf9785e1730b237bbb4517110dbe6",
+    "content-hash": "ce3f9726a80d723da152c087ee560aa5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1721,6 +1721,71 @@
                 "psr-3"
             ],
             "time": "2020-05-22T08:12:19+00:00"
+        },
+        {
+            "name": "multicaret/laravel-unifonic",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/multicaret/laravel-unifonic.git",
+                "reference": "ca945ed289d7235705afbbb26be86e9664812def"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/multicaret/laravel-unifonic/zipball/ca945ed289d7235705afbbb26be86e9664812def",
+                "reference": "ca945ed289d7235705afbbb26be86e9664812def",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.2",
+                "laravel/framework": ">=5.3",
+                "vlucas/phpdotenv": "^2.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Multicaret\\Unifonic\\UnifonicServiceProvider"
+                    ],
+                    "aliases": {
+                        "Unifonic": "Multicaret\\Unifonic\\UnifonicFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Multicaret\\Unifonic\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohammad Kawsara",
+                    "email": "mkwsra@gmail.com"
+                }
+            ],
+            "description": " A library to integrate with Unifonic API. Sending SMS, making Voice and VOIP calls, TTS calls, and 2FA",
+            "keywords": [
+                "2fa",
+                "api",
+                "laravel",
+                "number intelligence",
+                "sms",
+                "text-to-speech",
+                "tts",
+                "unifonic",
+                "verify",
+                "voice",
+                "voip"
+            ],
+            "time": "2020-04-22T21:33:29+00:00"
         },
         {
             "name": "nesbot/carbon",
