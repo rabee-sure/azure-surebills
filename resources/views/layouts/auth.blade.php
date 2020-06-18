@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <!-- Scripts -->
+    <script src="{{ asset('js/jbootstrap.js') }}"></script>
     <script src="{{ asset('js/auth.js') }}" defer></script>
 
     <!-- Styles -->
@@ -20,12 +21,9 @@
       </div>
     </main>
 <!-- Scripts -->
- <!-- Scripts -->
- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
- <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
  <!-- Laravel Javascript Validation -->
- <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
       @yield('footer-scripts')
 
       

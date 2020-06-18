@@ -37999,8 +37999,8 @@ module.exports = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/essam/www/SureBills/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/essam/www/SureBills/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
