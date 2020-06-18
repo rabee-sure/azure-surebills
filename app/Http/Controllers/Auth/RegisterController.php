@@ -67,6 +67,7 @@ class RegisterController extends Controller
                 'regex:/[0-9]/',        // must contain number
                 'confirmed'
             ],
+            'terms' => 'required'
         ]);
     }
 

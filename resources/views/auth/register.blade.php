@@ -15,7 +15,7 @@
                 <div class="form-side">
                 <a href="index.html"><span class="logo-single"></span></a>
                 <h6 class="mb-4">{{ __('Register') }}</h6>
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" id="register-form">
                         @csrf
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -78,10 +78,14 @@
                             </div><!-- col-12 -->
                         </div><!-- row -->
                         <div class="custom-control custom-checkbox mb-4">
-                            <input type="checkbox" class="custom-control-input" id="customCheckThis">
+                            <input type="checkbox" class="custom-control-input  @error('terms') is-invalid @enderror" name="terms" value="1" id="customCheckThis">
                             <label class="custom-control-label" for="customCheckThis">
                                 {{ __('I agree to') }} <a href="#" title="Terms & Conditions"  data-toggle="modal" data-target=".bd-example-modal-lg">{{ __('Terms & Conditions') }}</a>
                             </label>
+
+                            @error('terms')
+                                <p class="invalid-feedback" role="alert">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="d-flex justify-content-end align-items-center">
                             <button class="btn btn-primary btn-lg btn-shadow" type="submit">{{ __('Register') }}</button>
@@ -107,3 +111,7 @@
         </div>
     </div>
 @endsection
+
+{{-- @section('footer-scripts')
+    {!! JsValidator::formRequest('App\Http\Requests\RegisterRequest', '#register-form') !!}
+@endsection --}}
