@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AccountInformationRequest;
+use App\Http\Requests\BankInformationRequest;
+use App\Http\Requests\BusinessInformationRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Resources\UserResource;
 use App\User;
@@ -20,6 +23,21 @@ class AccountController extends Controller
     {
         return view('account.account_information', ['user' => auth()->user()]);
     }    
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function storeAccountInformation(AccountInformationRequest $request)
+    {
+        auth()->user()->update([
+            'name'=> $request->name,
+            'email'=> $request->email,
+            'gender'=> $request->gender,
+        ]);
+   
+        return redirect('home');
+    }
 
     /**
      * Display a listing of the resource.
@@ -32,6 +50,18 @@ class AccountController extends Controller
     }
 
     /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function storeBankInformation(BankInformationRequest $request)
+    {
+        auth()->user()->update([]);
+   
+        return redirect('home');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -39,6 +69,19 @@ class AccountController extends Controller
     public function business_information()
     {
         return view('account.business_information', ['user' => auth()->user()]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function storeBusinessInformation(BusinessInformationRequest $request)
+    {
+        auth()->user()->update([
+        ]);
+   
+        return redirect('home');
     }
 
     /**
@@ -58,7 +101,7 @@ class AccountController extends Controller
      */
     public function storeChangePassword(ChangePasswordRequest $request)
     {
-        User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+        auth()->user()->update(['password'=> Hash::make($request->new_password)]);
    
         return redirect('home');
     }

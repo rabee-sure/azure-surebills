@@ -26,8 +26,13 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('post.mobile_verify');
 
 	Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
+	Route::post('account-information', 'AccountController@storeAccountInformation')->name('account.information');
+
 	Route::get('account/bank_information', 'AccountController@bank_information')->name('bank_information');
+	Route::post('bank-information', 'AccountController@storeBankInformation')->name('bank.information');
+
 	Route::get('account/business_information', 'AccountController@business_information')->name('business_information');
+	Route::post('business-information', 'AccountController@storeBusinessInformation')->name('business.information');
 
 	Route::get('account/change_password', 'AccountController@changePassword')->name('change_password');
 	Route::post('change-password', 'AccountController@storeChangePassword')->name('change.password');
