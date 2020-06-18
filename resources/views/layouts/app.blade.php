@@ -23,7 +23,7 @@
     </main>
 
     @include('layouts.footer')
-
+    @yield('footer-scripts')
 </body>
 
 </html>

@@ -21,9 +21,17 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-	Route::get('/mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
+	Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
 	Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
 	Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('post.mobile_verify');
+
+	Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
+	Route::get('account/bank_information', 'AccountController@bank_information')->name('bank_information');
+	Route::get('account/business_information', 'AccountController@business_information')->name('business_information');
+
+	Route::get('account/change_password', 'AccountController@changePassword')->name('change_password');
+	Route::post('change-password', 'AccountController@storeChangePassword')->name('change.password');
+
 });
 
 Route::middleware(['auth', 'mobile.verified'])->group(function () {

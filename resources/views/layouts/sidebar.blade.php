@@ -39,7 +39,7 @@
             Statement
           </a>
         </li> --}}
-        <li>
+        <li class="{{ Request::is('account*') ? 'active' : '' }}">
           <a href="#account" title="Account">
             <i class="iconsminds-male-2"></i>
             {{ __('Account') }}
@@ -72,22 +72,22 @@
 
       <ul class="list-unstyled" data-link="account">
         <li>
-          <a href="account-information.html">
+          <a href="{{ route('account_information') }}">
             <i class="iconsminds-id-card"></i> <span class="d-inline-block">{{ __('Account Information') }}</span>
           </a>
         </li>
         <li>
-          <a href="bank-information.html">
+          <a href="{{ route('bank_information') }}">
             <i class="iconsminds-bank"></i> <span class="d-inline-block">{{ __('Bank Information') }}</span>
            </a>
         </li>
         <li>
-          <a href="business-information.html">
+          <a href="{{ route('business_information') }}">
             <i class="iconsminds-management"></i> <span class="d-inline-block">{{ __('Business Information') }}</span>
           </a>
         </li>
         <li>
-          <a href="change-password.html">
+          <a href="{{ route('change_password') }}">
             <i class="iconsminds-type-pass"></i> <span class="d-inline-block">{{ __('Change Password') }}</span>
           </a>
         </li>

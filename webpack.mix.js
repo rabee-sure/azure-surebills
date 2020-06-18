@@ -17,8 +17,6 @@ mix.js('resources/js/app.js', 'public/js')
         "public/js/bootstrap.bundle.min.js"
     ],'public/js/jbootstrap.js')
     .scripts([
-        "public/js/jquery-3.3.1.min.js",
-        "public/js/bootstrap.bundle.min.js",
         "public/js/Chart.bundle.min.js",
         "public/js/chartjs-plugin-datalabels.js",
         "public/js/moment.min.js",
