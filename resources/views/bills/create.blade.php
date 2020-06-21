@@ -9,7 +9,7 @@
     <div class="col-12">
       <div class="create_bill_page card mb-4">
         <div class="card-body">
-          <form>
+          <form class="repeater">
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputEmail1">Customer Name</label>
@@ -69,52 +69,36 @@
                 <input type="text" class="form-control text-center font-weight-bold" id="Quantity" value="5451" disabled>
               </div><!-- form-group -->
             </div><!-- form-row -->
-            <div class="form-row mb-2">
-              <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
-                <label for="inputEmail1">Product/Service</label>
-                <input type="text" class="form-control" id="Name" placeholder="Name">
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
-                <label for="Price">Product/Service Price</label>
-                <input type="text" class="form-control" id="Price" placeholder="Price">
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
-                <label for="Price">Quantity</label>
-                <input type="text" class="form-control" id="Quantity" placeholder="Quantity">
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
-                <label for="Price">Total</label>
-                <input type="text" class="form-control text-center font-weight-bold" id="Quantity" value="5451" disabled>
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
-                <label for="Delete" class="d-block">Delete</label>
-                <button type="button" class="btn btn-danger default d-block w-100">X</button>
-              </div><!-- form-group -->
-            </div><!-- form-row -->
-            <div class="form-row mb-2">
-              <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
-                <label for="inputEmail1">Product/Service</label>
-                <input type="text" class="form-control" id="Name" placeholder="Name">
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
-                <label for="Price">Product/Service Price</label>
-                <input type="text" class="form-control" id="Price" placeholder="Price">
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
-                <label for="Price">Quantity</label>
-                <input type="text" class="form-control" id="Quantity" placeholder="Quantity">
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
-                <label for="Price">Total</label>
-                <input type="text" class="form-control text-center font-weight-bold" id="Quantity" value="5451" disabled>
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
-                <label for="Delete" class="d-block">Delete</label>
-                <button type="button" class="btn btn-danger default d-block w-100">X</button>
-              </div><!-- form-group -->
-            </div><!-- form-row -->
+            <div class="inner-repeater">
+              <div data-repeater-list="inner-list">
+                <div data-repeater-item>
+                  <div class="form-row mb-2">
+                    <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
+                      <label for="inputEmail1">Product/Service</label>
+                      <input type="text" class="form-control" id="Name" placeholder="Name">
+                    </div><!-- form-group -->
+                    <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
+                      <label for="Price">Product/Service Price</label>
+                      <input type="text" class="form-control" id="Price" placeholder="Price">
+                    </div><!-- form-group -->
+                    <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
+                      <label for="Price">Quantity</label>
+                      <input type="text" class="form-control" id="Quantity" placeholder="Quantity">
+                    </div><!-- form-group -->
+                    <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
+                      <label for="Price">Total</label>
+                      <input type="text" class="form-control text-center font-weight-bold" id="Quantity" value="5451" disabled>
+                    </div><!-- form-group -->
+                    <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
+                      <label for="Delete" class="d-block">Delete</label>
+                    <input data-repeater-delete type="button" class="btn btn-danger default d-block w-100" value="X"/>
+                    </div><!-- form-group -->
+                  </div><!-- form-row -->
+                </div><!-- inner-list-->
+              </div><!-- form-row -->
+            </div><!-- inner-repeater -->
             <div class="d-flex justify-content-end my-3">
-              <button type="button" class="btn btn-primary btn-lg">Add Item</button>
+              <input data-repeater-create type="button" class="btn btn-primary btn-lg" value="Add Item">
             </div><!-- d-flex  -->
             <hr>
             <h1 class="mb-3">Additonal Details</h1>
@@ -122,41 +106,49 @@
               <div class="form-group col-6">
                 <label for="inputEmail1">Add Discount</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input class="custom-switch-input" id="Discount" type="checkbox">
-                  <label class="custom-switch-btn" for="Discount"></label>
+                  <input class="custom-switch-input" id="Discount_Values_Checkbox" type="checkbox">
+                  <label class="custom-switch-btn" for="Discount_Values_Checkbox"></label>
                 </div>
               </div><!-- form-group -->
               <div class="form-group col-6">
                 <label for="inputEmail1">Add Tax</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input class="custom-switch-input" id="Tax" type="checkbox">
-                  <label class="custom-switch-btn" for="Tax"></label>
+                  <input class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox">
+                  <label class="custom-switch-btn" for="Tax_Values_Checkbox"></label>
                 </div>
               </div><!-- form-group -->
             </div><!-- form-row -->
-            <div class="form-row mb-2">
-              <div class="form-group col-12 col-md-3 col-lg-3 col-xl-3">
-                <label for="type">Discount type</label>
-                <select class="form-control">
-                  <option value="AK">Percentage Discount (%)</option>
-                  <option value="AK">Percentage Discount (%)</option>
-                  <option value="AK">Percentage Discount (%)</option>
-                  <option value="AK">Percentage Discount (%)</option>
-                </select>
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-3 col-lg-3 col-xl-3">
-                <label for="Price">Discount Value</label>
-                <input type="text" class="form-control" id="Discount_Value">
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-3 col-lg-3 col-xl-3">
-                <label for="Tax">Tax Name</label>
-                <input type="text" class="form-control" id="Tax">
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-3 col-lg-3 col-xl-3">
-                <label for="Tax">Tax Value</label>
-                <input type="text" class="form-control" id="Value">
-              </div><!-- form-group -->
-            </div><!-- form-row -->
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="Discount_Values form-row mb-2" style="display: none;">
+                  <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
+                    <label for="type">Discount type</label>
+                    <select class="form-control">
+                      <option value="AK">Percentage Discount (%)</option>
+                      <option value="AK">Percentage Discount (%)</option>
+                      <option value="AK">Percentage Discount (%)</option>
+                      <option value="AK">Percentage Discount (%)</option>
+                    </select>
+                  </div><!-- form-group -->
+                  <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
+                    <label for="Price">Discount Value</label>
+                    <input type="text" class="form-control" id="Discount_Value">
+                  </div><!-- form-group -->
+                </div><!-- form-row -->
+              </div><!-- col-12 -->
+              <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="Tax_Values form-row mb-2" style="display: none;">
+                  <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
+                    <label for="Tax">Tax Name</label>
+                    <input type="text" class="form-control" id="Tax">
+                  </div><!-- form-group -->
+                  <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
+                    <label for="Tax">Tax Value</label>
+                    <input type="text" class="form-control" id="Value">
+                  </div><!-- form-group -->
+                </div><!-- form-row -->
+              </div><!-- col-12 -->
+            </div><!-- row -->
             <hr>
             <h1 class="mb-3">Send The Bill To Customer</h1>
             <div class="form-row">
@@ -183,4 +175,26 @@
       </div>
     </div>
   </div>
+@endsection
+
+@section('footer-scripts')
+  <script src="{{ asset('js/jquery.repeater.min.js') }}" defer></script>
+  <script>
+    $(document).ready(function () {
+      $('.repeater').repeater({
+        repeaters: [{
+          selector: '.inner-repeater'
+        }]
+      });
+    });
+
+    $(document).ready(function() {
+      $('#Tax_Values_Checkbox').change(function() {
+        $('.Tax_Values').toggle();
+      });
+      $('#Discount_Values_Checkbox').change(function() {
+        $('.Discount_Values').toggle();
+      });
+    });
+  </script>
 @endsection
