@@ -14,16 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
-
-
-
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
 	Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
 	Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
-	Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('post.mobile_verify');
+	Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('resend_code');
 
 	Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
 	Route::post('account-information', 'AccountController@storeAccountInformation')->name('account.information');
@@ -41,9 +37,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'mobile.verified'])->group(function () {
 	Route::resource('bills', 'BillController');
-	Route::get('/', function () {
-	    return view('home');
-	});
+
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/integration', 'IntegrationController@index')->name('integration');
 	Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
