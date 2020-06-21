@@ -69,6 +69,15 @@ function loadStyle(href, callback) {
   $(".direction-radio[data-direction='" + direction + "']").attr("checked", true);
   $(".radius-radio[data-radius='" + radius + "']").attr("checked", true);
   $("#switchDark").attr("checked", theme.indexOf("dark") > 0 ? true : false);
+  
+  // set body class
+  if (theme == "dore.light.green.min.css") {
+    $('html').removeClass('body-dark-mode');
+    $('html').addClass('body-light-mode');
+  } else {
+    $('html').addClass('body-dark-mode');
+    $('html').removeClass('body-light-mode');
+  }
 
   loadStyle("/css/" + theme, onStyleComplete);
   function onStyleComplete() {

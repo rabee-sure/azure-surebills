@@ -49,6 +49,17 @@ class BillController extends Controller
     }
 
     /**
+     * Display the payment page for a specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pay($bill)
+    {
+        return view('bills.pay');
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
