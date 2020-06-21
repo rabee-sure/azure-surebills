@@ -101,6 +101,9 @@
     text-align: center;
     font-weight: bold;
     margin: 0 auto 5px;
+    [class="body-dark-mode"] & {
+      color: #999999;
+    } /* Dark Mode */
   } /* title */
   .desc {
     display: block;
@@ -109,6 +112,9 @@
     color: #333;
     text-align: center;
     margin: 0 auto 20px;
+    [class="body-dark-mode"] & {
+      color: #888888;
+    } /* Dark Mode */
   } /* desc */
   .form-group {
     width: 200px;
@@ -124,6 +130,9 @@
       &::-webkit-input-placeholder {color: #555;font-size: 16px;letter-spacing: 1px;}
       &:-ms-input-placeholder {color: #555;font-size: 16px;letter-spacing: 1px;}
       &::placeholder {color: #555;font-size: 16px;letter-spacing: 1px;}
+      [class="body-dark-mode"] & {
+        color: #999999;
+      } /* Dark Mode */
     } /* input[type="tel"] */
     .invalid-pin {
       color: #ff0000;
@@ -141,6 +150,9 @@
     color: #333;
     font-size: 13px;
     margin: 0 auto 30px;
+    [class="body-dark-mode"] & {
+      color: #999999;
+    } /* Dark Mode */
     div {
       display: block;
       background: #ddd;
@@ -148,7 +160,13 @@
       color: #000;
       padding: 3px 15px;
       margin: 0 0 0 5px;
+      [class="body-dark-mode"] & {
+        background: #313131;
+      } /* Dark Mode */
     } /* div */
   } /* didnt_get_pin */
+  button.btn {
+    color: #fff;
+  } /* button */
 } /* verify_phone_page */
 </style>
