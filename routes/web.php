@@ -37,6 +37,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'mobile.verified'])->group(function () {
 	Route::resource('bills', 'BillController');
+	Route::resource('customers', 'CustomerController');
 
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/', 'HomeController@index');
