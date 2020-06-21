@@ -35,6 +35,9 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+// py bill page
+Route::get('/bills/{bill}/pay', 'BillController@pay')->name('paybillpage');
+
 Route::middleware(['auth', 'mobile.verified'])->group(function () {
 	Route::resource('bills', 'BillController');
 
