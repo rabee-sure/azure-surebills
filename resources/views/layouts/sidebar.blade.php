@@ -27,10 +27,10 @@
             Store
           </a>
         </li>--}}
-        <li>
-          <a href="customers.html" title="Customers">
+        <li class="{{ Request::is('customers*') ? 'active' : '' }}">
+          <a href="{{ route('customers.index') }}" title="Customers">
             <i class="iconsminds-mens"></i>
-            Customers
+            {{ __('Customers') }}
           </a>
         </li> 
 {{--         <li>

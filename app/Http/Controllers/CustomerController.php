@@ -44,7 +44,7 @@ class CustomerController extends Controller
             'notes' => $request->notes,
         ]);
 
-        return route('customers.index');
+        return redirect()->route('customers.index');
     }
 
     /**
