@@ -192,7 +192,8 @@ body {
 
 .logo-single {
   width: 110px;
-  height: 35px;
+  height: 50px;
+  background: url($logoPath) no-repeat;
   background-position: center center;
   display: inline-block;
   margin-bottom: 60px;
@@ -1997,7 +1998,8 @@ button {
 
 .logo {
   width: 110px;
-  height: 35px;
+  height: 50px;
+  background: url($logoPath) no-repeat;
   background-position: center center;
   margin: 0 auto;
 
@@ -2007,8 +2009,9 @@ button {
 }
 
 .logo-mobile {
-  width: 20px;
-  height: 35px;
+  width: 60px;
+  height: 45px;
+  background: url($logoPathMobile) no-repeat;
   background-position: center center;
 }
 
@@ -9516,3 +9519,22 @@ button.sendBill {
   margin: 0 auto;
   font-size: 16px;
 }
+
+
+
+
+
+
+#login_page {
+  .logo-single {
+    width: 120px;
+    height: 70px;
+    margin: 0 auto 60px;
+    display: table;
+  } /* logo-single */
+  a.register_now {
+    display: table;
+    margin: 0 auto;
+    text-transform: capitalize;
+  } /* register_now */
+} /* login_page */

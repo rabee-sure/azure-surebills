@@ -122,7 +122,7 @@ var card = new Card({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/essam/www/SureBills/resources/js/bill_details.js */"./resources/js/bill_details.js");
+module.exports = __webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\js\bill_details.js */"./resources/js/bill_details.js");
 
 
 /***/ })
