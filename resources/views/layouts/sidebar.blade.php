@@ -47,7 +47,7 @@
         </li>
         <li>
           <a href="#integration" title="Integration">
-            <i class="iconsminds-male-2"></i>
+            <i class="iconsminds-gears"></i>
             {{ __('Integration') }}
           </a>
         </li>
