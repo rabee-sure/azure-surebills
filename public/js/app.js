@@ -37861,11 +37861,11 @@ module.exports = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/essam/www/SureBills/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /Users/essam/www/SureBills/resources/sass/doretheme/dore.dark.green.scss */"./resources/sass/doretheme/dore.dark.green.scss");
-__webpack_require__(/*! /Users/essam/www/SureBills/resources/sass/doretheme/dore.light.green.scss */"./resources/sass/doretheme/dore.light.green.scss");
-__webpack_require__(/*! /Users/essam/www/SureBills/resources/sass/app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! /Users/essam/www/SureBills/resources/sass/bill_details.scss */"./resources/sass/bill_details.scss");
+__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\doretheme\dore.dark.green.scss */"./resources/sass/doretheme/dore.dark.green.scss");
+__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\doretheme\dore.light.green.scss */"./resources/sass/doretheme/dore.light.green.scss");
+__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\bill_details.scss */"./resources/sass/bill_details.scss");
 
 
 /***/ })
