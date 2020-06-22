@@ -37,6 +37,7 @@ class BillController extends Controller
     public function store(BillRequest $request)
     {
         dd($request->all());
+        
         Bill::create([
             'customer_name' => $request->customer_name,
             'customer_email' => $request->customer_email,
