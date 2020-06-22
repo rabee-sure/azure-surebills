@@ -11,10 +11,13 @@
 
 
 
- $('form').card({
-  // a selector or DOM element for the container
-  // where you want the card to appear
-  container: '.card-wrapper', // *required*
-
-  // all of the other options from above
+ var card = new Card({
+  form: 'form',
+  container: '.card-wrapper',
+  placeholders: {
+    number: '**** **** **** ****',
+    name: 'Full Name',
+    expiry: '**/****',
+    cvc: '***'
+}
 });

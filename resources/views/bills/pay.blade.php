@@ -48,35 +48,42 @@
           <div class="payment_method">
             <div class="name">Payment Method</div>
             <div class="bill_payment">
-              <form action="#">
-                <div class="item">
-                  <input type="radio" id="visa_pay" name="pay">
-                  <label for="visa_pay">
-                    <p>Credit Card - Made</p>
-                    <div class="icon_mada"></div>
-                    <div class="checkmark"></div>
-                  </label>
-                  <div class="visa_pay_content d-none">
-                    <div class='card-wrapper'></div>
-                  </div><!-- visa_pay_content -->
-                </div><!-- item -->
-                <div class="item">
-                  <input type="radio" id="pay_2" name="pay">
-                  <label for="pay_2">
-                    <p>Apple Pay</p>
-                    <div class="icon_apple"></div>
-                    <div class="checkmark"></div>
-                  </label>
-                </div><!-- item -->
-                <div class="item">
-                  <input type="radio" id="pay_3" name="pay">
-                  <label for="pay_3">
-                    <p>STC Pay</p>
-                    <div class="icon_stc"></div>
-                    <div class="checkmark"></div>
-                  </label>
-                </div><!-- item -->
-              </form>
+              <div class="item">
+                <input type="radio" id="visa_pay" name="pay">
+                <label for="visa_pay">
+                  <p>Credit Card - Made</p>
+                  <div class="icon_mada"></div>
+                  <div class="checkmark"></div>
+                </label>
+                <div class="visa_pay_content d-none">
+                  <div class='card-wrapper'></div>
+                  <div class="form_card">
+                    <form>
+                      <p><input type="text" name="number" placeholder="Card Number" /></p>
+                      <p><input type="text" name="name" placeholder="Full Name" /></p>
+                      <span><input type="text" name="expiry" placeholder="MM/YY" /></span>
+                      <span><input type="text" name="cvc" placeholder="CVC" /></span>
+                      <span><input type="submit" name="pay" value="Pay" /></span>
+                    </form>
+                  </div><!-- form_card -->
+                </div><!-- visa_pay_content -->
+              </div><!-- item -->
+              <div class="item">
+                <input type="radio" id="pay_2" name="pay">
+                <label for="pay_2">
+                  <p>Apple Pay</p>
+                  <div class="icon_apple"></div>
+                  <div class="checkmark"></div>
+                </label>
+              </div><!-- item -->
+              <div class="item">
+                <input type="radio" id="pay_3" name="pay">
+                <label for="pay_3">
+                  <p>STC Pay</p>
+                  <div class="icon_stc"></div>
+                  <div class="checkmark"></div>
+                </label>
+              </div><!-- item -->
             </div><!-- bill_payment -->
           </div><!-- payment_method -->
         </div><!-- col-12 -->
