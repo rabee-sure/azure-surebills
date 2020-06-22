@@ -9521,10 +9521,6 @@ button.sendBill {
 }
 
 
-
-
-
-
 #login_page {
   .logo-single {
     width: 120px;
@@ -9536,5 +9532,34 @@ button.sendBill {
     display: table;
     margin: 0 auto;
     text-transform: capitalize;
+    border-color: $theme-color-1;
+    color: $theme-color-1;
   } /* register_now */
 } /* login_page */
+
+
+#register_page {
+  .logo-single {
+    width: 120px;
+    height: 70px;
+    margin: 0 auto 60px;
+    display: table;
+  } /* logo-single */
+  a.login_now {
+    display: table;
+    margin: 0 auto;
+    text-transform: capitalize;
+    border-color: $theme-color-1;
+    color: $theme-color-1;
+  } /* login_now */
+} /* register_page */
+
+
+#resset_email_page {
+  .logo-single {
+    width: 120px;
+    height: 70px;
+    margin: 0 auto 60px;
+    display: table;
+  } /* logo-single */
+} /* resset_email_page */
