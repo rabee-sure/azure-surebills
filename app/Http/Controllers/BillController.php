@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Bill;
+use App\BillItem;
+use App\Customer;
 use App\Http\Requests\BillRequest;
 use Illuminate\Http\Request;
 
@@ -14,8 +16,9 @@ class BillController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('bills.index');
+    {   
+        $bills = Bill::all();
+        return view('bills.index', ['bills' => $bills]);
     }
 
     /**
@@ -36,15 +39,66 @@ class BillController extends Controller
      */
     public function store(BillRequest $request)
     {
-        dd($request->all());
-        
-        Bill::create([
+
+
+        $customer = Customer::firstOrCreate([
+            'name' => $request->customer_name, 
+            'email' => $request->customer_email,
+            'mobile' => $request->customer_mobile,
+        ]);
+
+        $bill = Bill::create([
+            'user_id' => auth()->user()->id,
+            'business_name' => auth()->user()->business_name,
+            'customer_id' => $customer->id,
             'customer_name' => $request->customer_name,
             'customer_email' => $request->customer_email,
             'customer_mobile' => $request->customer_mobile,
             'customer_notes' => $request->customer_notes,
+
+            'add_discount' => $request->add_discount,
+            'discount_type' => $request->discount_type,
+            'discount_value' => $request->discount_value,
+
+            'add_tax' => $request->add_tax,
+            'tax_name' => $request->tax_name,
+            'tax_value' => $request->tax_value,
+
+            'send_sms' => $request->send_sms,
+            'send_email' => $request->send_email,
         ]);
 
+        foreach ($request->items as $item) {
+            BillItem::create([
+                'bill_id' => $bill->id,
+                'product_name' => $item['name'],
+                'product_price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'total' => $item['quantity']*$item['price'],
+            ]);
+        }
+
+        $sub_total = $bill->items->sum('total');
+        $discount = 0;
+        $vat = $request->add_tax ? $request->tax_value : 0;
+        if($request->add_discount){
+            switch ($request->discount_type) {
+                case 'fixed':
+                    $discount = $request->discount_value;
+                    break;
+                case 'percentage':
+                    $discount = $sub_total * $request->discount_value / 100;
+                    break;
+            }
+        } 
+
+        $bill->discount = $discount;
+        $bill->vat = $vat;
+        $bill->sub_total = $sub_total;
+        $bill->total = $sub_total - $discount + $vat;
+        $bill->save();
+
+        dd($request->all());
         return redirect()->route('bills.index');
     }
 

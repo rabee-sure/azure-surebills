@@ -6,6 +6,17 @@
 @endsection
 
 @section('content')
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
   <div class="row">
     <div class="col-12">
       <h1>Create Bill</h1>
@@ -19,21 +30,21 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="customer_name">{{ __('Customer Name') }}</label>
-                <input name="customer_name" type="text" class="form-control" id="customer_name" placeholder="{{ __('Customer Name') }}">
+                <input  value="{{ old('customer_name') }}" name="customer_name" type="text" class="form-control" id="customer_name" placeholder="{{ __('Customer Name') }}">
               </div><!-- form-group -->
               <div class="form-group col-md-6">
                 <label for="customer_mobile">{{ __('Mobile Number') }}</label>
-                <input name="customer_mobile" type="tel" class="form-control _parseArabicNumbers" id="customer_mobile" placeholder="05XXXXXXXX" maxlength="10">
+                <input  value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control _parseArabicNumbers" id="customer_mobile" placeholder="05XXXXXXXX" maxlength="10">
               </div><!-- form-group -->
             </div><!-- form-row -->
 
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="customer_email">{{ __('Email') }}</label>
+                <label value="{{ old('customer_email') }}" for="customer_email">{{ __('Email') }}</label>
                 <input name="customer_email" type="email" class="form-control" id="customer_email" placeholder="{{ __('Email') }}">
               </div><!-- form-group -->
               <div class="form-group col-md-6">
-                <label for="customer_notes">{{ __('Special Note') }}</label>
+                <label value="{{ old('customer_notes') }}" for="customer_notes">{{ __('Special Note') }}</label>
                 <input  name="customer_notes" type="text" class="form-control" id="customer_notes" placeholder="{{ __('Special Note') }}">
               </div><!-- form-group -->
             </div><!-- form-row -->
@@ -41,11 +52,12 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>{{ __('Due Date') }}</label>
-                <input class="form-control datepicker" placeholder="{{ __('Due Date') }}">
+                <input value="{{ old('due_date') }}" name="due_date" class="form-control datepicker" placeholder="{{ __('Due Date') }}">
               </div><!-- form-group -->
+
               <div class="form-group col-md-6">
                 <label>{{ __('Expiry Date') }}</label>
-                <select class="form-control">
+                <select value="{{ old('expiry_date') }}" name="expiry_date" class="form-control">
                   <option value="1">{{ __('1 Day') }}</option>
                   <option value="2">{{ __('2 Day') }}</option>
                   <option value="3">{{ __('3 Day') }}</option>
@@ -60,43 +72,54 @@
 
             <hr>
             <h1 class="mb-3">{{ __('Bill items') }}</h1>
-            <div class="form-row mb-2">
-              <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
-                <label for="inputEmail1">{{ __('Product/Service') }}</label>
-                <input type="text" class="form-control" id="Name" placeholder="{{ __('Name') }}">
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
-                <label for="Price">{{ __('Product/Service Price') }}</label>
-                <input type="text" class="form-control" id="Price" placeholder="{{ __('Price') }}">
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
-                <label for="Price">{{ __('Quantity') }}</label>
-                <input type="text" class="form-control" id="Quantity" placeholder="{{ __('Quantity') }}">
-              </div><!-- form-group -->
-              <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
-                <label for="Price">{{ __('Total') }}</label>
-                <input type="text" class="form-control text-center font-weight-bold" id="Quantity" value="5451" disabled>
-              </div><!-- form-group -->
-            </div><!-- form-row -->
             <div class="inner-repeater">
-              <div data-repeater-list="inner-list">
+              <div data-repeater-list="items">
+                @if(old('items'))
+                  @foreach( old('items') as $item)
+                    <div data-repeater-item>
+                      <div class="form-row mb-2">
+                        <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
+                          <label for="inputEmail1">{{ __('Product/Service') }}</label>
+                          <input name="name" value="{{$item['name']}}" type="text" class="form-control" id="Name" placeholder="{{ __('Name') }}">
+                        </div><!-- form-group -->
+                        <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
+                          <label for="Price">{{ __('Product/Service Price') }}</label>
+                          <input  name="price"  value="{{$item['price']}}" type="text" class="form-control qty1" id="Price" placeholder="{{ __('Price') }}">
+                        </div><!-- form-group -->
+                        <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
+                          <label for="Price">{{ __('Quantity') }}</label>
+                          <input  name="quantity" value="{{$item['quantity']}}" type="text" class="form-control qty1" id="Quantity" placeholder="{{ __('Quantity') }}">
+                        </div><!-- form-group -->
+                        <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
+                          <label for="Price">{{ __('Total') }}</label>
+                          <input  name="total"value="{{ $item['price']* $item['quantity']}}" type="text" class="form-control text-center font-weight-bold" id="Total"  disabled>
+                        </div><!-- form-group -->
+                        <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
+                          <label for="Delete" class="d-block">{{ __('Delete') }}</label>
+                        <input data-repeater-delete type="button" class="btn btn-danger default d-block w-100" value="X"/>
+                        </div><!-- form-group -->
+                      </div><!-- form-row -->
+                    </div><!-- inner-list-->   
+                  @endforeach
+                @else
+
                 <div data-repeater-item>
                   <div class="form-row mb-2">
                     <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
                       <label for="inputEmail1">{{ __('Product/Service') }}</label>
-                      <input type="text" class="form-control" id="Name" placeholder="{{ __('Name') }}">
+                      <input name="name" type="text" class="form-control" id="Name" placeholder="{{ __('Name') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Product/Service Price') }}</label>
-                      <input type="text" class="form-control" id="Price" placeholder="{{ __('Price') }}">
+                      <input  name="price" type="text" class="form-control qty1" id="Price" placeholder="{{ __('Price') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Quantity') }}</label>
-                      <input type="text" class="form-control" id="Quantity" placeholder="{{ __('Quantity') }}">
+                      <input  name="quantity" type="text" class="form-control qty1" id="Quantity" placeholder="{{ __('Quantity') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
                       <label for="Price">{{ __('Total') }}</label>
-                      <input type="text" class="form-control text-center font-weight-bold" id="Quantity" value="5451" disabled>
+                      <input  name="total" type="text" class="form-control text-center font-weight-bold" id="Total"  disabled>
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
                       <label for="Delete" class="d-block">{{ __('Delete') }}</label>
@@ -104,6 +127,7 @@
                     </div><!-- form-group -->
                   </div><!-- form-row -->
                 </div><!-- inner-list-->
+                @endif             
               </div><!-- form-row -->
             </div><!-- inner-repeater -->
             <div class="d-flex justify-content-end my-3">
@@ -140,7 +164,7 @@
                   </div><!-- form-group -->
                   <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
                     <label for="Price">{{ __('Discount Value') }}</label>
-                    <input type="text" class="form-control" id="Discount_Value">
+                    <input name="discount_value" type="text" class="form-control" id="Discount_Value">
                   </div><!-- form-group -->
                 </div><!-- form-row -->
               </div><!-- col-12 -->
@@ -189,11 +213,25 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="{{ asset('js/jquery.repeater.min.js') }}" defer></script>
   <script>
+
+    $(document).on("change", ".qty1", function() {
+        var name = $(this).attr('name');
+        var res = name.replace("[price]", "");
+        res = res.replace("[quantity]", "");
+        var quantity_st  = 'input[name="'+res+ '[quantity]"]';
+        var total_st  = 'input[name="'+res+ '[total]"]';
+        var price_st  = 'input[name="'+res+ '[price]"]';
+
+        var quantity = $(quantity_st).val() == '' ? 1 :$(quantity_st).val();
+        var price = $(price_st).val() == '' ? 0 :$(price_st).val();
+        $(total_st).val(price * quantity);
+    });
+    
     $(document).ready(function () {
       $('.repeater').repeater({
-        repeaters: [{
-          selector: '.inner-repeater'
-        }]
+        // repeaters: [{
+        //   selector: '.inner-repeater'
+        // }]
       });
 
       $('#Tax_Values_Checkbox').change(function() {

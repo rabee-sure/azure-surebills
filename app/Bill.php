@@ -42,6 +42,6 @@ class Bill extends Model
      */
     public function items()
     {
-        return $this->hasMany(BillItem::calss);
+        return $this->hasMany(BillItem::class);
     }   
 }

@@ -60,51 +60,32 @@
 
   <div class="row">
     <div class="col-12 list" data-check-all="checkAll">
+      @foreach($bills as $bill)
       <div class="card d-flex flex-row mb-3">
         <div class="d-flex flex-grow-1 min-width-zero">
           <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
             <span class="list-item-heading mb-0 truncate w-40 w-xs-100 text-secondary">
-              Sale - Saad Ahmed
+              {{ $bill->business_name}} - {{ $bill->customer_name}}
             </span>
-            <p class="mb-0 text-muted text-small w-15 w-xs-100">210.00 SAR</p>
-            <p class="mb-0 text-muted text-small w-15 w-xs-100">2020/02/12 12:33 PM</p>
+            <p class="mb-0 text-muted text-small w-15 w-xs-100">{{ $bill->total}} SAR</p>
+            <p class="mb-0 text-muted text-small w-15 w-xs-100">{{ $bill->created_at}} PM</p>
             <div class="w-15 w-xs-100 text-center">
-              <span class="badge badge-pill badge-info d-inline-block">Pending</span>
+              @if($bill->status == 'pending')
+                <span class="badge badge-pill badge-info d-inline-block">Pending</span>
+              @endif
+              @if($bill->status == 'paid')
+                <span class="badge badge-pill badge-success d-inline-block">Paid</span>
+              @endif             
+              @if($bill->status == 'canceled')
+                <span class="badge badge-pill badge-light d-inline-block">Canceled</span>
+              @endif
             </div>
           </div>
           
         </div>
       </div>
-      <div class="card d-flex flex-row mb-3">
-        <div class="d-flex flex-grow-1 min-width-zero">
-          <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
-            <a class="list-item-heading mb-0 truncate w-40 w-xs-100 text-dark" href="bill.html">
-              Sale - Mazen Khaled
-            </a>
-            <p class="mb-0 text-muted text-small w-15 w-xs-100">90.50 SAR</p>
-            <p class="mb-0 text-muted text-small w-15 w-xs-100">2020/02/09 01:20 PM</p>
-            <div class="w-15 w-xs-100 text-center">
-              <span class="badge badge-pill badge-success d-inline-block">Paid</span>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-      <div class="card d-flex flex-row mb-3">
-        <div class="d-flex flex-grow-1 min-width-zero">
-          <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
-            <a class="list-item-heading mb-0 truncate w-40 w-xs-100 text-dark" href="bill.html">
-              Sale - Reem Abdullah
-            </a>
-            <p class="mb-0 text-muted text-small w-15 w-xs-100">150.00 SAR</p>
-            <p class="mb-0 text-muted text-small w-15 w-xs-100">2020/02/08 04:17 PM</p>
-            <div class="w-15 w-xs-100 text-center">
-              <span class="badge badge-pill badge-light d-inline-block">Canceled</span>
-            </div>
-          </div>
-          
-        </div>
-      </div>
+      @endforeach
+
       <nav class="mt-4 mb-3">
         <ul class="pagination justify-content-center mb-0">
           <li class="page-item ">

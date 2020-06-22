@@ -45,10 +45,10 @@ class CreateBillsTable extends Migration
             $table->boolean('send_sms');
             $table->boolean('send_email');
 
-            $table->double('sub_total', 8, 2);
-            $table->double('vat', 8, 2)->default(0);
-            $table->double('discount', 8, 2)->default(0);
-            $table->double('total', 8, 2);
+            $table->double('sub_total', 10, 2)->default(0);
+            $table->double('vat', 10, 2)->default(0);
+            $table->double('discount', 10, 2)->default(0);
+            $table->double('total', 10, 2)->default(0);
 
             $table->timestamp('paid_at')->nullable();  
             $table->timestamp('canceled_at')->nullable();  
