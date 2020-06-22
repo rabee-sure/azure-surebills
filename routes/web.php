@@ -40,6 +40,7 @@ Route::get('/bills/{bill}/pay', 'BillController@pay')->name('paybillpage');
 
 Route::middleware(['auth', 'mobile.verified'])->group(function () {
 	Route::resource('bills', 'BillController');
+	Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
 	Route::resource('customers', 'CustomerController');
 
 	Route::get('/home', 'HomeController@index')->name('home');

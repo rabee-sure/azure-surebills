@@ -1,6 +1,7 @@
 @extends('layouts.auth')
 @section('title', __('Login') )
 @section('content')
+
 <div class="row h-100">
   <div class="col-12 col-md-10 mx-auto my-auto">
     <div id="login_page" class="card auth-card">
@@ -13,7 +14,7 @@
         </p>
       </div>
       <div class="form-side">
-        <a href="index.html"><span class="logo-single"></span></a>
+        <a href="{{ url('/') }}"><span class="logo-single"></span></a>
         <h6 class="mb-4">{{ __('Login') }}</h6>
         <form method="POST" action="{{ route('login') }}">
           @csrf

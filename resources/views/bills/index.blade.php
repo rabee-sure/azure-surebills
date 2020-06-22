@@ -8,14 +8,16 @@
       <div class="mb-2">
         <h1>Bills</h1>
         <div class="top-right-button-container">
-          <a href="{{ route('bills.create')}}" class="btn btn-primary btn-lg top-right-button mr-1">Send a bill</a>
+          <a href="{{ route('bills.create')}}" class="btn btn-primary btn-lg top-right-button mr-1">
+            {{ __('Create a bill')}}
+          </a>
         </div>
         <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
           <ol class="breadcrumb pt-0">
             <li class="breadcrumb-item">
-              <a href="index.html">Home</a>
+              <a href="{{ url('/')}}">Home</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Bills</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('Bills')}}</li>
           </ol>
         </nav>
       </div>
