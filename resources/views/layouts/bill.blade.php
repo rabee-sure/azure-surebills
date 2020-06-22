@@ -15,8 +15,9 @@
   <body>
 
     @yield('content')
-
+    @yield('footer-scripts')
+    <script src="{{ asset('js/jbootstrap.js') }}"></script>
+    <script src="{{ asset('js/jquery.card.js') }}" defer></script>
     <script src="{{ asset('js/bill_details.js') }}" defer></script>
 </body>
-
 </html>
