@@ -26,14 +26,14 @@
             <i class="iconsminds-shop"></i>
             Store
           </a>
-        </li>
-        <li>
-          <a href="customers.html" title="Customers">
+        </li>--}}
+        <li class="{{ Request::is('customers*') ? 'active' : '' }}">
+          <a href="{{ route('customers.index') }}" title="Customers">
             <i class="iconsminds-mens"></i>
-            Customers
+            {{ __('Customers') }}
           </a>
-        </li>
-        <li>
+        </li> 
+{{--         <li>
           <a href="statement.html" title="Statement">
             <i class="iconsminds-statistic"></i>
             Statement
