@@ -50,6 +50,10 @@ mix.js('resources/js/app.js', 'public/js')
         "public/css/main.css",
     ], 'public/css/all.css')
 
+    // theme file
+    .sass('resources/sass/doretheme/dore.dark.green.scss', 'public/css/dore.dark.green.min.css')
+    .sass('resources/sass/doretheme/dore.light.green.scss', 'public/css/dore.light.green.min.css')
+
     .scripts([
         "public/js/dore.script.js",
         "public/js/scripts.js",

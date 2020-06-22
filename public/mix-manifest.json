@@ -1,5 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
+    "/css/dore.dark.green.min.css": "/css/dore.dark.green.min.css",
+    "/css/dore.light.green.min.css": "/css/dore.light.green.min.css",
     "/css/app.css": "/css/app.css",
     "/css/bill_details.css": "/css/bill_details.css",
     "/js/bill_details.js": "/js/bill_details.js",
