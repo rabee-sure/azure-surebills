@@ -45,7 +45,7 @@
           </div>
         </form>
         <hr>
-        <a class="btn btn-primary btn-lg btn-shadow register_now" href="{{ route('register') }}" title="Register a new account">Register a new account</a>
+        <a class="btn btn-lg btn-shadow register_now" href="{{ route('register') }}" title="Register a new account">Register a new account</a>
       </div>
     </div>
   </div>
