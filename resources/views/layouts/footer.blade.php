@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 col-sm-6">
-          <p class="mb-0 text-muted">Go Pay © All rights reserved </p>
+          <p class="mb-0 text-muted">SURE PAY © All rights reserved</p>
         </div>
       </div>
     </div>
