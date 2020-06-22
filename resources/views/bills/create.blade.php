@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('title', 'Page Title')
+
+@section('css_styles')
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+@endsection
+
 @section('content')
   <div class="row">
     <div class="col-12">
@@ -9,63 +14,67 @@
     <div class="col-12">
       <div class="create_bill_page card mb-4">
         <div class="card-body">
-          <form class="repeater">
+          <form method="POST" action="{{ route('bills.store') }}" class="repeater" id="bill_create">
+            @csrf
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="inputEmail1">Customer Name</label>
-                <input type="text" class="form-control" id="inputEmail1" placeholder="Customer Name">
+                <label for="customer_name">{{ __('Customer Name') }}</label>
+                <input name="customer_name" type="text" class="form-control" id="customer_name" placeholder="{{ __('Customer Name') }}">
               </div><!-- form-group -->
               <div class="form-group col-md-6">
-                <label for="MobileNumber">Mobile Number</label>
-                <input type="tel" class="form-control _parseArabicNumbers" id="MobileNumber" placeholder="05XXXXXXXX" maxlength="10">
+                <label for="customer_mobile">{{ __('Mobile Number') }}</label>
+                <input name="customer_mobile" type="tel" class="form-control _parseArabicNumbers" id="customer_mobile" placeholder="05XXXXXXXX" maxlength="10">
               </div><!-- form-group -->
             </div><!-- form-row -->
+
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="inputEmail1">Email</label>
-                <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
+                <label for="customer_email">{{ __('Email') }}</label>
+                <input name="customer_email" type="email" class="form-control" id="customer_email" placeholder="{{ __('Email') }}">
               </div><!-- form-group -->
               <div class="form-group col-md-6">
-                <label for="inputEmail2">Special Note</label>
-                <input type="text" class="form-control" id="inputEmail2" placeholder="Special Note">
+                <label for="customer_notes">{{ __('Special Note') }}</label>
+                <input  name="customer_notes" type="text" class="form-control" id="customer_notes" placeholder="{{ __('Special Note') }}">
               </div><!-- form-group -->
             </div><!-- form-row -->
+
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label>Due Date</label>
-                <input class="form-control datepicker" placeholder="Due Date">
+                <label>{{ __('Due Date') }}</label>
+                <input class="form-control datepicker" placeholder="{{ __('Due Date') }}">
               </div><!-- form-group -->
               <div class="form-group col-md-6">
-                <label>Expiry Date</label>
+                <label>{{ __('Expiry Date') }}</label>
                 <select class="form-control">
-                  <option value="AK">1 Day</option>
-                  <option value="AK">2 Day</option>
-                  <option value="AK">3 Day</option>
-                  <option value="AK">7 Day</option>
-                  <option value="AK" selected="selected">30 Day</option>
-                  <option value="AK">60 Day</option>
-                  <option value="AK">90 Day</option>
-                  <option value="Never">Never</option>
+                  <option value="1">{{ __('1 Day') }}</option>
+                  <option value="2">{{ __('2 Day') }}</option>
+                  <option value="3">{{ __('3 Day') }}</option>
+                  <option value="7">{{ __('7 Day') }}</option>
+                  <option value="30" selected="selected">{{ __('30 Day') }}</option>
+                  <option value="60">{{ __('60 Day') }}</option>
+                  <option value="90">{{ __('90 Day') }}</option>
+                  <option value="0">{{ __('Never') }}</option>
                 </select>
               </div><!-- form-group -->
             </div><!-- form-row -->
+
             <hr>
-            <h1 class="mb-3">Bill items</h1>
+            <h1 class="mb-3">{{ __('Bill items') }}</h1>
             <div class="form-row mb-2">
               <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
-                <label for="inputEmail1">Product/Service</label>
-                <input type="text" class="form-control" id="Name" placeholder="Name">
+                <label for="inputEmail1">{{ __('Product/Service') }}</label>
+                <input type="text" class="form-control" id="Name" placeholder="{{ __('Name') }}">
               </div><!-- form-group -->
               <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
-                <label for="Price">Product/Service Price</label>
-                <input type="text" class="form-control" id="Price" placeholder="Price">
+                <label for="Price">{{ __('Product/Service Price') }}</label>
+                <input type="text" class="form-control" id="Price" placeholder="{{ __('Price') }}">
               </div><!-- form-group -->
               <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
-                <label for="Price">Quantity</label>
-                <input type="text" class="form-control" id="Quantity" placeholder="Quantity">
+                <label for="Price">{{ __('Quantity') }}</label>
+                <input type="text" class="form-control" id="Quantity" placeholder="{{ __('Quantity') }}">
               </div><!-- form-group -->
               <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
-                <label for="Price">Total</label>
+                <label for="Price">{{ __('Total') }}</label>
                 <input type="text" class="form-control text-center font-weight-bold" id="Quantity" value="5451" disabled>
               </div><!-- form-group -->
             </div><!-- form-row -->
@@ -74,23 +83,23 @@
                 <div data-repeater-item>
                   <div class="form-row mb-2">
                     <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
-                      <label for="inputEmail1">Product/Service</label>
-                      <input type="text" class="form-control" id="Name" placeholder="Name">
+                      <label for="inputEmail1">{{ __('Product/Service') }}</label>
+                      <input type="text" class="form-control" id="Name" placeholder="{{ __('Name') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
-                      <label for="Price">Product/Service Price</label>
-                      <input type="text" class="form-control" id="Price" placeholder="Price">
+                      <label for="Price">{{ __('Product/Service Price') }}</label>
+                      <input type="text" class="form-control" id="Price" placeholder="{{ __('Price') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
-                      <label for="Price">Quantity</label>
-                      <input type="text" class="form-control" id="Quantity" placeholder="Quantity">
+                      <label for="Price">{{ __('Quantity') }}</label>
+                      <input type="text" class="form-control" id="Quantity" placeholder="{{ __('Quantity') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
-                      <label for="Price">Total</label>
+                      <label for="Price">{{ __('Total') }}</label>
                       <input type="text" class="form-control text-center font-weight-bold" id="Quantity" value="5451" disabled>
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
-                      <label for="Delete" class="d-block">Delete</label>
+                      <label for="Delete" class="d-block">{{ __('Delete') }}</label>
                     <input data-repeater-delete type="button" class="btn btn-danger default d-block w-100" value="X"/>
                     </div><!-- form-group -->
                   </div><!-- form-row -->
@@ -101,37 +110,36 @@
               <input data-repeater-create type="button" class="btn btn-primary btn-lg" value="Add Item">
             </div><!-- d-flex  -->
             <hr>
-            <h1 class="mb-3">Additonal Details</h1>
+            <h1 class="mb-3">{{ __('Additonal Details') }}</h1>
             <div class="form-row">
               <div class="form-group col-6">
-                <label for="inputEmail1">Add Discount</label>
+                <label for="inputEmail1">{{ __('Add Discount') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input class="custom-switch-input" id="Discount_Values_Checkbox" type="checkbox">
+                  <input name="add_discount" class="custom-switch-input" id="Discount_Values_Checkbox" type="checkbox">
                   <label class="custom-switch-btn" for="Discount_Values_Checkbox"></label>
                 </div>
               </div><!-- form-group -->
               <div class="form-group col-6">
-                <label for="inputEmail1">Add Tax</label>
+                <label for="inputEmail1">{{ __('Add Tax') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox">
+                  <input  name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox">
                   <label class="custom-switch-btn" for="Tax_Values_Checkbox"></label>
                 </div>
               </div><!-- form-group -->
             </div><!-- form-row -->
+
             <div class="row">
               <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                 <div class="Discount_Values form-row mb-2" style="display: none;">
                   <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
-                    <label for="type">Discount type</label>
-                    <select class="form-control">
-                      <option value="AK">Percentage Discount (%)</option>
-                      <option value="AK">Percentage Discount (%)</option>
-                      <option value="AK">Percentage Discount (%)</option>
-                      <option value="AK">Percentage Discount (%)</option>
+                    <label for="type">{{ __('Discount type') }}</label>
+                    <select name="discount_type" class="form-control">
+                      <option value="fixed">{{ __('fixed') }}</option>
+                      <option value="percentage">{{ __('Percentage Discount (%)') }}</option>
                     </select>
                   </div><!-- form-group -->
                   <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
-                    <label for="Price">Discount Value</label>
+                    <label for="Price">{{ __('Discount Value') }}</label>
                     <input type="text" class="form-control" id="Discount_Value">
                   </div><!-- form-group -->
                 </div><!-- form-row -->
@@ -139,36 +147,36 @@
               <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                 <div class="Tax_Values form-row mb-2" style="display: none;">
                   <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
-                    <label for="Tax">Tax Name</label>
-                    <input type="text" class="form-control" id="Tax">
+                    <label for="Tax">{{ __('Tax Name') }}</label>
+                    <input name="tax_name" type="text" class="form-control" id="Tax">
                   </div><!-- form-group -->
                   <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
-                    <label for="Tax">Tax Value</label>
-                    <input type="text" class="form-control" id="Value">
+                    <label for="Tax">{{ __('Tax Value') }}</label>
+                    <input name="tax_value" type="text" class="form-control" id="Value">
                   </div><!-- form-group -->
                 </div><!-- form-row -->
               </div><!-- col-12 -->
             </div><!-- row -->
             <hr>
-            <h1 class="mb-3">Send The Bill To Customer</h1>
+            <h1 class="mb-3">{{ __('Send The Bill To Customer') }}</h1>
             <div class="form-row">
               <div class="form-group col-6">
-                <label for="inputEmail1">Send SMS</label>
+                <label for="send_sms">{{ __('Send SMS') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input class="custom-switch-input" id="SMS2" type="checkbox">
-                  <label class="custom-switch-btn" for="SMS2"></label>
+                  <input name="send_sms" class="custom-switch-input" id="send_sms" type="checkbox">
+                  <label class="custom-switch-btn" for="send_sms"></label>
                 </div>
               </div><!-- form-group -->
               <div class="form-group col-6">
-                <label for="inputEmail1">Send Email</label>
+                <label for="send_email">{{ __('Send Email') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input class="custom-switch-input" id="Email2" type="checkbox">
-                  <label class="custom-switch-btn" for="Email2"></label>
+                  <input name="send_email" class="custom-switch-input" id="send_email" type="checkbox">
+                  <label class="custom-switch-btn" for="send_email"></label>
                 </div>
               </div><!-- form-group -->
             </div><!-- form-row -->
             <div class="d-flex justify-content-start mt-3">
-              <button type="button" class="btn btn-primary btn-lg">Send</button>
+              <button type="submit" class="btn btn-primary btn-lg"> {{__('Send')}}</button>
             </div><!-- d-flex  -->
           </form>
         </div>
@@ -178,6 +186,7 @@
 @endsection
 
 @section('footer-scripts')
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="{{ asset('js/jquery.repeater.min.js') }}" defer></script>
   <script>
     $(document).ready(function () {
@@ -186,15 +195,45 @@
           selector: '.inner-repeater'
         }]
       });
-    });
 
-    $(document).ready(function() {
       $('#Tax_Values_Checkbox').change(function() {
         $('.Tax_Values').toggle();
       });
       $('#Discount_Values_Checkbox').change(function() {
         $('.Discount_Values').toggle();
       });
-    });
+
+      var customers = [];
+      $( "#customer_name" ).autocomplete({
+          source: function(request, response) {
+              $.ajax({
+              url: "{{route('customers.search_name')}}",
+              data: {
+                // _token: CSRF_TOKEN,
+                search : request.term
+               },
+              dataType: "json",
+              success: function(data){
+              customers = data;
+               var resp = $.map(data,function(obj){
+                    return {'value': obj.id, 'label': obj.name};
+               }); 
+               response(resp);
+              }
+          });
+      },
+      select: function (event, ui) {
+        var item = customers.find(x => x.id === ui.item.value);
+        $('#customer_name').val(item.name);
+        $('#customer_mobile').val(item.mobile);
+        $('#customer_email').val(item.email);
+        $('#customer_notes').val(item.notes);
+       return false;
+      },
+      minLength: 1
+   });
+  });
   </script>
+
+    {!! JsValidator::formRequest('App\Http\Requests\BillRequest', '#bill_create') !!}
 @endsection

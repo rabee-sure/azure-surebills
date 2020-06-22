@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <link rel="stylesheet" href="/css/all.css" />
+    @yield('css_styles')
 
   </head>
   <body id="app-container" class="menu-default show-spinner">

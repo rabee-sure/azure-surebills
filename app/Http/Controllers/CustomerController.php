@@ -17,6 +17,19 @@ class CustomerController extends Controller
     {
         $customers = Customer::all();
         return view('customers.index',  ['customers' => $customers]);
+    }    
+
+    /**
+     * search By Name.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByName(Request $request)
+    {
+        $search = $request->get('search');
+        $result = Customer::where('name', 'LIKE', '%'. $search. '%')->get();
+        return response()->json($result);
+
     }
 
     /**

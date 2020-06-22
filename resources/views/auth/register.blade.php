@@ -13,7 +13,7 @@
                     {{ __('If you are a member, please') }} <a href="{{ route('login') }}" class="white"> {{ __('login') }}</a>.</p>
                 </div>
                 <div class="form-side">
-                <a href="index.html"><span class="logo-single"></span></a>
+                <a href="{{ url('/')}}"><span class="logo-single"></span></a>
                 <h6 class="mb-4">{{ __('Register') }}</h6>
                     <form method="POST" action="{{ route('register') }}" id="register-form">
                         @csrf

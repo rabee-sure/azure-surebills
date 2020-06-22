@@ -114,7 +114,7 @@
         <div class="scroll">
           <ul class="list-unstyled">
             <li class="active">
-              <a href="index.html" title="Dashboard">
+              <a href="{{ url('/')}}" title="Dashboard">
                 <i class="iconsminds-dashboard"></i>
                 <span>Dashboard</span>
               </a>

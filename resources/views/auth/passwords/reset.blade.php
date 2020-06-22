@@ -16,7 +16,7 @@
                     </p>
                 </div>
                 <div class="form-side">
-                    <a href="index.html"><span class="logo-single"></span></a>
+                    <a href="{{ url('/')}}"><span class="logo-single"></span></a>
                     <h6 class="mb-4">{{ __('Reset Password') }}</h6>
                         <form method="POST" action="{{ route('password.update') }}">
                             @csrf

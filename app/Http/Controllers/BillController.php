@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Bill;
+use App\Http\Requests\BillRequest;
 use Illuminate\Http\Request;
 
 class BillController extends Controller
@@ -32,9 +34,17 @@ class BillController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BillRequest $request)
     {
-        //
+        dd($request->all());
+        Bill::create([
+            'customer_name' => $request->customer_name,
+            'customer_email' => $request->customer_email,
+            'customer_mobile' => $request->customer_mobile,
+            'customer_notes' => $request->customer_notes,
+        ]);
+
+        return redirect()->route('bills.index');
     }
 
     /**
