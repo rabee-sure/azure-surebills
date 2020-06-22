@@ -6,6 +6,7 @@ use App\Bill;
 use App\BillItem;
 use App\Customer;
 use App\Http\Requests\BillRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BillController extends Controller
@@ -55,6 +56,9 @@ class BillController extends Controller
             'customer_email' => $request->customer_email,
             'customer_mobile' => $request->customer_mobile,
             'customer_notes' => $request->customer_notes,
+
+            'expiry_date' => $request->expiry_date,
+            'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => $request->add_discount,
             'discount_type' => $request->discount_type,

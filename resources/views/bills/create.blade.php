@@ -88,11 +88,11 @@
                         </div><!-- form-group -->
                         <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
                           <label for="Price">{{ __('Quantity') }}</label>
-                          <input  name="quantity" value="{{$item['quantity']}}" type="text" class="form-control qty1" id="Quantity" placeholder="{{ __('Quantity') }}">
+                          <input type="number" name="quantity" value="{{$item['quantity']}}" type="text" class="form-control qty1" id="Quantity" placeholder="{{ __('Quantity') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
                           <label for="Price">{{ __('Total') }}</label>
-                          <input  name="total"value="{{ $item['price']* $item['quantity']}}" type="text" class="form-control text-center font-weight-bold" id="Total"  disabled>
+                          <input type="number" name="total" value="{{ $item['price']* $item['quantity']}}" type="text" class="form-control text-center font-weight-bold" id="Total"  disabled>
                         </div><!-- form-group -->
                         <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
                           <label for="Delete" class="d-block">{{ __('Delete') }}</label>
@@ -111,11 +111,11 @@
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Product/Service Price') }}</label>
-                      <input  name="price" type="text" class="form-control qty1" id="Price" placeholder="{{ __('Price') }}">
+                      <input type="number" name="price" type="text" class="form-control qty1" id="Price" placeholder="{{ __('Price') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Quantity') }}</label>
-                      <input  name="quantity" type="text" class="form-control qty1" id="Quantity" placeholder="{{ __('Quantity') }}">
+                      <input type="number" name="quantity" type="text" class="form-control qty1" id="Quantity" placeholder="{{ __('Quantity') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
                       <label for="Price">{{ __('Total') }}</label>
@@ -164,7 +164,7 @@
                   </div><!-- form-group -->
                   <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
                     <label for="Price">{{ __('Discount Value') }}</label>
-                    <input name="discount_value" type="text" class="form-control" id="Discount_Value">
+                    <input type="number" name="discount_value" type="text" class="form-control" id="Discount_Value">
                   </div><!-- form-group -->
                 </div><!-- form-row -->
               </div><!-- col-12 -->
@@ -176,7 +176,7 @@
                   </div><!-- form-group -->
                   <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
                     <label for="Tax">{{ __('Tax Value') }}</label>
-                    <input name="tax_value" type="text" class="form-control" id="Value">
+                    <input type="number" name="tax_value" type="text" class="form-control" id="Value">
                   </div><!-- form-group -->
                 </div><!-- form-row -->
               </div><!-- col-12 -->
@@ -226,7 +226,7 @@
         var price = $(price_st).val() == '' ? 0 :$(price_st).val();
         $(total_st).val(price * quantity);
     });
-    
+
     $(document).ready(function () {
       $('.repeater').repeater({
         // repeaters: [{

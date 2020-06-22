@@ -28,7 +28,10 @@ class BillRequest extends FormRequest
             'customer_name' => ['required', 'string', 'max:255'],
             'customer_email' => ['required', 'string', 'email', 'max:255'],
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
-            'customer_notes' => ['nullable'],
+            'customer_notes' => ['nullable'],            
+
+            'due_date' => ['required'],
+            'expiry_date' => ['required'],
 
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
