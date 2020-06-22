@@ -153,7 +153,7 @@ body.background main .container {
 .logo-single {
   width: 110px;
   height: 50px;
-  background: url(/images/logo-black.svg?5ee74116bf94623b4402ff1d044ce568) no-repeat;
+  background: url(/images/logo-black.svg?913e6faffa11d858ce284b68a945ca5a) no-repeat;
   background-position: center center;
   display: inline-block;
   margin-bottom: 60px;
@@ -1990,7 +1990,7 @@ button {
 .logo {
   width: 110px;
   height: 50px;
-  background: url(/images/logo-black.svg?5ee74116bf94623b4402ff1d044ce568) no-repeat;
+  background: url(/images/logo-black.svg?913e6faffa11d858ce284b68a945ca5a) no-repeat;
   background-position: center center;
   margin: 0 auto;
 }
@@ -2004,7 +2004,7 @@ button {
 .logo-mobile {
   width: 60px;
   height: 45px;
-  background: url(/images/logo-mobile.svg?5ee74116bf94623b4402ff1d044ce568) no-repeat;
+  background: url(/images/logo-mobile.svg?913e6faffa11d858ce284b68a945ca5a) no-repeat;
   background-position: center center;
 }
 
@@ -9806,7 +9806,44 @@ button.sendBill {
   display: table;
   margin: 0 auto;
   text-transform: capitalize;
+  border-color: #00D595;
+  color: #00D595;
 }
 
 /* login_page */
+
+#register_page {
+  /* logo-single */
+  /* login_now */
+}
+
+#register_page .logo-single {
+  width: 120px;
+  height: 70px;
+  margin: 0 auto 60px;
+  display: table;
+}
+
+#register_page a.login_now {
+  display: table;
+  margin: 0 auto;
+  text-transform: capitalize;
+  border-color: #00D595;
+  color: #00D595;
+}
+
+/* register_page */
+
+#resset_email_page {
+  /* logo-single */
+}
+
+#resset_email_page .logo-single {
+  width: 120px;
+  height: 70px;
+  margin: 0 auto 60px;
+  display: table;
+}
+
+/* resset_email_page */
 
