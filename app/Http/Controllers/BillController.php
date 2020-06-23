@@ -23,7 +23,7 @@ class BillController extends Controller
      */
     public function index()
     {   
-        $bills = Bill::all();
+        $bills = Bill::where('user_id', auth()->user()->id)->get();
         return view('bills.index', ['bills' => $bills]);
     }
 
