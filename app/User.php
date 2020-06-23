@@ -71,4 +71,16 @@ class User extends Authenticatable
             UnifonicFacade::send($this->mobile, $message);
         }
     }
+
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getGravatarAttribute()
+    {
+        $hash = md5(strtolower(trim($this->attributes['email'])));
+        return "http://www.gravatar.com/avatar/$hash";
+    }
 }

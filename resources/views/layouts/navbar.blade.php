@@ -108,7 +108,7 @@
       @else
         <button class="btn btn-empty p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="name">{{ Auth::user()->name }}</span>
-          <span><img alt="Profile Picture" src="img/profile-pic-l.jpg" /></span>
+          <span><img alt="Profile Picture" src="{{ auth()->user()->gravatar}}" /></span>
         </button>
         <div class="dropdown-menu dropdown-menu-right mt-3">
           <a class="dropdown-item" href="#">Account</a>
