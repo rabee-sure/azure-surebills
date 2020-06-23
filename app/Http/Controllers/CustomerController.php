@@ -15,7 +15,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::where('user_id', auth()->user()->id)->get();
         return view('customers.index',  ['customers' => $customers]);
     }    
 
@@ -27,7 +27,9 @@ class CustomerController extends Controller
     public function searchByName(Request $request)
     {
         $search = $request->get('search');
-        $result = Customer::where('name', 'LIKE', '%'. $search. '%')->get();
+        $result = Customer::where('name', 'LIKE', '%'. $search. '%')
+            ->where('user_id', auth()->user()->id)
+            ->get();
         return response()->json($result);
 
     }
@@ -55,6 +57,7 @@ class CustomerController extends Controller
             'email' => $request->email,
             'mobile' => $request->mobile,
             'notes' => $request->notes,
+            'user_id' => auth()->user()->id,
         ]);
 
         return redirect()->route('customers.index');

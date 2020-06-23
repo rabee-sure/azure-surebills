@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Hashids\Hashids;
 use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model
@@ -34,6 +35,37 @@ class Bill extends Model
     	'canceled_at',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'due_date' => 'datetime:Y-m-d',
+    ];
+    
+    public function getPayIdAttribute()
+    {
+        $hashids = new Hashids('', 10);
+        return $hashids->encode($this->id, $this->user_id, $this->customer_id);
+    }
+
+    public function getPayUrlAttribute()
+    {
+        return route('paybillpage', ['id' => $this->pay_id]);
+    }    
+
+    public function getIsInvalidAttribute()
+    {
+        return ($this->status != 'pending');
+    }
+
+    static public function decodeId($id)
+    {
+        $hashids = new Hashids('', 10);
+        $ids = $hashids->decode($id);
+        return self::find($ids[0]??null);
+    }
 
     /**
      * Get items.

@@ -34,15 +34,22 @@
               </div><!-- form-group -->
               <div class="form-group col-md-6">
                 <label for="customer_mobile">{{ __('Mobile Number') }}</label>
-                <input  value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control _parseArabicNumbers" id="customer_mobile" placeholder="05XXXXXXXX" maxlength="10">
+                <input  value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control _parseArabicNumbers @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="05XXXXXXXX" maxlength="10">
+                @error('customer_mobile')
+                  <p class="invalid-feedback" role="alert">{{ $message }}</p>
+                @enderror
               </div><!-- form-group -->
             </div><!-- form-row -->
 
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label value="{{ old('customer_email') }}" for="customer_email">{{ __('Email') }}</label>
-                <input name="customer_email" type="email" class="form-control" id="customer_email" placeholder="{{ __('Email') }}">
+                <input name="customer_email" type="email" class="form-control @error('customer_email') is-invalid @enderror" id="customer_email" placeholder="{{ __('Email') }}">
+                @error('customer_email')
+                  <p class="invalid-feedback" role="alert">{{ $message }}</p>
+                @enderror
               </div><!-- form-group -->
+
               <div class="form-group col-md-6">
                 <label value="{{ old('customer_notes') }}" for="customer_notes">{{ __('Special Note') }}</label>
                 <input  name="customer_notes" type="text" class="form-control" id="customer_notes" placeholder="{{ __('Special Note') }}">

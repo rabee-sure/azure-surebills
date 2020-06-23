@@ -13,4 +13,14 @@ class BillItem extends Model
 		'quantity',
 		'total',
 	];
+
+    /**
+     * Get items.
+     *
+     * @return Collection
+     */
+    public function bill()
+    {
+    	return $this->belongsTo(Bill::class);
+    }
 }

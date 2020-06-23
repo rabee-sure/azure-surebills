@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\BillItem;
 use App\Customer;
+use App\Events\BillCreated;
 use App\Http\Requests\BillRequest;
+use App\Http\Requests\PayBillRequest;
+use App\Payment\Facades\Payment;
+use App\Payment\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class BillController extends Controller
 {
@@ -40,12 +45,12 @@ class BillController extends Controller
      */
     public function store(BillRequest $request)
     {
-
-
+        // dd($request->all());
         $customer = Customer::firstOrCreate([
             'name' => $request->customer_name, 
             'email' => $request->customer_email,
             'mobile' => $request->customer_mobile,
+            'user_id' => auth()->user()->id,
         ]);
 
         $bill = Bill::create([
@@ -101,8 +106,9 @@ class BillController extends Controller
         $bill->sub_total = $sub_total;
         $bill->total = $sub_total - $discount + $vat;
         $bill->save();
+        
+        event(new BillCreated($bill));
 
-        dd($request->all());
         return redirect()->route('bills.index');
     }
 
@@ -123,9 +129,44 @@ class BillController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function pay($bill)
+    public function pay($id)
     {
-        return view('bills.pay');
+        $bill = Bill::decodeId($id);
+        if($bill == null || $bill->is_invalid){
+            return view('bills.status', ['bill' => $bill]);
+            // abort(404);
+        }
+        return view('bills.pay', ['bill' => $bill, 'id'=> $id]);
+    }
+    
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function postPay($id, PayBillRequest $request)
+    {
+        $bill = Bill::decodeId($id);
+
+        $expiry = $request->get('expiry', '03/21');
+        $expiry_array = str_replace(' ', '', explode("/", $expiry));
+        $credit_card = str_replace(' ', '', $request->get('number', '4242424242424242'));
+
+        $invoice = (new Invoice)->amount($bill->total );
+        $invoice->detail(['name' => $request->get('name')])
+                ->detail(['number' => $credit_card])
+                ->detail(['expiry' => $expiry])
+                ->detail(['expiry_month' => $expiry_array[0]])
+                ->detail(['expiry_year' => $expiry_array[1]])
+                ->detail(['bill' => $bill->toArray()])
+                ->detail(['cvc' => $request->get('cvc')]);
+        // Purchase the given invoice.
+        Payment::purchase($invoice, function($driver, $transactionId) use($bill){
+            $bill->status = 'paid';
+            $bill->paid_at = Carbon::now();
+            $bill->payment_method = 'credit';
+            $bill->save();
+        });
+        return view('bills.status', ['bill' => $bill]);;
     }
 
     /**

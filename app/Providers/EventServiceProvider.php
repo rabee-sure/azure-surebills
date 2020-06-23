@@ -18,6 +18,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        'App\Events\BillCreated' => [
+            'App\Listeners\SendBillPayEmail',
+            'App\Listeners\SendBillPaySms',
+        ],
     ];
 
     /**

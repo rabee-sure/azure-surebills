@@ -1,5 +1,7 @@
 @extends('layouts.bill')
+
 @section('title', 'Page Title')
+
 @section('content')
   <div class="single_bill_page">
     <div class="container">
@@ -9,41 +11,43 @@
             <img src="https://www.sure.com.sa/wp-content/uploads/2019/10/21.png" alt="logo">
           </div><!-- logo -->
           <div class="title">
-            <span>Orjwan hotel</span>
+            <span>{{ $bill->business_name}}</span>
             <div>
               <p>Riyadh, Saudi Arabia</p>
               <b>0551234567</b>
             </div>
           </div><!-- title -->
           <div class="date_time">
-            <span>Due on Tuseday, 2020/04/05</span>
+            <span>Due on {{ $bill->due_date->format('M d Y')}}</span>
             <div>
-              <p>Bill # : 201</p>
+              <p>Bill # : {{ $bill->id}}</p>
               <b>2020/04/05</b>
             </div>
           </div><!-- date_time -->
           <div class="shopping_cart">
             <div class="name">Shopping Cart</div>
-            <div class="details_pay">
-              <div class="info">
-                <p>Reservation #2154</p>
-                <p>2 Night</p>
-                <p>From : <time>Tuesday, 16/02/2020</time></p>
-                <p>To : <time>Friday, 19/02/2020</time></p>
-              </div><!-- info -->
-              <span>144.32 SAR</span>
-            </div><!-- details_pay -->
+            @foreach($bill->items as $item)
+              <div class="details_pay">
+                <div class="info">
+                  <p>{{ $item->product_name }}</p>
+
+                  <p>price : <time>{{ $item->product_price  }}</time></p>
+                  <p>quantity : <time>{{ $item->quantity  }}</time></p>
+                </div><!-- info -->
+                <span>{{ $item->total }}</span>
+              </div><!-- details_pay -->
+            @endforeach
           </div><!-- shopping_cart -->
           <div class="total_bill">
-            <p>Subtotal : 61.82 SAR</p>
-            <p>Tax : 2.18 SAR</p>
-            <b>Total : 68.14 SAR</b>
+            <p>Subtotal : {{ $bill->sub_total }} SAR</p>
+            <p>Tax : {{ $bill->vat }} SAR</p>
+            <b>Total : {{ $bill->total}} SAR</b>
           </div><!-- total_bill -->
           <div class="customer_information">
             <div class="name">Customer Information</div>
-            <p>Billed to, Saad Ahmed</p>
-            <p>+966551231231</p>
-            <p>sahmed@gmail.com</p>
+            <p>Billed to, {{ $bill->customer_name}}</p>
+            <p>+966{{ $bill->customer_mobile}}</p>
+            <p>{{ $bill->customer_email}}</p>
           </div><!-- customer_information -->
           <div class="payment_method">
             <div class="name">Payment Method</div>
@@ -58,7 +62,8 @@
                 <div class="visa_pay_content d-none">
                   <div class='card-wrapper'></div>
                   <div class="form_card">
-                    <form>
+                    <form method="POST" action="{{ route('bills.bay', ['id' => $id]) }}" class="repeater" id="bill_bay">
+                        @csrf
                       <p><input type="text" name="number" placeholder="Card Number" /></p>
                       <p><input type="text" name="name" placeholder="Full Name" /></p>
                       <span><input type="text" name="expiry" placeholder="MM/YY" /></span>
@@ -90,4 +95,9 @@
       </div><!-- row -->
     </div><!-- container -->
   </div><!-- single_bill_page -->
+@endsection
+
+
+@section('footer-scripts')
+    {!! JsValidator::formRequest('App\Http\Requests\PayBillRequest', '#bill_bay') !!}
 @endsection

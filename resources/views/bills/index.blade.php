@@ -80,6 +80,8 @@
                 <span class="badge badge-pill badge-light d-inline-block">Canceled</span>
               @endif
             </div>
+            <a href="{{ $bill->pay_url}}"  target="_blank" class="badge  badge-secondary d-inline-block"> <i class="simple-icon-link"></i></a>
+
           </div>
           
         </div>
