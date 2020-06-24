@@ -10081,3 +10081,7 @@ div.statistic_icon.settlements_icon {
 
 /* show_bill_general */
 
+div[data-repeater-item]:first-child .item_row .delete_block {
+  display: none;
+}
+
