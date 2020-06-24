@@ -9572,3 +9572,25 @@ button.sendBill {
     display: table;
   } /* logo-single */
 } /* resset_email_page */
+
+div.statistic_icon {
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50px;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 10px;
+  &.balance_icon {
+    background-image: url("../images/balance.svg");
+  } /* balance_icon */
+  &.available_balance_icon {
+    background-image: url("../images/available-balance.svg");
+  } /* available_balance_icon */
+  &.pending_balance_icon {
+    background-image: url("../images/pending-balance.svg");
+  } /* pending_balance_icon */
+  &.settlements_icon {
+    background-image: url("../images/settlements.svg");
+  } /* settlements_icon */
+} /* statistic_icon */

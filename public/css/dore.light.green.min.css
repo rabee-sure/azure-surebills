@@ -9859,3 +9859,35 @@ button.sendBill {
 
 /* resset_email_page */
 
+div.statistic_icon {
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50px;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 10px;
+  /* balance_icon */
+  /* available_balance_icon */
+  /* pending_balance_icon */
+  /* settlements_icon */
+}
+
+div.statistic_icon.balance_icon {
+  background-image: url(/images/balance.svg?d4799bdc61febbcf43670b9e3a0fe20d);
+}
+
+div.statistic_icon.available_balance_icon {
+  background-image: url(/images/available-balance.svg?691a2e3a86dc78ee84d2f60f0accbb7e);
+}
+
+div.statistic_icon.pending_balance_icon {
+  background-image: url(/images/pending-balance.svg?777a3e25b138739d928c9640f03879b0);
+}
+
+div.statistic_icon.settlements_icon {
+  background-image: url(/images/settlements.svg?f13436bb6499ce42dcb0b20293f21e1d);
+}
+
+/* statistic_icon */
+
