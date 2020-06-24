@@ -34,7 +34,12 @@
               </div><!-- form-group -->
               <div class="form-group col-md-6">
                 <label for="customer_mobile">{{ __('Mobile Number') }}</label>
-                <input  value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control _parseArabicNumbers @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="05XXXXXXXX" maxlength="10">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">+966</span>
+                  </div>
+                  <input  value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control _parseArabicNumbers @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="5XXXXXXXX" maxlength="10">
+                </div>
                 @error('customer_mobile')
                   <p class="invalid-feedback" role="alert">{{ $message }}</p>
                 @enderror
