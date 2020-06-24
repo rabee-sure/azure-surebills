@@ -9815,6 +9815,7 @@ button.sendBill {
 #register_page {
   /* logo-single */
   /* login_now */
+  /* invalid-feedback */
 }
 
 #register_page .logo-single {
@@ -9830,6 +9831,17 @@ button.sendBill {
   text-transform: capitalize;
   border-color: #00D595;
   color: #00D595;
+}
+
+#register_page input.is-invalid {
+  border-color: #dc3545 !important;
+}
+
+#register_page span.invalid-feedback {
+  display: block;
+  color: #dc3545;
+  margin: 5px auto 0;
+  font-size: 11px;
 }
 
 /* register_page */
