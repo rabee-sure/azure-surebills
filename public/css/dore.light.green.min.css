@@ -9874,20 +9874,210 @@ div.statistic_icon {
 }
 
 div.statistic_icon.balance_icon {
-  background-image: url(/images/balance.svg?d4799bdc61febbcf43670b9e3a0fe20d);
+  background-image: url(/images/balance.svg?5d7d9154ca690d7f7b7014bb980bad1b);
 }
 
 div.statistic_icon.available_balance_icon {
-  background-image: url(/images/available-balance.svg?691a2e3a86dc78ee84d2f60f0accbb7e);
+  background-image: url(/images/available-balance.svg?bc748cf1ad490d13cf3ef106c1e1ce42);
 }
 
 div.statistic_icon.pending_balance_icon {
-  background-image: url(/images/pending-balance.svg?777a3e25b138739d928c9640f03879b0);
+  background-image: url(/images/pending-balance.svg?2a5a3be6515ccaea91e2853d386318bf);
 }
 
 div.statistic_icon.settlements_icon {
-  background-image: url(/images/settlements.svg?f13436bb6499ce42dcb0b20293f21e1d);
+  background-image: url(/images/settlements.svg?54c7ba1e0c1c542fd30a345091915782);
 }
 
 /* statistic_icon */
+
+.show_bill_general {
+  margin: 5px auto;
+  padding: 1.75rem;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
+  /* logo_bill */
+  /* title */
+  /* date_time */
+  /* shopping_cart */
+  /* total_bill */
+  /* customer_information */
+}
+
+.show_bill_general .logo_bill {
+  margin: 0 auto 40px;
+  /* img */
+}
+
+.show_bill_general .logo_bill img {
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+  max-height: 100px;
+}
+
+.show_bill_general .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding: 0 0 15px;
+  margin: 0 auto 15px;
+  color: #000;
+  /* span */
+  /* p */
+  /* b */
+}
+
+.show_bill_general .title span {
+  display: block;
+  font-weight: bold;
+  font-size: 20px;
+  text-transform: capitalize;
+}
+
+.show_bill_general .title p {
+  display: block;
+  margin: 0 auto 7px;
+  font-size: 14px;
+  line-height: 1.1;
+  color: #444;
+}
+
+.show_bill_general .title b {
+  display: block;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1.1;
+  color: #444;
+  font-weight: normal;
+}
+
+.show_bill_general .date_time {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding: 0 0 15px;
+  margin: 0 auto 15px;
+  color: #000;
+  /* span */
+  /* p */
+  /* b */
+}
+
+.show_bill_general .date_time span {
+  display: block;
+  font-weight: bold;
+  font-size: 15px;
+  text-transform: capitalize;
+}
+
+.show_bill_general .date_time p {
+  display: block;
+  margin: 0 auto 7px;
+  font-size: 14px;
+  line-height: 1.1;
+  color: #444;
+}
+
+.show_bill_general .date_time b {
+  display: block;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1.1;
+  color: #444;
+  font-weight: normal;
+}
+
+.show_bill_general .shopping_cart {
+  /* name */
+  /* details_pay */
+}
+
+.show_bill_general .shopping_cart .name {
+  font-size: 20px;
+  color: #000;
+  margin: 0 auto 20px;
+  font-weight: bold;
+}
+
+.show_bill_general .shopping_cart .details_pay {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding: 0 0 15px;
+  margin: 0 auto 15px;
+  color: #000;
+  /* span */
+  /* info */
+}
+
+.show_bill_general .shopping_cart .details_pay span {
+  display: block;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.show_bill_general .shopping_cart .details_pay .info {
+  /* p */
+}
+
+.show_bill_general .shopping_cart .details_pay .info p {
+  display: block;
+  margin: 0 auto 7px;
+  font-size: 14px;
+  line-height: 1.1;
+  color: #444;
+}
+
+.show_bill_general .total_bill {
+  border-bottom: 1px solid #ddd;
+  padding: 0 0 15px;
+  margin: 0 auto 15px;
+  color: #000;
+  /* p */
+  /* b */
+}
+
+.show_bill_general .total_bill p {
+  display: block;
+  margin: 5px auto;
+  font-size: 16px;
+  text-align: right;
+}
+
+.show_bill_general .total_bill b {
+  display: block;
+  margin: 5px auto;
+  font-size: 16px;
+  text-align: right;
+}
+
+.show_bill_general .customer_information {
+  border-bottom: 1px solid #ddd;
+  padding: 0 0 15px;
+  margin: 0 auto 15px;
+  color: #000;
+  /* name */
+  /* p */
+}
+
+.show_bill_general .customer_information .name {
+  font-size: 20px;
+  color: #000;
+  margin: 0 auto 20px;
+  font-weight: bold;
+}
+
+.show_bill_general .customer_information p {
+  display: block;
+  text-align: center;
+  font-size: 16px;
+  margin: 7px auto;
+}
+
+/* show_bill_general */
 
