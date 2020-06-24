@@ -1,41 +1,35 @@
 @extends('layouts.app')
-
 @section('title', 'Page Title')
-
 @section('content')
 <div class="row">
   <div class="col-12">
     <h1>Bill</h1>
     <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
       <ol class="breadcrumb pt-0">
-        <li class="breadcrumb-item"><a href="{{ url('/') }}">{{__('Home')}}</a></li>
-        <li class="breadcrumb-item"><a href="{{ url('bills') }}">{{__('Bills')}}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('bills') }}" title="{{__('Bills')}}">{{__('Bills')}}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{__('Bill')}} {{ $bill->id }}</li>
       </ol>
     </nav>
     <div class="separator mb-5"></div>
   </div>
 </div>
-
  <div class="row">
   <div class="col-12">
     <div class="card mb-5">
       <div class="card-body">
-        <a class="btn btn-info mr-2 mb-2 d-inline-block" href="{{ $bill->pay_url}}" target="_blanck">{{ __('Open Link') }}</a>
+        <a class="btn btn-info mr-2 mb-2 d-inline-block" href="{{ $bill->pay_url}}" target="_blanck" title="{{ __('Open Link') }}">{{ __('Open Link') }}</a>
         <button class="btn btn-info mr-2 mb-2 d-inline-block copyButton">{{ __('Copy Link') }}</button>
         <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
-        <a onclick="window.print(); return false;" class="btn btn-info mr-2 mb-2 d-inline-block" href="#">{{ __('Print') }}</a>
+        <a onclick="window.print(); return false;" class="btn btn-info mr-2 mb-2 d-inline-block" href="#" title="{{ __('Print') }}">{{ __('Print') }}</a>
         <!-- <a class="btn btn-info mr-2 mb-2 d-inline-block" href="#">{{ __('Send Reminder') }}</a> -->
       </div>
     </div>
   </div>
 </div>
-
-
-
-<div class="row justify-content-center">
+<div class="row justify-content-center invoice">
   <div class="col-12 col-md-8 col-lg-6 col-xl-6">
-    <div class="show_bill_general">
+    <div class="show_bill_general invoice-contents">
       <div class="logo_bill">
         <img src="img/logoCN.png" alt="{{ $bill->business_name}}">
       </div><!-- logo_bill -->
@@ -94,7 +88,6 @@
 @section('footer-scripts')
   <script>
     $(document).on("click", '.copyButton', function() {
-      // console.log('ddd');
        $(this).siblings('input.linkToCopy').select();      
         document.execCommand("copy");
     });
