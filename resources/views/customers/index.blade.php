@@ -48,6 +48,7 @@
     <div class="card">
       <div class="card-body">
         <div class="table-responsive">
+          @if($customers->count())
           <table class="table table-striped">
             <thead>
               <tr>
@@ -73,6 +74,10 @@
 
             </tbody>
           </table>
+          @else
+          <div>No Customer matched the given criteria.</div>
+          @endif
+                  {{ $customers->links() }}
         </div>
       </div>
     </div>

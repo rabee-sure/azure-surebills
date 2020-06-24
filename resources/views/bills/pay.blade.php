@@ -39,8 +39,16 @@
             @endforeach
           </div><!-- shopping_cart -->
           <div class="total_bill">
-            <p>Subtotal : {{ $bill->sub_total }} SAR</p>
-            <p>Tax : {{ $bill->vat }} SAR</p>
+            @if( $bill->add_tax && $bill->add_discount)
+              <p>Subtotal : {{ $bill->sub_total }} SAR</p>
+            @endif
+            @if( $bill->add_discount)
+              <p>Discount : {{ $bill->discount }} SAR</p>
+              <p>Subtotal - Discount : {{ $bill->sub_total- $bill->discount }} SAR</p>
+            @endif
+            @if( $bill->add_tax)
+              <p>Tax : {{ $bill->vat }} SAR</p>
+            @endif
             <b>Total : {{ $bill->total}} SAR</b>
           </div><!-- total_bill -->
           <div class="customer_information">

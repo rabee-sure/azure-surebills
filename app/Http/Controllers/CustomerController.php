@@ -15,7 +15,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::where('user_id', auth()->user()->id)->get();
+        $customers = Customer::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->paginate(15);;
         return view('customers.index',  ['customers' => $customers]);
     }    
 
@@ -29,9 +29,24 @@ class CustomerController extends Controller
         $search = $request->get('search');
         $result = Customer::where('name', 'LIKE', '%'. $search. '%')
             ->where('user_id', auth()->user()->id)
+            ->orderBy('id', 'desc')
             ->get();
         return response()->json($result);
+    }
 
+    /**
+     * search By Name.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByMobile(Request $request)
+    {
+        $search = $request->get('search');
+        $result = Customer::where('mobile', 'LIKE', '%'. $search. '%')
+            ->where('user_id', auth()->user()->id)
+            ->orderBy('id', 'desc')
+            ->get();
+        return response()->json($result);
     }
 
     /**
