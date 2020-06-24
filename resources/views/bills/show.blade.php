@@ -79,7 +79,7 @@
         <p>+966{{ $bill->customer_mobile}}</p>
         <p>{{ $bill->customer_email}}</p>
       </div><!-- customer_information -->
-      <div class="bottom_link">http://bills.test/bills/16#</div>
+      <!-- <div class="bottom_link">http://bills.test/bills/16#</div> -->
     </div><!-- show_bill_general -->  
   </div><!-- col-12 -->
 </div><!-- row -->
