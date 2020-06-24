@@ -89,7 +89,7 @@
                 @if(old('items'))
                   @foreach( old('items') as $item)
                     <div data-repeater-item>
-                      <div class="form-row mb-2">
+                      <div class="form-row mb-2 item_row">
                         <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
                           <label for="inputEmail1">{{ __('Product/Service') }}</label>
                           <input name="name" value="{{$item['name']}}" type="text" class="form-control" id="Name" placeholder="{{ __('Name') }}">
@@ -106,9 +106,9 @@
                           <label for="Price">{{ __('Total') }}</label>
                           <input type="number" name="total" value="{{ $item['price']* $item['quantity']}}" type="text" class="form-control text-center font-weight-bold" id="Total"  disabled>
                         </div><!-- form-group -->
-                        <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
+                        <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1 delete_block">
                           <label for="Delete" class="d-block">{{ __('Delete') }}</label>
-                        <input data-repeater-delete type="button" class="btn btn-danger default d-block w-100" value="X"/>
+                          <input data-repeater-delete type="button" class="btn btn-danger default d-block w-100" value="X"/>
                         </div><!-- form-group -->
                       </div><!-- form-row -->
                     </div><!-- inner-list-->   
@@ -116,7 +116,7 @@
                 @else
 
                 <div data-repeater-item>
-                  <div class="form-row mb-2">
+                  <div class="form-row mb-2 item_row">
                     <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
                       <label for="inputEmail1">{{ __('Product/Service') }}</label>
                       <input name="name" type="text" class="form-control" id="Name" placeholder="{{ __('Name') }}">
@@ -133,7 +133,7 @@
                       <label for="Price">{{ __('Total') }}</label>
                       <input  name="total" type="text" class="form-control text-center font-weight-bold" id="Total"  disabled>
                     </div><!-- form-group -->
-                    <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
+                    <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1 delete_block">
                       <label for="Delete" class="d-block">{{ __('Delete') }}</label>
                     <input data-repeater-delete type="button" class="btn btn-danger default d-block w-100" value="X"/>
                     </div><!-- form-group -->

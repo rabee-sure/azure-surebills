@@ -81,7 +81,7 @@
                   </div><!-- form_card -->
                 </div><!-- visa_pay_content -->
               </div><!-- item -->
-              <div class="item">
+              <div class="item disable">
                 <input type="radio" id="pay_2" name="pay">
                 <label for="pay_2">
                   <p>Apple Pay</p>
@@ -89,7 +89,7 @@
                   <div class="checkmark"></div>
                 </label>
               </div><!-- item -->
-              <div class="item">
+              <div class="item disable">
                 <input type="radio" id="pay_3" name="pay">
                 <label for="pay_3">
                   <p>STC Pay</p>

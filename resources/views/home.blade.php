@@ -20,7 +20,7 @@
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
               <a href="#" class="card mb-4">
                 <div class="card-body text-center">
-                  <i class="iconsminds-coins"></i>
+                  <div class="statistic_icon balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">Balance</p>
                   <p class="lead text-center">{{ $balance}}</p>
                 </div>
@@ -29,7 +29,7 @@
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
               <a href="#" class="card mb-4">
                 <div class="card-body text-center">
-                  <i class="iconsminds-coins"></i>
+                  <div class="statistic_icon available_balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">Available Balance</p>
                   <p class="lead text-center">0.00</p>
                 </div>
@@ -38,7 +38,7 @@
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
               <a href="#" class="card mb-4">
                 <div class="card-body text-center">
-                  <i class="iconsminds-coins"></i>
+                  <div class="statistic_icon pending_balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">Pending Balance</p>
                   <p class="lead text-center">0.00</p>
                 </div>
@@ -47,7 +47,7 @@
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
               <a href="#" class="card mb-4">
                 <div class="card-body text-center">
-                  <i class="iconsminds-coins"></i>
+                  <div class="statistic_icon settlements_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">Settlements</p>
                   <p class="lead text-center">0.00</p>
                 </div>

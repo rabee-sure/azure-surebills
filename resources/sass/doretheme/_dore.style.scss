@@ -9552,6 +9552,15 @@ button.sendBill {
     border-color: $theme-color-1;
     color: $theme-color-1;
   } /* login_now */
+  input.is-invalid {
+    border-color: #dc3545 !important;
+  }
+  span.invalid-feedback {
+    display: block;
+    color: #dc3545;
+    margin: 5px auto 0;
+    font-size: 11px;
+  } /* invalid-feedback */
 } /* register_page */
 
 
@@ -9563,3 +9572,181 @@ button.sendBill {
     display: table;
   } /* logo-single */
 } /* resset_email_page */
+
+div.statistic_icon {
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50px;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 10px;
+  &.balance_icon {
+    background-image: url("../images/balance.svg");
+  } /* balance_icon */
+  &.available_balance_icon {
+    background-image: url("../images/available-balance.svg");
+  } /* available_balance_icon */
+  &.pending_balance_icon {
+    background-image: url("../images/pending-balance.svg");
+  } /* pending_balance_icon */
+  &.settlements_icon {
+    background-image: url("../images/settlements.svg");
+  } /* settlements_icon */
+} /* statistic_icon */
+
+
+.show_bill_general {
+  margin: 5px auto;
+  padding: 1.75rem;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
+  .logo_bill {
+    margin: 0 auto 40px;
+    img {
+      max-width: 100%;
+      margin: 0 auto;
+      display: block;
+      max-height: 100px;
+    } /* img */
+  } /* logo_bill */
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding: 0 0 15px;
+    margin: 0 auto 15px;
+    color: #000;
+    span {
+      display: block;
+      font-weight: bold;
+      font-size: 20px;
+      text-transform: capitalize;
+    } /* span */
+    p {
+      display: block;
+      margin: 0 auto 7px;
+      font-size: 14px;
+      line-height: 1.1;
+      color: #444;
+    } /* p */
+    b {
+      display: block;
+      margin: 0 auto;
+      font-size: 14px;
+      line-height: 1.1;
+      color: #444;
+      font-weight: normal;
+    } /* b */
+  } /* title */
+  .date_time {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding: 0 0 15px;
+    margin: 0 auto 15px;
+    color: #000;
+    span {
+      display: block;
+      font-weight: bold;
+      font-size: 15px;
+      text-transform: capitalize;
+    } /* span */
+    p {
+      display: block;
+      margin: 0 auto 7px;
+      font-size: 14px;
+      line-height: 1.1;
+      color: #444;
+    } /* p */
+    b {
+      display: block;
+      margin: 0 auto;
+      font-size: 14px;
+      line-height: 1.1;
+      color: #444;
+      font-weight: normal;
+    } /* b */
+  } /* date_time */
+  .shopping_cart {
+    .name {
+      font-size: 20px;
+      color: #000;
+      margin: 0 auto 20px;
+      font-weight: bold;
+    } /* name */
+    .details_pay {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      padding: 0 0 15px;
+      margin: 0 auto 15px;
+      color: #000;
+      span {
+        display: block;
+        font-size: 14px;
+        text-transform: capitalize;
+      } /* span */
+      .info {
+        p {
+          display: block;
+          margin: 0 auto 7px;
+          font-size: 14px;
+          line-height: 1.1;
+          color: #444;
+        } /* p */
+      } /* info */
+    } /* details_pay */
+  } /* shopping_cart */
+  .total_bill {
+    border-bottom: 1px solid #ddd;
+    padding: 0 0 15px;
+    margin: 0 auto 15px;
+    color: #000;
+    p {
+      display: block;
+      margin: 5px auto;
+      font-size: 14px;
+      text-align: right;
+    } /* p */
+    b {
+      display: block;
+      margin: 5px auto;
+      font-size: 16px;
+      text-align: right;
+    } /* b */
+  } /* total_bill */
+  .customer_information {
+    border-bottom: 1px solid #ddd;
+    padding: 0 0 15px;
+    margin: 0 auto 15px;
+    color: #000;
+    .name {
+      font-size: 20px;
+      color: #000;
+      margin: 0 auto 20px;
+      font-weight: bold;
+    } /* name */
+    p {
+      display: block;
+      text-align: center;
+      font-size: 16px;
+      margin: 7px auto;
+    } /* p */
+  } /* customer_information */
+} /* show_bill_general */
+
+
+div[data-repeater-item]{
+  &:first-child {
+    .item_row {
+      .delete_block {
+        display: none;
+      }
+    }
+  }
+}  
