@@ -18,7 +18,12 @@
                         </div>
                         <div class="form-group">
                             <label for="Mobile">{{ __('Mobile') }}</label>
-                            <input name="mobile" type="tel" class="form-control" id="Mobile" placeholder="{{__('Mobile')}}">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">+966</span>
+                              </div>
+                              <input name="mobile" type="tel" class="form-control" id="Mobile" placeholder="{{__('Mobile')}}">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="Email">{{__('Email')}}</label>
