@@ -20,7 +20,7 @@
           <div class="date_time">
             <span>Due on {{ $bill->due_date->format('M d Y')}}</span>
             <div>
-              <p>Bill # : {{ $bill->id}}</p>
+              <p>Bill # : {{ $bill->number}}</p>
               <b>2020/04/05</b>
             </div>
           </div><!-- date_time -->

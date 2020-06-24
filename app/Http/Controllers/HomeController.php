@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bill;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $bills = Bill::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get();
+        $latest = $bills->take(3);
+        $balance = $bills->sum('total');
+        return view('home', [
+            'latest' =>  $latest,
+            'bills' =>  $bills,
+            'balance' =>  $balance,
+        ]);
     }
 }

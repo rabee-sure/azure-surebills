@@ -9,7 +9,7 @@
         <h1>{{ __('customers')}}</h1>
         <div class="top-right-button-container">
           @include('customers.create')
-          <a href="#" class="btn btn-primary btn-md top-right-button mr-1">{{ __('Download (CSV)')}}</a>
+          {{-- <a href="#" class="btn btn-primary btn-md top-right-button mr-1">{{ __('Download (CSV)')}}</a> --}}
         </div>
         <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
           <ol class="breadcrumb pt-0">
@@ -20,7 +20,7 @@
           </ol>
         </nav>
       </div>
-      <div class="mb-2">
+{{--       <div class="mb-2">
         <div class="d-block d-md-inline-block">
           <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
               <input placeholder="Search...">
@@ -39,7 +39,7 @@
             <a class="dropdown-item" href="#">100</a>
           </div>
         </div>
-      </div>
+      </div> --}}
     </div>
     <div class="separator mb-5"></div>
   </div>

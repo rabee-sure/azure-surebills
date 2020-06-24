@@ -23,10 +23,10 @@
     </a>
     @endauth
 
-    <div class="search" data-search-path="Pages.Search.html?q=">
+{{--     <div class="search" data-search-path="Pages.Search.html?q=">
       <input placeholder="Search...">
       <span class="search-icon"><i class="simple-icon-magnifier"></i></span>
-    </div>
+    </div> --}}
     
   </div>
 
@@ -44,7 +44,7 @@
         </div>
       </div>
 @auth
-      <div class="position-relative d-none d-sm-inline-block">
+{{--       <div class="position-relative d-none d-sm-inline-block">
         <a href="store-client.html" class="header-icon btn btn-empty" data-toggle="tooltip"
         data-placement="top" title="Store">
           <i class="iconsminds-clothing-store"></i>
@@ -78,7 +78,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> --}}
 @endauth
 
       <button class="header-icon btn btn-empty d-none d-sm-inline-block" type="button" id="fullScreenButton">
@@ -111,8 +111,8 @@
           <span><img alt="Profile Picture" src="{{ auth()->user()->gravatar}}" /></span>
         </button>
         <div class="dropdown-menu dropdown-menu-right mt-3">
-          <a class="dropdown-item" href="#">Account</a>
-          <a class="dropdown-item" href="#">Support</a>
+          <a class="dropdown-item" href="{{ url('account/account_information')}}">Account</a>
+          {{-- <a class="dropdown-item" href="#">Support</a> --}}
           <a class="dropdown-item" href="{{ route('logout') }}"
              onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();">

@@ -13,9 +13,11 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->paginate(15);;
+        $customers = Customer::where('user_id', auth()->user()->id)
+            ->orderBy('id', 'desc')
+            ->paginate($request->get('per_page', 10));
         return view('customers.index',  ['customers' => $customers]);
     }    
 

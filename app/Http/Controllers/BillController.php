@@ -21,9 +21,11 @@ class BillController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {   
-        $bills = Bill::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->paginate(2);;
+        $bills = Bill::where('user_id', auth()->user()->id)
+            ->orderBy('id', 'desc')
+            ->paginate($request->get('per_page', 10));
         return view('bills.index', ['bills' => $bills]);
     }
 
@@ -107,6 +109,7 @@ class BillController extends Controller
 
         $bill->discount = $discount;
         $bill->vat = $vat;
+        $bill->number = 10000 + $bill->id;
         $bill->sub_total = $sub_total;
         $bill->total = $sub_total - $discount + $vat;
         $bill->save();

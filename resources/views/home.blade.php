@@ -22,7 +22,7 @@
                 <div class="card-body text-center">
                   <i class="iconsminds-coins"></i>
                   <p class="card-text font-weight-semibold mb-0">Balance</p>
-                  <p class="lead text-center">832.00</p>
+                  <p class="lead text-center">{{ $balance}}</p>
                 </div>
               </a>
             </div>
@@ -31,7 +31,7 @@
                 <div class="card-body text-center">
                   <i class="iconsminds-coins"></i>
                   <p class="card-text font-weight-semibold mb-0">Available Balance</p>
-                  <p class="lead text-center">720.00</p>
+                  <p class="lead text-center">0.00</p>
                 </div>
               </a>
             </div>
@@ -40,7 +40,7 @@
                 <div class="card-body text-center">
                   <i class="iconsminds-coins"></i>
                   <p class="card-text font-weight-semibold mb-0">Pending Balance</p>
-                  <p class="lead text-center">112.00</p>
+                  <p class="lead text-center">0.00</p>
                 </div>
               </a>
             </div>
@@ -78,11 +78,11 @@
         <div class="col-xl-6 col-lg-12 mb-4">
           <div class="card">
             <div class="position-absolute card-top-buttons">
-              <a href="#" title="View all" class="btn btn-primary btn-xs">View all</a>
+              <a href="{{ route('bills.index')}}" title="View all" class="btn btn-primary btn-xs"> {{__('View all') }}</a>
             </div>
             <div class="card-body">
-              <h5 class="card-title mb-3">Latest Bills</h5>
-              <table class="data-table data-table-scrollable responsive nowrap" data-order="[[ 1, &quot;desc&quot; ]]">
+              <h5 class="card-title mb-3">{{__('Latest Bills') }}</h5>
+              <table class="data-table data-table-scrollable responsive nowrap" data-order="[[ 1, &quot;desc&quot; ]]" >
                 <thead>
                   <tr>
                     <th class="py-2 w-85">Name</th>
@@ -90,36 +90,29 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($latest as $bill)
                   <tr>
                     <td class="py-2">
-                      <p class="font-weight-bold">Sale - Saad Ahmed</p>
-                      <p class="font-weight-normal">210.00 SAR</p>
-                      <time class="text-muted text-small mb-0 font-weight-light">2020/02/12 12:33 PM</time>
+                      <a href="{{ route('bills.show', $bill) }}">
+                          <p class="font-weight-bold">Bill {{ $bill->number }} - {{ $bill->customer_name }}</p>
+                          <p class="font-weight-normal">{{ $bill->total }} SAR</p>
+                          <time class="text-muted text-small mb-0 font-weight-light">{{ $bill->created_at }}</time>
+                      </a>
                     </td>
                     <td class="py-2">
-                      <span class="badge badge-danger d-block">Pending</span>
+                      @if($bill->status == 'pending')
+                      <span class="badge badge-pill badge-info d-inline-block">{{ __('Pending')}}</span>
+                      @endif
+                      @if($bill->status == 'paid')
+                      <span class="badge badge-pill badge-success d-inline-block">{{ __('Paid')}}</span>
+                      @endif             
+                      @if($bill->status == 'canceled')
+                      <span class="badge badge-pill badge-light d-inline-block">{{ __('Canceled')}}</span>
+                      @endif
                     </td>
+
                   </tr>
-                  <tr>
-                    <td class="py-2">
-                      <p class="font-weight-bold">Sale - Ali Adel Ahmed</p>
-                      <p class="font-weight-normal">319.00 SAR</p>
-                      <time class="text-muted text-small mb-0 font-weight-light">2020/02/09 08:31 AM</time>
-                    </td>
-                    <td class="py-2">
-                      <span class="badge badge-success d-block">Paid</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="py-2">
-                      <p class="font-weight-bold">Sale - Mazen Khaled</p>
-                      <p class="font-weight-normal">90.50 SAR</p>
-                      <time class="text-muted text-small mb-0 font-weight-light">2020/02/09 01:20 PM</time>
-                    </td>
-                    <td class="py-2">
-                      <span class="badge badge-danger d-block">Pending</span>
-                    </td>
-                  </tr>
+                  @endforeach
                   
                 </tbody>
               </table>

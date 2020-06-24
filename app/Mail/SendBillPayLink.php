@@ -29,6 +29,6 @@ class SendBillPayLink extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.bills.payLink');
+        return $this->view('emails.bills.payLink');
     }
 }

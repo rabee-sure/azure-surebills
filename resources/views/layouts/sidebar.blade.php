@@ -91,11 +91,11 @@
             <i class="iconsminds-type-pass"></i> <span class="d-inline-block">{{ __('Change Password') }}</span>
           </a>
         </li>
-        <li>
+{{--         <li>
           <a href="notifications.html">
             <i class="iconsminds-bell"></i> <span class="d-inline-block">{{ __('Notifications') }}</span>
           </a>
-        </li>
+        </li> --}}
       </ul>      
       <ul class="list-unstyled" data-link="integration">
         <li>
