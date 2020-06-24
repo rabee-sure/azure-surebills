@@ -9739,3 +9739,14 @@ div.statistic_icon {
     } /* p */
   } /* customer_information */
 } /* show_bill_general */
+
+
+div[data-repeater-item]{
+  &:first-child {
+    .item_row {
+      .delete_block {
+        display: none;
+      }
+    }
+  }
+}  
