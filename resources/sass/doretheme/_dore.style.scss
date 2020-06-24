@@ -9552,6 +9552,15 @@ button.sendBill {
     border-color: $theme-color-1;
     color: $theme-color-1;
   } /* login_now */
+  input.is-invalid {
+    border-color: #dc3545 !important;
+  }
+  span.invalid-feedback {
+    display: block;
+    color: #dc3545;
+    margin: 5px auto 0;
+    font-size: 11px;
+  } /* invalid-feedback */
 } /* register_page */
 
 
