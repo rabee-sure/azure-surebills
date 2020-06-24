@@ -10,14 +10,7 @@
           <div class="logo">
             <img src="https://www.sure.com.sa/wp-content/uploads/2019/10/21.png" alt="logo">
           </div><!-- logo -->
-          <div class="title">
-            <span>{{ $bill->business_name}}</span>
-            <div>
-              <p>Riyadh, Saudi Arabia</p>
-              <b>0551234567</b>
-            </div>
-          </div><!-- title -->
-
+          
             @if($bill->status == 'expired')
               <div class="alert alert-secondary" role="alert">
                 this bill #{{ $bill->bay_id}} has been expired
@@ -33,7 +26,50 @@
                 his bill #{{ $bill->bay_id}} has been canceled
               </div>
             @endif
-
+          <div class="title">
+            <span>{{ $bill->business_name}}</span>
+            <div>
+              <p>Riyadh, Saudi Arabia</p>
+              <b>0551234567</b>
+            </div>
+          </div><!-- title -->
+          <div class="date_time">
+            <span>Due on {{ $bill->due_date->format('M d Y')}}</span>
+            <div>
+              <p>Bill # : {{ $bill->id}}</p>
+              <b>2020/04/05</b>
+            </div>
+          </div><!-- date_time -->
+          <div class="shopping_cart">
+            <div class="name">Shopping Cart</div>
+            @foreach($bill->items as $item)
+              <div class="details_pay">
+                <div class="info">
+                  <p>{{ $item->product_name }}</p>
+                  <p>price : <time>{{ $item->product_price  }}</time></p>
+                  <p>quantity : <time>{{ $item->quantity  }}</time></p>
+                </div><!-- info -->
+                <span>{{ $item->total }}</span>
+              </div><!-- details_pay -->
+            @endforeach
+          </div><!-- shopping_cart -->
+          <div class="total_bill">
+            @if( $bill->add_tax && $bill->add_discount)
+              <p>Subtotal : {{ $bill->sub_total }} SAR</p>
+            @endif
+            @if( $bill->add_discount)
+              <p>Discount : {{ $bill->discount }} SAR</p>
+              <p>Subtotal - Discount : {{ $bill->sub_total- $bill->discount }} SAR</p>
+            @endif
+            @if( $bill->add_tax)
+              <p>Tax : {{ $bill->vat }} SAR</p>
+            @endif
+            <b>Total : {{ $bill->total}} SAR</b>
+          </div><!-- total_bill -->
+          <div class="customer_information">
+            <div class="name">Customer Information</div>
+            <p>Billed to, {{ $bill->customer_name}}</p>
+          </div><!-- customer_information -->
         </div><!-- col-12 -->
       </div><!-- row -->
     </div><!-- container -->

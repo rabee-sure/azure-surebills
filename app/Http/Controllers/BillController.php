@@ -23,7 +23,7 @@ class BillController extends Controller
      */
     public function index()
     {   
-        $bills = Bill::where('user_id', auth()->user()->id)->get();
+        $bills = Bill::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->paginate(2);;
         return view('bills.index', ['bills' => $bills]);
     }
 
@@ -89,7 +89,7 @@ class BillController extends Controller
 
         $sub_total = $bill->items->sum('total');
         $discount = 0;
-        $vat = $request->add_tax ? $request->tax_value : 0;
+        $vat = 0;
         if($request->add_discount){
             switch ($request->discount_type) {
                 case 'fixed':
@@ -100,6 +100,10 @@ class BillController extends Controller
                     break;
             }
         } 
+
+        if($request->add_tax){
+           $vat = ($sub_total -$discount) * $request->tax_value /100;
+        }
 
         $bill->discount = $discount;
         $bill->vat = $vat;
@@ -118,9 +122,9 @@ class BillController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Bill $bill)
     {
-        return view('bills.show');
+        return view('bills.show', ['bill' => $bill]);
     }
 
     /**

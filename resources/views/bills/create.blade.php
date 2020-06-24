@@ -59,7 +59,7 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>{{ __('Due Date') }}</label>
-                <input value="{{ old('due_date') }}" name="due_date" class="form-control datepicker" placeholder="{{ __('Due Date') }}">
+                <input value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="due_date" class="form-control datepicker" placeholder="{{ __('Due Date') }}">
               </div><!-- form-group -->
 
               <div class="form-group col-md-6">
@@ -228,8 +228,13 @@
         var quantity_st  = 'input[name="'+res+ '[quantity]"]';
         var total_st  = 'input[name="'+res+ '[total]"]';
         var price_st  = 'input[name="'+res+ '[price]"]';
+        var quantity = 1;
 
-        var quantity = $(quantity_st).val() == '' ? 1 :$(quantity_st).val();
+        if($(quantity_st).val() == ''){
+          $(quantity_st).val(1);
+        }else{
+          quantity = $(quantity_st).val();
+        }
         var price = $(price_st).val() == '' ? 0 :$(price_st).val();
         $(total_st).val(price * quantity);
     });

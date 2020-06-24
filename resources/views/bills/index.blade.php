@@ -57,70 +57,51 @@
       <div class="separator mb-5"></div>
     </div>
   </div>
+  @if($bills->count())
+    <div class="row">
+      <div class="col-12 list" data-check-all="checkAll">
+        @foreach($bills as $bill)
+          @include('bills.item')
+        @endforeach
+        {{ $bills->links() }}
 
-  <div class="row">
-    <div class="col-12 list" data-check-all="checkAll">
-      @foreach($bills as $bill)
-      <div class="card d-flex flex-row mb-3">
-        <div class="d-flex flex-grow-1 min-width-zero">
-          <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
-            <span class="list-item-heading mb-0 truncate w-40 w-xs-100 text-secondary">
-              {{ $bill->business_name}} - {{ $bill->customer_name}}
-            </span>
-            <p class="mb-0 text-muted text-small w-15 w-xs-100">{{ $bill->total}} SAR</p>
-            <p class="mb-0 text-muted text-small w-15 w-xs-100">{{ $bill->created_at}} PM</p>
-            <div class="w-15 w-xs-100 text-center">
-              @if($bill->status == 'pending')
-                <span class="badge badge-pill badge-info d-inline-block">Pending</span>
-              @endif
-              @if($bill->status == 'paid')
-                <span class="badge badge-pill badge-success d-inline-block">Paid</span>
-              @endif             
-              @if($bill->status == 'canceled')
-                <span class="badge badge-pill badge-light d-inline-block">Canceled</span>
-              @endif
-            </div>
-            <a href="{{ $bill->pay_url}}"  target="_blank" class="badge  badge-secondary d-inline-block"> <i class="simple-icon-link"></i></a>
 
-          </div>
-          
-        </div>
+{{--         <nav class="mt-4 mb-3">
+          <ul class="pagination justify-content-center mb-0">
+            <li class="page-item ">
+              <a class="page-link first" href="#">
+                <i class="simple-icon-control-start"></i>
+              </a>
+            </li>
+            <li class="page-item ">
+              <a class="page-link prev" href="#">
+                <i class="simple-icon-arrow-left"></i>
+              </a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item ">
+              <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item ">
+              <a class="page-link next" href="#" aria-label="Next">
+                <i class="simple-icon-arrow-right"></i>
+              </a>
+            </li>
+            <li class="page-item ">
+              <a class="page-link last" href="#">
+                <i class="simple-icon-control-end"></i>
+              </a>
+            </li>
+          </ul>
+        </nav> --}}
       </div>
-      @endforeach
-
-      <nav class="mt-4 mb-3">
-        <ul class="pagination justify-content-center mb-0">
-          <li class="page-item ">
-            <a class="page-link first" href="#">
-              <i class="simple-icon-control-start"></i>
-            </a>
-          </li>
-          <li class="page-item ">
-            <a class="page-link prev" href="#">
-              <i class="simple-icon-arrow-left"></i>
-            </a>
-          </li>
-          <li class="page-item active">
-            <a class="page-link" href="#">1</a>
-          </li>
-          <li class="page-item ">
-            <a class="page-link" href="#">2</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">3</a>
-          </li>
-          <li class="page-item ">
-            <a class="page-link next" href="#" aria-label="Next">
-              <i class="simple-icon-arrow-right"></i>
-            </a>
-          </li>
-          <li class="page-item ">
-            <a class="page-link last" href="#">
-              <i class="simple-icon-control-end"></i>
-            </a>
-          </li>
-        </ul>
-      </nav>
     </div>
-  </div>
+  @else
+      <div>No Bill matched the given criteria.</div>
+  @endif
 @endsection
