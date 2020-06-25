@@ -34,7 +34,7 @@ class SendBillPaySms
                 $message .= PHP_EOL;
                 $mobile = (int) $event->bill->customer_mobile;
                 $mobile = (int) '966'.$mobile;
-                UnifonicFacade::send($event->bill->customer_mobile, $message);
+                UnifonicFacade::send($mobile, $message);
             }
         }
     }
