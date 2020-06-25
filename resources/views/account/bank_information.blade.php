@@ -16,29 +16,17 @@
               <div class="card-body">
                 <form id="form">
                   <div class="form-row">
-                    <div class="form-group col-12">
-                      <label for="inputEmail5">License type</label>
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail6">Bank</label>
                       <select id="inputEmail5" class="form-control">
                         <option selected>Choose...</option>
                         <option value="1">Commercial Registration</option>
                         <option value="2">Work Document</option>
                       </select>
                     </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label for="inputEmail6">Bank</label>
-                      <input type="text" class="form-control" id="inputEmail6" placeholder="Bank">
-                    </div>
                     <div class="form-group col-md-6">
                       <label for="inputEmail7">IBAN Number</label>
                       <input type="text" class="form-control" id="inputEmail7" placeholder="IBAN Number">
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label for="inputEmail8">Organization Name</label>
-                      <input type="text" class="form-control" id="inputEmail8" placeholder="Organization Name">
                     </div>
                     <div class="form-group col-md-6">
                       <label for="inputEmail9">Beneficiary Name</label>
