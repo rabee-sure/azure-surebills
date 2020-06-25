@@ -30,8 +30,7 @@ class SendBillPaySms
 
         if($event->bill->send_sms){
             if(app()->environment('production')){
-                $message = __('هلاً :name<br>لديك فاتورة بقيمة :total SAR من :business_name يمكنك الدفع بكل سهولة الأن<br> :url', ['total' => $event->bill->total, 'business_name' => $event->bill->business_name, 'name' => $event->bill->customer_name, 'url' => $event->bill->pay_url]);
-                $message .= PHP_EOL;
+                $message = __('Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url', ['total' => $event->bill->total, 'business_name' => $event->bill->business_name, 'name' => $event->bill->customer_name, 'url' => $event->bill->pay_url]);
                 $mobile = (int) $event->bill->customer_mobile;
                 $mobile = (int) '966'.$mobile;
                 UnifonicFacade::send($mobile, $message);
