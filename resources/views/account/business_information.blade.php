@@ -10,6 +10,15 @@
     <div class="card mb-4">
       <div class="card-body">
         <form>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="inputEmail3">License type</label>
+              <select name="license_type" class="form-control">
+                <option value="Commercial Record">Commercial Record</option>
+                <option value="Freelance">Freelance</option>
+              </select>
+            </div>
+          </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputEmail1">Business Name</label>
@@ -17,7 +26,10 @@
             </div>
             <div class="form-group col-md-6">
               <label for="inputEmail2">Sector</label>
-              <input type="text" class="form-control" id="inputEmail2" placeholder="Sector">
+              <select name="Sector_type" class="form-control">
+                <option value="Commercial Record">Sector</option>
+                <option value="Freelance">Sector</option>
+              </select>
             </div>
           </div>
           <div class="form-row">
@@ -41,15 +53,6 @@
                 <input type="file" class="custom-file-input" id="inputEmail8">
                 <label class="custom-file-label" for="inputEmail8">Choose file</label>
               </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <label for="inputEmail3">License type</label>
-              <select name="license_type" class="form-control">
-                <option value="Commercial Record">Commercial Record</option>
-                <option value="Freelance">Freelance</option>
-              </select>
             </div>
           </div>
           <button type="submit" class="btn btn-primary d-block mt-2">Save</button>
