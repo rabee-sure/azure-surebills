@@ -29,6 +29,6 @@ class SendBillPaidToOwner extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.bills.paid_to_owner');
+        return $this->subject("You've got a payment! ".$this->bill->total." SAR from " . $this->bill->customer_name)->view('emails.bills.paid_to_owner');
     }
 }

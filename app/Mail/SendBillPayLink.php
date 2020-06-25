@@ -12,14 +12,17 @@ class SendBillPayLink extends Mailable
     use Queueable, SerializesModels;
 
     public $bill;
+    public $subject;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($bill)
+    public function __construct($bill, $subject)
     {
         $this->bill = $bill;
+        $this->subject = $subject;
     }
 
     /**
@@ -29,6 +32,6 @@ class SendBillPayLink extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.bills.payLink');
+        return $this->subject($this->subject)->view('emails.bills.payLink');
     }
 }

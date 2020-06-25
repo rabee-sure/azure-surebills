@@ -29,8 +29,14 @@ class SendBillPayEmail
     public function handle(BillCreated $event)
     {
         if($event->bill->send_email){
-            Mail::to($event->bill->customer_email)->send(new SendBillPayLink($event->bill));
+            //customer 
+            $subject = 'You’ve got a new bill of '. $event->bill->total .' SAR';
+            Mail::to($event->bill->customer_email)
+                ->send(new SendBillPayLink($event->bill, $subject));
         }
-        Mail::to($event->bill->user->email)->send(new SendBillPayLink($event->bill));
+        //owner
+        $subject = 'Your bill of '. $event->bill->total.' SAR has been created';
+        Mail::to($event->bill->user->email)
+            ->send(new SendBillPayLink($event->bill, $subject));
     }
 }

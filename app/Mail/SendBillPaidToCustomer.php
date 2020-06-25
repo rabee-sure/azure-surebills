@@ -29,6 +29,6 @@ class SendBillPaidToCustomer extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.bills.paid_to_customer');
+        return $this->subject('Your bill of '. $this->bill->total.' SAR has been successfully paid ')->view('emails.bills.paid_to_customer');
     }
 }
