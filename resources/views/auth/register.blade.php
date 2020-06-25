@@ -9,7 +9,7 @@
         <p class="white mb-0">
         {{ __('Please use this form to register.') }}
         <br>
-        {{ __('If you are a member, please') }} <a href="{{ route('login') }}" class="white">{{ __('login') }}</a>.</p>
+        {{ __('If you are a member, please') }} <a href="{{ route('login') }}" title="{{ __('login') }}" class="white"></a>.</p>
       </div>
       <div class="form-side">
         <a href="{{ url('/') }}"><span class="logo-single"></span></a>
