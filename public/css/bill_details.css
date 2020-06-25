@@ -10937,6 +10937,7 @@ body {
 
 .single_bill_page {
   margin: 50px auto;
+  /* alert-success */
   /* logo */
   /* title */
   /* date_time */
@@ -10944,6 +10945,14 @@ body {
   /* total_bill */
   /* customer_information */
   /* payment_method */
+}
+
+.single_bill_page .alert-success {
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: capitalize;
+  margin: 0 auto 30px;
 }
 
 .single_bill_page .logo {
