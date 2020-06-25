@@ -10128,6 +10128,7 @@ div[data-repeater-item]:first-child .item_row .delete_block {
   /* mada_icon */
   /* b */
   /* p */
+  /* choose_radio */
 }
 
 [class=body-dark-mode] .pricing_item {
@@ -10175,16 +10176,25 @@ div[data-repeater-item]:first-child .item_row .delete_block {
 
 .pricing_item b {
   display: block;
-  font-size: 0.85rem;
+  font-size: 14px;
   color: #8f8f8f;
-  font-weight: 600;
   margin: 10px auto 5px;
+  font-weight: bold;
 }
 
-.pricing_item p.lead {
-  font-size: 16px;
-  line-height: 1.1;
+.pricing_item p {
+  font-size: 14px;
+  color: #8f8f8f;
   margin: 0 auto 30px;
+}
+
+.pricing_item .choose_radio {
+  text-align: left;
+  /* custom-control */
+}
+
+.pricing_item .choose_radio .custom-control {
+  margin-bottom: 5px;
 }
 
 /* pricing_item */

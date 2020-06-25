@@ -9820,14 +9820,20 @@ div[data-repeater-item]{
   } /* mada_icon */
   b {
     display: block;
-    font-size: 0.85rem;
+    font-size: 14px;
     color: #8f8f8f;
-    font-weight: 600;
     margin: 10px auto 5px;
+    font-weight: bold;
   } /* b */
-  p.lead {
-    font-size: 16px;
-    line-height: 1.1;
+  p {
+    font-size: 14px;
+    color: #8f8f8f;
     margin: 0 auto 30px;
   } /* p */
+  .choose_radio {
+    text-align: left;
+    .custom-control {
+      margin-bottom: 5px;
+    } /* custom-control */
+  } /* choose_radio */
 } /* pricing_item */
