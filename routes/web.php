@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('account/change_password', 'AccountController@changePassword')->name('change_password');
 	Route::post('change-password', 'AccountController@storeChangePassword')->name('change.password');
 
+	Route::get('pricing', 'PricingController@index')->name('pricing');
+
 });
 
 // py bill page

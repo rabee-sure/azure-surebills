@@ -7,10 +7,9 @@
       <div class="position-relative image-side ">
         <p class=" text-white h2">{{ __('Start Sending Bills') }}</p>
         <p class="white mb-0">
-          {{ __('Please use this form to register.') }}
+          {{ __('Please use your e-mail to reset your password.') }}
           <br>
-          {{ __('If you are a member, please') }} 
-          <a href="{{ route('register') }}" class="white" title="{{ __('Register') }}">{{ __('Register') }}</a>.
+          {{ __('If you are not a member, please') }} <a href="{{ route('register') }}" title="{{ __('Register') }}" class="white">{{ __('Register') }}</a>.
         </p>
       </div>
       <div class="form-side">

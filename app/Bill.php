@@ -69,6 +69,13 @@ class Bill extends Model
     }
 
     /**
+     * get only paid bills
+     */
+    public function scopePaid($query){
+        $query->where('status', 'paid');
+    }
+
+    /**
      * Get items.
      *
      * @return Collection

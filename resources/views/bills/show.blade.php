@@ -48,12 +48,13 @@
           <b> VAT Registration Number : {{ $bill->user->vat_registration_number }}</b>
         @endif
         <div>
-          <p>Bill # : {{ $bill->id}}</p>
-          <b>2020/04/05</b>
+          <p>Bill # : {{ $bill->number }}</p>
+          <b>{{ $bill->created_at->format('Y/m/d')}}</b>
         </div>
       </div><!-- date_time -->
       <div class="shopping_cart">
         <div class="name">@if($bill->customer_notes) {{$bill->customer_notes}}  @else Shopping Cart @endif</div>
+
         @foreach($bill->items as $item)
           <div class="details_pay">
             <div class="info">
@@ -66,17 +67,21 @@
         @endforeach
       </div><!-- shopping_cart -->
       <div class="total_bill">
-        @if( $bill->add_tax && $bill->add_discount)
-          <p>Subtotal : {{ $bill->sub_total }} SAR</p>
-        @endif
-        @if( $bill->add_discount)
-          <p>Discount : {{ $bill->discount }} SAR</p>
-          <p>Subtotal - Discount : {{ $bill->sub_total- $bill->discount }} SAR</p>
-        @endif
-        @if( $bill->add_tax)
-          <p>Tax : {{ $bill->vat }} SAR</p>
-        @endif
-        <b>Total : {{ $bill->total}} SAR</b>
+          @if( $bill->add_tax && $bill->add_discount)
+            <p>Subtotal : {{ $bill->sub_total }} SAR</p>
+          @endif
+          @if( $bill->add_discount)
+            @if($bill->discount_type == 'percentage')
+              <p>Discount ({{ $bill->discount_value }}%) : {{ $bill->discount }} SAR</p>
+            @else
+              <p>Discount ({{ $bill->discount_value }} SAR) : {{ $bill->discount }} SAR</p>
+            @endif
+            <p>Subtotal - Discount : {{ $bill->sub_total- $bill->discount }} SAR</p>
+          @endif
+          @if( $bill->add_tax)
+            <p>{{ $bill->tax_name }} ({{ $bill->tax_value }}%) : {{ $bill->vat }} SAR</p>
+          @endif
+          <b>Total : {{ $bill->total}} SAR</b>
       </div><!-- total_bill -->
       <div class="customer_information">
         <div class="name">Customer Information</div>

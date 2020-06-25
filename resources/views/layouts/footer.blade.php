@@ -1,4 +1,4 @@
-<footer class="page-footer"> --}}
+<footer class="page-footer">
   <div class="footer-content">
     <div class="container-fluid">
       <div class="row">

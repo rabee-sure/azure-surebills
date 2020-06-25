@@ -45,6 +45,12 @@
             {{ __('Account') }}
           </a>
         </li>
+        <li class="{{ Request::is('pricing*') ? 'active' : '' }}">
+          <a href="{{ route('pricing') }}" title="Pricing">
+            <i class="iconsminds-tag-3"></i>
+            {{ __('Pricing') }}
+          </a>
+        </li> 
         <li>
           <a href="#integration" title="Integration">
             <i class="iconsminds-gears"></i>

@@ -24,10 +24,8 @@ class BankInformationRequest extends FormRequest
     public function rules()
     {
         return [
-            'license_type' => ['required'],
             'bank' => ['required'],
             'iban_number' => ['required'],
-            'organization_name' => ['required'],
             'beneficiary_name' => ['required'],
         ];
     }

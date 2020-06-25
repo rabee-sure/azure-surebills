@@ -26,7 +26,9 @@ class HomeController extends Controller
     {
         $bills = Bill::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get();
         $latest = $bills->take(3);
-        $balance = $bills->sum('total');
+
+        $balance = Bill::where('user_id', auth()->user()->id)->paid()->sum('total');
+
         return view('home', [
             'latest' =>  $latest,
             'bills' =>  $bills,

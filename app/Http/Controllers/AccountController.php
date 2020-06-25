@@ -57,10 +57,8 @@ class AccountController extends Controller
     public function storeBankInformation(BankInformationRequest $request)
     {
         auth()->user()->update([              
-            'license_type' => $request->get('license_type'),
             'bank' => $request->get('bank'),
             'iban_number' => $request->get('iban_number'),
-            'organization_name' => $request->get('organization_name'),
             'beneficiary_name' => $request->get('beneficiary_name'),
         ]);
    
@@ -88,6 +86,7 @@ class AccountController extends Controller
         $image = $request->logo->move(public_path('images'), $imageName);
         
         auth()->user()->update([
+            'license_type' => $request->get('license_type'),
             'business_name' => $request->get('business_name'),
             'sector' => $request->get('sector'),
             'website' => $request->get('website'),

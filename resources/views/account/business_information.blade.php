@@ -1,20 +1,30 @@
 @extends('layouts.app')
-
 @section('title', 'Page Title')
-
 @section('content')
-        <div class="row">
-
-          <div class="col-12">
-            <h1>Business Information</h1>
-            <div class="separator mb-5"></div>
-          </div>
+<div class="row">
+  <div class="col-12">
+    <h1>Business Information</h1>
+    <div class="separator mb-5"></div>
+  </div>
 
           <div class="col-12">
             <div class="card mb-4">
               <div class="card-body">
                 <form id="form" method="POST" action="{{ route('business.information') }}" enctype="multipart/form-data">
                   @csrf 
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label name="license_type" for="inputEmail3">License type</label>
+                      <select name="license_type" class="form-control">
+                        <option value="Commercial Record" @if ($user->license_type == 'Commercial Record')selected="selected"@endif>Commercial Record</option>
+                        <option value="Freelance" @if ($user->license_type == 'Freelance')selected="selected"@endif>Freelance</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="vat_registration_number">VAT Registration Number</label>
+                      <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="VAT Registration Number">
+                    </div>
+                  </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="inputEmail1">Business Name</label>
@@ -68,18 +78,13 @@
                       </div>
                     </div>
                   </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label for="vat_registration_number">VAT Registration Number</label>
-                      <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="VAT Registration Number">
-                    </div>
-                  </div>
+
                   <button type="submit" class="btn btn-primary d-block mt-2">Save</button>
                 </form>
-              </div>
-            </div>
-          </div>
+      </div>
     </div>
+  </div>
+</div>
 @endsection
 
 @section('footer-scripts')

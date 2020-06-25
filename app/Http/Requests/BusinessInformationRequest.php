@@ -24,6 +24,7 @@ class BusinessInformationRequest extends FormRequest
     public function rules()
     {
         return [
+            'license_type' => ['required'],
             'business_name' => ['required'],
             'sector' => ['nullable'],
             'website' => ['nullable'],

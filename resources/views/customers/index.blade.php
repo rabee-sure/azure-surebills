@@ -6,40 +6,19 @@
   <div class="row">
     <div class="col-12">
       <div class="mb-3">
-        <h1>{{ __('customers')}}</h1>
+        <h1>{{ __('Customers')}}</h1>
         <div class="top-right-button-container">
-          @include('customers.create')
-          {{-- <a href="#" class="btn btn-primary btn-md top-right-button mr-1">{{ __('Download (CSV)')}}</a> --}}
-        </div>
-        <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-          <ol class="breadcrumb pt-0">
-            <li class="breadcrumb-item">
-              <a href="{{ url('/') }}">{{ __('Home')}}</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">{{ __('customers')}}</li>
-          </ol>
-        </nav>
+        @include('customers.create')
       </div>
-{{--       <div class="mb-2">
-        <div class="d-block d-md-inline-block">
-          <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
-              <input placeholder="Search...">
-          </div>
-        </div>
-        <div class="float-md-right">
-          <span class="text-muted text-small">{{ __('Displaying 1-10 of 210 items ')}}</span>
-          <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            20
-          </button>
-          <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#">10</a>
-            <a class="dropdown-item active" href="#">20</a>
-            <a class="dropdown-item" href="#">30</a>
-            <a class="dropdown-item" href="#">50</a>
-            <a class="dropdown-item" href="#">100</a>
-          </div>
-        </div>
-      </div> --}}
+      <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+        <ol class="breadcrumb pt-0">
+          <li class="breadcrumb-item">
+            <a href="{{ url('/') }}">{{ __('Home')}}</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">{{ __('customers')}}</li>
+        </ol>
+      </nav>
+      </div>
     </div>
     <div class="separator mb-5"></div>
   </div>

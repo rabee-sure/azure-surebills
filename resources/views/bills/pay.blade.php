@@ -13,7 +13,7 @@
           </div><!-- logo -->
         @endif
           <div class="title">
-            <span>{{ $bill->business_name}}</span>
+            <span>{{ $bill->business_name }}</span>
             <div>
               <p>{{  $bill->user->business_address}}</p>
               <b>{{  $bill->user->business_mobile }}</b>
@@ -26,8 +26,8 @@
               <b> VAT Registration Number : {{ $bill->user->vat_registration_number }}</b>
             @endif
             <div>
-              <p>Bill # : {{ $bill->number}}</p>
-              <b>2020/04/05</b>
+              <p>Bill # : {{ $bill->number }}</p>
+              <b>{{ $bill->created_at->format('Y/m/d')}}</b>
             </div>
           </div><!-- date_time -->
           <div class="shopping_cart">
@@ -49,11 +49,15 @@
               <p>Subtotal : {{ $bill->sub_total }} SAR</p>
             @endif
             @if( $bill->add_discount)
-              <p>Discount : {{ $bill->discount }} SAR</p>
+              @if($bill->discount_type == 'percentage')
+                <p>Discount ({{ $bill->discount_value }}%) : {{ $bill->discount }} SAR</p>
+              @else
+                <p>Discount ({{ $bill->discount_value }} SAR) : {{ $bill->discount }} SAR</p>
+              @endif
               <p>Subtotal - Discount : {{ $bill->sub_total- $bill->discount }} SAR</p>
             @endif
             @if( $bill->add_tax)
-              <p>Tax : {{ $bill->vat }} SAR</p>
+              <p>{{ $bill->tax_name }} ({{ $bill->tax_value }}%) : {{ $bill->vat }} SAR</p>
             @endif
             <b>Total : {{ $bill->total}} SAR</b>
           </div><!-- total_bill -->
