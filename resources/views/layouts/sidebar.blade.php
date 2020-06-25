@@ -47,7 +47,7 @@
         </li>
         <li class="{{ Request::is('pricing*') ? 'active' : '' }}">
           <a href="{{ route('pricing') }}" title="Pricing">
-            <i class="iconsminds-mens"></i>
+            <i class="iconsminds-tag-3"></i>
             {{ __('Pricing') }}
           </a>
         </li> 
