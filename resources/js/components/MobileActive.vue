@@ -41,7 +41,7 @@
         data() {
             return {
                 timerCount: 60,
-                pin: '',
+                pin: null,
                 error: null,
                 is_loading: false,
             }
@@ -55,7 +55,11 @@
                         }, 1000);
                     }
                 },
-            }
+            },
+          pin(num) {
+              this.pin = num.replace(/([٠١٢٣٤٥٦٧٨٩])|([۰۱۲۳۴۵۶۷۸۹])/g, (m, $1, $2) => m.charCodeAt(0) - ($1 ? 1632 : 1776))
+              this.pin = this.pin.replace(/[^\d.\d]/g,'')
+          }
         },
         mounted() {
             this.timerCount = this.user.diff_in_sec
