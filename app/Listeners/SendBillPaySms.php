@@ -27,7 +27,6 @@ class SendBillPaySms
      */
     public function handle(BillCreated $event)
     {
-
         if($event->bill->send_sms){
             if(app()->environment('production')){
                 $message = __('to pay bill please open link below: ',[],'en') . $event->bill->pay_url;

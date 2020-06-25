@@ -31,5 +31,6 @@ class SendBillPayEmail
         if($event->bill->send_email){
             Mail::to($event->bill->customer_email)->send(new SendBillPayLink($event->bill));
         }
+        Mail::to($event->bill->user->email)->send(new SendBillPayLink($event->bill));
     }
 }

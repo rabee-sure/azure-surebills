@@ -21,6 +21,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\BillCreated' => [
             'App\Listeners\SendBillPayEmail',
             'App\Listeners\SendBillPaySms',
+        ],        
+        'App\Events\BillPaid' => [
+            'App\Listeners\SendBillPaidEmailToOwner',
+            'App\Listeners\SendBillPaidEmailToCustomer',
         ],
     ];
 
