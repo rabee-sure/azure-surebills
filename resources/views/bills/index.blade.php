@@ -8,7 +8,7 @@
       <div class="mb-2">
         <h1>Bills</h1>
         <div class="top-right-button-container">
-          <a href="{{ route('bills.create')}}" class="btn btn-primary btn-lg top-right-button mr-1">
+          <a href="{{ route('bills.create')}}" class="btn btn-primary btn-md top-right-button mr-1">
             {{ __('Create a bill')}}
           </a>
         </div>
@@ -32,39 +32,6 @@
           @include('bills.item')
         @endforeach
         {{ $bills->links() }}
-{{--         <nav class="mt-4 mb-3">
-          <ul class="pagination justify-content-center mb-0">
-            <li class="page-item ">
-              <a class="page-link first" href="#">
-                <i class="simple-icon-control-start"></i>
-              </a>
-            </li>
-            <li class="page-item ">
-              <a class="page-link prev" href="#">
-                <i class="simple-icon-arrow-left"></i>
-              </a>
-            </li>
-            <li class="page-item active">
-              <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item ">
-              <a class="page-link" href="#">2</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">3</a>
-            </li>
-            <li class="page-item ">
-              <a class="page-link next" href="#" aria-label="Next">
-                <i class="simple-icon-arrow-right"></i>
-              </a>
-            </li>
-            <li class="page-item ">
-              <a class="page-link last" href="#">
-                <i class="simple-icon-control-end"></i>
-              </a>
-            </li>
-          </ul>
-        </nav> --}}
       </div>
     </div>
   @else
