@@ -32,6 +32,8 @@ class SendBillPaySms
             if(app()->environment('production')){
                 $message = __('to pay bill please open link below: ',[],'en') . $event->bill->pay_url;
                 $message .= PHP_EOL;
+                $mobile = (int) $this->mobile;
+                $mobile = (int) '966'.$this->mobile;
                 UnifonicFacade::send($event->bill->customer_mobile, $message);
             }
         }
