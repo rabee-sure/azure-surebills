@@ -31,7 +31,7 @@
   <div class="col-12 col-md-8 col-lg-6 col-xl-6">
     <div class="show_bill_general invoice-contents">
       <div class="logo_bill">
-        <img src="img/logoCN.png" alt="{{ $bill->business_name}}">
+        <img src="https://www.sure.com.sa/wp-content/uploads/2019/10/21.png" alt="logo">
       </div><!-- logo_bill -->
       <div class="title">
         <span>{{ $bill->business_name}}</span>
@@ -43,12 +43,11 @@
       <div class="date_time">
         <span>Due on {{ $bill->due_date->format('M d Y')}}</span>
         <div>
-          <p>Bill # : {{ $bill->id}}</p>
-          <b>2020/04/05</b>
+          <p>Bill # : {{ $bill->number }}</p>
+          <b>{{ $bill->created_at->format('Y/m/d')}}</b>
         </div>
       </div><!-- date_time -->
       <div class="shopping_cart">
-        <div class="name">Shopping Cart</div>
         @foreach($bill->items as $item)
           <div class="details_pay">
             <div class="info">
@@ -61,17 +60,21 @@
         @endforeach
       </div><!-- shopping_cart -->
       <div class="total_bill">
-        @if( $bill->add_tax && $bill->add_discount)
-          <p>Subtotal : {{ $bill->sub_total }} SAR</p>
-        @endif
-        @if( $bill->add_discount)
-          <p>Discount : {{ $bill->discount }} SAR</p>
-          <p>Subtotal - Discount : {{ $bill->sub_total- $bill->discount }} SAR</p>
-        @endif
-        @if( $bill->add_tax)
-          <p>Tax : {{ $bill->vat }} SAR</p>
-        @endif
-        <b>Total : {{ $bill->total}} SAR</b>
+          @if( $bill->add_tax && $bill->add_discount)
+            <p>Subtotal : {{ $bill->sub_total }} SAR</p>
+          @endif
+          @if( $bill->add_discount)
+            @if($bill->discount_type == 'percentage')
+              <p>Discount ({{ $bill->discount_value }}%) : {{ $bill->discount }} SAR</p>
+            @else
+              <p>Discount ({{ $bill->discount_value }} SAR) : {{ $bill->discount }} SAR</p>
+            @endif
+            <p>Subtotal - Discount : {{ $bill->sub_total- $bill->discount }} SAR</p>
+          @endif
+          @if( $bill->add_tax)
+            <p>{{ $bill->tax_name }} ({{ $bill->tax_value }}%) : {{ $bill->vat }} SAR</p>
+          @endif
+          <b>Total : {{ $bill->total}} SAR</b>
       </div><!-- total_bill -->
       <div class="customer_information">
         <div class="name">Customer Information</div>

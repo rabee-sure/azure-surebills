@@ -11,7 +11,7 @@
             <img src="https://www.sure.com.sa/wp-content/uploads/2019/10/21.png" alt="logo">
           </div><!-- logo -->
           <div class="title">
-            <span>{{ $bill->business_name}}</span>
+            <span>{{ $bill->business_name }}</span>
             <div>
               <p>Riyadh, Saudi Arabia</p>
               <b>0551234567</b>
@@ -20,12 +20,11 @@
           <div class="date_time">
             <span>Due on {{ $bill->due_date->format('M d Y')}}</span>
             <div>
-              <p>Bill # : {{ $bill->number}}</p>
-              <b>2020/04/05</b>
+              <p>Bill # : {{ $bill->number }}</p>
+              <b>{{ $bill->created_at->format('Y/m/d')}}</b>
             </div>
           </div><!-- date_time -->
           <div class="shopping_cart">
-            <div class="name">Shopping Cart</div>
             @foreach($bill->items as $item)
               <div class="details_pay">
                 <div class="info">
@@ -43,11 +42,15 @@
               <p>Subtotal : {{ $bill->sub_total }} SAR</p>
             @endif
             @if( $bill->add_discount)
-              <p>Discount : {{ $bill->discount }} SAR</p>
+              @if($bill->discount_type == 'percentage')
+                <p>Discount ({{ $bill->discount_value }}%) : {{ $bill->discount }} SAR</p>
+              @else
+                <p>Discount ({{ $bill->discount_value }} SAR) : {{ $bill->discount }} SAR</p>
+              @endif
               <p>Subtotal - Discount : {{ $bill->sub_total- $bill->discount }} SAR</p>
             @endif
             @if( $bill->add_tax)
-              <p>Tax : {{ $bill->vat }} SAR</p>
+              <p>{{ $bill->tax_name }} ({{ $bill->tax_value }}%) : {{ $bill->vat }} SAR</p>
             @endif
             <b>Total : {{ $bill->total}} SAR</b>
           </div><!-- total_bill -->
