@@ -13,7 +13,7 @@ class BankInformationRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class BankInformationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'bank' => ['required'],
+            'iban_number' => ['required'],
+            'beneficiary_name' => ['required'],
         ];
     }
 }

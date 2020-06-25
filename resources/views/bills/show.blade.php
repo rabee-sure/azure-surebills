@@ -30,24 +30,31 @@
 <div class="row justify-content-center invoice">
   <div class="col-12 col-md-8 col-lg-6 col-xl-6">
     <div class="show_bill_general invoice-contents">
-      <div class="logo_bill">
-        <img src="https://www.sure.com.sa/wp-content/uploads/2019/10/21.png" alt="logo">
-      </div><!-- logo_bill -->
+      @if($bill->user->logo)
+        <div class="logo_bill">
+          <img src="{{ url($bill->user->logo) }}" alt="{{ $bill->business_name}}">
+        </div><!-- logo_bill -->
+      @endif
       <div class="title">
         <span>{{ $bill->business_name}}</span>
         <div>
-          <p>Riyadh, Saudi Arabia</p>
-          <b>0551234567</b>
+          <p>{{  $bill->user->business_address}}</p>
+          <b>{{  $bill->user->business_mobile }}</b>
         </div>
       </div><!-- title -->
       <div class="date_time">
         <span>Due on {{ $bill->due_date->format('M d Y')}}</span>
+        @if($bill->user->vat_registration_number)
+          <b> VAT Registration Number : {{ $bill->user->vat_registration_number }}</b>
+        @endif
         <div>
           <p>Bill # : {{ $bill->number }}</p>
           <b>{{ $bill->created_at->format('Y/m/d')}}</b>
         </div>
       </div><!-- date_time -->
       <div class="shopping_cart">
+        <div class="name">@if($bill->customer_notes) {{$bill->customer_notes}}  @else Shopping Cart @endif</div>
+
         @foreach($bill->items as $item)
           <div class="details_pay">
             <div class="info">

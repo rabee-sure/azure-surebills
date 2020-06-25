@@ -56,7 +56,11 @@ class AccountController extends Controller
      */
     public function storeBankInformation(BankInformationRequest $request)
     {
-        auth()->user()->update([]);
+        auth()->user()->update([              
+            'bank' => $request->get('bank'),
+            'iban_number' => $request->get('iban_number'),
+            'beneficiary_name' => $request->get('beneficiary_name'),
+        ]);
    
         return redirect('home');
     }
@@ -78,7 +82,22 @@ class AccountController extends Controller
      */
     public function storeBusinessInformation(BusinessInformationRequest $request)
     {
+        $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();  
+        $image = $request->logo->move(public_path('images'), $imageName);
+        
         auth()->user()->update([
+            'license_type' => $request->get('license_type'),
+            'business_name' => $request->get('business_name'),
+            'sector' => $request->get('sector'),
+            'website' => $request->get('website'),
+            'twitter' => $request->get('twitter'),
+            'facebook' => $request->get('facebook'),
+            'instagram' => $request->get('instagram'),
+            'description' => $request->get('description'),
+            'business_address' => $request->get('business_address'),
+            'business_mobile' => $request->get('business_mobile'),
+            'vat_registration_number' => $request->get('vat_registration_number'),
+            'logo' => 'images/'.$imageName,
         ]);
    
         return redirect('home');

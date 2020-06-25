@@ -7,22 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendBillPayLink extends Mailable
+class SendBillPaidToCustomer extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $bill;
-    public $subject;
-
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($bill, $subject)
+    public function __construct($bill)
     {
         $this->bill = $bill;
-        $this->subject = $subject;
     }
 
     /**
@@ -32,6 +29,6 @@ class SendBillPayLink extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->subject)->view('emails.bills.payLink');
+        return $this->subject('Your bill of '. $this->bill->total.' SAR has been successfully paid ')->view('emails.bills.paid_to_customer');
     }
 }

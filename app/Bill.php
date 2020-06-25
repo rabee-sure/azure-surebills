@@ -16,6 +16,7 @@ class Bill extends Model
     	'customer_name', 
     	'customer_mobile',
     	'customer_email',
+        'customer_notes',
     	'reference_id',
     	'due_date',
     	'expiry_date',
@@ -82,5 +83,25 @@ class Bill extends Model
     public function items()
     {
         return $this->hasMany(BillItem::class);
+    }  
+
+    /**
+     * Get user.
+     *
+     * @return Collection
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    } 
+
+    /**
+     * Get customer.
+     *
+     * @return Collection
+     */
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }   
 }

@@ -6,6 +6,7 @@ use App\Bill;
 use App\BillItem;
 use App\Customer;
 use App\Events\BillCreated;
+use App\Events\BillPaid;
 use App\Http\Requests\BillRequest;
 use App\Http\Requests\PayBillRequest;
 use App\Payment\Facades\Payment;
@@ -173,6 +174,8 @@ class BillController extends Controller
             $bill->payment_method = 'credit';
             $bill->save();
         });
+        event(new BillPaid($bill));
+
         return view('bills.status', ['bill' => $bill]);;
     }
 

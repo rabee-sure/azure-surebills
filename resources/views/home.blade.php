@@ -116,3 +116,9 @@
         </div>
       </div>
 @endsection
+
+
+@section('footer-scripts')
+
+@endsection
+
