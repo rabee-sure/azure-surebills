@@ -9817,6 +9817,7 @@ button.sendBill {
   /* logo-single */
   /* login_now */
   /* invalid-feedback */
+  /* phone_reg */
 }
 
 #register_page .logo-single {
@@ -9843,6 +9844,29 @@ button.sendBill {
   color: #dc3545;
   margin: 5px auto 0;
   font-size: 11px;
+}
+
+#register_page .phone_reg {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  /* phone_key */
+  /* label */
+}
+
+#register_page .phone_reg .phone_key {
+  background: #eee;
+  color: #000;
+  width: 20%;
+  line-height: 37px;
+  text-align: center;
+  font-size: 0.8rem;
+  border: 1px solid #d7d7d7;
+  margin: 0 -1px 0 0;
+}
+
+#register_page .phone_reg label.form-group {
+  flex: 1 1 0;
 }
 
 /* register_page */

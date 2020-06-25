@@ -45,13 +45,16 @@
               </label>
             </div><!-- col-12 -->
             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <label class="form-group has-float-label mb-4">
-                <input name="mobile" class="form-control _parseArabicNumbers @error('mobile') is-invalid @enderror" name="mobile" id="mobile" type="tel" value="{{ old('mobile') }}" />
-                <span>{{ __('Mobile Number') }}</span>
-                @error('mobile')
-                    <p class="invalid-feedback" role="alert">{{ $message }}</p>
-                @enderror
-              </label>
+              <div class="phone_reg">
+                <div class="phone_key">+966</div>
+                <label class="form-group has-float-label mb-4">
+                  <input name="mobile" class="form-control _parseArabicNumbers @error('mobile') is-invalid @enderror" name="mobile" id="mobile" type="tel" value="{{ old('mobile') }}" />
+                  <span>{{ __('Mobile Number') }}</span>
+                  @error('mobile')
+                      <p class="invalid-feedback" role="alert">{{ $message }}</p>
+                  @enderror
+                </label>
+              </div><!-- phone_reg -->
             </div><!-- col-12 -->
             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
               <label for="password" class="form-group has-float-label mb-4">
