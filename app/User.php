@@ -69,7 +69,7 @@ class User extends Authenticatable
             $message = __('verification code : ',[],'en') . $mobile_active_code;
             $message .= PHP_EOL;
             $mobile = (int) $this->mobile;
-            $mobile = (int) '966'.$this->mobile;
+            $mobile = (int) '966'.$mobile;
             UnifonicFacade::send($mobile, $message);
         }
     }
