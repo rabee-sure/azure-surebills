@@ -58,14 +58,6 @@
 
         <div class="col-lg-12 col-xl-6">
           <div class="card mb-4">
-            <div class="position-absolute card-top-buttons">
-              <button class="btn btn-header-light icon-button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="simple-icon-refresh"></i></button>
-              <div class="dropdown-menu dropdown-menu-right mt-3">
-                <a class="dropdown-item" href="#">Sales</a>
-                <a class="dropdown-item" href="#">Orders</a>
-                <a class="dropdown-item" href="#">Refunds</a>
-              </div>
-            </div>
             <div class="card-body">
               <h5 class="card-title">Sales</h5>
               <div class="dashboard-line-chart chart">

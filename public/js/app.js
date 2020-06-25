@@ -1983,7 +1983,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       timerCount: 60,
-      pin: '',
+      pin: null,
       error: null,
       is_loading: false
     };
@@ -1999,6 +1999,12 @@ __webpack_require__.r(__webpack_exports__);
           }, 1000);
         }
       }
+    },
+    pin: function pin(num) {
+      this.pin = num.replace(/([٠١٢٣٤٥٦٧٨٩])|([۰۱۲۳۴۵۶۷۸۹])/g, function (m, $1, $2) {
+        return m.charCodeAt(0) - ($1 ? 1632 : 1776);
+      });
+      this.pin = this.pin.replace(/[^\d.\d]/g, '');
     }
   },
   mounted: function mounted() {

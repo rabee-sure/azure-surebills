@@ -10,15 +10,19 @@
     <div class="card mb-4">
       <div class="card-body">
         <form>
-        <div class="form-row">
-            <div class="form-group col-md-12">
+          <div class="form-row">
+            <div class="form-group col-md-6">
               <label for="inputEmail3">License type</label>
               <select name="license_type" class="form-control">
                 <option value="Commercial Record">Commercial Record</option>
                 <option value="Freelance">Freelance</option>
               </select>
             </div>
-          </div>
+            <div class="form-group col-md-6">
+              <label for="inputEmail3">VAT Registration Number</label>
+              <input type="text" class="form-control" id="inputEmail1" placeholder="VAT Registration Number">
+            </div>
+          </div> 
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputEmail1">Business Name</label>
