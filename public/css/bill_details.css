@@ -10937,6 +10937,7 @@ body {
 
 .single_bill_page {
   margin: 50px auto;
+  background: #fafafa;
   /* alert-success */
   /* logo */
   /* title */
@@ -10945,6 +10946,14 @@ body {
   /* total_bill */
   /* customer_information */
   /* payment_method */
+}
+
+.single_bill_page .single_bill_content {
+  border: 1px solid #eee;
+  border-radius: 0.75rem;
+  padding: 15px;
+  background: #fff;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
 }
 
 .single_bill_page .alert-success {
@@ -10993,6 +11002,7 @@ body {
   font-size: 14px;
   line-height: 1.1;
   color: #444;
+  text-align: right;
 }
 
 .single_bill_page .title b {
@@ -11002,6 +11012,7 @@ body {
   line-height: 1.1;
   color: #444;
   font-weight: normal;
+  text-align: right;
 }
 
 .single_bill_page .date_time {
@@ -11022,6 +11033,14 @@ body {
   font-weight: bold;
   font-size: 15px;
   text-transform: capitalize;
+  /* vat_reg */
+}
+
+.single_bill_page .date_time span .vat_reg {
+  display: block;
+  font-weight: normal;
+  font-size: 14px;
+  margin: 5px auto 0;
 }
 
 .single_bill_page .date_time p {
@@ -11030,6 +11049,7 @@ body {
   font-size: 14px;
   line-height: 1.1;
   color: #444;
+  text-align: right;
 }
 
 .single_bill_page .date_time b {
@@ -11039,6 +11059,7 @@ body {
   line-height: 1.1;
   color: #444;
   font-weight: normal;
+  text-align: right;
 }
 
 .single_bill_page .shopping_cart {
@@ -11047,7 +11068,7 @@ body {
 }
 
 .single_bill_page .shopping_cart .name {
-  font-size: 20px;
+  font-size: 14px;
   color: #000;
   margin: 0 auto 20px;
   font-weight: bold;
@@ -11130,9 +11151,6 @@ body {
 }
 
 .single_bill_page .payment_method {
-  border-bottom: 1px solid #ddd;
-  padding: 0 0 15px;
-  margin: 0 auto 15px;
   color: #000;
   /* name */
   /* bill_payment */
