@@ -9650,6 +9650,7 @@ div.statistic_icon {
       font-size: 14px;
       line-height: 1.1;
       color: #444;
+      text-align: right;
     } /* p */
     b {
       display: block;
@@ -9658,6 +9659,7 @@ div.statistic_icon {
       line-height: 1.1;
       color: #444;
       font-weight: normal;
+      text-align: right;
     } /* b */
   } /* title */
   .date_time {
@@ -9673,6 +9675,12 @@ div.statistic_icon {
       font-weight: bold;
       font-size: 15px;
       text-transform: capitalize;
+      .vat_reg {
+        display: block;
+        font-weight: normal;
+        font-size: 14px;
+        margin: 5px auto 0;
+      } /* vat_reg */
     } /* span */
     p {
       display: block;
@@ -9680,6 +9688,7 @@ div.statistic_icon {
       font-size: 14px;
       line-height: 1.1;
       color: #444;
+      text-align: right;
     } /* p */
     b {
       display: block;
@@ -9688,11 +9697,12 @@ div.statistic_icon {
       line-height: 1.1;
       color: #444;
       font-weight: normal;
+      text-align: right;
     } /* b */
   } /* date_time */
   .shopping_cart {
     .name {
-      font-size: 20px;
+      font-size: 14px;
       color: #000;
       margin: 0 auto 20px;
       font-weight: bold;

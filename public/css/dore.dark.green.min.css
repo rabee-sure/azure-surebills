@@ -153,7 +153,7 @@ body.background main .container {
 .logo-single {
   width: 110px;
   height: 50px;
-  background: url(/images/logo-white.svg?77945951f4030e90807df9b26bbb7a84) no-repeat;
+  background: url(/images/logo-white.svg?144eda375cc756c7146970b99a4cda4f) no-repeat;
   background-position: center center;
   display: inline-block;
   margin-bottom: 60px;
@@ -1990,7 +1990,7 @@ button {
 .logo {
   width: 110px;
   height: 50px;
-  background: url(/images/logo-white.svg?77945951f4030e90807df9b26bbb7a84) no-repeat;
+  background: url(/images/logo-white.svg?144eda375cc756c7146970b99a4cda4f) no-repeat;
   background-position: center center;
   margin: 0 auto;
 }
@@ -2004,7 +2004,7 @@ button {
 .logo-mobile {
   width: 60px;
   height: 45px;
-  background: url(/images/logo-mobile.svg?5ee74116bf94623b4402ff1d044ce568) no-repeat;
+  background: url(/images/logo-mobile.svg?913e6faffa11d858ce284b68a945ca5a) no-repeat;
   background-position: center center;
 }
 
@@ -9899,19 +9899,19 @@ div.statistic_icon {
 }
 
 div.statistic_icon.balance_icon {
-  background-image: url(/images/balance.svg?d4799bdc61febbcf43670b9e3a0fe20d);
+  background-image: url(/images/balance.svg?5d7d9154ca690d7f7b7014bb980bad1b);
 }
 
 div.statistic_icon.available_balance_icon {
-  background-image: url(/images/available-balance.svg?691a2e3a86dc78ee84d2f60f0accbb7e);
+  background-image: url(/images/available-balance.svg?bc748cf1ad490d13cf3ef106c1e1ce42);
 }
 
 div.statistic_icon.pending_balance_icon {
-  background-image: url(/images/pending-balance.svg?777a3e25b138739d928c9640f03879b0);
+  background-image: url(/images/pending-balance.svg?2a5a3be6515ccaea91e2853d386318bf);
 }
 
 div.statistic_icon.settlements_icon {
-  background-image: url(/images/settlements.svg?f13436bb6499ce42dcb0b20293f21e1d);
+  background-image: url(/images/settlements.svg?54c7ba1e0c1c542fd30a345091915782);
 }
 
 /* statistic_icon */
@@ -9968,6 +9968,7 @@ div.statistic_icon.settlements_icon {
   font-size: 14px;
   line-height: 1.1;
   color: #444;
+  text-align: right;
 }
 
 .show_bill_general .title b {
@@ -9977,6 +9978,7 @@ div.statistic_icon.settlements_icon {
   line-height: 1.1;
   color: #444;
   font-weight: normal;
+  text-align: right;
 }
 
 .show_bill_general .date_time {
@@ -9997,6 +9999,14 @@ div.statistic_icon.settlements_icon {
   font-weight: bold;
   font-size: 15px;
   text-transform: capitalize;
+  /* vat_reg */
+}
+
+.show_bill_general .date_time span .vat_reg {
+  display: block;
+  font-weight: normal;
+  font-size: 14px;
+  margin: 5px auto 0;
 }
 
 .show_bill_general .date_time p {
@@ -10005,6 +10015,7 @@ div.statistic_icon.settlements_icon {
   font-size: 14px;
   line-height: 1.1;
   color: #444;
+  text-align: right;
 }
 
 .show_bill_general .date_time b {
@@ -10014,6 +10025,7 @@ div.statistic_icon.settlements_icon {
   line-height: 1.1;
   color: #444;
   font-weight: normal;
+  text-align: right;
 }
 
 .show_bill_general .shopping_cart {
@@ -10022,7 +10034,7 @@ div.statistic_icon.settlements_icon {
 }
 
 .show_bill_general .shopping_cart .name {
-  font-size: 20px;
+  font-size: 14px;
   color: #000;
   margin: 0 auto 20px;
   font-weight: bold;

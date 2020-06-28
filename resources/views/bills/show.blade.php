@@ -43,10 +43,12 @@
         </div>
       </div><!-- title -->
       <div class="date_time">
-        <span>Due on {{ $bill->due_date->format('M d Y')}}</span>
-        @if($bill->user->vat_registration_number)
-          <b> VAT Registration Number : {{ $bill->user->vat_registration_number }}</b>
-        @endif
+        <span>
+          Due on {{ $bill->due_date->format('M d Y')}}
+          @if($bill->user->vat_registration_number)
+            <div class="vat_reg"> VAT Registration Number : {{ $bill->user->vat_registration_number }}</div>
+          @endif
+        </span>
         <div>
           <p>Bill # : {{ $bill->number }}</p>
           <b>{{ $bill->created_at->format('Y/m/d')}}</b>
