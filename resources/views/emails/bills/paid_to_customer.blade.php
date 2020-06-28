@@ -198,9 +198,11 @@
   <body>
     <div id="mail_wrapper">
       <div class="mail_content">
-        <div class="logo">
-          <img src="https://sure-bills.sure-lab.com/images/logo-black.svg" alt="#">
-        </div><!-- logo -->
+        @if($bill->user->logo)
+          <div class="logo">
+            <img src="{{ url($bill->user->logo) }}" alt="logo">
+          </div><!-- logo -->
+        @endif
         <div class="block_1">
           <span> {{ $bill->business_name}}</span>
           <div>

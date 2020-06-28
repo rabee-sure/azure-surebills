@@ -153,18 +153,27 @@ class BillController extends Controller
      */
     public function postPay($id, PayBillRequest $request)
     {
+        $payment_types = [
+            'VISA' => 'DB',
+            'MASTER' => 'PA',
+            'DISCOVER' => 'PA',
+            'AMEX' => 'DB',
+        ];
+
         $bill = Bill::decodeId($id);
 
         $expiry = $request->get('expiry', '03/21');
         $expiry_array = str_replace(' ', '', explode("/", $expiry));
         $credit_card = str_replace(' ', '', $request->get('number', '4242424242424242'));
 
-        $invoice = (new Invoice)->amount($bill->total );
+        $invoice = (new Invoice)->amount($bill->total);
         $invoice->detail(['name' => $request->get('name')])
                 ->detail(['number' => $credit_card])
+                ->detail(['payment_brand' => $this->validatecard($credit_card)])
+                ->detail(['payment_type' => $payment_types[$this->validatecard($credit_card)] ])
                 ->detail(['expiry' => $expiry])
                 ->detail(['expiry_month' => $expiry_array[0]])
-                ->detail(['expiry_year' => $expiry_array[1]])
+                ->detail(['expiry_year' => '20'.$expiry_array[1]])
                 ->detail(['bill' => $bill->toArray()])
                 ->detail(['cvc' => $request->get('cvc')]);
         // Purchase the given invoice.
@@ -212,4 +221,32 @@ class BillController extends Controller
     {
         //
     }
+
+
+    public function validatecard($number)
+    {
+        $cardtype = array(
+            "visa"       => "/^4[0-9]{12}(?:[0-9]{3})?$/",
+            "mastercard" => "/^5[1-5][0-9]{14}$/",
+            "amex"       => "/^3[47][0-9]{13}$/",
+            "discover"   => "/^6(?:011|5[0-9]{2})[0-9]{12}$/",
+        );
+
+        if (preg_match($cardtype['visa'],$number)){
+            return 'VISA';
+        }else if (preg_match($cardtype['mastercard'],$number))
+        {
+            return 'MASTER';
+        }else if (preg_match($cardtype['amex'],$number))
+        {
+            return 'AMEX';
+        }else if (preg_match($cardtype['discover'],$number))
+        {
+            return 'DISCOVER';
+        }else{
+            return false;
+        } 
+    }
+
+
 }
