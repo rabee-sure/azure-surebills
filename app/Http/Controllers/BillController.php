@@ -181,14 +181,15 @@ class BillController extends Controller
         Payment::purchase($invoice, function($driver, $result){
         });
 
-        if($invoice->getDetail('success')){
+        if(!$invoice->getDetail('success')){
             PaymentLog::create([
                 'user_id' => auth()->user()->id,
                 'results' => $invoice->getDetails(),
                 'data' => [],
                 'status' => 0,
             ]);
-            // return back()->withErrors(['field_name' => $invoice->getDetail('result_description')]);
+            // dd($invoice->getDetail('result_description'));
+            return back()->withErrors(['field_name' => $invoice->getDetail('result_description')]);
         }else{
 
             PaymentLog::create([
@@ -197,13 +198,12 @@ class BillController extends Controller
                 'data' => [],
                 'status' => 1,
             ]);
-
             $bill->status = 'paid';
             $bill->paid_at = Carbon::now();
             $bill->payment_method = 'credit';
             $bill->save();
             event(new BillPaid($bill));
-            // return view('bills.status', ['bill' => $bill]);
+            return view('bills.status', ['bill' => $bill]);
         }
 
     }
