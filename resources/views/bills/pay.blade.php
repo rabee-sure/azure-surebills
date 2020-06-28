@@ -3,6 +3,7 @@
 @section('title', 'Page Title')
 
 @section('content')
+
   <div class="single_bill_page">
     <div class="container">
       <div class="row  justify-content-center">
@@ -13,6 +14,13 @@
               <img src="{{ url($bill->user->logo) }}" alt="logo">
             </div><!-- logo -->
           @endif
+
+          @if($errors->any())
+            <div class="alert alert-danger" role="alert">
+              {{$errors->first()}}
+            </div>
+          @endif
+          
             <div class="title">
               <span>{{ $bill->business_name }}</span>
               <div>
@@ -70,6 +78,7 @@
             </div><!-- customer_information -->
             <div class="payment_method">
               <div class="name">Payment Method</div>
+
               <div class="bill_payment">
                 <div class="item">
                   <input type="radio" id="visa_pay" name="pay">
