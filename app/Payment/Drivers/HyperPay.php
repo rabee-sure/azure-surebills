@@ -2,13 +2,14 @@
 
 namespace App\Payment\Drivers;
 
-use GuzzleHttp\Client;
-use App\Payment\Abstracts\Driver;
 use App\Exceptions\InvalidPaymentException;
 use App\Exceptions\PurchaseFailedException;
+use App\PaymentLog;
+use App\Payment\Abstracts\Driver;
 use App\Payment\Contracts\ReceiptInterface;
 use App\Payment\Invoice;
 use App\Payment\Receipt;
+use GuzzleHttp\Client;
 
 class HyperPay extends Driver
 {
@@ -77,14 +78,14 @@ class HyperPay extends Driver
         $url = $this->settings->api_purchase_url;
         $data = "entityId=".$this->settings->entity_id .
                 "&amount=".$this->invoice->getAmount().
-                "&currency=EUR" .
-                "&paymentBrand=VISA" .
-                "&paymentType=DB" .
+                "&currency=SAR" .
+                "&paymentBrand=".$details['payment_brand'] .
+                "&paymentType=".$details['payment_type'] .
                 "&card.number=".$details['number'] .
                 "&card.holder=".$details['name'] .
-                "&card.expiryMonth=05" .
-                "&card.expiryYear=2020" .
-                "&card.cvv=123";
+                "&card.expiryMonth=".$details['expiry_month'] .
+                "&card.expiryYear=".$details['expiry_year'] .
+                "&card.cvv=".$details['cvc'];
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -95,7 +96,18 @@ class HyperPay extends Driver
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);// this should be set to true in production
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $responseData = curl_exec($ch);
+
+        PaymentLog::create([
+            'user_id' => auth()->user()->id,
+            'results' => $responseData,
+            'status' => 1,
+        ]);
         if(curl_errno($ch)) {
+            PaymentLog::create([
+                'user_id' => auth()->user()->id,
+                'results' => $responseData,
+                'status' => 2,
+            ]);
             throw new PurchaseFailedException('error in Purchase');
         }
         curl_close($ch);
@@ -160,6 +172,7 @@ class HyperPay extends Driver
             $this->settings->apiVerificationUrl,
             ["json" => $data, "http_errors" => false]
         );
+
 
         $body = json_decode($response->getBody()->getContents(), false);
 
