@@ -14,7 +14,7 @@ body {
 }
 /* single_bill_page */
 .single_bill_page {
-  margin: 50px auto;
+  padding: 50px 0;
   background: #fafafa;
   .single_bill_content {
     border: 1px solid #eee;
@@ -81,13 +81,14 @@ body {
     color: #000;
     span {
       display: block;
-      font-weight: bold;
-      font-size: 15px;
+      color: #444;
+      font-size: 14px;
       text-transform: capitalize;
       .vat_reg {
         display: block;
         font-weight: normal;
         font-size: 14px;
+        color: #444;
         margin: 5px auto 0;
       } /* vat_reg */
     } /* span */
@@ -113,8 +114,9 @@ body {
     .name {
       font-size: 14px;
       color: #000;
-      margin: 0 auto 20px;
-      font-weight: bold;
+      border-bottom: 1px solid #ddd;
+      padding: 0 0 15px;
+      margin: 0 auto 15px;
     } /* name */
     .details_pay {
       display: flex;
