@@ -26,7 +26,7 @@ return [
             /* normal api */
             'access_token'     => env('HYPERPAY_TOKEN', 'OGFjOWE0Y2I2Y2ZiMjdkYzAxNmQzNDFkOWJhZTQ0YzF8dHhRazdHZVpSWg=='),
             'entity_id'        => env('HYPERPAY_ENTITY_ID', '8ac9a4cb6cfb27dc016d3422a55644f7'),
-            'api_purchase_url' => env('HYPERPAY_API_URL', 'https://oppwa.com/v1/payments'),
+            'api_purchase_url' => env('HYPERPAY_API_URL', 'https://test.oppwa.com/v1/payments'),
         ],
     ],
 

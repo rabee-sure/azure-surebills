@@ -20,7 +20,7 @@
               {{$errors->first()}}
             </div>
           @endif
-          
+
             <div class="title">
               <span>{{ $bill->business_name }}</span>
               <div>
@@ -92,9 +92,9 @@
                     <div class="form_card">
                       <form method="POST" action="{{ route('bills.bay', ['id' => $id]) }}" class="repeater" id="bill_bay">
                           @csrf
-                        <p><input type="text" name="number" placeholder="Card Number" /></p>
-                        <p><input type="text" name="name" placeholder="Full Name" /></p>
-                        <span><input type="text" name="expiry" placeholder="MM/YY" /></span>
+                        <p><input type="text" name="number" value="{{ old('number') }}" placeholder="Card Number" /></p>
+                        <p><input type="text" name="name" value="{{ old('name') }}" placeholder="Full Name" /></p>
+                        <span><input type="text" name="expiry" value="{{ old('expiry') }}" placeholder="MM/YY" /></span>
                         <span><input type="text" name="cvc" placeholder="CVC" /></span>
                         <span><input type="submit" name="pay" value="Pay" /></span>
                       </form>
