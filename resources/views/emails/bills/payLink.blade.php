@@ -52,13 +52,15 @@
           display: block;
           font-size: 14px;
           margin: 0 auto 2px;
-          color: #333;
+          color: #444;
+          text-align: right;
         }
         .block_1 small {
           display: block;
           font-size: 14px;
           margin: 0;
-          color: #333;
+          color: #444;
+          text-align: right;
         }
         .block_2 {
           display: flex;
@@ -70,21 +72,29 @@
         }
         .block_2 span {
           display: block;
-          font-size: 15px;
-          font-weight: bold;
-          color: #000000;
+          font-size: 14px;
+          color: #444444;
         }
+        .block_2 span .vat_reg {
+          display: block;
+          font-weight: normal;
+          font-size: 14px;
+          color: #444;
+          margin: 5px auto 0;
+        } /* vat_reg */
         .block_2 p {
           display: block;
           font-size: 14px;
           margin: 0 auto 2px;
           color: #333;
+          text-align: right;
         }
         .block_2 small {
           display: block;
           font-size: 14px;
           margin: 0;
           color: #333;
+          text-align: right;
         }
         .block_3 {
           margin: 0 auto 20px;
@@ -97,6 +107,14 @@
           font-weight: bold;
           margin: 0 auto 30px;
           color: #000;
+        }
+        .block_3 .customer_notes {
+          display: block;
+          font-size: 15px;
+          margin: 0 0 20px;
+          padding: 0 0 20px;
+          color: #000;
+          border-bottom: 1px solid #ddd;
         }
         .block_3 .cart_details {
           display: flex;
@@ -211,27 +229,29 @@
           </div>
         </div><!-- block_1 -->
         <div class="block_2">
-          <span>Due On {{ $bill->due_date->format('M d Y')}}</span>
-          @if($bill->user->vat_registration_number)
-            <b> VAT Registration Number : {{ $bill->user->vat_registration_number }}</b>
-          @endif
+          <span>
+            Due On {{ $bill->due_date->format('M d Y')}}
+            @if($bill->user->vat_registration_number)
+              <div class="vat_reg"> VAT Registration Number : {{ $bill->user->vat_registration_number }}</div>
+            @endif
+          </span>
           <div>
             <p>Bill # : {{ $bill->number}}</p>
             <small>{{ $bill->created_at->format('Y-m-d') }}</small>
           </div>
         </div><!-- block_2 -->
         <div class="block_3">
-          <div class="title">@if($bill->customer_notes) {{$bill->customer_notes}}  @else Shopping Cart @endif</div>
-		        @foreach($bill->items as $item)
-		          <div class="cart_details">
-		            <div class="info">
-		              <p>{{ $item->product_name }}</p>
-		              <p>price : {{ $item->product_price  }}</p>
-		              <p>quantity : {{ $item->quantity  }}</p>
-		            </div><!-- info -->
-		            <div class="price">{{ $item->total }} SAR</div>
-		          </div><!-- cart_details -->
-		        @endforeach
+          @if($bill->customer_notes) <div class="customer_notes"> {{$bill->customer_notes}} </div> @else <div class="title"> Shopping Cart </div> @endif
+          @foreach($bill->items as $item)
+            <div class="cart_details">
+              <div class="info">
+                <p>{{ $item->product_name }}</p>
+                <p>price : {{ $item->product_price  }}</p>
+                <p>quantity : {{ $item->quantity  }}</p>
+              </div><!-- info -->
+              <div class="price">{{ $item->total }} SAR</div>
+            </div><!-- cart_details -->
+          @endforeach
         </div><!-- block_3 -->
         <div class="total_area">
             @if( $bill->add_tax && $bill->add_discount)

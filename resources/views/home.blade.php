@@ -69,9 +69,11 @@
 
         <div class="col-xl-6 col-lg-12 mb-4">
           <div class="card">
-            <div class="position-absolute card-top-buttons">
-              <a href="{{ route('bills.index')}}" title="View all" class="btn btn-primary btn-xs"> {{__('View all') }}</a>
-            </div>
+            @if($latest->count() > 0)
+              <div class="position-absolute card-top-buttons">
+                <a href="{{ route('bills.index')}}" title="View all" class="btn btn-primary btn-xs"> {{__('View all') }}</a>
+              </div>
+            @endif
             <div class="card-body">
               <h5 class="card-title mb-3">{{__('Latest Bills') }}</h5>
                 @if($latest->count() > 0)
@@ -108,7 +110,7 @@
                         </tbody>
                     </table>
                 @else
-                    {{ __('No data available in table') }}
+                  <div class="no_bills_available">{{ __('No data available in table') }}</div>
                 @endif
             </div>
           </div>

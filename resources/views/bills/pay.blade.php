@@ -83,7 +83,7 @@
                 <div class="item">
                   <input type="radio" id="visa_pay" name="pay">
                   <label for="visa_pay">
-                    <p>Credit Card - Made</p>
+                    <p>Credit Card - made</p>
                     <div class="icon_mada"></div>
                     <div class="checkmark"></div>
                   </label>

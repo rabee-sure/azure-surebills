@@ -9752,9 +9752,6 @@ div.statistic_icon {
     } /* b */
   } /* total_bill */
   .customer_information {
-    border-bottom: 1px solid #ddd;
-    padding: 0 0 15px;
-    margin: 0 auto 15px;
     color: #000;
     .name {
       font-size: 20px;
@@ -9781,6 +9778,18 @@ div[data-repeater-item]{
     }
   }
 }  
+
+.no_bills_available {
+  text-align: center;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: #8f8f8f;
+  text-transform: capitalize;
+  font-weight: 600;
+}
 
 
 .pricing_item {
