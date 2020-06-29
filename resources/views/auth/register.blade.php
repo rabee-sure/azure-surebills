@@ -88,7 +88,6 @@
         <hr>
         <a class="btn btn-lg btn-shadow login_now" href="{{ route('login') }}" title="{{ __('login') }}">{{ __('login') }}</a>
 
-
         <!-- modal -->
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">

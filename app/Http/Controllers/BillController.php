@@ -49,12 +49,12 @@ class BillController extends Controller
      */
     public function store(BillRequest $request)
     {
-        // dd($request->all());
-        $customer = Customer::firstOrCreate([
+        $customer = Customer::updateOrCreate([
+            'user_id' => auth()->user()->id,
+            'mobile' => $request->customer_mobile,
+        ],[
             'name' => $request->customer_name, 
             'email' => $request->customer_email,
-            'mobile' => $request->customer_mobile,
-            'user_id' => auth()->user()->id,
         ]);
 
         $bill = Bill::create([

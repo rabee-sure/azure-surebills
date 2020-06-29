@@ -82,8 +82,13 @@ class AccountController extends Controller
      */
     public function storeBusinessInformation(BusinessInformationRequest $request)
     {
-        $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();  
-        $image = $request->logo->move(public_path('images'), $imageName);
+        if($request->hasFile('logo')) {
+            $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();  
+            $image = $request->logo->move(public_path('images'), $imageName);
+            auth()->user()->update([
+                'logo' => 'images/'.$imageName,
+            ]);
+        }
         
         auth()->user()->update([
             'license_type' => $request->get('license_type'),
@@ -97,7 +102,6 @@ class AccountController extends Controller
             'business_address' => $request->get('business_address'),
             'business_mobile' => $request->get('business_mobile'),
             'vat_registration_number' => $request->get('vat_registration_number'),
-            'logo' => 'images/'.$imageName,
         ]);
    
         return redirect('home');

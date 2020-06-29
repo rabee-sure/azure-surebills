@@ -16,8 +16,9 @@
                     <div class="form-group col-12">
                       <label for="inputEmail5">Bank</label>
                       <select name="bank" id="inputEmail5" class="form-control">
-                        <option value="commercial_registration" @if ($user->bank == 'bank_1')selected="selected"@endif>bank_1</option>
-                        <option value="work_document" @if ($user->bank == 'bank_2')selected="selected"@endif>bank_2</option>
+                        @foreach(getBanks() as $bank)
+                          <option value="{{$bank['id']}}" @if ($user->bank == $bank['id'])selected="selected"@endif>{{$bank['en']}}</option>
+                        @endforeach
                       </select>
                     </div>
                   </div>

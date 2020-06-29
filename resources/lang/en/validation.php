@@ -28,6 +28,12 @@ return [
         'file' => 'The :attribute must be between :min and :max kilobytes.',
         'string' => 'The :attribute must be between :min and :max characters.',
         'array' => 'The :attribute must have between :min and :max items.',
+    ],    
+    'credit_card' => [
+        'card_cvc_invalid' => 'The :attribute invalid.',
+        'card_checksum_invalid' => 'The :attribute invalid',
+        'card_length_invalid' => 'The :attribute length must be 16',
+        'card_invalid' => 'The :attribute invalid',
     ],
     'boolean' => 'The :attribute field must be true or false.',
     'confirmed' => 'The :attribute confirmation does not match.',

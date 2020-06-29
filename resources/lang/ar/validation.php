@@ -11,7 +11,13 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
-
+    'credit_card' => [
+        'card_cvc_invalid' => 'The :attribute invalid.',
+        'card_checksum_invalid' => 'The :attribute invalid',
+        'card_length_invalid' => 'The :attribute length must be 16',
+        'card_invalid' => 'The :attribute invalid',
+    ],
+    
     'accepted'        => 'يجب قبول :attribute.',
     'active_url'      => ':attribute لا يُمثّل رابطًا صحيحًا.',
     'after'           => 'يجب على :attribute أن يكون تاريخًا لاحقًا للتاريخ :date.',

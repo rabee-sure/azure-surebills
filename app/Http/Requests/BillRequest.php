@@ -64,27 +64,27 @@ class BillRequest extends FormRequest
      */
     public function withValidator($validator)
     {
-        $validator->after(function ($validator) {
-            $email_user = Customer::where('email', $this->customer_email)
-                ->where('user_id', auth()->user()->id)
-                ->first();
-            $mobile_user = Customer::where('mobile', $this->customer_mobile)
-                ->where('user_id', auth()->user()->id)
-                ->first();
+        // $validator->after(function ($validator) {
+        //     $email_user = Customer::where('email', $this->customer_email)
+        //         ->where('user_id', auth()->user()->id)
+        //         ->first();
+        //     $mobile_user = Customer::where('mobile', $this->customer_mobile)
+        //         ->where('user_id', auth()->user()->id)
+        //         ->first();
 
-            if((isset($email_user) && $mobile_user == null)){
-                $validator->errors()->add('customer_mobile', 'Something is wrong with customer_mobile');
-            }  
-            if((isset($mobile_user) && $email_user == null)){
-                $validator->errors()->add('customer_email', 'Something is wrong with customer_email!');
-            }            
-            if( isset($mobile_user) && ($mobile_user->email != $this->customer_email) ){
-                $validator->errors()->add('customer_email', 'Something is wrong with customer_email!');
-            }  
-            if(isset($email_user) &&  ($email_user->mobile != $this->customer_mobile) ){
-                $validator->errors()->add('customer_mobile', 'Something is wrong with customer_mobile!');
-            }
-        });
+        //     if((isset($email_user) && $mobile_user == null)){
+        //         $validator->errors()->add('customer_mobile', 'Something is wrong with customer_mobile');
+        //     }  
+        //     if((isset($mobile_user) && $email_user == null)){
+        //         $validator->errors()->add('customer_email', 'Something is wrong with customer_email!');
+        //     }            
+        //     if( isset($mobile_user) && ($mobile_user->email != $this->customer_email) ){
+        //         $validator->errors()->add('customer_email', 'Something is wrong with customer_email!');
+        //     }  
+        //     if(isset($email_user) &&  ($email_user->mobile != $this->customer_mobile) ){
+        //         $validator->errors()->add('customer_mobile', 'Something is wrong with customer_mobile!');
+        //     }
+        // });
 
         $this->merge([
             'add_discount' => $this->add_discount== 'on' ? true : false,
