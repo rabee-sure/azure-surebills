@@ -59,10 +59,10 @@ class HyperPay extends Driver
     {
         $payment_types = [
             'VISA' => 'DB',
-            'MASTER' => 'PA',
-            'DISCOVER' => 'PA',
+            'MASTER' => 'DB',
+            'DISCOVER' => 'DB',
             'AMEX' => 'DB',
-            'MADA' => 'PA',
+            'MADA' => 'DB',
         ];
 
         $details = $this->invoice->getDetails();
@@ -88,12 +88,12 @@ class HyperPay extends Driver
 
         $details = $this->invoice->getDetails();
 
-        $url = $this->settings->api_purchase_url;
+        $url = 'https://test.oppwa.com/v1/threeDSecure';
         $data = "entityId=".$this->settings->entity_id .
                 "&amount=".$this->invoice->getAmount().
                 "&currency=SAR" .
                 "&paymentBrand=".$details['payment_brand'] .
-                "&paymentType=DB" .
+                // "&paymentType=" . $details['payment_type'] .
                 "&card.number=".$details['number'] .
                 "&card.holder=".$details['name'] .
                 "&card.expiryMonth=".$details['expiry_month'] .
@@ -101,7 +101,7 @@ class HyperPay extends Driver
                 "&card.cvv=".$details['cvc'].
                 "&shopperResultUrl=".urlencode(route('bills.handle', ['id' => $details['bill']['id']])) .
                 "&notificationUrl=".urlencode(route('bills.handle', ['id' => $details['bill']['id']])) .
-                "&merchantTransactionId=" . $details['bill']['id'] .
+                "&merchantTransactionId=" . $details['bill']['id'] . now() .
                 "&customer.email=" . $details['bill']['customer_email'];
 
         $ch = curl_init();

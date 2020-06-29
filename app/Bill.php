@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Hashids\Hashids;
+use App\Events\BillPaid;
 use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model
@@ -93,7 +95,24 @@ class Bill extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    } 
+    }
+
+    /**
+     * Mark invoice as paid
+     */
+    public function paid()
+    {
+        if ($this->status == 'paid') {
+            return false;
+        }
+
+        $this->status = 'paid';
+        $this->paid_at = Carbon::now();
+        $this->payment_method = 'credit';
+        $this->save();
+
+        event(new BillPaid($this));
+    }
 
     /**
      * Get customer.

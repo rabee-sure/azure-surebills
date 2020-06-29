@@ -53,19 +53,6 @@ class Invoice
     }
 
     /**
-     * Mark invoice as paid
-     */
-    public function paid()
-    {
-        $this->status = 'paid';
-        $this->paid_at = Carbon::now();
-        $this->payment_method = 'credit';
-        $this->save();
-
-        event(new BillPaid($this));
-    }
-
-    /**
      * invoice's unique universal id (uuid)
      *
      * @var string
