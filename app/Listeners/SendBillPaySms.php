@@ -29,9 +29,10 @@ class SendBillPaySms
     {
         if($event->bill->send_sms){
             if(app()->environment('production')){
-                $message = __('to pay bill please open link below: ',[],'en') . $event->bill->pay_url;
-                $message .= PHP_EOL;
-                UnifonicFacade::send($event->bill->customer_mobile, $message);
+                $message = __('Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url', ['total' => $event->bill->total, 'business_name' => $event->bill->business_name, 'name' => $event->bill->customer_name, 'url' => $event->bill->pay_url]);
+                $mobile = (int) $event->bill->customer_mobile;
+                $mobile = (int) '966'.$mobile;
+                UnifonicFacade::send($mobile, $message);
             }
         }
     }
