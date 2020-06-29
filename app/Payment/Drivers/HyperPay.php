@@ -117,6 +117,8 @@ class HyperPay extends Driver
 
         $body = json_decode($responseData, false);
 
+        dd($body);
+
 
         $this->invoice->detail(['cvc' => '***'])
                 ->detail(['number' => str_pad(substr($details['number'], -4), strlen($details['number']), '*', STR_PAD_LEFT)]);
