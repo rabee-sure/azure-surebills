@@ -117,8 +117,6 @@ class HyperPay extends Driver
 
         $body = json_decode($responseData, false);
 
-        dd($body);
-
 
         $this->invoice->detail(['cvc' => '***'])
                 ->detail(['number' => str_pad(substr($details['number'], -4), strlen($details['number']), '*', STR_PAD_LEFT)]);
@@ -129,7 +127,7 @@ class HyperPay extends Driver
         $this->invoice->detail(['result_code' => $body->result->code])
             ->detail(['success' => $success])
             ->detail(['result_description' => $body->result->description]);
-        $this->invoice->transactionId($body->id);
+        $this->invoice->transactionId($body->id ?? "not have id");
 
         // return the transaction's id
         return $this->invoice->getTransactionId();
