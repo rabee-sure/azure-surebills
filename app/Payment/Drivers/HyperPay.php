@@ -88,12 +88,12 @@ class HyperPay extends Driver
 
         $details = $this->invoice->getDetails();
 
-        $url = 'https://test.oppwa.com/v1/threeDSecure';
+        $url = $this->settings->api_purchase_url;
         $data = "entityId=".$this->settings->entity_id .
                 "&amount=".$this->invoice->getAmount().
                 "&currency=SAR" .
                 "&paymentBrand=".$details['payment_brand'] .
-                // "&paymentType=" . $details['payment_type'] .
+                "&paymentType=" . $details['payment_type'] .
                 "&card.number=".$details['number'] .
                 "&card.holder=".$details['name'] .
                 "&card.expiryMonth=".$details['expiry_month'] .
