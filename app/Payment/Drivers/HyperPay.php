@@ -99,8 +99,8 @@ class HyperPay extends Driver
                 "&card.expiryMonth=".$details['expiry_month'] .
                 "&card.expiryYear=".$details['expiry_year'] .
                 "&card.cvv=".$details['cvc'].
-                "&shopperResultUrl=".urlencode('https://bills.surepay.sa') .
-                "&notificationUrl=".urlencode('https://bills.surepay.sa') .
+                "&shopperResultUrl=".urlencode(route('bills.handle', ['id' => $details['bill']['id']])) .
+                "&notificationUrl=".urlencode(route('bills.handle', ['id' => $details['bill']['id']])) .
                 "&merchantTransactionId=" . $details['bill']['id'] .
                 "&customer.email=" . $details['bill']['customer_email'];
 
@@ -126,9 +126,13 @@ class HyperPay extends Driver
 
         $successPattern = '/(000\.000\.|000\.100\.1|000\.[36])/';
         $success = preg_match($successPattern, $body->result->code);
+        $pendingPattern = '/(000\.200\.)/';
+        $pending = preg_match($pendingPattern, $body->result->code);
 
         $this->invoice->detail(['result_code' => $body->result->code])
             ->detail(['success' => $success])
+            ->detail(['pending' => $pending])
+            ->detail(['redirect' => $body->redirect ?? null])
             ->detail(['result_description' => $body->result->description]);
         $this->invoice->transactionId($body->id ?? "not have id");
 

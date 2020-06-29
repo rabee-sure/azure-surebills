@@ -170,18 +170,11 @@ class BillController extends Controller
                 ->detail(['cvc' => $request->get('cvc')]);
         // Purchase the given invoice.
         Payment::purchase($invoice, function($driver, $result){
+
         });
 
-        if(!$invoice->getDetail('success')){
-            PaymentLog::create([
-                'user_id' => auth()->user()->id,
-                'results' => $invoice->getDetails(),
-                'data' => [],
-                'status' => 0,
-            ]);
-            // dd($invoice->getDetail('result_description'));
-            return back()->withInput()->withErrors(['field_name' => $invoice->getDetail('result_description')]);
-        }else{
+        // if success
+        if($invoice->getDetail('success')){
 
             PaymentLog::create([
                 'user_id' => auth()->user()->id,
@@ -189,37 +182,39 @@ class BillController extends Controller
                 'data' => [],
                 'status' => 1,
             ]);
-            $bill->status = 'paid';
-            $bill->paid_at = Carbon::now();
-            $bill->payment_method = 'credit';
-            $bill->save();
-            event(new BillPaid($bill));
-            return view('bills.status', ['bill' => $bill]);
+            
+            $bill->paid();
+
+            return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
         }
 
+        // if pending redirect to complete
+        if($invoice->getDetail('pending')){
+            return redirect($invoice->getDetail('redirect')->url);
+        }
+
+        // create a log for the payment
+        PaymentLog::create([
+            'user_id' => auth()->user()->id,
+            'results' => $invoice->getDetails(),
+            'data' => [],
+            'status' => 0,
+        ]);
+
+        // return the view with errors
+        return back()->withInput()->withErrors(['field_name' => $invoice->getDetail('result_description')]);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Handle payment the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function handlePayment(Request $request, $id)
     {
-        //
+        dd($request);
     }
 
     /**
