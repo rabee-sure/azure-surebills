@@ -160,7 +160,7 @@ class BillController extends Controller
         $expiry_array = str_replace(' ', '', explode("/", $expiry));
         $credit_card = str_replace(' ', '', $request->get('number', '4242424242424242'));
         // dd($this->validatecard($credit_card));
-        $invoice = (new Invoice)->amount($bill->total);
+        $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
         $invoice->detail(['name' => $request->get('name')])
                 ->detail(['number' => $credit_card])
                 ->detail(['expiry' => $expiry])
