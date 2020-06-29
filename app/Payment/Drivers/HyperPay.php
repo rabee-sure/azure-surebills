@@ -93,13 +93,16 @@ class HyperPay extends Driver
                 "&amount=".$this->invoice->getAmount().
                 "&currency=SAR" .
                 "&paymentBrand=".$details['payment_brand'] .
-                "&paymentType=".$details['payment_type'] .
+                "&paymentType=DB" .
                 "&card.number=".$details['number'] .
                 "&card.holder=".$details['name'] .
                 "&card.expiryMonth=".$details['expiry_month'] .
                 "&card.expiryYear=".$details['expiry_year'] .
                 "&card.cvv=".$details['cvc'].
-                "&shopperResultUrl=https://bills.surepay.sa/bills/1dBQT7fNb5/pay";
+                "&shopperResultUrl=".urlencode('https://bills.surepay.sa') .
+                "&notificationUrl=".urlencode('https://bills.surepay.sa') .
+                "&merchantTransactionId=" . $details['bill']['id'] .
+                "&customer.email=" . $details['bill']['customer_email'];
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -117,8 +120,6 @@ class HyperPay extends Driver
         curl_close($ch);
 
         $body = json_decode($responseData, false);
-
-        dd($body);
 
         $this->invoice->detail(['cvc' => '***'])
                 ->detail(['number' => str_pad(substr($details['number'], -4), strlen($details['number']), '*', STR_PAD_LEFT)]);
