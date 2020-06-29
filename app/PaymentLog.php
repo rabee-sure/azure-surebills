@@ -10,9 +10,11 @@ class PaymentLog extends Model
         'user_id',
         'results',
         'status',
+        'data',
     ];
 
     protected $casts = [
         'results'   =>  'array',
+        'data'   =>  'array',
     ];
 }

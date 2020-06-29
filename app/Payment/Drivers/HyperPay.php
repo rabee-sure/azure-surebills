@@ -97,29 +97,22 @@ class HyperPay extends Driver
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $responseData = curl_exec($ch);
 
-        PaymentLog::create([
-            'user_id' => auth()->user()->id,
-            'results' => $responseData,
-            'status' => 1,
-        ]);
         if(curl_errno($ch)) {
-            PaymentLog::create([
-                'user_id' => auth()->user()->id,
-                'results' => $responseData,
-                'status' => 2,
-            ]);
             throw new PurchaseFailedException('error in Purchase');
         }
         curl_close($ch);
 
         $body = json_decode($responseData, false);
 
-        if(isset($body->result->parameterErrors)) {
-            $first_error = $body->result->parameterErrors[0];
-            throw new PurchaseFailedException($first_error->name .' - '. $first_error->message);
-        }
+        $this->invoice->detail(['cvc' => '***'])
+                ->detail(['number' => '************'.$body->card->last4Digits]);
 
+        $successPattern = '/(000\.000\.|000\.100\.1|000\.[36])/';
+        $success = preg_match($successPattern, $body->result->code);
 
+        $this->invoice->detail(['result_code' => $body->result->code])
+            ->detail(['success' => $success])
+            ->detail(['result_description' => $body->result->description]);
         $this->invoice->transactionId($body->id);
 
         // return the transaction's id

@@ -9996,8 +9996,8 @@ div.statistic_icon.settlements_icon {
 
 .show_bill_general .date_time span {
   display: block;
-  font-weight: bold;
-  font-size: 15px;
+  color: #444;
+  font-size: 14px;
   text-transform: capitalize;
   /* vat_reg */
 }
@@ -10006,6 +10006,7 @@ div.statistic_icon.settlements_icon {
   display: block;
   font-weight: normal;
   font-size: 14px;
+  color: #444;
   margin: 5px auto 0;
 }
 
@@ -10036,8 +10037,9 @@ div.statistic_icon.settlements_icon {
 .show_bill_general .shopping_cart .name {
   font-size: 14px;
   color: #000;
-  margin: 0 auto 20px;
-  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  padding: 0 0 15px;
+  margin: 0 auto 15px;
 }
 
 .show_bill_general .shopping_cart .details_pay {
