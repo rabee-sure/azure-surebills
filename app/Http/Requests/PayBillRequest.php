@@ -29,6 +29,8 @@ class PayBillRequest extends FormRequest
     {
         return [
             'number' => ['required', new CardNumber],
+            'name' => ['required'],
+            'expiry' => ['required'],
             // 'expiration_year' => ['required', new CardExpirationYear($this->get('expiration_month'))],
             // 'expiration_month' => ['required', new CardExpirationMonth($this->get('expiration_year'))],
             'cvc' => ['required', new CardCvc($this->get('number'))]
