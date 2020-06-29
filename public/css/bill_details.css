@@ -11167,6 +11167,7 @@ body {
 
 .single_bill_page .payment_method .bill_payment {
   /* item */
+  /* jp-card */
 }
 
 .single_bill_page .payment_method .bill_payment .item {
@@ -11228,6 +11229,13 @@ body {
   font-weight: bold;
   margin: 0;
   line-height: 25px;
+  /* (sm) */
+}
+
+@media (max-width: 767.98px) {
+  .single_bill_page .payment_method .bill_payment .item label p {
+    font-size: 14px;
+  }
 }
 
 .single_bill_page .payment_method .bill_payment .item label .checkmark {
@@ -11251,6 +11259,13 @@ body {
   left: 3px;
   background: transparent;
   border-radius: 100%;
+  /* (sm) */
+}
+
+@media (max-width: 767.98px) {
+  .single_bill_page .payment_method .bill_payment .item label .checkmark::after {
+    top: 2px;
+  }
 }
 
 .single_bill_page .payment_method .bill_payment .item label .icon_mada {
@@ -11260,6 +11275,14 @@ body {
   background-position: center center;
   height: 22px;
   width: 150px;
+  /* (sm) */
+}
+
+@media (max-width: 767.98px) {
+  .single_bill_page .payment_method .bill_payment .item label .icon_mada {
+    background-size: 100px;
+    width: 100px;
+  }
 }
 
 .single_bill_page .payment_method .bill_payment .item label .icon_apple {
@@ -11286,7 +11309,14 @@ body {
   padding: 20px;
   margin: 10px auto;
   border-radius: 4px;
+  /* (xs) */
   /* form_card */
+}
+
+@media (max-width: 767.98px) {
+  .single_bill_page .payment_method .bill_payment .item .visa_pay_content {
+    padding: 10px;
+  }
 }
 
 .single_bill_page .payment_method .bill_payment .item .visa_pay_content .form_card {
@@ -11308,8 +11338,15 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   margin: 15px -10px 0 -10px;
+  /* (xs) */
   /* p */
   /* span */
+}
+
+@media (max-width: 575.98px) {
+  .single_bill_page .payment_method .bill_payment .item .visa_pay_content .form_card form {
+    margin: 15px auto 0;
+  }
 }
 
 .single_bill_page .payment_method .bill_payment .item .visa_pay_content .form_card form p {
@@ -11330,6 +11367,10 @@ body {
   box-shadow: none;
   outline: none;
   font-weight: bold;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
 }
 
 .single_bill_page .payment_method .bill_payment .item .visa_pay_content .form_card form span {
@@ -11350,6 +11391,10 @@ body {
   box-shadow: none;
   outline: none;
   font-weight: bold;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
 }
 
 .single_bill_page .payment_method .bill_payment .item .visa_pay_content .form_card form span input[type=submit] {
@@ -11362,6 +11407,10 @@ body {
   font-weight: bold;
   font-size: 15px;
   text-transform: uppercase;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
   /* hover */
 }
 
@@ -11383,6 +11432,12 @@ body {
   background: rgba(255, 255, 255, 0.7);
   cursor: not-allowed;
   top: 0;
+}
+
+@media (max-width: 767.98px) {
+  .single_bill_page .payment_method .bill_payment .jp-card {
+    min-width: 100%;
+  }
 }
 
 /* single_bill_page */
