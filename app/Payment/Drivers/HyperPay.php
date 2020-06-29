@@ -98,7 +98,8 @@ class HyperPay extends Driver
                 "&card.holder=".$details['name'] .
                 "&card.expiryMonth=".$details['expiry_month'] .
                 "&card.expiryYear=".$details['expiry_year'] .
-                "&card.cvv=".$details['cvc'];
+                "&card.cvv=".$details['cvc'].
+                "&shopperResultUrl=https://bills.surepay.sa/bills/1dBQT7fNb5/pay";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
