@@ -15,7 +15,7 @@
            {{ __('Bills') }}
           </a>
         </li>
-{{--         <li>
+    <!-- <li>
           <a href="orders.html" title="Orders">
             <i class="iconsminds-shopping-bag"></i>
             Orders
@@ -26,19 +26,19 @@
             <i class="iconsminds-shop"></i>
             Store
           </a>
-        </li>--}}
+        </li> -->
         <li class="{{ Request::is('customers*') ? 'active' : '' }}">
           <a href="{{ route('customers.index') }}" title="Customers">
             <i class="iconsminds-mens"></i>
             {{ __('Customers') }}
           </a>
         </li> 
-{{--         <li>
+        <!-- <li>
           <a href="statement.html" title="Statement">
             <i class="iconsminds-statistic"></i>
             Statement
           </a>
-        </li> --}}
+        </li> -->
         <li class="{{ Request::is('account*') ? 'active' : '' }}">
           <a href="#account" title="Account">
             <i class="iconsminds-male-2"></i>
@@ -97,11 +97,11 @@
             <i class="iconsminds-type-pass"></i> <span class="d-inline-block">{{ __('Change Password') }}</span>
           </a>
         </li>
-{{--         <li>
+        <!-- <li>
           <a href="notifications.html">
             <i class="iconsminds-bell"></i> <span class="d-inline-block">{{ __('Notifications') }}</span>
           </a>
-        </li> --}}
+        </li> -->
       </ul>      
       <ul class="list-unstyled" data-link="integration">
         <li>
@@ -109,11 +109,11 @@
             <i class="iconsminds-type-pass"></i> <span class="d-inline-block">{{ __('Integration') }}</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="notifications.html">
             <i class="iconsminds-bell"></i> <span class="d-inline-block">{{ __('Documentation') }}</span>
           </a>
-        </li>
+        </li> -->
       </ul>
 
     </div>
