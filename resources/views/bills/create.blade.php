@@ -182,11 +182,7 @@
               </div><!-- col-12 -->
               <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                 <div class="Tax_Values form-row mb-2" style="display: none;">
-                  <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
-                    <label for="Tax">{{ __('Tax Name') }}</label>
-                    <input name="tax_name" type="text" class="form-control" id="Tax">
-                  </div><!-- form-group -->
-                  <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
+                  <div class="form-group col-12 col-md-12 col-lg-12 col-xl-12">
                     <label for="Tax">{{ __('Tax Value') }}</label>
                     <input type="number" name="tax_value" type="text" class="form-control" id="Value">
                   </div><!-- form-group -->
