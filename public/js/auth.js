@@ -4836,3 +4836,12 @@ function replaceToArabicNumber(str_input) {
   }
   return str_input;
 }
+
+
+
+$(function() {
+  $('#discount_type').change(function(){
+      $('.discount_type_item').hide();
+      $('#' + $(this).val()).show();
+  });
+});
