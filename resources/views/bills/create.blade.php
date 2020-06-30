@@ -169,14 +169,29 @@
                 <div class="Discount_Values form-row mb-2" style="display: none;">
                   <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
                     <label for="type">{{ __('Discount type') }}</label>
-                    <select name="discount_type" class="form-control">
+                    <select name="discount_type" id="discount_type" class="form-control">
                       <option value="fixed">{{ __('fixed') }}</option>
                       <option value="percentage">{{ __('Percentage Discount (%)') }}</option>
                     </select>
                   </div><!-- form-group -->
                   <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
                     <label for="Price">{{ __('Discount Value') }}</label>
-                    <input type="number" name="discount_value" type="text" class="form-control" id="Discount_Value">
+                    <div id="fixed" class="discount_type_item">
+                      <div class="input-group">
+                        <input type="number" name="discount_value" class="form-control" id="Discount_Value" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                          <span class="input-group-text" id="basic-addon2">SAR</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="percentage" class="discount_type_item" style="display:none">
+                      <div class="input-group">
+                        <input type="number" name="discount_value" class="form-control" id="Discount_Value" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                          <span class="input-group-text" id="basic-addon2">%</span>
+                        </div>
+                      </div>
+                    </div>
                   </div><!-- form-group -->
                 </div><!-- form-row -->
               </div><!-- col-12 -->
