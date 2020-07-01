@@ -141,10 +141,12 @@ class BillController extends Controller
     public function pay($id)
     {
         $bill = Bill::decodeId($id);
+
         if($bill == null || $bill->is_invalid){
             return view('bills.status', ['bill' => $bill]);
             // abort(404);
         }
+        
         return view('bills.pay', ['bill' => $bill, 'id'=> $id]);
     }
     

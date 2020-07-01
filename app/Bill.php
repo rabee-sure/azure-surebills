@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Hashids\Hashids;
 use App\Events\BillPaid;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model
@@ -68,6 +69,18 @@ class Bill extends Model
         $hashids = new Hashids('', 10);
         $ids = $hashids->decode($id);
         return self::find($ids[0]??null);
+    }
+
+    /**
+     * Retrieve the model for a bound value.
+     *
+     * @param  mixed  $value
+     * @param  string|null  $field
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where('id', $value)->where('user_id', auth()->user()->id)->firstOrFail();
     }
 
     /**
