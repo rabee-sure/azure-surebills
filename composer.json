@@ -19,7 +19,9 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "multicaret/laravel-unifonic": "^1.0",
-        "proengsoft/laravel-jsvalidation": "^4.0"
+        "predis/predis": "^1.1",
+        "proengsoft/laravel-jsvalidation": "^4.0",
+        "spatie/laravel-webhook-server": "^1.9"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

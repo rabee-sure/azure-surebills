@@ -18,6 +18,9 @@
                 <th scope="col">Client ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Secret</th>
+                <th scope="col">webhook URL</th>
+                <th scope="col">webhook Secret</th>
+                <th scope="col">Fail Redirect Url</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
               </tr>
@@ -30,6 +33,9 @@
                 <td style="vertical-align: middle;">{{ client.name }}</td>
                 <!-- Secret -->
                 <td style="vertical-align: middle;"><code>{{ client.secret ? client.secret : '-' }}</code></td>
+                <td style="vertical-align: middle;">{{ client.webhook_url }}</td>
+                <td style="vertical-align: middle;"><code>{{ client.webhook_secret ? client.webhook_secret : '-' }}</code></td>
+                <td style="vertical-align: middle;">{{ client.fail_redirect_url }}</td>
                 <!-- Edit Button -->
                 <td style="vertical-align: middle;">
                   <a class="action-link" tabindex="-1" @click="edit(client)">Edit</a>
@@ -78,6 +84,20 @@
                 <div class="col-md-9">
                   <input type="text" class="form-control" name="redirect" @keyup.enter="store" v-model="createForm.redirect">
                   <span class="form-text text-muted">Your application's authorization callback URL.</span>
+                </div>
+              </div>              
+              <!-- Redirect URL -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">Webhook URL</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" name="webhook_url" @keyup.enter="store" v-model="createForm.webhook_url">
+                </div>
+              </div>              
+              <!-- fail_redirect_url URL -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">Fail Redirect URL</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" name="fail_redirect_url" @keyup.enter="store" v-model="createForm.fail_redirect_url">
                 </div>
               </div>
               <!-- Confidential -->
@@ -137,6 +157,20 @@
                   <input type="text" class="form-control" name="redirect" @keyup.enter="update" v-model="editForm.redirect">
                   <span class="form-text text-muted">Your application's authorization callback URL.</span>
                 </div>
+              </div>              
+              <!-- Webhook URL -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">Webhook URL</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" name="webhook_url" @keyup.enter="update" v-model="editForm.webhook_url">
+                </div>
+              </div>              
+              <!-- Fail Redirect URL -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">Fail Redirect URL</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" name="fail_redirect_url" @keyup.enter="update" v-model="editForm.fail_redirect_url">
+                </div>
               </div>
             </form>
           </div>
@@ -185,13 +219,17 @@
                     errors: [],
                     name: '',
                     redirect: '',
+                    webhook_url: '',
+                    fail_redirect_url: '',
                     confidential: true
                 },
 
                 editForm: {
                     errors: [],
                     name: '',
-                    redirect: ''
+                    redirect: '',
+                    fail_redirect_url: '',
+                    webhook_url: '',
                 }
             };
         },
@@ -262,6 +300,8 @@
                 this.editForm.id = client.id;
                 this.editForm.name = client.name;
                 this.editForm.redirect = client.redirect;
+                this.editForm.fail_redirect_url = client.fail_redirect_url;
+                this.editForm.webhook_url = client.webhook_url;
 
                 $('#modal-edit-client').modal('show');
             },
@@ -290,6 +330,8 @@
 
                         form.name = '';
                         form.redirect = '';
+                        form.webhook_url = '';
+                        form.fail_redirect_url = '';
                         form.errors = [];
 
                         $(modal).modal('hide');

@@ -34,6 +34,7 @@ class Bill extends Model
     	'total',
     	'paid_at',
     	'canceled_at',
+        'client_id',
     ];
 
     /**
@@ -83,6 +84,16 @@ class Bill extends Model
     public function items()
     {
         return $this->hasMany(BillItem::class);
+    }  
+
+    /**
+     * Get client.
+     *
+     * @return Collection
+     */
+    public function client()
+    {
+        return $this->belongsTo(OauthClient::class, 'client_id');
     }  
 
     /**

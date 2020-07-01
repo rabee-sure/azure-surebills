@@ -2331,6 +2331,40 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   /*
    * The component's data.
@@ -2343,12 +2377,16 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         errors: [],
         name: '',
         redirect: '',
+        webhook_url: '',
+        fail_redirect_url: '',
         confidential: true
       },
       editForm: {
         errors: [],
         name: '',
-        redirect: ''
+        redirect: '',
+        fail_redirect_url: '',
+        webhook_url: ''
       }
     };
   },
@@ -2412,6 +2450,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       this.editForm.id = client.id;
       this.editForm.name = client.name;
       this.editForm.redirect = client.redirect;
+      this.editForm.fail_redirect_url = client.fail_redirect_url;
+      this.editForm.webhook_url = client.webhook_url;
       $('#modal-edit-client').modal('show');
     },
 
@@ -2434,6 +2474,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
         form.name = '';
         form.redirect = '';
+        form.webhook_url = '';
+        form.fail_redirect_url = '';
         form.errors = [];
         $(modal).modal('hide');
 
@@ -24145,6 +24187,34 @@ var render = function() {
                         _c(
                           "td",
                           { staticStyle: { "vertical-align": "middle" } },
+                          [_vm._v(_vm._s(client.webhook_url))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticStyle: { "vertical-align": "middle" } },
+                          [
+                            _c("code", [
+                              _vm._v(
+                                _vm._s(
+                                  client.webhook_secret
+                                    ? client.webhook_secret
+                                    : "-"
+                                )
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticStyle: { "vertical-align": "middle" } },
+                          [_vm._v(_vm._s(client.fail_redirect_url))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { staticStyle: { "vertical-align": "middle" } },
                           [
                             _c(
                               "a",
@@ -24319,6 +24389,104 @@ var render = function() {
                     _c("span", { staticClass: "form-text text-muted" }, [
                       _vm._v("Your application's authorization callback URL.")
                     ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                    _vm._v("Webhook URL")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-9" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.createForm.webhook_url,
+                          expression: "createForm.webhook_url"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "webhook_url" },
+                      domProps: { value: _vm.createForm.webhook_url },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !$event.type.indexOf("key") &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.store($event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.createForm,
+                            "webhook_url",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                    _vm._v("Fail Redirect URL")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-9" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.createForm.fail_redirect_url,
+                          expression: "createForm.fail_redirect_url"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "fail_redirect_url" },
+                      domProps: { value: _vm.createForm.fail_redirect_url },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !$event.type.indexOf("key") &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.store($event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.createForm,
+                            "fail_redirect_url",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
                   ])
                 ]),
                 _vm._v(" "),
@@ -24543,6 +24711,104 @@ var render = function() {
                       _vm._v("Your application's authorization callback URL.")
                     ])
                   ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                    _vm._v("Webhook URL")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-9" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editForm.webhook_url,
+                          expression: "editForm.webhook_url"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "webhook_url" },
+                      domProps: { value: _vm.editForm.webhook_url },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !$event.type.indexOf("key") &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.update($event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editForm,
+                            "webhook_url",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("label", { staticClass: "col-md-3 col-form-label" }, [
+                    _vm._v("Fail Redirect URL")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-9" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editForm.fail_redirect_url,
+                          expression: "editForm.fail_redirect_url"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", name: "fail_redirect_url" },
+                      domProps: { value: _vm.editForm.fail_redirect_url },
+                      on: {
+                        keyup: function($event) {
+                          if (
+                            !$event.type.indexOf("key") &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.update($event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.editForm,
+                            "fail_redirect_url",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
                 ])
               ])
             ]),
@@ -24628,6 +24894,12 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Secret")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("webhook URL")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("webhook Secret")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Fail Redirect Url")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }),
         _vm._v(" "),
@@ -37872,11 +38144,11 @@ module.exports = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\doretheme\dore.dark.green.scss */"./resources/sass/doretheme/dore.dark.green.scss");
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\doretheme\dore.light.green.scss */"./resources/sass/doretheme/dore.light.green.scss");
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\bill_details.scss */"./resources/sass/bill_details.scss");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/doretheme/dore.dark.green.scss */"./resources/sass/doretheme/dore.dark.green.scss");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/doretheme/dore.light.green.scss */"./resources/sass/doretheme/dore.light.green.scss");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/bill_details.scss */"./resources/sass/bill_details.scss");
 
 
 /***/ })
