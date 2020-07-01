@@ -59,10 +59,10 @@ class HyperPay extends Driver
     {
         $payment_types = [
             'VISA' => 'DB',
-            'MASTER' => 'PA',
-            'DISCOVER' => 'PA',
+            'MASTER' => 'DB',
+            'DISCOVER' => 'DB',
             'AMEX' => 'DB',
-            'MADA' => 'PA',
+            'MADA' => 'DB',
         ];
 
         $details = $this->invoice->getDetails();
@@ -93,12 +93,16 @@ class HyperPay extends Driver
                 "&amount=".$this->invoice->getAmount().
                 "&currency=SAR" .
                 "&paymentBrand=".$details['payment_brand'] .
-                "&paymentType=".$details['payment_type'] .
+                "&paymentType=" . $details['payment_type'] .
                 "&card.number=".$details['number'] .
                 "&card.holder=".$details['name'] .
                 "&card.expiryMonth=".$details['expiry_month'] .
                 "&card.expiryYear=".$details['expiry_year'] .
-                "&card.cvv=".$details['cvc'];
+                "&card.cvv=".$details['cvc'].
+                "&shopperResultUrl=".urlencode(route('bills.handle', ['id' => $details['bill']['id']])) .
+                "&notificationUrl=".urlencode(route('bills.handle', ['id' => $details['bill']['id']])) .
+                "&merchantTransactionId=" . $details['bill']['id'] . now() .
+                "&customer.email=" . $details['bill']['customer_email'];
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -106,7 +110,7 @@ class HyperPay extends Driver
                        'Authorization:Bearer '.$this->settings->access_token));
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);// this should be set to true in production
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, app()->environment('production') ? true : false);// this should be set to true in production
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $responseData = curl_exec($ch);
 
@@ -117,17 +121,20 @@ class HyperPay extends Driver
 
         $body = json_decode($responseData, false);
 
-
         $this->invoice->detail(['cvc' => '***'])
                 ->detail(['number' => str_pad(substr($details['number'], -4), strlen($details['number']), '*', STR_PAD_LEFT)]);
 
         $successPattern = '/(000\.000\.|000\.100\.1|000\.[36])/';
         $success = preg_match($successPattern, $body->result->code);
+        $pendingPattern = '/(000\.200\.)/';
+        $pending = preg_match($pendingPattern, $body->result->code);
 
         $this->invoice->detail(['result_code' => $body->result->code])
             ->detail(['success' => $success])
+            ->detail(['pending' => $pending])
+            ->detail(['redirect' => $body->redirect ?? null])
             ->detail(['result_description' => $body->result->description]);
-        $this->invoice->transactionId($body->id);
+        $this->invoice->transactionId($body->id ?? "not have id");
 
         // return the transaction's id
         return $this->invoice->getTransactionId();

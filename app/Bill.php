@@ -2,7 +2,10 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Hashids\Hashids;
+use App\Events\BillPaid;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model
@@ -69,6 +72,18 @@ class Bill extends Model
     }
 
     /**
+     * Retrieve the model for a bound value.
+     *
+     * @param  mixed  $value
+     * @param  string|null  $field
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where('id', $value)->where('user_id', auth()->user()->id)->firstOrFail();
+    }
+
+    /**
      * get only paid bills
      */
     public function scopePaid($query){
@@ -93,7 +108,24 @@ class Bill extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    } 
+    }
+
+    /**
+     * Mark invoice as paid
+     */
+    public function paid()
+    {
+        if ($this->status == 'paid') {
+            return false;
+        }
+
+        $this->status = 'paid';
+        $this->paid_at = Carbon::now();
+        $this->payment_method = 'credit';
+        $this->save();
+
+        event(new BillPaid($this));
+    }
 
     /**
      * Get customer.

@@ -3,6 +3,7 @@
 namespace App\Payment;
 
 use Ramsey\Uuid\Uuid;
+use App\Events\BillPaid;
 
 class Invoice
 {

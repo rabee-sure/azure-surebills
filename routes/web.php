@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
 // py bill page
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
 Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
+Route::post('/bills/{id}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
 
 Route::middleware(['auth', 'mobile.verified'])->group(function () {
 	Route::resource('bills', 'BillController');
