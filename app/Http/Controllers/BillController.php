@@ -54,9 +54,11 @@ class BillController extends Controller
         ],[
             'name' => $request->customer_name, 
             'email' => $request->customer_email,
+            'user_id' => auth()->user()->id,
         ]);
 
         $bill = Bill::create([
+            'user_id' => auth()->user()->id,
             'business_name' => auth()->user()->business_name,
             'customer_id' => $customer->id,
             'customer_name' => $request->customer_name,
