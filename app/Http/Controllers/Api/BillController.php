@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BillRequest;
 use App\Http\Requests\PayBillRequest;
 use App\Http\Resources\BillResource;
+use App\OauthClient;
 use App\PaymentLog;
 use App\Payment\Facades\Payment;
 use App\Payment\Invoice;
@@ -28,6 +29,8 @@ class BillController extends Controller
      */
     public function store(BillRequest $request)
     {
+        $client = OauthClient::findByRequest($request);
+
         $customer = Customer::updateOrCreate([
             'user_id' => auth()->user()->id,
             'mobile' => $request->customer_mobile,
@@ -58,6 +61,7 @@ class BillController extends Controller
 
             'send_sms' => $request->send_sms,
             'send_email' => $request->send_email,
+            'client_id' => $client->id,
         ]);
 
         foreach ($request->items as $item) {

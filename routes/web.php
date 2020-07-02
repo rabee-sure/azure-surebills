@@ -13,6 +13,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () { 
+    Route::get('/clients', [
+        'uses' => 'ClientController@forUser',
+        'as' => 'passport.clients.index',
+    ]);
+
+    Route::post('/clients', [
+        'uses' => 'ClientController@store',
+        'as' => 'passport.clients.store',
+    ]);
+
+    Route::put('/clients/{client_id}', [
+        'uses' => 'ClientController@update',
+        'as' => 'passport.clients.update',
+    ]);
+
+    Route::delete('/clients/{client_id}', [
+        'uses' => 'ClientController@destroy',
+        'as' => 'passport.clients.destroy',
+    ]);
+});
 
 Auth::routes();
 
