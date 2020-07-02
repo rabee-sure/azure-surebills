@@ -233,14 +233,14 @@ class BillController extends Controller
 
         // if success
         if($invoice->getDetail('success')){
+            
+            $bill->paid();
 
             PaymentLog::create([
                 'results' => $invoice->getDetails(),
                 'data' => [],
                 'status' => 1,
             ]);
-            
-            $bill->paid();
 
             return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
         }
