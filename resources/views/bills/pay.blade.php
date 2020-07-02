@@ -81,24 +81,14 @@
 
               <div class="bill_payment">
                 <div class="item">
-                  <input type="radio" id="visa_pay" name="pay">
+                  <input type="radio" id="visa_pay" name="pay" checked>
                   <label for="visa_pay">
                     <p>Credit Card - made</p>
                     <div class="icon_mada"></div>
                     <div class="checkmark"></div>
                   </label>
-                  <div class="visa_pay_content d-none">
-                    <div class='card-wrapper'></div>
-                    <div class="form_card">
-                      <form method="POST" action="{{ route('bills.bay', ['id' => $id]) }}" class="repeater" id="bill_bay">
-                          @csrf
-                        <p><input type="text" name="number" value="{{ old('number') }}" placeholder="Card Number" /></p>
-                        <p><input type="text" name="name" value="{{ old('name') }}" placeholder="Full Name" /></p>
-                        <span><input type="text" name="expiry" value="{{ old('expiry') }}" placeholder="MM/YY" /></span>
-                        <span><input type="text" name="cvc" placeholder="CVC" /></span>
-                        <span><input type="submit" name="pay" value="Pay" /></span>
-                      </form>
-                    </div><!-- form_card -->
+                  <div class="visa_pay_content">
+                    {!! $payment_iframe !!}
                   </div><!-- visa_pay_content -->
                 </div><!-- item -->
                 <div class="item disable">

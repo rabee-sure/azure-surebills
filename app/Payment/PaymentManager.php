@@ -169,6 +169,45 @@ class PaymentManager
     }
 
     /**
+     * Generate iframe for pay the invoice
+     *
+     * @param Invoice $invoice|null
+     * @param $finalizeCallback|null
+     * @return $this
+     * @throws \Exception
+     */
+    public function generateIframe(Invoice $invoice = null, $finalizeCallback = null)
+    {
+        if ($invoice) { // create new invoice
+            $this->invoice($invoice);
+        }
+
+        $this->driverInstance = $this->getFreshDriverInstance();
+
+        return $this->driverInstance->generateIframe();
+    }
+
+    /**
+     * Check invoice payment status
+     *
+     * @param Invoice $invoice|null
+     * @param $finalizeCallback|null
+     * @return $this
+     * @throws \Exception
+     */
+    public function paymentStatus(Invoice $invoice = null, $finalizeCallback = null)
+    {
+        if ($invoice) { // create new invoice
+            $this->invoice($invoice);
+        }
+
+        $this->driverInstance = $this->getFreshDriverInstance();
+        $this->driverInstance->paymentStatus();
+
+        return $this->invoice;
+    }
+
+    /**
      * Purchase the invoice
      *
      * @param Invoice $invoice|null
