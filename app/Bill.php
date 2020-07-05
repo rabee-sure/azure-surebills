@@ -165,6 +165,8 @@ class Bill extends Model
      */
     public function getNumber()
     {
-        return 1000001 + self::max('number');
+        $number = self::max('number');
+
+        return $number == 0 ? 1000001 : $number + 1;
     } 
 }
