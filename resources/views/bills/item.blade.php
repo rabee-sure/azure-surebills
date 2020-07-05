@@ -3,7 +3,7 @@
     <div class="d-flex flex-grow-1 min-width-zero">
         <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
             <span class="list-item-heading mb-0 truncate w-40 w-xs-100 text-secondary">
-                Bill {{ $bill->number}} - {{ $bill->customer_name}}
+                Bill {{ $bill->number }} - {{ $bill->customer_name}}
             </span>
             <p class="mb-0 text-muted text-small w-15 w-xs-100">{{ $bill->total}} SAR</p>
             <p class="mb-0 text-muted text-small w-15 w-xs-100">{{ $bill->created_at}} PM</p>

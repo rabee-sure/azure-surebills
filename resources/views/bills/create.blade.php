@@ -48,16 +48,16 @@
 
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label value="{{ old('customer_email') }}" for="customer_email">{{ __('Email') }}</label>
-                <input name="customer_email" type="email" class="form-control @error('customer_email') is-invalid @enderror" id="customer_email" placeholder="{{ __('Email') }}">
+                <label for="customer_email">{{ __('Email') }}</label>
+                <input value="{{ old('customer_email') }}" name="customer_email" type="email" class="form-control @error('customer_email') is-invalid @enderror" id="customer_email" placeholder="{{ __('Email') }}">
                 @error('customer_email')
                   <p class="invalid-feedback" role="alert">{{ $message }}</p>
                 @enderror
               </div><!-- form-group -->
 
               <div class="form-group col-md-6">
-                <label value="{{ old('customer_notes') }}" for="customer_notes">{{ __('Special Note') }}</label>
-                <input  name="customer_notes" type="text" class="form-control" id="customer_notes" placeholder="{{ __('Special Note') }}">
+                <label for="customer_notes">{{ __('Special Note') }}</label>
+                <input value="{{ old('customer_notes') }}" name="customer_notes" type="text" class="form-control" id="customer_notes" placeholder="{{ __('Special Note') }}">
               </div><!-- form-group -->
             </div><!-- form-row -->
 

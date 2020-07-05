@@ -165,7 +165,6 @@ class Bill extends Model
      */
     public function getNumber()
     {
-        // dd(self::where('user_id', auth()->user()->id)->max('number') );
-        return 1 + self::where('user_id', auth()->user()->id)->max('number');
+        return 1000000 + self::max('number');
     } 
 }
