@@ -111,13 +111,12 @@ class BillController extends Controller
 
         $bill->discount = $discount;
         $bill->vat = $vat;
-        $bill->number = 10000 + $bill->id;
+        $bill->number = $bill->getNumber();
         $bill->sub_total = $sub_total;
         $bill->total = $sub_total - $discount + $vat;
         $bill->save();
         
         event(new BillCreated($bill));
-
         return redirect()->route('bills.index');
     }
 

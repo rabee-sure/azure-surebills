@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Http\Requests;
+
+use App\Customer;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class BillApiRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'reference_id' => ['required', 'string', 'max:255'],
+            'customer_name' => ['required', 'string', 'max:255'],
+            'customer_email' => ['required', 'string', 'email', 'max:255'],
+            'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
+            'customer_notes' => ['nullable'],            
+
+            'due_date' => ['required'],
+            'expiry_date' => ['required'],
+
+            'add_discount' => ['nullable'],
+            'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
+            'discount_value' => ['required_if:add_discount,on'],
+
+            'add_tax' => ['nullable'],
+            'tax_value' => ['required_if:add_discount,on'],            
+
+            'send_sms' => ['nullable'],
+            'send_email' => ['nullable'],
+
+            'items.*.name' => 'required',
+            'items.*.price' => 'required|numeric',
+            'items.*.quantity' => 'required|numeric',
+        ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $this->merge([
+            'add_discount' => $this->add_discount== 'on' ? true : false,
+            'add_tax' => $this->add_tax == 'on' ? true : false,
+            'send_sms' => $this->send_sms == 'on' ? true : false,
+            'send_email' => $this->send_email == 'on' ? true : false,
+        ]);
+    }
+}

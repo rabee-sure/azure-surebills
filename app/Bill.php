@@ -2,14 +2,18 @@
 
 namespace App;
 
+use App\Events\BillPaid;
+use App\Traits\UsesUuid;
 use Carbon\Carbon;
 use Hashids\Hashids;
-use App\Events\BillPaid;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Ramsey\Uuid\Uuid;
 
 class Bill extends Model
-{
+{    
+    use UsesUuid;
+
     protected $fillable = [
     	'status', 
     	'payment_method', 
@@ -51,8 +55,10 @@ class Bill extends Model
     
     public function getPayIdAttribute()
     {
-        $hashids = new Hashids('', 10);
-        return $hashids->encode($this->id, $this->user_id, $this->customer_id);
+        $uuid = Uuid::fromString($this->id);
+        $hex = $uuid->getHex();
+        $hashids = new Hashids();
+        return $hashids->encodeHex($hex);
     }
 
     public function getPayUrlAttribute()
@@ -65,11 +71,15 @@ class Bill extends Model
         return ($this->status != 'pending');
     }
 
-    static public function decodeId($id)
+    static public function decodeId($hashed_id)
     {
-        $hashids = new Hashids('', 10);
-        $ids = $hashids->decode($id);
-        return self::find($ids[0]??null);
+        $hashids = new Hashids();
+        $hex = $hashids->decodeHex($hashed_id);
+        $id = array_reduce([20, 16, 12, 8], function ($uuid, $offset) {
+            return substr_replace($uuid, '-', $offset, 0);
+        }, str_pad($hex, 32, '0', STR_PAD_LEFT));
+
+        return self::find($id??null);
     }
 
     /**
@@ -146,5 +156,16 @@ class Bill extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
-    }   
+    } 
+
+    /**
+     * Get customer.
+     *
+     * @return Collection
+     */
+    public function getNumber()
+    {
+        // dd(self::where('user_id', auth()->user()->id)->max('number') );
+        return 1 + self::where('user_id', auth()->user()->id)->max('number');
+    } 
 }

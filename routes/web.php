@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('test', 'TestController@test');
+
 Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () { 
     Route::get('/clients', [
         'uses' => 'ClientController@forUser',

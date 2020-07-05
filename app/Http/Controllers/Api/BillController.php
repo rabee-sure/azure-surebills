@@ -8,7 +8,7 @@ use App\Customer;
 use App\Events\BillCreated;
 use App\Events\BillPaid;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BillRequest;
+use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\PayBillRequest;
 use App\Http\Resources\BillResource;
 use App\OauthClient;
@@ -27,7 +27,7 @@ class BillController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BillRequest $request)
+    public function store(BillApiRequest $request)
     {
         $client = OauthClient::findByRequest($request);
 
@@ -94,7 +94,7 @@ class BillController extends Controller
 
         $bill->discount = $discount;
         $bill->vat = $vat;
-        $bill->number = 10000 + $bill->id;
+        $bill->number = $bill->getNumber();
         $bill->sub_total = $sub_total;
         $bill->total = $sub_total - $discount + $vat;
         $bill->save();
