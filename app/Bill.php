@@ -60,6 +60,11 @@ class Bill extends Model
         $hashids = new Hashids();
         return $hashids->encodeHex($hex);
     }
+    
+    public function getIsPendingAttribute()
+    {
+        return ($this->status == 'pending') ;
+    }
 
     public function getPayUrlAttribute()
     {

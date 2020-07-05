@@ -10,6 +10,7 @@ use App\Events\BillPaid;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\PayBillRequest;
+use App\Http\Resources\BillApiResource;
 use App\Http\Resources\BillResource;
 use App\OauthClient;
 use App\PaymentLog;
@@ -101,7 +102,7 @@ class BillController extends Controller
         
         event(new BillCreated($bill));
 
-        return new BillResource($bill);
+        return new BillApiResource($bill);
     }
 
 }
