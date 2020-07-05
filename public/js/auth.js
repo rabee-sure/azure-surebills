@@ -1444,10 +1444,10 @@ $.dore = function (element, options) {
               }, {
                 label: "bb",
                 data: [50, 55, 60, 65, 70, 65, 55],
-                borderColor: themeColor2,
+                borderColor: themeColor7,
                 pointBackgroundColor: foregroundColor,
-                pointBorderColor: themeColor2,
-                pointHoverBackgroundColor: themeColor2,
+                pointBorderColor: themeColor7,
+                pointHoverBackgroundColor: themeColor7,
                 pointHoverBorderColor: foregroundColor,
                 pointRadius: 6,
                 pointBorderWidth: 2,

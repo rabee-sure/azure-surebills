@@ -9928,12 +9928,13 @@ div.statistic_icon.settlements_icon {
   /* title */
   /* date_time */
   /* shopping_cart */
+  /* customer_notes */
   /* total_bill */
   /* customer_information */
 }
 
 .show_bill_general .logo_bill {
-  margin: 0 auto 40px;
+  margin: 0 auto 10px;
   /* img */
 }
 
@@ -9945,13 +9946,11 @@ div.statistic_icon.settlements_icon {
 }
 
 .show_bill_general .title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   border-bottom: 1px solid #ddd;
   padding: 0 0 15px;
   margin: 0 auto 15px;
   color: #000;
+  text-align: center;
   /* span */
   /* p */
   /* b */
@@ -9960,8 +9959,9 @@ div.statistic_icon.settlements_icon {
 .show_bill_general .title span {
   display: block;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
   text-transform: capitalize;
+  margin: 0 auto 5px;
 }
 
 .show_bill_general .title p {
@@ -9970,17 +9970,14 @@ div.statistic_icon.settlements_icon {
   font-size: 14px;
   line-height: 1.1;
   color: #444;
-  text-align: right;
 }
 
 .show_bill_general .title b {
   display: block;
   margin: 0 auto;
   font-size: 14px;
-  line-height: 1.1;
   color: #444;
   font-weight: normal;
-  text-align: right;
 }
 
 .show_bill_general .date_time {
@@ -10032,6 +10029,9 @@ div.statistic_icon.settlements_icon {
 }
 
 .show_bill_general .shopping_cart {
+  border-bottom: 1px solid #ddd;
+  padding: 0 0 15px;
+  margin: 0 auto 15px;
   /* name */
   /* details_pay */
 }
@@ -10039,39 +10039,54 @@ div.statistic_icon.settlements_icon {
 .show_bill_general .shopping_cart .name {
   font-size: 14px;
   color: #000;
-  border-bottom: 1px solid #ddd;
-  padding: 0 0 15px;
-  margin: 0 auto 15px;
 }
 
 .show_bill_general .shopping_cart .details_pay {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  border-bottom: 1px solid #ddd;
-  padding: 0 0 15px;
-  margin: 0 auto 15px;
+  margin: 0 auto 10px;
   color: #000;
-  /* span */
-  /* info */
-}
-
-.show_bill_general .shopping_cart .details_pay span {
-  display: block;
-  font-size: 14px;
-  text-transform: capitalize;
-}
-
-.show_bill_general .shopping_cart .details_pay .info {
+  /* last-child */
   /* p */
+  /* b */
 }
 
-.show_bill_general .shopping_cart .details_pay .info p {
+.show_bill_general .shopping_cart .details_pay:last-child {
+  padding: 0;
+  margin: 0;
+}
+
+.show_bill_general .shopping_cart .details_pay p {
   display: block;
-  margin: 0 auto 7px;
+  margin: 0;
+  min-width: 60%;
+  color: #000;
   font-size: 14px;
-  line-height: 1.1;
-  color: #444;
+}
+
+.show_bill_general .shopping_cart .details_pay b {
+  display: block;
+  margin: 0;
+  font-size: 14px;
+  color: #222222;
+  font-weight: normal;
+  min-width: 20%;
+  text-align: center;
+  /* last-child */
+}
+
+.show_bill_general .shopping_cart .details_pay b:last-child {
+  text-align: right;
+}
+
+.show_bill_general .customer_notes {
+  margin: 0 0 15px;
+  padding: 0 0 15px;
+  text-align: center;
+  font-size: 16px;
+  text-transform: capitalize;
+  color: #000000;
 }
 
 .show_bill_general .total_bill {
@@ -10118,6 +10133,18 @@ div.statistic_icon.settlements_icon {
 }
 
 /* show_bill_general */
+
+.logo_bills {
+  background-image: url("/images/logo-black.svg");
+  width: 70px;
+  height: 70px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 70px;
+  margin: 0 auto;
+}
+
+/* logo_bills */
 
 div[data-repeater-item]:first-child .item_row .delete_block {
   display: none;
@@ -10223,4 +10250,44 @@ div[data-repeater-item]:first-child .item_row .delete_block {
 }
 
 /* pricing_item */
+
+.no_bills_yet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 50px 15px;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
+  min-height: 350px;
+  /* Dark Mode */
+  /* svg */
+  /* span */
+}
+
+[class=body-dark-mode] .no_bills_yet {
+  background: #232223;
+}
+
+.no_bills_yet svg {
+  display: block;
+  margin: 0 auto 20px;
+  max-width: 100%;
+  max-height: 100px;
+}
+
+.no_bills_yet span {
+  display: block;
+  font-size: 16px;
+  color: #999;
+  text-transform: capitalize;
+  /* Dark Mode */
+}
+
+[class=body-dark-mode] .no_bills_yet span {
+  color: #757575;
+}
+
+/* no_bills_yet */
 
