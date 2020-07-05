@@ -14,7 +14,7 @@ class CreateBillsTable extends Migration
     public function up()
     {
         Schema::create('bills', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->enum('status', ['pending', 'paid', 'canceled', 'expired'])->default('pending');  
             $table->enum('payment_method', ['credit', 'stc', 'apple']);  
 
