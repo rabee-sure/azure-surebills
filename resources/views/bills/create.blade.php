@@ -92,19 +92,19 @@
                       <div class="form-row mb-2 item_row">
                         <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
                           <label for="inputEmail1">{{ __('Product/Service') }}</label>
-                          <input name="name" value="{{$item['name']}}" type="text" class="form-control" id="Name" placeholder="{{ __('Name') }}">
+                          <input name="name" value="{{$item['name']}}" type="text" class="form-control" placeholder="{{ __('Name') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
                           <label for="Price">{{ __('Product/Service Price') }}</label>
-                          <input  name="price"  value="{{$item['price']}}" type="text" class="form-control qty1" id="Price" placeholder="{{ __('Price') }}">
+                          <input name="price"  value="{{$item['price']}}" type="tel" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
                           <label for="Price">{{ __('Quantity') }}</label>
-                          <input type="number" name="quantity" value="{{$item['quantity']}}" type="text" class="form-control qty1" id="Quantity" placeholder="{{ __('Quantity') }}">
+                          <input type="tel" name="quantity" value="{{$item['quantity']}}" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
                           <label for="Price">{{ __('Total') }}</label>
-                          <input type="number" name="total" value="{{ $item['price']* $item['quantity']}}" type="text" class="form-control text-center font-weight-bold" id="Total"  disabled>
+                          <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
                         </div><!-- form-group -->
                         <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1 delete_block">
                           <label for="Delete" class="d-block">{{ __('Delete') }}</label>
@@ -119,19 +119,19 @@
                   <div class="form-row mb-2 item_row">
                     <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
                       <label for="inputEmail1">{{ __('Product/Service') }}</label>
-                      <input name="name" type="text" class="form-control" id="Name" placeholder="{{ __('Name') }}">
+                      <input name="name" type="text" class="form-control" placeholder="{{ __('Name') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Product/Service Price') }}</label>
-                      <input type="number" name="price" type="text" class="form-control qty1" id="Price" placeholder="{{ __('Price') }}">
+                      <input type="tel" name="price" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Quantity') }}</label>
-                      <input type="number" name="quantity" type="text" class="form-control qty1" id="Quantity" placeholder="{{ __('Quantity') }}">
+                      <input type="tel" name="quantity" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
                       <label for="Price">{{ __('Total') }}</label>
-                      <input  name="total" type="text" class="form-control text-center font-weight-bold" id="Total"  disabled>
+                      <input name="total" type="tel" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1 delete_block">
                       <label for="Delete" class="d-block">{{ __('Delete') }}</label>
@@ -176,20 +176,11 @@
                   </div><!-- form-group -->
                   <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
                     <label for="Price">{{ __('Discount Value') }}</label>
-                    <div id="fixed" class="discount_type_item">
-                      <div class="input-group">
-                        <input type="number" name="discount_value" class="form-control" id="Discount_Value" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">SAR</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div id="percentage" class="discount_type_item" style="display:none">
-                      <div class="input-group">
-                        <input type="number" name="discount_value" class="form-control" id="Discount_Value" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">%</span>
-                        </div>
+                    <div class="input-group">
+                      <input type="tel" name="discount_value" class="form-control _parseArabicNumbers" id="Discount_Value" aria-describedby="basic-addon2">
+                      <div class="input-group-append">
+                        <span class="input-group-text discount_type_item" id="fixed">SAR</span>
+                        <span class="input-group-text discount_type_item" id="percentage" style="display:none">%</span>
                       </div>
                     </div>
                   </div><!-- form-group -->
@@ -199,7 +190,7 @@
                 <div class="Tax_Values form-row mb-2" style="display: none;">
                   <div class="form-group col-12 col-md-12 col-lg-12 col-xl-12">
                     <label for="Tax">{{ __('Tax Value') }}</label>
-                    <input type="number" name="tax_value" type="text" class="form-control" id="Value">
+                    <input type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value">
                   </div><!-- form-group -->
                 </div><!-- form-row -->
               </div><!-- col-12 -->
@@ -257,9 +248,9 @@
 
     $(document).ready(function () {
       $('.repeater').repeater({
-        // repeaters: [{
-        //   selector: '.inner-repeater'
-        // }]
+        show: function () {
+          $(this).slideDown();
+        },
       });
 
       $('#Tax_Values_Checkbox').change(function() {
