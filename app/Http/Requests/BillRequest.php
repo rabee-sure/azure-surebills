@@ -44,7 +44,7 @@ class BillRequest extends FormRequest
             'discount_value' => ['required_if:add_discount,on'],
 
             'add_tax' => ['nullable'],
-            'tax_value' => ['required_if:add_discount,on'],            
+            'tax_value' => ['required_if:add_tax,on'],            
 
             'send_sms' => ['nullable'],
             'send_email' => ['nullable'],

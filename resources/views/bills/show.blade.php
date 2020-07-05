@@ -8,7 +8,7 @@
       <ol class="breadcrumb pt-0">
         <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
         <li class="breadcrumb-item"><a href="{{ url('bills') }}" title="{{__('Bills')}}">{{__('Bills')}}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{__('Bill')}} {{ $bill->id }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{__('Bill')}} {{ $bill->number }}</li>
       </ol>
     </nav>
     <div class="separator mb-5"></div>
@@ -50,7 +50,7 @@
           @endif
         </span>
         <div>
-          <p>Bill # : {{ $bill->number }}</p>
+          <p>Bill #{{ $bill->number }}</p>
           <b>{{ $bill->created_at->format('Y/m/d')}}</b>
         </div>
       </div><!-- date_time -->

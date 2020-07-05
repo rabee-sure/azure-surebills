@@ -36,7 +36,7 @@
                 @endif
               </span>
               <div>
-                <p>Bill # : {{ $bill->number }}</p>
+                <p>Bill #{{ $bill->number }}</p>
                 <b>{{ $bill->created_at->format('Y/m/d')}}</b>
               </div>
             </div><!-- date_time -->

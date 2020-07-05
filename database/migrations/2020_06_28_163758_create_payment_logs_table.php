@@ -15,8 +15,6 @@ class CreatePaymentLogsTable extends Migration
     {
         Schema::create('payment_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->on('users')->references('id');
             $table->integer('status')->default(0);
             $table->json('results');
             $table->timestamps();
