@@ -169,7 +169,7 @@ $(window).scroll(function() {
 });
  
 
-$('input').keypress(function (e) {
+$('input[type="email"]').keypress(function (e) {
   var regex = new RegExp("^[A-Za-z0-9\s!@#$%^&*()_+=-`~\\\]\[{}|';:/.,?><]*$");
   var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
   if (regex.test(str)) {
