@@ -141,9 +141,12 @@ class BillController extends Controller
     {
         $bill = Bill::decodeId($id);
 
-        if($bill == null || $bill->is_invalid){
+        if(!$bill){
+            abort(404);
+        }
+
+        if($bill->is_invalid){
             return view('bills.status', ['bill' => $bill]);
-            // abort(404);
         }
 
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
