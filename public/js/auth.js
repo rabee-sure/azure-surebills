@@ -306,6 +306,7 @@ $.dore = function (element, options) {
     var themeColor4 = rootStyle.getPropertyValue("--theme-color-4").trim();
     var themeColor5 = rootStyle.getPropertyValue("--theme-color-5").trim();
     var themeColor6 = rootStyle.getPropertyValue("--theme-color-6").trim();
+    var themeColor7 = rootStyle.getPropertyValue("--theme-color-7").trim();
     var themeColor1_10 = rootStyle
       .getPropertyValue("--theme-color-1-10")
       .trim();
@@ -324,6 +325,9 @@ $.dore = function (element, options) {
       .trim();
     var themeColor6_10 = rootStyle
       .getPropertyValue("--theme-color-6-10")
+      .trim();
+    var themeColor7_10 = rootStyle
+      .getPropertyValue("--theme-color-7-10")
       .trim();
 
     var primaryColor = rootStyle.getPropertyValue("--primary-color").trim();
@@ -1425,7 +1429,7 @@ $.dore = function (element, options) {
             labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
             datasets: [
               {
-                label: "",
+                label: "aa",
                 data: [54, 63, 60, 65, 60, 68, 60],
                 borderColor: themeColor1,
                 pointBackgroundColor: foregroundColor,
@@ -1435,11 +1439,25 @@ $.dore = function (element, options) {
                 pointRadius: 6,
                 pointBorderWidth: 2,
                 pointHoverRadius: 8,
-                fill: false
-              }
-            ]
+                fill: false,
+                order: 1
+              }, {
+                label: "bb",
+                data: [50, 55, 60, 65, 70, 65, 55],
+                borderColor: themeColor2,
+                pointBackgroundColor: foregroundColor,
+                pointBorderColor: themeColor2,
+                pointHoverBackgroundColor: themeColor2,
+                pointHoverBorderColor: foregroundColor,
+                pointRadius: 6,
+                pointBorderWidth: 2,
+                pointHoverRadius: 8,
+                fill: false,
+                order: 2
+            }]
           }
         });
+        
       }
 
       if (document.getElementById("areaChart")) {

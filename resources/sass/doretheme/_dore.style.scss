@@ -113,12 +113,14 @@ html {
   --theme-color-4: #{$theme-color-4};
   --theme-color-5: #{$theme-color-5};
   --theme-color-6: #{$theme-color-6};
+  --theme-color-7: #{$theme-color-7};
   --theme-color-1-10: #{rgba($theme-color-1, 0.1)};
   --theme-color-2-10: #{rgba($theme-color-2, 0.1)};
   --theme-color-3-10: #{rgba($theme-color-3, 0.1)};
   --theme-color-4-10: #{rgba($theme-color-4, 0.1)};
   --theme-color-5-10: #{rgba($theme-color-5, 0.1)};
   --theme-color-6-10: #{rgba($theme-color-6, 0.1)};
+  --theme-color-7-10: #{rgba($theme-color-7, 0.1)};
 
   --primary-color: #{$primary-color};
   --foreground-color: #{$foreground-color};
