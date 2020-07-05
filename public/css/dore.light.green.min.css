@@ -71,12 +71,14 @@ html {
   --theme-color-4: #494d43;
   --theme-color-5: #d1c19a;
   --theme-color-6: #7c8174;
+  --theme-color-7: #1976D2;
   --theme-color-1-10: rgba(0, 213, 149, 0.1);
   --theme-color-2-10: rgba(221, 156, 2, 0.1);
   --theme-color-3-10: rgba(132, 155, 101, 0.1);
   --theme-color-4-10: rgba(73, 77, 67, 0.1);
   --theme-color-5-10: rgba(209, 193, 154, 0.1);
   --theme-color-6-10: rgba(124, 129, 116, 0.1);
+  --theme-color-7-10: rgba(25, 118, 210, 0.1);
   --primary-color: #3a3a3a;
   --foreground-color: white;
   --separator-color: #d7d7d7;
