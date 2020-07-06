@@ -209,6 +209,23 @@
           <p>{{ $bill->user->business_address }}</p>
           <small>{{  $bill->user->business_mobile }}</small>
         </div><!-- block_1 -->
+        <div>
+          @if($bill->status == 'expired')
+              <div class="alert alert-secondary" role="alert">
+                this bill #{{ $bill->number }} has been expired
+              </div>
+            @endif
+            @if($bill->status == 'paid')
+              <div class="alert alert-success" role="alert">
+                this bill #{{ $bill->number }} paid successfully
+              </div>
+            @endif
+            @if($bill->status == 'canceled')
+              <div class="alert alert-danger" role="alert">
+                this bill #{{ $bill->number }} has been canceled
+              </div>
+            @endif
+        </div>
         <div class="block_2">
           <span>
             Due On {{ $bill->due_date->format('M d Y')}}
