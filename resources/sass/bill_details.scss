@@ -23,15 +23,15 @@ body {
     background: #fff;
     box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
   }
-  .alert-success {
+  .alert {
     text-align: center;
     font-weight: bold;
     font-size: 14px;
     text-transform: capitalize;
     margin: 0 auto 30px;
-  } /* alert-success */
+  } /* alert */
   .logo {
-    margin: 0 auto 40px;
+    margin: 0 auto 10px;
     img {
       max-width: 100%;
       margin: 0 auto;
@@ -40,18 +40,17 @@ body {
     } /* img */
   } /* logo */
   .title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     border-bottom: 1px solid #ddd;
     padding: 0 0 15px;
     margin: 0 auto 15px;
     color: #000;
+    text-align: center;
     span {
       display: block;
       font-weight: bold;
-      font-size: 20px;
+      font-size: 18px;
       text-transform: capitalize;
+      margin: 0 auto 5px;
     } /* span */
     p {
       display: block;
@@ -59,16 +58,13 @@ body {
       font-size: 14px;
       line-height: 1.1;
       color: #444;
-      text-align: right;
     } /* p */
     b {
       display: block;
       margin: 0 auto;
       font-size: 14px;
-      line-height: 1.1;
       color: #444;
       font-weight: normal;
-      text-align: right;
     } /* b */
   } /* title */
   .date_time {
@@ -111,37 +107,52 @@ body {
     } /* b */
   } /* date_time */
   .shopping_cart {
+    border-bottom: 1px solid #ddd;
+    padding: 0 0 15px;
+    margin: 0 auto 15px;
     .name {
       font-size: 14px;
       color: #000;
-      border-bottom: 1px solid #ddd;
-      padding: 0 0 15px;
-      margin: 0 auto 15px;
     } /* name */
     .details_pay {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      border-bottom: 1px solid #ddd;
-      padding: 0 0 15px;
-      margin: 0 auto 15px;
+      margin: 0 auto 10px;
       color: #000;
-      span {
+      &:last-child {
+        padding: 0;
+        margin: 0;
+      } /* last-child */
+      p {
         display: block;
+        margin: 0;
+        min-width: 60%;
+        color: #000;
         font-size: 14px;
-        text-transform: capitalize;
-      } /* span */
-      .info {
-        p {
-          display: block;
-          margin: 0 auto 7px;
-          font-size: 14px;
-          line-height: 1.1;
-          color: #444;
-        } /* p */
-      } /* info */
+      } /* p */
+      b {
+        display: block;
+        margin: 0;
+        font-size: 14px;
+        color: #222222;
+        font-weight: normal;
+        min-width: 20%;
+        text-align: center;
+        &:last-child {
+          text-align: right;
+        } /* last-child */
+      } /* b */
     } /* details_pay */
   } /* shopping_cart */
+  .customer_notes {
+    margin: 0 0 15px;
+    padding: 0 0 15px;
+    text-align: center;
+    font-size: 16px;
+    text-transform: capitalize;
+    color: #000000;
+  } /* customer_notes */
   .total_bill {
     border-bottom: 1px solid #ddd;
     padding: 0 0 15px;
@@ -422,23 +433,31 @@ form.wpwl-form {
   max-width: 100%;
 }
 iframe.wpwl-control {
-  height: 40px;
+  height: 41px;
   width: 100%;
   padding: 0 10px;
   border-radius: 4px;
   border: 1px solid #ddd;
   box-shadow: none;
   background: #fff;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
 }
 input.wpwl-control.wpwl-control-cardHolder, input.wpwl-control.wpwl-control-expiry {
   background: #fff;
   padding: 0 10px;
   border: 1px solid #ddd;
   box-shadow: none;
-  height: 40px;
+  height: 41px;
   border-radius: 4px;
   font-size: 14px;
   text-transform: capitalize;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
 }
 .wpwl-has-error~.wpwl-hint {
   color: red;
@@ -448,7 +467,7 @@ input.wpwl-control.wpwl-control-cardHolder, input.wpwl-control.wpwl-control-expi
 }
 button.wpwl-button.wpwl-button-pay {
   width: 100%;
-  height: 40px;
+  height: 41px;
   border-radius: 4px;
   text-transform: capitalize;
   font-weight: bold;
@@ -457,3 +476,13 @@ button.wpwl-button.wpwl-button-pay {
   padding: 0 10px;
   float: none;
 }
+a.logo_bills {
+  background-image: url("/images/logo-black.svg");
+  width: 60px;
+  height: 60px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 60px;
+  margin: 0 auto;
+  display: block;
+} /* logo_bills */

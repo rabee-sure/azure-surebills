@@ -86,7 +86,7 @@
         <p>{{ $bill->customer_email}}</p>
       </div><!-- customer_information -->
     </div><!-- show_bill_general -->  
-    <div class="logo_bills"></div>
+    <a href="https://bills.surepay.sa" target="_blank" title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
 </div><!-- row -->
 @endsection

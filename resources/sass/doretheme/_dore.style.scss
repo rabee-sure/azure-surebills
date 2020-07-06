@@ -9703,10 +9703,6 @@ div.statistic_icon {
     border-bottom: 1px solid #ddd;
     padding: 0 0 15px;
     margin: 0 auto 15px;
-    .name {
-      font-size: 14px;
-      color: #000;
-    } /* name */
     .details_pay {
       display: flex;
       align-items: flex-start;
@@ -9780,14 +9776,15 @@ div.statistic_icon {
     } /* p */
   } /* customer_information */
 } /* show_bill_general */
-.logo_bills {
+a.logo_bills {
   background-image: url("/images/logo-black.svg");
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 70px;
+  background-size: 60px;
   margin: 0 auto;
+  display: block;
 } /* logo_bills */
 
 
