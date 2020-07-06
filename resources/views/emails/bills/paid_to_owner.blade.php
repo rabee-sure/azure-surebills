@@ -28,37 +28,41 @@
           max-width: 100%;
         }
         .logo {
-          margin-bottom: 50px;
+          margin-bottom: 10px;
         }
         .logo img {
           max-width: 100%;
-          max-height: 80px;
+          margin: 0 auto;
+          display: block;
+          max-height: 100px;
         }
         .block_1 {
-          display: flex;
+          display: block;
           margin: 0 auto 20px;
           padding: 0 0 20px;
           border-bottom: 1px solid #ddd;
-          align-items: center;
-          justify-content: space-between;
+          text-align: center;
         }
         .block_1 span {
           display: block;
-          font-size: 20px;
           font-weight: bold;
-          color: #000000;
+          font-size: 18px;
+          text-transform: capitalize;
+          margin: 0 auto 9px;
         }
         .block_1 p {
           display: block;
-          font-size: 14px;
-          margin: 0 auto 2px;
-          color: #333;
+          margin: 0 auto 5px;
+          font-size: 13px;
+          line-height: 1.1;
+          color: #444;
         }
         .block_1 small {
           display: block;
-          font-size: 14px;
-          margin: 0;
-          color: #333;
+          margin: 0 auto;
+          font-size: 13px;
+          color: #444;
+          font-weight: normal;
         }
         .block_2 {
           display: flex;
@@ -70,49 +74,63 @@
         }
         .block_2 span {
           display: block;
-          font-size: 15px;
-          font-weight: bold;
-          color: #000000;
+          font-size: 14px;
+          color: #444444;
         }
+        .block_2 span .vat_reg {
+          display: block;
+          font-weight: normal;
+          font-size: 14px;
+          color: #444;
+          margin: 5px auto 0;
+        } /* vat_reg */
         .block_2 p {
           display: block;
           font-size: 14px;
           margin: 0 auto 2px;
           color: #333;
+          text-align: right;
         }
         .block_2 small {
           display: block;
           font-size: 14px;
           margin: 0;
           color: #333;
+          text-align: right;
         }
         .block_3 {
           margin: 0 auto 20px;
           padding: 0 0 20px;
           border-bottom: 1px solid #ddd;
         }
-        .block_3 .title {
-          display: block;
-          font-size: 20px;
-          font-weight: bold;
-          margin: 0 auto 30px;
-          color: #000;
-        }
-        .block_3 .cart_details {
+        .block_3 .details_pay {
           display: flex;
-          align-items: flex-start;
+          align-items: center;
           justify-content: space-between;
+          margin: 0 auto 10px;
+          color: #000;
         }
-        .block_3 .cart_details .info p {
+        .block_3 .details_pay:last-child {
+          margin: 0;
+        }
+        .block_3 .details_pay p {
           display: block;
+          margin: 0;
+          min-width: 60%;
+          color: #000;
           font-size: 14px;
-          margin: 0 auto 5px;
-          color: #000;
         }
-        .block_3 .cart_details .price {
+        .block_3 .details_pay b {
           display: block;
-          font-size: 15px;
-          color: #000;
+          margin: 0;
+          font-size: 14px;
+          color: #222;
+          font-weight: normal;
+          min-width: 20%;
+          text-align: center;
+        }
+        .block_3 .details_pay b:last-child {
+          text-align: right;
         }
         .total_area {
           margin: 0 auto 20px;
@@ -132,10 +150,16 @@
           font-size: 15px;
           color: #000;
         }
+        .customer_notes {
+          margin: 0 0 15px;
+          padding: 0 0 15px;
+          text-align: center;
+          font-size: 16px;
+          text-transform: capitalize;
+          color: #000000;
+        } /* customer_notes */
         .block_4 {
           margin: 0 auto 20px;
-          padding: 0 0 20px;
-          border-bottom: 1px solid #ddd;
         }
         .block_4 .title {
           display: block;
@@ -151,29 +175,6 @@
           margin: 0 auto 6px;
         }
         .block_4 p:last-child {margin: 0;}
-        .pay_button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 10px 0;
-        }
-        .pay_button a {
-          display: block;
-          border-radius: 100px;
-          background: #00D595;
-          padding: 0 30px;
-          min-width: 150px;
-          height: 40px;
-          line-height: 40px;
-          text-align: center;
-          color: #fff;
-          font-weight: bold;
-          font-size: 18px;
-          text-decoration: none;
-        }
-        .pay_button a:hover {
-          background: #02c288;
-        }
         .copyrights {
           display: block;
           text-align: center;
@@ -205,33 +206,29 @@
         @endif
         <div class="block_1">
           <span> {{ $bill->business_name}}</span>
-          <div>
-            <p>{{ $bill->user->business_address }}</p>
-            <small>{{  $bill->user->business_mobile }}</small>
-          </div>
+          <p>{{ $bill->user->business_address }}</p>
+          <small>{{  $bill->user->business_mobile }}</small>
         </div><!-- block_1 -->
         <div class="block_2">
-          <span>Due On {{ $bill->due_date->format('M d Y')}}</span>
-          @if($bill->user->vat_registration_number)
-            <b> VAT Registration Number : {{ $bill->user->vat_registration_number }}</b>
-          @endif
+          <span>
+            Due On {{ $bill->due_date->format('M d Y')}}
+            @if($bill->user->vat_registration_number)
+              <div class="vat_reg"> VAT Registration Number : {{ $bill->user->vat_registration_number }}</div>
+            @endif
+          </span>
           <div>
             <p>Bill # : {{ $bill->number}}</p>
             <small>{{ $bill->created_at->format('Y-m-d') }}</small>
           </div>
         </div><!-- block_2 -->
         <div class="block_3">
-          <div class="title">@if($bill->customer_notes) {{$bill->customer_notes}}  @else Shopping Cart @endif</div>
-		        @foreach($bill->items as $item)
-		          <div class="cart_details">
-		            <div class="info">
-		              <p>{{ $item->product_name }}</p>
-		              <p>price : {{ $item->product_price  }}</p>
-		              <p>quantity : {{ $item->quantity  }}</p>
-		            </div><!-- info -->
-		            <div class="price">{{ $item->total }} SAR</div>
-		          </div><!-- cart_details -->
-		        @endforeach
+          @foreach($bill->items as $item)
+            <div class="details_pay">
+              <p>{{ $item->product_name }}</p>
+              <b>X {{ $item->quantity  }}</b>
+              <b>{{ $item->product_price  }} SAR</b>
+            </div><!-- details_pay -->
+          @endforeach
         </div><!-- block_3 -->
         <div class="total_area">
             @if( $bill->add_tax && $bill->add_discount)
@@ -246,15 +243,12 @@
             @endif
             <b>Total : {{ $bill->total}} SAR</b>
         </div><!-- total_area -->
+        @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
         <div class="block_4">
-          <div class="title">Customer Information</div>
           <p>Billed to, {{ $bill->customer_name }}</p>
           <p>+966{{ $bill->customer_mobile }}</p>
           <p>{{ $bill->customer_email }}</p>
         </div><!-- block_4 -->
-        <div class="pay_button">
-          <a href="{{ $bill->pay_url }}" target="_blank" title="PAY">Pay</a>
-        </div><!-- pay_button -->
       </div><!-- mail_content -->
       <div class="copyrights">
         © 2020 SureBills. All rights reserved

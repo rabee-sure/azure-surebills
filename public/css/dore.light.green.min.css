@@ -10032,13 +10032,7 @@ div.statistic_icon.settlements_icon {
   border-bottom: 1px solid #ddd;
   padding: 0 0 15px;
   margin: 0 auto 15px;
-  /* name */
   /* details_pay */
-}
-
-.show_bill_general .shopping_cart .name {
-  font-size: 14px;
-  color: #000;
 }
 
 .show_bill_general .shopping_cart .details_pay {
@@ -10134,14 +10128,15 @@ div.statistic_icon.settlements_icon {
 
 /* show_bill_general */
 
-.logo_bills {
+a.logo_bills {
   background-image: url("/images/logo-black.svg");
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 70px;
+  background-size: 60px;
   margin: 0 auto;
+  display: block;
 }
 
 /* logo_bills */

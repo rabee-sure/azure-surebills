@@ -4,30 +4,26 @@
 
 @section('content')
 
-  <div class="single_bill_page">
-    <div class="container">
-      <div class="row  justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-6">
+<div class="single_bill_page">
+  <div class="container">
+    <div class="row  justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-6">
         <div class="single_bill_content">
           @if($bill->user->logo)
             <div class="logo">
               <img src="{{ url($bill->user->logo) }}" alt="logo">
             </div><!-- logo -->
           @endif
-
+          <div class="title">
+            <span>{{ $bill->business_name }}</span>
+            <p>{{  $bill->user->business_address}}</p>
+            <b>{{  $bill->user->business_mobile }}</b>
+          </div><!-- title -->
           @if($errors->any())
             <div class="alert alert-danger" role="alert">
               {{$errors->first()}}
             </div>
           @endif
-
-            <div class="title">
-              <span>{{ $bill->business_name }}</span>
-              <div>
-                <p>{{  $bill->user->business_address}}</p>
-                <b>{{  $bill->user->business_mobile }}</b>
-              </div>
-            </div><!-- title -->
             <div class="date_time">
               <span>
                 Due on {{ $bill->due_date->format('M d Y')}}
@@ -41,15 +37,11 @@
               </div>
             </div><!-- date_time -->
             <div class="shopping_cart">
-              <div class="name"> @if($bill->customer_notes) {{$bill->customer_notes}}  @else Shopping Cart @endif</div>
               @foreach($bill->items as $item)
                 <div class="details_pay">
-                  <div class="info">
-                    <p>{{ $item->product_name }}</p>
-                    <p>price : <time>{{ $item->product_price  }}</time></p>
-                    <p>quantity : <time>{{ $item->quantity  }}</time></p>
-                  </div><!-- info -->
-                  <span>{{ $item->total }}</span>
+                  <p>{{ $item->product_name }}</p>
+                  <b>X {{ $item->quantity  }}</b>
+                  <b>{{ $item->product_price  }} SAR</b>
                 </div><!-- details_pay -->
               @endforeach
             </div><!-- shopping_cart -->
@@ -70,8 +62,9 @@
               @endif
               <b>Total : {{ $bill->total}} SAR</b>
             </div><!-- total_bill -->
+            @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
             <div class="customer_information">
-              <div class="name">Customer Information</div>
+              <!-- <div class="name">Customer Information</div> -->
               <p>Billed to, {{ $bill->customer_name}}</p>
               <p>+966{{ $bill->customer_mobile}}</p>
               <p>{{ $bill->customer_email}}</p>
@@ -110,6 +103,7 @@
               </div><!-- bill_payment -->
             </div><!-- payment_method -->
           </div><!-- single_bill_content -->
+          <a href="https://bills.surepay.sa" target="_blank" title="Sure Bills" class="logo_bills"></a>
         </div><!-- col-12 -->
       </div><!-- row -->
     </div><!-- container -->

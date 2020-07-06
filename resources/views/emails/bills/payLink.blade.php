@@ -28,39 +28,41 @@
           max-width: 100%;
         }
         .logo {
-          margin-bottom: 50px;
+          margin-bottom: 10px;
         }
         .logo img {
           max-width: 100%;
-          max-height: 80px;
+          margin: 0 auto;
+          display: block;
+          max-height: 100px;
         }
         .block_1 {
-          display: flex;
+          display: block;
           margin: 0 auto 20px;
           padding: 0 0 20px;
           border-bottom: 1px solid #ddd;
-          align-items: center;
-          justify-content: space-between;
+          text-align: center;
         }
         .block_1 span {
           display: block;
-          font-size: 20px;
           font-weight: bold;
-          color: #000000;
+          font-size: 18px;
+          text-transform: capitalize;
+          margin: 0 auto 9px;
         }
         .block_1 p {
           display: block;
-          font-size: 14px;
-          margin: 0 auto 2px;
+          margin: 0 auto 5px;
+          font-size: 13px;
+          line-height: 1.1;
           color: #444;
-          text-align: right;
         }
         .block_1 small {
           display: block;
-          font-size: 14px;
-          margin: 0;
+          margin: 0 auto;
+          font-size: 13px;
           color: #444;
-          text-align: right;
+          font-weight: normal;
         }
         .block_2 {
           display: flex;
@@ -101,36 +103,34 @@
           padding: 0 0 20px;
           border-bottom: 1px solid #ddd;
         }
-        .block_3 .title {
-          display: block;
-          font-size: 20px;
-          font-weight: bold;
-          margin: 0 auto 30px;
-          color: #000;
-        }
-        .block_3 .customer_notes {
-          display: block;
-          font-size: 15px;
-          margin: 0 0 20px;
-          padding: 0 0 20px;
-          color: #000;
-          border-bottom: 1px solid #ddd;
-        }
-        .block_3 .cart_details {
+        .block_3 .details_pay {
           display: flex;
-          align-items: flex-start;
+          align-items: center;
           justify-content: space-between;
+          margin: 0 auto 10px;
+          color: #000;
         }
-        .block_3 .cart_details .info p {
+        .block_3 .details_pay:last-child {
+          margin: 0;
+        }
+        .block_3 .details_pay p {
           display: block;
+          margin: 0;
+          min-width: 60%;
+          color: #000;
           font-size: 14px;
-          margin: 0 auto 5px;
-          color: #000;
         }
-        .block_3 .cart_details .price {
+        .block_3 .details_pay b {
           display: block;
-          font-size: 15px;
-          color: #000;
+          margin: 0;
+          font-size: 14px;
+          color: #222;
+          font-weight: normal;
+          min-width: 20%;
+          text-align: center;
+        }
+        .block_3 .details_pay b:last-child {
+          text-align: right;
         }
         .total_area {
           margin: 0 auto 20px;
@@ -150,6 +150,14 @@
           font-size: 15px;
           color: #000;
         }
+        .customer_notes {
+          margin: 0 0 15px;
+          padding: 0 0 15px;
+          text-align: center;
+          font-size: 16px;
+          text-transform: capitalize;
+          color: #000000;
+        } /* customer_notes */
         .block_4 {
           margin: 0 auto 20px;
           padding: 0 0 20px;
@@ -223,10 +231,8 @@
         @endif
         <div class="block_1">
           <span> {{ $bill->business_name}}</span>
-          <div>
-            <p>{{ $bill->user->business_address }}</p>
-            <small>{{  $bill->user->business_mobile }}</small>
-          </div>
+          <p>{{ $bill->user->business_address }}</p>
+          <small>{{  $bill->user->business_mobile }}</small>
         </div><!-- block_1 -->
         <div class="block_2">
           <span>
@@ -241,16 +247,12 @@
           </div>
         </div><!-- block_2 -->
         <div class="block_3">
-          @if($bill->customer_notes) <div class="customer_notes"> {{$bill->customer_notes}} </div> @else <div class="title"> Shopping Cart </div> @endif
           @foreach($bill->items as $item)
-            <div class="cart_details">
-              <div class="info">
-                <p>{{ $item->product_name }}</p>
-                <p>price : {{ $item->product_price  }}</p>
-                <p>quantity : {{ $item->quantity  }}</p>
-              </div><!-- info -->
-              <div class="price">{{ $item->total }} SAR</div>
-            </div><!-- cart_details -->
+            <div class="details_pay">
+              <p>{{ $item->product_name }}</p>
+              <b>X {{ $item->quantity  }}</b>
+              <b>{{ $item->product_price  }} SAR</b>
+            </div><!-- details_pay -->
           @endforeach
         </div><!-- block_3 -->
         <div class="total_area">
@@ -266,8 +268,9 @@
             @endif
             <b>Total : {{ $bill->total}} SAR</b>
         </div><!-- total_area -->
+        @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
         <div class="block_4">
-          <div class="title">Customer Information</div>
+          <!-- <div class="title">Customer Information</div> -->
           <p>Billed to, {{ $bill->customer_name }}</p>
           <p>+966{{ $bill->customer_mobile }}</p>
           <p>{{ $bill->customer_email }}</p>
