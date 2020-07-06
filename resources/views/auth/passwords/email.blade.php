@@ -12,13 +12,25 @@
           {{ __('If you are not a member, please') }} <a href="{{ route('register') }}" title="{{ __('Register') }}" class="white">{{ __('Register') }}</a>.
         </p>
       </div>
+
+
       <div class="form-side">
         <a href="{{ url('/') }}"><span class="logo-single"></span></a>
         <h6 class="mb-4">{{ __('Reset Password') }}</h6>
         @if (session('status'))
           <div class="alert alert-success" role="alert">{{ session('status') }}</div>
         @endif
-        <form method="POST" action="{{ route('password.email') }}">
+        
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <form method="POST" action="{{ route('password.email') }}" id="form">
           @csrf
           <label  for="email" class="form-group has-float-label mb-4">
             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus/>
@@ -35,4 +47,8 @@
     </div>
   </div>
 </div>
+@endsection
+
+@section('footer-scripts')
+  {!! JsValidator::formRequest('App\Http\Requests\ForgotPasswordRequest', '#form') !!}
 @endsection

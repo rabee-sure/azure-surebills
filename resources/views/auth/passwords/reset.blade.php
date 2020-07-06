@@ -15,15 +15,24 @@
                       <a href="{{ route('register')}}" class="white">{{ __('Register') }}</a>.
                     </p>
                 </div>
-                <div class="form-side">
+                <div class="form-side" >
                     <a href="{{ url('/')}}"><span class="logo-single"></span></a>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <h6 class="mb-4">{{ __('Reset Password') }}</h6>
-                        <form method="POST" action="{{ route('password.update') }}">
+                        <form method="POST" action="{{ route('password.update') }}" id="form">
                             @csrf
 
                             <input type="hidden" name="token" value="{{ $token }}">
                             <label for="email"  class="form-group has-float-label mb-4">
-                                <input  id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus />
+                                <input  id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" autocomplete="email" autofocus disabled="" />
                                 <span>{{ __('E-Mail Address') }}</span>
                             </label>
 
@@ -33,22 +42,20 @@
                                 </span>
                             @enderror
 
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                <label for="password" class="form-group has-float-label mb-4">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password"/>
-                                    <span>{{ __('Password') }}</span>
-                                </label>
-                                @error('password')
-                                    <p class="invalid-feedback" role="alert">{{ $message }}</p>
-                                @enderror
-                            </div><!-- col-12 -->       
-                    
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                <label for="password-confirm" class="form-group has-float-label mb-4">
-                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" />
-                                    <span>{{ __('Confirm Password') }}</span>
-                                </label>
-                            </div><!-- col-12 -->
+                            <label for="password" class="form-group has-float-label mb-4">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password"/>
+                                <span>{{ __('Password') }}</span>
+                            </label>
+                            @error('password')
+                                <p class="invalid-feedback" role="alert">{{ $message }}</p>
+                            @enderror
+                
+
+                            <label for="password-confirm" class="form-group has-float-label mb-4">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password" />
+                                <span>{{ __('Confirm Password') }}</span>
+                            </label>
+
 
                             <div class="d-flex justify-content-end align-items-center">
                                 <button class="btn btn-primary btn-lg btn-shadow" type="submit">{{ __('Reset Password') }}</button>
@@ -58,4 +65,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('footer-scripts')
+  {!! JsValidator::formRequest('App\Http\Requests\ResetPasswordRequest', '#form') !!}
 @endsection
