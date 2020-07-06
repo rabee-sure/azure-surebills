@@ -70,6 +70,15 @@
           font-size: 14px;
           text-transform: capitalize;
           margin: 0 auto 30px;
+          background: #d7f3e3;
+          color: #1d643b;
+          border: 1px solid #c7eed8;
+          display: table;
+          max-width: 100%;
+          padding: 15px;
+          border-radius: 4px;
+          box-sizing: border-box;
+          min-width: 50%;
         } /* alert */
         .block_2 {
           display: flex;
