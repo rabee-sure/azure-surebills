@@ -64,6 +64,22 @@
           color: #444;
           font-weight: normal;
         }
+        .alert {
+          text-align: center;
+          font-weight: bold;
+          font-size: 14px;
+          text-transform: capitalize;
+          margin: 0 auto 30px;
+          background: #d7f3e3;
+          color: #1d643b;
+          border: 1px solid #c7eed8;
+          display: table;
+          max-width: 100%;
+          padding: 15px;
+          border-radius: 4px;
+          box-sizing: border-box;
+          min-width: 50%;
+        } /* alert */
         .block_2 {
           display: flex;
           margin: 0 auto 20px;
@@ -209,23 +225,21 @@
           <p>{{ $bill->user->business_address }}</p>
           <small>{{  $bill->user->business_mobile }}</small>
         </div><!-- block_1 -->
-        <div>
-          @if($bill->status == 'expired')
-              <div class="alert alert-secondary" role="alert">
-                this bill #{{ $bill->number }} has been expired
-              </div>
-            @endif
-            @if($bill->status == 'paid')
-              <div class="alert alert-success" role="alert">
-                this bill #{{ $bill->number }} paid successfully
-              </div>
-            @endif
-            @if($bill->status == 'canceled')
-              <div class="alert alert-danger" role="alert">
-                this bill #{{ $bill->number }} has been canceled
-              </div>
-            @endif
-        </div>
+        @if($bill->status == 'expired')
+          <div class="alert alert-secondary" role="alert">
+            this bill #{{ $bill->number }} has been expired
+          </div>
+        @endif
+        @if($bill->status == 'paid')
+          <div class="alert alert-success" role="alert">
+            this bill #{{ $bill->number }} paid successfully
+          </div>
+        @endif
+        @if($bill->status == 'canceled')
+          <div class="alert alert-danger" role="alert">
+            this bill #{{ $bill->number }} has been canceled
+          </div>
+        @endif
         <div class="block_2">
           <span>
             Due On {{ $bill->due_date->format('M d Y')}}

@@ -64,6 +64,13 @@
           color: #444;
           font-weight: normal;
         }
+        .alert {
+          text-align: center;
+          font-weight: bold;
+          font-size: 14px;
+          text-transform: capitalize;
+          margin: 0 auto 30px;
+        } /* alert */
         .block_2 {
           display: flex;
           margin: 0 auto 20px;
