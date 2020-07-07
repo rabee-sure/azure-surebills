@@ -63,6 +63,7 @@ class BillController extends Controller
             'send_sms' => $request->send_sms,
             'send_email' => $request->send_email,
             'client_id' => $client->id,
+            'reference_id' => $request->reference_id,
         ]);
 
         foreach ($request->items as $item) {
@@ -98,6 +99,7 @@ class BillController extends Controller
         $bill->number = $bill->getNumber();
         $bill->sub_total = $sub_total;
         $bill->total = $sub_total - $discount + $vat;
+        $bill->status = 'pending';
         $bill->save();
         
         event(new BillCreated($bill));
