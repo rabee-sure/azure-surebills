@@ -42,7 +42,7 @@
             @if (Route::has('password.request'))
               <a href="{{ route('password.request') }}" title="{{ __('Forgot Your Password?') }}">{{ __('Forgot Your Password?') }}</a>
             @endif
-            <button class="btn btn-primary btn-lg btn-shadow" type="submit">{{ __('Login') }}</button>
+            <button class="btn btn-primary btn-lg btn-shadow login_button" type="submit">{{ __('Login') }}</button>
           </div>
         </form>
         <hr>

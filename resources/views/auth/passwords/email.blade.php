@@ -40,7 +40,7 @@
             <p class="invalid-feedback" role="alert">{{ $message }}</p>
           @enderror
           <div class="d-flex justify-content-end align-items-center">
-            <button class="btn btn-primary btn-lg btn-shadow" type="submit">{{ __('Send Password Reset Link') }}</button>
+            <button class="btn btn-primary btn-lg btn-shadow login_button" type="submit">{{ __('Send Password Reset Link') }}</button>
           </div>
         </form>
       </div>
