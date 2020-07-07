@@ -58,7 +58,7 @@
 
 
                             <div class="d-flex justify-content-end align-items-center">
-                                <button class="btn btn-primary btn-lg btn-shadow" type="submit">{{ __('Reset Password') }}</button>
+                                <button class="btn btn-primary btn-lg btn-shadow login_button" type="submit">{{ __('Reset Password') }}</button>
                             </div>
                         </form>
                 </div>

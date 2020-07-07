@@ -10286,3 +10286,8 @@ div[data-repeater-item]:first-child .item_row .delete_block {
 
 /* no_bills_yet */
 
+button.login_button i {
+  font-size: 16px;
+  line-height: 1;
+}
+
