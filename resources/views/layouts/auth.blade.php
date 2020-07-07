@@ -11,6 +11,7 @@
     <script src="{{ asset('js/auth.js') }}" defer></script>
 
     <!-- Styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
   </head>
   <body class="background show-spinner no-footer">

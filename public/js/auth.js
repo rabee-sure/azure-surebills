@@ -4609,6 +4609,23 @@ $.fn.dore = function (options) {
   });
 };
 
+
+
+
+
+$(document).ready(function() {
+  $('.login_button').on('click', function() {
+    var $this = $(this);
+    var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i>';
+    if ($(this).html() !== loadingText) {
+      $this.data('original-text', $(this).html());
+      $this.html(loadingText);
+    }
+    setTimeout(function() {
+      $this.html($this.data('original-text'));
+    }, 5000);
+  });
+})
 /* Dore Theme Select & Initializer Script 
 
 Table of Contents

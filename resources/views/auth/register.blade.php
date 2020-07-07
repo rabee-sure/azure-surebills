@@ -82,7 +82,7 @@
             @enderror
           </div>
           <div class="d-flex justify-content-end align-items-center">
-            <button class="btn btn-primary btn-lg btn-shadow" type="submit">{{ __('Register') }}</button>
+            <button class="btn btn-primary btn-lg btn-shadow login_button" type="submit">{{ __('Register') }}</button>
           </div>
         </form>
         <hr>
