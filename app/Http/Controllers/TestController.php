@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Bill;
+use App\Events\BillPaid;
 use App\Http\Requests\AccountInformationRequest;
 use App\Http\Requests\BankInformationRequest;
 use App\Http\Requests\BusinessInformationRequest;
@@ -24,23 +25,9 @@ class TestController extends Controller
      */
     public function test()
     {
-        $bill = Bill::find('de24df7b-e771-4a29-abb1-6aaee1a854df');
-
-        $uuid = Uuid::fromString($bill->id);
-        $hex = $uuid->getHex();
-        $hashids = new Hashids();
-        $test = $hashids->encodeHex($hex);
-        $test1 = $hashids->decodeHex($test);
-        $test2 = $this->decode($test1);
-        dd($test2);
-
-        // $test = explode("-", $bill->id);
-        // $test = implode(".", $test);
-        // $test = strpos($bill->pay_id, '-');
-
-        $test = explode("-", $bill->id);
-        $test = implode("", $test);
-        dd($test1);
+        $bill = Bill::find('44986673-55c1-4406-964b-f4a0bf83ce6a');
+        $url = $bill->application->redirect.'?reference_id='.$bill->reference_id.'&status='.$bill->status;
+        return redirect($url);
     } 
 
     public function decode(string $hex): string

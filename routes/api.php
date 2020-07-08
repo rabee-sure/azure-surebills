@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::middleware('auth:api')->prefix('v1')->group(function () {
+Route::prefix('v1')->group(function () {
 	Route::post('bills/create', 'BillController@store');
+	Route::get('bills/{id}/check', 'BillController@check');
 });

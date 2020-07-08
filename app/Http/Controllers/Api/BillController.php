@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Application;
 use App\Bill;
 use App\BillItem;
 use App\Customer;
@@ -30,10 +31,12 @@ class BillController extends Controller
      */
     public function store(BillApiRequest $request)
     {
-        $client = OauthClient::findByRequest($request);
+        $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+        logger($application);
+        $user = $application->user;
 
         $customer = Customer::updateOrCreate([
-            'user_id' => auth()->user()->id,
+            'user_id' => $user->id,
             'mobile' => $request->customer_mobile,
         ],[
             'name' => $request->customer_name, 
@@ -41,8 +44,10 @@ class BillController extends Controller
         ]);
 
         $bill = Bill::create([
-            'user_id' => auth()->user()->id,
-            'business_name' => auth()->user()->business_name,
+            'user_id' => $user->id,
+            'application_id' => $application->id,
+
+            'business_name' => $user->business_name,
             'customer_id' => $customer->id,
             'customer_name' => $request->customer_name,
             'customer_email' => $request->customer_email,
@@ -62,7 +67,6 @@ class BillController extends Controller
 
             'send_sms' => $request->send_sms,
             'send_email' => $request->send_email,
-            'client_id' => $client->id,
             'reference_id' => $request->reference_id,
         ]);
 

@@ -67,6 +67,7 @@ Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
 
 Route::middleware(['auth', 'mobile.verified'])->group(function () {
+	Route::resource('applications', 'ApplicationController');
 	Route::resource('bills', 'BillController');
 	Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
 	Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');

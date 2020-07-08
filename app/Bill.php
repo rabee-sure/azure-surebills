@@ -41,7 +41,7 @@ class Bill extends Model
     	'total',
     	'paid_at',
     	'canceled_at',
-        'client_id',
+        'application_id',
     ];
 
     /**
@@ -117,13 +117,13 @@ class Bill extends Model
     }  
 
     /**
-     * Get client.
+     * Get application.
      *
      * @return Collection
      */
-    public function client()
+    public function application()
     {
-        return $this->belongsTo(OauthClient::class, 'client_id');
+        return $this->belongsTo(Application::class);
     }  
 
     /**

@@ -193,6 +193,11 @@ class BillController extends Controller
             
             $bill->paid();
 
+            if($bill->application){
+                $url = $bill->application->redirect.'?reference_id='.$bill->reference_id.'&status='.$bill->status;
+                return redirect($url);
+            }
+
             return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
         }
 

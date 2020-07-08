@@ -26,6 +26,9 @@ class BillApiRequest extends FormRequest
     public function rules()
     {
         return [
+            'application_id' => ['required'],
+            'application_secret' => ['required'],
+
             'reference_id' => ['required', 'string', 'max:255'],
             'customer_name' => ['required', 'string', 'max:255'],
             'customer_email' => ['required', 'string', 'email', 'max:255'],

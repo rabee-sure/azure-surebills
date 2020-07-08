@@ -105,4 +105,15 @@ class User extends Authenticatable
         $hash = md5(strtolower(trim($this->attributes['email'])));
         return "http://www.gravatar.com/avatar/$hash";
     }
+
+
+    /**
+     * Get items.
+     *
+     * @return Collection
+     */
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
 }
