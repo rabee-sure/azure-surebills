@@ -214,7 +214,7 @@
               </div><!-- form-group -->
             </div><!-- form-row -->
             <div class="d-flex justify-content-start mt-3">
-              <button type="submit" class="btn btn-primary btn-lg"> {{__('Send')}}</button>
+              <button type="submit" class="btn btn-primary btn-lg login_button"> {{__('Send')}}</button>
             </div><!-- d-flex  -->
           </form>
         </div>
