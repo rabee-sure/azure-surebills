@@ -26,7 +26,7 @@ class BillController extends Controller
     public function index(Request $request)
     {   
         $bills = Bill::where('user_id', auth()->user()->id)
-            ->orderBy('number', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate($request->get('per_page', 10));
         return view('bills.index', ['bills' => $bills]);
     }

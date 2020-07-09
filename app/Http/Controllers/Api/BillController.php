@@ -122,6 +122,8 @@ class BillController extends Controller
     {
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $bill = Bill::find($id);
+
+        logger(['dd'=>$bill]);
         if(isset($application) && $application->id == $bill->application_id){
             return new BillResource($bill);
         }else{

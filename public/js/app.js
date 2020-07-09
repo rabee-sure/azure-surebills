@@ -2115,14 +2115,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         name: '',
         redirect: '',
         webhook_url: '',
-        fail_redirect_url: '',
         confidential: true
       },
       editForm: {
         errors: [],
         name: '',
         redirect: '',
-        fail_redirect_url: '',
         webhook_url: ''
       }
     };
@@ -2187,7 +2185,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       this.editForm.id = application.id;
       this.editForm.name = application.name;
       this.editForm.redirect = application.redirect;
-      this.editForm.fail_redirect_url = application.fail_redirect_url;
       this.editForm.webhook_url = application.webhook_url;
       $('#modal-edit-application').modal('show');
     },
@@ -2212,7 +2209,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         form.name = '';
         form.redirect = '';
         form.webhook_url = '';
-        form.fail_redirect_url = '';
         form.errors = [];
         $(modal).modal('hide');
 
@@ -23436,7 +23432,7 @@ var render = function() {
                         _c(
                           "td",
                           { staticStyle: { "vertical-align": "middle" } },
-                          [_vm._v(_vm._s(application.fail_redirect_url))]
+                          [_vm._v(_vm._s(application.redirect))]
                         ),
                         _vm._v(" "),
                         _c(
@@ -23670,55 +23666,6 @@ var render = function() {
                       }
                     })
                   ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c("label", { staticClass: "col-md-3 col-form-label" }, [
-                    _vm._v("Fail Redirect URL")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-9" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.createForm.fail_redirect_url,
-                          expression: "createForm.fail_redirect_url"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", name: "fail_redirect_url" },
-                      domProps: { value: _vm.createForm.fail_redirect_url },
-                      on: {
-                        keyup: function($event) {
-                          if (
-                            !$event.type.indexOf("key") &&
-                            _vm._k(
-                              $event.keyCode,
-                              "enter",
-                              13,
-                              $event.key,
-                              "Enter"
-                            )
-                          ) {
-                            return null
-                          }
-                          return _vm.store($event)
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.createForm,
-                            "fail_redirect_url",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
                 ])
               ])
             ]),
@@ -23926,55 +23873,6 @@ var render = function() {
                       }
                     })
                   ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _c("label", { staticClass: "col-md-3 col-form-label" }, [
-                    _vm._v("Fail Redirect URL")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-9" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.editForm.fail_redirect_url,
-                          expression: "editForm.fail_redirect_url"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", name: "fail_redirect_url" },
-                      domProps: { value: _vm.editForm.fail_redirect_url },
-                      on: {
-                        keyup: function($event) {
-                          if (
-                            !$event.type.indexOf("key") &&
-                            _vm._k(
-                              $event.keyCode,
-                              "enter",
-                              13,
-                              $event.key,
-                              "Enter"
-                            )
-                          ) {
-                            return null
-                          }
-                          return _vm.update($event)
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.editForm,
-                            "fail_redirect_url",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
                 ])
               ])
             ]),
@@ -24024,7 +23922,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("webhook Secret")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Fail Redirect Url")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Redirect Url")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }),
         _vm._v(" "),

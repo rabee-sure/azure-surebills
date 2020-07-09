@@ -20,7 +20,7 @@
                 <th scope="col">Secret</th>
                 <th scope="col">webhook URL</th>
                 <th scope="col">webhook Secret</th>
-                <th scope="col">Fail Redirect Url</th>
+                <th scope="col">Redirect Url</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
               </tr>
@@ -35,7 +35,7 @@
                 <td style="vertical-align: middle;"><code>{{ application.secret ? application.secret : '-' }}</code></td>
                 <td style="vertical-align: middle;">{{ application.webhook_url }}</td>
                 <td style="vertical-align: middle;"><code>{{ application.webhook_secret ? application.webhook_secret : '-' }}</code></td>
-                <td style="vertical-align: middle;">{{ application.fail_redirect_url }}</td>
+                <td style="vertical-align: middle;">{{ application.redirect }}</td>
                 <!-- Edit Button -->
                 <td style="vertical-align: middle;">
                   <a class="action-link" tabindex="-1" @click="edit(application)">Edit</a>
@@ -94,12 +94,12 @@
                 </div>
               </div>              
               <!-- fail_redirect_url URL -->
-              <div class="form-group row">
+<!--               <div class="form-group row">
                 <label class="col-md-3 col-form-label">Fail Redirect URL</label>
                 <div class="col-md-9">
                   <input type="text" class="form-control" name="fail_redirect_url" @keyup.enter="store" v-model="createForm.fail_redirect_url">
                 </div>
-              </div>
+              </div> -->
 
             </form>
           </div>
@@ -155,12 +155,12 @@
                 </div>
               </div>              
               <!-- Fail Redirect URL -->
-              <div class="form-group row">
+<!--               <div class="form-group row">
                 <label class="col-md-3 col-form-label">Fail Redirect URL</label>
                 <div class="col-md-9">
                   <input type="text" class="form-control" name="fail_redirect_url" @keyup.enter="update" v-model="editForm.fail_redirect_url">
                 </div>
-              </div>
+              </div> -->
             </form>
           </div>
           <!-- Modal Actions -->
@@ -206,7 +206,6 @@
                     name: '',
                     redirect: '',
                     webhook_url: '',
-                    fail_redirect_url: '',
                     confidential: true
                 },
 
@@ -214,7 +213,6 @@
                     errors: [],
                     name: '',
                     redirect: '',
-                    fail_redirect_url: '',
                     webhook_url: '',
                 }
             };
@@ -286,7 +284,6 @@
                 this.editForm.id = application.id;
                 this.editForm.name = application.name;
                 this.editForm.redirect = application.redirect;
-                this.editForm.fail_redirect_url = application.fail_redirect_url;
                 this.editForm.webhook_url = application.webhook_url;
 
                 $('#modal-edit-application').modal('show');
@@ -317,7 +314,6 @@
                         form.name = '';
                         form.redirect = '';
                         form.webhook_url = '';
-                        form.fail_redirect_url = '';
                         form.errors = [];
 
                         $(modal).modal('hide');
