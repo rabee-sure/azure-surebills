@@ -17,7 +17,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png" />
     <title>{{ config('app.name', 'Sure Bills') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/all.css" />
     @yield('css_styles')
 
