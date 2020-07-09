@@ -194,7 +194,7 @@ class BillController extends Controller
             $bill->paid();
 
             if($bill->application){
-                $url = $bill->application->redirect.'?reference_id='.$bill->reference_id.'&status='.$bill->status;
+                $url = $bill->application->redirect.'?reference_id='.$bill->reference_id.'&status='.$bill->status.'&bill_id='.$bill->id;
                 return redirect($url);
             }
 
@@ -251,6 +251,10 @@ class BillController extends Controller
                 'status' => 1,
             ]);
 
+            if($bill->application){
+                $url = $bill->application->redirect.'?reference_id='.$bill->reference_id.'&status='.$bill->status.'&bill_id='.$bill->id;
+                return redirect($url);
+            }
             return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
         }
 

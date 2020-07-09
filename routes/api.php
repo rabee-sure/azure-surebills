@@ -20,5 +20,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
 	Route::post('bills/create', 'BillController@store');
-	Route::get('bills/{id}/check', 'BillController@check');
+	Route::get('bills/{bill}', 'BillController@show');
 });

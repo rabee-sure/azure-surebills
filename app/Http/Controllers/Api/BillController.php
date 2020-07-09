@@ -10,6 +10,7 @@ use App\Events\BillCreated;
 use App\Events\BillPaid;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BillApiRequest;
+use App\Http\Requests\CheckBillApiRequest;
 use App\Http\Requests\PayBillRequest;
 use App\Http\Resources\BillApiResource;
 use App\Http\Resources\BillResource;
@@ -111,4 +112,21 @@ class BillController extends Controller
         return new BillApiResource($bill);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show( $id, CheckBillApiRequest $request)
+    {
+        $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+        $bill = Bill::find($id);
+        if(isset($application) && $application->id == $bill->application_id){
+            return new BillResource($bill);
+        }else{
+            return response()->json(['success' => false]);
+        }
+
+    }
 }
