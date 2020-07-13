@@ -21,7 +21,7 @@
         "multicaret/laravel-unifonic": "^1.0",
         "predis/predis": "^1.1",
         "proengsoft/laravel-jsvalidation": "^4.0",
-        "spatie/laravel-webhook-server": "^1.9"
+        "laravel/nova": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
@@ -70,5 +70,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./nova"
+        }
+    ]
 }
