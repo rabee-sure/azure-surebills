@@ -245,7 +245,7 @@
           <span>
             Due On {{ $bill->due_date->format('M d Y')}}
             @if($bill->user->vat_registration_number)
-              <div class="vat_reg"> VAT Registration Number : {{ $bill->user->vat_registration_number }}</div>
+              <div class="vat_reg"> {{ __('VAT Registration Number') }} : {{ $bill->user->vat_registration_number }}</div>
             @endif
           </span>
           <div>
