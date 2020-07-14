@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
   <div class="col-12">
-    <h1>Business Information</h1>
+    <h1>{{ __('Business Information') }}</h1>
     <div class="separator mb-5"></div>
   </div>
 
@@ -21,8 +21,8 @@
                       </select>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="vat_registration_number">VAT Registration Number</label>
-                      <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="VAT Registration Number">
+                      <label for="vat_registration_number">{{ __('VAT Registration Number') }}</label>
+                      <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
                     </div>
                   </div>
                   <div class="form-row">

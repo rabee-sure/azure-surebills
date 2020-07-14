@@ -9,13 +9,16 @@
             <p class="mb-0 text-muted text-small w-15 w-xs-100">{{ $bill->created_at}} PM</p>
             <div class="w-15 w-xs-100 text-center">
               @if($bill->status == 'pending')
-              <span class="badge badge-pill badge-info d-inline-block">{{ __('Pending')}}</span>
+                <span class="badge badge-pill badge-info d-inline-block">{{ __('Pending')}}</span>
               @endif
               @if($bill->status == 'paid')
-              <span class="badge badge-pill badge-success d-inline-block">{{ __('Paid')}}</span>
+                <span class="badge badge-pill badge-success d-inline-block">{{ __('Paid')}}</span>
               @endif             
               @if($bill->status == 'canceled')
-              <span class="badge badge-pill badge-light d-inline-block">{{ __('Canceled')}}</span>
+                <span class="badge badge-pill badge-light d-inline-block">{{ __('Canceled')}}</span>
+              @endif              
+              @if($bill->status == 'expired')
+                <span class="badge badge-pill badge-light d-inline-block">{{ __('Expired')}}</span>
               @endif
             </div>
         </div>

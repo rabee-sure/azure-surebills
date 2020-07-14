@@ -2394,6 +2394,107 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pricing.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Pricing.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  /*
+   * The component's data.
+   */
+  data: function data() {
+    return {
+      pricing: []
+    };
+  },
+
+  /**
+   * Prepare the component (Vue 1.x).
+   */
+  ready: function ready() {
+    this.getPricing();
+  },
+
+  /**
+   * Prepare the component (Vue 2.x).
+   */
+  mounted: function mounted() {
+    this.getPricing();
+  },
+  methods: {
+    /**
+     * Get all of the pricing for the user.
+     */
+    getPricing: function getPricing() {
+      var _this = this;
+
+      axios.get('/pricing/details').then(function (response) {
+        _this.pricing = response.data.data;
+      });
+    },
+
+    /**
+     * Update the application being edited.
+     */
+    update: function update(tt) {
+      var _this2 = this;
+
+      axios.put('/pricing', this.pricing).then(function (response) {
+        _this2.pricing = response.data.data;
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Applications.vue?vue&type=style&index=0&id=6be2cf8e&lang=scss&scoped=true&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--10-2!./node_modules/sass-loader/dist/cjs.js??ref--10-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Applications.vue?vue&type=style&index=0&id=6be2cf8e&lang=scss&scoped=true& ***!
@@ -24250,6 +24351,247 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pricing.vue?vue&type=template&id=345c762b&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Pricing.vue?vue&type=template&id=345c762b&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "row  justify-content-center icon-cards-row mx-n3" },
+    [
+      _c("div", { staticClass: "col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4" }, [
+        _c("div", { staticClass: "pricing_item" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("b", [_vm._v(" " + _vm._s(_vm.__("Credit Cards")))]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              _vm._s(_vm.pricing.credit_cards_percentage) +
+                " % per transaction + 1 Riyal"
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "choose_radio" }, [
+            _c("div", { staticClass: "custom-control custom-radio" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pricing.credit_cards_pay_fees,
+                    expression: "pricing.credit_cards_pay_fees"
+                  }
+                ],
+                staticClass: "custom-control-input",
+                attrs: {
+                  type: "radio",
+                  id: "customRadio1",
+                  value: "account",
+                  name: "credit_cards_pay_fees"
+                },
+                domProps: {
+                  checked: _vm._q(_vm.pricing.credit_cards_pay_fees, "account")
+                },
+                on: {
+                  change: [
+                    function($event) {
+                      return _vm.$set(
+                        _vm.pricing,
+                        "credit_cards_pay_fees",
+                        "account"
+                      )
+                    },
+                    _vm.update
+                  ]
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "custom-control-label",
+                  attrs: { for: "customRadio1" }
+                },
+                [_vm._v(_vm._s(_vm.__("I will pay fees")))]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "custom-control custom-radio" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pricing.credit_cards_pay_fees,
+                    expression: "pricing.credit_cards_pay_fees"
+                  }
+                ],
+                staticClass: "custom-control-input",
+                attrs: {
+                  type: "radio",
+                  id: "customRadio2",
+                  value: "customer",
+                  name: "credit_cards_pay_fees"
+                },
+                domProps: {
+                  checked: _vm._q(_vm.pricing.credit_cards_pay_fees, "customer")
+                },
+                on: {
+                  change: [
+                    function($event) {
+                      return _vm.$set(
+                        _vm.pricing,
+                        "credit_cards_pay_fees",
+                        "customer"
+                      )
+                    },
+                    _vm.update
+                  ]
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "custom-control-label",
+                  attrs: { for: "customRadio2" }
+                },
+                [_vm._v(_vm._s(_vm.__("My customer will pay fees")))]
+              )
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4" }, [
+        _c("div", { staticClass: "pricing_item" }, [
+          _c("div", { staticClass: "mada_icon" }),
+          _vm._v(" "),
+          _c("b", [_vm._v(_vm._s(_vm.__("Mada")))]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              _vm._s(_vm.pricing.mada_percentage) +
+                " % per transaction + 1 Riyal"
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "choose_radio" }, [
+            _c("div", { staticClass: "custom-control custom-radio" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pricing.mada_pay_fees,
+                    expression: "pricing.mada_pay_fees"
+                  }
+                ],
+                staticClass: "custom-control-input",
+                attrs: {
+                  type: "radio",
+                  id: "customRadio3",
+                  value: "account",
+                  name: "mada_pay_fees"
+                },
+                domProps: {
+                  checked: _vm._q(_vm.pricing.mada_pay_fees, "account")
+                },
+                on: {
+                  change: [
+                    function($event) {
+                      return _vm.$set(_vm.pricing, "mada_pay_fees", "account")
+                    },
+                    _vm.update
+                  ]
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "custom-control-label",
+                  attrs: { for: "customRadio3" }
+                },
+                [_vm._v(_vm._s(_vm.__("I will pay fees")))]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "custom-control custom-radio" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.pricing.mada_pay_fees,
+                    expression: "pricing.mada_pay_fees"
+                  }
+                ],
+                staticClass: "custom-control-input",
+                attrs: {
+                  type: "radio",
+                  id: "customRadio4",
+                  value: "customer",
+                  name: "mada_pay_fees"
+                },
+                domProps: {
+                  checked: _vm._q(_vm.pricing.mada_pay_fees, "customer")
+                },
+                on: {
+                  change: [
+                    function($event) {
+                      return _vm.$set(_vm.pricing, "mada_pay_fees", "customer")
+                    },
+                    _vm.update
+                  ]
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "custom-control-label",
+                  attrs: { for: "customRadio4" }
+                },
+                [_vm._v(_vm._s(_vm.__("My customer will pay fees")))]
+              )
+            ])
+          ])
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "visa_master_icons" }, [
+      _c("span", { staticClass: "visa" }),
+      _vm._v(" "),
+      _c("span", { staticClass: "master" })
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -36438,6 +36780,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('applications', __webpack_require__(/*! ./components/Applications.vue */ "./resources/js/components/Applications.vue")["default"]);
+Vue.component('pricing', __webpack_require__(/*! ./components/Pricing.vue */ "./resources/js/components/Pricing.vue")["default"]);
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]); // Vue.component(
 //     'passport-clients',
 //     require('./components/passport/Clients.vue').default
@@ -36746,6 +37089,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MobileActive_vue_vue_type_template_id_b6fceb9a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MobileActive_vue_vue_type_template_id_b6fceb9a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Pricing.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Pricing.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Pricing_vue_vue_type_template_id_345c762b_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Pricing.vue?vue&type=template&id=345c762b&scoped=true& */ "./resources/js/components/Pricing.vue?vue&type=template&id=345c762b&scoped=true&");
+/* harmony import */ var _Pricing_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Pricing.vue?vue&type=script&lang=js& */ "./resources/js/components/Pricing.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Pricing_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Pricing_vue_vue_type_template_id_345c762b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Pricing_vue_vue_type_template_id_345c762b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "345c762b",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Pricing.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Pricing.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/Pricing.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Pricing_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Pricing.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pricing.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Pricing_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Pricing.vue?vue&type=template&id=345c762b&scoped=true&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/Pricing.vue?vue&type=template&id=345c762b&scoped=true& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pricing_vue_vue_type_template_id_345c762b_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Pricing.vue?vue&type=template&id=345c762b&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pricing.vue?vue&type=template&id=345c762b&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pricing_vue_vue_type_template_id_345c762b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Pricing_vue_vue_type_template_id_345c762b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

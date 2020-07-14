@@ -15,7 +15,7 @@
           <li class="breadcrumb-item">
             <a href="{{ url('/') }}">{{ __('Home')}}</a>
           </li>
-          <li class="breadcrumb-item active" aria-current="page">{{ __('customers')}}</li>
+          <li class="breadcrumb-item active" aria-current="page">{{ __('Customers')}}</li>
         </ol>
       </nav>
       </div>

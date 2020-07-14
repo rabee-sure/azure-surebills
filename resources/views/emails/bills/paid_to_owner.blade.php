@@ -227,28 +227,28 @@
         </div><!-- block_1 -->
         @if($bill->status == 'expired')
           <div class="alert alert-secondary" role="alert">
-            this bill #{{ $bill->number }} has been expired
+            {{ __('this bill') }} #{{ $bill->number }} has been expired
           </div>
         @endif
         @if($bill->status == 'paid')
           <div class="alert alert-success" role="alert">
-            this bill #{{ $bill->number }} paid successfully
+            {{ __('this bill') }} #{{ $bill->number }}  {{ __('paid successfully') }}
           </div>
         @endif
         @if($bill->status == 'canceled')
           <div class="alert alert-danger" role="alert">
-            this bill #{{ $bill->number }} has been canceled
+            {{ __('this bill') }} #{{ $bill->number }} {{ __('has been canceled') }}
           </div>
         @endif
         <div class="block_2">
           <span>
-            Due On {{ $bill->due_date->format('M d Y')}}
+            {{ __('Due On') }} {{ $bill->due_date->format('M d Y')}}
             @if($bill->user->vat_registration_number)
-              <div class="vat_reg"> VAT Registration Number : {{ $bill->user->vat_registration_number }}</div>
+              <div class="vat_reg"> {{ __('VAT Registration Number') }} : {{ $bill->user->vat_registration_number }}</div>
             @endif
           </span>
           <div>
-            <p>Bill # : {{ $bill->number}}</p>
+            <p>{{ __('Bill') }} # : {{ $bill->number}}</p>
             <small>{{ $bill->created_at->format('Y-m-d') }}</small>
           </div>
         </div><!-- block_2 -->
@@ -263,16 +263,16 @@
         </div><!-- block_3 -->
         <div class="total_area">
             @if( $bill->add_tax && $bill->add_discount)
-              <p>Subtotal : {{ $bill->sub_total }} SAR</p>
+              <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} SAR</p>
             @endif
             @if( $bill->add_discount)
-              <p>Discount : {{ $bill->discount }} SAR</p>
-              <p>Subtotal - Discount : {{ $bill->sub_total- $bill->discount }} SAR</p>
+              <p>{{ __('Discount') }} : {{ $bill->discount }} SAR</p>
+              <p>{{ __('Subtotal - Discount') }} : {{ $bill->sub_total- $bill->discount }} SAR</p>
             @endif
             @if( $bill->add_tax)
-              <p>Tax : {{ $bill->vat }} SAR</p>
+              <p>{{ __('Tax') }} : {{ $bill->vat }} SAR</p>
             @endif
-            <b>Total : {{ $bill->total}} SAR</b>
+            <b>{{ __('Total') }} : {{ $bill->total}} SAR</b>
         </div><!-- total_area -->
         @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
         <div class="block_4">

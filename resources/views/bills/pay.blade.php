@@ -26,13 +26,13 @@
           @endif
             <div class="date_time">
               <span>
-                Due on {{ $bill->due_date->format('M d Y')}}
+                {{__('Due on')}} {{ $bill->due_date->format('M d Y')}}
                 @if($bill->user->vat_registration_number)
-                  <div class="vat_reg"> VAT Registration Number : {{ $bill->user->vat_registration_number }}</div>
+                  <div class="vat_reg"> {{ __('VAT Registration Number') }}: {{ $bill->user->vat_registration_number }}</div>
                 @endif
               </span>
               <div>
-                <p>Bill #{{ $bill->number }}</p>
+                <p>{{ __('Bill') }} #{{ $bill->number }}</p>
                 <b>{{ $bill->created_at->format('Y/m/d')}}</b>
               </div>
             </div><!-- date_time -->
@@ -41,42 +41,42 @@
                 <div class="details_pay">
                   <p>{{ $item->product_name }}</p>
                   <b>X {{ $item->quantity  }}</b>
-                  <b>{{ $item->product_price  }} SAR</b>
+                  <b>{{ $item->product_price  }}  {{ __('SAR') }}</b>
                 </div><!-- details_pay -->
               @endforeach
             </div><!-- shopping_cart -->
             <div class="total_bill">
               @if( $bill->add_tax && $bill->add_discount)
-                <p>Subtotal : {{ $bill->sub_total }} SAR</p>
+                <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} {{ __('SAR') }}</p>
               @endif
               @if( $bill->add_discount)
                 @if($bill->discount_type == 'percentage')
-                  <p>Discount ({{ $bill->discount_value }}%) : {{ $bill->discount }} SAR</p>
+                  <p>{{ __('Discount') }} ({{ $bill->discount_value }}%) : {{ $bill->discount }}  {{ __('SAR') }}</p>
                 @else
-                  <p>Discount ({{ $bill->discount_value }} SAR) : {{ $bill->discount }} SAR</p>
+                  <p>{{ __('Discount') }} ({{ $bill->discount_value }}  {{ __('SAR') }}) : {{ $bill->discount }}  {{ __('SAR') }}</p>
                 @endif
-                <p>Subtotal - Discount : {{ $bill->sub_total- $bill->discount }} SAR</p>
+                <p>{{ __('Subtotal - Discount') }}: {{ $bill->sub_total- $bill->discount }}  {{ __('SAR') }}</p>
               @endif
               @if( $bill->add_tax)
-                <p>{{ $bill->tax_name }} ({{ $bill->tax_value }}%) : {{ $bill->vat }} SAR</p>
+                <p>{{ __('Vat') }} ({{ $bill->tax_value }}%) : {{ $bill->vat }}  {{ __('SAR') }}</p>
               @endif
-              <b>Total : {{ $bill->total}} SAR</b>
+              <b>{{ __('Total') }} : {{ $bill->total}}  {{ __('SAR') }}</b>
             </div><!-- total_bill -->
             @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
             <div class="customer_information">
               <!-- <div class="name">Customer Information</div> -->
-              <p>Billed to, {{ $bill->customer_name}}</p>
+              <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
               <p>+966{{ $bill->customer_mobile}}</p>
               <p>{{ $bill->customer_email}}</p>
             </div><!-- customer_information -->
             <div class="payment_method">
-              <div class="name">Payment Method</div>
+              <div class="name">{{__('Payment Method')}}</div>
 
               <div class="bill_payment">
                 <div class="item">
                   <input type="radio" id="visa_pay" name="pay" checked>
                   <label for="visa_pay">
-                    <p>Credit Card - made</p>
+                    <p>{{__('Credit Card - made')}} </p>
                     <div class="icon_mada"></div>
                     <div class="checkmark"></div>
                   </label>

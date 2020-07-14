@@ -187,7 +187,7 @@
             </li>
             <li>
               <a href="business-information.html">
-                <i class="iconsminds-management"></i> <span class="d-inline-block">Business Information</span>
+                <i class="iconsminds-management"></i> <span class="d-inline-block">{{ __('Business Information') }}</span>
               </a>
             </li>
             <li>

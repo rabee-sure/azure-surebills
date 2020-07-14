@@ -22,6 +22,11 @@ window.Vue = require('vue');
 Vue.component(
     'applications',
     require('./components/Applications.vue').default
+);
+
+Vue.component(
+    'pricing',
+    require('./components/Pricing.vue').default
 ); 
 Vue.component(
 	'example-component', 

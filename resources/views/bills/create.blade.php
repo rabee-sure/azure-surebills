@@ -19,7 +19,7 @@
 
   <div class="row">
     <div class="col-12">
-      <h1>Create Bill</h1>
+      <h1>{{ __('Create a bill') }}</h1>
       <div class="separator mb-5"></div>
     </div>
     <div class="col-12">

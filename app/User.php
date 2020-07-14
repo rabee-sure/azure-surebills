@@ -40,6 +40,12 @@ class User extends Authenticatable
         'iban_number',
         'organization_name',
         'beneficiary_name',
+
+        //bank princing
+        'credit_cards_percentage',
+        'mada_percentage',
+        'credit_cards_pay_fees',
+        'mada_pay_fees',
     ];
 
     /**
