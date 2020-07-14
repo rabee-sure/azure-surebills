@@ -2445,6 +2445,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   /*
    * The component's data.
@@ -24379,98 +24380,10 @@ var render = function() {
           _c("p", [
             _vm._v(
               _vm._s(_vm.pricing.credit_cards_percentage) +
-                " % per transaction + 1 Riyal"
+                " % per transaction + " +
+                _vm._s(_vm.pricing.credit_cards_fixed) +
+                " Riyal"
             )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "choose_radio" }, [
-            _c("div", { staticClass: "custom-control custom-radio" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pricing.credit_cards_pay_fees,
-                    expression: "pricing.credit_cards_pay_fees"
-                  }
-                ],
-                staticClass: "custom-control-input",
-                attrs: {
-                  type: "radio",
-                  id: "customRadio1",
-                  value: "account",
-                  name: "credit_cards_pay_fees"
-                },
-                domProps: {
-                  checked: _vm._q(_vm.pricing.credit_cards_pay_fees, "account")
-                },
-                on: {
-                  change: [
-                    function($event) {
-                      return _vm.$set(
-                        _vm.pricing,
-                        "credit_cards_pay_fees",
-                        "account"
-                      )
-                    },
-                    _vm.update
-                  ]
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "label",
-                {
-                  staticClass: "custom-control-label",
-                  attrs: { for: "customRadio1" }
-                },
-                [_vm._v(_vm._s(_vm.__("I will pay fees")))]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "custom-control custom-radio" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pricing.credit_cards_pay_fees,
-                    expression: "pricing.credit_cards_pay_fees"
-                  }
-                ],
-                staticClass: "custom-control-input",
-                attrs: {
-                  type: "radio",
-                  id: "customRadio2",
-                  value: "customer",
-                  name: "credit_cards_pay_fees"
-                },
-                domProps: {
-                  checked: _vm._q(_vm.pricing.credit_cards_pay_fees, "customer")
-                },
-                on: {
-                  change: [
-                    function($event) {
-                      return _vm.$set(
-                        _vm.pricing,
-                        "credit_cards_pay_fees",
-                        "customer"
-                      )
-                    },
-                    _vm.update
-                  ]
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "label",
-                {
-                  staticClass: "custom-control-label",
-                  attrs: { for: "customRadio2" }
-                },
-                [_vm._v(_vm._s(_vm.__("My customer will pay fees")))]
-              )
-            ])
           ])
         ])
       ]),
@@ -24484,90 +24397,10 @@ var render = function() {
           _c("p", [
             _vm._v(
               _vm._s(_vm.pricing.mada_percentage) +
-                " % per transaction + 1 Riyal"
+                " % per transaction + " +
+                _vm._s(_vm.pricing.mada_fixed) +
+                " Riyal"
             )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "choose_radio" }, [
-            _c("div", { staticClass: "custom-control custom-radio" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pricing.mada_pay_fees,
-                    expression: "pricing.mada_pay_fees"
-                  }
-                ],
-                staticClass: "custom-control-input",
-                attrs: {
-                  type: "radio",
-                  id: "customRadio3",
-                  value: "account",
-                  name: "mada_pay_fees"
-                },
-                domProps: {
-                  checked: _vm._q(_vm.pricing.mada_pay_fees, "account")
-                },
-                on: {
-                  change: [
-                    function($event) {
-                      return _vm.$set(_vm.pricing, "mada_pay_fees", "account")
-                    },
-                    _vm.update
-                  ]
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "label",
-                {
-                  staticClass: "custom-control-label",
-                  attrs: { for: "customRadio3" }
-                },
-                [_vm._v(_vm._s(_vm.__("I will pay fees")))]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "custom-control custom-radio" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pricing.mada_pay_fees,
-                    expression: "pricing.mada_pay_fees"
-                  }
-                ],
-                staticClass: "custom-control-input",
-                attrs: {
-                  type: "radio",
-                  id: "customRadio4",
-                  value: "customer",
-                  name: "mada_pay_fees"
-                },
-                domProps: {
-                  checked: _vm._q(_vm.pricing.mada_pay_fees, "customer")
-                },
-                on: {
-                  change: [
-                    function($event) {
-                      return _vm.$set(_vm.pricing, "mada_pay_fees", "customer")
-                    },
-                    _vm.update
-                  ]
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "label",
-                {
-                  staticClass: "custom-control-label",
-                  attrs: { for: "customRadio4" }
-                },
-                [_vm._v(_vm._s(_vm.__("My customer will pay fees")))]
-              )
-            ])
           ])
         ])
       ])

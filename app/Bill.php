@@ -42,6 +42,8 @@ class Bill extends Model
     	'paid_at',
     	'canceled_at',
         'application_id',
+        'payment_fees',
+        'settled',
     ];
 
     /**
