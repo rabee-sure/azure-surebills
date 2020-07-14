@@ -18,6 +18,7 @@
         "laravel/passport": "^9.2",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "laravel/vapor-cli": "^1.7",
         "multicaret/laravel-unifonic": "^1.0",
         "predis/predis": "^1.1",
         "proengsoft/laravel-jsvalidation": "^4.0",
