@@ -150,6 +150,7 @@ class HyperPayFrame extends Driver
         // update invoice status
         $this->invoice->detail(['result_code' => $response->result->code])
             ->detail(['success' => $success])
+            ->detail(['response' => json_decode($responseData, true)])
             ->detail(['description' => $response->result->description]);
         $this->invoice->transactionId($response->id ?? "not have id");
     }
