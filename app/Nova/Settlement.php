@@ -3,22 +3,24 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
-class User extends Resource
+class Settlement extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\User::class;
+    public static $model = \App\Settlement::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -33,7 +35,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id',
     ];
 
     /**
@@ -46,43 +48,14 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
+            Date::make('Bills Paid From'),
+            Date::make('Bills Paid To'),
+            Number::make('total Number Of Bills')->min(1)->step(1),
+            Number::make('Total Amount Of Bills')->min(1)->step(0.1),
+            Number::make('Total Paid Amount')->min(1)->step(0.1),
+            Number::make('Total Fees Amount')->min(1)->step(0.1),
+            BelongsTo::make('User'),
 
-            Gravatar::make()->maxWidth(50),
-
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
-
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
-
-            new Panel('Pricing', $this->pricingFields()),
-
-            HasMany::make('settlements'),
-
-        ];
-    }
-
-    /**
-     * Get the address fields for the resource.
-     *
-     * @return array
-     */
-    protected function pricingFields()
-    {
-        return [
-            Number::make('credit cards percentage')->step(0.1),
-            Number::make('credit_cards_fixed')->step(0.1),
-            Number::make('mada percentage')->step(0.1),
-            Number::make('mada_fixed')->step(0.1),
         ];
     }
 

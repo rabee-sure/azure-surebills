@@ -33,12 +33,12 @@
             {{ __('Customers') }}
           </a>
         </li> 
-        <!-- <li>
-          <a href="statement.html" title="Statement">
+        <li class="{{ Request::is('settlements*') ? 'active' : '' }}">
+          <a href="{{ route('settlements.index') }}" title="Statement">
             <i class="iconsminds-statistic"></i>
-            Statement
+            {{ __('Settlements') }}
           </a>
-        </li> -->
+        </li>
         <li class="{{ Request::is('account*') ? 'active' : '' }}">
           <a href="#account" title="Account">
             <i class="iconsminds-male-2"></i>

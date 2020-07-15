@@ -134,4 +134,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Bill::class);
     }
+
+    /**
+     * Get settlements.
+     *
+     * @return Collection
+     */
+    public function settlements()
+    {
+        return $this->hasMany(Settlement::class);
+    }
 }
