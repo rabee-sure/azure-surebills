@@ -116,12 +116,22 @@ class User extends Authenticatable
 
 
     /**
-     * Get items.
+     * Get applications.
      *
      * @return Collection
      */
     public function applications()
     {
         return $this->hasMany(Application::class);
+    }
+
+    /**
+     * Get bills.
+     *
+     * @return Collection
+     */
+    public function bills()
+    {
+        return $this->hasMany(Bill::class);
     }
 }

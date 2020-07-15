@@ -109,6 +109,13 @@ class Bill extends Model
     }
 
     /**
+     * get only paid bills
+     */
+    public function scopeNotSettled($query){
+        $query->where('settled', false);
+    }
+
+    /**
      * Get items.
      *
      * @return Collection

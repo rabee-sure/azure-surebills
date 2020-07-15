@@ -27,12 +27,19 @@ class HomeController extends Controller
         $bills = Bill::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get();
         $latest = $bills->take(3);
 
-        $balance = Bill::where('user_id', auth()->user()->id)->paid()->sum('total');
+        $user_bills = auth()->user()->bills();
+        $balance = auth()->user()->bills()->notSettled()->sum('total') - auth()->user()->bills()->notSettled()->sum('payment_fees');
+        $total_paid = auth()->user()->bills()->paid()->sum('total');
+        $total_bills = auth()->user()->bills()->count();
+        $total_paid_bills = auth()->user()->bills()->paid()->count();
 
         return view('home', [
             'latest' =>  $latest,
             'bills' =>  $bills,
             'balance' =>  $balance,
+            'total_paid' =>  $total_paid,
+            'total_bills' =>  $total_bills,
+            'total_paid_bills' =>  $total_paid_bills,
         ]);
     }
 }

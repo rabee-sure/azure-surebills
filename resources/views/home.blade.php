@@ -21,7 +21,7 @@
               <a href="#" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">Balance</p>
+                  <p class="card-text font-weight-semibold mb-0">{{ __('Balance') }}</p>
                   <p class="lead text-center">{{ $balance}}</p>
                 </div>
               </a>
@@ -30,8 +30,8 @@
               <a href="#" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon available_balance_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">Available Balance</p>
-                  <p class="lead text-center">0.00</p>
+                  <p class="card-text font-weight-semibold mb-0">{{ __('Total Paid') }}</p>
+                  <p class="lead text-center">{{ $total_paid }}</p>
                 </div>
               </a>
             </div>
@@ -39,8 +39,8 @@
               <a href="#" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon pending_balance_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">Pending Balance</p>
-                  <p class="lead text-center">0.00</p>
+                  <p class="card-text font-weight-semibold mb-0">{{ __('Total Bills') }}</p>
+                  <p class="lead text-center">{{ $total_bills }}</p>
                 </div>
               </a>
             </div>
@@ -48,8 +48,8 @@
               <a href="#" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon settlements_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">Settlements</p>
-                  <p class="lead text-center">0.00</p>
+                  <p class="card-text font-weight-semibold mb-0">{{ __('Total Paid Bills') }}</p>
+                  <p class="lead text-center">{{ $total_paid_bills }}</p>
                 </div>
               </a>
             </div>
