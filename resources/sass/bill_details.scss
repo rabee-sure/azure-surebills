@@ -1,5 +1,6 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Tajawal');
 
 // Variables
 @import 'variables';
@@ -10,7 +11,11 @@
 
 body {
   background: #fff;
-  font-family: 'Nunito';
+  font-family: 'Nunito', 'Tajawal';
+  [dir="rtl"] & {
+    direction: rtl;
+    font-family: 'Tajawal', 'Nunito';
+  } /* rtl */
 }
 /* single_bill_page */
 .single_bill_page {
@@ -23,6 +28,14 @@ body {
     background: #fff;
     box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
   }
+  .change-lang {
+    a {
+      display: inline-block;
+      font-size: 14px;
+      color: #000;
+      text-decoration: none;
+    } /* a */
+  } /* change-lang */
   .alert {
     text-align: center;
     font-weight: bold;
@@ -86,6 +99,9 @@ body {
         font-size: 14px;
         color: #444;
         margin: 5px auto 0;
+        [dir="rtl"] & {
+          text-align: right;
+        } /* rtl */
       } /* vat_reg */
     } /* span */
     p {
@@ -95,6 +111,9 @@ body {
       line-height: 1.1;
       color: #444;
       text-align: right;
+      [dir="rtl"] & {
+        text-align: left;
+      } /* rtl */
     } /* p */
     b {
       display: block;
@@ -104,6 +123,9 @@ body {
       color: #444;
       font-weight: normal;
       text-align: right;
+      [dir="rtl"] & {
+        text-align: left;
+      } /* rtl */
     } /* b */
   } /* date_time */
   .shopping_cart {
@@ -130,6 +152,9 @@ body {
         min-width: 60%;
         color: #000;
         font-size: 14px;
+        [dir="rtl"] & {
+          text-align: right;
+        } /* rtl */
       } /* p */
       b {
         display: block;
@@ -141,6 +166,9 @@ body {
         text-align: center;
         &:last-child {
           text-align: right;
+          [dir="rtl"] & {
+            text-align: left;
+          } /* rtl */
         } /* last-child */
       } /* b */
     } /* details_pay */
@@ -163,12 +191,18 @@ body {
       margin: 5px auto;
       font-size: 14px;
       text-align: right;
+      [dir="rtl"] & {
+        text-align: left;
+      } /* rtl */
     } /* p */
     b {
       display: block;
       margin: 5px auto;
       font-size: 16px;
       text-align: right;
+      [dir="rtl"] & {
+        text-align: left;
+      } /* rtl */
     } /* b */
   } /* total_bill */
   .customer_information {
@@ -196,6 +230,9 @@ body {
       color: #000;
       margin: 0 auto 20px;
       font-weight: bold;
+      [dir="rtl"] & {
+        text-align: right;
+      } /* rtl */
     } /* name */
     .bill_payment {
       .item {
@@ -229,6 +266,9 @@ body {
           cursor: pointer;
           margin: 0;
           position: relative;
+          [dir="rtl"] & {
+            padding: 10px 40px 10px 10px;
+          } /* rtl */
           p {
             display: block;
             font-size: 15px;
@@ -248,6 +288,10 @@ body {
             height: 20px;
             background: #fff;
             border-radius: 100%;
+            [dir="rtl"] & {
+              right: 10px;
+              left: auto;
+            } /* rtl */
             &::after {
               content: "";
               width: 15px;
