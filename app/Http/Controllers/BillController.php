@@ -137,8 +137,12 @@ class BillController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function pay($id)
+    public function pay($id, $lang = null)
     {
+        if ($lang && in_array($lang, ['en', 'ar'])) {
+            \App::setLocale($lang);
+        }
+
         $bill = Bill::decodeId($id);
 
         if(!$bill){
