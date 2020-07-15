@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css?family=Tajawal);@charset "UTF-8";
 
 /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)
@@ -10930,7 +10930,13 @@ a.text-dark:focus {
 
 body {
   background: #fff;
-  font-family: "Nunito";
+  font-family: "Nunito", "Tajawal";
+  /* rtl */
+}
+
+[dir=rtl] body {
+  direction: rtl;
+  font-family: "Tajawal", "Nunito";
 }
 
 /* single_bill_page */
@@ -10938,6 +10944,7 @@ body {
 .single_bill_page {
   padding: 50px 0;
   background: #fafafa;
+  /* change-lang */
   /* alert */
   /* logo */
   /* title */
@@ -10955,6 +10962,17 @@ body {
   padding: 15px;
   background: #fff;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
+}
+
+.single_bill_page .change-lang {
+  /* a */
+}
+
+.single_bill_page .change-lang a {
+  display: inline-block;
+  font-size: 14px;
+  color: #000;
+  text-decoration: none;
 }
 
 .single_bill_page .alert {
@@ -11039,6 +11057,11 @@ body {
   font-size: 14px;
   color: #444;
   margin: 5px auto 0;
+  /* rtl */
+}
+
+[dir=rtl] .single_bill_page .date_time span .vat_reg {
+  text-align: right;
 }
 
 .single_bill_page .date_time p {
@@ -11048,6 +11071,11 @@ body {
   line-height: 1.1;
   color: #444;
   text-align: right;
+  /* rtl */
+}
+
+[dir=rtl] .single_bill_page .date_time p {
+  text-align: left;
 }
 
 .single_bill_page .date_time b {
@@ -11058,6 +11086,11 @@ body {
   color: #444;
   font-weight: normal;
   text-align: right;
+  /* rtl */
+}
+
+[dir=rtl] .single_bill_page .date_time b {
+  text-align: left;
 }
 
 .single_bill_page .shopping_cart {
@@ -11095,6 +11128,11 @@ body {
   min-width: 60%;
   color: #000;
   font-size: 14px;
+  /* rtl */
+}
+
+[dir=rtl] .single_bill_page .shopping_cart .details_pay p {
+  text-align: right;
 }
 
 .single_bill_page .shopping_cart .details_pay b {
@@ -11110,6 +11148,11 @@ body {
 
 .single_bill_page .shopping_cart .details_pay b:last-child {
   text-align: right;
+  /* rtl */
+}
+
+[dir=rtl] .single_bill_page .shopping_cart .details_pay b:last-child {
+  text-align: left;
 }
 
 .single_bill_page .customer_notes {
@@ -11135,6 +11178,11 @@ body {
   margin: 5px auto;
   font-size: 14px;
   text-align: right;
+  /* rtl */
+}
+
+[dir=rtl] .single_bill_page .total_bill p {
+  text-align: left;
 }
 
 .single_bill_page .total_bill b {
@@ -11142,6 +11190,11 @@ body {
   margin: 5px auto;
   font-size: 16px;
   text-align: right;
+  /* rtl */
+}
+
+[dir=rtl] .single_bill_page .total_bill b {
+  text-align: left;
 }
 
 .single_bill_page .customer_information {
@@ -11178,6 +11231,11 @@ body {
   color: #000;
   margin: 0 auto 20px;
   font-weight: bold;
+  /* rtl */
+}
+
+[dir=rtl] .single_bill_page .payment_method .name {
+  text-align: right;
 }
 
 .single_bill_page .payment_method .bill_payment {
@@ -11231,11 +11289,16 @@ body {
   cursor: pointer;
   margin: 0;
   position: relative;
+  /* rtl */
   /* p */
   /* checkmark */
   /* icon_mada */
   /* icon_apple */
   /* icon_stc */
+}
+
+[dir=rtl] .single_bill_page .payment_method .bill_payment .item label {
+  padding: 10px 40px 10px 10px;
 }
 
 .single_bill_page .payment_method .bill_payment .item label p {
@@ -11262,7 +11325,13 @@ body {
   height: 20px;
   background: #fff;
   border-radius: 100%;
+  /* rtl */
   /* after */
+}
+
+[dir=rtl] .single_bill_page .payment_method .bill_payment .item label .checkmark {
+  right: 10px;
+  left: auto;
 }
 
 .single_bill_page .payment_method .bill_payment .item label .checkmark::after {
