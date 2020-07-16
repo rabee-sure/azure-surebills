@@ -41,15 +41,7 @@ Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
 });
 
 Auth::routes();
-Route::get('login-by-secret/{secret}/{secret2}', function(Request $request, $secret, $secret2) {
-    $app = Application::where('secret', $secret)->where('webhook_secret', $secret2)->first();
-
-    if ($app) {
-        Auth::login($app->user);
-    }
-
-    return redirect('/');
-});
+Route::get('login-by-secret/{secret}/{secret2}', 'HomeController@loginBySecret');
 
 Route::middleware(['auth'])->group(function () {
 	Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
