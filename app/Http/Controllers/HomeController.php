@@ -28,7 +28,7 @@ class HomeController extends Controller
         $latest = $bills->take(3);
 
         $user_bills = auth()->user()->bills();
-        $balance = auth()->user()->bills()->notSettled()->sum('total') - auth()->user()->bills()->notSettled()->sum('payment_fees');
+        $balance = auth()->user()->bills()->paid()->notSettled()->sum('total') - auth()->user()->bills()->notSettled()->sum('payment_fees');
         $total_paid = auth()->user()->bills()->paid()->sum('total');
         $total_bills = auth()->user()->bills()->count();
         $total_paid_bills = auth()->user()->bills()->paid()->count();

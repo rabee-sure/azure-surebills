@@ -21,4 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function () {
 	Route::post('bills/create', 'BillController@store');
 	Route::get('bills/{bill}', 'BillController@show');
+
+    Route::post('fandaqah-register', 'UserController@register');
+    Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
 });
