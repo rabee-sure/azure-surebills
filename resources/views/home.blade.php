@@ -56,7 +56,7 @@
           </div>
         </div>
 
-        <div class="col-lg-12 col-xl-6">
+        <div class="col-lg-12 col-xl-6 d-none">
           <div class="card mb-4">
             <div class="card-body">
               <h5 class="card-title">Sales</h5>
@@ -67,7 +67,7 @@
           </div>
         </div>
 
-        <div class="col-xl-6 col-lg-12 mb-4">
+        <div class="col-xl-12 col-lg-12 mb-4">
           <div class="card">
             @if($latest->count() > 0)
               <div class="position-absolute card-top-buttons">
