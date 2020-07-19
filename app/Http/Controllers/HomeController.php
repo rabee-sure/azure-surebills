@@ -43,20 +43,4 @@ class HomeController extends Controller
             'total_paid_bills' =>  $total_paid_bills,
         ]);
     }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function loginBySecret(Request $request, $secret, $secret2)
-    {
-        $app = Application::where('secret', $secret)->where('webhook_secret', $secret2)->first();
-
-        if ($app) {
-            \Auth::login($app->user);
-        }
-
-        return redirect('/');
-    }
 }
