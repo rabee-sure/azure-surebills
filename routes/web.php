@@ -41,7 +41,7 @@ Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
 });
 
 Auth::routes();
-Route::get('login-by-secret/{secret}/{secret2}', 'HomeController@loginBySecret');
+Route::get('login-by-secret/{secret}/{secret2}', 'FandaqahOperationsController@loginBySecret');
 
 Route::middleware(['auth'])->group(function () {
 	Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
