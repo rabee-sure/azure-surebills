@@ -153,9 +153,9 @@ body.background main .container {
 }
 
 .logo-single {
-  width: 110px;
+  width: 130px;
   height: 50px;
-  background: url(/images/logo-black.svg?913e6faffa11d858ce284b68a945ca5a) no-repeat;
+  background: url(/images/logo-black.svg?89530c175aa362bb84dd552b48555b37) no-repeat;
   background-position: center center;
   display: inline-block;
   margin-bottom: 60px;
@@ -1990,9 +1990,9 @@ button {
 }
 
 .logo {
-  width: 110px;
+  width: 130px;
   height: 50px;
-  background: url(/images/logo-black.svg?913e6faffa11d858ce284b68a945ca5a) no-repeat;
+  background: url(/images/logo-black.svg?89530c175aa362bb84dd552b48555b37) no-repeat;
   background-position: center center;
   margin: 0 auto;
 }
@@ -9753,7 +9753,7 @@ img.product-profile-img {
 
 #header_fixed .container .logo_client img {
   display: block;
-  max-height: 50px;
+  max-height: 60px;
   width: auto;
   height: auto;
   max-width: 200px;
@@ -9799,8 +9799,8 @@ button.sendBill {
 }
 
 #login_page .logo-single {
-  width: 120px;
-  height: 70px;
+  width: 200px;
+  height: 60px;
   margin: 0 auto 60px;
   display: table;
 }
@@ -9823,8 +9823,8 @@ button.sendBill {
 }
 
 #register_page .logo-single {
-  width: 120px;
-  height: 70px;
+  width: 200px;
+  height: 60px;
   margin: 0 auto 60px;
   display: table;
 }
@@ -9878,8 +9878,8 @@ button.sendBill {
 }
 
 #resset_email_page .logo-single {
-  width: 120px;
-  height: 70px;
+  width: 2000px;
+  height: 60px;
   margin: 0 auto 60px;
   display: table;
 }
@@ -10130,11 +10130,11 @@ div.statistic_icon.settlements_icon {
 
 a.logo_bills {
   background-image: url("/images/logo-black.svg");
-  width: 60px;
+  width: 100px;
   height: 60px;
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 60px;
+  background-size: 100px;
   margin: 0 auto;
   display: block;
 }
