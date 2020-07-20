@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  lang="{{ str_replace('_', '-', app()->getLocale()) }}"  dir="@if(app()->getLocale() == 'ar') 'rtl'@else 'ltr' @endif">
+<html  lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr" @endif>
   <head>
     <meta charset="utf-8">
 
@@ -19,6 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/all.css" />
     @yield('css_styles')
 
