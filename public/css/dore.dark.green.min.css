@@ -155,7 +155,7 @@ body.background main .container {
 .logo-single {
   width: 130px;
   height: 50px;
-  background: url(/images/logo-white.svg?089ca22305d573a448fb5befbd5225b3) no-repeat;
+  background: url(/images/logo-white.svg?58d366ecb7c350445cb75cd98b376984) no-repeat;
   background-position: center center;
   display: inline-block;
   margin-bottom: 60px;
@@ -1992,7 +1992,7 @@ button {
 .logo {
   width: 130px;
   height: 50px;
-  background: url(/images/logo-white.svg?089ca22305d573a448fb5befbd5225b3) no-repeat;
+  background: url(/images/logo-white.svg?58d366ecb7c350445cb75cd98b376984) no-repeat;
   background-position: center center;
   margin: 0 auto;
 }
@@ -10130,12 +10130,12 @@ div.statistic_icon.settlements_icon {
 
 a.logo_bills {
   background-image: url("/images/logo-black.svg");
-  width: 100px;
-  height: 60px;
+  width: 70px;
+  height: 20px;
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 100px;
-  margin: 0 auto;
+  background-size: 70px;
+  margin: 15px auto 0;
   display: block;
 }
 
