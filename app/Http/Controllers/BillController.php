@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\BillItem;
 use App\Customer;
-use App\Events\BillCreated;
-use App\Events\BillPaid;
-use App\Http\Requests\BillRequest;
-use App\Http\Requests\PayBillRequest;
-use App\PaymentLog;
-use App\Payment\Facades\Payment;
-use App\Payment\Invoice;
 use Carbon\Carbon;
+use App\PaymentLog;
+use App\Transaction;
+use App\Events\BillPaid;
+use App\Payment\Invoice;
+use App\Events\BillCreated;
 use Illuminate\Http\Request;
+use App\Payment\Facades\Payment;
+use App\Http\Requests\BillRequest;
 use Illuminate\Support\Facades\Http;
+use App\Http\Requests\PayBillRequest;
 
 class BillController extends Controller
 {
@@ -246,14 +247,15 @@ class BillController extends Controller
 
         // if success
         if($invoice->getDetail('success')){
-            
-            $bill->paid();
 
-            PaymentLog::create([
+            $payment = PaymentLog::create([
+                'bill_id' => $bill->id,
                 'results' => $invoice->getDetails(),
                 'data' => [],
                 'status' => 1,
             ]);
+            
+            $bill->paid();
 
             if($bill->application){
                 $url = $bill->application->redirect.'?reference_id='.$bill->reference_id.'&status='.$bill->status.'&bill_id='.$bill->id;
@@ -264,6 +266,7 @@ class BillController extends Controller
 
         // create a log for the payment
         PaymentLog::create([
+            'bill_id' => $bill->id,
             'results' => $invoice->getDetails(),
             'data' => [],
             'status' => 0,

@@ -3,11 +3,12 @@
 namespace App;
 
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Transaction;
 use Laravel\Passport\HasApiTokens;
 use Multicaret\Unifonic\UnifonicFacade;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
  
 class User extends Authenticatable
 {
@@ -68,6 +69,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'mobile_sent_at' => 'datetime',
     ];
+
+
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getBalanceAttribute()
+    {
+        $deposits = Transaction::where('user_id', $this->id)->where('type', 'credit')->sum('amount');
+        $withdraws = Transaction::where('user_id', $this->id)->where('type', 'debit')->sum('amount');
+
+        return $deposits - $withdraws;
+    }   
 
 
     /**
@@ -143,5 +159,15 @@ class User extends Authenticatable
     public function settlements()
     {
         return $this->hasMany(Settlement::class);
+    }
+
+    /**
+     * Get statement.
+     *
+     * @return Collection
+     */
+    public function statement()
+    {
+        return $this->hasMany(Transaction::class)->orderBy('created_at', 'DESC')->orderBy('receipt', 'ASC');
     }
 }

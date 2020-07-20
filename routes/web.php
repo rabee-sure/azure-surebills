@@ -77,7 +77,8 @@ Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name
 
 Route::middleware(['auth', 'mobile.verified'])->group(function () {
 	Route::resource('applications', 'ApplicationController');
-	Route::resource('settlements', 'SettlementController');
+	Route::get('statement', 'StatementController@index')->name('statement.index');
+    Route::get('settlement', 'SettlementController@index')->name('settlement.index');
 	Route::resource('bills', 'BillController');
 	Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
 	Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');

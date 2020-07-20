@@ -2,13 +2,14 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use App\PaymentLog;
+use Hashids\Hashids;
+use Ramsey\Uuid\Uuid;
 use App\Events\BillPaid;
 use App\Traits\UsesUuid;
-use Carbon\Carbon;
-use Hashids\Hashids;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Ramsey\Uuid\Uuid;
+use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model
 {    
@@ -71,6 +72,11 @@ class Bill extends Model
     public function getPayUrlAttribute()
     {
         return route('paybillpage', ['id' => $this->pay_id]);
+    }   
+
+    public function getSuccessPaymentAttribute()
+    {
+        return PaymentLog::where('bill_id', $this->id)->where('status', 1)->orderBy('id', 'desc')->first();
     }    
 
     public function getIsInvalidAttribute()

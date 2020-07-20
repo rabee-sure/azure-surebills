@@ -151,7 +151,9 @@ class HyperPayFrame extends Driver
         $this->invoice->detail(['result_code' => $response->result->code])
             ->detail(['success' => $success])
             ->detail(['response' => json_decode($responseData, true)])
-            ->detail(['description' => $response->result->description]);
+            ->detail(['description' => $response->result->description])
+            ->detail(['gateway' => 'hyperpay'])
+            ->detail(['gateway_response' => $response]);
         $this->invoice->transactionId($response->id ?? "not have id");
     }
 
