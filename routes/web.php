@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('test', 'TestController@test');
 
+Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
+
 Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () { 
     Route::get('/clients', [
         'uses' => 'ClientController@forUser',
@@ -48,7 +50,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
 	Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('resend_code');
 
-	Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
+	Route::get('account', 'AccountController@account')->name('account');
+    Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
 	Route::post('account-information', 'AccountController@storeAccountInformation')->name('account.information');
 
 	Route::get('account/bank_information', 'AccountController@bank_information')->name('bank_information');

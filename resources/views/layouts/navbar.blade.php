@@ -22,6 +22,13 @@
       </svg>
     </a>
     @endauth
+    <div class="position-relative d-none d-sm-inline-block">
+      @if(App::isLocale('en'))
+        <a href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
+      @else
+        <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
+      @endif
+    </div>
 
 {{--     <div class="search" data-search-path="Pages.Search.html?q=">
       <input placeholder="Search...">
@@ -111,8 +118,7 @@
           <span><img alt="Profile Picture" src="{{ auth()->user()->gravatar}}" /></span>
         </button>
         <div class="dropdown-menu dropdown-menu-right mt-3">
-          <a class="dropdown-item" href="{{ url('account/account_information')}}">Account</a>
-          {{-- <a class="dropdown-item" href="#">Support</a> --}}
+          <a class="dropdown-item" href="{{ url('account/account')}}">{{ __('Account') }}</a>
           <a class="dropdown-item" href="{{ route('logout') }}"
              onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();">

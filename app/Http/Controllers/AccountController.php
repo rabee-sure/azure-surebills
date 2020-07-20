@@ -19,6 +19,16 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function account()
+    {
+        return view('account.account');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function account_information()
     {
         return view('account.account_information', ['user' => auth()->user()]);
