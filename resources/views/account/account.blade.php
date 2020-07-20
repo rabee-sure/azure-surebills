@@ -5,38 +5,45 @@
 @section('content')
 	<div class="row">
 		<div class="col-12">
-			<h1>{{ __('Account Information') }}</h1>
+			<h1>{{ __('Account') }}</h1>
 			<div class="separator mb-5"></div>
 		</div>
-
-		<div class="col-12 col-sm-12">
-			<div class="card mb-4">
-				<div class="card-body">
-					<ul class="list-unstyled" data-link="account">
-				        <li>
-				          <a href="{{ route('account_information') }}">
-				            <i class="iconsminds-id-card"></i> <span class="d-inline-block">{{ __('Account Information') }}</span>
-				          </a>
-				        </li>
-				        <li>
-				          <a href="{{ route('bank_information') }}">
-				            <i class="iconsminds-bank"></i> <span class="d-inline-block">{{ __('Bank Information') }}</span>
-				           </a>
-				        </li>
-				        <li>
-				          <a href="{{ route('business_information') }}">
-				            <i class="iconsminds-management"></i> <span class="d-inline-block">{{ __('Business Information') }}</span>
-				          </a>
-				        </li>
-				        <li>
-				          <a href="{{ route('change_password') }}">
-				            <i class="iconsminds-type-pass"></i> <span class="d-inline-block">{{ __('Change Password') }}</span>
-				          </a>
-				        </li>
-				    </ul>     
-				</div>
-			</div>
-		</div>
+    <div class="col-12">
+      <div class="row icon-cards-row mx-n3">
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <a href="{{ route('account_information') }}" title="{{ __('Account Information') }}" class="card mb-4">
+            <div class="card-body text-center">
+              <div class="statistic_icon iconsminds-id-card"></div>
+              <p class="card-text font-weight-semibold mb-0">{{ __('Account Information') }}</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <a href="{{ route('bank_information') }}" title="{{ __('Bank Information') }}" class="card mb-4">
+            <div class="card-body text-center">
+              <div class="statistic_icon iconsminds-bank"></div>
+              <p class="card-text font-weight-semibold mb-0">{{ __('Bank Information') }}</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <a href="{{ route('business_information') }}" title="{{ __('Business Information') }}" class="card mb-4">
+            <div class="card-body text-center">
+              <div class="statistic_icon iconsminds-management"></div>
+              <p class="card-text font-weight-semibold mb-0">{{ __('Business Information') }}</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <a href="{{ route('change_password') }}" title="{{ __('Change Password') }}" class="card mb-4">
+            <div class="card-body text-center">
+              <div class="statistic_icon iconsminds-type-pass"></div>
+              <p class="card-text font-weight-semibold mb-0">{{ __('Change Password') }}</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
 	</div>
 @endsection
 

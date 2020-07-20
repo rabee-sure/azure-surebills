@@ -4,6 +4,13 @@
 <div class="row">
   <div class="col-12">
     <h1>Bank Information</h1>
+      <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+        <ol class="breadcrumb pt-0">
+          <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
+          <li class="breadcrumb-item"><a href="{{ url('account') }}" title="{{__('Account')}}">{{__('Account')}}</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{ __('Bank Information')}}</li>
+        </ol>
+      </nav>
     <div class="separator mb-5"></div>
   </div>
 

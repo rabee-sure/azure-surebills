@@ -6382,8 +6382,8 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
 }
 
 .theme-colors .theme-color-green {
-  border: 3px solid #73d64a;
-  background: #73d64a;
+  border: 3px solid #00D595;
+  background: #00D595;
 }
 
 .theme-colors .theme-color-red {
@@ -9898,6 +9898,7 @@ div.statistic_icon {
   /* available_balance_icon */
   /* pending_balance_icon */
   /* settlements_icon */
+  /* before */
 }
 
 div.statistic_icon.balance_icon {
@@ -9914,6 +9915,15 @@ div.statistic_icon.pending_balance_icon {
 
 div.statistic_icon.settlements_icon {
   background-image: url(/images/settlements.svg?54c7ba1e0c1c542fd30a345091915782);
+}
+
+div.statistic_icon::before {
+  font-size: 45px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  line-height: 50px;
+  color: #00D595;
 }
 
 /* statistic_icon */
