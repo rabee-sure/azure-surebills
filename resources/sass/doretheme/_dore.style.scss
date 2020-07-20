@@ -104,7 +104,10 @@ html {
   width: 100%;
   height: 100%;
   background: $background-color;
-}
+  [dir="rtl"] & {
+    direction: rtl;
+  } /* rtl */
+} /* html */
 
 :root {
   --theme-color-1: #{$theme-color-1};
@@ -133,7 +136,11 @@ body {
   font-weight: 400;
   color: $primary-color;
   background: $background-color;
-
+  [dir="rtl"] & {
+    font-family:  "Tajawal", "Nunito", sans-serif;
+    direction: rtl;
+    text-align: inherit;
+  } /* rtl */
   &.background {
     height: 100%;
 
@@ -464,6 +471,9 @@ p {
   font-size: 0.85rem;
   line-height: 1.3rem;
   font-family: "Nunito", sans-serif;
+  [dir="rtl"] & {
+    font-family:  "Tajawal", "Nunito", sans-serif;
+  } /* rtl */
 }
 
 .text-large {
@@ -1790,20 +1800,39 @@ button {
   .navbar-right {
     flex-basis: 40%;
     text-align: right;
+    [dir="rtl"] & {
+      text-align: left;
+    } /* rtl */
 
     .user {
       margin-right: $main-margin;
+      [dir="rtl"] & {
+      margin-right: 0;
+      margin-left: $main-margin;
+      } /* rtl */
 
       @include respond-below(xl) {
         margin-right: $main-margin-lg;
+        [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: $main-margin-lg;
+        } /* rtl */
       }
 
       @include respond-below(lg) {
         margin-right: $main-margin-md;
+        [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: $main-margin-md;
+        } /* rtl */
       }
 
       @include respond-below(sm) {
         margin-right: $main-margin-xs;
+        [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: $main-margin-xs;
+        } /* rtl */
       }
     }
   }
@@ -2055,6 +2084,10 @@ button {
     padding-top: 10px;
     padding-bottom: 10px;
     left: 0;
+    [dir="rtl"] & {
+      left: auto;
+      right: 0;
+    } /* rtl */
 
     .scroll {
       padding-right: unset;
@@ -2071,6 +2104,9 @@ button {
 
     ul {
       margin-bottom: initial;
+      [dir="rtl"] & {
+        padding-right: 0;
+      } /* rtl */
       li {
         position: relative;
 
@@ -2120,6 +2156,10 @@ button {
           top: 50%;
           transform: translateY(-50%);
           left: 0;
+          [dir="rtl"] & {
+            right: 0;
+            left: auto;
+          } /* rtl */
         }
 
         &:last-of-type {
@@ -2837,20 +2877,36 @@ main {
   &.menu-sub-hidden main,
   &.menu-hidden main {
     margin-left: $main-menu-width + $main-margin;
+    [dir="rtl"] & {
+      margin-right: $main-menu-width + $main-margin;
+      margin-left: 60px;
+    } /* rtl */
   }
 
   &.main-hidden main,
   &.menu-hidden main {
     margin-left: $main-margin;
+    [dir="rtl"] & {
+      margin-right: $main-margin;
+      margin-left: 60px;
+    } /* rtl */
   }
 
   &.menu-main-hidden {
     main {
       margin-left: $main-margin + $sub-menu-width;
+    [dir="rtl"] & {
+      margin-right: $main-margin + $sub-menu-width;
+      margin-left: 60px;
+    } /* rtl */
     }
     &.menu-hidden {
       main {
         margin-left: $main-margin;
+    [dir="rtl"] & {
+      margin-right: $main-margin;
+      margin-left: 60px;
+    } /* rtl */
       }
     }
   }
@@ -2860,20 +2916,36 @@ main {
     &.menu-sub-hidden main,
     &.menu-hidden main {
       margin-left: $main-menu-width-lg + $main-margin-lg;
+      [dir="rtl"] & {
+        margin-right: $main-menu-width-lg + $main-margin-lg;
+        margin-left: 60px;
+      } /* rtl */
     }
 
     &.main-hidden main,
     &.menu-hidden main {
       margin-left: $main-margin-lg;
+      [dir="rtl"] & {
+        margin-right: $main-margin-lg;
+        margin-left: 60px;
+      } /* rtl */
     }
 
     &.menu-main-hidden {
       main {
         margin-left: $main-margin-lg + $sub-menu-width-lg;
+        [dir="rtl"] & {
+          margin-right: $main-margin-lg + $sub-menu-width-lg;
+          margin-left: 60px;
+        } /* rtl */
       }
       &.menu-hidden {
         main {
           margin-left: $main-margin-lg;
+          [dir="rtl"] & {
+            margin-right: $main-margin-lg;
+            margin-left: 60px;
+          } /* rtl */
         }
       }
     }
@@ -2884,20 +2956,36 @@ main {
     &.menu-sub-hidden main,
     &.menu-hidden main {
       margin-left: $main-menu-width-md + $main-margin-md;
+      [dir="rtl"] & {
+        margin-right: $main-menu-width-md + $main-margin-md;
+        margin-left: 60px;
+      } /* rtl */
     }
 
     &.main-hidden main,
     &.menu-hidden main {
       margin-left: $main-margin-md;
+      [dir="rtl"] & {
+        margin-right: $main-margin-md;
+        margin-left: 60px;
+      } /* rtl */
     }
 
     &.menu-main-hidden {
       main {
         margin-left: $main-margin-md + $sub-menu-width-md;
+        [dir="rtl"] & {
+          margin-right: $main-margin-md + $sub-menu-width-md;
+          margin-left: 60px;
+        } /* rtl */
       }
       &.menu-hidden {
         main {
           margin-left: $main-margin-md;
+          [dir="rtl"] & {
+            margin-right: $main-margin-md;
+            margin-left: 60px;
+          } /* rtl */
         }
       }
     }
@@ -2997,6 +3085,10 @@ main {
   padding: 1.3rem;
   right: 0;
   top: 0;
+  [dir="rtl"] & {
+    left: 0;
+    right: auto;
+  } /* rtl */
 
   @include respond-below(xs) {
     padding: 0.35rem;
@@ -7363,6 +7455,9 @@ i.large-icon {
   &.sub-hidden .main-menu,
   &.menu-sub-hidden .main-menu {
     border-radius: 0 $border-radius-rounded $border-radius-rounded 0;
+    [dir="rtl"] & {
+    border-radius: $border-radius-rounded 0 0 $border-radius-rounded;
+    } /* rtl */
   }
 
   &.sub-show-temporary .main-menu {
@@ -7508,11 +7603,19 @@ i.large-icon {
   .dropdown-menu-right {
     right: initial !important;
     left: 0 !important;
+    [dir="rtl"] & {
+      right: 0 !important;
+      left: initial !important;
+    } /* rtl */
   }
 
   .dropdown-menu-left {
     right: 0 !important;
     left: initial !important;
+    [dir="rtl"] & {
+      right: initial !important;
+      left: 0 !important;
+    } /* rtl */
   }
 
   .btn-group > .btn:first-child {

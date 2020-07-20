@@ -62,7 +62,14 @@ html {
   width: 100%;
   height: 100%;
   background: #f8f8f8;
+  /* rtl */
 }
+
+[dir=rtl] html {
+  direction: rtl;
+}
+
+/* html */
 
 :root {
   --theme-color-1: #00D595;
@@ -90,6 +97,13 @@ body {
   font-weight: 400;
   color: #3a3a3a;
   background: #f8f8f8;
+  /* rtl */
+}
+
+[dir=rtl] body {
+  font-family: "Tajawal", "Nunito", sans-serif;
+  direction: rtl;
+  text-align: inherit;
 }
 
 body.background {
@@ -436,6 +450,11 @@ p {
   font-size: 0.85rem;
   line-height: 1.3rem;
   font-family: "Nunito", sans-serif;
+  /* rtl */
+}
+
+[dir=rtl] p {
+  font-family: "Tajawal", "Nunito", sans-serif;
 }
 
 .text-large {
@@ -1760,27 +1779,56 @@ button {
 .navbar .navbar-right {
   flex-basis: 40%;
   text-align: right;
+  /* rtl */
+}
+
+[dir=rtl] .navbar .navbar-right {
+  text-align: left;
 }
 
 .navbar .navbar-right .user {
   margin-right: 60px;
+  /* rtl */
+}
+
+[dir=rtl] .navbar .navbar-right .user {
+  margin-right: 0;
+  margin-left: 60px;
 }
 
 @media (max-width: 1439px) {
   .navbar .navbar-right .user {
     margin-right: 50px;
+    /* rtl */
+  }
+
+  [dir=rtl] .navbar .navbar-right .user {
+    margin-right: 0;
+    margin-left: 50px;
   }
 }
 
 @media (max-width: 1199px) {
   .navbar .navbar-right .user {
     margin-right: 40px;
+    /* rtl */
+  }
+
+  [dir=rtl] .navbar .navbar-right .user {
+    margin-right: 0;
+    margin-left: 40px;
   }
 }
 
 @media (max-width: 767px) {
   .navbar .navbar-right .user {
     margin-right: 15px;
+    /* rtl */
+  }
+
+  [dir=rtl] .navbar .navbar-right .user {
+    margin-right: 0;
+    margin-left: 15px;
   }
 }
 
@@ -2043,6 +2091,12 @@ button {
   padding-top: 10px;
   padding-bottom: 10px;
   left: 0;
+  /* rtl */
+}
+
+[dir=rtl] .menu .main-menu {
+  left: auto;
+  right: 0;
 }
 
 .menu .main-menu .scroll {
@@ -2061,6 +2115,11 @@ button {
 
 .menu .main-menu ul {
   margin-bottom: initial;
+  /* rtl */
+}
+
+[dir=rtl] .menu .main-menu ul {
+  padding-right: 0;
 }
 
 .menu .main-menu ul li {
@@ -2113,6 +2172,12 @@ button {
   top: 50%;
   transform: translateY(-50%);
   left: 0;
+  /* rtl */
+}
+
+[dir=rtl] .menu .main-menu ul li.active:after {
+  right: 0;
+  left: auto;
 }
 
 .menu .main-menu ul li:last-of-type a {
@@ -2897,18 +2962,45 @@ main .container-fluid {
 #app-container.menu-sub-hidden main,
 #app-container.menu-hidden main {
   margin-left: 180px;
+  /* rtl */
+}
+
+[dir=rtl] #app-container.sub-hidden main,
+[dir=rtl] #app-container.menu-sub-hidden main,
+[dir=rtl] #app-container.menu-hidden main {
+  margin-right: 180px;
+  margin-left: 60px;
 }
 
 #app-container.main-hidden main,
 #app-container.menu-hidden main {
   margin-left: 60px;
+  /* rtl */
+}
+
+[dir=rtl] #app-container.main-hidden main,
+[dir=rtl] #app-container.menu-hidden main {
+  margin-right: 60px;
+  margin-left: 60px;
 }
 
 #app-container.menu-main-hidden main {
   margin-left: 290px;
+  /* rtl */
+}
+
+[dir=rtl] #app-container.menu-main-hidden main {
+  margin-right: 290px;
+  margin-left: 60px;
 }
 
 #app-container.menu-main-hidden.menu-hidden main {
+  margin-left: 60px;
+  /* rtl */
+}
+
+[dir=rtl] #app-container.menu-main-hidden.menu-hidden main {
+  margin-right: 60px;
   margin-left: 60px;
 }
 
@@ -2917,19 +3009,46 @@ main .container-fluid {
   #app-container.menu-sub-hidden main,
   #app-container.menu-hidden main {
     margin-left: 160px;
+    /* rtl */
+  }
+
+  [dir=rtl] #app-container.sub-hidden main,
+  [dir=rtl] #app-container.menu-sub-hidden main,
+  [dir=rtl] #app-container.menu-hidden main {
+    margin-right: 160px;
+    margin-left: 60px;
   }
 
   #app-container.main-hidden main,
   #app-container.menu-hidden main {
     margin-left: 50px;
+    /* rtl */
+  }
+
+  [dir=rtl] #app-container.main-hidden main,
+  [dir=rtl] #app-container.menu-hidden main {
+    margin-right: 50px;
+    margin-left: 60px;
   }
 
   #app-container.menu-main-hidden main {
     margin-left: 280px;
+    /* rtl */
+  }
+
+  [dir=rtl] #app-container.menu-main-hidden main {
+    margin-right: 280px;
+    margin-left: 60px;
   }
 
   #app-container.menu-main-hidden.menu-hidden main {
     margin-left: 50px;
+    /* rtl */
+  }
+
+  [dir=rtl] #app-container.menu-main-hidden.menu-hidden main {
+    margin-right: 50px;
+    margin-left: 60px;
   }
 }
 
@@ -2938,19 +3057,46 @@ main .container-fluid {
   #app-container.menu-sub-hidden main,
   #app-container.menu-hidden main {
     margin-left: 140px;
+    /* rtl */
+  }
+
+  [dir=rtl] #app-container.sub-hidden main,
+  [dir=rtl] #app-container.menu-sub-hidden main,
+  [dir=rtl] #app-container.menu-hidden main {
+    margin-right: 140px;
+    margin-left: 60px;
   }
 
   #app-container.main-hidden main,
   #app-container.menu-hidden main {
     margin-left: 40px;
+    /* rtl */
+  }
+
+  [dir=rtl] #app-container.main-hidden main,
+  [dir=rtl] #app-container.menu-hidden main {
+    margin-right: 40px;
+    margin-left: 60px;
   }
 
   #app-container.menu-main-hidden main {
     margin-left: 270px;
+    /* rtl */
+  }
+
+  [dir=rtl] #app-container.menu-main-hidden main {
+    margin-right: 270px;
+    margin-left: 60px;
   }
 
   #app-container.menu-main-hidden.menu-hidden main {
     margin-left: 40px;
+    /* rtl */
+  }
+
+  [dir=rtl] #app-container.menu-main-hidden.menu-hidden main {
+    margin-right: 40px;
+    margin-left: 60px;
   }
 }
 
@@ -3055,6 +3201,12 @@ main .container-fluid {
   padding: 1.3rem;
   right: 0;
   top: 0;
+  /* rtl */
+}
+
+[dir=rtl] .card-top-buttons {
+  left: 0;
+  right: auto;
 }
 
 @media (max-width: 575px) {
@@ -7496,6 +7648,12 @@ i.large-icon {
 .rounded.sub-hidden .main-menu,
 .rounded.menu-sub-hidden .main-menu {
   border-radius: 0 0.75rem 0.75rem 0;
+  /* rtl */
+}
+
+[dir=rtl] .rounded.sub-hidden .main-menu,
+[dir=rtl] .rounded.menu-sub-hidden .main-menu {
+  border-radius: 0.75rem 0 0 0.75rem;
 }
 
 .rounded.sub-show-temporary .main-menu {
@@ -7637,11 +7795,23 @@ i.large-icon {
 .rtl .dropdown-menu-right {
   right: initial !important;
   left: 0 !important;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .dropdown-menu-right {
+  right: 0 !important;
+  left: initial !important;
 }
 
 .rtl .dropdown-menu-left {
   right: 0 !important;
   left: initial !important;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .dropdown-menu-left {
+  right: initial !important;
+  left: 0 !important;
 }
 
 .rtl .btn-group > .btn:first-child {
