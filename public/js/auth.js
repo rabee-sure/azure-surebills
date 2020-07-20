@@ -4681,11 +4681,11 @@ function loadStyle(href, callback) {
     } else {
       localStorage.setItem("dore-theme", theme);
     }
-    if (localStorage.getItem("dore-direction")) {
+    /* if (localStorage.getItem("dore-direction")) {
       direction = localStorage.getItem("dore-direction");
     } else {
       localStorage.setItem("dore-direction", direction);
-    }
+    } */
     if (localStorage.getItem("dore-radius")) {
       radius = localStorage.getItem("dore-radius");
     } else {
@@ -4714,7 +4714,7 @@ function loadStyle(href, callback) {
 
   function onStyleCompleteDelayed() {
     $("body").addClass(direction);
-    $("html").attr("dir", direction);
+    /* $("html").attr("dir", direction); */
     $("body").addClass(radius);
     $("body").dore();
   }
