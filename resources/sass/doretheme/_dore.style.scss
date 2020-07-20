@@ -90,7 +90,7 @@ $border-radius-rounded: 0.75rem;
 
 $theme-color-purple: #922c88;
 $theme-color-blue: #145388;
-$theme-color-green: #73d64a;
+$theme-color-green: #00D595;
 $theme-color-orange: #e2863b;
 $theme-color-red: #880a1f;
 
@@ -9614,6 +9614,14 @@ div.statistic_icon {
   &.settlements_icon {
     background-image: url("../images/settlements.svg");
   } /* settlements_icon */
+  &::before {
+    font-size: 45px;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+    line-height: 50px;
+    color: $theme-color-green;
+  } /* before */
 } /* statistic_icon */
 
 
