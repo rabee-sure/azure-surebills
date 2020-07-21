@@ -131,7 +131,7 @@ html {
 }
 
 body {
-  font-family: "Nunito", sans-serif;
+  font-family: "Nunito", "Tajawal", sans-serif;
   font-size: 0.8rem;
   font-weight: 400;
   color: $primary-color;
@@ -1220,6 +1220,9 @@ button {
 .top-right-button-container {
   float: right;
   position: relative;
+  [dir="rtl"] & {
+    float: left;
+  } /* rtl */
 
   @include respond-below(xs) {
     float: initial;
@@ -2367,17 +2370,29 @@ button {
   &.main-hidden .main-menu,
   &.menu-hidden .main-menu {
     transform: translateX(-$main-menu-width);
+    [dir="rtl"] & {
+      transform: translateX($main-menu-width);
+    } /* rtl */
 
     @include respond-below(xl) {
       transform: translateX(-$main-menu-width-lg);
+      [dir="rtl"] & {
+        transform: translateX($main-menu-width-lg);
+      } /* rtl */
     }
 
     @include respond-below(lg) {
       transform: translateX(-$main-menu-width-md);
+      [dir="rtl"] & {
+        transform: translateX($main-menu-width-md);
+      } /* rtl */
     }
 
     @include respond-below(sm) {
       transform: translateX(-$main-menu-width-xs);
+      [dir="rtl"] & {
+        transform: translateX($main-menu-width-xs);
+      } /* rtl */
     }
   }
 
@@ -2413,6 +2428,9 @@ button {
   &.menu-mobile {
     .main-menu {
       transform: translateX(-$main-menu-width-xs);
+      [dir="rtl"] & {
+        transform: translateX($main-menu-width-xs);
+      } /* rtl */
     }
 
     .sub-menu {
@@ -2428,6 +2446,9 @@ button {
 
     .sub-menu {
       transform: translateX(-$sub-menu-width);
+      [dir="rtl"] & {
+        transform: translateX($sub-menu-width);
+      } /* rtl */
     }
 
     @include respond-below(xl) {
@@ -7603,10 +7624,6 @@ i.large-icon {
   .dropdown-menu-right {
     right: initial !important;
     left: 0 !important;
-    [dir="rtl"] & {
-      right: 0 !important;
-      left: initial !important;
-    } /* rtl */
   }
 
   .dropdown-menu-left {
@@ -7624,6 +7641,9 @@ i.large-icon {
 
   .top-right-button-container {
     float: left;
+    [dir="rtl"] & {
+      float: right;
+    } /* rtl */
     @include respond-below(xs) {
       float: initial;
     }
@@ -7632,16 +7652,30 @@ i.large-icon {
   .col-left {
     padding-left: 20px;
     padding-right: 15px;
+    [dir="rtl"] & {
+      padding-right: 20px;
+      padding-left: 15px;
+    } /* rtl */
     @include respond-below(md) {
       padding-left: 15px;
+      [dir="rtl"] & {
+        padding-right: 15px;
+      } /* rtl */
     }
   }
 
   .col-right {
     padding-right: 20px;
     padding-left: 15px;
+    [dir="rtl"] & {
+      padding-left: 20px;
+      padding-right: 15px;
+    } /* rtl */
     @include respond-below(md) {
       padding-right: 15px;
+      [dir="rtl"] & {
+        padding-left: 15px;
+      } /* rtl */
     }
   }
 
@@ -8179,49 +8213,85 @@ i.large-icon {
     &.badge-top-left {
       left: initial;
       right: -7px;
+      [dir="rtl"] & {
+        left: -7px;
+        right: initial;
+      } /* rtl */
     }
 
     &.badge-top-left-2 {
       left: initial;
       right: -7px;
+      [dir="rtl"] & {
+        left: -7px;
+        right: initial;
+      } /* rtl */
     }
 
     &.badge-top-right {
       left: -7px;
       right: initial;
+      [dir="rtl"] & {
+        left: initial;
+        right: -7px;
+      } /* rtl */
     }
 
     &.badge-top-right-2 {
       left: -7px;
       right: initial;
+      [dir="rtl"] & {
+        left: initial;
+        right: -7px;
+      } /* rtl */
     }
   }
 
   .r-0 {
     left: 0;
     right: initial;
+    [dir="rtl"] & {
+      left: initial;
+      right: 0;
+    } /* rtl */
   }
 
   .form-check {
     padding-left: 0;
     padding-right: 1.25rem;
+    [dir="rtl"] & {
+      padding-left: 1.25rem;
+      padding-right: 0;
+    } /* rtl */
   }
 
   .has-float-label label,
   .has-float-label > span:last-of-type {
     right: 0.75rem;
     left: initial;
+    [dir="rtl"] & {
+      left: 0.75rem;
+      right: initial;
+    } /* rtl */
   }
 
   .has-top-label label,
   .has-top-label > span:last-of-type {
     right: 0.75rem;
     left: initial;
+    [dir="rtl"] & {
+      left: 0.75rem;
+      right: initial;
+    } /* rtl */
   }
 
   .select2-selection__arrow {
     right: initial;
     left: 12px;
+    [dir="rtl"] & {
+      left: initial;
+      right: 12px;
+    } /* rtl */
   }
 
   .nav-pills .nav-link {
@@ -8230,14 +8300,26 @@ i.large-icon {
 
   .custom-switch .custom-switch-input + .custom-switch-btn:after {
     left: 0;
+    [dir="rtl"] & {
+      left: auto;
+      right: 0;
+    } /* rtl */
   }
 
   .custom-switch .custom-switch-input:checked + .custom-switch-btn:after {
     left: -28px;
+    [dir="rtl"] & {
+      left: auto;
+      right: -28px;
+    } /* rtl */
   }
 
   .custom-switch-small .custom-switch-input:checked + .custom-switch-btn:after {
     left: -18px;
+    [dir="rtl"] & {
+      left: auto;
+      right: -18px;
+    } /* rtl */
   }
 
   .bootstrap-tagsinput .tag {
@@ -10025,3 +10107,20 @@ button.login_button i {
   font-size: 16px;
   line-height: 1;
 }
+
+
+
+
+html[dir="rtl"] {
+ 
+  table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+    left: 1.5em;
+    right: auto;
+  }
+
+  table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before {
+    left: 2em;
+    right: auto;
+  }
+    
+} /* rtl */

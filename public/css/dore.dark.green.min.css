@@ -92,7 +92,7 @@ html {
 }
 
 body {
-  font-family: "Nunito", sans-serif;
+  font-family: "Nunito", "Tajawal", sans-serif;
   font-size: 0.8rem;
   font-weight: 400;
   color: #969696;
@@ -1182,6 +1182,11 @@ button {
 .top-right-button-container {
   float: right;
   position: relative;
+  /* rtl */
+}
+
+[dir=rtl] .top-right-button-container {
+  float: left;
 }
 
 @media (max-width: 575px) {
@@ -2403,12 +2408,24 @@ button {
 #app-container.main-hidden .main-menu,
 #app-container.menu-hidden .main-menu {
   transform: translateX(-120px);
+  /* rtl */
+}
+
+[dir=rtl] #app-container.main-hidden .main-menu,
+[dir=rtl] #app-container.menu-hidden .main-menu {
+  transform: translateX(120px);
 }
 
 @media (max-width: 1439px) {
   #app-container.main-hidden .main-menu,
   #app-container.menu-hidden .main-menu {
     transform: translateX(-110px);
+    /* rtl */
+  }
+
+  [dir=rtl] #app-container.main-hidden .main-menu,
+  [dir=rtl] #app-container.menu-hidden .main-menu {
+    transform: translateX(110px);
   }
 }
 
@@ -2416,6 +2433,12 @@ button {
   #app-container.main-hidden .main-menu,
   #app-container.menu-hidden .main-menu {
     transform: translateX(-100px);
+    /* rtl */
+  }
+
+  [dir=rtl] #app-container.main-hidden .main-menu,
+  [dir=rtl] #app-container.menu-hidden .main-menu {
+    transform: translateX(100px);
   }
 }
 
@@ -2423,6 +2446,12 @@ button {
   #app-container.main-hidden .main-menu,
   #app-container.menu-hidden .main-menu {
     transform: translateX(-90px);
+    /* rtl */
+  }
+
+  [dir=rtl] #app-container.main-hidden .main-menu,
+  [dir=rtl] #app-container.menu-hidden .main-menu {
+    transform: translateX(90px);
   }
 }
 
@@ -2463,6 +2492,11 @@ button {
 
 #app-container.menu-mobile .main-menu {
   transform: translateX(-90px);
+  /* rtl */
+}
+
+[dir=rtl] #app-container.menu-mobile .main-menu {
+  transform: translateX(90px);
 }
 
 #app-container.menu-mobile .sub-menu {
@@ -2475,6 +2509,11 @@ button {
 
 #app-container.main-show-temporary .sub-menu {
   transform: translateX(-230px);
+  /* rtl */
+}
+
+[dir=rtl] #app-container.main-show-temporary .sub-menu {
+  transform: translateX(230px);
 }
 
 @media (max-width: 1439px) {
@@ -7795,12 +7834,6 @@ i.large-icon {
 .rtl .dropdown-menu-right {
   right: initial !important;
   left: 0 !important;
-  /* rtl */
-}
-
-[dir=rtl] .rtl .dropdown-menu-right {
-  right: 0 !important;
-  left: initial !important;
 }
 
 .rtl .dropdown-menu-left {
@@ -7820,6 +7853,11 @@ i.large-icon {
 
 .rtl .top-right-button-container {
   float: left;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .top-right-button-container {
+  float: right;
 }
 
 @media (max-width: 575px) {
@@ -7831,22 +7869,44 @@ i.large-icon {
 .rtl .col-left {
   padding-left: 20px;
   padding-right: 15px;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .col-left {
+  padding-right: 20px;
+  padding-left: 15px;
 }
 
 @media (max-width: 991px) {
   .rtl .col-left {
     padding-left: 15px;
+    /* rtl */
+  }
+
+  [dir=rtl] .rtl .col-left {
+    padding-right: 15px;
   }
 }
 
 .rtl .col-right {
   padding-right: 20px;
   padding-left: 15px;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .col-right {
+  padding-left: 20px;
+  padding-right: 15px;
 }
 
 @media (max-width: 991px) {
   .rtl .col-right {
     padding-right: 15px;
+    /* rtl */
+  }
+
+  [dir=rtl] .rtl .col-right {
+    padding-left: 15px;
   }
 }
 
@@ -8355,48 +8415,104 @@ i.large-icon {
 .rtl .badge.badge-top-left {
   left: initial;
   right: -7px;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .badge.badge-top-left {
+  left: -7px;
+  right: initial;
 }
 
 .rtl .badge.badge-top-left-2 {
   left: initial;
   right: -7px;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .badge.badge-top-left-2 {
+  left: -7px;
+  right: initial;
 }
 
 .rtl .badge.badge-top-right {
   left: -7px;
   right: initial;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .badge.badge-top-right {
+  left: initial;
+  right: -7px;
 }
 
 .rtl .badge.badge-top-right-2 {
   left: -7px;
   right: initial;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .badge.badge-top-right-2 {
+  left: initial;
+  right: -7px;
 }
 
 .rtl .r-0 {
   left: 0;
   right: initial;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .r-0 {
+  left: initial;
+  right: 0;
 }
 
 .rtl .form-check {
   padding-left: 0;
   padding-right: 1.25rem;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .form-check {
+  padding-left: 1.25rem;
+  padding-right: 0;
 }
 
 .rtl .has-float-label label,
 .rtl .has-float-label > span:last-of-type {
   right: 0.75rem;
   left: initial;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .has-float-label label,
+[dir=rtl] .rtl .has-float-label > span:last-of-type {
+  left: 0.75rem;
+  right: initial;
 }
 
 .rtl .has-top-label label,
 .rtl .has-top-label > span:last-of-type {
   right: 0.75rem;
   left: initial;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .has-top-label label,
+[dir=rtl] .rtl .has-top-label > span:last-of-type {
+  left: 0.75rem;
+  right: initial;
 }
 
 .rtl .select2-selection__arrow {
   right: initial;
   left: 12px;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .select2-selection__arrow {
+  left: initial;
+  right: 12px;
 }
 
 .rtl .nav-pills .nav-link {
@@ -8405,14 +8521,32 @@ i.large-icon {
 
 .rtl .custom-switch .custom-switch-input + .custom-switch-btn:after {
   left: 0;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .custom-switch .custom-switch-input + .custom-switch-btn:after {
+  left: auto;
+  right: 0;
 }
 
 .rtl .custom-switch .custom-switch-input:checked + .custom-switch-btn:after {
   left: -28px;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .custom-switch .custom-switch-input:checked + .custom-switch-btn:after {
+  left: auto;
+  right: -28px;
 }
 
 .rtl .custom-switch-small .custom-switch-input:checked + .custom-switch-btn:after {
   left: -18px;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .custom-switch-small .custom-switch-input:checked + .custom-switch-btn:after {
+  left: auto;
+  right: -18px;
 }
 
 .rtl .bootstrap-tagsinput .tag {
@@ -10470,4 +10604,24 @@ button.login_button i {
   font-size: 16px;
   line-height: 1;
 }
+
+html[dir=rtl] table.dataTable thead .sorting:after,
+html[dir=rtl] table.dataTable thead .sorting_asc:after,
+html[dir=rtl] table.dataTable thead .sorting_desc:after,
+html[dir=rtl] table.dataTable thead .sorting_asc_disabled:after,
+html[dir=rtl] table.dataTable thead .sorting_desc_disabled:after {
+  left: 1.5em;
+  right: auto;
+}
+
+html[dir=rtl] table.dataTable thead .sorting:before,
+html[dir=rtl] table.dataTable thead .sorting_asc:before,
+html[dir=rtl] table.dataTable thead .sorting_desc:before,
+html[dir=rtl] table.dataTable thead .sorting_asc_disabled:before,
+html[dir=rtl] table.dataTable thead .sorting_desc_disabled:before {
+  left: 2em;
+  right: auto;
+}
+
+/* rtl */
 
