@@ -93,5 +93,8 @@
 "Choose..." : "Choose...",
 "Male" : "Male",
 "female" : "female",
-"Save" : "Save"
+"Save" : "Save",
+"Create New Application" : "Create New Application",
+"You Have Not Created Any Applications" : "You Have Not Created Any Applications",
+"No Bill Matched The Given Criteria." : "No Bill Matched The Given Criteria."
 }
