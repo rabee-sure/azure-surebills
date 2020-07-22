@@ -5997,7 +5997,7 @@ div.dataTables_wrapper div.dataTables_filter input {
     width: 40%;
     background: url("../img/login-balloon.jpg") no-repeat center top;
     background-size: cover;
-    padding: 80px 40px;
+    padding: 80px 40px 10px 40px;
 
     .h3 {
       line-height: 0.8rem;
@@ -9536,6 +9536,9 @@ button.sendBill {
     margin: 0 auto 60px;
     display: table;
   } /* logo-single */
+  .image-side {
+    background: #fff;
+  }
   a.register_now {
     display: table;
     margin: 0 auto;
@@ -9553,6 +9556,9 @@ button.sendBill {
     margin: 0 auto 60px;
     display: table;
   } /* logo-single */
+  .image-side {
+    background: #fff;
+  }
   a.login_now {
     display: table;
     margin: 0 auto;
@@ -9942,7 +9948,18 @@ i.iconsminds-mens {
   font-size: 14px;
 }
 
-
+.slide_auth {
+  direction: ltr;
+  margin: 40px auto 0;
+  img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 100%;
+  } /* img */
+} /* slide_auth */
 
 body.rtl {
 

@@ -5,11 +5,11 @@
   <div class="col-12 col-md-10 mx-auto my-auto">
     <div id="resset_email_page" class="card auth-card">
       <div class="position-relative image-side ">
-        <p class=" text-white h2">{{ __('Start Sending Bills') }}</p>
+        <p class=" text-white h2">{{ __('Reset Password') }}</p>
         <p class="white mb-0">
           {{ __('Please use your e-mail to reset your password.') }}
           <br>
-          {{ __('If you are not a member, please') }} <a href="{{ route('register') }}" title="{{ __('Register') }}" class="white">{{ __('Register') }}</a>.
+          {{ __('If you are a member, please') }} <a href="{{ route('login') }}" title="{{ __('Login') }}" class="white">{{ __('Login') }}</a>.
         </p>
       </div>
 

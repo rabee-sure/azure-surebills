@@ -4,12 +4,23 @@
 <div class="row h-100">
   <div class="col-12 col-md-10 mx-auto my-auto">
     <div id="register_page" class="card auth-card">
-      <div class="position-relative image-side ">
-        <p class=" text-white h2">{{ __('Start Sending Bills') }}</p>
-        <p class="white mb-0">
+      <div class="position-relative image-side">
+        <p class="text-black h2">{{ __('Register a new account') }}</p>
+        <p class="black mb-0">
         {{ __('Please use this form to register.') }}
         <br>
-        {{ __('If you are a member, please') }} <a href="{{ route('login') }}" title="{{ __('Login') }}" class="white">{{ __('Login') }}</a>.</p>
+        <p>{{ __('If you are a member, please') }} <a href="{{ route('login') }}" title="{{ __('Login') }}" class="black">{{ __('Login') }}</a>.</p>
+        <div class="slide_auth">
+          <div class="glide single">
+            <div class="glide__track pb-3" data-glide-el="track">
+              <div class="glide__slides">
+                <div class="glide__slide"><img src="{{ asset('images/login_slide_1.png') }}" alt="login_slide_1"></div>
+                <div class="glide__slide"><img src="{{ asset('images/login_slide_2.png') }}" alt="login_slide_2"></div>
+                <div class="glide__slide"><img src="{{ asset('images/login_slide_3.png') }}" alt="login_slide_3"></div>
+              </div><!-- glide__slides -->
+            </div><!-- glide__track -->
+          </div><!-- glide -->
+        </div><!-- slide_auth -->
       </div>
       <div class="form-side">
         <div class="changeLang">
@@ -100,7 +111,7 @@
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">{{ __('Terms & Conditions') }</h5>
+                <h5 class="modal-title">{{ __('Terms & Conditions') }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
