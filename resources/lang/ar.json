@@ -128,5 +128,11 @@
 "Save" : "حفظ",
 "Create New Application" : "إنشاء تطبيق جديد",
 "You Have Not Created Any Applications" : "لم تقم بإنشاء أي تطبيقات",
-"No Bill Matched The Given Criteria." : "لا يوجد مشروع قانون يطابق المعايير المحددة."
+"No Bill Matched The Given Criteria." : "لا يوجد مشروع قانون يطابق المعايير المحددة.",
+"Start Sending Bills" : "ابدأ بإرسال الفواتير",
+"Register a new account" : "تسجيل حساب جديد",
+"Business Name" : "الاسم التجاري",
+"Full Name" : "الاسم الكامل",
+"I agree to" : "أوافق على",
+"Terms & Conditions" : "البنود و الشروط"
 }

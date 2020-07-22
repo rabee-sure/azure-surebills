@@ -465,7 +465,7 @@ a {
 p {
   font-size: 0.85rem;
   line-height: 1.3rem;
-  font-family: "Nunito", sans-serif;
+  font-family: "Nunito", "Tajawal", sans-serif;
   [dir="rtl"] & {
     font-family:  "Tajawal", "Nunito", sans-serif;
   } /* rtl */
@@ -9573,6 +9573,8 @@ button.sendBill {
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
+    direction: ltr;
+    text-align: left;
     .phone_key {
       background: #eee;
       color: #000;
@@ -9933,14 +9935,29 @@ i.iconsminds-mens {
 }
  
 
-body.rtl .phone_inputs {
-  direction: ltr;
-  text-align: left;
-  .input-group-prepend {
-    margin-right: -1px;
-    margin-left: 0;
-  }
-  input {
+body.rtl {
+
+  .phone_inputs {
+    direction: ltr;
     text-align: left;
+    .input-group-prepend {
+      margin-right: -1px;
+      margin-left: 0;
+    }
+    input {
+      text-align: left;
+    }
   }
+
+  .datepicker .next, .datepicker .prev {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+
+  input.form-control.datepicker {
+    direction: ltr;
+  }
+
 }
