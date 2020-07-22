@@ -7812,11 +7812,23 @@ i.large-icon {
 .rtl .breadcrumb-item + .breadcrumb-item {
   padding-left: initial;
   padding-right: 0.5rem;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .breadcrumb-item + .breadcrumb-item {
+  padding-right: initial;
+  padding-left: 0.5rem;
 }
 
 .rtl .breadcrumb-item + .breadcrumb-item::before {
   padding-left: 0.5rem;
   padding-right: initial;
+  /* rtl */
+}
+
+[dir=rtl] .rtl .breadcrumb-item + .breadcrumb-item::before {
+  padding-right: 0.5rem;
+  padding-left: initial;
 }
 
 .rtl .glide__arrow.glide__arrow--left .simple-icon-arrow-left:before {
