@@ -89,8 +89,8 @@
                                 <tr>
                                     <td class="py-2">
                                       <a href="{{ route('bills.show', $bill) }}">
-                                          <p class="font-weight-bold">Bill {{ $bill->number }} - {{ $bill->customer_name }}</p>
-                                          <p class="font-weight-normal">{{ $bill->total }} SAR</p>
+                                          <p class="font-weight-bold">{{ __('Bill')}} {{ $bill->number }} - {{ $bill->customer_name }}</p>
+                                          <p class="font-weight-normal">{{ $bill->total }} {{ __('SAR')}}</p>
                                           <time class="text-muted text-small mb-0 font-weight-light">{{ $bill->created_at }}</time>
                                       </a>
                                     </td>
