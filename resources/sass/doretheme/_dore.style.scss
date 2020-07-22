@@ -9530,6 +9530,10 @@ button.sendBill {
 
 
 #login_page {
+  @media (min-width: 320px) and (max-width: 767px) {
+    margin: 20px auto;
+    border-radius: 0.75rem;
+  }
   .logo-single {
     width: 200px;
     height: 60px;
@@ -9538,6 +9542,9 @@ button.sendBill {
   } /* logo-single */
   .image-side {
     background: #fff;
+    @media (min-width: 320px) and (max-width: 767px) {
+      border-top-left-radius: 0.75rem;
+    }
   }
   a.register_now {
     display: table;
@@ -9550,6 +9557,10 @@ button.sendBill {
 
 
 #register_page {
+  @media (min-width: 320px) and (max-width: 767px) {
+    margin: 20px auto;
+    border-radius: 0.75rem;
+  }
   .logo-single {
     width: 200px;
     height: 60px;
@@ -9558,6 +9569,9 @@ button.sendBill {
   } /* logo-single */
   .image-side {
     background: #fff;
+    @media (min-width: 320px) and (max-width: 767px) {
+      border-top-left-radius: 0.75rem;
+    }
   }
   a.login_now {
     display: table;
@@ -9599,12 +9613,21 @@ button.sendBill {
 
 
 #resset_email_page {
+  @media (min-width: 320px) and (max-width: 767px) {
+    margin: 20px auto;
+    border-radius: 0.75rem;
+  }
   .logo-single {
-    width: 2000px;
+    width: 200px;
     height: 60px;
     margin: 0 auto 60px;
     display: table;
   } /* logo-single */
+  .image-side {
+    @media (min-width: 320px) and (max-width: 767px) {
+      border-top-left-radius: 0.75rem;
+    }
+  }
 } /* resset_email_page */
 
 div.statistic_icon {
