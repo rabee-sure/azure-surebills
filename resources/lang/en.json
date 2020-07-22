@@ -103,5 +103,9 @@
 "Business Name" : "Business Name",
 "Full Name" : "Full Name",
 "I agree to" : "I agree to",
-"Terms & Conditions" : "Terms & Conditions"
+"Terms & Conditions" : "Terms & Conditions",
+"SAR" : "SAR",
+"Current Password" : "Current Password",
+"New Password" : "New Password",
+"Re-type New Password" : "Re-type New Password"
 }
