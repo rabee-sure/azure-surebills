@@ -17,8 +17,8 @@
             <span class="visa"></span>
             <span class="master"></span>
           </div><!-- visa_master_icons -->
-          <b> {{ __('Credit Cards') }}</b>
-          <p>{{ auth()->user()->credit_cards_percentage }} % per transaction + {{ auth()->user()->credit_cards_fixed }} Riyal</p>
+          <b>{{ __('Credit Cards') }}</b>
+          <p>{{ auth()->user()->credit_cards_percentage }} % {{ __('per transaction') }} + {{ auth()->user()->credit_cards_fixed }} {{ __('Riyal') }}</p>
 <!--           <div class="choose_radio">
             <div class="custom-control custom-radio">
               <input type="radio" id="customRadio1" value="account" name="credit_cards_pay_fees" class="custom-control-input"  v-model="pricing.credit_cards_pay_fees" v-on:change="update">
@@ -35,8 +35,8 @@
       <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
         <div class="pricing_item">
           <div class="mada_icon"></div>
-          <b>{{ __('Mada') }}</b>
-          <p>{{ auth()->user()->mada_percentage }} % per transaction + {{ auth()->user()->mada_fixed }} Riyal</p>
+          <b>{{ __('mada') }}</b>
+          <p>{{ auth()->user()->mada_percentage }} % {{ __('per transaction') }} + {{ auth()->user()->mada_fixed }} {{ __('Riyal') }}</p>
 <!--           <div class="choose_radio">
             <div class="custom-control custom-radio">
               <input type="radio" id="customRadio3" value="account" name="mada_pay_fees" class="custom-control-input" v-model="pricing.mada_pay_fees" v-on:change="update">
