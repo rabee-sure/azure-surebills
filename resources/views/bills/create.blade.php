@@ -34,7 +34,7 @@
               </div><!-- form-group -->
               <div class="form-group col-md-6">
                 <label for="customer_mobile">{{ __('Mobile Number') }}</label>
-                <div class="input-group">
+                <div class="input-group phone_inputs">
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">+966</span>
                   </div>
@@ -135,7 +135,7 @@
                     </div><!-- form-group -->
                     <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1 delete_block">
                       <label for="Delete" class="d-block">{{ __('Delete') }}</label>
-                    <input data-repeater-delete type="button" class="btn btn-danger default d-block w-100" value="X"/>
+                    <input data-repeater-delete type="button" class="btn btn-danger default d-block w-100 text-center" value="X"/>
                     </div><!-- form-group -->
                   </div><!-- form-row -->
                 </div><!-- inner-list-->
@@ -143,7 +143,7 @@
               </div><!-- form-row -->
             </div><!-- inner-repeater -->
             <div class="d-flex justify-content-end my-3">
-              <input data-repeater-create type="button" class="btn btn-primary btn-lg" value="Add Item">
+              <input data-repeater-create type="button" class="btn btn-primary btn-lg" value="{{ __('Add Item') }}">
             </div><!-- d-flex  -->
             <hr>
             <h1 class="mb-3">{{ __('Additonal Details') }}</h1>
