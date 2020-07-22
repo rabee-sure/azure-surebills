@@ -135,7 +135,7 @@
 "Business Name" : "الاسم التجاري",
 "Full Name" : "الاسم الكامل",
 "I agree to" : "أوافق على",
-"Terms & Conditions" : "البنود و الشروط",
+"Terms & Conditions" : "الشروط والاحكام",
 "SAR" : "ريال",
 "Current Password" : "كلمة المرور الحالية",
 "New Password" : "كلمة المرور الجديدة",
@@ -165,5 +165,7 @@
 "license type required" : "نوع الترخيص مطلوب",
 "business name required" : "الإسم التجاري مطلوب",
 "business address required" : "العنوان مطلوب",
-"business mobile required" : "الهاتف مطلوب"
+"business mobile required" : "الهاتف مطلوب",
+"per transaction" : "لكل عملية",
+"Riyal" : "ريال"
 }
