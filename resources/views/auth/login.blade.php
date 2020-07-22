@@ -14,7 +14,7 @@
         </p>
         <div class="slide_auth">
           <div class="glide single">
-            <div class="glide__track pb-3" data-glide-el="track">
+            <div class="glide__track" data-glide-el="track">
               <div class="glide__slides">
                 <div class="glide__slide"><img src="{{ asset('img/login_slide_1.png') }}" alt="login_slide_1"></div>
                 <div class="glide__slide"><img src="{{ asset('img/login_slide_2.png') }}" alt="login_slide_2"></div>
