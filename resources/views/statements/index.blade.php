@@ -8,7 +8,7 @@
       <div class="mb-2">
         <h1>{{ __('Statement') }}</h1>
         <div class="top-right-button-container">
-         <h3>{{ __('Balance') }} : {{ round(auth()->user()->balance, 2) }} SAR</h3>
+         <h3>{{ __('Balance') }} : {{ round(auth()->user()->balance, 2) }} {{ __('SAR')}}</h3>
         </div>
         <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
           <ol class="breadcrumb pt-0">
