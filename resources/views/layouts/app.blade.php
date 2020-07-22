@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr" @endif>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr" @endif>
   <head>
     <meta charset="utf-8">
 
@@ -20,11 +20,14 @@
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    @if(app()->getLocale() == 'ar')
+      <link rel="stylesheet" href="/css/bootstrap.rtl.only.min.css" />
+    @endif
     <link rel="stylesheet" href="/css/all.css" />
     @yield('css_styles')
 
   </head>
-  <body id="app-container" class="menu-default show-spinner">
+  <body id="app-container" class=" @if(app()->getLocale() == 'ar') rtl @else ltr @endif menu-default show-spinner">
     @include('layouts.navbar')
     @include('layouts.sidebar')
 
