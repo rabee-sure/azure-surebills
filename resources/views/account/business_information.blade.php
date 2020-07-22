@@ -21,10 +21,10 @@
                   @csrf 
                   <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label name="license_type" for="inputEmail3">License type</label>
+                      <label name="license_type" for="inputEmail3">{{ __('License type') }}</label>
                       <select name="license_type" class="form-control">
-                        <option value="Commercial Record" @if ($user->license_type == 'Commercial Record')selected="selected"@endif>Commercial Record</option>
-                        <option value="Freelance" @if ($user->license_type == 'Freelance')selected="selected"@endif>Freelance</option>
+                        <option value="Commercial Record" @if ($user->license_type == 'Commercial Record')selected="selected"@endif>{{ __('Commercial Record') }}</option>
+                        <option value="Freelance" @if ($user->license_type == 'Freelance')selected="selected"@endif>{{ __('Freelance') }}</option>
                       </select>
                     </div>
                     <div class="form-group col-md-6">
@@ -34,40 +34,40 @@
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label for="inputEmail1">Business Name</label>
-                      <input value="{{ $user->business_name }}" name="business_name" type="text" class="form-control" id="inputEmail1" placeholder="Business Name">
+                      <label for="inputEmail1">{{ __('Business Name') }}</label>
+                      <input value="{{ $user->business_name }}" name="business_name" type="text" class="form-control" id="inputEmail1" placeholder="{{ __('Business Name') }}">
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="inputEmail2">Sector</label>
-                      <input value="{{ $user->sector }}" name="sector" type="text" class="form-control" id="inputEmail2" placeholder="Sector">
+                      <label for="inputEmail2">{{ __('Sector') }}</label>
+                      <input value="{{ $user->sector }}" name="sector" type="text" class="form-control" id="inputEmail2" placeholder="{{ __('Sector') }}">
                     </div>
                   </div>                  
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="business_address">{{ __('Address') }}</label>
-                      <input value="{{ $user->business_address }}" name="business_address" type="text" class="form-control" id="business_address" placeholder="Business Address">
+                      <input value="{{ $user->business_address }}" name="business_address" type="text" class="form-control" id="business_address" placeholder="{{ __('Address') }}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for="business_mobile">{{ __('Mobile') }}</label>
-                      <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" class="form-control" id="business_mobile" placeholder="Business Mobile">
+                      <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}">
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label for="inputEmail3">Website</label>
-                      <input value="{{ $user->website }}" name="website"  type="text" class="form-control" id="inputEmail3" placeholder="Website">
+                      <label for="inputEmail3">{{ __('Website') }}</label>
+                      <input value="{{ $user->website }}" name="website"  type="text" class="form-control" id="inputEmail3" placeholder="{{ __('Website') }}">
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="inputEmail8">Logo</label>
+                      <label for="inputEmail8">{{ __('Logo') }}</label>
                       <div class="custom-file">
                         <input name="logo" type="file" class="custom-file-input" id="inputEmail8">
                             {{-- <img src="{{ url(auth()->user()->logo)  }}" class="img-thumbnail" width="100" /> --}}
                             <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
-                        <label class="custom-file-label" for="inputEmail8">Choose file</label>
+                        <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
                       </div>
                     </div>
                   </div> 
-                  <button type="submit" class="btn btn-primary d-block mt-2">Save</button>
+                  <button type="submit" class="btn btn-primary d-block mt-2">{{ __('Save') }}</button>
                 </form>
       </div>
     </div>

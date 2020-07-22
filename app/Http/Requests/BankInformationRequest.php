@@ -29,4 +29,19 @@ class BankInformationRequest extends FormRequest
             'beneficiary_name' => ['required'],
         ];
     }
+
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+          'bank.required' => __('bank required'),
+          'iban_number.required' => __('iban number required'),
+          'beneficiary_name.required' => __('beneficiary name required'),
+        ];
+    }
 }
