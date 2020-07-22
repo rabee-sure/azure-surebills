@@ -55,6 +55,23 @@ class BillRequest extends FormRequest
         ];
     }
 
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+          'customer_name.required' => __('customer name required'),
+          'customer_mobile.required' => __('customer mobile required'),
+          'items.*.name.required' => __('item name required'),
+          'items.*.price.required' => __('item price required'),
+          'items.*.quantity.required' => __('item quantity required'),
+        ];
+    }
+
     /**
      * Configure the validator instance.
      *

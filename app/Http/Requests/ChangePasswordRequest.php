@@ -35,4 +35,18 @@ class ChangePasswordRequest extends FormRequest
             ],
         ];
     }
+
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+          'current_password.required' => __('current password required'),
+          'new_password.required' => __('new password required'),
+        ];
+    }
 }

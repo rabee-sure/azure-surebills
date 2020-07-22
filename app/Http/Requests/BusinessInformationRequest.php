@@ -39,4 +39,20 @@ class BusinessInformationRequest extends FormRequest
             'vat_registration_number' => ['nullable'],
         ];
     }
+
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+          'license_type.required' => __('license type required'),
+          'business_name.required' => __('business name required'),
+          'business_address.required' => __('business address required'),
+          'business_mobile.required' => __('business mobile required'),
+        ];
+    }
 }
