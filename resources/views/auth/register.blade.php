@@ -16,7 +16,7 @@
         <p class="white mb-0">
         {{ __('Please use this form to register.') }}
         <br>
-        {{ __('If you are a member, please') }} <a href="{{ route('login') }}" title="{{ __('login') }}" class="white">{{ __('login') }}</a>.</p>
+        {{ __('If you are a member, please') }} <a href="{{ route('login') }}" title="{{ __('Login') }}" class="white">{{ __('Login') }}</a>.</p>
       </div>
       <div class="form-side">
         <a href="{{ url('/') }}"><span class="logo-single"></span></a>
@@ -82,7 +82,7 @@
           <div class="custom-control custom-checkbox mb-4">
             <input type="checkbox" class="custom-control-input  @error('terms') is-invalid @enderror" name="terms" value="1" id="customCheckThis">
             <label class="custom-control-label" for="customCheckThis">
-              {{ __('I agree to') }} <a href="#" title="Terms & Conditions"  data-toggle="modal" data-target=".bd-example-modal-lg">{{ __('Terms & Conditions') }}</a>
+              {{ __('I agree to') }} <a href="#" title="{{ __('Terms & Conditions') }}"  data-toggle="modal" data-target=".bd-example-modal-lg">{{ __('Terms & Conditions') }}</a>
             </label>
             @error('terms')
               <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -93,14 +93,14 @@
           </div>
         </form>
         <hr>
-        <a class="btn btn-lg btn-shadow login_now" href="{{ route('login') }}" title="{{ __('login') }}">{{ __('login') }}</a>
+        <a class="btn btn-lg btn-shadow login_now" href="{{ route('login') }}" title="{{ __('Login') }}">{{ __('Login') }}</a>
 
         <!-- modal -->
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Terms & Conditions</h5>
+                <h5 class="modal-title">{{ __('Terms & Conditions') }</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">

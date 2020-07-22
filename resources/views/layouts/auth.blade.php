@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr" @endif>
   <head>
     <meta charset="UTF-8">
     <title>{{ config('app.name', 'Sure Bills') }} - @yield('title')</title>
@@ -12,9 +12,10 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
   </head>
-  <body class="background show-spinner no-footer">
+  <body class=" @if(app()->getLocale() == 'ar') rtl @else ltr @endif background show-spinner no-footer">
     <div class="fixed-background"></div>
     <main>
       <div class="container">

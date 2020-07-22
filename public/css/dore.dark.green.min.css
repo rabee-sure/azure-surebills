@@ -442,7 +442,7 @@ a:active {
 p {
   font-size: 0.85rem;
   line-height: 1.3rem;
-  font-family: "Nunito", sans-serif;
+  font-family: "Nunito", "Tajawal", sans-serif;
   /* rtl */
 }
 
@@ -9864,6 +9864,8 @@ button.sendBill {
   display: flex;
   align-items: flex-start;
   justify-content: space-around;
+  direction: ltr;
+  text-align: left;
   /* phone_key */
   /* label */
 }
@@ -10329,5 +10331,14 @@ body.rtl .phone_inputs .input-group-prepend {
 
 body.rtl .phone_inputs input {
   text-align: left;
+}
+
+body.rtl .datepicker .next,
+body.rtl .datepicker .prev {
+  transform: rotate(180deg);
+}
+
+body.rtl input.form-control.datepicker {
+  direction: ltr;
 }
 

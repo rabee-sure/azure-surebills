@@ -96,5 +96,11 @@
 "Save" : "Save",
 "Create New Application" : "Create New Application",
 "You Have Not Created Any Applications" : "You Have Not Created Any Applications",
-"No Bill Matched The Given Criteria." : "No Bill Matched The Given Criteria."
+"No Bill Matched The Given Criteria." : "No Bill Matched The Given Criteria.",
+"Start Sending Bills" : "Start Sending Bills",
+"Register a new account" : "Register a new account",
+"Business Name" : "Business Name",
+"Full Name" : "Full Name",
+"I agree to" : "I agree to",
+"Terms & Conditions" : "Terms & Conditions"
 }

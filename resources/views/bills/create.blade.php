@@ -94,19 +94,19 @@
                           <label for="inputEmail1">{{ __('Product/Service') }}</label>
                           <input name="name" value="{{$item['name']}}" type="text" class="form-control" placeholder="{{ __('Name') }}">
                         </div><!-- form-group -->
-                        <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
+                        <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                           <label for="Price">{{ __('Product/Service Price') }}</label>
                           <input name="price"  value="{{$item['price']}}" type="tel" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
                         </div><!-- form-group -->
-                        <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
+                        <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                           <label for="Price">{{ __('Quantity') }}</label>
                           <input type="tel" name="quantity" value="{{$item['quantity']}}" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
                         </div><!-- form-group -->
-                        <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
+                        <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1">
                           <label for="Price">{{ __('Total') }}</label>
                           <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
                         </div><!-- form-group -->
-                        <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1 delete_block">
+                        <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1 delete_block">
                           <label for="Delete" class="d-block">{{ __('Delete') }}</label>
                           <input data-repeater-delete type="button" class="btn btn-danger default d-block w-100" value="X"/>
                         </div><!-- form-group -->
@@ -121,19 +121,19 @@
                       <label for="inputEmail1">{{ __('Product/Service') }}</label>
                       <input name="name" type="text" class="form-control" placeholder="{{ __('Name') }}">
                     </div><!-- form-group -->
-                    <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
+                    <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Product/Service Price') }}</label>
                       <input type="tel" name="price" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
                     </div><!-- form-group -->
-                    <div class="form-group col-12 col-md-2 col-lg-2 col-xl-2">
+                    <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Quantity') }}</label>
                       <input type="tel" name="quantity" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
                     </div><!-- form-group -->
-                    <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1">
+                    <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1">
                       <label for="Price">{{ __('Total') }}</label>
                       <input name="total" type="tel" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
                     </div><!-- form-group -->
-                    <div class="form-group col-12 col-md-1 col-lg-1 col-xl-1 delete_block">
+                    <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1 delete_block">
                       <label for="Delete" class="d-block">{{ __('Delete') }}</label>
                     <input data-repeater-delete type="button" class="btn btn-danger default d-block w-100 text-center" value="X"/>
                     </div><!-- form-group -->
@@ -167,14 +167,14 @@
             <div class="row">
               <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                 <div class="Discount_Values form-row mb-2" style="display: none;">
-                  <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
+                  <div class="form-group col-6 col-md-6 col-lg-6 col-xl-6">
                     <label for="type">{{ __('Discount type') }}</label>
                     <select name="discount_type" id="discount_type" class="form-control">
                       <option value="fixed">{{ __('fixed') }}</option>
                       <option value="percentage">{{ __('Percentage Discount (%)') }}</option>
                     </select>
                   </div><!-- form-group -->
-                  <div class="form-group col-12 col-md-6 col-lg-6 col-xl-6">
+                  <div class="form-group col-6 col-md-6 col-lg-6 col-xl-6">
                     <label for="Price">{{ __('Discount Value') }}</label>
                     <div class="input-group">
                       <input type="tel" name="discount_value" class="form-control _parseArabicNumbers" id="Discount_Value" aria-describedby="basic-addon2">
