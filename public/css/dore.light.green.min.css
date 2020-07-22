@@ -10319,6 +10319,13 @@ i.iconsminds-mens {
   direction: ltr;
 }
 
+.changeLang {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 14px;
+}
+
 body.rtl .phone_inputs {
   direction: ltr;
   text-align: left;
@@ -10340,5 +10347,10 @@ body.rtl .datepicker .prev {
 
 body.rtl input.form-control.datepicker {
   direction: ltr;
+}
+
+body.rtl .changeLang {
+  right: auto;
+  left: 20px;
 }
 

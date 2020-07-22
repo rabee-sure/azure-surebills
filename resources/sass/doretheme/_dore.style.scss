@@ -9935,6 +9935,15 @@ i.iconsminds-mens {
 }
  
 
+.changeLang {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 14px;
+}
+
+
+
 body.rtl {
 
   .phone_inputs {
@@ -9958,6 +9967,11 @@ body.rtl {
 
   input.form-control.datepicker {
     direction: ltr;
+  }
+
+  .changeLang {
+    right: auto;
+    left: 20px;
   }
 
 }

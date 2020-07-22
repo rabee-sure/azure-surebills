@@ -5,13 +5,6 @@
   <div class="col-12 col-md-10 mx-auto my-auto">
     <div id="resset_email_page" class="card auth-card">
       <div class="position-relative image-side ">
-        <p class="text-white">
-          @if(App::isLocale('en'))
-            <a class="white" href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
-          @else
-            <a class="white" href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
-          @endif
-        </p>
         <p class=" text-white h2">{{ __('Start Sending Bills') }}</p>
         <p class="white mb-0">
           {{ __('Please use your e-mail to reset your password.') }}
@@ -22,6 +15,13 @@
 
 
       <div class="form-side">
+        <div class="changeLang">
+          @if(App::isLocale('en'))
+            <a  href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
+          @else
+            <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
+          @endif
+        </div>
         <a href="{{ url('/') }}"><span class="logo-single"></span></a>
         <h6 class="mb-4">{{ __('Reset Password') }}</h6>
         @if (session('status'))

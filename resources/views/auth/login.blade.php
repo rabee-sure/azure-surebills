@@ -6,21 +6,21 @@
   <div class="col-12 col-md-10 mx-auto my-auto">
     <div id="login_page" class="card auth-card">
       <div class="position-relative image-side">
-        <p class="text-white">
-          @if(App::isLocale('en'))
-            <a class="white" href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
-          @else
-            <a class="white" href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
-          @endif
-        </p>
         <p class=" text-white h2">{{ __('Start Sending Bills') }}</p>
         <p class="white mb-0">
           {{ __('Please use your credentials to login.') }}
           <br>
-          {{ __('If you are not a member, please') }} <a href="{{ route('register') }}" title="{{ __('Register') }}" class="white">{{ __('Register') }}</a>.
+          {{ __('If you are not a member') }} , <a href="{{ route('register') }}" title="{{ __('Register a new account2') }}" class="white">{{ __('Register a new account2') }}</a> .
         </p>
       </div>
       <div class="form-side">
+        <div class="changeLang">
+          @if(App::isLocale('en'))
+            <a  href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
+          @else
+            <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
+          @endif
+        </div>
         <a href="{{ url('/') }}"><span class="logo-single"></span></a>
         <h6 class="mb-4">{{ __('Login') }}</h6>
         <form method="POST" action="{{ route('login') }}">
