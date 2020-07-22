@@ -4433,6 +4433,7 @@ $.dore = function (element, options) {
         new Glide(".glide.single", {
           gap: 0,
           type: "carousel",
+          perTouch: 1,
           perView: 1,
           autoplay: 4000,
           direction: direction,

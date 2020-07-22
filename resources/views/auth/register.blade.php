@@ -5,6 +5,13 @@
   <div class="col-12 col-md-10 mx-auto my-auto">
     <div id="register_page" class="card auth-card">
       <div class="position-relative image-side">
+        <div class="changeLang">
+          @if(App::isLocale('en'))
+            <a  href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
+          @else
+            <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
+          @endif
+        </div>
         <p class="text-black h2">{{ __('Register a new account') }}</p>
         <p class="black mb-0">
         {{ __('Please use this form to register.') }}
@@ -23,13 +30,6 @@
         </div><!-- slide_auth -->
       </div>
       <div class="form-side">
-        <div class="changeLang">
-          @if(App::isLocale('en'))
-            <a  href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
-          @else
-            <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
-          @endif
-        </div>
         <a href="{{ url('/') }}"><span class="logo-single"></span></a>
         <h6 class="mb-4">{{ __('Register') }}</h6>
         <form method="POST" action="{{ route('register') }}" id="register-form">
