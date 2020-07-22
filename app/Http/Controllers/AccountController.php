@@ -46,7 +46,7 @@ class AccountController extends Controller
             'gender'=> $request->gender,
         ]);
    
-        return redirect('home');
+        return redirect('/account');
     }
 
     /**
@@ -72,7 +72,7 @@ class AccountController extends Controller
             'beneficiary_name' => $request->get('beneficiary_name'),
         ]);
    
-        return redirect('home');
+        return redirect('/account');
     }
 
     /**
@@ -114,7 +114,7 @@ class AccountController extends Controller
             'vat_registration_number' => $request->get('vat_registration_number'),
         ]);
    
-        return redirect('home');
+        return redirect('/account');
     }
 
     /**
@@ -136,6 +136,6 @@ class AccountController extends Controller
     {
         auth()->user()->update(['password'=> Hash::make($request->new_password)]);
    
-        return redirect('home');
+        return redirect('/account');
     }
 }
