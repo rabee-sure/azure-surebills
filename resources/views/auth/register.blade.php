@@ -124,6 +124,9 @@
       <!-- modal -->
 
     </div>
+    <div class="copyrights_auth">
+      صُنع بـ <i class="heart"></i> في <i class="ksa"></i>
+    </div><!-- copyrights_auth -->
   </div>
 </div>
 @endsection

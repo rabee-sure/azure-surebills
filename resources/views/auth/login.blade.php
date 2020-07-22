@@ -67,6 +67,9 @@
         <a class="btn btn-lg btn-shadow register_now" href="{{ route('register') }}" title="{{ __('Register a new account') }}">{{ __('Register a new account') }}</a>
       </div>
     </div>
+    <div class="copyrights_auth">
+      صُنع بـ <i class="heart"></i> في <i class="ksa"></i>
+    </div><!-- copyrights_auth -->
   </div>
 </div>
 @endsection
