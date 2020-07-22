@@ -86,6 +86,7 @@ Route::middleware(['auth', 'mobile.verified'])->group(function () {
 
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/', 'HomeController@index');
+    Route::get('/terms', 'HomeController@terms');
 	Route::get('/integration', 'IntegrationController@index')->name('integration');
 	Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
 });

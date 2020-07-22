@@ -43,4 +43,14 @@ class HomeController extends Controller
             'total_paid_bills' =>  $total_paid_bills,
         ]);
     }
+
+    /**
+     * Show terms page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function terms()
+    {
+        return view('terms');
+    }
 }
