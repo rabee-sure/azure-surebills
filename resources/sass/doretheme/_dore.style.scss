@@ -9628,6 +9628,14 @@ button.sendBill {
       border-top-left-radius: 0.75rem;
     }
   }
+  button.login_button {
+    @media (min-width: 320px) and (max-width: 767px) {
+      width: 100%;
+      text-align: center;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
 } /* resset_email_page */
 
 div.statistic_icon {
