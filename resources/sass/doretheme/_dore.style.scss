@@ -9974,7 +9974,7 @@ i.iconsminds-mens {
 
 .changeLang {
   position: absolute;
-  right: 20px;
+  left: 20px;
   top: 15px;
   font-size: 14px;
 }
@@ -9988,7 +9988,10 @@ i.iconsminds-mens {
     max-width: 100%;
     width: auto;
     height: auto;
-    max-height: 200px;
+    max-height: none;
+    @media (min-width: 320px) and (max-width: 767px) {
+      max-height: 200px;
+    }
   } /* img */
 } /* slide_auth */
 
@@ -10044,8 +10047,8 @@ body.rtl {
   }
 
   .changeLang {
-    right: auto;
-    left: 20px;
+    right: 20px;
+    left: auto;
   }
 
 }
