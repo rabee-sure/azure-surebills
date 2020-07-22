@@ -4434,6 +4434,7 @@ $.dore = function (element, options) {
           gap: 0,
           type: "carousel",
           perView: 1,
+          autoplay: 4000,
           direction: direction,
         }).mount();
       }

@@ -6,12 +6,23 @@
   <div class="col-12 col-md-10 mx-auto my-auto">
     <div id="login_page" class="card auth-card">
       <div class="position-relative image-side">
-        <p class=" text-white h2">{{ __('Start Sending Bills') }}</p>
-        <p class="white mb-0">
+        <p class=" text-black h2">{{ __('Start Sending Bills') }}</p>
+        <p class="black mb-0">
           {{ __('Please use your credentials to login.') }}
           <br>
-          {{ __('If you are not a member') }} , <a href="{{ route('register') }}" title="{{ __('Register a new account2') }}" class="white">{{ __('Register a new account2') }}</a> .
+          {{ __('If you are not a member') }} , <a href="{{ route('register') }}" title="{{ __('Register a new account2') }}" class="black">{{ __('Register a new account2') }}</a> .
         </p>
+        <div class="slide_auth">
+          <div class="glide single">
+            <div class="glide__track pb-3" data-glide-el="track">
+              <div class="glide__slides">
+                <div class="glide__slide"><img src="{{ asset('images/login_slide_1.png') }}" alt="login_slide_1"></div>
+                <div class="glide__slide"><img src="{{ asset('images/login_slide_2.png') }}" alt="login_slide_2"></div>
+                <div class="glide__slide"><img src="{{ asset('images/login_slide_3.png') }}" alt="login_slide_3"></div>
+              </div><!-- glide__slides -->
+            </div><!-- glide__track -->
+          </div><!-- glide -->
+        </div><!-- slide_auth -->
       </div>
       <div class="form-side">
         <div class="changeLang">

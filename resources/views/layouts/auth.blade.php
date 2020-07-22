@@ -13,6 +13,8 @@
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/slick.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/glide.core.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
   </head>
   <body class=" @if(app()->getLocale() == 'ar') rtl @else ltr @endif background show-spinner no-footer">
@@ -27,6 +29,8 @@
  <!-- Laravel Javascript Validation -->
       <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
       @yield('footer-scripts')
+      <script src="{{ asset('js/slick.min.js') }}"></script>
+      <script src="{{ asset('js/glide.min.js') }}"></script>
 
       
   </body>

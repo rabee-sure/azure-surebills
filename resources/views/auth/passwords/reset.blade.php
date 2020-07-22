@@ -7,22 +7,21 @@
         <div class="col-12 col-md-10 mx-auto my-auto">
             <div class="card auth-card">
                 <div class="position-relative image-side ">
-                    <p class="text-white">
-                      @if(App::isLocale('en'))
-                        <a class="white" href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
-                      @else
-                        <a class="white" href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
-                      @endif
-                    </p>
-                    <p class=" text-white h2">{{ __('Start Sending Bills') }}</p>
+                    <p class=" text-white h2">{{ __('Reset Password') }}</p>
                     <p class="white mb-0">
                       {{ __('Please use this form to register.') }}
                       <br>
-                      {{ __('If you are a member, please') }} 
-                      <a href="{{ route('register')}}" class="white">{{ __('Register') }}</a>.
+                      {{ __('If you are a member, please') }} <a href="{{ route('login') }}" title="{{ __('Login') }}" class="white">{{ __('Login') }}</a>.
                     </p>
                 </div>
                 <div class="form-side" >
+        <div class="changeLang">
+          @if(App::isLocale('en'))
+            <a  href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
+          @else
+            <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
+          @endif
+        </div>
                     <a href="{{ url('/')}}"><span class="logo-single"></span></a>
                     @if ($errors->any())
                         <div class="alert alert-danger">

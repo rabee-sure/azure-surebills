@@ -6046,7 +6046,7 @@ div.dataTables_wrapper div.dataTables_filter input {
   width: 40%;
   background: url(/images/login-balloon.jpg?436fc99c7a3b1ddba1a3d96120a9b451) no-repeat center top;
   background-size: cover;
-  padding: 80px 40px;
+  padding: 80px 40px 10px 40px;
 }
 
 .auth-card .image-side .h3 {
@@ -9817,6 +9817,10 @@ button.sendBill {
   display: table;
 }
 
+#login_page .image-side {
+  background: #fff;
+}
+
 #login_page a.register_now {
   display: table;
   margin: 0 auto;
@@ -9839,6 +9843,10 @@ button.sendBill {
   height: 60px;
   margin: 0 auto 60px;
   display: table;
+}
+
+#register_page .image-side {
+  background: #fff;
 }
 
 #register_page a.login_now {
@@ -10325,6 +10333,23 @@ i.iconsminds-mens {
   top: 15px;
   font-size: 14px;
 }
+
+.slide_auth {
+  direction: ltr;
+  margin: 40px auto 0;
+  /* img */
+}
+
+.slide_auth img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 100%;
+}
+
+/* slide_auth */
 
 body.rtl .phone_inputs {
   direction: ltr;
