@@ -7599,9 +7599,17 @@ i.large-icon {
   .breadcrumb-item + .breadcrumb-item {
     padding-left: initial;
     padding-right: 0.5rem;
+    [dir="rtl"] & {
+      padding-right: initial;
+      padding-left: 0.5rem;
+    } /* rtl */
     &::before {
       padding-left: 0.5rem;
       padding-right: initial;
+      [dir="rtl"] & {
+        padding-right: 0.5rem;
+        padding-left: initial;
+      } /* rtl */
     }
   }
 
