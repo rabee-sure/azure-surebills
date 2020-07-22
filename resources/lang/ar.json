@@ -125,5 +125,8 @@
 "Choose..." : "إختر ...",
 "Male" : "ذكر",
 "female" : "أنثي",
-"Save" : "حفظ"
+"Save" : "حفظ",
+"Create New Application" : "إنشاء تطبيق جديد",
+"You Have Not Created Any Applications" : "لم تقم بإنشاء أي تطبيقات",
+"No Bill Matched The Given Criteria." : "لا يوجد مشروع قانون يطابق المعايير المحددة."
 }
