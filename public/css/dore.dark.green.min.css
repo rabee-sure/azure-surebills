@@ -9945,6 +9945,15 @@ button.sendBill {
   }
 }
 
+@media (min-width: 320px) and (max-width: 767px) {
+  #resset_email_page button.login_button {
+    width: 100%;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
 /* resset_email_page */
 
 div.statistic_icon {
