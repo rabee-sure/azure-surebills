@@ -112,7 +112,7 @@
           <span><img alt="Profile Picture" src="{{ auth()->user()->gravatar}}" /></span>
         </button>
         <div class="dropdown-menu dropdown-menu-right mt-3">
-          <a class="dropdown-item" href="{{ url('account/account')}}">{{ __('Account') }}</a>
+          <a class="dropdown-item" href="{{ url('account')}}">{{ __('My Account') }}</a>
           @if(App::isLocale('en'))
             <a class="dropdown-item" href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
           @else

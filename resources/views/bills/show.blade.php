@@ -18,11 +18,17 @@
   <div class="col-12">
     <div class="card mb-5">
       <div class="card-body">
-        <a class="btn btn-info mr-2 mb-2 d-inline-block" href="{{ $bill->pay_url}}" target="_blanck" title="{{ __('Open Link') }}">{{ __('Open Link') }}</a>
-        <button class="btn btn-info mr-2 mb-2 d-inline-block copyButton">{{ __('Copy Link') }}</button>
+        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->pay_url}}" target="_blanck" title="{{ __('Open Link') }}">
+          <img src="{{ asset('img/copy.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
+        </a>
+        <button class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm copyButton">
+          <img src="{{ asset('img/link.svg') }}" alt="{{ __('Copy Link') }}" style="height: 25px;">
+        </button>
         <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
-        <a onclick="window.print(); return false;" class="btn btn-info mr-2 mb-2 d-inline-block" href="#" title="{{ __('Print') }}">{{ __('Print') }}</a>
-        <!-- <a class="btn btn-info mr-2 mb-2 d-inline-block" href="#">{{ __('Send Reminder') }}</a> -->
+        <a onclick="window.print(); return false;" class="btn btn-primary mr-2 mb-2 rounded-sm d-inline-block" href="#" title="{{ __('Print') }}">
+          <img src="{{ asset('img/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
+        </a>
+        <!-- <a class="btn btn-primary mr-2 mb-2 d-inline-block" href="#">{{ __('Send Reminder') }}</a> -->
       </div>
     </div>
   </div>

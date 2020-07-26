@@ -46,9 +46,9 @@
           </a>
         </li> --}}
         <li class="{{ Request::is('account*') ? 'active' : '' }}">
-          <a href="{{ route('account') }}" title="Account">
+          <a href="{{ route('account') }}" title="My Account">
             <i class="iconsminds-male-2"></i>
-            {{ __('Account') }}
+            {{ __('My Account') }}
           </a>
         </li>
         <li class="{{ Request::is('pricing*') ? 'active' : '' }}">
