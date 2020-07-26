@@ -89,7 +89,7 @@ class HyperPayFrame extends Driver
 
         return  '<script>
                     var wpwlOptions = {
-                        // locale: "'.App::getLocale().'",
+                        locale: "'.App::getLocale().'",
                         style: "plain",
                         showCVVHint: true,
                         brandDetection: true,
