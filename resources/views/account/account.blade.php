@@ -55,9 +55,9 @@
       <div class="card">
         <div id="smartWizardValidation">
           <ul class="card-header">
-            <li><a href="#step-0">Step 1<br /><small>{{ __('My Information') }}</small></a></li>
-            <li><a href="#step-1">Step 2<br /><small>{{ __('Business Information') }}</small></a></li>
-            <li><a href="#step-2">Step 3<br /><small>{{ __('Bank Information') }}</small></a></li>
+            <li><a href="#step-0">1<br /><small>{{ __('My Information') }}</small></a></li>
+            <li><a href="#step-1">2<br /><small>{{ __('Business Information') }}</small></a></li>
+            <li><a href="#step-2">3<br /><small>{{ __('Bank Information') }}</small></a></li>
           </ul>
           <div class="card-body">
             <div id="step-0">
