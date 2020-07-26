@@ -489,6 +489,14 @@ iframe.wpwl-control {
   -o-appearance: none;
   appearance: none;
 }
+html[dir="rtl"] iframe.wpwl-control {
+  direction: rtl;
+  text-align: right;
+}
+html[dir="rtl"] .wpwl-wrapper .wpwl-icon {
+  left: .5625em;
+  right: auto;
+}
 input.wpwl-control.wpwl-control-cardHolder, input.wpwl-control.wpwl-control-expiry {
   background: #fff;
   padding: 0 10px;
