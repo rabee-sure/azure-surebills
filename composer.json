@@ -22,7 +22,8 @@
         "multicaret/laravel-unifonic": "^1.0",
         "predis/predis": "^1.1",
         "proengsoft/laravel-jsvalidation": "^4.0",
-        "laravel/nova": "*"
+        "laravel/nova": "*",
+        "sure/settlements": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
@@ -76,6 +77,10 @@
         {
             "type": "path",
             "url": "./nova"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Settlements"
         }
     ]
 }

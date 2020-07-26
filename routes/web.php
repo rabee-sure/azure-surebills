@@ -79,6 +79,7 @@ Route::middleware(['auth', 'mobile.verified'])->group(function () {
 	Route::resource('applications', 'ApplicationController');
 	Route::get('statement', 'StatementController@index')->name('statement.index');
     Route::get('settlement', 'SettlementController@index')->name('settlement.index');
+    Route::post('settlements', 'SettlementController@store');
 	Route::resource('bills', 'BillController');
 	Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
 	Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
@@ -90,3 +91,7 @@ Route::middleware(['auth', 'mobile.verified'])->group(function () {
 	Route::get('/integration', 'IntegrationController@index')->name('integration');
 	Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
 });
+
+Route::get('users/all', 'UserController@all')->name('users.all');
+Route::get('users/{user}/settlements', 'UserController@settlements')->name('users.settlements');
+Route::get('users/{user}', 'UserController@show')->name('users.show');

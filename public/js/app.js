@@ -36612,6 +36612,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+Vue.prototype.axios = window.axios; // this will enable this.axios inside Vue instances
+
 Vue.component('applications', __webpack_require__(/*! ./components/Applications.vue */ "./resources/js/components/Applications.vue")["default"]);
 Vue.component('pricing', __webpack_require__(/*! ./components/Pricing.vue */ "./resources/js/components/Pricing.vue")["default"]);
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]); // Vue.component(
@@ -37090,11 +37092,11 @@ module.exports = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\doretheme\dore.dark.green.scss */"./resources/sass/doretheme/dore.dark.green.scss");
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\doretheme\dore.light.green.scss */"./resources/sass/doretheme/dore.light.green.scss");
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\bill_details.scss */"./resources/sass/bill_details.scss");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/doretheme/dore.dark.green.scss */"./resources/sass/doretheme/dore.dark.green.scss");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/doretheme/dore.light.green.scss */"./resources/sass/doretheme/dore.light.green.scss");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/bill_details.scss */"./resources/sass/bill_details.scss");
 
 
 /***/ })
