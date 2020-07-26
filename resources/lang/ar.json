@@ -170,5 +170,6 @@
 "Riyal" : "ريال",
 "My Account" : "حسابي",
 "My Information" : "معلوماتي",
-"No Customer matched the given criteria." : "لا يوجد لديك عملاء"
+"No Customer matched the given criteria." : "لا يوجد لديك عملاء",
+"No data available in table" : "لا توجد بيانات متاحة في الجدول"
 }
