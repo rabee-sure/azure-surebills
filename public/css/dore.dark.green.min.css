@@ -2018,7 +2018,7 @@ button {
 .logo-mobile {
   width: 70px;
   height: 45px;
-  background: url(/images/logo-mobile.svg?89530c175aa362bb84dd552b48555b37) no-repeat;
+  background: url(/images/logo-mobile.svg?0cb4fe39c13e6e1b53c4108722255493) no-repeat;
   background-position: center center;
 }
 
@@ -10365,6 +10365,46 @@ div[data-repeater-item]:first-child .item_row .delete_block {
 }
 
 /* no_bills_yet */
+
+.no_customers_yet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 50px 15px;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
+  min-height: 350px;
+  /* Dark Mode */
+  /* svg */
+  /* span */
+}
+
+[class=body-dark-mode] .no_customers_yet {
+  background: #232223;
+}
+
+.no_customers_yet svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 100px;
+}
+
+.no_customers_yet span {
+  display: block;
+  font-size: 16px;
+  color: #999;
+  text-transform: capitalize;
+  /* Dark Mode */
+}
+
+[class=body-dark-mode] .no_customers_yet span {
+  color: #757575;
+}
+
+/* no_customers_yet */
 
 button.login_button i {
   font-size: 16px;

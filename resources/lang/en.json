@@ -135,5 +135,12 @@
 "business address required" : "business address required",
 "business mobile required" : "business mobile required",
 "per transaction" : "per transaction",
-"Riyal" : "Riyal"
+"Riyal" : "Riyal",
+"My Account" : "My Account",
+"My Information" : "My Information",
+"No Customer matched the given criteria." : "No Customer matched the given criteria.",
+"No data available in table" : "No Data Available In Table",
+"Previous" : "Previous",
+"Next" : "Next",
+"Finish" : "Finish"
 }

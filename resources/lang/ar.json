@@ -24,7 +24,7 @@
 "Account Information": "معلومات الحساب",
 "Bank Information": "معلومات الحساب البنكي",
 "Change Password": "تغيير كلمة المرور",
-"Business Information": "معلومات الحساب التجاري",
+"Business Information": "معلومات النشاط التجاري",
 "Change Password": "تغيير كلمة المرور",
 "Pricing": "الاسعار",
 "Integration": "اعدادات التكامل",
@@ -129,7 +129,7 @@
 "Save" : "حفظ",
 "Create New Application" : "إنشاء تطبيق جديد",
 "You Have Not Created Any Applications" : "لم تقم بإنشاء أي تطبيقات",
-"No Bill Matched The Given Criteria." : "لايوجد لديك عمليات",
+"No Bill Matched The Given Criteria." : "لايوجد لديك فواتير",
 "Start Sending Bills" : "ابدأ بإرسال الفواتير",
 "Register a new account" : "تسجيل حساب جديد",
 "Business Name" : "الاسم التجاري",
@@ -167,5 +167,12 @@
 "business address required" : "العنوان مطلوب",
 "business mobile required" : "الهاتف مطلوب",
 "per transaction" : "لكل عملية",
-"Riyal" : "ريال"
+"Riyal" : "ريال",
+"My Account" : "حسابي",
+"My Information" : "معلوماتي",
+"No Customer matched the given criteria." : "لا يوجد لديك عملاء",
+"No data available in table" : "لا توجد بيانات متاحة في الجدول",
+"Previous" : "السابق",
+"Next" : "التالي",
+"Finish" : "إنتهاء"
 }
