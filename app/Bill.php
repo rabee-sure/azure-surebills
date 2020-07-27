@@ -132,6 +132,16 @@ class Bill extends Model
     }  
 
     /**
+     * Get items.
+     *
+     * @return Collection
+     */
+    public function depositTransaction()
+    {
+        return $this->hasOne(Transaction::class)->where('type', 'credit');
+    }  
+
+    /**
      * Get application.
      *
      * @return Collection
