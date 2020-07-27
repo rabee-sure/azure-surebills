@@ -154,10 +154,9 @@ class BillController extends Controller
             return view('bills.status', ['bill' => $bill]);
         }
 
-        // $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
-        // $invoice->detail(['bill' => $bill->toArray()])
-        //     ->detail(['hash' => $bill->pay_id]);
-        // $payment_iframe = Payment::generateIframe($invoice);
+        $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
+        $invoice->detail(['bill' => $bill->toArray()])
+            ->detail(['hash' => $bill->pay_id]);
         
         return view('bills.pay', compact('bill', 'id'));
     }
@@ -168,74 +167,14 @@ class BillController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function payment_iframe($id)
+    public function payment_iframe($id, $method)
     {
         $bill = Bill::find($id);
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
         $invoice->detail(['bill' => $bill->toArray()])
             ->detail(['hash' => $bill->pay_id]);
-        return $payment_iframe = Payment::generateIframe($invoice);
         
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function postPay($id, PayBillRequest $request)
-    {
-        $bill = Bill::decodeId($id);
-
-        $expiry = $request->get('expiry', '03/21');
-        $expiry_array = str_replace(' ', '', explode("/", $expiry));
-        $credit_card = str_replace(' ', '', $request->get('number', '4242424242424242'));
-        // dd($this->validatecard($credit_card));
-        $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
-        $invoice->detail(['name' => $request->get('name')])
-                ->detail(['number' => $credit_card])
-                ->detail(['expiry' => $expiry])
-                ->detail(['expiry_month' => $expiry_array[0]])
-                ->detail(['expiry_year' => '20'.$expiry_array[1]])
-                ->detail(['bill' => $bill->toArray()])
-                ->detail(['cvc' => $request->get('cvc')]);
-        // Purchase the given invoice.
-        Payment::purchase($invoice, function($driver, $result){
-
-        });
-
-        // if success
-        if($invoice->getDetail('success')){
-
-            PaymentLog::create([
-                'results' => $invoice->getDetails(),
-                'data' => [],
-                'status' => 1,
-            ]);
-            
-            $bill->paid();
-
-            if($bill->application){
-                $url = $bill->application->redirect.'?reference_id='.$bill->reference_id.'&status='.$bill->status.'&bill_id='.$bill->id;
-                return redirect($url);
-            }
-
-            return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
-        }
-
-        // if pending redirect to complete
-        if($invoice->getDetail('pending')){
-            return redirect($invoice->getDetail('redirect')->url);
-        }
-
-        // create a log for the payment
-        PaymentLog::create([
-            'results' => $invoice->getDetails(),
-            'data' => [],
-            'status' => 0,
-        ]);
-
-        // return the view with errors
-        return back()->withInput()->withErrors(['field_name' => $invoice->getDetail('result_description')]);
+        return $payment_iframe = Payment::via($method)->generateIframe($invoice);
     }
 
     /**

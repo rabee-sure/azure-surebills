@@ -273,8 +273,8 @@ body {
             display: block;
             font-size: 15px;
             font-weight: bold;
-            margin: 0;
             line-height: 25px;
+            margin: 4px 0 0 0;
             @include media-breakpoint-down(sm) {
               font-size: 14px;
             } /* (sm) */
@@ -336,6 +336,7 @@ body {
           } /* icon_stc */
         } /* label */
         .visa_pay_content {
+          text-align: center;
           background: #fafafa;
           border: 1px solid #eee;
           padding: 20px;
@@ -534,3 +535,18 @@ a.logo_bills {
   margin: 15px auto 0;
   display: block;
 } /* logo_bills */
+
+
+.wpwl-apple-pay-button {
+    background-image: url("/img/applepay_big.png");
+    background-repeat: no-repeat;
+    height: 76px;
+    width: 424px;
+    display: block;
+    margin: 0 auto;
+    border: none;
+    border-radius: 7px;
+}
+.applepay-item {
+  display: none;
+}

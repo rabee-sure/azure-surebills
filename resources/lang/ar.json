@@ -174,5 +174,6 @@
 "No data available in table" : "لا توجد بيانات متاحة في الجدول",
 "Previous" : "السابق",
 "Next" : "التالي",
-"Finish" : "إنتهاء"
+"Finish" : "إنتهاء",
+"Operation is processing..." : "جاري معالجة العملية..."
 }
