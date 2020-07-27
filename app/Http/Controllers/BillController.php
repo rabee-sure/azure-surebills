@@ -303,5 +303,18 @@ class BillController extends Controller
     {
         //
     }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel($id)
+    {
+        $bill = Bill::find($id);
+        $bill->status = 'canceled';
+        $bill->save();
 
+        return redirect()->back();
+    }
 }

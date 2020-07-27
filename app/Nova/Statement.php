@@ -3,32 +3,28 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Panel;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Bill extends Resource
+class Statement extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Bill::class;
+    public static $model = \App\Transaction::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -48,26 +44,22 @@ class Bill extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name', function () {
-                return __('Bill').' '.  $this->number  .'-'. $this->customer_name;
-            }),
-            Badge::make('Status')->map([
-                'pending' => 'info',
-                'paid' => 'success',
-                'canceled' => 'warning',
-                'expired' => 'danger',
-            ]),         
-            Select::make('Payment Method')->options([
-                'credit' => 'credit',
-                'stc' => 'stc',
-                'apple' => 'apple',
+            DateTime::make('created at')->exceptOnForms(),
+            Text::make('description'),
+            Text::make('reference'),
+            Text::make('receipt'),
+            Text::make('auth_id'),
+            Select::make('card_brand')->options([
+                'VISA' => 'VISA',
+                'MASTER' => 'MASTER',
+                'MADA' => 'MADA',
+                'APPLEPAY' => 'APPLEPAY',
             ]),
-
-            Number::make('Total')->min(1)->step(0.1),
-            Number::make('Payment Fees')->min(1)->step(0.1),
+            Select::make('type')->options([
+                'debit' => 'debit',
+                'credit' => 'credit',
+            ]),
             BelongsTo::make('User'),
-
-
         ];
     }
 
@@ -114,6 +106,4 @@ class Bill extends Resource
     {
         return [];
     }
-
-
 }

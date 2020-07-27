@@ -9,12 +9,14 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "anaseqal/nova-sidebar-icons": "^0.0.3",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "hashids/hashids": "^4.0",
         "laravel-validation-rules/credit-card": "^1.3",
         "laravel/framework": "^7.0",
+        "laravel/nova": "*",
         "laravel/passport": "^9.2",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
@@ -22,7 +24,6 @@
         "multicaret/laravel-unifonic": "^1.0",
         "predis/predis": "^1.1",
         "proengsoft/laravel-jsvalidation": "^4.0",
-        "laravel/nova": "*",
         "sure/settlements": "*"
     },
     "require-dev": {

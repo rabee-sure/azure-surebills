@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Anaseqal\NovaSidebarIcons\NovaSidebarIcons;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
@@ -79,7 +80,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            new Settlements
+            // new Settlements,
+            new NovaSidebarIcons,
         ];
     }
 

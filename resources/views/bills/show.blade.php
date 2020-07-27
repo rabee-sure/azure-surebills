@@ -18,6 +18,7 @@
   <div class="col-12">
     <div class="card mb-5">
       <div class="card-body">
+        <!-- Button trigger modal -->
         <button class="btn btn-primary mr-2 mb-2 d-inline-block notify-btn rounded-sm copyButton" title="{{ __('Copy Link') }}" data-from="top" data-align="right">
           <img src="{{ asset('img/copy.svg') }}" alt="{{ __('Copy Link') }}" style="height: 25px;">
         </button>
@@ -29,6 +30,12 @@
           <img src="{{ asset('img/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
         </a>
         <!-- <a class="btn btn-primary mr-2 mb-2 d-inline-block" href="#">{{ __('Send Reminder') }}</a> -->
+        @if($bill->is_pending)
+          <button type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#exampleModal" title="{{ __('Cancel Bill') }}" data-from="top" data-align="right">
+            <img src="{{ asset('img/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
+          </button>
+        @endif
+
       </div>
     </div>
   </div>
@@ -95,6 +102,28 @@
     <a href="https://bills.surepay.sa" target="_blank" title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
 </div><!-- row -->
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+          <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
+            @csrf
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+
+                  <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
+                            </form>
+                </div>
+              </div>
+            </div>
+          </div>
 @endsection
 
 @section('footer-scripts')
