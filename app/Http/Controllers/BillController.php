@@ -154,14 +154,30 @@ class BillController extends Controller
             return view('bills.status', ['bill' => $bill]);
         }
 
+        // $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
+        // $invoice->detail(['bill' => $bill->toArray()])
+        //     ->detail(['hash' => $bill->pay_id]);
+        // $payment_iframe = Payment::generateIframe($invoice);
+        
+        return view('bills.pay', compact('bill', 'id'));
+    }
+    
+    /**
+     * Display the payment page for a specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function payment_iframe($id)
+    {
+        $bill = Bill::find($id);
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
         $invoice->detail(['bill' => $bill->toArray()])
             ->detail(['hash' => $bill->pay_id]);
-        $payment_iframe = Payment::generateIframe($invoice);
+        return $payment_iframe = Payment::generateIframe($invoice);
         
-        return view('bills.pay', compact('bill', 'id', 'payment_iframe'));
     }
-    
+
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

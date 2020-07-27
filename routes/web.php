@@ -71,6 +71,7 @@ Route::middleware(['auth'])->group(function () {
 
 // py bill page
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
+Route::get('/bills/payment_iframe/{id}', 'BillController@payment_iframe')->name('payment_iframe');
 Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang');
 Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
