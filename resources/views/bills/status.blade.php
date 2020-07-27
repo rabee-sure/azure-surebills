@@ -25,7 +25,11 @@
             @endif
             @if($bill->status == 'paid')
               <div class="alert alert-success" role="alert">
-                this bill #{{ $bill->number }} paid successfully
+                @if ($bill->depositTransaction)
+                  Paid - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
+                @else
+                  this bill #{{ $bill->number }} paid successfully
+                @endif
               </div>
             @endif
             @if($bill->status == 'canceled')

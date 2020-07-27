@@ -157,6 +157,7 @@ class BillController extends Controller
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
         $invoice->detail(['bill' => $bill->toArray()])
             ->detail(['hash' => $bill->pay_id]);
+            
         $payment_iframe = Payment::generateIframe($invoice);
         
         return view('bills.pay', compact('bill', 'id', 'payment_iframe'));
