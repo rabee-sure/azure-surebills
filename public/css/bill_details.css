@@ -11655,21 +11655,13 @@ iframe.wpwl-control {
   border-radius: 4px;
   border: 1px solid #ddd;
   box-shadow: none;
+  direction: ltr;
+  text-align: left;
   background: #fff;
   -webkit-appearance: none;
   -moz-appearance: none;
   -o-appearance: none;
   appearance: none;
-}
-
-html[dir=rtl] iframe.wpwl-control {
-  direction: rtl;
-  text-align: right;
-}
-
-html[dir=rtl] .wpwl-wrapper .wpwl-icon {
-  left: 0.5625em;
-  right: auto;
 }
 
 input.wpwl-control.wpwl-control-cardHolder,
@@ -11681,6 +11673,8 @@ input.wpwl-control.wpwl-control-expiry {
   height: 41px;
   border-radius: 4px;
   font-size: 14px;
+  direction: ltr;
+  text-align: left;
   text-transform: capitalize;
   -webkit-appearance: none;
   -moz-appearance: none;

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SettlementCreated;
+use App\Http\Resources\SettlementResource;
 use App\Settlement;
 use Illuminate\Http\Request;
 
@@ -35,7 +37,13 @@ class SettlementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $sett = Settlement::create([
+            'user_id' => $request->user_id,
+            'amount' => $request->amount,
+            'created_by_id' => auth()->user()->id,
+        ]);
+        event(new SettlementCreated($sett));
+        return new SettlementResource($sett);
     }
 
     /**

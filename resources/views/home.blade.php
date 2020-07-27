@@ -110,7 +110,7 @@
                         </tbody>
                     </table>
                 @else
-                  <div class="no_bills_available">{{ __('No data available in table') }}</div>
+                  <div class="no_bills_available">{{ __('No Bill Matched The Given Criteria.') }}</div>
                 @endif
             </div>
           </div>
