@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="single_bill_page">
-  <div class="container">
+  <div class="container"  id="app">
     <div class="row  justify-content-center">
       <div class="col-12 col-md-8 col-lg-6 col-xl-6">
         <div class="single_bill_content">
@@ -78,34 +78,30 @@
             </div><!-- customer_information -->
             <div class="payment_method">
               <div class="name">{{__('Payment Method')}}</div>
-
               <div class="bill_payment">
                 <div class="item">
-                  <input type="radio" id="visa_pay" name="pay" checked>
-                  <label for="visa_pay">
-                    <p>{{__('Credit Card - made')}} </p>
+                    <input type="radio" id="visa_pay" name="payment_method" value="hyperpay_iframe">
+                    <label for="visa_pay">
+                    <p>{{ __('Credit Card - MADA') }}</p>
                     <div class="icon_mada"></div>
                     <div class="checkmark"></div>
-                  </label>
-                  <div class="visa_pay_content">
-                    {!! $payment_iframe !!}
-                  </div><!-- visa_pay_content -->
+                    </label>
                 </div><!-- item -->
-                <div class="item disable">
-                  <input type="radio" id="pay_2" name="pay">
-                  <label for="pay_2">
-                    <p>Apple Pay</p>
+                <div class="item applepay-item">
+                    <input type="radio" id="apple_pay" name="payment_method" value="hyperpay_applepay">
+                    <label for="apple_pay">
+                    <p>{{ __('Apple Pay') }}</p>
                     <div class="icon_apple"></div>
                     <div class="checkmark"></div>
-                  </label>
+                    </label>
                 </div><!-- item -->
                 <div class="item disable">
-                  <input type="radio" id="pay_3" name="pay">
-                  <label for="pay_3">
-                    <p>STC Pay</p>
-                    <div class="icon_stc"></div>
-                    <div class="checkmark"></div>
-                  </label>
+                    <input type="radio" id="stc_pay" name="payment_method" value="stc_pay" >
+                    <label for="pay_3">
+                        <p>STC Pay</p>
+                        <div class="icon_stc"></div>
+                        <div class="checkmark"></div>
+                    </label>
                 </div><!-- item -->
               </div><!-- bill_payment -->
             </div><!-- payment_method -->
@@ -119,5 +115,32 @@
 
 
 @section('footer-scripts')
+<script type='text/javascript'>
+var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+if (isSafari) {
+  $('.applepay-item').css('display', 'block');
+}
+jQuery(document).ready(function(){
+    $('input:radio[name="payment_method"]').change(function(){
+        if (this.checked) {
+          $('.visa_pay_content').each(function() {
+            $( this ).remove();
+          });
+          $(this).parent().append('<div class="visa_pay_content" id="iframe_pay">{{ __('Operation is processing...') }}</div>')
+          var method = this.value;
+          $.ajax({
+              type: 'GET', //THIS NEEDS TO BE GET
+              url: '/bills/payment_iframe/{{$bill->id}}/' + method,
+              success: function (data) {
+                   $("#iframe_pay").html(data);
+              },
+              error: function() { 
+                   console.log(data);
+              }
+          });
+        }
+    });
+});
+</script>
     {!! JsValidator::formRequest('App\Http\Requests\PayBillRequest', '#bill_bay') !!}
 @endsection

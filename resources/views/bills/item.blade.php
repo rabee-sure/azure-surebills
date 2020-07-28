@@ -15,7 +15,7 @@
                 <span class="badge badge-pill badge-success d-inline-block">{{ __('Paid')}}</span>
               @endif             
               @if($bill->status == 'canceled')
-                <span class="badge badge-pill badge-light d-inline-block">{{ __('Canceled')}}</span>
+                <span class="badge badge-pill badge-danger d-inline-block">{{ __('Canceled')}}</span>
               @endif              
               @if($bill->status == 'expired')
                 <span class="badge badge-pill badge-light d-inline-block">{{ __('Expired')}}</span>

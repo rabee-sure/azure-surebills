@@ -71,14 +71,17 @@ Route::middleware(['auth'])->group(function () {
 
 // py bill page
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
+Route::get('/bills/payment_iframe/{id}/{method}', 'BillController@payment_iframe')->name('payment_iframe');
 Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang');
 Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
+Route::post('/bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
 Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
 
 Route::middleware(['auth', 'mobile.verified'])->group(function () {
 	Route::resource('applications', 'ApplicationController');
 	Route::get('statement', 'StatementController@index')->name('statement.index');
     Route::get('settlement', 'SettlementController@index')->name('settlement.index');
+    Route::post('settlements', 'SettlementController@store');
 	Route::resource('bills', 'BillController');
 	Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
 	Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
@@ -90,3 +93,7 @@ Route::middleware(['auth', 'mobile.verified'])->group(function () {
 	Route::get('/integration', 'IntegrationController@index')->name('integration');
 	Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
 });
+
+Route::get('users/all', 'UserController@all')->name('users.all');
+Route::get('users/{user}/settlements', 'UserController@settlements')->name('users.settlements');
+Route::get('users/{user}', 'UserController@show')->name('users.show');

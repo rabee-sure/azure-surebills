@@ -18,17 +18,24 @@
   <div class="col-12">
     <div class="card mb-5">
       <div class="card-body">
-        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->pay_url}}" target="_blanck" title="{{ __('Open Link') }}">
-          <img src="{{ asset('img/copy.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
-        </a>
-        <button class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm copyButton">
-          <img src="{{ asset('img/link.svg') }}" alt="{{ __('Copy Link') }}" style="height: 25px;">
+        <!-- Button trigger modal -->
+        <button class="btn btn-primary mr-2 mb-2 d-inline-block notify-btn rounded-sm copyButton" title="{{ __('Copy Link') }}" data-from="top" data-align="right">
+          <img src="{{ asset('img/copy.svg') }}" alt="{{ __('Copy Link') }}" style="height: 25px;">
         </button>
+        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->pay_url}}" target="_blanck" title="{{ __('Open Link') }}">
+          <img src="{{ asset('img/link.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
+        </a>
         <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
         <a onclick="window.print(); return false;" class="btn btn-primary mr-2 mb-2 rounded-sm d-inline-block" href="#" title="{{ __('Print') }}">
           <img src="{{ asset('img/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
         </a>
         <!-- <a class="btn btn-primary mr-2 mb-2 d-inline-block" href="#">{{ __('Send Reminder') }}</a> -->
+        @if($bill->is_pending)
+          <button type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#exampleModal" title="{{ __('Cancel Bill') }}" data-from="top" data-align="right">
+            <img src="{{ asset('img/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
+          </button>
+        @endif
+
       </div>
     </div>
   </div>
@@ -95,10 +102,90 @@
     <a href="https://bills.surepay.sa" target="_blank" title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
 </div><!-- row -->
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+          <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
+            @csrf
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+
+                  <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
+                            </form>
+                </div>
+              </div>
+            </div>
+          </div>
 @endsection
 
 @section('footer-scripts')
+  <script src="{{ asset('js/bootstrap-notify.min.js') }}" defer></script>
   <script>
+
+  /* 03.12. Notification */
+  function showNotification(placementFrom, placementAlign, type) {
+      $.notify(
+        {
+          title: false,
+          message: "تم نسخ الرابط",
+          target: "_blank"
+        },
+        {
+          element: "body",
+          position: null,
+          type: type,
+          allow_dismiss: true,
+          newest_on_top: false,
+          showProgressbar: false,
+          placement: {
+            from: placementFrom,
+            align: placementAlign
+          },
+          offset: 20,
+          spacing: 10,
+          z_index: 1031,
+          delay: 4000,
+          timer: 1000,
+          url_target: "_blank",
+          mouse_over: null,
+          animate: {
+            enter: "animated fadeInDown",
+            exit: "animated fadeOutUp"
+          },
+          onShow: null,
+          onShown: null,
+          onClose: null,
+          onClosed: null,
+          icon_type: "class",
+          template:
+            '<div data-notify="container" class="col-11 col-sm-3 alert  alert-{0} " role="alert">' +
+            '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+            '<span data-notify="icon"></span> ' +
+            '<span data-notify="title">{1}</span> ' +
+            '<span data-notify="message">{2}</span>' +
+            '<div class="progress" data-notify="progressbar">' +
+            '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+            "</div>" +
+            '<a href="{3}" target="{4}" data-notify="url"></a>' +
+            "</div>"
+        }
+      );
+    }
+
+    $("body").on("click", ".notify-btn", function (event) {
+      event.preventDefault();
+      showNotification($(this).data("from"), $(this).data("align"), "primary");
+    });
+
+
     $(document).on("click", '.copyButton', function() {
        $(this).siblings('input.linkToCopy').select();      
         document.execCommand("copy");

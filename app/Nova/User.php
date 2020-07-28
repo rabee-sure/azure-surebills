@@ -51,7 +51,7 @@ class User extends Resource
 
             Text::make('Name')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255'),            
 
             Text::make('Email')
                 ->sortable()
@@ -64,9 +64,13 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
+            Text::make('balance', function () {
+                return round($this->balance,2);
+            }),
             new Panel('Pricing', $this->pricingFields()),
 
             HasMany::make('settlements'),
+            HasMany::make('statement'),
 
         ];
     }

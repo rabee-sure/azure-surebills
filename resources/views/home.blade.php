@@ -22,7 +22,7 @@
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Balance') }}</p>
-                  <p class="lead text-center">{{ $balance}}</p>
+                  <p class="lead text-center">{{ round(auth()->user()->balance, 2) }}</p>
                 </div>
               </a>
             </div>
@@ -110,7 +110,7 @@
                         </tbody>
                     </table>
                 @else
-                  <div class="no_bills_available">{{ __('No data available in table') }}</div>
+                  <div class="no_bills_available">{{ __('No Bill Matched The Given Criteria.') }}</div>
                 @endif
             </div>
           </div>

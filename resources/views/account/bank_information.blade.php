@@ -26,7 +26,13 @@
               <option value="" disabled selected>{{__('Select your Bank')}}</option>
 
                 @foreach(getBanks() as $bank)
-                  <option value="{{$bank['id']}}" @if ($user->bank == $bank['id'])selected="selected"@endif>{{$bank['en']}}</option>
+                  <option value="{{$bank['id']}}" @if ($user->bank == $bank['id'])selected="selected"@endif>
+                     @if(session()->get('user-lang') == 'ar')
+                     {{$bank['ar']}}
+                     @else
+                     {{$bank['en']}}
+                     @endif
+                  </option>
                 @endforeach
               </select>
             </div>

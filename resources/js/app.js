@@ -20,6 +20,11 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component(
+    'payment-method',
+    require('./components/PaymentMethod.vue').default
+);
+
+Vue.component(
     'applications',
     require('./components/Applications.vue').default
 );

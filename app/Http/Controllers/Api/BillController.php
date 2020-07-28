@@ -129,6 +129,5 @@ class BillController extends Controller
         }else{
             return response()->json(['success' => false]);
         }
-
     }
 }

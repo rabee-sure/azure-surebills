@@ -82,7 +82,7 @@ class Transaction extends Model
         $transaction->save();
     }
 
-    protected function generateReceipt()
+    public function generateReceipt()
     {
         $lastReceipt = self::where('type', $this->type)->orderBy('id', 'desc')->first();
 

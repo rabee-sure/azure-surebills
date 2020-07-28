@@ -115,6 +115,13 @@ class Bill extends Model
     }
 
     /**
+     * get only pending bills
+     */
+    public function scopePending($query){
+        $query->where('status', 'pending');
+    }
+
+    /**
      * get only paid bills
      */
     public function scopeNotSettled($query){
@@ -129,6 +136,16 @@ class Bill extends Model
     public function items()
     {
         return $this->hasMany(BillItem::class);
+    }  
+
+    /**
+     * Get items.
+     *
+     * @return Collection
+     */
+    public function depositTransaction()
+    {
+        return $this->hasOne(Transaction::class)->where('type', 'credit');
     }  
 
     /**

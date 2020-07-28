@@ -3,11 +3,14 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Badge;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
@@ -45,13 +48,15 @@ class Bill extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
-            Select::make('Status')->options([
-                'pending' => 'pending',
-                'paid' => 'paid',
-                'canceled' => 'canceled',
-                'expired' => 'expired',
-            ]),            
+            Text::make('Name', function () {
+                return __('Bill').' '.  $this->number  .'-'. $this->customer_name;
+            }),
+            Badge::make('Status')->map([
+                'pending' => 'info',
+                'paid' => 'success',
+                'canceled' => 'warning',
+                'expired' => 'danger',
+            ]),         
             Select::make('Payment Method')->options([
                 'credit' => 'credit',
                 'stc' => 'stc',
@@ -60,6 +65,8 @@ class Bill extends Resource
 
             Number::make('Total')->min(1)->step(0.1),
             Number::make('Payment Fees')->min(1)->step(0.1),
+            BelongsTo::make('User'),
+
 
         ];
     }

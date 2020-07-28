@@ -28,7 +28,7 @@ class Settlement extends Resource
      * @var string
      */
     public static $title = 'name';
-
+    public static $displayInNavigation = false;
     /**
      * The columns that should be searched.
      *
@@ -48,13 +48,8 @@ class Settlement extends Resource
     {
         return [
             ID::make()->sortable(),
-            Date::make('Bills Paid From'),
-            Date::make('Bills Paid To'),
-            Number::make('total Number Of Bills')->min(1)->step(1),
-            Number::make('Total Amount Of Bills')->min(1)->step(0.1),
-            Number::make('Total Paid Amount')->min(1)->step(0.1),
-            Number::make('Total Fees Amount')->min(1)->step(0.1),
             BelongsTo::make('User'),
+            Number::make('Amount')->min(1)->step(0.1),
 
         ];
     }
