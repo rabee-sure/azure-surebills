@@ -88,7 +88,11 @@ class AccountController extends Controller
             'iban_number' => $request->get('iban_number'),
             'beneficiary_name' => $request->get('beneficiary_name'),
         ]);
-   
+
+        if ($request->redirectHome) {
+            return redirect('/');
+        }
+
         return redirect('/account');
     }
 

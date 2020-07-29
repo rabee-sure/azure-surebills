@@ -1,4 +1,4 @@
-@extends('account.account')
+@extends('account.account_complete')
 
 @section('steps')
     <div class="col-12">
