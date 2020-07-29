@@ -82,7 +82,7 @@
                 <div class="item">
                     <input type="radio" id="visa_pay" name="payment_method" value="hyperpay_iframe">
                     <label for="visa_pay">
-                    <p>{{ __('Credit Card - MADA') }}</p>
+                    <p>{{ __('Credit Card - mada') }}</p>
                     <div class="icon_mada"></div>
                     <div class="checkmark"></div>
                     </label>
