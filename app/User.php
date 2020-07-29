@@ -34,12 +34,12 @@ class User extends Authenticatable
         'business_address',
         'business_mobile',
         'vat_registration_number',
+        'license_type',
+        'organization_name',
         
         //bank info
-        'license_type',
         'bank',
         'iban_number',
-        'organization_name',
         'beneficiary_name',
 
         //bank princing
@@ -85,6 +85,26 @@ class User extends Authenticatable
         return $deposits - $withdraws;
     }   
 
+
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getIsCompleteProfileAttribute()
+    {
+        return (
+            isset($this->business_name)&&
+            isset($this->logo)&&
+            isset($this->business_address)&&
+            isset($this->business_mobile)&&
+
+            isset($this->bank)&&
+            isset($this->iban_number)&&
+            isset($this->beneficiary_name)
+        );
+    }  
 
     /**
      * Get the user's is Active.

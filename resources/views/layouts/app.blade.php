@@ -27,9 +27,16 @@
     @yield('css_styles')
 
   </head>
-  <body id="app-container" class=" @if(app()->getLocale() == 'ar') rtl @else ltr @endif menu-default show-spinner">
+  <body id="app-container" class=" @if(app()->getLocale() == 'ar') rtl @else ltr @endif 
+    @if(auth()->user()->is_complete_profile) 
+        menu-default show-spinner 
+    @else
+     rounded menu-sub-hidden main-hidden sub-hidden
+     @endif">
     @include('layouts.navbar')
-    @include('layouts.sidebar')
+    @if(auth()->user()->is_complete_profile)
+        @include('layouts.sidebar')
+    @endif
 
     <main>
       <div class="container-fluid" id="app">
