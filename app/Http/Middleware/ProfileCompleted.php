@@ -6,7 +6,7 @@ use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class MobileVerified
+class ProfileCompleted
 {
     /**
      * Handle an incoming request.
@@ -19,10 +19,10 @@ class MobileVerified
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            if(auth()->user()->mobile_verified){
+            if(auth()->user()->is_complete_profile){
                 return $next($request);
             }else{
-                return redirect('mobile_verify');
+                return redirect('account');
             }
         }
 
