@@ -19,9 +19,26 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function account()
+    public function account(Request $request)
     {
-        return view('account.account');
+        if($request->has('previous')){
+            if($request->get('previous') == 2){
+                session()->forget(auth()->user()->id.'_complete_profile_step_2');
+            }elseif($request->get('previous') == 1){
+                session()->forget(auth()->user()->id.'_complete_profile_step_1');
+            }
+        }
+        if(auth()->user()->is_complete_profile){
+            return view('account.account', ['user' => auth()->user()]);
+        }else{
+            if(session()->get(auth()->user()->id.'_complete_profile_step_2')){
+                return view('account.steps.step3', ['user' => auth()->user()]);
+            }elseif(session()->get(auth()->user()->id.'_complete_profile_step_1')){
+                return view('account.steps.step2', ['user' => auth()->user()]);
+            }else{
+                return view('account.steps.step1', ['user' => auth()->user()]);
+            }
+        }
     }
 
     /**
@@ -45,7 +62,7 @@ class AccountController extends Controller
             'email'=> $request->email,
             'gender'=> $request->gender,
         ]);
-   
+        session()->put(auth()->user()->id.'_complete_profile_step_1', true);
         return redirect('/account');
     }
 
@@ -113,6 +130,8 @@ class AccountController extends Controller
             'business_mobile' => $request->get('business_mobile'),
             'vat_registration_number' => $request->get('vat_registration_number'),
         ]);
+
+        session()->put(auth()->user()->id.'_complete_profile_step_2', true);
    
         return redirect('/account');
     }
