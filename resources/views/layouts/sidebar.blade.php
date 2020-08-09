@@ -39,6 +39,12 @@
             {{ __('Statement') }}
           </a>
         </li>
+        <li>
+          <a href="/products" title="Products">
+            <i class="iconsminds-shop-2"></i>
+            {{ __('Products') }}
+          </a>
+        </li>
         {{-- <li class="{{ Request::is('settlement*') ? 'active' : '' }}">
           <a href="{{ route('settlement.index') }}" title="Statement">
             <i class="iconsminds-statistic"></i>
