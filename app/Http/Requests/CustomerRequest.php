@@ -26,7 +26,7 @@ class CustomerRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['string', 'email', 'max:255',
+            'email' => ['nullable','email', 'max:255',
                 Rule::unique('customers')->where(function ($query){
                     return $query->where('user_id', auth()->user()->id);
                 })

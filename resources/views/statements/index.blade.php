@@ -51,13 +51,13 @@
                   <td>{{ $transaction->auth_id }}</td>
                   <td>
                     @if ($transaction->card_brand == 'VISA')
-                      <img alt="mastercard" src="img/visa.jpg" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="img/cards/visa.gif" class="mr-1" width="18px"> 
                     @elseif ($transaction->card_brand == 'MASTER')
-                      <img alt="mastercard" src="img/mastercard.jpg" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="img/cards/mastercard.gif" class="mr-1" width="18px"> 
                     @elseif ($transaction->card_brand == 'MADA')
-                      <img alt="mastercard" src="img/mada.jpg" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="img/cards/mada.gif" class="mr-1" width="18px"> 
                     @elseif ($transaction->card_brand == 'APPLEPAY')
-                      <img alt="mastercard" src="img/applepay.jpg" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="img/cards/applepay.gif" class="mr-1" width="18px"> 
                     @endif
                     {{ $transaction->card }}
                   </td>
