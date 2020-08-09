@@ -92,6 +92,11 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('/terms', 'HomeController@terms');
 	Route::get('/integration', 'IntegrationController@index')->name('integration');
 	Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
+
+    Route::get('products', 'ProductsController@index')->name('products.all');
+    Route::get('products/{id}/view', 'ProductsController@view')->name('products.view');
+    Route::get('products/create', 'ProductsController@create')->name('products.create');
+    Route::get('store/{slug}', 'ProductsController@store')->name('products.store');
 });
 
 Route::get('users/all', 'UserController@all')->name('users.all');
