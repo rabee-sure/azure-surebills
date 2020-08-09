@@ -53,6 +53,25 @@
         <p>{{  $bill->user->business_address}}</p>
         <b>{{  $bill->user->business_mobile }}</b>
       </div><!-- title -->
+                  @if($bill->status == 'expired')
+              <div class="alert alert-secondary" role="alert">
+                this bill #{{ $bill->number }} has been expired
+              </div>
+            @endif
+            @if($bill->status == 'paid')
+              <div class="alert alert-success" role="alert">
+                @if ($bill->depositTransaction)
+                  Paid - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
+                @else
+                  this bill #{{ $bill->number }} paid successfully
+                @endif
+              </div>
+            @endif
+            @if($bill->status == 'canceled')
+              <div class="alert alert-danger" role="alert">
+                this bill #{{ $bill->number }} has been canceled
+              </div>
+            @endif
       <div class="date_time">
         <span>
           {{__('Due on')}} {{ $bill->due_date->format('M d Y')}}
