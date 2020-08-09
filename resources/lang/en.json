@@ -142,5 +142,12 @@
 "No data available in table" : "No Data Available In Table",
 "Previous" : "Previous",
 "Next" : "Next",
-"Finish" : "Finish"
+"Finish" : "Finish",
+"verify your phone number" : "verify your phone number",
+"we sent You SMS Message Contain Apin Code" : "we sent You SMS Message Contain Apin Code",
+"Resend Code" : "Resend Code",
+"Second" : "Second",
+"didn’t Get The PIN" : "didn’t Get The PIN",
+"Verify" : "Verify",
+"Loading" : "Loading"
 }

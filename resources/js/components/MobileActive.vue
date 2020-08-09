@@ -23,9 +23,9 @@
               </div>
             </div><!-- didnt_get_pin -->
             <div class="d-flex justify-content-center">
-              <button type="button" class="btn btn-primary btn-lg w-100"  @click="sendPinCode" :disabled="is_loading">
+              <button type="button" class="btn btn-primary btn-lg text-center w-100"  @click="sendPinCode" :disabled="is_loading">
                   <span v-if="is_loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <span v-if="is_loading">{{ __('Loading...') }} </span>
+                  <span v-if="is_loading">{{ __('Loading') }} ...</span>
                   <span v-if="!is_loading">{{ __('Verify') }}</span>
               </button>
             </div><!-- d-flex  -->
@@ -117,6 +117,7 @@
     color: #333;
     text-align: center;
     margin: 0 auto 20px;
+    direction: ltr;
     [class="body-dark-mode"] & {
       color: #888888;
     } /* Dark Mode */
