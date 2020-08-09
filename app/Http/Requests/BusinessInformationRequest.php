@@ -53,6 +53,7 @@ class BusinessInformationRequest extends FormRequest
           'business_name.required' => __('business name required'),
           'business_address.required' => __('business address required'),
           'business_mobile.required' => __('business mobile required'),
+          'logo.required_without' => __('Logo required'),
         ];
     }
 }

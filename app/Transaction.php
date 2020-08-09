@@ -30,16 +30,19 @@ class Transaction extends Model
     {
         $paymentResponse = $payment->results['response'];
 
+        $authorizeId = isset($paymentResponse['resultDetails']) && isset($paymentResponse['resultDetails']['AuthorizeId']) ? $paymentResponse['resultDetails']['AuthorizeId'] : null;
+        $cardNumber = isset($paymentResponse['card']) && isset($paymentResponse['card']['last4Digits']) ? $paymentResponse['card']['last4Digits'] : 0;
+
         $transaction = new self;
         $transaction->user_id     = $payment->bill->user_id;
         $transaction->bill_id     = $payment->bill->id;
         $transaction->type        = 'credit';
-        $transaction->amount      = $paymentResponse['amount'];
+        $transaction->amount      = isset($paymentResponse['amount']) ? $paymentResponse['amount'] : 0;
         $transaction->reference   = $payment->bill->number;
         $transaction->receipt     = $transaction->generateReceipt();
         $transaction->description = 'Bill ' . $payment->bill->number . ' - ' . $payment->bill->customer_name;
-        $transaction->auth_id     = $paymentResponse['resultDetails']['AuthorizeId'];
-        $transaction->card_brand  = $paymentResponse['paymentBrand'];
+        $transaction->auth_id     = $authorizeId;
+        $transaction->card_brand  = isset($paymentResponse['paymentBrand']) ? $paymentResponse['paymentBrand'] : null;
         $transaction->card        = 'XXX' . $paymentResponse['card']['last4Digits'];
         $transaction->balance     = $transaction->user->balance + $transaction->amount;
         $transaction->save();

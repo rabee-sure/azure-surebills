@@ -1,4 +1,4 @@
-@extends('account.account')
+@extends('account.account_complete')
 
 @section('steps')
     <div class="col-12">
@@ -9,7 +9,7 @@
                     <li  class="nav-item active"><a href="#step-1">2<br /><small>{{ __('Business Information') }}</small></a></li>
                     <li class="nav-item active"><a href="#step-2">3<br /><small>{{ __('Bank Information') }}</small></a></li>
                 </ul>
-                <form id="form" method="POST" action="{{ route('bank.information') }}" class="card-body">
+                <form id="form" method="POST" action="{{ route('bank.information', ['redirectHome' => true]) }}" class="card-body">
                     @csrf
                     <div id="step-2">
                     <div class="form-row">
