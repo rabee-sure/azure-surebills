@@ -1,4 +1,16 @@
 {
+"verify your phone number": "التحقق من رقم الهاتف",
+"we sent You SMS Message Contain Apin Code": "أرسلنا لك رسالة تحتوي على الرقم السري",
+"didn’t Get The PIN": "لم أحصل على الرقم السري",
+"resending PIN in": "سيتم إعادة إرسال الرقم السري في",
+"Second": "ثانية",
+"Resend Code": "أعد إرسال الرقم السري",
+"Loading...": "جار التحميل...",
+"Verify": "تحقق",
+
+"customer email": "ايميل العميل",
+"customer_email": "ايميل العميل",
+
 "Cancel Bill": "إلغاء الفاتورة",
 "Are you Sure to Cancel Bill ?": "هل انت متأكد من إلغاء الفاتورة ؟",
 "Subtotal": "المجموع الفرعي",

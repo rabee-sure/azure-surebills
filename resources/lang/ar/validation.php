@@ -181,5 +181,7 @@ return [
         'time'                  => 'الوقت',
         'available'             => 'مُتاح',
         'size'                  => 'الحجم',
+        "customer_email"        => "البريد الالكتروني",
+        "customerـmobile"       => "رقم الجوال",
     ],
 ];

@@ -27,7 +27,7 @@ class BillRequest extends FormRequest
     {
         return [
             'customer_name' => ['required', 'string', 'max:255'],
-            'customer_email' => ['string', 'email', 'max:255',
+            'customer_email' => ['nullable', 'email', 'max:255',
                 // Rule::unique('customers', 'email')->where(function ($query){
                 //     return $query->where('user_id', auth()->user()->id)
                 //     ->where('mobile',  '500000000');

@@ -52,10 +52,10 @@ class BillController extends Controller
     {
         $customer = Customer::updateOrCreate([
             'mobile' => $request->customer_mobile,
+            'user_id' => auth()->user()->id,
         ],[
             'name' => $request->customer_name, 
             'email' => $request->customer_email,
-            'user_id' => auth()->user()->id,
         ]);
 
         $bill = Bill::create([
@@ -118,7 +118,7 @@ class BillController extends Controller
         $bill->save();
         
         event(new BillCreated($bill));
-        return redirect()->route('bills.index');
+        return redirect()->route('bills.show', $bill);
     }
 
     /**
