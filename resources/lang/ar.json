@@ -177,5 +177,12 @@
 "Previous" : "السابق",
 "Next" : "التالي",
 "Finish" : "إنتهاء",
-"Operation is processing..." : "جاري معالجة العملية..."
+"Operation is processing..." : "جاري معالجة العملية...",
+"verify your phone number" : "اكد على رقم هاتفك او جوالك",
+"we sent You SMS Message Contain Apin Code" : "أرسلنا لك رسالة نصية تحتوي على رمز PIN",
+"Resend Code" : "أعد إرسال الرمز",
+"Second" : "ثانية",
+"didn’t Get The PIN" : "لم أحصل على رقم رمز PIN",
+"Verify" : "تحقق",
+"Loading" : "جاري التحقق"
 }
