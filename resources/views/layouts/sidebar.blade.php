@@ -40,7 +40,7 @@
           </a>
         </li>
         <li>
-          <a href="/products" title="Products">
+          <a href="{{ route('products.all') }}" title="Products">
             <i class="iconsminds-shop-2"></i>
             {{ __('Products') }}
           </a>

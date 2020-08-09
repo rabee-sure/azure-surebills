@@ -19,7 +19,7 @@
             <li class="breadcrumb-item">
               <a href="{{ url('/') }}" title="{{ __('Home')}}">{{ __('Home')}}</a>
             </li>
-            <li class="breadcrumb-item"><a href="#" title="{{ __('Products')}}">{{ __('Products')}}</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('products') }}" title="{{ __('Products')}}">{{ __('Products')}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ __('Add Product')}}</li>
           </ol>
         </nav>
