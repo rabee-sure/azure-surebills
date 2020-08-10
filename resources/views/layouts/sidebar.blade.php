@@ -39,12 +39,18 @@
             {{ __('Statement') }}
           </a>
         </li>
-        {{-- <li class="{{ Request::is('settlement*') ? 'active' : '' }}">
+        <li>
+          <a href="#store" title="Store">
+            <i class="iconsminds-shop-2"></i>
+            {{ __('Store') }}
+          </a>
+        </li>
+        <!-- <li class="{{ Request::is('settlement*') ? 'active' : '' }}">
           <a href="{{ route('settlement.index') }}" title="Statement">
             <i class="iconsminds-statistic"></i>
             {{ __('Settlements') }}
           </a>
-        </li> --}}
+        </li> -->
         <li class="{{ Request::is('account*') ? 'active' : '' }}">
           <a href="{{ route('account') }}" title="My Account">
             <i class="iconsminds-male-2"></i>
@@ -66,5 +72,28 @@
       </ul>
     </div>
   </div>
+
+  <div class="sub-menu">
+    <div class="scroll">
+      <ul class="list-unstyled" data-link="store">
+        <li>
+          <a href="#" title="{{ __('Store Settings') }}">
+            <i class="iconsminds-clothing-store"></i> <span class="d-inline-block">{{ __('Store Settings') }}</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
+            <i class="iconsminds-project"></i> <span class="d-inline-block">{{ __('Products') }}</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" title="{{ __('Product Sections') }}">
+            <i class="iconsminds-clothing-store"></i> <span class="d-inline-block">{{ __('Product Sections') }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
 </div>
 @endauth
