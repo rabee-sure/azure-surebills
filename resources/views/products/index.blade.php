@@ -59,7 +59,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-1.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Enabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">
@@ -76,7 +79,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-3.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Disabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Not Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">
@@ -93,7 +99,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-4.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Enabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">
@@ -110,7 +119,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-2.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Disabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Not Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">
@@ -127,7 +139,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-1.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Enabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">
@@ -144,7 +159,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-3.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Disabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Not Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">
@@ -161,7 +179,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-4.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Enabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">
@@ -178,7 +199,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-2.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Disabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Not Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">
@@ -195,7 +219,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-1.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Enabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">
@@ -212,7 +239,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-3.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Disabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Not Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">
@@ -229,7 +259,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-4.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Enabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-theme-1 position-absolute badge-top-left">{{ __('Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">
@@ -246,7 +279,10 @@
               <a href="products/1/view">
                 <img class="card-img-top" src="img/card-thumb-2.jpg" alt="Card image cap">
               </a>
-              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Disabled')}}</span>
+              <div class="edit_product">
+                <button type="button"></button>
+              </div><!-- edit_product -->
+              <span class="badge badge-pill badge-danger position-absolute badge-top-left">{{ __('Not Shown')}}</span>
             </div>
             <div class="card-body">
               <a href="products/1/view">

@@ -214,5 +214,11 @@
 "Description" : "الوصف",
 "Product Status" : "حالة المنتج",
 "The maximum amount to request a product each time" : "الحد الاقصى لطلب المنتج كل مرة",
-"Cancel" : "إلغاء"
+"Cancel" : "إلغاء",
+"Store" : "المتجر",
+"Store Settings" : "إعدادات المتجر",
+"Product Sections" : "أقسام المنتجات",
+"Shown" : "معروض",
+"Not Shown" : "غير معروض",
+"Optional" : "إختياري"
 }

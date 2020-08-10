@@ -167,5 +167,11 @@
 "Description" : "Description",
 "Product Status" : "Product Status",
 "The maximum amount to request a product each time" : "The maximum amount to request a product each time",
-"Cancel" : "Cancel"
+"Cancel" : "Cancel",
+"Store" : "Store",
+"Store Settings" : "Store Settings",
+"Product Sections" : "Product Sections",
+"Shown" : "Shown",
+"Not Shown" : "Not Shown",
+"Optional" : "Optional"
 }
