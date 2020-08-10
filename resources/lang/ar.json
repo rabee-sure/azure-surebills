@@ -8,6 +8,16 @@
 "Loading...": "جار التحميل...",
 "Verify": "تحقق",
 
+"When Bill Created": "عند إنشاء فاتورة",
+"When Bill Paid": "عند سداد فاتورة",
+
+"Settings": "الاعدادات",
+"Taxs": "الضرائب",
+"Active Lang": "اللغة المفعلة للفواتير",
+"Default Lang": "اللغة الافتراضية للفواتير",
+"Default Language for Bills": "اللغة الافتراضية للفواتير",
+"Back": "رجوع",
+
 "customer email": "ايميل العميل",
 "customer_email": "ايميل العميل",
 

@@ -50,6 +50,9 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
 	Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('resend_code');
 
+	Route::get('settings', 'SettingsController@settings')->name('settings');
+	Route::post('settings', 'SettingsController@postSettings')->name('post.settings');
+
 	Route::get('account', 'AccountController@account')->name('account');
     Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
 	Route::post('account-information', 'AccountController@storeAccountInformation')->name('account.information');

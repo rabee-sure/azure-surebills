@@ -79,6 +79,8 @@
           @else
             <a class="dropdown-item" href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
           @endif
+          <a class="dropdown-item" href="{{ route('settings') }}" title="English">{{__('Settings')}}</a>
+
           <a class="dropdown-item" href="{{ route('logout') }}"
              onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();">

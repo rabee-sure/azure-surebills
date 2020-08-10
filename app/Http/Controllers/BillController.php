@@ -140,11 +140,15 @@ class BillController extends Controller
      */
     public function pay($id, $lang = null)
     {
+        $bill = Bill::decodeId($id);
+
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
+        }else{
+           \App::setLocale($bill->user->settings->default_lang); 
         }
 
-        $bill = Bill::decodeId($id);
+
 
         if(!$bill){
             abort(404);

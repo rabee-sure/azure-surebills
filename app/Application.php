@@ -17,4 +17,11 @@ class Application extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getBackUrlAttribute()
+    {
+        $parse = parse_url($this->redirect);
+        // dd($parse);
+        return $parse['scheme'].'://'.$parse['host'];
+    }
 }

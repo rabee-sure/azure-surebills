@@ -71,6 +71,19 @@ class BillController extends Controller
             'reference_id' => $request->reference_id,
         ]);
 
+        if($user->settings->add_tax){
+            $bill->add_tax = $user->settings->add_tax;
+            $bill->tax_value = $user->settings->tax_value;
+        }
+        if($user->settings->create_send_sms){
+            $bill->send_sms = $user->settings->create_send_sms;
+        }
+        if($user->settings->create_send_email){
+            $bill->send_email = $user->settings->create_send_email;
+        }
+        $bill->save();
+
+
         foreach ($request->items as $item) {
             BillItem::create([
                 'bill_id' => $bill->id,

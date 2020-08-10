@@ -38,7 +38,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">+966</span>
                   </div>
-                  <input  value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control _parseArabicNumbers @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="5XXXXXXXX" maxlength="10">
+                  <input value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control _parseArabicNumbers @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="5XXXXXXXX" maxlength="10">
                 </div>
                 @error('customer_mobile')
                   <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -158,7 +158,7 @@
               <div class="form-group col-6">
                 <label for="inputEmail1">{{ __('Add Tax') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input  name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox">
+                  <input  name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox" @if(auth()->user()->settings->add_tax) checked @endif>
                   <label class="custom-switch-btn" for="Tax_Values_Checkbox"></label>
                 </div>
               </div><!-- form-group -->
@@ -201,14 +201,16 @@
               <div class="form-group col-6">
                 <label for="send_sms">{{ __('Send SMS') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input name="send_sms" class="custom-switch-input" id="send_sms" type="checkbox">
+                  <input name="send_sms" class="custom-switch-input" id="send_sms" type="checkbox"
+                   @if(auth()->user()->settings->create_send_sms) checked @endif>
                   <label class="custom-switch-btn" for="send_sms"></label>
                 </div>
               </div><!-- form-group -->
               <div class="form-group col-6">
                 <label for="send_email">{{ __('Send Email') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input name="send_email" class="custom-switch-input" id="send_email" type="checkbox">
+                  <input name="send_email" class="custom-switch-input" id="send_email" type="checkbox" 
+                   @if(auth()->user()->settings->create_send_email) checked @endif>
                   <label class="custom-switch-btn" for="send_email"></label>
                 </div>
               </div><!-- form-group -->
@@ -247,6 +249,10 @@
     });
 
     $(document).ready(function () {
+      if({{auth()->user()->settings->add_tax}}){
+        $('.Tax_Values').toggle();
+        $('#Value').val({{auth()->user()->settings->tax_value}});
+      }
       $('.repeater').repeater({
         show: function () {
           $(this).slideDown();

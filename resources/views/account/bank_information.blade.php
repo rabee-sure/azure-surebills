@@ -27,7 +27,7 @@
 
                 @foreach(getBanks() as $bank)
                   <option value="{{$bank['id']}}" @if ($user->bank == $bank['id'])selected="selected"@endif>
-                     @if(session()->get('user-lang') == 'ar')
+                     @if(app()->getLocale() == 'ar')
                      {{$bank['ar']}}
                      @else
                      {{$bank['en']}}

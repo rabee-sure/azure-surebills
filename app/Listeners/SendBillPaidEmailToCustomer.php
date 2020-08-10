@@ -28,7 +28,9 @@ class SendBillPaidEmailToCustomer
      */
     public function handle(BillPaid $event)
     {
-        Mail::to($event->bill->customer_email)->send(new SendBillPaidToCustomer($event->bill));
+        if($user->settings->paid_send_email){
+            Mail::to($event->bill->customer_email)->send(new SendBillPaidToCustomer($event->bill));
+        }
 
     }
 }
