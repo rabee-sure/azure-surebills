@@ -171,12 +171,13 @@ class BillController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function payment_iframe($id, $method)
+    public function payment_iframe($id, $method, $locale = null)
     {
         $bill = Bill::find($id);
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
         $invoice->detail(['bill' => $bill->toArray()])
-            ->detail(['hash' => $bill->pay_id]);
+            ->detail(['hash' => $bill->pay_id])
+            ->detail(['locale' => $locale ?? app()->getLocale()]);
         
         return $payment_iframe = Payment::via($method)->generateIframe($invoice);
     }

@@ -143,7 +143,7 @@ jQuery(document).ready(function(){
           var method = this.value;
           $.ajax({
               type: 'GET', //THIS NEEDS TO BE GET
-              url: '/bills/payment_iframe/{{$bill->id}}/' + method,
+              url: '/bills/payment_iframe/{{$bill->id}}/' + method+'/{{app()->getLocale()}}',
               success: function (data) {
                    $("#iframe_pay").html(data);
               },
