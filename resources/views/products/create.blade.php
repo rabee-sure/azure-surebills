@@ -57,6 +57,12 @@
               </div>
             </div>
             <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputEmail3">{{ __('Quantity')}} <small>( {{ __('Optional')}} )</small></label>
+                <input type="number" class="form-control" id="inputEmail3" placeholder="0">
+              </div>
+            </div>
+            <div class="form-row">
               <div class="form-group col-12">
                 <label for="inputEmail3">{{ __('Description')}}</label>
                 <div class="html-editor" id="quillEditor"></div>
