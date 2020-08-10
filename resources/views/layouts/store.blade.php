@@ -23,13 +23,12 @@
     @if(app()->getLocale() == 'ar')
       <link rel="stylesheet" href="/css/bootstrap.rtl.only.min.css" />
     @endif
-    <link rel="stylesheet" href="/css/store.css" />
+    <link rel="stylesheet" href="/css/all.css" />
     @yield('css_styles')
 </head>
 <body id="app-container" class="@if(app()->getLocale() == 'ar') rtl @else ltr @endif">
-
-    @yield('content')
-
-<script src="{{ asset('js/store.js') }}" defer></script>
+  @yield('content')
+  @include('layouts.footer')
+  @yield('footer-scripts')
 </body>
 </html>

@@ -2,6 +2,10 @@
 
 @section('title', __('Product Details'))
 
+@section('css_styles')
+  <link rel="stylesheet" href="{{ asset('css/baguetteBox.min.css') }}" />
+@endsection
+
 @section('content')
 
  
@@ -11,24 +15,24 @@
               <div class="card-body">
                 <div class="glide details">
                   <div class="glide__track" data-glide-el="track">
-                    <ul class="glide__slides">
+                    <ul class="glide__slides gallery">
                       <li class="glide__slide">
-                        <img alt="detail" src="img/parkin.jpg" class="responsive border-0 border-radius img-fluid mb-3" />
+                        <a href="../../img/parkin.jpg"><img alt="detail" src="../../img/parkin.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                       <li class="glide__slide">
-                        <img alt="detail" src="img/napoleonshat.jpg" class="responsive border-0 border-radius img-fluid mb-3" />
+                        <a href="../../img/napoleonshat.jpg"><img alt="detail" src="../../img/napoleonshat.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                       <li class="glide__slide">
-                        <img alt="detail" src="img/marble-cake.jpg" class="responsive border-0 border-radius img-fluid mb-3" />
+                        <a href="../../img/marble-cake.jpg"><img alt="detail" src="../../img/marble-cake.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                       <li class="glide__slide">
-                        <img alt="detail" src="img/fruitcake.jpg" class="responsive border-0 border-radius img-fluid mb-3" />
+                        <a href="../../img/fruitcake.jpg"><img alt="detail" src="../../img/fruitcake.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                       <li class="glide__slide">
-                        <img alt="detail" src="img/magdalena.jpg" class="responsive border-0 border-radius img-fluid mb-3" />
+                        <a href="../../img/magdalena.jpg"><img alt="detail" src="../../img/magdalena.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                       <li class="glide__slide">
-                        <img alt="detail" src="img/tea-loaf.jpg" class="responsive border-0 border-radius img-fluid mb-3" />
+                        <a href="../../img/tea-loaf.jpg"><img alt="detail" src="../../img/tea-loaf.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                     </ul>
                   </div>
@@ -37,22 +41,22 @@
                   <div class="glide__track" data-glide-el="track">
                     <ul class="glide__slides">
                       <li class="glide__slide">
-                        <img alt="thumb" src="img/parkin-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../img/parkin-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                       <li class="glide__slide">
-                        <img alt="thumb" src="img/napoleonshat-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../img/napoleonshat-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                       <li class="glide__slide">
-                        <img alt="thumb" src="img/marble-cake-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../img/marble-cake-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                       <li class="glide__slide">
-                        <img alt="thumb" src="img/fruitcake-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../img/fruitcake-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                       <li class="glide__slide">
-                        <img alt="thumb" src="img/magdalena-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../img/magdalena-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                       <li class="glide__slide">
-                        <img alt="thumb" src="img/tea-loaf-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../img/tea-loaf-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                     </ul>
                   </div>
@@ -85,7 +89,7 @@
                   <div class="tab-pane fade" id="second" role="tabpanel" aria-labelledby="second-tab">
                     <div class="d-flex flex-row mb-3 border-bottom justify-content-between">
                       <a href="#">
-                        <img src="img/profile-pic-l-7.jpg" alt="Mimi Carreira" class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall" />
+                        <img src="../../img/profile-pic-l-7.jpg" alt="Mimi Carreira" class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall" />
                       </a>
                       <div class="pl-3 flex-grow-1">
                         <a href="#">
@@ -100,7 +104,7 @@
                     </div>
                     <div class="d-flex flex-row mb-3 border-bottom justify-content-between">
                       <a href="#">
-                        <img src="img/profile-pic-l-3.jpg" alt="Kathryn Mengel" class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall" />
+                        <img src="../../img/profile-pic-l-3.jpg" alt="Kathryn Mengel" class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall" />
                       </a>
                       <div class="pl-3 flex-grow-1">
                         <a href="#">
@@ -161,7 +165,7 @@
                     <input class="quantity" min="0" name="quantity" value="1" type="number">
                     <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
                   </div><!-- product_count -->
-                  <button type="button" class="btn btn-primary default">Add To Cart <i class="simple-icon-plus"></i></button>
+                  <button type="button" class="btn btn-primary default">PAY</button>
                 </div><!-- add_cart_area -->
                 <br>
                 <p class="text-muted text-small mb-2">Tags</p>
@@ -182,4 +186,8 @@
         </div>
       </div>
       
+@endsection
+
+@section('footer-scripts')
+  <script src="{{ asset('js/baguetteBox.min.js') }}"></script>
 @endsection

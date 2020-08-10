@@ -3334,6 +3334,26 @@ main .container-fluid {
   display: initial;
 }
 
+.glide__slide a {
+  display: block;
+  min-height: 400px;
+  width: 100%;
+  /* down(sm) */
+  /* down(xs) */
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .glide__slide a {
+    min-height: auto;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .glide__slide a {
+    min-height: auto;
+  }
+}
+
 .dashboard-search {
   height: 650px;
   background: url(/images/plane.jpg?1fb11eddc5e3af5653ae67436b774394);
@@ -7152,6 +7172,13 @@ i.large-icon {
   max-height: 380px;
 }
 
+@media (max-width: 767px) {
+  .social-header {
+    height: 180px;
+    max-height: 180px;
+  }
+}
+
 .social-profile-img {
   height: 120px;
   border: 3px solid #232223;
@@ -9292,21 +9319,70 @@ footer.page-footer .footer-content {
   align-items: center;
   justify-content: flex-start;
   margin: 0 0 20px;
+  /* down(sm) */
+  /* down(xs) */
   /* product_count */
   /* button.btn */
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .add_cart_area {
+    position: fixed;
+    bottom: 0;
+    z-index: 99999;
+    background: #fff;
+    width: 100%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    justify-content: center;
+    padding: 10px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .add_cart_area {
+    position: fixed;
+    bottom: 0;
+    z-index: 99999;
+    background: #fff;
+    width: 100%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    justify-content: center;
+    padding: 10px;
+  }
 }
 
 .add_cart_area .product_count {
   position: relative;
   margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* down(sm) */
+  /* down(xs) */
   /* input */
   /* button */
 }
 
+@media (min-width: 481px) and (max-width: 767px) {
+  .add_cart_area .product_count {
+    margin: 0;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .add_cart_area .product_count {
+    margin: 0;
+  }
+}
+
 .add_cart_area .product_count input {
   width: 60px;
-  height: 40px;
-  font-size: 23px;
+  height: 30px;
+  font-size: 20px;
   padding: 0;
   text-align: center;
   border: 1px solid #d7d7d7;
@@ -9325,24 +9401,19 @@ footer.page-footer .footer-content {
 }
 
 .add_cart_area .product_count button {
-  height: 20px;
-  width: 20px;
+  height: 30px;
+  width: 30px;
   background-color: #fafafa;
   border: 1px solid #d7d7d7;
   background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Capa_1' x='0px' y='0px' viewBox='0 0 298.667 298.667' style='enable-background:new 0 0 298.667 298.667;' xml:space='preserve' width='512px' height='512px'%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Crect y='128' width='298.667' height='42.667' data-original='%23000000' class='active-path' data-old_color='%23000000' fill='%23555555'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A");
   background-size: 10px;
   background-repeat: no-repeat;
   background-position: center center;
-  position: absolute;
-  right: -19px;
-  bottom: 0;
   /* dec-button */
 }
 
 .add_cart_area .product_count button.plus {
   background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' height='512px' viewBox='0 0 448 448' width='512px'%3E%3Cg%3E%3Cpath d='m272 184c-4.417969 0-8-3.582031-8-8v-176h-80v176c0 4.417969-3.582031 8-8 8h-176v80h176c4.417969 0 8 3.582031 8 8v176h80v-176c0-4.417969 3.582031-8 8-8h176v-80zm0 0' data-original='%23000000' class='active-path' data-old_color='%23000000' fill='%23444444'/%3E%3C/g%3E%3C/svg%3E%0A");
-  top: 0;
-  bottom: auto;
 }
 
 .add_cart_area button.btn {
@@ -9350,11 +9421,20 @@ footer.page-footer .footer-content {
   font-size: 15px;
   display: block;
   border-radius: 0;
-  /* i */
+  /* down(sm) */
+  /* down(xs) */
 }
 
-.add_cart_area button.btn i {
-  margin: 0 0 0 5px;
+@media (min-width: 481px) and (max-width: 767px) {
+  .add_cart_area button.btn {
+    margin: 0 0 0 30px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .add_cart_area button.btn {
+    margin: 0 0 0 30px;
+  }
 }
 
 /* add_cart_area */
@@ -9613,6 +9693,9 @@ footer.page-footer .footer-content {
 }
 
 .glide ul li.glide__slide img {
+  width: 100%;
+  height: unset;
+  max-height: none;
   /* down(sm) */
   /* down(xs) */
 }
