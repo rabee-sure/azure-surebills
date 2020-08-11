@@ -48,6 +48,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 'faisal@toot.im',
                 'eabdelsabour@sure.com.sa',
                 'aghanem@sure.com.sa',
+                'mjarad@sure.com.sa',
             ]);
         });
     }
