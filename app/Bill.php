@@ -45,6 +45,9 @@ class Bill extends Model
         'application_id',
         'payment_fees',
         'settled',
+        
+        'expiry_minutes',
+        'expiry_hours',
     ];
 
     /**
@@ -72,6 +75,11 @@ class Bill extends Model
     public function getPayUrlAttribute()
     {
         return route('paybillpage', ['id' => $this->pay_id]);
+    }   
+
+    public function getBackUrlAttribute()
+    {
+        return $this->application->redirect.'?reference_id='.$this->reference_id.'&status=fail&bill_id='.$this->id;
     }   
 
     public function getSuccessPaymentAttribute()

@@ -33,7 +33,6 @@ class BillController extends Controller
     public function store(BillApiRequest $request)
     {
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
-        logger($application);
         $user = $application->user;
 
         $customer = Customer::updateOrCreate([
@@ -56,6 +55,8 @@ class BillController extends Controller
             'customer_notes' => $request->customer_notes,
 
             'expiry_date' => $request->expiry_date,
+            'expiry_hours' => $request->expiry_hours,
+            'expiry_minutes' => $request->expiry_minutes,
             'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => $request->add_discount,
@@ -136,7 +137,6 @@ class BillController extends Controller
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $bill = Bill::find($id);
 
-        logger(['dd'=>$bill]);
         if(isset($application) && $application->id == $bill->application_id){
             return new BillResource($bill);
         }else{

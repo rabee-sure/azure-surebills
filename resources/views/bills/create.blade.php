@@ -67,7 +67,7 @@
                 <input value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="due_date" class="form-control datepicker" placeholder="{{ __('Due Date') }}">
               </div><!-- form-group -->
 
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-2">
                 <label>{{ __('Expiry Date') }}</label>
                 <select value="{{ old('expiry_date') }}" name="expiry_date" class="form-control">
                   <option value="1">{{ __('1 Day') }}</option>
@@ -79,6 +79,15 @@
                   <option value="90">{{ __('90 Day') }}</option>
                   <option value="0">{{ __('Never') }}</option>
                 </select>
+              </div><!-- form-group -->
+              <div class="form-group col-md-2">
+                <label>{{ __('Expiry Hours') }}</label>
+                <input name="expiry_hours" type="number" max="23" min="0" class="form-control _parseArabicNumbers" placeholder="{{ __('Expiry Hours') }}">
+
+              </div><!-- form-group -->              
+              <div class="form-group col-md-2">
+                <label>{{ __('Expiry Minutes') }}</label>
+                <input name="expiry_minutes" type="number" max="59" min="0" class="form-control _parseArabicNumbers" placeholder="{{ __('Expiry Minutes') }}">
               </div><!-- form-group -->
             </div><!-- form-row -->
 
@@ -96,15 +105,15 @@
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                           <label for="Price">{{ __('Product/Service Price') }}</label>
-                          <input name="price"  value="{{$item['price']}}" type="tel" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
+                          <input name="price"  value="{{$item['price']}}" type="number" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                           <label for="Price">{{ __('Quantity') }}</label>
-                          <input type="tel" name="quantity" value="{{$item['quantity']}}" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
+                          <input type="number" name="quantity" value="{{$item['quantity']}}" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1">
                           <label for="Price">{{ __('Total') }}</label>
-                          <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
+                          <input type="number" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1 delete_block">
                           <label for="Delete" class="d-block">{{ __('Delete') }}</label>
@@ -123,15 +132,15 @@
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Product/Service Price') }}</label>
-                      <input type="tel" name="price" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
+                      <input type="number" name="price" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Quantity') }}</label>
-                      <input type="tel" name="quantity" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
+                      <input type="number" name="quantity" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1">
                       <label for="Price">{{ __('Total') }}</label>
-                      <input name="total" type="tel" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
+                      <input name="total" type="number" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1 delete_block">
                       <label for="Delete" class="d-block">{{ __('Delete') }}</label>

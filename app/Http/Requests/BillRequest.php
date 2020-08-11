@@ -38,6 +38,8 @@ class BillRequest extends FormRequest
 
             'due_date' => ['required'],
             'expiry_date' => ['required'],
+            'expiry_hours' => ['numeric','min:0','max:23','nullable'],
+            'expiry_minutes' => ['numeric','min:0','max:59','nullable'],
 
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
