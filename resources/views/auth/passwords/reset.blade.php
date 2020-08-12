@@ -38,7 +38,7 @@
 
                             <input type="hidden" name="token" value="{{ $token }}">
                             <label for="email"  class="form-group has-float-label mb-4">
-                                <input  id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" autocomplete="email" autofocus disabled="" />
+                                <input  id="email" type="email" class="form-control @error('email') is-invalid @enderror" value="{{ $email ?? old('email') }}" autofocus disabled="" />
                                 <span>{{ __('E-Mail Address') }}</span>
                             </label>
 

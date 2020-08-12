@@ -7,7 +7,6 @@ use App\Bill;
 use App\BillItem;
 use App\Customer;
 use App\Events\BillCreated;
-use App\Events\BillPaid;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\CheckBillApiRequest;

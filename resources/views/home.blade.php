@@ -120,5 +120,10 @@
 
 
 @section('footer-scripts')
-
+<script type="text/javascript">
+  Echo.channel('home')
+    .listen('NewMessage', (e) => {
+        console.log(e.message);
+    });
+</script>
 @endsection
