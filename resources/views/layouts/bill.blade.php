@@ -20,6 +20,6 @@
     <script src="{{ asset('js/bill_details.js') }}" defer></script>
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    @yield('footer-scripts')
+    @stack('footer-scripts')
 </body>
 </html>

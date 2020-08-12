@@ -93,7 +93,7 @@
 @endsection
 
 
-@section('footer-scripts')
+@push('footer-scripts')
 <script type="text/javascript">
   Echo.channel('bill.{{$bill->id}}')
     .listen('BillStatusUpdated', (e) => {
@@ -135,4 +135,4 @@
     });
 </script>
     {!! JsValidator::formRequest('App\Http\Requests\PayBillRequest', '#bill_bay') !!}
-@endsection
+@endpush

@@ -26,7 +26,7 @@ class TestController extends Controller
      */
     public function test()
     {
-        $bill = Bill::find('c39d7318-9575-47c8-aa6d-f204ff328d5d');
+        $bill = Bill::find('f2231521-549f-4579-a630-2fa726dca121');
         event( new BillStatusUpdated($bill) );
         dd($bill);
     } 

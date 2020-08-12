@@ -76,6 +76,6 @@
   </div>
 @endsection
 
-@section('footer-scripts')
+@push('footer-scripts')
     {!! JsValidator::formRequest('App\Http\Requests\CustomerRequest', '#customers_store') !!}
-@endsection
+@endpush

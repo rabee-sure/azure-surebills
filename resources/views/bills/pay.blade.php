@@ -129,7 +129,7 @@
 @endsection
 
 
-@section('footer-scripts')
+@push('footer-scripts')
 <script type='text/javascript'>
 var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
 if (isSafari) {
@@ -194,4 +194,4 @@ jQuery(document).ready(function(){
     });
 </script>
     {!! JsValidator::formRequest('App\Http\Requests\PayBillRequest', '#bill_bay') !!}
-@endsection
+@endpush

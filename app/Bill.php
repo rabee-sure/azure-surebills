@@ -207,7 +207,7 @@ class Bill extends Model
         $this->save();
 
         event(new BillPaid($this));
-        event( new BillStatusUpdated($bill) );
+        event( new BillStatusUpdated($this) );
     }
 
     /**
