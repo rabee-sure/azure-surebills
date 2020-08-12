@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\BillStatus;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
@@ -37,6 +38,15 @@ class Bill extends Resource
      */
     public static $search = [
         'id',
+    ];
+
+    /**
+     * order By.
+     *
+     * @var array
+     */
+    public static $orderBy = [
+        'created_at' => 'desc'
     ];
 
     /**
@@ -90,7 +100,9 @@ class Bill extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [ 
+            new BillStatus
+        ];
     }
 
     /**
