@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Bill;
-use App\Events\BillPaid;
 use App\Http\Requests\AccountInformationRequest;
 use App\Http\Requests\BankInformationRequest;
 use App\Http\Requests\BusinessInformationRequest;

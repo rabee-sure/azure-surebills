@@ -28,7 +28,7 @@
 
  <!-- Laravel Javascript Validation -->
       <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
-      @yield('footer-scripts')
+      @stack('footer-scripts')
       <script src="{{ asset('js/slick.min.js') }}"></script>
       <script src="{{ asset('js/glide.min.js') }}"></script>
 

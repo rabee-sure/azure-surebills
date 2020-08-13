@@ -2,14 +2,15 @@
 
 namespace App;
 
-use Carbon\Carbon;
-use App\PaymentLog;
-use Hashids\Hashids;
-use Ramsey\Uuid\Uuid;
 use App\Events\BillPaid;
+use App\Events\BillStatusUpdated;
+use App\PaymentLog;
 use App\Traits\UsesUuid;
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Hashids\Hashids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Ramsey\Uuid\Uuid;
 
 class Bill extends Model
 {    
@@ -58,6 +59,15 @@ class Bill extends Model
     protected $casts = [
         'due_date' => 'datetime:Y-m-d',
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'trans_status',
+    ];
     
     public function getPayIdAttribute()
     {
@@ -65,6 +75,12 @@ class Bill extends Model
         $hex = $uuid->getHex();
         $hashids = new Hashids();
         return $hashids->encodeHex($hex);
+    }
+
+
+    public function getTransStatusAttribute()
+    {
+        return __(ucfirst($this->status));
     }
     
     public function getIsPendingAttribute()
@@ -191,6 +207,7 @@ class Bill extends Model
         $this->save();
 
         event(new BillPaid($this));
+        event( new BillStatusUpdated($this) );
     }
 
     /**

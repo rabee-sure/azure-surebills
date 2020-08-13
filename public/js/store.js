@@ -104,7 +104,7 @@ console.log('hi');
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\js\store.js */"./resources/js/store.js");
+module.exports = __webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/js/store.js */"./resources/js/store.js");
 
 
 /***/ })

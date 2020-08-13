@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="single_bill_page">
-  <div class="container"  id="app">
+  <div class="container" >
     <div class="row  justify-content-center">
       <div class="col-12 col-md-8 col-lg-6 col-xl-6">
         <div class="single_bill_content">
@@ -26,6 +26,8 @@
             <p>{{  $bill->user->business_address}}</p>
             <b>{{  $bill->user->business_mobile }}</b>
           </div><!-- title -->
+          <div id="status">
+          </div>
           @if($errors->any())
             <div class="alert alert-danger" role="alert">
               {{$errors->first()}}
@@ -76,7 +78,7 @@
               <p>+966{{ $bill->customer_mobile}}</p>
               <p>{{ $bill->customer_email}}</p>
             </div><!-- customer_information -->
-            <div class="payment_method">
+            <div id="payment_method" class="payment_method">
               <div class="name">{{__('Payment Method')}}</div>
               <div class="bill_payment">
                 <div class="item">
@@ -107,7 +109,7 @@
             </div><!-- payment_method -->
             
             @if($bill->application)
-              <div class="text-center">
+              <div id="back_btn" class="text-center">
                 <a href="{{ $bill->back_url}}" class="btn btn-light">{{__('Back')}}
                   <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M7.854 4.646a.5.5 0 0 1 0 .708L5.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z"/>
@@ -120,14 +122,14 @@
           </div><!-- single_bill_content -->
           <a href="https://bills.surepay.sa" target="_blank" title="Sure Bills" class="logo_bills"></a>
         </div><!-- col-12 -->
-      </div><!-- row -->
-    </div><!-- container -->
-  </div><!-- single_bill_page -->
+    </div><!-- row -->
+  </div><!-- container -->
+</div><!-- single_bill_page -->
 
 @endsection
 
 
-@section('footer-scripts')
+@push('footer-scripts')
 <script type='text/javascript'>
 var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
 if (isSafari) {
@@ -155,5 +157,41 @@ jQuery(document).ready(function(){
     });
 });
 </script>
+<script type="text/javascript">
+  Echo.channel('bill.{{$bill->id}}')
+    .listen('BillStatusUpdated', (e) => {
+        console.log(e.bill.id);
+        var className;
+
+        switch(e.bill.status) {
+          case "pending":
+            className = "badge-info";
+            break;
+          case "paid":
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-success" role="alert">this bill paid successfully</div>');
+            break;
+          case "canceled":
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
+            break;          
+          case "expired":
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
+            break;
+          default:
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            className = "badge-info";
+        }
+    });
+</script>
     {!! JsValidator::formRequest('App\Http\Requests\PayBillRequest', '#bill_bay') !!}
-@endsection
+@endpush

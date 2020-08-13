@@ -9,11 +9,11 @@
     </div>
   </div>
 </footer>
-
+    <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/jbootstrap.js') }}"></script>
 <script src="{{ mix('/js/all.js') }}" defer></script> 
 <script src="{{ asset('js/dore.script.js') }}"></script>
-<script src="{{ asset('js/app.js') }}" defer></script>
+
 <script>
     window._locale = '{{ app()->getLocale() }}';
     window._translations = {!! cache('translations') !!};

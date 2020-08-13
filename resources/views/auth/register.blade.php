@@ -131,6 +131,6 @@
 </div>
 @endsection
 
-@section('footer-scripts')
+@push('footer-scripts')
   {!! JsValidator::formRequest('App\Http\Requests\RegisterRequest', '#register-form') !!}
-@endsection
+@endpush

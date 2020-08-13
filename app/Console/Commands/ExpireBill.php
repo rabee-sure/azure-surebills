@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Bill;
+use App\Events\BillStatusUpdated;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -57,6 +58,7 @@ class ExpireBill extends Command
             if($date->isPast() ){   
                 $bill->status = 'expired';
                 $bill->save();
+                event( new BillStatusUpdated($bill) );
             }
         }
     }
