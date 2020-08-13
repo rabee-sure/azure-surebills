@@ -52,6 +52,6 @@
 @endsection
 
 
-@section('footer-scripts')
+@push('footer-scripts')
     {!! JsValidator::formRequest('App\Http\Requests\BankInformationRequest', '#form') !!}
-@endsection
+@endpush

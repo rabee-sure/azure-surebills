@@ -90,7 +90,7 @@
   </div>
 @endsection
 
-@section('footer-scripts')
+@push('footer-scripts')
   <script src="{{ asset('js/dropzone.min.js') }}"></script>
   <script src="{{ asset('js/quill.min.js') }}"></script>
-@endsection
+@endpush

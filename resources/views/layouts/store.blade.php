@@ -29,6 +29,6 @@
 <body id="app-container" class="@if(app()->getLocale() == 'ar') rtl @else ltr @endif">
   @yield('content')
   @include('layouts.footer')
-  @yield('footer-scripts')
+  @stack('footer-scripts')
 </body>
 </html>

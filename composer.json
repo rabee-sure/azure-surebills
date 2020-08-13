@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2.5",
         "anaseqal/nova-sidebar-icons": "^0.0.3",
+        "beyondcode/laravel-websockets": "^1.4",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
@@ -24,6 +25,7 @@
         "multicaret/laravel-unifonic": "^1.0",
         "predis/predis": "^1.1",
         "proengsoft/laravel-jsvalidation": "^4.0",
+        "pusher/pusher-php-server": "~3.0",
         "sure/settlements": "*"
     },
     "require-dev": {

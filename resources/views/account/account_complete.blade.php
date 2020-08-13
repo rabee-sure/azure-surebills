@@ -20,6 +20,6 @@
   <script src="{{ asset('js/jquery.smartWizard.min.js') }}" defer></script>
 
 
-@section('footer-scripts')
+@push('footer-scripts')
     {!! JsValidator::formRequest('App\Http\Requests\AccountInformationRequest', '#form') !!}
-@endsection
+@endpush

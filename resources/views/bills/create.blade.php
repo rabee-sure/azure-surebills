@@ -234,7 +234,7 @@
   </div>
 @endsection
 
-@section('footer-scripts')
+@push('footer-scripts')
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="{{ asset('js/jquery.repeater.min.js') }}" defer></script>
   <script>
@@ -308,4 +308,4 @@
   </script>
 
     {!! JsValidator::formRequest('App\Http\Requests\BillRequest', '#bill_create') !!}
-@endsection
+@endpush

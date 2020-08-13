@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="/css/all.css" />
     @yield('css_styles')
 
+
   </head>
   <body id="app-container" class=" @if(app()->getLocale() == 'ar') rtl @else ltr @endif 
     @if(auth()->user()->is_complete_profile) 
@@ -45,7 +46,7 @@
     </main>
 
     @include('layouts.footer')
-    @yield('footer-scripts')
+    @stack('footer-scripts')
 </body>
 
 </html>

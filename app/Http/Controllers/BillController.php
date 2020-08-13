@@ -5,17 +5,18 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\BillItem;
 use App\Customer;
-use Carbon\Carbon;
-use App\PaymentLog;
-use App\Transaction;
-use App\Events\BillPaid;
-use App\Payment\Invoice;
 use App\Events\BillCreated;
-use Illuminate\Http\Request;
-use App\Payment\Facades\Payment;
+use App\Events\BillPaid;
+use App\Events\BillStatusUpdated;
 use App\Http\Requests\BillRequest;
-use Illuminate\Support\Facades\Http;
 use App\Http\Requests\PayBillRequest;
+use App\PaymentLog;
+use App\Payment\Facades\Payment;
+use App\Payment\Invoice;
+use App\Transaction;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class BillController extends Controller
 {
@@ -260,6 +261,7 @@ class BillController extends Controller
         $bill = Bill::find($id);
         $bill->status = 'canceled';
         $bill->save();
+        event( new BillStatusUpdated($bill) );
 
         return redirect()->back();
     }

@@ -188,6 +188,6 @@
       
 @endsection
 
-@section('footer-scripts')
+@push('footer-scripts')
   <script src="{{ asset('js/baguetteBox.min.js') }}"></script>
-@endsection
+@endpush
