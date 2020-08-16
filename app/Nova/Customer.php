@@ -3,29 +3,34 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Statement extends Resource
+class Customer extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Transaction::class;
+    public static $model = \App\Customer::class;
+    
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var string
+     */
+    public static $displayInNavigation = false;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -45,30 +50,12 @@ class Statement extends Resource
     public function fields(Request $request)
     {
         return [
-            DateTime::make('created at')->exceptOnForms(),
-            Text::make('description'),
-            Text::make('reference'),
-            Text::make('receipt'),
-            Text::make('auth_id'),
-            Select::make('card_brand')->options([
-                'VISA' => 'VISA',
-                'MASTER' => 'MASTER',
-                'MADA' => 'MADA',
-                'APPLEPAY' => 'APPLEPAY',
-            ]),
-            Badge::make('type')->map([
-                'credit' => 'success',
-                'debit' => 'danger',
-            ]), 
-            Text::make('Amount', function () {
-                return round($this->amount, 2);
-            }),            
-
-            Text::make('Balance', function () {
-                return round($this->balance, 2);
-            }),
-            
+            ID::make()->sortable(),
+            Text::make('Name')->rules('required'),
+            Text::make('Email'),
+            Text::make('Mobile'),
             BelongsTo::make('User'),
+            HasMany::make('Bills'),
         ];
     }
 
@@ -76,7 +63,8 @@ class Statement extends Resource
      * Get the cards available for the request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return arr
+     ay
      */
     public function cards(Request $request)
     {
@@ -114,19 +102,5 @@ class Statement extends Resource
     public function actions(Request $request)
     {
         return [];
-    }
-
-    public static function authorizedToCreate(Request $request)
-    {
-        return false;
-    }
-        public function authorizedToDelete(Request $request)
-    {
-        return false;
-    }
-
-    public function authorizedToUpdate(Request $request)
-    {
-        return false;
     }
 }

@@ -6,6 +6,9 @@ use App\Nova\Filters\BillStatus;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -75,9 +78,19 @@ class Bill extends Resource
 
             Number::make('Total')->min(1)->step(0.1),
             Number::make('Payment Fees')->min(1)->step(0.1),
+            Number::make('Discount')->min(1)->step(0.1)->onlyOnDetail(),
+            Number::make('Vat')->min(1)->step(0.1)->onlyOnDetail(),
             BelongsTo::make('User'),
+            DateTime::make('created at')->exceptOnForms(),
+            BelongsTo::make('Customer')->onlyOnDetail(),
+            Text::make('Business Name')->onlyOnDetail(),
+            Text::make('Reference Id')->onlyOnDetail(),
+            Date::make('Due Date')->onlyOnDetail(),
+            DateTime::make('Paid At')->onlyOnDetail(),
+            DateTime::make('Canceled At')->onlyOnDetail(),
 
-
+            Boolean::make('Send Email')->onlyOnDetail(),
+            Boolean::make('Send Sms')->onlyOnDetail(),
         ];
     }
 

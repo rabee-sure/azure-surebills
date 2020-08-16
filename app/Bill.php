@@ -58,6 +58,8 @@ class Bill extends Model
      */
     protected $casts = [
         'due_date' => 'datetime:Y-m-d',
+        'canceled_at' => 'datetime',
+        'paid_at' => 'datetime',
     ];
 
     /**
