@@ -7,6 +7,7 @@ use App\Bill;
 use App\BillItem;
 use App\Customer;
 use App\Events\BillCreated;
+use App\Events\BillStatusUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\CheckBillApiRequest;
@@ -137,6 +138,28 @@ class BillController extends Controller
         $bill = Bill::find($id);
 
         if(isset($application) && $application->id == $bill->application_id){
+            return new BillResource($bill);
+        }else{
+            return response()->json(['success' => false]);
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function cancele($id, CheckBillApiRequest $request)
+    {
+        $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+        $bill = Bill::find($id);
+
+        if(isset($application) && $application->id == $bill->application_id){
+            $bill->status = 'canceled';
+            $bill->save();
+            event( new BillStatusUpdated($bill) );
+
             return new BillResource($bill);
         }else{
             return response()->json(['success' => false]);
