@@ -9,7 +9,8 @@
     </div>
   </div>
 </footer>
-    <script src="{{ asset('js/app.js') }}"></script>
+
+<script src="{{ asset('js/app.js') }}" ></script>
 <script src="{{ asset('js/jbootstrap.js') }}"></script>
 <script src="{{ mix('/js/all.js') }}" defer></script> 
 <script src="{{ asset('js/dore.script.js') }}"></script>
