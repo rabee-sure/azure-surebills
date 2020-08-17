@@ -150,15 +150,17 @@ class BillController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function cancele($id, CheckBillApiRequest $request)
+    public function cancel($id, CheckBillApiRequest $request)
     {
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $bill = Bill::find($id);
 
         if(isset($application) && $application->id == $bill->application_id){
-            $bill->status = 'canceled';
-            $bill->save();
-            event( new BillStatusUpdated($bill) );
+            if($bill->status != 'canceled'){
+                $bill->status = 'canceled';
+                $bill->save();
+                event( new BillStatusUpdated($bill) );
+            }
 
             return new BillResource($bill);
         }else{
