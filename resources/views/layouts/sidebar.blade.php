@@ -77,7 +77,7 @@
     <div class="scroll">
       <ul class="list-unstyled" data-link="store">
         <li>
-          <a href="#" title="{{ __('Store Settings') }}">
+          <a href="{{ route('products.settings') }}" title="{{ __('Store Settings') }}">
             <i class="iconsminds-clothing-store"></i> <span class="d-inline-block">{{ __('Store Settings') }}</span>
           </a>
         </li>
@@ -87,7 +87,7 @@
           </a>
         </li>
         <li>
-          <a href="#" title="{{ __('Product Sections') }}">
+          <a href="{{ route('products.categories') }}" title="{{ __('Product Sections') }}">
             <i class="iconsminds-clothing-store"></i> <span class="d-inline-block">{{ __('Product Sections') }}</span>
           </a>
         </li>

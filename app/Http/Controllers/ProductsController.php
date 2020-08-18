@@ -45,4 +45,24 @@ class ProductsController extends Controller
     {
         return view('products.store');
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function categories(Request $request)
+    {
+        return view('products.categories');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function settings(Request $request)
+    {
+        return view('products.settings');
+    }
 }

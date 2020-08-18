@@ -5240,8 +5240,60 @@ select.form-control {
 }
 
 #smartWizardValidation {
+  ul.nav-tabs {
+    @include respond-below(sm) {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: nowrap;
+    }
+    &::before {
+      @include respond-below(sm) {
+        top: 90%;
+      }
+    }
+    li.nav-item {
+      @include respond-below(sm) {
+        padding: 0;
+        width: 33.33333%;
+        margin: 0;
+      }
+      a {
+        @include respond-below(sm) {
+          text-align: center;
+        }
+        &::after {
+          @include respond-below(sm) {
+            right: 35px;
+            left: auto;
+            top: -72px;
+            bottom: auto;
+            [dir="ltr"] & {
+              left: 46px;
+              right: auto;
+              top: -71px;
+            } /* ltr */
+          }
+        }
+        &::before {
+          @include respond-below(sm) {
+            top: 30px;
+          }
+        }
+        small {
+          @include respond-below(sm) {
+            font-size: 12px;
+            display: block;
+            margin: 32px auto 0;
+            text-align: center;
+            min-height: 40px;
+          }
+        }
+      }
+    }
+  }
   .card-body > div {
-    height: 180px;
+    min-height: 180px;
   }
 }
 
