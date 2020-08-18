@@ -69,8 +69,8 @@ class BillController extends Controller
             'customer_notes' => $request->customer_notes,
 
             'expiry_date' => $request->expiry_date,
-            'expiry_hours' => $request->expiry_hours,
-            'expiry_minutes' => $request->expiry_minutes,
+            'expiry_hours' => $request->expiry_hours ?? 0,
+            'expiry_minutes' => $request->expiry_minutes ?? 0,
             'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => $request->add_discount,
