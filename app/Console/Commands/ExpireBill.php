@@ -50,8 +50,8 @@ class ExpireBill extends Command
         $this->info("expire bill comand count: {$bills->count()} working!");
         foreach ($bills as $bill) {
 
-            $date = $bill->due_date
-                ->addDays($bill->expiry_date + 1)
+            $date = $bill->created_at
+                ->addDays($bill->expiry_date)
                 ->addMinutes($bill->expiry_minutes)
                 ->addHours($bill->expiry_hours)
                 ;

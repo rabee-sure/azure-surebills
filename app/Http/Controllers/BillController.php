@@ -151,8 +151,6 @@ class BillController extends Controller
            \App::setLocale($bill->user->settings->default_lang); 
         }
 
-
-
         if(!$bill){
             abort(404);
         }
@@ -165,7 +163,14 @@ class BillController extends Controller
         $invoice->detail(['bill' => $bill->toArray()])
             ->detail(['hash' => $bill->pay_id]);
         
-        return view('bills.pay', compact('bill', 'id'));
+        $countdown = $bill->created_at
+                ->addDays($bill->expiry_date)
+                ->addMinutes($bill->expiry_minutes)
+                ->addHours($bill->expiry_hours)
+                ->format('m/d/Y H:i:s')
+                ;
+                // dd($countdown);
+        return view('bills.pay', compact('bill', 'id', 'countdown'));
     }
     
     /**
