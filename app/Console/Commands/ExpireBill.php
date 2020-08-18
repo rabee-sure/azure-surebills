@@ -49,13 +49,14 @@ class ExpireBill extends Command
             
         $this->info("expire bill comand count: {$bills->count()} working!");
         foreach ($bills as $bill) {
-            $this->info("make Bill id: {$bill->id} expired!");
+
             $date = $bill->due_date
                 ->addDays($bill->expiry_date + 1)
                 ->addMinutes($bill->expiry_minutes)
                 ->addHours($bill->expiry_hours)
                 ;
             if($date->isPast() ){   
+                $this->info("make Bill id: {$bill->id} expired!");
                 $bill->status = 'expired';
                 $bill->save();
                 event( new BillStatusUpdated($bill) );
