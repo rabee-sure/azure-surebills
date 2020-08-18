@@ -4,8 +4,10 @@
 
 @section('content')
 
+
 <div class="single_bill_page">
   <div class="container" >
+
     <div class="row  justify-content-center">
       <div class="col-12 col-md-8 col-lg-6 col-xl-6">
         <div class="single_bill_content">
@@ -26,6 +28,18 @@
             <p>{{  $bill->user->business_address}}</p>
             <b>{{  $bill->user->business_mobile }}</b>
           </div><!-- title -->
+          <div class="title">
+            <div> {{ __('the bill will expire in')}}</div>
+            <ul id="example">
+              <li><span class="days">00</span><p class="days_text">Days</p></li>
+              <li class="seperator">:</li>
+              <li><span class="hours">00</span><p class="hours_text">Hours</p></li>
+              <li class="seperator">:</li>
+              <li><span class="minutes">00</span><p class="minutes_text">Minutes</p></li>
+              <li class="seperator">:</li>
+              <li><span class="seconds">00</span><p class="seconds_text">Seconds</p></li> 
+            </ul>
+          </div>
           <div id="status">
           </div>
           @if($errors->any())
@@ -129,35 +143,87 @@
 @endsection
 
 
+@push('styles')
+<style type="text/css">
+  ul#example {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+  text-align: center;
+}
+
+ul#example li { display: inline-block; }
+
+ul#example li span {
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 50px;
+}
+
+ul#example li.seperator {
+  font-size: 20px;
+  line-height: 40px;
+  vertical-align: top;
+}
+
+ul#example li p {
+  color: #a7abb1;
+  font-size: 10px;
+}
+</style>
+
+@endpush
+
 @push('footer-scripts')
 <script type='text/javascript'>
-var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
-if (isSafari) {
-  $('.applepay-item').css('display', 'block');
-}
-jQuery(document).ready(function(){
-    $('input:radio[name="payment_method"]').change(function(){
-        if (this.checked) {
-          $('.visa_pay_content').each(function() {
-            $( this ).remove();
-          });
-          $(this).parent().append('<div class="visa_pay_content" id="iframe_pay">{{ __('Operation is processing...') }}</div>')
-          var method = this.value;
-          $.ajax({
-              type: 'GET', //THIS NEEDS TO BE GET
-              url: '/bills/payment_iframe/{{$bill->id}}/' + method+'/{{app()->getLocale()}}',
-              success: function (data) {
-                   $("#iframe_pay").html(data);
-              },
-              error: function() { 
-                   console.log(data);
-              }
-          });
-        }
-    });
-});
-</script>
-<script type="text/javascript">
+  var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+  if (isSafari) {
+    $('.applepay-item').css('display', 'block');
+  }
+  jQuery(document).ready(function(){
+      $('input:radio[name="payment_method"]').change(function(){
+          if (this.checked) {
+            $('.visa_pay_content').each(function() {
+              $( this ).remove();
+            });
+            $(this).parent().append('<div class="visa_pay_content" id="iframe_pay">{{ __('Operation is processing...') }}</div>')
+            var method = this.value;
+            $.ajax({
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: '/bills/payment_iframe/{{$bill->id}}/' + method+'/{{app()->getLocale()}}',
+                success: function (data) {
+                     $("#iframe_pay").html(data);
+                },
+                error: function() { 
+                     console.log(data);
+                }
+            });
+          }
+      });
+  });
+
+  $('#example').countdown({
+    date: "{{$countdown}}",
+    offset:+3,
+    hideOnComplete: true,
+
+    day: "{{__('Day')}}",
+    days: "{{__('Days')}}",
+    hour: "{{__('Hour')}}",
+    hours: "{{__('Hours')}}",
+    minute: "{{__('Minute')}}",
+    minutes: "{{__('Minutes')}}",
+    second: "{{__('Second')}}",
+    seconds: "{{__('Seconds')}}"
+
+    },function () {
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
+  });
+
   Echo.channel('bill.{{$bill->id}}')
     .listen('BillStatusUpdated', (e) => {
         console.log(e.bill.id);
