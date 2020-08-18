@@ -67,7 +67,7 @@
                 <input value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="due_date" class="form-control datepicker" placeholder="{{ __('Due Date') }}">
               </div><!-- form-group -->
 
-              <div class="form-group col-md-2">
+              <div class="form-group col-md-6">
                 <label>{{ __('Expiry Date') }}</label>
                 <select value="{{ old('expiry_date') }}" name="expiry_date" class="form-control">
                   <option value="1">{{ __('1 Day') }}</option>
@@ -79,15 +79,6 @@
                   <option value="90">{{ __('90 Day') }}</option>
                   <option value="0">{{ __('Never') }}</option>
                 </select>
-              </div><!-- form-group -->
-              <div class="form-group col-md-2">
-                <label>{{ __('Expiry Hours') }}</label>
-                <input name="expiry_hours" type="number" max="23" min="0" class="form-control _parseArabicNumbers" placeholder="{{ __('Expiry Hours') }}">
-
-              </div><!-- form-group -->              
-              <div class="form-group col-md-2">
-                <label>{{ __('Expiry Minutes') }}</label>
-                <input name="expiry_minutes" type="number" max="59" min="0" class="form-control _parseArabicNumbers" placeholder="{{ __('Expiry Minutes') }}">
               </div><!-- form-group -->
             </div><!-- form-row -->
 

@@ -28,18 +28,18 @@
             <p>{{  $bill->user->business_address}}</p>
             <b>{{  $bill->user->business_mobile }}</b>
           </div><!-- title -->
-          <div class="title">
+          @if($bill->application_id)
+          <div class="title" id="countdown" >
             <div> {{ __('the bill will expire in')}}</div>
             <ul id="example">
-              <li><span class="days">00</span><p class="days_text">Days</p></li>
+              <li><span class="hours">00</span><p class="hours_text">{{ __('Hours')}}</p></li>
               <li class="seperator">:</li>
-              <li><span class="hours">00</span><p class="hours_text">Hours</p></li>
+              <li><span class="minutes">00</span><p class="minutes_text">{{ __('Minutes')}}</p></li>
               <li class="seperator">:</li>
-              <li><span class="minutes">00</span><p class="minutes_text">Minutes</p></li>
-              <li class="seperator">:</li>
-              <li><span class="seconds">00</span><p class="seconds_text">Seconds</p></li> 
+              <li><span class="seconds">00</span><p class="seconds_text">{{ __('Seconds')}}</p></li> 
             </ul>
           </div>
+          @endif
           <div id="status">
           </div>
           @if($errors->any())
@@ -218,10 +218,11 @@ ul#example li p {
     seconds: "{{__('Seconds')}}"
 
     },function () {
-            $("#payment_method").remove();
-            $("#back_btn").remove();
-            $("#status").empty();
-            $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
+        $("#countdown").remove();
+        $("#payment_method").remove();
+        $("#back_btn").remove();
+        $("#status").empty();
+        $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
   });
 
   Echo.channel('bill.{{$bill->id}}')

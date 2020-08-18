@@ -71,6 +71,11 @@ class Bill extends Model
         'trans_status',
     ];
     
+    /**
+     * Pay Id.
+     *
+     * @var array
+     */
     public function getPayIdAttribute()
     {
         $uuid = Uuid::fromString($this->id);
@@ -80,36 +85,85 @@ class Bill extends Model
     }
 
 
+    /**
+     * Translation Status.
+     *
+     * @var array
+     */
     public function getTransStatusAttribute()
     {
         return __(ucfirst($this->status));
     }
     
+    /**
+     * Is Pending.
+     *
+     * @var boolean
+     */
     public function getIsPendingAttribute()
     {
         return ($this->status == 'pending') ;
     }
 
+    /**
+     * Pay Url.
+     *
+     * @var string
+     */
     public function getPayUrlAttribute()
     {
         return route('paybillpage', ['id' => $this->pay_id]);
     }   
 
+    /**
+     * Back Url.
+     *
+     * @var string
+     */
     public function getBackUrlAttribute()
     {
         return $this->application->redirect.'?reference_id='.$this->reference_id.'&status=fail&bill_id='.$this->id;
     }   
 
+    /**
+     * Success Payment.
+     *
+     * @var string
+     */
     public function getSuccessPaymentAttribute()
     {
         return PaymentLog::where('bill_id', $this->id)->where('status', 1)->orderBy('id', 'desc')->first();
+    }
+
+    /**
+     * Is Expired.
+     *
+     * @var boolean
+     */
+    public function getIsExpiredAttribute()
+    {
+        $date = $this->created_at
+                ->addDays($this->expiry_date)
+                ->addMinutes($this->expiry_minutes)
+                ->addHours($this->expiry_hours);
+        return $date->isPast();
     }    
 
+    /**
+     * Is Invalid.
+     *
+     * @var boolean
+     */
     public function getIsInvalidAttribute()
     {
         return ($this->status != 'pending');
     }
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var string
+     */
     static public function decodeId($hashed_id)
     {
         $hashids = new Hashids();
