@@ -29,6 +29,7 @@
             <b>{{  $bill->user->business_mobile }}</b>
           </div><!-- title -->
 
+
           @if($bill->application_id && !$bill->is_expired)
             <div id="countdown" class="border-bottom">
               <div> {{ __('the bill will expire in')}}</div>
@@ -224,20 +225,6 @@ $('#countdown').countdown({
             $("#back_btn").remove();
             $("#status").empty();
             $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
-            break;
-          default:
-            $("#payment_method").remove();
-            $("#back_btn").remove();
-            $("#status").empty();
-            className = "badge-info";
-        }
-    });
-</script>
-    {!! JsValidator::formRequest('App\Http\Requests\PayBillRequest', '#bill_bay') !!}
-@endpush
-move();
-            $("#status").empty();
-            $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
             break;
           default:
             $("#payment_method").remove();
