@@ -28,18 +28,13 @@
             <p>{{  $bill->user->business_address}}</p>
             <b>{{  $bill->user->business_mobile }}</b>
           </div><!-- title -->
-          @if($bill->application_id)
-          <div class="title" id="countdown" >
-            <div> {{ __('the bill will expire in')}}</div>
-            <ul id="example">
-              <li><span class="hours">00</span><p class="hours_text">{{ __('Hours')}}</p></li>
-              <li class="seperator">:</li>
-              <li><span class="minutes">00</span><p class="minutes_text">{{ __('Minutes')}}</p></li>
-              <li class="seperator">:</li>
-              <li><span class="seconds">00</span><p class="seconds_text">{{ __('Seconds')}}</p></li> 
-            </ul>
-          </div>
+
+          @if($bill->application_id && !$bill->is_expired)
+            <div id="countdown" class="border-bottom">
+              <div> {{ __('the bill will expire in')}}</div>
+            </div>
           @endif
+
           <div id="status">
           </div>
           @if($errors->any())
@@ -145,31 +140,12 @@
 
 @push('styles')
 <style type="text/css">
-  ul#example {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: block;
+
+#countdown{
   text-align: center;
-}
-
-ul#example li { display: inline-block; }
-
-ul#example li span {
-  font-size: 20px;
-  font-weight: 200;
-  line-height: 50px;
-}
-
-ul#example li.seperator {
-  font-size: 20px;
-  line-height: 40px;
-  vertical-align: top;
-}
-
-ul#example li p {
-  color: #a7abb1;
-  font-size: 10px;
+  padding-bottom: 100px;
+  padding-right: 100px;
+  padding-left: 100px;
 }
 </style>
 
@@ -202,27 +178,24 @@ ul#example li p {
           }
       });
   });
-
-  $('#example').countdown({
-    date: "{{$countdown}}",
-    offset:+3,
-    hideOnComplete: true,
-
-    day: "{{__('Day')}}",
-    days: "{{__('Days')}}",
-    hour: "{{__('Hour')}}",
-    hours: "{{__('Hours')}}",
-    minute: "{{__('Minute')}}",
-    minutes: "{{__('Minutes')}}",
-    second: "{{__('Second')}}",
-    seconds: "{{__('Seconds')}}"
-
-    },function () {
+if({{$bill->is_expired}}){
+          $("#countdown").remove();
+        $("#payment_method").remove();
+        $("#back_btn").remove();
+        $("#status").empty();
+        $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
+}
+$('#countdown').countdown({
+    format: 'mm:ss',
+    startTime: "{{ $bill->remaining_time}}",
+    timerEnd: function() { 
         $("#countdown").remove();
         $("#payment_method").remove();
         $("#back_btn").remove();
         $("#status").empty();
-        $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
+        $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
+  },
+    image: "/images/digits.png"
   });
 
   Echo.channel('bill.{{$bill->id}}')
@@ -249,6 +222,20 @@ ul#example li p {
           case "expired":
             $("#payment_method").remove();
             $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
+            break;
+          default:
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            className = "badge-info";
+        }
+    });
+</script>
+    {!! JsValidator::formRequest('App\Http\Requests\PayBillRequest', '#bill_bay') !!}
+@endpush
+move();
             $("#status").empty();
             $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
             break;
