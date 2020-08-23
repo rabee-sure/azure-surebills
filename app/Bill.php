@@ -147,6 +147,25 @@ class Bill extends Model
                 ->addMinutes($this->expiry_minutes)
                 ->addHours($this->expiry_hours);
         return $date->isPast();
+    }  
+
+    /**
+     * Is Expired.
+     *
+     * @var boolean
+     */
+    public function getRemainingTimeAttribute()
+    {
+        $date = $this->created_at
+                ->addDays($this->expiry_date)
+                ->addMinutes($this->expiry_minutes)
+                ->addHours($this->expiry_hours);
+        if(!$this->is_expired){
+            $totalDuration = Carbon::now()->diffInSeconds($date);
+            return gmdate('i:s', $totalDuration);
+        }else{
+            return "00:00";
+        }
     }    
 
     /**

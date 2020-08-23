@@ -29,7 +29,6 @@
             <b>{{  $bill->user->business_mobile }}</b>
           </div><!-- title -->
 
-
           @if($bill->application_id && !$bill->is_expired)
             <div id="countdown" class="border-bottom">
               <div> {{ __('the bill will expire in')}}</div>
@@ -186,6 +185,7 @@ if({{$bill->is_expired}}){
         $("#status").empty();
         $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
 }
+
 $('#countdown').countdown({
     format: 'mm:ss',
     startTime: "{{ $bill->remaining_time}}",
@@ -195,10 +195,10 @@ $('#countdown').countdown({
         $("#back_btn").remove();
         $("#status").empty();
         $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
+
   },
     image: "/images/digits.png"
   });
-
   Echo.channel('bill.{{$bill->id}}')
     .listen('BillStatusUpdated', (e) => {
         console.log(e.bill.id);
