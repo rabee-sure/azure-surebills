@@ -178,13 +178,13 @@
           }
       });
   });
-if({{$bill->is_expired}}){
+@if($bill->is_expired)
           $("#countdown").remove();
         $("#payment_method").remove();
         $("#back_btn").remove();
         $("#status").empty();
         $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
-}
+@endif
 
 $('#countdown').countdown({
     format: 'mm:ss',
