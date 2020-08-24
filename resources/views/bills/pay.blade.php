@@ -30,9 +30,13 @@
           </div><!-- title -->
 
           @if($bill->application_id && !$bill->is_expired)
-            <div id="countdown" class="border-bottom">
+            <div class="timer">
+              <p>{{ __('the bill will expire in')}}</p>
+              <div><span class="minutes">00</span>:<span class="seconds">00</span></div>
+            </div><!-- timer -->
+            <!-- <div id="countdown" class="border-bottom">
               <div> {{ __('the bill will expire in')}}</div>
-            </div>
+            </div> -->
           @endif
 
           <div id="status">
@@ -304,14 +308,67 @@ if (BrowserDetect.browser == 'Safari') {
           }
       });
   });
-  
-@if($bill->is_expired)
-          $("#countdown").remove();
-        $("#payment_method").remove();
-        $("#back_btn").remove();
-        $("#status").empty();
-        $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
-@endif
+/* if ( {{$bill->is_expired}} ) {
+  $("#countdown").remove();
+  $("#payment_method").remove();
+  $("#back_btn").remove();
+  $("#status").empty();
+  $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
+} */
+
+
+(function( $ ) {
+$.fn.timer = function( callback ) {
+	callback = callback || function() {};
+	return this.each(function() {
+		var $timer = $( this ),
+			$minutesEl = $timer.find( '.minutes' ),
+			$secondsEl = $timer.find( '.seconds' ),
+			interval = 1000,
+			timer = null,
+			start = "{{ $bill->remaining_time}}",
+			minutesText = $minutesEl.text(),
+			minutes = ( minutesText[0] == '0' ) ? minutesText[1] : minutesText[0],
+			m = Number( minutes );
+			timer = setInterval(function() {
+				start--;
+				if( start == 0 ) {
+					start = "{{ $bill->remaining_time}}";
+					$secondsEl.text( '00' );
+					m--;
+					if( m == 0 ) {
+						clearInterval( timer );
+						$minutesEl.text( '00' );
+						callback();
+						
+					}
+				} else {
+					if( start >= 10 ) {
+						$secondsEl.text( start.toString() );
+					} else {
+						$secondsEl.text( '0' + start.toString() );
+					}
+					if( minutes.length == 2 ) {
+						$minutesEl.text( m.toString() );
+					} else {
+						if( m == 1 ) {
+							$minutesEl.text( '00' );	
+						} else {
+							$minutesEl.text( '0' + m.toString() );
+						}
+					}
+				}
+			}, interval);
+	});
+};
+$(function() {
+	$( '.timer' ).timer(function() {
+		document.getElementById( 'timer-beep' ).play();
+	});
+});
+})( jQuery );
+
+
 
 $('#countdown').countdown({
     format: 'mm:ss',
