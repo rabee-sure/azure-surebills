@@ -15,7 +15,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png" />
     <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png" />
-    <title>{{ config('app.name', 'Sure Bills') }}</title>
+    <title>@yield('title') - Sure Bills</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">

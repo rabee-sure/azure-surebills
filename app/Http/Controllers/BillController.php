@@ -182,12 +182,22 @@ class BillController extends Controller
     public function payment_iframe($id, $method, $locale = null)
     {
         $bill = Bill::find($id);
+
+        $payment = PaymentLog::create([
+            'bill_id'        => $bill->id,
+            'payment_method' => $method,
+            'results'        => [],
+            'data'           => [],
+            'status'         => 0,
+        ]);
+
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
         $invoice->detail(['bill' => $bill->toArray()])
-            ->detail(['hash' => $bill->pay_id])
+            ->detail(['surebills_payment_log_id' => $payment->id])
+            ->detail(['hash' => $payment->hash_id])
             ->detail(['locale' => $locale ?? app()->getLocale()]);
         
-        return $payment_iframe = Payment::via($method)->generateIframe($invoice);
+        return $payment_iframe = Payment::via($payment->payment_method)->generateIframe($invoice);
     }
 
     /**
@@ -199,29 +209,31 @@ class BillController extends Controller
      */
     public function handlePayment(Request $request, $hash)
     {
-        $bill = Bill::decodeId($hash);
+        $payment = PaymentLog::decodeId($hash);
+        $bill    = $payment->bill;
 
-        if($bill == null || $bill->is_invalid){
+        if(!$payment || !$bill){
+            abort(404);
+        }
+
+        if($bill->is_invalid){
             return view('bills.status', ['bill' => $bill]);
-            // abort(404);
         }
 
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''))
             ->detail(['bill_id' => $bill->id])
             ->detail(['bill' => $bill->toArray()])
             ->detail(['payment_id' => $request->get('id')]);
-        $invoice = Payment::paymentStatus($invoice);
+        $invoice = Payment::via($payment->payment_method)->paymentStatus($invoice);
 
 
         // if success
         if($invoice->getDetail('success')){
 
-            $payment = PaymentLog::create([
-                'bill_id' => $bill->id,
-                'results' => $invoice->getDetails(),
-                'data' => [],
-                'status' => 1,
-            ]);
+            // log
+            $payment->results = $invoice->getDetails();
+            $payment->status = 1;
+            $payment->save();
             
             $bill->paid();
 
@@ -232,13 +244,10 @@ class BillController extends Controller
             return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
         }
 
-        // create a log for the payment
-        PaymentLog::create([
-            'bill_id' => $bill->id,
-            'results' => $invoice->getDetails(),
-            'data' => [],
-            'status' => 0,
-        ]);
+        // log for the payment
+        $payment->results = $invoice->getDetails();
+        $payment->status = 0;
+        $payment->save();
 
         // return the view with errors
         return redirect()->route('paybillpage', ['id' => $bill->pay_id])
