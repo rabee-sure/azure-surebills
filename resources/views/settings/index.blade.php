@@ -1,0 +1,124 @@
+@extends('layouts.app')
+@section('title', 'Page Title')
+
+@section('css_styles')
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+@endsection
+
+@section('content')
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+  <div class="row">
+    <div class="col-12">
+      <h1>{{ __('Settings') }}</h1>
+      <div class="separator mb-5"></div>
+    </div>
+    <div class="col-12">
+      <div class="create_bill_page card mb-4">
+        <div class="card-body">
+          <form method="POST" action="{{ route('post.settings') }}" class="repeater" id="settings">
+            @csrf
+              <h1 class="mb-3">{{ __('Taxs') }}</h1>
+              <div class=" form-row mb-2">
+                <div class="form-group col-6">
+                  <label for="inputEmail1">{{ __('Add Tax') }}</label>
+                  <div class="custom-switch custom-switch-primary mb-2">
+                    <input name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox"
+                    @if($user->settings->add_tax) checked @endif>
+                    <label class="custom-switch-btn" for="Tax_Values_Checkbox"></label>
+                  </div>
+                </div><!-- form-group -->
+
+                    <div class="form-group col-6 col-md-6 col-lg-6 col-xl-6 Tax_Values">
+                      <label for="Tax">{{ __('Tax Value') }}</label>
+                      <input  value="{{ $user->settings->tax_value }}" type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value">
+                    </div><!-- form-group -->
+              </div><!-- form-row -->
+
+              <hr>
+            <h1 class="mb-3">{{ __('Default Language for Bills') }}</h1>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>{{ __('Default Lang') }}</label>
+                <select name="default_lang" class="form-control">
+                  <option value="ar" @if($user->settings->default_lang  == 'ar')selected="selected" @endif>{{ __('Arabic') }}</option>
+                  <option value="en" @if($user->settings->default_lang  == 'en')selected="selected" @endif>{{ __('English') }}</option>
+                </select>
+              </div><!-- form-group -->
+
+              <div class="form-group col-md-6">
+                <label>{{ __('Active Lang') }}</label>
+                <select value="{{ $user->settings->active_lang }}" name="active_lang" class="form-control">
+                  <option value="ar" @if($user->settings->active_lang  == 'ar')selected="selected" @endif>{{ __('Arabic') }}</option>
+                  <option value="en" @if($user->settings->active_lang  == 'en')selected="selected" @endif>{{ __('English') }}</option>
+                </select>
+              </div><!-- form-group -->
+            </div><!-- form-row -->
+              <hr>
+              <h1 class="mb-3">{{ __('When Bill Created') }}</h1>
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="create_send_sms">{{ __('Send SMS') }}</label>
+                  <div class="custom-switch custom-switch-primary mb-2">
+                    <input name="create_send_sms" class="custom-switch-input" id="create_send_sms" type="checkbox" @if($user->settings->create_send_sms) checked @endif>
+                    <label class="custom-switch-btn" for="create_send_sms"></label>
+                  </div>
+                </div><!-- form-group -->
+                <div class="form-group col-6">
+                  <label for="create_send_email">{{ __('Send Email') }}</label>
+                  <div class="custom-switch custom-switch-primary mb-2">
+                    <input name="create_send_email" class="custom-switch-input" id="create_send_email" type="checkbox"
+                    @if($user->settings->create_send_email) checked @endif>
+                    <label class="custom-switch-btn" for="create_send_email"></label>
+                  </div>
+                </div><!-- form-group -->
+              </div><!-- form-row -->
+
+            <h1 class="mb-3">{{ __('When Bill Paid') }}</h1>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="paid_send_sms">{{ __('Send SMS') }}</label>
+                <div class="custom-switch custom-switch-primary mb-2">
+                  <input name="paid_send_sms" class="custom-switch-input" id="paid_send_sms" type="checkbox"
+                  @if($user->settings->paid_send_sms) checked @endif>
+                  <label class="custom-switch-btn" for="paid_send_sms"></label>
+                </div>
+              </div><!-- form-group -->
+              <div class="form-group col-6">
+                <label for="paid_send_sms">{{ __('Send Email') }}</label>
+                <div class="custom-switch custom-switch-primary mb-2">
+                  <input name="paid_send_email" class="custom-switch-input" id="paid_send_email" type="checkbox"
+                  @if($user->settings->paid_send_email) checked @endif>
+                  <label class="custom-switch-btn" for="paid_send_email"></label>
+              </div><!-- form-group -->
+            </div><!-- form-row -->
+            <div class="d-flex justify-content-start mt-3">
+              <button type="submit" class="btn btn-primary btn-lg login_button"> {{__('Save')}}</button>
+            </div><!-- d-flex  -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection
+
+@push('footer-scripts')
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#Tax_Values_Checkbox').change(function() {
+        $('.Tax_Values').toggle();
+      });
+    });
+  </script>
+    {!! JsValidator::formRequest('App\Http\Requests\SettingsRequest', '#settings') !!}
+@endpush

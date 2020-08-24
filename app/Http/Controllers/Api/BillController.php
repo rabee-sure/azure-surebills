@@ -7,7 +7,7 @@ use App\Bill;
 use App\BillItem;
 use App\Customer;
 use App\Events\BillCreated;
-use App\Events\BillPaid;
+use App\Events\BillStatusUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\CheckBillApiRequest;
@@ -33,7 +33,6 @@ class BillController extends Controller
     public function store(BillApiRequest $request)
     {
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
-        logger($application);
         $user = $application->user;
 
         $customer = Customer::updateOrCreate([
@@ -56,6 +55,8 @@ class BillController extends Controller
             'customer_notes' => $request->customer_notes,
 
             'expiry_date' => $request->expiry_date,
+            'expiry_hours' => $request->expiry_hours,
+            'expiry_minutes' => $request->expiry_minutes,
             'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => $request->add_discount,
@@ -70,6 +71,19 @@ class BillController extends Controller
             'send_email' => $request->send_email,
             'reference_id' => $request->reference_id,
         ]);
+
+        if($user->settings->add_tax){
+            $bill->add_tax = $user->settings->add_tax;
+            $bill->tax_value = $user->settings->tax_value;
+        }
+        if($user->settings->create_send_sms){
+            $bill->send_sms = $user->settings->create_send_sms;
+        }
+        if($user->settings->create_send_email){
+            $bill->send_email = $user->settings->create_send_email;
+        }
+        $bill->save();
+
 
         foreach ($request->items as $item) {
             BillItem::create([
@@ -123,8 +137,31 @@ class BillController extends Controller
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $bill = Bill::find($id);
 
-        logger(['dd'=>$bill]);
         if(isset($application) && $application->id == $bill->application_id){
+            return new BillResource($bill);
+        }else{
+            return response()->json(['success' => false]);
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel($id, CheckBillApiRequest $request)
+    {
+        $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+        $bill = Bill::find($id);
+
+        if(isset($application) && $application->id == $bill->application_id){
+            if($bill->status != 'canceled'){
+                $bill->status = 'canceled';
+                $bill->save();
+                event( new BillStatusUpdated($bill) );
+            }
+
             return new BillResource($bill);
         }else{
             return response()->json(['success' => false]);

@@ -50,6 +50,9 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
 	Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('resend_code');
 
+	Route::get('settings', 'SettingsController@settings')->name('settings');
+	Route::post('settings', 'SettingsController@postSettings')->name('post.settings');
+
 	Route::get('account', 'AccountController@account')->name('account');
     Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
 	Route::post('account-information', 'AccountController@storeAccountInformation')->name('account.information');
@@ -71,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
 
 // py bill page
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
-Route::get('/bills/payment_iframe/{id}/{method}', 'BillController@payment_iframe')->name('payment_iframe');
+Route::get('/bills/payment_iframe/{id}/{method}/{locale}', 'BillController@payment_iframe')->name('payment_iframe');
 Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang');
 Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::post('/bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
@@ -92,6 +95,15 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('/terms', 'HomeController@terms');
 	Route::get('/integration', 'IntegrationController@index')->name('integration');
 	Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
+
+    Route::get('products', 'ProductsController@index')->name('products.all');
+    Route::get('products/{id}/view', 'ProductsController@view')->name('products.view');
+    Route::get('products/create', 'ProductsController@create')->name('products.create');
+    Route::get('store/{slug}', 'ProductsController@store')->name('products.store');
+
+    Route::get('products/categories', 'ProductsController@categories')->name('products.categories');
+
+    Route::get('products/settings', 'ProductsController@settings')->name('products.settings');
 });
 
 Route::get('users/all', 'UserController@all')->name('users.all');

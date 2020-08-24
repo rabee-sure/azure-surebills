@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('expire:bill')->delay();
+        $schedule->command('expire:bill')->everyMinute();
     }
 
     /**

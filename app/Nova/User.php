@@ -8,7 +8,9 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
 
 class User extends Resource
@@ -64,10 +66,18 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
+            Select::make('Gender')->options([
+                '1' => 'Male',
+                '2' => 'Female',
+            ])->displayUsingLabels(),
+
             Text::make('balance', function () {
                 return round($this->balance,2);
             }),
             new Panel('Pricing', $this->pricingFields()),
+
+            new Panel('Business Information', $this->businessInformation()),
+            new Panel('Bank Information', $this->bankInformation()),
 
             HasMany::make('settlements'),
             HasMany::make('statement'),
@@ -87,6 +97,49 @@ class User extends Resource
             Number::make('credit_cards_fixed')->step(0.1),
             Number::make('mada percentage')->step(0.1),
             Number::make('mada_fixed')->step(0.1),
+        ];
+    }
+
+    /**
+     * Get the address fields for the resource.
+     *
+     * @return array
+     */
+    protected function businessInformation()
+    {
+        
+        return [
+            Select::make('License type')->options([
+                'Commercial Record' => 'Commercial Record',
+                'Freelance' => 'Freelance',
+            ])->displayUsingLabels(),
+            Text::make('VAT Registration Number'),
+            Text::make('Business Name'),
+            Text::make('Sector'),
+            Textarea::make('business_address'),
+            Text::make('Mobile'),
+            Text::make('Website'),
+        ];
+    }    
+
+    /**
+     * Get the address fields for the resource.
+     *
+     * @return array
+     */
+    protected function bankInformation()
+    {
+        return [
+            Select::make('Bank')->options(function () {
+                $output = [];
+
+                foreach(getBanks() as $bank) {
+                    $output[$bank['id']] = $bank['en'];
+                }
+                return $output;
+            })->displayUsingLabels(),
+            Text::make('Iban Number'),
+            Text::make('Beneficiary Name'),
         ];
     }
 

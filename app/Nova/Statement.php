@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -55,10 +56,18 @@ class Statement extends Resource
                 'MADA' => 'MADA',
                 'APPLEPAY' => 'APPLEPAY',
             ]),
-            Select::make('type')->options([
-                'debit' => 'debit',
-                'credit' => 'credit',
-            ]),
+            Badge::make('type')->map([
+                'credit' => 'success',
+                'debit' => 'danger',
+            ]), 
+            Text::make('Amount', function () {
+                return round($this->amount, 2);
+            }),            
+
+            Text::make('Balance', function () {
+                return round($this->balance, 2);
+            }),
+            
             BelongsTo::make('User'),
         ];
     }

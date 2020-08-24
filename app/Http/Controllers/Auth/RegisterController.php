@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Rules\PasswordRule;
@@ -86,6 +87,7 @@ class RegisterController extends Controller
             'mobile' => $data['mobile'],
             'password' => Hash::make($data['password']),
         ]);
+        event(new UserCreated($user));
         $user->sendMobileCode();
         return $user;
     }

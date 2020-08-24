@@ -39,6 +39,15 @@ class Settlement extends Resource
     ];
 
     /**
+     * order By.
+     *
+     * @var array
+     */
+    public static $orderBy = [
+        'created_at' => 'desc'
+    ];
+    
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request

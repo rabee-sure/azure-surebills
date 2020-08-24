@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
   <div class="col-12">
-    <h1>Bank Information</h1>
+    <h1>{{ __('Bank Information')}}</h1>
       <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
         <ol class="breadcrumb pt-0">
           <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
@@ -27,7 +27,7 @@
 
                 @foreach(getBanks() as $bank)
                   <option value="{{$bank['id']}}" @if ($user->bank == $bank['id'])selected="selected"@endif>
-                     @if(session()->get('user-lang') == 'ar')
+                     @if(app()->getLocale() == 'ar')
                      {{$bank['ar']}}
                      @else
                      {{$bank['en']}}
@@ -55,6 +55,6 @@
 </div>
 @endsection
 
-@section('footer-scripts')
+@push('footer-scripts')
   {!! JsValidator::formRequest('App\Http\Requests\BankInformationRequest', '#form') !!}
-@endsection
+@endpush

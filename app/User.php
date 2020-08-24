@@ -182,6 +182,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get settlements.
+     *
+     * @return Collection
+     */
+    public function settings()
+    {
+        return $this->hasOne(Settings::class);
+    }
+
+    /**
      * Get statement.
      *
      * @return Collection

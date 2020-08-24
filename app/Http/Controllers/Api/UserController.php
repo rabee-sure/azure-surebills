@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
 use App\Application;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -35,6 +36,7 @@ class UserController extends Controller
         $user->fandaqah_user   = true;
         $user->password        = $request->email . $request->name;
         $user->save();
+        event(new UserCreated($user));
 
         $application = new Application;
         $application->user_id           = $user->id;

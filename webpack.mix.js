@@ -72,5 +72,9 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/bill_details.js', 'public/js')
     .sass('resources/sass/bill_details.scss', 'public/css')
 
+    // bill details
+    .js('resources/js/store.js', 'public/js')
+    .sass('resources/sass/store.scss', 'public/css')
+
     .copy('vendor/proengsoft/laravel-jsvalidation/resources/views', 'resources/views/vendor/jsvalidation')
     .copy('vendor/proengsoft/laravel-jsvalidation/public', 'public/vendor/jsvalidation');

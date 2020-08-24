@@ -5,17 +5,18 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\BillItem;
 use App\Customer;
-use Carbon\Carbon;
-use App\PaymentLog;
-use App\Transaction;
-use App\Events\BillPaid;
-use App\Payment\Invoice;
 use App\Events\BillCreated;
-use Illuminate\Http\Request;
-use App\Payment\Facades\Payment;
+use App\Events\BillPaid;
+use App\Events\BillStatusUpdated;
 use App\Http\Requests\BillRequest;
-use Illuminate\Support\Facades\Http;
 use App\Http\Requests\PayBillRequest;
+use App\PaymentLog;
+use App\Payment\Facades\Payment;
+use App\Payment\Invoice;
+use App\Transaction;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class BillController extends Controller
 {
@@ -52,10 +53,10 @@ class BillController extends Controller
     {
         $customer = Customer::updateOrCreate([
             'mobile' => $request->customer_mobile,
+            'user_id' => auth()->user()->id,
         ],[
             'name' => $request->customer_name, 
             'email' => $request->customer_email,
-            'user_id' => auth()->user()->id,
         ]);
 
         $bill = Bill::create([
@@ -68,6 +69,8 @@ class BillController extends Controller
             'customer_notes' => $request->customer_notes,
 
             'expiry_date' => $request->expiry_date,
+            'expiry_hours' => $request->expiry_hours ?? 0,
+            'expiry_minutes' => $request->expiry_minutes ?? 0,
             'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => $request->add_discount,
@@ -118,7 +121,7 @@ class BillController extends Controller
         $bill->save();
         
         event(new BillCreated($bill));
-        return redirect()->route('bills.index');
+        return redirect()->route('bills.show', $bill);
     }
 
     /**
@@ -140,11 +143,13 @@ class BillController extends Controller
      */
     public function pay($id, $lang = null)
     {
+        $bill = Bill::decodeId($id);
+        // dd($bill->is_expired);
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
+        }else{
+           \App::setLocale($bill->user->settings->default_lang); 
         }
-
-        $bill = Bill::decodeId($id);
 
         if(!$bill){
             abort(404);
@@ -158,7 +163,14 @@ class BillController extends Controller
         $invoice->detail(['bill' => $bill->toArray()])
             ->detail(['hash' => $bill->pay_id]);
         
-        return view('bills.pay', compact('bill', 'id'));
+        $countdown = $bill->created_at
+                ->addDays($bill->expiry_date)
+                ->addMinutes($bill->expiry_minutes)
+                ->addHours($bill->expiry_hours)
+                ->format('m/d/Y H:i:s')
+                ;
+                // dd($countdown);
+        return view('bills.pay', compact('bill', 'id', 'countdown'));
     }
     
     /**
@@ -167,7 +179,7 @@ class BillController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function payment_iframe($id, $method)
+    public function payment_iframe($id, $method, $locale = null)
     {
         $bill = Bill::find($id);
 
@@ -182,7 +194,8 @@ class BillController extends Controller
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
         $invoice->detail(['bill' => $bill->toArray()])
             ->detail(['surebills_payment_log_id' => $payment->id])
-            ->detail(['hash' => $payment->hash_id]);
+            ->detail(['hash' => $payment->hash_id])
+            ->detail(['locale' => $locale ?? app()->getLocale()]);
         
         return $payment_iframe = Payment::via($payment->payment_method)->generateIframe($invoice);
     }
@@ -262,6 +275,7 @@ class BillController extends Controller
         $bill = Bill::find($id);
         $bill->status = 'canceled';
         $bill->save();
+        event( new BillStatusUpdated($bill) );
 
         return redirect()->back();
     }

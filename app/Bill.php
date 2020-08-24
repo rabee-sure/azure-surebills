@@ -2,14 +2,15 @@
 
 namespace App;
 
-use Carbon\Carbon;
-use App\PaymentLog;
-use Hashids\Hashids;
-use Ramsey\Uuid\Uuid;
 use App\Events\BillPaid;
+use App\Events\BillStatusUpdated;
+use App\PaymentLog;
 use App\Traits\UsesUuid;
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Hashids\Hashids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Ramsey\Uuid\Uuid;
 
 class Bill extends Model
 {    
@@ -45,6 +46,9 @@ class Bill extends Model
         'application_id',
         'payment_fees',
         'settled',
+        
+        'expiry_minutes',
+        'expiry_hours',
     ];
 
     /**
@@ -54,8 +58,24 @@ class Bill extends Model
      */
     protected $casts = [
         'due_date' => 'datetime:Y-m-d',
+        'canceled_at' => 'datetime',
+        'paid_at' => 'datetime',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'trans_status',
     ];
     
+    /**
+     * Pay Id.
+     *
+     * @var array
+     */
     public function getPayIdAttribute()
     {
         $uuid = Uuid::fromString($this->id);
@@ -63,27 +83,106 @@ class Bill extends Model
         $hashids = new Hashids();
         return $hashids->encodeHex($hex);
     }
+
+
+    /**
+     * Translation Status.
+     *
+     * @var array
+     */
+    public function getTransStatusAttribute()
+    {
+        return __(ucfirst($this->status));
+    }
     
+    /**
+     * Is Pending.
+     *
+     * @var boolean
+     */
     public function getIsPendingAttribute()
     {
         return ($this->status == 'pending') ;
     }
 
+    /**
+     * Pay Url.
+     *
+     * @var string
+     */
     public function getPayUrlAttribute()
     {
         return route('paybillpage', ['id' => $this->pay_id]);
     }   
 
+    /**
+     * Back Url.
+     *
+     * @var string
+     */
+    public function getBackUrlAttribute()
+    {
+        return $this->application->redirect.'?reference_id='.$this->reference_id.'&status=fail&bill_id='.$this->id;
+    }   
+
+    /**
+     * Success Payment.
+     *
+     * @var string
+     */
     public function getSuccessPaymentAttribute()
     {
         return PaymentLog::where('bill_id', $this->id)->where('status', 1)->orderBy('id', 'desc')->first();
+    }
+
+    /**
+     * Is Expired.
+     *
+     * @var boolean
+     */
+    public function getIsExpiredAttribute()
+    {
+        $date = $this->created_at
+                ->addDays($this->expiry_date)
+                ->addMinutes($this->expiry_minutes)
+                ->addHours($this->expiry_hours);
+        return $date->isPast();
+    }  
+
+    /**
+     * Is Expired.
+     *
+     * @var boolean
+     */
+    public function getRemainingTimeAttribute()
+    {
+        $date = $this->created_at
+                ->addDays($this->expiry_date)
+                ->addMinutes($this->expiry_minutes)
+                ->addHours($this->expiry_hours);
+        if(!$this->is_expired){
+            $totalDuration = Carbon::now()->diffInSeconds($date);
+            return gmdate('i', $totalDuration);
+        }else{
+            return "00";
+        }
     }    
 
+    /**
+     * Is Invalid.
+     *
+     * @var boolean
+     */
     public function getIsInvalidAttribute()
     {
         return ($this->status != 'pending');
     }
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var string
+     */
     static public function decodeId($hashed_id)
     {
         $hashids = new Hashids();
@@ -183,6 +282,7 @@ class Bill extends Model
         $this->save();
 
         event(new BillPaid($this));
+        event( new BillStatusUpdated($this) );
     }
 
     /**

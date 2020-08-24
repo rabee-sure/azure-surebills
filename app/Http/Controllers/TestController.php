@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Bill;
 use App\Events\BillPaid;
+use App\Events\BillStatusUpdated;
 use App\Http\Requests\AccountInformationRequest;
 use App\Http\Requests\BankInformationRequest;
 use App\Http\Requests\BusinessInformationRequest;
@@ -25,9 +26,9 @@ class TestController extends Controller
      */
     public function test()
     {
-        $bill = Bill::find('44986673-55c1-4406-964b-f4a0bf83ce6a');
-        $url = $bill->application->redirect.'?reference_id='.$bill->reference_id.'&status='.$bill->status;
-        return redirect($url);
+        $bill = Bill::find('3454f034-4425-4b74-9454-268551d6e3d5');
+        event( new BillStatusUpdated($bill) );
+        dd($bill);
     } 
 
     public function decode(string $hex): string

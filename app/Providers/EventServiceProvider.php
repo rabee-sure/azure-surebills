@@ -25,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SettlementCreated' => [
             'App\Listeners\AddSettlementTransactions',
         ],        
+        'App\Events\UserCreated' => [
+            'App\Listeners\CreateSettingsForUser',
+        ],        
         'App\Events\BillPaid' => [
             'App\Listeners\CalculatePaymentFees',
             'App\Listeners\AddBillTransactions',

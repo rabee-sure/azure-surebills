@@ -31,7 +31,7 @@
         </a>
         <!-- <a class="btn btn-primary mr-2 mb-2 d-inline-block" href="#">{{ __('Send Reminder') }}</a> -->
         @if($bill->is_pending)
-          <button type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#exampleModal" title="{{ __('Cancel Bill') }}" data-from="top" data-align="right">
+          <button id="cancel_btn" type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#exampleModal" title="{{ __('Cancel Bill') }}" data-from="top" data-align="right">
             <img src="{{ asset('img/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
           </button>
         @endif
@@ -53,6 +53,27 @@
         <p>{{  $bill->user->business_address}}</p>
         <b>{{  $bill->user->business_mobile }}</b>
       </div><!-- title -->
+      <div id="status">
+        @if($bill->status == 'expired')
+          <div class="alert alert-secondary" role="alert">
+            this bill #{{ $bill->number }} has been expired
+          </div>
+        @endif
+        @if($bill->status == 'paid')
+          <div class="alert alert-success" role="alert">
+            @if ($bill->depositTransaction)
+              Paid - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
+            @else
+              this bill #{{ $bill->number }} paid successfully
+            @endif
+          </div>
+        @endif
+        @if($bill->status == 'canceled')
+          <div class="alert alert-danger" role="alert">
+            this bill #{{ $bill->number }} has been canceled
+          </div>
+        @endif
+      </div>
       <div class="date_time">
         <span>
           {{__('Due on')}} {{ $bill->due_date->format('M d Y')}}
@@ -126,7 +147,7 @@
           </div>
 @endsection
 
-@section('footer-scripts')
+@push('footer-scripts')
   <script src="{{ asset('js/bootstrap-notify.min.js') }}" defer></script>
   <script>
 
@@ -190,5 +211,31 @@
        $(this).siblings('input.linkToCopy').select();      
         document.execCommand("copy");
     });
+
+  console.log('bill.{{$bill->id}}');
+    Echo.channel('bill.{{$bill->id}}')
+      .listen('BillStatusUpdated', (e) => {
+        console.log(e.bill.id);
+          switch(e.bill.status) {
+            case "pending":
+              break;
+            case "paid":
+              $("#cancel_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-success" role="alert">this bill paid successfully</div>');
+              break;
+            case "canceled":
+              $("#cancel_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
+              break;          
+            case "expired":
+              $("#cancel_btn").remove();
+              $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
+              break;
+            default:
+              $("#cancel_btn").remove();
+          }
+      });
   </script>
-@endsection
+@endpush

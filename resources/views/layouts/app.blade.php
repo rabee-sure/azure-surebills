@@ -26,13 +26,14 @@
     <link rel="stylesheet" href="/css/all.css" />
     @yield('css_styles')
 
+
   </head>
   <body id="app-container" class=" @if(app()->getLocale() == 'ar') rtl @else ltr @endif 
     @if(auth()->user()->is_complete_profile) 
-        menu-default show-spinner 
+        menu-default 
     @else
-     rounded menu-sub-hidden main-hidden sub-hidden
-     @endif">
+     rounded menu-sub-hidden main-hidden sub-hidden 
+     @endif show-spinner">
     @include('layouts.navbar')
     @if(auth()->user()->is_complete_profile)
         @include('layouts.sidebar')
@@ -45,7 +46,7 @@
     </main>
 
     @include('layouts.footer')
-    @yield('footer-scripts')
+    @stack('footer-scripts')
 </body>
 
 </html>

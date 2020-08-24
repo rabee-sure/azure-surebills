@@ -27,7 +27,7 @@ class BillRequest extends FormRequest
     {
         return [
             'customer_name' => ['required', 'string', 'max:255'],
-            'customer_email' => ['string', 'email', 'max:255',
+            'customer_email' => ['nullable', 'email', 'max:255',
                 // Rule::unique('customers', 'email')->where(function ($query){
                 //     return $query->where('user_id', auth()->user()->id)
                 //     ->where('mobile',  '500000000');
@@ -38,6 +38,8 @@ class BillRequest extends FormRequest
 
             'due_date' => ['required'],
             'expiry_date' => ['required'],
+            'expiry_hours' => ['numeric','min:0','max:23','nullable'],
+            'expiry_minutes' => ['numeric','min:0','max:59','nullable'],
 
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],

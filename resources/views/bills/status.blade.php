@@ -3,11 +3,18 @@
 @section('title', 'Page Title')
 
 @section('content')
-  <div class="single_bill_page">
+  <div class="single_bill_page"  id="app">
     <div class="container">
       <div class="row  justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 col-xl-6">
           <div class="single_bill_content">
+            <div class="change-lang">
+            @if(App::isLocale('en'))
+              <a href="{{ $bill->pay_url }}/ar" title="عربي">عربي</a>
+            @else
+              <a href="{{ $bill->pay_url }}/en" title="English">English</a>
+            @endif
+          </div>
             @if($bill->user->logo)
               <div class="logo">
                 <img src="{{ url($bill->user->logo) }}" alt="logo">
@@ -18,25 +25,27 @@
               <p>{{  $bill->user->business_address }}</p>
               <b>{{  $bill->user->business_mobile }}</b>
             </div><!-- title -->
-            @if($bill->status == 'expired')
-              <div class="alert alert-secondary" role="alert">
-                this bill #{{ $bill->number }} has been expired
-              </div>
-            @endif
-            @if($bill->status == 'paid')
-              <div class="alert alert-success" role="alert">
-                @if ($bill->depositTransaction)
-                  Paid - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
-                @else
-                  this bill #{{ $bill->number }} paid successfully
-                @endif
-              </div>
-            @endif
-            @if($bill->status == 'canceled')
-              <div class="alert alert-danger" role="alert">
-                this bill #{{ $bill->number }} has been canceled
-              </div>
-            @endif
+            <div id="status">
+              @if($bill->status == 'expired')
+                <div class="alert alert-danger" role="alert">
+                  {{ __('this bill has been expired', ['number' => $bill->number ]) }}
+                </div>
+              @endif
+              @if($bill->status == 'paid')
+                <div class="alert alert-success" role="alert">
+                  @if ($bill->depositTransaction)
+                    Paid - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
+                  @else
+                  {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
+                  @endif
+                </div>
+              @endif
+              @if($bill->status == 'canceled')
+                <div class="alert alert-danger" role="alert">
+                  {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
+                </div>
+              @endif
+            </div>
             <div class="date_time">
               <span>
                 {{__('Due on')}} {{ $bill->due_date->format('M d Y')}}
@@ -91,6 +100,46 @@
 @endsection
 
 
-@section('footer-scripts')
+@push('footer-scripts')
+<script type="text/javascript">
+  Echo.channel('bill.{{$bill->id}}')
+    .listen('BillStatusUpdated', (e) => {
+        console.log(e.bill.id);
+        var className;
+
+        switch(e.bill.status) {
+          case "pending":
+            className = "badge-info";
+            break;
+          case "paid":
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-success" role="alert">this bill paid successfully</div>');
+            break;
+          case "canceled":
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
+            break;          
+          case "expired":
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
+            break;
+          default:
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            className = "badge-info";
+        }
+        // $('#status')
+        //   .text(e.bill.trans_status)
+        //   .removeClass('badge-light badge-danger badge-success badge-info')
+        //   .addClass(className);
+    });
+</script>
     {!! JsValidator::formRequest('App\Http\Requests\PayBillRequest', '#bill_bay') !!}
-@endsection
+@endpush

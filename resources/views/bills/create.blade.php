@@ -38,7 +38,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">+966</span>
                   </div>
-                  <input  value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control _parseArabicNumbers @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="5XXXXXXXX" maxlength="10">
+                  <input value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control _parseArabicNumbers @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="5XXXXXXXX" maxlength="10">
                 </div>
                 @error('customer_mobile')
                   <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -96,15 +96,15 @@
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                           <label for="Price">{{ __('Product/Service Price') }}</label>
-                          <input name="price"  value="{{$item['price']}}" type="tel" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
+                          <input name="price"  value="{{$item['price']}}" type="number" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                           <label for="Price">{{ __('Quantity') }}</label>
-                          <input type="tel" name="quantity" value="{{$item['quantity']}}" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
+                          <input type="number" name="quantity" value="{{$item['quantity']}}" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1">
                           <label for="Price">{{ __('Total') }}</label>
-                          <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
+                          <input type="number" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1 delete_block">
                           <label for="Delete" class="d-block">{{ __('Delete') }}</label>
@@ -123,15 +123,15 @@
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Product/Service Price') }}</label>
-                      <input type="tel" name="price" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
+                      <input type="number" name="price" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Quantity') }}</label>
-                      <input type="tel" name="quantity" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
+                      <input type="number" name="quantity" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1">
                       <label for="Price">{{ __('Total') }}</label>
-                      <input name="total" type="tel" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
+                      <input name="total" type="number" class="form-control _parseArabicNumbers text-center font-weight-bold" disabled>
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1 delete_block">
                       <label for="Delete" class="d-block">{{ __('Delete') }}</label>
@@ -158,7 +158,7 @@
               <div class="form-group col-6">
                 <label for="inputEmail1">{{ __('Add Tax') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input  name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox">
+                  <input  name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox" @if(auth()->user()->settings->add_tax) checked @endif>
                   <label class="custom-switch-btn" for="Tax_Values_Checkbox"></label>
                 </div>
               </div><!-- form-group -->
@@ -201,14 +201,16 @@
               <div class="form-group col-6">
                 <label for="send_sms">{{ __('Send SMS') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input name="send_sms" class="custom-switch-input" id="send_sms" type="checkbox">
+                  <input name="send_sms" class="custom-switch-input" id="send_sms" type="checkbox"
+                   @if(auth()->user()->settings->create_send_sms) checked @endif>
                   <label class="custom-switch-btn" for="send_sms"></label>
                 </div>
               </div><!-- form-group -->
               <div class="form-group col-6">
                 <label for="send_email">{{ __('Send Email') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input name="send_email" class="custom-switch-input" id="send_email" type="checkbox">
+                  <input name="send_email" class="custom-switch-input" id="send_email" type="checkbox" 
+                   @if(auth()->user()->settings->create_send_email) checked @endif>
                   <label class="custom-switch-btn" for="send_email"></label>
                 </div>
               </div><!-- form-group -->
@@ -223,7 +225,7 @@
   </div>
 @endsection
 
-@section('footer-scripts')
+@push('footer-scripts')
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="{{ asset('js/jquery.repeater.min.js') }}" defer></script>
   <script>
@@ -247,6 +249,10 @@
     });
 
     $(document).ready(function () {
+      if({{auth()->user()->settings->add_tax}}){
+        $('.Tax_Values').toggle();
+        $('#Value').val({{auth()->user()->settings->tax_value}});
+      }
       $('.repeater').repeater({
         show: function () {
           $(this).slideDown();
@@ -293,4 +299,4 @@
   </script>
 
     {!! JsValidator::formRequest('App\Http\Requests\BillRequest', '#bill_create') !!}
-@endsection
+@endpush
