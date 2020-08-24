@@ -10954,6 +10954,7 @@ body {
   /* total_bill */
   /* customer_information */
   /* payment_method */
+  /* timer */
 }
 
 .single_bill_page .single_bill_content {
@@ -11523,6 +11524,41 @@ body {
   .single_bill_page .payment_method .bill_payment .jp-card {
     min-width: 100%;
   }
+}
+
+.single_bill_page .timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  background: #fff3cd;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  /* p */
+  /* div */
+}
+
+.single_bill_page .timer p {
+  display: block;
+  margin: 0 5px 0 0;
+  text-transform: capitalize;
+  font-size: 16px;
+}
+
+.single_bill_page .timer div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  /* span */
+}
+
+.single_bill_page .timer div span {
+  display: block;
+  line-height: 1;
+  font-weight: bold;
 }
 
 /* single_bill_page */
