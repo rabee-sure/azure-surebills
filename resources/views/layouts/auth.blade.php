@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr" @endif>
   <head>
     <meta charset="UTF-8">
-    <title>{{ config('app.name', 'Sure Bills') }} - @yield('title')</title>
+    <title>@yield('title') - Sure Bills</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
