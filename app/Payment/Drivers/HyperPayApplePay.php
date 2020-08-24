@@ -64,7 +64,7 @@ class HyperPayApplePay extends Driver
         $data = "entityId=".$this->settings->entity_id .
                 "&amount=".$this->invoice->getAmount().
                 "&currency=SAR" .
-                "&merchantTransactionId=" . $details['bill']['id'] .
+                "&merchantTransactionId=" . $details['surebills_payment_log_id'] .
                 "&customer.email=" . $details['bill']['customer_email'] .
                 "&paymentType=DB";
 
@@ -85,10 +85,25 @@ class HyperPayApplePay extends Driver
 
         $response = json_decode($responseData, false);
 
-        $resultUrl = route('bills.handle', ['hash' => $details['hash']]);;
+        $resultUrl = route('bills.handle', ['hash' => $details['hash']]);
 
         return  '<script>
                     var wpwlOptions = {
+                        locale: "'.App::getLocale().'",
+                        style: "plain",
+                        showCVVHint: true,
+                        brandDetection: true,
+                        onReady: function(){ 
+                            $(".wpwl-group-cardNumber").after($(".wpwl-group-brand").detach());
+                            $(".wpwl-group-cvv").after( $(".wpwl-group-cardHolder").detach());
+                            var visa = $(".wpwl-brand:first").clone().removeAttr("class").attr("class", "wpwl-brand-card wpwl-brand-custom wpwl-brand-VISA")
+                            var master = $(visa).clone().removeClass("wpwl-brand-VISA").addClass("wpwl-brand-MASTER");
+                            $(".wpwl-brand:first").after( $(master)).after( $(visa));
+                        },
+                        onChangeBrand: function(e){
+                            $(".wpwl-brand-custom").css("opacity", "0.3");
+                            $(".wpwl-brand-" + e).css("opacity", "1");
+                        },
                         applePay : {
                             merchantCapabilities:["supports3DS"],
                             supportedNetworks: ["masterCard", "visa", "mada"]
@@ -155,88 +170,7 @@ class HyperPayApplePay extends Driver
      */
     public function purchase()
     {
-        dd('aa');
-        $payment_types = [
-            'VISA' => 'DB',
-            'MASTER' => 'DB',
-            'DISCOVER' => 'DB',
-            'AMEX' => 'DB',
-            'MADA' => 'DB',
-        ];
-
-        $details = $this->invoice->getDetails();
-
-        $orderId = crc32($this->invoice->getUuid()).time();
-        if (!empty($details['orderId'])) {
-            $orderId = $details['orderId'];
-        } elseif (!empty($details['order_id'])) {
-            $orderId = $details['order_id'];
-        }
-
-        $mobile = null;
-        if (!empty($details['mobile'])) {
-            $mobile = $details['mobile'];
-        } elseif (!empty($details['phone'])) {
-            $mobile = $details['phone'];
-        }
-        
-        $credit_card = $this->invoice->getDetail('number');
-        $this->invoice
-            ->detail(['payment_brand' => $this->validatecard($credit_card)])
-            ->detail(['payment_type' => $payment_types[$this->validatecard($credit_card)] ]);
-
-        $details = $this->invoice->getDetails();
-
-        $url = $this->settings->api_base_url . '/checkouts';
-        $data = "entityId=".$this->settings->entity_id .
-                "&amount=".$this->invoice->getAmount().
-                "&currency=SAR" .
-                "&paymentBrand=".$details['payment_brand'] .
-                "&paymentType=" . $details['payment_type'] .
-                "&card.number=".$details['number'] .
-                "&card.holder=".$details['name'] .
-                "&card.expiryMonth=".$details['expiry_month'] .
-                "&card.expiryYear=".$details['expiry_year'] .
-                "&card.cvv=".$details['cvc'].
-                "&shopperResultUrl=".urlencode(route('bills.handle', ['id' => $details['bill']['id']])) .
-                "&notificationUrl=".urlencode(route('bills.handle', ['id' => $details['bill']['id']])) .
-                "&merchantTransactionId=" . $details['bill']['id'] . now() .
-                "&customer.email=" . $details['bill']['customer_email'];
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                       'Authorization:Bearer '.$this->settings->access_token));
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, app()->environment('production') ? true : false);// this should be set to true in production
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $responseData = curl_exec($ch);
-
-        if(curl_errno($ch)) {
-            throw new PurchaseFailedException('error in Purchase');
-        }
-        curl_close($ch);
-
-        $body = json_decode($responseData, false);
-
-        $this->invoice->detail(['cvc' => '***'])
-                ->detail(['number' => str_pad(substr($details['number'], -4), strlen($details['number']), '*', STR_PAD_LEFT)]);
-
-        $successPattern = '/(000\.000\.|000\.100\.1|000\.[36])/';
-        $success = preg_match($successPattern, $body->result->code);
-        $pendingPattern = '/(000\.200\.)/';
-        $pending = preg_match($pendingPattern, $body->result->code);
-
-        $this->invoice->detail(['result_code' => $body->result->code])
-            ->detail(['success' => $success])
-            ->detail(['pending' => $pending])
-            ->detail(['redirect' => $body->redirect ?? null])
-            ->detail(['result_description' => $body->result->description]);
-        $this->invoice->transactionId($body->id ?? "not have id");
-
-        // return the transaction's id
-        return $this->invoice->getTransactionId();
+        return null;
     }
 
     /**
