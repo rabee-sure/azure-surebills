@@ -42,8 +42,12 @@ class Transaction extends Model
         $transaction->receipt     = $transaction->generateReceipt();
         $transaction->description = 'Bill ' . $payment->bill->number . ' - ' . $payment->bill->customer_name;
         $transaction->auth_id     = $authorizeId;
-        $transaction->card_brand  = isset($paymentResponse['paymentBrand']) ? $paymentResponse['paymentBrand'] : null;
-        $transaction->card        = 'XXX' . $paymentResponse['card']['last4Digits'];
+        if (isset($paymentResponse['paymentBrand']) && $payment->payment_method != 'hyperpay_applepay') {
+            $transaction->card_brand  = $paymentResponse['paymentBrand'];
+            $transaction->card        = 'XXX' . $paymentResponse['card']['last4Digits'];
+        } else if ($payment->payment_method == 'hyperpay_applepay') {
+            $transaction->card_brand  = 'APPLEPAY';
+        }
         $transaction->balance     = $transaction->user->balance + $transaction->amount;
         $transaction->save();
 

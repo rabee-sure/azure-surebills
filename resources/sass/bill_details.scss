@@ -8,6 +8,13 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+.ltr {
+  direction: ltr;
+}
+.wpwl-apple-pay-button {
+  background-size: 100% 76px;
+  max-width: 100%;
+}
 
 body {
   background: #fff;

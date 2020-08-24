@@ -85,7 +85,7 @@
             <div class="customer_information">
               <!-- <div class="name">Customer Information</div> -->
               <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
-              <p>+966{{ $bill->customer_mobile}}</p>
+              <p class="ltr">+966{{ $bill->customer_mobile}}</p>
               <p>{{ $bill->customer_email}}</p>
             </div><!-- customer_information -->
             <div id="payment_method" class="payment_method">
