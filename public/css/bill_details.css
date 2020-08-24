@@ -11526,7 +11526,7 @@ body {
   }
 }
 
-.single_bill_page .timer {
+.single_bill_page .countdown {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11537,25 +11537,22 @@ body {
   border: 1px solid #ffeeba;
   color: #856404;
   /* p */
-  /* div */
+  /* span */
 }
 
-.single_bill_page .timer p {
+.single_bill_page .countdown p {
   display: block;
   margin: 0 5px 0 0;
   text-transform: capitalize;
   font-size: 16px;
+  /* rtl */
 }
 
-.single_bill_page .timer div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  /* span */
+[dir=rtl] .single_bill_page .countdown p {
+  margin: 0 0 0 5px;
 }
 
-.single_bill_page .timer div span {
+.single_bill_page .countdown span {
   display: block;
   line-height: 1;
   font-weight: bold;
