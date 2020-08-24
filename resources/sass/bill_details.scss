@@ -443,6 +443,31 @@ body {
       } /* jp-card */
     } /* bill_payment */
   } /* payment_method */
+  .countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    background: #fff3cd;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ffeeba;
+    color: #856404;
+    p {
+      display: block;
+      margin: 0 5px 0 0;
+      text-transform: capitalize;
+      font-size: 16px;
+      [dir="rtl"] & {
+        margin: 0 0 0 5px;
+      } /* rtl */
+    } /* p */
+    span {
+      display: block;
+      line-height: 1;
+      font-weight: bold;
+    } /* span */
+  } /* timer */
 } /* single_bill_page */
 .cnpBillingCheckoutWrapper {position:relative;}
 .cnpBillingCheckoutHeader {width:100%;border-bottom: 1px solid #c0c0c0;margin-bottom:10px;}

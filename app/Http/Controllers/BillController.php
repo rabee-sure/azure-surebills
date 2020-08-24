@@ -144,14 +144,12 @@ class BillController extends Controller
     public function pay($id, $lang = null)
     {
         $bill = Bill::decodeId($id);
-
+        // dd($bill->is_expired);
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
         }else{
            \App::setLocale($bill->user->settings->default_lang); 
         }
-
-
 
         if(!$bill){
             abort(404);
@@ -165,7 +163,14 @@ class BillController extends Controller
         $invoice->detail(['bill' => $bill->toArray()])
             ->detail(['hash' => $bill->pay_id]);
         
-        return view('bills.pay', compact('bill', 'id'));
+        $countdown = $bill->created_at
+                ->addDays($bill->expiry_date)
+                ->addMinutes($bill->expiry_minutes)
+                ->addHours($bill->expiry_hours)
+                ->format('m/d/Y H:i:s')
+                ;
+                // dd($countdown);
+        return view('bills.pay', compact('bill', 'id', 'countdown'));
     }
     
     /**

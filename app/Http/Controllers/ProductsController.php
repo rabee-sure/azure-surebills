@@ -51,8 +51,18 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function categories(Request $request)
     {
-        return view('products.edit');
+        return view('products.categories');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function settings(Request $request)
+    {
+        return view('products.settings');
     }
 }

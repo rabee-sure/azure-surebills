@@ -1,4 +1,8 @@
 {
+	"this bill has been canceled" : "this bill #:number  has been canceled",
+	"this bill has been successfully" : "this bill #:number  has been paid successfully",
+	"this bill has been expired" : "this bill #:number has been expired",
+
 "A fresh verification link has been sent to your email address.": "A fresh verification link has been sent to your email address.",
 "All rights reserved.": "All rights reserved.",
 "Before proceeding, please check your email for a verification link.": "Before proceeding, please check your email for a verification link.",
@@ -173,5 +177,9 @@
 "Product Sections" : "Product Sections",
 "Shown" : "Shown",
 "Not Shown" : "Not Shown",
-"Optional" : "Optional"
+"Optional" : "Optional",
+"Add Categorie" : "Add Categorie",
+"Department Name" : "Department Name",
+"Arrangement" : "Arrangement",
+"Status" : "Status"
 }

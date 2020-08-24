@@ -4,8 +4,10 @@
 
 @section('content')
 
+
 <div class="single_bill_page">
   <div class="container" >
+
     <div class="row  justify-content-center">
       <div class="col-12 col-md-8 col-lg-6 col-xl-6">
         <div class="single_bill_content">
@@ -26,6 +28,14 @@
             <p>{{  $bill->user->business_address}}</p>
             <b>{{  $bill->user->business_mobile }}</b>
           </div><!-- title -->
+
+          @if($bill->application_id && !$bill->is_expired)
+            <div class="countdown" id="new_countdown">
+              <p>{{ __('the bill will expire in')}}</p>
+              <span id="hm_timer"></span>
+            </div><!-- countdown -->
+          @endif
+
           <div id="status">
           </div>
           @if($errors->any())
@@ -48,7 +58,7 @@
             <div class="shopping_cart">
               @foreach($bill->items as $item)
                 <div class="details_pay">
-                  <p>{{ $item->product_name }}</p>
+                  <p>{!! $item->product_name !!}</p>
                   <b>X {{ $item->quantity  }}</b>
                   <b>{{ $item->product_price  }}  {{ __('SAR') }}</b>
                 </div><!-- details_pay -->
@@ -89,7 +99,7 @@
                     <div class="checkmark"></div>
                     </label>
                 </div><!-- item -->
-                <div class="item applepay-item">
+                <div id="applepay_show" class="item">
                     <input type="radio" id="apple_pay" name="payment_method" value="hyperpay_applepay">
                     <label for="apple_pay">
                     <p>{{ __('Apple Pay') }}</p>
@@ -107,6 +117,8 @@
                 </div><!-- item -->
               </div><!-- bill_payment -->
             </div><!-- payment_method -->
+           
+            
             
             @if($bill->application)
               <div id="back_btn" class="text-center">
@@ -129,35 +141,199 @@
 @endsection
 
 
-@push('footer-scripts')
-<script type='text/javascript'>
-var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
-if (isSafari) {
-  $('.applepay-item').css('display', 'block');
+@push('styles')
+<style type="text/css">
+
+#countdown{
+  text-align: center;
+  padding-bottom: 100px;
+  padding-right: 100px;
+  padding-left: 100px;
 }
-jQuery(document).ready(function(){
-    $('input:radio[name="payment_method"]').change(function(){
-        if (this.checked) {
-          $('.visa_pay_content').each(function() {
-            $( this ).remove();
-          });
-          $(this).parent().append('<div class="visa_pay_content" id="iframe_pay">{{ __('Operation is processing...') }}</div>')
-          var method = this.value;
-          $.ajax({
-              type: 'GET', //THIS NEEDS TO BE GET
-              url: '/bills/payment_iframe/{{$bill->id}}/' + method+'/{{app()->getLocale()}}',
-              success: function (data) {
-                   $("#iframe_pay").html(data);
-              },
-              error: function() { 
-                   console.log(data);
-              }
-          });
+</style>
+
+@endpush
+
+@push('footer-scripts')
+  <script src="{{ asset('js/jquery.countdownTimer.min.js') }}"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+<script type='text/javascript'>
+var BrowserDetect = {
+init: function () {
+    this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+    this.version = this.searchVersion(navigator.userAgent)
+        || this.searchVersion(navigator.appVersion)
+        || "an unknown version";
+    this.OS = this.searchString(this.dataOS) || "an unknown OS";
+},
+searchString: function (data) {
+    for (var i=0;i<data.length;i++)    {
+        var dataString = data[i].string;
+        var dataProp = data[i].prop;
+        this.versionSearchString = data[i].versionSearch || data[i].identity;
+        if (dataString) {
+            if (dataString.indexOf(data[i].subString) != -1)
+                return data[i].identity;
         }
-    });
+        else if (dataProp)
+            return data[i].identity;
+    }
+},
+searchVersion: function (dataString) {
+    var index = dataString.indexOf(this.versionSearchString);
+    if (index == -1) return;
+    return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+},
+dataBrowser: [
+    {
+        string: navigator.userAgent,
+        subString: "Chrome",
+        identity: "Chrome"
+    },
+    {     string: navigator.userAgent,
+        subString: "OmniWeb",
+        versionSearch: "OmniWeb/",
+        identity: "OmniWeb"
+    },
+    {
+        string: navigator.vendor,
+        subString: "Apple",
+        identity: "Safari",
+        versionSearch: "Version"
+    },
+    {
+        prop: window.opera,
+        identity: "Opera",
+        versionSearch: "Version"
+    },
+    {
+        string: navigator.vendor,
+        subString: "iCab",
+        identity: "iCab"
+    },
+    {
+        string: navigator.vendor,
+        subString: "KDE",
+        identity: "Konqueror"
+    },
+    {
+        string: navigator.userAgent,
+        subString: "Firefox",
+        identity: "Firefox"
+    },
+    {
+        string: navigator.vendor,
+        subString: "Camino",
+        identity: "Camino"
+    },
+    {        // for newer Netscapes (6+)
+        string: navigator.userAgent,
+        subString: "Netscape",
+        identity: "Netscape"
+    },
+    {
+        string: navigator.userAgent,
+        subString: "MSIE",
+        identity: "Explorer",
+        versionSearch: "MSIE"
+    },
+    {
+        string: navigator.userAgent,
+        subString: "Gecko",
+        identity: "Mozilla",
+        versionSearch: "rv"
+    },
+    {         // for older Netscapes (4-)
+        string: navigator.userAgent,
+        subString: "Mozilla",
+        identity: "Netscape",
+        versionSearch: "Mozilla"
+    }
+],
+dataOS : [
+    {
+        string: navigator.platform,
+        subString: "Win",
+        identity: "Windows"
+    },
+    {
+        string: navigator.platform,
+        subString: "Mac",
+        identity: "Mac"
+    },
+    {
+           string: navigator.userAgent,
+           subString: "iPhone",
+           identity: "iPhone/iPod"
+    },
+    {
+        string: navigator.platform,
+        subString: "Linux",
+        identity: "Linux"
+    }
+ ]
+
+};
+BrowserDetect.init();
+if (BrowserDetect.browser == 'Safari') {
+    document.getElementById('applepay_show').style.display = 'block';
+} else {
+    document.getElementById('applepay_show').style.display = 'none';
+};
+
+  /* var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+  if (isSafari) {
+    $('.applepay-item').css('display', 'block');
+  } */
+  jQuery(document).ready(function(){
+      $('input:radio[name="payment_method"]').change(function(){
+          if (this.checked) {
+            $('.visa_pay_content').each(function() {
+              $( this ).remove();
+            });
+            $(this).parent().append('<div class="visa_pay_content" id="iframe_pay">{{ __('Operation is processing...') }}</div>')
+            var method = this.value;
+            $.ajax({
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: '/bills/payment_iframe/{{$bill->id}}/' + method+'/{{app()->getLocale()}}',
+                success: function (data) {
+                     $("#iframe_pay").html(data);
+                },
+                error: function() { 
+                     console.log(data);
+                }
+            });
+          }
+      });
+  });
+
+/* if ( {{$bill->is_expired}} ) {
+  $("#countdown").remove();
+  $("#payment_method").remove();
+  $("#back_btn").remove();
+  $("#status").empty();
+  $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
+} */
+
+
+/* New countdown */
+$(function(){
+	$("#hm_timer").countdowntimer({
+    minutes : {{ $bill->remaining_time}},
+		second : 0,
+    size : "lg",
+    timeUp : timeisUp
+  });
+  function timeisUp() {
+    $("#new_countdown").remove();
+    $("#payment_method").remove();
+    // $("#back_btn").remove();
+    $("#status").empty();
+    $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
+  }
 });
-</script>
-<script type="text/javascript">
+/* New countdown */
+
   Echo.channel('bill.{{$bill->id}}')
     .listen('BillStatusUpdated', (e) => {
         console.log(e.bill.id);
@@ -183,7 +359,7 @@ jQuery(document).ready(function(){
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
+            $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
             break;
           default:
             $("#payment_method").remove();

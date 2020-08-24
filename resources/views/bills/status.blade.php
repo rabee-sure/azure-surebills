@@ -8,6 +8,13 @@
       <div class="row  justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 col-xl-6">
           <div class="single_bill_content">
+            <div class="change-lang">
+            @if(App::isLocale('en'))
+              <a href="{{ $bill->pay_url }}/ar" title="عربي">عربي</a>
+            @else
+              <a href="{{ $bill->pay_url }}/en" title="English">English</a>
+            @endif
+          </div>
             @if($bill->user->logo)
               <div class="logo">
                 <img src="{{ url($bill->user->logo) }}" alt="logo">
@@ -20,8 +27,8 @@
             </div><!-- title -->
             <div id="status">
               @if($bill->status == 'expired')
-                <div class="alert alert-secondary" role="alert">
-                  this bill #{{ $bill->number }} has been expired
+                <div class="alert alert-danger" role="alert">
+                  {{ __('this bill has been expired', ['number' => $bill->number ]) }}
                 </div>
               @endif
               @if($bill->status == 'paid')
@@ -29,13 +36,13 @@
                   @if ($bill->depositTransaction)
                     Paid - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
                   @else
-                    this bill #{{ $bill->number }} paid successfully
+                  {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
                   @endif
                 </div>
               @endif
               @if($bill->status == 'canceled')
                 <div class="alert alert-danger" role="alert">
-                  this bill #{{ $bill->number }} has been canceled
+                  {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
                 </div>
               @endif
             </div>

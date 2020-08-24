@@ -1,4 +1,26 @@
 {
+	"this bill has been canceled" : "تم إلغاء الفاتورة #:number",
+	"this bill has been successfully" : "تم دفع الفاتورة #:number بنجاح",
+	"this bill has been expired" : "لفد انتهت صلاحية الفاتورة #:number",
+
+	"Day" : "يوم",
+	"Days" : "ايام",
+	"Hour" : "ساعة",
+	"Hours" : "ساعات",
+	"Minute" : "دقيقة",
+	"Minutes" : "دقائق",
+	"Second" : "ثانية",
+	"Seconds" : "ثواني",
+	"the bill will expire in" : "الفاتورة ستنتهي خلال",
+	"1 Day": "يوم",
+	"2 Day": "يومان",
+	"3 Day": "٣ ايام",
+	"7 Day": "٧ ايام",
+	"30 Day": "٣٠ يوم",
+	"60 Day": "٦٠ يوم",
+	"90 Day": "٩٠ يوم",
+	"Never": "لايوجد",
+	
 "verify your phone number": "التحقق من رقم الهاتف",
 "we sent You SMS Message Contain Apin Code": "أرسلنا لك رسالة تحتوي على الرقم السري",
 "didn’t Get The PIN": "لم أحصل على الرقم السري",
@@ -230,5 +252,9 @@
 "Product Sections" : "أقسام المنتجات",
 "Shown" : "معروض",
 "Not Shown" : "غير معروض",
-"Optional" : "إختياري"
+"Optional" : "إختياري",
+"Add Categorie" : "اضافة قسم",
+"Department Name" : "اسم القسم",
+"Arrangement" : "الترتيب",
+"Status" : "الحالة"
 }
