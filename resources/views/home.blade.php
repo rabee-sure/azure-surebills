@@ -86,26 +86,7 @@
                         </thead>
                         <tbody>
                             @foreach($latest as $bill)
-                                <tr>
-                                    <td class="py-2">
-                                      <a href="{{ route('bills.show', $bill) }}">
-                                          <p class="font-weight-bold">{{ __('Bill')}} {{ $bill->number }} - {{ $bill->customer_name }}</p>
-                                          <p class="font-weight-normal">{{ $bill->total }} {{ __('SAR')}}</p>
-                                          <time class="text-muted text-small mb-0 font-weight-light">{{ $bill->created_at }}</time>
-                                      </a>
-                                    </td>
-                                    <td class="py-2">
-                                      @if($bill->status == 'pending')
-                                      <span class="badge badge-pill badge-info d-inline-block">{{ __('Pending')}}</span>
-                                      @endif
-                                      @if($bill->status == 'paid')
-                                      <span class="badge badge-pill badge-success d-inline-block">{{ __('Paid')}}</span>
-                                      @endif             
-                                      @if($bill->status == 'canceled')
-                                      <span class="badge badge-pill badge-light d-inline-block">{{ __('Canceled')}}</span>
-                                      @endif
-                                    </td>
-                                </tr>
+                              @include('latest_bill_item')
                             @endforeach
                         </tbody>
                     </table>
