@@ -9958,6 +9958,9 @@ div.statistic_icon {
       text-align: center;
       font-size: 16px;
       margin: 7px auto;
+      &.ltr {
+        direction: ltr;
+      } /* ltr */
     } /* p */
   } /* customer_information */
 } /* show_bill_general */
