@@ -154,7 +154,7 @@ class Bill extends Model
      *
      * @var boolean
      */
-    public function getRemainingTimeAttribute()
+    public function getRemainingTimeMinutesAttribute()
     {
         $date = $this->created_at
                 ->addDays($this->expiry_date)
@@ -166,7 +166,26 @@ class Bill extends Model
         }else{
             return "00";
         }
-    }    
+    }
+
+    /**
+     * Is Expired.
+     *
+     * @var boolean
+     */
+    public function getRemainingTimesecondsAttribute()
+    {
+        $date = $this->created_at
+                ->addDays($this->expiry_date)
+                ->addMinutes($this->expiry_minutes)
+                ->addHours($this->expiry_hours);
+        if(!$this->is_expired){
+            $totalDuration = Carbon::now()->diffInSeconds($date);
+            return gmdate('s', $totalDuration);
+        }else{
+            return "00";
+        }
+    }     
 
     /**
      * Is Invalid.

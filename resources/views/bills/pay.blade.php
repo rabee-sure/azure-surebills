@@ -319,11 +319,12 @@ if (BrowserDetect.browser == 'Safari') {
 /* New countdown */
 $(function(){
 	$("#hm_timer").countdowntimer({
-    minutes : {{ $bill->remaining_time}},
-		second : 0,
+    minutes : {{ $bill->remaining_time_minutes}},
+		seconds : {{ $bill->remaining_time_seconds}},
     size : "lg",
     timeUp : timeisUp
   });
+
   function timeisUp() {
     $("#new_countdown").remove();
     $("#payment_method").remove();
