@@ -256,5 +256,7 @@
 "Add Categorie" : "اضافة قسم",
 "Department Name" : "اسم القسم",
 "Arrangement" : "الترتيب",
-"Status" : "الحالة"
+"Status" : "الحالة",
+"The merchant bears the payment fee" : "تحمل التاجر رسوم الدفع",
+"The customer bears the payment fee" : "تحمل العميل رسوم الدفع"
 }
