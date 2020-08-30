@@ -32,8 +32,7 @@
                 <div class="form-group col-6">
                   <label for="inputEmail1">{{ __('Add Tax') }}</label>
                   <div class="custom-switch custom-switch-primary mb-2">
-                    <input name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox"
-                    @if($user->settings->add_tax) checked @endif>
+                    <input name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox" @if($user->settings->add_tax) checked @endif>
                     <label class="custom-switch-btn" for="Tax_Values_Checkbox"></label>
                   </div>
                 </div><!-- form-group -->
@@ -73,8 +72,6 @@
                   <option value="en" @if($user->settings->default_lang  == 'en')selected="selected" @endif>{{ __('English') }}</option>
                 </select>
               </div><!-- form-group -->
-
-
             </div><!-- form-row -->
               <hr>
               <h1 class="mb-3">{{ __('When Bill Created') }}</h1>
@@ -128,22 +125,27 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
     $(document).ready(function () {
+      if($("#Tax_Values_Checkbox").is(':checked')){
+        $(".Tax_Values").show();
+      }else{
+        $(".Tax_Values").hide();  // To hide
+      }
       $('#Tax_Values_Checkbox').change(function() {
         $('.Tax_Values').toggle();
       });
 
       $('#arabic, #english').click(function() {
-        if($("#arabic").is(':checked') && $("#english").is(':checked')){
-          $("#default_lang").show();
-        }else{
-          $("#default_lang").hide();  // To hide
-        }
+        toggleLangSelector()
       });
-        if($("#arabic").is(':checked') && $("#english").is(':checked')){
-          $("#default_lang").show();
-        }else{
-          $("#default_lang").hide();  // To hide
-        }    });
+      toggleLangSelector()
+   });
+    function toggleLangSelector() {
+      if($("#arabic").is(':checked') && $("#english").is(':checked')){
+        $("#default_lang").show();
+      }else{
+        $("#default_lang").hide();  // To hide
+      }
+    }
   </script>
     {!! JsValidator::formRequest('App\Http\Requests\SettingsRequest', '#settings') !!}
 @endpush
