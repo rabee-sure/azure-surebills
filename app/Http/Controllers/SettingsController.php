@@ -41,7 +41,6 @@ class SettingsController extends Controller
      */
     public function postSettings(SettingsRequest $request)
     {
-        // dd($request->all());
         auth()->user()->settings()->update([
             'add_tax' => $request->add_tax,
             'tax_value' => $request->tax_value,

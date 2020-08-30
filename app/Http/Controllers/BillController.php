@@ -145,7 +145,6 @@ class BillController extends Controller
     {
         $bill = Bill::decodeId($id);
 
-        // dd($bill->is_expired);
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
         }else{

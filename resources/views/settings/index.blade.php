@@ -48,6 +48,25 @@
             <h1 class="mb-3">{{ __('Default Language for Bills') }}</h1>
             <div class="form-row">
               <div class="form-group col-md-6">
+                <label>{{ __('Active Langs') }}</label>
+
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <!-- Default checked -->
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" name="active_lang_ar" class="custom-control-input" id="arabic" @if($user->settings->active_lang  == 'ar'|| $user->settings->active_lang  == 'all') checked @endif >
+                      <label class="custom-control-label" for="arabic">{{ __('Arabic') }}</label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" name="active_lang_en" class="custom-control-input" id="english" @if($user->settings->active_lang  == 'en'|| $user->settings->active_lang  == 'all') checked @endif>
+                      <label class="custom-control-label" for="english">{{ __('English') }}</label>
+                    </div>
+                  </li>
+                </ul>
+              </div><!-- form-group -->
+              <div class="form-group col-md-6" id="default_lang">
                 <label>{{ __('Default Lang') }}</label>
                 <select name="default_lang" class="form-control">
                   <option value="ar" @if($user->settings->default_lang  == 'ar')selected="selected" @endif>{{ __('Arabic') }}</option>
@@ -55,13 +74,7 @@
                 </select>
               </div><!-- form-group -->
 
-              <div class="form-group col-md-6">
-                <label>{{ __('Active Lang') }}</label>
-                <select value="{{ $user->settings->active_lang }}" name="active_lang" class="form-control">
-                  <option value="ar" @if($user->settings->active_lang  == 'ar')selected="selected" @endif>{{ __('Arabic') }}</option>
-                  <option value="en" @if($user->settings->active_lang  == 'en')selected="selected" @endif>{{ __('English') }}</option>
-                </select>
-              </div><!-- form-group -->
+
             </div><!-- form-row -->
               <hr>
               <h1 class="mb-3">{{ __('When Bill Created') }}</h1>
@@ -118,7 +131,19 @@
       $('#Tax_Values_Checkbox').change(function() {
         $('.Tax_Values').toggle();
       });
-    });
+
+      $('#arabic, #english').click(function() {
+        if($("#arabic").is(':checked') && $("#english").is(':checked')){
+          $("#default_lang").show();
+        }else{
+          $("#default_lang").hide();  // To hide
+        }
+      });
+        if($("#arabic").is(':checked') && $("#english").is(':checked')){
+          $("#default_lang").show();
+        }else{
+          $("#default_lang").hide();  // To hide
+        }    });
   </script>
     {!! JsValidator::formRequest('App\Http\Requests\SettingsRequest', '#settings') !!}
 @endpush
