@@ -47,6 +47,7 @@ class Transaction extends Model
             $transaction->card        = 'XXX' . $paymentResponse['card']['last4Digits'];
         } else if ($payment->payment_method == 'hyperpay_applepay') {
             $transaction->card_brand  = 'APPLEPAY';
+            $transaction->card        = 'XXX' . $paymentResponse['card']['last4Digits'];
         }
         $transaction->balance     = $transaction->user->balance + $transaction->amount;
         $transaction->save();
