@@ -23,7 +23,7 @@
             <li>{{ __('2.95% + 1 SAR on each transaction') }}</li>
             <li>{{ __('No incorporation fees') }}</li>
             <li>{{ __('No monthly fees') }}</li>
-            <li>{{ __('8 SAR balance transfer fee for the merchant account') }}</li>
+            <li>{{ __('Transfer every 7 days after deducting the transfer fee') }}</li>
           </ul>
         </div><!-- pricing_item -->
         <div class="pricing_item choose_payment">
