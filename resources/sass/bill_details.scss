@@ -228,6 +228,9 @@ body {
       text-align: center;
       font-size: 16px;
       margin: 7px auto;
+      &.ltr {
+        direction: ltr;
+      } /* ltr */
     } /* p */
   } /* customer_information */
   .payment_method {

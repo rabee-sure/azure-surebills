@@ -89,7 +89,7 @@
       <div class="shopping_cart">
         @foreach($bill->items as $item)
           <div class="details_pay">
-            <p>{{ $item->product_name }}</p>
+            <p>{!! $item->product_name !!}</p>
             <b>X {{ $item->quantity  }}</b>
             <b>{{ $item->product_price  }} {{ __('SAR') }}</b>
           </div><!-- details_pay -->
@@ -116,7 +116,7 @@
       <div class="customer_information">
         <!-- <div class="name">Customer Information</div> -->
         <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
-        <p>+966{{ $bill->customer_mobile}}</p>
+        <p class="ltr">+966{{ $bill->customer_mobile}}</p>
         <p>{{ $bill->customer_email}}</p>
       </div><!-- customer_information -->
     </div><!-- show_bill_general -->  

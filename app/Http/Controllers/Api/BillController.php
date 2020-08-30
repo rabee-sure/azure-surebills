@@ -166,5 +166,29 @@ class BillController extends Controller
         }else{
             return response()->json(['success' => false]);
         }
+    }    
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function timeout($id, CheckBillApiRequest $request)
+    {
+        $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+        $bill = Bill::find($id);
+
+        if(isset($application) && $application->id == $bill->application_id){
+            if($bill->status != 'expired'){
+                $bill->status = 'expired';
+                $bill->save();
+                event( new BillStatusUpdated($bill) );
+            }
+
+            return new BillResource($bill);
+        }else{
+            return response()->json(['success' => false]);
+        }
     }
 }
