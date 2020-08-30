@@ -42987,8 +42987,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "",
-  cluster: "mt1",
+  key: "07d79e76fc461d7c2567",
+  cluster: "eu",
   forceTLS: true
 });
 
@@ -43480,12 +43480,12 @@ module.exports = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\doretheme\dore.dark.green.scss */"./resources/sass/doretheme/dore.dark.green.scss");
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\doretheme\dore.light.green.scss */"./resources/sass/doretheme/dore.light.green.scss");
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\app.scss */"./resources/sass/app.scss");
-__webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\bill_details.scss */"./resources/sass/bill_details.scss");
-module.exports = __webpack_require__(/*! C:\wamp64\www\Git_Projects\sure-bills\resources\sass\store.scss */"./resources/sass/store.scss");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/doretheme/dore.dark.green.scss */"./resources/sass/doretheme/dore.dark.green.scss");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/doretheme/dore.light.green.scss */"./resources/sass/doretheme/dore.light.green.scss");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/bill_details.scss */"./resources/sass/bill_details.scss");
+module.exports = __webpack_require__(/*! /Users/abdullahghanem/code/sure-bills/resources/sass/store.scss */"./resources/sass/store.scss");
 
 
 /***/ })

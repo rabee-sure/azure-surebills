@@ -162,7 +162,7 @@ body.background main .container {
 .logo-single {
   width: 130px;
   height: 50px;
-  background: url(/images/logo-white.svg?58d366ecb7c350445cb75cd98b376984) no-repeat;
+  background: url(/images/logo-white.svg?089ca22305d573a448fb5befbd5225b3) no-repeat;
   background-position: center center;
   display: inline-block;
   margin-bottom: 60px;
@@ -2004,7 +2004,7 @@ button {
 .logo {
   width: 130px;
   height: 50px;
-  background: url(/images/logo-white.svg?58d366ecb7c350445cb75cd98b376984) no-repeat;
+  background: url(/images/logo-white.svg?089ca22305d573a448fb5befbd5225b3) no-repeat;
   background-position: center center;
   margin: 0 auto;
 }
@@ -2018,7 +2018,7 @@ button {
 .logo-mobile {
   width: 70px;
   height: 45px;
-  background: url(/images/logo-mobile.svg?0cb4fe39c13e6e1b53c4108722255493) no-repeat;
+  background: url(/images/logo-mobile.svg?89530c175aa362bb84dd552b48555b37) no-repeat;
   background-position: center center;
 }
 
@@ -10155,19 +10155,19 @@ div.statistic_icon {
 }
 
 div.statistic_icon.balance_icon {
-  background-image: url(/images/balance.svg?5d7d9154ca690d7f7b7014bb980bad1b);
+  background-image: url(/images/balance.svg?d4799bdc61febbcf43670b9e3a0fe20d);
 }
 
 div.statistic_icon.available_balance_icon {
-  background-image: url(/images/available-balance.svg?bc748cf1ad490d13cf3ef106c1e1ce42);
+  background-image: url(/images/available-balance.svg?691a2e3a86dc78ee84d2f60f0accbb7e);
 }
 
 div.statistic_icon.pending_balance_icon {
-  background-image: url(/images/pending-balance.svg?2a5a3be6515ccaea91e2853d386318bf);
+  background-image: url(/images/pending-balance.svg?777a3e25b138739d928c9640f03879b0);
 }
 
 div.statistic_icon.settlements_icon {
-  background-image: url(/images/settlements.svg?54c7ba1e0c1c542fd30a345091915782);
+  background-image: url(/images/settlements.svg?f13436bb6499ce42dcb0b20293f21e1d);
 }
 
 div.statistic_icon::before {
