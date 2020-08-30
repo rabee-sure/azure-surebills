@@ -20,11 +20,10 @@
             <span class="apple_pay"></span>
           </div><!-- visa_master_icons -->
           <ul>
-            <li>2.95% + 1 ريال على كل عملية</li>
-            <li>بدون رسوم تأسيس</li>
-            <li>بدون رسوم شهرية</li>
-            <li>8 ريال رسوم تحويل الرصيد لحساب التاجر</li>
-            <li></li>
+            <li>{{ __('2.95% + 1 SAR on each transaction') }}</li>
+            <li>{{ __('No incorporation fees') }}</li>
+            <li>{{ __('No monthly fees') }}</li>
+            <li>{{ __('Transfer every 7 days after deducting the transfer fee') }}</li>
           </ul>
         </div><!-- pricing_item -->
         <div class="pricing_item choose_payment">

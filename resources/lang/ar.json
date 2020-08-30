@@ -259,5 +259,9 @@
 "Arrangement" : "الترتيب",
 "Status" : "الحالة",
 "The merchant bears the payment fee" : "تحمل التاجر رسوم الدفع",
-"The customer bears the payment fee" : "تحمل العميل رسوم الدفع"
+"The customer bears the payment fee" : "تحمل العميل رسوم الدفع",
+"No incorporation fees" : "بدون رسوم تأسيس",
+"No monthly fees" : "بدون رسوم شهرية",
+"2.95% + 1 SAR on each transaction" : "2.95% + 1 ريال على كل عملية",
+"Transfer every 7 days after deducting the transfer fee" : "تحويل كل 7 أيام بعد خصم رسوم التحويل"
 }
