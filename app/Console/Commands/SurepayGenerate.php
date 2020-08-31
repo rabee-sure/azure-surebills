@@ -2,10 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Application;
 use App\Bill;
 use App\Events\BillStatusUpdated;
+use App\Events\UserCreated;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class SurepayGenerate extends Command
 {
@@ -14,7 +19,7 @@ class SurepayGenerate extends Command
      *
      * @var string
      */
-    protected $signature = 'Surepay:generate';
+    protected $signature = 'surepay:generate';
 
     /**
      * The console command description.
@@ -40,29 +45,35 @@ class SurepayGenerate extends Command
      */
     public function handle()
     {
-        $user                  = new User;
-        $user->business_name   = 'surepay';
-        $user->name            = 'sure easy admin';
-        $user->email           = 'admin@sure';
-        $user->mobile          = $request->mobile;
-        $user->fandaqah_user   = true;
-        $user->password        = $request->email . $request->name;
+        $email = $this->ask('What is your email?', 'admin@surepay.sa');
+        $password = $this->secret('What is the password?');
+        $website = $this->ask('What is surepay website?','https://surepay.sa/');
+
+         $user = User::updateOrCreate([
+            'business_name' => 'surepay'
+        ],[
+            'name'     => 'sure easy admin',
+            'email'    => $email,
+            'mobile'   => '500000000',
+            'password' => Hash::make($password),
+        ]);
         $user->save();
         event(new UserCreated($user));
+        $user->applications()->delete();
 
         $application = new Application;
         $application->user_id           = $user->id;
-        $application->name              = 'FANDAQAH';
+        $application->name              = 'surepay';
         $application->secret            = Str::random(20);
-        $application->redirect          = $request->redirect_url;
-        $application->webhook_url       = $request->webhook_url;
+        $application->redirect          = $website .'easy/offer/callback';
+        $application->webhook_url       = $website .'easy/offer/callback';
         $application->webhook_secret    = Str::random(20);
         $application->save();
 
-        return [
-            'client_id'      => $application->id,
-            'secret'         => $application->secret,
-            'webhook_secret' => $application->webhook_secret
-        ];
+        $this->comment('--> ClIENT ID');
+        $this->info($application->id);        
+        $this->comment('--> SECRET');
+        $this->info($application->secret);
+
     }
 }
