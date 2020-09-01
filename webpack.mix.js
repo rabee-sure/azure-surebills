@@ -15,7 +15,7 @@ mix.js('resources/js/app.js', 'public/js')
     .scripts([
         "public/js/jquery-3.3.1.min.js",
         "public/js/bootstrap.bundle.min.js"
-    ],'public/js/jbootstrap.js')
+    ],'public/js/jbootstrap.js').sourceMaps()
     .scripts([
         "public/js/Chart.bundle.min.js",
         "public/js/chartjs-plugin-datalabels.js",
@@ -32,7 +32,7 @@ mix.js('resources/js/app.js', 'public/js')
         "public/js/mousetrap.min.js",
         // "public/js/dore.script.js",
         "public/js/scripts.js",
-    ],'public/js/all.js')
+    ],'public/js/all.js').sourceMaps()
     .styles([
         "public/fonts/iconsmind-s/css/iconsminds.css",
         "public/fonts/simple-line-icons/css/simple-line-icons.css",
