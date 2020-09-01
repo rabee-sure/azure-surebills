@@ -9,10 +9,12 @@
         <div class="col-12 col-md-8 col-lg-6 col-xl-6">
           <div class="single_bill_content">
             <div class="change-lang">
-            @if(App::isLocale('en'))
-              <a href="{{ $bill->pay_url }}/ar" title="عربي">عربي</a>
-            @else
-              <a href="{{ $bill->pay_url }}/en" title="English">English</a>
+            @if(auth()->user()->settings->active_lang == 'all')
+              @if(App::isLocale('en'))
+                <a href="{{ $bill->pay_url }}/ar" title="عربي">عربي</a>
+              @else
+                <a href="{{ $bill->pay_url }}/en" title="English">English</a>
+              @endif
             @endif
           </div>
             @if($bill->user->logo)
@@ -61,7 +63,7 @@
             <div class="shopping_cart">
               @foreach($bill->items as $item)
                 <div class="details_pay">
-                  <p>{{ $item->product_name }}</p>
+                  <p>{!! $item->product_name !!}</p>
                   <b>X {{ $item->quantity  }}</b>
                   <b>{{ $item->product_price  }} {{ __('SAR') }}</b>
                 </div><!-- details_pay -->

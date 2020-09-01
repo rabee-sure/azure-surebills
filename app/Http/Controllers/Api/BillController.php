@@ -35,6 +35,8 @@ class BillController extends Controller
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $user = $application->user;
 
+        
+
         $customer = Customer::updateOrCreate([
             'user_id' => $user->id,
             'mobile' => $request->customer_mobile,

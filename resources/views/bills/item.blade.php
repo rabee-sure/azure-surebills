@@ -28,7 +28,8 @@
 
 @push('footer-scripts')
 <script type="text/javascript">
-  console.log('bill.{{$bill->id}}');
+  console.log('bill status: {{$bill->status}} _ id : {{$bill->id}}');
+
   Echo.channel('bill.{{$bill->id}}')
     .listen('BillStatusUpdated', (e) => {
         console.log(e.bill.id);

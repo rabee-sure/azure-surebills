@@ -30,8 +30,8 @@ class CreateSettingsForUser
         $settings = Settings::create([
             'add_tax' => false,
             'tax_value' => 0,
-            'default_lang' => 'en',
-            'active_lang' => 'en',
+            'default_lang' => 'ar',
+            'active_lang' => 'all',
             'create_send_sms' => false,
             'create_send_email' => false,
             'paid_send_sms' => false,

@@ -24,18 +24,16 @@ class TestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function test()
+    public function test(Request $request)
     {
-        $bill = Bill::find('3454f034-4425-4b74-9454-268551d6e3d5');
+        $bill = Bill::all()->random();
+        if($request->has('id')){
+            $bill = Bill::find($request->get('id'));
+        }
         event( new BillStatusUpdated($bill) );
         dd($bill);
     } 
 
-    public function decode(string $hex): string
-    {
-        return array_reduce([20, 16, 12, 8], function ($uuid, $offset) {
-            return substr_replace($uuid, '-', $offset, 0);
-        }, str_pad($hex, 32, '0', STR_PAD_LEFT));
-    }
+
  
 }
