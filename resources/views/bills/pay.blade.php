@@ -12,7 +12,7 @@
       <div class="col-12 col-md-8 col-lg-6 col-xl-6">
         <div class="single_bill_content">
           <div class="change-lang">
-            @if(auth()->user()->settings->active_lang == 'all')
+            @if($bill->user->settings->active_lang == 'all')
               @if(App::isLocale('en'))
                 <a href="{{ $bill->pay_url }}/ar" title="عربي">عربي</a>
               @else
