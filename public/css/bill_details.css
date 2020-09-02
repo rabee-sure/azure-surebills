@@ -10989,6 +10989,9 @@ body {
   text-align: center;
   font-size: 15px;
   text-transform: capitalize;
+  color: #3e884f;
+  background: #d3e2d6;
+  border-color: rgba(62, 136, 79, 0.1);
 }
 
 .single_bill_page .logo {
