@@ -9829,6 +9829,7 @@ div.statistic_icon {
       font-size: 18px;
       text-transform: capitalize;
       margin: 0 auto 5px;
+      text-align: center;
     } /* span */
     p {
       display: block;
@@ -9836,6 +9837,7 @@ div.statistic_icon {
       font-size: 14px;
       line-height: 1.1;
       color: #444;
+      text-align: center;
     } /* p */
     b {
       display: block;
@@ -9843,8 +9845,16 @@ div.statistic_icon {
       font-size: 14px;
       color: #444;
       font-weight: normal;
+      text-align: center;
     } /* b */
   } /* title */
+  #status {
+    .alert {
+      text-align: center;
+      font-size: 15px;
+      text-transform: capitalize;
+    } /* alert */
+  } /* status */
   .date_time {
     display: flex;
     align-items: center;

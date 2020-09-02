@@ -10987,10 +10987,8 @@ body {
 
 .single_bill_page .alert {
   text-align: center;
-  font-weight: bold;
-  font-size: 14px;
+  font-size: 15px;
   text-transform: capitalize;
-  margin: 0 auto 30px;
 }
 
 .single_bill_page .logo {
