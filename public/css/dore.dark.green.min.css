@@ -162,7 +162,7 @@ body.background main .container {
 .logo-single {
   width: 130px;
   height: 50px;
-  background: url(/images/logo-white.svg?089ca22305d573a448fb5befbd5225b3) no-repeat;
+  background: url(/images/logo-white.svg?58d366ecb7c350445cb75cd98b376984) no-repeat;
   background-position: center center;
   display: inline-block;
   margin-bottom: 60px;
@@ -2004,7 +2004,7 @@ button {
 .logo {
   width: 130px;
   height: 50px;
-  background: url(/images/logo-white.svg?089ca22305d573a448fb5befbd5225b3) no-repeat;
+  background: url(/images/logo-white.svg?58d366ecb7c350445cb75cd98b376984) no-repeat;
   background-position: center center;
   margin: 0 auto;
 }
@@ -2018,7 +2018,7 @@ button {
 .logo-mobile {
   width: 70px;
   height: 45px;
-  background: url(/images/logo-mobile.svg?89530c175aa362bb84dd552b48555b37) no-repeat;
+  background: url(/images/logo-mobile.svg?0cb4fe39c13e6e1b53c4108722255493) no-repeat;
   background-position: center center;
 }
 
@@ -10155,19 +10155,19 @@ div.statistic_icon {
 }
 
 div.statistic_icon.balance_icon {
-  background-image: url(/images/balance.svg?d4799bdc61febbcf43670b9e3a0fe20d);
+  background-image: url(/images/balance.svg?5d7d9154ca690d7f7b7014bb980bad1b);
 }
 
 div.statistic_icon.available_balance_icon {
-  background-image: url(/images/available-balance.svg?691a2e3a86dc78ee84d2f60f0accbb7e);
+  background-image: url(/images/available-balance.svg?bc748cf1ad490d13cf3ef106c1e1ce42);
 }
 
 div.statistic_icon.pending_balance_icon {
-  background-image: url(/images/pending-balance.svg?777a3e25b138739d928c9640f03879b0);
+  background-image: url(/images/pending-balance.svg?2a5a3be6515ccaea91e2853d386318bf);
 }
 
 div.statistic_icon.settlements_icon {
-  background-image: url(/images/settlements.svg?f13436bb6499ce42dcb0b20293f21e1d);
+  background-image: url(/images/settlements.svg?54c7ba1e0c1c542fd30a345091915782);
 }
 
 div.statistic_icon::before {
@@ -10189,6 +10189,7 @@ div.statistic_icon::before {
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
   /* logo_bill */
   /* title */
+  /* status */
   /* date_time */
   /* shopping_cart */
   /* customer_notes */
@@ -10225,6 +10226,7 @@ div.statistic_icon::before {
   font-size: 18px;
   text-transform: capitalize;
   margin: 0 auto 5px;
+  text-align: center;
 }
 
 .show_bill_general .title p {
@@ -10233,6 +10235,7 @@ div.statistic_icon::before {
   font-size: 14px;
   line-height: 1.1;
   color: #444;
+  text-align: center;
 }
 
 .show_bill_general .title b {
@@ -10241,6 +10244,17 @@ div.statistic_icon::before {
   font-size: 14px;
   color: #444;
   font-weight: normal;
+  text-align: center;
+}
+
+.show_bill_general #status {
+  /* alert */
+}
+
+.show_bill_general #status .alert {
+  text-align: center;
+  font-size: 15px;
+  text-transform: capitalize;
 }
 
 .show_bill_general .date_time {
