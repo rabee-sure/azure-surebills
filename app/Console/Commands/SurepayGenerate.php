@@ -50,10 +50,10 @@ class SurepayGenerate extends Command
         $website = $this->ask('What is surepay website?','https://surepay.sa/');
 
          $user = User::updateOrCreate([
-            'business_name' => 'surepay'
-        ],[
-            'name'     => 'sure easy admin',
             'email'    => $email,
+        ],[
+            'business_name' => 'surepay',
+            'name'     => 'sure easy admin',
             'mobile'   => '500000000',
             'password' => Hash::make($password),
         ]);
@@ -74,6 +74,8 @@ class SurepayGenerate extends Command
         $this->info($application->id);        
         $this->comment('--> SECRET');
         $this->info($application->secret);
+        $this->comment('-->WEBHOOK SECRET');
+        $this->info($application->webhook_secret);
 
     }
 }
