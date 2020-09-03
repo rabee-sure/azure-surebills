@@ -122,7 +122,7 @@ class Bill extends Model
      */
     public function getBackUrlAttribute()
     {
-        return $this->application->redirect.'?reference_id='.$this->reference_id.'&status=fail&bill_id='.$this->id;
+        return $this->application->redirect.'?reference_id='.$this->reference_id.'&status=fail&bill_id='.$this->id.'&pay_url='.$this->pay_url;
     }   
 
     /**
