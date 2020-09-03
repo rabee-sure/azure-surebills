@@ -27,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
         ],        
         'App\Events\UserCreated' => [
             'App\Listeners\CreateSettingsForUser',
+        ],             
+        'App\Events\BillStatusUpdated' => [
+            'App\Listeners\CallbackApplication',
         ],        
         'App\Events\BillPaid' => [
             'App\Listeners\CalculatePaymentFees',
