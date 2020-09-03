@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Application;
 use App\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -25,11 +26,21 @@ class BillApiRequest extends FormRequest
      */
     public function rules()
     {
+        $application = Application::whereId($this->application_id)
+                        ->whereSecret($this->application_secret)
+                        ->first();
         return [
             'application_id' => ['required'],
             'application_secret' => ['required'],
 
-            'reference_id' => ['required', 'string', 'max:255'],
+            'reference_id' => [
+                'required', 
+                'string', 
+                'max:255', 
+                Rule::unique('bills')->where(function ($query) use ($application) {
+                    return $query->where('user_id', $application->user_id ?? null)->where('status', 'pending');
+                })
+            ],
             'customer_name' => ['required', 'string', 'max:255'],
             'customer_email' => ['required', 'string', 'email', 'max:255'],
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],

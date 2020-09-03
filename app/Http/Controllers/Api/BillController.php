@@ -8,6 +8,7 @@ use App\BillItem;
 use App\Customer;
 use App\Events\BillCreated;
 use App\Events\BillStatusUpdated;
+use App\Exceptions\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\CheckBillApiRequest;
@@ -33,9 +34,7 @@ class BillController extends Controller
     public function store(BillApiRequest $request)
     {
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
-        $user = $application->user;
-
-        
+        $user = $application->user ?? null;
 
         $customer = Customer::updateOrCreate([
             'user_id' => $user->id,
