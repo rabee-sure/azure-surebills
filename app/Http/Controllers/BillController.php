@@ -113,9 +113,6 @@ class BillController extends Controller
            $vat = ($sub_total -$discount) * $request->tax_value /100;
         }
 
-dump($request);
-dd($vat);
-
         $bill->discount = $discount;
         $bill->vat = $vat;
         $bill->number = $bill->getNumber();
