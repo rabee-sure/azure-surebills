@@ -33,8 +33,11 @@ class BillController extends Controller
      */
     public function store(BillApiRequest $request)
     {
+        logger('api create bill');
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $user = $application->user ?? null;
+
+        Bill::where('reference_id', $request->reference_id)->where('user_id', $application->user_id ?? null)->where('status', 'pending')->update(['status' => 'canceled']);
 
         $customer = Customer::updateOrCreate([
             'user_id' => $user->id,
@@ -73,10 +76,6 @@ class BillController extends Controller
             'reference_id' => $request->reference_id,
         ]);
 
-        if($user->settings->add_tax){
-            $bill->add_tax = $user->settings->add_tax;
-            $bill->tax_value = $user->settings->tax_value;
-        }
         if($user->settings->create_send_sms){
             $bill->send_sms = $user->settings->create_send_sms;
         }
@@ -108,10 +107,20 @@ class BillController extends Controller
                     $discount = $sub_total * $request->discount_value / 100;
                     break;
             }
-        } 
+        }
+
+        if($request->add_tax ){
+            $bill->add_tax = $request->add_tax;
+            $bill->tax_value = $request->tax_value;
+        }elseif($user->settings->add_tax){
+            $bill->add_tax = $user->settings->add_tax;
+            $bill->tax_value = $user->settings->tax_value;      
+        }
 
         if($request->add_tax){
            $vat = ($sub_total -$discount) * $request->tax_value /100;
+        }elseif($user->settings->add_tax){
+            $vat = ($sub_total -$discount) * $user->settings->tax_value /100;
         }
 
         $bill->discount = $discount;
