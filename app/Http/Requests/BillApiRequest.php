@@ -26,9 +26,9 @@ class BillApiRequest extends FormRequest
      */
     public function rules()
     {
-        $application = Application::whereId($this->application_id)
-                        ->whereSecret($this->application_secret)
-                        ->first();
+        // $application = Application::whereId($this->application_id)
+        //                 ->whereSecret($this->application_secret)
+        //                 ->first();
         return [
             'application_id' => ['required'],
             'application_secret' => ['required'],
@@ -37,9 +37,9 @@ class BillApiRequest extends FormRequest
                 'required', 
                 'string', 
                 'max:255', 
-                Rule::unique('bills')->where(function ($query) use ($application) {
-                    return $query->where('user_id', $application->user_id ?? null)->where('status', 'pending');
-                })
+                // Rule::unique('bills')->where(function ($query) use ($application) {
+                //     return $query->where('user_id', $application->user_id ?? null)->where('status', 'pending');
+                // })
             ],
             'customer_name' => ['required', 'string', 'max:255'],
             'customer_email' => ['required', 'string', 'email', 'max:255'],
