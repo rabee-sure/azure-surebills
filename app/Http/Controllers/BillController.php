@@ -51,17 +51,18 @@ class BillController extends Controller
      */
     public function store(BillRequest $request)
     {
+        $user = auth()->user();
         $customer = Customer::updateOrCreate([
             'mobile' => $request->customer_mobile,
-            'user_id' => auth()->user()->id,
+            'user_id' => $user->id,
         ],[
             'name' => $request->customer_name, 
             'email' => $request->customer_email,
         ]);
 
         $bill = Bill::create([
-            'user_id' => auth()->user()->id,
-            'business_name' => auth()->user()->business_name,
+            'user_id' => $user->id,
+            'business_name' => $user->business_name,
             'customer_id' => $customer->id,
             'customer_name' => $request->customer_name,
             'customer_email' => $request->customer_email,
@@ -98,26 +99,33 @@ class BillController extends Controller
         $sub_total = $bill->items->sum('total');
         $discount = 0;
         $vat = 0;
+        $payment_fees = 0;
+
+        if($user->pay_fees == "client"){
+            $payment_fees = ($sub_total * ($user->price_percentage / 100)) + $user->price_fixed;
+        }
+
         if($request->add_discount){
             switch ($request->discount_type) {
                 case 'fixed':
                     $discount = $request->discount_value;
                     break;
                 case 'percentage':
-                    $discount = $sub_total * $request->discount_value / 100;
+                    $discount = ($sub_total + $payment_fees) * $request->discount_value / 100;
                     break;
             }
         } 
 
         if($request->add_tax){
-           $vat = ($sub_total -$discount) * $request->tax_value /100;
+           $vat = ($sub_total + $payment_fees - $discount) * $request->tax_value /100;
         }
 
+        $bill->payment_fees = $payment_fees;
         $bill->discount = $discount;
         $bill->vat = $vat;
         $bill->number = $bill->getNumber();
         $bill->sub_total = $sub_total;
-        $bill->total = $sub_total - $discount + $vat;
+        $bill->total = $sub_total + $payment_fees - $discount + $vat;
         $bill->save();
         
         event(new BillCreated($bill));
