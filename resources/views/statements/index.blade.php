@@ -18,10 +18,19 @@
             <li class="breadcrumb-item active" aria-current="page">{{ __('Statement')}}</li>
           </ol>
         </nav>
+
+        <div class="collapse dont-collapse-sm" id="displayOptions">
+          <div class="d-block d-md-inline-block">
+            <div class="search-sm calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
+              <input class="form-control sdatepicker" placeholder="Search by day">
+            </div>
+          </div>  
+        </div>
       </div>
        
       <div class="separator mb-5"></div>
     </div>
+
   </div>
   @if($statement->count())
     <div class="row">
@@ -78,3 +87,37 @@
     </div><!-- no_bills_yet -->
   @endif
 @endsection
+
+@push('footer-scripts')
+    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+  <script type="text/javascript">
+  var getUrlParameter = function getUrlParameter(sParam) {
+      var sPageURL = window.location.search.substring(1),
+          sURLVariables = sPageURL.split('&'),
+          sParameterName,
+          i;
+
+      for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=');
+
+          if (sParameterName[0] === sParam) {
+              return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+          }
+      }
+  };
+  if ($().datepicker) {
+    var date = getUrlParameter('date');
+
+    $('.sdatepicker').datepicker('update', date ? date :new Date())
+    .on('changeDate', function(e) {
+      var d = new Date(e.date);
+      var datestring =  (d.getMonth()+1) + "/" +  d.getDate()+ "/" + d.getFullYear();
+
+      var dateParam = '?date=' + datestring;
+      window.history.pushState('', '', dateParam);
+      location.reload();
+    });
+  }
+
+  </script>
+@endpush
