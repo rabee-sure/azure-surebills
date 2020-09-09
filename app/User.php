@@ -43,12 +43,9 @@ class User extends Authenticatable
         'beneficiary_name',
 
         //bank princing
-        'credit_cards_percentage',
-        'mada_percentage',
-        'credit_cards_fixed',
-        'mada_fixed',
-        'credit_cards_pay_fees',
-        'mada_pay_fees',
+        'price_percentage',
+        'price_fixed',
+        'pay_fees'
     ];
 
     /**
