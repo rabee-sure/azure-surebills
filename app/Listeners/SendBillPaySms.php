@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Multicaret\Unifonic\UnifonicFacade;
 
-class SendBillPaySms
+class SendBillPaySms implements ShouldQueue
 {
     /**
      * Create the event listener.
