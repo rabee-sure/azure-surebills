@@ -22,7 +22,7 @@
         <div class="collapse dont-collapse-sm" id="displayOptions">
           <div class="d-block d-md-inline-block">
             <div class="search-sm calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
-              <input class="form-control sdatepicker" placeholder="Search by day">
+              <input class="form-control" name="dates" placeholder="Search by day">
             </div>
           </div>  
         </div>
@@ -89,35 +89,35 @@
 @endsection
 
 @push('footer-scripts')
-    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <script type="text/javascript">
-  var getUrlParameter = function getUrlParameter(sParam) {
-      var sPageURL = window.location.search.substring(1),
-          sURLVariables = sPageURL.split('&'),
-          sParameterName,
-          i;
+      var getUrlParameter = function getUrlParameter(sParam) {
+          var sPageURL = window.location.search.substring(1),
+              sURLVariables = sPageURL.split('&'),
+              sParameterName,
+              i;
 
-      for (i = 0; i < sURLVariables.length; i++) {
-          sParameterName = sURLVariables[i].split('=');
+          for (i = 0; i < sURLVariables.length; i++) {
+              sParameterName = sURLVariables[i].split('=');
 
-          if (sParameterName[0] === sParam) {
-              return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+              if (sParameterName[0] === sParam) {
+                  return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+              }
           }
-      }
-  };
-  if ($().datepicker) {
-    var date = getUrlParameter('date');
+      };
 
-    $('.sdatepicker').datepicker('update', date ? date :new Date())
-    .on('changeDate', function(e) {
-      var d = new Date(e.date);
-      var datestring =  (d.getMonth()+1) + "/" +  d.getDate()+ "/" + d.getFullYear();
-
-      var dateParam = '?date=' + datestring;
-      window.history.pushState('', '', dateParam);
-      location.reload();
-    });
-  }
-
+      $(function() {
+        $('input[name="dates"]').daterangepicker({
+          opens: 'left',
+          startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"), 
+          endDate: getUrlParameter('date_to')?getUrlParameter('date_to'):moment(new Date()).format("MM/DD/YYYY"),
+        }, function(start, end, label) {
+            var dateParam = '?date_start=' + start.format('MM/DD/YYYY') + '&date_to='+end.format('MM/DD/YYYY');
+            window.history.pushState('', '', dateParam);
+            location.reload();
+        });
+      });
   </script>
 @endpush
