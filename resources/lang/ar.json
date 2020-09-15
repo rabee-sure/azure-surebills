@@ -264,5 +264,7 @@
 "No incorporation fees" : "بدون رسوم تأسيس",
 "No monthly fees" : "بدون رسوم شهرية",
 "SAR on each transaction" : " ريال على كل عملية",
+"SAR on each mada transaction" : " ريال على كل عملية دفع عن طريق مدى",
+"SAR on each Credit Card transaction" : " ريال على كل عملية دفع عن طريق البطاقة الائتمانية",
 "Transfer every 7 days after deducting the transfer fee" : "تحويل كل 7 أيام بعد خصم رسوم التحويل"
 }
