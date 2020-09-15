@@ -15,10 +15,13 @@ class StatementController extends Controller
      */
     public function index(Request $request)
     {
-        $date = $request->date ?? Carbon::today()->format('m/d/Y');
-        
-        $statement = auth()->user()->statement()->when($date, function($q) use($date){
-            $q->whereDate('created_at', Carbon::parse($date));
+        $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
+        $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
+        // dd($date_to);
+        $statement = auth()->user()->statement()->when($date_start, function($q) use($date_start, $date_to){
+            $q->whereDate('created_at', '>=', Carbon::parse($date_start))
+                ->whereDate('created_at', '<=', Carbon::parse($date_to))
+                ;
         })->get();
         return view('statements.index', ['statement' => $statement]);
     }
