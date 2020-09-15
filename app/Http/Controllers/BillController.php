@@ -102,7 +102,7 @@ class BillController extends Controller
         $payment_fees = 0;
 
         if($user->pay_fees == "client"){
-            $payment_fees = ($sub_total * ($user->price_percentage / 100)) + $user->price_fixed;
+            $payment_fees = ($sub_total * ($user->credit_cards_percentage / 100)) + $user->credit_cards_fixed;
         }
 
         if($request->add_discount){
