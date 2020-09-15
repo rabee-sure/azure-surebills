@@ -35,9 +35,13 @@ class CalculatePaymentFees
         $log = $event->bill->success_payment;
 
         if($log){
+
+            $percentage = (isset($log->results['response']['paymentBrand'])  && $log->results['response']['paymentBrand'] == 'MADA') ? $user->mada_percentage : $user->credit_cards_percentage;
+            $fixed = (isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MADA') ? $user->mada_fixed : $user->credit_cards_fixed;
+
             $bill->settled = false;
-            $bill->pricing_fees_details = $user->price_percentage.'%,'. $user->price_fixed;
-            $bill->payment_fees = $bill->sub_total * ($user->price_percentage / 100) + $user->price_fixed;
+            $bill->pricing_fees_details = $percentage.'%,'. $fixed;
+            $bill->payment_fees = $bill->total * ($percentage / 100) + $fixed;
             $bill->save();
         }
 

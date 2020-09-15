@@ -37,7 +37,7 @@ class UpdatePricingFixedToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('pay_fees');
             $table->dropColumn('price_fixed');
-            $table->dropColumn('mada_fixed');
+            $table->dropColumn('price_percentage');
         });
     }
 }
