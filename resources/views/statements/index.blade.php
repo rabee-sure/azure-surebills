@@ -111,6 +111,45 @@
       $(function() {
         $('input[name="dates"]').daterangepicker({
           opens: 'left',
+          locale: {
+              daysOfWeek: [
+                  '{{__('Sun')}}',
+                  '{{__('Mon')}}',
+                  '{{__('Tue')}}',
+                  '{{__('Wed')}}',
+                  '{{__('Thur')}}',
+                  '{{__('Fri')}}',
+                  '{{__('Sat')}}'
+              ],
+              monthNames: [
+                  '{{__('January')}}',
+                  '{{__('February')}}',
+                  '{{__('March')}}',
+                  '{{__('April')}}',
+                  '{{__('May')}}',
+                  '{{__('June')}}',
+                  '{{__('July')}}',
+                  '{{__('August')}}',
+                  '{{__('September')}}',
+                  '{{__('October')}}',
+                  '{{__('November')}}',
+                  '{{__('December')}}'
+              ],
+              fromLabel: '{{__('from')}}',
+              toLabel: '{{__('to')}}',
+              applyLabel: '{{__('apply')}}',
+              cancelLabel:'{{__('cancel')}}',
+              customRangeLabel: '{{__('custom Range')}}',
+              weekLabel: '{{__('week')}}',
+          },
+          ranges: {
+             '{{__('Today')}}': [moment(), moment()],
+             '{{__('Yesterday')}}': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+             '{{__('Last 7 Days')}}': [moment().subtract(6, 'days'), moment()],
+             '{{__('Last 30 Days')}}': [moment().subtract(29, 'days'), moment()],
+             '{{__('This Month')}}': [moment().startOf('month'), moment().endOf('month')],
+             '{{__('Last Month')}}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
           startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"), 
           endDate: getUrlParameter('date_to')?getUrlParameter('date_to'):moment(new Date()).format("MM/DD/YYYY"),
         }, function(start, end, label) {
