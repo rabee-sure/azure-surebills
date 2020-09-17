@@ -93,10 +93,12 @@ class User extends Resource
     protected function pricingFields()
     {
         return [
-            Number::make('credit cards percentage')->step(0.1),
-            Number::make('credit_cards_fixed')->step(0.1),
-            Number::make('mada percentage')->step(0.1),
-            Number::make('mada_fixed')->step(0.1),
+            Number::make(_('mada fixed fees'), 'mada_fixed')->step(0.1),
+            Number::make(_('mada percentage fees'), 'mada_percentage')->step(0.1),
+            Number::make(_('Credit Card fixed fees'), 'credit_cards_fixed')->step(0.1),
+            Number::make(_('Credit Card percentage fees'), 'credit_cards_percentage')->step(0.1),
+            Number::make(_('ApplePay fixed fees'), 'apple_pay_fixed')->step(0.1),
+            Number::make(_('ApplePay percentage fees'), 'apple_pay_percentage')->step(0.1),
         ];
     }
 

@@ -49,6 +49,7 @@ class Bill extends Model
         
         'expiry_minutes',
         'expiry_hours',
+        'pricing_fees_details',
     ];
 
     /**

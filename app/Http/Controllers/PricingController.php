@@ -15,6 +15,7 @@ class PricingController extends Controller
      */
     public function index(Request $request)
     {
+        // dd((auth()->user()->pay_fees));
         return view('pricing.index');
     }    
 
@@ -36,8 +37,7 @@ class PricingController extends Controller
     public function update(Request $request)
     {
     	$user = auth()->user();
-    	$user->credit_cards_pay_fees = $request->credit_cards_pay_fees;
-		$user->mada_pay_fees = $request->mada_pay_fees;
+    	$user->pay_fees = $request->pay_fees;
 		$user->save();
 
         return new PricingResource($user);

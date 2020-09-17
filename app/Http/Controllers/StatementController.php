@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Settlement;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class StatementController extends Controller
@@ -12,9 +13,18 @@ class StatementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('statements.index', ['statement' => auth()->user()->statement]);
+        $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
+        $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
+        
+        $statement = auth()->user()->statement()->when($date_start, function($q) use($date_start, $date_to){
+            $q->whereDate('created_at', '>=', Carbon::parse($date_start))
+                ->whereDate('created_at', '<=', Carbon::parse($date_to))
+                ;
+        })->get();
+
+        return view('statements.index', compact('statement', 'date_start', 'date_to'));
     }
 
     /**

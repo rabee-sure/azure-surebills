@@ -33,7 +33,7 @@ class BillController extends Controller
      */
     public function store(BillApiRequest $request)
     {
-        logger('api create bill');
+        logger([$request->all()]);
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $user = $application->user ?? null;
 

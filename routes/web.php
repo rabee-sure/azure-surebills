@@ -67,7 +67,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('change-password', 'AccountController@storeChangePassword')->name('change.password');
 
 	Route::get('pricing', 'PricingController@index')->name('pricing');
-	Route::put('pricing', 'PricingController@update');
+	Route::put('pricing', 'PricingController@update')->name('update_price');
 	Route::get('pricing/details', 'PricingController@details')->name('details');
 
 });

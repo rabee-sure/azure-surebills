@@ -43,12 +43,9 @@ class User extends Authenticatable
         'beneficiary_name',
 
         //bank princing
-        'credit_cards_percentage',
-        'mada_percentage',
-        'credit_cards_fixed',
-        'mada_fixed',
-        'credit_cards_pay_fees',
-        'mada_pay_fees',
+        'price_percentage',
+        'price_fixed',
+        'pay_fees'
     ];
 
     /**
@@ -198,6 +195,6 @@ class User extends Authenticatable
      */
     public function statement()
     {
-        return $this->hasMany(Transaction::class)->orderBy('created_at', 'DESC')->orderBy('receipt', 'ASC');
+        return $this->hasMany(Transaction::class)->orderBy('created_at', 'ASC')->orderBy('receipt', 'ASC');
     }
 }
