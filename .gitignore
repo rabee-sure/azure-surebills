@@ -16,6 +16,7 @@
 /public/js/jbootstrap.js
 /public/js/store.js
 /public/mix-manifest.json
+/public/js/app.js.map
 /storage/*.key
 /vendor
 .env
