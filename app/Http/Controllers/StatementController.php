@@ -17,13 +17,14 @@ class StatementController extends Controller
     {
         $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
-        // dd($date_to);
+        
         $statement = auth()->user()->statement()->when($date_start, function($q) use($date_start, $date_to){
             $q->whereDate('created_at', '>=', Carbon::parse($date_start))
                 ->whereDate('created_at', '<=', Carbon::parse($date_to))
                 ;
         })->get();
-        return view('statements.index', ['statement' => $statement]);
+
+        return view('statements.index', compact('statement', 'date_start', 'date_to'));
     }
 
     /**
