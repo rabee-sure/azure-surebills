@@ -50,6 +50,11 @@ body {
     color: #3e884f;
     background: #d3e2d6;
     border-color: rgba(62, 136, 79, 0.1);
+    &.alert-danger {
+      color: #761b18;
+      background-color: #f9d6d5;
+      border-color: #f7c6c5;
+    }
   } /* alert */
   .logo {
     margin: 0 auto 10px;
