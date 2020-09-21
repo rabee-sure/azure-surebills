@@ -9882,7 +9882,10 @@ div.statistic_icon {
       font-size: 14px;
       line-height: 1.1;
       color: #444;
-      text-align: right;
+      text-align: left;
+      [dir="ltr"] & {
+        text-align: right;
+      } /* ltr */
     } /* p */
     b {
       display: block;
@@ -9891,7 +9894,10 @@ div.statistic_icon {
       line-height: 1.1;
       color: #444;
       font-weight: normal;
-      text-align: right;
+      text-align: left;
+      [dir="ltr"] & {
+        text-align: right;
+      } /* ltr */
     } /* b */
   } /* date_time */
   .shopping_cart {
@@ -9924,7 +9930,10 @@ div.statistic_icon {
         min-width: 20%;
         text-align: center;
         &:last-child {
-          text-align: right;
+          text-align: left;
+          [dir="ltr"] & {
+            text-align: right;
+          } /* ltr */
         } /* last-child */
       } /* b */
     } /* details_pay */
@@ -9946,13 +9955,19 @@ div.statistic_icon {
       display: block;
       margin: 5px auto;
       font-size: 14px;
-      text-align: right;
+      text-align: left;
+      [dir="ltr"] & {
+        text-align: right;
+      } /* ltr */
     } /* p */
     b {
       display: block;
       margin: 5px auto;
       font-size: 16px;
-      text-align: right;
+      text-align: left;
+      [dir="ltr"] & {
+        text-align: right;
+      } /* ltr */
     } /* b */
   } /* total_bill */
   .customer_information {
