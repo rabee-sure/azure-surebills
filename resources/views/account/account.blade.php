@@ -11,10 +11,18 @@
 
 @section('content')
 	<div class="row">
+
 		<div class="col-12">
 			<h1>{{ __('My Account') }}</h1>
+      <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+        <ol class="breadcrumb pt-0">
+          <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{__('My Account')}}</li>
+        </ol>
+      </nav>
 			<div class="separator mb-5"></div>
 		</div>
+
     <div class="col-12">
       <div class="row icon-cards-row mx-n3">
         <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
