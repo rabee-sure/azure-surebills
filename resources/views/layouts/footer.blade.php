@@ -10,10 +10,19 @@
   </div>
 </footer>
 
-<script src="{{ asset('js/app.js') }}" ></script>
-<script src="{{ asset('js/jbootstrap.js') }}"></script>
-<script src="{{ mix('/js/all.js') }}" defer></script> 
-<script src="{{ asset('js/dore.script.js') }}"></script>
+
+
+    @if(request()->route()->getName() == 'mobile_verify')
+      <script src="{{ asset('js/app.js') }}" defer></script>
+      <script src="{{ asset('js/jbootstrap.js') }}"></script>
+      <script src="{{ mix('/js/all.js') }}" ></script> 
+      <script src="{{ asset('js/dore.script.js') }}"></script>
+    @else
+      <script src="{{ asset('js/app.js') }}" ></script>
+      <script src="{{ asset('js/jbootstrap.js') }}"></script>
+      <script src="{{ mix('/js/all.js') }}" defer></script> 
+      <script src="{{ asset('js/dore.script.js') }}"></script>
+    @endif
 
 <script>
     window._locale = '{{ app()->getLocale() }}';
