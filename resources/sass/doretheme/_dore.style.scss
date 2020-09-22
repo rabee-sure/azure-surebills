@@ -9882,7 +9882,10 @@ div.statistic_icon {
       font-size: 14px;
       line-height: 1.1;
       color: #444;
-      text-align: right;
+      text-align: left;
+      [dir="ltr"] & {
+        text-align: right;
+      } /* ltr */
     } /* p */
     b {
       display: block;
@@ -9891,7 +9894,10 @@ div.statistic_icon {
       line-height: 1.1;
       color: #444;
       font-weight: normal;
-      text-align: right;
+      text-align: left;
+      [dir="ltr"] & {
+        text-align: right;
+      } /* ltr */
     } /* b */
   } /* date_time */
   .shopping_cart {
@@ -9924,7 +9930,10 @@ div.statistic_icon {
         min-width: 20%;
         text-align: center;
         &:last-child {
-          text-align: right;
+          text-align: left;
+          [dir="ltr"] & {
+            text-align: right;
+          } /* ltr */
         } /* last-child */
       } /* b */
     } /* details_pay */
@@ -9946,13 +9955,19 @@ div.statistic_icon {
       display: block;
       margin: 5px auto;
       font-size: 14px;
-      text-align: right;
+      text-align: left;
+      [dir="ltr"] & {
+        text-align: right;
+      } /* ltr */
     } /* p */
     b {
       display: block;
       margin: 5px auto;
       font-size: 16px;
-      text-align: right;
+      text-align: left;
+      [dir="ltr"] & {
+        text-align: right;
+      } /* ltr */
     } /* b */
   } /* total_bill */
   .customer_information {
@@ -10266,3 +10281,50 @@ body.rtl {
 .dir-ltr {
   direction: ltr;
 }
+.daterangepicker {
+    top: 80px !important;
+    font-family: Tajawal,Nunito,sans-serif !important;
+}
+.search-sm input {
+    min-width: 170px;
+}
+
+
+span.discount_type_item,
+span.discount_type_item2 {
+  margin: 0 -1px 0 0;
+  min-width: 55px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.filter_bills {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  #displayOptions {
+    margin: 0 0 0 15px;
+    input.form-control {
+      height: 30px;
+      padding: 0 10px 0 30px;
+      min-width: 200px;
+      font-size: 14px;
+      color: #000;
+      border-radius: 4px;
+    } /* input */
+  } /* displayOptions */
+  .custom-control {
+    margin: -4px 0 0 20px;
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 15px;
+    } /* label */
+  } /* custom-control */
+} /* filter_bills */

@@ -165,7 +165,7 @@
 
 @push('footer-scripts')
   <script src="{{ asset('js/jquery.countdownTimer.min.js') }}"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.js"></script>
 <script type='text/javascript'>
 var BrowserDetect = {
 init: function () {

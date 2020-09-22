@@ -259,7 +259,7 @@
         <div class="block_3">
           @foreach($bill->items as $item)
             <div class="details_pay">
-              <p>{{ $item->product_name }}</p>
+              <p>{!! $item->product_name !!}</p>
               <b>X {{ $item->quantity  }}</b>
               <b>{{ $item->product_price  }} SAR</b>
             </div><!-- details_pay -->
