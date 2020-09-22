@@ -21,6 +21,16 @@ class Statement extends Resource
     public static $model = \App\Transaction::class;
 
     /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Statement');
+    }
+
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Anaseqal\NovaSidebarIcons\NovaSidebarIcons;
+use App\Nova\Metrics\BillsPerDay;
+use App\Nova\Metrics\NewUsers;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
@@ -60,8 +62,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        return [
-            new Help,
+        return [     
+            new NewUsers,
+            (new BillsPerDay)->width('2/3'),
         ];
     }
 
@@ -72,7 +75,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function dashboards()
     {
-        return [];
+        return [
+        ];
     }
 
     /**

@@ -23,6 +23,16 @@ class User extends Resource
     public static $model = \App\User::class;
 
     /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Users');
+    }
+
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
