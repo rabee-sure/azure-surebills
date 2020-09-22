@@ -5,12 +5,24 @@ namespace App\Http\Controllers\Api;
 use App\Application;
 use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserStatResource;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function stats(User $user)
+    {
+        return new UserStatResource($user);
+    }    
+
     /**
      * Store a newly created resource in storage.
      *
