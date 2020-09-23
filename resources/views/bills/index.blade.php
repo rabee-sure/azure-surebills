@@ -29,28 +29,32 @@
             </div>
           </div>  
         </div>
+
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="customCheckThis" checked>
-          <label class="custom-control-label" for="customCheckThis">غير مدفوع</label>
+          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis" value="pending" @if(in_array('pending', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="customCheckThis">{{ __('Unpaid') }}</label>
         </div>
+
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="customCheckThis2" checked>
-          <label class="custom-control-label" for="customCheckThis2">مدفوع </label>
+          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis2" value="paid" @if(in_array('paid', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="customCheckThis2">{{ __('Paid') }} </label>
         </div>
+
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="customCheckThis3">
-          <label class="custom-control-label" for="customCheckThis3">منتهي </label>
+          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis3" value="expired" @if(in_array('expired', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="customCheckThis3">{{ __('Expired') }} </label>
         </div>
+
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="customCheckThis4">
-          <label class="custom-control-label" for="customCheckThis4">ملغي</label>
+          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis4" value="canceled" @if(in_array('canceled', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="customCheckThis4">{{ __('Canceled') }}</label>
         </div>
+
       </div>
       <div class="separator mb-5"></div>
     </div>
   </div>
   @if($bills->count())
-    <div class="row">
       <div class="col-12 list" data-check-all="checkAll">
         @foreach($bills as $bill)
           @include('bills.item')
@@ -71,6 +75,51 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <script type="text/javascript">
+      function oldParams(type) {
+        var params = ''    
+        if(getUrlParameter('date_start') && type != 2){
+          params += '&date_start='+getUrlParameter('date_start')
+        }        
+        if(getUrlParameter('date_to') && type != 2){
+          params += '&date_to='+getUrlParameter('date_to')
+        }
+        if(getParams()['statuses[]'] && type != 1){
+          getParams()['statuses[]'].forEach(element => params += '&statuses[]='+element );
+        }
+        return params;
+      }
+
+      function getParams() {
+          var url = window.location.href; 
+          var regex = /([^=&?]+)=([^&#]*)/g, params = {}, parts, key, value;
+
+          while((parts = regex.exec(url)) != null) {
+
+              key = parts[1], value = parts[2];
+              var isArray = /\[\]$/.test(key);
+
+              if(isArray) {
+                  params[key] = params[key] || [];
+                  params[key].push(value);
+              }
+              else {
+                  params[key] = value;
+              }
+          }
+          return params;
+      }
+
+      $('.status_checkbox').on('change', function() {
+          var names = [];
+          $('input:checked').each(function() {
+              names.push('statuses[]='+this.value);
+          });
+
+          var dateParam = '?'+names.join('&')+oldParams(1);
+          window.history.pushState('', '', dateParam);
+          location.reload();
+      });
+
       var getUrlParameter = function getUrlParameter(sParam) {
           var sPageURL = window.location.search.substring(1),
               sURLVariables = sPageURL.split('&'),
@@ -131,10 +180,11 @@
           startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"), 
           endDate: getUrlParameter('date_to')?getUrlParameter('date_to'):moment(new Date()).format("MM/DD/YYYY"),
         }, function(start, end, label) {
-            var dateParam = '?date_start=' + start.format('MM/DD/YYYY') + '&date_to='+end.format('MM/DD/YYYY');
+            var dateParam = '?date_start=' + start.format('MM/DD/YYYY') + '&date_to='+end.format('MM/DD/YYYY')+oldParams(2);
             window.history.pushState('', '', dateParam);
             location.reload();
         });
       });
+
   </script>
 @endpush
