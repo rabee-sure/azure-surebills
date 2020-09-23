@@ -24,7 +24,7 @@
       <div class="filter_bills mb-2">
         <div id="displayOptions">
           <div class="d-block d-md-inline-block">
-            <div class="search-sm calendar-sm d-inline-block float-md-left align-top">
+            <div class="search-sm calendar-sm d-inline-block float-md-right align-top">
               <input class="form-control" name="dates" placeholder="Search by day">
             </div>
           </div>  
@@ -138,6 +138,7 @@
       $(function() {
         $('input[name="dates"]').daterangepicker({
           opens: 'left',
+          weekStart: 6,
           locale: {
               daysOfWeek: [
                   '{{__('Sun')}}',
