@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\DateRange;
+use App\Nova\Filters\UserId;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
@@ -20,6 +22,19 @@ class Statement extends Resource
      */
     public static $model = \App\Transaction::class;
 
+
+    public static $displayInNavigation = false;
+    
+    /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Statement');
+    }
+
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
@@ -34,6 +49,16 @@ class Statement extends Resource
      */
     public static $search = [
         'id',
+    ];
+
+    /**
+     * order By.
+     *
+     * @var array
+     */
+    public static $orderBy = [
+        'created_at' => 'desc',
+        'receipt' => 'ASC',
     ];
 
     /**
@@ -91,7 +116,10 @@ class Statement extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new DateRange(),
+            new UserId(),
+        ];
     }
 
     /**
