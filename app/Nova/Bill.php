@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\BillSource;
 use App\Nova\Filters\BillStatus;
 use App\Nova\Filters\DateRange;
 use App\Nova\Filters\UserId;
@@ -20,9 +21,12 @@ use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Bill extends Resource
 {
+    use SearchesRelations;
+
     /**
      * The model the resource corresponds to.
      *
@@ -71,12 +75,22 @@ class Bill extends Resource
     public static $title = 'name';
 
     /**
+     * The relationship columns that should be searched.
+     *
+     * @var array
+     */
+    public static $searchRelations = [
+        'customer' => ['name', 'mobile'],
+    ];
+
+    /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
         'id',
+        'number',
     ];
 
     /**
@@ -151,6 +165,7 @@ class Bill extends Resource
     {
         return [ 
             new BillStatus,
+            new BillSource,
             new DateRange,
             new UserId(),
         ];
