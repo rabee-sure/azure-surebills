@@ -61,7 +61,9 @@
                       <label for="inputEmail8">{{ __('Logo') }}</label>
                       <div class="custom-file">
                         <input name="logo" type="file" class="custom-file-input" id="inputEmail8">
-                            {{-- <img src="{{ url(auth()->user()->logo)  }}" class="img-thumbnail" width="100" /> --}}
+                          @if(auth()->user()->logo)
+                            <img  src="{{ url(auth()->user()->logo)  }}" class="img-thumbnail" width="100" />
+                          @endif
                             <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
                         <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
                       </div>

@@ -5,10 +5,15 @@ namespace App\Nova\Filters;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
-use rcknr\Nova\Filters\MultiselectFilter;
-
-class BillStatus extends MultiselectFilter
+class BillSource extends Filter
 {
+    /**
+     * The filter's component.
+     *
+     * @var string
+     */
+    public $component = 'select-filter';
+
     /**
      * Apply the filter to the given query.
      *
@@ -19,7 +24,11 @@ class BillStatus extends MultiselectFilter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->whereIn('status', $value);
+        if($value == 1){
+            return $query->whereNotNull('application_id');
+        }else{
+            return $query->whereNull('application_id');
+        }
     }
 
     /**
@@ -31,10 +40,8 @@ class BillStatus extends MultiselectFilter
     public function options(Request $request)
     {
         return [
-            'Pending' => 'pending',
-            'Paid' => 'paid',
-            'Canceled' => 'canceled',
-            'Expired' => 'expired',
+            'api' => 1,
+            'website' => 2,
         ];
     }
 }
