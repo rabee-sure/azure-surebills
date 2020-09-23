@@ -141,7 +141,7 @@
             @endif
 
           </div><!-- single_bill_content -->
-          <a href="https://bills.surepay.sa" target="_blank" title="Sure Bills" class="logo_bills"></a>
+          <a href="/" title="Sure Bills" class="logo_bills"></a>
         </div><!-- col-12 -->
     </div><!-- row -->
   </div><!-- container -->

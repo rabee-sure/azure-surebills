@@ -10421,6 +10421,9 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
                 } /* ltr */
               } /* span */
             } /* th */
+            th {
+              font-size: 11px;
+            } /* th */
           } /* tr */
         } /* thead */
         td.start-date {
