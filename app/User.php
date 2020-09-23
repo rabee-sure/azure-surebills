@@ -76,11 +76,20 @@ class User extends Authenticatable
      */
     public function getBalanceAttribute()
     {
-        $deposits = Transaction::where('user_id', $this->id)->where('type', 'credit')->sum('amount');
-        $withdraws = Transaction::where('user_id', $this->id)->where('type', 'debit')->sum('amount');
+        return $this->transactions->sum('amount');
+    }
 
-        return $deposits - $withdraws;
-    }   
+
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getRoundBalanceAttribute()
+    {
+        return round($this->transactions->sum('amount'), 2);
+    } 
 
 
     /**
@@ -186,6 +195,16 @@ class User extends Authenticatable
     public function settings()
     {
         return $this->hasOne(Settings::class);
+    }
+
+    /**
+     * Get statement.
+     *
+     * @return Collection
+     */
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 
     /**
