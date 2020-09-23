@@ -3547,7 +3547,11 @@ table.dataTable thead .sorting_asc:after,
 table.dataTable thead .sorting_desc:after,
 table.dataTable thead .sorting_asc_disabled:after,
 table.dataTable thead .sorting_desc_disabled:after {
-  right: 1.5em;
+  left: 0.5em;
+  [dir="rtl"] & {
+    right: 0.5em !important;
+    left: initial !important;
+  } /* rtl */
 }
 
 table.dataTable thead .sorting:before,
@@ -3555,15 +3559,19 @@ table.dataTable thead .sorting_asc:before,
 table.dataTable thead .sorting_desc:before,
 table.dataTable thead .sorting_asc_disabled:before,
 table.dataTable thead .sorting_desc_disabled:before {
-  right: 2em;
+  left: 1em;
+  [dir="rtl"] & {
+    right: 1em !important;
+    left: initial !important;
+  } /* rtl */
 }
 
 .dataTables_wrapper .paginate_button.previous {
-  margin-right: 15px;
+  margin-left: 15px;
 }
 
 .dataTables_wrapper .paginate_button.next {
-  margin-left: 15px;
+  margin-right: 15px;
 }
 
 div.dataTables_wrapper div.dataTables_paginate {
@@ -3639,8 +3647,8 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child:b
   table.dataTable thead .sorting_asc_disabled:before,
   table.dataTable thead .sorting_desc:before,
   table.dataTable thead .sorting_desc_disabled:before {
-    right: initial;
-    left: 0.5em;
+    left: initial;
+    right: 0.5em;
   }
 
   table.dataTable thead .sorting:after,
@@ -3648,8 +3656,8 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child:b
   table.dataTable thead .sorting_asc_disabled:after,
   table.dataTable thead .sorting_desc:after,
   table.dataTable thead .sorting_desc_disabled:after {
-    right: initial;
-    left: 0;
+    left: initial;
+    right: 0;
   }
 }
 
@@ -10309,14 +10317,25 @@ span.discount_type_item2 {
   flex-wrap: wrap;
   #displayOptions {
     margin: 0 0 0 15px;
-    input.form-control {
-      height: 30px;
-      padding: 0 10px 0 30px;
-      min-width: 200px;
-      font-size: 14px;
-      color: #000;
-      border-radius: 4px;
-    } /* input */
+    .search-sm {
+      input.form-control {
+        height: 30px;
+        padding: 0 10px 0 30px;
+        min-width: 200px;
+        font-size: 14px;
+        color: #000;
+        border-radius: 4px;
+        [dir="ltr"] & {
+          font-size: 13px;
+        } /* ltr */
+      } /* input */
+      &::after {
+        [dir="ltr"] & {
+          left: 10px;
+          right: auto;
+        } /* ltr */
+      } /* after */
+    } /* search-sm */
   } /* displayOptions */
   .custom-control {
     margin: -4px 0 0 20px;
@@ -10328,3 +10347,95 @@ span.discount_type_item2 {
     } /* label */
   } /* custom-control */
 } /* filter_bills */
+
+table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_desc, table.dataTable thead>tr>th.sorting, table.dataTable thead>tr>td.sorting_asc, table.dataTable thead>tr>td.sorting_desc, table.dataTable thead>tr>td.sorting {
+  padding: 0 0 0 30px;
+  [dir="rtl"] & {
+    padding: 0 30px 0 0;
+  } /* rtl */
+}
+
+
+.daterangepicker {
+  top: 85px !important;
+  direction: rtl !important;
+  [dir="ltr"] & {
+    direction: ltr !important;
+  } /* ltr */
+  .ranges {
+    float: right !important;
+    text-align: right !important;
+    [dir="ltr"] & {
+      float: left !important;
+      text-align: left !important;
+    } /* ltr */
+  } /* ranges */
+  .drp-buttons {
+    text-align: left !important;
+    [dir="ltr"] & {
+      text-align: right !important;
+    } /* ltr */
+    .btn {
+      margin-left: 0 !important;
+      margin-right: 8px !important;
+      [dir="ltr"] & {
+        margin-left: 8px !important;
+        margin-right: 0 !important;
+      } /* ltr */
+    } /* btn */
+  } /* .drp-buttons */
+  .drp-calendar {
+    &.left {
+      float: right;
+      border-left: none;
+      border-right: 1px solid #ddd;
+      padding: 8px 8px 8px 0;
+      [dir="ltr"] & {
+        float: left;
+        padding: 8px 0 8px 8px;
+      } /* ltr */
+    } /* left */
+    &.right {
+      float: left;
+      [dir="ltr"] & {
+        float: right;
+      } /* ltr */
+    } /* right */
+    .calendar-table {
+      table {
+        thead {
+          tr {
+            th.prev {
+              span {
+                transform: rotate(-45deg);
+                [dir="ltr"] & {
+                  transform: rotate(135deg);
+                } /* ltr */
+              } /* span */
+            } /* th */
+            th.next  {
+              span {
+                transform: rotate(135deg);
+                [dir="ltr"] & {
+                  transform: rotate(-45deg);
+                } /* ltr */
+              } /* span */
+            } /* th */
+          } /* tr */
+        } /* thead */
+        td.start-date {
+          border-radius: 0 4px 4px 0;
+          [dir="ltr"] & {
+            border-radius: 4px 0 0 4px;
+          } /* ltr */
+        } /* start-date */
+        td.end-date {
+          border-radius: 4px 0 0 4px;
+          [dir="ltr"] & {
+            border-radius: 0 4px 4px 0;
+          } /* ltr */
+        } /* end-date */
+      } /* table */
+    } /* calendar-table */
+  } /* drp-calendar */
+} /* daterangepicker */
