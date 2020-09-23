@@ -3547,7 +3547,11 @@ table.dataTable thead .sorting_asc:after,
 table.dataTable thead .sorting_desc:after,
 table.dataTable thead .sorting_asc_disabled:after,
 table.dataTable thead .sorting_desc_disabled:after {
-  right: 1.5em;
+  left: 0.5em;
+  [dir="rtl"] & {
+    right: 0.5em !important;
+    left: initial !important;
+  } /* rtl */
 }
 
 table.dataTable thead .sorting:before,
@@ -3555,15 +3559,19 @@ table.dataTable thead .sorting_asc:before,
 table.dataTable thead .sorting_desc:before,
 table.dataTable thead .sorting_asc_disabled:before,
 table.dataTable thead .sorting_desc_disabled:before {
-  right: 2em;
+  left: 1em;
+  [dir="rtl"] & {
+    right: 1em !important;
+    left: initial !important;
+  } /* rtl */
 }
 
 .dataTables_wrapper .paginate_button.previous {
-  margin-right: 15px;
+  margin-left: 15px;
 }
 
 .dataTables_wrapper .paginate_button.next {
-  margin-left: 15px;
+  margin-right: 15px;
 }
 
 div.dataTables_wrapper div.dataTables_paginate {
@@ -3639,8 +3647,8 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child:b
   table.dataTable thead .sorting_asc_disabled:before,
   table.dataTable thead .sorting_desc:before,
   table.dataTable thead .sorting_desc_disabled:before {
-    right: initial;
-    left: 0.5em;
+    left: initial;
+    right: 0.5em;
   }
 
   table.dataTable thead .sorting:after,
@@ -3648,8 +3656,8 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child:b
   table.dataTable thead .sorting_asc_disabled:after,
   table.dataTable thead .sorting_desc:after,
   table.dataTable thead .sorting_desc_disabled:after {
-    right: initial;
-    left: 0;
+    left: initial;
+    right: 0;
   }
 }
 
@@ -10328,3 +10336,10 @@ span.discount_type_item2 {
     } /* label */
   } /* custom-control */
 } /* filter_bills */
+
+table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_desc, table.dataTable thead>tr>th.sorting, table.dataTable thead>tr>td.sorting_asc, table.dataTable thead>tr>td.sorting_desc, table.dataTable thead>tr>td.sorting {
+  padding: 0 0 0 30px;
+  [dir="rtl"] & {
+    padding: 0 30px 0 0;
+  } /* rtl */
+}
