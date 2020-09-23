@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\UserId;
+use App\Nova\Metrics\NewBills;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
@@ -12,6 +14,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
+use Sure\Userstats\Userstats;
 
 class User extends Resource
 {
@@ -21,6 +24,16 @@ class User extends Resource
      * @var string
      */
     public static $model = \App\User::class;
+
+    /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Users');
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -80,7 +93,7 @@ class User extends Resource
             new Panel('Bank Information', $this->bankInformation()),
 
             HasMany::make('settlements'),
-            HasMany::make('statement'),
+            // HasMany::make('statement'),
 
         ];
     }
@@ -153,7 +166,10 @@ class User extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            (new Userstats)->onlyOnDetail()->width('full'),
+
+        ];
     }
 
     /**
@@ -164,7 +180,8 @@ class User extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+        ];
     }
 
     /**
