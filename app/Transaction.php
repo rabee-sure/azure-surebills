@@ -93,7 +93,7 @@ class Transaction extends Model
     protected static function withdrawTransfer($transfer)
     {
         $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
-        $bankNumber = $transfer->user->bank ? $transfer->user->bank->iban_number : '-';
+        $bankNumber = substr($transfer->user->iban_number, -4);
 
         $transaction = new self;
         $transaction->user_id     = $transfer->user_id;
