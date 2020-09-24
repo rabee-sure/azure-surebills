@@ -6,6 +6,7 @@ use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
 use App\Nova\Metrics\NewBills;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -146,14 +147,7 @@ class User extends Resource
     protected function bankInformation()
     {
         return [
-            Select::make('Bank')->options(function () {
-                $output = [];
-
-                foreach(getBanks() as $bank) {
-                    $output[$bank['id']] = $bank['en'];
-                }
-                return $output;
-            })->displayUsingLabels()->onlyOnDetail(),
+            BelongsTo::make('Bank'),
             Text::make('Iban Number')->onlyOnDetail(),
             Text::make('Beneficiary Name')->onlyOnDetail(),
         ];

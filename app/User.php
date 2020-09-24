@@ -37,12 +37,12 @@ class User extends Authenticatable
         'license_type',
         'organization_name',
         
-        //bank info
-        'bank',
+        //bank_id info
+        'bank_id',
         'iban_number',
         'beneficiary_name',
 
-        //bank princing
+        //bank_id princing
         'price_percentage',
         'price_fixed',
         'pay_fees'
@@ -106,7 +106,7 @@ class User extends Authenticatable
             isset($this->business_address)&&
             isset($this->business_mobile)&&
 
-            isset($this->bank)&&
+            isset($this->bank_id)&&
             isset($this->iban_number)&&
             isset($this->beneficiary_name)
         );
@@ -195,6 +195,16 @@ class User extends Authenticatable
     public function settings()
     {
         return $this->hasOne(Settings::class);
+    }
+
+    /**
+     * Get bank.
+     *
+     * @return Collection
+     */
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class);
     }
 
     /**

@@ -22,16 +22,12 @@
           <div class="form-row">
             <div class="form-group col-12">
               <label for="inputEmail5">{{__('Bank')}}</label>
-              <select name="bank" id="inputEmail5" class="form-control">
+              <select name="bank_id" id="inputEmail5" class="form-control">
               <option value="" disabled selected>{{__('Select your Bank')}}</option>
 
-                @foreach(getBanks() as $bank)
-                  <option value="{{$bank['id']}}" @if ($user->bank == $bank['id'])selected="selected"@endif>
-                     @if(app()->getLocale() == 'ar')
-                     {{$bank['ar']}}
-                     @else
-                     {{$bank['en']}}
-                     @endif
+                @foreach(App\Bank::active()->get() as $bank)
+                  <option value="{{$bank->id}}" @if($user->bank_id == $bank->id)selected="selected"@endif>
+                     {{ $bank->name }}
                   </option>
                 @endforeach
               </select>
