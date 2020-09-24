@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Settlement;
+use App\Transfer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -51,10 +51,10 @@ class StatementController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Settlement  $settlement
+     * @param  \App\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
-    public function show(Settlement $settlement)
+    public function show(Transfer $Transfer)
     {
         //
     }
@@ -62,10 +62,10 @@ class StatementController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Settlement  $settlement
+     * @param  \App\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Settlement $settlement)
+    public function edit(Transfer $Transfer)
     {
         //
     }
@@ -74,10 +74,10 @@ class StatementController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Settlement  $settlement
+     * @param  \App\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Settlement $settlement)
+    public function update(Request $request, Transfer $Transfer)
     {
         //
     }
@@ -85,10 +85,10 @@ class StatementController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Settlement  $settlement
+     * @param  \App\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Settlement $settlement)
+    public function destroy(Transfer $Transfer)
     {
         //
     }

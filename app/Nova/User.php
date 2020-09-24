@@ -2,9 +2,11 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
 use App\Nova\Metrics\NewBills;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -82,17 +84,17 @@ class User extends Resource
             Select::make('Gender')->options([
                 '1' => 'Male',
                 '2' => 'Female',
-            ])->displayUsingLabels(),
+            ])->displayUsingLabels()->sortable(),
 
-            Text::make('balance', function () {
-                return round($this->balance,2);
+            Text::make('balance', 'round_balance')->sortable(function () {
+                return $this->statement->sum('amount');
             }),
             new Panel('Pricing', $this->pricingFields()),
 
             new Panel('Business Information', $this->businessInformation()),
             new Panel('Bank Information', $this->bankInformation()),
 
-            HasMany::make('settlements'),
+            HasMany::make('Transfers'),
             // HasMany::make('statement'),
 
         ];
@@ -106,12 +108,12 @@ class User extends Resource
     protected function pricingFields()
     {
         return [
-            Number::make(_('mada fixed fees'), 'mada_fixed')->step(0.1),
-            Number::make(_('mada percentage fees'), 'mada_percentage')->step(0.1),
-            Number::make(_('Credit Card fixed fees'), 'credit_cards_fixed')->step(0.1),
-            Number::make(_('Credit Card percentage fees'), 'credit_cards_percentage')->step(0.1),
-            Number::make(_('ApplePay fixed fees'), 'apple_pay_fixed')->step(0.1),
-            Number::make(_('ApplePay percentage fees'), 'apple_pay_percentage')->step(0.1),
+            Number::make(_('mada fixed fees'), 'mada_fixed')->step(0.1)->onlyOnDetail(),
+            Number::make(_('mada percentage fees'), 'mada_percentage')->step(0.1)->onlyOnDetail(),
+            Number::make(_('Credit Card fixed fees'), 'credit_cards_fixed')->step(0.1)->onlyOnDetail(),
+            Number::make(_('Credit Card percentage fees'), 'credit_cards_percentage')->step(0.1)->onlyOnDetail(),
+            Number::make(_('ApplePay fixed fees'), 'apple_pay_fixed')->step(0.1)->onlyOnDetail(),
+            Number::make(_('ApplePay percentage fees'), 'apple_pay_percentage')->step(0.1)->onlyOnDetail(),
         ];
     }
 
@@ -127,13 +129,13 @@ class User extends Resource
             Select::make('License type')->options([
                 'Commercial Record' => 'Commercial Record',
                 'Freelance' => 'Freelance',
-            ])->displayUsingLabels(),
-            Text::make('VAT Registration Number'),
-            Text::make('Business Name'),
-            Text::make('Sector'),
-            Textarea::make('business_address'),
-            Text::make('Mobile'),
-            Text::make('Website'),
+            ])->displayUsingLabels()->onlyOnDetail(),
+            Text::make('VAT Registration Number')->onlyOnDetail(),
+            Text::make('Business Name')->onlyOnDetail(),
+            Text::make('Sector')->onlyOnDetail(),
+            Textarea::make('business_address')->onlyOnDetail(),
+            Text::make('Mobile')->onlyOnDetail(),
+            Text::make('Website')->onlyOnDetail(),
         ];
     }    
 
@@ -145,16 +147,9 @@ class User extends Resource
     protected function bankInformation()
     {
         return [
-            Select::make('Bank')->options(function () {
-                $output = [];
-
-                foreach(getBanks() as $bank) {
-                    $output[$bank['id']] = $bank['en'];
-                }
-                return $output;
-            })->displayUsingLabels(),
-            Text::make('Iban Number'),
-            Text::make('Beneficiary Name'),
+            BelongsTo::make('Bank'),
+            Text::make('Iban Number')->onlyOnDetail(),
+            Text::make('Beneficiary Name')->onlyOnDetail(),
         ];
     }
 
@@ -181,6 +176,7 @@ class User extends Resource
     public function filters(Request $request)
     {
         return [
+            new UserBalance,
         ];
     }
 

@@ -1,10 +1,9 @@
 {
-
 	"Unpaid" : "غير مدفوع",
 	"Paid" : "مدفوع",
 	"Finished" : "منتهي",
 	"Canceled" : "ملغي",
-
+	"amount must be less than or equal to user balance :balance" : "يجب أن يكون المبلغ أقل من رصيد المستخدم ':balance' أو مساويًا له",
 	"Users" : "المستخدمين",
 	"Sun" : "أحد",
 	"Mon" : "إثنين",

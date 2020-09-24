@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "139f2766389549e37ada9a0b15d4cb9b",
+    "content-hash": "c65174886742302babba1ea66585e138",
     "packages": [
         {
             "name": "ampeco/nova-date-range-filter",
@@ -631,6 +631,58 @@
                 "symmetric key cryptography"
             ],
             "time": "2018-07-24T23:27:56+00:00"
+        },
+        {
+            "name": "digital-creative/nova-range-input-filter",
+            "version": "v0.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dcasia/nova-range-input-filter.git",
+                "reference": "e723bbc38a2f8884020db34a652d65fe775258f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dcasia/nova-range-input-filter/zipball/e723bbc38a2f8884020db34a652d65fe775258f6",
+                "reference": "e723bbc38a2f8884020db34a652d65fe775258f6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "DigitalCreative\\RangeInputFilter\\RangeInputFilterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DigitalCreative\\RangeInputFilter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rafael Milewski"
+                },
+                {
+                    "name": "littlemiaor"
+                }
+            ],
+            "description": "A Laravel Nova range input filter.",
+            "keywords": [
+                "filter",
+                "input",
+                "laravel",
+                "nova",
+                "range"
+            ],
+            "time": "2020-02-14T09:47:00+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -4463,6 +4515,54 @@
             "time": "2020-05-15T18:31:24+00:00"
         },
         {
+            "name": "rcknr/nova-multiselect-filter",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rcknr/nova-multiselect-filter.git",
+                "reference": "eb373455f1322e4181f7f7e0f265ced16ec17ae0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rcknr/nova-multiselect-filter/zipball/eb373455f1322e4181f7f7e0f265ced16ec17ae0",
+                "reference": "eb373455f1322e4181f7f7e0f265ced16ec17ae0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "rcknr\\Nova\\Filters\\FilterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "rcknr\\Nova\\Filters\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergii Kauk",
+                    "email": "sergii@kauk.at",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Nova filter that allows multiple selection.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2020-01-14T08:41:54+00:00"
+        },
+        {
             "name": "react/cache",
             "version": "v1.1.0",
             "source": {
@@ -5004,6 +5104,127 @@
                 "uri"
             ],
             "time": "2018-05-29T20:21:04+00:00"
+        },
+        {
+            "name": "spatie/laravel-translatable",
+            "version": "4.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-translatable.git",
+                "reference": "cc2ce05f2dc9c7eca1ca79613d7dd3026c31e418"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-translatable/zipball/cc2ce05f2dc9c7eca1ca79613d7dd3026c31e418",
+                "reference": "cc2ce05f2dc9c7eca1ca79613d7dd3026c31e418",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.8.0|^6.0|^7.0|^8.0",
+                "illuminate/support": "~5.8.0|^6.0|^7.0|^8.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3",
+                "orchestra/testbench": "~3.8.0|^4.0|^5.0|^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Translatable\\TranslatableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Translatable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Mohamed Said",
+                    "email": "theMohamedSaid@gmail.com",
+                    "role": "Original idea"
+                }
+            ],
+            "description": "A trait to make an Eloquent model hold translations",
+            "homepage": "https://github.com/spatie/laravel-translatable",
+            "keywords": [
+                "eloquent",
+                "i8n",
+                "laravel-translatable",
+                "model",
+                "multilingual",
+                "spatie",
+                "translate"
+            ],
+            "time": "2020-09-06T19:02:11+00:00"
+        },
+        {
+            "name": "spatie/nova-translatable",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/nova-translatable.git",
+                "reference": "c120eaf3fb534036d584e43178785afb2b656836"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/nova-translatable/zipball/c120eaf3fb534036d584e43178785afb2b656836",
+                "reference": "c120eaf3fb534036d584e43178785afb2b656836",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^3.0",
+                "php": ">=7.2.0",
+                "spatie/laravel-translatable": "^4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.1",
+                "orchestra/testbench": "^5.0|^6.0",
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\NovaTranslatable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Making Nova fields translatable",
+            "homepage": "https://github.com/spatie/nova-translatable",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2020-09-09T10:22:33+00:00"
         },
         {
             "name": "spatie/once",
@@ -7260,6 +7481,42 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2020-07-13T06:12:54+00:00"
+        },
+        {
+            "name": "titasgailius/search-relations",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TitasGailius/nova-search-relations.git",
+                "reference": "dc043261b954fca72b85ae208d52b27276385c30"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TitasGailius/nova-search-relations/zipball/dc043261b954fca72b85ae208d52b27276385c30",
+                "reference": "dc043261b954fca72b85ae208d52b27276385c30",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Titasgailius\\SearchRelations\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova tool.",
+            "keywords": [
+                "laravel",
+                "nova",
+                "relations",
+                "search"
+            ],
+            "time": "2019-03-15T08:17:44+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

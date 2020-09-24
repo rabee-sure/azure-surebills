@@ -10,20 +10,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SettlementCreated
+class TransferCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $settlement;
+    public $Transfer;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($settlement)
+    public function __construct($Transfer)
     {
-        $this->settlement = $settlement;
+        $this->Transfer = $Transfer;
     }
 
     /**
