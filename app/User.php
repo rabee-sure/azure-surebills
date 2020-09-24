@@ -178,17 +178,17 @@ class User extends Authenticatable
     }
 
     /**
-     * Get settlements.
+     * Get Transfers.
      *
      * @return Collection
      */
-    public function settlements()
+    public function transfers()
     {
-        return $this->hasMany(Settlement::class);
+        return $this->hasMany(Transfer::class);
     }
 
     /**
-     * Get settlements.
+     * Get settings.
      *
      * @return Collection
      */

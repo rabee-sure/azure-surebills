@@ -93,7 +93,7 @@ class User extends Resource
             new Panel('Business Information', $this->businessInformation()),
             new Panel('Bank Information', $this->bankInformation()),
 
-            HasMany::make('settlements'),
+            HasMany::make('Transfers'),
             // HasMany::make('statement'),
 
         ];

@@ -2,25 +2,29 @@
 
 namespace App\Nova;
 
+use App\Rules\TransferBalance;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
 
-class Settlement extends Resource
+class Transfer extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Settlement::class;
+    public static $model = \App\Transfer::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -29,6 +33,11 @@ class Settlement extends Resource
      */
     public static $title = 'name';
 
+    /**
+     * display In Navigation.
+     *
+     * @var string
+     */
     public static $displayInNavigation = false;
     
     /**
@@ -60,8 +69,10 @@ class Settlement extends Resource
         return [
             ID::make()->sortable(),
             BelongsTo::make('User'),
-            Number::make('Amount')->min(1)->step(0.1),
-
+            Number::make('Amount')->min(1)->step(0.1)->rules('required', new TransferBalance($request->viaResourceId)),
+            Textarea::make('Note'),
+            File::make('Attachment')->disk('public'),
+            DateTime::make('created at')->exceptOnForms(),
         ];
     }
 

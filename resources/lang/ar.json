@@ -1,5 +1,6 @@
 {
 
+	"amount must be less than or equal to user balance :balance" : "يجب أن يكون المبلغ أقل من رصيد المستخدم ':balance' أو مساويًا له",
 	"Users" : "المستخدمين",
 	"Sun" : "الأحد",
 	"Mon" : "الإثنين",

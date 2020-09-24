@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SettlementCreated;
-use App\Http\Resources\SettlementResource;
-use App\Settlement;
+use App\Events\TransferCreated;
+use App\Http\Resources\TransferResource;
+use App\Transfer;
 use Illuminate\Http\Request;
 
-class SettlementController extends Controller
+class TransferController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class SettlementController extends Controller
      */
     public function index()
     {
-        return view('settlements.index', ['settlements' => auth()->user()->settlements]);
+        return view('transfers.index', ['transfers' => auth()->user()->transfers]);
     }
 
     /**
@@ -37,22 +37,22 @@ class SettlementController extends Controller
      */
     public function store(Request $request)
     {
-        $sett = Settlement::create([
+        $sett = Transfer::create([
             'user_id' => $request->user_id,
             'amount' => $request->amount,
             'created_by_id' => auth()->user()->id,
         ]);
-        event(new SettlementCreated($sett));
-        return new SettlementResource($sett);
+        event(new TransferCreated($sett));
+        return new TransferResource($sett);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Settlement  $settlement
+     * @param  \App\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
-    public function show(Settlement $settlement)
+    public function show(Transfer $Transfer)
     {
         //
     }
@@ -60,10 +60,10 @@ class SettlementController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Settlement  $settlement
+     * @param  \App\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Settlement $settlement)
+    public function edit(Transfer $Transfer)
     {
         //
     }
@@ -72,10 +72,10 @@ class SettlementController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Settlement  $settlement
+     * @param  \App\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Settlement $settlement)
+    public function update(Request $request, Transfer $Transfer)
     {
         //
     }
@@ -83,10 +83,10 @@ class SettlementController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Settlement  $settlement
+     * @param  \App\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Settlement $settlement)
+    public function destroy(Transfer $Transfer)
     {
         //
     }

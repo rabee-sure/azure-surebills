@@ -3,11 +3,11 @@
 namespace App\Listeners;
 
 use App\Transaction;
-use App\Events\SettlementCreated;
+use App\Events\TransferCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AddSettlementTransactions
+class AddTransferTransactions
 {
     /**
      * Create the event listener.
@@ -25,17 +25,17 @@ class AddSettlementTransactions
      * @param  BillPaid  $event
      * @return void
      */
-    public function handle(SettlementCreated $event)
+    public function handle(TransferCreated $event)
     {
-        $settlement =  $event->settlement;
+        $Transfer =  $event->Transfer;
 
         $transaction = new  Transaction;
-        $transaction->user_id     = $settlement->user_id;
+        $transaction->user_id     = $Transfer->user_id;
         $transaction->type        = 'debit';
-        $transaction->amount      = $settlement->amount;
-        $transaction->reference   = $settlement->id;
+        $transaction->amount      = $Transfer->amount;
+        $transaction->reference   = $Transfer->id;
         $transaction->receipt   = $transaction->generateReceipt();
-        $transaction->description = 'Settlement - Transaction Processing';
+        $transaction->description = 'Transfer - Transaction Processing';
         $transaction->balance     = $transaction->user->balance - $transaction->amount;
         $transaction->save();
     }

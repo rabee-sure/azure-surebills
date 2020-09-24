@@ -22,8 +22,8 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendBillPayEmail',
             'App\Listeners\SendBillPaySms',
         ],             
-        'App\Events\SettlementCreated' => [
-            'App\Listeners\AddSettlementTransactions',
+        'App\Events\TransferCreated' => [
+            'App\Listeners\AddTransferTransactions',
         ],        
         'App\Events\UserCreated' => [
             'App\Listeners\CreateSettingsForUser',
