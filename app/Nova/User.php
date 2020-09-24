@@ -50,7 +50,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name', 'email', 'mobile'
     ];
 
     /**
@@ -65,6 +65,9 @@ class User extends Resource
             ID::make()->sortable(),
 
             Gravatar::make()->maxWidth(50),
+
+
+            Text::make('Business Name')->rules('required', 'max:255')->onlyOnForms(),
 
             Text::make('Name')
                 ->sortable()
@@ -81,6 +84,8 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
+            Text::make('mobile')->rules('required', 'unique:users', 'regex:/(^[5]{1}[0-9]{8}$)/')->onlyOnForms(),
+
             Select::make('Gender')->options([
                 '1' => 'Male',
                 '2' => 'Female',
@@ -88,7 +93,7 @@ class User extends Resource
 
             Text::make('balance', 'round_balance')->sortable(function () {
                 return $this->statement->sum('amount');
-            }),
+            })->readonly(),
             new Panel('Pricing', $this->pricingFields()),
 
             new Panel('Business Information', $this->businessInformation()),
@@ -147,7 +152,7 @@ class User extends Resource
     protected function bankInformation()
     {
         return [
-            BelongsTo::make('Bank'),
+            BelongsTo::make('Bank')->onlyOnDetail(),
             Text::make('Iban Number')->onlyOnDetail(),
             Text::make('Beneficiary Name')->onlyOnDetail(),
         ];
