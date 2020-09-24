@@ -76,7 +76,11 @@ class User extends Authenticatable
      */
     public function getBalanceAttribute()
     {
-        return $this->transactions->sum('amount');
+        $transactions = $this->transactions;
+        $deposits = $transactions->where('type', 'credit')->sum('amount');
+        $withdraws = $transactions->where('type', 'debit')->sum('amount');
+
+        return $deposits - $withdraws;
     }
 
 

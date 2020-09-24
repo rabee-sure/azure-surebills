@@ -15,15 +15,7 @@ class TransferObserver
      */
     public function created(Transfer $transfer)
     {
-        $transaction = new Transaction;
-        $transaction->user_id     = $transfer->user_id;
-        $transaction->type        = 'debit';
-        $transaction->amount      = -$transfer->amount;
-        $transaction->reference   = $transfer->id;
-        $transaction->receipt     = $transaction->generateReceipt();
-        $transaction->description = "id: {$transfer->id} - Transfer Processing";
-        $transaction->balance     = $transaction->user->balance - $transaction->amount;
-        $transaction->save();
+        Transaction::withdrawTransfer($transfer);
     }
 
     /**

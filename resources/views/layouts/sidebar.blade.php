@@ -10,7 +10,7 @@
           </a>
         </li>
         <li class="{{ Request::is('bills*') ? 'active' : '' }}">
-          <a href="{{ route('bills.index') }}" title="Bills">
+          <a href="/bills?statuses[]=pending&statuses[]=paid" title="Bills">
             <i class="iconsminds-testimonal"></i>
            {{ __('Bills') }}
           </a>
