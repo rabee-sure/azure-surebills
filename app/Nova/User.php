@@ -65,42 +65,39 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Gravatar::make()->maxWidth(50),
+            Text::make(__('Business Name'), 'business_name')->rules('required', 'max:255')->onlyOnForms(),
 
-
-            Text::make('Business Name')->rules('required', 'max:255')->onlyOnForms(),
-
-            Text::make('Name')
+            Text::make(__('Name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:255'),            
 
-            Text::make('Email')
+            Text::make(__('Email'), 'email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            Password::make('Password')
+            Password::make(__('Password'), 'password')
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
-            Text::make('mobile')->rules('required', 'regex:/(^[5]{1}[0-9]{8}$)/')->onlyOnForms(),
+            Text::make(__('Mobile'), 'mobile')->rules('required', 'regex:/(^[5]{1}[0-9]{8}$)/')->onlyOnForms(),
 
-            Select::make('Gender')->options([
+            Select::make(__('Gender'), 'gender')->options([
                 '1' => 'Male',
                 '2' => 'Female',
             ])->displayUsingLabels()->sortable(),
 
-            Text::make('balance', 'round_balance')->sortable(function () {
-                return $this->statement->sum('amount');
+            Text::make(__('Balance'), function () {
+                return $this->round_balance;
             })->readonly(),
-            new Panel('Pricing', $this->pricingFields()),
+            new Panel(__('Pricing'), $this->pricingFields()),
 
-            new Panel('Business Information', $this->businessInformation()),
-            new Panel('Bank Information', $this->bankInformation()),
+            new Panel(__('Business Information'), $this->businessInformation()),
+            new Panel(__('Bank Information'), $this->bankInformation()),
 
-            HasMany::make('Transfers'),
+            HasMany::make(__('Transfers'), 'transfers', Transfer::class),
             // HasMany::make('statement'),
 
         ];
@@ -114,12 +111,12 @@ class User extends Resource
     protected function pricingFields()
     {
         return [
-            Number::make(_('mada fixed fees'), 'mada_fixed')->step(0.1),
-            Number::make(_('mada percentage fees'), 'mada_percentage')->step(0.1),
-            Number::make(_('Credit Card fixed fees'), 'credit_cards_fixed')->step(0.1),
-            Number::make(_('Credit Card percentage fees'), 'credit_cards_percentage')->step(0.1),
-            Number::make(_('ApplePay fixed fees'), 'apple_pay_fixed')->step(0.1),
-            Number::make(_('ApplePay percentage fees'), 'apple_pay_percentage')->step(0.1),
+            Number::make(_('mada fixed fees'), 'mada_fixed')->step(0.1)->hideFromIndex(),
+            Number::make(_('mada percentage fees'), 'mada_percentage')->step(0.1)->hideFromIndex(),
+            Number::make(_('Credit Card fixed fees'), 'credit_cards_fixed')->step(0.1)->hideFromIndex(),
+            Number::make(_('Credit Card percentage fees'), 'credit_cards_percentage')->step(0.1)->hideFromIndex(),
+            Number::make(_('ApplePay fixed fees'), 'apple_pay_fixed')->step(0.1)->hideFromIndex(),
+            Number::make(_('ApplePay percentage fees'), 'apple_pay_percentage')->step(0.1)->hideFromIndex(),
         ];
     }
 

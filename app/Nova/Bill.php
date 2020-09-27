@@ -111,36 +111,36 @@ class Bill extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name', function () {
+            Text::make(__('Name'), function () {
                 return __('Bill').' '.  $this->number  .'-'. $this->customer_name;
             }),
-            Badge::make('Status')->map([
+            Badge::make(__('Status'), 'status')->map([
                 'pending' => 'info',
                 'paid' => 'success',
                 'canceled' => 'warning',
                 'expired' => 'danger',
             ]),         
-            Select::make('Payment Method')->options([
+            Select::make(__('Payment Method'), 'payment_method')->options([
                 'credit' => 'credit',
                 'stc' => 'stc',
                 'apple' => 'apple',
             ]),
 
-            Number::make('Total')->min(1)->step(0.1),
-            Number::make('Payment Fees')->min(1)->step(0.1),
-            Number::make('Discount')->min(1)->step(0.1)->onlyOnDetail(),
-            Number::make('Vat')->min(1)->step(0.1)->onlyOnDetail(),
-            BelongsTo::make('User'),
-            DateTime::make('created at')->exceptOnForms(),
-            BelongsTo::make('Customer')->onlyOnDetail(),
-            Text::make('Business Name')->onlyOnDetail(),
-            Text::make('Reference Id')->onlyOnDetail(),
-            Date::make('Due Date')->onlyOnDetail(),
-            DateTime::make('Paid At')->onlyOnDetail(),
-            DateTime::make('Canceled At')->onlyOnDetail(),
+            Number::make(__('Total'), 'total')->min(1)->step(0.1),
+            Number::make( __('Payment Fees'), 'payment_fees')->min(1)->step(0.1),
+            Number::make(__('discount'), 'discount')->min(1)->step(0.1)->onlyOnDetail(),
+            Number::make(__('vat'), 'vat')->min(1)->step(0.1)->onlyOnDetail(),
+            DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
+            BelongsTo::make(__('User'), 'user', User::class),
+            BelongsTo::make(__('Customer'), 'customer', Customer::class)->onlyOnDetail(),
+            Text::make(__('Business Name'), 'business_name')->onlyOnDetail(),
+            Text::make(__('Reference Id'), 'reference_id')->onlyOnDetail(),
+            Date::make(__('Due Date'), 'due_date')->onlyOnDetail(),
+            DateTime::make(__('Paid At'), 'paid_at')->onlyOnDetail(),
+            DateTime::make(__('Canceled At'), 'canceled_at')->onlyOnDetail(),
 
-            Boolean::make('Send Email')->onlyOnDetail(),
-            Boolean::make('Send Sms')->onlyOnDetail(),
+            Boolean::make(__('Send Email'), 'send_email')->onlyOnDetail(),
+            Boolean::make(__('Send Sms'), 'send_sms')->onlyOnDetail(),
         ];
     }
 
