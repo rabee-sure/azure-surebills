@@ -1,51 +1,30 @@
 <template>
-    <div class="w-full max-w-3xl">
-        <div class="-mx-2 md:flex">
-            <div class="w-full md:w-1/4 px-2">
-                <div class="rounded-lg shadow-sm mb-4">
-                    <div class="rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden">
-                        <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id" class="px-3 pt-8 pb-10 text-center relative z-10">
-                            <h4 class="text-sm uppercase text-gray-500 leading-tight">Balance</h4>
-                            <h3 class="text-3xl text-gray-700 font-semibold leading-tight my-3" v-if="user">{{ user.balance }}</h3>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-full md:w-1/4 px-2" >
-                <div class="rounded-lg shadow-sm mb-4">
-                    <div class="rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden">
-                        <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id" class="px-3 pt-8 pb-10 text-center relative z-10" >
-                            <h4 class="text-sm uppercase text-gray-500 leading-tight">Total paid</h4>
-                            <h3 class="text-3xl text-gray-700 font-semibold leading-tight my-3" v-if="user.stats">{{ user.stats.total_paid }}</h3>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-full md:w-1/4 px-2">
-                <div class="rounded-lg shadow-sm mb-4">
-                    <div class="rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden">
-                        <a  :href="'/nova/resources/bills?bills_page=1&bills_filter='+user.stats.filter_user_id" class="px-3 pt-8 pb-10 text-center relative z-10">
-                            <h4 class="text-sm uppercase text-gray-500 leading-tight">total Bills</h4>
-                            <h3 class="text-3xl text-gray-700 font-semibold leading-tight my-3" v-if="user.stats">{{ user.stats.total_bills }}</h3>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-full md:w-1/4 px-2">
-                <div class="rounded-lg shadow-sm mb-4">
-                    <div class="rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden">
-                        <a  :href="'/nova/resources/bills?bills_page=1&bills_filter='+user.stats.filter_user_id" class="px-3 pt-8 pb-10 text-center relative z-10">
-                            <h4 class="text-sm uppercase text-gray-500 leading-tight">Total paid Bills</h4>
-                            <h3 class="text-3xl text-gray-700 font-semibold leading-tight my-3" v-if="user.stats">{{ user.stats.total_paid_bills }}</h3>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div id="users_statistics">
+    <div class="item">
+      <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id">
+        <span>Balance</span>
+        <p v-if="user">{{ user.balance }}</p>
+      </a>
+    </div><!-- item -->
+    <div class="item">
+      <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id">
+        <span>Total paid</span>
+        <p v-if="user.stats">{{ user.stats.total_paid }}</p>
+      </a>
+    </div><!-- item -->
+    <div class="item">
+      <a  :href="'/nova/resources/bills?bills_page=1&bills_filter='+user.stats.filter_user_id">
+        <span>total Bills</span>
+        <p v-if="user.stats">{{ user.stats.total_bills }}</p>
+      </a>
+    </div><!-- item -->
+    <div class="item">
+      <a :href="'/nova/resources/bills?bills_page=1&bills_filter='+user.stats.filter_user_id">
+        <span>Total paid Bills</span>
+        <p v-if="user.stats">{{ user.stats.total_paid_bills }}</p>
+      </a>
+    </div><!-- item -->
+  </div><!-- users_statistics -->
 </template>
 
 <script>
@@ -68,3 +47,41 @@ export default {
     },
 }
 </script>
+
+<style lang="scss" scoped>
+  #users_statistics {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 -15px;
+    .item {
+      padding: 0 15px;
+      flex: 0 0 25%;
+      max-width: 25%;
+      a {
+        border-radius: 0.75rem;
+        background: #fff;
+        text-align: center;
+        min-height: 130px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
+        text-decoration: none;
+        color: #4099de;
+        span {
+          display: block;
+          font-size: 17px;
+          text-transform: capitalize;
+          margin: 0 auto 10px;
+          color: #8f8f8f;
+        } /* span */
+        p {
+          display: block;
+          font-size: 17px;
+        } /* p */
+      } /* a */
+    } /* item */
+  } /* users_statistics */
+</style>
