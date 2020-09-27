@@ -90,6 +90,22 @@ class Transaction extends Model
         $transaction->save();
     }
 
+    protected static function withdrawTransfer($transfer)
+    {
+        $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
+        $bankNumber = substr($transfer->user->iban_number, -4);
+
+        $transaction = new self;
+        $transaction->user_id     = $transfer->user_id;
+        $transaction->type        = 'debit';
+        $transaction->amount      = $transfer->amount;
+        $transaction->reference   = $transfer->id;
+        $transaction->receipt     = $transaction->generateReceipt();
+        $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
+        $transaction->balance     = $transaction->user->balance - $transaction->amount;
+        $transaction->save();
+    }
+
     public function generateReceipt()
     {
         $lastReceipt = self::where('type', $this->type)->orderBy('receipt', 'desc')->first();

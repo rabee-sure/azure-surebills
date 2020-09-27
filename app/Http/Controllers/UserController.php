@@ -7,7 +7,7 @@ use App\Http\Requests\AccountInformationRequest;
 use App\Http\Requests\BankInformationRequest;
 use App\Http\Requests\BusinessInformationRequest;
 use App\Http\Requests\ChangePasswordRequest;
-use App\Http\Resources\SettlementResource;
+use App\Http\Resources\TransferResource;
 use App\Http\Resources\UserResource;
 use App\User;
 use Carbon\Carbon;
@@ -34,10 +34,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function settlements(User $user)
+    public function Transfers(User $user)
     {
-        $settlements = $user->settlements()->orderBy('id', 'desc')->get();
-        return SettlementResource::collection($settlements);
+        $Transfers = $user->Transfers()->orderBy('id', 'desc')->get();
+        return TransferResource::collection($Transfers);
     } 
 
     /**

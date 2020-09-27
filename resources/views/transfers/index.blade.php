@@ -41,15 +41,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                    @foreach($settlements as $settlement)
+                    @foreach($transfers as $transfer)
                         <tr>
-                            <td>{{$settlement->id}}</td>
-                            <td>{{$settlement->bills_paid_from}}</td>
-                            <td>{{$settlement->bills_paid_to}}</td>
-                            <td>{{$settlement->total_number_of_bills}}</td>
-                            <td>{{$settlement->total_amount_of_bills}}</td>
-                            <td>{{$settlement->total_paid_amount}}</td>
-                            <td>{{$settlement->total_fees_amount}}</td>
+                            <td>{{$transfer->id}}</td>
+                            <td>{{$transfer->bills_paid_from}}</td>
+                            <td>{{$transfer->bills_paid_to}}</td>
+                            <td>{{$transfer->total_number_of_bills}}</td>
+                            <td>{{$transfer->total_amount_of_bills}}</td>
+                            <td>{{$transfer->total_paid_amount}}</td>
+                            <td>{{$transfer->total_fees_amount}}</td>
                         </tr>
                     @endforeach
                 </tbody>

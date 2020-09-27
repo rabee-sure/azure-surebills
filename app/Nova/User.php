@@ -2,7 +2,12 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\UserBalance;
+use App\Nova\Filters\UserId;
+use App\Nova\Metrics\NewBills;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -12,6 +17,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
+use Sure\Userstats\Userstats;
 
 class User extends Resource
 {
@@ -21,6 +27,16 @@ class User extends Resource
      * @var string
      */
     public static $model = \App\User::class;
+
+    /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Users');
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -35,7 +51,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name', 'email', 'mobile'
     ];
 
     /**
@@ -50,6 +66,9 @@ class User extends Resource
             ID::make()->sortable(),
 
             Gravatar::make()->maxWidth(50),
+
+
+            Text::make('Business Name')->rules('required', 'max:255')->onlyOnForms(),
 
             Text::make('Name')
                 ->sortable()
@@ -66,21 +85,23 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
+            Text::make('mobile')->rules('required', 'regex:/(^[5]{1}[0-9]{8}$)/')->onlyOnForms(),
+
             Select::make('Gender')->options([
                 '1' => 'Male',
                 '2' => 'Female',
-            ])->displayUsingLabels(),
+            ])->displayUsingLabels()->sortable(),
 
-            Text::make('balance', function () {
-                return round($this->balance,2);
-            }),
+            Text::make('balance', 'round_balance')->sortable(function () {
+                return $this->statement->sum('amount');
+            })->readonly(),
             new Panel('Pricing', $this->pricingFields()),
 
             new Panel('Business Information', $this->businessInformation()),
             new Panel('Bank Information', $this->bankInformation()),
 
-            HasMany::make('settlements'),
-            HasMany::make('statement'),
+            HasMany::make('Transfers'),
+            // HasMany::make('statement'),
 
         ];
     }
@@ -114,13 +135,13 @@ class User extends Resource
             Select::make('License type')->options([
                 'Commercial Record' => 'Commercial Record',
                 'Freelance' => 'Freelance',
-            ])->displayUsingLabels(),
-            Text::make('VAT Registration Number'),
-            Text::make('Business Name'),
-            Text::make('Sector'),
-            Textarea::make('business_address'),
-            Text::make('Mobile'),
-            Text::make('Website'),
+            ])->displayUsingLabels()->onlyOnDetail(),
+            Text::make('VAT Registration Number')->onlyOnDetail(),
+            Text::make('Business Name')->onlyOnDetail(),
+            Text::make('Sector')->onlyOnDetail(),
+            Textarea::make('business_address')->onlyOnDetail(),
+            Text::make('Mobile')->onlyOnDetail(),
+            Text::make('Website')->onlyOnDetail(),
         ];
     }    
 
@@ -132,16 +153,9 @@ class User extends Resource
     protected function bankInformation()
     {
         return [
-            Select::make('Bank')->options(function () {
-                $output = [];
-
-                foreach(getBanks() as $bank) {
-                    $output[$bank['id']] = $bank['en'];
-                }
-                return $output;
-            })->displayUsingLabels(),
-            Text::make('Iban Number'),
-            Text::make('Beneficiary Name'),
+            BelongsTo::make('Bank')->onlyOnDetail(),
+            Text::make('Iban Number')->onlyOnDetail(),
+            Text::make('Beneficiary Name')->onlyOnDetail(),
         ];
     }
 
@@ -153,7 +167,10 @@ class User extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            (new Userstats)->onlyOnDetail()->width('full'),
+
+        ];
     }
 
     /**
@@ -164,7 +181,9 @@ class User extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new UserBalance,
+        ];
     }
 
     /**
@@ -188,6 +207,16 @@ class User extends Resource
     {
         return [];
     }
-
+    
+    /**
+     * authorized To Delete.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return boolean
+     */
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
+    }
 
 }

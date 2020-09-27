@@ -5,15 +5,10 @@ namespace App\Nova\Filters;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
-class BillStatus extends Filter
-{
-    /**
-     * The filter's component.
-     *
-     * @var string
-     */
-    public $component = 'select-filter';
+use rcknr\Nova\Filters\MultiselectFilter;
 
+class BillStatus extends MultiselectFilter
+{
     /**
      * Apply the filter to the given query.
      *
@@ -24,7 +19,7 @@ class BillStatus extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('status', $value);
+        return $query->whereIn('status', $value);
     }
 
     /**

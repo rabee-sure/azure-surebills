@@ -3,24 +3,22 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Password;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Panel;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Spatie\NovaTranslatable\Translatable;
 
-class Settlement extends Resource
+class Bank extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Settlement::class;
+    public static $model = \App\Bank::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -28,7 +26,7 @@ class Settlement extends Resource
      * @var string
      */
     public static $title = 'name';
-    public static $displayInNavigation = false;
+
     /**
      * The columns that should be searched.
      *
@@ -39,15 +37,6 @@ class Settlement extends Resource
     ];
 
     /**
-     * order By.
-     *
-     * @var array
-     */
-    public static $orderBy = [
-        'created_at' => 'desc'
-    ];
-    
-    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -57,9 +46,13 @@ class Settlement extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('User'),
-            Number::make('Amount')->min(1)->step(0.1),
-
+            Text::make('Code'),
+            Translatable::make([
+                Text::make('Name'),
+            ]),
+            Number::make('Sort Number'),
+            Boolean::make('Active'),
+            HasMany::make('Users'),
         ];
     }
 
@@ -106,6 +99,4 @@ class Settlement extends Resource
     {
         return [];
     }
-
-
 }

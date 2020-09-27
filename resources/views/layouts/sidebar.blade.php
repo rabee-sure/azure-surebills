@@ -10,7 +10,7 @@
           </a>
         </li>
         <li class="{{ Request::is('bills*') ? 'active' : '' }}">
-          <a href="{{ route('bills.index') }}" title="Bills">
+          <a href="/bills?statuses[]=pending&statuses[]=paid" title="Bills">
             <i class="iconsminds-testimonal"></i>
            {{ __('Bills') }}
           </a>
@@ -45,8 +45,8 @@
             {{ __('Store') }}
           </a>
         </li> --}}
-        <!-- <li class="{{ Request::is('settlement*') ? 'active' : '' }}">
-          <a href="{{ route('settlement.index') }}" title="Statement">
+        <!-- <li class="{{ Request::is('transfer*') ? 'active' : '' }}">
+          <a href="{{ route('transfer.index') }}" title="Statement">
             <i class="iconsminds-statistic"></i>
             {{ __('Settlements') }}
           </a>

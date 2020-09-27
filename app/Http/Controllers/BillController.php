@@ -27,8 +27,18 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {   
+        $date_start = $request->date_start ?? null;
+        $date_to = $request->date_to ?? null;
+
         $bills = Bill::where('user_id', auth()->user()->id)
             ->orderBy('created_at', 'desc')
+            ->when($request->statuses, function ($q) use($request){
+                $q->whereIn('status', $request->statuses);
+            })
+            ->when($date_start, function($q) use($date_start, $date_to){
+                $q->whereDate('created_at', '>=', Carbon::parse($date_start))
+                    ->whereDate('created_at', '<=', Carbon::parse($date_to)) ;
+            })
             ->paginate($request->get('per_page', 10));
         return view('bills.index', ['bills' => $bills]);
     }

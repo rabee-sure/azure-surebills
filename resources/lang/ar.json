@@ -1,11 +1,31 @@
 {
-	"Sun" : "أحد",
-	"Mon" : "إثنين",
-	"Tue" : "ثلاثاء",
-	"Wed" : "أربعاء",
-	"Thur" : "خميس",
-	"Fri" : "جمعة",
-	"Sat" : "سبت",
+
+	"amount must be less than or equal to user balance :balance" : "يجب أن يكون المبلغ أقل من رصيد المستخدم ':balance' أو مساويًا له",
+	"Users" : "المستخدمين",
+
+	"Sun" : "الأحد",
+	"Mon" : "الإثنين",
+	"Tue" : "الثلاثاء",
+	"Wed" : "الأربعاء",
+	"Thur" : "الخميس",
+	"Fri" : "الجمعة",
+	"Sat" : "السبت",
+
+	"Unpaid" : "غير مدفوع",
+	"Paid" : "مدفوع",
+	"Finished" : "منتهي",
+	"Canceled" : "ملغي",
+	"amount must be less than or equal to user balance :balance" : "يجب أن يكون المبلغ أقل من رصيد المستخدم ':balance' أو مساويًا له",
+	"Users" : "المستخدمين",
+
+
+	"Reference" : "مرجع",
+	"Receipt" : "إيصال",
+	"Auth ID" : "معرف المصادقة",
+	"Card" : "بطاقة",
+	"Debit" : "مدين",
+	"Credit" : "دائن",
+
 	"January" : "يناير",
 	"February" : "فبراير",
 	"March" : "مارس",
