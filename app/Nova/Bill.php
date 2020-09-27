@@ -192,6 +192,39 @@ class Bill extends Resource
     {
         return [];
     }
+    
+    /**
+     * authorized To Create.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return boolean
+     */
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+    
+    /**
+     * authorized To Delete.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return boolean
+     */
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
+    }
+    
+    /**
+     * authorized To Update.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return boolean
+     */
+    public function authorizedToUpdate(Request $request)
+    {
+        return false;
+    }
 
 
 }
