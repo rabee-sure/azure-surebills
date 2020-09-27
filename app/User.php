@@ -92,7 +92,7 @@ class User extends Authenticatable
      */
     public function getRoundBalanceAttribute()
     {
-        return round($this->transactions->sum('amount'), 2);
+        return round($this->balance, 2);
     } 
 
 

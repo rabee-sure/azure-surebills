@@ -28,6 +28,16 @@ class Bank extends Resource
     public static $title = 'name';
 
     /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Banks');
+    }
+
+    /**
      * The columns that should be searched.
      *
      * @var array
@@ -46,12 +56,12 @@ class Bank extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Code'),
+            Text::make(__('Code'), 'code'),
             Translatable::make([
-                Text::make('Name'),
+                Text::make(__('Name'), 'name'),
             ]),
-            Number::make('Sort Number'),
-            Boolean::make('Active'),
+            Number::make(__('Sort Number'), 'sort_number'),
+            Boolean::make(__('Active'), 'active'),
             HasMany::make('Users'),
         ];
     }

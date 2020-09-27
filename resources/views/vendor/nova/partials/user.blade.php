@@ -14,6 +14,13 @@
 <dropdown-menu slot="menu" width="200" direction="rtl">
     <ul class="list-reset">
         <li>
+            @if(App::isLocale('en'))
+                <a class="block no-underline text-90 hover:bg-30 p-3" href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
+            @else
+                <a class="block no-underline text-90 hover:bg-30 p-3" href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
+            @endif
+        </li>        
+        <li>
             <a href="{{ route('nova.logout') }}" class="block no-underline text-90 hover:bg-30 p-3">
                 {{ __('Logout') }}
             </a>

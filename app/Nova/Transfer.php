@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\DateRange;
 use App\Rules\TransferBalance;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -32,13 +33,6 @@ class Transfer extends Resource
      * @var string
      */
     public static $title = 'name';
-
-    /**
-     * display In Navigation.
-     *
-     * @var string
-     */
-    public static $displayInNavigation = false;
     
     /**
      * The columns that should be searched.
@@ -68,11 +62,11 @@ class Transfer extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('User'),
-            Number::make('Amount')->min(1)->step(0.1)->rules('required', new TransferBalance($request->viaResourceId)),
-            Textarea::make('Note'),
-            File::make('Attachment')->disk('public'),
-            DateTime::make('created at')->exceptOnForms(),
+            BelongsTo::make(__('User'), 'user', User::class),
+            Number::make(__('Amount'), 'amount')->min(1)->step(0.1)->rules('required', new TransferBalance($request->viaResourceId)),
+            Textarea::make(__('Note'), 'note'),
+            File::make(__('Attachment'), 'attachment')->disk('public'),
+            DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
         ];
     }
 
@@ -95,7 +89,9 @@ class Transfer extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new DateRange(),
+        ];
     }
 
     /**
@@ -110,6 +106,16 @@ class Transfer extends Resource
     }
 
     /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Transfers');
+    }
+
+    /**
      * Get the actions available for the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -120,5 +126,18 @@ class Transfer extends Resource
         return [];
     }
 
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+        
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
+    }
 
+    public function authorizedToUpdate(Request $request)
+    {
+        return false;
+    }
 }

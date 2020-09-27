@@ -15,12 +15,12 @@ class UserBalance extends RangeInputFilter {
             if($value["from"] > 0 || (isset($value["to"]) && $value["to"] > 0) )
             $filtered_ids = $query->get()->filter(function($model) use($value){
                 if($value["from"] > 0 &&  $value["to"] > 0){
-                    return $model->RoundBalance >= $value["from"] && $model->RoundBalance <= $value["to"];
+                    return $model->round_balance >= $value["from"] && $model->round_balance <= $value["to"];
                 }
                 elseif($value["from"] > 0){
-                    return $model->RoundBalance >= $value["from"];
+                    return $model->round_balance >= $value["from"];
                 }elseif($value["to"] > 0){
-                    return $model->RoundBalance <= $value["to"];
+                    return $model->round_balance <= $value["to"];
                 }
             })->pluck('id')->toArray();
 
