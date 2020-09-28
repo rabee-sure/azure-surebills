@@ -10384,6 +10384,7 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
     } /* btn */
   } /* .drp-buttons */
   .drp-calendar {
+    max-width: 320px !important;
     &.left {
       float: right;
       border-left: none;
