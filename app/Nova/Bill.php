@@ -44,6 +44,15 @@ class Bill extends Resource
         return __('Bills');
     }
 
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Bill');
+    }
 
     /**
      * Remove Zero Transactions rubbish from database

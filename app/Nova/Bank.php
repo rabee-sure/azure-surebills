@@ -48,6 +48,16 @@ class Bank extends Resource
     }
 
     /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Bank');
+    }
+
+    /**
      * The columns that should be searched.
      *
      * @var array
@@ -72,7 +82,7 @@ class Bank extends Resource
             ]),
             Number::make(__('Sort Number'), 'sort_number'),
             Boolean::make(__('Active'), 'active'),
-            HasMany::make('Users'),
+            HasMany::make(__('Users'), 'users', User::class),
         ];
     }
 

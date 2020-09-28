@@ -39,6 +39,16 @@ class User extends Resource
     }
 
     /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('User');
+    }
+
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
@@ -85,8 +95,8 @@ class User extends Resource
             Text::make(__('Mobile'), 'mobile')->rules('required', 'regex:/(^[5]{1}[0-9]{8}$)/')->onlyOnForms(),
 
             Select::make(__('Gender'), 'gender')->options([
-                '1' => 'Male',
-                '2' => 'Female',
+                '1' => __('Male'),
+                '2' => __('Female'),
             ])->displayUsingLabels()->sortable(),
 
             Text::make(__('Balance'), function () {
@@ -111,12 +121,12 @@ class User extends Resource
     protected function pricingFields()
     {
         return [
-            Number::make(_('mada fixed fees'), 'mada_fixed')->step(0.1)->hideFromIndex(),
-            Number::make(_('mada percentage fees'), 'mada_percentage')->step(0.1)->hideFromIndex(),
-            Number::make(_('Credit Card fixed fees'), 'credit_cards_fixed')->step(0.1)->hideFromIndex(),
-            Number::make(_('Credit Card percentage fees'), 'credit_cards_percentage')->step(0.1)->hideFromIndex(),
-            Number::make(_('ApplePay fixed fees'), 'apple_pay_fixed')->step(0.1)->hideFromIndex(),
-            Number::make(_('ApplePay percentage fees'), 'apple_pay_percentage')->step(0.1)->hideFromIndex(),
+            Number::make(__('Mada fixed fees'), 'mada_fixed')->step(0.1)->hideFromIndex(),
+            Number::make(__('Mada percentage fees'), 'mada_percentage')->step(0.1)->hideFromIndex(),
+            Number::make(__('Credit Card fixed fees'), 'credit_cards_fixed')->step(0.1)->hideFromIndex(),
+            Number::make(__('Credit Card percentage fees'), 'credit_cards_percentage')->step(0.1)->hideFromIndex(),
+            Number::make(__('ApplePay fixed fees'), 'apple_pay_fixed')->step(0.1)->hideFromIndex(),
+            Number::make(__('ApplePay percentage fees'), 'apple_pay_percentage')->step(0.1)->hideFromIndex(),
         ];
     }
 
@@ -127,18 +137,17 @@ class User extends Resource
      */
     protected function businessInformation()
     {
-        
         return [
-            Select::make('License type')->options([
+            Select::make(__('License Type'), 'license_type')->options([
                 'Commercial Record' => 'Commercial Record',
                 'Freelance' => 'Freelance',
             ])->displayUsingLabels()->onlyOnDetail(),
-            Text::make('VAT Registration Number')->onlyOnDetail(),
-            Text::make('Business Name')->onlyOnDetail(),
-            Text::make('Sector')->onlyOnDetail(),
-            Textarea::make('business_address')->onlyOnDetail(),
-            Text::make('Mobile')->onlyOnDetail(),
-            Text::make('Website')->onlyOnDetail(),
+            Text::make(__('VAT Registration Number'), 'vat_registration_number')->onlyOnDetail(),
+            Text::make(__('Business Name'), 'business_name')->onlyOnDetail(),
+            Text::make(__('Sector'), 'sector')->onlyOnDetail(),
+            Textarea::make(__('Business Address'), 'business_address')->onlyOnDetail(),
+            Text::make(__('Mobile'), 'mobile')->onlyOnDetail(),
+            Text::make(__('Website'), 'website')->onlyOnDetail(),
         ];
     }    
 
@@ -150,9 +159,9 @@ class User extends Resource
     protected function bankInformation()
     {
         return [
-            BelongsTo::make('Bank')->onlyOnDetail(),
-            Text::make('Iban Number')->onlyOnDetail(),
-            Text::make('Beneficiary Name')->onlyOnDetail(),
+            BelongsTo::make(__('Bank'), 'bank', Bank::class)->onlyOnDetail(),
+            Text::make(__('Iban Number'), 'iban_number')->onlyOnDetail(),
+            Text::make(__('Beneficiary Name'), 'beneficiary_name')->onlyOnDetail(),
         ];
     }
 

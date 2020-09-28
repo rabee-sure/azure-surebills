@@ -1,4 +1,20 @@
 {
+	"User Id": "Id المستخدم",
+	"Date Range": "نطاق الموعد",
+	"Source": "المصدر",
+
+	"Mada fixed fees": "رسوم مدى ثابتة",
+	"Mada percentage fees": "رسوم مدى متغيره",
+	"Credit Card fixed fees": "الرسوم الثابتة لبطاقة الائتمان",
+	"Credit Card percentage fees": "الرسوم المتغيره لبطاقة الائتمان",
+	"ApplePay fixed fees": "الرسوم الثابتة لابل باي",
+	"ApplePay percentage fees": "الرسوم المتغيره لابل باي",
+	"License Type" : "نوع الترخيص",
+	"Business Address": "عنوان العمل",
+	"Iban Number": "رقم IBAN",
+	"Beneficiary Name": "الوضع",
+
+	"Dark Mode": "الوضع المظلم",
 	"30 Days": "يوم 30",
 	"90 Days": "يوم 90",
 	"60 Days": "يوم 60",
@@ -280,6 +296,7 @@
 "Choose ..." : "إختر ...",
 "Male" : "ذكر",
 "female" : "أنثي",
+"Female" : "أنثي",
 "Save" : "حفظ",
 "Create New Application" : "إنشاء تطبيق جديد",
 "You Have Not Created Any Applications" : "لم تقم بإنشاء أي تطبيقات",

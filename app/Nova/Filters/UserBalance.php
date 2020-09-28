@@ -7,7 +7,17 @@ use DigitalCreative\RangeInputFilter\RangeInputFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
-class UserBalance extends RangeInputFilter {
+class UserBalance extends RangeInputFilter 
+{
+    /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return  __('Balance');
+    }
 
     public function apply(Request $request, $query, $value)
     {

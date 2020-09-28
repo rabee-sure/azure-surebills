@@ -28,6 +28,26 @@ class Transfer extends Resource
     public static $model = \App\Transfer::class;
 
     /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Transfers');
+    }
+
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Transfer');
+    }
+
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
@@ -103,16 +123,6 @@ class Transfer extends Resource
     public function lenses(Request $request)
     {
         return [];
-    }
-
-    /**
-     * Get the displayble label of the resource.
-     *
-     * @return string
-     */
-    public static function label()
-    {
-        return __('Transfers');
     }
 
     /**
