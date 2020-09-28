@@ -141,7 +141,7 @@ var content = __webpack_require__(4);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(6)("64ea96b0", content, false, {});
+var update = __webpack_require__(6)("6d4f9d7b", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -694,7 +694,7 @@ var render = function() {
           }
         },
         [
-          _c("span", [_vm._v("Balance")]),
+          _c("span", [_vm._v(_vm._s(_vm.__("Balance")))]),
           _vm._v(" "),
           _vm.user ? _c("p", [_vm._v(_vm._s(_vm.user.balance))]) : _vm._e()
         ]
@@ -712,7 +712,7 @@ var render = function() {
           }
         },
         [
-          _c("span", [_vm._v("Total paid")]),
+          _c("span", [_vm._v(_vm._s(_vm.__("Total Paid")))]),
           _vm._v(" "),
           _vm.user.stats
             ? _c("p", [_vm._v(_vm._s(_vm.user.stats.total_paid))])
@@ -732,7 +732,7 @@ var render = function() {
           }
         },
         [
-          _c("span", [_vm._v("total Bills")]),
+          _c("span", [_vm._v(_vm._s(_vm.__("Total Bills")))]),
           _vm._v(" "),
           _vm.user.stats
             ? _c("p", [_vm._v(_vm._s(_vm.user.stats.total_bills))])
@@ -752,7 +752,7 @@ var render = function() {
           }
         },
         [
-          _c("span", [_vm._v("Total paid Bills")]),
+          _c("span", [_vm._v(_vm._s(_vm.__("Total Paid Bills")))]),
           _vm._v(" "),
           _vm.user.stats
             ? _c("p", [_vm._v(_vm._s(_vm.user.stats.total_paid_bills))])

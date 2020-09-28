@@ -5,6 +5,7 @@ namespace App\Providers;
 use Anaseqal\NovaSidebarIcons\NovaSidebarIcons;
 use App\Nova\Metrics\BillsPerDay;
 use App\Nova\Metrics\NewUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
@@ -20,6 +21,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Nova::userTimezone(function (Request $request) {
+            return 'Asia/Riyadh';
+        });
     }
 
     /**

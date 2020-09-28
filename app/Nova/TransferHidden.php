@@ -18,7 +18,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
 
-class Transfer extends Resource
+class TransferHidden extends Resource
 {
     /**
      * The model the resource corresponds to.
@@ -26,26 +26,13 @@ class Transfer extends Resource
      * @var string
      */
     public static $model = \App\Transfer::class;
-
+    
     /**
-     * Get the displayble label of the resource.
+     * The model the resource corresponds to.
      *
-     * @return string
+     * @var string
      */
-    public static function label()
-    {
-        return __('Transfers');
-    }
-
-    /**
-     * Get the displayable singular label of the resource.
-     *
-     * @return string
-     */
-    public static function singularLabel()
-    {
-        return __('Transfer');
-    }
+    public static $displayInNavigation = false;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -126,6 +113,16 @@ class Transfer extends Resource
     }
 
     /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Transfers');
+    }
+
+    /**
      * Get the actions available for the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -136,10 +133,10 @@ class Transfer extends Resource
         return [];
     }
 
-    public static function authorizedToCreate(Request $request)
-    {
-        return false;
-    }
+    // public static function authorizedToCreate(Request $request)
+    // {
+    //     return false;
+    // }
         
     public function authorizedToDelete(Request $request)
     {

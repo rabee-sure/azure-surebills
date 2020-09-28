@@ -17,6 +17,26 @@ class Customer extends Resource
      * @var string
      */
     public static $model = \App\Customer::class;
+
+    /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Customers');
+    }
+
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Customer');
+    }
     
     /**
      * The model the resource corresponds to.
@@ -102,5 +122,21 @@ class Customer extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+
+
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+    
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToUpdate(Request $request)
+    {
+        return false;
     }
 }

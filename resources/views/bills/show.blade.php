@@ -123,7 +123,6 @@
     <a href="/" title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
 </div><!-- row -->
-
           <!-- Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">

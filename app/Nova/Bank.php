@@ -24,6 +24,16 @@ class Bank extends Resource
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
+     */    
+    public static function searchable()
+    {
+        return false;
+    }
+
+    /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @var string
      */
     public static $title = 'name';
 
@@ -35,6 +45,16 @@ class Bank extends Resource
     public static function label()
     {
         return __('Banks');
+    }
+
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Bank');
     }
 
     /**
@@ -62,7 +82,7 @@ class Bank extends Resource
             ]),
             Number::make(__('Sort Number'), 'sort_number'),
             Boolean::make(__('Active'), 'active'),
-            HasMany::make('Users'),
+            HasMany::make(__('Users'), 'users', User::class),
         ];
     }
 

@@ -10,6 +10,16 @@ use rcknr\Nova\Filters\MultiselectFilter;
 class BillStatus extends MultiselectFilter
 {
     /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return  __('Status');
+    }
+
+    /**
      * Apply the filter to the given query.
      *
      * @param  \Illuminate\Http\Request  $request

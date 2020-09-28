@@ -13,6 +13,16 @@ class BillSource extends Filter
      * @var string
      */
     public $component = 'select-filter';
+    
+    /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return  __('Source');
+    }
 
     /**
      * Apply the filter to the given query.
