@@ -8,6 +8,7 @@ use App\Nova\Metrics\NewBills;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -106,7 +107,7 @@ class User extends Resource
 
             new Panel(__('Business Information'), $this->businessInformation()),
             new Panel(__('Bank Information'), $this->bankInformation()),
-
+            File::make(__('Business logo'), 'logo')->disk('public'),
             HasMany::make(__('Transfers'), 'transfers', TransferHidden::class),
             // HasMany::make('statement'),
 
