@@ -97,7 +97,7 @@ class User extends Resource
             new Panel(__('Business Information'), $this->businessInformation()),
             new Panel(__('Bank Information'), $this->bankInformation()),
 
-            HasMany::make(__('Transfers'), 'transfers', Transfer::class),
+            HasMany::make(__('Transfers'), 'transfers', TransferHidden::class),
             // HasMany::make('statement'),
 
         ];

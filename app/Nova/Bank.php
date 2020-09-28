@@ -24,6 +24,16 @@ class Bank extends Resource
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
+     */    
+    public static function searchable()
+    {
+        return false;
+    }
+
+    /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @var string
      */
     public static $title = 'name';
 
