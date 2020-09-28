@@ -2,25 +2,25 @@
   <div id="users_statistics">
     <div class="item">
       <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id">
-        <span>Balance</span>
+        <span>{{ __('Balance') }}</span>
         <p v-if="user">{{ user.balance }}</p>
       </a>
     </div><!-- item -->
     <div class="item">
       <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id">
-        <span>Total paid</span>
+        <span>{{ __('Total Paid') }}</span>
         <p v-if="user.stats">{{ user.stats.total_paid }}</p>
       </a>
     </div><!-- item -->
     <div class="item">
       <a  :href="'/nova/resources/bills?bills_page=1&bills_filter='+user.stats.filter_user_id">
-        <span>total Bills</span>
+        <span>{{ __('Total Bills') }}</span>
         <p v-if="user.stats">{{ user.stats.total_bills }}</p>
       </a>
     </div><!-- item -->
     <div class="item">
       <a :href="'/nova/resources/bills?bills_page=1&bills_filter='+user.stats.filter_user_id">
-        <span>Total paid Bills</span>
+        <span>{{ __('Total Paid Bills') }}</span>
         <p v-if="user.stats">{{ user.stats.total_paid_bills }}</p>
       </a>
     </div><!-- item -->
