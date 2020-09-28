@@ -129,7 +129,7 @@ class Bill extends Resource
             Number::make(__('Total'), 'total')->min(1)->step(0.1),
             Number::make( __('Payment Fees'), 'payment_fees')->min(1)->step(0.1),
             Number::make(__('discount'), 'discount')->min(1)->step(0.1)->onlyOnDetail(),
-            Number::make(__('vat'), 'vat')->min(1)->step(0.1)->onlyOnDetail(),
+            Number::make(__('Tax'), 'vat')->min(1)->step(0.1)->onlyOnDetail(),
             DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
             BelongsTo::make(__('User'), 'user', User::class),
             BelongsTo::make(__('Customer'), 'customer', Customer::class)->onlyOnDetail(),
