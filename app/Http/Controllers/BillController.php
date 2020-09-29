@@ -253,7 +253,7 @@ class BillController extends Controller
             $payment->status = 1;
             $payment->save();
             
-            $bill->paid();
+            $bill->setPaid();
 
             if($bill->application){
                 $url = $bill->application->redirect.'?reference_id='.$bill->reference_id.'&status='.$bill->status.'&bill_id='.$bill->id.'&pay_url='.$bill->pay_url;

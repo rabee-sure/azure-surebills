@@ -308,7 +308,7 @@ class Bill extends Model
     /**
      * Mark invoice as paid
      */
-    public function paid()
+    public function setPaid()
     {
         if ($this->status == 'paid') {
             return false;

@@ -82,7 +82,7 @@ class Transaction extends Model
         $transaction->user_id     = $bill->user_id;
         $transaction->bill_id     = $bill->id;
         $transaction->type        = 'debit';
-        $transaction->amount      = $bill->payment_fees * (self::VAT_PERCENTAGE / 100);
+        $transaction->amount      = $bill->payment_fees_vat;
         $transaction->reference   = $bill->number;
         $transaction->receipt     = $transaction->generateReceipt();
         $transaction->description = 'VAT - Transaction Processing';
