@@ -122,12 +122,30 @@ class User extends Resource
     protected function pricingFields()
     {
         return [
-            Number::make(__('Mada fixed fees'), 'mada_fixed')->step(0.1)->hideFromIndex(),
-            Number::make(__('Mada percentage fees'), 'mada_percentage')->step(0.1)->hideFromIndex(),
-            Number::make(__('Credit Card fixed fees'), 'credit_cards_fixed')->step(0.1)->hideFromIndex(),
-            Number::make(__('Credit Card percentage fees'), 'credit_cards_percentage')->step(0.1)->hideFromIndex(),
-            Number::make(__('ApplePay fixed fees'), 'apple_pay_fixed')->step(0.1)->hideFromIndex(),
-            Number::make(__('ApplePay percentage fees'), 'apple_pay_percentage')->step(0.1)->hideFromIndex(),
+            Number::make(__('Mada fixed fees'), 'mada_fixed')
+                ->rules('required')
+                ->step(0.1)
+                ->hideFromIndex(),
+            Number::make(__('Mada percentage fees'), 'mada_percentage')
+                ->rules('required')
+                ->step(0.1)
+                ->hideFromIndex(),
+            Number::make(__('Credit Card fixed fees'), 'credit_cards_fixed')
+                ->rules('required')
+                ->step(0.1)
+                ->hideFromIndex(),
+            Number::make(__('Credit Card percentage fees'), 'credit_cards_percentage')
+                ->rules('required')
+                ->step(0.1)
+                ->hideFromIndex(),
+            Number::make(__('ApplePay fixed fees'), 'apple_pay_fixed')
+                ->rules('required')
+                ->step(0.1)
+                ->hideFromIndex(),
+            Number::make(__('ApplePay percentage fees'), 'apple_pay_percentage')
+                ->rules('required')
+                ->step(0.1)
+                ->hideFromIndex(),
         ];
     }
 
