@@ -11,14 +11,9 @@
       <div class="row">
 
         <div class="col-12">
-          <h1>{{ __('Home') }}</h1>
-          <div class="separator mb-5"></div>
-        </div>
-
-        <div class="col-12">
           <div class="row icon-cards-row mx-n3">
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <a href="#" class="card mb-4">
+              <a href="{{ route('statement.index') }}" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Balance') }}</p>
@@ -27,7 +22,7 @@
               </a>
             </div>
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <a href="#" class="card mb-4">
+              <a href="{{ route('statement.index') }}" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon available_balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Total Paid') }}</p>
@@ -36,7 +31,7 @@
               </a>
             </div>
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <a href="#" class="card mb-4">
+              <a href="{{ route('bills.index') }}" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon pending_balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Total Bills') }}</p>
@@ -45,7 +40,7 @@
               </a>
             </div>
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <a href="#" class="card mb-4">
+              <a href="/bills?statuses[]=paid" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon settlements_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Total Paid Bills') }}</p>

@@ -21,12 +21,40 @@
           </ol>
         </nav>
       </div>
-       
+      <div class="filter_bills mb-2">
+        <div id="displayOptions">
+          <div class="d-block d-md-inline-block">
+            <div class="search-sm calendar-sm d-inline-block float-md-right align-top">
+              <input class="form-control" name="dates" placeholder="Search by day">
+            </div>
+          </div>  
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis" value="pending" @if(in_array('pending', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="customCheckThis">{{ __('Unpaid') }}</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis2" value="paid" @if(in_array('paid', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="customCheckThis2">{{ __('Paid') }} </label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis3" value="expired" @if(in_array('expired', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="customCheckThis3">{{ __('Expired') }} </label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis4" value="canceled" @if(in_array('canceled', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="customCheckThis4">{{ __('Canceled') }}</label>
+        </div>
+
+      </div>
       <div class="separator mb-5"></div>
     </div>
   </div>
   @if($bills->count())
-    <div class="row">
       <div class="col-12 list" data-check-all="checkAll">
         @foreach($bills as $bill)
           @include('bills.item')
@@ -41,3 +69,123 @@
     </div><!-- no_bills_yet -->
   @endif
 @endsection
+
+@push('footer-scripts')
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <script type="text/javascript">
+      function oldParams(type) {
+        var params = ''    
+        if(getUrlParameter('date_start') && type != 2){
+          params += '&date_start='+getUrlParameter('date_start')
+        }        
+        if(getUrlParameter('date_to') && type != 2){
+          params += '&date_to='+getUrlParameter('date_to')
+        }
+        if(getParams()['statuses[]'] && type != 1){
+          getParams()['statuses[]'].forEach(element => params += '&statuses[]='+element );
+        }
+        return params;
+      }
+
+      function getParams() {
+          var url = window.location.href; 
+          var regex = /([^=&?]+)=([^&#]*)/g, params = {}, parts, key, value;
+
+          while((parts = regex.exec(url)) != null) {
+
+              key = parts[1], value = parts[2];
+              var isArray = /\[\]$/.test(key);
+
+              if(isArray) {
+                  params[key] = params[key] || [];
+                  params[key].push(value);
+              }
+              else {
+                  params[key] = value;
+              }
+          }
+          return params;
+      }
+
+      $('.status_checkbox').on('change', function() {
+          var names = [];
+          $('input:checked').each(function() {
+              names.push('statuses[]='+this.value);
+          });
+
+          var dateParam = '?'+names.join('&')+oldParams(1);
+          window.history.pushState('', '', dateParam);
+          location.reload();
+      });
+
+      var getUrlParameter = function getUrlParameter(sParam) {
+          var sPageURL = window.location.search.substring(1),
+              sURLVariables = sPageURL.split('&'),
+              sParameterName,
+              i;
+
+          for (i = 0; i < sURLVariables.length; i++) {
+              sParameterName = sURLVariables[i].split('=');
+
+              if (sParameterName[0] === sParam) {
+                  return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+              }
+          }
+      };
+
+      $(function() {
+        $('input[name="dates"]').daterangepicker({
+          opens: 'left',
+          weekStart: 6,
+          locale: {
+              daysOfWeek: [
+                  '{{__('Sun')}}',
+                  '{{__('Mon')}}',
+                  '{{__('Tue')}}',
+                  '{{__('Wed')}}',
+                  '{{__('Thur')}}',
+                  '{{__('Fri')}}',
+                  '{{__('Sat')}}'
+              ],
+              monthNames: [
+                  '{{__('January')}}',
+                  '{{__('February')}}',
+                  '{{__('March')}}',
+                  '{{__('April')}}',
+                  '{{__('May')}}',
+                  '{{__('June')}}',
+                  '{{__('July')}}',
+                  '{{__('August')}}',
+                  '{{__('September')}}',
+                  '{{__('October')}}',
+                  '{{__('November')}}',
+                  '{{__('December')}}'
+              ],
+              fromLabel: '{{__('from')}}',
+              toLabel: '{{__('to')}}',
+              applyLabel: '{{__('apply')}}',
+              cancelLabel:'{{__('cancel')}}',
+              customRangeLabel: '{{__('custom Range')}}',
+              weekLabel: '{{__('week')}}',
+          },
+          ranges: {
+             '{{__('Today')}}': [moment(), moment()],
+             '{{__('Yesterday')}}': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+             '{{__('Last 7 Days')}}': [moment().subtract(6, 'days'), moment()],
+             '{{__('Last 30 Days')}}': [moment().subtract(29, 'days'), moment()],
+             '{{__('This Month')}}': [moment().startOf('month'), moment().endOf('month')],
+             '{{__('Last Month')}}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
+          startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"), 
+          endDate: getUrlParameter('date_to')?getUrlParameter('date_to'):moment(new Date()).format("MM/DD/YYYY"),
+        }, function(start, end, label) {
+            var dateParam = '?date_start=' + start.format('MM/DD/YYYY') + '&date_to='+end.format('MM/DD/YYYY')+oldParams(2);
+            window.history.pushState('', '', dateParam);
+            location.reload();
+        });
+      });
+
+  </script>
+@endpush

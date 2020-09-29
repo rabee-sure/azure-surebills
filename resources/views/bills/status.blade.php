@@ -36,7 +36,7 @@
               @if($bill->status == 'paid')
                 <div class="alert alert-success" role="alert">
                   @if ($bill->depositTransaction)
-                    Paid - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
+                    {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
                   @else
                   {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
                   @endif
@@ -94,7 +94,7 @@
               <p>{{ $bill->customer_email}}</p>
             </div><!-- customer_information -->
           </div><!-- single_bill_content -->
-          <a href="https://bills.surepay.sa" target="_blank" title="Sure Bills" class="logo_bills"></a>
+          <a href="/" target="_blank" title="Sure Bills" class="logo_bills"></a>
         </div><!-- col-12 -->
       </div><!-- row -->
     </div><!-- container -->

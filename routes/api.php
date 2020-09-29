@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::prefix('v1')->group(function () {
+	Route::get('users/{user}/stats', 'UserController@stats');
+
 	Route::post('bills/create', 'BillController@store');
 	Route::put('bills/{bill}/cancel', 'BillController@cancel');
 	Route::put('bills/{bill}/timeout', 'BillController@timeout');

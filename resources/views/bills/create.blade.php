@@ -190,7 +190,12 @@
                 <div class="Tax_Values form-row mb-2" style="display: none;">
                   <div class="form-group col-12 col-md-12 col-lg-12 col-xl-12">
                     <label for="Tax">{{ __('Tax Value') }}</label>
-                    <input type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value">
+                    <div class="input-group">
+                      <input type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value" aria-describedby="basic-addon3">
+                      <div class="input-group-append">
+                        <span class="input-group-text discount_type_item2" id="percentage">%</span>
+                      </div>
+                    </div>
                   </div><!-- form-group -->
                 </div><!-- form-row -->
               </div><!-- col-12 -->

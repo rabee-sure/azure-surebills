@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Observers\TransferObserver;
+use App\Transfer;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,7 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \Spatie\NovaTranslatable\Translatable::defaultLocales(['en', 'ar']);
+
+        Transfer::observe(TransferObserver::class);
         Schema::defaultStringLength(191);
     }
 }

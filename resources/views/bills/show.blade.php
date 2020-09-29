@@ -53,27 +53,27 @@
         <p>{{  $bill->user->business_address}}</p>
         <b>{{  $bill->user->business_mobile }}</b>
       </div><!-- title -->
-      <div id="status">
-        @if($bill->status == 'expired')
-          <div class="alert alert-secondary" role="alert">
-            this bill #{{ $bill->number }} has been expired
-          </div>
-        @endif
-        @if($bill->status == 'paid')
-          <div class="alert alert-success" role="alert">
-            @if ($bill->depositTransaction)
-              Paid - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
-            @else
-              this bill #{{ $bill->number }} paid successfully
-            @endif
-          </div>
-        @endif
-        @if($bill->status == 'canceled')
-          <div class="alert alert-danger" role="alert">
-            this bill #{{ $bill->number }} has been canceled
-          </div>
-        @endif
-      </div>
+            <div id="status">
+              @if($bill->status == 'expired')
+                <div class="alert alert-danger" role="alert">
+                  {{ __('this bill has been expired', ['number' => $bill->number ]) }}
+                </div>
+              @endif
+              @if($bill->status == 'paid')
+                <div class="alert alert-success" role="alert">
+                  @if ($bill->depositTransaction)
+                    {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
+                  @else
+                  {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
+                  @endif
+                </div>
+              @endif
+              @if($bill->status == 'canceled')
+                <div class="alert alert-danger" role="alert">
+                  {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
+                </div>
+              @endif
+            </div>
       <div class="date_time">
         <span>
           {{__('Due on')}} {{ $bill->due_date->format('M d Y')}}
@@ -120,10 +120,9 @@
         <p>{{ $bill->customer_email}}</p>
       </div><!-- customer_information -->
     </div><!-- show_bill_general -->  
-    <a href="https://bills.surepay.sa" target="_blank" title="Sure Bills" class="logo_bills"></a>
+    <a href="/" title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
 </div><!-- row -->
-
           <!-- Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">

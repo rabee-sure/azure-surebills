@@ -4,13 +4,13 @@
 <div class="row">
   <div class="col-12">
     <h1>{{ __('Bank Information')}}</h1>
-      <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-        <ol class="breadcrumb pt-0">
-          <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
-          <li class="breadcrumb-item"><a href="{{ url('account') }}" title="{{__('Account')}}">{{__('Account')}}</a></li>
-          <li class="breadcrumb-item active" aria-current="page">{{ __('Bank Information')}}</li>
-        </ol>
-      </nav>
+    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+      <ol class="breadcrumb pt-0">
+        <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('account') }}" title="{{__('Account')}}">{{__('Account')}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ __('Bank Information')}}</li>
+      </ol>
+    </nav>
     <div class="separator mb-5"></div>
   </div>
 
@@ -22,16 +22,12 @@
           <div class="form-row">
             <div class="form-group col-12">
               <label for="inputEmail5">{{__('Bank')}}</label>
-              <select name="bank" id="inputEmail5" class="form-control">
+              <select name="bank_id" id="inputEmail5" class="form-control">
               <option value="" disabled selected>{{__('Select your Bank')}}</option>
 
-                @foreach(getBanks() as $bank)
-                  <option value="{{$bank['id']}}" @if ($user->bank == $bank['id'])selected="selected"@endif>
-                     @if(app()->getLocale() == 'ar')
-                     {{$bank['ar']}}
-                     @else
-                     {{$bank['en']}}
-                     @endif
+                @foreach(App\Bank::active()->get() as $bank)
+                  <option value="{{$bank->id}}" @if($user->bank_id == $bank->id)selected="selected"@endif>
+                     {{ $bank->name }}
                   </option>
                 @endforeach
               </select>

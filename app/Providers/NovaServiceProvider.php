@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use Anaseqal\NovaSidebarIcons\NovaSidebarIcons;
+use App\Nova\Metrics\BillsPerDay;
+use App\Nova\Metrics\NewUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
-use Sure\Settlements\Settlements;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -19,6 +21,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Nova::userTimezone(function (Request $request) {
+            return 'Asia/Riyadh';
+        });
     }
 
     /**
@@ -48,7 +54,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 'faisal@toot.im',
                 'eabdelsabour@sure.com.sa',
                 'aghanem@sure.com.sa',
-                'mjarad@sure.com.sa',
+                'ayoussef@sure.com.sa',
             ]);
         });
     }
@@ -60,8 +66,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        return [
-            new Help,
+        return [     
+            new NewUsers,
+            (new BillsPerDay)->width('2/3'),
         ];
     }
 
@@ -72,7 +79,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function dashboards()
     {
-        return [];
+        return [
+        ];
     }
 
     /**
@@ -83,7 +91,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            // new Settlements,
             new NovaSidebarIcons,
         ];
     }
