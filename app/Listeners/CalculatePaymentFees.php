@@ -2,13 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Events\BillPaid;
-use App\Mail\SendBillPaidToCustomer;
 use App\PaymentLog;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Transaction;
+use App\Events\BillPaid;
 use Illuminate\Support\Facades\Log;
+use App\Mail\SendBillPaidToCustomer;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CalculatePaymentFees
 {
@@ -42,6 +43,7 @@ class CalculatePaymentFees
             $bill->settled = false;
             $bill->pricing_fees_details = $percentage.'%,'. $fixed;
             $bill->payment_fees = $bill->total * ($percentage / 100) + $fixed;
+            $bill->payment_fees_vat = $bill->payment_fees * (Transaction::VAT_PERCENTAGE / 100);
             $bill->save();
         }
 

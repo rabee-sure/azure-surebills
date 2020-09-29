@@ -84,7 +84,7 @@ class AccountController extends Controller
     public function storeBankInformation(BankInformationRequest $request)
     {
         auth()->user()->update([              
-            'bank' => $request->get('bank'),
+            'bank_id' => $request->get('bank_id'),
             'iban_number' => $request->get('iban_number'),
             'beneficiary_name' => $request->get('beneficiary_name'),
         ]);

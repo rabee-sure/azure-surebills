@@ -82,10 +82,26 @@ class Transaction extends Model
         $transaction->user_id     = $bill->user_id;
         $transaction->bill_id     = $bill->id;
         $transaction->type        = 'debit';
-        $transaction->amount      = $bill->payment_fees * (self::VAT_PERCENTAGE / 100);
+        $transaction->amount      = $bill->payment_fees_vat;
         $transaction->reference   = $bill->number;
         $transaction->receipt     = $transaction->generateReceipt();
         $transaction->description = 'VAT - Transaction Processing';
+        $transaction->balance     = $transaction->user->balance - $transaction->amount;
+        $transaction->save();
+    }
+
+    protected static function withdrawTransfer($transfer)
+    {
+        $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
+        $bankNumber = substr($transfer->user->iban_number, -4);
+
+        $transaction = new self;
+        $transaction->user_id     = $transfer->user_id;
+        $transaction->type        = 'debit';
+        $transaction->amount      = $transfer->amount;
+        $transaction->reference   = $transfer->id;
+        $transaction->receipt     = $transaction->generateReceipt();
+        $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
         $transaction->balance     = $transaction->user->balance - $transaction->amount;
         $transaction->save();
     }

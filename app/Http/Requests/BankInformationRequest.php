@@ -24,7 +24,7 @@ class BankInformationRequest extends FormRequest
     public function rules()
     {
         return [
-            'bank' => ['required'],
+            'bank_id' => ['required'],
             'iban_number' => ['required'],
             'beneficiary_name' => ['required'],
         ];
@@ -39,7 +39,7 @@ class BankInformationRequest extends FormRequest
     public function messages()
     {
         return [
-          'bank.required' => __('bank required'),
+          'bank_id.required' => __('bank required'),
           'iban_number.required' => __('iban number required'),
           'beneficiary_name.required' => __('beneficiary name required'),
         ];

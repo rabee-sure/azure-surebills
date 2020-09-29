@@ -15,6 +15,16 @@ class UserId extends Filter
     public $component = 'select-filter';
 
     /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return  __('User Id');
+    }
+
+    /**
      * Apply the filter to the given query.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -2,25 +2,37 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\DateRange;
+use App\Rules\TransferBalance;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
 
-class Settlement extends Resource
+class TransferHidden extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Settlement::class;
+    public static $model = \App\Transfer::class;
+    
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var string
+     */
+    public static $displayInNavigation = false;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -28,8 +40,6 @@ class Settlement extends Resource
      * @var string
      */
     public static $title = 'name';
-
-    public static $displayInNavigation = false;
     
     /**
      * The columns that should be searched.
@@ -59,9 +69,11 @@ class Settlement extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('User'),
-            Number::make('Amount')->min(1)->step(0.1),
-
+            BelongsTo::make(__('User'), 'user', User::class),
+            Number::make(__('Amount'), 'amount')->min(1)->step(0.1)->rules('required', new TransferBalance($request->viaResourceId)),
+            Textarea::make(__('Note'), 'note'),
+            File::make(__('Attachment'), 'attachment')->disk('public'),
+            DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
         ];
     }
 
@@ -84,7 +96,9 @@ class Settlement extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new DateRange(),
+        ];
     }
 
     /**
@@ -99,6 +113,16 @@ class Settlement extends Resource
     }
 
     /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Transfers');
+    }
+
+    /**
      * Get the actions available for the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -109,5 +133,18 @@ class Settlement extends Resource
         return [];
     }
 
+    // public static function authorizedToCreate(Request $request)
+    // {
+    //     return false;
+    // }
+        
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
+    }
 
+    public function authorizedToUpdate(Request $request)
+    {
+        return false;
+    }
 }

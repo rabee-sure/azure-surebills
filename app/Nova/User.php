@@ -2,9 +2,13 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
 use App\Nova\Metrics\NewBills;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -36,6 +40,16 @@ class User extends Resource
     }
 
     /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('User');
+    }
+
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
@@ -48,7 +62,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name', 'email', 'mobile'
     ];
 
     /**
@@ -62,37 +76,39 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Gravatar::make()->maxWidth(50),
+            Text::make(__('Business Name'), 'business_name')->rules('required', 'max:255')->onlyOnForms(),
 
-            Text::make('Name')
+            Text::make(__('Name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:255'),            
 
-            Text::make('Email')
+            Text::make(__('Email'), 'email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            Password::make('Password')
+            Password::make(__('Password'), 'password')
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
-            Select::make('Gender')->options([
-                '1' => 'Male',
-                '2' => 'Female',
-            ])->displayUsingLabels(),
+            Text::make(__('Mobile'), 'mobile')->rules('required', 'regex:/(^[5]{1}[0-9]{8}$)/')->onlyOnForms(),
 
-            Text::make('balance', function () {
-                return round($this->balance,2);
-            }),
-            new Panel('Pricing', $this->pricingFields()),
+            Select::make(__('Gender'), 'gender')->options([
+                '1' => __('Male'),
+                '2' => __('Female'),
+            ])->displayUsingLabels()->sortable(),
 
-            new Panel('Business Information', $this->businessInformation()),
-            new Panel('Bank Information', $this->bankInformation()),
+            Text::make(__('Balance'), function () {
+                return $this->round_balance;
+            })->readonly(),
+            new Panel(__('Pricing'), $this->pricingFields()),
 
-            HasMany::make('settlements'),
+            new Panel(__('Business Information'), $this->businessInformation()),
+            new Panel(__('Bank Information'), $this->bankInformation()),
+            File::make(__('Business logo'), 'logo')->disk('public'),
+            HasMany::make(__('Transfers'), 'transfers', TransferHidden::class),
             // HasMany::make('statement'),
 
         ];
@@ -106,12 +122,12 @@ class User extends Resource
     protected function pricingFields()
     {
         return [
-            Number::make(_('mada fixed fees'), 'mada_fixed')->step(0.1),
-            Number::make(_('mada percentage fees'), 'mada_percentage')->step(0.1),
-            Number::make(_('Credit Card fixed fees'), 'credit_cards_fixed')->step(0.1),
-            Number::make(_('Credit Card percentage fees'), 'credit_cards_percentage')->step(0.1),
-            Number::make(_('ApplePay fixed fees'), 'apple_pay_fixed')->step(0.1),
-            Number::make(_('ApplePay percentage fees'), 'apple_pay_percentage')->step(0.1),
+            Number::make(__('Mada fixed fees'), 'mada_fixed')->step(0.1)->hideFromIndex(),
+            Number::make(__('Mada percentage fees'), 'mada_percentage')->step(0.1)->hideFromIndex(),
+            Number::make(__('Credit Card fixed fees'), 'credit_cards_fixed')->step(0.1)->hideFromIndex(),
+            Number::make(__('Credit Card percentage fees'), 'credit_cards_percentage')->step(0.1)->hideFromIndex(),
+            Number::make(__('ApplePay fixed fees'), 'apple_pay_fixed')->step(0.1)->hideFromIndex(),
+            Number::make(__('ApplePay percentage fees'), 'apple_pay_percentage')->step(0.1)->hideFromIndex(),
         ];
     }
 
@@ -122,18 +138,17 @@ class User extends Resource
      */
     protected function businessInformation()
     {
-        
         return [
-            Select::make('License type')->options([
+            Select::make(__('License Type'), 'license_type')->options([
                 'Commercial Record' => 'Commercial Record',
                 'Freelance' => 'Freelance',
-            ])->displayUsingLabels(),
-            Text::make('VAT Registration Number'),
-            Text::make('Business Name'),
-            Text::make('Sector'),
-            Textarea::make('business_address'),
-            Text::make('Mobile'),
-            Text::make('Website'),
+            ])->displayUsingLabels()->onlyOnDetail(),
+            Text::make(__('VAT Registration Number'), 'vat_registration_number')->onlyOnDetail(),
+            Text::make(__('Business Name'), 'business_name')->onlyOnDetail(),
+            Text::make(__('Sector'), 'sector')->onlyOnDetail(),
+            Textarea::make(__('Business Address'), 'business_address')->onlyOnDetail(),
+            Text::make(__('Mobile'), 'mobile')->onlyOnDetail(),
+            Text::make(__('Website'), 'website')->onlyOnDetail(),
         ];
     }    
 
@@ -145,16 +160,9 @@ class User extends Resource
     protected function bankInformation()
     {
         return [
-            Select::make('Bank')->options(function () {
-                $output = [];
-
-                foreach(getBanks() as $bank) {
-                    $output[$bank['id']] = $bank['en'];
-                }
-                return $output;
-            })->displayUsingLabels(),
-            Text::make('Iban Number'),
-            Text::make('Beneficiary Name'),
+            BelongsTo::make(__('Bank'), 'bank', Bank::class)->onlyOnDetail(),
+            Text::make(__('Iban Number'), 'iban_number')->onlyOnDetail(),
+            Text::make(__('Beneficiary Name'), 'beneficiary_name')->onlyOnDetail(),
         ];
     }
 
@@ -181,6 +189,7 @@ class User extends Resource
     public function filters(Request $request)
     {
         return [
+            new UserBalance,
         ];
     }
 
@@ -205,6 +214,16 @@ class User extends Resource
     {
         return [];
     }
-
+    
+    /**
+     * authorized To Delete.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return boolean
+     */
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
+    }
 
 }

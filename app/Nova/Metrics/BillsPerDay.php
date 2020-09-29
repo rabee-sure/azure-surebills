@@ -9,6 +9,16 @@ use Laravel\Nova\Metrics\Trend;
 class BillsPerDay extends Trend
 {
     /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return  __('Bills Per Day');
+    }
+
+    /**
      * Calculate the value of the metric.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
@@ -27,9 +37,9 @@ class BillsPerDay extends Trend
     public function ranges()
     {
         return [
-            30 => '30 Days',
-            60 => '60 Days',
-            90 => '90 Days',
+            30 => __('30 Days'),
+            60 => __('60 Days'),
+            90 => __('90 Days'),
         ];
     }
 

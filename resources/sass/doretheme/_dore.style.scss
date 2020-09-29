@@ -10323,7 +10323,6 @@ span.discount_type_item2 {
         padding: 0 10px 0 30px;
         min-width: 200px;
         font-size: 14px;
-        color: #000;
         border-radius: 4px;
         [dir="ltr"] & {
           font-size: 13px;
@@ -10385,6 +10384,7 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
     } /* btn */
   } /* .drp-buttons */
   .drp-calendar {
+    max-width: 320px !important;
     &.left {
       float: right;
       border-left: none;
@@ -10420,6 +10420,9 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
                   transform: rotate(-45deg);
                 } /* ltr */
               } /* span */
+            } /* th */
+            th {
+              font-size: 11px;
             } /* th */
           } /* tr */
         } /* thead */

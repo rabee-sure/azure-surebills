@@ -83,8 +83,8 @@ Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
 	Route::resource('applications', 'ApplicationController');
 	Route::get('statement', 'StatementController@index')->name('statement.index');
-    Route::get('settlement', 'SettlementController@index')->name('settlement.index');
-    Route::post('settlements', 'SettlementController@store');
+    Route::get('transfer', 'TransferController@index')->name('transfer.index');
+    Route::post('transfers', 'TransferController@store');
 	Route::resource('bills', 'BillController');
 	Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
 	Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
@@ -107,5 +107,5 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 });
 
 Route::get('users/all', 'UserController@all')->name('users.all');
-Route::get('users/{user}/settlements', 'UserController@settlements')->name('users.settlements');
+Route::get('users/{user}/transfers', 'UserController@transfers')->name('users.transfers');
 Route::get('users/{user}', 'UserController@show')->name('users.show');
