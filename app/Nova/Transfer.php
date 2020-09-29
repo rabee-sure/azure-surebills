@@ -3,6 +3,11 @@
 namespace App\Nova;
 
 use App\Nova\Filters\DateRange;
+use App\Nova\Metrics\TotalCommissions;
+use App\Nova\Metrics\TotalDue;
+use App\Nova\Metrics\TotalIncome;
+use App\Nova\Metrics\TotalPaid;
+use App\Nova\Metrics\TotalVatOnCommissions;
 use App\Rules\TransferBalance;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -98,7 +103,13 @@ class Transfer extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            (new TotalIncome)->width('1/5'),
+            (new TotalCommissions)->width('1/5'),
+            (new TotalVatOnCommissions)->width('1/5'),
+            (new TotalPaid)->width('1/5'),
+            (new TotalDue)->width('1/5'),
+        ];
     }
 
     /**
