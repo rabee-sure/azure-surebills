@@ -1,8 +1,9 @@
 {
 	"User Id": "Id المستخدم",
+	"User Id": "Id المستخدم",
 	"Date Range": "نطاق الموعد",
 	"Source": "المصدر",
-	"Business logo": "شعار الشركة",
+	"Card Brand": "نوع البطاقة",
 
 	"Mada fixed fees": "رسوم مدى ثابتة",
 	"Mada percentage fees": "رسوم مدى متغيره",
