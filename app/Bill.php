@@ -151,6 +151,40 @@ class Bill extends Model
     }  
 
     /**
+     * Payment Method Details.
+     *
+     * @var boolean
+     */
+    public function getPaymentMethodDetailsAttribute()
+    {
+        $method = '';
+
+        if (!$this->success_payment) {
+            return $method;
+        }
+
+        if ($this->success_payment->payment_method == 'hyperpay_applepay') {
+            $method .= 'APPLE PAY - ';
+        }
+
+        if (isset($this->success_payment->results['response']) && isset($this->success_payment->results['response']['paymentBrand'])) {
+            $method .= $this->success_payment->results['response']['paymentBrand'];
+        }
+
+        return $method;
+    }  
+
+    /**
+     * Payment Method Details.
+     *
+     * @var boolean
+     */
+    public function getDueToClientAttribute()
+    {
+        return $this->total - $this->payment_fees - $this->payment_fees_vat;
+    }  
+
+    /**
      * Is Expired.
      *
      * @var boolean
@@ -308,7 +342,7 @@ class Bill extends Model
     /**
      * Mark invoice as paid
      */
-    public function paid()
+    public function setPaid()
     {
         if ($this->status == 'paid') {
             return false;

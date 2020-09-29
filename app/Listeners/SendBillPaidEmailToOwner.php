@@ -28,6 +28,8 @@ class SendBillPaidEmailToOwner implements ShouldQueue
      */
     public function handle(BillPaid $event)
     {
-        Mail::to($event->bill->user->email)->send(new SendBillPaidToOwner($event->bill));
+        if(isset($event->bill->user->email)){
+            Mail::to($event->bill->user->email)->send(new SendBillPaidToOwner($event->bill));
+        }
     }
 }

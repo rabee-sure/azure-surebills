@@ -70,30 +70,30 @@ class Statement extends Resource
     public function fields(Request $request)
     {
         return [
-            DateTime::make('created at')->exceptOnForms(),
-            Text::make('description'),
-            Text::make('reference'),
-            Text::make('receipt'),
-            Text::make('auth_id'),
-            Select::make('card_brand')->options([
+            DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
+            Text::make(__('Description'), 'description'),
+            Text::make(__('Reference'), 'reference'),
+            Text::make(__('Receipt'), 'receipt'),
+            Text::make(__('Auth ID'), 'auth_id'),
+            Select::make(__('Card Brand'), 'card_brand')->options([
                 'VISA' => 'VISA',
                 'MASTER' => 'MASTER',
                 'MADA' => 'MADA',
                 'APPLEPAY' => 'APPLEPAY',
             ]),
-            Badge::make('type')->map([
+            Badge::make(__('Type'), 'type')->map([
                 'credit' => 'success',
                 'debit' => 'danger',
             ]), 
-            Text::make('Amount', function () {
+            Text::make(__('Amount'), 'amount', function () {
                 return round($this->amount, 2);
             }),            
 
-            Text::make('Balance', function () {
+            Text::make(__('Balance'), 'balance', function () {
                 return round($this->balance, 2);
             }),
             
-            BelongsTo::make('User'),
+            BelongsTo::make(__('User'), 'user', User::class),
         ];
     }
 

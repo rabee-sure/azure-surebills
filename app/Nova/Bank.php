@@ -129,4 +129,15 @@ class Bank extends Resource
     {
         return [];
     }
+
+    /**
+     * authorized To Delete.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return boolean
+     */
+    public function authorizedToDelete(Request $request)
+    {
+        return !$this->users()->exists();
+    }
 }
