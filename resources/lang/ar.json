@@ -6,6 +6,9 @@
 	"Card Brand": "نوع البطاقة",
 	"Type": "النوع",
 
+	"Url": "لينك",
+	"Bill link": "رابط الفاتورة",
+
 	"Mada fixed fees": "رسوم مدى ثابتة",
 	"Mada percentage fees": "رسوم مدى متغيره",
 	"Credit Card fixed fees": "الرسوم الثابتة لبطاقة الائتمان",

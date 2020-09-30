@@ -128,7 +128,12 @@ class Bill extends Resource
                 'paid' => 'success',
                 'canceled' => 'warning',
                 'expired' => 'danger',
-            ]),         
+            ]),
+
+            Text::make(__('Url') , 'pay_url')->displayUsing(function(){
+                return '<a href="'.$this->pay_url.'" target="_blank" class="no-underline dim text-primary  view_reservation">' . __('Bill link') . '</a>';
+            })->sortable()->onlyOnDetail()->asHtml(),      
+
             Select::make(__('Payment Method'), 'payment_method')->options([
                 'credit' => 'credit',
                 'stc' => 'stc',
