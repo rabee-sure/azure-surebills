@@ -185,5 +185,12 @@ return [
         'size'                  => 'الحجم',
         "customer_email"        => "البريد الالكتروني",
         "customerـmobile"       => "رقم الجوال",
+        "mada_fixed"=> "رسوم مدى ثابتة",
+        "mada_percentage"=> "رسوم مدى متغيره",
+        "credit_cards_fixed"=> "الرسوم الثابتة لبطاقة الائتمان",
+        "credit_cards_percentage"=> "الرسوم المتغيره لبطاقة الائتمان",
+        "apple_pay_fixed"=> "الرسوم الثابتة لابل باي",
+        "apple_pay_percentage"=> "الرسوم المتغيره لابل باي", 
+        "business_name"=> "الاسم التجاري",
     ],
 ];
