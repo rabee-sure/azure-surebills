@@ -18,6 +18,7 @@ return [
         'card_invalid' => 'The :attribute invalid',
     ],
     
+    'match_old_password' => 'كلمة المرور الجديدة لا تتطابق مع كلمة المرور القديمة.',
     'accepted'        => 'يجب قبول :attribute.',
     'active_url'      => ':attribute لا يُمثّل رابطًا صحيحًا.',
     'after'           => 'يجب على :attribute أن يكون تاريخًا لاحقًا للتاريخ :date.',
