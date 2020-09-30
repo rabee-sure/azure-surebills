@@ -159,6 +159,7 @@ return [
         'first_name'            => 'الاسم الأول',
         'last_name'             => 'اسم العائلة',
         'password'              => 'كلمة المرور',
+        'new_password' => 'كلمة المرور الجديدة',
         'password_confirmation' => 'تأكيد كلمة المرور',
         'city'                  => 'المدينة',
         'country'               => 'الدولة',
