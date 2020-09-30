@@ -8,6 +8,9 @@
 	"Card Brand": "نوع البطاقة",
 	"Type": "النوع",
 	"Application": "التطبيق",
+	"Update": "تعديل",
+	"Are You sure Delete this Customer?": "هل أنت متأكد من حذف هذا العميل؟",
+	"Delete Customer": "حذف العميل",
 
 	"Url": "لينك",
 	"Bill link": "رابط الفاتورة",

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\Http\Requests\CustomerRequest;
+use App\Http\Requests\CustomerUpdateRequest;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -99,7 +100,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view('customers.edit', ['customer' => $customer]);
     }
 
     /**
@@ -109,9 +110,15 @@ class CustomerController extends Controller
      * @param  \App\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(CustomerUpdateRequest $request, Customer $customer)
     {
-        //
+        $customer->name = $request->name;
+        $customer->email = $request->email;
+        $customer->mobile = $request->mobile;
+        $customer->notes = $request->notes;
+        $customer->save();
+
+        return redirect()->route('customers.index');
     }
 
     /**
@@ -122,6 +129,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        return redirect()->route('customers.index');
     }
 }
