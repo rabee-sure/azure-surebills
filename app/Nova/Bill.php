@@ -132,7 +132,9 @@ class Bill extends Resource
 
             Text::make(__('Url') , 'pay_url')->displayUsing(function(){
                 return '<a href="'.$this->pay_url.'" target="_blank" class="no-underline dim text-primary  view_reservation">' . __('Bill link') . '</a>';
-            })->sortable()->onlyOnDetail()->asHtml(),      
+            })->sortable()->onlyOnDetail()->asHtml(),
+
+            BelongsTo::make(__('Application'), 'application', Application::class)->onlyOnDetail(), 
 
             Select::make(__('Payment Method'), 'payment_method')->options([
                 'credit' => 'credit',
