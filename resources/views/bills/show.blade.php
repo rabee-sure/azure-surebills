@@ -50,6 +50,11 @@
       @endif
       <div class="title">
         <span>{{ $bill->business_name}}</span>
+        
+        @if(isset($bill->user->settings->header_bill))
+          <p>{{ $bill->user->settings->header_bill }}</p>
+        @endif
+
         <p>{{  $bill->user->business_address}}</p>
         <b>{{  $bill->user->business_mobile }}</b>
       </div><!-- title -->
@@ -118,6 +123,10 @@
         <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
         <p class="ltr">+966{{ $bill->customer_mobile}}</p>
         <p>{{ $bill->customer_email}}</p>
+                
+        @if(isset($bill->user->settings->footer_bill))
+          <p>{{ $bill->user->settings->footer_bill }}</p>
+        @endif
       </div><!-- customer_information -->
     </div><!-- show_bill_general -->  
     <a href="/" title="Sure Bills" class="logo_bills"></a>

@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group col-md-6">
                       <label for="business_mobile">{{ __('Mobile') }}</label>
-                      <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}">
+                      <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" pattern="[0-9]{9}" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}">
                     </div>
                   </div>
                   <div class="form-row">
