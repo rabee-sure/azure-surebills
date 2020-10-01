@@ -151,14 +151,6 @@ class User extends Resource
                 ->rules('required')
                 ->step(0.1)
                 ->hideFromIndex(),
-            Number::make(__('ApplePay fixed fees'), 'apple_pay_fixed')
-                ->rules('required')
-                ->step(0.1)
-                ->hideFromIndex(),
-            Number::make(__('ApplePay percentage fees'), 'apple_pay_percentage')
-                ->rules('required')
-                ->step(0.1)
-                ->hideFromIndex(),
         ];
     }
 

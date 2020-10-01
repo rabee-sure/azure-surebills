@@ -120,6 +120,7 @@ class Bill extends Resource
     public function fields(Request $request)
     {
         return [
+
             Text::make(__('Name'), function () {
                 return __('Bill').' '.  $this->number  .'-'. $this->customer_name;
             }),
@@ -136,16 +137,6 @@ class Bill extends Resource
 
             BelongsTo::make(__('Application'), 'application', Application::class)->onlyOnDetail(), 
 
-            Select::make(__('Payment Method'), 'payment_method')->options([
-                'credit' => 'credit',
-                'stc' => 'stc',
-                'apple' => 'apple',
-            ]),
-
-            Number::make(__('Total'), 'total')->min(1)->step(0.1),
-            Number::make( __('Payment Fees'), 'payment_fees')->min(1)->step(0.1),
-            Number::make(__('discount'), 'discount')->min(1)->step(0.1)->onlyOnDetail(),
-            Number::make(__('Tax'), 'vat')->min(1)->step(0.1)->onlyOnDetail(),
             DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
             BelongsTo::make(__('User'), 'user', User::class),
             BelongsTo::make(__('Customer'), 'customer', Customer::class)->onlyOnDetail(),
@@ -157,6 +148,20 @@ class Bill extends Resource
 
             Boolean::make(__('Send Email'), 'send_email')->onlyOnDetail(),
             Boolean::make(__('Send Sms'), 'send_sms')->onlyOnDetail(),
+
+            new Panel(__('Payment Details'), function(){
+                return [
+                    Text::make(__('Payment Method'), 'payment_method_details'),
+
+                    Number::make(__('Sub Total'), 'sub_total')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make(__('Discount'), 'discount')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make(__('Tax'), 'vat')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make(__('Total'), 'total')->min(1)->step(0.1),
+                    Number::make( __('Payment Fees'), 'payment_fees')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Payment Fees VAT'), 'payment_fees_vat')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Due to client'), 'due_to_client')->min(1)->step(0.1)->onlyOnDetail(),
+                ];
+            }),
         ];
     }
 
