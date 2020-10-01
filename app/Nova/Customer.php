@@ -71,11 +71,11 @@ class Customer extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make('Name')->rules('required'),
-            Text::make('Email'),
-            Text::make('Mobile'),
-            BelongsTo::make('User'),
-            HasMany::make('Bills'),
+            Text::make(__('Name'), 'name')->rules('required'),
+            Text::make(__('Email'), 'email'),
+            Text::make(__('Mobile'), 'mobile'),
+            BelongsTo::make(__('User'), 'user', User::class),
+            HasMany::make(__('Bills'), 'bills', Bill::class),
         ];
     }
 
