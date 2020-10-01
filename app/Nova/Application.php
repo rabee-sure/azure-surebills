@@ -11,14 +11,16 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Spatie\NovaTranslatable\Translatable;
 
-class Bank extends Resource
+class Application extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Bank::class;
+    public static $model = \App\Application::class;
+
+    public static $displayInNavigation = false;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -44,7 +46,7 @@ class Bank extends Resource
      */
     public static function label()
     {
-        return __('Banks');
+        return __('Applications');
     }
 
     /**
@@ -54,7 +56,7 @@ class Bank extends Resource
      */
     public static function singularLabel()
     {
-        return __('Bank');
+        return __('Application');
     }
 
     /**
@@ -76,19 +78,7 @@ class Bank extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make(__('Code'), 'code')
-                ->creationRules('unique:banks,code')
-                ->updateRules('unique:banks,code,{{resourceId}}'),
-            Translatable::make([
-                Text::make(__('Name'), 'name')->creationRules('unique:banks,name')
-                ->updateRules('unique:banks,name,{{resourceId}}')
-                
-            ]),
-            Number::make(__('Sort Number'), 'sort_number')
-            ->default(0)
-            ->rules('required'),
-            Boolean::make(__('Active'), 'active'),
-            HasMany::make(__('Users'), 'users', User::class),
+            Text::make(__('Name'), 'name'),
         ];
     }
 
@@ -136,14 +126,18 @@ class Bank extends Resource
         return [];
     }
 
-    /**
-     * authorized To Delete.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return boolean
-     */
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+    
     public function authorizedToDelete(Request $request)
     {
-        return !$this->users()->exists();
+        return false;
+    }
+
+    public function authorizedToUpdate(Request $request)
+    {
+        return false;
     }
 }

@@ -24,7 +24,7 @@
             <li>{{ auth()->user()->credit_cards_percentage}} % + {{ auth()->user()->credit_cards_fixed}} {{__('SAR on each Credit Card transaction') }}</li>
             <li>{{ __('No incorporation fees') }}</li>
             <li>{{ __('No monthly fees') }}</li>
-            <li>{{ __('Transfer every 7 days after deducting the ttransfer fee') }}</li>
+            <li>{{ __('Transfer every 7 days after deducting the transfer fee') }}</li>
           </ul>
         </div><!-- pricing_item -->
         {{-- <div class="pricing_item choose_payment">

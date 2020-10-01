@@ -130,6 +130,13 @@ class Bill extends Resource
                 'canceled' => 'warning',
                 'expired' => 'danger',
             ]),
+
+            Text::make(__('Url') , 'pay_url')->displayUsing(function(){
+                return '<a href="'.$this->pay_url.'" target="_blank" class="no-underline dim text-primary  view_reservation">' . __('Bill link') . '</a>';
+            })->sortable()->onlyOnDetail()->asHtml(),
+
+            BelongsTo::make(__('Application'), 'application', Application::class)->onlyOnDetail(), 
+
             DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
             BelongsTo::make(__('User'), 'user', User::class),
             BelongsTo::make(__('Customer'), 'customer', Customer::class)->onlyOnDetail(),
@@ -144,11 +151,7 @@ class Bill extends Resource
 
             new Panel(__('Payment Details'), function(){
                 return [
-                    Select::make(__('Payment Method'), 'payment_method_details')->options([
-                        'credit' => 'credit',
-                        'stc' => 'stc',
-                        'apple' => 'apple',
-                    ]),
+                    Text::make(__('Payment Method'), 'payment_method_details'),
 
                     Number::make(__('Sub Total'), 'sub_total')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make(__('Discount'), 'discount')->min(1)->step(0.1)->onlyOnDetail(),

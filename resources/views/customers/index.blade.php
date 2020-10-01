@@ -46,6 +46,7 @@
                 <th scope="col">{{__('Email')}}</th>
                 <th scope="col">{{__('Bills')}}</th>
                 <th scope="col">{{__('Date created')}}</th>
+                <th scope="col">{{__('Actions')}}</th>
               </tr>
             </thead>
             <tbody>
@@ -57,6 +58,11 @@
                   <td>{{ $customer->email }}</td>
                   <td>{{ $customer->bills->count() }}</td>
                   <td>{{ $customer->created_at }}</td>
+                  <td>
+                    <a href="{{ route('customers.edit', $customer->id)}}" class="btn btn-primary">
+                    {{ __('Edit') }}</a>
+                    @include('customers.delete', ['customer' => $customer])
+                  </td>
                 </tr>
               @endforeach
 
@@ -68,7 +74,7 @@
               <span>{{ __('No Customer matched the given criteria.') }}</span>
             </div><!-- no_customers_yet -->
           @endif
-                  {{ $customers->links() }}
+          {{ $customers->links() }}
         </div>
       </div>
     </div>
