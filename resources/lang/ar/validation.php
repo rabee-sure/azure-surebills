@@ -18,6 +18,7 @@ return [
         'card_invalid' => 'The :attribute invalid',
     ],
     
+    'match_old_password' => 'كلمة المرور الجديدة لا تتطابق مع كلمة المرور القديمة.',
     'accepted'        => 'يجب قبول :attribute.',
     'active_url'      => ':attribute لا يُمثّل رابطًا صحيحًا.',
     'after'           => 'يجب على :attribute أن يكون تاريخًا لاحقًا للتاريخ :date.',
@@ -158,6 +159,7 @@ return [
         'first_name'            => 'الاسم الأول',
         'last_name'             => 'اسم العائلة',
         'password'              => 'كلمة المرور',
+        'new_password' => 'كلمة المرور الجديدة',
         'password_confirmation' => 'تأكيد كلمة المرور',
         'city'                  => 'المدينة',
         'country'               => 'الدولة',
@@ -183,5 +185,12 @@ return [
         'size'                  => 'الحجم',
         "customer_email"        => "البريد الالكتروني",
         "customerـmobile"       => "رقم الجوال",
+        "mada_fixed"=> "رسوم مدى ثابتة",
+        "mada_percentage"=> "رسوم مدى متغيره",
+        "credit_cards_fixed"=> "الرسوم الثابتة لبطاقة الائتمان",
+        "credit_cards_percentage"=> "الرسوم المتغيره لبطاقة الائتمان",
+        "apple_pay_fixed"=> "الرسوم الثابتة لابل باي",
+        "apple_pay_percentage"=> "الرسوم المتغيره لابل باي", 
+        "business_name"=> "الاسم التجاري",
     ],
 ];
