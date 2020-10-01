@@ -57,7 +57,7 @@ class Statement extends Resource
      * @var array
      */
     public static $orderBy = [
-        'created_at' => 'desc',
+        'created_at' => 'ASC',
         'receipt' => 'ASC',
     ];
 

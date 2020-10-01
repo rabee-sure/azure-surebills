@@ -126,9 +126,11 @@ class Bill extends Resource
             'expired' =>  __('Expired'),
         ];
         return [
+
             Text::make(__('Name'), function () {
                 return __('Bill').' '.  $this->number  .'-'. $this->customer_name;
             }),
+
 
             Badge::make(__('Status'), 'status')
                ->options($options)
@@ -178,6 +180,7 @@ class Bill extends Resource
             DateTime::make(__('Created At'), 'created_at')
                 ->exceptOnForms(),
 
+
             BelongsTo::make(__('User'), 'user', User::class),
             BelongsTo::make(__('Customer'), 'customer', Customer::class)->onlyOnDetail(),
             Text::make(__('Business Name'), 'business_name')->onlyOnDetail(),
@@ -187,6 +190,20 @@ class Bill extends Resource
             DateTime::make(__('Canceled At'), 'canceled_at')->onlyOnDetail(),
             Boolean::make(__('Send Email'), 'send_email')->onlyOnDetail(),
             Boolean::make(__('Send Sms'), 'send_sms')->onlyOnDetail(),
+
+            new Panel(__('Payment Details'), function(){
+                return [
+                    Text::make(__('Payment Method'), 'payment_method_details'),
+
+                    Number::make(__('Sub Total'), 'sub_total')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make(__('Discount'), 'discount')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make(__('Tax'), 'vat')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make(__('Total'), 'total')->min(1)->step(0.1),
+                    Number::make( __('Payment Fees'), 'payment_fees')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Payment Fees VAT'), 'payment_fees_vat')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Due to client'), 'due_to_client')->min(1)->step(0.1)->onlyOnDetail(),
+                ];
+            }),
         ];
     }
 
