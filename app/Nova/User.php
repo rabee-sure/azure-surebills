@@ -109,6 +109,7 @@ class User extends Resource
             ->sortable()->onlyOnForms(),
 
             Select::make(__('Gender'), 'gender')->options([
+                '0' => '-',
                 '1' => __('Male'),
                 '2' => __('Female'),
             ])->displayUsingLabels()->sortable(),
