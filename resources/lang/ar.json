@@ -1,4 +1,10 @@
 {
+	"You've got a payment! : total SAR from: name": "لقد حصلت على دفعة! :total ريال  من :name",
+	"Your bill of :total SAR has been successfully paid": "تم دفع فاتورتك بملغ :total ريال بنجاح",
+	"You’ve got a new bill of :total SAR": "لقد حصلت على فاتورة جديدة باجمالي :total ريال",
+	"Your bill of :total SAR has been created": "تم إنشاء فاتورة باجمالي :total ريال",
+	"Pay": "دفع",
+
 	"Actions": "أجراءات",
 	"request contains no cc/bank account holder": "الطلب لا يحتوي على نسخة إلى / صاحب حساب مصرفي",
 	"Mobile Verified": "التحقق من الهاتف",

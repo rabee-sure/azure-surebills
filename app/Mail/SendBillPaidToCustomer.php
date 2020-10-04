@@ -29,6 +29,8 @@ class SendBillPaidToCustomer extends Mailable
      */
     public function build()
     {
-        return $this->subject('Your bill of '. $this->bill->total.' SAR has been successfully paid ')->view('emails.bills.paid_to_customer');
+        \App::setLocale($this->bill->user->settings->default_lang); 
+        return $this->subject(__('Your bill of :total SAR has been successfully paid', ['total' => $this->bill->total]) )
+                ->view('emails.bills.paid_to_customer');
     }
 }

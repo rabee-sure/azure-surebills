@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr" @endif>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -222,6 +222,9 @@
         @endif
         <div class="block_1">
           <span> {{ $bill->business_name}}</span>
+          @if(isset($bill->user->settings->header_bill))
+              <p>{{ $bill->user->settings->header_bill }}</p>
+          @endif
           <p>{{ $bill->user->business_address }}</p>
           <small>{{  $bill->user->business_mobile }}</small>
         </div><!-- block_1 -->
@@ -257,28 +260,32 @@
             <div class="details_pay">
               <p>{!! $item->product_name !!}</p>
               <b>X {{ $item->quantity  }}</b>
-              <b>{{ $item->product_price  }} SAR</b>
+              <b>{{ $item->product_price  }} {{ __('SAR') }}</b>
             </div><!-- details_pay -->
           @endforeach
         </div><!-- block_3 -->
         <div class="total_area">
             @if( $bill->add_tax && $bill->add_discount)
-              <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} SAR</p>
+              <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} {{ __('SAR') }}</p>
             @endif
             @if( $bill->add_discount)
-              <p>{{ __('Discount') }} : {{ $bill->discount }} SAR</p>
-              <p>{{ __('Subtotal - Discount') }} : {{ $bill->sub_total- $bill->discount }} SAR</p>
+              <p>{{ __('Discount') }} : {{ $bill->discount }} {{ __('SAR') }}</p>
+              <p>{{ __('Subtotal - Discount') }} : {{ $bill->sub_total- $bill->discount }} {{ __('SAR') }}</p>
             @endif
             @if( $bill->add_tax)
-              <p>{{ __('Tax') }} : {{ $bill->vat }} SAR</p>
+              <p>{{ __('Tax') }} : {{ $bill->vat }} {{ __('SAR') }}</p>
             @endif
-            <b>{{ __('Total') }} : {{ $bill->total}} SAR</b>
+            <b>{{ __('Total') }} : {{ $bill->total}} {{ __('SAR') }}</b>
         </div><!-- total_area -->
         @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
         <div class="block_4">
-          <p>Billed to, {{ $bill->customer_name }}</p>
+          <p>{{ __('Billed to,') }} {{ $bill->customer_name }}</p>
           <p>+966{{ $bill->customer_mobile }}</p>
           <p>{{ $bill->customer_email }}</p>
+          
+          @if(isset($bill->user->settings->footer_bill))
+            <p>{{ $bill->user->settings->footer_bill }}</p>
+          @endif
         </div><!-- block_4 -->
       </div><!-- mail_content -->
       <div class="copyrights">
