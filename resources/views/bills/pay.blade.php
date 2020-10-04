@@ -51,8 +51,8 @@
           </div>
           @if($errors->any())
             <div class="alert alert-danger" role="alert">
-              {{$errors->first()}}
-            </div>
+              {{ __($errors->first()) }}
+            </div>            
           @endif
             <div class="date_time">
               <span>
