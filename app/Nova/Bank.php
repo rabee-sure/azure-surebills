@@ -76,11 +76,17 @@ class Bank extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make(__('Code'), 'code'),
+            Text::make(__('Code'), 'code')
+                ->creationRules('unique:banks,code')
+                ->updateRules('unique:banks,code,{{resourceId}}'),
             Translatable::make([
-                Text::make(__('Name'), 'name'),
+                Text::make(__('Name'), 'name')->creationRules('unique:banks,name')
+                ->updateRules('unique:banks,name,{{resourceId}}')
+                
             ]),
-            Number::make(__('Sort Number'), 'sort_number'),
+            Number::make(__('Sort Number'), 'sort_number')
+            ->default(0)
+            ->rules('required'),
             Boolean::make(__('Active'), 'active'),
             HasMany::make(__('Users'), 'users', User::class),
         ];

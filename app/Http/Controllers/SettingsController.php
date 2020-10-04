@@ -41,16 +41,21 @@ class SettingsController extends Controller
      */
     public function postSettings(SettingsRequest $request)
     {
-        auth()->user()->settings()->update([
-            'add_tax' => $request->add_tax,
-            'tax_value' => $request->tax_value,
-            'default_lang' => $request->default_lang,
-            'active_lang' => $request->active_lang,
-            'create_send_sms' => $request->create_send_sms,
-            'create_send_email' =>  $request->create_send_email,
-            'paid_send_sms' => $request->paid_send_sms,
-            'paid_send_email' => $request->paid_send_email,
-        ]);
+        $settings = auth()->user()->settings;
+        $settings->add_tax = $request->add_tax;
+        $settings->tax_value = $request->tax_value;
+        $settings->default_lang = $request->default_lang;
+        $settings->active_lang = $request->active_lang;
+        $settings->create_send_sms = $request->create_send_sms;
+        $settings->create_send_email =  $request->create_send_email;
+        $settings->paid_send_sms = $request->paid_send_sms;
+        $settings->paid_send_email = $request->paid_send_email;
+        $settings->setTranslation('header_bill', 'en', $request->header_bill_en);
+        $settings->setTranslation('header_bill', 'ar', $request->header_bill_ar);
+        $settings->setTranslation('footer_bill', 'en', $request->footer_bill_en);
+        $settings->setTranslation('footer_bill', 'ar', $request->footer_bill_ar);
+        $settings->save();
+
         return redirect('/settings');
     }
 }

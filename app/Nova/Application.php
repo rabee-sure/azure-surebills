@@ -2,37 +2,34 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\DateRange;
-use App\Nova\Filters\UserId;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Badge;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Spatie\NovaTranslatable\Translatable;
 
-class Statement extends Resource
+class Application extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Transaction::class;
-
+    public static $model = \App\Application::class;
 
     public static $displayInNavigation = false;
-    
+
     /**
-     * Get the displayble label of the resource.
+     * The single value that should be used to represent the resource when being displayed.
      *
-     * @return string
-     */
-    public static function label()
+     * @var string
+     */    
+    public static function searchable()
     {
-        return __('Statement');
+        return false;
     }
 
     /**
@@ -40,7 +37,27 @@ class Statement extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
+
+    /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Applications');
+    }
+
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Application');
+    }
 
     /**
      * The columns that should be searched.
@@ -48,17 +65,7 @@ class Statement extends Resource
      * @var array
      */
     public static $search = [
-        'id',
-    ];
-
-    /**
-     * order By.
-     *
-     * @var array
-     */
-    public static $orderBy = [
-        'created_at' => 'ASC',
-        'receipt' => 'ASC',
+        'id', 'name'
     ];
 
     /**
@@ -70,30 +77,8 @@ class Statement extends Resource
     public function fields(Request $request)
     {
         return [
-            DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
-            Text::make(__('Description'), 'description'),
-            Text::make(__('Reference'), 'reference'),
-            Text::make(__('Receipt'), 'receipt'),
-            Text::make(__('Auth ID'), 'auth_id'),
-            Select::make(__('Card Brand'), 'card_brand')->options([
-                'VISA' => 'VISA',
-                'MASTER' => 'MASTER',
-                'MADA' => 'MADA',
-                'APPLEPAY' => 'APPLEPAY',
-            ]),
-            Badge::make(__('Type'), 'type')->map([
-                'credit' => 'success',
-                'debit' => 'danger',
-            ]), 
-            Text::make(__('Amount'), 'amount', function () {
-                return round($this->amount, 2);
-            }),            
-
-            Text::make(__('Balance'), 'balance', function () {
-                return round($this->balance, 2);
-            }),
-            
-            BelongsTo::make(__('User'), 'user', User::class),
+            ID::make()->sortable(),
+            Text::make(__('Name'), 'name'),
         ];
     }
 
@@ -116,10 +101,7 @@ class Statement extends Resource
      */
     public function filters(Request $request)
     {
-        return [
-            new DateRange(),
-            new UserId(),
-        ];
+        return [];
     }
 
     /**
