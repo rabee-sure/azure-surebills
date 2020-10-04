@@ -29,11 +29,11 @@
             @csrf
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="customer_name">{{ __('Customer Name') }}</label>
-                <input  value="{{ old('customer_name') }}" name="customer_name" type="text" class="form-control" id="customer_name" placeholder="{{ __('Customer Name') }}">
+                <label for="customer_name">{{ __('Customer Name') }} <span class="requirement">*</span></label>
+                <input value="{{ old('customer_name') }}" name="customer_name" type="text" class="form-control" id="customer_name" placeholder="{{ __('Customer Name') }}">
               </div><!-- form-group -->
               <div class="form-group col-md-6">
-                <label for="customer_mobile">{{ __('Mobile Number') }}</label>
+                <label for="customer_mobile">{{ __('Mobile Number') }} <span class="requirement">*</span></label>
                 <div class="input-group phone_inputs">
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">+966</span>
@@ -91,15 +91,15 @@
                     <div data-repeater-item>
                       <div class="form-row mb-2 item_row">
                         <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
-                          <label for="inputEmail1">{{ __('Product/Service') }}</label>
+                          <label for="inputEmail1">{{ __('Product/Service') }} <span class="requirement">*</span></label>
                           <input name="name" value="{{$item['name']}}" type="text" class="form-control" placeholder="{{ __('Name') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
-                          <label for="Price">{{ __('Product/Service Price') }}</label>
+                          <label for="Price">{{ __('Product/Service Price') }} <span class="requirement">*</span></label>
                           <input name="price"  value="{{$item['price']}}" type="number" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
-                          <label for="Price">{{ __('Quantity') }}</label>
+                          <label for="Price">{{ __('Quantity') }} <span class="requirement">*</span></label>
                           <input type="number" name="quantity" value="{{$item['quantity']}}" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1">
@@ -118,15 +118,15 @@
                 <div data-repeater-item>
                   <div class="form-row mb-2 item_row">
                     <div class="form-group col-12 col-md-4 col-lg-6 col-xl-6">
-                      <label for="inputEmail1">{{ __('Product/Service') }}</label>
+                      <label for="inputEmail1">{{ __('Product/Service') }} <span class="requirement">*</span></label>
                       <input name="name" type="text" class="form-control" placeholder="{{ __('Name') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
-                      <label for="Price">{{ __('Product/Service Price') }}</label>
+                      <label for="Price">{{ __('Product/Service Price') }} <span class="requirement">*</span></label>
                       <input type="number" name="price" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Price') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
-                      <label for="Price">{{ __('Quantity') }}</label>
+                      <label for="Price">{{ __('Quantity') }} <span class="requirement">*</span></label>
                       <input type="number" name="quantity" class="form-control _parseArabicNumbers qty1" placeholder="{{ __('Quantity') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1">

@@ -10463,3 +10463,16 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
     } /* calendar-table */
   } /* drp-calendar */
 } /* daterangepicker */
+
+span.requirement {
+  display: inline-block;
+  margin: 0 3px 0 0;
+  color: red;
+  font-size: 20px;
+  position: relative;
+  top: 6px;
+  line-height: 0;
+  [dir="ltr"] & {
+    margin: 0 0 0 3px;
+  } /* ltr */
+}
