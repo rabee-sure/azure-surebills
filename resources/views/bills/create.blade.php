@@ -62,12 +62,12 @@
             </div><!-- form-row -->
 
             <div class="form-row">
-              <div class="form-group col-md-6">
+              <div class="form-group col-6 col-md-6">
                 <label>{{ __('Due Date') }}</label>
                 <input value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="due_date" class="form-control datepicker" placeholder="{{ __('Due Date') }}">
               </div><!-- form-group -->
 
-              <div class="form-group col-md-6">
+              <div class="form-group col-6 col-md-6">
                 <label>{{ __('Expiry Date') }}</label>
                 <select value="{{ old('expiry_date') }}" name="expiry_date" class="form-control">
                   <option value="1">{{ __('1 Day') }}</option>
