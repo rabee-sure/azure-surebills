@@ -19,6 +19,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
+use Naif\Toggle\Toggle;
 use Sure\Userstats\Userstats;
 
 class User extends Resource

@@ -116,18 +116,7 @@ class User extends Authenticatable
             isset($this->iban_number)&&
             isset($this->beneficiary_name)
         );
-    }  
-
-    /**
-     * Get the user's is Active.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    public function getMobileVerifiedAttribute()
-    {
-        return (bool) !isset($this->mobile_sent_at);
-    }   
+    }    
 
     /**
      * Get the user's is Active.
