@@ -91,7 +91,6 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 	Route::resource('customers', 'CustomerController');
 
 	Route::get('/home', 'HomeController@index')->name('home');
-	Route::get('/', 'HomeController@index');
     Route::get('/terms', 'HomeController@terms');
 	Route::get('/integration', 'IntegrationController@index')->name('integration');
 	Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
@@ -105,6 +104,11 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 
     Route::get('products/settings', 'ProductsController@settings')->name('products.settings');
 });
+
+Route::get('/', 'HomeController@landing');
+Route::get('/contact', 'HomeController@contact');
+Route::get('/privacy', 'HomeController@privacy');
+Route::get('/terms', 'HomeController@terms');
 
 Route::get('users/all', 'UserController@all')->name('users.all');
 Route::get('users/{user}/transfers', 'UserController@transfers')->name('users.transfers');
