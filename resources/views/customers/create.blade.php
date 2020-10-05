@@ -13,11 +13,11 @@
                 <div class="modal-body">
                         @csrf
                         <div class="form-group">
-                            <label for="Name">{{__('Name')}}</label>
+                            <label for="Name">{{__('Name')}} <span class="requirement">*</span></label>
                             <input name="name" type="text" class="form-control" id="Name" placeholder="{{__('Name')}}">
                         </div>
                         <div class="form-group">
-                            <label for="Mobile">{{ __('Mobile') }}</label>
+                            <label for="Mobile">{{ __('Mobile') }} <span class="requirement">*</span></label>
                             <div class="input-group phone_inputs">
                               <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">+966</span>

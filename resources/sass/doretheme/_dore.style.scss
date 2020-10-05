@@ -2827,7 +2827,7 @@ main {
   @include respond-below(sm) {
     margin-left: $main-margin-xs !important;
     margin-right: $main-margin-xs !important;
-    margin-top: 10 + $navbar-height-xs !important;
+    margin-top: 40 + $navbar-height-xs !important;
     margin-bottom: 0;
   }
 
@@ -10342,6 +10342,10 @@ span.discount_type_item2 {
         } /* ltr */
       } /* input */
       &::after {
+        @include respond-below(sm) {
+          top: 7px;
+          left: 20px;
+        }
         [dir="ltr"] & {
           left: 10px;
           right: auto;
@@ -10356,14 +10360,17 @@ span.discount_type_item2 {
   .custom-control {
     margin: -4px 0 0 20px;
     @include respond-below(sm) {
-      width: 50%;
-      margin: 5px auto;
+      width: 25%;
+      margin: 0;
     }
     label {
       display: flex;
       align-items: center;
       justify-content: flex-start;
       font-size: 15px;
+      @include respond-below(sm) {
+        font-size: 13px;
+      }
     } /* label */
   } /* custom-control */
 } /* filter_bills */
@@ -10379,12 +10386,19 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
 .daterangepicker {
   top: 85px !important;
   direction: rtl !important;
+  @include respond-below(sm) {
+    margin-top: 51px !important;
+    width: 345px !important;
+  }
   [dir="ltr"] & {
     direction: ltr !important;
   } /* ltr */
   .ranges {
     float: right !important;
     text-align: right !important;
+    @include respond-below(sm) {
+      display: none !important;
+    }
     [dir="ltr"] & {
       float: left !important;
       text-align: left !important;
@@ -10411,6 +10425,16 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
       border-left: none;
       border-right: 1px solid #ddd;
       padding: 8px 8px 8px 0;
+      @include respond-below(sm) {
+        width: 100%;
+        margin: 0;
+        padding: 5px;
+        float: none;
+        border-bottom: 1px solid #ddd;
+        border-left: none !important;
+        max-width: 100% !important;
+        border-right: none !important;
+      }
       [dir="ltr"] & {
         float: left;
         padding: 8px 0 8px 8px;
@@ -10418,6 +10442,12 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
     } /* left */
     &.right {
       float: left;
+      @include respond-below(sm) {
+        float: none;
+        max-width: 100% !important;
+        border: none !important;
+        width: 100%;
+      }
       [dir="ltr"] & {
         float: right;
       } /* ltr */
