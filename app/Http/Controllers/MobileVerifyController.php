@@ -30,6 +30,7 @@ class MobileVerifyController extends Controller
     	$user = auth()->user();
     	if($user->mobile_verified || $user->mobile_active_code == $request->pin){
     		$user->mobile_sent_at = null;
+            $user->mobile_verified = true;
     		$user->save();
     		return response()->json([ 'success' => true]);
     	}

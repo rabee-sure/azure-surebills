@@ -45,7 +45,9 @@ class User extends Authenticatable
         //bank_id princing
         'price_percentage',
         'price_fixed',
-        'pay_fees'
+        'pay_fees',
+        
+        'mobile_verified',
     ];
 
     /**

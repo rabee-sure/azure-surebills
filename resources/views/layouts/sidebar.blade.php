@@ -1,8 +1,8 @@
 @auth
 
 @php
-    $statues = session('status_filters', ['pending', 'paid']);
-    $separated = 'statuses[]='.implode("&statuses[]=", $statues);
+    $statues = session('status_filters', ['pending', 'paid'])?? [];
+    $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
 @endphp
 
 <div class="menu">
