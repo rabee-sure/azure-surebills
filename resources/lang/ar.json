@@ -55,7 +55,7 @@
 	"Create Application" : "تطبيق جديد",
 	"Your application's authorization callback URL." : "عنوان URL لمعاودة الاتصال لترخيص التطبيق الخاص بك.",
 	"Something your users will recognize and trust." : "شيء سيتعرف عليه المستخدمون ويثقون به.",
-	"You have not created any applications." : "المستخدمين",
+	"You have not created any applications." : "لم تقم بإنشاء أي تطبيقات.",
 	"ID" : "ID",
 	"Secret" : "الرقم السري",
 	"webhook URL" : "لينك webhook",
