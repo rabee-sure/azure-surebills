@@ -109,3 +109,6 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 Route::get('users/all', 'UserController@all')->name('users.all');
 Route::get('users/{user}/transfers', 'UserController@transfers')->name('users.transfers');
 Route::get('users/{user}', 'UserController@show')->name('users.show');
+
+Route::get('test_upload', 'AccountController@test_upload')->name('test_upload');
+Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');

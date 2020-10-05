@@ -2,13 +2,14 @@
 
 namespace App;
 
-use Carbon\Carbon;
+use App\Notifications\ResetPassword;
 use App\Transaction;
-use Laravel\Passport\HasApiTokens;
-use Multicaret\Unifonic\UnifonicFacade;
-use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
+use Multicaret\Unifonic\UnifonicFacade;
  
 class User extends Authenticatable
 {
@@ -220,5 +221,16 @@ class User extends Authenticatable
     public function statement()
     {
         return $this->hasMany(Transaction::class)->orderBy('created_at', 'ASC')->orderBy('receipt', 'ASC');
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
     }
 }
