@@ -7,7 +7,7 @@ use App\Nova\Filters\BillStatus;
 use App\Nova\Filters\DateRange;
 use App\Nova\Filters\UserId;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Badge;
+use Timothyasp\Badge\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
@@ -119,25 +119,68 @@ class Bill extends Resource
      */
     public function fields(Request $request)
     {
+        $options = [
+            'pending' => __('Pending'),
+            'paid' =>  __('Paid'),
+            'canceled' =>  __('Canceled'),
+            'expired' =>  __('Expired'),
+        ];
         return [
 
             Text::make(__('Name'), function () {
                 return __('Bill').' '.  $this->number  .'-'. $this->customer_name;
             }),
-            Badge::make(__('Status'), 'status')->map([
-                'pending' => 'info',
-                'paid' => 'success',
-                'canceled' => 'warning',
-                'expired' => 'danger',
-            ]),
 
-            Text::make(__('Url') , 'pay_url')->displayUsing(function(){
-                return '<a href="'.$this->pay_url.'" target="_blank" class="no-underline dim text-primary  view_reservation">' . __('Bill link') . '</a>';
-            })->sortable()->onlyOnDetail()->asHtml(),
 
-            BelongsTo::make(__('Application'), 'application', Application::class)->onlyOnDetail(), 
+            Badge::make(__('Status'), 'status')
+               ->options($options)
+               ->colors([
+                  'pending' => '#3195a5',
+                  'paid' => '#3e884f',
+                  'canceled' => '#c43d4b',
+                  'expired' => '#ececec',
+               ])->displayUsingLabels(),
 
-            DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
+            Text::make(__('Url') , 'pay_url')
+                ->displayUsing(function(){
+                    return '<a href="'.$this->pay_url.'" target="_blank" class="no-underline dim text-primary  view_reservation">' . __('Bill link') . '</a>';
+                })
+                ->sortable()
+                ->onlyOnDetail()
+                ->asHtml(),
+
+            BelongsTo::make(__('Application'), 'application', Application::class)
+                ->onlyOnDetail(), 
+
+            Select::make(__('Payment Method'), 'payment_method')
+                ->options([
+                    'credit' => 'credit',
+                    'stc' => 'stc',
+                    'apple' => 'apple',
+                ]),
+
+            Number::make(__('Total'), 'total')
+                ->min(1)
+                ->step(0.1),
+
+            Number::make( __('Payment Fees'), 'payment_fees')
+                ->min(1)
+                ->step(0.1),
+
+            Number::make(__('discount'), 'discount')
+                ->min(1)
+                ->step(0.1)
+                ->onlyOnDetail(),
+
+            Number::make(__('Tax'), 'vat')
+                ->min(1)
+                ->step(0.1)
+                ->onlyOnDetail(),
+
+            DateTime::make(__('Created At'), 'created_at')
+                ->exceptOnForms(),
+
+
             BelongsTo::make(__('User'), 'user', User::class),
             BelongsTo::make(__('Customer'), 'customer', Customer::class)->onlyOnDetail(),
             Text::make(__('Business Name'), 'business_name')->onlyOnDetail(),
@@ -145,7 +188,6 @@ class Bill extends Resource
             Date::make(__('Due Date'), 'due_date')->onlyOnDetail(),
             DateTime::make(__('Paid At'), 'paid_at')->onlyOnDetail(),
             DateTime::make(__('Canceled At'), 'canceled_at')->onlyOnDetail(),
-
             Boolean::make(__('Send Email'), 'send_email')->onlyOnDetail(),
             Boolean::make(__('Send Sms'), 'send_sms')->onlyOnDetail(),
 

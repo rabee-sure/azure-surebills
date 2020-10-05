@@ -1,4 +1,10 @@
 @auth
+
+@php
+    $statues = session('status_filters', ['pending', 'paid'])?? [];
+    $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
+@endphp
+
 <div class="menu">
   <div class="main-menu">
     <div class="scroll">
@@ -10,7 +16,7 @@
           </a>
         </li>
         <li class="{{ Request::is('bills*') ? 'active' : '' }}">
-          <a href="/bills?statuses[]=pending&statuses[]=paid" title="{{ __('Bills') }}">
+          <a href="/bills?{{$separated}}" title="{{ __('Bills') }}">
             <i class="iconsminds-testimonal"></i>
            {{ __('Bills') }}
           </a>
