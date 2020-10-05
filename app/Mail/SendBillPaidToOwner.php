@@ -29,6 +29,10 @@ class SendBillPaidToOwner extends Mailable
      */
     public function build()
     {
-        return $this->subject("You've got a payment! ".$this->bill->total." SAR from " . $this->bill->customer_name)->view('emails.bills.paid_to_owner');
+        \App::setLocale($this->bill->user->settings->default_lang); 
+        return $this->subject(__("You've got a payment! :total SAR from :name", [
+            "total" => $this->bill->total,
+            "name" => $this->bill->customer_name,
+        ]))->view('emails.bills.paid_to_owner');
     }
 }

@@ -28,15 +28,20 @@ class SendBillPayEmail implements ShouldQueue
      */
     public function handle(BillCreated $event)
     {
+        \App::setLocale($event->bill->user->settings->default_lang); 
         if($event->bill->send_email){
-            //customer 
-            $subject = 'You’ve got a new bill of '. $event->bill->total .' SAR';
-            Mail::to($event->bill->customer_email)
+            if(isset($event->bill->customer_email)){
+                $subject = __('You’ve got a new bill of :total SAR', ['total' => $event->bill->total]);
+                Mail::to($event->bill->customer_email)
+                    ->send(new SendBillPayLink($event->bill, $subject));
+            }
+        }
+
+        //owner
+        if(isset($event->bill->user->email)){
+            $subject = __('Your bill of :total SAR has been created', ['total' => $event->bill->total]);
+            Mail::to($event->bill->user->email)
                 ->send(new SendBillPayLink($event->bill, $subject));
         }
-        //owner
-        $subject = 'Your bill of '. $event->bill->total.' SAR has been created';
-        Mail::to($event->bill->user->email)
-            ->send(new SendBillPayLink($event->bill, $subject));
     }
 }

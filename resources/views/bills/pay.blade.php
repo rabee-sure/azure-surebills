@@ -27,6 +27,11 @@
           @endif
           <div class="title">
             <span>{{ $bill->business_name }}</span>
+
+            @if(isset($bill->user->settings->header_bill))
+              <p>{{ $bill->user->settings->header_bill }}</p>
+            @endif
+
             <p>{{  $bill->user->business_address}}</p>
             <b>{{  $bill->user->business_mobile }}</b>
           </div><!-- title -->
@@ -46,8 +51,8 @@
           </div>
           @if($errors->any())
             <div class="alert alert-danger" role="alert">
-              {{$errors->first()}}
-            </div>
+              {{ __($errors->first()) }}
+            </div>            
           @endif
             <div class="date_time">
               <span>
@@ -96,6 +101,11 @@
               <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
               <p class="ltr">+966{{ $bill->customer_mobile}}</p>
               <p>{{ $bill->customer_email}}</p>
+
+              @if(isset($bill->user->settings->footer_bill))
+                <p>{{ $bill->user->settings->footer_bill }}</p>
+              @endif
+              
             </div><!-- customer_information -->
             <div id="payment_method" class="payment_method">
               <div class="name">{{__('Payment Method')}}</div>

@@ -33,6 +33,7 @@
         "spatie/nova-translatable": "^3.0",
         "sure/settlements": "*",
         "sure/userstats": "*",
+        "timothyasp/nova-badge-field": "^1.0",
         "titasgailius/search-relations": "^1.0"
     },
     "require-dev": {

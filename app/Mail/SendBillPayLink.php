@@ -32,6 +32,7 @@ class SendBillPayLink extends Mailable
      */
     public function build()
     {
+        \App::setLocale($this->bill->user->settings->default_lang); 
         return $this->subject($this->subject)->view('emails.bills.payLink');
     }
 }

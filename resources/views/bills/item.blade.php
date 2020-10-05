@@ -5,8 +5,8 @@
               <span class="list-item-heading mb-0 truncate w-40 w-xs-100 text-secondary">
                   {{__('Bill')}} {{ $bill->number }} - {{ $bill->customer_name}}
               </span>
-              <p class="mb-0 text-muted text-small w-15 w-xs-100">{{ $bill->total}} SAR</p>
-              <p class="mb-0 text-muted text-small w-15 w-xs-100">{{ $bill->created_at}} PM</p>
+              <p class="mb-0 text-muted text-small w-15 w-xs-100">{{ $bill->total}} {{ __('SAR')}}</p>
+              <p class="mb-0 text-muted text-small w-15 w-xs-100">{{ $bill->created_at}}</p>
               <div class="w-15 w-xs-100 text-center">
                 @if($bill->status == 'pending')
                   <span id="status-{{$bill->id}}" class="badge badge-pill badge-info d-inline-block">{{ __('Pending')}}</span>
