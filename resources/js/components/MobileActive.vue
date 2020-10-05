@@ -9,7 +9,7 @@
             <div class="desc">+966{{ user.mobile }}</div>
             <div class="form-group">
               <input @keyup.enter="sendPinCode" type="tel" class="form-control" v-model="pin" :placeholder="__('PIN')" maxlength="4">
-              <div v-if="error != null" class="invalid-pin">invalid PIN</div>
+              <div v-if="error != null" class="invalid-pin">{{__('invalid PIN') }}</div>
             </div><!-- form-group -->
             <!-- <b>{{ __('verification code /PIN') }}</b> -->
             <hr>
