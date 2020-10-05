@@ -19,7 +19,7 @@ class MobileVerified
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            if(auth()->user()->mobile_verified){
+            if(auth()->user()->mobile_verified || !isset(auth()->user()->mobile_sent_at) ){
                 return $next($request);
             }else{
                 return redirect('mobile_verify');

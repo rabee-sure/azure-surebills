@@ -34,17 +34,17 @@
       <div class="form-side">
         <a href="{{ url('/') }}"><span class="logo-single"></span></a>
         <h6 class="mb-4">{{ __('Login') }}</h6>
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}"  id="login-form">
           @csrf
           <label for="email" class="form-group has-float-label mb-4">
-            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus />
+            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" autofocus />
             <span>{{ __('E-Mail Address') }}</span>
             @error('email')
               <p class="invalid-feedback" role="alert">{{ $message }}</p>
             @enderror
           </label>
           <label for="password" class="form-group has-float-label mb-4">
-            <input id="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" type="password" placeholder="" />
+            <input id="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="current-password" type="password" placeholder="" />
             <span>{{ __('Password') }}</span>
             @error('password')
               <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -73,3 +73,8 @@
   </div>
 </div>
 @endsection
+
+@push('footer-scripts')
+  {!! JsValidator::formRequest('App\Http\Requests\LoginRequest', '#login-form') !!}
+@endpush
+
