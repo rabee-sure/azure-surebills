@@ -7,7 +7,7 @@
       <div class="container">
         <div class="breadcrumbs">
           <ul>
-            <li><a href="index.html" title="الرئيسية">الرئيسية</a></li>
+            <li><a href="{{ url('/') }}" title="الرئيسية">الرئيسية</a></li>
             <li>|</li>
             <li>الخصوصية</li>
           </ul>
