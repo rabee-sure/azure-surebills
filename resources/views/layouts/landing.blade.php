@@ -17,10 +17,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png" />
     <title>@yield('title') - Sure Bills</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="/landing/dist/css/main.css">
     @yield('css_styles')
 </head>
@@ -28,15 +26,15 @@
     <header>
       <div class="container insideDiv">
         <div class="logo">
-          <a href="index.html" title="شور بيلز">
+          <a href="{{ url('/') }}" title="شور بيلز">
             <img src="/landing/dist/images/logo.svg" alt="شور بيلز">
           </a>
         </div><!-- logo -->
         <div class="main_menu">
-          <a href="index.html" title="شور بيلز">شور بيلز</a>
-          <a href="#start_work" title="المميزات">المميزات</a>
-          <a href="#prices" title="الأسعار">الأسعار</a>
-          <a href="contact.html" title="اتصل بنا">اتصل بنا</a>
+          <a href="{{ url('/') }}" title="شور بيلز">شور بيلز</a>
+          <a href="{{ url('/') }}#start_work" title="المميزات">المميزات</a>
+          <a href="{{ url('/') }}#prices" title="الأسعار">الأسعار</a>
+          <a href="{{ url('/') }}/contact" title="اتصل بنا">اتصل بنا</a>
         </div><!-- main_menu -->
       </div><!-- container -->
     </header><!-- header -->
@@ -48,13 +46,13 @@
         <div class="row align-items-center">
           <div class="col-12 col-sm-6 col-md-7 col-lg-8 col-xl-8">
             <div class="footer_menu">
-              <span><a href="index.html" title="شور بيلز">شور بيلز</a></span>
-              <span><a href="#start_work" title="انضم لتجارنا">انضم لتجارنا</a></span>
-              <span><a href="privacy.html" title="الخصوصية">الخصوصية</a></span>
-              <span><a href="#how_work" title="كيف نعمل">كيف نعمل</a></span>
-              <span><a href="contact.html" title="اتصل بنا">اتصل بنا</a></span>
-              <span><a href="terms.html" title="الشروط والاحكام">الشروط والاحكام</a></span>
-              <span><a href="#faq" title="الاسئلة الشائعة">الاسئلة الشائعة</a></span>
+              <span><a href="{{ url('/') }}" title="شور بيلز">شور بيلز</a></span>
+              <span><a href="{{ url('/') }}#start_work" title="انضم لتجارنا">انضم لتجارنا</a></span>
+              <span><a href="{{ url('/') }}/privacy" title="الخصوصية">الخصوصية</a></span>
+              <span><a href="{{ url('/') }}#how_work" title="كيف نعمل">كيف نعمل</a></span>
+              <span><a href="{{ url('/') }}/contact" title="اتصل بنا">اتصل بنا</a></span>
+              <span><a href="{{ url('/') }}/terms" title="الشروط والاحكام">الشروط والاحكام</a></span>
+              <span><a href="{{ url('/') }}#faq" title="الاسئلة الشائعة">الاسئلة الشائعة</a></span>
             </div><!-- footer_menu -->
           </div><!-- col-12 -->
         </div><!-- row -->

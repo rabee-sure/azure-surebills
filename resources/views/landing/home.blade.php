@@ -138,7 +138,7 @@
         </div><!-- acc -->
         <div class="contactus_now">
           <span>لديك إستفسار لا تتردد بالتواصل معنا</span>
-          <a href="#" title="اتصل بنا">اتصل بنا</a>
+          <a href="{{ url('/') }}/contact" title="اتصل بنا">اتصل بنا</a>
         </div><!-- contactus_now -->
       </div><!-- container -->
     </section><!-- faq -->
