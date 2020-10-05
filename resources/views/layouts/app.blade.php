@@ -25,6 +25,7 @@
     @endif
     <link rel="stylesheet" href="/css/all.css" />
     @yield('css_styles')
+    @stack('header-css')
 
 
   </head>

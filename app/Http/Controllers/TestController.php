@@ -26,6 +26,7 @@ class TestController extends Controller
      */
     public function test(Request $request)
     {
+        return view('emails.auth.passwords.reset_password');
         $bill = Bill::all()->random();
         if($request->has('id')){
             $bill = Bill::find($request->get('id'));

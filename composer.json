@@ -25,6 +25,7 @@
         "laravel/ui": "^2.0",
         "laravel/vapor-cli": "^1.7",
         "multicaret/laravel-unifonic": "^1.0",
+        "naif/toggle": "^1.2",
         "predis/predis": "^1.1",
         "proengsoft/laravel-jsvalidation": "^4.0",
         "pusher/pusher-php-server": "~3.0",

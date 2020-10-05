@@ -1,5 +1,5 @@
 @extends('layouts.auth')
-@section('title', __('ٌegister') )
+@section('title', __('Register') )
 @section('content')
 <div class="row h-100">
   <div class="col-12 col-md-10 mx-auto my-auto">

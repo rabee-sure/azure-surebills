@@ -15,7 +15,7 @@ class MobileVerifyController extends Controller
      */
     public function index()
     {
-    	if(auth()->user()->mobile_verified){
+    	if(auth()->user()->mobile_verified || !isset(auth()->user()->mobile_sent_at)){
     		return redirect('home');
     	}
         return view('mobile_verify', ['user' => new UserResource(auth()->user())]);
@@ -30,6 +30,7 @@ class MobileVerifyController extends Controller
     	$user = auth()->user();
     	if($user->mobile_verified || $user->mobile_active_code == $request->pin){
     		$user->mobile_sent_at = null;
+            $user->mobile_verified = true;
     		$user->save();
     		return response()->json([ 'success' => true]);
     	}

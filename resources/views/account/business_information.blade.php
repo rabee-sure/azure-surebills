@@ -1,5 +1,7 @@
 @extends('layouts.app')
+
 @section('title', __('Business Information'))
+
 @section('content')
 <div class="row">
   <div class="col-12">
@@ -71,11 +73,15 @@
                   </div> 
                   <button type="submit" class="btn btn-primary d-block mt-2">{{ __('Save') }}</button>
                 </form>
+
       </div>
     </div>
   </div>
 </div>
 @endsection
+
+
+ 
 
 @push('footer-scripts')
     {!! JsValidator::formRequest('App\Http\Requests\BusinessInformationRequest', '#form') !!}
