@@ -2,24 +2,26 @@
 
 @section('title', __('Change Password'))
 
-@section('content')
-<div class="row" id="myId">
-	<form action="/file-upload" class="dropzone">
-	  <div class="fallback">
-	    <input name="file" type="file" multiple />
-	  </div>
-	</form>
-</div>
-@endsection
-
 @push('header-css')
 
-<link rel="stylesheet" href="/dropzone.min.css" />
+<link rel="stylesheet" href="{{ asset('css/dropzone.min.css') }}" />
 @endpush
+
+@section('content')
+<div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="mb-4">Dropzone</h5>
+                            <form action="/file-upload">
+                                <div class="dropzone">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+@endsection
 
 @push('footer-scripts')
       <script src="{{ asset('js/dropzone.min.js') }}"></script>
-      <script type="text/javascript">
+ <!--      <script type="text/javascript">
       	$("div#myId").dropzone({ url: "/file/post" });
-      </script>
+      </script> -->
 @endpush
