@@ -43,6 +43,12 @@
               <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control" id="inputEmail9" placeholder="{{__('Beneficiary Name')}}">
             </div>
           </div>
+
+          <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
+          <p class="">{{ __('Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility') }}</p>
+          @include('components.dropzone',[
+            'documents' => auth()->user()->bank_documents
+          ])
           <button type="submit" class="btn btn-primary d-block mt-2">{{__('Save')}}</button>
         </form>
       </div>

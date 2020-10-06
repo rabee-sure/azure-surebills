@@ -18,6 +18,7 @@
 /public/mix-manifest.json
 /public/js/app.js.map
 /storage/*.key
+/storage/tmp
 /vendor
 .env
 .env.backup

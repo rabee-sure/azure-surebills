@@ -30,7 +30,9 @@ class BillController extends Controller
         $date_start = $request->date_start ?? null;
         $date_to = $request->date_to ?? null;
 
-        session(['status_filters'=> $request->statuses]);
+        if(!$request->dont_update_statuses){
+            session(['status_filters'=> $request->statuses]);
+        }
 
         $bills = Bill::where('user_id', auth()->user()->id)
             ->orderBy('created_at', 'desc')
