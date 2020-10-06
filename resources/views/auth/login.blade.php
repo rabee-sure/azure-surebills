@@ -64,7 +64,7 @@
           </div>
         </form>
         <hr>
-        <a class="btn btn-lg btn-shadow register_now" href="{{ route('register') }}" title="{{ __('Register a new account') }}">{{ __('Register a new account') }}</a>
+        <h5 class="mt-4 mb-0 text-center">لا تمتلك حساب لدي شور بيلز ؟ <br> <a style="color: #00D595;" class="d-inline-block mt-2" href="{{ route('register') }}" title="سجل حساب جديد">سجل حساب جديد</a></h5>
       </div>
     </div>
     <div class="copyrights_auth">

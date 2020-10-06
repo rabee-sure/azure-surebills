@@ -36,7 +36,8 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputEmail7">{{__('IBAN Number')}} <span class="requirement">*</span></label>
-              <input value="{{ $user->iban_number }}"  name="iban_number" type="text" class="form-control" id="inputEmail7" placeholder="{{__('IBAN Number')}}">
+              <input value="{{ $user->iban_number }}"  name="iban_number" type="text" class="form-control" id="inputEmail7" placeholder="رقم آيبان مثلاً : SA2720000000000000001212 *">
+              <small id="emailHelp" class="form-text text-muted">هذا الحساب سيستخدم لتسوية المدفوعات الواصلة لك عبر أجهزة نقاط البيع</small>
             </div>
             <div class="form-group col-md-6">
               <label for="inputEmail9">{{__('Beneficiary Name')}} <span class="requirement">*</span></label>

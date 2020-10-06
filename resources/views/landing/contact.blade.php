@@ -49,32 +49,9 @@
         <br><br><br><br>
         <h3>تواصل معنا</h3>
         <h4>فريق الدعم الفني بإنتظار أي استفسار</h4>
-        <div class="row align-items-center justify-content-center">
-          <div class="col-12 co-md-8 col-lg-8 col-xl-8">
-            <form action="#">
-              <div class="row">
-                <div class="col-12 co-md-6 col-lg-6 col-xl-6">
-                  <input type="text" placeholder="اسمك *">
-                </div><!-- col-12 -->
-                <div class="col-12 co-md-6 col-lg-6 col-xl-6">
-                  <input type="email" placeholder="بريدك الإلكتروني *">
-                </div><!-- col-12 -->
-                <div class="col-12 co-md-6 col-lg-6 col-xl-6">
-                  <input type="tel" placeholder="رقم الجوال *">
-                </div><!-- col-12 -->
-                <div class="col-12 co-md-6 col-lg-6 col-xl-6">
-                  <input type="text" placeholder="اسم المنشأة *">
-                </div><!-- col-12 -->
-                <div class="col-12">
-                  <textarea name="#" id="#" cols="30" rows="5" placeholder="رسالتك *"></textarea>
-                </div><!-- col-12 -->
-                <div class="col-12">
-                  <button type="submit">إرسال</button>
-                </div><!-- col-12 -->
-              </div><!-- row -->
-            </form>
-          </div><!-- col-12 -->
-        </div><!-- row -->
+        <div class="contact_form">
+          <script type="text/javascript" src="https://form.jotform.com/jsform/202793542472054"></script>
+        </div><!-- contact_form -->
       </div><!-- container -->
     </section><!-- contact_page -->
 @endsection
