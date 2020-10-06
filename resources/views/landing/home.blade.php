@@ -10,7 +10,7 @@
             <div class="txt">
               <span>أرسل فواتير منتجاتك <br> و استقبل مدفوعاتك بسهولة</span>
               <p>بدون تعقيدات الربط مع بوابات الدفع إبدأ بإستخدام شور بيلز</p>
-              <a href="https://bills.surepay.sa/login" title="#">سجل الآن</a>
+              <a href="https://bills.surepay.sa/register" title="سجل الآن">سجل الآن</a>
             </div><!-- txt -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-6 col-xl-6">
