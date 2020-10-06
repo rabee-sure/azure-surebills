@@ -8,8 +8,8 @@
         <div class="row justify-content-between align-items-center">
           <div class="col-12 col-md-6 col-lg-6 col-xl-6">
             <div class="txt">
-              <span>أرسل فواتير لمنتجاتك و استقبل<br>مدفوعاتك بسهولة</span>
-              <p>بدون تعقيد الربط مع بوابات إبدأ باستخدام شور بيلز</p>
+              <span>أرسل فواتير منتجاتك <br> و استقبل مدفوعاتك بسهولة</span>
+              <p>بدون تعقيدات الربط مع بوابات الدفع إبدأ بإستخدام شور بيلز</p>
               <a href="https://bills.surepay.sa/login" title="#">سجل الآن</a>
             </div><!-- txt -->
           </div><!-- col-12 -->
@@ -25,9 +25,7 @@
     <section id="start_work">
       <div class="container">
         <div class="desc">
-          <span>إبدأ عملك التجاري</span>
-          <p>لا تخسر عميلك و سهل عملية الشراء والدفع</p>
-          <b>اذا كنت تملك عملك الحر وتتعامل مع عملائك بشكل يومي من خلال القنوات التقليدية <br> مثل واتساب وانستقرام .. ، نحن هنا مساعدتك بتوفير رابط الكتروني يمكنك من عرض <br> منتجاتك و خدماتك للعملاء لتوفير طريقة سداد آمنة وسريعة لهم، و لتحصل على أموالك بشكل أسرع وأسهل.</b>
+          اذا كنت تملك عملك الحر وتتعامل مع عملائك بشكل يومي من خلال القنوات التقليدية مثل واتساب وانستقرام .. ، نحن هنا لمساعدتك بتوفير رابط الكتروني يمكنك من عرض منتجاتك و خدماتك للعملاء لتوفير طريقة سداد آمنة وسريعة لهم، و لتحصل على أموالك بشكل أسرع وأسهل.
         </div><!-- desc -->
         <a href="https://bills.surepay.sa/login" title="انضم لتجارنا">انضم لتجارنا</a>
       </div><!-- container -->
@@ -40,10 +38,10 @@
           <div class="item">
             <div class="item_inside">
               <div class="imgthumb">
-                <img src="/landing/dist/images/how_img1.svg" alt="فعل متجرك">
+                <img src="/landing/dist/images/how_img1.svg" alt="سجل وفعل حسابك">
               </div><!-- imgthumb -->
-              <span>فعل متجرك</span>
-              <p>بخطوات سهلة فعل متجرك و أضف منتجاتك وأعرضها للعملاء</p>
+              <span>سجل وفعل حسابك</span>
+              <p>بخطوات سهلة فعل حسابك و أضف منتجاتك وأعرضها للعملاء</p>
             </div><!-- item_inside -->
           </div><!-- item -->
           <div class="item">
@@ -114,12 +112,12 @@
             </div><!-- acc__panel -->
           </div><!-- acc__card -->
 
-          <div class="acc__card">
+          <!-- <div class="acc__card">
             <div class="acc__title">هل يمكنني سحب رصيدي بشكل أسرع قبل ال 7 أيام؟</div>
             <div class="acc__panel">
               <p>نعم ، يمكنك طلب سحب الرصيد المتوفر فورا بمقابل رسوم إضافية للتحويل.</p>
-            </div><!-- acc__panel -->
-          </div><!-- acc__card -->
+            </div> 
+          </div> --> 
 
           <div class="acc__card">
             <div class="acc__title">ماهي ماهي وسائل الدفع المتوفرة ؟</div>
