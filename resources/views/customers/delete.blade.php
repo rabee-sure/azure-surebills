@@ -12,9 +12,10 @@
                <form action="{{ route('customers.destroy', $customer->id)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  {{ __('Are You sure Delete this Customer?')}}
                   @if($customer->bills()->exists())
-
+                    {{ __('Sorry, you cannot delete this record because it has dependencies')}}
+                  @else
+                    {{ __('Are You sure Delete this Customer?')}}
                   @endif
                   <div class="modal-footer">
                     @if(!$customer->bills()->exists())
