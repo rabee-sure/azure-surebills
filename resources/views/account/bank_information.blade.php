@@ -21,7 +21,7 @@
           @csrf 
           <div class="form-row">
             <div class="form-group col-12">
-              <label for="inputEmail5">{{__('Bank')}}</label>
+              <label for="inputEmail5">{{__('Bank')}} <span class="requirement">*</span></label>
               <select name="bank_id" id="inputEmail5" class="form-control">
               <option value="" disabled selected>{{__('Select your Bank')}}</option>
 
@@ -35,14 +35,20 @@
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="inputEmail7">{{__('IBAN Number')}}</label>
+              <label for="inputEmail7">{{__('IBAN Number')}} <span class="requirement">*</span></label>
               <input value="{{ $user->iban_number }}"  name="iban_number" type="text" class="form-control" id="inputEmail7" placeholder="{{__('IBAN Number')}}">
             </div>
             <div class="form-group col-md-6">
-              <label for="inputEmail9">{{__('Beneficiary Name')}}</label>
+              <label for="inputEmail9">{{__('Beneficiary Name')}} <span class="requirement">*</span></label>
               <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control" id="inputEmail9" placeholder="{{__('Beneficiary Name')}}">
             </div>
           </div>
+
+          <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
+          <p class="">{{ __('Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility') }}</p>
+          @include('components.dropzone',[
+            'documents' => auth()->user()->bank_documents
+          ])
           <button type="submit" class="btn btn-primary d-block mt-2">{{__('Save')}}</button>
         </form>
       </div>

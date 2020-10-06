@@ -25,7 +25,7 @@
 
     <div class="col-12">
       <div class="row icon-cards-row mx-n3">
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
           <a href="{{ route('account_information') }}" title="{{ __('My Information') }}" class="card mb-4">
             <div class="card-body text-center">
               <div class="statistic_icon iconsminds-id-card"></div>
@@ -33,7 +33,7 @@
             </div>
           </a>
         </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
           <a href="{{ route('business_information') }}" title="{{ __('Business Information') }}" class="card mb-4">
             <div class="card-body text-center">
               <div class="statistic_icon iconsminds-management"></div>
@@ -41,7 +41,7 @@
             </div>
           </a>
         </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
           <a href="{{ route('bank_information') }}" title="{{ __('Bank Information') }}" class="card mb-4">
             <div class="card-body text-center">
               <div class="statistic_icon iconsminds-bank"></div>
@@ -49,7 +49,7 @@
             </div>
           </a>
         </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
           <a href="{{ route('change_password') }}" title="{{ __('Change Password') }}" class="card mb-4">
             <div class="card-body text-center">
               <div class="statistic_icon iconsminds-type-pass"></div>

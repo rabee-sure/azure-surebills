@@ -24,15 +24,15 @@
 					<div class="form-row">
 						<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 							<div class="form-group">
-								<label for="password">{{ __('Current Password') }}</label>
+								<label for="password">{{ __('Current Password') }} <span class="requirement">*</span></label>
 								<input id="password" type="password" name="current_password" autocomplete="current-password" class="form-control" placeholder="{{ __('Current Password') }}">
 							</div>
 							<div class="form-group">
-								<label for="_confirmation">{{ __('New Password') }}</label>
+								<label for="_confirmation">{{ __('New Password') }} <span class="requirement">*</span></label>
 								<input id="new_password" type="password" class="form-control" name="new_password" autocomplete="current-password" placeholder="{{ __('New Password') }}">
 							</div>
 							<div class="form-group">
-								<label for="new_password_confirmation">{{ __('Re-type New Password') }}</label>
+								<label for="new_password_confirmation">{{ __('Re-type New Password') }} <span class="requirement">*</span></label>
 								<input id="new_password_confirmation" type="password" class="form-control" name="new_password_confirmation" autocomplete="current-password" placeholder="{{__('Re-type New Password') }}">
 							</div>
 						</div>
