@@ -9,13 +9,17 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Show the application dashboard.
      *
-     * @return void
+     * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function __construct()
+    public function landing()
     {
-        $this->middleware('auth');
+        if (auth()->user()) {
+            return redirect('/home');
+        }
+
+        return view('landing/home');
     }
 
     /**
@@ -47,12 +51,32 @@ class HomeController extends Controller
     }
 
     /**
+     * Show contact page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function contact()
+    {
+        return view('landing/contact');
+    }
+
+    /**
+     * Show privacy page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function privacy()
+    {
+        return view('landing/privacy');
+    }
+
+    /**
      * Show terms page.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function terms()
     {
-        return view('terms');
+        return view('landing/terms');
     }
 }

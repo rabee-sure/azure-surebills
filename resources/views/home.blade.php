@@ -12,7 +12,7 @@
 
         <div class="col-12">
           <div class="row icon-cards-row mx-n3">
-            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
               <a href="{{ route('statement.index') }}" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
@@ -21,7 +21,7 @@
                 </div>
               </a>
             </div>
-            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
               <a href="{{ route('statement.index') }}" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon available_balance_icon"></div>
@@ -30,7 +30,7 @@
                 </div>
               </a>
             </div>
-            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
               <a href="{{ route('bills.index') }}" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon pending_balance_icon"></div>
@@ -64,13 +64,14 @@
 
         <div class="col-xl-12 col-lg-12 mb-4">
           <div class="card">
+            <div class="card-body">
+              <h5 class="card-title mb-3">{{__('Latest Bills') }}</h5>
+              
             @if($latest->count() > 0)
-              <div class="position-absolute card-top-buttons">
+              <div class="position-absolute card-top-buttons p-0">
                 <a href="{{ route('bills.index')}}" title="View all" class="btn btn-primary btn-xs"> {{__('View all') }}</a>
               </div>
             @endif
-            <div class="card-body">
-              <h5 class="card-title mb-3">{{__('Latest Bills') }}</h5>
                 @if($latest->count() > 0)
                     <table class="data-table data-table-scrollable responsive nowrap" data-order="[[ 0, &quot;desc&quot; ]]">
                         <thead>
