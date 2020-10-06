@@ -75,7 +75,7 @@
               </div><!-- form-row -->
               
               <hr>
-              <h1 class="mb-3">{{ __('bills header and footer') }}</h1>
+              <h1 class="mb-3">{{ __('bills header and footer') }} ( {{ __('optional') }} )</h1>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label>{{ __('Header ar') }}</label>
@@ -106,17 +106,17 @@
               </div><!-- form-row -->
 
               <hr>
-              <h1 class="mb-3">{{ __('When Bill Created') }}</h1>
+              <h1 class="mb-3">{{ __('When Bill Created') }} ( {{ __('Default settings') }} )</h1>
               <div class="form-row">
                 <div class="form-group col-6">
-                  <label for="create_send_sms">{{ __('Send SMS') }}</label>
+                  <label for="create_send_sms">{{ __('Send a text message to the customer') }}</label>
                   <div class="custom-switch custom-switch-primary mb-2">
                     <input name="create_send_sms" class="custom-switch-input" id="create_send_sms" type="checkbox" @if($user->settings->create_send_sms) checked @endif>
                     <label class="custom-switch-btn" for="create_send_sms"></label>
                   </div>
                 </div><!-- form-group -->
                 <div class="form-group col-6">
-                  <label for="create_send_email">{{ __('Send Email') }}</label>
+                  <label for="create_send_email">{{ __('Send an email to the customer') }}</label>
                   <div class="custom-switch custom-switch-primary mb-2">
                     <input name="create_send_email" class="custom-switch-input" id="create_send_email" type="checkbox"
                     @if($user->settings->create_send_email) checked @endif>
@@ -128,7 +128,7 @@
             <h1 class="mb-3">{{ __('When Bill Paid') }}</h1>
             <div class="form-row">
               <div class="form-group col-6">
-                <label for="paid_send_sms">{{ __('Send SMS') }}</label>
+                <label for="paid_send_sms">{{ __('Send me a text message') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
                   <input name="paid_send_sms" class="custom-switch-input" id="paid_send_sms" type="checkbox"
                   @if($user->settings->paid_send_sms) checked @endif>
@@ -136,7 +136,7 @@
                 </div>
               </div><!-- form-group -->
               <div class="form-group col-6">
-                <label for="paid_send_sms">{{ __('Send Email') }}</label>
+                <label for="paid_send_sms">{{ __('Send an email to me') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
                   <input name="paid_send_email" class="custom-switch-input" id="paid_send_email" type="checkbox"
                   @if($user->settings->paid_send_email) checked @endif>

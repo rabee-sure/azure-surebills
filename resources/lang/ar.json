@@ -418,5 +418,16 @@
 	"SAR on each transaction" : " ريال على كل عملية",
 	"SAR on each mada transaction" : " ريال على كل عملية دفع عن طريق مدى",
 	"SAR on each Credit Card transaction" : " ريال على كل عملية دفع عن طريق البطاقة الائتمانية",
-	"Transfer every 7 days after deducting the transfer fee" : "تحويل كل 7 أيام بعد خصم رسوم التحويل"
+  "Transfer every 7 days after deducting the transfer fee" : "تحويل كل 7 أيام بعد خصم رسوم التحويل",
+  "optional" : "اختياري",
+  "bills header and footer" : "النصوص اعلى واسفل الفاتورة",
+  "Header ar" : "نص أعلى الفاتورة - عربي",
+  "Header en" : "نص انجليزي الفاتورة - عربي",
+  "Footer ar" : "نص اعلى الفاتورة - انجليزي",
+  "Footer en" : "نص اسفل الفاتورة - انجليزي",
+  "Default settings" : "الإعدادات الافتراضية",
+  "Send a text message to the customer" : "ارسل رسالة نصية للعميل",
+  "Send an email to the customer" : "ارسل بريد الكتروني للعميل",
+  "Send me a text message" : "ارسل رسالة نصية لي",
+  "Send an email to me" : "ارسل بريد الكتروني لي"
 }
