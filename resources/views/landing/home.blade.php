@@ -115,7 +115,7 @@
           </div> --> 
 
           <div class="acc__card">
-            <div class="acc__title">ماهي ماهي وسائل الدفع المتوفرة ؟</div>
+            <div class="acc__title">ماهي وسائل الدفع المتوفرة ؟</div>
             <div class="acc__panel">
               <p>يمكن لعملائك الدفع من خلال بطاقة مدى وفيزا وماستر كارد وابل باي.</p>
             </div><!-- acc__panel -->
