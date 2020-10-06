@@ -16,10 +16,12 @@
           </form>
       </div>
   </div>
+
 @endsection
 
 @push('footer-scripts')
       <script src="{{ asset('js/dropzone.min.js') }}"></script>
+
       <script type="text/javascript">
         if ($().dropzone && !$(".dropzonex").hasClass("disabled")) {
           $(".dropzone").dropzone({
@@ -61,4 +63,4 @@
         }
       </script>
 @endpush
- 
+
