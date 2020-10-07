@@ -11,13 +11,15 @@
           </button>
       </div>
       <form action="{{ route('customers.destroy', $customer->id)}}" method="post">
-        @csrf
-        @method('DELETE')
-        @if($customer->bills()->exists())
-          {{ __('Sorry, you cannot delete this record because it has dependencies')}}
-        @else
-          {{ __('Are You sure Delete this Customer?')}}
-        @endif
+        <div class="modal-body">
+          @csrf
+          @method('DELETE')
+          @if($customer->bills()->exists())
+            <h4 class="text-center m-0">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</h4>
+          @else
+            <h4 class="text-center m-0">{{ __('Are You sure Delete this Customer?')}}</h4>
+          @endif
+        </div>
         <div class="modal-footer">
           @if(!$customer->bills()->exists())
             <button type="submit" class="btn btn-danger login_button mr-3">{{__('Delete')}}</button>
