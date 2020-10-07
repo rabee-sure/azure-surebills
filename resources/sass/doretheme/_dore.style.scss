@@ -9681,6 +9681,15 @@ button.sendBill {
     margin: 0 auto 60px;
     display: table;
   } /* logo-single */
+  input.is-invalid {
+    border-color: #dc3545 !important;
+  }
+  span.invalid-feedback {
+    display: block;
+    color: #dc3545;
+    margin: 5px auto 0;
+    font-size: 11px;
+  } /* invalid-feedback */
   .image-side {
     background: #fff;
     @media (min-width: 320px) and (max-width: 767px) {
@@ -9769,6 +9778,15 @@ button.sendBill {
       border-top-left-radius: 0.75rem;
     }
   }
+  input.is-invalid {
+    border-color: #dc3545 !important;
+  }
+  span.invalid-feedback {
+    display: block;
+    color: #dc3545;
+    margin: 5px auto 0;
+    font-size: 11px;
+  } /* invalid-feedback */
   button.login_button {
     @media (min-width: 320px) and (max-width: 767px) {
       width: 100%;
