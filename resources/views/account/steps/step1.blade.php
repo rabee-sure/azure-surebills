@@ -30,7 +30,7 @@
 						<div class="form-group col-md-6">
 							<label for="inputEmail4">{{ __('Gander')}}</label>
 							<select name="gender" id="inputEmail4" class="form-control">
-								<option value="0" @if ($user->gender == 0)selected="selected"@endif>{{ __('Choose...')}}</option>
+								<option value="0" @if ($user->gender == 0)selected="selected"@endif>{{ __('Choose Gender')}}</option>
 								<option value="1" @if ($user->gender == 1)selected="selected"@endif>{{ __('Male')}}</option>
 								<option value="2" @if ($user->gender == 2)selected="selected"@endif>{{ __('female')}}</option>
 							</select>
