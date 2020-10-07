@@ -1,6 +1,11 @@
+
 <div class="dropzone">
     <div class="dz-message" data-dz-message><span>{{ __('Drop files here to upload') }}</span></div>
 </div>
+
+@error('document')
+  <p class="text-danger mt-2" role="alert">{{ $message }}</p>
+@enderror
 
 
 @push('footer-scripts')
