@@ -1,10 +1,18 @@
 {
+	"Sorry, you cannot delete this record because it has dependencies": "عذرا ، لا يمكنك حذف هذا السجل لأن له تبعيات",
 	"You've got a payment! : total SAR from: name": "لقد حصلت على دفعة! :total ريال  من :name",
 	"Your bill of :total SAR has been successfully paid": "تم دفع فاتورتك بملغ :total ريال بنجاح",
 	"You’ve got a new bill of :total SAR": "لقد حصلت على فاتورة جديدة باجمالي :total ريال",
 	"Your bill of :total SAR has been created": "تم إنشاء فاتورة باجمالي :total ريال",
 	"Pay": "دفع",
 	"Choose Gender": "حدد الجنس",
+	"Drop files here to upload": "قم بإسقاط الملفات هنا للتحميل",
+	"Business Documents": "وثائق العمل",
+	"Bank Documents": "وثائق البنك",
+
+	"Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility": "حمل صورة بطاقة الايبان أو كشف حساب موضح فيه رقم الايبان وإسم المنشأة",
+	"Upload the required documents": "حمل الوثائق المطلوبة ",
+	"Commercial registry, self-employment document, ID card ..etc": "سجل تجاري ، وثيقة عمل حر ، بطاقة هوية … ",
 
 	"Actions": "أجراءات",
 	"request contains no cc/bank account holder": "الطلب لا يحتوي على نسخة إلى / صاحب حساب مصرفي",
@@ -418,5 +426,16 @@
 	"SAR on each transaction" : " ريال على كل عملية",
 	"SAR on each mada transaction" : " ريال على كل عملية دفع عن طريق مدى",
 	"SAR on each Credit Card transaction" : " ريال على كل عملية دفع عن طريق البطاقة الائتمانية",
-	"Transfer every 7 days after deducting the transfer fee" : "تحويل كل 7 أيام بعد خصم رسوم التحويل"
+	"Transfer every 7 days after deducting the transfer fee" : "تحويل كل 7 أيام بعد خصم رسوم التحويل",
+	"optional" : "اختياري",
+	"bills header and footer" : "النصوص اعلى واسفل الفاتورة",
+	"Header ar" : "نص أعلى الفاتورة - عربي",
+	"Header en" : "نص أعلى الفاتورة - انجليزي",
+	"Footer ar" : "نص اسفل الفاتورة - عربي",
+	"Footer en" : "نص اسفل الفاتورة - انجليزي",
+	"Default settings" : "الإعدادات الافتراضية",
+	"Send a text message to the customer" : "ارسل رسالة نصية للعميل",
+	"Send an email to the customer" : "ارسل بريد الكتروني للعميل",
+	"Send me a text message" : "ارسل رسالة نصية لي",
+	"Send an email to me" : "ارسل بريد الكتروني لي"
 }

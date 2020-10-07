@@ -1,5 +1,12 @@
 @extends('layouts.app')
+
 @section('title', __('Bill') . ' ' . $bill->number . ' ' . __('Bills'))
+
+@php
+    $statues = session('status_filters', ['pending', 'paid'])?? [];
+    $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
+@endphp
+
 @section('content')
 <div class="row">
   <div class="col-12">
@@ -7,7 +14,7 @@
     <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
       <ol class="breadcrumb pt-0">
         <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
-        <li class="breadcrumb-item"><a href="{{ url('bills') }}" title="{{__('Bills')}}">{{__('Bills')}}</a></li>
+        <li class="breadcrumb-item"><a href="/bills?{{$separated}}" title="{{__('Bills')}}">{{__('Bills')}}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{__('Bill')}} {{ $bill->number }}</li>
       </ol>
     </nav>

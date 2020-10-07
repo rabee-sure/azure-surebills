@@ -31,7 +31,7 @@
               </a>
             </div>
             <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <a href="{{ route('bills.index') }}" class="card mb-4">
+              <a href="/bills?dont_update_statuses=true" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon pending_balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Total Bills') }}</p>
@@ -39,8 +39,8 @@
                 </div>
               </a>
             </div>
-            <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <a href="/bills?statuses[]=paid" class="card mb-4">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+              <a href="/bills?statuses[]=paid&dont_update_statuses=true" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon settlements_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Total Paid Bills') }}</p>
@@ -69,7 +69,7 @@
               
             @if($latest->count() > 0)
               <div class="position-absolute card-top-buttons p-0">
-                <a href="{{ route('bills.index')}}" title="View all" class="btn btn-primary btn-xs"> {{__('View all') }}</a>
+                <a href="/bills?dont_update_statuses=true" title="View all" class="btn btn-primary btn-xs"> {{__('View all') }}</a>
               </div>
             @endif
                 @if($latest->count() > 0)

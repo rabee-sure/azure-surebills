@@ -23,7 +23,7 @@
         <div class="" id="displayOptions">
           <div class="d-block d-md-inline-block">
             <div class="search-sm calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
-              <input class="form-control" name="dates" placeholder="Search by day">
+              <input class="form-control" name="dates" placeholder="Search by day" readonly="readonly">
             </div>
           </div>  
         </div>

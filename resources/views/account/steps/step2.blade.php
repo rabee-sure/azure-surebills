@@ -14,14 +14,14 @@
               <div id="step-1" style="padding: 15px;">
                   <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label name="license_type" for="inputEmail3">{{ __('License type') }}</label>
+                      <label name="license_type" for="inputEmail3">{{ __('License type') }} <button class="license_button" type="button" data-toggle="modal" data-target=".license_type_modal"></button></label>
                       <select name="license_type" class="form-control">
                         <option value="Commercial Record" @if ($user->license_type == 'Commercial Record')selected="selected"@endif>{{ __('Commercial Record') }}</option>
                         <option value="Freelance" @if ($user->license_type == 'Freelance')selected="selected"@endif>{{ __('Freelance') }}</option>
                       </select>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="vat_registration_number">{{ __('VAT Registration Number') }}</label>
+                      <label for="vat_registration_number">{{ __('VAT Registration Number') }} ( {{ __('optional') }} )</label>
                       <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
                     </div>
                   </div>
@@ -61,7 +61,7 @@
                     </div>
                   </div> 
               </div><!-- step-1 -->
-              <div class="btn-toolbar custom-toolbar text-center card-body pt-0">
+              <div class="btn-toolbar custom-toolbar text-center d-flex justify-content-center card-body pt-0">
                     <a class="btn btn-primary mx-2" href="/account?previous=1">{{__('Previous')}}</a>
                 <button class="btn btn-primary next-btn mx-2" type="submit">{{__('Next')}}</button>
               </div>
@@ -70,6 +70,23 @@
             </div>
       </div>
     </div>
+
+<div class="modal fade license_type_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ __('License type') }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>السجل التجاري يمكن إصدارة من وزارة التجارة من خلال الموقع الاكتروني الخاص بهم من خلال هذا الرابط .. <a href="http://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=2" target="_blank" title="إضغط هنا">إضغط هنا</a></p>
+        <p>وثيقة العمل الحر وهي وثيقة مجانية تصدر من قبل وزارة العمل والتنمية الاجتماعية لممارسة العمل الحر، ولإصدار وثيقة العمل المجانية تقدم بطلب من خلال هذا الرابط .. <a href="https://freelance.sa/" target="_blank" title="أضغط هنا">أضغط هنا</a></p>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('footer-scripts')

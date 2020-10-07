@@ -21,9 +21,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     @if(app()->getLocale() == 'ar')
-      <link rel="stylesheet" href="/css/bootstrap.rtl.only.min.css" />
+      <link rel="stylesheet" href="/css/bootstrap.rtl.only.min.css?v={{ config('app.asset_version') }}" />
     @endif
-    <link rel="stylesheet" href="/css/all.css" />
+    <link rel="stylesheet" href="/css/all.css?v={{ config('app.asset_version') }}" />
     @yield('css_styles')
     @stack('header-css')
 

@@ -88,6 +88,22 @@ class AccountController extends Controller
             'iban_number' => $request->get('iban_number'),
             'beneficiary_name' => $request->get('beneficiary_name'),
         ]);
+        
+        if (count(auth()->user()->bank_documents) > 0) {
+            foreach (auth()->user()->bank_documents as $media) {
+                if (!in_array($media->file_name, $request->input('document', []))) {
+                    $media->delete();
+                }
+            }
+        }
+
+        $media = auth()->user()->bank_documents->pluck('file_name')->toArray();
+
+        foreach ($request->input('document', []) as $file) {
+            if (count($media) === 0 || !in_array($file, $media)) {
+                auth()->user()->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('bank_documents');
+            }
+        }
 
         if ($request->redirectHome) {
             return redirect('/');
@@ -135,6 +151,22 @@ class AccountController extends Controller
             'vat_registration_number' => $request->get('vat_registration_number'),
         ]);
 
+        if (count(auth()->user()->business_documents) > 0) {
+            foreach (auth()->user()->business_documents as $media) {
+                if (!in_array($media->file_name, $request->input('document', []))) {
+                    $media->delete();
+                }
+            }
+        }
+
+        $media = auth()->user()->business_documents->pluck('file_name')->toArray();
+
+        foreach ($request->input('document', []) as $file) {
+            if (count($media) === 0 || !in_array($file, $media)) {
+                auth()->user()->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('business_documents');
+            }
+        }
+
         session()->put(auth()->user()->id.'_complete_profile_step_2', true);
    
         return redirect('/account');
@@ -179,15 +211,21 @@ class AccountController extends Controller
      */
     public function imagesUploadPost(Request $request)
     {
-        request()->validate([
-            'uploadFile' => 'required',
-        ]);
- 
-        foreach ($request->file('uploadFile') as $key => $value) {
-            $imageName = time(). $key . '.' . $value->getClientOriginalExtension();
-            $value->move(public_path('images/ssss'), $imageName);
-        }
- 
-        return response()->json(['success'=>'Images Uploaded Successfully.']);
+            $path = storage_path('tmp/uploads');
+
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            $file = $request->file('file');
+
+            $name = uniqid() . '_' . trim($file->getClientOriginalName());
+
+            $file->move($path, $name);
+
+            return response()->json([
+                'name'          => $name,
+                'original_name' => $file->getClientOriginalName(),
+            ]);
     }
 }
