@@ -35,8 +35,10 @@
           <a href="{{ url('/') }}#start_work" title="المميزات">المميزات</a>
           <a href="{{ url('/') }}#prices" title="الأسعار">الأسعار</a>
           <a href="{{ url('/') }}/contact" title="اتصل بنا">اتصل بنا</a>
+
           <a href="{{ url('/') }}/register" class="register" title="تسجيل"><i class="far fa-user"></i><span>تسجيل</span></a>
           <a href="{{ url('/') }}/login" class="login" title="دخول"><i class="fas fa-sign-in-alt"></i><span>دخول</span></a>
+
         </div><!-- main_menu -->
       </div><!-- container -->
     </header><!-- header -->
