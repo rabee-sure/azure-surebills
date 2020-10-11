@@ -39,7 +39,7 @@
                 </div>
               </a>
             </div>
-            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
               <a href="/bills?statuses[]=paid&dont_update_statuses=true" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon settlements_icon"></div>
