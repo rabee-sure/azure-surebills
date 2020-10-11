@@ -411,5 +411,6 @@
     "There was a problem executing the action.": "حصل خطأ في تنفيذ الإجراء.",
     "The file was deleted!": "تم حذف الملف!",
     "This file field is read-only.": "حقل الملف لا يقبل التغيير.",
-    "No additional information...": "ليس هناك معلومات إضافية..."
+    "No additional information...": "ليس هناك معلومات إضافية...",
+    "add new media" : "إضافة وسائط جديدة"
 }
