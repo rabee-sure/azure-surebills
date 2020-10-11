@@ -1,25 +1,21 @@
 <tr>
-    <td class="py-2">
-      <a href="{{ route('bills.show', $bill) }}">
-          <p class="font-weight-bold">{{ __('Bill')}} {{ $bill->number }} - {{ $bill->customer_name }}</p>
-          <p class="font-weight-normal">{{ $bill->total }} {{ __('SAR')}}</p>
-          <time class="text-muted text-small mb-0 font-weight-light">{{ $bill->created_at }}</time>
-      </a>
-    </td>
-    <td class="py-2">
-      @if($bill->status == 'pending')
-        <span id="status-{{$bill->id}}" class="badge badge-pill badge-info d-inline-block">{{ __('Pending')}}</span>
-      @endif
-      @if($bill->status == 'paid')
-        <span id="status-{{$bill->id}}"  class="badge badge-pill badge-success d-inline-block">{{ __('Paid')}}</span>
-      @endif             
-      @if($bill->status == 'canceled')
-        <span id="status-{{$bill->id}}"  class="badge badge-pill badge-danger d-inline-block">{{ __('Canceled')}}</span>
-      @endif              
-      @if($bill->status == 'expired')
-        <span id="status-{{$bill->id}}"  class="badge badge-pill badge-light d-inline-block">{{ __('Expired')}}</span>
-      @endif
-    </td>
+  <td><a href="{{ route('bills.show', $bill) }}" title="{{ __('Bill')}} {{ $bill->number }} - {{ $bill->customer_name }}">{{ __('Bill')}} {{ $bill->number }} - {{ $bill->customer_name }}</a></td>
+  <td>{{ $bill->total }} {{ __('SAR')}}</td>
+  <td>{{ $bill->created_at }}</td>
+  <td>
+    @if($bill->status == 'pending')
+      <span id="status-{{$bill->id}}" class="badge badge-pill badge-info bill_status_badge">{{ __('Pending')}}</span>
+    @endif
+    @if($bill->status == 'paid')
+      <span id="status-{{$bill->id}}"  class="badge badge-pill badge-success bill_status_badge">{{ __('Paid')}}</span>
+    @endif             
+    @if($bill->status == 'canceled')
+      <span id="status-{{$bill->id}}"  class="badge badge-pill badge-danger bill_status_badge">{{ __('Canceled')}}</span>
+    @endif              
+    @if($bill->status == 'expired')
+      <span id="status-{{$bill->id}}"  class="badge badge-pill badge-light bill_status_badge">{{ __('Expired')}}</span>
+    @endif
+  </td>
 </tr>
 @push('footer-scripts')
 <script type="text/javascript">

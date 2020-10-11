@@ -438,5 +438,7 @@
 	"Send a text message to the customer" : "ارسل رسالة نصية للعميل",
 	"Send an email to the customer" : "ارسل بريد الكتروني للعميل",
 	"Send me a text message" : "ارسل رسالة نصية لي",
-	"Send an email to me" : "ارسل بريد الكتروني لي"
+  "Send an email to me" : "ارسل بريد الكتروني لي",
+  "Values" : "القيمة",
+  "add new media" : "إضافة وسائط جديدة"
 }

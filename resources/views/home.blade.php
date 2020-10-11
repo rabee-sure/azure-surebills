@@ -67,28 +67,32 @@
             <div class="card-body">
               <h5 class="card-title mb-3">{{__('Latest Bills') }}</h5>
               
+              @if($latest->count() > 0)
+                <div class="position-absolute card-top-buttons p-0">
+                  <a href="/bills?dont_update_statuses=true" title="View all" class="btn btn-primary btn-xs"> {{__('View all') }}</a>
+                </div>
+              @endif
             @if($latest->count() > 0)
-              <div class="position-absolute card-top-buttons p-0">
-                <a href="/bills?dont_update_statuses=true" title="View all" class="btn btn-primary btn-xs"> {{__('View all') }}</a>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">{{__('Name') }}</th>
+                      <th scope="col">{{__('Values') }}</th>
+                      <th scope="col">{{__('Date created') }}</th>
+                      <th scope="col" width="10%">{{__('Status') }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($latest as $bill)
+                      @include('latest_bill_item')
+                    @endforeach
+                  </tbody>
+                </table>
               </div>
-            @endif
-                @if($latest->count() > 0)
-                    <table class="data-table data-table-scrollable responsive nowrap" data-order="[[ 0, &quot;desc&quot; ]]">
-                        <thead>
-                          <tr>
-                            <th class="py-2 w-85">{{__('Name') }}</th>
-                            <th class="py-2 w-15">{{__('Status') }}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($latest as $bill)
-                              @include('latest_bill_item')
-                            @endforeach
-                        </tbody>
-                    </table>
-                @else
-                  <div class="no_bills_available">{{ __('No Bill Matched The Given Criteria.') }}</div>
-                @endif
+              @else
+                <div class="no_bills_available">{{ __('No Bill Matched The Given Criteria.') }}</div>
+              @endif
             </div>
           </div>
         </div>
