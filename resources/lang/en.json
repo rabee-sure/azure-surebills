@@ -202,5 +202,12 @@
 "Send me a text message" : "Send me a text message",
 "Send an email to me" : "Send an email to me",
 "Values" : "Values",
-"add new media" : "add new media"
+"add new media" : "add new media",
+"ID" : "ID",
+"Name On Card" : "Name On Card",
+"Card Type" : "Card Type",
+"Card Number" : "Card Number",
+"Message" : "Message",
+"Descrption" : "Descrption",
+"Last Update" : "Last Update"
 }
