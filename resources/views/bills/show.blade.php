@@ -147,7 +147,7 @@
             <thead>
               <tr>
                 <th scope="col" width="5%"></th>
-                <th scope="col">{{__('Name') }}</th>
+                <th scope="col">{{__('ID') }}</th>
                 <th scope="col">{{__('Values') }}</th>
                 <th scope="col">{{__('Date created') }}</th>
                 <th scope="col" width="10%">{{__('Status') }}</th>
@@ -155,32 +155,25 @@
             </thead>
             <tbody>
               <tr>
-                <td><img src="{{ asset('images/payments/card.png') }}" alt="card" height="25px"></td>
-                <td><a href="#" title="12f4547f-d530-405d-bc89-f768de4587ee">12f4547f-d530-405d-bc89-f768de4587ee</a></td>
-                <td>316869 ريال</td>
-                <td>2020-09-02 15:57:14</td>
-                <td><span class="badge badge-pill badge-info bill_status_badge">غير مدفوعة</span></td>
-              </tr>
-              <tr>
                 <td><img src="{{ asset('images/payments/mada.png') }}" alt="mada" height="25px"></td>
                 <td><a href="#" title="12f4547f-d530-405d-bc89-f768de4587ee">12f4547f-d530-405d-bc89-f768de4587ee</a></td>
-                <td>316869 ريال</td>
+                <td>125.00 {{__('SAR') }}</td>
                 <td>2020-09-02 15:57:14</td>
-                <td><span class="badge badge-pill badge-success bill_status_badge">مدفوعة</span></td>
+                <td><span class="badge badge-pill badge-success bill_status_badge">مدفوع</span></td>
+              </tr>
+              <tr>
+                <td><img src="{{ asset('images/payments/card.png') }}" alt="card" height="25px"></td>
+                <td><a href="#" title="12f4547f-d530-405d-bc89-f768de4587ee">12f4547f-d530-405d-bc89-f768de4587ee</a></td>
+                <td>934.00 {{__('SAR') }}</td>
+                <td>2020-09-02 15:57:14</td>
+                <td><span class="badge badge-pill badge-danger bill_status_badge">فشل</span></td>
               </tr>
               <tr>
                 <td><img src="{{ asset('images/payments/pay.png') }}" alt="pay" height="25px"></td>
                 <td><a href="#" title="12f4547f-d530-405d-bc89-f768de4587ee">12f4547f-d530-405d-bc89-f768de4587ee</a></td>
-                <td>316869 ريال</td>
+                <td>852.00 {{__('SAR') }}</td>
                 <td>2020-09-02 15:57:14</td>
-                <td><span class="badge badge-pill badge-danger bill_status_badge">ملغية</span></td>
-              </tr>
-              <tr>
-                <td><img src="{{ asset('images/payments/visa.png') }}" alt="visa" height="25px"></td>
-                <td><a href="#" title="12f4547f-d530-405d-bc89-f768de4587ee">12f4547f-d530-405d-bc89-f768de4587ee</a></td>
-                <td>316869 ريال</td>
-                <td>2020-09-02 15:57:14</td>
-                <td><span class="badge badge-pill badge-info bill_status_badge">غير مدفوعة</span></td>
+                <td><span class="badge badge-pill badge-danger bill_status_badge">فشل</span></td>
               </tr>
             </tbody>
           </table>
@@ -234,30 +227,30 @@
         <div class="payment_block">
           <div class="title">
             <img src="{{ asset('images/payments/pay.png') }}" alt="pay">
-            <p>316869 SAR</p>
-            <span class="badge badge-pill badge-success">Paid</span>
+            <p>316869 {{__('SAR') }}</p>
+            <span class="badge badge-pill badge-success">مدفوع</span>
           </div><!-- title -->
-          <div class="desc">ID : 12f4547f-d530-405d-bc89-f768de4587ee</div>
+          <div class="desc">{{__('ID') }} : 12f4547f-d530-405d-bc89-f768de4587ee</div>
           <div class="separator mb-5"></div>
           <div class="table_block mb-5">
-            <div class="name"><div class="glyph-icon iconsminds-dollar"></div> payment details</div>
+            <div class="name"><div class="glyph-icon iconsminds-dollar"></div> {{__('Payment Details') }}</div>
             <div class="table-responsive">
               <table class="table table-striped table-bordered">
                 <tbody>
                   <tr>
-                    <td>Amount</td>
-                    <td>11225 SAR</td>
+                    <td>{{__('Amount') }}</td>
+                    <td>11225 {{__('SAR') }}</td>
                   </tr>
                   <tr>
-                    <td>Descrption</td>
+                    <td>{{__('Descrption') }}</td>
                     <td>Order #21545</td>
                   </tr>
                   <tr>
-                    <td>Created Date</td>
+                    <td>{{__('Date created') }}</td>
                     <td>2020-09-02 15:57:14</td>
                   </tr>
                   <tr>
-                    <td>Last Update</td>
+                    <td>{{__('Last Update') }}</td>
                     <td>2020-09-02 15:57:14</td>
                   </tr>
                 </tbody>
@@ -265,24 +258,24 @@
             </div><!-- table-responsive -->
           </div><!-- table_block -->
           <div class="table_block">
-            <div class="name"><div class="glyph-icon simple-icon-credit-card"></div> payment method</div>
+            <div class="name"><div class="glyph-icon simple-icon-credit-card"></div> {{__('Payment Method') }}</div>
             <div class="table-responsive">
               <table class="table table-striped table-bordered">
                 <tbody>
                   <tr>
-                    <td>Name On Card</td>
+                    <td>{{__('Name On Card') }}</td>
                     <td>Ahmed Ahmed Ahmed</td>
                   </tr>
                   <tr>
-                    <td>Card Type</td>
+                    <td>{{__('Card Type') }}</td>
                     <td>MADA</td>
                   </tr>
                   <tr>
-                    <td>Card Number</td>
+                    <td>{{__('Card Number') }}</td>
                     <td>xxxx-xxxx-xxxx-5385</td>
                   </tr>
                   <tr>
-                    <td>Message</td>
+                    <td>{{__('Message') }}</td>
                     <td>Approved</td>
                   </tr>
                 </tbody>
