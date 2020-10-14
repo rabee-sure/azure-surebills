@@ -58,7 +58,7 @@
             <div class="card-body">
             @if($bills->count())
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped text-nowrap">
                   <thead>
                     <tr>
                       <th scope="col">{{__('Name') }}</th>

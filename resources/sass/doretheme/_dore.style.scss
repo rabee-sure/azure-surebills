@@ -10619,3 +10619,17 @@ span.bill_status_badge {
     } /* name */
   } /* .table_block */
 } /* .payment_block */
+
+.card {
+  .card-body {
+    @include respond-below(sm) {
+      padding: 15px 10px;
+    }
+  }
+}
+
+.position-absolute.card-top-buttons {
+  @include respond-below(sm) {
+    top: 12px;
+  }
+}
