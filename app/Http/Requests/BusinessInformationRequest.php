@@ -37,6 +37,8 @@ class BusinessInformationRequest extends FormRequest
             'business_address' => ['required'],
             'business_mobile' => ['required'],
             'vat_registration_number' => ['nullable'],
+
+            'document' => ['nullable', 'array', "max:5"],
         ];
     }
 

@@ -53,7 +53,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-              <label class="form-check-label" for="remember">{{ __('Remember Me') }}</label>
+              <label class="form-check-label p-0" for="remember">{{ __('Remember Me') }}</label>
             </div>
           </div>
           <div class="d-flex justify-content-between align-items-center">
@@ -64,7 +64,7 @@
           </div>
         </form>
         <hr>
-        <a class="btn btn-lg btn-shadow register_now" href="{{ route('register') }}" title="{{ __('Register a new account') }}">{{ __('Register a new account') }}</a>
+        <h5 class="mt-4 mb-0 text-center">لا تمتلك حساب لدي شور بيلز ؟ <br> <a style="color: #00D595;" class="d-inline-block mt-2" href="{{ route('register') }}" title="سجل حساب جديد">سجل حساب جديد</a></h5>
       </div>
     </div>
     <div class="copyrights_auth">

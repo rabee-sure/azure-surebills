@@ -34,8 +34,11 @@ class BillController extends Controller
     public function store(BillApiRequest $request)
     {
         logger([$request->all()]);
+        logger($request->application_id);
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $user = $application->user ?? null;
+
+
 
         Bill::where('reference_id', $request->reference_id)->where('user_id', $application->user_id ?? null)->where('status', 'pending')->update(['status' => 'canceled']);
 
@@ -63,11 +66,11 @@ class BillController extends Controller
             'expiry_minutes' => $request->expiry_minutes,
             'due_date' => Carbon::parse($request->due_date),
 
-            'add_discount' => $request->add_discount,
+            'add_discount' => $request->add_discount?? false,
             'discount_type' => $request->discount_type,
             'discount_value' => $request->discount_value,
 
-            'add_tax' => $request->add_tax,
+            'add_tax' => $request->add_tax ?? false,
             'tax_name' => $request->tax_name,
             'tax_value' => $request->tax_value,
 
@@ -134,6 +137,120 @@ class BillController extends Controller
         event(new BillCreated($bill));
 
         return new BillApiResource($bill);
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function wordpress(Request $request)
+    {
+        logger([$request->all()]);
+        $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+        $user = $application->user ?? null;
+
+        
+
+        Bill::where('reference_id', $request->reference_id)->where('user_id', $application->user_id ?? null)->where('status', 'pending')->update(['status' => 'canceled']);
+
+        $customer = Customer::updateOrCreate([
+            'user_id' => $user->id,
+            'mobile' => $request->customer_mobile,
+        ],[
+            'name' => $request->customer_name, 
+            'email' => $request->customer_email,
+        ]);
+
+        $bill = Bill::create([
+            'user_id' => $user->id,
+            'application_id' => $application->id,
+
+            'business_name' => $user->business_name,
+            'customer_id' => $customer->id,
+            'customer_name' => $request->customer_name,
+            'customer_email' => $request->customer_email,
+            'customer_mobile' => $request->customer_mobile,
+            'customer_notes' => $request->customer_notes,
+
+            'expiry_date' => $request->expiry_date,
+            'expiry_hours' => $request->expiry_hours,
+            'expiry_minutes' => $request->expiry_minutes,
+            'due_date' => Carbon::parse($request->due_date),
+
+            'add_discount' => (isset($request->add_discount) && ($request->add_discount == 'on' || $request->add_discount == true) )? true : false,
+            'discount_type' => $request->discount_type,
+            'discount_value' => $request->discount_value,
+
+            'add_tax' => $request->add_tax ?? false,
+            'tax_name' => $request->tax_name,
+            'tax_value' => $request->tax_value,
+
+            'send_sms' =>  (isset($request->send_sms) && ($request->send_sms == 'on' || $request->send_sms == true) )? true : false,
+            'send_email' => (isset($request->send_email) && ($request->send_email == 'on' || $request->send_email == true) )? true : false,
+            'reference_id' => $request->reference_id,
+        ]);
+
+        if($user->settings->create_send_sms){
+            $bill->send_sms = $user->settings->create_send_sms;
+        }
+        if($user->settings->create_send_email){
+            $bill->send_email = $user->settings->create_send_email;
+        }
+        $bill->save();
+
+
+        foreach ($request->items as $item) {
+            BillItem::create([
+                'bill_id' => $bill->id,
+                'product_name' => $item['name'],
+                'product_price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'total' => $item['quantity']*$item['price'],
+            ]);
+        }
+
+        $sub_total = $bill->items->sum('total');
+        $discount = 0;
+        $vat = 0;
+        if($request->add_discount || $request->add_discount == 'on'){
+            switch ($request->discount_type) {
+                case 'fixed':
+                    $discount = $request->discount_value;
+                    break;
+                case 'percentage':
+                    $discount = $sub_total * $request->discount_value / 100;
+                    break;
+            }
+        }
+
+        if($request->add_tax ){
+            $bill->add_tax = $request->add_tax;
+            $bill->tax_value = $request->tax_value;
+        }elseif($user->settings->add_tax){
+            $bill->add_tax = $user->settings->add_tax;
+            $bill->tax_value = $user->settings->tax_value;      
+        }
+
+        if($request->add_tax){
+           $vat = ($sub_total -$discount) * $request->tax_value /100;
+        }elseif($user->settings->add_tax){
+            $vat = ($sub_total -$discount) * $user->settings->tax_value /100;
+        }
+
+        $bill->discount = $discount;
+        $bill->vat = $vat;
+        $bill->number = $bill->getNumber();
+        $bill->sub_total = $sub_total;
+        $bill->total = $sub_total - $discount + $vat;
+        $bill->status = 'pending';
+        $bill->save();
+        
+        event(new BillCreated($bill));
+
+        return redirect($bill->pay_url);
     }
 
     /**

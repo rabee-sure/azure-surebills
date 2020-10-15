@@ -179,7 +179,7 @@
                     <div class="input-group">
                       <input type="tel" name="discount_value" class="form-control _parseArabicNumbers" id="Discount_Value" aria-describedby="basic-addon2">
                       <div class="input-group-append">
-                        <span class="input-group-text discount_type_item" id="fixed">SAR</span>
+                        <span class="input-group-text discount_type_item" id="fixed">{{ __('SAR') }}</span>
                         <span class="input-group-text discount_type_item" id="percentage" style="display:none">%</span>
                       </div>
                     </div>

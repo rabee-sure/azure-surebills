@@ -31,7 +31,7 @@
               </a>
             </div>
             <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <a href="{{ route('bills.index') }}" class="card mb-4">
+              <a href="/bills?dont_update_statuses=true" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon pending_balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Total Bills') }}</p>
@@ -40,7 +40,7 @@
               </a>
             </div>
             <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <a href="/bills?statuses[]=paid" class="card mb-4">
+              <a href="/bills?statuses[]=paid&dont_update_statuses=true" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon settlements_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Total Paid Bills') }}</p>
@@ -67,28 +67,32 @@
             <div class="card-body">
               <h5 class="card-title mb-3">{{__('Latest Bills') }}</h5>
               
+              @if($latest->count() > 0)
+                <div class="position-absolute card-top-buttons p-0">
+                  <a href="/bills?dont_update_statuses=true" title="View all" class="btn btn-primary btn-xs"> {{__('View all') }}</a>
+                </div>
+              @endif
             @if($latest->count() > 0)
-              <div class="position-absolute card-top-buttons p-0">
-                <a href="{{ route('bills.index')}}" title="View all" class="btn btn-primary btn-xs"> {{__('View all') }}</a>
+              <div class="table-responsive">
+                <table class="table table-striped text-nowrap">
+                  <thead>
+                    <tr>
+                      <th scope="col">{{__('Name') }}</th>
+                      <th scope="col">{{__('Values') }}</th>
+                      <th scope="col">{{__('Date created') }}</th>
+                      <th scope="col" width="10%">{{__('Status') }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($latest as $bill)
+                      @include('latest_bill_item')
+                    @endforeach
+                  </tbody>
+                </table>
               </div>
-            @endif
-                @if($latest->count() > 0)
-                    <table class="data-table data-table-scrollable responsive nowrap" data-order="[[ 0, &quot;desc&quot; ]]">
-                        <thead>
-                          <tr>
-                            <th class="py-2 w-85">{{__('Name') }}</th>
-                            <th class="py-2 w-15">{{__('Status') }}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($latest as $bill)
-                              @include('latest_bill_item')
-                            @endforeach
-                        </tbody>
-                    </table>
-                @else
-                  <div class="no_bills_available">{{ __('No Bill Matched The Given Criteria.') }}</div>
-                @endif
+              @else
+                <div class="no_bills_available">{{ __('No Bill Matched The Given Criteria.') }}</div>
+              @endif
             </div>
           </div>
         </div>

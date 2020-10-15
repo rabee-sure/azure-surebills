@@ -1,7 +1,6 @@
 /node_modules
 /public/hot
 /public/storage
-/public/images
 /public/css/all.css
 /public/css/app.css
 /public/css/auth.css
@@ -18,6 +17,7 @@
 /public/mix-manifest.json
 /public/js/app.js.map
 /storage/*.key
+/storage/tmp
 /vendor
 .env
 .env.backup

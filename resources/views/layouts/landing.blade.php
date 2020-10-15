@@ -27,7 +27,7 @@
       <div class="container insideDiv">
         <div class="logo">
           <a href="{{ url('/') }}" title="شور بيلز">
-            <img src="/landing/dist/images/logo.svg" alt="شور بيلز">
+            <img src="/landing/dist/images/logo.png" alt="شور بيلز">
           </a>
         </div><!-- logo -->
         <div class="main_menu">
@@ -35,6 +35,10 @@
           <a href="{{ url('/') }}#start_work" title="المميزات">المميزات</a>
           <a href="{{ url('/') }}#prices" title="الأسعار">الأسعار</a>
           <a href="{{ url('/') }}/contact" title="اتصل بنا">اتصل بنا</a>
+
+          <a href="{{ url('/') }}/register" class="register" title="تسجيل"><i class="far fa-user"></i><span>تسجيل</span></a>
+          <a href="{{ url('/') }}/login" class="login" title="دخول"><i class="fas fa-sign-in-alt"></i><span>دخول</span></a>
+
         </div><!-- main_menu -->
       </div><!-- container -->
     </header><!-- header -->
@@ -61,7 +65,7 @@
             جميع الحقوق محفوظة © 2019
           </div><!-- copyrights -->
           <div class="socialmedia">
-            <a href="#" title="twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://twitter.com/SurePay_sa" title="twitter" target="_blank"><i class="fab fa-twitter"></i></a>
             <a href="#" title="linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
             <a href="#" title="facebook" target="_blank"><i class="fab fa-facebook-square"></i></a>
             <a href="#" title="youtube" target="_blank"><i class="fab fa-youtube"></i></a>

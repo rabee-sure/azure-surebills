@@ -30,7 +30,9 @@ class BillController extends Controller
         $date_start = $request->date_start ?? null;
         $date_to = $request->date_to ?? null;
 
-        session(['status_filters'=> $request->statuses]);
+        if(!$request->dont_update_statuses){
+            session(['status_filters'=> $request->statuses]);
+        }
 
         $bills = Bill::where('user_id', auth()->user()->id)
             ->orderBy('created_at', 'desc')
@@ -258,8 +260,7 @@ class BillController extends Controller
             $bill->setPaid();
 
             if($bill->application){
-                $url = $bill->application->redirect.'?reference_id='.$bill->reference_id.'&status='.$bill->status.'&bill_id='.$bill->id.'&pay_url='.$bill->pay_url;
-                return redirect($url);
+                return redirect($bill->redirect_url);
             }
             return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
         }

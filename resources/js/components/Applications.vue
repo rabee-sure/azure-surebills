@@ -394,6 +394,7 @@
       svg {
         height: 110px;
         fill: #ddd;
+        width: auto;
         [class="body-dark-mode"] & {
           fill: #666;
         } /* Dark Mode */

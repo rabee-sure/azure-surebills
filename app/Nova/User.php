@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
 use App\Nova\Metrics\NewBills;
+use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
@@ -125,6 +126,9 @@ class User extends Resource
             File::make(__('Business logo'), 'logo')->disk('public'),
             HasMany::make(__('Transfers'), 'transfers', TransferHidden::class),
             // HasMany::make('statement'),
+
+            Images::make(__('Business Documents'), 'business_documents')->hideFromIndex(),
+            Images::make(__('Bank Documents'), 'bank_documents')->hideFromIndex(),
 
         ];
     }
