@@ -48,7 +48,7 @@
   </div>
 </div>
 <div class="row justify-content-center invoice">
-  <div class="col-12 col-md-8 col-lg-6 col-xl-6">
+<div class="col-12 col-md-6 col-lg-6 col-xl-6">
     <div class="show_bill_general invoice-contents">
       @if($bill->user->logo)
         <div class="logo_bill">
@@ -138,28 +138,162 @@
     </div><!-- show_bill_general -->  
     <a href="/" title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
+  <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="mb-3">عملية الدفع</h2>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col" width="5%"></th>
+                <th scope="col">{{__('ID') }}</th>
+                <th scope="col">{{__('Values') }}</th>
+                <th scope="col">{{__('Date created') }}</th>
+                <th scope="col" width="10%">{{__('Status') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img src="{{ asset('images/payments/mada.png') }}" alt="mada" height="25px"></td>
+                <td><a href="#" title="12f4547f-d530-405d-bc89-f768de4587ee">12f4547f-d530-405d-bc89-f768de4587ee</a></td>
+                <td>125.00 {{__('SAR') }}</td>
+                <td>2020-09-02 15:57:14</td>
+                <td><span class="badge badge-pill badge-success bill_status_badge">مدفوع</span></td>
+              </tr>
+              <tr>
+                <td><img src="{{ asset('images/payments/card.png') }}" alt="card" height="25px"></td>
+                <td><a href="#" title="12f4547f-d530-405d-bc89-f768de4587ee">12f4547f-d530-405d-bc89-f768de4587ee</a></td>
+                <td>934.00 {{__('SAR') }}</td>
+                <td>2020-09-02 15:57:14</td>
+                <td><span class="badge badge-pill badge-danger bill_status_badge">فشل</span></td>
+              </tr>
+              <tr>
+                <td><img src="{{ asset('images/payments/pay.png') }}" alt="pay" height="25px"></td>
+                <td><a href="#" title="12f4547f-d530-405d-bc89-f768de4587ee">12f4547f-d530-405d-bc89-f768de4587ee</a></td>
+                <td>852.00 {{__('SAR') }}</td>
+                <td>2020-09-02 15:57:14</td>
+                <td><span class="badge badge-pill badge-danger bill_status_badge">فشل</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- table-responsive -->
+      </div><!-- card-body -->
+    </div><!-- card -->
+  </div><!-- col-12 -->
 </div><!-- row -->
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">{{ __('Are you Sure to Cancel Bill ?')}}</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-footer">
-          <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
-            @csrf
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ __('Are you Sure to Cancel Bill ?')}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+<form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
+  @csrf
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
 
-                  <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
-                            </form>
-                </div>
-              </div>
-            </div>
-          </div>
+        <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
+                  </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<div class="row">
+  <div class="col-12">
+    <h1>Payments</h1>
+    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+      <ol class="breadcrumb pt-0">
+        <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
+        <li class="breadcrumb-item"><a href="/bills?{{$separated}}" title="{{__('Bills')}}">{{__('Bills')}}</a></li>
+        <li class="breadcrumb-item"><a href="/bills?{{$separated}}" title="{{__('Bills')}}">{{__('Bill')}} #{{ $bill->number }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">12f4547f-d530-405d-bc89-f768de4587ee</li>
+      </ol>
+    </nav>
+    <div class="separator mb-5"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-5">
+      <div class="card-body">
+        <div class="payment_block">
+          <div class="title">
+            <img src="{{ asset('images/payments/pay.png') }}" alt="pay">
+            <p>316869 {{__('SAR') }}</p>
+            <span class="badge badge-pill badge-success">مدفوع</span>
+          </div><!-- title -->
+          <div class="desc">{{__('ID') }} : 12f4547f-d530-405d-bc89-f768de4587ee</div>
+          <div class="separator mb-5"></div>
+          <div class="table_block mb-5">
+            <div class="name"><div class="glyph-icon iconsminds-dollar"></div> {{__('Payment Details') }}</div>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered">
+                <tbody>
+                  <tr>
+                    <td>{{__('Amount') }}</td>
+                    <td>11225 {{__('SAR') }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{__('Descrption') }}</td>
+                    <td>Order #21545</td>
+                  </tr>
+                  <tr>
+                    <td>{{__('Date created') }}</td>
+                    <td>2020-09-02 15:57:14</td>
+                  </tr>
+                  <tr>
+                    <td>{{__('Last Update') }}</td>
+                    <td>2020-09-02 15:57:14</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div><!-- table-responsive -->
+          </div><!-- table_block -->
+          <div class="table_block">
+            <div class="name"><div class="glyph-icon simple-icon-credit-card"></div> {{__('Payment Method') }}</div>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered">
+                <tbody>
+                  <tr>
+                    <td>{{__('Name On Card') }}</td>
+                    <td>Ahmed Ahmed Ahmed</td>
+                  </tr>
+                  <tr>
+                    <td>{{__('Card Type') }}</td>
+                    <td>MADA</td>
+                  </tr>
+                  <tr>
+                    <td>{{__('Card Number') }}</td>
+                    <td>xxxx-xxxx-xxxx-5385</td>
+                  </tr>
+                  <tr>
+                    <td>{{__('Message') }}</td>
+                    <td>Approved</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div><!-- table-responsive -->
+          </div><!-- table_block -->
+        </div><!-- payment_block -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
 @endsection
 
 @push('footer-scripts')

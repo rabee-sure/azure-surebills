@@ -94,6 +94,7 @@
 	"Customer": "عميل",
 	"Amount": "كمية",
 	"Transfers": "التحويلات",
+	"Transfer": "تحويل",
 	"Note": "ملحوظة",
 	"Attachment": "المرفق",
 	"Gender": "النوع",
@@ -106,6 +107,7 @@
 	"Created At": "أنشئت في",
 	"vat": "ضريبة القيمة المضافة",
 	"Discount": "الخصم",
+	"discount": "الخصم",
 	"Payment Fees": "عمولة الدفع",
 	"Payment Fees VAT": "ضريبة عمولة الدفع",
 	"Due to client": "المبلغ المستحق للعميل",
@@ -160,7 +162,7 @@
 	"Active Langs" : "اللغات المفعلة للفواتير",
 	"this bill has been canceled" : "تم إلغاء الفاتورة #:number",
 	"this bill has been successfully" : "تم دفع الفاتورة #:number بنجاح",
-	"this bill has been expired" : "لفد انتهت صلاحية الفاتورة #:number",
+	"this bill has been expired" : "انتهت صلاحية الفاتورة #:number",
 
 	"Day" : "يوم",
 	"Days" : "ايام",
@@ -437,5 +439,14 @@
 	"Send a text message to the customer" : "ارسل رسالة نصية للعميل",
 	"Send an email to the customer" : "ارسل بريد الكتروني للعميل",
 	"Send me a text message" : "ارسل رسالة نصية لي",
-	"Send an email to me" : "ارسل بريد الكتروني لي"
+  "Send an email to me" : "ارسل بريد الكتروني لي",
+  "Values" : "القيمة",
+  "Add New Media" : "إضافة وسائط جديدة",
+  "ID" : "رقم المرجع",
+  "Name On Card" : "اسم حامل البطاقة",
+  "Card Type" : "نوع البطاقة",
+  "Card Number" : "رقم البطاقة",
+  "Message" : "الرسالة",
+  "Descrption" : "الوصف",
+  "Last Update" : "اخر تحديث"
 }
