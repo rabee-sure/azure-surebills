@@ -10,6 +10,7 @@ use App\Http\Requests\BankInformationRequest;
 use App\Http\Requests\BusinessInformationRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Resources\UserResource;
+use App\Jobs\CallbackWebhook;
 use App\User;
 use Carbon\Carbon;
 use Hashids\Hashids;
@@ -26,6 +27,9 @@ class TestController extends Controller
      */
     public function test(Request $request)
     {
+        $bill = Bill::find('d6294419-9409-472e-be76-2e95073d91d7');
+        CallbackWebhook::dispatch($bill);
+        
         return view('emails.auth.passwords.reset_password');
         $bill = Bill::all()->random();
         if($request->has('id')){

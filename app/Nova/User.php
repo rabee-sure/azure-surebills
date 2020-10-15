@@ -127,8 +127,8 @@ class User extends Resource
             HasMany::make(__('Transfers'), 'transfers', TransferHidden::class),
             // HasMany::make('statement'),
 
-            Images::make(__('Business Documents'), 'business_documents') ,
-            Images::make(__('Bank Documents'), 'bank_documents') ,
+            Images::make(__('Business Documents'), 'business_documents')->hideFromIndex(),
+            Images::make(__('Bank Documents'), 'bank_documents')->hideFromIndex(),
 
         ];
     }
