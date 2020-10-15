@@ -80,4 +80,10 @@ class BillApiRequest extends FormRequest
             'send_email' => $this->send_email == 'on' ? true : false,
         ]);
     }
+
+    protected function prepareForValidation()
+    {
+        if ($this->has('customer_mobile'))
+            $this->merge(['customer_mobile'=> $this->customer_mobile]);
+    }
 }
