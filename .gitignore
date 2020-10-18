@@ -16,6 +16,7 @@
 /public/js/store.js
 /public/mix-manifest.json
 /public/js/app.js.map
+/public/images
 /storage/*.key
 /storage/tmp
 /vendor

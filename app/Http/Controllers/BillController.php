@@ -300,4 +300,19 @@ class BillController extends Controller
 
         return redirect()->back();
     }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function log(PaymentLog $log)
+    {
+        return view('bills.log', [
+            'bill' => $log->bill,
+            'log' => $log
+        ]);
+    }
 }
