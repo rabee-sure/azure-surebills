@@ -27,7 +27,9 @@ class TestController extends Controller
      */
     public function test(Request $request)
     {
-        $bill = Bill::find('d6294419-9409-472e-be76-2e95073d91d7');
+        $bill = Bill::find('08774b43-fef5-4864-9fbf-2a3352ce646d');
+        $log = $bill->payment_logs->last();
+        dd($log->results['description']);
         CallbackWebhook::dispatch($bill);
         
         return view('emails.auth.passwords.reset_password');

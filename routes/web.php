@@ -72,6 +72,8 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+Route::get('/logs/{log}/', 'BillController@log')->name('logpage');
+
 // py bill page
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
 Route::get('/bills/payment_iframe/{id}/{method}/{locale}', 'BillController@payment_iframe')->name('payment_iframe');

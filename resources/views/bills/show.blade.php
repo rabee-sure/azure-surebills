@@ -154,27 +154,30 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><img src="{{ asset('images/payments/mada.png') }}" alt="mada" height="25px"></td>
-                <td><a href="#" title="12f4547f-d530-405d-bc89-f768de4587ee">12f4547f-d530-405d-bc89-f768de4587ee</a></td>
-                <td>125.00 {{__('SAR') }}</td>
-                <td>2020-09-02 15:57:14</td>
-                <td><span class="badge badge-pill badge-success bill_status_badge">مدفوع</span></td>
-              </tr>
-              <tr>
-                <td><img src="{{ asset('images/payments/card.png') }}" alt="card" height="25px"></td>
-                <td><a href="#" title="12f4547f-d530-405d-bc89-f768de4587ee">12f4547f-d530-405d-bc89-f768de4587ee</a></td>
-                <td>934.00 {{__('SAR') }}</td>
-                <td>2020-09-02 15:57:14</td>
-                <td><span class="badge badge-pill badge-danger bill_status_badge">فشل</span></td>
-              </tr>
-              <tr>
-                <td><img src="{{ asset('images/payments/pay.png') }}" alt="pay" height="25px"></td>
-                <td><a href="#" title="12f4547f-d530-405d-bc89-f768de4587ee">12f4547f-d530-405d-bc89-f768de4587ee</a></td>
-                <td>852.00 {{__('SAR') }}</td>
-                <td>2020-09-02 15:57:14</td>
-                <td><span class="badge badge-pill badge-danger bill_status_badge">فشل</span></td>
-              </tr>
+              @foreach($bill->payment_logs as $log)
+                <tr>
+                  @if(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'MADA')
+                    <td><img src="{{ asset('/payments/mada.png') }}" alt="mada" height="25px"></td>
+                  @elseif(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'VISA')
+                    <td><img src="{{ asset('/payments/visa.png') }}" alt="visa" height="25px"></td>
+                  @elseif(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'MASTERCARD')
+                    <td><img src="{{ asset('/payments/card.png') }}" alt="mastercard" height="25px"></td>
+                  @elseif(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'APPLEPAY')
+                    <td><img src="{{ asset('/payments/pay.png') }}" alt="apple pay" height="25px"></td>
+                  @else
+                    <td><img src="{{ asset('/payments/cardnon.png') }}" alt="apple pay" height="25px"></td>
+                  @endif
+
+                  <td><a href="/logs/{{$log->id}}" title="12f4547f-d530-405d-bc89-f768de4587ee">{{ $bill->id }}</a></td>
+                  <td>{{ $bill->total}} {{__('SAR') }}</td>
+                  <td>{{$log->created_at}}</td>
+                  @if($log->status == true)
+                    <td><span class="badge badge-pill badge-success bill_status_badge">مدفوع</span></td>
+                  @else
+                    <td><span class="badge badge-pill badge-danger bill_status_badge">فشل</span></td>
+                  @endif
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div><!-- table-responsive -->
@@ -203,96 +206,6 @@
     </div>
   </div>
 </div>
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-<div class="row">
-  <div class="col-12">
-    <h1>Payments</h1>
-    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-      <ol class="breadcrumb pt-0">
-        <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
-        <li class="breadcrumb-item"><a href="/bills?{{$separated}}" title="{{__('Bills')}}">{{__('Bills')}}</a></li>
-        <li class="breadcrumb-item"><a href="/bills?{{$separated}}" title="{{__('Bills')}}">{{__('Bill')}} #{{ $bill->number }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">12f4547f-d530-405d-bc89-f768de4587ee</li>
-      </ol>
-    </nav>
-    <div class="separator mb-5"></div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-12">
-    <div class="card mb-5">
-      <div class="card-body">
-        <div class="payment_block">
-          <div class="title">
-            <img src="{{ asset('images/payments/pay.png') }}" alt="pay">
-            <p>316869 {{__('SAR') }}</p>
-            <span class="badge badge-pill badge-success">مدفوع</span>
-          </div><!-- title -->
-          <div class="desc">{{__('ID') }} : 12f4547f-d530-405d-bc89-f768de4587ee</div>
-          <div class="separator mb-5"></div>
-          <div class="table_block mb-5">
-            <div class="name"><div class="glyph-icon iconsminds-dollar"></div> {{__('Payment Details') }}</div>
-            <div class="table-responsive">
-              <table class="table table-striped table-bordered">
-                <tbody>
-                  <tr>
-                    <td>{{__('Amount') }}</td>
-                    <td>11225 {{__('SAR') }}</td>
-                  </tr>
-                  <tr>
-                    <td>{{__('Descrption') }}</td>
-                    <td>Order #21545</td>
-                  </tr>
-                  <tr>
-                    <td>{{__('Date created') }}</td>
-                    <td>2020-09-02 15:57:14</td>
-                  </tr>
-                  <tr>
-                    <td>{{__('Last Update') }}</td>
-                    <td>2020-09-02 15:57:14</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div><!-- table-responsive -->
-          </div><!-- table_block -->
-          <div class="table_block">
-            <div class="name"><div class="glyph-icon simple-icon-credit-card"></div> {{__('Payment Method') }}</div>
-            <div class="table-responsive">
-              <table class="table table-striped table-bordered">
-                <tbody>
-                  <tr>
-                    <td>{{__('Name On Card') }}</td>
-                    <td>Ahmed Ahmed Ahmed</td>
-                  </tr>
-                  <tr>
-                    <td>{{__('Card Type') }}</td>
-                    <td>MADA</td>
-                  </tr>
-                  <tr>
-                    <td>{{__('Card Number') }}</td>
-                    <td>xxxx-xxxx-xxxx-5385</td>
-                  </tr>
-                  <tr>
-                    <td>{{__('Message') }}</td>
-                    <td>Approved</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div><!-- table-responsive -->
-          </div><!-- table_block -->
-        </div><!-- payment_block -->
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
 
 @endsection
 

@@ -403,4 +403,16 @@ class Bill extends Model
 
         return $number == 0 ? 1000001 : $number + 1;
     } 
+
+
+    /**
+     * Get payment_logs.
+     *
+     * @return Collection
+     */
+    public function payment_logs()
+    {
+        return $this->hasMany(PaymentLog::class)->orderBy('id', 'desc');;
+    } 
+
 }
