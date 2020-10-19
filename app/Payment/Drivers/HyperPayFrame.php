@@ -8,6 +8,7 @@ use App\Payment\Invoice;
 use App\Payment\Receipt;
 use App\Payment\Abstracts\Driver;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use App\Exceptions\InvalidPaymentException;
 use App\Exceptions\PurchaseFailedException;
 use App\Payment\Contracts\ReceiptInterface;
@@ -79,6 +80,7 @@ class HyperPayFrame extends Driver
         $responseData = curl_exec($ch);
 
         if(curl_errno($ch)) {
+            Log::emergency($url . ' - ' . $this->settings->access_token));
             throw new PurchaseFailedException('error in Purchase');
         }
         curl_close($ch);
@@ -136,6 +138,7 @@ class HyperPayFrame extends Driver
         $responseData = curl_exec($ch);
 
         if(curl_errno($ch)) {
+            Log::emergency($url . ' - ' . $this->settings->access_token));
             throw new PurchaseFailedException('error in Purchase');
         }
         curl_close($ch);
