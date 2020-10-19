@@ -80,7 +80,7 @@ class HyperPayFrame extends Driver
         $responseData = curl_exec($ch);
 
         if(curl_errno($ch)) {
-            Log::emergency($url . ' - ' . $this->settings->access_token));
+            Log::emergency($url . ' - ' . $this->settings->access_token);
             throw new PurchaseFailedException('error in Purchase');
         }
         curl_close($ch);
@@ -138,7 +138,7 @@ class HyperPayFrame extends Driver
         $responseData = curl_exec($ch);
 
         if(curl_errno($ch)) {
-            Log::emergency($url . ' - ' . $this->settings->access_token));
+            Log::emergency($url . ' - ' . $this->settings->access_token);
             throw new PurchaseFailedException('error in Purchase');
         }
         curl_close($ch);
