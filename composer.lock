@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fcb65a56a3ad798e19b643d3fab267e",
+    "content-hash": "0571c0a0768bcc9a0e4ad39c19778629",
     "packages": [
         {
             "name": "ampeco/nova-date-range-filter",
@@ -569,6 +569,50 @@
             ],
             "abandoned": "react/http",
             "time": "2020-07-03T10:43:43+00:00"
+        },
+        {
+            "name": "codebykyle/calculated-field",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codebykyle/calculated-field.git",
+                "reference": "9216d02c15e0e4d8453ba79b4f1218e50e6548d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codebykyle/calculated-field/zipball/9216d02c15e0e4d8453ba79b4f1218e50e6548d4",
+                "reference": "9216d02c15e0e4d8453ba79b4f1218e50e6548d4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Codebykyle\\CalculatedField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Codebykyle\\CalculatedField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A server side calculated field for Laravel Nova",
+            "keywords": [
+                "calculated",
+                "field",
+                "laravel",
+                "nova",
+                "server-side"
+            ],
+            "time": "2019-10-10T15:13:58+00:00"
         },
         {
             "name": "defuse/php-encryption",

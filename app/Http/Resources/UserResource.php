@@ -23,6 +23,12 @@ class UserResource extends JsonResource
             'mobile' => $this->mobile,
             'mobile_sent_at' => $this->mobile_sent_at->timestamp ?? null,
             'name' => $this->name,
+
+            'bank_id' => $this->bank_id,
+            'bank' => $this->bank,
+            'iban_number' => $this->iban_number,
+            'beneficiary_name' => $this->beneficiary_name,
+
             'diff_in_sec' => $this->getDiff()
         ];
     }

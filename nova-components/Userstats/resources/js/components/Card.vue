@@ -4,6 +4,7 @@
       <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id">
         <span>{{ __('Balance') }}</span>
         <p v-if="user">{{ user.balance }}</p>
+        <p v-if="user"><a href="/nova/settlements/1/create" target="_blank" style="min-height: 0px;"> Create Transfar</a></p>
       </a>
     </div><!-- item -->
     <div class="item">

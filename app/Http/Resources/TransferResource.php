@@ -18,7 +18,9 @@ class TransferResource extends JsonResource
         return [
             'id' => $this->id,
             'amount' => $this->amount,
-            'user_id' => $this->user_id,
+            'note' => $this->note,
+            'attachment' => $this->attachment,
+            'created_by_name' => $this->created_by->name ?? 'NAN',
             'created_at' => $this->created_at->format('d/m/Y H:i'),
         ];
     }

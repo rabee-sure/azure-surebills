@@ -12,7 +12,25 @@ class Transfer extends Model
     protected $fillable = [
 		'amount',
 		'user_id',
+        'created_by_id',
+        'note',
+        'attachment',
+
+        //bank_id info
+        'bank_id',
+        'iban_number',
+        'beneficiary_name',
+        'filters',
 	];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'filters' => 'array',
+    ];
 
 	/**
      * Get user.
@@ -23,6 +41,16 @@ class Transfer extends Model
     {
         return $this->belongsTo(User::class);
     }   
+
+    /**
+     * Get bills.
+     *
+     * @return Collection
+     */
+    public function bills()
+    {
+        return $this->belongsToMany(Bill::class);
+    }
 
     /**
      * Get user.

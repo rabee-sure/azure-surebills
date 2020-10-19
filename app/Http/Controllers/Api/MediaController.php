@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Bill;
+use App\Events\BillPaid;
+use App\Events\BillStatusUpdated;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\AccountInformationRequest;
+use App\Http\Requests\BankInformationRequest;
+use App\Http\Requests\BusinessInformationRequest;
+use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Resources\UserResource;
+use App\Jobs\CallbackWebhook;
+use App\User;
+use Carbon\Carbon;
+use Hashids\Hashids;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Ramsey\Uuid\Uuid;
+
+class MediaController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function upload(Request $request)
+    {
+	    if ($request->hasFile('file')) {
+	        $image = $request->file('file');
+	        $name = time().'.'.$image->getClientOriginalExtension();
+	        $destinationPath = storage_path('/app/public');
+	        $image->move($destinationPath, $name);
+	        return response()->json(['data' => $name]);
+	    }
+    } 
+
+ 
+}

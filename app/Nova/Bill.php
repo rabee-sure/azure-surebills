@@ -193,12 +193,12 @@ class Bill extends Resource
 
             new Panel(__('Payment Details'), function(){
                 return [
-                    Text::make(__('Payment Method'), 'payment_method_details'),
+                    Text::make(__('Method Type'), 'payment_method_details'),
 
                     Number::make(__('Sub Total'), 'sub_total')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make(__('Discount'), 'discount')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make(__('Tax'), 'vat')->min(1)->step(0.1)->onlyOnDetail(),
-                    Number::make(__('Total'), 'total')->min(1)->step(0.1),
+                    Number::make(__('Total'), 'total')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make( __('Payment Fees'), 'payment_fees')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make( __('Payment Fees VAT'), 'payment_fees_vat')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make( __('Due to client'), 'due_to_client')->min(1)->step(0.1)->onlyOnDetail(),
