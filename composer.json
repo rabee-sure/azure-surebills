@@ -12,6 +12,7 @@
         "ampeco/nova-date-range-filter": "^0.1.1",
         "anaseqal/nova-sidebar-icons": "^0.0.3",
         "beyondcode/laravel-websockets": "^1.4",
+        "codebykyle/calculated-field": "^1.1",
         "digital-creative/nova-range-input-filter": "^0.1.5",
         "ebess/advanced-nova-media-library": "^3.3",
         "fideloper/proxy": "^4.2",

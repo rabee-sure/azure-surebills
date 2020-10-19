@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Bill;
 use App\Events\TransferCreated;
 use App\Http\Resources\TransferResource;
 use App\Transfer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransferController extends Controller
 {
@@ -37,13 +39,37 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
-        $sett = Transfer::create([
-            'user_id' => $request->user_id,
-            'amount' => $request->amount,
-            'created_by_id' => auth()->user()->id,
-        ]);
-        event(new TransferCreated($sett));
-        return new TransferResource($sett);
+        $transfer = DB::transaction(function () use($request){
+            $transfer = Transfer::create([
+                'user_id' => $request->user_id,
+                'amount' => $request->amount,
+                'note' => $request->note,
+                'attachment' => $request->attachment,
+                'created_by_id' => auth()->user()->id,
+                'bank_id' => $request->bank_id,
+                'iban_number' => $request->iban_number,
+                'beneficiary_name' => $request->beneficiary_name,
+                'filters' => [
+                    'date' => [
+                        "from" => $request->from,
+                        "to" => $request->to,
+                    ]
+                ],
+
+            ]);
+
+            foreach ($request->bills_ids as $bill_id) {
+                $bill = Bill::find($bill_id);
+                $bill->settled = true;
+                $bill->save();
+            }
+            $transfer->bills()->attach($request->bills_ids);
+
+            return $transfer;
+        });
+        event(new TransferCreated($transfer));
+
+        return new TransferResource($transfer);
     }
 
     /**
