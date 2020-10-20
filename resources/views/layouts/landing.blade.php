@@ -62,7 +62,7 @@
         </div><!-- row -->
         <div class="footer_bottom">
           <div class="copyrights">
-            جميع الحقوق محفوظة © 2019
+            جميع الحقوق محفوظة © 2020
           </div><!-- copyrights -->
           <div class="socialmedia">
             <a href="https://twitter.com/SurePay_sa" title="twitter" target="_blank"><i class="fab fa-twitter"></i></a>
