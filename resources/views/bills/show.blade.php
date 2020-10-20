@@ -168,13 +168,13 @@
                     <td><img src="{{ asset('/payments/cardnon.png') }}" alt="apple pay" height="25px"></td>
                   @endif
 
-                  <td><a href="/logs/{{$log->id}}" title="12f4547f-d530-405d-bc89-f768de4587ee">{{ $bill->id }}</a></td>
+                  <td><a href="/logs/{{$log->id}}" title="{{ isset($log->results['response']) ? $log->results['response']['id'] : null }}">{{ isset($log->results['response']) ? $log->results['response']['id'] : null }}</a></td>
                   <td>{{ $bill->total}} {{__('SAR') }}</td>
                   <td>{{$log->created_at}}</td>
                   @if($log->status == true)
-                    <td><span class="badge badge-pill badge-success bill_status_badge">مدفوع</span></td>
+                    <td><span class="badge badge-pill badge-success bill_status_badge">{{ __('Paid') }}</span></td>
                   @else
-                    <td><span class="badge badge-pill badge-danger bill_status_badge">فشل</span></td>
+                    <td><span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span></td>
                   @endif
                 </tr>
               @endforeach
