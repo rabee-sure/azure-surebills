@@ -131,9 +131,9 @@ class AccountController extends Controller
     {
         if($request->hasFile('logo')) {
             $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();  
-            $image = $request->logo->move(public_path('images'), $imageName);
+            $image = $request->logo->move(public_path('uploads'), $imageName);
             auth()->user()->update([
-                'logo' => 'images/'.$imageName,
+                'logo' => 'uploads/'.$imageName,
             ]);
         }
         
