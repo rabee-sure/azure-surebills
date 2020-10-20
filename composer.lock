@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fcb65a56a3ad798e19b643d3fab267e",
+    "content-hash": "16863c9264d271b453bd024a78a8f4a9",
     "packages": [
         {
             "name": "ampeco/nova-date-range-filter",
@@ -569,6 +569,50 @@
             ],
             "abandoned": "react/http",
             "time": "2020-07-03T10:43:43+00:00"
+        },
+        {
+            "name": "codebykyle/calculated-field",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codebykyle/calculated-field.git",
+                "reference": "9216d02c15e0e4d8453ba79b4f1218e50e6548d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codebykyle/calculated-field/zipball/9216d02c15e0e4d8453ba79b4f1218e50e6548d4",
+                "reference": "9216d02c15e0e4d8453ba79b4f1218e50e6548d4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Codebykyle\\CalculatedField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Codebykyle\\CalculatedField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A server side calculated field for Laravel Nova",
+            "keywords": [
+                "calculated",
+                "field",
+                "laravel",
+                "nova",
+                "server-side"
+            ],
+            "time": "2019-10-10T15:13:58+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -2260,7 +2304,10 @@
             "keywords": [
                 "admin",
                 "laravel"
-            ]
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "laravel/passport",
@@ -2517,6 +2564,62 @@
                 "vapor"
             ],
             "time": "2020-09-29T13:17:26+00:00"
+        },
+        {
+            "name": "laravie/serialize-queries",
+            "version": "v0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravie/serialize-queries.git",
+                "reference": "8e0d2a3b4cb2d65e8597c0f1f195c45c99909f85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravie/serialize-queries/zipball/8e0d2a3b4cb2d65e8597c0f1f195c45c99909f85",
+                "reference": "8e0d2a3b4cb2d65e8597c0f1f195c45c99909f85",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^5.8 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/queue": "^5.8 || ^6.0 || ^7.0 || ^8.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.8 || ^4.0 || ^5.0 || ^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravie\\SerializesQuery\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mior Muhammad Zaki",
+                    "email": "crynobone@gmail.com"
+                }
+            ],
+            "description": "Serializable Laravel Query Builder",
+            "funding": [
+                {
+                    "url": "https://paypal.me/crynobone",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://liberapay.com/crynobone",
+                    "type": "liberapay"
+                }
+            ],
+            "time": "2020-10-14T22:51:14+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -3004,6 +3107,134 @@
             "time": "2020-07-01T11:33:50+00:00"
         },
         {
+            "name": "maatwebsite/excel",
+            "version": "3.1.23",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
+                "reference": "b8145257f020635f374d2314ccd556674efcbfcb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/b8145257f020635f374d2314ccd556674efcbfcb",
+                "reference": "b8145257f020635f374d2314ccd556674efcbfcb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0",
+                "php": "^7.0",
+                "phpoffice/phpspreadsheet": "^1.14"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "predis/predis": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maatwebsite\\Excel\\ExcelServiceProvider"
+                    ],
+                    "aliases": {
+                        "Excel": "Maatwebsite\\Excel\\Facades\\Excel"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maatwebsite\\Excel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Patrick Brouwers",
+                    "email": "patrick@maatwebsite.nl"
+                }
+            ],
+            "description": "Supercharged Excel exports and imports in Laravel",
+            "keywords": [
+                "PHPExcel",
+                "batch",
+                "csv",
+                "excel",
+                "export",
+                "import",
+                "laravel",
+                "php",
+                "phpspreadsheet"
+            ],
+            "funding": [
+                {
+                    "url": "https://laravel-excel.com/commercial-support",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/patrickbrouwers",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-09-29T07:30:12+00:00"
+        },
+        {
+            "name": "maatwebsite/laravel-nova-excel",
+            "version": "1.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Maatwebsite/Laravel-Nova-Excel.git",
+                "reference": "12a696e53be79e0f212c089abaa5f248d74eeb13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Nova-Excel/zipball/12a696e53be79e0f212c089abaa5f248d74eeb13",
+                "reference": "12a696e53be79e0f212c089abaa5f248d74eeb13",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "*",
+                "laravie/serialize-queries": "^0.2",
+                "maatwebsite/excel": "^3.1",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maatwebsite\\LaravelNovaExcel\\LaravelNovaExcelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maatwebsite\\LaravelNovaExcel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Patrick Brouwers",
+                    "email": "patrick@maatwebsite.nl"
+                }
+            ],
+            "description": "Supercharged Excel exports for Laravel Nova Resources",
+            "keywords": [
+                "PHPExcel",
+                "actions",
+                "laravel",
+                "laravel-nova",
+                "nova",
+                "phpspreadsheet"
+            ],
+            "time": "2020-10-08T14:10:40+00:00"
+        },
+        {
             "name": "maennchen/zipstream-php",
             "version": "2.1.0",
             "source": {
@@ -3063,6 +3294,171 @@
                 "zip"
             ],
             "time": "2020-05-30T13:11:16+00:00"
+        },
+        {
+            "name": "markbaker/complex",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MarkBaker/PHPComplex.git",
+                "reference": "9999f1432fae467bc93c53f357105b4c31bb994c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MarkBaker/PHPComplex/zipball/9999f1432fae467bc93c53f357105b4c31bb994c",
+                "reference": "9999f1432fae467bc93c53f357105b4c31bb994c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+                "phpcompatibility/php-compatibility": "^9.0",
+                "phpdocumentor/phpdocumentor": "2.*",
+                "phploc/phploc": "^4.0",
+                "phpmd/phpmd": "2.*",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.3",
+                "sebastian/phpcpd": "^4.0",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Complex\\": "classes/src/"
+                },
+                "files": [
+                    "classes/src/functions/abs.php",
+                    "classes/src/functions/acos.php",
+                    "classes/src/functions/acosh.php",
+                    "classes/src/functions/acot.php",
+                    "classes/src/functions/acoth.php",
+                    "classes/src/functions/acsc.php",
+                    "classes/src/functions/acsch.php",
+                    "classes/src/functions/argument.php",
+                    "classes/src/functions/asec.php",
+                    "classes/src/functions/asech.php",
+                    "classes/src/functions/asin.php",
+                    "classes/src/functions/asinh.php",
+                    "classes/src/functions/atan.php",
+                    "classes/src/functions/atanh.php",
+                    "classes/src/functions/conjugate.php",
+                    "classes/src/functions/cos.php",
+                    "classes/src/functions/cosh.php",
+                    "classes/src/functions/cot.php",
+                    "classes/src/functions/coth.php",
+                    "classes/src/functions/csc.php",
+                    "classes/src/functions/csch.php",
+                    "classes/src/functions/exp.php",
+                    "classes/src/functions/inverse.php",
+                    "classes/src/functions/ln.php",
+                    "classes/src/functions/log2.php",
+                    "classes/src/functions/log10.php",
+                    "classes/src/functions/negative.php",
+                    "classes/src/functions/pow.php",
+                    "classes/src/functions/rho.php",
+                    "classes/src/functions/sec.php",
+                    "classes/src/functions/sech.php",
+                    "classes/src/functions/sin.php",
+                    "classes/src/functions/sinh.php",
+                    "classes/src/functions/sqrt.php",
+                    "classes/src/functions/tan.php",
+                    "classes/src/functions/tanh.php",
+                    "classes/src/functions/theta.php",
+                    "classes/src/operations/add.php",
+                    "classes/src/operations/subtract.php",
+                    "classes/src/operations/multiply.php",
+                    "classes/src/operations/divideby.php",
+                    "classes/src/operations/divideinto.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Baker",
+                    "email": "mark@lange.demon.co.uk"
+                }
+            ],
+            "description": "PHP Class for working with complex numbers",
+            "homepage": "https://github.com/MarkBaker/PHPComplex",
+            "keywords": [
+                "complex",
+                "mathematics"
+            ],
+            "time": "2020-08-26T10:42:07+00:00"
+        },
+        {
+            "name": "markbaker/matrix",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MarkBaker/PHPMatrix.git",
+                "reference": "9567d9c4c519fbe40de01dbd1e4469dbbb66f46a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MarkBaker/PHPMatrix/zipball/9567d9c4c519fbe40de01dbd1e4469dbbb66f46a",
+                "reference": "9567d9c4c519fbe40de01dbd1e4469dbbb66f46a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+                "phpcompatibility/php-compatibility": "^9.0",
+                "phpdocumentor/phpdocumentor": "2.*",
+                "phploc/phploc": "^4.0",
+                "phpmd/phpmd": "2.*",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.3",
+                "sebastian/phpcpd": "^4.0",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Matrix\\": "classes/src/"
+                },
+                "files": [
+                    "classes/src/functions/adjoint.php",
+                    "classes/src/functions/antidiagonal.php",
+                    "classes/src/functions/cofactors.php",
+                    "classes/src/functions/determinant.php",
+                    "classes/src/functions/diagonal.php",
+                    "classes/src/functions/identity.php",
+                    "classes/src/functions/inverse.php",
+                    "classes/src/functions/minors.php",
+                    "classes/src/functions/trace.php",
+                    "classes/src/functions/transpose.php",
+                    "classes/src/operations/add.php",
+                    "classes/src/operations/directsum.php",
+                    "classes/src/operations/subtract.php",
+                    "classes/src/operations/multiply.php",
+                    "classes/src/operations/divideby.php",
+                    "classes/src/operations/divideinto.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Baker",
+                    "email": "mark@demon-angel.eu"
+                }
+            ],
+            "description": "PHP Class for working with matrices",
+            "homepage": "https://github.com/MarkBaker/PHPMatrix",
+            "keywords": [
+                "mathematics",
+                "matrix",
+                "vector"
+            ],
+            "time": "2020-08-28T17:11:00+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3838,6 +4234,102 @@
             "time": "2015-12-19T14:08:53+00:00"
         },
         {
+            "name": "phpoffice/phpspreadsheet",
+            "version": "1.15.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
+                "reference": "a8e8068b31b8119e1daa5b1eb5715a3a8ea8305f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/a8e8068b31b8119e1daa5b1eb5715a3a8ea8305f",
+                "reference": "a8e8068b31b8119e1daa5b1eb5715a3a8ea8305f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-dom": "*",
+                "ext-fileinfo": "*",
+                "ext-gd": "*",
+                "ext-iconv": "*",
+                "ext-libxml": "*",
+                "ext-mbstring": "*",
+                "ext-simplexml": "*",
+                "ext-xml": "*",
+                "ext-xmlreader": "*",
+                "ext-xmlwriter": "*",
+                "ext-zip": "*",
+                "ext-zlib": "*",
+                "maennchen/zipstream-php": "^2.1",
+                "markbaker/complex": "^1.5|^2.0",
+                "markbaker/matrix": "^1.2|^2.0",
+                "php": "^7.2|^8.0",
+                "psr/http-client": "^1.0",
+                "psr/http-factory": "^1.0",
+                "psr/simple-cache": "^1.0"
+            },
+            "require-dev": {
+                "dompdf/dompdf": "^0.8.5",
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "jpgraph/jpgraph": "^4.0",
+                "mpdf/mpdf": "^8.0",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpunit/phpunit": "^8.5|^9.3",
+                "squizlabs/php_codesniffer": "^3.5",
+                "tecnickcom/tcpdf": "^6.3"
+            },
+            "suggest": {
+                "dompdf/dompdf": "Option for rendering PDF with PDF Writer (doesn't yet support PHP8)",
+                "jpgraph/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
+                "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
+                "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer (doesn't yet support PHP8)"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpOffice\\PhpSpreadsheet\\": "src/PhpSpreadsheet"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "https://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker",
+                    "homepage": "https://markbakeruk.net"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "https://rootslabs.net"
+                },
+                {
+                    "name": "Erik Tilt"
+                },
+                {
+                    "name": "Adrien Crivelli"
+                }
+            ],
+            "description": "PHPSpreadsheet - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "https://github.com/PHPOffice/PhpSpreadsheet",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "gnumeric",
+                "ods",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "time": "2020-10-11T13:20:59+00:00"
+        },
+        {
             "name": "phpoption/phpoption",
             "version": "1.7.5",
             "source": {
@@ -4278,6 +4770,55 @@
                 "psr-14"
             ],
             "time": "2019-01-08T18:20:26+00:00"
+        },
+        {
+            "name": "psr/http-client",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-client.git",
+                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-client/zipball/2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
+                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0 || ^8.0",
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP clients",
+            "homepage": "https://github.com/php-fig/http-client",
+            "keywords": [
+                "http",
+                "http-client",
+                "psr",
+                "psr-18"
+            ],
+            "time": "2020-06-29T06:28:15+00:00"
         },
         {
             "name": "psr/http-factory",
@@ -5909,7 +6450,10 @@
             "keywords": [
                 "laravel",
                 "nova"
-            ]
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -10258,5 +10802,6 @@
     "platform": {
         "php": "^7.2.5"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

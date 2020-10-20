@@ -22,8 +22,8 @@
           </thead>
           <tbody >
             <tr  v-for="settlement in settlements" >
-              <td class="border px-4 py-2">{{ settlement.id}}</td>
-              <td class="border px-4 py-2">{{ user.name}}</td>
+              <td class="border px-4 py-2">{{ settlement.id }}</td>
+              <td class="border px-4 py-2">{{ user.name }}</td>
               <td class="border px-4 py-2">{{ settlement.amount}}</td>
               <td class="border px-4 py-2">{{ settlement.created_at}}</td>
             </tr>
@@ -51,10 +51,10 @@ export default {
     },
     methods: {
         getUsers() {
-            axios.get('/users/all')
-                    .then(response => {
-                        this.users = response.data.data;
-                    });
+          axios.get('/users/all')
+            .then(response => {
+                this.users = response.data.data;
+            });
         },
         onChange(event) {
             this.user = [];

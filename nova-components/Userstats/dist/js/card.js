@@ -657,6 +657,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card', 'resource', 'resourceId', 'resourceName'],
@@ -696,7 +697,23 @@ var render = function() {
         [
           _c("span", [_vm._v(_vm._s(_vm.__("Balance")))]),
           _vm._v(" "),
-          _vm.user ? _c("p", [_vm._v(_vm._s(_vm.user.balance))]) : _vm._e()
+          _vm.user ? _c("p", [_vm._v(_vm._s(_vm.user.balance))]) : _vm._e(),
+          _vm._v(" "),
+          _vm.user
+            ? _c("p", [
+                _c(
+                  "a",
+                  {
+                    staticStyle: { "min-height": "0px" },
+                    attrs: {
+                      href: "/nova/settlements/1/create",
+                      target: "_blank"
+                    }
+                  },
+                  [_vm._v(" Create Transfar")]
+                )
+              ])
+            : _vm._e()
         ]
       )
     ]),
