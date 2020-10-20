@@ -85,6 +85,7 @@
 "Add Discount" : "Add Discount",
 "Add Tax" : "Add Tax",
 "Discount type" : "Discount type",
+"discount": "Discount",
 "fixed" : "fixed",
 "Percentage Discount (%)" : "Percentage Discount (%)",
 "Discount Value" : "Discount Value",
@@ -200,5 +201,14 @@
 "Send a text message to the customer" : "Send a text message to the customer",
 "Send an email to the customer" : "Send an email to the customer",
 "Send me a text message" : "Send me a text message",
-"Send an email to me" : "Send an email to me"
+"Send an email to me" : "Send an email to me",
+"Values" : "Values",
+"Add New Media" : "add new media",
+"ID" : "ID",
+"Name On Card" : "Name On Card",
+"Card Type" : "Card Type",
+"Card Number" : "Card Number",
+"Message" : "Message",
+"Descrption" : "Descrption",
+"Last Update" : "Last Update"
 }

@@ -17,8 +17,10 @@ class BillResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->number  .'-'. $this->customer_name,
             'status' => $this->status,
             'payment_method' => $this->payment_method,
+            'payment_method_type' => $this->payment_method_details,
             'user_id' => $this->user_id, 
             'customer_id' => $this->customer_id, 
             'business_name' => $this->business_name, 
@@ -44,6 +46,8 @@ class BillResource extends JsonResource
             'paid_at' => $this->paid_at,
             'canceled_at' => $this->canceled_at,
             'pay_url' => $this->pay_url,
+            'payment_fees' => $this->payment_fees,
+            'created_at' => $this->created_at->format('d/m/Y H:i'),
         ];
     }
 }

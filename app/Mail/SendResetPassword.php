@@ -24,7 +24,7 @@ class SendResetPassword extends Mailable
      */
     public function __construct($url, $token, $count)
     {
-        $this->$url = $url;
+        $this->url = $url;
         $this->token = $token;
         $this->count = $count;
     }

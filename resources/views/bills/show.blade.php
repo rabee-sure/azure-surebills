@@ -48,7 +48,7 @@
   </div>
 </div>
 <div class="row justify-content-center invoice">
-  <div class="col-12 col-md-8 col-lg-6 col-xl-6">
+<div class="col-12 col-md-6 col-lg-6 col-xl-6">
     <div class="show_bill_general invoice-contents">
       @if($bill->user->logo)
         <div class="logo_bill">
@@ -138,28 +138,75 @@
     </div><!-- show_bill_general -->  
     <a href="/" title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
-</div><!-- row -->
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">{{ __('Are you Sure to Cancel Bill ?')}}</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-footer">
-          <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
-            @csrf
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+  <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="mb-3">عملية الدفع</h2>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col" width="5%"></th>
+                <th scope="col">{{__('ID') }}</th>
+                <th scope="col">{{__('Values') }}</th>
+                <th scope="col">{{__('Date created') }}</th>
+                <th scope="col" width="10%">{{__('Status') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($bill->payment_logs as $log)
+                <tr>
+                  @if(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'MADA')
+                    <td><img src="{{ asset('/payments/mada.png') }}" alt="mada" height="25px"></td>
+                  @elseif(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'VISA')
+                    <td><img src="{{ asset('/payments/visa.png') }}" alt="visa" height="25px"></td>
+                  @elseif(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'MASTERCARD')
+                    <td><img src="{{ asset('/payments/card.png') }}" alt="mastercard" height="25px"></td>
+                  @elseif(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'APPLEPAY')
+                    <td><img src="{{ asset('/payments/pay.png') }}" alt="apple pay" height="25px"></td>
+                  @else
+                    <td><img src="{{ asset('/payments/cardnon.png') }}" alt="apple pay" height="25px"></td>
+                  @endif
 
-                  <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
-                            </form>
-                </div>
-              </div>
-            </div>
-          </div>
+                  <td><a href="/logs/{{$log->id}}" title="12f4547f-d530-405d-bc89-f768de4587ee">{{ $bill->id }}</a></td>
+                  <td>{{ $bill->total}} {{__('SAR') }}</td>
+                  <td>{{$log->created_at}}</td>
+                  @if($log->status == true)
+                    <td><span class="badge badge-pill badge-success bill_status_badge">مدفوع</span></td>
+                  @else
+                    <td><span class="badge badge-pill badge-danger bill_status_badge">فشل</span></td>
+                  @endif
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div><!-- table-responsive -->
+      </div><!-- card-body -->
+    </div><!-- card -->
+  </div><!-- col-12 -->
+</div><!-- row -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ __('Are you Sure to Cancel Bill ?')}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+<form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
+  @csrf
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+
+        <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
+                  </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @push('footer-scripts')

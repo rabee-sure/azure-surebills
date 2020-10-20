@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::get('test', 'TestController@test');
 
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
@@ -72,6 +71,8 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+Route::get('/logs/{log}/', 'BillController@log')->name('logpage');
+
 // py bill page
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
 Route::get('/bills/payment_iframe/{id}/{method}/{locale}', 'BillController@payment_iframe')->name('payment_iframe');
@@ -112,6 +113,8 @@ Route::get('/terms', 'HomeController@terms');
 
 Route::get('users/all', 'UserController@all')->name('users.all');
 Route::get('users/{user}/transfers', 'UserController@transfers')->name('users.transfers');
+Route::get('users/{user}/transactions', 'UserController@transactions')->name('users.transactions');
+Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
 Route::get('users/{user}', 'UserController@show')->name('users.show');
 
 Route::get('test_upload', 'AccountController@test_upload')->name('test_upload');

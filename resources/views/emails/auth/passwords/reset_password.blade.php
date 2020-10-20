@@ -216,8 +216,12 @@
     <div id="mail_wrapper">
       <div>
         {{__('You are receiving this email because we received a password reset request for your account.')}}
-        {{__('Reset Password')}} {{ $url }}
+         <br>
+         <a href="{{ $url }}">{{__('Reset Password')}}</a>
+         
+        <br>
         {{__('This password reset link will expire in :count minutes.', ['count' => $count])}}
+         <br>
         {{__('If you did not request a password reset, no further action is required.')}}
       </div>
       <div class="copyrights">

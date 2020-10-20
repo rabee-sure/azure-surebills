@@ -10554,3 +10554,82 @@ button.license_button {
     }
   }
 }
+
+span.bill_status_badge {
+  display: inline-block;
+  width: 100px;
+  margin: 0;
+  text-align: center;
+  border-radius: 4px;
+  font-size: 11px;
+  height: 25px;
+  line-height: 25px;
+  padding: 0;
+}
+
+.payment_block {
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 auto 15px;
+    img {
+      display: block;
+      margin: 0 0 0 20px;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      height: 60px;
+      [dir="ltr"] & {
+        margin: 0 20px 0 0;
+      } /* ltr */
+    } /* img */
+    p {
+      margin: 0 0 0 15px;
+      display: block;
+      font-size: 20px;
+      [dir="ltr"] & {
+        margin: 0 15px 0 0;
+      } /* ltr */
+    } /* p */
+    span.badge {
+      display: block;
+      border-radius: 4px;
+      font-size: 11px;
+    } /* span */
+  } /* title */
+  .desc {
+    display: block;
+    font-size: 15px;
+    margin: 0 auto 15px;
+  } /* desc */
+  .table_block {
+    .name {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 0 auto 15px;
+      font-size: 16px;
+      text-transform: capitalize;
+      .glyph-icon {
+        margin: 0 0 0 5px;
+        [dir="ltr"] & {
+          margin: 0 5px 0 0;
+        } /* ltr */
+      } /* glyph-icon */
+    } /* name */
+  } /* .table_block */
+} /* .payment_block */
+
+.card {
+  .card-body {
+    @include respond-below(sm) {
+      padding: 15px 10px;
+    }
+  }
+}
+
+.position-absolute.card-top-buttons {
+  @include respond-below(sm) {
+    top: 12px;
+  }
+}

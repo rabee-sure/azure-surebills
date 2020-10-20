@@ -7,6 +7,8 @@ use App\Http\Requests\AccountInformationRequest;
 use App\Http\Requests\BankInformationRequest;
 use App\Http\Requests\BusinessInformationRequest;
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Resources\BillResource;
+use App\Http\Resources\TransactionResource;
 use App\Http\Resources\TransferResource;
 use App\Http\Resources\UserResource;
 use App\User;
@@ -34,12 +36,61 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function Transfers(User $user)
+    public function transfers(Request $request, User $user)
     {
-        $Transfers = $user->Transfers()->orderBy('id', 'desc')->get();
+        $Transfers = $user->Transfers()
+        ->orderBy('id', 'desc')
+        ->get();
+
         return TransferResource::collection($Transfers);
     } 
 
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function transactions(Request $request, User $user)
+    {
+        $transactions = $user->transactions()
+            ->when($request->from, function ($query) use($request){
+                return $query->whereBetween('created_at', [$request->from, $request->to]);
+            })
+            ->when($request->bills_not_settled, function ($query) use($request){
+                return $query->whereHas('bill', function ( $q) {
+                    $q->where('settled', false);
+                });
+            })
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return (TransactionResource::collection($transactions))->additional(['meta' => [
+                'balance' => $transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'),
+            ]]);;
+    } 
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function bills(Request $request, User $user)
+    {
+        $bills = $user->bills()
+            ->when($request->from, function ($query) use($request){
+                return $query->whereBetween('created_at', [$request->from, $request->to]);
+            })
+            ->when($request->not_settled, function ($query) use($request){
+                return $query->where('settled', false);
+            })
+            ->paid()
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return BillResource::collection($bills);
+    } 
     /**
      * Display a listing of the resource.
      *

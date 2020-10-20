@@ -124,11 +124,11 @@ class User extends Resource
             new Panel(__('Business Information'), $this->businessInformation()),
             new Panel(__('Bank Information'), $this->bankInformation()),
             File::make(__('Business logo'), 'logo')->disk('public'),
-            HasMany::make(__('Transfers'), 'transfers', TransferHidden::class),
+            HasMany::make(__('Transfers'), 'transfers', Transfer::class),
             // HasMany::make('statement'),
 
-            Images::make(__('Business Documents'), 'business_documents') ,
-            Images::make(__('Bank Documents'), 'bank_documents') ,
+            Images::make(__('Business Documents'), 'business_documents')->hideFromIndex(),
+            Images::make(__('Bank Documents'), 'bank_documents')->hideFromIndex(),
 
         ];
     }

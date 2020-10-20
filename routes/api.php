@@ -17,11 +17,13 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::post('upload', 'MediaController@upload')->name('media.upload');
 
 Route::prefix('v1')->group(function () {
 	Route::get('users/{user}/stats', 'UserController@stats');
 
 	Route::post('bills/create', 'BillController@store');
+	Route::post('bills/create/wordpress', 'BillController@wordpress');
 	Route::put('bills/{bill}/cancel', 'BillController@cancel');
 	Route::put('bills/{bill}/timeout', 'BillController@timeout');
 	Route::get('bills/{bill}', 'BillController@show');

@@ -123,7 +123,32 @@ class Bill extends Model
      */
     public function getBackUrlAttribute()
     {
-        return $this->application->redirect.'?reference_id='.$this->reference_id.'&status=fail&bill_id='.$this->id.'&pay_url='.$this->pay_url;
+        $data = [
+            'reference_id='.$this->reference_id,
+            'status=fail',
+            'bill_id='.$this->id,
+            'pay_url='.$this->pay_url,
+        ];
+        $ks = (str_contains($this->application->redirect, '?')) ? "&" : '?';
+        return $this->application->redirect.$ks.implode("&", $data);
+    }
+
+    /**
+     * Redirect Url.
+     *
+     * @var string
+     */
+    public function getRedirectUrlAttribute()
+    {
+        $data = [
+            'reference_id='.$this->reference_id,
+            'status='.$this->status,
+            'bill_id='.$this->id,
+            'pay_url='.$this->pay_url,
+        ];
+
+        $ks = (str_contains($this->application->redirect, '?')) ? "&" : '?';
+        return $this->application->redirect.$ks.implode("&", $data);
     }   
 
     /**
@@ -378,4 +403,16 @@ class Bill extends Model
 
         return $number == 0 ? 1000001 : $number + 1;
     } 
+
+
+    /**
+     * Get payment_logs.
+     *
+     * @return Collection
+     */
+    public function payment_logs()
+    {
+        return $this->hasMany(PaymentLog::class)->orderBy('id', 'desc');;
+    } 
+
 }

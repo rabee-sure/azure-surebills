@@ -260,8 +260,7 @@ class BillController extends Controller
             $bill->setPaid();
 
             if($bill->application){
-                $url = $bill->application->redirect.'?reference_id='.$bill->reference_id.'&status='.$bill->status.'&bill_id='.$bill->id.'&pay_url='.$bill->pay_url;
-                return redirect($url);
+                return redirect($bill->redirect_url);
             }
             return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
         }
@@ -300,5 +299,20 @@ class BillController extends Controller
         event( new BillStatusUpdated($bill) );
 
         return redirect()->back();
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function log(PaymentLog $log)
+    {
+        return view('bills.log', [
+            'bill' => $log->bill,
+            'log' => $log
+        ]);
     }
 }
