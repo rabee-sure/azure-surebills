@@ -14,5 +14,15 @@ class OrdersController extends Controller
     public function index(Request $request)
     {
         return view('orders.index');
-    } 
+    }    
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view(Request $request)
+    {
+        return view('orders.view');
+    }
 }

@@ -21,12 +21,6 @@
            {{ __('Bills') }}
           </a>
         </li>
-        <li>
-          <a href="#store" title="Store">
-            <i class="iconsminds-shop"></i>
-            {{ __('Store') }}
-          </a>
-        </li>
         <li class="{{ Request::is('customers*') ? 'active' : '' }}">
           <a href="{{ route('customers.index') }}" title="{{ __('Customers') }}">
             <i class="iconsminds-mens"></i>
@@ -39,13 +33,13 @@
             {{ __('Statement') }}
           </a>
         </li>
-        {{-- <li>
+        <!-- <li>
           <a href="#store" title="Store">
             <i class="iconsminds-shop-2"></i>
             {{ __('Store') }}
           </a>
-        </li> --}}
-        <!-- <li class="{{ Request::is('transfer*') ? 'active' : '' }}">
+        </li>
+        <li class="{{ Request::is('transfer*') ? 'active' : '' }}">
           <a href="{{ route('transfer.index') }}" title="Statement">
             <i class="iconsminds-statistic"></i>
             {{ __('Settlements') }}

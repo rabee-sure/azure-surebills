@@ -107,6 +107,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 
   // Orders
   Route::get('orders', 'OrdersController@index')->name('orders.all');
+  Route::get('orders/view', 'OrdersController@view')->name('orders.view');
 });
 
 Route::get('/', 'HomeController@landing');

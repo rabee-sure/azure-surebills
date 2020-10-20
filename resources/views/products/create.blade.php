@@ -61,7 +61,7 @@
                 <label for="inputEmail3">{{ __('Quantity')}} <small>( {{ __('Optional')}} )</small></label>
                 <div class="form-row">
                   <div class="form-group switch_quantity col-12 col-md-6 col-lg-4 col-xl-4">
-                    <p>{{ __('on / off')}}</p>
+                    <p>{{ __('Quantity Activation')}}</p>
                     <div class="custom-switch custom-switch-primary">
                       <input class="custom-switch-input" id="switchS2" type="checkbox" checked>
                       <label class="custom-switch-btn" for="switchS2"></label>
