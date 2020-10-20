@@ -59,7 +59,18 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputEmail3">{{ __('Quantity')}} <small>( {{ __('Optional')}} )</small></label>
-                <input type="number" class="form-control" id="inputEmail3" placeholder="0">
+                <div class="form-row">
+                  <div class="form-group switch_quantity col-12 col-md-6 col-lg-4 col-xl-4">
+                    <p>{{ __('on / off')}}</p>
+                    <div class="custom-switch custom-switch-primary">
+                      <input class="custom-switch-input" id="switchS2" type="checkbox" checked>
+                      <label class="custom-switch-btn" for="switchS2"></label>
+                    </div>
+                  </div>
+                  <div class="form-group col-12 col-md-6 col-lg-8 col-xl-8">
+                    <input type="number" class="form-control" id="inputEmail3" placeholder="0">
+                  </div>
+                </div>
               </div>
             </div>
             <div class="form-row">

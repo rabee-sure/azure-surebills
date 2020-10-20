@@ -452,5 +452,9 @@
   "Descrption" : "الوصف",
   "Last Update" : "اخر تحديث",
   "Password Reset" : "إعادة تعيين كلمة المرور",
-  "Set a new password" : "تعيين كلمة مرور جديدة"
+  "Set a new password" : "تعيين كلمة مرور جديدة",
+  "Orders" : "الطلبات",
+  "Search By Day" : "البحث باليوم",
+  "Order" : "طلب",
+  "on / off" : "تفعيل / تعطيل"
 }
