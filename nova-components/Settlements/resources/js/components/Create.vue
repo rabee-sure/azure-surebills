@@ -316,7 +316,12 @@ export default {
                         beneficiary_name: this.user.beneficiary_name,
                     })
                     .then(response => {
-                        this.getUser(this.$route.params.id)
+                        // console.log(response.data.data.id)
+                        // console.log('/nova/resources/transfers/' + response.data.data.id)
+                        this.$router.push('/resources/transfers/' + response.data.data.id)
+
+                        // this.$router.go();
+                        // this.getUser(this.$route.params.id)
                         this.loading = false
 
                         this.bills = [];
