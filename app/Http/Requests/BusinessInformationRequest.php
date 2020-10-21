@@ -32,7 +32,7 @@ class BusinessInformationRequest extends FormRequest
             'facebook' => ['nullable'],
             'instagram' => ['nullable'],
             'hidden_logo' => ['nullable'],
-            'logo' => ['required_without:hidden_logo','image','mimes:jpeg,png,jpg,gif,svg'],
+            'logo' => ['nullable','image','mimes:jpeg,png,jpg,gif,svg'],
             'description' => ['nullable'],
             'business_address' => ['required'],
             'business_mobile' => ['required'],

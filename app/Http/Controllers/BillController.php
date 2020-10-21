@@ -295,6 +295,7 @@ class BillController extends Controller
     {
         $bill = Bill::find($id);
         $bill->status = 'canceled';
+        $bill->canceled_at = Carbon::now();
         $bill->save();
         event( new BillStatusUpdated($bill) );
 

@@ -53,23 +53,34 @@ class UserController extends Controller
      */
     public function transactions(Request $request, User $user)
     {
+
+        $from = Carbon::parse($request->from)->toDateTimeString();
+        
+        $to = Carbon::parse($request->to);
+        $start_day = $to->copy()->startOfDay();
+        if($start_day != $to)
+            $to = $to->copy()->toDateTimeString();
+        else
+            $to = $to->copy()->endOfDay()->toDateTimeString();
+        
+
         $transactions = $user->transactions()
-            ->when($request->from, function ($query) use($request){
-                return $query->whereBetween('created_at', [$request->from, $request->to]);
+            ->when($request->from, function ($query) use($from, $to) {
+                return $query->whereBetween('created_at', [$from, $to]);
             })
             ->when($request->bills_not_settled, function ($query) use($request){
                 return $query->whereHas('bill', function ( $q) {
                     $q->where('settled', false);
                 });
             })
-            ->orderBy('id', 'desc')
+            ->orderBy('created_at', 'ASC')
+            ->orderBy('receipt', 'ASC')
             ->get();
 
         return (TransactionResource::collection($transactions))->additional(['meta' => [
                 'balance' => $transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'),
             ]]);;
-    } 
-
+    }
 
     /**
      * Display a listing of the resource.
