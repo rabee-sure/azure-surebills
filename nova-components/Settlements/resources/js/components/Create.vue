@@ -247,7 +247,11 @@ export default {
                 this.user = response.data.data;
                 // this.form.amount = this.user.balance;
             });
-            Nova.request().get('/users/'+id+'/transfers')
+            Nova.request().get('/users/'+id+'/transfers', {
+                    params: {
+                        per_page: 5,
+                    }
+                })
             .then(response => {
                 this.transfers = response.data.data;
             });
