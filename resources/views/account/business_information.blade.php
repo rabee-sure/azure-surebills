@@ -81,7 +81,6 @@
 
           @if(auth()->user()->disable_business_documents)
               @foreach(auth()->user()->business_documents as $file)
-                
                 @include('components.file', ['file' => $file])
               @endforeach
           @else
