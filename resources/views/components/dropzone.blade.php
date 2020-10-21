@@ -15,7 +15,7 @@
     if ($().dropzone && !$(".dropzonex").hasClass("disabled")) {
       $(".dropzone").dropzone({
         url: "/images-upload",
-        maxFilesize: 2,
+        maxFilesize: 10,
         maxFiles: {{ $max_files ?? 5}}, // MB
         headers: {
           'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -23,6 +23,14 @@
         success: function (file, response) {
           $('form').append('<input type="hidden" name="document[]" value="' + response.name + '">')
           uploadedDocumentMap[file.name] = response.name
+        },        
+        error: function (file, errorMessage ) {
+          var id = Math.random();              // returns a random number
+          file.previewElement.classList.add('error_file')
+          file.previewElement.setAttribute("id", id)
+
+          var x = document.getElementById(id)
+          x.querySelector('#error_message').innerHTML = errorMessage;
         },
         removedfile: function (file) {
           file.previewElement.remove()
@@ -34,20 +42,37 @@
           }
           $('form').find('input[name="document[]"][value="' + name + '"]').remove()
         },
+        // addedfile: function (file) {
+        //   console.log(file)
+        //   // file.previewElement.addEventListener("click", function() {
+        //   //   window.open('https://bills.test/storage/19/5f8ff69177e1c_download.jpeg', '_blank');
+        //   // });
+        // },      
         init: function () {
           @if($documents)
             var files =
               {!! json_encode($documents) !!}
             for (var i in files) {
               var file = files[i]
+
               this.options.addedfile.call(this, file)
+              if(file.mime_type.includes("image")){
+                this.options.thumbnail.call(this, file, 'https://bills.test/storage/'+file.id+'/'+file.file_name)
+              }
+
               file.previewElement.classList.add('dz-complete')
+              file.previewElement.setAttribute("id", file.id)
               $('form').append('<input type="hidden" name="document[]" value="' + file.file_name + '">')
+
+              file.previewElement.addEventListener("click", function(click) {
+                var preview_file = files.find(x => x.id == this.getAttribute("id")) ;
+                window.open('https://bills.test/storage/'+preview_file.id+'/'+preview_file.file_name, '_blank');
+              });
             }
           @endif
         },
         thumbnailWidth: 200,
-        previewTemplate: '<div class="dz-preview dz-file-preview mb-3"><div class="d-flex flex-row "><div class="p-0 w-30 position-relative"><div class="dz-error-mark"><span><i></i></span></div><div class="dz-success-mark"><span><i></i></span></div><div class="preview-container"><img data-dz-thumbnail class="img-thumbnail border-0" /><i class="simple-icon-doc preview-icon" ></i></div></div><div class="pl-3 pt-2 pr-2 pb-1 w-70 dz-details position-relative"><div><span data-dz-name></span></div><div class="text-primary text-extra-small" data-dz-size /><div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div><div class="dz-error-message"><span data-dz-errormessage></span></div></div></div><a href="#/" class="remove" data-dz-remove><i class="glyph-icon simple-icon-trash"></i></a></div>'
+        previewTemplate: '<div class="dz-preview dz-file-preview mb-3"><div class="d-flex flex-row "><div class="p-0 w-30 position-relative"><div class="dz-error-mark"><span><i></i></span></div><div class="dz-success-mark"><span><i></i></span></div><div class="preview-container"><img data-dz-thumbnail class="img-thumbnail border-0" /><i class="simple-icon-doc preview-icon" ></i></div></div><div class="pl-3 pt-2 pr-2 pb-1 w-70 dz-details position-relative"><div><span data-dz-name></span> <span id="error_message"></span> </div><div class="text-primary text-extra-small" data-dz-size /><div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div><div class="dz-error-message"><span data-dz-errormessage></span></div></div></div><a href="#/" class="remove" data-dz-remove><i class="glyph-icon simple-icon-trash"></i></a></div>'
       });
     }
   </script>
@@ -55,4 +80,17 @@
 
  @push('header-css')
   <link rel="stylesheet" href="{{ asset('css/dropzone.min.css') }}" />
+    <style type="text/css">
+    .error_file{
+      background: #e6cccc !important;
+    }
+    #error_message{
+        font-size: 8px;
+        color: #7d0909;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+    }
+  </style>
 @endpush
