@@ -84,13 +84,15 @@
     .error_file{
       background: #e6cccc !important;
     }
-    #error_message{
-        font-size: 8px;
-        color: #7d0909;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-
-    }
+    #error_message {
+    font-size: 9px;
+    color: #7d0909;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 1;
+    display: block;
+    margin: -3px 0 0 3px;
+}
   </style>
 @endpush
