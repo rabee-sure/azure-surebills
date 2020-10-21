@@ -11,6 +11,10 @@
 	"Business Documents": "وثائق العمل",
 	"Bank Documents": "وثائق البنك",
 
+	"Documents": "الوثائق",
+	"Disable Business Documents": "عدم الساماح برفع وثائق العمل",
+	"Disable Bank Documents": "عدم الساماح برفع وثائق البنك",
+
 	"Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility": "حمل صورة بطاقة الايبان أو كشف حساب موضح فيه رقم الايبان وإسم المنشأة",
 	"Upload the required documents": "حمل الوثائق المطلوبة ",
 	"Commercial registry, self-employment document, ID card ..etc": "سجل تجاري ، وثيقة عمل حر ، بطاقة هوية … ",
