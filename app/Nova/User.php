@@ -191,13 +191,13 @@ class User extends Resource
             Select::make(__('License Type'), 'license_type')->options([
                 'Commercial Record' => 'Commercial Record',
                 'Freelance' => 'Freelance',
-            ])->displayUsingLabels()->onlyOnDetail(),
-            Text::make(__('VAT Registration Number'), 'vat_registration_number')->onlyOnDetail(),
-            Text::make(__('Business Name'), 'business_name')->onlyOnDetail(),
-            Text::make(__('Sector'), 'sector')->onlyOnDetail(),
-            Textarea::make(__('Business Address'), 'business_address')->onlyOnDetail(),
-            Text::make(__('Mobile'), 'mobile')->onlyOnDetail(),
-            Text::make(__('Website'), 'website')->onlyOnDetail(),
+            ])->displayUsingLabels()->hideFromIndex(),
+            Text::make(__('VAT Registration Number'), 'vat_registration_number')->hideFromIndex(),
+            Text::make(__('Business Name'), 'business_name')->hideFromIndex(),
+            Text::make(__('Sector'), 'sector')->hideFromIndex(),
+            Textarea::make(__('Business Address'), 'business_address')->hideFromIndex(),
+            Text::make(__('Mobile'), 'mobile')->hideFromIndex(),
+            Text::make(__('Website'), 'website')->hideFromIndex(),
         ];
     }    
 
@@ -211,7 +211,7 @@ class User extends Resource
         return [
             BelongsTo::make(__('Bank'), 'bank', Bank::class),
             Text::make(__('Iban Number'), 'iban_number'),
-            Text::make(__('Beneficiary Name'), 'beneficiary_name')->onlyOnDetail(),
+            Text::make(__('Beneficiary Name'), 'beneficiary_name')->hideFromIndex(),
         ];
     }
 

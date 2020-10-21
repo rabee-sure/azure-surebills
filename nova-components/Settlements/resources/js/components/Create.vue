@@ -8,7 +8,7 @@
             <Row :gutter="10">
                 <Col span="22">
                     <FormItem :label="__('Date Range')" prop="date_range">
-                        <DatePicker v-model="form.date_range" size="large" type="daterange" placement="bottom-end" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
+                        <DatePicker v-model="form.date_range" size="large" type="datetimerange" placement="bottom-end" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="1">
