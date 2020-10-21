@@ -8,8 +8,8 @@
     <div class="pl-3 pt-2 pr-2 pb-1 w-70 dz-details position-relative">
         <div><span data-dz-name="">{{$file->file_name}}</span> <span id="error_message"></span> </div>
         <div class="text-primary text-extra-small" data-dz-size=""><strong>{{ round($file->size/1024,2) }}</strong> KB</div>
-    </div>
         <a href="/storage/{{$file->id}}/{{$file->file_name}}">show</a>
     </div>
   </div>
-    {{-- @php dd($file); @endphp --}}
+
+
