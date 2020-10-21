@@ -253,7 +253,7 @@
 	"Hello!": "أهلاً بك!",
 	"If you did not create an account, no further action is required.": "إذا لم تقم بإنشاء حساب ، فلا يلزم اتخاذ أي إجراء آخر.",
 	"If you did not receive the email": "إذا لم تستلم البريد الإلكتروني",
-	"If you did not request a password reset, no further action is required.": "إذا لم تقم بطلب استعادة كلمة المرور، لا تحتاج القيام بأي إجراء.",
+	"If you did not request a password reset, no further action is required.": "في حالة أنك لم تقم بهذا الطلب تجاهل هذه الرسالة",
 	"If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser:": "إذا كنت تواجه مشكلة في النقر على الزر \":actionText \"، يمكنك نسخ عنوان URL أدناه\n وألصقه في متصفح الويب:",
 	"Invalid signature.": "التوقيع غير سليم.",
 	"Login": "تسجيل الدخول",
@@ -283,7 +283,7 @@
 	"Verify Your Email Address": "تحقق من عنوان البريد الإلكتروني الخاص بك",
 	"You are logged in!": "لقد قمت بتسجيل الدخول!",
 	"We won't ask for your password again for a few hours.": "لن نطلب كلمة المرور مرة أخرى لبضع ساعات.",
-	"You are receiving this email because we received a password reset request for your account.": "لقد استلمت هذا الإيميل لأننا استقبلنا طلباً لاستعادة كلمة مرور حسابك.",
+	"You are receiving this email because we received a password reset request for your account.": "لقد قمت بطلب إعادة تعيين كلمة المرور، نرجو الضغط على الرابط التالي للتأكيد",
 	"Your email address is not verified.": "بريدك الإلكتروني غير موثّق.",
 	"Whoops!": "عذراً!",
 	"Please use your credentials to login.": "استخدم بياناتك لتسجيل الدخول",
@@ -450,5 +450,7 @@
   "Card Number" : "رقم البطاقة",
   "Message" : "الرسالة",
   "Descrption" : "الوصف",
-  "Last Update" : "اخر تحديث"
+  "Last Update" : "اخر تحديث",
+  "Password Reset" : "إعادة تعيين كلمة المرور",
+  "Set a new password" : "تعيين كلمة مرور جديدة"
 }

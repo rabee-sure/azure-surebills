@@ -16,7 +16,7 @@
 /public/js/store.js
 /public/mix-manifest.json
 /public/js/app.js.map
-/public/images
+/public/uploads
 /storage/*.key
 /storage/tmp
 /vendor
@@ -27,4 +27,3 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-/public/images
