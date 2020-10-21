@@ -79,9 +79,16 @@
           <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
           <p class="">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
 
-          @include('components.dropzone',[
-            'documents' => auth()->user()->business_documents
-          ])
+          @if(auth()->user()->disable_business_documents)
+              @foreach(auth()->user()->business_documents as $file)
+                
+                @include('components.file', ['file' => $file])
+              @endforeach
+          @else
+            @include('components.dropzone',[
+              'documents' => auth()->user()->business_documents
+            ])
+          @endif
           <button type="submit" class="btn btn-primary d-block mt-2">{{ __('Save') }}</button>
 
 

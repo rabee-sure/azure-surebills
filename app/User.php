@@ -51,6 +51,8 @@ class User extends Authenticatable implements HasMedia
         'pay_fees',
         
         'mobile_verified',
+        'disable_business_documents', 
+        'disable_bank_documents',
     ];
 
     /**
