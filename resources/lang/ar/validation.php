@@ -193,5 +193,6 @@ return [
         "apple_pay_fixed"=> "الرسوم الثابتة لابل باي",
         "apple_pay_percentage"=> "الرسوم المتغيره لابل باي", 
         "business_name"=> "الاسم التجاري",
+        "document"=> "الوثائق",
     ],
 ];

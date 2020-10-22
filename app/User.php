@@ -113,7 +113,6 @@ class User extends Authenticatable implements HasMedia
     {
         return (
             isset($this->business_name)&&
-            isset($this->logo)&&
             isset($this->business_address)&&
             isset($this->business_mobile)&&
 
