@@ -67,7 +67,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email', 'mobile'
+        'id', 'name', 'email', 'mobile', 'business_name'
     ];
 
     /**
@@ -156,7 +156,17 @@ class User extends Resource
             Files::make(__('Bank Documents'), 'bank_documents')->hideFromIndex(),
             Boolean::make(__('Disable Bank Documents'), 'disable_bank_documents')->hideFromIndex(),
 
-            Boolean::make(__('Verified'), 'verified'), 
+            Boolean::make(__('Verified'), 'verified')
+                ->hideFromIndex(), 
+            Text::make(__('Verified'), 'verified')
+                ->displayUsing(function(){
+                    $yes = '<img src="/img/verified.svg" style="height: 30px;">';
+                    $no = '<img src="/img/verifiedx.svg" style="height: 30px;">';
+                    return ($this->verified) ?  $yes : $no ;
+                })
+                ->asHtml()
+                ->sortable()
+                ->onlyOnIndex(),
         ];
     }
 

@@ -460,5 +460,6 @@
   "Orders" : "الطلبات",
   "Search By Day" : "البحث باليوم",
   "Order" : "طلب",
-  "Quantity Activation" : "تفعيل الكمية"
+  "Quantity Activation" : "تفعيل الكمية",
+  "Your account is not verified, we are processing the verification." : "حسابك غير موثق، مازال جاري التحقق من حسابك."
 }

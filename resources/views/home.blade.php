@@ -3,6 +3,11 @@
 @section('title', __('Home'))
 
 @section('content')
+      @if (!auth()->user()->verified)
+          <div class="alert alert-warning" role="alert">
+            {{ __('Your account is not verified, we are processing the verification.') }}
+          </div>
+      @endif
       @if (session('status'))
           <div class="alert alert-success" role="alert">
               {{ session('status') }}
