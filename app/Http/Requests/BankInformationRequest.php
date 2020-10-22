@@ -27,6 +27,7 @@ class BankInformationRequest extends FormRequest
             'bank_id' => ['required'],
             'iban_number' => ['required'],
             'beneficiary_name' => ['required'],
+            'document' => ['nullable', 'array', "max:5"],
         ];
     }
 

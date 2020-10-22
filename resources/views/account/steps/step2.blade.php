@@ -1,7 +1,12 @@
 @extends('account.account_complete')
 
+@push('footer-scripts')
+    {!! JsValidator::formRequest('App\Http\Requests\BusinessInformationRequest', '#form') !!}
+@endpush
+
 @section('steps')
     <div class="col-12">
+
       <div class="card">
         <div id="smartWizardValidation">
           <ul class="card-header">
@@ -11,6 +16,15 @@
           </ul>
           <form id="form" method="POST" action="{{ route('business.information') }}" enctype="multipart/form-data" >
             @csrf
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
               <div id="step-1" style="padding: 15px;">
                   <div class="form-row">
                     <div class="form-group col-md-6">
@@ -60,6 +74,14 @@
                       </div>
                     </div>
                   </div> 
+
+                  <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
+                  <p class="">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
+
+                  @include('components.dropzone',[
+                    'documents' => auth()->user()->business_documents
+                  ])
+
               </div><!-- step-1 -->
               <div class="btn-toolbar custom-toolbar text-center d-flex justify-content-center card-body pt-0">
                     <a class="btn btn-primary mx-2" href="/account?previous=1">{{__('Previous')}}</a>
@@ -89,6 +111,3 @@
 </div>
 @endsection
 
-@push('footer-scripts')
-    {!! JsValidator::formRequest('App\Http\Requests\BusinessInformationRequest', '#form') !!}
-@endpush

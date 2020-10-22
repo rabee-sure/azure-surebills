@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
 use App\Nova\Metrics\NewBills;
+use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -20,9 +21,9 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Naif\Toggle\Toggle;
 use Sure\Userstats\Userstats;
-use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class User extends Resource
 {
@@ -149,10 +150,10 @@ class User extends Resource
     protected function documents()
     {
         return [
-            Images::make(__('Business Documents'), 'business_documents')->hideFromIndex(),
+            Files::make(__('Business Documents'), 'business_documents')->hideFromIndex(),
             Boolean::make(__('Disable Business Documents'), 'disable_business_documents')->hideFromIndex(), 
 
-            Images::make(__('Bank Documents'), 'bank_documents')->hideFromIndex(),
+            Files::make(__('Bank Documents'), 'bank_documents')->hideFromIndex(),
             Boolean::make(__('Disable Bank Documents'), 'disable_bank_documents')->hideFromIndex(),
 
             Boolean::make(__('Verified'), 'verified')

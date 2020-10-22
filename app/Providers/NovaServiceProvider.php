@@ -5,6 +5,7 @@ namespace App\Providers;
 use Anaseqal\NovaSidebarIcons\NovaSidebarIcons;
 use App\Nova\Metrics\BillsPerDay;
 use App\Nova\Metrics\NewUsers;
+use ChrisWare\NovaBreadcrumbs\NovaBreadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
@@ -95,6 +96,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         return [
             new Settlements,
             new NovaSidebarIcons,
+            new NovaBreadcrumbs,
         ];
     }
 
