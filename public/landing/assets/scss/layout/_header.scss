@@ -26,10 +26,11 @@ header {
     justify-content: flex-start;
     @include media-breakpoint-down(sm) {
       justify-content: center;
+      flex-wrap: wrap;
     } /* sm */
     a {
       display: block;
-      margin: 0 0 0 30px;
+      margin: 0 0 0 25px;
       font-size: 17px;
       color: #000;
       &:last-child {
@@ -38,6 +39,48 @@ header {
       &:hover {
         color: $mainColor;
       } /* hover */
+      &.register {
+        background: #f7f7f7;
+        color: $mainColor;
+        font-size: 16px;
+        padding: 0 15px;
+        border-radius: 4px;
+        margin: 0 0 0 15px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @include media-breakpoint-down(sm) {
+          margin-top: 10px;
+        } /* sm */
+        i {
+          margin: 0 0 0 5px;
+        } /* i */
+        &:hover {
+          background: #e2e6ea;
+          color: $mainColorHover;
+        } /* hover */
+      } /* register */
+      &.login {
+        background: $mainColor;
+        color: #ffffff;
+        padding: 0 15px;
+        border-radius: 4px;
+        font-size: 16px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @include media-breakpoint-down(sm) {
+          margin-top: 10px;
+        } /* sm */
+        i {
+          margin: 0 0 0 5px;
+        } /* i */
+        &:hover {
+          background: $mainColorHover;
+        } /* hover */
+      } /* login */
     } /* a */
   } /* main_menu */
 } /* header */
