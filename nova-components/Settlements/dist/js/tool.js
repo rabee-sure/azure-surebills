@@ -59669,7 +59669,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -59787,7 +59787,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -59799,25 +59798,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             billsModal: false,
             bills: [],
             billsTable: [{
-                title: 'Name',
+                title: this.__('Name'),
                 key: 'name',
                 width: 220
             }, {
-                title: 'status',
+                title: this.__('status'),
                 slot: 'status'
             }, {
-                title: 'Total',
+                title: this.__('Total'),
                 key: 'total'
             }, {
-                title: 'FEES',
+                title: this.__('FEES'),
                 key: 'payment_fees'
             }, {
-                title: 'Created At',
+                title: this.__('Created At'),
                 key: 'created_at',
 
                 width: 150
             }, {
-                title: 'A',
+                title: this.__('A'),
                 key: 'action',
                 width: 50,
                 align: 'center',
@@ -59850,18 +59849,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     });
                 }
             }, {
-                title: 'Created At',
+                title: this.__('Created At'),
                 key: 'created_at',
                 width: 160
             }, {
-                title: 'Description',
+                title: this.__('Description'),
                 key: 'description'
             }, {
-                title: 'Type',
+                title: this.__('Type'),
                 slot: 'type',
                 width: 90
             }, {
-                title: 'amount',
+                title: this.__('Amount'),
                 key: 'amount',
                 width: 90
             }],
@@ -59876,19 +59875,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             transfers: [],
             transfersTable: [{
-                title: 'Id',
+                title: this.__('Id'),
                 key: 'id'
             }, {
-                title: 'amount',
+                title: this.__('Amount'),
                 key: 'amount'
             }, {
-                title: 'note',
+                title: this.__('Note'),
                 key: 'note'
             }, {
-                title: 'Created By',
+                title: this.__('Created By'),
                 key: 'created_by_name'
             }, {
-                title: 'created_at',
+                title: this.__('Created At'),
                 key: 'created_at'
             }],
             ruleInline: {
@@ -60287,7 +60286,9 @@ var render = function() {
         { attrs: { bordered: false } },
         [
           _c("p", { attrs: { slot: "title" }, slot: "title" }, [
-            _vm._v("Create Transfer to " + _vm._s(_vm.user.name))
+            _vm._v(
+              _vm._s(_vm.__("Create Transfer to")) + " " + _vm._s(_vm.user.name)
+            )
           ]),
           _vm._v(" "),
           _c(
@@ -60447,7 +60448,7 @@ var render = function() {
                       size: "large",
                       type: "textarea",
                       autosize: { minRows: 4, maxRows: 5 },
-                      placeholder: "Enter something..."
+                      placeholder: _vm.__("")
                     },
                     model: {
                       value: _vm.form.note,
@@ -60485,7 +60486,11 @@ var render = function() {
                           }),
                           _vm._v(" "),
                           _c("p", [
-                            _vm._v("Click or drag files here to upload")
+                            _vm._v(
+                              _vm._s(
+                                _vm.__("Click or drag files here to upload")
+                              )
+                            )
                           ])
                         ],
                         1
@@ -60497,7 +60502,7 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("Divider", { attrs: { orientation: "left" } }, [
-                _vm._v("Bank Info")
+                _vm._v(_vm._s(_vm.__("Bank Info")))
               ]),
               _vm._v(" "),
               _vm.user.bank
@@ -60531,7 +60536,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v(" " + _vm._s(_vm.__("submit")) + " ")]
+                    [_vm._v(" " + _vm._s(_vm.__("Submit")) + " ")]
                   ),
                   _vm._v(" "),
                   _c("Button", { staticStyle: { "margin-left": "8px" } }, [
@@ -60556,7 +60561,9 @@ var render = function() {
             { attrs: { bordered: false } },
             [
               _c("p", { attrs: { slot: "title" }, slot: "title" }, [
-                _vm._v("Transfers for " + _vm._s(_vm.user.name))
+                _vm._v(
+                  _vm._s(_vm.__("Transfers for")) + " " + _vm._s(_vm.user.name)
+                )
               ]),
               _vm._v(" "),
               _c("Table", {
@@ -60572,7 +60579,7 @@ var render = function() {
       _c(
         "Modal",
         {
-          attrs: { title: "transactions", width: "760" },
+          attrs: { title: _vm.__("transactions"), width: "760" },
           model: {
             value: _vm.transactionsModal,
             callback: function($$v) {
@@ -60622,7 +60629,7 @@ var render = function() {
       _c(
         "Modal",
         {
-          attrs: { title: "bills", width: "760" },
+          attrs: { title: _vm.__("Bills"), width: "760" },
           model: {
             value: _vm.billsModal,
             callback: function($$v) {
