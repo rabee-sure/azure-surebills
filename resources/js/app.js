@@ -25,6 +25,11 @@ Vue.component(
 );
 
 Vue.component(
+    'bills-count',
+    require('./components/BillsCount.vue').default
+);
+
+Vue.component(
     'applications',
     require('./components/Applications.vue').default
 );
