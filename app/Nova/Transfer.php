@@ -60,7 +60,7 @@ class Transfer extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
     
     /**
      * The columns that should be searched.
@@ -96,9 +96,12 @@ class Transfer extends Resource
             File::make(__('Attachment'), 'attachment')->disk('public'),
 
             Text::make('Date From To')->displayUsing(function(){
-                $from = Carbon::parse($this->filters['date']['from'])->toDateTimeString();
-                $to = Carbon::parse($this->filters['date']['to'])->toDateTimeString();
-                return  $from.' - '. $to;
+                if(isset($this->filters['date'])){
+                    $from = Carbon::parse($this->filters['date']['from'])->toDateTimeString();
+                    $to = Carbon::parse($this->filters['date']['to'])->toDateTimeString();
+                    return  $from.' - '. $to;
+                }
+                return '-';
 
             }),
 
