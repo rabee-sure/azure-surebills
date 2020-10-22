@@ -63,34 +63,39 @@
             <div class="card-body ">
               <div class="float-left float-none-xs">
                 <div class="d-inline-block">
-                  <h5 class="d-inline">مبالغ العمليات</h5>
-                  <span class="text-muted text-small d-block">الإحصائيات اليومية</span>
+                  <h5 class="d-inline">{{ __('Paid Bills Amount') }}</h5>
                 </div>
               </div>
               <div class="btn-group float-right float-none-xs mt-2">
                 <ul class="nav nav-tabs card-header-tabs " role="tablist">
                   <li class="nav-item">
-                    <a class="btn btn-xs btn-outline-primary active" id="operations_sums_monthly_tab" data-toggle="tab" href="#operations_sums_monthly" role="tab" aria-controls="operations_sums_monthly" aria-selected="true">شهري</a>
+                    <a class="btn btn-xs btn-outline-primary active" id="operations_sums_daily_tab" data-toggle="tab" href="#operations_sums_daily" role="tab" aria-controls="operations_sums_daily" aria-selected="false">
+                      {{ __('Daily') }}
+                    </a>
                   </li>
                   <li class="nav-item ml-2">
-                    <a class="btn btn-xs btn-outline-primary" id="operations_sums_weekly_tab" data-toggle="tab" href="#operations_sums_weekly" role="operations_sums_weekly" aria-controls="operations_sums_weekly" aria-selected="false">إسبوعي</a>
+                    <a class="btn btn-xs btn-outline-primary" id="operations_sums_weekly_tab" data-toggle="tab" href="#operations_sums_weekly" role="operations_sums_weekly" aria-controls="operations_sums_weekly" aria-selected="false">
+                      {{ __('Weekly') }}
+                    </a>
                   </li>
                   <li class="nav-item ml-2">
-                    <a class="btn btn-xs btn-outline-primary" id="operations_sums_daily_tab" data-toggle="tab" href="#operations_sums_daily" role="tab" aria-controls="operations_sums_daily" aria-selected="false">يومي</a>
+                    <a class="btn btn-xs btn-outline-primary" id="operations_sums_monthly_tab" data-toggle="tab" href="#operations_sums_monthly" role="tab" aria-controls="operations_sums_monthly" aria-selected="true">
+                      {{ __('Monthly') }}
+                    </a>
                   </li>
                 </ul>
               </div>
             </div>
             <div class="chart card-body pt-0">
               <div class="tab-content">
-                <div class="tab-pane fade show active" id="operations_sums_monthly" role="tabpanel" aria-labelledby="operations_sums_monthly_tab">
-                  <canvas id="operations_sums_monthly_chart"></canvas>
+                <div class="tab-pane fade show active" id="operations_sums_daily" role="tabpanel" aria-labelledby="operations_sums_daily_tab">
+                  <canvas id="operations_sums_daily_chart"></canvas>
                 </div>
                 <div class="tab-pane fade" id="operations_sums_weekly" role="tabpanel" aria-labelledby="operations_sums_weekly_tab">
                   <canvas id="operations_sums_weekly_chart"></canvas>
                 </div>
-                <div class="tab-pane fade" id="operations_sums_daily" role="tabpanel" aria-labelledby="operations_sums_daily_tab">
-                  <canvas id="operations_sums_daily_chart"></canvas>
+                <div class="tab-pane fade" id="operations_sums_monthly" role="tabpanel" aria-labelledby="operations_sums_monthly_tab">
+                  <canvas id="operations_sums_monthly_chart"></canvas>
                 </div>
               </div>
             </div>
@@ -100,34 +105,33 @@
             <div class="card-body ">
               <div class="float-left float-none-xs">
                 <div class="d-inline-block">
-                  <h5 class="d-inline">عدد العمليات</h5>
-                  <span class="text-muted text-small d-block">الإحصائيات اليومية</span>
+                  <h5 class="d-inline">{{ __('Number of Paid Bills') }}</h5>
                 </div>
               </div>
               <div class="btn-group float-right float-none-xs mt-2">
                 <ul class="nav nav-tabs card-header-tabs " role="tablist">
                   <li class="nav-item">
-                    <a class="btn btn-xs btn-outline-primary active" id="number_operations_monthly_tab" data-toggle="tab" href="#number_operations_monthly" role="tab" aria-controls="number_operations_monthly" aria-selected="true">شهري</a>
+                    <a class="btn btn-xs btn-outline-primary active" id="number_operations_daily_tab" data-toggle="tab" href="#number_operations_daily" role="tab" aria-controls="number_operations_daily" aria-selected="false">{{ __('Daily') }}</a>
                   </li>
                   <li class="nav-item ml-2">
-                    <a class="btn btn-xs btn-outline-primary" id="number_operations_weekly_tab" data-toggle="tab" href="#number_operations_weekly" role="number_bills_weekly" aria-controls="number_operations_weekly" aria-selected="false">إسبوعي</a>
+                    <a class="btn btn-xs btn-outline-primary" id="number_operations_weekly_tab" data-toggle="tab" href="#number_operations_weekly" role="number_bills_weekly" aria-controls="number_operations_weekly" aria-selected="false">{{ __('Weekly') }}</a>
                   </li>
                   <li class="nav-item ml-2">
-                    <a class="btn btn-xs btn-outline-primary" id="number_operations_daily_tab" data-toggle="tab" href="#number_operations_daily" role="tab" aria-controls="number_operations_daily" aria-selected="false">يومي</a>
+                    <a class="btn btn-xs btn-outline-primary" id="number_operations_monthly_tab" data-toggle="tab" href="#number_operations_monthly" role="tab" aria-controls="number_operations_monthly" aria-selected="true">{{ __('Monthly') }}</a>
                   </li>
                 </ul>
               </div>
             </div>
             <div class="chart card-body pt-0">
               <div class="tab-content">
-                <div class="tab-pane fade show active" id="number_operations_monthly" role="tabpanel" aria-labelledby="number_operations_monthly_tab">
-                  <canvas id="number_operations_monthly_chart"></canvas>
+                <div class="tab-pane fade show active" id="number_operations_daily" role="tabpanel" aria-labelledby="number_operations_daily_tab">
+                  <canvas id="number_operations_daily_chart"></canvas>
                 </div>
                 <div class="tab-pane fade" id="number_operations_weekly" role="tabpanel" aria-labelledby="number_operations_weekly_tab">
                   <canvas id="number_operations_weekly_chart"></canvas>
                 </div>
-                <div class="tab-pane fade" id="number_operations_daily" role="tabpanel" aria-labelledby="number_operations_daily_tab">
-                  <canvas id="number_operations_daily_chart"></canvas>
+                <div class="tab-pane fade" id="number_operations_monthly" role="tabpanel" aria-labelledby="number_operations_monthly_tab">
+                  <canvas id="number_operations_monthly_chart"></canvas>
                 </div>
               </div>
             </div>
@@ -137,34 +141,33 @@
             <div class="card-body ">
               <div class="float-left float-none-xs">
                 <div class="d-inline-block">
-                  <h5 class="d-inline">عدد الفواتير</h5>
-                  <span class="text-muted text-small d-block">الإحصائيات اليومية</span>
+                  <h5 class="d-inline">{{ __('Total Number of Bills') }}</h5>
                 </div>
               </div>
               <div class="btn-group float-right float-none-xs mt-2">
                 <ul class="nav nav-tabs card-header-tabs " role="tablist">
                   <li class="nav-item">
-                    <a class="btn btn-xs btn-outline-primary active" id="number_bills_monthly_tab" data-toggle="tab" href="#number_bills_monthly" role="tab" aria-controls="number_bills_monthly" aria-selected="true">شهري</a>
+                    <a class="btn btn-xs btn-outline-primary active" id="number_bills_daily_tab" data-toggle="tab" href="#number_bills_daily" role="tab" aria-controls="number_bills_daily" aria-selected="false">{{ __('Daily') }}</a>
                   </li>
                   <li class="nav-item ml-2">
-                    <a class="btn btn-xs btn-outline-primary" id="number_bills_weekly_tab" data-toggle="tab" href="#number_bills_weekly" role="number_bills_weekly" aria-controls="number_bills_weekly" aria-selected="false">إسبوعي</a>
+                    <a class="btn btn-xs btn-outline-primary" id="number_bills_weekly_tab" data-toggle="tab" href="#number_bills_weekly" role="number_bills_weekly" aria-controls="number_bills_weekly" aria-selected="false">{{ __('Weekly') }}</a>
                   </li>
                   <li class="nav-item ml-2">
-                    <a class="btn btn-xs btn-outline-primary" id="number_bills_daily_tab" data-toggle="tab" href="#number_bills_daily" role="tab" aria-controls="number_bills_daily" aria-selected="false">يومي</a>
+                    <a class="btn btn-xs btn-outline-primary" id="number_bills_monthly_tab" data-toggle="tab" href="#number_bills_monthly" role="tab" aria-controls="number_bills_monthly" aria-selected="true">{{ __('Monthly') }}</a>
                   </li>
                 </ul>
               </div>
             </div>
             <div class="chart card-body pt-0">
               <div class="tab-content">
-                <div class="tab-pane fade show active" id="number_bills_monthly" role="tabpanel" aria-labelledby="number_bills_monthly_tab">
-                  <canvas id="number_bills_monthly_chart"></canvas>
+                <div class="tab-pane fade show active" id="number_bills_daily" role="tabpanel" aria-labelledby="number_bills_daily_tab">
+                  <canvas id="number_bills_daily_chart"></canvas>
                 </div>
                 <div class="tab-pane fade" id="number_bills_weekly" role="tabpanel" aria-labelledby="number_bills_weekly_tab">
                   <canvas id="number_bills_weekly_chart"></canvas>
                 </div>
-                <div class="tab-pane fade" id="number_bills_daily" role="tabpanel" aria-labelledby="number_bills_daily_tab">
-                  <canvas id="number_bills_daily_chart"></canvas>
+                <div class="tab-pane fade" id="number_bills_monthly" role="tabpanel" aria-labelledby="number_bills_monthly_tab">
+                  <canvas id="number_bills_monthly_chart"></canvas>
                 </div>
               </div>
             </div>
