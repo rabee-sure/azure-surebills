@@ -40,7 +40,7 @@ class UserController extends Controller
     {
         $Transfers = $user->Transfers()
         ->orderBy('id', 'desc')
-        ->get();
+        ->paginate($request->per_page);
 
         return TransferResource::collection($Transfers);
     } 
@@ -53,10 +53,9 @@ class UserController extends Controller
      */
     public function transactions(Request $request, User $user)
     {
-
         $from = Carbon::parse($request->from)->toDateTimeString();
-        
         $to = Carbon::parse($request->to);
+
         $start_day = $to->copy()->startOfDay();
         if($start_day != $to)
             $to = $to->copy()->toDateTimeString();
@@ -89,9 +88,18 @@ class UserController extends Controller
      */
     public function bills(Request $request, User $user)
     {
+        $from = Carbon::parse($request->from)->toDateTimeString();
+        $to = Carbon::parse($request->to);
+
+        $start_day = $to->copy()->startOfDay();
+        if($start_day != $to)
+            $to = $to->copy()->toDateTimeString();
+        else
+            $to = $to->copy()->endOfDay()->toDateTimeString();
+        
         $bills = $user->bills()
-            ->when($request->from, function ($query) use($request){
-                return $query->whereBetween('created_at', [$request->from, $request->to]);
+            ->when($request->from, function ($query) use($from, $to) {
+                return $query->whereBetween('created_at', [$from, $to]);
             })
             ->when($request->not_settled, function ($query) use($request){
                 return $query->where('settled', false);

@@ -27,6 +27,7 @@ class TransactionResource extends JsonResource
             'card' => $this->card,
             'card_brand' => $this->card_brand,
             'auth_id' => $this->auth_id,
+            'receipt' => $this->receipt,
 
 
             'created_at' => $this->created_at->format('d/m/Y H:i'),

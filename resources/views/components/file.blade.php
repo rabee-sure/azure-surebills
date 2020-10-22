@@ -12,4 +12,3 @@
     <a href="/storage/{{$file->id}}/{{$file->file_name}}" class="remove" data-dz-remove=""><i class="glyph-icon simple-icon-eye"></i></a>
   </div>
 </div>
-{{-- @php dd($file); @endphp --}}

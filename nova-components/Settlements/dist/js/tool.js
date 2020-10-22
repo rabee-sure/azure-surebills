@@ -59669,7 +59669,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -59909,7 +59909,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.user = response.data.data;
                 // this.form.amount = this.user.balance;
             });
-            Nova.request().get('/users/' + id + '/transfers').then(function (response) {
+            Nova.request().get('/users/' + id + '/transfers', {
+                params: {
+                    per_page: 5
+                }
+            }).then(function (response) {
                 _this.transfers = response.data.data;
             });
         },
@@ -59974,7 +59978,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         iban_number: _this3.user.iban_number,
                         beneficiary_name: _this3.user.beneficiary_name
                     }).then(function (response) {
-                        _this3.getUser(_this3.$route.params.id);
+                        // console.log(response.data.data.id)
+                        // console.log('/nova/resources/transfers/' + response.data.data.id)
+                        _this3.$router.push('/resources/transfers/' + response.data.data.id);
+
+                        // this.$router.go();
+                        // this.getUser(this.$route.params.id)
                         _this3.loading = false;
 
                         _this3.bills = [];
@@ -60149,78 +60158,102 @@ var render = function() {
   return _c(
     "div",
     [
+      _vm.row.id
+        ? _c(
+            "Row",
+            { staticClass: "expand-row" },
+            [
+              _c("Col", { attrs: { span: "24" } }, [
+                _c("span", { staticClass: "expand-key" }, [_vm._v("Id: ")]),
+                _vm._v(" "),
+                _c("span", { staticClass: "expand-value" }, [
+                  _vm._v(_vm._s(_vm.row.id))
+                ])
+              ])
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "Row",
         { staticClass: "expand-row" },
         [
-          _c("Col", { attrs: { span: "24" } }, [
-            _c("span", { staticClass: "expand-key" }, [_vm._v("Id: ")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "expand-value" }, [
-              _vm._v(_vm._s(_vm.row.id))
-            ])
-          ])
+          _vm.row.balance
+            ? _c("Col", { attrs: { span: "8" } }, [
+                _c("span", { staticClass: "expand-key" }, [
+                  _vm._v("balance: ")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "expand-value" }, [
+                  _vm._v(_vm._s(_vm.row.balance))
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.row.card
+            ? _c("Col", { attrs: { span: "8" } }, [
+                _c("span", { staticClass: "expand-key" }, [_vm._v("CARD : ")]),
+                _vm._v(" "),
+                _c("span", { staticClass: "expand-value" }, [
+                  _vm._v(_vm._s(_vm.row.card))
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.row.card_brand
+            ? _c("Col", { attrs: { span: "8" } }, [
+                _c("span", { staticClass: "expand-key" }, [
+                  _vm._v("CARD BRAND: ")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "expand-value" }, [
+                  _vm._v(_vm._s(_vm.row.card_brand))
+                ])
+              ])
+            : _vm._e()
         ],
         1
       ),
       _vm._v(" "),
       _c(
         "Row",
-        { staticClass: "expand-row" },
         [
-          _c("Col", { attrs: { span: "8" } }, [
-            _c("span", { staticClass: "expand-key" }, [_vm._v("balance: ")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "expand-value" }, [
-              _vm._v(_vm._s(_vm.row.balance))
-            ])
-          ]),
+          _vm.row.auth_id
+            ? _c("Col", { attrs: { span: "8" } }, [
+                _c("span", { staticClass: "expand-key" }, [
+                  _vm._v("Auth id: ")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "expand-value" }, [
+                  _vm._v("《" + _vm._s(_vm.row.auth_id) + "》")
+                ])
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("Col", { attrs: { span: "8" } }, [
-            _c("span", { staticClass: "expand-key" }, [_vm._v("CARD : ")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "expand-value" }, [
-              _vm._v(_vm._s(_vm.row.card))
-            ])
-          ]),
+          _vm.row.reference
+            ? _c("Col", { attrs: { span: "8" } }, [
+                _c("span", { staticClass: "expand-key" }, [
+                  _vm._v("Reference: ")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "expand-value" }, [
+                  _vm._v(_vm._s(_vm.row.reference))
+                ])
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("Col", { attrs: { span: "8" } }, [
-            _c("span", { staticClass: "expand-key" }, [_vm._v("CARD BRAND: ")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "expand-value" }, [
-              _vm._v(_vm._s(_vm.row.card_brand))
-            ])
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Row",
-        [
-          _c("Col", { attrs: { span: "8" } }, [
-            _c("span", { staticClass: "expand-key" }, [_vm._v("Auth id: ")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "expand-value" }, [
-              _vm._v("《" + _vm._s(_vm.row.auth_id) + "》")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("Col", { attrs: { span: "8" } }, [
-            _c("span", { staticClass: "expand-key" }, [_vm._v("Reference: ")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "expand-value" }, [
-              _vm._v(_vm._s(_vm.row.reference))
-            ])
-          ]),
-          _vm._v(" "),
-          _c("Col", { attrs: { span: "8" } }, [
-            _c("span", { staticClass: "expand-key" }, [_vm._v("Receipt: ")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "expand-value" }, [
-              _vm._v(_vm._s(_vm.row.receipt))
-            ])
-          ])
+          _vm.row.receipt
+            ? _c("Col", { attrs: { span: "8" } }, [
+                _c("span", { staticClass: "expand-key" }, [
+                  _vm._v("Receipt: ")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "expand-value" }, [
+                  _vm._v(_vm._s(_vm.row.receipt))
+                ])
+              ])
+            : _vm._e()
         ],
         1
       )
