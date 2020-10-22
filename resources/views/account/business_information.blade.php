@@ -2,9 +2,7 @@
 
 @section('title', __('Business Information'))
 
-@push('footer-scripts')
-    {!! JsValidator::formRequest('App\Http\Requests\BusinessInformationRequest', '#form') !!}
-@endpush
+
 
 @section('content')
 <div class="row">
@@ -90,7 +88,6 @@
           @endif
           <button type="submit" class="btn btn-primary d-block mt-2">{{ __('Save') }}</button>
 
-
         </form>
       </div>
     </div>
@@ -114,3 +111,7 @@
   </div>
 </div>
 @endsection
+
+@push('footer-scripts')
+    {!! JsValidator::formRequest('App\Http\Requests\BusinessInformationRequest', '#form') !!}
+@endpush
