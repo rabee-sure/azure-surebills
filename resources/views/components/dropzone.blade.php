@@ -45,7 +45,7 @@
         // addedfile: function (file) {
         //   console.log(file)
         //   // file.previewElement.addEventListener("click", function() {
-        //   //   window.open('https://bills.test/storage/19/5f8ff69177e1c_download.jpeg', '_blank');
+        //   //   window.open('/storage/19/5f8ff69177e1c_download.jpeg', '_blank');
         //   // });
         // },      
         init: function () {
@@ -57,7 +57,7 @@
 
               this.options.addedfile.call(this, file)
               if(file.mime_type.includes("image")){
-                this.options.thumbnail.call(this, file, 'https://bills.test/storage/'+file.id+'/'+file.file_name)
+                this.options.thumbnail.call(this, file, '/storage/'+file.id+'/'+file.file_name)
               }
 
               file.previewElement.classList.add('dz-complete')
@@ -66,7 +66,7 @@
 
               file.previewElement.addEventListener("click", function(click) {
                 var preview_file = files.find(x => x.id == this.getAttribute("id")) ;
-                window.open('https://bills.test/storage/'+preview_file.id+'/'+preview_file.file_name, '_blank');
+                window.open('/storage/'+preview_file.id+'/'+preview_file.file_name, '_blank');
               });
             }
           @endif

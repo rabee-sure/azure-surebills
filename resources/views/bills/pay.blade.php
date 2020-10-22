@@ -107,7 +107,8 @@
               @endif
               
             </div><!-- customer_information -->
-            <div id="payment_method" class="payment_method">
+            @if(!$bill->is_expired)
+                <div id="payment_method" class="payment_method">
               <div class="name">{{__('Payment Method')}}</div>
               <div class="bill_payment">
                 <div class="item">
@@ -135,9 +136,8 @@
                     </label>
                 </div><!-- item -->
               </div><!-- bill_payment -->
-            </div><!-- payment_method -->
-           
-            
+                </div><!-- payment_method -->
+            @endif
             
             @if($bill->application)
               <div id="back_btn" class="text-center">
@@ -356,7 +356,7 @@ $(function(){
 
   Echo.channel('bill.{{$bill->id}}')
     .listen('BillStatusUpdated', (e) => {
-        console.log(e.bill.id);
+
         var className;
 
         switch(e.bill.status) {
@@ -364,18 +364,21 @@ $(function(){
             className = "badge-info";
             break;
           case "paid":
+            $("#new_countdown").remove();
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
             $("#status").append('<div class="alert alert-success" role="alert">this bill paid successfully</div>');
             break;
           case "canceled":
+            $("#new_countdown").remove();
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
             $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
             break;          
           case "expired":
+            $("#new_countdown").remove();
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
