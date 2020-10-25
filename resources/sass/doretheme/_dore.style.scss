@@ -10718,3 +10718,13 @@ span.badge_order_status {
   color: #856404;
   font-size: 15px;
 }
+
+.dropzone {
+  .dz-preview {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin: 16px;
+    min-height: 100px;
+  }
+}
