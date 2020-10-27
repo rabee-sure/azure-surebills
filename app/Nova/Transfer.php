@@ -9,8 +9,11 @@ use App\Nova\Metrics\TotalIncome;
 use App\Nova\Metrics\TotalPaid;
 use App\Nova\Metrics\TotalVatOnCommissions;
 use App\Rules\TransferBalance;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\File;
@@ -57,7 +60,7 @@ class Transfer extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
     
     /**
      * The columns that should be searched.
@@ -91,7 +94,20 @@ class Transfer extends Resource
             Number::make(__('Amount'), 'amount')->min(1)->step(0.1)->rules('required', new TransferBalance($request->viaResourceId)),
             Textarea::make(__('Note'), 'note'),
             File::make(__('Attachment'), 'attachment')->disk('public'),
+
+            Text::make('Date From To')->displayUsing(function(){
+                if(isset($this->filters['date'])){
+                    $from = Carbon::parse($this->filters['date']['from'])->toDateTimeString();
+                    $to = Carbon::parse($this->filters['date']['to'])->toDateTimeString();
+                    return  $from.' - '. $to;
+                }
+                return '-';
+
+            }),
+
             DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
+
+            BelongsToMany::make(__('Bills'), 'bills', Bill::class)
         ];
     }
 

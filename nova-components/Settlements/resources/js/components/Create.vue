@@ -1,7 +1,7 @@
 <template>
 <div>
     <Card :bordered="false">
-        <p slot="title">Create Transfer to {{ user.name}}</p>
+        <p slot="title">{{ __('Create Transfer to') }} {{ user.name}}</p>
 
         <Form ref="form" :model="form" label-position="left" :label-width="150" :rules="ruleInline">
 
@@ -35,7 +35,7 @@
             </FormItem>    
 
             <FormItem :label="__('Note')"  prop="note">
-                <Input size="large" v-model="form.note" type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Enter something..." />
+                <Input size="large" v-model="form.note" type="textarea" :autosize="{minRows: 4,maxRows: 5}" :placeholder="__('')" />
             </FormItem>
 
             <FormItem :label="__('Attachment')">
@@ -45,11 +45,11 @@
                     action="/api/upload">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                        <p>Click or drag files here to upload</p>
+                        <p>{{ __('Click or drag files here to upload') }}</p>
                     </div>
                 </Upload>
             </FormItem>
-            <Divider orientation="left">Bank Info</Divider>
+            <Divider orientation="left">{{__('Bank Info')}}</Divider>
             <FormItem :label="__('Bank') + ' :'" v-if="user.bank">
                 <div>{{ user.bank.name.en }}</div>
             </FormItem>            
@@ -61,7 +61,7 @@
             </FormItem>
 
             <FormItem>
-                <Button type="primary" @click="handleSubmit('form')"> {{__('submit')}} </Button>
+                <Button type="primary" @click="handleSubmit('form')"> {{__('Submit')}} </Button>
                 <Button style="margin-left: 8px">{{__('Cancel')}}</Button>
             </FormItem>
         </Form>
@@ -69,14 +69,13 @@
 
     <div  style="padding-top: 10px;">
         <Card :bordered="false">
-            <p slot="title">Transfers for {{ user.name}}</p>
-
+            <p slot="title">{{ __('Transfers for')}} {{ user.name}}</p>
             <Table :columns="transfersTable" :data="transfers"></Table>
         </Card>
     </div>
 
     <Modal
-        title="transactions"
+        :title="__('transactions')"
         v-model="transactionsModal"
         width="760">
         <Table stripe height="400" :columns="transactionsTable" :data="transactions">
@@ -88,7 +87,7 @@
     </Modal> 
 
     <Modal
-        title="bills"
+        :title="__('Bills')"
         v-model="billsModal"
         width="760">
         <Table stripe height="400" :columns="billsTable" :data="bills">
@@ -116,29 +115,29 @@ export default {
             bills: [],
             billsTable: [
                 {
-                    title: 'Name',
+                    title: this.__('Name'),
                     key: 'name',
                     width: 220,
                 },
                 {
-                    title: 'status',
+                    title: this.__('status'),
                     slot: 'status'
                 },
                 {
-                    title: 'Total',
+                    title: this.__('Total'),
                     key: 'total'
                 },
                 {
-                    title: 'FEES',
+                    title: this.__('FEES'),
                     key: 'payment_fees'
                 },                
                 {
-                    title: 'Created At',
+                    title: this.__('Created At'),
                     key: 'created_at',
 
                     width: 150,
                 },{
-                    title: 'A',
+                    title: this.__('A'),
                     key: 'action',
                     width: 50,
                     align: 'center',
@@ -176,21 +175,21 @@ export default {
                     }
                 },
                 {
-                    title: 'Created At',
+                    title: this.__('Created At'),
                     key: 'created_at',
                     width: 160,
                 },
                 {
-                    title: 'Description',
+                    title: this.__('Description'),
                     key: 'description'
                 },
                 {
-                    title: 'Type',
+                    title: this.__('Type'),
                     slot: 'type',
                     width: 90,
                 },
                 {
-                    title: 'amount',
+                    title: this.__('Amount'),
                     key: 'amount',
                     width: 90,
                 }
@@ -207,23 +206,23 @@ export default {
             transfers: [],
             transfersTable: [
                 {
-                    title: 'Id',
+                    title: this.__('Id'),
                     key: 'id',
                 },
                 {
-                    title: 'amount',
+                    title: this.__('Amount'),
                     key: 'amount'
                 },
                 {
-                    title: 'note',
+                    title: this.__('Note'),
                     key: 'note'
                 },
                 {
-                    title: 'Created By',
+                    title: this.__('Created By'),
                     key: 'created_by_name'
                 },
                 {
-                    title: 'created_at',
+                    title: this.__('Created At'),
                     key: 'created_at'
                 }
             ],
@@ -247,7 +246,11 @@ export default {
                 this.user = response.data.data;
                 // this.form.amount = this.user.balance;
             });
-            Nova.request().get('/users/'+id+'/transfers')
+            Nova.request().get('/users/'+id+'/transfers', {
+                    params: {
+                        per_page: 5,
+                    }
+                })
             .then(response => {
                 this.transfers = response.data.data;
             });
@@ -312,7 +315,12 @@ export default {
                         beneficiary_name: this.user.beneficiary_name,
                     })
                     .then(response => {
-                        this.getUser(this.$route.params.id)
+                        // console.log(response.data.data.id)
+                        // console.log('/nova/resources/transfers/' + response.data.data.id)
+                        this.$router.push('/resources/transfers/' + response.data.data.id)
+
+                        // this.$router.go();
+                        // this.getUser(this.$route.params.id)
                         this.loading = false
 
                         this.bills = [];

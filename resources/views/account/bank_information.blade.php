@@ -47,9 +47,20 @@
 
           <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
           <p class="">{{ __('Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility') }}</p>
-          @include('components.dropzone',[
-            'documents' => auth()->user()->bank_documents
-          ])
+
+          
+          @if(auth()->user()->disable_bank_documents)
+            <div class="dropzone">
+              @foreach(auth()->user()->bank_documents as $file)
+                @include('components.file', ['file' => $file])
+              @endforeach
+            </div>
+          @else
+            @include('components.dropzone',[
+              'documents' => auth()->user()->bank_documents
+            ])
+          @endif
+
           <button type="submit" class="btn btn-primary d-block mt-2">{{__('Save')}}</button>
         </form>
       </div>
@@ -57,6 +68,12 @@
   </div>
 </div>
 @endsection
+
+
+
+@push('header-css')
+  <link rel="stylesheet" href="{{ asset('css/dropzone.min.css') }}" />
+@endpush
 
 @push('footer-scripts')
   {!! JsValidator::formRequest('App\Http\Requests\BankInformationRequest', '#form') !!}

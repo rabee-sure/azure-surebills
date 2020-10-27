@@ -145,6 +145,7 @@ class Bill extends Model
             'status='.$this->status,
             'bill_id='.$this->id,
             'pay_url='.$this->pay_url,
+            'total='.$this->total,
         ];
 
         $ks = (str_contains($this->application->redirect, '?')) ? "&" : '?';

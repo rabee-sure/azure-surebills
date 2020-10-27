@@ -11,6 +11,10 @@
 	"Business Documents": "وثائق العمل",
 	"Bank Documents": "وثائق البنك",
 
+	"Documents": "الوثائق",
+	"Disable Business Documents": "عدم الساماح برفع وثائق العمل",
+	"Disable Bank Documents": "عدم الساماح برفع وثائق البنك",
+
 	"Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility": "حمل صورة بطاقة الايبان أو كشف حساب موضح فيه رقم الايبان وإسم المنشأة",
 	"Upload the required documents": "حمل الوثائق المطلوبة ",
 	"Commercial registry, self-employment document, ID card ..etc": "سجل تجاري ، وثيقة عمل حر ، بطاقة هوية … ",
@@ -452,5 +456,16 @@
   "Descrption" : "الوصف",
   "Last Update" : "اخر تحديث",
   "Password Reset" : "إعادة تعيين كلمة المرور",
-  "Set a new password" : "تعيين كلمة مرور جديدة"
+  "Set a new password" : "تعيين كلمة مرور جديدة",
+  "Orders" : "الطلبات",
+  "Search By Day" : "البحث باليوم",
+  "Order" : "طلب",
+  "Quantity Activation" : "تفعيل الكمية",
+  "Your account is not verified, we are processing the verification." : "حسابك غير موثق، مازال جاري التحقق من حسابك.",
+  "Daily" : "يومي",
+  "Weekly" : "اسبوعي",
+  "Monthly" : "شهري",
+  "Paid Bills Amount" : "مبلغ المدفوعات",
+  "Number of Paid Bills" : "عدد الفواتير المدفوعة",
+  "Total Number of Bills" : "إجمالي الفواتير"
 }

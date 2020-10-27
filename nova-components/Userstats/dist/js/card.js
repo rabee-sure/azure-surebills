@@ -706,7 +706,7 @@ var render = function() {
                   {
                     staticStyle: { "min-height": "0px" },
                     attrs: {
-                      href: "/nova/settlements/1/create",
+                      href: "/nova/settlements/" + _vm.user.id + "/create",
                       target: "_blank"
                     }
                   },

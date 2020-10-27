@@ -5,6 +5,7 @@ namespace App\Providers;
 use Anaseqal\NovaSidebarIcons\NovaSidebarIcons;
 use App\Nova\Metrics\BillsPerDay;
 use App\Nova\Metrics\NewUsers;
+use ChrisWare\NovaBreadcrumbs\NovaBreadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
@@ -51,13 +52,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return in_array($user->email, [
-                'faisal@toot.im',
-                'eabdelsabour@sure.com.sa',
-                'aghanem@sure.com.sa',
-                'ayoussef@sure.com.sa',
-                'basem@basem.ws',
-            ]);
+            return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
         });
     }
 
@@ -95,6 +90,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         return [
             new Settlements,
             new NovaSidebarIcons,
+            new NovaBreadcrumbs,
         ];
     }
 

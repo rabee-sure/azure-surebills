@@ -21,18 +21,6 @@
            {{ __('Bills') }}
           </a>
         </li>
-    <!-- <li>
-          <a href="orders.html" title="Orders">
-            <i class="iconsminds-shopping-bag"></i>
-            Orders
-          </a>
-        </li>
-        <li>
-          <a href="#store" title="Store">
-            <i class="iconsminds-shop"></i>
-            Store
-          </a>
-        </li> -->
         <li class="{{ Request::is('customers*') ? 'active' : '' }}">
           <a href="{{ route('customers.index') }}" title="{{ __('Customers') }}">
             <i class="iconsminds-mens"></i>
@@ -45,13 +33,13 @@
             {{ __('Statement') }}
           </a>
         </li>
-        {{-- <li>
+        <!-- <li>
           <a href="#store" title="Store">
             <i class="iconsminds-shop-2"></i>
             {{ __('Store') }}
           </a>
-        </li> --}}
-        <!-- <li class="{{ Request::is('transfer*') ? 'active' : '' }}">
+        </li>
+        <li class="{{ Request::is('transfer*') ? 'active' : '' }}">
           <a href="{{ route('transfer.index') }}" title="Statement">
             <i class="iconsminds-statistic"></i>
             {{ __('Settlements') }}
@@ -82,6 +70,11 @@
   <div class="sub-menu">
     <div class="scroll">
       <ul class="list-unstyled" data-link="store">
+        <li>
+          <a href="{{ route('orders.all') }}" title="{{ __('Orders') }}">
+            <i class="iconsminds-shopping-bag"></i> <span class="d-inline-block">{{ __('Orders') }}</span>
+          </a>
+        </li>
         <li>
           <a href="{{ route('products.settings') }}" title="{{ __('Store Settings') }}">
             <i class="iconsminds-clothing-store"></i> <span class="d-inline-block">{{ __('Store Settings') }}</span>

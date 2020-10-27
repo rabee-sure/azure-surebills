@@ -10367,6 +10367,9 @@ span.discount_type_item2 {
       min-width: 200px;
       font-size: 14px;
       border-radius: 4px;
+      [dir="ltr"] & {
+        direction: rtl;
+      } /* ltr */
       @include respond-below(sm) {
         height: 35px;
         border-radius: 100px;
@@ -10392,6 +10395,19 @@ span.discount_type_item2 {
       } /* ltr */
     } /* after */
   } /* search-sm */
+  .btn-group {
+    button.dropdown-toggle {
+      height: 30px;
+      border-radius: 4px !important;
+      padding: 0 10px 0 30px;
+      font-size: 14px;
+      &::after {
+        position: absolute;
+        left: 10px;
+        top: 12px;
+      }
+    }
+  }
 } /* displayOptions */
 
 table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_desc, table.dataTable thead>tr>th.sorting, table.dataTable thead>tr>td.sorting_asc, table.dataTable thead>tr>td.sorting_desc, table.dataTable thead>tr>td.sorting {
@@ -10631,5 +10647,84 @@ span.bill_status_badge {
 .position-absolute.card-top-buttons {
   @include respond-below(sm) {
     top: 12px;
+  }
+}
+
+.switch_quantity {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  p {
+    display: block;
+    margin: 0 0 0 10px;
+    font-size: 13px;
+  }
+  .custom-switch {
+    height: 29px;
+  }
+}
+
+a.bill_statue_order {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  p {
+    margin: 0 0 0 5px;
+    [dir="ltr"] & {
+      margin: 0 5px 0 0;
+    } /* ltr */
+  }
+}
+
+span.badge_order_status {
+  margin: 0 auto 20px;
+  border: none;
+  height: 35px;
+  font-weight: normal;
+  font-size: 15px;
+  position: relative;
+  padding: 0 15px 0 50px;
+  line-height: 35px;
+  [dir="ltr"] & {
+    padding: 0 50px 0 15px;
+  } /* ltr */
+  button {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 35px;
+    height: 35px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: .25rem 0 0 .25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border: none;
+    padding: 0;
+    color: #fff;
+    [dir="ltr"] & {
+      left: auto;
+      right: 0;
+      border-radius: 0 .25rem .25rem 0;
+    } /* ltr */
+  }
+}
+
+.account_not_verified {
+  background: #fff3cd;
+  border-color: #ffeeba;
+  border-radius: .25rem;
+  color: #856404;
+  font-size: 15px;
+}
+
+.dropzone {
+  .dz-preview {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin: 16px;
+    min-height: 100px;
   }
 }
