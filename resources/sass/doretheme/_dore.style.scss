@@ -10710,3 +10710,21 @@ span.badge_order_status {
     } /* ltr */
   }
 }
+
+.account_not_verified {
+  background: #fff3cd;
+  border-color: #ffeeba;
+  border-radius: .25rem;
+  color: #856404;
+  font-size: 15px;
+}
+
+.dropzone {
+  .dz-preview {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin: 16px;
+    min-height: 100px;
+  }
+}

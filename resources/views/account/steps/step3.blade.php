@@ -59,7 +59,7 @@
                         ])
 
                     </div><!-- step-2 -->
-                    <div class="btn-toolbar custom-toolbar text-center d-flex justify-content-center card-body pt-0">
+                    <div class="btn-toolbar custom-toolbar text-center d-flex justify-content-center card-body pt-4">
                         <a class="btn btn-primary mx-2" href="/account?previous=2">{{__('Previous')}}</a>
                         <button class="btn btn-primary next-btn mx-2" type="submit">{{__('Finish')}}</button>
                     </div>

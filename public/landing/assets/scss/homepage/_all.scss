@@ -24,10 +24,11 @@ section#main_slider {
       font-size: 25px;
       color: #000;
       margin: 0 auto 10px;
+      font-weight: bold;
     } /* span */
     p {
       display: block;
-      font-size: 18px;
+      font-size: 20px;
       color: #333;
       margin: 0 auto 30px;
     } /* p */
@@ -64,18 +65,20 @@ section#start_work {
       margin: 15px 0;
       color: #fff;
       flex: 1 1 0;
+      max-width: 64%;
       @include media-breakpoint-down(sm) {
         text-align: center;
+        max-width: 100%;
       } /* sm */
       span {
         display: block;
         font-weight: bold;
-        font-size: 30px;
+        font-size: 25px;
       } /* span */
       p {
         display: block;
         margin: 5px auto 0;
-        font-size: 23px;
+        font-size: 20px;
         @include media-breakpoint-down(sm) {
           font-size: 21px;
         } /* sm */
@@ -83,7 +86,7 @@ section#start_work {
       b {
         display: block;
         margin: 5px auto 0;
-        font-size: 17px;
+        font-size: 16px;
         font-weight: normal;
         @include media-breakpoint-down(sm) {
           font-size: 15px;
@@ -112,7 +115,7 @@ section#how_work {
   padding: 50px 0;
   text-align: center;
   .title {
-    font-size: 25px;
+    font-size: 30px;
     margin: 0 auto 30px;
     color: #000;
   } /* title */
@@ -134,13 +137,14 @@ section#how_work {
     span {
       display: block;
       margin: 25px auto 5px;
-      font-size: 18px;
+      font-size: 15px;
       color: #000;
+      font-weight: bold;
     } /* span */
     p {
       display: block;
       margin: 0;
-      font-size: 14px;
+      font-size: 15px;
       color: #2E2E2D;
     } /* p */
   } /* item_inside */
@@ -154,7 +158,7 @@ section#prices {
   justify-content: center;
   flex-direction: column;
   .title {
-    font-size: 25px;
+    font-size: 30px;
     margin: 0 auto 30px;
     text-align: center;
     color: #000;
@@ -197,7 +201,7 @@ section#prices {
     } /* ul */
   } /* content */
   span {
-    font-size: 25px;
+    font-size: 20px;
     margin: 30px auto 15px;
     text-align: center;
     color: #000;
@@ -211,7 +215,7 @@ section#faq {
   background: #ffffff;
   padding: 50px 0;
   .title {
-    font-size: 25px;
+    font-size: 30px;
     margin: 0 auto 30px;
     text-align: center;
     color: #000;
@@ -223,7 +227,7 @@ section#faq {
         background: #fff;
         color: #000;
         border-radius: 5px;
-        font-size: 16px;
+        font-size: 15px;
         position: relative;
         cursor: pointer;
         height: 45px;
@@ -266,7 +270,7 @@ section#faq {
         border-radius: 0 0 5px 5px;
         p {
           margin: 0 auto;
-          font-size: 17px;
+          font-size: 16px;
           @include media-breakpoint-down(sm) {
             font-size: 15px;
           } /* sm */

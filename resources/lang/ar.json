@@ -461,5 +461,11 @@
   "Search By Day" : "البحث باليوم",
   "Order" : "طلب",
   "Quantity Activation" : "تفعيل الكمية",
-  "Your account is not verified, we are processing the verification." : "حسابك غير موثق، مازال جاري التحقق من حسابك."
+  "Your account is not verified, we are processing the verification." : "حسابك غير موثق، مازال جاري التحقق من حسابك.",
+  "Daily" : "يومي",
+  "Weekly" : "اسبوعي",
+  "Monthly" : "شهري",
+  "Paid Bills Amount" : "مبلغ المدفوعات",
+  "Number of Paid Bills" : "عدد الفواتير المدفوعة",
+  "Total Number of Bills" : "إجمالي الفواتير"
 }

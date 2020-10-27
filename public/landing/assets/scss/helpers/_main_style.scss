@@ -1,5 +1,35 @@
 @charset "utf-8";
 @font-face {
+  font-family: 'Dubai';
+  src:  url('../fonts/webfonts/DubaiW23-Regular.eot');
+  src:  url('../fonts/webfonts/DubaiW23-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/webfonts/DubaiW23-Regular.woff') format('woff'),
+        url('../fonts/webfonts/DubaiW23-Regular.ttf') format('truetype'),
+        url('../fonts/webfonts/DubaiW23-Regular.svg#UbuntuItalic') format('svg');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Dubai';
+  src:  url('../fonts/webfonts/DubaiW23-Medium.eot');
+  src:  url('../fonts/webfonts/DubaiW23-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/webfonts/DubaiW23-Medium.woff') format('woff'),
+        url('../fonts/webfonts/DubaiW23-Medium.ttf') format('truetype'),
+        url('../fonts/webfonts/DubaiW23-Medium.svg#UbuntuItalic') format('svg');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Dubai';
+  src:  url('../fonts/webfonts/DubaiW23-Bold.eot');
+  src:  url('../fonts/webfonts/DubaiW23-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/webfonts/DubaiW23-Bold.woff') format('woff'),
+        url('../fonts/webfonts/DubaiW23-Bold.ttf') format('truetype'),
+        url('../fonts/webfonts/DubaiW23-Bold.svg#UbuntuItalic') format('svg');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
   font-family: "Exo 2";
   src: url("../fonts/webfonts/Exo2-Regular.ttf") format("truetype");
   font-weight: normal;
@@ -9,33 +39,6 @@
   font-family: "Exo 2";
   src: url("../fonts/webfonts/Exo2-Bold.ttf") format("truetype");
   font-weight: bold;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Dubai';
-  src:  url('../fonts/webfonts/DubaiW23-Regular.eot');
-  src:  url('../fonts/webfonts/DubaiW23-Regular.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/webfonts/DubaiW23-Regular.woff') format('woff'),
-        url('../fonts/webfonts/DubaiW23-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Dubai';
-  src:  url('../fonts/webfonts/DubaiW23-Medium.eot');
-  src:  url('../fonts/webfonts/DubaiW23-Medium.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/webfonts/DubaiW23-Medium.woff') format('woff'),
-        url('../fonts/webfonts/DubaiW23-Medium.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Dubai';
-  src:  url('../fonts/webfonts/DubaiW23-Bold.eot');
-  src:  url('../fonts/webfonts/DubaiW23-Bold.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/webfonts/DubaiW23-Bold.woff') format('woff'),
-        url('../fonts/webfonts/DubaiW23-Bold.ttf') format('truetype');
-  font-weight: 800;
   font-style: normal;
 }
 html {
