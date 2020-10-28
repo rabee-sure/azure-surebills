@@ -222,6 +222,8 @@
           </div>
         </div>
       </div>
+  <a href="{{ route('bills.create')}}" data-toggle="tooltip" data-placement="top" title="{{ __('Create a bill')}}" class="add_bill_button"></a>
+
 @endsection
 
 
