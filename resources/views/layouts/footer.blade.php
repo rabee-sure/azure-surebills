@@ -10,10 +10,10 @@
   </div>
 </footer>
 
-    @if(request()->route()->getName() == 'mobile_verify' || request()->route()->getName() =='integration')
+    @if(in_array(request()->route()->getName(), ['integration','mobile_verify', 'home' ]))
       <script src="/js/app.js?v={{ config('app.asset_version') }}" defer></script>
       <script src="/js/jbootstrap.js?v={{ config('app.asset_version') }}"></script>
-      <script src="/js/all.js?v={{ config('app.asset_version') }}" ></script> 
+      <script src="/js/all.js?v={{ config('app.asset_version') }}"></script> 
       <script src="/js/dore.script.js?v={{ config('app.asset_version') }}"></script>
     @else
       <script src="/js/app.js?v={{ config('app.asset_version') }}" ></script>
