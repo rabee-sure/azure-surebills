@@ -8,7 +8,6 @@ module.exports = {
 
             try {
                 translation = key.split('.').reduce((t, i) => t[i] || null, window._translations[window._locale].php)
-
                 if (translation) {
                     translationNotFound = false
                 }
