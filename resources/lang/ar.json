@@ -8,7 +8,7 @@
 	"The number of bills paid": "عدد الفواتير المدفوعة",
 	"Total bills": "إجمالي الفواتير",
 	"The amount of the payments": "مبلغ المدفوعات",
-
+	"application_id or application_secret is not coreect": "Id التطبيق أو كلمة سر التطبيق غير صحيح",
 
 
 	"monthly": "شهري",
