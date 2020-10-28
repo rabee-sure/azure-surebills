@@ -37,7 +37,7 @@
 </template>
 
 <script>
-    import LineChart from "./LineChart.js";
+    import LineChart from "./ChartLine.js";
 
     export default {
         props: ['user'],
