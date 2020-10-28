@@ -14,7 +14,6 @@
           </div>
       @endif
       <div class="row">
-
         <div class="col-12">
           <div class="row icon-cards-row mx-n3">
             <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
@@ -56,23 +55,12 @@
           </div>
         </div>
 
-        
         <div class="col-12">
-            <bills-count></bills-count>
+            <bills-paid-amount :user="{{auth()->user()}}"></bills-paid-amount>
+            <bills-paid-count :user="{{auth()->user()}}"></bills-paid-count>
+            <bills-count :user="{{auth()->user()}}"></bills-count>
         </div>
-
-
-        <div class="col-lg-12 col-xl-6 d-none">
-          <div class="card mb-4">
-            <div class="card-body">
-              <h5 class="card-title">{{ __('Sales') }}</h5>
-              <div class="dashboard-line-chart chart">
-                <canvas id="salesChart"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        
         <div class="col-xl-12 col-lg-12 mb-4">
           <div class="card">
             <div class="card-body">

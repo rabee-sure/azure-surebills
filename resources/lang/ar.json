@@ -5,6 +5,15 @@
 	"You’ve got a new bill of :total SAR": "لقد حصلت على فاتورة جديدة باجمالي :total ريال",
 	"Your bill of :total SAR has been created": "تم إنشاء فاتورة باجمالي :total ريال",
 	"Pay": "دفع",
+	"The number of bills paid": "عدد الفواتير المدفوعة",
+	"Total bills": "إجمالي الفواتير",
+	"The amount of the payments": "مبلغ المدفوعات",
+
+
+
+	"monthly": "شهري",
+	"weekly": "اسبوعي",
+	"daily": "يومي",
 	"Verified": "التوثيق",
 	"Choose Gender": "حدد الجنس",
 	"Drop files here to upload": "قم بإسقاط الملفات هنا للتحميل",
@@ -186,7 +195,15 @@
 	"60 Day": "٦٠ يوم",
 	"90 Day": "٩٠ يوم",
 	"Never": "لايوجد",
-		
+	
+	"Sunday" : "الأحد",
+    "Monday" : "الاثنين",
+    "Tuesday" : "الثلاثاء",
+    "Wednesday" : "الأربعاء",
+    "Thursday" : "الخميس",
+    "Friday" : "الجمعة",
+    "Saturday" : "السبت",
+
 	"verify your phone number": "التحقق من رقم الهاتف",
 	"we sent You SMS Message Contain Apin Code": "أرسلنا لك رسالة تحتوي على الرقم السري",
 	"didn’t Get The PIN": "لم أحصل على الرقم السري",
@@ -461,5 +478,11 @@
   "Search By Day" : "البحث باليوم",
   "Order" : "طلب",
   "Quantity Activation" : "تفعيل الكمية",
-  "Your account is not verified, we are processing the verification." : "حسابك غير موثق، مازال جاري التحقق من حسابك."
+  "Your account is not verified, we are processing the verification." : "حسابك غير موثق، مازال جاري التحقق من حسابك.",
+  "Daily" : "يومي",
+  "Weekly" : "اسبوعي",
+  "Monthly" : "شهري",
+  "Paid Bills Amount" : "مبلغ المدفوعات",
+  "Number of Paid Bills" : "عدد الفواتير المدفوعة",
+  "Total Number of Bills" : "إجمالي الفواتير"
 }

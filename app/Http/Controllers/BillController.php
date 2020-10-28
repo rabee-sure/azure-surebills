@@ -177,6 +177,11 @@ class BillController extends Controller
             abort(404);
         }
 
+        if($bill->is_expired){
+            $bill->status = 'expired';
+            $bill->save();
+        }
+
         if($bill->is_invalid){
             return view('bills.status', ['bill' => $bill]);
         }

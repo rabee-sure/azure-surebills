@@ -3,36 +3,33 @@
         <div class="card-body ">
             <div class="float-left float-none-xs">
                 <div class="d-inline-block">
-                    <h5 class="d-inline">عدد الفواتير</h5>
-                    <span class="text-muted text-small d-block">الإحصائيات اليومية</span>
+                    <h5 class="d-inline">{{ __('Total bills') }}</h5>
                 </div>
             </div>
             <div class="btn-group float-right float-none-xs mt-2">
                 <ul class="nav nav-tabs card-header-tabs " role="tablist">
                     <li class="nav-item">
-                        <a class="btn btn-xs btn-outline-primary active" id="number_bills_monthly_tab" data-toggle="tab" href="#number_bills_monthly" role="tab" aria-controls="number_bills_monthly" aria-selected="true">شهري</a>
+                        <a :class="[type =='monthly' ? 'active' : '', 'btn btn-xs btn-outline-primary']" @click="changeTab('monthly')">
+                         {{ __('monthly')}}
+                       </a>
                     </li>
                     <li class="nav-item ml-2">
-                        <a class="btn btn-xs btn-outline-primary" id="number_bills_weekly_tab" data-toggle="tab" href="#number_bills_weekly" role="number_bills_weekly" aria-controls="number_bills_weekly" aria-selected="false">إسبوعي</a>
+                        <a :class="[type =='weekly' ? 'active' : '', 'btn btn-xs btn-outline-primary']" @click="changeTab('weekly')">
+                          {{ __('weekly')}}
+                        </a>
                     </li>
                     <li class="nav-item ml-2">
-                        <a class="btn btn-xs btn-outline-primary" id="number_bills_daily_tab" data-toggle="tab" href="#number_bills_daily" role="tab" aria-controls="number_bills_daily" aria-selected="false">يومي</a>
+                        <a :class="[type =='daily' ? 'active' : '', 'btn btn-xs btn-outline-primary']" @click="changeTab('daily')">
+                          {{ __('daily')}}
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     <div class="chart card-body pt-0">
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="number_bills_monthly" role="tabpanel" aria-labelledby="number_bills_monthly_tab">
-                <line-chart :chart-data="data_collection" :options="this.options"></line-chart>
-            </div>
-
-            <div class="tab-pane fade" id="number_bills_weekly" role="tabpanel" aria-labelledby="number_bills_weekly_tab">
-                <line-chart :chart-data="data_collection" :options="this.options" ></line-chart>
-            </div>
-
-            <div class="tab-pane fade" id="number_bills_daily" role="tabpanel" aria-labelledby="number_bills_daily_tab">
-                <line-chart :chart-data="data_collection" :options="this.options"></line-chart>
+            <div class="tab-pane fade show active">
+                <line-chart :chart-data="data_c" :options="this.options"></line-chart>
             </div>
         </div>
     </div>
@@ -43,6 +40,7 @@
     import LineChart from "./LineChart.js";
 
     export default {
+        props: ['user'],
         components: {
             LineChart,
         },
@@ -51,23 +49,20 @@
          */
         data() {
             return {
+                type: 'monthly',
                 daily: {},
                 weekly: {},
                 monthly: {},
-                data_collection: {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                    datasets: [{
-                        label: false,
-                        backgroundColor: 'rgb(255, 99, 132)',
-                        borderColor: 'rgb(255, 99, 132)',
-                        data: [0, 10, 5, 2, 20, 30, 45]
-                    }]
-                },
+                data_c: {},
                 options: {
-                    // responsive: true, 
-                    // maintainAspectRatio: false,
+                    maintainAspectRatio: false,
                     plugins: {
-                        labels: {},
+                        labels: {
+                            render: 'value',
+                            fontSize: 40,
+                            fontStyle: 'bold',
+                            fontColor: '#fff',
+                        },
                     }
                 },
             };
@@ -77,15 +72,53 @@
          * Prepare the component (Vue 2.x).
          */
         mounted() {
-            axios.get('/api/v1/charts/bills')
-                .then(response => {
+            axios.get('/api/v1/charts/bills_count', {
+              params: {
+                'user_id': this.user.id,
+                'lang': window._locale,
+              }
+            }).then(response => {
+                    this.daily = response.data.daily
+                    this.weekly = response.data.weekly
+                    this.monthly = response.data.monthly
+                    let ffff = {}
+                ffff.labels = this.monthly.labels;
+                ffff.datasets = this.monthly.datasets;
+                this.data_c = ffff
+                })
+        },
+        methods: {
+          changeTab(type){
+              axios.get('/api/v1/charts/bills_count', {
+              params: {
+                'user_id': this.user.id,
+                'lang': window._locale,
+              }
+            }).then(response => {
                     this.daily = response.data.daily
                     this.weekly = response.data.weekly
                     this.monthly = response.data.monthly
                 })
-        },
-
-        methods: {
+            this.type = type
+            let ffff = {}
+            switch(type) {
+              case 'daily':
+                ffff.labels = this.daily.labels;
+                ffff.datasets = this.daily.datasets;
+                this.data_c = ffff
+                break;
+              case 'weekly':
+                ffff.labels = this.weekly.labels;
+                ffff.datasets = this.weekly.datasets;
+                this.data_c = ffff
+                break;              
+              case 'monthly':
+                ffff.labels = this.monthly.labels;
+                ffff.datasets = this.monthly.datasets;
+                this.data_c = ffff
+                break;
+            }
+          },
         }
     }
 </script>
@@ -320,4 +353,12 @@
     } /* labels_items */
   } /* inside_area */
 } /* lineChart_area */
+.dashboard-filled-line-chart .chart{
+  height: auto !important; 
+}
+.tab-pane .chartjs-render-monitor{
+    height: 280px !important;
+    top: -20px;
+    position: relative;
+}
 </style>

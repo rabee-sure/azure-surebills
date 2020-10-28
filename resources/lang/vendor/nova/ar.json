@@ -1,6 +1,16 @@
 {
 
     "Balance" : "الرصيد",
+
+    "Sunday" : "الأحد",
+    "Monday" : "الاثنين",
+    "Tuesday" : "الثلاثاء",
+    "Wednesday" : "الأربعاء",
+    "Thursday" : "الخميس",
+    "Friday" : "الجمعة",
+    "Saturday" : "السبت",
+
+
     "Total Paid" : "إجمالي المدفوعات",
     "Total Bills" : "إجمالي الفواتير",
     "Total Paid Bills" : "إجمالي الفواتير المدفوعة",
@@ -21,6 +31,7 @@
     "Submit" : "إرسال",
     "transactions" : "المعاملات",
     "Cancel" : "إلغاء",
+    "Add New File" : "أضف ملف جديد",
 
     "Name": "اسم",
     "status": "الحالة ",

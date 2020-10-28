@@ -78,9 +78,11 @@
           <p class="">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
 
           @if(auth()->user()->disable_business_documents)
+            <div class="dropzone">
               @foreach(auth()->user()->business_documents as $file)
                 @include('components.file', ['file' => $file])
               @endforeach
+            </div>
           @else
             @include('components.dropzone',[
               'documents' => auth()->user()->business_documents

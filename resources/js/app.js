@@ -26,7 +26,17 @@ Vue.component(
 
 Vue.component(
     'bills-count',
-    require('./components/BillsCount.vue').default
+    require('./components/charts/BillsCount.vue').default
+);
+
+Vue.component(
+    'bills-paid-count',
+    require('./components/charts/BillsPaidCount.vue').default
+);
+
+Vue.component(
+    'bills-paid-amount',
+    require('./components/charts/BillsPaidAmount.vue').default
 );
 
 Vue.component(

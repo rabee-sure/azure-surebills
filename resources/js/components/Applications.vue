@@ -94,13 +94,6 @@
                 </div>
               </div>              
               <!-- fail_redirect_url URL -->
-<!--               <div class="form-group row">
-                <label class="col-md-3 col-form-label">Fail Redirect URL</label>
-                <div class="col-md-9">
-                  <input type="text" class="form-control" name="fail_redirect_url" @keyup.enter="store" v-model="createForm.fail_redirect_url">
-                </div>
-              </div> -->
-
             </form>
           </div>
           <!-- Modal Actions -->
@@ -155,12 +148,7 @@
                 </div>
               </div>              
               <!-- Fail Redirect URL -->
-<!--               <div class="form-group row">
-                <label class="col-md-3 col-form-label">Fail Redirect URL</label>
-                <div class="col-md-9">
-                  <input type="text" class="form-control" name="fail_redirect_url" @keyup.enter="update" v-model="editForm.fail_redirect_url">
-                </div>
-              </div> -->
+
             </form>
           </div>
           <!-- Modal Actions -->
