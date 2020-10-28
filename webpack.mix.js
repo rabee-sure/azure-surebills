@@ -28,8 +28,8 @@ mix.js('resources/js/app.js', 'public/js')
         "public/js/jquery.barrating.min.js",
         "public/js/nouislider.min.js",
         "public/js/bootstrap-datepicker.js",
-        "public/js/Sortable.js",
-        "public/js/mousetrap.min.js",
+        // "public/js/Sortable.js",
+        // "public/js/mousetrap.min.js",
         // "public/js/dore.script.js",
         "public/js/scripts.js",
     ],'public/js/all.js').sourceMaps()
