@@ -293,5 +293,15 @@ class User extends Resource
     {
         return false;
     }
-
+        
+    /**
+     * authorized To Create.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return boolean
+     */
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
 }
