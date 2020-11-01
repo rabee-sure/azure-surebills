@@ -10752,3 +10752,36 @@ a.add_bill_button {
     background-color: #00ac78;
   } /* hover */
 } /* add_bill_button */
+
+
+.dashboard-filled-line-chart .card-body .btn-group ul.card-header-tabs {
+  top: -9px;
+  position: relative;
+  @include respond-below(sm) {
+    top: 0;
+  }
+}
+
+.dashboard-filled-line-chart .card-body {
+  @include respond-below(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto 30px;
+  }
+}
+
+.tooltip {
+  @include respond-below(sm) {
+    display: none !important;
+  }
+}
+
+.dashboard-filled-line-chart .chart {
+  @include respond-below(sm) {
+    width: auto !important;
+    max-width: 100%;
+    overflow-x: scroll;
+  }
+}
