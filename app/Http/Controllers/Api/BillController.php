@@ -22,6 +22,7 @@ use App\Payment\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class BillController extends Controller
 {
@@ -159,9 +160,22 @@ class BillController extends Controller
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $user = $application->user ?? null;
 
-        
+        if(!isset($application)){
+           return view('bills.error', ['error' => __('application_id or application_secret is not coreect')]);
+        }
 
-        Bill::where('reference_id', $request->reference_id)->where('user_id', $application->user_id ?? null)->where('status', 'pending')->update(['status' => 'canceled']);
+        $validator = Validator::make($request->all(), [
+            'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
+        ]);
+
+        if ($validator->fails()){
+             return view('bills.error', ['error' => $validator->errors()->first()]);
+        }
+
+        Bill::where('reference_id', $request->reference_id)
+            ->where('user_id', $application->user_id ?? null)
+            ->where('status', 'pending')
+            ->update(['status' => 'canceled']);
 
         $customer = Customer::updateOrCreate([
             'user_id' => $user->id,
