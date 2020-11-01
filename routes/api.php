@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('upload', 'MediaController@upload')->name('media.upload');
 
 Route::prefix('v1')->group(function () {
+	Route::get('charts/bills_paid_amount', 'ChartsController@billsPaidAmount');
+	Route::get('charts/bills_paid_count', 'ChartsController@billsPaidCount');
+	Route::get('charts/bills_count', 'ChartsController@billsCount');
+
 	Route::get('users/{user}/stats', 'UserController@stats');
 
 	Route::post('bills/create', 'BillController@store');

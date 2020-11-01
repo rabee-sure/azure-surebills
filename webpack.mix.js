@@ -28,8 +28,8 @@ mix.js('resources/js/app.js', 'public/js')
         "public/js/jquery.barrating.min.js",
         "public/js/nouislider.min.js",
         "public/js/bootstrap-datepicker.js",
-        "public/js/Sortable.js",
-        "public/js/mousetrap.min.js",
+        // "public/js/Sortable.js",
+        // "public/js/mousetrap.min.js",
         // "public/js/dore.script.js",
         "public/js/scripts.js",
     ],'public/js/all.js').sourceMaps()
@@ -77,4 +77,7 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/store.scss', 'public/css')
 
     .copy('vendor/proengsoft/laravel-jsvalidation/resources/views', 'resources/views/vendor/jsvalidation')
-    .copy('vendor/proengsoft/laravel-jsvalidation/public', 'public/vendor/jsvalidation');
+    .copy('vendor/proengsoft/laravel-jsvalidation/public', 'public/vendor/jsvalidation')
+    .options({
+     processCssUrls: false
+   });

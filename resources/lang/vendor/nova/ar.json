@@ -2,7 +2,15 @@
 
     "Balance" : "الرصيد",
     "Main" : "الأساسية",
-    
+
+
+    "Sunday" : "الأحد",
+    "Monday" : "الاثنين",
+    "Tuesday" : "الثلاثاء",
+    "Wednesday" : "الأربعاء",
+    "Thursday" : "الخميس",
+    "Friday" : "الجمعة",
+    "Saturday" : "السبت",
     "Total Paid" : "إجمالي المدفوعات",
     "Total Bills" : "إجمالي الفواتير",
     "Total Paid Bills" : "إجمالي الفواتير المدفوعة",

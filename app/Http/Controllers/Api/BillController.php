@@ -36,6 +36,13 @@ class BillController extends Controller
         logger([$request->all()]);
         logger($request->application_id);
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+        if(!isset($application)){
+           return response()->json([
+               'errors' => [
+                    'credential' =>[__('application_id or application_secret is not coreect')] 
+               ] 
+           ], 422);
+        }
         $user = $application->user ?? null;
 
 
