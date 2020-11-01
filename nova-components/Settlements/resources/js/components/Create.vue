@@ -77,7 +77,9 @@
     <Modal
         :title="__('transactions')"
         v-model="transactionsModal"
-        width="760">
+        width="760"
+        :ok-text="__('OK')"
+        :cancel-text="__('Cancel')">
         <Table stripe height="400" :columns="transactionsTable" :data="transactions">
             <template slot-scope="{ row }" slot="type">
                 <Button type="success" v-if="row.type == 'credit'" size="small">{{ row.type }}</Button>
@@ -89,7 +91,9 @@
     <Modal
         :title="__('Bills')"
         v-model="billsModal"
-        width="760">
+        width="760"
+        :ok-text="__('OK')"
+        :cancel-text="__('Cancel')">
         <Table stripe height="400" :columns="billsTable" :data="bills">
             <template slot-scope="{ row }" slot="status">
                 <Button type="info" v-if="row.status == 'pending'" size="small">{{ row.status }}</Button>
