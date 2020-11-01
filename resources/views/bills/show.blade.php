@@ -138,6 +138,7 @@
     </div><!-- show_bill_general -->  
     <a href="/" title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
+  @if(count($bill->payment_logs) > 0)
   <div class="col-12 col-md-6 col-lg-6 col-xl-6">
     <div class="card">
       <div class="card-body">
@@ -184,6 +185,7 @@
       </div><!-- card-body -->
     </div><!-- card -->
   </div><!-- col-12 -->
+  @endif
 </div><!-- row -->
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

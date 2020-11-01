@@ -3,11 +3,17 @@
 /public/storage
 /public/css/all.css
 /public/css/app.css
+/public/css/app.css.map
 /public/css/auth.css
 /public/css/bill_details.css
+/public/css/bill_details.css.map
 /public/css/dore.dark.green.min.css
+/public/css/dore.dark.green.min.css.map
 /public/css/dore.light.green.min.css
+/public/css/dore.light.green.min.css.map
+/public/js/app.js.LICENSE.txt
 /public/css/store.css
+/public/css/store.css.map
 /public/js/all.js
 /public/js/app.js
 /public/js/auth.js
