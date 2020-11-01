@@ -13,7 +13,7 @@
           <li class="breadcrumb-item"><a href="/bills" title="{{__('Bills')}}">{{__('Bills')}}</a></li>
           <li class="breadcrumb-item"><a href="/bills/{{ $bill->id }}" title="{{__('Bills')}}">{{__('Bill')}} #{{ $bill->number }}</a></li>
           <li class="breadcrumb-item active" aria-current="page">
-            {{ $bill->id}}
+            {{ isset($log->results['response']) ? $log->results['response']['id'] : null }}
           </li>
         </ol>
       </nav>
@@ -74,10 +74,10 @@
               <div class="table-responsive">
                 <table class="table table-striped table-bordered">
                   <tbody>
-                    @if(isset($log->results['response']))
+                    @if(isset($log->results['response']) && isset($log->results['response']['card']) && isset($log->results['response']['card']['holder']))
                     <tr >
                       <td>{{__('Name On Card') }}</td>
-                      <td>{{ $log->results['response']['card']['holder'] }}</td>
+                      <td>{{  $log->results['response']['card']['holder'] }}</td>
                     </tr>
                     @endif
                     @if(isset($log->results['response']))
