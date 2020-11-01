@@ -8,6 +8,7 @@
 	"The number of bills paid": "عدد الفواتير المدفوعة",
 	"Total bills": "إجمالي الفواتير",
 	"The amount of the payments": "مبلغ المدفوعات",
+	"The total must be greater than 0": "يجب ان تكون مبلغ الفاتورة اكبر من صفر",
 	"application_id or application_secret is not coreect": "Id التطبيق أو كلمة سر التطبيق غير صحيح",
 
 
@@ -65,7 +66,8 @@
 	"ApplePay percentage fees": "الرسوم المتغيره لابل باي",
 	"License Type" : "نوع الترخيص",
 	"Business Address": "عنوان العمل",
-	"Iban Number": "رقم IBAN",
+	"Iban Number": "رقم الحساب البنكي",
+	"Account Name": "اسم صاحب الحساب",
 	"Beneficiary Name": "الوضع",
 	"Tax": "الضريبة",
 	"Sort Number": "الترتيب",

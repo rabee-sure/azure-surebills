@@ -157,13 +157,13 @@
             <tbody>
               @foreach($bill->payment_logs as $log)
                 <tr>
-                  @if(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'MADA')
+                  @if(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MADA')
                     <td><img src="{{ asset('/payments/mada.png') }}" alt="mada" height="25px"></td>
-                  @elseif(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'VISA')
+                  @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'VISA')
                     <td><img src="{{ asset('/payments/visa.png') }}" alt="visa" height="25px"></td>
-                  @elseif(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'MASTERCARD')
+                  @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MASTERCARD')
                     <td><img src="{{ asset('/payments/card.png') }}" alt="mastercard" height="25px"></td>
-                  @elseif(isset($log->results['response']) && $log->results['response']['paymentBrand'] == 'APPLEPAY')
+                  @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'APPLEPAY')
                     <td><img src="{{ asset('/payments/pay.png') }}" alt="apple pay" height="25px"></td>
                   @else
                     <td><img src="{{ asset('/payments/cardnon.png') }}" alt="apple pay" height="25px"></td>

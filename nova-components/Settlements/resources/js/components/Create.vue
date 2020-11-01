@@ -77,7 +77,12 @@
     <Modal
         :title="__('transactions')"
         v-model="transactionsModal"
-        width="760">
+        width="760"
+        :ok-text="__('OK')"
+        :cancel-text="__('Cancel')">
+        <download-excel v-if="new_transactions.length" :data="new_transactions" :name="'transactions-'+ Date.now()">
+            <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
+        </download-excel>
         <Table stripe height="400" :columns="transactionsTable" :data="transactions">
             <template slot-scope="{ row }" slot="type">
                 <Button type="success" v-if="row.type == 'credit'" size="small">{{ row.type }}</Button>
@@ -89,7 +94,9 @@
     <Modal
         :title="__('Bills')"
         v-model="billsModal"
-        width="760">
+        width="760"
+        :ok-text="__('OK')"
+        :cancel-text="__('Cancel')">
         <Table stripe height="400" :columns="billsTable" :data="bills">
             <template slot-scope="{ row }" slot="status">
                 <Button type="info" v-if="row.status == 'pending'" size="small">{{ row.status }}</Button>
@@ -108,6 +115,7 @@
 import expandRow from './table-expand.vue';
 
 export default {
+    name: 'create transfer',
     components: { expandRow },
     data() {
         return {
@@ -162,6 +170,7 @@ export default {
             ],
             transactionsModal: false,
             transactions: [],
+            new_transactions: [],
             transactionsTable: [
                 {
                     type: 'expand',
@@ -269,6 +278,15 @@ export default {
                 })
                 .then(response => {
                     this.transactions = response.data.data;
+                    this.new_transactions = this.transactions.map((item) => {
+                        return {
+                            'created_at': item.created_at,
+                            'description': item.description,
+                            'type': item.type,
+                            'amount': item.amount,
+                            'hyperpay_id': item.hyperpay_id,
+                        }
+                    });
                     this.form.amount = response.data.meta.balance;
                     if(this.transactions.length == 0){
                         this.$Message.warning({

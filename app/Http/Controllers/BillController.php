@@ -8,6 +8,7 @@ use App\Customer;
 use App\Events\BillCreated;
 use App\Events\BillPaid;
 use App\Events\BillStatusUpdated;
+use App\Exceptions\ValidationException;
 use App\Http\Requests\BillRequest;
 use App\Http\Requests\PayBillRequest;
 use App\PaymentLog;
@@ -16,7 +17,9 @@ use App\Payment\Invoice;
 use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException as ValidationsException;
 
 class BillController extends Controller
 {
@@ -65,82 +68,89 @@ class BillController extends Controller
      */
     public function store(BillRequest $request)
     {
-        $user = auth()->user();
-        $customer = Customer::updateOrCreate([
-            'mobile' => $request->customer_mobile,
-            'user_id' => $user->id,
-        ],[
-            'name' => $request->customer_name, 
-            'email' => $request->customer_email,
-        ]);
+        $bill = DB::transaction(function() use($request){
+            $user = auth()->user();
 
-        $bill = Bill::create([
-            'user_id' => $user->id,
-            'business_name' => $user->business_name,
-            'customer_id' => $customer->id,
-            'customer_name' => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'customer_mobile' => $request->customer_mobile,
-            'customer_notes' => $request->customer_notes,
-
-            'expiry_date' => $request->expiry_date,
-            'expiry_hours' => $request->expiry_hours ?? 0,
-            'expiry_minutes' => $request->expiry_minutes ?? 0,
-            'due_date' => Carbon::parse($request->due_date),
-
-            'add_discount' => $request->add_discount,
-            'discount_type' => $request->discount_type,
-            'discount_value' => $request->discount_value,
-
-            'add_tax' => $request->add_tax,
-            'tax_name' => $request->tax_name,
-            'tax_value' => $request->tax_value,
-
-            'send_sms' => $request->send_sms,
-            'send_email' => $request->send_email,
-        ]);
-
-        foreach ($request->items as $item) {
-            BillItem::create([
-                'bill_id' => $bill->id,
-                'product_name' => $item['name'],
-                'product_price' => $item['price'],
-                'quantity' => $item['quantity'],
-                'total' => $item['quantity']*$item['price'],
+            $customer = Customer::updateOrCreate([
+                'mobile' => $request->customer_mobile,
+                'user_id' => $user->id,
+            ],[
+                'name' => $request->customer_name, 
+                'email' => $request->customer_email,
             ]);
-        }
 
-        $sub_total = $bill->items->sum('total');
-        $discount = 0;
-        $vat = 0;
-        $payment_fees = 0;
+            $bill = Bill::create([
+                'user_id' => $user->id,
+                'business_name' => $user->business_name,
+                'customer_id' => $customer->id,
+                'customer_name' => $request->customer_name,
+                'customer_email' => $request->customer_email,
+                'customer_mobile' => $request->customer_mobile,
+                'customer_notes' => $request->customer_notes,
 
-        if($user->pay_fees == "client"){
-            $payment_fees = ($sub_total * ($user->credit_cards_percentage / 100)) + $user->credit_cards_fixed;
-        }
+                'expiry_date' => $request->expiry_date,
+                'expiry_hours' => $request->expiry_hours ?? 0,
+                'expiry_minutes' => $request->expiry_minutes ?? 0,
+                'due_date' => Carbon::parse($request->due_date),
 
-        if($request->add_discount){
-            switch ($request->discount_type) {
-                case 'fixed':
-                    $discount = $request->discount_value;
-                    break;
-                case 'percentage':
-                    $discount = ($sub_total + $payment_fees) * $request->discount_value / 100;
-                    break;
+                'add_discount' => $request->add_discount,
+                'discount_type' => $request->discount_type,
+                'discount_value' => $request->discount_value,
+
+                'add_tax' => $request->add_tax,
+                'tax_name' => $request->tax_name,
+                'tax_value' => $request->tax_value,
+
+                'send_sms' => $request->send_sms,
+                'send_email' => $request->send_email,
+            ]);
+
+            foreach ($request->items as $item) {
+                BillItem::create([
+                    'bill_id' => $bill->id,
+                    'product_name' => $item['name'],
+                    'product_price' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'total' => $item['quantity']*$item['price'],
+                ]);
             }
-        } 
 
-        if($request->add_tax){
-           $vat = ($sub_total + $payment_fees - $discount) * $request->tax_value /100;
-        }
+            $sub_total = $bill->items->sum('total');
+            $discount = 0;
+            $vat = 0;
+            $payment_fees = 0;
 
-        $bill->payment_fees = $payment_fees;
-        $bill->discount = $discount;
-        $bill->vat = $vat;
-        $bill->number = $bill->getNumber();
-        $bill->sub_total = $sub_total;
-        $bill->total = $sub_total + $payment_fees - $discount + $vat;
-        $bill->save();
+            if($user->pay_fees == "client"){
+                $payment_fees = ($sub_total * ($user->credit_cards_percentage / 100)) + $user->credit_cards_fixed;
+            }
+
+            if($request->add_discount){
+                switch ($request->discount_type) {
+                    case 'fixed':
+                        $discount = $request->discount_value;
+                        break;
+                    case 'percentage':
+                        $discount = ($sub_total + $payment_fees) * $request->discount_value / 100;
+                        break;
+                }
+            } 
+
+            if($request->add_tax){
+               $vat = ($sub_total + $payment_fees - $discount) * $request->tax_value /100;
+            }
+
+            $bill->payment_fees = $payment_fees;
+            $bill->discount = $discount;
+            $bill->vat = $vat;
+            $bill->number = $bill->getNumber();
+            $bill->sub_total = $sub_total;
+            $bill->total = $sub_total + $payment_fees - $discount + $vat;
+            if($bill->total <= 0){
+                throw ValidationsException::withMessages(['total' => __('The total must be greater than 0')]);
+            }
+            $bill->save();
+            return $bill;
+        });
         
         event(new BillCreated($bill));
         return redirect()->route('bills.show', $bill);
