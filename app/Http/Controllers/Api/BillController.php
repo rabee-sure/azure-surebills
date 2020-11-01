@@ -146,7 +146,7 @@ class BillController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function wordpress(Request $request)
+    public function wordpress(BillApiRequest $request)
     {
         logger([$request->all()]);
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
