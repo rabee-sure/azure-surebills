@@ -11,6 +11,7 @@ use App\Http\Resources\BillResource;
 use App\Http\Resources\TransactionResource;
 use App\Http\Resources\TransferResource;
 use App\Http\Resources\UserResource;
+use App\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Hashids\Hashids;
@@ -62,16 +63,21 @@ class UserController extends Controller
         else
             $to = $to->copy()->endOfDay()->toDateTimeString();
         
-
-        $transactions = $user->transactions()
+        $billsids = $user->bills()
             ->when($request->from, function ($query) use($from, $to) {
                 return $query->whereBetween('created_at', [$from, $to]);
             })
             ->when($request->bills_not_settled, function ($query) use($request){
-                return $query->whereHas('bill', function ( $q) {
-                    $q->where('settled', false);
-                });
+                return $query->where('settled', false);
             })
+            ->paid()
+            ->orderBy('id', 'desc')
+            ->get()
+            ->pluck('id')
+            ->toArray();
+
+
+        $transactions = Transaction::whereIn('bill_id', $billsids)
             ->orderBy('created_at', 'ASC')
             ->orderBy('receipt', 'ASC')
             ->get();

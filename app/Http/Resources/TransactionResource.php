@@ -28,6 +28,7 @@ class TransactionResource extends JsonResource
             'card_brand' => $this->card_brand,
             'auth_id' => $this->auth_id,
             'receipt' => $this->receipt,
+            'hyperpay_id' => $this->bill->payment_logs[0]['results']['response']['id'],
 
 
             'created_at' => $this->created_at->format('d/m/Y H:i'),

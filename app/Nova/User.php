@@ -86,8 +86,8 @@ class User extends Resource
             })->readonly(),
 
             Text::make(__('Business Name'), 'business_name')->rules('required', 'max:255'),
-
-            Text::make(__('Name'), 'name')
+            new Panel(__('Bank Information'), $this->bankInformation()),
+            Text::make(__('Account Name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:255'),            
 
@@ -133,7 +133,6 @@ class User extends Resource
             new Panel(__('Pricing'), $this->pricingFields()),
 
             new Panel(__('Business Information'), $this->businessInformation()),
-            new Panel(__('Bank Information'), $this->bankInformation()),
             File::make(__('Business logo'), 'logo')->disk('public'),
             HasMany::make(__('Transfers'), 'transfers', Transfer::class),
             // HasMany::make('statement'),
@@ -294,4 +293,14 @@ class User extends Resource
         return false;
     }
 
+    /**
+     * authorized To Create.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return boolean
+     */
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
 }
