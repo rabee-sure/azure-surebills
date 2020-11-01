@@ -56,9 +56,9 @@
         </div>
 
         <div class="col-12">
-            <bills-paid-amount :user="{{auth()->user()}}"></bills-paid-amount>
-            <bills-paid-count :user="{{auth()->user()}}"></bills-paid-count>
-            <bills-count :user="{{auth()->user()}}"></bills-count>
+          <bills-paid-amount :user="{{auth()->user()}}"></bills-paid-amount>
+          <bills-paid-count :user="{{auth()->user()}}"></bills-paid-count>
+          <bills-count :user="{{auth()->user()}}"></bills-count>
         </div>
         
         <div class="col-xl-12 col-lg-12 mb-4">
