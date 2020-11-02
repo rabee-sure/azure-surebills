@@ -43,11 +43,12 @@ class BillResource extends JsonResource
             'vat' => $this->vat,
             'discount' => $this->discount,
             'total' => $this->total,
-            'paid_at' => $this->paid_at,
+            'paid_at' => $this->paid_at->format('d/m/Y H:i'),
             'canceled_at' => $this->canceled_at,
             'pay_url' => $this->pay_url,
             'payment_fees' => $this->payment_fees,
             'created_at' => $this->created_at->format('d/m/Y H:i'),
+            'hyperpay_id' => $this->payment_logs[0]['results']['response']['id'],
         ];
     }
 }

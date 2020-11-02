@@ -27,15 +27,19 @@ class TestController extends Controller
      */
     public function test(Request $request)
     {
-        $bill = Bill::find('2d47049c-dc24-49ea-8540-ed2822955054');
-        app()->setLocale('ar');
-            $message = __('Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url', [
-                'total' => round($bill->total, 2), 
-                'business_name' => $bill->user->business_name, 
-                'name' => $bill->customer_name, 
-                'url' => $bill->pay_url
-            ]);
-            dd( $message);
+        $user = User::find(789);
+        $bills = $user->bills->pluck('total')->toArray();
+        $bills_setteld = $user->bills()->settled()->pluck('total')->toArray();
+        $bills_not_settled = $user->bills()->not_settled()->pluck('total')->toArray();
+
+        dd([
+            'balance' => $user->balance,
+            'bills' => $bills,
+            'bills_sum' => array_sum($bills),
+            'bills_setteld' => $bills_setteld,
+            'bills_setteld_sum' => array_sum($bills_setteld),
+            'bills_setteld' => $not_settled,
+        ]);
     } 
 
 

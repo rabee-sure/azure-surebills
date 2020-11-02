@@ -60332,7 +60332,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60452,11 +60452,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -60468,13 +60463,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             billsModal: false,
             bills: [],
+            new_bills: [],
             billsTable: [{
                 title: this.__('Name'),
                 key: 'name',
                 width: 220
-            }, {
-                title: this.__('status'),
-                slot: 'status'
             }, {
                 title: this.__('Total'),
                 key: 'total'
@@ -60482,8 +60475,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 title: this.__('FEES'),
                 key: 'payment_fees'
             }, {
-                title: this.__('Created At'),
-                key: 'created_at',
+                title: this.__('Paid At'),
+                key: 'paid_at',
 
                 width: 150
             }, {
@@ -60592,7 +60585,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             this.bills = [];
+            this.new_bills = [];
             this.transactions = [];
+            this.new_transactions = [];
             this.form.amount = 0;
             if (date[0] != '') {
                 Nova.request().get('/users/' + this.$route.params.id + '/transactions', {
@@ -60631,6 +60626,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 }).then(function (response) {
                     _this2.bills = response.data.data;
+                    _this2.new_bills = _this2.bills.map(function (item) {
+                        return {
+                            'name': item.name,
+                            'total': item.total,
+                            'payment_fees': item.payment_fees,
+                            'paid_at': item.paid_at,
+                            'hyperpay_id': item.hyperpay_id
+                        };
+                    });
                 });
             }
         },
@@ -61360,54 +61364,34 @@ var render = function() {
           }
         },
         [
+          _vm.new_bills.length
+            ? _c(
+                "download-excel",
+                { attrs: { data: _vm.new_bills, name: "bills-" + Date.now() } },
+                [
+                  _c(
+                    "Button",
+                    {
+                      attrs: {
+                        size: _vm.buttonSize,
+                        icon: "ios-download-outline",
+                        type: "primary"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.__("Export")))]
+                  )
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c("Table", {
             attrs: {
               stripe: "",
               height: "400",
               columns: _vm.billsTable,
               data: _vm.bills
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "status",
-                fn: function(ref) {
-                  var row = ref.row
-                  return [
-                    row.status == "pending"
-                      ? _c(
-                          "Button",
-                          { attrs: { type: "info", size: "small" } },
-                          [_vm._v(_vm._s(_vm.__(row.status)))]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    row.status == "paid"
-                      ? _c(
-                          "Button",
-                          { attrs: { type: "success", size: "small" } },
-                          [_vm._v(_vm._s(_vm.__(row.status)))]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    row.status == "canceled"
-                      ? _c(
-                          "Button",
-                          { attrs: { type: "error", size: "small" } },
-                          [_vm._v(_vm._s(_vm.__(row.status)))]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    row.status == "expired"
-                      ? _c(
-                          "Button",
-                          { attrs: { type: "warning", size: "small" } },
-                          [_vm._v(_vm._s(_vm.__(row.status)))]
-                        )
-                      : _vm._e()
-                  ]
-                }
-              }
-            ])
+            }
           })
         ],
         1
