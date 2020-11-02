@@ -39,16 +39,17 @@
                       <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
                     </div>
                   </div>
+                  
                   <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label for="inputEmail1">{{ __('Business Name') }}</label>
-                      <input value="{{ $user->business_name }}" name="business_name" type="text" class="form-control" id="inputEmail1" placeholder="{{ __('Business Name') }}">
+                      <label for="business_name_en">{{ __('Business Name') }} (EN)</label>
+                      <input value="{{ $user->business_name_en }}" name="business_name_en" type="text" class="form-control" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)">
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="inputEmail2">{{ __('Sector') }}</label>
-                      <input value="{{ $user->sector }}" name="sector" type="text" class="form-control" id="inputEmail2" placeholder="{{ __('Sector') }}">
+                      <label for="business_name_ar">{{ __('Business Name') }} (AR)</label>
+                      <input value="{{ $user->business_name_ar }}" name="business_name_ar" type="text" class="form-control" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)">
                     </div>
-                  </div>                  
+                  </div>                 
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="business_address">{{ __('Address') }}</label>
@@ -59,11 +60,19 @@
                       <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}">
                     </div>
                   </div>
+
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="inputEmail3">{{ __('Website') }}</label>
                       <input value="{{ $user->website }}" name="website"  type="text" class="form-control" id="inputEmail3" placeholder="{{ __('Website') }}">
                     </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail2">{{ __('Sector') }}</label>
+                      <input value="{{ $user->sector }}" name="sector" type="text" class="form-control" id="inputEmail2" placeholder="{{ __('Sector') }}">
+                    </div>
+                  </div> 
+
+                  <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="inputEmail8">{{ __('Logo') }}</label>
                       <div class="custom-file">
@@ -73,7 +82,7 @@
                         <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
                       </div>
                     </div>
-                  </div> 
+                  </div>
 
                   <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
                   <p class="">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>

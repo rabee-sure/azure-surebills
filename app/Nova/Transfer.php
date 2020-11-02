@@ -95,7 +95,7 @@ class Transfer extends Resource
             Textarea::make(__('Note'), 'note'),
             File::make(__('Attachment'), 'attachment')->disk('public'),
 
-            Text::make('Date From To')->displayUsing(function(){
+            Text::make(__('Date From To'))->displayUsing(function(){
                 if(isset($this->filters['date'])){
                     $from = Carbon::parse($this->filters['date']['from'])->toDateTimeString();
                     $to = Carbon::parse($this->filters['date']['to'])->toDateTimeString();

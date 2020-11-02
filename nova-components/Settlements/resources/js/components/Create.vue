@@ -2,9 +2,7 @@
 <div>
     <Card :bordered="false">
         <p slot="title">{{ __('Create Transfer to') }} {{ user.name}}</p>
-
         <Form ref="form" :model="form" label-position="left" :label-width="150" :rules="ruleInline">
-
             <Row :gutter="10">
                 <Col span="22">
                     <FormItem :label="__('Date Range')" prop="date_range">
@@ -85,8 +83,8 @@
         </download-excel>
         <Table stripe height="400" :columns="transactionsTable" :data="transactions">
             <template slot-scope="{ row }" slot="type">
-                <Button type="success" v-if="row.type == 'credit'" size="small">{{ row.type }}</Button>
-                <Button type="error" v-if="row.type == 'debit'" size="small">{{ row.type }}</Button>
+                <Button type="success" v-if="row.type == 'credit'" size="small">{{ __(row.type) }}</Button>
+                <Button type="error" v-if="row.type == 'debit'" size="small">{{ __(row.type) }}</Button>
             </template>
         </Table>
     </Modal> 
@@ -97,13 +95,10 @@
         width="760"
         :ok-text="__('OK')"
         :cancel-text="__('Cancel')">
+        <download-excel v-if="new_bills.length" :data="new_bills" :name="'bills-'+ Date.now()">
+            <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
+        </download-excel>
         <Table stripe height="400" :columns="billsTable" :data="bills">
-            <template slot-scope="{ row }" slot="status">
-                <Button type="info" v-if="row.status == 'pending'" size="small">{{ row.status }}</Button>
-                <Button type="success" v-if="row.status == 'paid'" size="small">{{ row.status }}</Button>
-                <Button type="error" v-if="row.status == 'canceled'" size="small">{{ row.status }}</Button>
-                <Button type="warning" v-if="row.status == 'expired'" size="small">{{ row.status }}</Button>
-            </template>
         </Table>
     </Modal>
 </div>
@@ -121,15 +116,12 @@ export default {
         return {
             billsModal: false,
             bills: [],
+            new_bills: [],
             billsTable: [
                 {
                     title: this.__('Name'),
                     key: 'name',
                     width: 220,
-                },
-                {
-                    title: this.__('status'),
-                    slot: 'status'
                 },
                 {
                     title: this.__('Total'),
@@ -140,8 +132,8 @@ export default {
                     key: 'payment_fees'
                 },                
                 {
-                    title: this.__('Created At'),
-                    key: 'created_at',
+                    title: this.__('Paid At'),
+                    key: 'paid_at',
 
                     width: 150,
                 },{
@@ -266,7 +258,9 @@ export default {
         },        
         handleChangeDate (date) {
             this.bills = [];
+            this.new_bills = [];
             this.transactions = [];
+            this.new_transactions = [];
             this.form.amount = 0;
             if(date[0] != ''){
                 Nova.request().get('/users/'+this.$route.params.id+'/transactions', {
@@ -309,6 +303,15 @@ export default {
                 })
                 .then(response => {
                     this.bills = response.data.data;
+                    this.new_bills = this.bills.map((item) => {
+                        return {
+                            'name': item.name,
+                            'total': item.total,
+                            'payment_fees': item.payment_fees,
+                            'paid_at': item.paid_at,
+                            'hyperpay_id': item.hyperpay_id,
+                        }
+                    });
                 });
             }
         },
