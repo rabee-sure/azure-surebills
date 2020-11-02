@@ -125,16 +125,27 @@ export default {
                 },
                 {
                     title: this.__('Total'),
-                    key: 'total'
+                    key: 'total',
+                    width: 100,
                 },
                 {
                     title: this.__('FEES'),
-                    key: 'payment_fees'
+                    key: 'payment_fees',
+                    width: 100,
+                },                 
+                {
+                    title: this.__('Payment Fees Vat'),
+                    key: 'payment_fees_vat',
+                    width: 100,
+                },                  
+                {
+                    title: this.__('Net'),
+                    key: 'net',
+                    width: 100,
                 },                
                 {
                     title: this.__('Paid At'),
                     key: 'paid_at',
-
                     width: 150,
                 },{
                     title: this.__('A'),
@@ -308,6 +319,8 @@ export default {
                             'name': item.name,
                             'total': item.total,
                             'payment_fees': item.payment_fees,
+                            'payment_fees_vat': item.payment_fees_vat,
+                            'net': item.net,
                             'paid_at': item.paid_at,
                             'hyperpay_id': item.hyperpay_id,
                         }
