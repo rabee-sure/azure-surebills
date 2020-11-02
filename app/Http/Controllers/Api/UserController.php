@@ -41,7 +41,7 @@ class UserController extends Controller
         ]);
 
         $user                  = new User;
-        $user->business_name   = $request->business_name;
+        $user->business_name_en   = $request->business_name;
         $user->name            = $request->name;
         $user->email           = $request->email;
         $user->mobile          = $request->mobile;
