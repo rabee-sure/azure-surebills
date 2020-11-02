@@ -52,11 +52,11 @@
     <div class="show_bill_general invoice-contents">
       @if($bill->user->logo)
         <div class="logo_bill">
-          <img src="{{ url($bill->user->logo) }}" alt="{{ $bill->business_name}}">
+          <img src="{{ url($bill->user->logo) }}" alt="{{ $bill->user->business_name}}">
         </div><!-- logo_bill -->
       @endif
       <div class="title">
-        <span>{{ $bill->business_name}}</span>
+        <span>{{ $bill->user->business_name}}</span>
         
         @if(isset($bill->user->settings->header_bill))
           <p>{{ $bill->user->settings->header_bill }}</p>

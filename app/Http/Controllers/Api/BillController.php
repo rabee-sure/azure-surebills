@@ -328,12 +328,11 @@ class BillController extends Controller
         $bill = Bill::find($id);
 
         if(isset($application) && $application->id == $bill->application_id){
-            if($bill->status != 'expired'){
+            if($bill->status != 'expired' && $bill->status != 'paid'){
                 $bill->status = 'expired';
                 $bill->save();
                 event( new BillStatusUpdated($bill) );
             }
-
             return new BillResource($bill);
         }else{
             return response()->json(['success' => false]);

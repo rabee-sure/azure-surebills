@@ -11,6 +11,10 @@
 	"Create Transfer": "إضافة تحويل",
 	"The total must be greater than 0": "يجب ان تكون مبلغ الفاتورة اكبر من صفر",
 	"application_id or application_secret is not coreect": "Id التطبيق أو كلمة سر التطبيق غير صحيح",
+	"Method Type": "نوع البطاقة",
+	"Date From To": "التاريخ من إلى",
+
+	"Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url": "اهلا بك :name لقد تلقيت فاتورة جديدة من :business_name باجمالي :total ريال. ادفع الان :url",
 
 
 	"monthly": "شهري",
@@ -23,8 +27,8 @@
 	"Bank Documents": "وثائق البنك",
 
 	"Documents": "الوثائق",
-	"Disable Business Documents": "عدم الساماح برفع وثائق العمل",
-	"Disable Bank Documents": "عدم الساماح برفع وثائق البنك",
+	"Disable Business Documents": "عدم السماح برفع وثائق العمل",
+	"Disable Bank Documents": "عدم السماح برفع وثائق البنك",
 
 	"Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility": "حمل صورة بطاقة الايبان أو كشف حساب موضح فيه رقم الايبان وإسم المنشأة",
 	"Upload the required documents": "حمل الوثائق المطلوبة ",
