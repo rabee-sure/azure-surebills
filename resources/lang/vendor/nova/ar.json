@@ -1,8 +1,26 @@
 {
-
     "Balance" : "الرصيد",
+    "balance" : "الرصيد",
     "Main" : "الأساسية",
-
+    "pending" : "غير مدفوع",
+    "paid" : "مدفوع",
+    "expired" : "منتهي",
+    "canceled" : "ملغي",
+    "reference" : "مرجع",
+    "Users" : "المستخدمين",
+    "Reference" : "مرجع",
+    "Receipt" : "إيصال",
+    "Auth ID" : "معرف المصادقة",
+    "debit" : "مدين",
+    "credit" : "دائن",
+    "Debit" : "مدين",
+    "Credit" : "دائن",
+    "ID" : "رقم المرجع",
+    "Name On Card" : "اسم حامل البطاقة",
+    "Card Type" : "نوع البطاقة",
+    "Card Number" : "رقم البطاقة",
+    "Export" : "تصدير",
+    "Create Transfer" : "إنشاء تحويل",
 
     "Sunday" : "الأحد",
     "Monday" : "الاثنين",

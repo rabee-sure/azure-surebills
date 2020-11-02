@@ -27,18 +27,19 @@ class TestController extends Controller
      */
     public function test(Request $request)
     {
-        $bill = Bill::find('08774b43-fef5-4864-9fbf-2a3352ce646d');
-        $log = $bill->payment_logs->last();
-        dd($log->results['description']);
-        CallbackWebhook::dispatch($bill);
-        
-        return view('emails.auth.passwords.reset_password');
-        $bill = Bill::all()->random();
-        if($request->has('id')){
-            $bill = Bill::find($request->get('id'));
-        }
-        event( new BillStatusUpdated($bill) );
-        dd($bill);
+        $user = User::find(789);
+        $bills = $user->bills->pluck('total')->toArray();
+        $bills_setteld = $user->bills()->settled()->pluck('total')->toArray();
+        $bills_not_settled = $user->bills()->not_settled()->pluck('total')->toArray();
+
+        dd([
+            'balance' => $user->balance,
+            'bills' => $bills,
+            'bills_sum' => array_sum($bills),
+            'bills_setteld' => $bills_setteld,
+            'bills_setteld_sum' => array_sum($bills_setteld),
+            'bills_setteld' => $not_settled,
+        ]);
     } 
 
 
