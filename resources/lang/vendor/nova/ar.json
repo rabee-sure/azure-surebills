@@ -21,7 +21,9 @@
     "Card Number" : "رقم البطاقة",
     "Export" : "تصدير",
     "Create Transfer" : "إنشاء تحويل",
-
+    "Payment Fees Vat": "الضرايب",
+    "Net": "الصافي",
+    "Paid At": "دفع في",
     "Sunday" : "الأحد",
     "Monday" : "الاثنين",
     "Tuesday" : "الثلاثاء",
