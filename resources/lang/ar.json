@@ -8,6 +8,7 @@
 	"The number of bills paid": "عدد الفواتير المدفوعة",
 	"Total bills": "إجمالي الفواتير",
 	"The amount of the payments": "مبلغ المدفوعات",
+	"Create Transfer": "إضافة تحويل",
 	"The total must be greater than 0": "يجب ان تكون مبلغ الفاتورة اكبر من صفر",
 	"application_id or application_secret is not coreect": "Id التطبيق أو كلمة سر التطبيق غير صحيح",
 
