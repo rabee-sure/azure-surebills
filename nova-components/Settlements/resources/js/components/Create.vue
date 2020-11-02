@@ -85,8 +85,8 @@
         </download-excel>
         <Table stripe height="400" :columns="transactionsTable" :data="transactions">
             <template slot-scope="{ row }" slot="type">
-                <Button type="success" v-if="row.type == 'credit'" size="small">{{ row.type }}</Button>
-                <Button type="error" v-if="row.type == 'debit'" size="small">{{ row.type }}</Button>
+                <Button type="success" v-if="row.type == 'credit'" size="small">{{ __(row.type) }}</Button>
+                <Button type="error" v-if="row.type == 'debit'" size="small">{{ __(row.type) }}</Button>
             </template>
         </Table>
     </Modal> 
@@ -99,10 +99,10 @@
         :cancel-text="__('Cancel')">
         <Table stripe height="400" :columns="billsTable" :data="bills">
             <template slot-scope="{ row }" slot="status">
-                <Button type="info" v-if="row.status == 'pending'" size="small">{{ row.status }}</Button>
-                <Button type="success" v-if="row.status == 'paid'" size="small">{{ row.status }}</Button>
-                <Button type="error" v-if="row.status == 'canceled'" size="small">{{ row.status }}</Button>
-                <Button type="warning" v-if="row.status == 'expired'" size="small">{{ row.status }}</Button>
+                <Button type="info" v-if="row.status == 'pending'" size="small">{{ __(row.status) }}</Button>
+                <Button type="success" v-if="row.status == 'paid'" size="small">{{ __(row.status) }}</Button>
+                <Button type="error" v-if="row.status == 'canceled'" size="small">{{ __(row.status) }}</Button>
+                <Button type="warning" v-if="row.status == 'expired'" size="small">{{ __(row.status) }}</Button>
             </template>
         </Table>
     </Modal>
