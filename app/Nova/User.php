@@ -205,8 +205,8 @@ class User extends Resource
     {
         return [
             Select::make(__('License Type'), 'license_type')->options([
-                'Commercial Record' => 'Commercial Record',
-                'Freelance' => 'Freelance',
+                'Commercial Record' => __('Commercial Record'),
+                'Freelance' => __('Freelance'),
             ])->displayUsingLabels()->hideFromIndex(),
             Text::make(__('VAT Registration Number'), 'vat_registration_number')->hideFromIndex(),
             Text::make(__('Business Name'), 'business_name')->hideFromIndex(),
