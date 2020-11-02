@@ -27,6 +27,7 @@ class User extends Authenticatable implements HasMedia
 
         //business info
         'business_name', 
+        'business_name_ar',
         'sector',
         'website',
         'twitter',
@@ -112,12 +113,12 @@ class User extends Authenticatable implements HasMedia
     public function getIsCompleteProfileAttribute()
     {
         return (
-            isset($this->business_name)&&
+            isset($this->business_name_en)&&
             isset($this->business_address)&&
             isset($this->business_mobile)&&
 
-            isset($this->bank_id)&&
-            isset($this->iban_number)&&
+            isset($this->bank_id) &&
+            isset($this->iban_number) &&
             isset($this->beneficiary_name)
         );
     }    
@@ -153,6 +154,17 @@ class User extends Authenticatable implements HasMedia
     {
         $hash = md5(strtolower(trim($this->attributes['email'])));
         return "https://www.gravatar.com/avatar/$hash";
+    }
+
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getBusinessNameAttribute()
+    {
+        return (isset($this->business_name_ar) && app()->getLocale() == 'ar')?$this->business_name_ar : $this->business_name_en;
     }
 
 

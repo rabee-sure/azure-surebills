@@ -13,6 +13,8 @@
 	"Method Type": "نوع البطاقة",
 	"Date From To": "التاريخ من إلى",
 
+	"Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url": "اهلا بك :name لقد تلقيت فاتورة جديدة من :business_name باجمالي :total ريال. ادفع الان :url",
+
 
 	"monthly": "شهري",
 	"weekly": "اسبوعي",

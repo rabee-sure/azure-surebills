@@ -221,7 +221,7 @@
           </div><!-- logo -->
         @endif
         <div class="block_1">
-          <span> {{ $bill->business_name}}</span>
+          <span> {{ $bill->user->business_name}}</span>
 
           @if(isset($bill->user->settings->header_bill))
             <p>{{ $bill->user->settings->header_bill }}</p>

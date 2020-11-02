@@ -67,7 +67,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email', 'mobile', 'business_name'
+        'id', 'name', 'email', 'mobile', 'business_name_en', 'business_name_ar'
     ];
 
     /**
@@ -85,7 +85,7 @@ class User extends Resource
                 return $this->round_balance;
             })->readonly(),
 
-            Text::make(__('Business Name'), 'business_name')->rules('required', 'max:255'),
+            Text::make(__('Business Name'), 'business_name_en')->rules('required', 'max:255'),
             new Panel(__('Bank Information'), $this->bankInformation()),
             Text::make(__('Account Name'), 'name')
                 ->sortable()
@@ -209,7 +209,8 @@ class User extends Resource
                 'Freelance' => __('Freelance'),
             ])->displayUsingLabels()->hideFromIndex(),
             Text::make(__('VAT Registration Number'), 'vat_registration_number')->hideFromIndex(),
-            Text::make(__('Business Name'), 'business_name')->hideFromIndex(),
+            Text::make(__('Business Name').' en', 'business_name_en')->hideFromIndex(),
+            Text::make(__('Business Name').' ar', 'business_name_ar')->hideFromIndex(),
             Text::make(__('Sector'), 'sector')->hideFromIndex(),
             Textarea::make(__('Business Address'), 'business_address')->hideFromIndex(),
             Text::make(__('Mobile'), 'mobile')->hideFromIndex(),

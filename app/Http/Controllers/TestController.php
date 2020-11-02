@@ -27,18 +27,15 @@ class TestController extends Controller
      */
     public function test(Request $request)
     {
-        $bill = Bill::find('08774b43-fef5-4864-9fbf-2a3352ce646d');
-        $log = $bill->payment_logs->last();
-        dd($log->results['description']);
-        CallbackWebhook::dispatch($bill);
-        
-        return view('emails.auth.passwords.reset_password');
-        $bill = Bill::all()->random();
-        if($request->has('id')){
-            $bill = Bill::find($request->get('id'));
-        }
-        event( new BillStatusUpdated($bill) );
-        dd($bill);
+        $bill = Bill::find('2d47049c-dc24-49ea-8540-ed2822955054');
+        app()->setLocale('ar');
+            $message = __('Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url', [
+                'total' => round($bill->total, 2), 
+                'business_name' => $bill->user->business_name, 
+                'name' => $bill->customer_name, 
+                'url' => $bill->pay_url
+            ]);
+            dd( $message);
     } 
 
 
