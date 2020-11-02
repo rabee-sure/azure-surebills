@@ -10,6 +10,7 @@
 	"The amount of the payments": "مبلغ المدفوعات",
 	"The total must be greater than 0": "يجب ان تكون مبلغ الفاتورة اكبر من صفر",
 	"application_id or application_secret is not coreect": "Id التطبيق أو كلمة سر التطبيق غير صحيح",
+	"Method Type": "نوع البطاقة",
 
 
 	"monthly": "شهري",
