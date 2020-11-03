@@ -139,7 +139,7 @@ class AccountController extends Controller
         
         auth()->user()->update([
             'license_type' => $request->get('license_type'),
-            'business_name' => $request->get('business_name'),
+            'business_name_en' => $request->get('business_name_en'),
             'business_name_ar' => $request->get('business_name_ar'),
             'sector' => $request->get('sector'),
             'website' => $request->get('website'),

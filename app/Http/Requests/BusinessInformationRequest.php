@@ -25,7 +25,8 @@ class BusinessInformationRequest extends FormRequest
     {
         return [
             'license_type' => ['required'],
-            'business_name' => ['required'],
+            'business_name_en' => ['required'],
+            'business_name_ar' => ['required'],
             'sector' => ['nullable'],
             'website' => ['nullable'],
             'twitter' => ['nullable'],
@@ -52,7 +53,8 @@ class BusinessInformationRequest extends FormRequest
     {
         return [
           'license_type.required' => __('license type required'),
-          'business_name.required' => __('business name required'),
+          'business_name_en.required' => __('business name required'),
+          'business_name_ar.required' => __('business name required'),
           'business_address.required' => __('business address required'),
           'business_mobile.required' => __('business mobile required'),
           'logo.required_without' => __('Logo required'),
