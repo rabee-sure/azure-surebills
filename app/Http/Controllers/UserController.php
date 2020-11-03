@@ -111,7 +111,7 @@ class UserController extends Controller
                 return $query->where('settled', false);
             })
             ->paid()
-            ->orderBy('id', 'desc')
+            ->orderBy('paid_at', 'asc')
             ->get();
 
         return BillResource::collection($bills);

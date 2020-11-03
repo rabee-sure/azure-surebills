@@ -187,9 +187,10 @@ class BillController extends Controller
             abort(404);
         }
 
-        if($bill->is_expired && $bill->status != 'paid'){
+        if($bill->is_expired && $bill->status != 'paid' && $bill->status != 'canceled'){
             $bill->status = 'expired';
             $bill->save();
+            event( new BillStatusUpdated($bill) );
         }
 
         if($bill->is_invalid){
@@ -300,6 +301,7 @@ class BillController extends Controller
     {
         //
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -309,10 +311,13 @@ class BillController extends Controller
     public function cancel($id)
     {
         $bill = Bill::find($id);
-        $bill->status = 'canceled';
-        $bill->canceled_at = Carbon::now();
-        $bill->save();
-        event( new BillStatusUpdated($bill) );
+
+        if($bill->status != 'paid'){    
+            $bill->status = 'canceled';
+            $bill->canceled_at = Carbon::now();
+            $bill->save();
+            event( new BillStatusUpdated($bill) );
+        }
 
         return redirect()->back();
     }
