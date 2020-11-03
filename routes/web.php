@@ -19,7 +19,7 @@ Route::get('test', 'TestController@test');
 
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
-Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () { 
+Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
     Route::get('/clients', [
         'uses' => 'ClientController@forUser',
         'as' => 'passport.clients.index',
@@ -123,3 +123,9 @@ Route::get('users/{user}', 'UserController@show')->name('users.show');
 
 Route::get('test_upload', 'AccountController@test_upload')->name('test_upload');
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
+
+Route::get('pay-master', function(){
+
+    return view('pay-master');
+
+});

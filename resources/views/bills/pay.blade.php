@@ -7,7 +7,6 @@
 
 <div class="single_bill_page">
   <div class="container" >
-
     <div class="row  justify-content-center">
       <div class="col-12 col-md-8 col-lg-6 col-xl-6">
         <div class="single_bill_content">
@@ -52,7 +51,7 @@
           @if($errors->any())
             <div class="alert alert-danger" role="alert">
               {{ __($errors->first()) }}
-            </div>            
+            </div>
           @endif
             <div class="date_time">
               <span>
@@ -105,7 +104,7 @@
               @if(isset($bill->user->settings->footer_bill))
                 <p>{{ $bill->user->settings->footer_bill }}</p>
               @endif
-              
+
             </div><!-- customer_information -->
             @if(!$bill->is_expired)
                 <div id="payment_method" class="payment_method">
@@ -119,6 +118,20 @@
                     <div class="checkmark"></div>
                     </label>
                 </div><!-- item -->
+
+                {{-- mastercard --}}
+                <div class="item">
+                    <input type="radio" id="mastercard_pay" name="payment_method" value="mastercard_iframe">
+                    <label for="mastercard_pay">
+                    <p>Mastercard</p>
+                    <div class="icon_mada"></div>
+                    <div class="checkmark"></div>
+                    </label>
+                </div><!-- item -->
+                {{-- mastercard --}}
+
+
+
                 <div id="applepay_show" class="item">
                     <input type="radio" id="apple_pay" name="payment_method" value="hyperpay_applepay">
                     <label for="apple_pay">
@@ -138,7 +151,7 @@
               </div><!-- bill_payment -->
                 </div><!-- payment_method -->
             @endif
-            
+
             @if($bill->application)
               <div id="back_btn" class="text-center">
                 <a href="{{ $bill->back_url}}" class="btn btn-light">{{__('Back')}}
@@ -176,7 +189,36 @@
 @push('footer-scripts')
   <script src="{{ asset('js/jquery.countdownTimer.min.js') }}"></script>
 <script src="https://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+
+{{-- <script src="https://test-gateway.mastercard.com/form/version/51/merchant/TEST3000000330/session.js"></script> --}}
+<script src="https://cibpaynow.gateway.mastercard.com/form/version/57/merchant/TEST3000000330/session.js"></script>
+
+{{-- <script src="https://cibpaynow.gateway.mastercard.com/checkout/version/51/checkout.js" --}}
+        {{-- data-complete="completeCallback"></script> --}}
+<script src="{{config('payment.drivers.mastercard_iframe.api_base_url')}}"
+        data-error="errorCallback"
+        data-cancel="cancelCallback"
+        {{-- data-complete="completeCallback" --}}
+        ></script>
+
 <script type='text/javascript'>
+
+function beforeRedirect ()
+{
+    console.log('ss');
+}
+function errorCallback(error) {console.log(JSON.stringify(error));}
+  function cancelCallback() {console.log("Payment cancelled");}
+  function completeCallback(resultIndicator, sessionVersion) {
+      console.log('session: '+ resultIndicator);
+      console.log('session: '+ sessionVersion);
+    }
+    // PaymentSession.configure({
+
+    // formSessionUpdate: function(response) {
+    //     console.log("Session updated with data: " + response.session.id);
+    // }});
+
 var BrowserDetect = {
 init: function () {
     this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
@@ -315,10 +357,85 @@ if (BrowserDetect.browser == 'Safari') {
             $.ajax({
                 type: 'GET', //THIS NEEDS TO BE GET
                 url: '/bills/payment_iframe/{{$bill->id}}/' + method+'/{{app()->getLocale()}}',
+
                 success: function (data) {
-                     $("#iframe_pay").html(data);
+                    $("#iframe_pay").html(data);
                 },
-                error: function() { 
+                complete:function(){
+                    if(method == 'mastercard_iframe')
+                    {
+                        // Checkout.showPaymentPage();
+                        Checkout.showLightbox();
+
+
+
+                        PaymentSession.configure({
+    fields: {
+        // ATTACH HOSTED FIELDS TO YOUR PAYMENT PAGE FOR A CREDIT CARD
+        card: {
+            number: "#card-number",
+            securityCode: "#security-code",
+            expiryMonth: "#expiry-month",
+            expiryYear: "#expiry-year",
+            nameOnCard: "#cardholder-name"
+        }
+    },
+    //SPECIFY YOUR MITIGATION OPTION HERE
+    frameEmbeddingMitigation: ["javascript"],
+    callbacks: {
+        initialized: function(response) {
+            // HANDLE INITIALIZATION RESPONSE
+        },
+        formSessionUpdate: function(response) {
+            // HANDLE RESPONSE FOR UPDATE SESSION
+            if (response.status) {
+                if ("ok" == response.status) {
+                    console.log("Session updated with data: " + response.session.id);
+
+                    //check if the security code was provided by the user
+                    if (response.sourceOfFunds.provided.card.securityCode) {
+                        console.log("Security code was provided.");
+                    }
+
+                    //check if the user entered a Mastercard credit card
+                    if (response.sourceOfFunds.provided.card.scheme == 'MASTERCARD') {
+                        console.log("The user entered a Mastercard credit card.")
+                    }
+                } else if ("fields_in_error" == response.status)  {
+
+                    console.log("Session update failed with field errors.");
+                    if (response.errors.cardNumber) {
+                        console.log("Card number invalid or missing.");
+                    }
+                    if (response.errors.expiryYear) {
+                        console.log("Expiry year invalid or missing.");
+                    }
+                    if (response.errors.expiryMonth) {
+                        console.log("Expiry month invalid or missing.");
+                    }
+                    if (response.errors.securityCode) {
+                        console.log("Security code invalid.");
+                    }
+                } else if ("request_timeout" == response.status)  {
+                    console.log("Session update failed with request timeout: " + response.errors.message);
+                } else if ("system_error" == response.status)  {
+                    console.log("Session update failed with system error: " + response.errors.message);
+                }
+            } else {
+                console.log("Session update failed: " + response);
+            }
+        }
+    },
+    interaction: {
+        displayControl: {
+            formatCard: "EMBOSSED",
+            invalidFieldCharacters: "REJECT"
+        }
+    }
+ });
+                    }
+                },
+                error: function() {
                      console.log(data);
                 }
             });
@@ -326,7 +443,9 @@ if (BrowserDetect.browser == 'Safari') {
       });
   });
 
-/* if ( {{$bill->is_expired}} ) {
+
+
+    /* if ( {{$bill->is_expired}} ) {
   $("#countdown").remove();
   $("#payment_method").remove();
   $("#back_btn").remove();
@@ -376,7 +495,7 @@ $(function(){
             $("#back_btn").remove();
             $("#status").empty();
             $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
-            break;          
+            break;
           case "expired":
             $("#new_countdown").remove();
             $("#payment_method").remove();

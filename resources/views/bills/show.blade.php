@@ -57,7 +57,7 @@
       @endif
       <div class="title">
         <span>{{ $bill->user->business_name}}</span>
-        
+
         @if(isset($bill->user->settings->header_bill))
           <p>{{ $bill->user->settings->header_bill }}</p>
         @endif
@@ -130,12 +130,12 @@
         <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
         <p class="ltr">+966{{ $bill->customer_mobile}}</p>
         <p>{{ $bill->customer_email}}</p>
-                
+
         @if(isset($bill->user->settings->footer_bill))
           <p>{{ $bill->user->settings->footer_bill }}</p>
         @endif
       </div><!-- customer_information -->
-    </div><!-- show_bill_general -->  
+    </div><!-- show_bill_general -->
     <a href="/" title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
   @if(count($bill->payment_logs) > 0)
@@ -272,7 +272,7 @@
 
 
     $(document).on("click", '.copyButton', function() {
-       $(this).siblings('input.linkToCopy').select();      
+       $(this).siblings('input.linkToCopy').select();
         document.execCommand("copy");
     });
 
@@ -292,7 +292,7 @@
               $("#cancel_btn").remove();
               $("#status").empty();
               $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
-              break;          
+              break;
             case "expired":
               $("#cancel_btn").remove();
               $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');

@@ -40,6 +40,11 @@ return [
             'entity_id'    => env('HYPERPAY_APPLEPAY_ENTITY_ID', '8ac9a4cb6cfb27dc016d3422a55644f7'),
             'api_base_url' => env('HYPERPAY_APPLEPAY_BASE_URL', 'https://test.oppwa.com/v1'),
         ],
+        'mastercard_iframe' => [
+            /* normal api */
+            'merchant_id' => env('MASTERCARD_MERCHANT_ID','TEST3000000330'),
+            'api_base_url' => env('MASTERCARD_BASE_URL','https://test-gateway.mastercard.com/checkout/version/51/checkout.js'),
+        ],
     ],
 
     /*
@@ -58,5 +63,6 @@ return [
         'hyperpay' => \App\Payment\Drivers\HyperPay::class,
         'hyperpay_iframe' => \App\Payment\Drivers\HyperPayFrame::class,
         'hyperpay_applepay' => \App\Payment\Drivers\HyperPayApplePay::class,
+        'mastercard_iframe' => \App\Payment\Drivers\MasterCardFrame::class,
     ]
 ];
