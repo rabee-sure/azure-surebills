@@ -51,7 +51,7 @@ class BillRequest extends FormRequest
             'send_sms' => ['nullable'],
             'send_email' => ['nullable'],
 
-            'items.*.name' => 'required',
+            'items.*.name' => 'required|string|max:255',
             'items.*.price' => 'required|numeric',
             'items.*.quantity' => 'required|numeric',
         ];
