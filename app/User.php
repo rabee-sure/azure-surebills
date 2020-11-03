@@ -26,7 +26,7 @@ class User extends Authenticatable implements HasMedia
         'name', 'email', 'password', 'mobile', 'mobile_sent_at', 'mobile_active_code', 'gender',
 
         //business info
-        'business_name', 
+        'business_name_en', 
         'business_name_ar',
         'sector',
         'website',

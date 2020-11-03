@@ -52,7 +52,7 @@ class SurepayGenerate extends Command
          $user = User::updateOrCreate([
             'email'    => $email,
         ],[
-            'business_name' => 'surepay',
+            'business_name_en' => 'surepay',
             'name'     => 'sure easy admin',
             'mobile'   => '500000000',
             'password' => Hash::make($password),
