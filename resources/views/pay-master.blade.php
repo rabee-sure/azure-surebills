@@ -1,12 +1,17 @@
+@php
+use GuzzleHttp\Client;
+$client = new Client();
+$response = $client->post(config('payment.drivers.mastercard_iframe.api_base_url').'/session',[
+    'json' => ['session' => ['authenticationLimit' => 25]],
+    'auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]
+]);
+$body = json_decode($response->getBody()->getContents(), false);
+@endphp
 <html>
 <head>
 <!-- INCLUDE SESSION.JS JAVASCRIPT LIBRARY -->
-<script src="https://cibpaynow.gateway.mastercard.com/form/version/57/merchant/TEST3000000330/session.js"></script>
-<script src="{{config('payment.drivers.mastercard_iframe.api_base_url')}}"
-        data-error="errorCallback"
-        data-cancel="cancelCallback"
-        data-complete="completeCallback"
-        ></script>
+<script src="https://test-gateway.mastercard.com/form/version/51/merchant/TEST3000000330/session.js"></script>
+
 <!-- APPLY CLICK-JACKING STYLING AND HIDE CONTENTS OF THE PAGE -->
 <style id="antiClickjack">body{display:none !important;}</style>
 </head>
@@ -14,16 +19,52 @@
 
 <!-- CREATE THE HTML FOR THE PAYMENT PAGE -->
 
-<div>Please enter your payment details {{config('payment.drivers.mastercard_iframe.api_base_url')}}:</div>
+<div>Please enter your payment details:</div>
 <h3>Credit Card</h3>
-<div>Card Number: <input type="text" id="card-number" class="input-field" title="card number" aria-label="enter your card number" value="" tabindex="1" readonly></div>
-<div>Expiry Month:<input type="text" id="expiry-month" class="input-field" title="expiry month" aria-label="two digit expiry month" value="" tabindex="2" readonly></div>
-<div>Expiry Year:<input type="text" id="expiry-year" class="input-field" title="expiry year" aria-label="two digit expiry year" value="" tabindex="3" readonly></div>
-<div>Security Code:<input type="text" id="security-code" class="input-field" title="security code" aria-label="three digit CCV security code" value="" tabindex="4" readonly></div>
-<div>Cardholder Name:<input type="text" id="cardholder-name" class="input-field" title="cardholder name" aria-label="enter name on card" value="" tabindex="5" readonly></div>
+<div>Card Number: <input type="text" id="card-number" class="input-field" title="card number" aria-label="enter your card number" value="" tabindex="1" ></div>
+<div>Expiry Month:<input type="text" id="expiry-month" class="input-field" title="expiry month" aria-label="two digit expiry month" value="" tabindex="2" ></div>
+<div>Expiry Year:<input type="text" id="expiry-year" class="input-field" title="expiry year" aria-label="two digit expiry year" value="" tabindex="3" ></div>
+<div>Security Code:<input type="text" id="security-code" class="input-field" title="security code" aria-label="three digit CCV security code" value="" tabindex="4"></div>
+<div>Cardholder Name:<input type="text" id="cardholder-name" class="input-field" title="cardholder name" aria-label="enter name on card" value="" tabindex="5"></div>
 <div><button id="payButton" onclick="pay('card');">Pay Now</button></div>
-<!-- JAVASCRIPT FRAME-BREAKER CODE TO PROVIDE PROTECTION AGAINST IFRAME CLICK-JACKING -->
 
+<h3>Gift Card</h3>
+<div>Card Number: <input type="text" id="gift-card-number" class="input-field" value="" readonly></div>
+<div>Pin:<input type="text" id="gift-card-pin" class="input-field" value="" readonly></div>
+
+<div><button id="payButton" onclick="pay('giftCard');">Pay With Gift Card</button></div>
+
+<h3>Automated Clearing House</h3>
+  <div>
+  <label class="control-label" id="ach-account-type-label">Account Type:</label>
+  <select class="form-control col-sm-6" name="ach-account-type" id="ach-account-type">
+  <option value="CONSUMER_SAVINGS">Consumer Savings Account</option>
+  <option value="CONSUMER_CHECKING" selected>Consumer Checking Account</option>
+  <option value="CORPORATE_CHECKING">Business Checking Account</option>
+ </select>
+    </div>
+
+<div>Bank Account Holder:<input type="text" id="ach-account-holder" class="input-field" value="" readonly></div>
+<div>Bank Account Number:<input type="text" id="ach-account-number" class="input-field" value="" readonly></div>
+<div>Routing Number:<input type="text" id="ach-routing-number" class="input-field" value="" readonly></div>
+
+<div><button id="payButton" onclick="pay('ach');">Pay With ACH</button></div>
+<hr>
+
+
+<!-- DISPLAY VISA CHECKOUT AND AMEX EXPRESS CHECKOUT AS A PAYMENT OPTION ON YOUR PAYMENT PAGE -->
+
+<!-- REPLACE THE action URL with the payment URL on your webserver -->
+<form name="myform" method="POST" action="https://my.company.com/pay">
+<!-- Other fields can be added to enable you to collect additional data on the payment page -->
+Email: <input type="text" name="email">
+<!-- The hidden values below can be set in the callback function as they are returned when creating the session -->
+<input type="hidden" name="sessionId" id="sessionId">
+<img id="visaCheckoutButton" alt="Visa Checkout" role="button" class="v-button" style="display: none;" src="https://sandbox.www.v.me/wallet-services-web/xo/button.png"/>
+<div id="amex-express-checkout"></div>
+</form>
+
+<!-- JAVASCRIPT FRAME-BREAKER CODE TO PROVIDE PROTECTION AGAINST IFRAME CLICK-JACKING -->
 <script type="text/javascript">
 if (self === top) {
     var antiClickjack = document.getElementById("antiClickjack");
@@ -31,13 +72,9 @@ if (self === top) {
 } else {
     top.location = self.location;
 }
-Checkout.showLightbox();
-function completeCallback(resultIndicator, sessionVersion) {
-      console.log('session: '+ resultIndicator);
-      console.log('session: '+ sessionVersion);
-    }
 
 PaymentSession.configure({
+    session: "{{$body->session->id}}",
     fields: {
         // Attach hosted fields to your payment page
             card: {
@@ -136,7 +173,7 @@ PaymentSession.configure({
     },
     order: {
         amount: 10.00,
-        currency: "SAR"
+        currency: "AUD"
     },
     wallets: {
         visaCheckout: {

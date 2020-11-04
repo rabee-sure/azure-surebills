@@ -60,77 +60,29 @@ class MasterCardFrame extends Driver
     public function generateIframe()
     {
         $details = $this->invoice->getDetails();
+        $resultUrl = route('bills.handle', ['hash' => $details['hash']]);
+
+        $client = new Client();
+        $response = $client->post(config('payment.drivers.mastercard_iframe.api_base_url').'/session',[
+            'json' => ['session' => ['authenticationLimit' => 25]],
+            'auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]
+        ]);
+        $body = json_decode($response->getBody()->getContents(), false);
+
         $script = '<script>';
         $script .= 'Checkout.configure({';
+        $script .= 'session: {id: "'.$body->session->id.'"},';
         $script .= 'merchant: "'.$this->settings->merchant_id.'",';
         $script .= 'order: {amount: function() {return '.$details['bill']['total'].';},';
         $script .= 'currency: "SAR",';
-        $script .= 'description: "Invoice number: '.$details['bill']['number'].'",';
-        $script .= 'id: "'.rand(1,900).$details['bill']['id'].'"},';
+        $script .= 'description: "Invoice number: '.$details['bill']['number'].'", reference:"'.$details['bill']['id'].'"},';
         $script .= 'interaction: {merchant: {name: "'.$details['bill']['business_name'].'"}}';
         $script .= '});';
-        $script .= '</script>';
+        // $script .= 'PaymentSession.onChange(["card.number","card.securityCode"], function(selector) {console.log("here")});';
+        $script .= 'Checkout.showLightbox(); </script>';
+        $script .= '<form action="'.$resultUrl.'" method="GET" class="mastercardPaymentWidgets" data-brands="VISA MASTER MADA">';
+        $script .= '<input type="hidden" name="sessionId" value="'.$body->session->id.'" /></form>';
         return $script;
-
-
-
-
-
-
-
-
-
-        // $url  = $this->settings->api_base_url . '/checkouts';
-        // $data = "entityId=".$this->settings->entity_id .
-        //         "&amount=".$this->invoice->getAmount().
-        //         "&currency=SAR" .
-        //         "&merchantTransactionId=" . $details['surebills_payment_log_id'] .
-        //         "&customer.email=" . $details['bill']['customer_email'] .
-        //         "&paymentType=DB";
-
-        // $ch = curl_init();
-        // curl_setopt($ch, CURLOPT_URL, $url);
-        // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        //                'Authorization:Bearer '.$this->settings->access_token));
-        // curl_setopt($ch, CURLOPT_POST, 1);
-        // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, app()->environment('production') ? true : false);// this should be set to true in production
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // $responseData = curl_exec($ch);
-
-        // if(curl_errno($ch)) {
-        //     Log::emergency($url . ' - ' . $this->settings->access_token . ' - ' . $data);
-        //     throw new PurchaseFailedException('error in Purchase: ' . $responseData);
-        // }
-        // curl_close($ch);
-
-        // $response = json_decode($responseData, false);
-
-        // $resultUrl = route('bills.handle', ['hash' => $details['hash']]);
-
-        // return  '<script>
-        //             var wpwlOptions = {
-        //                 locale: "'.$details['locale'].'",
-        //                 style: "plain",
-        //                 showCVVHint: true,
-        //                 brandDetection: true,
-        //                 onReady: function(){
-        //                     $(".wpwl-group-cardNumber").after($(".wpwl-group-brand").detach());
-        //                     $(".wpwl-group-cvv").after( $(".wpwl-group-cardHolder").detach());
-        //                     var visa = $(".wpwl-brand:first").clone().removeAttr("class").attr("class", "wpwl-brand-card wpwl-brand-custom wpwl-brand-VISA")
-        //                     var master = $(visa).clone().removeClass("wpwl-brand-VISA").addClass("wpwl-brand-MASTER");
-        //                     $(".wpwl-brand:first").after( $(master)).after( $(visa));
-        //                 },
-        //                 onChangeBrand: function(e){
-        //                     $(".wpwl-brand-custom").css("opacity", "0.3");
-        //                     $(".wpwl-brand-" + e).css("opacity", "1");
-        //                 }
-        //             }
-        //         </script>
-
-        //         <script src="'.$this->settings->api_base_url.'/paymentWidgets.js?checkoutId='.$response->id.'"></script>
-
-        //         <form action="'.$resultUrl.'" method="POST" class="paymentWidgets" data-brands="VISA MASTER MADA"></form>';
     }
 
     /**
@@ -143,40 +95,37 @@ class MasterCardFrame extends Driver
     public function paymentStatus()
     {
         $details = $this->invoice->getDetails();
+        $client = new Client();
 
-        $url  = $this->settings->api_base_url . '/checkouts/' . $details['payment_id'] . '/payment';
-        $url .= "?entityId=".$this->settings->entity_id;
+        $sessionResponse = $client->get(config('payment.drivers.mastercard_iframe.api_base_url').'/session/'.request()->sessionId,
+                                    ['auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]]);
+        $sessionBody = json_decode($sessionResponse->getBody()->getContents(), false);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                       'Authorization:Bearer '.$this->settings->access_token));
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, app()->environment('production') ? true : false);// this should be set to true in production
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $responseData = curl_exec($ch);
+        $orderResponse = $client->get(config('payment.drivers.mastercard_iframe.api_base_url').'/order/'.$sessionBody->order->id,
+                                    ['auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]]);
+        $orderBody = json_decode($orderResponse->getBody()->getContents(), false);
 
-        if(curl_errno($ch)) {
-            Log::emergency($url . ' - ' . $this->settings->access_token);
-            throw new PurchaseFailedException('error in Purchase');
-        }
-        curl_close($ch);
+        $orderResponseJson['id'] = $orderBody->id;
+        $orderResponseJson['card']['bin'] = '';
+        $orderResponseJson['card']['holder'] = $orderBody->sourceOfFunds->provided->card->nameOnCard;
+        $orderResponseJson['card']['binCountry'] = '';
+        $orderResponseJson['card']['expiryYear'] = $orderBody->sourceOfFunds->provided->card->expiry->year;
+        $orderResponseJson['card']['expiryMonth'] = $orderBody->sourceOfFunds->provided->card->expiry->month;
+        $orderResponseJson['card']['last4Digits'] = substr($orderBody->sourceOfFunds->provided->card->number, -4);
+        $orderResponseJson['result']['code'] = $orderBody->transaction[0]->response->acquirerCode;
+        $orderResponseJson['result']['description'] = $orderBody->transaction[0]->result;
+        $orderResponseJson['paymentType'] = '';
+        $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
+        $orderResponseJson['merchantTransactionId'] = $details['bill']['id'];
 
-        $response = json_decode($responseData, false);
+        $this->invoice->detail(['result_code' => $orderResponseJson['result']['code']])
+            ->detail(['success' => $orderResponseJson['result']['code'] == 00? 1:0])
+            ->detail(['response' => $orderResponseJson])
+            ->detail(['description' => $orderResponseJson['result']['description']])
+            ->detail(['gateway' => 'mastercard'])
+            ->detail(['gateway_response' => $orderBody]);
+        $this->invoice->transactionId(request()->sessionId ?? "not have id");
 
-
-        // check if success
-        $successPattern = '/(000\.000\.|000\.100\.1|000\.[36])/';
-        $success = preg_match($successPattern, $response->result->code);
-
-        // update invoice status
-        $this->invoice->detail(['result_code' => $response->result->code])
-            ->detail(['success' => $success])
-            ->detail(['response' => json_decode($responseData, true)])
-            ->detail(['description' => $response->result->description])
-            ->detail(['gateway' => 'hyperpay'])
-            ->detail(['gateway_response' => $response]);
-        $this->invoice->transactionId($response->id ?? "not have id");
     }
 
     /**
