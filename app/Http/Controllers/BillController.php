@@ -275,7 +275,7 @@ class BillController extends Controller
             
             $bill->setPaid();
 
-            if($bill->application){
+            if($bill->application && $bill->is_redirect){
                 return redirect($bill->redirect_url);
             }
             return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
