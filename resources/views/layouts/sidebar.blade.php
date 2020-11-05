@@ -51,12 +51,12 @@
             {{ __('My Account') }}
           </a>
         </li>
-        <li class="{{ Request::is('pricing*') ? 'active' : '' }}">
+        {{-- <li class="{{ Request::is('pricing*') ? 'active' : '' }}">
           <a href="{{ route('pricing') }}" title="{{ __('Pricing') }}">
             <i class="iconsminds-tag-3"></i>
             {{ __('Pricing') }}
           </a>
-        </li> 
+        </li>  --}}
         <li class="{{ Request::is('integration*') ? 'active' : '' }}">
           <a href="{{ route('integration') }}" title="{{ __('Integration') }}">
             <i class="iconsminds-gears"></i>
