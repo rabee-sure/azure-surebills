@@ -203,12 +203,10 @@
     function beforeRedirect() {console.log('beforeRedirect')}
     function afterRedirect() {console.log('afterRedirect')}
     function timeoutCallback() {console.log('timeout')}
-    function errorCallback(error) {console.log('error');}
-    function cancelCallback() {console.log("Payment cancelled");}
+    function errorCallback(error) {console.log(JSON.stringify(error));}
+    function cancelCallback() {console.log("Payment cancelled"); $('#mastercard_pay').prop('checked', false);}
     function completeCallback(resultIndicator, sessionVersion)
     {
-        console.log('session: '+ resultIndicator);
-        console.log('session: '+ sessionVersion);
         $(".mastercardPaymentWidgets" ).submit();
     }
 
@@ -356,8 +354,9 @@ if (BrowserDetect.browser == 'Safari') {
                 },
                 complete:function(){
                 },
-                error: function() {
-                     console.log(data);
+                error: function(data) {
+                     console.log(data['responseText']);
+                     $('#mastercard_pay').prop('checked', false);
                 }
             });
           }

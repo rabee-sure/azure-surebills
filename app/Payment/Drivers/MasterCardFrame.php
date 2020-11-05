@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use App\Exceptions\InvalidPaymentException;
 use App\Exceptions\PurchaseFailedException;
 use App\Payment\Contracts\ReceiptInterface;
+use URL;
 
 class MasterCardFrame extends Driver
 {
@@ -59,26 +60,31 @@ class MasterCardFrame extends Driver
      */
     public function generateIframe()
     {
+        $locale = 'ar';
         $details = $this->invoice->getDetails();
         $resultUrl = route('bills.handle', ['hash' => $details['hash']]);
 
         $client = new Client();
         $response = $client->post(config('payment.drivers.mastercard_iframe.api_base_url').'/session',[
-            'json' => ['session' => ['authenticationLimit' => 25]],
-            'auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]
+            'json' => ['session' => ['authenticationLimit' => 25],],
+            'auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')],
         ]);
         $body = json_decode($response->getBody()->getContents(), false);
+
+        if(\Request::segment(5) == 'en')
+        {
+            $locale = 'en_us';
+        }
 
         $script = '<script>';
         $script .= 'Checkout.configure({';
         $script .= 'session: {id: "'.$body->session->id.'"},';
         $script .= 'merchant: "'.$this->settings->merchant_id.'",';
         $script .= 'order: {amount: function() {return '.$details['bill']['total'].';},';
-        $script .= 'currency: "SAR",';
-        $script .= 'description: "Invoice number: '.$details['bill']['number'].'", reference:"'.$details['bill']['id'].'"},';
-        $script .= 'interaction: {merchant: {name: "'.$details['bill']['business_name'].'"}}';
-        $script .= '});';
-        // $script .= 'PaymentSession.onChange(["card.number","card.securityCode"], function(selector) {console.log("here")});';
+        $script .= 'currency: "SAR", description: "Invoice number: '.$details['bill']['number'].'", reference:"'.$details['bill']['id'].'"},';
+        $script .= 'interaction: {operation: "PURCHASE", merchant: {name: "'.$details['bill']['business_name'].'"},';
+        $script .= 'displayControl: {billingAddress: "HIDE", orderSummary: "HIDE"}, locale: "'.$locale.'"';
+        $script .= '}});';
         $script .= 'Checkout.showLightbox(); </script>';
         $script .= '<form action="'.$resultUrl.'" method="GET" class="mastercardPaymentWidgets" data-brands="VISA MASTER MADA">';
         $script .= '<input type="hidden" name="sessionId" value="'.$body->session->id.'" /></form>';
@@ -125,7 +131,6 @@ class MasterCardFrame extends Driver
             ->detail(['gateway' => 'mastercard'])
             ->detail(['gateway_response' => $orderBody]);
         $this->invoice->transactionId(request()->sessionId ?? "not have id");
-
     }
 
     /**

@@ -124,8 +124,5 @@ Route::get('users/{user}', 'UserController@show')->name('users.show');
 Route::get('test_upload', 'AccountController@test_upload')->name('test_upload');
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
 
-Route::get('pay-master', function(){
-
-    return view('pay-master');
-
-});
+Route::get('pay-master', 'TestMasterCardPayment@payMaster');
+Route::any('success', 'TestMasterCardPayment@callback');
