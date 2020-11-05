@@ -385,6 +385,7 @@
 	"new password required" : "كلمة المرور الجديدة مطلوبه",
 	"customer name required" : "اسم العميل مطلوب",
 	"customer mobile required" : "رقم الجوال مطلوب",
+	"customer mobile is not correct" : "رقم الجوال غير صحيح",
 	"item name required" : "اسم المنتج / الخدمة مطلوب",
 	"item price required" : "سعر المنتج / الخدمة مطلوب",
 	"item quantity required" : "الكمية مطلوب",

@@ -18,6 +18,16 @@ class BillRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->has('customer_mobile')) {
+            $mobile = ltrim($this->customer_mobile, '+966');
+            $mobile = ltrim($mobile, '966');
+            $mobile = (int) $mobile;
+            $this->merge(['customer_mobile'=> $mobile]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -68,6 +78,7 @@ class BillRequest extends FormRequest
         return [
           'customer_name.required' => __('customer name required'),
           'customer_mobile.required' => __('customer mobile required'),
+          'customer_mobile.regex' => __('customer mobile is not correct'),
           'items.*.name.required' => __('item name required'),
           'items.*.price.required' => __('item price required'),
           'items.*.quantity.required' => __('item quantity required'),

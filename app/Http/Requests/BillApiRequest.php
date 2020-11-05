@@ -19,6 +19,16 @@ class BillApiRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->has('customer_mobile')) {
+            $mobile = ltrim($this->customer_mobile, '+966');
+            $mobile = ltrim($mobile, '966');
+            $mobile = (int) $mobile;
+            $this->merge(['customer_mobile'=> $mobile]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,9 +36,6 @@ class BillApiRequest extends FormRequest
      */
     public function rules()
     {
-        // $application = Application::whereId($this->application_id)
-        //                 ->whereSecret($this->application_secret)
-        //                 ->first();
         return [
             'application_id' => ['required'],
             'application_secret' => ['required'],
@@ -66,6 +73,23 @@ class BillApiRequest extends FormRequest
     }
 
     /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+          'customer_name.required' => __('customer name required'),
+          'customer_mobile.required' => __('customer mobile required'),
+          'customer_mobile.regex' => __('customer mobile is not correct'),
+          'items.*.name.required' => __('item name required'),
+          'items.*.price.required' => __('item price required'),
+          'items.*.quantity.required' => __('item quantity required'),
+        ];
+    }
+
+    /**
      * Configure the validator instance.
      *
      * @param  \Illuminate\Validation\Validator  $validator
@@ -79,11 +103,5 @@ class BillApiRequest extends FormRequest
             'send_sms' => $this->send_sms == 'on' ? true : false,
             'send_email' => $this->send_email == 'on' ? true : false,
         ]);
-    }
-
-    protected function prepareForValidation()
-    {
-        if ($this->has('customer_mobile'))
-            $this->merge(['customer_mobile'=> $this->customer_mobile]);
     }
 }

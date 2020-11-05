@@ -77,6 +77,20 @@ class Bill extends Model
      *
      * @var array
      */
+    public function getHyperpayIdAttribute()
+    {
+        if (isset($this->payment_logs[0]) && isset($this->payment_logs[0]['results']) && isset($this->payment_logs[0]['response'])) {
+            return $this->payment_logs[0]['results']['response']['id'];
+        }
+
+        return null;
+    }
+    
+    /**
+     * Pay Id.
+     *
+     * @var array
+     */
     public function getPayIdAttribute()
     {
         $uuid = Uuid::fromString($this->id);
