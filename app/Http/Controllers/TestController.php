@@ -40,8 +40,8 @@ class TestController extends Controller
             'bills_setteld_sum' => array_sum($bills_setteld),
             'bills_setteld' => $not_settled,
         ]);
-    } 
+    }
 
 
- 
+
 }

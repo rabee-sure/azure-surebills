@@ -14,7 +14,7 @@ use App\Exceptions\PurchaseFailedException;
 use App\Payment\Contracts\ReceiptInterface;
 use URL;
 
-class MasterCardFrame extends Driver
+class MasterCardApplePay extends Driver
 {
     /**
      * HyperPay Client.
@@ -66,13 +66,18 @@ class MasterCardFrame extends Driver
 
         $client = new Client();
         $response = $client->post(config('payment.drivers.mastercard_iframe.api_base_url').'/session',[
-            'json' => ['session' => ['authenticationLimit' => 25],],
-            // 'json' => ["apiOperation" => "CREATE_CHECKOUT_SESSION", "interaction" => ["operation" => "PURCHASE", "returnUrl" => "http://sure-bills-local/success"],
-            //             "order" => ["amount"=> $details['bill']['total'], "currency" => "SAR", "id" => $details['bill']['id']]],
+            // 'json' => ['session' => ['authenticationLimit' => 25],],
             'auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')],
+            'json' => ["apiOperation" => "CREATE_CHECKOUT_SESSION", "interaction" => [ "operation" => "PURCHASE"],
+                        "order" => ["amount" => $details['bill']['total'], "currency" => "SAR", "description" => "Invoice number: ".$details['bill']['number'],
+                            "id" => $details['bill']['id']]]
         ]);
-
         $body = json_decode($response->getBody()->getContents(), false);
+            dd($body);
+        // $sessionResponse = $client->get(config('payment.drivers.mastercard_iframe.api_base_url').'/session/'.$body->session->id,
+        //                             ['auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]]);
+        // $sessionBody = json_decode($sessionResponse->getBody()->getContents(), false);
+        // dd($sessionBody);
 
         if(\Request::segment(5) == 'en')
         {
@@ -83,15 +88,15 @@ class MasterCardFrame extends Driver
         $script .= 'Checkout.configure({';
         $script .= 'session: {id: "'.$body->session->id.'"},';
         $script .= 'merchant: "'.$this->settings->merchant_id.'",';
-        $script .= 'order: {amount: '.$details['bill']['total'].', currency: "SAR", description: "Invoice number: '.$details['bill']['number'].'", reference:"'.$details['bill']['id'].'"},';
-        $script .= 'interaction: {operation: "PURCHASE", merchant: {name: "'.$details['bill']['business_name'].'"}, displayControl: {billingAddress: "HIDE", orderSummary: "HIDE"}, locale: "'.$locale.'"}';
+        $script .= 'order: {walletProvider:"APPLE_PAY", amount: '.$details['bill']['total'].', currency: "SAR", description: "Invoice number: '.$details['bill']['number'].'", reference:"'.$details['bill']['id'].'"},';
+        $script .= 'interaction: {operation: "PURCHASE", merchant: {name: "'.$details['bill']['business_name'].'"}, displayControl: {billingAddress: "HIDE", orderSummary: "HIDE"}, locale: "'.$locale.'"},';
+        // $script .= 'sourceOfFunds: {provided: {card: {devicePayment: {paymentToken: "PKPaymentToken.paymentData"}}}';
         $script .= '});';
         $script .= 'Checkout.showLightbox(); </script>';
         $script .= '<form action="'.$resultUrl.'" method="GET" class="mastercardPaymentWidgets" data-brands="VISA MASTER MADA">';
         $script .= '<input type="hidden" name="sessionId" value="'.$body->session->id.'" /></form>';
         return $script;
     }
-
     /**
      * Purchase Invoice.
      *
@@ -112,19 +117,6 @@ class MasterCardFrame extends Driver
                                     ['auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]]);
         $orderBody = json_decode($orderResponse->getBody()->getContents(), false);
 
-        $orderResponseJson = $this->formateResponse($orderBody, $details);
-
-        $this->invoice->detail(['result_code' => $orderResponseJson['result']['code']])
-            ->detail(['success' => $orderResponseJson['result']['code'] == 00? 1:0])
-            ->detail(['response' => $orderResponseJson])
-            ->detail(['description' => $orderResponseJson['result']['description']])
-            ->detail(['gateway' => 'mastercard'])
-            ->detail(['gateway_response' => $orderBody]);
-        $this->invoice->transactionId(request()->sessionId ?? "not have id");
-    }
-
-    private function formateResponse($orderBody, $billDetail)
-    {
         $orderResponseJson['id'] = $orderBody->id;
         $orderResponseJson['card']['bin'] = '';
         $orderResponseJson['card']['holder'] = $orderBody->sourceOfFunds->provided->card->nameOnCard;
@@ -136,8 +128,15 @@ class MasterCardFrame extends Driver
         $orderResponseJson['result']['description'] = $orderBody->transaction[0]->result;
         $orderResponseJson['paymentType'] = '';
         $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
-        $orderResponseJson['merchantTransactionId'] = $billDetail['bill']['id'];
-        return $orderResponseJson;
+        $orderResponseJson['merchantTransactionId'] = $details['bill']['id'];
+
+        $this->invoice->detail(['result_code' => $orderResponseJson['result']['code']])
+            ->detail(['success' => $orderResponseJson['result']['code'] == 00? 1:0])
+            ->detail(['response' => $orderResponseJson])
+            ->detail(['description' => $orderResponseJson['result']['description']])
+            ->detail(['gateway' => 'mastercard'])
+            ->detail(['gateway_response' => $orderBody]);
+        $this->invoice->transactionId(request()->sessionId ?? "not have id");
     }
 
     /**

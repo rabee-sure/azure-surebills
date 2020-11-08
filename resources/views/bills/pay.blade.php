@@ -130,6 +130,16 @@
                 </div><!-- item -->
                 {{-- mastercard --}}
 
+                {{-- mastercard --}}
+                <div class="item">
+                    <input type="radio" id="mastercard_applepay" name="payment_method" value="mastercard_applepay">
+                    <label for="mastercard_applepay">
+                    <p>Apple Pay</p>
+                    <div class="icon_mada"></div>
+                    <div class="checkmark"></div>
+                    </label>
+                </div><!-- item -->
+                {{-- mastercard --}}
 
 
                 <div id="applepay_show" class="item">
@@ -195,20 +205,21 @@
         data-error="errorCallback"
         data-cancel="cancelCallback"
         data-timeout="timeoutCallback"
-        data-beforeRedirect="beforeRedirect"
-        data-afterRedirect="afterRedirect"
         data-complete="completeCallback"></script>
 
 <script type='text/javascript'>
-    function beforeRedirect() {console.log('beforeRedirect')}
-    function afterRedirect() {console.log('afterRedirect')}
     function timeoutCallback() {console.log('timeout')}
     function errorCallback(error) {console.log(JSON.stringify(error));}
-    function cancelCallback() {console.log("Payment cancelled"); $('#mastercard_pay').prop('checked', false);}
+    function cancelCallback() {$(".mastercardPaymentWidgets" ).submit(); $('#mastercard_pay').prop('checked', false);}
     function completeCallback(resultIndicator, sessionVersion)
     {
         $(".mastercardPaymentWidgets" ).submit();
     }
+
+    window.addEventListener("beforeunload", function (e) {
+        $(".mastercardPaymentWidgets" ).submit();
+    });
+
 
 var BrowserDetect = {
 init: function () {

@@ -49,6 +49,16 @@ return [
             'operator_username' => env('MASTERCARD_OPERATOR_USERNAME','merchant.TEST3000000330'),
             'operator_password' => env('MASTERCARD_OPERATOR_PASSWORD','d4da5ee0b3612ec2b7a51c058a8c7f09'),
         ],
+        'mastercard_applepay' => [
+            /* normal api */
+            'merchant_id' => env('MASTERCARD_MERCHANT_ID','TEST3000000330'),
+            'checkout_script' => env('MASTERCARD_CHECKOUT_SCRIPT','https://test-gateway.mastercard.com/checkout/version/58/checkout.js'),
+            'session_script' => env('MASTERCARD_SESSION_SCRIPT','https://test-gateway.mastercard.com/form/version/58/merchant/TEST3000000330/session.js'),
+            'api_base_url' => env('MASTERCARD_API_BASE_URL','https://test-gateway.mastercard.com/api/rest/version/58/merchant/TEST3000000330'),
+            'operator_username' => env('MASTERCARD_OPERATOR_USERNAME','merchant.TEST3000000330'),
+            'operator_password' => env('MASTERCARD_OPERATOR_PASSWORD','d4da5ee0b3612ec2b7a51c058a8c7f09'),
+        ],
+
     ],
 
     /*
@@ -68,5 +78,6 @@ return [
         'hyperpay_iframe' => \App\Payment\Drivers\HyperPayFrame::class,
         'hyperpay_applepay' => \App\Payment\Drivers\HyperPayApplePay::class,
         'mastercard_iframe' => \App\Payment\Drivers\MasterCardFrame::class,
+        'mastercard_applepay' => \App\Payment\Drivers\MasterCardApplePay::class,
     ]
 ];
