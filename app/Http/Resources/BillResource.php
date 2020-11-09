@@ -51,6 +51,8 @@ class BillResource extends JsonResource
             'payment_fees' => $this->payment_fees,
             'created_at' => $this->created_at->format('d/m/Y H:i'),
             'hyperpay_id' => $this->hyperpay_id
+            'total' => $this->total,
+            'title' => $this->bill_title,
         ];
     }
 }
