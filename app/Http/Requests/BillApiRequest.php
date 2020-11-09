@@ -6,6 +6,7 @@ use App\Application;
 use App\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Rules\BillTotalValidation;
 
 class BillApiRequest extends FormRequest
 {
@@ -41,9 +42,9 @@ class BillApiRequest extends FormRequest
             'application_secret' => ['required'],
 
             'reference_id' => [
-                'required', 
-                'string', 
-                'max:255', 
+                'required',
+                'string',
+                'max:255',
                 // Rule::unique('bills')->where(function ($query) use ($application) {
                 //     return $query->where('user_id', $application->user_id ?? null)->where('status', 'pending');
                 // })
@@ -51,7 +52,7 @@ class BillApiRequest extends FormRequest
             'customer_name' => ['required', 'string', 'max:255'],
             'customer_email' => ['required', 'string', 'email', 'max:255'],
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
-            'customer_notes' => ['nullable'],            
+            'customer_notes' => ['nullable'],
 
             'due_date' => ['required'],
             'expiry_date' => ['required'],
@@ -61,12 +62,13 @@ class BillApiRequest extends FormRequest
             'discount_value' => ['required_if:add_discount,on'],
 
             'add_tax' => ['nullable'],
-            'tax_value' => ['required_if:add_tax,on'],            
+            'tax_value' => ['required_if:add_tax,on'],
 
             'send_sms' => ['nullable'],
             'send_email' => ['nullable'],
             'is_redirect' => ['nullable'],
 
+            'items' => ['required', new BillTotalValidation],
             'items.*.name' => 'required',
             'items.*.price' => 'required|numeric',
             'items.*.quantity' => 'required|numeric',

@@ -38,7 +38,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">+966</span>
                   </div>
-                  <input value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control _parseArabicNumbers @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="5XXXXXXXX" maxlength="10">
+                  <input value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control _parseArabicNumbers @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="5XXXXXXXX" maxlength="9">
                 </div>
                 @error('customer_mobile')
                   <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -111,7 +111,7 @@
                           <input data-repeater-delete type="button" class="btn btn-danger default d-block w-100" value="X"/>
                         </div><!-- form-group -->
                       </div><!-- form-row -->
-                    </div><!-- inner-list-->   
+                    </div><!-- inner-list-->
                   @endforeach
                 @else
 
@@ -139,7 +139,7 @@
                     </div><!-- form-group -->
                   </div><!-- form-row -->
                 </div><!-- inner-list-->
-                @endif             
+                @endif
               </div><!-- form-row -->
             </div><!-- inner-repeater -->
             <div class="d-flex justify-content-end my-3">
@@ -214,7 +214,7 @@
               <div class="form-group col-6">
                 <label for="send_email">{{ __('Send Email') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input name="send_email" class="custom-switch-input" id="send_email" type="checkbox" 
+                  <input name="send_email" class="custom-switch-input" id="send_email" type="checkbox"
                    @if(auth()->user()->settings->create_send_email) checked @endif>
                   <label class="custom-switch-btn" for="send_email"></label>
                 </div>
@@ -285,7 +285,7 @@
               customers = data;
                var resp = $.map(data,function(obj){
                     return {'value': obj.id, 'label': obj.name};
-               }); 
+               });
                response(resp);
               }
           });
