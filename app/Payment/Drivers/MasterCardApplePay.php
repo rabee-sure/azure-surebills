@@ -66,14 +66,14 @@ class MasterCardApplePay extends Driver
 
         $client = new Client();
         $response = $client->post(config('payment.drivers.mastercard_iframe.api_base_url').'/session',[
-            // 'json' => ['session' => ['authenticationLimit' => 25],],
+            'json' => ['session' => ['authenticationLimit' => 25],],
             'auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')],
-            'json' => ["apiOperation" => "CREATE_CHECKOUT_SESSION", "interaction" => [ "operation" => "PURCHASE"],
-                        "order" => ["amount" => $details['bill']['total'], "currency" => "SAR", "description" => "Invoice number: ".$details['bill']['number'],
-                            "id" => $details['bill']['id']]]
+            // 'json' => ["apiOperation" => "CREATE_CHECKOUT_SESSION", "interaction" => [ "operation" => "PURCHASE"],
+            //             "order" => ["amount" => $details['bill']['total'], "currency" => "SAR", "description" => "Invoice number: ".$details['bill']['number'],
+            //                 "id" => $details['bill']['id']]]
         ]);
         $body = json_decode($response->getBody()->getContents(), false);
-            dd($body);
+        dd($body);
         // $sessionResponse = $client->get(config('payment.drivers.mastercard_iframe.api_base_url').'/session/'.$body->session->id,
         //                             ['auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]]);
         // $sessionBody = json_decode($sessionResponse->getBody()->getContents(), false);

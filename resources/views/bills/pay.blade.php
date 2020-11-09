@@ -130,15 +130,15 @@
                 </div><!-- item -->
                 {{-- mastercard --}}
 
-                {{-- mastercard --}}
-                <div class="item">
+                {{-- Apple pay mastercard --}}
+                {{-- <div class="item">
                     <input type="radio" id="mastercard_applepay" name="payment_method" value="mastercard_applepay">
                     <label for="mastercard_applepay">
                     <p>Apple Pay</p>
                     <div class="icon_mada"></div>
                     <div class="checkmark"></div>
                     </label>
-                </div><!-- item -->
+                </div><!-- item --> --}}
                 {{-- mastercard --}}
 
 
