@@ -50,6 +50,7 @@ class Bill extends Model
         'expiry_minutes',
         'expiry_hours',
         'pricing_fees_details',
+        'is_redirect',
     ];
 
     /**
@@ -97,6 +98,16 @@ class Bill extends Model
         $hex = $uuid->getHex();
         $hashids = new Hashids();
         return $hashids->encodeHex($hex);
+    }
+
+    /**
+     * Pay Id.
+     *
+     * @var array
+     */
+    public function getBillTitleAttribute()
+    {
+        return __('Bill') .' '. $this->number .' - '. $this->customer_name;
     }
 
 

@@ -9,6 +9,7 @@ use App\Http\Requests\AccountInformationRequest;
 use App\Http\Requests\BankInformationRequest;
 use App\Http\Requests\BusinessInformationRequest;
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Resources\BillApiResource;
 use App\Http\Resources\UserResource;
 use App\Jobs\CallbackWebhook;
 use App\User;
@@ -27,6 +28,7 @@ class TestController extends Controller
      */
     public function test(Request $request)
     {
+        return new BillApiResource(Bill::find('0a890402-be28-4d77-8b66-800df76a9083'));
         $user = User::find(789);
         $bills = $user->bills->pluck('total')->toArray();
         $bills_setteld = $user->bills()->settled()->pluck('total')->toArray();
