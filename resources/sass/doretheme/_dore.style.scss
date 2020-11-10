@@ -10768,7 +10768,7 @@ a.add_bill_button {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin: 0 auto 30px;
+    margin: 0 auto 20px;
   }
 }
 
@@ -10778,10 +10778,22 @@ a.add_bill_button {
   }
 }
 
-.dashboard-filled-line-chart .chart {
+.dashboard-filled-line-chart {
   @include respond-below(sm) {
-    width: auto !important;
-    max-width: 100%;
-    overflow-x: scroll;
+    height: auto;
+  }
+  .chart {
+    @include respond-below(sm) {
+      margin: 0 auto;
+      padding: 0 5px;
+    }
+    canvas {
+      @include respond-below(sm) {
+        width: auto !important;
+        height: auto !important;
+        top: 0;
+        max-width: 100% !important;
+      }
+    }
   }
 }

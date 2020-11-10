@@ -61,10 +61,11 @@ class BillApiRequest extends FormRequest
             'discount_value' => ['required_if:add_discount,on'],
 
             'add_tax' => ['nullable'],
-            'tax_value' => ['required_if:add_discount,on'],            
+            'tax_value' => ['required_if:add_tax,on'],            
 
             'send_sms' => ['nullable'],
             'send_email' => ['nullable'],
+            'is_redirect' => ['nullable'],
 
             'items.*.name' => 'required',
             'items.*.price' => 'required|numeric',

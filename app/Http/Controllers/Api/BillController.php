@@ -85,6 +85,7 @@ class BillController extends Controller
             'send_sms' => $request->send_sms,
             'send_email' => $request->send_email,
             'reference_id' => $request->reference_id,
+            'is_redirect' => $request->is_redirect,
         ]);
 
         if($user->settings->create_send_sms){
