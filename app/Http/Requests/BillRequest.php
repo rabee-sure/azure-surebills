@@ -27,7 +27,7 @@ class BillRequest extends FormRequest
             $this->merge(['customer_mobile'=> $mobile]);
         }
 
-        if (!$this->has('customer_mobile')) {
+        if (!$this->has('is_redirect')) {
             $this->is_redirect = false;
         }
     }
