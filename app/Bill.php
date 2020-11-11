@@ -2,15 +2,16 @@
 
 namespace App;
 
-use App\Events\BillPaid;
-use App\Events\BillStatusUpdated;
-use App\PaymentLog;
-use App\Traits\UsesUuid;
 use Carbon\Carbon;
+use App\PaymentLog;
 use Hashids\Hashids;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Ramsey\Uuid\Uuid;
+use App\Events\BillPaid;
+use App\Traits\UsesUuid;
+use App\Jobs\CallbackWebhook;
+use App\Events\BillStatusUpdated;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model
 {    
@@ -175,6 +176,25 @@ class Bill extends Model
 
         $ks = (str_contains($this->application->redirect, '?')) ? "&" : '?';
         return $this->application->redirect.$ks.implode("&", $data);
+    }
+
+    /**
+     * Redirect Url.
+     *
+     * @var string
+     */
+    public function getWebhookUrlAttribute()
+    {
+        $data = [
+            'reference_id='.$this->reference_id,
+            'status='.$this->status,
+            'bill_id='.$this->id,
+            'pay_url='.$this->pay_url,
+            'total='.$this->total,
+        ];
+
+        $ks = (str_contains($this->application->webhook_url, '?')) ? "&" : '?';
+        return $this->application->webhook_url.$ks.implode("&", $data);
     }   
 
     /**
@@ -417,6 +437,7 @@ class Bill extends Model
 
         event(new BillPaid($this));
         event( new BillStatusUpdated($this) );
+        CallbackWebhook::dispatch($this);
     }
 
     /**
