@@ -29,7 +29,7 @@ class BillApiRequest extends FormRequest
         }
 
         if (!$this->has('is_redirect')) {
-            $this->is_redirect = false;
+            $this->is_redirect = true;
         }
     }
 
