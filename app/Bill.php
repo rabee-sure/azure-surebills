@@ -194,6 +194,10 @@ class Bill extends Model
      */
     public function getIsExpiredAttribute()
     {
+        if ($this->expiry_date == 0 && $this->expiry_hours == 0 && $this->expiry_minutes == 0) {
+            return false;
+        }
+
         $date = $this->created_at
                 ->addDays($this->expiry_date)
                 ->addMinutes($this->expiry_minutes)
