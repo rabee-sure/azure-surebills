@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Statement extends Resource
 {
@@ -24,7 +25,7 @@ class Statement extends Resource
 
 
     public static $displayInNavigation = false;
-    
+
     /**
      * Get the displayble label of the resource.
      *
@@ -84,15 +85,15 @@ class Statement extends Resource
             Badge::make(__('Type'), 'type')->map([
                 'credit' => 'success',
                 'debit' => 'danger',
-            ]), 
+            ]),
             Text::make(__('Amount'), 'amount', function () {
                 return round($this->amount, 2);
-            }),            
+            }),
 
             Text::make(__('Balance'), 'balance', function () {
                 return round($this->balance, 2);
             }),
-            
+
             BelongsTo::make(__('User'), 'user', User::class),
         ];
     }
@@ -141,14 +142,16 @@ class Statement extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            new DownloadExcel,
+        ];
     }
 
     public static function authorizedToCreate(Request $request)
     {
         return false;
     }
-    
+
     public function authorizedToDelete(Request $request)
     {
         return false;

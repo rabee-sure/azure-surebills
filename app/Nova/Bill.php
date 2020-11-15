@@ -22,6 +22,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Titasgailius\SearchRelations\SearchesRelations;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Bill extends Resource
 {
@@ -150,7 +151,7 @@ class Bill extends Resource
                 ->asHtml(),
 
             BelongsTo::make(__('Application'), 'application', Application::class)
-                ->onlyOnDetail(), 
+                ->onlyOnDetail(),
 
             Select::make(__('Payment Method'), 'payment_method')
                 ->options([
@@ -226,7 +227,7 @@ class Bill extends Resource
      */
     public function filters(Request $request)
     {
-        return [ 
+        return [
             new BillStatus,
             new BillSource,
             new DateRange,
@@ -253,9 +254,11 @@ class Bill extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            new DownloadExcel,
+        ];
     }
-    
+
     /**
      * authorized To Create.
      *
@@ -266,7 +269,7 @@ class Bill extends Resource
     {
         return false;
     }
-    
+
     /**
      * authorized To Delete.
      *
@@ -277,7 +280,7 @@ class Bill extends Resource
     {
         return false;
     }
-    
+
     /**
      * authorized To Update.
      *
