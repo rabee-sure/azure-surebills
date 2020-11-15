@@ -245,7 +245,7 @@
         @endif
         <div class="block_2">
           <span>
-            {{ __('Due On') }} {{ $bill->due_date->format('M d Y')}}
+            {{ __('Due on') }} {{ $bill->due_date->format('M d Y')}}
             @if($bill->user->vat_registration_number)
               <div class="vat_reg"> {{ __('VAT Registration Number') }} : {{ $bill->user->vat_registration_number }}</div>
             @endif
@@ -282,7 +282,7 @@
           <p>{{ __('Billed to,') }} {{ $bill->customer_name }}</p>
           <p>+966{{ $bill->customer_mobile }}</p>
           <p>{{ $bill->customer_email }}</p>
-          
+
           @if(isset($bill->user->settings->footer_bill))
             <p>{{ $bill->user->settings->footer_bill }}</p>
           @endif

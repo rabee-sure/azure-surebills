@@ -147,7 +147,7 @@
             $("#back_btn").remove();
             $("#status").empty();
             $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
-            break;          
+            break;
           case "expired":
             $("#payment_method").remove();
             $("#back_btn").remove();
