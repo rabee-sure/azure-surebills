@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('test', 'TestController@test');
-
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
 Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
