@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('test', 'TestController@test');
-
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
 Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
@@ -123,9 +121,3 @@ Route::get('users/{user}', 'UserController@show')->name('users.show');
 
 Route::get('test_upload', 'AccountController@test_upload')->name('test_upload');
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
-
-Route::get('test', function(){
-    setlocale( LC_ALL,'am' );
-    echo strftime( '%e %b, %Y', strtotime( '2011-10-25' ));
-
-});
