@@ -12,7 +12,7 @@ use Laravel\Passport\HasApiTokens;
 use Multicaret\Unifonic\UnifonicFacade;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
- 
+
 class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, Notifiable, InteractsWithMedia;
@@ -26,7 +26,7 @@ class User extends Authenticatable implements HasMedia
         'name', 'email', 'password', 'mobile', 'mobile_sent_at', 'mobile_active_code', 'gender',
 
         //business info
-        'business_name_en', 
+        'business_name_en',
         'business_name_ar',
         'sector',
         'website',
@@ -40,7 +40,7 @@ class User extends Authenticatable implements HasMedia
         'vat_registration_number',
         'license_type',
         'organization_name',
-        
+
         //bank_id info
         'bank_id',
         'iban_number',
@@ -50,9 +50,9 @@ class User extends Authenticatable implements HasMedia
         'price_percentage',
         'price_fixed',
         'pay_fees',
-        
+
         'mobile_verified',
-        'disable_business_documents', 
+        'disable_business_documents',
         'disable_bank_documents',
     ];
 
@@ -101,7 +101,19 @@ class User extends Authenticatable implements HasMedia
     public function getRoundBalanceAttribute()
     {
         return round($this->balance, 2);
-    } 
+    }
+
+    public function getVerifyStatusAttribute()
+    {
+        if($this->mobile_verified == 1)
+        {
+            return __('yes');
+        }
+        else
+        {
+            return __('no');
+        }
+    }
 
 
     /**
@@ -121,7 +133,7 @@ class User extends Authenticatable implements HasMedia
             isset($this->iban_number) &&
             isset($this->beneficiary_name)
         );
-    }    
+    }
 
     /**
      * Get the user's is Active.

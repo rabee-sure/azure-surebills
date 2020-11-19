@@ -33,6 +33,7 @@ class User extends Resource
      * @var string
      */
     public static $model = \App\User::class;
+    private $verifyStatus = '';
 
     /**
      * Get the displayble label of the resource.
@@ -161,7 +162,17 @@ class User extends Resource
                 ->displayUsing(function(){
                     $yes = '<img src="/img/verified.svg" style="height: 30px;">';
                     $no = '<img src="/img/verifiedx.svg" style="height: 30px;">';
-                    return ($this->verified) ?  $yes : $no ;
+
+                    if($this->verified)
+                    {
+                        $this->verifyStatus = __('yes');
+                        return $yes;
+                    }
+                    else
+                    {
+                        $this->verifyStatus = __('no');
+                        return $no;
+                    }
                 })
                 ->asHtml()
                 ->sortable()
@@ -279,7 +290,9 @@ class User extends Resource
     public function actions(Request $request)
     {
         return [
-            (new DownloadExcel)->except('verified')->withHeadings()
+            (new DownloadExcel)
+                ->only(['id', 'balance', 'name', 'balance', 'bank', 'iban_number', 'beneficiary_name', 'verify_status'])
+                ->withHeadings(['ID', __('Balance'), __('Business Name'), __('Bank'), __('Iban Number'), __('Beneficiary Name'), __('Verified')]),
         ];
     }
 
