@@ -49,7 +49,7 @@ class AccountController extends Controller
     public function account_information()
     {
         return view('account.account_information', ['user' => auth()->user()]);
-    }    
+    }
     /**
      * Show the application dashboard.
      *
@@ -83,12 +83,12 @@ class AccountController extends Controller
      */
     public function storeBankInformation(BankInformationRequest $request)
     {
-        auth()->user()->update([              
+        auth()->user()->update([
             'bank_id' => $request->get('bank_id'),
             'iban_number' => $request->get('iban_number'),
             'beneficiary_name' => $request->get('beneficiary_name'),
         ]);
-        
+
         if (count(auth()->user()->bank_documents) > 0) {
             foreach (auth()->user()->bank_documents as $media) {
                 if (!in_array($media->file_name, $request->input('document', []))) {
@@ -130,13 +130,22 @@ class AccountController extends Controller
     public function storeBusinessInformation(BusinessInformationRequest $request)
     {
         if($request->hasFile('logo')) {
-            $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();  
+            $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();
             $image = $request->logo->move(public_path('uploads'), $imageName);
             auth()->user()->update([
                 'logo' => 'uploads/'.$imageName,
             ]);
         }
-        
+        else
+        {
+            if($request->hidden_logo == null)
+            {
+                auth()->user()->update([
+                    'logo' => null,
+                ]);
+            }
+        }
+
         auth()->user()->update([
             'license_type' => $request->get('license_type'),
             'business_name_en' => $request->get('business_name_en'),
@@ -169,7 +178,7 @@ class AccountController extends Controller
         }
 
         session()->put(auth()->user()->id.'_complete_profile_step_2', true);
-   
+
         return redirect('/account');
     }
 
@@ -191,7 +200,7 @@ class AccountController extends Controller
     public function storeChangePassword(ChangePasswordRequest $request)
     {
         auth()->user()->update(['password'=> Hash::make($request->new_password)]);
-   
+
         return redirect('/account');
     }
 
@@ -203,7 +212,7 @@ class AccountController extends Controller
     public function test_upload()
     {
         return view('account.test_upload', ['user' => auth()->user()]);
-    }   
+    }
 
     /**
      * Create a new controller instance.

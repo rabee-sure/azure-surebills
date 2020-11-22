@@ -496,5 +496,7 @@
   "Monthly" : "شهري",
   "Paid Bills Amount" : "مبلغ المدفوعات",
   "Number of Paid Bills" : "عدد الفواتير المدفوعة",
-  "Total Number of Bills" : "إجمالي الفواتير"
+  "Total Number of Bills" : "إجمالي الفواتير",
+  "invalid_min_total": "قيمة الفاتورة الاجمالية اقل من 2 ريال",
+  "invalid_max_total": "قيمة الفاتورة الاجمالية اكثر من 14000 ريال"
 }
