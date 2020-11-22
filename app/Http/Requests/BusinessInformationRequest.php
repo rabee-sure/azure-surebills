@@ -33,12 +33,11 @@ class BusinessInformationRequest extends FormRequest
             'facebook' => ['nullable'],
             'instagram' => ['nullable'],
             'hidden_logo' => ['nullable'],
-            'logo' => ['nullable','image','mimes:jpeg,png,jpg,gif,svg'],
+            'logo' => ['nullable','image','mimes:jpeg,png,jpg'],
             'description' => ['nullable'],
             'business_address' => ['required'],
             'business_mobile' => ['required'],
             'vat_registration_number' => ['nullable'],
-
             'document' => ['nullable', 'array', "max:5"],
         ];
     }
