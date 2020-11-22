@@ -216,5 +216,8 @@
 "Orders" : "Orders",
 "Search By Day" : "Search By Day",
 "Order" : "Order",
-"Quantity Activation" : "Quantity Activation"
+"Quantity Activation" : "Quantity Activation",
+"yes": "Yes",
+"no": "No"
+
 }
