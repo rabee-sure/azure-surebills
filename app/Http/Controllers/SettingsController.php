@@ -19,6 +19,7 @@ class SettingsController extends Controller
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
             session()->put('user-lang', $lang);
+            // dd(app()->getLocale());
         }
 
         return redirect()->back();

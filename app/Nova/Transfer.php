@@ -25,9 +25,11 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Transfer extends Resource
 {
+    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
@@ -61,7 +63,7 @@ class Transfer extends Resource
      * @var string
      */
     public static $title = 'id';
-    
+
     /**
      * The columns that should be searched.
      *
@@ -79,7 +81,7 @@ class Transfer extends Resource
     public static $orderBy = [
         'created_at' => 'desc'
     ];
-    
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -90,7 +92,7 @@ class Transfer extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make(__('User'), 'user', User::class),
+            BelongsTo::make(__('User'), 'user', User::class)->searchable(),
             Number::make(__('Amount'), 'amount')->min(1)->step(0.1)->rules('required', new TransferBalance($request->viaResourceId)),
             Textarea::make(__('Note'), 'note'),
             File::make(__('Attachment'), 'attachment')->disk('public'),
@@ -110,6 +112,10 @@ class Transfer extends Resource
             BelongsToMany::make(__('Bills'), 'bills', Bill::class)
         ];
     }
+
+    public static $searchRelations = [
+        'user' => ['name'],
+    ];
 
     /**
      * Get the cards available for the request.
@@ -167,7 +173,7 @@ class Transfer extends Resource
     {
         return false;
     }
-        
+
     public function authorizedToDelete(Request $request)
     {
         return false;

@@ -52,7 +52,7 @@
           @if($errors->any())
             <div class="alert alert-danger" role="alert">
               {{ __($errors->first()) }}
-            </div>            
+            </div>
           @endif
             <div class="date_time">
               <span>
@@ -105,7 +105,7 @@
               @if(isset($bill->user->settings->footer_bill))
                 <p>{{ $bill->user->settings->footer_bill }}</p>
               @endif
-              
+
             </div><!-- customer_information -->
             @if(!$bill->is_expired)
                 <div id="payment_method" class="payment_method">
@@ -138,7 +138,7 @@
               </div><!-- bill_payment -->
                 </div><!-- payment_method -->
             @endif
-            
+
             @if($bill->application)
               <div id="back_btn" class="text-center">
                 <a href="{{ $bill->back_url}}" class="btn btn-light">{{__('Back')}}
@@ -318,7 +318,7 @@ if (BrowserDetect.browser == 'Safari') {
                 success: function (data) {
                      $("#iframe_pay").html(data);
                 },
-                error: function() { 
+                error: function() {
                      console.log(data);
                 }
             });
@@ -376,7 +376,7 @@ $(function(){
             $("#back_btn").remove();
             $("#status").empty();
             $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
-            break;          
+            break;
           case "expired":
             $("#new_countdown").remove();
             $("#payment_method").remove();

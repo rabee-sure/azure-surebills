@@ -181,7 +181,8 @@
 	"Last 30 Days" : "آخر 30 يومًا",
 	"This Month" : "هذا الشهر",
 	"Last Month" : "الشهر الماضي",
-
+    "yes": "نعم",
+    "no": "لا",
 	"payment fees" : "رسوم الدفع",
 	"Active Langs" : "اللغات المفعلة للفواتير",
 	"this bill has been canceled" : "تم إلغاء الفاتورة #:number",
