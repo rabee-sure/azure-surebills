@@ -143,7 +143,7 @@ class Statement extends Resource
     public function actions(Request $request)
     {
         return [
-            new DownloadExcel,
+            (new DownloadExcel)->withHeadings(),
         ];
     }
 

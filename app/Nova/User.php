@@ -158,25 +158,15 @@ class User extends Resource
 
             Boolean::make(__('Verified'), 'verified')
                 ->hideFromIndex(),
-            Text::make(__('Verified'), 'verified')
-                ->displayUsing(function(){
-                    $yes = '<img src="/img/verified.svg" style="height: 30px;">';
-                    $no = '<img src="/img/verifiedx.svg" style="height: 30px;">';
 
-                    if($this->verified)
-                    {
-                        $this->verifyStatus = __('yes');
-                        return $yes;
-                    }
-                    else
-                    {
-                        $this->verifyStatus = __('no');
-                        return $no;
-                    }
-                })
-                ->asHtml()
-                ->sortable()
-                ->onlyOnIndex(),
+            Text::make(__('Verified'), 'verified')->displayUsing(function(){
+                $yes = '<img src="/img/verified.svg" style="height: 30px;">';
+                $no = '<img src="/img/verifiedx.svg" style="height: 30px;">';
+                return ($this->verified) ?  $yes : $no ;
+            })
+            ->asHtml()
+            ->sortable()
+            ->onlyOnIndex(),
         ];
     }
 
@@ -291,8 +281,8 @@ class User extends Resource
     {
         return [
             (new DownloadExcel)
-                ->only(['id', 'balance', 'name', 'balance', 'bank', 'iban_number', 'beneficiary_name', 'verify_status'])
-                ->withHeadings(['ID', __('Balance'), __('Business Name'), __('Bank'), __('Iban Number'), __('Beneficiary Name'), __('Verified')]),
+                ->only(['id', 'balance', 'Business_name', 'bank', 'iban_number', 'name', 'verify_status'])
+                ->withHeadings(['ID', __('Balance'), __('Business Name'), __('Bank'), __('Iban Number'), __('Account Name'), __('Verified')]),
         ];
     }
 

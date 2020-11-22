@@ -105,7 +105,7 @@ class User extends Authenticatable implements HasMedia
 
     public function getVerifyStatusAttribute()
     {
-        if($this->mobile_verified == 1)
+        if($this->verified == 1)
         {
             return __('yes');
         }
@@ -114,7 +114,6 @@ class User extends Authenticatable implements HasMedia
             return __('no');
         }
     }
-
 
     /**
      * Get the user's is Active.
