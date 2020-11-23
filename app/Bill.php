@@ -2,15 +2,16 @@
 
 namespace App;
 
-use App\Events\BillPaid;
-use App\Events\BillStatusUpdated;
-use App\PaymentLog;
-use App\Traits\UsesUuid;
 use Carbon\Carbon;
+use App\PaymentLog;
 use Hashids\Hashids;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Ramsey\Uuid\Uuid;
+use App\Events\BillPaid;
+use App\Traits\UsesUuid;
+use App\Jobs\CallbackWebhook;
+use App\Events\BillStatusUpdated;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Date\Date;
 
 class Bill extends Model
@@ -179,6 +180,25 @@ class Bill extends Model
     }
 
     /**
+     * Redirect Url.
+     *
+     * @var string
+     */
+    public function getWebhookUrlAttribute()
+    {
+        $data = [
+            'reference_id='.$this->reference_id,
+            'status='.$this->status,
+            'bill_id='.$this->id,
+            'pay_url='.$this->pay_url,
+            'total='.$this->total,
+        ];
+
+        $ks = (str_contains($this->application->webhook_url, '?')) ? "&" : '?';
+        return $this->application->webhook_url.$ks.implode("&", $data);
+    }
+
+    /**
      * Success Payment.
      *
      * @var string
@@ -195,6 +215,10 @@ class Bill extends Model
      */
     public function getIsExpiredAttribute()
     {
+        if ($this->expiry_date == 0 && $this->expiry_hours == 0 && $this->expiry_minutes == 0) {
+            return false;
+        }
+
         $date = $this->created_at
                 ->addDays($this->expiry_date)
                 ->addMinutes($this->expiry_minutes)
@@ -414,6 +438,7 @@ class Bill extends Model
 
         event(new BillPaid($this));
         event( new BillStatusUpdated($this) );
+        CallbackWebhook::dispatch($this);
     }
 
     /**

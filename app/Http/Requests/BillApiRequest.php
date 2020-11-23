@@ -28,8 +28,8 @@ class BillApiRequest extends FormRequest
             $this->merge(['customer_mobile'=> $mobile]);
         }
 
-        if (!$this->has('customer_mobile')) {
-            $this->is_redirect = false;
+        if (!$this->has('is_redirect')) {
+            $this->is_redirect = true;
         }
     }
 

@@ -165,6 +165,11 @@ class BillController extends Controller
            return view('bills.error', ['error' => __('application_id or application_secret is not coreect')]);
         }
 
+
+        $mobile = ltrim($request->customer_mobile, '+966');
+        $mobile = ltrim($mobile, '966');
+        $mobile = (int) $mobile;
+        $request->merge(['customer_mobile'=> $mobile]);
         $validator = Validator::make($request->all(), [
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
         ]);
