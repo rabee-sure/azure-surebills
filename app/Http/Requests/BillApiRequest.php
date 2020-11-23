@@ -76,6 +76,10 @@ class BillApiRequest extends FormRequest
             'items.*.name' => 'required',
             'items.*.price' => 'required|numeric',
             'items.*.quantity' => 'required|numeric',
+
+            'application_name' => ['nullable'],
+            'redirect_url' => ['nullable'],
+            'webhook_url' => ['nullable'],
         ];
     }
 

@@ -438,7 +438,6 @@ class Bill extends Model
 
         event(new BillPaid($this));
         event( new BillStatusUpdated($this) );
-        CallbackWebhook::dispatch($this);
     }
 
     /**
