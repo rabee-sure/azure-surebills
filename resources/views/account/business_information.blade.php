@@ -22,7 +22,7 @@
     <div class="card mb-4">
       <div class="card-body">
         <form id="form" method="POST" action="{{ route('business.information') }}" enctype="multipart/form-data">
-          @csrf 
+          @csrf
           <div class="form-row">
             <div class="form-group col-md-6">
               <label name="license_type" for="inputEmail3">{{ __('License type') }} <button class="license_button" type="button" data-toggle="modal" data-target=".license_type_modal"></button></label>
@@ -45,7 +45,7 @@
               <label for="business_name_ar">{{ __('Business Name') }} (AR)</label>
               <input value="{{ $user->business_name_ar }}" name="business_name_ar" type="text" class="form-control" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)">
             </div>
-          </div>                  
+          </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="business_address">{{ __('Address') }}</label>
@@ -65,22 +65,23 @@
               <label for="inputEmail2">{{ __('Sector') }}</label>
               <input value="{{ $user->sector }}" name="sector" type="text" class="form-control" id="inputEmail2" placeholder="{{ __('Sector') }}">
             </div>
-          </div> 
+          </div>
 
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputEmail8">{{ __('Logo') }}</label>
               <div class="custom-file">
-                <input name="logo" type="file" class="custom-file-input" id="inputEmail8">
+                <input name="logo" type="file" class="custom-file-input" id="inputEmail8" accept="image/png, image/jpeg, image/jpg">
                   @if(auth()->user()->logo)
-                    <img  src="{{ url(auth()->user()->logo)  }}" class="img-thumbnail" width="100" />
+                    <img  src="{{ url(auth()->user()->logo)  }}" class="img-thumbnail logo_image" width="100" />
+                    <i class="glyph-icon simple-icon-trash delete_logo"></i>
                   @endif
                     <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
                 <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
               </div>
             </div>
-          </div> 
-          
+          </div>
+
           <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
           <p class="">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
 
@@ -122,5 +123,17 @@
 @endsection
 
 @push('footer-scripts')
+    {{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $('.delete_logo').click(function(){
+            $('input[name="hidden_logo"]').val('');
+            $('.logo_image').remove();
+            $(this).remove();
+        });
+        $("input[type='file']").change(function() {
+            filename = this.files[0].name;
+            $('.custom-file-label').text(filename);
+        });
+    </script> --}}
     {!! JsValidator::formRequest('App\Http\Requests\BusinessInformationRequest', '#form') !!}
 @endpush

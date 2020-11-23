@@ -33,6 +33,7 @@ class User extends Resource
      * @var string
      */
     public static $model = \App\User::class;
+    private $verifyStatus = '';
 
     /**
      * Get the displayble label of the resource.
@@ -89,7 +90,7 @@ class User extends Resource
             new Panel(__('Bank Information'), $this->bankInformation()),
             Text::make(__('Account Name'), 'name')
                 ->sortable()
-                ->rules('required', 'max:255'),            
+                ->rules('required', 'max:255'),
 
             Text::make(__('Email'), 'email')
                 ->sortable()
@@ -103,13 +104,13 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
-            Text::make(__('Mobile'), 'mobile')->rules('required', 'regex:/(^[5]{1}[0-9]{8}$)/')->onlyOnForms(), 
+            Text::make(__('Mobile'), 'mobile')->rules('required', 'regex:/(^[5]{1}[0-9]{8}$)/')->onlyOnForms(),
 
             Text::make(__('Mobile'), 'mobile')->displayUsing(function(){
                 $yes = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="check-circle" role="presentation" class="fill-current text-success"><path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"></path></svg>';
                 $no = ' <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="x-circle" role="presentation" class="fill-current text-danger"><path d="M4.93 19.07A10 10 0 1 1 19.07 4.93 10 10 0 0 1 4.93 19.07zm1.41-1.41A8 8 0 1 0 17.66 6.34 8 8 0 0 0 6.34 17.66zM13.41 12l1.42 1.41a1 1 0 1 1-1.42 1.42L12 13.4l-1.41 1.42a1 1 0 1 1-1.42-1.42L10.6 12l-1.42-1.41a1 1 0 1 1 1.42-1.42L12 10.6l1.41-1.42a1 1 0 1 1 1.42 1.42L13.4 12z"></path></svg>';
                 return ($this->mobile_verified) ? $this->mobile . $yes : $this->mobile . $no ;
-            })->asHtml()->onlyOnDetail(), 
+            })->asHtml()->onlyOnDetail(),
 
             Select::make(__('Mobile Verified'), 'mobile_verified')
                 ->options([
@@ -150,22 +151,22 @@ class User extends Resource
     {
         return [
             Files::make(__('Business Documents'), 'business_documents')->hideFromIndex(),
-            Boolean::make(__('Disable Business Documents'), 'disable_business_documents')->hideFromIndex(), 
+            Boolean::make(__('Disable Business Documents'), 'disable_business_documents')->hideFromIndex(),
 
             Files::make(__('Bank Documents'), 'bank_documents')->hideFromIndex(),
             Boolean::make(__('Disable Bank Documents'), 'disable_bank_documents')->hideFromIndex(),
 
             Boolean::make(__('Verified'), 'verified')
-                ->hideFromIndex(), 
-            Text::make(__('Verified'), 'verified')
-                ->displayUsing(function(){
-                    $yes = '<img src="/img/verified.svg" style="height: 30px;">';
-                    $no = '<img src="/img/verifiedx.svg" style="height: 30px;">';
-                    return ($this->verified) ?  $yes : $no ;
-                })
-                ->asHtml()
-                ->sortable()
-                ->onlyOnIndex(),
+                ->hideFromIndex(),
+
+            Text::make(__('Verified'), 'verified')->displayUsing(function(){
+                $yes = '<img src="/img/verified.svg" style="height: 30px;">';
+                $no = '<img src="/img/verifiedx.svg" style="height: 30px;">';
+                return ($this->verified) ?  $yes : $no ;
+            })
+            ->asHtml()
+            ->sortable()
+            ->onlyOnIndex(),
         ];
     }
 
@@ -216,7 +217,7 @@ class User extends Resource
             Text::make(__('Mobile'), 'mobile')->hideFromIndex(),
             Text::make(__('Website'), 'website')->hideFromIndex(),
         ];
-    }    
+    }
 
     /**
      * Get the address fields for the resource.
@@ -279,10 +280,12 @@ class User extends Resource
     public function actions(Request $request)
     {
         return [
-            new DownloadExcel,
+            (new DownloadExcel)
+                ->only(['id', 'balance', 'Business_name', 'bank', 'iban_number', 'name', 'verify_status'])
+                ->withHeadings(['ID', __('Balance'), __('Business Name'), __('Bank'), __('Iban Number'), __('Account Name'), __('Verified')]),
         ];
     }
-    
+
     /**
      * authorized To Delete.
      *

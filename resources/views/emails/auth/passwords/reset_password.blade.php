@@ -1,5 +1,12 @@
+@php
+    $direction = 'ltr';
+    if(app()->getLocale() == 'ar')
+    {
+        $direction = 'rtl';
+    }
+@endphp
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr" @endif>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{$direction}}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,6 +18,10 @@
       body {
         padding: 0;
         margin: 0;
+      }
+      #mail_wrapper
+      {
+          direction: {{$direction}} !important;
       }
       @media screen {
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&display=swap');

@@ -25,9 +25,11 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Transfer extends Resource
 {
+    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
@@ -68,7 +70,7 @@ class Transfer extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'amount', 'created_at'
+        'id',
     ];
 
     /**
@@ -110,6 +112,10 @@ class Transfer extends Resource
             BelongsToMany::make(__('Bills'), 'bills', Bill::class)
         ];
     }
+
+    public static $searchRelations = [
+        'user' => ['name'],
+    ];
 
     /**
      * Get the cards available for the request.

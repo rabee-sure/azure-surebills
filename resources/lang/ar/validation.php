@@ -17,7 +17,7 @@ return [
         'card_length_invalid' => 'The :attribute length must be 16',
         'card_invalid' => 'The :attribute invalid',
     ],
-    
+
     'match_old_password' => 'كلمة المرور الجديدة لا تتطابق مع كلمة المرور القديمة.',
     'accepted'        => 'يجب قبول :attribute.',
     'active_url'      => ':attribute لا يُمثّل رابطًا صحيحًا.',
@@ -191,8 +191,9 @@ return [
         "credit_cards_fixed"=> "الرسوم الثابتة لبطاقة الائتمان",
         "credit_cards_percentage"=> "الرسوم المتغيره لبطاقة الائتمان",
         "apple_pay_fixed"=> "الرسوم الثابتة لابل باي",
-        "apple_pay_percentage"=> "الرسوم المتغيره لابل باي", 
+        "apple_pay_percentage"=> "الرسوم المتغيره لابل باي",
         "business_name"=> "الاسم التجاري",
         "document"=> "الوثائق",
+        "logo" => "الشعار",
     ],
 ];

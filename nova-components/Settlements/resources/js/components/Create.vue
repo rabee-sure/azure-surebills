@@ -24,13 +24,13 @@
                     </Tooltip>
                 </Col>
             </Row>
-            
+
             <FormItem :label="__('Amount')" prop="amount">
-                <InputNumber :min="1" :step=".5" size="large" placeholder="Enter number" name="amount" v-model="form.amount" 
+                <InputNumber :min="1" :step=".5" size="large" placeholder="Enter number" name="amount" v-model="form.amount"
                 :formatter="value => `${value} SAR`"
                 :parser="value => value.replace(' SAR', '')"
                 style="width: 100%" disabled></InputNumber>
-            </FormItem>    
+            </FormItem>
 
             <FormItem :label="__('Note')"  prop="note">
                 <Input size="large" v-model="form.note" type="textarea" :autosize="{minRows: 4,maxRows: 5}" :placeholder="__('')" />
@@ -50,10 +50,10 @@
             <Divider orientation="left">{{__('Bank Info')}}</Divider>
             <FormItem :label="__('Bank') + ' :'" v-if="user.bank">
                 <div>{{ user.bank.name.en }}</div>
-            </FormItem>            
+            </FormItem>
             <FormItem :label="__('Iban Number')+ ' :'">
                 <div>{{ user.iban_number }}</div>
-            </FormItem>            
+            </FormItem>
             <FormItem :label="__('Beneficiary Name')+ ' :'">
                 <div>{{ user.beneficiary_name }}</div>
             </FormItem>
@@ -87,7 +87,7 @@
                 <Button type="error" v-if="row.type == 'debit'" size="small">{{ __(row.type) }}</Button>
             </template>
         </Table>
-    </Modal> 
+    </Modal>
 
     <Modal
         :title="__('Bills')"
@@ -132,17 +132,17 @@ export default {
                     title: this.__('FEES'),
                     key: 'payment_fees',
                     width: 100,
-                },                 
+                },
                 {
                     title: this.__('Payment Fees Vat'),
                     key: 'payment_fees_vat',
                     width: 100,
-                },                  
+                },
                 {
                     title: this.__('Net'),
                     key: 'net',
                     width: 100,
-                },                
+                },
                 {
                     title: this.__('Paid At'),
                     key: 'paid_at',
@@ -266,7 +266,7 @@ export default {
             .then(response => {
                 this.transfers = response.data.data;
             });
-        },        
+        },
         handleChangeDate (date) {
             this.bills = [];
             this.new_bills = [];

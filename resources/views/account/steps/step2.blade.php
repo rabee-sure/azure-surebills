@@ -39,7 +39,7 @@
                       <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
                     </div>
                   </div>
-                  
+
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="business_name_en">{{ __('Business Name') }} (EN)</label>
@@ -49,7 +49,7 @@
                       <label for="business_name_ar">{{ __('Business Name') }} (AR)</label>
                       <input value="{{ $user->business_name_ar }}" name="business_name_ar" type="text" class="form-control" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)">
                     </div>
-                  </div>                 
+                  </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="business_address">{{ __('Address') }}</label>
@@ -70,13 +70,13 @@
                       <label for="inputEmail2">{{ __('Sector') }}</label>
                       <input value="{{ $user->sector }}" name="sector" type="text" class="form-control" id="inputEmail2" placeholder="{{ __('Sector') }}">
                     </div>
-                  </div> 
+                  </div>
 
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="inputEmail8">{{ __('Logo') }}</label>
                       <div class="custom-file">
-                        <input name="logo" type="file" class="custom-file-input" id="inputEmail8">
+                        <input name="logo" type="file" class="custom-file-input" id="inputEmail8" accept="image/png, image/jpeg, image/jpg">
                             {{-- <img src="{{ url(auth()->user()->logo)  }}" class="img-thumbnail" width="100" /> --}}
                             <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
                         <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
