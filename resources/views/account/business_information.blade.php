@@ -72,14 +72,18 @@
               <label for="inputEmail8">{{ __('Logo') }}</label>
               <div class="custom-file">
                 <input name="logo" type="file" class="custom-file-input" id="inputEmail8" accept="image/png, image/jpeg, image/jpg">
-                  @if(auth()->user()->logo)
-                    <img  src="{{ url(auth()->user()->logo)  }}" class="img-thumbnail logo_image" width="100" />
-                    <i class="glyph-icon simple-icon-trash delete_logo"></i>
-                  @endif
-                    <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
+                <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
                 <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
               </div>
             </div>
+            <div class="form-group col-md-6">
+                <div class="custom-file">
+                  @if(auth()->user()->logo)
+                      <img  src="{{ url(auth()->user()->logo)  }}" class="img-thumbnail logo_image" width="100" />
+                      <i class="glyph-icon simple-icon-trash delete_logo"></i>
+                  @endif
+                </div>
+              </div>
           </div>
 
           <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
@@ -123,17 +127,5 @@
 @endsection
 
 @push('footer-scripts')
-    {{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        $('.delete_logo').click(function(){
-            $('input[name="hidden_logo"]').val('');
-            $('.logo_image').remove();
-            $(this).remove();
-        });
-        $("input[type='file']").change(function() {
-            filename = this.files[0].name;
-            $('.custom-file-label').text(filename);
-        });
-    </script> --}}
     {!! JsValidator::formRequest('App\Http\Requests\BusinessInformationRequest', '#form') !!}
 @endpush

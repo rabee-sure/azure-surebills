@@ -38,7 +38,7 @@
 
             <FormItem :label="__('Attachment')">
                 <Upload
-                    :on-success="handleUploadFileSuccess"
+                    :on-success="handleUploadFileSuccess" :multiple="false"
                     type="drag"
                     action="/api/upload">
                     <div style="padding: 20px 0">
@@ -328,9 +328,18 @@ export default {
                 });
             }
         },
-        handleUploadFileSuccess (res, file) {
-            file.name = file.response.data;
-            this.form.attachment = file.response.data;
+        handleUploadFileSuccess (res, file, filelist) {
+            console.log(filelist.length);
+            if(filelist.length > 1)
+            {
+                filelist = filelist.splice(filelist.indexOf(0) , 1)
+                // console.log(filelist[0]);
+                // console.log(filelist[1]);
+                // filelist.splice(filelist.indexOf(0) , 1)
+            }
+            console.log(filelist);
+            // file.name = file.response.data;
+            // this.form.attachment = file.response.data;
         },
         handleSubmit(name) {
             this.loading = true

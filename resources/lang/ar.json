@@ -355,6 +355,8 @@
 	"fixed" : "قيمة",
 	"Percentage Discount (%)" : "نسبة",
 	"Discount Value" : "قيمة الخصم",
+    "Discount value is required" : "قيمة الخصم مطلوبة",
+    "Tax value is required" : "قيمة الضريبة مطلوبة",
 	"Tax Value" : "قيمة الضريبة",
 	"Send The Bill To Customer" : "أرسل الفاتورة إلى العميل",
 	"Send SMS" : "أرسل رسالة نصية قصيرة",
