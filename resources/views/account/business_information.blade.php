@@ -86,21 +86,6 @@
               </div>
           </div>
 
-          {{-- <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="inputEmail8">{{ __('Logo') }}</label>
-              <div class="custom-file">
-                <input name="logo" type="file" class="custom-file-input" id="inputEmail8" accept="image/png, image/jpeg, image/jpg">
-                  @if(auth()->user()->logo)
-                    <img  src="{{ url(auth()->user()->logo)  }}" class="img-thumbnail logo_image" width="100" />
-                    <i class="glyph-icon simple-icon-trash delete_logo"></i>
-                  @endif
-                    <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
-                <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
-              </div>
-            </div>
-          </div> --}}
-
           <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
           <p class="">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
 
