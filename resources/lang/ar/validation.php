@@ -195,5 +195,6 @@ return [
         "business_name"=> "الاسم التجاري",
         "document"=> "الوثائق",
         "logo" => "الشعار",
+        "discount_value" => "قيمة الخصم",
     ],
 ];

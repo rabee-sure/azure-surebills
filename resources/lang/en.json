@@ -89,6 +89,7 @@
 "fixed" : "fixed",
 "Percentage Discount (%)" : "Percentage Discount (%)",
 "Discount Value" : "Discount Value",
+"discount_value" : "Discount Value",
 "Tax Value" : "Tax Value",
 "Send The Bill To Customer" : "Send The Bill To Customer",
 "Send SMS" : "Send SMS",
