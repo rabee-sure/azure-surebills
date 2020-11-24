@@ -186,6 +186,10 @@ class Bill extends Model
      */
     public function getWebhookUrlAttribute()
     {
+        if (!$this->application) {
+            return null;
+        }
+
         $data = [
             'reference_id='.$this->reference_id,
             'status='.$this->status,

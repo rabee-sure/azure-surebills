@@ -36,6 +36,10 @@ class CallbackWebhook implements ShouldQueue
             'http_errors' => false
         ]);
 
+        if (!$this->bill->webhook_url) {
+            return true;
+        }
+
         $request = $client->get($this->bill->webhook_url);
         $response = $request->getStatusCode();
         if($request->getStatusCode() == 200){
