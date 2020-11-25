@@ -3,43 +3,23 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Spatie\NovaTranslatable\Translatable;
 
-class Application extends Resource
+class Channel extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Application::class;
-
-    public static $displayInNavigation = false;
-
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */    
-    public static function searchable()
-    {
-        return false;
-    }
-
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'name';
+    public static $model = \App\Channel::class;
 
     /**
      * Get the displayble label of the resource.
@@ -48,7 +28,7 @@ class Application extends Resource
      */
     public static function label()
     {
-        return __('Applications');
+        return __('Channels');
     }
 
     /**
@@ -58,8 +38,22 @@ class Application extends Resource
      */
     public static function singularLabel()
     {
-        return __('Application');
+        return __('Channel');
     }
+    
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var string
+     */
+    // public static $displayInNavigation = false;
+
+    /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @var string
+     */
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -67,7 +61,7 @@ class Application extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name'
+        'id',
     ];
 
     /**
@@ -80,15 +74,30 @@ class Application extends Resource
     {
         return [
             ID::make()->sortable(),
-            Text::make(__('Name'), 'name'),
-            BelongsTo::make(__('User'), 'user', User::class)
-            ->searchable()
-            ->rules('required'),            
-            BelongsTo::make(__('Channel'), 'channel', Channel::class),
+            Text::make(__('Name'), 'name')->rules('required'),
+            BelongsTo::make(__('User'), 'user', User::class)->rules('required'),
+            HasMany::make(__('Applications'), 'applications', Application::class)->rules('required'),
+            Boolean::make(__('Active'), 'activate')->rules('required'),
+            Number::make(__('Mada fixed fees'), 'mada_fixed')
+                ->rules('required')
+                ->step(0.1)
+                ->hideFromIndex(),
+            Number::make(__('Mada percentage fees'), 'mada_percentage')
+                ->rules('required')
+                ->step(0.1)
+                ->hideFromIndex(),
+            Number::make(__('Credit Card fixed fees'), 'credit_cards_fixed')
+                ->rules('required')
+                ->step(0.1)
+                ->hideFromIndex(),
+            Number::make(__('Credit Card percentage fees'), 'credit_cards_percentage')
+                ->rules('required')
+                ->step(0.1)
+                ->hideFromIndex(),
 
-            Text::make(__('Redirect Url'), 'redirect'),
-            Text::make(__('Webhook URL'), 'webhook_url'),
-
+            DateTime::make(__('Created At'), 'created_at')
+                // ->hideFromIndex()
+                ->exceptOnForms(),
 
         ];
     }
@@ -97,7 +106,8 @@ class Application extends Resource
      * Get the cards available for the request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return arr
+     ay
      */
     public function cards(Request $request)
     {
@@ -136,32 +146,13 @@ class Application extends Resource
     {
         return [];
     }
-
-    // public static function authorizedToCreate(Request $request)
-    // {
-    //     return false;
-    // }
-    
-    public function authorizedToDelete(Request $request)
-    {
-        return false;
-    }
-
-    public function authorizedToUpdate(Request $request)
-    {
-        return false;
-    }
-
     public static function newModel()
     {
         $model = static::$model;
         $instance = new $model;
 
-        if ($instance->secret == null) {
-            $instance->secret = Str::random(20);
-        }        
-        if ($instance->webhook_secret == null) {
-            $instance->webhook_secret = Str::random(20);
+        if ($instance->created_by == null) {
+            $instance->created_by = auth()->user()->id;
         }
         return $instance;
     }

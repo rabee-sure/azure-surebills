@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::get('test', 'TestController@test')->name('test');
 Route::post('upload', 'MediaController@upload')->name('media.upload');
 
 Route::prefix('v1')->group(function () {
