@@ -74,7 +74,9 @@ class Statement extends Resource
             DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
             Text::make(__('Description'), 'description'),
             Text::make(__('Reference'), 'reference'),
-            Text::make(__('Receipt'), 'receipt'),
+            Text::make(__('Receipt'), 'receipt', function(){
+                return ' '.$this->receipt;
+            }),
             Text::make(__('Auth ID'), 'auth_id'),
             Select::make(__('Card Brand'), 'card_brand')->options([
                 'VISA' => 'VISA',
