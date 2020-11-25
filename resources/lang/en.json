@@ -221,6 +221,8 @@
 "invalid_min_total": "Invoice total is less than 2 SAR",
 "invalid_max_total": "Invoice total is more than 14000 SAR",
 "yes": "Yes",
-"no": "No"
+"no": "No",
+"file max size should be less than or equal": "File max size should be less than or equal :value MB",
+"file extension should be in": "File extension should be in :value"
 
 }

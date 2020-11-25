@@ -21,7 +21,7 @@ class UserController extends Controller
     public function stats(User $user)
     {
         return new UserStatResource($user);
-    }    
+    }
 
     /**
      * Store a newly created resource in storage.

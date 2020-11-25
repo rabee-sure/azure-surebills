@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\ValidateUploadFile;
 
 class BankInformationRequest extends FormRequest
 {
@@ -28,6 +29,7 @@ class BankInformationRequest extends FormRequest
             'iban_number' => ['required'],
             'beneficiary_name' => ['required'],
             'document' => ['nullable', 'array', "max:5"],
+            'document.*' => ['required', new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])],
         ];
     }
 

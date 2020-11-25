@@ -11,6 +11,8 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Rules\ValidateUploadFile;
 
 class AccountController extends Controller
 {
@@ -221,21 +223,29 @@ class AccountController extends Controller
      */
     public function imagesUploadPost(Request $request)
     {
-            $path = storage_path('tmp/uploads');
+        $validator = Validator::make($request->all(), [
+            'file' => ['required', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])]
+        ]);
 
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
-            }
+        if ($validator->fails())
+        {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+        $path = storage_path('tmp/uploads');
 
-            $file = $request->file('file');
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
 
-            $name = uniqid() . '_' . trim($file->getClientOriginalName());
+        $file = $request->file('file');
 
-            $file->move($path, $name);
+        $name = uniqid() . '_' . trim($file->getClientOriginalName());
 
-            return response()->json([
-                'name'          => $name,
-                'original_name' => $file->getClientOriginalName(),
-            ]);
+        $file->move($path, $name);
+
+        return response()->json([
+            'name'          => $name,
+            'original_name' => $file->getClientOriginalName(),
+        ]);
     }
 }

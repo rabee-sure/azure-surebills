@@ -1,4 +1,4 @@
-/* Dore Theme Select & Initializer Script 
+/* Dore Theme Select & Initializer Script
 
 Table of Contents
 
@@ -69,7 +69,7 @@ function loadStyle(href, callback) {
   $(".direction-radio[data-direction='" + direction + "']").attr("checked", true);
   $(".radius-radio[data-radius='" + radius + "']").attr("checked", true);
   $("#switchDark").attr("checked", theme.indexOf("dark") > 0 ? true : false);
-  
+
   // set body class
   if (theme == "dore.light.green.min.css") {
     $('html').removeClass('body-dark-mode');
@@ -167,7 +167,7 @@ $(window).scroll(function() {
     $("#header_fixed").removeClass("sticky");
   }
 });
- 
+
 
 $('input[type="email"]').keypress(function (e) {
   var regex = new RegExp("^[A-Za-z0-9\s!@#$%^&*()_+=-`~\\\]\[{}|';:/.,?><]*$");
@@ -251,4 +251,4 @@ $(function() {
       $('.discount_type_item').hide();
       $('#' + $(this).val()).show();
   });
-});
+}).change();

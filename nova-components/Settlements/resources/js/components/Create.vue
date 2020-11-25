@@ -40,12 +40,13 @@
                 <Upload
                     :on-success="handleUploadFileSuccess" :multiple="false"
                     type="drag"
-                    action="/api/upload">
+                    :action="this.uploadFileActionUrl">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                         <p>{{ __('Click or drag files here to upload') }}</p>
                     </div>
                 </Upload>
+                <p class="file-error" style="color:red; direction: rtl;">{{fileError}} {{this.language}}</p>
             </FormItem>
             <Divider orientation="left">{{__('Bank Info')}}</Divider>
             <FormItem :label="__('Bank') + ' :'" v-if="user.bank">
@@ -115,6 +116,8 @@ export default {
     data() {
         return {
             billsModal: false,
+            // language: null,
+            uploadFileActionUrl: '/api/upload?lang=',
             bills: [],
             new_bills: [],
             billsTable: [
@@ -209,6 +212,7 @@ export default {
             user: [],
             errors: [],
             loading: false,
+            fileError: null,
             form: {
                 date_range: null,
                 amount: 0,
@@ -256,7 +260,7 @@ export default {
             Nova.request().get('/users/'+id)
             .then(response => {
                 this.user = response.data.data;
-                // this.form.amount = this.user.balance;
+                this.uploadFileActionUrl += response.data.data.language;
             });
             Nova.request().get('/users/'+id+'/transfers', {
                     params: {
@@ -329,12 +333,22 @@ export default {
             }
         },
         handleUploadFileSuccess (res, file, filelist) {
-            if(filelist.length > 1)
+            if(file.response.error)
             {
-                filelist = filelist.splice(0 , 1)
+                filelist.splice(0, filelist.length);
+                this.form.attachment = null;
+                this.fileError = file.response.error.file[0];
+                console.log(file.response.error.file[0]);
             }
-            // file.name = file.response.data;
-            this.form.attachment = file.response.data;
+            else
+            {
+                if(filelist.length > 1)
+                {
+                    filelist.splice(0 , 1)
+                }
+                this.fileError = null;
+                this.form.attachment = file.response.data;
+            }
         },
         handleSubmit(name) {
             this.loading = true

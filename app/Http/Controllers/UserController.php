@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $users = User::all();
         return UserResource::collection($users);
-    } 
+    }
 
     /**
      * Display a listing of the resource.
@@ -44,7 +44,7 @@ class UserController extends Controller
         ->paginate($request->per_page);
 
         return TransferResource::collection($Transfers);
-    } 
+    }
 
 
     /**
@@ -62,7 +62,7 @@ class UserController extends Controller
             $to = $to->copy()->toDateTimeString();
         else
             $to = $to->copy()->endOfDay()->toDateTimeString();
-        
+
         $billsids = $user->bills()
             ->when($request->from, function ($query) use($from, $to) {
                 return $query->whereBetween('created_at', [$from, $to]);
@@ -102,7 +102,7 @@ class UserController extends Controller
             $to = $to->copy()->toDateTimeString();
         else
             $to = $to->copy()->endOfDay()->toDateTimeString();
-        
+
         $bills = $user->bills()
             ->when($request->from, function ($query) use($from, $to) {
                 return $query->whereBetween('created_at', [$from, $to]);
@@ -115,7 +115,7 @@ class UserController extends Controller
             ->get();
 
         return BillResource::collection($bills);
-    } 
+    }
     /**
      * Display a listing of the resource.
      *
@@ -124,5 +124,5 @@ class UserController extends Controller
     public function show(User $user)
     {
         return new UserResource($user);
-    } 
+    }
 }

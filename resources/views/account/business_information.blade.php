@@ -71,9 +71,12 @@
             <div class="form-group col-md-6">
               <label for="inputEmail8">{{ __('Logo') }}</label>
               <div class="custom-file">
-                <input name="logo" type="file" class="custom-file-input" id="inputEmail8" accept="image/png, image/jpeg, image/jpg">
+                <input name="logo" type="file" class="custom-file-input" accept="image/png, image/jpeg, image/jpg">
                 <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
                 <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
+                @if($errors->has('logo'))
+                    <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('logo') }}</span>
+                @endif
               </div>
             </div>
             <div class="form-group col-md-6">

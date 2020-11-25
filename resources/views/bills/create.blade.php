@@ -151,7 +151,7 @@
               <div class="form-group col-6">
                 <label for="inputEmail1">{{ __('Add Discount') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input name="add_discount" class="custom-switch-input" id="Discount_Values_Checkbox" type="checkbox">
+                  <input name="add_discount" class="custom-switch-input" id="Discount_Values_Checkbox" type="checkbox" @if(old('add_discount')) checked @endif>
                   <label class="custom-switch-btn" for="Discount_Values_Checkbox"></label>
                 </div>
               </div><!-- form-group -->
@@ -170,14 +170,14 @@
                   <div class="form-group col-6 col-md-6 col-lg-6 col-xl-6">
                     <label for="type">{{ __('Discount type') }}</label>
                     <select name="discount_type" id="discount_type" class="form-control">
-                      <option value="fixed">{{ __('fixed') }}</option>
-                      <option value="percentage">{{ __('Percentage Discount (%)') }}</option>
+                      <option value="fixed" @if(old('discount_type') == 'fixed') selected @endif> {{ __('fixed') }}</option>
+                      <option value="percentage" @if(old('discount_type') == 'percentage') selected @endif>{{ __('Percentage Discount (%)') }}</option>
                     </select>
                   </div><!-- form-group -->
                   <div class="form-group col-6 col-md-6 col-lg-6 col-xl-6">
                     <label for="Price">{{ __('Discount Value') }}</label>
                     <div class="input-group">
-                      <input type="tel" name="discount_value" class="form-control _parseArabicNumbers" id="Discount_Value" aria-describedby="basic-addon2">
+                    <input type="tel" name="discount_value" class="form-control _parseArabicNumbers" value="{{old('discount_value')}}" id="Discount_Value" aria-describedby="basic-addon2">
                       <div class="input-group-append">
                         <span class="input-group-text discount_type_item" id="fixed">{{ __('SAR') }}</span>
                         <span class="input-group-text discount_type_item" id="percentage" style="display:none">%</span>
@@ -269,7 +269,10 @@
       });
       $('#Discount_Values_Checkbox').change(function() {
         $('.Discount_Values').toggle();
-      });
+      })
+      @if(old('add_discount'))
+      {{'.change();'}}
+      @endif
 
       var customers = [];
       $( "#customer_name" ).autocomplete({

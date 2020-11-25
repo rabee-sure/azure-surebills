@@ -500,5 +500,7 @@
   "Number of Paid Bills" : "عدد الفواتير المدفوعة",
   "Total Number of Bills" : "إجمالي الفواتير",
   "invalid_min_total": "قيمة الفاتورة الاجمالية اقل من 2 ريال",
-  "invalid_max_total": "قيمة الفاتورة الاجمالية اكثر من 14000 ريال"
+  "invalid_max_total": "قيمة الفاتورة الاجمالية اكثر من 14000 ريال",
+  "file max size should be less than or equal": "حجم الملف يجب ان يكون اقل من او يساوي :value MB",
+  "file extension should be in": "امتداد الملف يجب ان يكون :value"
 }
