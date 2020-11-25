@@ -329,17 +329,12 @@ export default {
             }
         },
         handleUploadFileSuccess (res, file, filelist) {
-            console.log(filelist.length);
             if(filelist.length > 1)
             {
-                filelist = filelist.splice(filelist.indexOf(0) , 1)
-                // console.log(filelist[0]);
-                // console.log(filelist[1]);
-                // filelist.splice(filelist.indexOf(0) , 1)
+                filelist = filelist.splice(0 , 1)
             }
-            console.log(filelist);
             // file.name = file.response.data;
-            // this.form.attachment = file.response.data;
+            this.form.attachment = file.response.data;
         },
         handleSubmit(name) {
             this.loading = true
