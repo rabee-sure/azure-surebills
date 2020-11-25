@@ -28,6 +28,7 @@
 /storage/*.key
 /storage/tmp
 /vendor
+/app/Http/Controllers/Api/TestController.php
 .env
 .env.backup
 .phpunit.result.cache
