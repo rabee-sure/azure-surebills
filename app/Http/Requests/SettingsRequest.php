@@ -28,7 +28,7 @@ class SettingsRequest extends FormRequest
             'create_send_email' => ['nullable'],
             'paid_send_email' => ['nullable'],
             'paid_send_email' => ['nullable'],
-            'tax_value' => ['required_if:add_tax,on', 'between:1,100', 'numeric'],
+            'tax_value' => ['required_if:add_tax,on', 'between:1,100', 'integer'],
         ];
     }
 
