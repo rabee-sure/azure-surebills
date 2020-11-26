@@ -29,7 +29,7 @@ class BillController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
+    {
         $date_start = $request->date_start ?? null;
         $date_to = $request->date_to ?? null;
 
@@ -75,7 +75,7 @@ class BillController extends Controller
                 'mobile' => $request->customer_mobile,
                 'user_id' => $user->id,
             ],[
-                'name' => $request->customer_name, 
+                'name' => $request->customer_name,
                 'email' => $request->customer_email,
             ]);
 
@@ -133,7 +133,7 @@ class BillController extends Controller
                         $discount = ($sub_total + $payment_fees) * $request->discount_value / 100;
                         break;
                 }
-            } 
+            }
 
             if($request->add_tax){
                $vat = ($sub_total + $payment_fees - $discount) * $request->tax_value /100;
@@ -151,7 +151,7 @@ class BillController extends Controller
             $bill->save();
             return $bill;
         });
-        
+
         event(new BillCreated($bill));
         return redirect()->route('bills.show', $bill);
     }
@@ -180,7 +180,7 @@ class BillController extends Controller
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
         }else{
-           \App::setLocale($bill->user->settings->default_lang); 
+           \App::setLocale($bill->user->settings->default_lang);
         }
 
         if(!$bill){
@@ -200,7 +200,7 @@ class BillController extends Controller
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
         $invoice->detail(['bill' => $bill->toArray()])
             ->detail(['hash' => $bill->pay_id]);
-        
+
         $countdown = $bill->created_at
                 ->addDays($bill->expiry_date)
                 ->addMinutes($bill->expiry_minutes)
@@ -210,7 +210,7 @@ class BillController extends Controller
                 // dd($countdown);
         return view('bills.pay', compact('bill', 'id', 'countdown'));
     }
-    
+
     /**
      * Display the payment page for a specified resource.
      *
@@ -234,7 +234,7 @@ class BillController extends Controller
             ->detail(['surebills_payment_log_id' => $payment->id])
             ->detail(['hash' => $payment->hash_id])
             ->detail(['locale' => $locale ?? app()->getLocale()]);
-        
+
         return $payment_iframe = Payment::via($payment->payment_method)->generateIframe($invoice);
     }
 
@@ -272,7 +272,7 @@ class BillController extends Controller
             $payment->results = $invoice->getDetails();
             $payment->status = 1;
             $payment->save();
-            
+
             $bill->setPaid();
 
             if($bill->application && $bill->is_redirect){
@@ -312,7 +312,7 @@ class BillController extends Controller
     {
         $bill = Bill::find($id);
 
-        if($bill->status != 'paid'){    
+        if($bill->status != 'paid'){
             $bill->status = 'canceled';
             $bill->canceled_at = Carbon::now();
             $bill->save();
