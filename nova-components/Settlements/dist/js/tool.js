@@ -60332,7 +60332,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60452,6 +60452,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -60462,6 +60463,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             billsModal: false,
+            // language: null,
+            uploadFileActionUrl: '/api/upload?lang=',
             bills: [],
             new_bills: [],
             billsTable: [{
@@ -60541,6 +60544,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             user: [],
             errors: [],
             loading: false,
+            fileError: null,
             form: {
                 date_range: null,
                 amount: 0,
@@ -60580,7 +60584,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             Nova.request().get('/users/' + id).then(function (response) {
                 _this.user = response.data.data;
-                // this.form.amount = this.user.balance;
+                _this.uploadFileActionUrl += response.data.data.language;
             });
             Nova.request().get('/users/' + id + '/transfers', {
                 params: {
@@ -60650,16 +60654,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         handleUploadFileSuccess: function handleUploadFileSuccess(res, file, filelist) {
-            console.log(filelist.length);
-            if (filelist.length > 1) {
-                filelist = filelist.splice(filelist.indexOf(0), 1);
-                // console.log(filelist[0]);
-                // console.log(filelist[1]);
-                // filelist.splice(filelist.indexOf(0) , 1)
+            if (file.response.error) {
+                filelist.splice(0, filelist.length);
+                this.form.attachment = null;
+                this.fileError = file.response.error.file[0];
+                console.log(file.response.error.file[0]);
+            } else {
+                if (filelist.length > 1) {
+                    filelist.splice(0, 1);
+                }
+                this.fileError = null;
+                this.form.attachment = file.response.data;
             }
-            console.log(filelist);
-            // file.name = file.response.data;
-            // this.form.attachment = file.response.data;
         },
         handleSubmit: function handleSubmit(name) {
             var _this3 = this;
@@ -61181,7 +61187,7 @@ var render = function() {
                         "on-success": _vm.handleUploadFileSuccess,
                         multiple: false,
                         type: "drag",
-                        action: "/api/upload"
+                        action: this.uploadFileActionUrl
                       }
                     },
                     [
@@ -61203,6 +61209,19 @@ var render = function() {
                           ])
                         ],
                         1
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "p",
+                    {
+                      staticClass: "file-error",
+                      staticStyle: { color: "red", direction: "rtl" }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(_vm.fileError) + " " + _vm._s(this.language)
                       )
                     ]
                   )

@@ -16,59 +16,67 @@
           </ul>
           <form id="form" method="POST" action="{{ route('business.information') }}" enctype="multipart/form-data" >
             @csrf
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
               <div id="step-1" style="padding: 15px;">
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label name="license_type" for="inputEmail3">{{ __('License type') }} <button class="license_button" type="button" data-toggle="modal" data-target=".license_type_modal"></button></label>
                       <select name="license_type" class="form-control">
-                        <option value="Commercial Record" @if ($user->license_type == 'Commercial Record')selected="selected"@endif>{{ __('Commercial Record') }}</option>
-                        <option value="Freelance" @if ($user->license_type == 'Freelance')selected="selected"@endif>{{ __('Freelance') }}</option>
+                        {{-- <option value="Commercial Record"@if($errors->any()) @if(old('license_type') == 'Commercial Record') {{selected}} @elseif($user->license_type == 'Commercial Record')selected="selected"@endif>{{ __('Commercial Record') }}</option> --}}
+
+                        <option value="Commercial Record"
+                        @if($errors->any())
+                            @if(old('license_type') == 'Commercial Record')
+                                {{'selected'}}
+                            @endif
+                        @elseif($user->license_type == 'Commercial Record')
+                            {{'selected'}}
+                        @endif>{{ __('Commercial Record') }}</option>
+
+                        <option value="Freelance"
+                                @if($errors->any())
+                                    @if(old('license_type') == 'Freelance')
+                                        {{'selected'}}
+                                    @endif
+                                @elseif($user->license_type == 'Freelance')
+                                    {{'selected'}}
+                                @endif>{{ __('Freelance') }}</option>
                       </select>
                     </div>
                     <div class="form-group col-md-6">
                       <label for="vat_registration_number">{{ __('VAT Registration Number') }} ( {{ __('optional') }} )</label>
-                      <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
+                      <input value="@if($errors->any()){{old('vat_registration_number')}}@else{{$user->vat_registration_number}}@endif" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
                     </div>
                   </div>
 
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="business_name_en">{{ __('Business Name') }} (EN)</label>
-                      <input value="{{ $user->business_name_en }}" name="business_name_en" type="text" class="form-control" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)">
+                      <input value="@if($errors->any()){{old('business_name_en')}}@else{{$user->business_name_en}}@endif" name="business_name_en" type="text" class="form-control" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)">
                     </div>
                     <div class="form-group col-md-6">
                       <label for="business_name_ar">{{ __('Business Name') }} (AR)</label>
-                      <input value="{{ $user->business_name_ar }}" name="business_name_ar" type="text" class="form-control" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)">
+                      <input value="@if($errors->any()){{old('business_name_ar')}}@else{{$user->business_name_ar}}@endif" name="business_name_ar" type="text" class="form-control" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)">
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="business_address">{{ __('Address') }}</label>
-                      <input value="{{ $user->business_address }}" name="business_address" type="text" class="form-control" id="business_address" placeholder="{{ __('Address') }}">
+                      <input value="@if($errors->any()){{old('business_address')}}@else{{$user->business_address}}@endif" name="business_address" type="text" class="form-control" id="business_address" placeholder="{{ __('Address') }}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for="business_mobile">{{ __('Mobile') }}</label>
-                      <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}">
+                      <input value="@if($errors->any()){{old('business_mobile')}}@else{{$user->business_mobile}}@endif" name="business_mobile" type="tel" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}">
                     </div>
                   </div>
 
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="inputEmail3">{{ __('Website') }}</label>
-                      <input value="{{ $user->website }}" name="website"  type="text" class="form-control" id="inputEmail3" placeholder="{{ __('Website') }}">
+                      <input value="@if($errors->any()){{old('website')}}@else{{$user->website}}@endif" name="website"  type="text" class="form-control" id="inputEmail3" placeholder="{{ __('Website') }}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for="inputEmail2">{{ __('Sector') }}</label>
-                      <input value="{{ $user->sector }}" name="sector" type="text" class="form-control" id="inputEmail2" placeholder="{{ __('Sector') }}">
+                      <input value="@if($errors->any()){{old('sector')}}@else{{$user->sector}}@endif" name="sector" type="text" class="form-control" id="inputEmail2" placeholder="{{ __('Sector') }}">
                     </div>
                   </div>
 
@@ -76,9 +84,12 @@
                     <div class="form-group col-md-6">
                       <label for="inputEmail8">{{ __('Logo') }}</label>
                       <div class="custom-file">
-                        <input name="logo" type="file" class="custom-file-input" id="inputEmail8" accept="image/png, image/jpeg, image/jpg">
+                        <input name="logo" type="file" id="inputEmail8" class="custom-file-input" accept="image/png, image/jpeg, image/jpg">
                         <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
                         <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
+                        @if($errors->has('logo'))
+                            <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('logo') }}</span>
+                        @endif
                       </div>
                     </div>
                     <div class="form-group col-md-6">

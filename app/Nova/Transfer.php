@@ -26,6 +26,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
 use Titasgailius\SearchRelations\SearchesRelations;
+use App\Rules\ValidateUploadFile;
 
 class Transfer extends Resource
 {
@@ -95,7 +96,7 @@ class Transfer extends Resource
             BelongsTo::make(__('User'), 'user', User::class)->searchable(),
             Number::make(__('Amount'), 'amount')->min(1)->step(0.1)->rules('required', new TransferBalance($request->viaResourceId)),
             Textarea::make(__('Note'), 'note'),
-            File::make(__('Attachment'), 'attachment')->disk('public'),
+            File::make(__('Attachment'), 'attachment')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])),
 
             Text::make(__('Date From To'))->displayUsing(function(){
                 if(isset($this->filters['date'])){

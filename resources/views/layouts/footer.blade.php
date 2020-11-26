@@ -27,6 +27,5 @@
     window._translations = {!! cache('translations') !!};
 </script>
 <script type="text/javascript" src="/vendor/jsvalidation/js/jsvalidation.js?v={{ config('app.asset_version')}}"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/js/custom.js"></script>
 

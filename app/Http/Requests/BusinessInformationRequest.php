@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\ValidateUploadFile;
 
 class BusinessInformationRequest extends FormRequest
 {
@@ -28,17 +29,18 @@ class BusinessInformationRequest extends FormRequest
             'business_name_en' => ['required'],
             'business_name_ar' => ['required'],
             'sector' => ['nullable'],
-            'website' => ['nullable'],
-            'twitter' => ['nullable'],
-            'facebook' => ['nullable'],
-            'instagram' => ['nullable'],
+            'website' => ['nullable', 'url'],
+            'twitter' => ['nullable', 'url'],
+            'facebook' => ['nullable', 'url'],
+            'instagram' => ['nullable', 'url'],
             'hidden_logo' => ['nullable'],
-            'logo' => ['nullable','image','mimes:jpeg,png,jpg'],
+            'logo' => ['nullable', new ValidateUploadFile(['png', 'jpg', 'jpeg'])],
             'description' => ['nullable'],
             'business_address' => ['required'],
             'business_mobile' => ['required'],
             'vat_registration_number' => ['nullable'],
             'document' => ['nullable', 'array', "max:5"],
+            'document.*' => ['required', new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])],
         ];
     }
 

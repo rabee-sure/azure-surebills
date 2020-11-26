@@ -1662,7 +1662,7 @@ return $;
  * Date formatter utility library that allows formatting date/time variables or Date objects using PHP DateTime format.
  * This library is a standalone javascript library and does not depend on other libraries or plugins like jQuery. The
  * library also adds support for Universal Module Definition (UMD).
- * 
+ *
  * @see http://php.net/manual/en/function.date.php
  *
  * For more JQuery plugins visit http://plugins.krajee.com
