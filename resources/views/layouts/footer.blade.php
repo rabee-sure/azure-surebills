@@ -10,7 +10,7 @@
   </div>
 </footer>
 
-    @if(in_array(request()->route()->getName(), ['integration','mobile_verify', 'home' ]))
+    @if(in_array(request()->route()->getName(), ['channels.show', 'integration','mobile_verify', 'home' ]))
       <script src="/js/app.js?v={{ config('app.asset_version') }}" defer></script>
       <script src="/js/jbootstrap.js?v={{ config('app.asset_version') }}"></script>
       <script src="/js/all.js?v={{ config('app.asset_version') }}"></script>

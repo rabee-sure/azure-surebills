@@ -132,7 +132,6 @@ class Bill extends Resource
                 return __('Bill').' '.  $this->number  .'-'. $this->customer_name;
             }),
 
-
             Badge::make(__('Status'), 'status')
                ->options($options)
                ->colors([

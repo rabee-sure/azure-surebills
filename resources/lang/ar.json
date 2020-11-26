@@ -16,6 +16,10 @@
 	"Payment Fees Vat": "الضرايب",
 	"Net": "الصافي",
 	"Paid At": "دفع في",
+	"Channels": "القنوات",
+	"Channel": "القناة",
+	"channels": "قنوات",
+	"channel": "قناة",
 
 	"Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url": "اهلا بك :name لقد تلقيت فاتورة جديدة من :business_name باجمالي :total ريال. ادفع الان :url",
     "taxvalue": "قيمة الضريبة",
