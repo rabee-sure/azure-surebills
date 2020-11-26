@@ -38,7 +38,7 @@
                 <td style="vertical-align: middle;">{{ application.redirect }}</td>
                 <!-- Edit Button -->
                 <td style="vertical-align: middle;">
-                  <a class="action-link" tabindex="-1" @click="edit(application)" v-if="application.channel == null">{{ __('Edit')}}</a>
+                  <a class="action-link" tabindex="-1" @click="edit(application)">{{ __('Edit')}}</a>
                 </td>
                 <!-- Delete Button -->
                 <td style="vertical-align: middle;">
@@ -77,7 +77,16 @@
                   <input id="create-application-name" type="text" class="form-control" @keyup.enter="store" v-model="createForm.name">
                   <span class="form-text text-muted">{{ __('Something your users will recognize and trust.')}}</span>
                 </div>
-              </div>
+              </div>              
+
+              <!-- Email -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">{{ __('Client Email')}}</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" name="email" @keyup.enter="store" v-model="createForm.email">
+                </div>
+              </div>   
+
               <!-- Redirect URL -->
               <div class="form-group row">
                 <label class="col-md-3 col-form-label">{{ __('Redirect URL')}}</label>
@@ -92,8 +101,40 @@
                 <div class="col-md-9">
                   <input type="text" class="form-control" name="webhook_url" @keyup.enter="store" v-model="createForm.webhook_url">
                 </div>
+              </div>                         
+
+              <!-- Mada Fixed -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">{{ __('Mada Fixed') }}</label>
+                <div class="col-md-9">
+                  <input type="number" class="form-control" name="mada_fixed" @keyup.enter="store" v-model="createForm.mada_fixed">
+                </div>
               </div>              
-              <!-- fail_redirect_url URL -->
+
+              <!-- Mada Percentage -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">{{ __('Mada Percentage') }}</label>
+                <div class="col-md-9">
+                  <input type="number" class="form-control" name="mada_percentage" @keyup.enter="store" v-model="createForm.mada_percentage">
+                </div>
+              </div>              
+
+              <!-- Credit Cards Fixed -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">{{ __('Credit Cards Fixed') }}</label>
+                <div class="col-md-9">
+                  <input type="number" class="form-control" name="credit_cards_fixed" @keyup.enter="store" v-model="createForm.credit_cards_fixed">
+                </div>
+              </div>              
+
+              <!-- Credit Cards Percentage -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">{{ __('Credit Cards Percentage') }}</label>
+                <div class="col-md-9">
+                  <input type="number" class="form-control" name="credit_cards_percentage" @keyup.enter="store" v-model="createForm.credit_cards_percentage">
+                </div>
+              </div>              
+
             </form>
           </div>
           <!-- Modal Actions -->
@@ -132,6 +173,7 @@
                   <span class="form-text text-muted">{{ __('Something your users will recognize and trust.')}}</span>
                 </div>
               </div>
+
               <!-- Redirect URL -->
               <div class="form-group row">
                 <label class="col-md-3 col-form-label">{{ __('Redirect URL')}}</label>
@@ -139,7 +181,8 @@
                   <input type="text" class="form-control" name="redirect" @keyup.enter="update" v-model="editForm.redirect">
                   <span class="form-text text-muted">{{ __('Your application\'s authorization callback URL.')}}</span>
                 </div>
-              </div>              
+              </div>    
+
               <!-- Webhook URL -->
               <div class="form-group row">
                 <label class="col-md-3 col-form-label">{{ __('Webhook URL')}}</label>
@@ -147,8 +190,38 @@
                   <input type="text" class="form-control" name="webhook_url" @keyup.enter="update" v-model="editForm.webhook_url">
                 </div>
               </div>              
-              <!-- Fail Redirect URL -->
 
+              <!-- Mada Fixed -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">{{ __('Mada Fixed') }}</label>
+                <div class="col-md-9">
+                  <input type="number" class="form-control" name="mada_fixed" @keyup.enter="update" v-model="editForm.mada_fixed">
+                </div>
+              </div>              
+
+              <!-- Mada Percentage -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">{{ __('Mada Percentage') }}</label>
+                <div class="col-md-9">
+                  <input type="number" class="form-control" name="mada_percentage" @keyup.enter="update" v-model="editForm.mada_percentage">
+                </div>
+              </div>              
+
+              <!-- Credit Cards Fixed -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">{{ __('Credit Cards Fixed') }}</label>
+                <div class="col-md-9">
+                  <input type="number" class="form-control" name="credit_cards_fixed" @keyup.enter="update" v-model="editForm.credit_cards_fixed">
+                </div>
+              </div>              
+
+              <!-- Credit Cards Percentage -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">{{ __('Credit Cards Percentage') }}</label>
+                <div class="col-md-9">
+                  <input type="number" class="form-control" name="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage">
+                </div>
+              </div>              
             </form>
           </div>
           <!-- Modal Actions -->
@@ -180,9 +253,7 @@
 
 <script>
     export default {
-        /*
-         * The component's data.
-         */
+        props: ['channel_id'],
         data() {
             return {
                 applications: [],
@@ -192,8 +263,13 @@
                 createForm: {
                     errors: [],
                     name: '',
+                    email: '',
                     redirect: '',
                     webhook_url: '',
+                    mada_fixed: '',
+                    mada_percentage: '',
+                    credit_cards_fixed: '',
+                    credit_cards_percentage: '',
                     confidential: true
                 },
 
@@ -202,6 +278,10 @@
                     name: '',
                     redirect: '',
                     webhook_url: '',
+                    mada_fixed: '',
+                    mada_percentage: '',
+                    credit_cards_fixed: '',
+                    credit_cards_percentage: '', 
                 }
             };
         },
@@ -240,7 +320,7 @@
              * Get all of the OAuth applications for the user.
              */
             getApplications() {
-                axios.get('/applications')
+                axios.get('/channels/'+ this.channel_id +'/applications')
                         .then(response => {
                             this.applications = response.data.data;
                         });
@@ -259,7 +339,7 @@
             store() {
                 this.persistApplication(
                     'post',
-                    '/applications',
+                    '/channels/'+ this.channel_id +'/applications',
                     this.createForm,
                     '#modal-create-application'
                 );
@@ -273,6 +353,10 @@
                 this.editForm.name = application.name;
                 this.editForm.redirect = application.redirect;
                 this.editForm.webhook_url = application.webhook_url;
+                this.editForm.mada_fixed = application.mada_fixed;
+                this.editForm.mada_percentage = application.mada_percentage;
+                this.editForm.credit_cards_fixed = application.credit_cards_fixed;
+                this.editForm.credit_cards_percentage = application.credit_cards_percentage;
 
                 $('#modal-edit-application').modal('show');
             },
@@ -283,7 +367,7 @@
             update() {
                 this.persistApplication(
                     'put',
-                    'applications/' + this.editForm.id,
+                    '/channels/'+ this.channel_id +'/applications/' + this.editForm.id,
                     this.editForm,
                     '#modal-edit-application'
                 );
@@ -302,6 +386,12 @@
                         form.name = '';
                         form.redirect = '';
                         form.webhook_url = '';
+                        form.email = '';
+                        form.mada_fixed = '';
+                        form.mada_percentage = '';
+                        form.credit_cards_fixed = '';
+                        form.credit_cards_percentage = '';
+
                         form.errors = [];
 
                         $(modal).modal('hide');
@@ -332,7 +422,7 @@
              * Destroy the given application.
              */
             destroy(application) {
-                axios.delete('/applications/' + application.id)
+                axios.delete('/channels/'+ this.channel_id +'/applications/' + application.id)
                         .then(response => {
                             this.getApplications();
                         });
@@ -342,90 +432,90 @@
 </script>
 
 <style lang="scss" scoped>
-.Applications {
-  margin: 20px auto;
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    padding: 20px 20px 0px 20px;
-    span {
-      display: block;
-      font-weight: bold;
-      font-size: 17px;
-      text-transform: capitalize;
-      color: #000;
-      [class="body-dark-mode"] & {
-        color: #ffffff;
-      } /* Dark Mode */
-    } /* span */
-    a {
-      display: block;
-      cursor: pointer;
-      font-size: 14px;
-      border-radius: 4px;
-      padding: 5px 15px;
-      color: #fff;
-    } /* a */
-  } /* card-header */
-  .card-body {
-    padding: 20px;
-    .not_created_OAuth {
+  .Applications {
+    margin: 20px auto;
+    .card-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      flex-flow: column;
+      justify-content: space-between;
       flex-wrap: wrap;
-      padding: 30px 0;
-      min-height: 200px;
-      svg {
-        height: 110px;
-        fill: #ddd;
-        width: auto;
-        [class="body-dark-mode"] & {
-          fill: #666;
-        } /* Dark Mode */
-      } /* svg */
+      padding: 20px 20px 0px 20px;
       span {
         display: block;
-        font-size: 16px;
-        margin: 20px auto 0;
+        font-weight: bold;
+        font-size: 17px;
         text-transform: capitalize;
-        color: #777;
+        color: #000;
         [class="body-dark-mode"] & {
-          color: #666;
+          color: #ffffff;
         } /* Dark Mode */
       } /* span */
-    } /* not_created_OAuth */
-    table.Applications_table {
-      thead {
-        th {
-          background: #eee;
-          vertical-align: middle;
-          border: 1px solid #ddd !important;
+      a {
+        display: block;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 4px;
+        padding: 5px 15px;
+        color: #fff;
+      } /* a */
+    } /* card-header */
+    .card-body {
+      padding: 20px;
+      .not_created_OAuth {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column;
+        flex-wrap: wrap;
+        padding: 30px 0;
+        min-height: 200px;
+        svg {
+          height: 110px;
+          fill: #ddd;
+          width: auto;
           [class="body-dark-mode"] & {
-            background: #313131;
-            border: 1px solid #222222 !important;
+            fill: #666;
           } /* Dark Mode */
-        } /* th */
-      } /* thead */
-      tbody {
-        td {
-          background: #fff;
-          vertical-align: middle;
-          font-size: 13px;
-          border: 1px solid #ddd !important;
+        } /* svg */
+        span {
+          display: block;
+          font-size: 16px;
+          margin: 20px auto 0;
+          text-transform: capitalize;
+          color: #777;
           [class="body-dark-mode"] & {
-            background: #232223;
-            border: 1px solid #313131 !important;
+            color: #666;
           } /* Dark Mode */
-          a.action-link {
-            cursor: pointer;
-          } /* a */
-        } /* td */
-      } /* tbody */
-    } /* Applications_table */
-  } /* card-body */
-} /* Applications */
+        } /* span */
+      } /* not_created_OAuth */
+      table.Applications_table {
+        thead {
+          th {
+            background: #eee;
+            vertical-align: middle;
+            border: 1px solid #ddd !important;
+            [class="body-dark-mode"] & {
+              background: #313131;
+              border: 1px solid #222222 !important;
+            } /* Dark Mode */
+          } /* th */
+        } /* thead */
+        tbody {
+          td {
+            background: #fff;
+            vertical-align: middle;
+            font-size: 13px;
+            border: 1px solid #ddd !important;
+            [class="body-dark-mode"] & {
+              background: #232223;
+              border: 1px solid #313131 !important;
+            } /* Dark Mode */
+            a.action-link {
+              cursor: pointer;
+            } /* a */
+          } /* td */
+        } /* tbody */
+      } /* Applications_table */
+    } /* card-body */
+  } /* Applications */
 </style>

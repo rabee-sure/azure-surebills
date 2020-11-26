@@ -57,6 +57,14 @@
             {{ __('Pricing') }}
           </a>
         </li>  --}}
+        @if(count(auth()->user()->channels))
+          <li class="{{ Request::is('channels*') ? 'active' : '' }}">
+            <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}">
+              <i class="iconsminds-gears"></i>
+              {{ __('Channels') }}
+            </a>
+          </li>
+        @endif
         <li class="{{ Request::is('integration*') ? 'active' : '' }}">
           <a href="{{ route('integration') }}" title="{{ __('Integration') }}">
             <i class="iconsminds-gears"></i>

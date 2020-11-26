@@ -45,6 +45,11 @@ Vue.component(
 );
 
 Vue.component(
+    'channel-applications',
+    require('./components/ChannelApplications.vue').default
+);
+
+Vue.component(
     'pricing',
     require('./components/Pricing.vue').default
 ); 

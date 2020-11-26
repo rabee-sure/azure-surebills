@@ -55,6 +55,7 @@ class Transaction extends Model
         // withdraw fees & vat
         call_user_func_array('self::withdrawBillFees', [$payment->bill]);
         call_user_func_array('self::withdrawBillVat', [$payment->bill]);
+
     }
 
     /**

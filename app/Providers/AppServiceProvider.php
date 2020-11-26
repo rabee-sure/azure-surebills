@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Application;
+use App\Observers\ApplicationObserver;
 use App\Observers\TransferObserver;
 use App\Transfer;
 use Illuminate\Support\Facades\Schema;
@@ -31,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         \Spatie\NovaTranslatable\Translatable::defaultLocales(['en', 'ar']);
 
         Transfer::observe(TransferObserver::class);
+        Application::observe(ApplicationObserver::class);
         Schema::defaultStringLength(191);
     }
 }

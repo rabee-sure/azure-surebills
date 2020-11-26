@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ApplicationResource extends JsonResource
+class ChannelApplicationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,6 +24,10 @@ class ApplicationResource extends JsonResource
             'webhook_url' => $this->webhook_url, 
             'webhook_secret' => $this->webhook_secret, 
             'channel' => $this->channel, 
+            'mada_fixed' => $this->mada_fixed, 
+            'mada_percentage' => $this->mada_percentage, 
+            'credit_cards_fixed' => $this->credit_cards_fixed, 
+            'credit_cards_percentage' => $this->credit_cards_percentage, 
         ];
     }
 }
