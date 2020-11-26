@@ -65,7 +65,7 @@ class UserController extends Controller
 
         $billsids = $user->bills()
             ->when($request->from, function ($query) use($from, $to) {
-                return $query->whereBetween('created_at', [$from, $to]);
+                return $query->whereBetween('paid_at', [$from, $to]);
             })
             ->when($request->bills_not_settled, function ($query) use($request){
                 return $query->where('settled', false);
@@ -105,7 +105,7 @@ class UserController extends Controller
 
         $bills = $user->bills()
             ->when($request->from, function ($query) use($from, $to) {
-                return $query->whereBetween('created_at', [$from, $to]);
+                return $query->whereBetween('paid_at', [$from, $to]);
             })
             ->when($request->not_settled, function ($query) use($request){
                 return $query->where('settled', false);

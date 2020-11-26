@@ -223,6 +223,7 @@
 "yes": "Yes",
 "no": "No",
 "file max size should be less than or equal": "File max size should be less than or equal :value MB",
-"file extension should be in": "File extension should be in :value"
+"file extension should be in": "File extension should be in :value",
+"invalid iban number": "Invalid iban number"
 
 }
