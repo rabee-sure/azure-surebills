@@ -38,7 +38,7 @@
                 </div><!-- form-group -->
 
                     <div class="form-group col-6 col-md-6 col-lg-6 col-xl-6 Tax_Values">
-                      <label for="Tax">{{ __('Tax Value') }}</label>
+                      <label for="Tax">{{ __('Tax Value') }} (%)</label>
                       <input  value="{{ $user->settings->tax_value }}" type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value">
                     </div><!-- form-group -->
               </div><!-- form-row -->
@@ -73,7 +73,7 @@
                   </select>
                 </div><!-- form-group -->
               </div><!-- form-row -->
-              
+
               <hr>
               <h1 class="mb-3">{{ __('bills header and footer') }} ( {{ __('optional') }} )</h1>
               <div class="form-row">

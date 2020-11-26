@@ -28,6 +28,7 @@ class SettingsRequest extends FormRequest
             'create_send_email' => ['nullable'],
             'paid_send_email' => ['nullable'],
             'paid_send_email' => ['nullable'],
+            'tax_value' => ['required_if:add_tax,on', 'between:1,100', 'numeric'],
         ];
     }
 
@@ -42,7 +43,7 @@ class SettingsRequest extends FormRequest
         $this->merge([
             'add_tax' => $this->add_tax == 'on' ? true : false,
             'create_send_sms' => $this->create_send_sms == 'on' ? true : false,
-            'create_send_email' => $this->create_send_email == 'on' ? true : false,            
+            'create_send_email' => $this->create_send_email == 'on' ? true : false,
             'paid_send_sms' => $this->paid_send_sms == 'on' ? true : false,
             'paid_send_email' => $this->paid_send_email == 'on' ? true : false,
             'active_lang' => $this->getActiveLang(),
@@ -69,7 +70,7 @@ class SettingsRequest extends FormRequest
             return 'ar';
         }
     }
-    
+
         /**
      * Configure the validator instance.
      *
