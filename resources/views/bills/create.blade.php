@@ -96,11 +96,11 @@
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                           <label for="Price">{{ __('Product/Service Price') }} <span class="requirement">*</span></label>
-                          <input name="price"  value="{{$item['price']}}" type="number" class="form-control _parseArabicNumbers qty1 product_price" placeholder="{{ __('Price') }}">
+                          <input name="price"  value="{{$item['price']}}" min="1" type="number" class="form-control _parseArabicNumbers qty1 product_price" placeholder="{{ __('Price') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                           <label for="Price">{{ __('Quantity') }} <span class="requirement">*</span></label>
-                          <input type="number" name="quantity" value="{{$item['quantity']}}" class="form-control _parseArabicNumbers qty1 product_quantity" placeholder="{{ __('Quantity') }}">
+                          <input type="number" name="quantity" value="{{$item['quantity']}}" min="1" class="form-control _parseArabicNumbers qty1 product_quantity" placeholder="{{ __('Quantity') }}">
                         </div><!-- form-group -->
                         <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1">
                           <label for="Price">{{ __('Total') }}</label>
@@ -123,11 +123,11 @@
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Product/Service Price') }} <span class="requirement">*</span></label>
-                      <input type="number" name="price" class="form-control _parseArabicNumbers qty1 product_price" placeholder="{{ __('Price') }}">
+                      <input type="number" name="price" min="1" class="form-control _parseArabicNumbers qty1 product_price" placeholder="{{ __('Price') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-2 col-lg-2 col-xl-2">
                       <label for="Price">{{ __('Quantity') }} <span class="requirement">*</span></label>
-                      <input type="number" name="quantity" class="form-control _parseArabicNumbers qty1 product_quantity" placeholder="{{ __('Quantity') }}">
+                      <input type="number" name="quantity" min="1" class="form-control _parseArabicNumbers qty1 product_quantity" placeholder="{{ __('Quantity') }}">
                     </div><!-- form-group -->
                     <div class="form-group col-6 col-md-1 col-lg-1 col-xl-1">
                       <label for="Price">{{ __('Total') }}</label>
@@ -158,7 +158,7 @@
               <div class="form-group col-6">
                 <label for="inputEmail1">{{ __('Add Tax') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input  name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox" @if(auth()->user()->settings->add_tax) checked @endif>
+                  <input name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox" @if(auth()->user()->settings->add_tax || old('add_tax')) checked @endif>
                   <label class="custom-switch-btn" for="Tax_Values_Checkbox"></label>
                 </div>
               </div><!-- form-group -->
@@ -191,7 +191,7 @@
                   <div class="form-group col-12 col-md-12 col-lg-12 col-xl-12">
                     <label for="Tax">{{ __('Tax Value') }}</label>
                     <div class="input-group">
-                      <input type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value" aria-describedby="basic-addon3">
+                    <input type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value" value="{{old('tax_value')}}" aria-describedby="basic-addon3">
                       <div class="input-group-append">
                         <span class="input-group-text discount_type_item2" id="percentage">%</span>
                       </div>
@@ -207,7 +207,7 @@
                 <label for="send_sms">{{ __('Send SMS') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
                   <input name="send_sms" class="custom-switch-input" id="send_sms" type="checkbox"
-                   @if(auth()->user()->settings->create_send_sms) checked @endif>
+                   @if(auth()->user()->settings->create_send_sms || old('send_sms')) checked @endif>
                   <label class="custom-switch-btn" for="send_sms"></label>
                 </div>
               </div><!-- form-group -->
@@ -215,7 +215,7 @@
                 <label for="send_email">{{ __('Send Email') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
                   <input name="send_email" class="custom-switch-input" id="send_email" type="checkbox"
-                   @if(auth()->user()->settings->create_send_email) checked @endif>
+                   @if(auth()->user()->settings->create_send_email || old('send_email')) checked @endif>
                   <label class="custom-switch-btn" for="send_email"></label>
                 </div>
               </div><!-- form-group -->
@@ -266,7 +266,11 @@
 
       $('#Tax_Values_Checkbox').change(function() {
         $('.Tax_Values').toggle();
-      });
+      })
+      @if(old('add_tax'))
+      {{'.change();'}}
+      @endif
+
       $('#Discount_Values_Checkbox').change(function() {
         $('.Discount_Values').toggle();
       })

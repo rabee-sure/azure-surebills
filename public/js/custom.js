@@ -9,18 +9,8 @@ $("input[type='file']").change(function() {
     $('.custom-file-label').text(filename);
 });
 
-function readURL(input)
-{
-    if (input.files && input.files[0])
-    {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $('.logo_image').attr('src', e.target.result);
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
+$('#discount_type').change(function(){
+    $('.discount_type_item').hide();
+    $('#' + $(this).val()).show();
+}).change();
 
-$(".business_logo").change(function() {
-    readURL(this);
-});
