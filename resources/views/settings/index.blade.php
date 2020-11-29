@@ -39,13 +39,8 @@
                 </div><!-- form-group -->
 
                     <div class="form-group col-6 col-md-6 col-lg-6 col-xl-6 Tax_Values">
-<<<<<<< HEAD
                       <label for="Tax">{{ __('Tax Value') }} (%)</label>
                       <input  value="{{ $user->settings->tax_value }}" type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value">
-=======
-                      <label for="Tax">{{ __('Tax Value') }}</label>
-                      <input  value="{{ $user->settings->tax_value ?? null }}" type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value">
->>>>>>> dev
                     </div><!-- form-group -->
               </div><!-- form-row -->
 

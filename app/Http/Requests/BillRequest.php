@@ -21,6 +21,11 @@ class BillRequest extends FormRequest
 
     protected function prepareForValidation()
     {
+        if(!$this->has('add_tax'))
+        {
+            request()->merge(['add_tax' => 0]);
+        }
+
         if ($this->has('customer_mobile')) {
             $mobile = ltrim($this->customer_mobile, '+966');
             $mobile = ltrim($mobile, '966');
