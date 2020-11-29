@@ -313,7 +313,7 @@ class BillController extends Controller
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $bill = Bill::find($id);
 
-        if(isset($application) && $application->id == $bill->application_id){
+        if(isset($application) && $application->user_id == $bill->user_id){
             if($bill->status != 'canceled' && $bill->status != 'paid'){
                 $bill->status = 'canceled';
                 $bill->save();
@@ -337,7 +337,7 @@ class BillController extends Controller
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $bill = Bill::find($id);
 
-        if(isset($application) && $application->id == $bill->application_id){
+        if(isset($application) && $application->user_id == $bill->user_id){
             if($bill->status != 'expired' && $bill->status != 'paid'){
                 $bill->status = 'expired';
                 $bill->save();
