@@ -288,7 +288,8 @@
       @endif
 
       var customers = [];
-      $( "#customer_name" ).autocomplete({
+      $( "#customer_name").autocomplete({
+
           source: function(request, response) {
               $.ajax({
               url: "{{route('customers.search_name')}}",

@@ -20,7 +20,7 @@ class CustomerController extends Controller
             ->orderBy('id', 'desc')
             ->paginate($request->get('per_page', 10));
         return view('customers.index',  ['customers' => $customers]);
-    }    
+    }
 
     /**
      * search By Name.
