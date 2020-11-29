@@ -95,6 +95,15 @@ else
                 window.open('/storage/'+preview_file.id+'/'+preview_file.file_name, '_blank');
               });
             }
+
+            this.on("maxfilesexceeded", function(file){
+                this.removeFile(file);
+                maxFiles = maxFiles-1
+                $('.dropzone')[0].dropzone.options.maxFiles = maxFiles;
+                alert('{{__("reach the max num of files")}}')
+            });
+
+
           @endif
         },
         thumbnailWidth: 200,

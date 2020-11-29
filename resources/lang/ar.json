@@ -38,7 +38,8 @@
 	"Disable Bank Documents": "عدم السماح برفع وثائق البنك",
 
 	"Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility": "حمل صورة بطاقة الايبان أو كشف حساب موضح فيه رقم الايبان وإسم المنشأة",
-	"Upload the required documents": "حمل الوثائق المطلوبة ",
+    "Upload the required documents": "حمل الوثائق المطلوبة (حد اقصى 5 ملفات)",
+    "reach the max num of files": "لقد وصلت للحد الاقصى من الملفات المحملة",
 	"Commercial registry, self-employment document, ID card ..etc": "سجل تجاري ، وثيقة عمل حر ، بطاقة هوية … ",
 
 	"Actions": "أجراءات",

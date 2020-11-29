@@ -344,7 +344,6 @@ export default {
                 filelist.splice(0, filelist.length);
                 this.form.attachment = null;
                 this.fileError = file.response.error.file[0];
-                console.log(file.response.error.file[0]);
             }
             else
             {
@@ -385,7 +384,6 @@ export default {
                         this.disableBtn = false;
                     })
                     .catch(function (error) {
-                        console.log(error);
                         this.disableBtn = false;
                     });
                     this.$Message.success('Success!');
