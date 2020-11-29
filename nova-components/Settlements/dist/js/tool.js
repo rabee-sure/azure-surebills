@@ -60332,7 +60332,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Scoped Styles */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60453,6 +60453,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -60463,7 +60464,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             billsModal: false,
-            // language: null,
+            disableBtn: false,
             uploadFileActionUrl: '/api/upload?lang=',
             bills: [],
             new_bills: [],
@@ -60653,7 +60654,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             }
         },
+        handleProgress: function handleProgress() {
+            this.disableBtn = true;
+        },
         handleUploadFileSuccess: function handleUploadFileSuccess(res, file, filelist) {
+            this.disableBtn = false;
             if (file.response.error) {
                 filelist.splice(0, filelist.length);
                 this.form.attachment = null;
@@ -60671,6 +60676,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.loading = true;
+            this.disableBtn = true;
             this.$refs[name].validate(function (valid) {
                 if (valid) {
                     Nova.request().post('/transfers', {
@@ -60687,25 +60693,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         iban_number: _this3.user.iban_number,
                         beneficiary_name: _this3.user.beneficiary_name
                     }).then(function (response) {
-                        // console.log(response.data.data.id)
-                        // console.log('/nova/resources/transfers/' + response.data.data.id)
                         _this3.$router.push('/resources/transfers/' + response.data.data.id);
-
-                        // this.$router.go();
-                        // this.getUser(this.$route.params.id)
                         _this3.loading = false;
-
                         _this3.bills = [];
                         _this3.transactions = [];
                         _this3.form.date_range = null;
                         _this3.form.amount = 0;
                         _this3.form.note = null;
                         _this3.form.attachment = null;
+                        _this3.disableBtn = false;
                     }).catch(function (error) {
                         console.log(error);
+                        this.disableBtn = false;
                     });
                     _this3.$Message.success('Success!');
                 } else {
+                    _this3.disableBtn = false;
                     _this3.$Message.error('Fail!');
                 }
             });
@@ -61186,6 +61189,7 @@ var render = function() {
                       attrs: {
                         "on-success": _vm.handleUploadFileSuccess,
                         multiple: false,
+                        "on-progress": _vm.handleProgress,
                         type: "drag",
                         action: this.uploadFileActionUrl
                       }
@@ -61257,7 +61261,7 @@ var render = function() {
                   _c(
                     "Button",
                     {
-                      attrs: { type: "primary" },
+                      attrs: { type: "primary", disabled: _vm.disableBtn },
                       on: {
                         click: function($event) {
                           return _vm.handleSubmit("form")
