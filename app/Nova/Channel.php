@@ -146,14 +146,4 @@ class Channel extends Resource
     {
         return [];
     }
-    public static function newModel()
-    {
-        $model = static::$model;
-        $instance = new $model;
-
-        if ($instance->created_by == null) {
-            $instance->created_by = auth()->user()->id;
-        }
-        return $instance;
-    }
 }

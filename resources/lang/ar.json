@@ -68,6 +68,12 @@
 	"Are You sure Delete this Customer?": "هل أنت متأكد من حذف هذا العميل؟",
 	"Delete Customer": "حذف العميل",
 
+    "Mada Fixed": "رسوم مدى ثابتة",
+    "Mada Percentage": "رسوم مدى متغيره",
+    "Credit Cards Fixed": "الرسوم الثابتة لبطاقة الائتمان",
+    "Credit Cards Percentage": "الرسوم المتغيره لبطاقة الائتمان",
+    "Client Email": "ايميل العميل",
+
 	"Url": "لينك",
 	"Bill link": "رابط الفاتورة",
 	"Mada fixed fees": "رسوم مدى ثابتة",
