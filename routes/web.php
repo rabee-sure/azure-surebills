@@ -83,15 +83,16 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 	Route::apiResource('applications', 'ApplicationController');
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
-	Route::resource('bills', 'BillController');
+    Route::resource('bills', 'BillController');
+
+    Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
+	Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
+
 	Route::resource('customers', 'CustomerController');
 
 	Route::get('statement', 'StatementController@index')->name('statement.index');
     Route::get('transfer', 'TransferController@index')->name('transfer.index');
     Route::post('transfers', 'TransferController@store');
-	Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
-	Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
-
 
 	Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/terms', 'HomeController@terms');

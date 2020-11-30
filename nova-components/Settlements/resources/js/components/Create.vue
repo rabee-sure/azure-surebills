@@ -39,6 +39,7 @@
             <FormItem :label="__('Attachment')">
                 <Upload
                     :on-success="handleUploadFileSuccess" :multiple="false"
+                    :on-progress="handleProgress"
                     type="drag"
                     :action="this.uploadFileActionUrl">
                     <div style="padding: 20px 0">
@@ -60,7 +61,7 @@
             </FormItem>
 
             <FormItem>
-                <Button type="primary" @click="handleSubmit('form')"> {{__('Submit')}} </Button>
+                <Button type="primary" @click="handleSubmit('form')" :disabled="disableBtn"> {{__('Submit')}} </Button>
                 <Button style="margin-left: 8px">{{__('Cancel')}}</Button>
             </FormItem>
         </Form>
@@ -116,7 +117,7 @@ export default {
     data() {
         return {
             billsModal: false,
-            // language: null,
+            disableBtn: false,
             uploadFileActionUrl: '/api/upload?lang=',
             bills: [],
             new_bills: [],
@@ -332,13 +333,17 @@ export default {
                 });
             }
         },
+        handleProgress()
+        {
+            this.disableBtn=true;
+        },
         handleUploadFileSuccess (res, file, filelist) {
+            this.disableBtn = false;
             if(file.response.error)
             {
                 filelist.splice(0, filelist.length);
                 this.form.attachment = null;
                 this.fileError = file.response.error.file[0];
-                console.log(file.response.error.file[0]);
             }
             else
             {
@@ -351,7 +356,8 @@ export default {
             }
         },
         handleSubmit(name) {
-            this.loading = true
+            this.loading = true;
+            this.disableBtn = true;
             this.$refs[name].validate((valid) => {
                 if (valid) {
                     Nova.request().post('/transfers', {
@@ -367,26 +373,22 @@ export default {
                         beneficiary_name: this.user.beneficiary_name,
                     })
                     .then(response => {
-                        // console.log(response.data.data.id)
-                        // console.log('/nova/resources/transfers/' + response.data.data.id)
                         this.$router.push('/resources/transfers/' + response.data.data.id)
-
-                        // this.$router.go();
-                        // this.getUser(this.$route.params.id)
                         this.loading = false
-
                         this.bills = [];
                         this.transactions = [];
                         this.form.date_range = null;
                         this.form.amount = 0;
                         this.form.note = null;
                         this.form.attachment = null;
+                        this.disableBtn = false;
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        this.disableBtn = false;
                     });
                     this.$Message.success('Success!');
                 } else {
+                    this.disableBtn = false;
                     this.$Message.error('Fail!');
                 }
             })
