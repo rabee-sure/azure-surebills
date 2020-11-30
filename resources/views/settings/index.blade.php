@@ -24,7 +24,8 @@
     </div>
     <div class="col-12">
       <div class="create_bill_page card mb-4">
-        <div class="card-body">
+        @if($user->settings)
+        <div class="card-body" >
           <form method="POST" action="{{ route('post.settings') }}" class="repeater" id="settings">
             @csrf
               <h1 class="mb-3">{{ __('Taxs') }}</h1>
@@ -32,13 +33,13 @@
                 <div class="form-group col-6">
                   <label for="inputEmail1">{{ __('Add Tax') }}</label>
                   <div class="custom-switch custom-switch-primary mb-2">
-                    <input name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox" @if($user->settings->add_tax) checked @endif>
+                    <input name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox" @if($user->settings->add_tax ?? null) checked @endif>
                     <label class="custom-switch-btn" for="Tax_Values_Checkbox"></label>
                   </div>
                 </div><!-- form-group -->
 
                     <div class="form-group col-6 col-md-6 col-lg-6 col-xl-6 Tax_Values">
-                      <label for="Tax">{{ __('Tax Value') }}</label>
+                      <label for="Tax">{{ __('Tax Value') }} (%)</label>
                       <input  value="{{ $user->settings->tax_value }}" type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value">
                     </div><!-- form-group -->
               </div><!-- form-row -->
@@ -73,7 +74,7 @@
                   </select>
                 </div><!-- form-group -->
               </div><!-- form-row -->
-              
+
               <hr>
               <h1 class="mb-3">{{ __('bills header and footer') }} ( {{ __('optional') }} )</h1>
               <div class="form-row">
@@ -148,6 +149,7 @@
             </div><!-- d-flex  -->
           </form>
         </div>
+        @endif
       </div>
     </div>
   </div>

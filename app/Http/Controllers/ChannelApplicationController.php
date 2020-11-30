@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Application;
+use App\Channel;
+use App\Http\Requests\ChannelRequest;
+use App\Http\Requests\ChannelUpdateRequest;
+use App\Http\Resources\ChannelApplicationResource;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
+class ChannelApplicationController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Channel $channel)
+    {
+        $applications = $channel->applications;
+        return ChannelApplicationResource::collection($applications);
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Channel $channel, Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if(!isset($user)){
+           return response()->json([
+               'errors' => [
+                    'email' =>[__("We can't find a user with that e-mail address")] 
+               ] 
+           ], 422);
+        }
+        $application = new Application;
+        $application->user_id = $user->id;
+        $application->channel_id = $channel->id;
+        $application->name = $request->name;
+        $application->secret = Str::random(20);
+        $application->redirect = $request->redirect;
+        $application->fail_redirect_url = $request->fail_redirect_url;
+        $application->webhook_secret = '';
+        if($request->webhook_url){
+            $application->webhook_url = $request->webhook_url;
+            $application->webhook_secret = Str::random(20);
+        }
+
+        $application->mada_fixed = $request->mada_fixed;
+        $application->mada_percentage = $request->mada_percentage;
+        $application->credit_cards_fixed = $request->credit_cards_fixed;
+        $application->credit_cards_percentage = $request->credit_cards_percentage;
+
+        $application->save();
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Application  $application
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Channel $channel, Application $application)
+    {
+        $application->name = $request->name;
+        $application->redirect = $request->redirect;
+        $application->fail_redirect_url = $request->fail_redirect_url;
+        $application->webhook_secret = '';
+        if($request->webhook_url){
+            $application->webhook_url = $request->webhook_url;
+            $application->webhook_secret = Str::random(20);
+        }
+
+        $application->mada_fixed = $request->mada_fixed;
+        $application->mada_percentage = $request->mada_percentage;
+        $application->credit_cards_fixed = $request->credit_cards_fixed;
+        $application->credit_cards_percentage = $request->credit_cards_percentage;
+        $application->save();
+
+        return $application;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Application  $application
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Channel $channel, Application $application)
+    {
+        return $application->delete();
+    }
+}

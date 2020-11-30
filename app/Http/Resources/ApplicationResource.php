@@ -23,6 +23,7 @@ class ApplicationResource extends JsonResource
             'fail_redirect_url' => $this->fail_redirect_url, 
             'webhook_url' => $this->webhook_url, 
             'webhook_secret' => $this->webhook_secret, 
+            'channel' => $this->channel, 
         ];
     }
 }

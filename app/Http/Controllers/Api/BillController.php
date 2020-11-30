@@ -23,6 +23,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class BillController extends Controller
 {
@@ -37,6 +38,7 @@ class BillController extends Controller
         logger([$request->all()]);
         logger($request->application_id);
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+
         if(!isset($application)){
            return response()->json([
                'errors' => [
@@ -46,7 +48,9 @@ class BillController extends Controller
         }
         $user = $application->user ?? null;
 
-
+        if($request->application_name){
+            $application = $this->getApplication($application, $request);
+        }
 
         Bill::where('reference_id', $request->reference_id)->where('user_id', $application->user_id ?? null)->where('status', 'pending')->update(['status' => 'canceled']);
 
@@ -85,6 +89,7 @@ class BillController extends Controller
             'send_sms' => $request->send_sms,
             'send_email' => $request->send_email,
             'reference_id' => $request->reference_id,
+            'is_redirect' => $request->is_redirect,
         ]);
 
         if($user->settings->create_send_sms){
@@ -164,6 +169,11 @@ class BillController extends Controller
            return view('bills.error', ['error' => __('application_id or application_secret is not coreect')]);
         }
 
+
+        $mobile = ltrim($request->customer_mobile, '+966');
+        $mobile = ltrim($mobile, '966');
+        $mobile = (int) $mobile;
+        $request->merge(['customer_mobile'=> $mobile]);
         $validator = Validator::make($request->all(), [
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
         ]);
@@ -285,7 +295,7 @@ class BillController extends Controller
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $bill = Bill::find($id);
 
-        if(isset($application) && $application->id == $bill->application_id){
+        if(isset($application) && $application->user_id == $bill->user_id){
             return new BillResource($bill);
         }else{
             return response()->json(['success' => false]);
@@ -303,7 +313,7 @@ class BillController extends Controller
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $bill = Bill::find($id);
 
-        if(isset($application) && $application->id == $bill->application_id){
+        if(isset($application) && $application->user_id == $bill->user_id){
             if($bill->status != 'canceled' && $bill->status != 'paid'){
                 $bill->status = 'canceled';
                 $bill->save();
@@ -327,7 +337,7 @@ class BillController extends Controller
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $bill = Bill::find($id);
 
-        if(isset($application) && $application->id == $bill->application_id){
+        if(isset($application) && $application->user_id == $bill->user_id){
             if($bill->status != 'expired' && $bill->status != 'paid'){
                 $bill->status = 'expired';
                 $bill->save();
@@ -337,5 +347,30 @@ class BillController extends Controller
         }else{
             return response()->json(['success' => false]);
         }
+    }
+
+    /**
+     * get Application.
+     *
+     * @return \App\Application
+     */
+    public function getApplication($application, $request)
+    {
+        $user = $application->user;
+        $application = $user->applications()->where('name', $request->application_name)->first();
+        if(!isset($application)){
+            if($request->application_name == 'payment_links'){
+                $application = new Application;
+                $application->user_id = $user->id;
+                $application->name = $request->application_name;
+                $application->redirect = $request->redirect_url;
+                $application->webhook_url = $request->webhook_url;
+                $application->fail_redirect_url = '';
+                $application->secret = Str::random(20);
+                $application->webhook_secret = Str::random(20);
+                $application->save();      
+            }
+        }
+        return $application;
     }
 }

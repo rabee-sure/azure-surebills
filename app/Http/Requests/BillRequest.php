@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Rules\BillTotalValidation;
 
 class BillRequest extends FormRequest
 {
@@ -16,6 +17,25 @@ class BillRequest extends FormRequest
     public function authorize()
     {
         return true;
+    }
+
+    protected function prepareForValidation()
+    {
+        if(!$this->has('add_tax'))
+        {
+            request()->merge(['add_tax' => 0]);
+        }
+
+        if ($this->has('customer_mobile')) {
+            $mobile = ltrim($this->customer_mobile, '+966');
+            $mobile = ltrim($mobile, '966');
+            $mobile = (int) $mobile;
+            $this->merge(['customer_mobile'=> $mobile]);
+        }
+
+        if (!$this->has('is_redirect')) {
+            $this->is_redirect = false;
+        }
     }
 
     /**
@@ -34,7 +54,7 @@ class BillRequest extends FormRequest
                 // })
             ],
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
-            'customer_notes' => ['nullable'],            
+            'customer_notes' => ['nullable'],
 
             'due_date' => ['required'],
             'expiry_date' => ['required'],
@@ -46,11 +66,11 @@ class BillRequest extends FormRequest
             'discount_value' => ['required_if:add_discount,on'],
 
             'add_tax' => ['nullable'],
-            'tax_value' => ['required_if:add_tax,on'],            
+            'tax_value' => ['required_if:add_tax,on'],
 
             'send_sms' => ['nullable'],
             'send_email' => ['nullable'],
-
+            'items' => ['required', new BillTotalValidation],
             'items.*.name' => 'required|string|max:255',
             'items.*.price' => 'required|numeric',
             'items.*.quantity' => 'required|numeric',
@@ -67,7 +87,10 @@ class BillRequest extends FormRequest
     {
         return [
           'customer_name.required' => __('customer name required'),
+          'discount_value.required_if' => __('Discount value is required'),
+          'tax_value.required_if' => __('Tax value is required'),
           'customer_mobile.required' => __('customer mobile required'),
+          'customer_mobile.regex' => __('customer mobile is not correct'),
           'items.*.name.required' => __('item name required'),
           'items.*.price.required' => __('item price required'),
           'items.*.quantity.required' => __('item quantity required'),
@@ -92,13 +115,13 @@ class BillRequest extends FormRequest
 
         //     if((isset($email_user) && $mobile_user == null)){
         //         $validator->errors()->add('customer_mobile', 'Something is wrong with customer_mobile');
-        //     }  
+        //     }
         //     if((isset($mobile_user) && $email_user == null)){
         //         $validator->errors()->add('customer_email', 'Something is wrong with customer_email!');
-        //     }            
+        //     }
         //     if( isset($mobile_user) && ($mobile_user->email != $this->customer_email) ){
         //         $validator->errors()->add('customer_email', 'Something is wrong with customer_email!');
-        //     }  
+        //     }
         //     if(isset($email_user) &&  ($email_user->mobile != $this->customer_mobile) ){
         //         $validator->errors()->add('customer_mobile', 'Something is wrong with customer_mobile!');
         //     }

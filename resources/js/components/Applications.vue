@@ -38,7 +38,7 @@
                 <td style="vertical-align: middle;">{{ application.redirect }}</td>
                 <!-- Edit Button -->
                 <td style="vertical-align: middle;">
-                  <a class="action-link" tabindex="-1" @click="edit(application)">{{ __('Edit')}}</a>
+                  <a class="action-link" tabindex="-1" @click="edit(application)" v-if="application.channel == null">{{ __('Edit')}}</a>
                 </td>
                 <!-- Delete Button -->
                 <td style="vertical-align: middle;">

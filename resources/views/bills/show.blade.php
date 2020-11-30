@@ -5,6 +5,7 @@
 @php
     $statues = session('status_filters', ['pending', 'paid'])?? [];
     $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
+    // dd(app()->getLocale());
 @endphp
 
 @section('content')
@@ -169,7 +170,7 @@
                     <td><img src="{{ asset('/payments/cardnon.png') }}" alt="apple pay" height="25px"></td>
                   @endif
 
-                  <td><a href="/logs/{{$log->id}}" title="{{ isset($log->results['response']) ? $log->results['response']['id'] : null }}">{{ isset($log->results['response']) ? $log->results['response']['id'] : null }}</a></td>
+                  <td><a href="/logs/{{$log->id}}" title="{{ isset($log->results['response']) && isset($log->results['response']['id']) ? $log->results['response']['id'] : null }}">{{ isset($log->results['response']) && isset($log->results['response']['id']) ? $log->results['response']['id'] : null }}</a></td>
                   <td>{{ $bill->total}} {{__('SAR') }}</td>
                   <td>{{$log->created_at}}</td>
                   @if($log->status == true)

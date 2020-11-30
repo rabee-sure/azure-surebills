@@ -20,7 +20,6 @@ class ApplicationController extends Controller
         return ApplicationResource::collection($applications);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -30,7 +29,6 @@ class ApplicationController extends Controller
     public function store(Request $request)
     {
         $application = new Application;
-
         $application->user_id = auth()->user()->id;
         $application->name = $request->name;
         $application->secret = Str::random(20);

@@ -1,4 +1,17 @@
 
+@php
+
+$maxFiles = 5;
+if(count($documents) == 5)
+{
+    $maxFiles = 0;
+}
+else
+{
+    $maxFiles = 5-count($documents);
+}
+// dd($maxFiles);
+@endphp
 <div class="dropzone">
     <div class="dz-message" data-dz-message><span>{{ __('Drop files here to upload') }}</span></div>
 </div>
@@ -12,25 +25,34 @@
   <script src="{{ asset('js/dropzone.min.js') }}"></script>
   <script type="text/javascript">
     var uploadedDocumentMap = {}
+    var maxFiles = {{$maxFiles}};
     if ($().dropzone && !$(".dropzonex").hasClass("disabled")) {
       $(".dropzone").dropzone({
         url: "/images-upload",
-        maxFilesize: 10,
-        maxFiles: {{ $max_files ?? 5}}, // MB
+        maxFilesize: 4,
+        maxFiles: maxFiles,
         headers: {
           'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
         success: function (file, response) {
           $('form').append('<input type="hidden" name="document[]" value="' + response.name + '">')
-          uploadedDocumentMap[file.name] = response.name
-        },        
+          uploadedDocumentMap[file.name] = response.name;
+          maxFiles = maxFiles-1;
+        },
         error: function (file, errorMessage ) {
           var id = Math.random();              // returns a random number
           file.previewElement.classList.add('error_file')
           file.previewElement.setAttribute("id", id)
-
           var x = document.getElementById(id)
-          x.querySelector('#error_message').innerHTML = errorMessage;
+          if(errorMessage.error)
+          {
+              x.querySelector('#error_message').innerHTML = errorMessage.error.file[0];
+          }
+          else
+          {
+            x.querySelector('#error_message').innerHTML = errorMessage;
+          }
+
         },
         removedfile: function (file) {
           file.previewElement.remove()
@@ -40,14 +62,18 @@
           } else {
             name = uploadedDocumentMap[file.name]
           }
-          $('form').find('input[name="document[]"][value="' + name + '"]').remove()
+
+          $('form').find('input[name="document[]"][value="' + name + '"]').remove();
+          maxFiles = maxFiles+1
+          $('.dropzone')[0].dropzone.options.maxFiles = maxFiles;
+
         },
         // addedfile: function (file) {
         //   console.log(file)
         //   // file.previewElement.addEventListener("click", function() {
         //   //   window.open('/storage/19/5f8ff69177e1c_download.jpeg', '_blank');
         //   // });
-        // },      
+        // },
         init: function () {
           @if($documents)
             var files =
@@ -69,6 +95,15 @@
                 window.open('/storage/'+preview_file.id+'/'+preview_file.file_name, '_blank');
               });
             }
+
+            this.on("maxfilesexceeded", function(file){
+                this.removeFile(file);
+                maxFiles = maxFiles-1
+                $('.dropzone')[0].dropzone.options.maxFiles = maxFiles;
+                alert('{{__("reach the max num of files")}}')
+            });
+
+
           @endif
         },
         thumbnailWidth: 200,
@@ -88,7 +123,7 @@
     font-size: 9px;
     color: #7d0909;
     overflow: hidden;
-    white-space: nowrap;
+    white-space: none;
     text-overflow: ellipsis;
     line-height: 1;
     display: block;

@@ -28,7 +28,7 @@ class Transaction extends Model
      */
     protected static function depositBill(PaymentLog $payment)
     {
-        $paymentResponse = $payment->results['response'];
+        $paymentResponse = isset($payment->results['response']) ? $payment->results['response'] : [];
 
         $authorizeId = isset($paymentResponse['resultDetails']) && isset($paymentResponse['resultDetails']['AuthorizeId']) ? $paymentResponse['resultDetails']['AuthorizeId'] : null;
         $cardNumber = isset($paymentResponse['card']) && isset($paymentResponse['card']['last4Digits']) ? $paymentResponse['card']['last4Digits'] : 0;
@@ -45,7 +45,7 @@ class Transaction extends Model
         if (isset($paymentResponse['paymentBrand']) && $payment->payment_method != 'hyperpay_applepay') {
             $transaction->card_brand  = $paymentResponse['paymentBrand'];
             $transaction->card        = 'XXX' . $paymentResponse['card']['last4Digits'];
-        } else if ($payment->payment_method == 'hyperpay_applepay') {
+        } else if (isset($paymentResponse['card']) && $payment->payment_method == 'hyperpay_applepay') {
             $transaction->card_brand  = 'APPLEPAY';
             $transaction->card        = 'XXX' . $paymentResponse['card']['last4Digits'];
         }
@@ -55,6 +55,7 @@ class Transaction extends Model
         // withdraw fees & vat
         call_user_func_array('self::withdrawBillFees', [$payment->bill]);
         call_user_func_array('self::withdrawBillVat', [$payment->bill]);
+
     }
 
     /**

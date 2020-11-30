@@ -89,6 +89,7 @@
 "fixed" : "fixed",
 "Percentage Discount (%)" : "Percentage Discount (%)",
 "Discount Value" : "Discount Value",
+"discount_value" : "Discount Value",
 "Tax Value" : "Tax Value",
 "Send The Bill To Customer" : "Send The Bill To Customer",
 "Send SMS" : "Send SMS",
@@ -111,6 +112,7 @@
 "Full Name" : "Full Name",
 "I agree to" : "I agree to",
 "Terms & Conditions" : "Terms & Conditions",
+"reach the max num of files": "You reach the max number of uploaded files",
 "SAR" : "SAR",
 "Current Password" : "Current Password",
 "New Password" : "New Password",
@@ -216,5 +218,13 @@
 "Orders" : "Orders",
 "Search By Day" : "Search By Day",
 "Order" : "Order",
-"Quantity Activation" : "Quantity Activation"
+"Quantity Activation" : "Quantity Activation",
+"invalid_min_total": "Invoice total is less than 2 SAR",
+"invalid_max_total": "Invoice total is more than 14000 SAR",
+"yes": "Yes",
+"no": "No",
+"file max size should be less than or equal": "File max size should be less than or equal :value MB",
+"file extension should be in": "File extension should be in :value",
+"invalid iban number": "Invalid iban number"
+
 }

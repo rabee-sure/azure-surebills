@@ -37,9 +37,9 @@
           <div class="row">
             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
               <label class="form-group has-float-label mb-4">
-                <input id="business_name" type="text" class="form-control @error('business_name') is-invalid @enderror" name="business_name" value="{{ old('business_name') }}" autocomplete="business_name" autofocus />
+                <input id="business_name_en" type="text" class="form-control @error('business_name_en') is-invalid @enderror" name="business_name_en" value="{{ old('business_name_en') }}" autocomplete="business_name_en" autofocus />
                 <span>{{ __('Business Name') }}</span>
-                @error('business_name')
+                @error('business_name_en')
                   <p class="invalid-feedback" role="alert">{{ $message }}</p>
                 @enderror
               </label>

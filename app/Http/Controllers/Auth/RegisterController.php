@@ -54,7 +54,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'business_name' => ['required', 'string', 'max:255'],
+            'business_name_en' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'mobile' => ['required', 'unique:users',
@@ -81,11 +81,11 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = User::create([
-            'business_name' => $data['business_name'],
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'mobile' => $data['mobile'],
-            'password' => Hash::make($data['password']),
+            'business_name_en' => $data['business_name_en'],
+            'name'             => $data['name'],
+            'email'            => $data['email'],
+            'mobile'           => $data['mobile'],
+            'password'         => Hash::make($data['password']),
         ]);
         event(new UserCreated($user));
         $user->sendMobileCode();

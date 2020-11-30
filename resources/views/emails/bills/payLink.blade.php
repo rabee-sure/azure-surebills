@@ -237,7 +237,7 @@
           </div><!-- logo -->
         @endif
         <div class="block_1">
-          <span> {{ $bill->user->business_name}}</span>          
+          <span> {{ $bill->user->business_name}}</span>
           @if(isset($bill->user->settings->header_bill))
               <p>{{ $bill->user->settings->header_bill }}</p>
           @endif
@@ -246,7 +246,7 @@
         </div><!-- block_1 -->
         <div class="block_2">
           <span>
-            {{ __('Due On') }} {{ $bill->due_date->format('M d Y')}}
+            {{ __('Due on') }}: {{$bill->dateLocalization()}}
             @if($bill->user->vat_registration_number)
               <div class="vat_reg"> {{ __('VAT Registration Number') }} : {{ $bill->user->vat_registration_number }}</div>
             @endif
@@ -284,7 +284,7 @@
           <p>{{ __('Billed to,') }} {{ $bill->customer_name }}</p>
           <p>+966{{ $bill->customer_mobile }}</p>
           <p>{{ $bill->customer_email }}</p>
-          
+
           @if(isset($bill->user->settings->footer_bill))
             <p>{{ $bill->user->settings->footer_bill }}</p>
           @endif

@@ -4,7 +4,7 @@ import locale from 'view-design/dist/locale/en-US';
 // import locale from 'view-design/dist/locale/ar-SA';
 
 import JsonExcel from "vue-json-excel";
- 
+
 
 Nova.booting((Vue, router, store) => {
   Vue.component("downloadExcel", JsonExcel);

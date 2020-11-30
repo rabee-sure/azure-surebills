@@ -2,27 +2,29 @@
 
 namespace App;
 
-use App\Events\BillPaid;
-use App\Events\BillStatusUpdated;
-use App\PaymentLog;
-use App\Traits\UsesUuid;
 use Carbon\Carbon;
+use App\PaymentLog;
 use Hashids\Hashids;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Ramsey\Uuid\Uuid;
+use App\Events\BillPaid;
+use App\Traits\UsesUuid;
+use App\Jobs\CallbackWebhook;
+use App\Events\BillStatusUpdated;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Date\Date;
 
 class Bill extends Model
-{    
+{
     use UsesUuid;
 
     protected $fillable = [
-    	'status', 
-    	'payment_method', 
-    	'user_id', 
-    	'customer_id', 
-    	'business_name', 
-    	'customer_name', 
+    	'status',
+    	'payment_method',
+    	'user_id',
+    	'customer_id',
+    	'business_name',
+    	'customer_name',
     	'customer_mobile',
     	'customer_email',
         'customer_notes',
@@ -46,10 +48,11 @@ class Bill extends Model
         'application_id',
         'payment_fees',
         'settled',
-        
+
         'expiry_minutes',
         'expiry_hours',
         'pricing_fees_details',
+        'is_redirect',
     ];
 
     /**
@@ -71,7 +74,21 @@ class Bill extends Model
     protected $appends = [
         'trans_status',
     ];
-    
+
+    /**
+     * Pay Id.
+     *
+     * @var array
+     */
+    public function getHyperpayIdAttribute()
+    {
+        if (isset($this->payment_logs[0]) && isset($this->payment_logs[0]['results']) && isset($this->payment_logs[0]['response'])) {
+            return $this->payment_logs[0]['results']['response']['id'];
+        }
+
+        return null;
+    }
+
     /**
      * Pay Id.
      *
@@ -85,6 +102,16 @@ class Bill extends Model
         return $hashids->encodeHex($hex);
     }
 
+    /**
+     * Pay Id.
+     *
+     * @var array
+     */
+    public function getBillTitleAttribute()
+    {
+        return __('Bill') .' '. $this->number .' - '. $this->customer_name;
+    }
+
 
     /**
      * Translation Status.
@@ -95,7 +122,7 @@ class Bill extends Model
     {
         return __(ucfirst($this->status));
     }
-    
+
     /**
      * Is Pending.
      *
@@ -114,7 +141,7 @@ class Bill extends Model
     public function getPayUrlAttribute()
     {
         return route('paybillpage', ['id' => $this->pay_id]);
-    }   
+    }
 
     /**
      * Back Url.
@@ -150,7 +177,30 @@ class Bill extends Model
 
         $ks = (str_contains($this->application->redirect, '?')) ? "&" : '?';
         return $this->application->redirect.$ks.implode("&", $data);
-    }   
+    }
+
+    /**
+     * Redirect Url.
+     *
+     * @var string
+     */
+    public function getWebhookUrlAttribute()
+    {
+        if (!$this->application) {
+            return null;
+        }
+
+        $data = [
+            'reference_id='.$this->reference_id,
+            'status='.$this->status,
+            'bill_id='.$this->id,
+            'pay_url='.$this->pay_url,
+            'total='.$this->total,
+        ];
+
+        $ks = (str_contains($this->application->webhook_url, '?')) ? "&" : '?';
+        return $this->application->webhook_url.$ks.implode("&", $data);
+    }
 
     /**
      * Success Payment.
@@ -169,12 +219,16 @@ class Bill extends Model
      */
     public function getIsExpiredAttribute()
     {
+        if ($this->expiry_date == 0 && $this->expiry_hours == 0 && $this->expiry_minutes == 0) {
+            return false;
+        }
+
         $date = $this->created_at
                 ->addDays($this->expiry_date)
                 ->addMinutes($this->expiry_minutes)
                 ->addHours($this->expiry_hours);
         return $date->isPast();
-    }  
+    }
 
     /**
      * Payment Method Details.
@@ -198,7 +252,7 @@ class Bill extends Model
         }
 
         return $method;
-    }  
+    }
 
     /**
      * Payment Method Details.
@@ -208,7 +262,7 @@ class Bill extends Model
     public function getDueToClientAttribute()
     {
         return $this->total - $this->payment_fees - $this->payment_fees_vat;
-    }  
+    }
 
     /**
      * Is Expired.
@@ -264,7 +318,7 @@ class Bill extends Model
         }else{
             return "00";
         }
-    }     
+    }
 
     /**
      * Is Invalid.
@@ -309,7 +363,7 @@ class Bill extends Model
      */
     public function scopePaid($query){
         $query->where('status', 'paid');
-    }    
+    }
 
     /**
      * get only paid bills
@@ -340,7 +394,7 @@ class Bill extends Model
     public function items()
     {
         return $this->hasMany(BillItem::class);
-    }  
+    }
 
     /**
      * Get items.
@@ -350,7 +404,7 @@ class Bill extends Model
     public function depositTransaction()
     {
         return $this->hasOne(Transaction::class)->where('type', 'credit');
-    }  
+    }
 
     /**
      * Get application.
@@ -360,7 +414,7 @@ class Bill extends Model
     public function application()
     {
         return $this->belongsTo(Application::class);
-    }  
+    }
 
     /**
      * Get user.
@@ -398,7 +452,7 @@ class Bill extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
-    } 
+    }
 
     /**
      * Get customer.
@@ -410,7 +464,7 @@ class Bill extends Model
         $number = self::max('number');
 
         return $number == 0 ? 1000001 : $number + 1;
-    } 
+    }
 
 
     /**
@@ -421,6 +475,12 @@ class Bill extends Model
     public function payment_logs()
     {
         return $this->hasMany(PaymentLog::class)->orderBy('id', 'desc');;
-    } 
+    }
+
+    public function dateLocalization()
+    {
+        Date::setLocale(session()->get('user-lang'));
+        return Date::parse($this->due_date->format('Y-m-d'))->format('j F Y');
+    }
 
 }

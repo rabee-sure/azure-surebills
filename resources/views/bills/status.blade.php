@@ -8,6 +8,9 @@
       <div class="row  justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 col-xl-6">
           <div class="single_bill_content">
+            {{--         <a onclick="window.print(); return false;" class="float-right btn btn-primary mr-2 mb-2 rounded-sm d-inline-block " href="#" title="{{ __('Print') }}">
+          <img src="{{ asset('img/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
+        </a> --}}
             <div class="change-lang">
             @if($bill->user->settings->active_lang == 'all')
               @if(App::isLocale('en'))
@@ -127,6 +130,15 @@
 
 @push('footer-scripts')
 <script type="text/javascript">
+  /* New countdown */
+  $(function(){
+    let searchParams = new URLSearchParams(window.location.search)
+    if(searchParams.has('print')){
+      window.print();
+    }
+  });
+  /* New countdown */
+  
   Echo.channel('bill.{{$bill->id}}')
     .listen('BillStatusUpdated', (e) => {
         console.log(e.bill.id);
@@ -147,7 +159,7 @@
             $("#back_btn").remove();
             $("#status").empty();
             $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
-            break;          
+            break;
           case "expired":
             $("#payment_method").remove();
             $("#back_btn").remove();

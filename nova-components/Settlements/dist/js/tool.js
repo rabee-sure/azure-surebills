@@ -46283,8 +46283,8 @@ exports.staticRenderFns = staticRenderFns;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.11
- * (c) 2014-2019 Evan You
+ * Vue.js v2.6.12
+ * (c) 2014-2020 Evan You
  * Released under the MIT License.
  */
 
@@ -51723,7 +51723,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.11';
+Vue.version = '2.6.12';
 
 /*  */
 
@@ -53929,7 +53929,7 @@ function updateDOMProps (oldVnode, vnode) {
       // skip the update if old and new VDOM state is the same.
       // `value` is handled separately because the DOM value may be temporarily
       // out of sync with VDOM state due to focus, composition and modifiers.
-      // This  #4521 by skipping the unnecesarry `checked` update.
+      // This  #4521 by skipping the unnecessary `checked` update.
       cur !== oldProps[key]
     ) {
       // some property updates can throw
@@ -56174,7 +56174,7 @@ function parse (
       }
     },
     comment: function comment (text, start, end) {
-      // adding anyting as a sibling to the root node is forbidden
+      // adding anything as a sibling to the root node is forbidden
       // comments should still be allowed, but ignored
       if (currentParent) {
         var child = {
@@ -59972,7 +59972,7 @@ var content = __webpack_require__(25);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("283f0064", content, false, {});
+var update = __webpack_require__(2)("61326252", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -59996,7 +59996,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Scoped Styles */\r\n", ""]);
 
 // exports
 
@@ -60308,7 +60308,7 @@ var content = __webpack_require__(31);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("c75bad58", content, false, {});
+var update = __webpack_require__(2)("4bb7ad7e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -60332,7 +60332,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60452,6 +60452,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -60462,6 +60464,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             billsModal: false,
+            disableBtn: false,
+            uploadFileActionUrl: '/api/upload?lang=',
             bills: [],
             new_bills: [],
             billsTable: [{
@@ -60541,6 +60545,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             user: [],
             errors: [],
             loading: false,
+            fileError: null,
             form: {
                 date_range: null,
                 amount: 0,
@@ -60580,7 +60585,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             Nova.request().get('/users/' + id).then(function (response) {
                 _this.user = response.data.data;
-                // this.form.amount = this.user.balance;
+                _this.uploadFileActionUrl += response.data.data.language;
             });
             Nova.request().get('/users/' + id + '/transfers', {
                 params: {
@@ -60649,14 +60654,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             }
         },
-        handleUploadFileSuccess: function handleUploadFileSuccess(res, file) {
-            file.name = file.response.data;
-            this.form.attachment = file.response.data;
+        handleProgress: function handleProgress() {
+            this.disableBtn = true;
+        },
+        handleUploadFileSuccess: function handleUploadFileSuccess(res, file, filelist) {
+            this.disableBtn = false;
+            if (file.response.error) {
+                filelist.splice(0, filelist.length);
+                this.form.attachment = null;
+                this.fileError = file.response.error.file[0];
+                console.log(file.response.error.file[0]);
+            } else {
+                if (filelist.length > 1) {
+                    filelist.splice(0, 1);
+                }
+                this.fileError = null;
+                this.form.attachment = file.response.data;
+            }
         },
         handleSubmit: function handleSubmit(name) {
             var _this3 = this;
 
             this.loading = true;
+            this.disableBtn = true;
             this.$refs[name].validate(function (valid) {
                 if (valid) {
                     Nova.request().post('/transfers', {
@@ -60673,25 +60693,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         iban_number: _this3.user.iban_number,
                         beneficiary_name: _this3.user.beneficiary_name
                     }).then(function (response) {
-                        // console.log(response.data.data.id)
-                        // console.log('/nova/resources/transfers/' + response.data.data.id)
                         _this3.$router.push('/resources/transfers/' + response.data.data.id);
-
-                        // this.$router.go();
-                        // this.getUser(this.$route.params.id)
                         _this3.loading = false;
-
                         _this3.bills = [];
                         _this3.transactions = [];
                         _this3.form.date_range = null;
                         _this3.form.amount = 0;
                         _this3.form.note = null;
                         _this3.form.attachment = null;
+                        _this3.disableBtn = false;
                     }).catch(function (error) {
                         console.log(error);
+                        this.disableBtn = false;
                     });
                     _this3.$Message.success('Success!');
                 } else {
+                    _this3.disableBtn = false;
                     _this3.$Message.error('Fail!');
                 }
             });
@@ -60761,7 +60778,7 @@ var content = __webpack_require__(35);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("2495dfb1", content, false, {});
+var update = __webpack_require__(2)("4fd179de", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -61171,8 +61188,10 @@ var render = function() {
                     {
                       attrs: {
                         "on-success": _vm.handleUploadFileSuccess,
+                        multiple: false,
+                        "on-progress": _vm.handleProgress,
                         type: "drag",
-                        action: "/api/upload"
+                        action: this.uploadFileActionUrl
                       }
                     },
                     [
@@ -61194,6 +61213,19 @@ var render = function() {
                           ])
                         ],
                         1
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "p",
+                    {
+                      staticClass: "file-error",
+                      staticStyle: { color: "red", direction: "rtl" }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(_vm.fileError) + " " + _vm._s(this.language)
                       )
                     ]
                   )
@@ -61229,7 +61261,7 @@ var render = function() {
                   _c(
                     "Button",
                     {
-                      attrs: { type: "primary" },
+                      attrs: { type: "primary", disabled: _vm.disableBtn },
                       on: {
                         click: function($event) {
                           return _vm.handleSubmit("form")
