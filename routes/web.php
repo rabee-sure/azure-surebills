@@ -127,8 +127,8 @@ Route::get('users/{user}', 'UserController@show')->name('users.show');
 Route::get('test_upload', 'AccountController@test_upload')->name('test_upload');
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
 
-Route::any('success', function(){
+Route::any('success', function(Request $request){
 
-    \DB::table('payment_logs')->where('id', 2)->update(array('status' => 1));
+    \DB::table('webhook_log')->insert(array('log' => serialize((array)$request)));
 
 });
