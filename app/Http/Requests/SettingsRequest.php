@@ -34,6 +34,7 @@ class SettingsRequest extends FormRequest
         {
             $rules['tax_value'] = ['required_if:add_tax,on', 'between:1,100', 'integer'];
         }
+
         return $rules;
     }
 
