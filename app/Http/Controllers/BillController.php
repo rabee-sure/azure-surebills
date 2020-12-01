@@ -273,31 +273,11 @@ class BillController extends Controller
             ->detail(['payment_id' => $request->get('id')]);
         $invoice = Payment::via($payment->payment_method)->paymentStatus($invoice);
 
-
-        // if success
-        if($invoice->getDetail('success')){
-
-            // log
-            $payment->results = $invoice->getDetails();
-            $payment->status = 1;
-            $payment->save();
-
-            $bill->setPaid();
-
-            if($bill->application && $bill->is_redirect){
-                return redirect($bill->redirect_url);
-            }
-            return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
-        }
-
-        // log for the payment
-        $payment->results = $invoice->getDetails();
-        $payment->status = 0;
-        $payment->save();
+        return PaymentHelper::checkPaymentStatus($invoice, $payment, $bill);
 
         // return the view with errors
-        return redirect()->route('paybillpage', ['id' => $bill->pay_id])
-            ->withErrors(['field_name' => $invoice->getDetail('description')]);
+        // return redirect()->route('paybillpage', ['id' => $bill->pay_id])
+        //     ->withErrors(['field_name' => $invoice->getDetail('description')]);
     }
 
     /**
@@ -355,7 +335,7 @@ class BillController extends Controller
         {
             $invoice = new Invoice();
             $details = $invoice->detail(['bill' => $notPaidBill->toArray()])->getDetails();
-            PaymentHelper::handlePaymentResponse($invoice, $orderBody, $details);
+            PaymentHelper::handlePaymentResponse($invoice, $orderBody, $details, true);
         }
     }
 }
