@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::any('success', function(Request $request){
+
+    \DB::table('webhook_log')->insert(array('log' => serialize((array)$request)));
+
+})->name('webhook-success');
+
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
 Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
@@ -126,9 +132,3 @@ Route::get('users/{user}', 'UserController@show')->name('users.show');
 
 Route::get('test_upload', 'AccountController@test_upload')->name('test_upload');
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
-
-Route::any('success', function(Request $request){
-
-    \DB::table('webhook_log')->insert(array('log' => serialize((array)$request)));
-
-});
