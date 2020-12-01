@@ -27,6 +27,7 @@ class PaymentHelper
 
     public static function handlePaymentResponse($invoice, $orderBody, $billDetail)
     {
+        dd($invoice);
         if($billDetail['bill']['status'] != 'paid')
         {
             $orderResponseJson['id'] = $orderBody->id;
