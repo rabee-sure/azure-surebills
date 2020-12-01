@@ -301,14 +301,14 @@
               success: function(data){
               customers = data;
                var resp = $.map(data,function(obj){
-                    return {'value': obj.id, 'label': obj.name};
+                    return {'value': obj.name, 'label': obj.name, 'id': obj.id};
                });
                response(resp);
               }
           });
       },
       select: function (event, ui) {
-        var item = customers.find(x => x.id === ui.item.value);
+        var item = customers.find(x => x.id === ui.item.id);
         $('#customer_name').val(item.name);
         $('#customer_mobile').val(item.mobile);
         $('#customer_email').val(item.email);

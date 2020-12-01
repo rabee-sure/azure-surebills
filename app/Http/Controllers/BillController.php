@@ -9,6 +9,7 @@ use App\Events\BillCreated;
 use App\Events\BillPaid;
 use App\Events\BillStatusUpdated;
 use App\Exceptions\ValidationException;
+use App\Helpers\PaymentHelper as HelpersPaymentHelper;
 use App\Http\Requests\BillRequest;
 use App\Http\Requests\PayBillRequest;
 use App\PaymentLog;
@@ -20,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException as ValidationsException;
+use PaymentHelper;
 
 class BillController extends Controller
 {
@@ -28,6 +30,13 @@ class BillController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    //  private $invoice;
+    //  public function __construct(Invoice $invoice)
+    //  {
+    //      $this->invoice($invoice);
+    //  }
+
     public function index(Request $request)
     {
         $date_start = $request->date_start ?? null;
@@ -335,5 +344,18 @@ class BillController extends Controller
             'bill' => $log->bill,
             'log' => $log
         ]);
+    }
+
+    public function masterCardWebHookResponse(Request $request)
+    {
+        $orderBody = json_decode(json_encode($request->all()), FALSE);
+        $notPaidBill = Bill::where([['id', $orderBody->reference], ['status', '<>', 'paid']])->first();
+
+        if($notPaidBill)
+        {
+            $invoice = new Invoice();
+            $details = $invoice->detail(['bill' => $notPaidBill->toArray()]);
+            PaymentHelper::handlePaymentResponse($invoice, $orderBody, $details);
+        }
     }
 }

@@ -13,6 +13,7 @@ use App\Exceptions\InvalidPaymentException;
 use App\Exceptions\PurchaseFailedException;
 use App\Payment\Contracts\ReceiptInterface;
 use URL;
+use PaymentHelper;
 
 class MasterCardFrame extends Driver
 {
@@ -67,8 +68,6 @@ class MasterCardFrame extends Driver
         $client = new Client();
         $response = $client->post(config('payment.drivers.mastercard_iframe.api_base_url').'/session',[
             'json' => ['session' => ['authenticationLimit' => 25],],
-            // 'json' => ["apiOperation" => "CREATE_CHECKOUT_SESSION", "interaction" => ["operation" => "PURCHASE"],//"returnUrl" => "http://sure-bills-local/success"
-            //             "order" => ["notificationUrl" => 'https://sure-bills-local/success',"amount"=> $details['bill']['total'], "currency" => "SAR", "id" => $details['bill']['id']]],
             'auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')],
         ]);
 
@@ -108,37 +107,49 @@ class MasterCardFrame extends Driver
                                     ['auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]]);
         $sessionBody = json_decode($sessionResponse->getBody()->getContents(), false);
 
+        if(isset($sessionBody->result) == 'error')
+        {
+            if($sessionBody->result == 'error')
+            {
+                return \Redirect::back();
+            }
+        }
+
         $orderResponse = $client->get(config('payment.drivers.mastercard_iframe.api_base_url').'/order/'.$sessionBody->order->id,
                                     ['auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]]);
+
         $orderBody = json_decode($orderResponse->getBody()->getContents(), false);
+        PaymentHelper::handlePaymentResponse($this->invoice, $orderBody, $details);
 
-        $orderResponseJson = $this->formateResponse($orderBody, $details);
 
-        $this->invoice->detail(['result_code' => $orderResponseJson['result']['code']])
-            ->detail(['success' => $orderResponseJson['result']['code'] == 00? 1:0])
-            ->detail(['response' => $orderResponseJson])
-            ->detail(['description' => $orderResponseJson['result']['description']])
-            ->detail(['gateway' => 'mastercard'])
-            ->detail(['gateway_response' => $orderBody]);
-        $this->invoice->transactionId(request()->sessionId ?? "not have id");
+        // PaymentHelper::savePaymentResponse($this->invoice, $orderResponseJson, $orderBody);
+        // $this->formateResponse($orderBody, $details);
+
+        // $this->invoice->detail(['result_code' => $orderResponseJson['result']['code']])
+        //     ->detail(['success' => $orderResponseJson['result']['code'] == 00? 1:0])
+        //     ->detail(['response' => $orderResponseJson])
+        //     ->detail(['description' => $orderResponseJson['result']['description']])
+        //     ->detail(['gateway' => 'mastercard'])
+        //     ->detail(['gateway_response' => $orderBody]);
+        // $this->invoice->transactionId(request()->sessionId ?? "not have id");
     }
 
-    private function formateResponse($orderBody, $billDetail)
-    {
-        $orderResponseJson['id'] = $orderBody->id;
-        $orderResponseJson['card']['bin'] = '';
-        $orderResponseJson['card']['holder'] = $orderBody->sourceOfFunds->provided->card->nameOnCard;
-        $orderResponseJson['card']['binCountry'] = '';
-        $orderResponseJson['card']['expiryYear'] = $orderBody->sourceOfFunds->provided->card->expiry->year;
-        $orderResponseJson['card']['expiryMonth'] = $orderBody->sourceOfFunds->provided->card->expiry->month;
-        $orderResponseJson['card']['last4Digits'] = substr($orderBody->sourceOfFunds->provided->card->number, -4);
-        $orderResponseJson['result']['code'] = $orderBody->transaction[0]->response->acquirerCode;
-        $orderResponseJson['result']['description'] = $orderBody->transaction[0]->result;
-        $orderResponseJson['paymentType'] = '';
-        $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
-        $orderResponseJson['merchantTransactionId'] = $billDetail['bill']['id'];
-        return $orderResponseJson;
-    }
+    // private function formateResponse($orderBody, $billDetail)
+    // {
+    //     $orderResponseJson['id'] = $orderBody->id;
+    //     $orderResponseJson['card']['bin'] = '';
+    //     $orderResponseJson['card']['holder'] = $orderBody->sourceOfFunds->provided->card->nameOnCard;
+    //     $orderResponseJson['card']['binCountry'] = '';
+    //     $orderResponseJson['card']['expiryYear'] = $orderBody->sourceOfFunds->provided->card->expiry->year;
+    //     $orderResponseJson['card']['expiryMonth'] = $orderBody->sourceOfFunds->provided->card->expiry->month;
+    //     $orderResponseJson['card']['last4Digits'] = substr($orderBody->sourceOfFunds->provided->card->number, -4);
+    //     $orderResponseJson['result']['code'] = $orderBody->transaction[0]->response->acquirerCode;
+    //     $orderResponseJson['result']['description'] = $orderBody->transaction[0]->result;
+    //     $orderResponseJson['paymentType'] = '';
+    //     $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
+    //     $orderResponseJson['merchantTransactionId'] = $billDetail['bill']['id'];
+    //     return $orderResponseJson;
+    // }
 
     /**
      * Purchase Invoice.

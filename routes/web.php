@@ -15,12 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::any('success', function(Request $request){
-
-    \DB::table('webhook_log')->insert(array('log' => serialize((array)request()->all())));
-    // dd(serialize((array)request()->all()));
-
-})->name('webhook-success');
+Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
 
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
