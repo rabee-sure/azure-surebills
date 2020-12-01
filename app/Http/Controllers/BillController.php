@@ -329,6 +329,7 @@ class BillController extends Controller
     public function masterCardWebHookResponse(Request $request)
     {
         $orderBody = json_decode(json_encode($request->all()), FALSE);
+        DB::table('webhook_log')->insert(array('log' => serialize($orderBody)));
         $notPaidBill = Bill::where([['id', $orderBody->reference], ['status', '<>', 'paid']])->first();
 
         if($notPaidBill)
