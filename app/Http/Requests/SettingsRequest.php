@@ -23,13 +23,18 @@ class SettingsRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'create_send_sms' => ['nullable'],
             'create_send_email' => ['nullable'],
             'paid_send_email' => ['nullable'],
             'paid_send_email' => ['nullable'],
-            'tax_value' => ['required_if:add_tax,on', 'between:1,100', 'integer'],
         ];
+
+        if(request()->add_tax == 'on')
+        {
+            $rules['tax_value'] = ['required_if:add_tax,on', 'between:1,100', 'integer'];
+        }
+        return $rules;
     }
 
         /**

@@ -33,14 +33,14 @@
                 <div class="form-group col-6">
                   <label for="inputEmail1">{{ __('Add Tax') }}</label>
                   <div class="custom-switch custom-switch-primary mb-2">
-                    <input name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox" @if($user->settings->add_tax ?? null) checked @endif>
+                    <input name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox" @if($user->settings->add_tax || old('add_tax') == 'on') checked @endif>
                     <label class="custom-switch-btn" for="Tax_Values_Checkbox"></label>
                   </div>
                 </div><!-- form-group -->
 
                     <div class="form-group col-6 col-md-6 col-lg-6 col-xl-6 Tax_Values">
                       <label for="Tax">{{ __('Tax Value') }} (%)</label>
-                      <input  value="{{ $user->settings->tax_value }}" type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value">
+                      <input  value="{{ old('tax_value') ?? $user->settings->tax_value }}" type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value">
                     </div><!-- form-group -->
               </div><!-- form-row -->
 
