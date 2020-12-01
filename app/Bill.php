@@ -479,7 +479,7 @@ class Bill extends Model
 
     public function dateLocalization()
     {
-        Date::setLocale(session()->get('user-lang'));
+        Date::setLocale(app()->getLocale());
         return Date::parse($this->due_date->format('Y-m-d'))->format('j F Y');
     }
 
