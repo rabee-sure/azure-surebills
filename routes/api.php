@@ -37,4 +37,6 @@ Route::prefix('v1')->group(function () {
 
     Route::post('fandaqah-register', 'UserController@register');
     Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
+
+    Route::post('channels/{channel}/applications/create', 'ChannelController@storeApplication');
 });
