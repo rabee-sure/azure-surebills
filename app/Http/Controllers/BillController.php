@@ -354,7 +354,7 @@ class BillController extends Controller
         if($notPaidBill)
         {
             $invoice = new Invoice();
-            $details = $invoice->detail(['bill' => $notPaidBill->toArray()]);
+            $details = $invoice->detail(['bill' => $notPaidBill->toArray()])->getDetails();
             PaymentHelper::handlePaymentResponse($invoice, $orderBody, $details);
         }
     }
