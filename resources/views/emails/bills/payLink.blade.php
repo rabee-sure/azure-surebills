@@ -270,7 +270,7 @@
               <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} {{ __('SAR') }}</p>
             @endif
             @if( $bill->add_discount)
-              <p>{{ __('Discount') }} : {{ $bill->discount }} SAR') }}</p>
+              <p>{{ __('Discount') }} : {{ $bill->discount }} {{ __('SAR') }}</p>
               <p>{{ __('Subtotal - Discount') }} : {{ $bill->sub_total- $bill->discount }} {{ __('SAR') }}</p>
             @endif
             @if( $bill->add_tax)
