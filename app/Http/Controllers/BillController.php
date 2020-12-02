@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException as ValidationsException;
 use PaymentHelper;
+use Log;
+use IlluminateSupportFacadesLog;
 
 class BillController extends Controller
 {
@@ -329,7 +331,7 @@ class BillController extends Controller
     public function masterCardWebHookResponse(Request $request)
     {
         $orderBody = json_decode(json_encode($request->all()), FALSE);
-        Log::debug($orderBody);
+        Log::debug($request->all());
         DB::table('webhook_log')->insert(array('log' => serialize($request->all())));
         $notPaidBill = Bill::where([['id', $orderBody->reference], ['status', '<>', 'paid']])->first();
 
