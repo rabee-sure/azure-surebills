@@ -92,6 +92,7 @@ class BillRequest extends FormRequest
           'customer_mobile.required' => __('customer mobile required'),
           'customer_mobile.regex' => __('customer mobile is not correct'),
           'items.*.name.required' => __('item name required'),
+          'items.*.name.max' => __('item name should not be greater than 50 character'),
           'items.*.price.required' => __('item price required'),
           'items.*.quantity.required' => __('item quantity required'),
         ];

@@ -41,7 +41,7 @@
     "Upload the required documents": "حمل الوثائق المطلوبة (حد اقصى 5 ملفات)",
     "reach the max num of files": "لقد وصلت للحد الاقصى من الملفات المحملة",
 	"Commercial registry, self-employment document, ID card ..etc": "سجل تجاري ، وثيقة عمل حر ، بطاقة هوية … ",
-
+    "item name should not be greater than 50 character": "اسم المنتج يجب أن لا يتعدى 50 حرفا",
 	"Actions": "أجراءات",
 	"request contains no cc/bank account holder": "الطلب لا يحتوي على نسخة إلى / صاحب حساب مصرفي",
 	"Mobile Verified": "التحقق من الهاتف",
