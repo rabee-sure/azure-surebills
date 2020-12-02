@@ -25,8 +25,8 @@ class AccountInformationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'unique:users,email,'.auth()->user()->id.',id' ],
+            'name' => ['required', 'string', 'max:50'],
+            'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email,'.auth()->user()->id.',id' ],
             'gender' => ['required'],
         ];
     }
