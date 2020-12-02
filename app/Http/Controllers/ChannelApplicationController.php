@@ -41,10 +41,12 @@ class ChannelApplicationController extends Controller
                ] 
            ], 422);
         }
-        $application = new Application;
-        $application->user_id = $user->id;
-        $application->channel_id = $channel->id;
-        $application->name = $request->name;
+        
+        $application = Application::firstOrNew([
+            'user_id' => $user->id,
+            'channel_id' => $channel->id,
+            'name' => $channel->name,
+        ]);
         $application->secret = Str::random(20);
         $application->redirect = $request->redirect;
         $application->fail_redirect_url = $request->fail_redirect_url;

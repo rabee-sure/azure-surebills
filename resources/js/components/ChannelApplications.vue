@@ -69,15 +69,7 @@
               </ul>
             </div>
             <!-- Create Application Form -->
-            <form role="form">
-              <!-- Name -->
-              <div class="form-group row">
-                <label class="col-md-3 col-form-label">{{ __('Name')}}</label>
-                <div class="col-md-9">
-                  <input id="create-application-name" type="text" class="form-control" @keyup.enter="store" v-model="createForm.name">
-                  <span class="form-text text-muted">{{ __('Something your users will recognize and trust.')}}</span>
-                </div>
-              </div>              
+            <form role="form">     
 
               <!-- Email -->
               <div class="form-group row">
@@ -165,15 +157,6 @@
             </div>
             <!-- Edit Application Form -->
             <form role="form">
-              <!-- Name -->
-              <div class="form-group row">
-                <label class="col-md-3 col-form-label">{{ __('Name')}}</label>
-                <div class="col-md-9">
-                  <input id="edit-application-name" type="text" class="form-control" @keyup.enter="update" v-model="editForm.name">
-                  <span class="form-text text-muted">{{ __('Something your users will recognize and trust.')}}</span>
-                </div>
-              </div>
-
               <!-- Redirect URL -->
               <div class="form-group row">
                 <label class="col-md-3 col-form-label">{{ __('Redirect URL')}}</label>
@@ -262,7 +245,6 @@
 
                 createForm: {
                     errors: [],
-                    name: '',
                     email: '',
                     redirect: '',
                     webhook_url: '',
@@ -275,7 +257,6 @@
 
                 editForm: {
                     errors: [],
-                    name: '',
                     redirect: '',
                     webhook_url: '',
                     mada_fixed: '',
@@ -350,7 +331,6 @@
              */
             edit(application) {
                 this.editForm.id = application.id;
-                this.editForm.name = application.name;
                 this.editForm.redirect = application.redirect;
                 this.editForm.webhook_url = application.webhook_url;
                 this.editForm.mada_fixed = application.mada_fixed;
@@ -383,7 +363,6 @@
                     .then(response => {
                         this.getApplications();
 
-                        form.name = '';
                         form.redirect = '';
                         form.webhook_url = '';
                         form.email = '';
