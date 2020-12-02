@@ -21,11 +21,11 @@ class PaymentHelper
             $orderResponseJson['paymentType'] = '';
             $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
             $orderResponseJson['merchantTransactionId'] = $billDetail['bill']['id'];
-            PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook);
+            PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, true);
         // }
     }
 
-    public static function savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook = false)
+    public static function savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook = true)
     {
         $invoice->detail(['result_code' => $orderResponseJson['result']['code']])
             ->detail(['success' => $orderResponseJson['result']['code'] != null ? 1:0])
@@ -35,11 +35,14 @@ class PaymentHelper
             ->detail(['gateway_response' => $orderBody]);
         $invoice->transactionId(request()->sessionId ?? "not have id");
 
-        if($viaWebHook)
-        {
-            $payment = PaymentLog::where('bill_id', $orderResponseJson['merchantTransactionId'])->first();
-            PaymentHelper::checkPaymentStatus($invoice, $payment, $payment->bill);
-        }
+        $payment = PaymentLog::where('bill_id', $orderResponseJson['merchantTransactionId'])->first();
+        PaymentHelper::checkPaymentStatus($invoice, $payment, $payment->bill);
+
+        // if($viaWebHook == true)
+        // {
+        //     $payment = PaymentLog::where('bill_id', $orderResponseJson['merchantTransactionId'])->first();
+        //     PaymentHelper::checkPaymentStatus($invoice, $payment, $payment->bill);
+        // }
     }
 
     public static function checkPaymentStatus($invoice, $payment, $bill)
