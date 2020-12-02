@@ -25,17 +25,17 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'business_name' => ['required', 'string', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'business_name' => ['required', 'string', 'max:100'],
+            'name' => ['required', 'string', 'max:50'],
+            'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email'],
             'mobile' => ['required', 'unique:users',
                 // 'regex:/^((?:[+?0?0?966]+)(?:\s?\d{2})(?:\s?\d{7}))$/', //Saudi number with +966
                 'regex:/(^[5]{1}[0-9]{8}$)/',
             ],
             'password' => [
-                'required', 
-                'string', 
-                'min:8',            
+                'required',
+                'string',
+                'min:8',
                 new PasswordRule,
                 'confirmed'
             ],

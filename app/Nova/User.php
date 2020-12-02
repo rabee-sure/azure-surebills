@@ -87,11 +87,11 @@ class User extends Resource
                 return $this->round_balance;
             })->readonly(),
 
-            Text::make(__('Business Name'), 'business_name_en')->rules('required', 'max:255'),
+            Text::make(__('Business Name'), 'business_name_en')->rules('required', 'max:50'),
             new Panel(__('Bank Information'), $this->bankInformation()),
             Text::make(__('Account Name'), 'name')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:50'),
 
             Text::make(__('Email'), 'email')
                 ->sortable()

@@ -25,8 +25,8 @@ class CustomerUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['nullable','email', 'max:255',
+            'name' => ['required', 'string', 'max:50'],
+            'email' => ['nullable','email', 'max:50',
                 Rule::unique('customers')->where(function ($query){
                     return $query->where('user_id', auth()->user()->id);
                 })->ignore($this->customer->id)

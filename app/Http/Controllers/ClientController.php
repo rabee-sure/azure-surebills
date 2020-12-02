@@ -80,7 +80,7 @@ class ClientController
     public function store(Request $request)
     {
         $this->validation->make($request->all(), [
-            'name' => 'required|max:255',
+            'name' => 'required|max:50',
             'redirect' => ['required', $this->redirectRule],
             'fail_redirect_url' => ['nullable', 'url'],
             'webhook_url' => ['nullable', 'url'],
@@ -138,7 +138,7 @@ class ClientController
         }
 
         $this->validation->make($request->all(), [
-            'name' => 'required|max:255',
+            'name' => 'required|max:50',
             'redirect' => ['required', $this->redirectRule],
         ])->validate();
 

@@ -46,8 +46,8 @@ class BillRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer_name' => ['required', 'string', 'max:255'],
-            'customer_email' => ['nullable', 'email', 'max:255',
+            'customer_name' => ['required', 'string', 'max:50'],
+            'customer_email' => ['nullable', 'email', 'max:50',
                 // Rule::unique('customers', 'email')->where(function ($query){
                 //     return $query->where('user_id', auth()->user()->id)
                 //     ->where('mobile',  '500000000');
@@ -71,7 +71,7 @@ class BillRequest extends FormRequest
             'send_sms' => ['nullable'],
             'send_email' => ['nullable'],
             'items' => ['required', new BillTotalValidation],
-            'items.*.name' => 'required|string|max:255',
+            'items.*.name' => 'required|string|max:50',
             'items.*.price' => 'required|numeric',
             'items.*.quantity' => 'required|numeric',
         ];
