@@ -45,29 +45,19 @@ class BillRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'customer_name' => ['required', 'string', 'max:50'],
-            'customer_email' => ['nullable', 'email', 'max:50',
-                // Rule::unique('customers', 'email')->where(function ($query){
-                //     return $query->where('user_id', auth()->user()->id)
-                //     ->where('mobile',  '500000000');
-                // })
-            ],
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
             'customer_notes' => ['nullable'],
-
             'due_date' => ['required'],
             'expiry_date' => ['required'],
             'expiry_hours' => ['numeric','min:0','max:23','nullable'],
             'expiry_minutes' => ['numeric','min:0','max:59','nullable'],
-
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
             'discount_value' => ['required_if:add_discount,on'],
-
             'add_tax' => ['nullable'],
             'tax_value' => ['required_if:add_tax,on'],
-
             'send_sms' => ['nullable'],
             'send_email' => ['nullable'],
             'items' => ['required', new BillTotalValidation],
@@ -75,6 +65,13 @@ class BillRequest extends FormRequest
             'items.*.price' => 'required|numeric',
             'items.*.quantity' => 'required|numeric',
         ];
+
+        if(request()->send_email == 'on')
+        {
+            $rules['customer_email'] = ['required_if:send_email,on', 'email', 'max:50'];
+        }
+
+        return $rules;
     }
 
 

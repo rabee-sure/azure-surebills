@@ -205,5 +205,6 @@ return [
         "business_address" => "العنوان",
         "sector" => "قطاع",
         "beneficiary_name" => "اسم صاحب الحساب",
+        "send_email" => "ارسل بريد الكتروني",
     ],
 ];
