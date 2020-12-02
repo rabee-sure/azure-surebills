@@ -7,8 +7,8 @@ class PaymentHelper
 {
     public static function handlePaymentResponse($invoice, $orderBody, $billDetail, $viaWebHook = false)
     {
-        if($billDetail['bill']['status'] != 'paid')
-        {
+        // if($billDetail['bill']['status'] != 'paid')
+        // {
             $orderResponseJson['id'] = $orderBody->id;
             $orderResponseJson['card']['bin'] = '';
             $orderResponseJson['card']['holder'] = $orderBody->sourceOfFunds->provided->card->nameOnCard;
@@ -22,7 +22,7 @@ class PaymentHelper
             $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
             $orderResponseJson['merchantTransactionId'] = $billDetail['bill']['id'];
             PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook);
-        }
+        // }
     }
 
     public static function savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook = false)
