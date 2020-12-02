@@ -82,8 +82,8 @@ class Bill extends Model
      */
     public function getHyperpayIdAttribute()
     {
-        if (isset($this->payment_logs[0]) && isset($this->payment_logs[0]['results']) && isset($this->payment_logs[0]['response'])) {
-            return $this->payment_logs[0]['results']['response']['id'];
+        if (isset($this->payment_logs[0]) && isset($this->payment_logs[0]->results) && isset($this->payment_logs[0]->results['response'])) {
+            return $this->payment_logs[0]->results['response']['id'];
         }
 
         return null;
