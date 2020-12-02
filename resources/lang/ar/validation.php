@@ -199,5 +199,12 @@ return [
         "website" => "الموقع الإلكتروني",
         "tax_value" => "قيمة الضريبة",
         "add_tax" => "أضف الضريبة",
+        "customer_name" => "اسم العميل",
+        "business_name_en" => "الاسم التجاري (EN)",
+        "business_name_ar" => "الاسم التجاري (AR)",
+        "business_address" => "العنوان",
+        "sector" => "قطاع",
+        "beneficiary_name" => "اسم صاحب الحساب",
+        "send_email" => "ارسل بريد الكتروني",
     ],
 ];

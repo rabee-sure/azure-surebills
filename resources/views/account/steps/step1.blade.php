@@ -14,11 +14,11 @@
 				<div id="step-0">
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for="inputEmail1">{{ __('Full Name')}}</label>
+							<label for="inputEmail1">{{ __('Full Name')}}<i class="text-danger">*</i></label>
 							<input name="name" type="text" class="form-control" id="inputEmail1" placeholder="{{ __('Full Name')}}" value="{{ $user->name }}">
 						</div>
 						<div class="form-group col-md-6">
-							<label for="inputEmail2">{{ __('Email')}}</label>
+							<label for="inputEmail2">{{ __('Email')}}<i class="text-danger">*</i></label>
 							<input name="email" type="email" class="form-control" id="inputEmail2" placeholder="{{ __('Email')}}" value="{{ $user->email }}" >
 						</div>
 					</div>

@@ -26,9 +26,9 @@ class BusinessInformationRequest extends FormRequest
     {
         return [
             'license_type' => ['required'],
-            'business_name_en' => ['required'],
-            'business_name_ar' => ['required'],
-            'sector' => ['nullable'],
+            'business_name_en' => ['required', 'max:50'],
+            'business_name_ar' => ['required', 'max:50'],
+            'sector' => ['nullable', 'max:50'],
             'website' => ['nullable', 'url'],
             'twitter' => ['nullable', 'url'],
             'facebook' => ['nullable', 'url'],
@@ -36,7 +36,7 @@ class BusinessInformationRequest extends FormRequest
             'hidden_logo' => ['nullable'],
             'logo' => ['nullable', new ValidateUploadFile(['png', 'jpg', 'jpeg'])],
             'description' => ['nullable'],
-            'business_address' => ['required'],
+            'business_address' => ['required', 'max:100'],
             'business_mobile' => ['required'],
             'vat_registration_number' => ['nullable'],
             'document' => ['nullable', 'array', "max:5"],

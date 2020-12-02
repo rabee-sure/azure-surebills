@@ -38,21 +38,21 @@
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="business_name_en">{{ __('Business Name') }} (EN)</label>
+              <label for="business_name_en">{{ __('Business Name') }} (EN) <span class="requirement">*</span></label>
               <input value="{{ $user->business_name_en }}" name="business_name_en" type="text" class="form-control" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)">
             </div>
             <div class="form-group col-md-6">
-              <label for="business_name_ar">{{ __('Business Name') }} (AR)</label>
+              <label for="business_name_ar">{{ __('Business Name') }} (AR) <span class="requirement">*</span></label>
               <input value="{{ $user->business_name_ar }}" name="business_name_ar" type="text" class="form-control" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)">
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="business_address">{{ __('Address') }}</label>
+              <label for="business_address">{{ __('Address') }} <span class="requirement">*</span></label>
               <input value="{{ $user->business_address }}" name="business_address" type="text" class="form-control" id="business_address" placeholder="{{ __('Address') }}">
             </div>
             <div class="form-group col-md-6">
-              <label for="business_mobile">{{ __('Mobile') }}</label>
+              <label for="business_mobile">{{ __('Mobile') }} <span class="requirement">*</span></label>
               <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" pattern="[0-9]{9}" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}">
             </div>
           </div>
