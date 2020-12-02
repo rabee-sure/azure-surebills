@@ -3,12 +3,14 @@
 namespace App\Helpers;
 use App\Bill;
 use App\PaymentLog;
+use DB;
+
 class PaymentHelper
 {
     public static function handlePaymentResponse($invoice, $orderBody, $billDetail, $viaWebHook = false)
     {
-        // if($billDetail['bill']['status'] != 'paid')
-        // {
+        if($billDetail['bill']['status'] != 'paid')
+        {
             $orderResponseJson['id'] = $orderBody->id;
             $orderResponseJson['card']['bin'] = '';
             $orderResponseJson['card']['holder'] = $orderBody->sourceOfFunds->provided->card->nameOnCard;
@@ -21,11 +23,13 @@ class PaymentHelper
             $orderResponseJson['paymentType'] = '';
             $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
             $orderResponseJson['merchantTransactionId'] = $billDetail['bill']['id'];
-            PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, true);
-        // }
+            DB::table('webhook_log')->insert(array('log' => serialize($orderResponseJson)));
+
+            PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook);
+        }
     }
 
-    public static function savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook = true)
+    public static function savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook = false)
     {
         $invoice->detail(['result_code' => $orderResponseJson['result']['code']])
             ->detail(['success' => $orderResponseJson['result']['code'] != null ? 1:0])
@@ -35,14 +39,11 @@ class PaymentHelper
             ->detail(['gateway_response' => $orderBody]);
         $invoice->transactionId(request()->sessionId ?? "not have id");
 
-        $payment = PaymentLog::where('bill_id', $orderResponseJson['merchantTransactionId'])->first();
-        PaymentHelper::checkPaymentStatus($invoice, $payment, $payment->bill);
-
-        // if($viaWebHook == true)
-        // {
-        //     $payment = PaymentLog::where('bill_id', $orderResponseJson['merchantTransactionId'])->first();
-        //     PaymentHelper::checkPaymentStatus($invoice, $payment, $payment->bill);
-        // }
+        if($viaWebHook)
+        {
+            $payment = PaymentLog::where('bill_id', $orderResponseJson['merchantTransactionId'])->first();
+            PaymentHelper::checkPaymentStatus($invoice, $payment, $payment->bill);
+        }
     }
 
     public static function checkPaymentStatus($invoice, $payment, $bill)

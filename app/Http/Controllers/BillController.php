@@ -337,6 +337,7 @@ class BillController extends Controller
             DB::table('webhook_log')->insert(array('log' => serialize($request->all())));
             $invoice = new Invoice();
             $details = $invoice->detail(['bill' => $notPaidBill->toArray()])->getDetails();
+            DB::table('webhook_log')->insert(array('log' => serialize($details)));
             PaymentHelper::handlePaymentResponse($invoice, $orderBody, $details, true);
         }
     }
