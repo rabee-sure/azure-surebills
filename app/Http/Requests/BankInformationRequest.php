@@ -28,7 +28,7 @@ class BankInformationRequest extends FormRequest
         return [
             'bank_id' => ['required'],
             'iban_number' => ['required', new ValidateIban()],
-            'beneficiary_name' => ['required'],
+            'beneficiary_name' => ['required', 'max:50'],
             'document' => ['nullable', 'array', "max:5"],
             'document.*' => ['required', new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])],
         ];

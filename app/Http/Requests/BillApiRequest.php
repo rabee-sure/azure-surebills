@@ -53,8 +53,8 @@ class BillApiRequest extends FormRequest
                 //     return $query->where('user_id', $application->user_id ?? null)->where('status', 'pending');
                 // })
             ],
-            'customer_name' => ['required', 'string', 'max:255'],
-            'customer_email' => ['required', 'string', 'email', 'max:255'],
+            'customer_name' => ['required', 'string', 'max:50'],
+            'customer_email' => ['required', 'string', 'email', 'max:50'],
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
             'customer_notes' => ['nullable'],
 
