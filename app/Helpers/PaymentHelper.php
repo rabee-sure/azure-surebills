@@ -23,7 +23,7 @@ class PaymentHelper
             $orderResponseJson['paymentType'] = '';
             $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
             $orderResponseJson['merchantTransactionId'] = $billDetail['bill']['id'];
-            DB::table('webhook_log')->insert(array('log' => serialize($orderResponseJson)));
+            // DB::table('webhook_log')->insert(array('log' => serialize($orderResponseJson)));
 
             PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook);
         }

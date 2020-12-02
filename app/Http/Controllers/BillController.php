@@ -332,15 +332,15 @@ class BillController extends Controller
     {
         $orderBody = json_decode(json_encode($request->all()), FALSE);
         Log::debug($request->all());
-        DB::table('webhook_log')->insert(array('log' => serialize($request->all())));
+        // DB::table('webhook_log')->insert(array('log' => serialize($request->all())));
         $notPaidBill = Bill::where([['id', $orderBody->reference], ['status', '<>', 'paid']])->first();
 
         if($notPaidBill)
         {
-            DB::table('webhook_log')->insert(array('log' => serialize($request->all())));
+            // DB::table('webhook_log')->insert(array('log' => serialize($request->all())));
             $invoice = new Invoice();
             $details = $invoice->detail(['bill' => $notPaidBill->toArray()])->getDetails();
-            DB::table('webhook_log')->insert(array('log' => serialize($details)));
+            // DB::table('webhook_log')->insert(array('log' => serialize($details)));
             PaymentHelper::handlePaymentResponse($invoice, $orderBody, $details, true);
         }
     }
