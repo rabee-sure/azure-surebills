@@ -13,9 +13,9 @@ class WebhookLog extends Migration
      */
     public function up()
     {
-        Schema::create('webhook_log', function (Blueprint $table) {
-            $table->longText('log');
-        });
+        // Schema::create('webhook_log', function (Blueprint $table) {
+        //     $table->longText('log');
+        // });
     }
 
     /**
