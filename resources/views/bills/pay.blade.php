@@ -7,7 +7,6 @@
 
 <div class="single_bill_page">
   <div class="container" >
-
     <div class="row  justify-content-center">
       <div class="col-12 col-md-8 col-lg-6 col-xl-6">
         <div class="single_bill_content">
@@ -123,6 +122,30 @@
                     <div class="checkmark"></div>
                     </label>
                 </div><!-- item -->
+
+                {{-- mastercard --}}
+                <div class="item">
+                    <input type="radio" id="mastercard_pay" name="payment_method" value="mastercard_iframe">
+                    <label for="mastercard_pay">
+                    <p>Mastercard</p>
+                    <div class="icon_mada"></div>
+                    <div class="checkmark"></div>
+                    </label>
+                </div><!-- item -->
+                {{-- mastercard --}}
+
+                {{-- Apple pay mastercard --}}
+                {{-- <div class="item">
+                    <input type="radio" id="mastercard_applepay" name="payment_method" value="mastercard_applepay">
+                    <label for="mastercard_applepay">
+                    <p>Apple Pay</p>
+                    <div class="icon_mada"></div>
+                    <div class="checkmark"></div>
+                    </label>
+                </div><!-- item --> --}}
+                {{-- mastercard --}}
+
+
                 <div id="applepay_show" class="item">
                     <input type="radio" id="apple_pay" name="payment_method" value="hyperpay_applepay">
                     <label for="apple_pay">
@@ -180,7 +203,28 @@
 @push('footer-scripts')
   <script src="{{ asset('js/jquery.countdownTimer.min.js') }}"></script>
 <script src="https://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+
+<script src="{{config('payment.drivers.mastercard_iframe.session_script')}}"></script>
+<script src="{{config('payment.drivers.mastercard_iframe.checkout_script')}}"
+        data-error="errorCallback"
+        data-cancel="cancelCallback"
+        data-timeout="timeoutCallback"
+        data-complete="completeCallback"></script>
+
 <script type='text/javascript'>
+    function timeoutCallback() {console.log('timeout')}
+    function errorCallback(error) {console.log(JSON.stringify(error));}
+    function cancelCallback() {$(".mastercardPaymentWidgets" ).submit(); $('#mastercard_pay').prop('checked', false);}
+    function completeCallback(resultIndicator, sessionVersion)
+    {
+        $(".mastercardPaymentWidgets" ).submit();
+    }
+
+    window.addEventListener("beforeunload", function (e) {
+        $(".mastercardPaymentWidgets" ).submit();
+    });
+
+
 var BrowserDetect = {
 init: function () {
     this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
@@ -319,8 +363,11 @@ if (BrowserDetect.browser == 'Safari') {
             $.ajax({
                 type: 'GET', //THIS NEEDS TO BE GET
                 url: '/bills/payment_iframe/{{$bill->id}}/' + method+'/{{app()->getLocale()}}',
+
                 success: function (data) {
-                     $("#iframe_pay").html(data);
+                    $("#iframe_pay").html(data);
+                },
+                complete:function(){
                 },
                 error: function() {
                      console.log(data);
@@ -330,7 +377,9 @@ if (BrowserDetect.browser == 'Safari') {
       });
   });
 
-/* if ( {{$bill->is_expired}} ) {
+
+
+    /* if ( {{$bill->is_expired}} ) {
   $("#countdown").remove();
   $("#payment_method").remove();
   $("#back_btn").remove();

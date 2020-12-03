@@ -40,6 +40,26 @@ return [
             'entity_id'    => env('HYPERPAY_APPLEPAY_ENTITY_ID', '8ac9a4cb6cfb27dc016d3422a55644f7'),
             'api_base_url' => env('HYPERPAY_APPLEPAY_BASE_URL', 'https://test.oppwa.com/v1'),
         ],
+        'mastercard_iframe' => [
+            /* normal api */
+            'merchant_id' => env('MASTERCARD_MERCHANT_ID','TEST3000000330'),
+            'checkout_script' => env('MASTERCARD_CHECKOUT_SCRIPT','https://test-gateway.mastercard.com/checkout/version/58/checkout.js'),
+            'session_script' => env('MASTERCARD_SESSION_SCRIPT','https://test-gateway.mastercard.com/form/version/58/merchant/TEST3000000330/session.js'),
+            'api_base_url' => env('MASTERCARD_API_BASE_URL','https://test-gateway.mastercard.com/api/rest/version/58/merchant/TEST3000000330'),
+            'operator_username' => env('MASTERCARD_OPERATOR_USERNAME','merchant.TEST3000000330'),
+            'operator_password' => env('MASTERCARD_OPERATOR_PASSWORD','d4da5ee0b3612ec2b7a51c058a8c7f09'),
+            'X-Notification-Secret' => env('MASTERCARD_NOTIFICATION_SECRET', 'BC8ADD92A6D896296BA45395FF251A9E'),
+        ],
+        'mastercard_applepay' => [
+            /* normal api */
+            'merchant_id' => env('MASTERCARD_MERCHANT_ID','TEST3000000330'),
+            'checkout_script' => env('MASTERCARD_CHECKOUT_SCRIPT','https://test-gateway.mastercard.com/checkout/version/58/checkout.js'),
+            'session_script' => env('MASTERCARD_SESSION_SCRIPT','https://test-gateway.mastercard.com/form/version/58/merchant/TEST3000000330/session.js'),
+            'api_base_url' => env('MASTERCARD_API_BASE_URL','https://test-gateway.mastercard.com/api/rest/version/58/merchant/TEST3000000330'),
+            'operator_username' => env('MASTERCARD_OPERATOR_USERNAME','merchant.TEST3000000330'),
+            'operator_password' => env('MASTERCARD_OPERATOR_PASSWORD','d4da5ee0b3612ec2b7a51c058a8c7f09'),
+        ],
+
     ],
 
     /*
@@ -58,5 +78,7 @@ return [
         'hyperpay' => \App\Payment\Drivers\HyperPay::class,
         'hyperpay_iframe' => \App\Payment\Drivers\HyperPayFrame::class,
         'hyperpay_applepay' => \App\Payment\Drivers\HyperPayApplePay::class,
+        'mastercard_iframe' => \App\Payment\Drivers\MasterCardFrame::class,
+        'mastercard_applepay' => \App\Payment\Drivers\MasterCardApplePay::class,
     ]
 ];
