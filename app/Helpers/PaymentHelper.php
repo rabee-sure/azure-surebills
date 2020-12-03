@@ -71,6 +71,7 @@ class PaymentHelper
         $payment = PaymentLog::where('bill_id', $orderResponseJson['merchantTransactionId'])->first();
         PaymentHelper::checkPaymentStatus($invoice, $payment, $payment->bill);
 
+
         // if($viaWebHook)
         // {
         //     $payment = PaymentLog::where('bill_id', $orderResponseJson['merchantTransactionId'])->first();
