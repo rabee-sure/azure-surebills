@@ -68,7 +68,7 @@ class PaymentHelper
             ->detail(['gateway' => 'mastercard'])
             ->detail(['gateway_response' => $orderBody]);
         $invoice->transactionId(request()->sessionId ?? "not have id");
-        $payment = PaymentLog::where('bill_id', $orderResponseJson['merchantTransactionId'])->first();
+        $payment = PaymentLog::where('bill_id', $orderResponseJson['merchantTransactionId'])->latest()->first();
         PaymentHelper::checkPaymentStatus($invoice, $payment, $payment->bill);
 
 
