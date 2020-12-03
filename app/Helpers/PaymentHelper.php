@@ -4,6 +4,8 @@ namespace App\Helpers;
 use App\Bill;
 use App\PaymentLog;
 use GuzzleHttp\Client;
+use Log;
+use IlluminateSupportFacadesLog;
 
 class PaymentHelper
 {
@@ -70,7 +72,7 @@ class PaymentHelper
         $invoice->transactionId(request()->sessionId ?? "not have id");
         $payment = PaymentLog::where('bill_id', $orderResponseJson['merchantTransactionId'])->latest()->first();
         PaymentHelper::checkPaymentStatus($invoice, $payment, $payment->bill);
-
+        Log::debug($payment);
 
         // if($viaWebHook)
         // {
