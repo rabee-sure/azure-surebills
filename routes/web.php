@@ -157,7 +157,7 @@ Route::any('deser', function(){
         'version' => '58',
     );
     $orderBody = json_decode(json_encode($arr), FALSE);
-    // dd($orderBody);
+    dd($orderBody->order->id);
     $orderResponseJson['id'] = $orderBody->id ?? $orderBody->order->id;
     $orderResponseJson['card']['bin'] = '';
     $orderResponseJson['card']['holder'] = $orderBody->sourceOfFunds->provided->card->nameOnCard;
