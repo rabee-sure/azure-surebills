@@ -282,7 +282,7 @@ class User extends Resource
     {
         return [
             (new DownloadExcel)
-                ->only(['id', 'balance', 'Business_name', 'bank', 'iban_number', 'name', 'verify_status'])
+                ->only(['id', 'balance_string', 'Business_name', 'bank', 'iban_number', 'name', 'verify_status'])
                 ->withHeadings(['ID', __('Balance'), __('Business Name'), __('Bank'), __('Iban Number'), __('Account Name'), __('Verified')]),
         ];
     }
