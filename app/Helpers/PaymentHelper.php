@@ -9,22 +9,21 @@ class PaymentHelper
 {
     public static function handlePaymentResponse($invoice, $orderBody, $billDetail, $viaWebHook = false)
     {
+
         if($billDetail['bill']['status'] != 'paid')
         {
-            $orderResponseJson['id'] = $orderBody->id;
+            $orderResponseJson['id'] = $orderBody->id ?? $orderBody->order->id;
             $orderResponseJson['card']['bin'] = '';
             $orderResponseJson['card']['holder'] = $orderBody->sourceOfFunds->provided->card->nameOnCard;
             $orderResponseJson['card']['binCountry'] = '';
             $orderResponseJson['card']['expiryYear'] = $orderBody->sourceOfFunds->provided->card->expiry->year;
             $orderResponseJson['card']['expiryMonth'] = $orderBody->sourceOfFunds->provided->card->expiry->month;
             $orderResponseJson['card']['last4Digits'] = substr($orderBody->sourceOfFunds->provided->card->number, -4);
-            $orderResponseJson['result']['code'] = $orderBody->transaction[0]->response->acquirerCode ?? null;
-            $orderResponseJson['result']['description'] = $orderBody->transaction[0]->result;
+            $orderResponseJson['result']['code'] = is_array($orderBody->transaction) ? $orderBody->transaction[0]->response->acquirerCode : $orderBody->transaction->response->acquirerCode;
+            $orderResponseJson['result']['description'] = is_array($orderBody->transaction) ? $orderBody->transaction[0]->result : $orderBody->transaction->result;
             $orderResponseJson['paymentType'] = '';
             $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
             $orderResponseJson['merchantTransactionId'] = $billDetail['bill']['id'];
-            // DB::table('webhook_log')->insert(array('log' => serialize($orderResponseJson)));
-
             PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook);
         }
     }
