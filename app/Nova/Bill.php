@@ -163,9 +163,9 @@ class Bill extends Resource
                 ->min(1)
                 ->step(0.1),
 
-            Number::make( __('Payment Fees'), 'payment_fees')
-                ->min(1)
-                ->step(0.1),
+            Number::make( __('Payment Fees'), 'payment_fees', function () {
+                return (string) $this->payment_fees;
+            })->min(1)->step(0.1),
 
             Number::make(__('discount'), 'discount')
                 ->min(1)
