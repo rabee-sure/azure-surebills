@@ -24,7 +24,7 @@ class Bank extends Resource
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
-     */    
+     */
     public static function searchable()
     {
         return false;
@@ -77,12 +77,12 @@ class Bank extends Resource
         return [
             ID::make()->sortable(),
             Text::make(__('Code'), 'code')
-                ->creationRules('unique:banks,code')
-                ->updateRules('unique:banks,code,{{resourceId}}'),
+                ->creationRules('required','unique:banks,code')
+                ->updateRules('required','unique:banks,code,{{resourceId}}'),
             Translatable::make([
                 Text::make(__('Name'), 'name')->creationRules('unique:banks,name')
                 ->updateRules('unique:banks,name,{{resourceId}}')
-                
+
             ]),
             Number::make(__('Sort Number'), 'sort_number')
             ->default(0)

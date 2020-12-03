@@ -514,5 +514,6 @@
   "invalid_max_total": "قيمة الفاتورة الاجمالية اكثر من 14000 ريال",
   "file max size should be less than or equal": "حجم الملف يجب ان يكون اقل من او يساوي :value MB",
   "file extension should be in": "امتداد الملف يجب ان يكون :value",
-  "invalid iban number": "رقم الحساب المصرفي غير صحيح"
+  "invalid iban number": "رقم الحساب المصرفي غير صحيح",
+  "code": "كود"
 }
