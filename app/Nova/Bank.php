@@ -81,8 +81,8 @@ class Bank extends Resource
                 ->updateRules('required','unique:banks,code,{{resourceId}}'),
             Translatable::make([
                 Text::make(__('Name'), 'name')->creationRules('unique:banks,name')
-                ->updateRules('unique:banks,name,{{resourceId}}')
-
+                ->creationRules('required','unique:banks,name')
+                ->updateRules('required', 'unique:banks,name,{{resourceId}}')
             ]),
             Number::make(__('Sort Number'), 'sort_number')
             ->default(0)

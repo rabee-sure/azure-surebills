@@ -208,5 +208,8 @@ return [
         "send_email" => "ارسل بريد الكتروني",
         "code" => "كود",
         "bank" => 'البنك',
+        "sort_number" => "الترتيب",
+        "translations_name_en" => "الاسم en",
+        "translations_name_ar" => "الاسم ar",
     ],
 ];
