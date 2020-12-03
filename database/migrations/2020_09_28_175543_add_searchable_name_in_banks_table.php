@@ -25,8 +25,8 @@ class AddSearchableNameInBanksTable extends Migration
      */
     public function down()
     {
-        Schema::table('banks', function (Blueprint $table) { 
-            $table->drupColumn('searchable_name');
+        Schema::table('banks', function (Blueprint $table) {
+            $table->dropColumn('searchable_name');
         });
     }
 }

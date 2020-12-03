@@ -3,15 +3,16 @@
 namespace App\Helpers;
 use App\Bill;
 use App\PaymentLog;
-use DB;
+use GuzzleHttp\Client;
 
 class PaymentHelper
 {
-    public static function handlePaymentResponse($invoice, $orderBody, $billDetail, $viaWebHook = false)
+    public static function handlePaymentResponse($invoice, $orderId, $billDetail, $viaWebHook = false)
     {
 
         if($billDetail['bill']['status'] != 'paid')
         {
+            $orderBody = PaymentHelper::orderResponse($orderId);
             $orderResponseJson['id'] = $orderBody->id ?? $orderBody->order->id;
             $orderResponseJson['card']['bin'] = '';
             $orderResponseJson['card']['holder'] = $orderBody->sourceOfFunds->provided->card->nameOnCard;
@@ -19,13 +20,21 @@ class PaymentHelper
             $orderResponseJson['card']['expiryYear'] = $orderBody->sourceOfFunds->provided->card->expiry->year;
             $orderResponseJson['card']['expiryMonth'] = $orderBody->sourceOfFunds->provided->card->expiry->month;
             $orderResponseJson['card']['last4Digits'] = substr($orderBody->sourceOfFunds->provided->card->number, -4);
-            $orderResponseJson['result']['code'] = is_array($orderBody->transaction) ? $orderBody->transaction[0]->response->acquirerCode : $orderBody->transaction->response->acquirerCode;
+            $orderResponseJson['result']['code'] = is_array($orderBody->transaction) ? $orderBody->transaction[0]->response->acquirerCode : $orderBody->transaction->acquirerCode;
             $orderResponseJson['result']['description'] = is_array($orderBody->transaction) ? $orderBody->transaction[0]->result : $orderBody->transaction->result;
             $orderResponseJson['paymentType'] = '';
             $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
             $orderResponseJson['merchantTransactionId'] = $billDetail['bill']['id'];
             PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook);
         }
+    }
+
+    public static function orderResponse($orderId)
+    {
+        $client = new Client();
+        $orderResponse = $client->get(config('payment.drivers.mastercard_iframe.api_base_url').'/order/'.$orderId,
+                                ['auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]]);
+        return json_decode($orderResponse->getBody()->getContents(), false);
     }
 
     public static function savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook = false)
