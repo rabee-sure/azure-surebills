@@ -33,12 +33,6 @@ class BillController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    //  private $invoice;
-    //  public function __construct(Invoice $invoice)
-    //  {
-    //      $this->invoice($invoice);
-    //  }
-
     public function index(Request $request)
     {
         $date_start = $request->date_start ?? null;
@@ -330,146 +324,22 @@ class BillController extends Controller
 
     public function masterCardWebHookResponse(Request $request)
     {
-
-        // $response =  $arr = array (
-        //     '3DSecure' =>
-        //     array (
-        //       'veResEnrolled' => 'N',
-        //       'xid' => 'HS7DYyuWTF9UKrzXE3W/0JD55QQ=',
-        //     ),
-        //     '3DSecureId' => '6f6766f1-d6fd-4460-9287-d63526efbb4d',
-        //     'customer' =>
-        //     array (
-        //       'firstName' => 'amr',
-        //     ),
-        //     'device' =>
-        //     array (
-        //       'browser' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36',
-        //       'ipAddress' => '156.216.17.194',
-        //     ),
-        //     'gatewayEntryPoint' => 'CHECKOUT',
-        //     'merchant' => 'TEST3000000330',
-        //     'order' =>
-        //     array (
-        //       'amount' => 4.0,
-        //       'chargeback' =>
-        //       array (
-        //         'amount' => 0,
-        //         'currency' => 'SAR',
-        //       ),
-        //       'creationTime' => '2020-12-03T07:16:09.725Z',
-        //       'currency' => 'SAR',
-        //       'description' => 'Invoice number: 1000345',
-        //       'id' => 'UVSZ-Z6RW-CZEN',
-        //       'lastUpdatedTime' => '2020-12-03T07:16:09.738Z',
-        //       'merchantAmount' => 4.0,
-        //       'merchantCategoryCode' => '8999',
-        //       'merchantCurrency' => 'SAR',
-        //       'reference' => 'e93511a3-5c26-4226-8d7a-5d688abd1a3b',
-        //       'status' => 'FAILED',
-        //       'totalAuthorizedAmount' => 0.0,
-        //       'totalCapturedAmount' => 0.0,
-        //       'totalRefundedAmount' => 0.0,
-        //     ),
-        //     'response' =>
-        //     array (
-        //       'gatewayCode' => 'BLOCKED',
-        //     ),
-        //     'result' => 'FAILURE',
-        //     'risk' =>
-        //     array (
-        //       'response' =>
-        //       array (
-        //         'gatewayCode' => 'REJECTED',
-        //         'review' =>
-        //         array (
-        //           'decision' => 'NOT_REQUIRED',
-        //           'note' => NULL,
-        //         ),
-        //         'rule' =>
-        //         array (
-        //           0 =>
-        //           array (
-        //             'data' => 'NO_LIABILITY_SHIFT',
-        //             'name' => 'MSO_3D_SECURE',
-        //             'recommendation' => 'REJECT',
-        //             'type' => 'MSO_RULE',
-        //           ),
-        //           1 =>
-        //           array (
-        //             'data' => '511111',
-        //             'name' => 'MSO_BIN_RANGE',
-        //             'recommendation' => 'NO_ACTION',
-        //             'type' => 'MSO_RULE',
-        //           ),
-        //           2 =>
-        //           array (
-        //             'data' => '156.216.17.194',
-        //             'name' => 'MSO_IP_ADDRESS_RANGE',
-        //             'recommendation' => 'NO_ACTION',
-        //             'type' => 'MSO_RULE',
-        //           ),
-        //           3 =>
-        //           array (
-        //             'data' => 'EGY',
-        //             'name' => 'MSO_IP_COUNTRY',
-        //             'recommendation' => 'NO_ACTION',
-        //             'type' => 'MSO_RULE',
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //     'sourceOfFunds' =>
-        //     array (
-        //       'provided' =>
-        //       array (
-        //         'card' =>
-        //         array (
-        //           'brand' => 'MASTERCARD',
-        //           'expiry' =>
-        //           array (
-        //             'month' => '4',
-        //             'year' => '27',
-        //           ),
-        //           'fundingMethod' => 'DEBIT',
-        //           'issuer' => 'FISERV SOLUTIONS, LLC',
-        //           'nameOnCard' => 'amr',
-        //           'number' => '511111xxxxxx1118',
-        //           'scheme' => 'MASTERCARD',
-        //           'storedOnFile' => 'NOT_STORED',
-        //         ),
-        //       ),
-        //       'type' => 'CARD',
-        //     ),
-        //     'timeOfLastUpdate' => '2020-12-03T07:16:09.738Z',
-        //     'timeOfRecord' => '2020-12-03T07:16:09.738Z',
-        //     'transaction' =>
-        //     array (
-        //       'acquirer' =>
-        //       array (
-        //         'id' => 'RIYADBANK_S2I',
-        //         'merchantId' => '3000000330',
-        //       ),
-        //       'amount' => 4.0,
-        //       'currency' => 'SAR',
-        //       'id' => '1',
-        //       'source' => 'INTERNET',
-        //       'stan' => '0',
-        //       'type' => 'PAYMENT',
-        //     ),
-        //     'version' => '58',
-        // );
-            // dd($request->all());
-        $response = $request->all();
-        // dd($response);
-        $orderBody = json_decode(json_encode($response), FALSE);
-        $notPaidBill = Bill::where([['id', $orderBody->order->reference], ['status', '<>', 'paid']])->first();
-
-        if($notPaidBill)
+        if($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret'))
         {
-            $invoice = new Invoice();
-            $details = $invoice->detail(['bill' => $notPaidBill->toArray()])->getDetails();
-            PaymentHelper::handlePaymentResponse($invoice, $orderBody->order->id, $details, true);
+            $response = $request->all();
+            $orderBody = json_decode(json_encode($response), FALSE);
+            $notPaidBill = Bill::where([['id', $orderBody->order->reference], ['status', '<>', 'paid']])->first();
+
+            if($notPaidBill)
+            {
+                $invoice = new Invoice();
+                $details = $invoice->detail(['bill' => $notPaidBill->toArray()])->getDetails();
+                PaymentHelper::handlePaymentResponse($invoice, $orderBody->order->id, $details, true);
+            }
+        }
+        else
+        {
+            return false;
         }
     }
 }

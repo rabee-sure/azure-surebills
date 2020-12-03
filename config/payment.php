@@ -48,6 +48,7 @@ return [
             'api_base_url' => env('MASTERCARD_API_BASE_URL','https://test-gateway.mastercard.com/api/rest/version/58/merchant/TEST3000000330'),
             'operator_username' => env('MASTERCARD_OPERATOR_USERNAME','merchant.TEST3000000330'),
             'operator_password' => env('MASTERCARD_OPERATOR_PASSWORD','d4da5ee0b3612ec2b7a51c058a8c7f09'),
+            'X-Notification-Secret' => env('MASTERCARD_NOTIFICATION_SECRET', 'BC8ADD92A6D896296BA45395FF251A9E'),
         ],
         'mastercard_applepay' => [
             /* normal api */
