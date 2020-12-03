@@ -86,6 +86,7 @@ class BillRequest extends FormRequest
           'customer_name.required' => __('customer name required'),
           'discount_value.required_if' => __('Discount value is required'),
           'tax_value.required_if' => __('Tax value is required'),
+          'customer_email.required_if' => __('Email is required if sending email is active'),
           'customer_mobile.required' => __('customer mobile required'),
           'customer_mobile.regex' => __('customer mobile is not correct'),
           'items.*.name.required' => __('item name required'),

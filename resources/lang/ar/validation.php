@@ -211,5 +211,7 @@ return [
         "sort_number" => "الترتيب",
         "translations_name_en" => "الاسم en",
         "translations_name_ar" => "الاسم ar",
+        "on" => 'مفعل',
+        "off" => 'غير مفعل',
     ],
 ];
