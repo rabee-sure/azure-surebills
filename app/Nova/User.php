@@ -215,7 +215,7 @@ class User extends Resource
             Text::make(__('Business Name').' ar', 'business_name_ar')->hideFromIndex(),
             Text::make(__('Sector'), 'sector')->hideFromIndex(),
             Textarea::make(__('Business Address'), 'business_address')->hideFromIndex(),
-            Text::make(__('Mobile'), 'mobile')->hideFromIndex(),
+            Text::make(__('Mobile'), 'business_mobile')->hideFromIndex(),
             Text::make(__('Website'), 'website')->hideFromIndex(),
         ];
     }
