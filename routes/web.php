@@ -126,5 +126,4 @@ Route::get('users/{user}/transactions', 'UserController@transactions')->name('us
 Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
 Route::get('users/{user}', 'UserController@show')->name('users.show');
 
-Route::get('test_upload', 'AccountController@test_upload')->name('test_upload');
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
