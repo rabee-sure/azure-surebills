@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -135,7 +136,7 @@ class User extends Resource
             new Panel(__('Pricing'), $this->pricingFields()),
 
             new Panel(__('Business Information'), $this->businessInformation()),
-            File::make(__('Business logo'), 'logo')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg'])),
+            Image::make(__('Business logo'), 'logo')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg'])),
             HasMany::make(__('Transfers'), 'transfers', Transfer::class),
             // HasMany::make('statement'),
             new Panel(__('Documents'), $this->documents()),
