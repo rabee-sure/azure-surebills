@@ -49,7 +49,7 @@ class Statement extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'receipt', 'description', 'reference'
     ];
 
     /**
@@ -96,7 +96,7 @@ class Statement extends Resource
                 return round($this->balance, 2);
             }),
 
-            BelongsTo::make(__('User'), 'user', User::class),
+            BelongsTo::make(__('User'), 'user', User::class)->searchable(),
         ];
     }
 
