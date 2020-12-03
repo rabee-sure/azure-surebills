@@ -331,17 +331,14 @@ class BillController extends Controller
     public function masterCardWebHookResponse(Request $request)
     {
         $orderBody = json_decode(json_encode($request->all()), FALSE);
-        // Log::debug($request->all());
-        Log::debug($orderBody);
-        // DB::table('webhook_log')->insert(array('log' => serialize($request->all())));
-        $notPaidBill = Bill::where([['id', $orderBody->reference], ['status', '<>', 'paid']])->first();
+        Log::debug('this is error from log test');
+        // Log::debug($orderBody);
+        $notPaidBill = Bill::where([['id', $orderBody['reference']], ['status', '<>', 'paid']])->first();
 
         if($notPaidBill)
         {
-            // DB::table('webhook_log')->insert(array('log' => serialize($request->all())));
             $invoice = new Invoice();
             $details = $invoice->detail(['bill' => $notPaidBill->toArray()])->getDetails();
-            // DB::table('webhook_log')->insert(array('log' => serialize($details)));
             PaymentHelper::handlePaymentResponse($invoice, $orderBody, $details, true);
         }
     }
