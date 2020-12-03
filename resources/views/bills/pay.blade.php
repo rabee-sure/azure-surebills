@@ -29,7 +29,7 @@
             </div><!-- logo -->
           @endif
           <div class="title">
-            <span>{{ $bill->user->business_name }}</span>
+            <span>{{ $bill->user->business_name }} test</span>
 
             @if(isset($bill->user->settings->header_bill))
               <p>{{ $bill->user->settings->header_bill }}</p>
