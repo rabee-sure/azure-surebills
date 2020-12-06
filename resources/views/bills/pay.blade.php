@@ -124,14 +124,14 @@
                 </div><!-- item -->
 
                 {{-- mastercard --}}
-                <div class="item">
+                {{-- <div class="item">
                     <input type="radio" id="mastercard_pay" name="payment_method" value="mastercard_iframe">
                     <label for="mastercard_pay">
                     <p>Mastercard</p>
                     <div class="icon_mada"></div>
                     <div class="checkmark"></div>
                     </label>
-                </div><!-- item -->
+                </div> --}}
                 {{-- mastercard --}}
 
                 {{-- Apple pay mastercard --}}
@@ -204,12 +204,12 @@
   <script src="{{ asset('js/jquery.countdownTimer.min.js') }}"></script>
 <script src="https://code.jquery.com/jquery-migrate-1.2.1.js"></script>
 
-<script src="{{config('payment.drivers.mastercard_iframe.session_script')}}"></script>
+{{-- <script src="{{config('payment.drivers.mastercard_iframe.session_script')}}"></script>
 <script src="{{config('payment.drivers.mastercard_iframe.checkout_script')}}"
         data-error="errorCallback"
         data-cancel="cancelCallback"
         data-timeout="timeoutCallback"
-        data-complete="completeCallback"></script>
+        data-complete="completeCallback"></script> --}}
 
 <script type='text/javascript'>
     function timeoutCallback() {console.log('timeout')}
