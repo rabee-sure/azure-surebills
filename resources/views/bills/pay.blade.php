@@ -214,15 +214,17 @@
 <script type='text/javascript'>
     function timeoutCallback() {console.log('timeout')}
     function errorCallback(error) {console.log(JSON.stringify(error));}
-    function cancelCallback() {$(".mastercardPaymentWidgets" ).submit(); $('#mastercard_pay').prop('checked', false);}
+    function cancelCallback()
+    {
+        $('#mastercard_pay').prop('checked', false);
+        console.log('dd');
+        $('.visa_pay_content').remove();
+    }
     function completeCallback(resultIndicator, sessionVersion)
     {
         $(".mastercardPaymentWidgets" ).submit();
+        console.log('dd 1');
     }
-
-    window.addEventListener("beforeunload", function (e) {
-        $(".mastercardPaymentWidgets" ).submit();
-    });
 
 
 var BrowserDetect = {
