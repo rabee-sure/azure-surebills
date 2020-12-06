@@ -556,14 +556,14 @@ $(function(){
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-success" role="alert">this bill paid successfully</div>');
+            $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
             break;
           case "canceled":
             $("#new_countdown").remove();
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
+            $("#status").append('<div class="alert alert-danger" role="alert">{{ __("this bill is canceled") }}</div>');
             break;
           case "expired":
             $("#new_countdown").remove();

@@ -225,6 +225,8 @@
 "no": "No",
 "file max size should be less than or equal": "File max size should be less than or equal :value MB",
 "file extension should be in": "File extension should be in :value",
-"invalid iban number": "Invalid iban number"
-
+"invalid iban number": "Invalid iban number",
+"this bill is paid successfully": "This bill is paid successfully",
+"this bill is canceled": "This bill is canceled",
+"this bill is expired": "This bill is expired"
 }
