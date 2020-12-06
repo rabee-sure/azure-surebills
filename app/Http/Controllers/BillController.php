@@ -9,6 +9,7 @@ use App\Events\BillCreated;
 use App\Events\BillPaid;
 use App\Events\BillStatusUpdated;
 use App\Exceptions\ValidationException;
+use App\Helpers\PaymentHelper as HelpersPaymentHelper;
 use App\Http\Requests\BillRequest;
 use App\Http\Requests\PayBillRequest;
 use App\PaymentLog;
@@ -20,6 +21,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException as ValidationsException;
+use PaymentHelper;
+use Log;
+use IlluminateSupportFacadesLog;
 
 class BillController extends Controller
 {
@@ -28,6 +32,7 @@ class BillController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index(Request $request)
     {
         $date_start = $request->date_start ?? null;
@@ -264,31 +269,11 @@ class BillController extends Controller
             ->detail(['payment_id' => $request->get('id')]);
         $invoice = Payment::via($payment->payment_method)->paymentStatus($invoice);
 
-
-        // if success
-        if($invoice->getDetail('success')){
-
-            // log
-            $payment->results = $invoice->getDetails();
-            $payment->status = 1;
-            $payment->save();
-
-            $bill->setPaid();
-
-            if($bill->application && $bill->is_redirect){
-                return redirect($bill->redirect_url);
-            }
-            return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
-        }
-
-        // log for the payment
-        $payment->results = $invoice->getDetails();
-        $payment->status = 0;
-        $payment->save();
+        return PaymentHelper::checkPaymentStatus($invoice, $payment, $bill);
 
         // return the view with errors
-        return redirect()->route('paybillpage', ['id' => $bill->pay_id])
-            ->withErrors(['field_name' => $invoice->getDetail('description')]);
+        // return redirect()->route('paybillpage', ['id' => $bill->pay_id])
+        //     ->withErrors(['field_name' => $invoice->getDetail('description')]);
     }
 
     /**
@@ -335,5 +320,26 @@ class BillController extends Controller
             'bill' => $log->bill,
             'log' => $log
         ]);
+    }
+
+    public function masterCardWebHookResponse(Request $request)
+    {
+        if($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret'))
+        {
+            $response = $request->all();
+            $orderBody = json_decode(json_encode($response), FALSE);
+            $notPaidBill = Bill::where([['id', $orderBody->order->reference], ['status', '<>', 'paid']])->first();
+
+            if($notPaidBill)
+            {
+                $invoice = new Invoice();
+                $details = $invoice->detail(['bill' => $notPaidBill->toArray()])->getDetails();
+                PaymentHelper::handlePaymentResponse($invoice, $orderBody->order->id, $details, true);
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 }

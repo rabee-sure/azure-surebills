@@ -205,17 +205,6 @@ class AccountController extends Controller
 
         return redirect('/account');
     }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function test_upload()
-    {
-        return view('account.test_upload', ['user' => auth()->user()]);
-    }
-
     /**
      * Create a new controller instance.
      *

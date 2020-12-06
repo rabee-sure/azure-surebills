@@ -162,7 +162,8 @@
 	"Canceled" : "ملغي",
 	"amount must be less than or equal to user balance :balance" : "يجب أن يكون المبلغ أقل من رصيد المستخدم ':balance' أو مساويًا له",
 	"Users" : "المستخدمين",
-	"Reference" : "مرجع",
+    "Reference" : "مرجع",
+    "No Data": "لا يوجد بيانات",
 	"Receipt" : "إيصال",
 	"Auth ID" : "معرف المصادقة",
 	"Card" : "بطاقة",
@@ -514,5 +515,7 @@
   "invalid_max_total": "قيمة الفاتورة الاجمالية اكثر من 14000 ريال",
   "file max size should be less than or equal": "حجم الملف يجب ان يكون اقل من او يساوي :value MB",
   "file extension should be in": "امتداد الملف يجب ان يكون :value",
-  "invalid iban number": "رقم الحساب المصرفي غير صحيح"
+  "invalid iban number": "رقم الحساب المصرفي غير صحيح",
+  "code": "كود",
+  "Email is required if sending email is active": "البريد الالكتروني مطلوب في حال ما إذا كان ارسل بريد الكتروني مفعل"
 }

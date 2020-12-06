@@ -3,7 +3,7 @@
 use App\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use GuzzleHttp\Client;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
 
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
@@ -124,5 +126,4 @@ Route::get('users/{user}/transactions', 'UserController@transactions')->name('us
 Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
 Route::get('users/{user}', 'UserController@show')->name('users.show');
 
-Route::get('test_upload', 'AccountController@test_upload')->name('test_upload');
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');

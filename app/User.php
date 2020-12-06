@@ -87,7 +87,6 @@ class User extends Authenticatable implements HasMedia
         $transactions = $this->transactions;
         $deposits = $transactions->where('type', 'credit')->sum('amount');
         $withdraws = $transactions->where('type', 'debit')->sum('amount');
-
         return $deposits - $withdraws;
     }
 
@@ -101,6 +100,10 @@ class User extends Authenticatable implements HasMedia
     public function getRoundBalanceAttribute()
     {
         return round($this->balance, 2);
+    }
+    public function getBalanceStringAttribute()
+    {
+        return ' '.$this->balance;
     }
 
     public function getVerifyStatusAttribute()

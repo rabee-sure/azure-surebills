@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -135,7 +136,7 @@ class User extends Resource
             new Panel(__('Pricing'), $this->pricingFields()),
 
             new Panel(__('Business Information'), $this->businessInformation()),
-            File::make(__('Business logo'), 'logo')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg'])),
+            Image::make(__('Business logo'), 'logo')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg'])),
             HasMany::make(__('Transfers'), 'transfers', Transfer::class),
             // HasMany::make('statement'),
             new Panel(__('Documents'), $this->documents()),
@@ -215,7 +216,7 @@ class User extends Resource
             Text::make(__('Business Name').' ar', 'business_name_ar')->hideFromIndex(),
             Text::make(__('Sector'), 'sector')->hideFromIndex(),
             Textarea::make(__('Business Address'), 'business_address')->hideFromIndex(),
-            Text::make(__('Mobile'), 'mobile')->hideFromIndex(),
+            Text::make(__('Mobile'), 'business_mobile')->hideFromIndex(),
             Text::make(__('Website'), 'website')->hideFromIndex(),
         ];
     }
@@ -282,7 +283,7 @@ class User extends Resource
     {
         return [
             (new DownloadExcel)
-                ->only(['id', 'balance', 'Business_name', 'bank', 'iban_number', 'name', 'verify_status'])
+                ->only(['id', 'balance_string', 'Business_name', 'bank', 'iban_number', 'name', 'verify_status'])
                 ->withHeadings(['ID', __('Balance'), __('Business Name'), __('Bank'), __('Iban Number'), __('Account Name'), __('Verified')]),
         ];
     }
