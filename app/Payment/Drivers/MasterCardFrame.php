@@ -85,7 +85,7 @@ class MasterCardFrame extends Driver
         $script .= 'order: { amount: '.$details['bill']['total'].', currency: "SAR", description: "Invoice number: '.$details['bill']['number'].'", reference:"'.$details['bill']['id'].'"},';
         $script .= 'interaction: {operation: "PURCHASE", merchant: {name: "'.$details['bill']['business_name'].'"}, displayControl: {billingAddress: "HIDE", orderSummary: "HIDE"}, locale: "'.$locale.'"}';
         $script .= '});';
-        $script .= 'Checkout.showLightbox(); </script>';
+        $script .= 'Checkout.showLightbox();</script>';
         $script .= '<form action="'.$resultUrl.'" method="GET" class="mastercardPaymentWidgets" data-brands="VISA MASTER MADA">';
         $script .= '<input type="hidden" name="sessionId" value="'.$body->session->id.'" /></form>';
         return $script;
