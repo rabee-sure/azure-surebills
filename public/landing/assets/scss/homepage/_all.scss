@@ -1,5 +1,5 @@
 section#main_slider {
-  padding: 50px 0;
+  padding: 100px 0;
   background: #fff;
   .imgthumb {
     margin: 15px auto;
@@ -46,12 +46,18 @@ section#main_slider {
         background: $mainColorHover;
       } /* hover */
     } /* a */
+    small {
+      display: block;
+      font-size: 15px;
+      margin: 5px auto 0;
+      color: #777777;
+    } /* small */
   } /* txt */
 } /* main_slider */
 
 section#start_work {
   background: #455A64;
-  padding: 30px 0;
+  padding: 60px 0;
   .container {
     display: flex;
     align-items: center;
@@ -112,7 +118,7 @@ section#start_work {
 
 section#how_work {
   background: #F7F7F7;
-  padding: 50px 0;
+  padding: 100px 0;
   text-align: center;
   .title {
     font-size: 30px;
