@@ -85,7 +85,7 @@ class MasterCardFrame extends Driver
         $script .= 'order: { amount: '.$details['bill']['total'].', currency: "SAR", description: "Invoice number: '.$details['bill']['number'].'", reference:"'.$details['bill']['id'].'"},';
         $script .= 'interaction: {operation: "PURCHASE", merchant: {name: "'.$details['bill']['business_name'].'"}, displayControl: {billingAddress: "HIDE", orderSummary: "HIDE"}, locale: "'.$locale.'"}';
         $script .= '});';
-        $script .= 'Checkout.showLightbox(); </script>';
+        $script .= 'Checkout.showLightbox();</script>';
         $script .= '<form action="'.$resultUrl.'" method="GET" class="mastercardPaymentWidgets" data-brands="VISA MASTER MADA">';
         $script .= '<input type="hidden" name="sessionId" value="'.$body->session->id.'" /></form>';
         return $script;
@@ -115,42 +115,8 @@ class MasterCardFrame extends Driver
             }
         }
 
-        // $orderResponse = $client->get(config('payment.drivers.mastercard_iframe.api_base_url').'/order/'.$sessionBody->order->id,
-        //                             ['auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]]);
-
-        // $orderBody = json_decode($orderResponse->getBody()->getContents(), false);
-        // PaymentHelper::handlePaymentResponse($this->invoice, $orderBody, $details);
         PaymentHelper::handlePaymentResponse($this->invoice, $sessionBody->order->id, $details);
-
-
-        // PaymentHelper::savePaymentResponse($this->invoice, $orderResponseJson, $orderBody);
-        // $this->formateResponse($orderBody, $details);
-
-        // $this->invoice->detail(['result_code' => $orderResponseJson['result']['code']])
-        //     ->detail(['success' => $orderResponseJson['result']['code'] == 00? 1:0])
-        //     ->detail(['response' => $orderResponseJson])
-        //     ->detail(['description' => $orderResponseJson['result']['description']])
-        //     ->detail(['gateway' => 'mastercard'])
-        //     ->detail(['gateway_response' => $orderBody]);
-        // $this->invoice->transactionId(request()->sessionId ?? "not have id");
     }
-
-    // private function formateResponse($orderBody, $billDetail)
-    // {
-    //     $orderResponseJson['id'] = $orderBody->id;
-    //     $orderResponseJson['card']['bin'] = '';
-    //     $orderResponseJson['card']['holder'] = $orderBody->sourceOfFunds->provided->card->nameOnCard;
-    //     $orderResponseJson['card']['binCountry'] = '';
-    //     $orderResponseJson['card']['expiryYear'] = $orderBody->sourceOfFunds->provided->card->expiry->year;
-    //     $orderResponseJson['card']['expiryMonth'] = $orderBody->sourceOfFunds->provided->card->expiry->month;
-    //     $orderResponseJson['card']['last4Digits'] = substr($orderBody->sourceOfFunds->provided->card->number, -4);
-    //     $orderResponseJson['result']['code'] = $orderBody->transaction[0]->response->acquirerCode;
-    //     $orderResponseJson['result']['description'] = $orderBody->transaction[0]->result;
-    //     $orderResponseJson['paymentType'] = '';
-    //     $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
-    //     $orderResponseJson['merchantTransactionId'] = $billDetail['bill']['id'];
-    //     return $orderResponseJson;
-    // }
 
     /**
      * Purchase Invoice.

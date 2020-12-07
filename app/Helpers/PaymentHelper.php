@@ -39,7 +39,7 @@ class PaymentHelper
     public static function savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook = false)
     {
         $invoice->detail(['result_code' => $orderResponseJson['result']['code']])
-            ->detail(['success' => $orderResponseJson['result']['description'] == 'SUCCESS' && $orderBody->status == 'CAPTURED' ? 1:0])
+            ->detail(['success' => ($orderResponseJson['result']['description'] == 'SUCCESS' && $orderBody->status == 'CAPTURED') ? 1:0])
             ->detail(['response' => $orderResponseJson])
             ->detail(['description' => $orderResponseJson['result']['description']])
             ->detail(['gateway' => 'mastercard'])

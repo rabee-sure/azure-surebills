@@ -251,7 +251,7 @@
               @endif
         <div class="block_2">
           <span>
-            {{ __('Due on') }} {{ $bill->due_date->format('M d Y')}}
+            {{ __('Due on') }} {{ $bill->dateLocalization()}}
             @if($bill->user->vat_registration_number)
               <div class="vat_reg">{{ __('VAT Registration Number') }} : {{ $bill->user->vat_registration_number }}</div>
             @endif
