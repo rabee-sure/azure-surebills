@@ -242,7 +242,10 @@ class Bill extends Model
                 ->addHours($this->expiry_hours);
         if(!$this->is_expired){
             $totalDuration = Carbon::now()->diffInSeconds($date);
-            return gmdate('H', $totalDuration);
+            return [
+                'days' => Carbon::now()->diffInDays($date),
+                'hours' => gmdate('H', $totalDuration),
+            ];
         }else{
             return "00";
         }

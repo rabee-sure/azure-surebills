@@ -39,10 +39,15 @@
           @if($bill->application_id && !$bill->is_expired)
             <div class="countdown" id="new_countdown">
               <p>{{ __('the bill will expire in')}}</p>
-              @if($bill->remaining_time_hours == '00')
+              @if($bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
                 <span id="hm_timer" ></span>
               @else
-                <span>{{$bill->remaining_time_hours}} {{__('Hour')}}</span>
+                @if($bill->remaining_time_hours['days'] > 0)
+                  <p>{{$bill->remaining_time_hours['days']}} {{__('Day') }} </p>
+                @endif
+                @if($bill->remaining_time_hours['hours'] > 0)
+                  <span> {{$bill->remaining_time_hours['hours']}} {{__('Hour')}}</span>
+                @endif
               @endif
             </div><!-- countdown -->
           @endif
