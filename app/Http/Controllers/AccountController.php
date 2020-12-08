@@ -11,6 +11,8 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Rules\ValidateUploadFile;
 
 class AccountController extends Controller
 {
@@ -49,7 +51,7 @@ class AccountController extends Controller
     public function account_information()
     {
         return view('account.account_information', ['user' => auth()->user()]);
-    }    
+    }
     /**
      * Show the application dashboard.
      *
@@ -83,12 +85,12 @@ class AccountController extends Controller
      */
     public function storeBankInformation(BankInformationRequest $request)
     {
-        auth()->user()->update([              
+        auth()->user()->update([
             'bank_id' => $request->get('bank_id'),
             'iban_number' => $request->get('iban_number'),
             'beneficiary_name' => $request->get('beneficiary_name'),
         ]);
-        
+
         if (count(auth()->user()->bank_documents) > 0) {
             foreach (auth()->user()->bank_documents as $media) {
                 if (!in_array($media->file_name, $request->input('document', []))) {
@@ -130,16 +132,25 @@ class AccountController extends Controller
     public function storeBusinessInformation(BusinessInformationRequest $request)
     {
         if($request->hasFile('logo')) {
-            $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();  
+            $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();
             $image = $request->logo->move(public_path('uploads'), $imageName);
             auth()->user()->update([
                 'logo' => 'uploads/'.$imageName,
             ]);
         }
-        
+        else
+        {
+            if($request->hidden_logo == null)
+            {
+                auth()->user()->update([
+                    'logo' => null,
+                ]);
+            }
+        }
+
         auth()->user()->update([
             'license_type' => $request->get('license_type'),
-            'business_name' => $request->get('business_name'),
+            'business_name_en' => $request->get('business_name_en'),
             'business_name_ar' => $request->get('business_name_ar'),
             'sector' => $request->get('sector'),
             'website' => $request->get('website'),
@@ -169,7 +180,7 @@ class AccountController extends Controller
         }
 
         session()->put(auth()->user()->id.'_complete_profile_step_2', true);
-   
+
         return redirect('/account');
     }
 
@@ -191,20 +202,9 @@ class AccountController extends Controller
     public function storeChangePassword(ChangePasswordRequest $request)
     {
         auth()->user()->update(['password'=> Hash::make($request->new_password)]);
-   
+
         return redirect('/account');
     }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function test_upload()
-    {
-        return view('account.test_upload', ['user' => auth()->user()]);
-    }   
-
     /**
      * Create a new controller instance.
      *
@@ -212,21 +212,29 @@ class AccountController extends Controller
      */
     public function imagesUploadPost(Request $request)
     {
-            $path = storage_path('tmp/uploads');
+        $validator = Validator::make($request->all(), [
+            'file' => ['required', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])]
+        ]);
 
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
-            }
+        if ($validator->fails())
+        {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+        $path = storage_path('tmp/uploads');
 
-            $file = $request->file('file');
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
 
-            $name = uniqid() . '_' . trim($file->getClientOriginalName());
+        $file = $request->file('file');
 
-            $file->move($path, $name);
+        $name = uniqid() . '_' . trim($file->getClientOriginalName());
 
-            return response()->json([
-                'name'          => $name,
-                'original_name' => $file->getClientOriginalName(),
-            ]);
+        $file->move($path, $name);
+
+        return response()->json([
+            'name'          => $name,
+            'original_name' => $file->getClientOriginalName(),
+        ]);
     }
 }

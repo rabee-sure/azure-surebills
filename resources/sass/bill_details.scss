@@ -193,6 +193,7 @@ body {
     font-size: 16px;
     text-transform: capitalize;
     color: #000000;
+    word-break: break-word;
   } /* customer_notes */
   .total_bill {
     border-bottom: 1px solid #ddd;
@@ -390,7 +391,7 @@ body {
                   font-family: "Nunito";
                   box-shadow: none;
                   outline: none;
-                  font-weight: bold;  
+                  font-weight: bold;
                   -webkit-appearance: none;
                   -moz-appearance: none;
                   -o-appearance: none;
@@ -410,7 +411,7 @@ body {
                   font-family: "Nunito";
                   box-shadow: none;
                   outline: none;
-                  font-weight: bold;  
+                  font-weight: bold;
                   -webkit-appearance: none;
                   -moz-appearance: none;
                   -o-appearance: none;
@@ -425,7 +426,7 @@ body {
                   font-family: "Nunito";
                   font-weight: bold;
                   font-size: 15px;
-                  text-transform: uppercase;  
+                  text-transform: uppercase;
                   -webkit-appearance: none;
                   -moz-appearance: none;
                   -o-appearance: none;

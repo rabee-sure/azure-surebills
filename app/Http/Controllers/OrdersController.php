@@ -14,7 +14,7 @@ class OrdersController extends Controller
     public function index(Request $request)
     {
         return view('orders.index');
-    }    
+    }
 
     /**
      * Display a listing of the resource.

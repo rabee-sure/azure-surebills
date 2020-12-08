@@ -5,12 +5,18 @@
 @section('content')
 
 
+
+<div class="loading"></div>
+
+
 <div class="single_bill_page">
   <div class="container" >
-
     <div class="row  justify-content-center">
       <div class="col-12 col-md-8 col-lg-6 col-xl-6">
         <div class="single_bill_content">
+{{--         <a onclick="window.print(); return false;" class="float-right btn btn-primary mr-2 mb-2 rounded-sm d-inline-block " href="#" title="{{ __('Print') }}">
+          <img src="{{ asset('img/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
+        </a> --}}
           <div class="change-lang">
             @if($bill->user->settings->active_lang == 'all')
               @if(App::isLocale('en'))
@@ -20,6 +26,7 @@
               @endif
             @endif
           </div>
+
           @if($bill->user->logo)
             <div class="logo">
               <img src="{{ url($bill->user->logo) }}" alt="logo">
@@ -57,11 +64,11 @@
           @if($errors->any())
             <div class="alert alert-danger" role="alert">
               {{ __($errors->first()) }}
-            </div>            
+            </div>
           @endif
             <div class="date_time">
               <span>
-                {{__('Due on')}} {{ $bill->due_date->format('M d Y')}}
+                {{__('Due on')}} {{ $bill->dateLocalization()}}
                 @if($bill->user->vat_registration_number)
                   <div class="vat_reg"> {{ __('VAT Registration Number') }}: {{ $bill->user->vat_registration_number }}</div>
                 @endif
@@ -110,7 +117,7 @@
               @if(isset($bill->user->settings->footer_bill))
                 <p>{{ $bill->user->settings->footer_bill }}</p>
               @endif
-              
+
             </div><!-- customer_information -->
             @if(!$bill->is_expired)
                 <div id="payment_method" class="payment_method">
@@ -124,6 +131,30 @@
                     <div class="checkmark"></div>
                     </label>
                 </div><!-- item -->
+
+                {{-- mastercard --}}
+                <div class="item">
+                    <input type="radio" id="mastercard_pay" name="payment_method" value="mastercard_iframe">
+                    <label for="mastercard_pay">
+                    <p>Mastercard</p>
+                    <div class="icon_mada"></div>
+                    <div class="checkmark"></div>
+                    </label>
+                </div><!-- item -->
+                {{-- mastercard --}}
+
+                {{-- Apple pay mastercard --}}
+                {{-- <div class="item">
+                    <input type="radio" id="mastercard_applepay" name="payment_method" value="mastercard_applepay">
+                    <label for="mastercard_applepay">
+                    <p>Apple Pay</p>
+                    <div class="icon_mada"></div>
+                    <div class="checkmark"></div>
+                    </label>
+                </div><!-- item --> --}}
+                {{-- mastercard --}}
+
+
                 <div id="applepay_show" class="item">
                     <input type="radio" id="apple_pay" name="payment_method" value="hyperpay_applepay">
                     <label for="apple_pay">
@@ -143,7 +174,7 @@
               </div><!-- bill_payment -->
                 </div><!-- payment_method -->
             @endif
-            
+
             @if($bill->application)
               <div id="back_btn" class="text-center">
                 <a href="{{ $bill->back_url}}" class="btn btn-light">{{__('Back')}}
@@ -174,6 +205,127 @@
   padding-right: 100px;
   padding-left: 100px;
 }
+/* Absolute Center Spinner */
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: none;
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color:#108168 ;
+  opacity: 0.6;
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  -webkit-animation: spinner 150ms infinite linear;
+  -moz-animation: spinner 150ms infinite linear;
+  -ms-animation: spinner 150ms infinite linear;
+  -o-animation: spinner 150ms infinite linear;
+  animation: spinner 150ms infinite linear;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+}
+
+/* Animation */
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
 </style>
 
 @endpush
@@ -181,7 +333,26 @@
 @push('footer-scripts')
   <script src="{{ asset('js/jquery.countdownTimer.min.js') }}"></script>
 <script src="https://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+
+<script src="{{config('payment.drivers.mastercard_iframe.session_script')}}"></script>
+<script src="{{config('payment.drivers.mastercard_iframe.checkout_script')}}"
+        data-cancel="cancelCallback"
+        data-timeout="cancelCallback"
+        data-complete="completeCallback"></script>
+
 <script type='text/javascript'>
+    function cancelCallback()
+    {
+        $('.loading').hide();
+        $('#mastercard_pay').prop('checked', false);
+        $('.visa_pay_content').remove();
+    }
+    function completeCallback(resultIndicator, sessionVersion)
+    {
+        $('.loading').hide();
+        $(".mastercardPaymentWidgets" ).submit();
+    }
+
 var BrowserDetect = {
 init: function () {
     this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
@@ -320,10 +491,20 @@ if (BrowserDetect.browser == 'Safari') {
             $.ajax({
                 type: 'GET', //THIS NEEDS TO BE GET
                 url: '/bills/payment_iframe/{{$bill->id}}/' + method+'/{{app()->getLocale()}}',
-                success: function (data) {
-                     $("#iframe_pay").html(data);
+                beforeSend:function(){
+                    if(method == "mastercard_iframe")
+                    {
+                        $('.loading').show();
+                    }
                 },
-                error: function() { 
+                success: function (data) {
+                    $("#iframe_pay").html(data, function(){
+                        $('.loading').hide();
+                    });
+                },
+                complete:function(){
+                },
+                error: function() {
                      console.log(data);
                 }
             });
@@ -331,7 +512,9 @@ if (BrowserDetect.browser == 'Safari') {
       });
   });
 
-/* if ( {{$bill->is_expired}} ) {
+
+
+    /* if ( {{$bill->is_expired}} ) {
   $("#countdown").remove();
   $("#payment_method").remove();
   $("#back_btn").remove();
@@ -342,6 +525,11 @@ if (BrowserDetect.browser == 'Safari') {
 
 /* New countdown */
 $(function(){
+  let searchParams = new URLSearchParams(window.location.search)
+  if(searchParams.has('print')){
+    window.print();
+  }
+
 	$("#hm_timer").countdowntimer({
     minutes : {{ $bill->remaining_time_minutes}},
 		seconds : {{ $bill->remaining_time_seconds}},
@@ -373,15 +561,15 @@ $(function(){
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-success" role="alert">this bill paid successfully</div>');
+            $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
             break;
           case "canceled":
             $("#new_countdown").remove();
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
-            break;          
+            $("#status").append('<div class="alert alert-danger" role="alert">{{ __("this bill is canceled") }}</div>');
+            break;
           case "expired":
             $("#new_countdown").remove();
             $("#payment_method").remove();

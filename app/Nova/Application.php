@@ -3,6 +3,8 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -79,6 +81,15 @@ class Application extends Resource
         return [
             ID::make()->sortable(),
             Text::make(__('Name'), 'name'),
+            BelongsTo::make(__('User'), 'user', User::class)
+            ->searchable()
+            ->rules('required'),            
+            BelongsTo::make(__('Channel'), 'channel', Channel::class),
+
+            Text::make(__('Redirect Url'), 'redirect'),
+            Text::make(__('Webhook URL'), 'webhook_url'),
+
+
         ];
     }
 
@@ -126,10 +137,10 @@ class Application extends Resource
         return [];
     }
 
-    public static function authorizedToCreate(Request $request)
-    {
-        return false;
-    }
+    // public static function authorizedToCreate(Request $request)
+    // {
+    //     return false;
+    // }
     
     public function authorizedToDelete(Request $request)
     {
@@ -139,5 +150,19 @@ class Application extends Resource
     public function authorizedToUpdate(Request $request)
     {
         return false;
+    }
+
+    public static function newModel()
+    {
+        $model = static::$model;
+        $instance = new $model;
+
+        if ($instance->secret == null) {
+            $instance->secret = Str::random(20);
+        }        
+        if ($instance->webhook_secret == null) {
+            $instance->webhook_secret = Str::random(20);
+        }
+        return $instance;
     }
 }

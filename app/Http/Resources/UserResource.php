@@ -28,8 +28,8 @@ class UserResource extends JsonResource
             'bank' => $this->bank,
             'iban_number' => $this->iban_number,
             'beneficiary_name' => $this->beneficiary_name,
-
-            'diff_in_sec' => $this->getDiff()
+            'diff_in_sec' => $this->getDiff(),
+            'language' => \App::getLocale(),
         ];
     }
 

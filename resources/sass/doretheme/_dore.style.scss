@@ -1,4 +1,4 @@
-/* Dore Main Style 
+/* Dore Main Style
 
 Table of Contents
 
@@ -9091,7 +9091,7 @@ footer.page-footer {
   }
 }
 
-// Footer RTL 
+// Footer RTL
 .rtl {
   footer.page-footer {
     .footer-content {
@@ -9337,7 +9337,7 @@ footer.page-footer {
       } /* button */
      } /* tbody */
   } /* table */
-} /* product_category_list */ 
+} /* product_category_list */
 
 .invoice {
   .payment_done {
@@ -9971,6 +9971,7 @@ div.statistic_icon {
     font-size: 16px;
     text-transform: capitalize;
     color: #000000;
+    word-break: break-word;
   } /* customer_notes */
   .total_bill {
     border-bottom: 1px solid #ddd;
@@ -10035,7 +10036,7 @@ div[data-repeater-item]{
       }
     }
   }
-}  
+}
 
 .no_bills_available {
   text-align: center;
@@ -10217,7 +10218,7 @@ button.login_button i {
 i.iconsminds-mens {
   direction: ltr;
 }
- 
+
 
 .changeLang {
   position: absolute;
@@ -10752,3 +10753,61 @@ a.add_bill_button {
     background-color: #00ac78;
   } /* hover */
 } /* add_bill_button */
+
+
+.dashboard-filled-line-chart .card-body .btn-group ul.card-header-tabs {
+  top: -9px;
+  position: relative;
+  @include respond-below(sm) {
+    top: 0;
+  }
+}
+
+.dashboard-filled-line-chart .card-body {
+  @include respond-below(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto 20px;
+  }
+}
+
+.tooltip {
+  @include respond-below(sm) {
+    display: none !important;
+  }
+}
+
+.dashboard-filled-line-chart {
+  @include respond-below(sm) {
+    height: auto;
+  }
+  .chart {
+    @include respond-below(sm) {
+      margin: 0 auto;
+      padding: 0 5px;
+    }
+    canvas {
+      @include respond-below(sm) {
+        width: auto !important;
+        height: auto !important;
+        top: 0;
+        max-width: 100% !important;
+      }
+    }
+  }
+}
+
+
+div#smartWizardValidation {
+  label {
+    i {
+      margin: 0 5px 0 0;
+      display: inline-block;
+      font-style: normal;
+      font-size: 18px;
+      line-height: 0;
+    } /* i */
+  } /* label */
+} /* smartWizardValidation */

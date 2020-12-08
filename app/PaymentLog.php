@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class PaymentLog extends Model
 {
     protected $fillable = [
+        'id',
         'user_id',
         'bill_id',
         'payment_method',
@@ -23,7 +24,7 @@ class PaymentLog extends Model
         'results'   =>  'array',
         'data'   =>  'array',
     ];
-    
+
     public function getHashIdAttribute()
     {
         $hashids = new Hashids();

@@ -5,6 +5,7 @@
 @php
     $statues = session('status_filters', ['pending', 'paid'])?? [];
     $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
+    // dd(app()->getLocale());
 @endphp
 
 @section('content')
@@ -57,7 +58,7 @@
       @endif
       <div class="title">
         <span>{{ $bill->user->business_name}}</span>
-        
+
         @if(isset($bill->user->settings->header_bill))
           <p>{{ $bill->user->settings->header_bill }}</p>
         @endif
@@ -88,7 +89,7 @@
             </div>
       <div class="date_time">
         <span>
-          {{__('Due on')}} {{ $bill->due_date->format('M d Y')}}
+          {{__('Due on')}} {{ $bill->dateLocalization()}}
           @if($bill->user->vat_registration_number)
             <div class="vat_reg"> {{ __('VAT Registration Number') }} : {{ $bill->user->vat_registration_number }}</div>
           @endif
@@ -130,12 +131,12 @@
         <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
         <p class="ltr">+966{{ $bill->customer_mobile}}</p>
         <p>{{ $bill->customer_email}}</p>
-                
+
         @if(isset($bill->user->settings->footer_bill))
           <p>{{ $bill->user->settings->footer_bill }}</p>
         @endif
       </div><!-- customer_information -->
-    </div><!-- show_bill_general -->  
+    </div><!-- show_bill_general -->
     <a href="/" title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
   @if(count($bill->payment_logs) > 0)
@@ -169,7 +170,7 @@
                     <td><img src="{{ asset('/payments/cardnon.png') }}" alt="apple pay" height="25px"></td>
                   @endif
 
-                  <td><a href="/logs/{{$log->id}}" title="{{ isset($log->results['response']) ? $log->results['response']['id'] : null }}">{{ isset($log->results['response']) ? $log->results['response']['id'] : null }}</a></td>
+                  <td><a href="/logs/{{$log->id}}" title="{{ isset($log->results['response']) && isset($log->results['response']['id']) ? $log->results['response']['id'] : null }}">{{ isset($log->results['response']) && isset($log->results['response']['id']) ? $log->results['response']['id'] : null }}</a></td>
                   <td>{{ $bill->total}} {{__('SAR') }}</td>
                   <td>{{$log->created_at}}</td>
                   @if($log->status == true)
@@ -272,7 +273,7 @@
 
 
     $(document).on("click", '.copyButton', function() {
-       $(this).siblings('input.linkToCopy').select();      
+       $(this).siblings('input.linkToCopy').select();
         document.execCommand("copy");
     });
 
@@ -286,16 +287,16 @@
             case "paid":
               $("#cancel_btn").remove();
               $("#status").empty();
-              $("#status").append('<div class="alert alert-success" role="alert">this bill paid successfully</div>');
+              $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
               break;
             case "canceled":
               $("#cancel_btn").remove();
               $("#status").empty();
-              $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
-              break;          
+              $("#status").append('<div class="alert alert-danger" role="alert">{{ __("this bill is canceled") }}</div>');
+              break;
             case "expired":
               $("#cancel_btn").remove();
-              $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
+              $("#status").append('<div class="alert alert-secondary" role="alert">{{ __("this bill is expired") }}</div>');
               break;
             default:
               $("#cancel_btn").remove();

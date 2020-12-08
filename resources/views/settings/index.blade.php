@@ -24,7 +24,8 @@
     </div>
     <div class="col-12">
       <div class="create_bill_page card mb-4">
-        <div class="card-body">
+        @if($user->settings)
+        <div class="card-body" >
           <form method="POST" action="{{ route('post.settings') }}" class="repeater" id="settings">
             @csrf
               <h1 class="mb-3">{{ __('Taxs') }}</h1>
@@ -32,14 +33,14 @@
                 <div class="form-group col-6">
                   <label for="inputEmail1">{{ __('Add Tax') }}</label>
                   <div class="custom-switch custom-switch-primary mb-2">
-                    <input name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox" @if($user->settings->add_tax) checked @endif>
+                    <input name="add_tax" class="custom-switch-input" id="Tax_Values_Checkbox" type="checkbox" @if($user->settings->add_tax || old('add_tax') == 'on') checked @endif>
                     <label class="custom-switch-btn" for="Tax_Values_Checkbox"></label>
                   </div>
                 </div><!-- form-group -->
 
                     <div class="form-group col-6 col-md-6 col-lg-6 col-xl-6 Tax_Values">
-                      <label for="Tax">{{ __('Tax Value') }}</label>
-                      <input  value="{{ $user->settings->tax_value }}" type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value">
+                      <label for="Tax">{{ __('Tax Value') }} (%)</label>
+                      <input  value="{{ old('tax_value') ?? $user->settings->tax_value }}" type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value">
                     </div><!-- form-group -->
               </div><!-- form-row -->
 
@@ -53,13 +54,13 @@
                     <li class="list-group-item">
                       <!-- Default checked -->
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" name="active_lang_ar" class="custom-control-input" id="arabic" @if($user->settings->active_lang  == 'ar'|| $user->settings->active_lang  == 'all') checked @endif >
+                        <input type="checkbox" name="active_lang_ar" class="custom-control-input" id="arabic" @if($user->settings->active_lang  == 'ar'|| $user->settings->active_lang  == 'all' || old('active_lang_ar') == 'on') checked @endif >
                         <label class="custom-control-label" for="arabic">{{ __('Arabic') }}</label>
                       </div>
                     </li>
                     <li class="list-group-item">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" name="active_lang_en" class="custom-control-input" id="english" @if($user->settings->active_lang  == 'en'|| $user->settings->active_lang  == 'all') checked @endif>
+                        <input type="checkbox" name="active_lang_en" class="custom-control-input" id="english" @if($user->settings->active_lang  == 'en'|| $user->settings->active_lang  == 'all' || old('active_lang_en') == 'on') checked @endif>
                         <label class="custom-control-label" for="english">{{ __('English') }}</label>
                       </div>
                     </li>
@@ -68,40 +69,32 @@
                 <div class="form-group col-md-6" id="default_lang">
                   <label>{{ __('Default Lang') }}</label>
                   <select name="default_lang" class="form-control">
-                    <option value="ar" @if($user->settings->default_lang  == 'ar')selected="selected" @endif>{{ __('Arabic') }}</option>
-                    <option value="en" @if($user->settings->default_lang  == 'en')selected="selected" @endif>{{ __('English') }}</option>
+                    <option value="ar" @if($user->settings->default_lang  == 'ar' || old('default_lang') == 'ar')selected="selected" @endif>{{ __('Arabic') }}</option>
+                    <option value="en" @if($user->settings->default_lang  == 'en' || old('default_lang') == 'en')selected="selected" @endif>{{ __('English') }}</option>
                   </select>
                 </div><!-- form-group -->
               </div><!-- form-row -->
-              
+
               <hr>
               <h1 class="mb-3">{{ __('bills header and footer') }} ( {{ __('optional') }} )</h1>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label>{{ __('Header ar') }}</label>
-                  <textarea class="form-control" name="header_bill_ar" id="exampleFormControlTextarea1" rows="1">
-                    {{ $user->settings->getTranslation('header_bill', 'ar') }}
-                  </textarea>
+                  <textarea class="form-control" name="header_bill_ar" id="exampleFormControlTextarea1" rows="1">{{ old('header_bill_ar') ?? $user->settings->getTranslation('header_bill', 'ar') }}</textarea>
                 </div><!-- form-group -->
                 <div class="form-group col-md-6" >
                   <label>{{ __('Header en') }}</label>
-                  <textarea class="form-control" name="header_bill_en" id="exampleFormControlTextarea1" rows="1">
-                    {{ $user->settings->getTranslation('header_bill', 'en') }}
-                  </textarea>
+                  <textarea class="form-control" name="header_bill_en" id="exampleFormControlTextarea1" rows="1">{{ old('header_bill_en') ?? $user->settings->getTranslation('header_bill', 'en') }}</textarea>
                 </div><!-- form-group -->
               </div><!-- form-row -->
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label>{{ __('Footer ar') }}</label>
-                  <textarea class="form-control" name="footer_bill_ar" id="exampleFormControlTextarea1" rows="1">
-                    {{ $user->settings->getTranslation('footer_bill', 'ar') }}
-                  </textarea>
+                  <textarea class="form-control" name="footer_bill_ar" id="exampleFormControlTextarea1" rows="1">{{ old('footer_bill_ar') ?? $user->settings->getTranslation('footer_bill', 'ar') }}</textarea>
                 </div><!-- form-group -->
                 <div class="form-group col-md-6" >
                   <label>{{ __('Footer en') }}</label>
-                  <textarea class="form-control" name="footer_bill_en" id="exampleFormControlTextarea1" rows="1">
-                    {{ $user->settings->getTranslation('footer_bill', 'en') }}
-                  </textarea>
+                  <textarea class="form-control" name="footer_bill_en" id="exampleFormControlTextarea1" rows="1">{{ old('footer_bill_en') ?? $user->settings->getTranslation('footer_bill', 'en') }}</textarea>
                 </div><!-- form-group -->
               </div><!-- form-row -->
 
@@ -111,7 +104,7 @@
                 <div class="form-group col-6">
                   <label for="create_send_sms">{{ __('Send a text message to the customer') }}</label>
                   <div class="custom-switch custom-switch-primary mb-2">
-                    <input name="create_send_sms" class="custom-switch-input" id="create_send_sms" type="checkbox" @if($user->settings->create_send_sms) checked @endif>
+                    <input name="create_send_sms" class="custom-switch-input" id="create_send_sms" type="checkbox" @if($user->settings->create_send_sms || old('create_send_sms') == 'on') checked @endif>
                     <label class="custom-switch-btn" for="create_send_sms"></label>
                   </div>
                 </div><!-- form-group -->
@@ -119,7 +112,7 @@
                   <label for="create_send_email">{{ __('Send an email to the customer') }}</label>
                   <div class="custom-switch custom-switch-primary mb-2">
                     <input name="create_send_email" class="custom-switch-input" id="create_send_email" type="checkbox"
-                    @if($user->settings->create_send_email) checked @endif>
+                    @if($user->settings->create_send_email || old('create_send_email') == 'on') checked @endif>
                     <label class="custom-switch-btn" for="create_send_email"></label>
                   </div>
                 </div><!-- form-group -->
@@ -131,7 +124,7 @@
                 <label for="paid_send_sms">{{ __('Send me a text message') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
                   <input name="paid_send_sms" class="custom-switch-input" id="paid_send_sms" type="checkbox"
-                  @if($user->settings->paid_send_sms) checked @endif>
+                  @if($user->settings->paid_send_sms || old('paid_send_sms') == 'on') checked @endif>
                   <label class="custom-switch-btn" for="paid_send_sms"></label>
                 </div>
               </div><!-- form-group -->
@@ -139,7 +132,7 @@
                 <label for="paid_send_sms">{{ __('Send an email to me') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
                   <input name="paid_send_email" class="custom-switch-input" id="paid_send_email" type="checkbox"
-                  @if($user->settings->paid_send_email) checked @endif>
+                  @if($user->settings->paid_send_email || old('paid_send_email') == 'on') checked @endif>
                   <label class="custom-switch-btn" for="paid_send_email"></label>
               </div><!-- form-group -->
             </div><!-- form-row -->
@@ -148,6 +141,7 @@
             </div><!-- d-flex  -->
           </form>
         </div>
+        @endif
       </div>
     </div>
   </div>

@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\ValidateUploadFile;
+use App\Rules\ValidateIban;
 
 class BankInformationRequest extends FormRequest
 {
@@ -25,18 +27,19 @@ class BankInformationRequest extends FormRequest
     {
         return [
             'bank_id' => ['required'],
-            'iban_number' => ['required'],
-            'beneficiary_name' => ['required'],
+            'iban_number' => ['required', new ValidateIban()],
+            'beneficiary_name' => ['required', 'max:50'],
             'document' => ['nullable', 'array', "max:5"],
+            'document.*' => ['required', new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])],
         ];
     }
-
 
     /**
      * Get custom messages for validator errors.
      *
      * @return array
      */
+
     public function messages()
     {
         return [

@@ -235,6 +235,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Unifonic' => Multicaret\Unifonic\UnifonicFacade::class,
         'Payment' => App\Payment\Facades\Payment::class,
+        'PaymentHelper' => App\Helpers\PaymentHelper::class,
     ],
 
 ];

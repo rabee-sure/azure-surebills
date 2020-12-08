@@ -8,6 +8,7 @@ use App\Http\Resources\TransferResource;
 use App\Transfer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class TransferController extends Controller
 {
@@ -39,7 +40,13 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
-        $transfer = DB::transaction(function () use($request){
+        $fromDate = new Carbon($request->from);
+        $fromDate = $fromDate->addDays(1);
+        $toDate = new Carbon($request->to);
+        $toDate = $toDate->addDays(1);
+
+        $transfer = DB::transaction(function () use($request, $fromDate, $toDate){
+
             $transfer = Transfer::create([
                 'user_id' => $request->user_id,
                 'amount' => $request->amount,
@@ -51,11 +58,10 @@ class TransferController extends Controller
                 'beneficiary_name' => $request->beneficiary_name,
                 'filters' => [
                     'date' => [
-                        "from" => $request->from,
-                        "to" => $request->to,
+                        "from" => $fromDate,
+                        "to" => $toDate,
                     ]
                 ],
-
             ]);
 
             foreach ($request->bills_ids as $bill_id) {

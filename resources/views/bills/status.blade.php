@@ -8,6 +8,9 @@
       <div class="row  justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 col-xl-6">
           <div class="single_bill_content">
+            {{--         <a onclick="window.print(); return false;" class="float-right btn btn-primary mr-2 mb-2 rounded-sm d-inline-block " href="#" title="{{ __('Print') }}">
+          <img src="{{ asset('img/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
+        </a> --}}
             <div class="change-lang">
             @if($bill->user->settings->active_lang == 'all')
               @if(App::isLocale('en'))
@@ -55,7 +58,7 @@
             </div>
             <div class="date_time">
               <span>
-                {{__('Due on')}} {{ $bill->due_date->format('M d Y')}}
+                {{__('Due on')}} {{ $bill->dateLocalization()}}
                 @if($bill->user->vat_registration_number)
                   <div class="vat_reg"> {{ __('VAT Registration Number') }} : {{ $bill->user->vat_registration_number }}</div>
                 @endif
@@ -127,6 +130,15 @@
 
 @push('footer-scripts')
 <script type="text/javascript">
+  /* New countdown */
+  $(function(){
+    let searchParams = new URLSearchParams(window.location.search)
+    if(searchParams.has('print')){
+      window.print();
+    }
+  });
+  /* New countdown */
+
   Echo.channel('bill.{{$bill->id}}')
     .listen('BillStatusUpdated', (e) => {
         console.log(e.bill.id);
@@ -140,19 +152,19 @@
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-success" role="alert">this bill paid successfully</div>');
+            $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
             break;
           case "canceled":
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
-            break;          
+            $("#status").append('<div class="alert alert-danger" role="alert">{{ __("this bill is canceled") }}</div>');
+            break;
           case "expired":
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
+            $("#status").append('<div class="alert alert-secondary" role="alert">{{ __("this bill is expired") }}</div>');
             break;
           default:
             $("#payment_method").remove();

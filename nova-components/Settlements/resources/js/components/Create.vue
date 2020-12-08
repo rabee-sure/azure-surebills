@@ -24,13 +24,13 @@
                     </Tooltip>
                 </Col>
             </Row>
-            
+
             <FormItem :label="__('Amount')" prop="amount">
-                <InputNumber :min="1" :step=".5" size="large" placeholder="Enter number" name="amount" v-model="form.amount" 
+                <InputNumber :min="1" :step=".5" size="large" placeholder="Enter number" name="amount" v-model="form.amount"
                 :formatter="value => `${value} SAR`"
                 :parser="value => value.replace(' SAR', '')"
                 style="width: 100%" disabled></InputNumber>
-            </FormItem>    
+            </FormItem>
 
             <FormItem :label="__('Note')"  prop="note">
                 <Input size="large" v-model="form.note" type="textarea" :autosize="{minRows: 4,maxRows: 5}" :placeholder="__('')" />
@@ -38,28 +38,30 @@
 
             <FormItem :label="__('Attachment')">
                 <Upload
-                    :on-success="handleUploadFileSuccess"
+                    :on-success="handleUploadFileSuccess" :multiple="false"
+                    :on-progress="handleProgress"
                     type="drag"
-                    action="/api/upload">
+                    :action="this.uploadFileActionUrl">
                     <div style="padding: 20px 0">
                         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                         <p>{{ __('Click or drag files here to upload') }}</p>
                     </div>
                 </Upload>
+                <p class="file-error" style="color:red; direction: rtl;">{{fileError}} {{this.language}}</p>
             </FormItem>
             <Divider orientation="left">{{__('Bank Info')}}</Divider>
             <FormItem :label="__('Bank') + ' :'" v-if="user.bank">
                 <div>{{ user.bank.name.en }}</div>
-            </FormItem>            
+            </FormItem>
             <FormItem :label="__('Iban Number')+ ' :'">
                 <div>{{ user.iban_number }}</div>
-            </FormItem>            
+            </FormItem>
             <FormItem :label="__('Beneficiary Name')+ ' :'">
                 <div>{{ user.beneficiary_name }}</div>
             </FormItem>
 
             <FormItem>
-                <Button type="primary" @click="handleSubmit('form')"> {{__('Submit')}} </Button>
+                <Button type="primary" @click="handleSubmit('form')" :disabled="disableBtn"> {{__('Submit')}} </Button>
                 <Button style="margin-left: 8px">{{__('Cancel')}}</Button>
             </FormItem>
         </Form>
@@ -87,7 +89,7 @@
                 <Button type="error" v-if="row.type == 'debit'" size="small">{{ __(row.type) }}</Button>
             </template>
         </Table>
-    </Modal> 
+    </Modal>
 
     <Modal
         :title="__('Bills')"
@@ -115,6 +117,8 @@ export default {
     data() {
         return {
             billsModal: false,
+            disableBtn: false,
+            uploadFileActionUrl: '/api/upload?lang=',
             bills: [],
             new_bills: [],
             billsTable: [
@@ -132,17 +136,17 @@ export default {
                     title: this.__('FEES'),
                     key: 'payment_fees',
                     width: 100,
-                },                 
+                },
                 {
                     title: this.__('Payment Fees Vat'),
                     key: 'payment_fees_vat',
                     width: 100,
-                },                  
+                },
                 {
                     title: this.__('Net'),
                     key: 'net',
                     width: 100,
-                },                
+                },
                 {
                     title: this.__('Paid At'),
                     key: 'paid_at',
@@ -209,6 +213,7 @@ export default {
             user: [],
             errors: [],
             loading: false,
+            fileError: null,
             form: {
                 date_range: null,
                 amount: 0,
@@ -256,7 +261,7 @@ export default {
             Nova.request().get('/users/'+id)
             .then(response => {
                 this.user = response.data.data;
-                // this.form.amount = this.user.balance;
+                this.uploadFileActionUrl += response.data.data.language;
             });
             Nova.request().get('/users/'+id+'/transfers', {
                     params: {
@@ -266,7 +271,7 @@ export default {
             .then(response => {
                 this.transfers = response.data.data;
             });
-        },        
+        },
         handleChangeDate (date) {
             this.bills = [];
             this.new_bills = [];
@@ -328,12 +333,31 @@ export default {
                 });
             }
         },
-        handleUploadFileSuccess (res, file) {
-            file.name = file.response.data;
-            this.form.attachment = file.response.data;
+        handleProgress()
+        {
+            this.disableBtn=true;
+        },
+        handleUploadFileSuccess (res, file, filelist) {
+            this.disableBtn = false;
+            if(file.response.error)
+            {
+                filelist.splice(0, filelist.length);
+                this.form.attachment = null;
+                this.fileError = file.response.error.file[0];
+            }
+            else
+            {
+                if(filelist.length > 1)
+                {
+                    filelist.splice(0 , 1)
+                }
+                this.fileError = null;
+                this.form.attachment = file.response.data;
+            }
         },
         handleSubmit(name) {
-            this.loading = true
+            this.loading = true;
+            this.disableBtn = true;
             this.$refs[name].validate((valid) => {
                 if (valid) {
                     Nova.request().post('/transfers', {
@@ -349,26 +373,22 @@ export default {
                         beneficiary_name: this.user.beneficiary_name,
                     })
                     .then(response => {
-                        // console.log(response.data.data.id)
-                        // console.log('/nova/resources/transfers/' + response.data.data.id)
                         this.$router.push('/resources/transfers/' + response.data.data.id)
-
-                        // this.$router.go();
-                        // this.getUser(this.$route.params.id)
                         this.loading = false
-
                         this.bills = [];
                         this.transactions = [];
                         this.form.date_range = null;
                         this.form.amount = 0;
                         this.form.note = null;
                         this.form.attachment = null;
+                        this.disableBtn = false;
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        this.disableBtn = false;
                     });
                     this.$Message.success('Success!');
                 } else {
+                    this.disableBtn = false;
                     this.$Message.error('Fail!');
                 }
             })

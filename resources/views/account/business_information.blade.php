@@ -22,7 +22,7 @@
     <div class="card mb-4">
       <div class="card-body">
         <form id="form" method="POST" action="{{ route('business.information') }}" enctype="multipart/form-data">
-          @csrf 
+          @csrf
           <div class="form-row">
             <div class="form-group col-md-6">
               <label name="license_type" for="inputEmail3">{{ __('License type') }} <button class="license_button" type="button" data-toggle="modal" data-target=".license_type_modal"></button></label>
@@ -38,21 +38,21 @@
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="business_name_en">{{ __('Business Name') }} (EN)</label>
+              <label for="business_name_en">{{ __('Business Name') }} (EN) <span class="requirement">*</span></label>
               <input value="{{ $user->business_name_en }}" name="business_name_en" type="text" class="form-control" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)">
             </div>
             <div class="form-group col-md-6">
-              <label for="business_name_ar">{{ __('Business Name') }} (AR)</label>
+              <label for="business_name_ar">{{ __('Business Name') }} (AR) <span class="requirement">*</span></label>
               <input value="{{ $user->business_name_ar }}" name="business_name_ar" type="text" class="form-control" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)">
             </div>
-          </div>                  
+          </div>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="business_address">{{ __('Address') }}</label>
+              <label for="business_address">{{ __('Address') }} <span class="requirement">*</span></label>
               <input value="{{ $user->business_address }}" name="business_address" type="text" class="form-control" id="business_address" placeholder="{{ __('Address') }}">
             </div>
             <div class="form-group col-md-6">
-              <label for="business_mobile">{{ __('Mobile') }}</label>
+              <label for="business_mobile">{{ __('Mobile') }} <span class="requirement">*</span></label>
               <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" pattern="[0-9]{9}" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}">
             </div>
           </div>
@@ -65,22 +65,31 @@
               <label for="inputEmail2">{{ __('Sector') }}</label>
               <input value="{{ $user->sector }}" name="sector" type="text" class="form-control" id="inputEmail2" placeholder="{{ __('Sector') }}">
             </div>
-          </div> 
+          </div>
 
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="inputEmail8">{{ __('Logo') }}</label>
               <div class="custom-file">
-                <input name="logo" type="file" class="custom-file-input" id="inputEmail8">
-                  @if(auth()->user()->logo)
-                    <img  src="{{ url(auth()->user()->logo)  }}" class="img-thumbnail" width="100" />
-                  @endif
-                    <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
+                <input name="logo" type="file" class="custom-file-input" accept="image/png, image/jpeg, image/jpg">
+                <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
                 <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
+                @if($errors->has('logo'))
+                    <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('logo') }}</span>
+                @endif
               </div>
             </div>
-          </div> 
-          
+            <div class="form-group col-md-6">
+                <div class="custom-file">
+                  @if(auth()->user()->logo)
+                      <img src="@if(Storage::disk('public')->has(auth()->user()->logo)) {{url('storage/'.auth()->user()->logo)}} @else {{url(auth()->user()->logo)}} @endif" class="img-thumbnail logo_image" width="100" />
+                      <i class="glyph-icon simple-icon-trash delete_logo"></i>
+
+                  @endif
+                </div>
+              </div>
+          </div>
+
           <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
           <p class="">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
 

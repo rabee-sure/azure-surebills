@@ -14,7 +14,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-    	'api/*'
+        'api/*',
     ];
 
     /**
@@ -28,7 +28,7 @@ class VerifyCsrfToken extends Middleware
     {
         parent::__construct($app, $encrypter);
         $this->except = [
-            route('logout')
+            route('logout'), route('webhook-success'), env('APP_URL').'/success?*',
         ];
     }
 }

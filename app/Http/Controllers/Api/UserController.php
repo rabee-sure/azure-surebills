@@ -21,7 +21,7 @@ class UserController extends Controller
     public function stats(User $user)
     {
         return new UserStatResource($user);
-    }    
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -32,9 +32,9 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $validatedData = $request->validate([
-            'business_name' => ['required', 'string', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'business_name' => ['required', 'string', 'max:100'],
+            'name' => ['required', 'string', 'max:50'],
+            'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email'],
             'mobile' => ['unique:users'],
             'redirect_url' => ['required'],
             'webhook_url' => ['required'],

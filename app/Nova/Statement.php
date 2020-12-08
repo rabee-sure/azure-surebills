@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Statement extends Resource
 {
@@ -24,7 +25,7 @@ class Statement extends Resource
 
 
     public static $displayInNavigation = false;
-    
+
     /**
      * Get the displayble label of the resource.
      *
@@ -48,7 +49,7 @@ class Statement extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'receipt', 'description', 'reference'
     ];
 
     /**
@@ -73,7 +74,9 @@ class Statement extends Resource
             DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
             Text::make(__('Description'), 'description'),
             Text::make(__('Reference'), 'reference'),
-            Text::make(__('Receipt'), 'receipt'),
+            Text::make(__('Receipt'), 'receipt', function(){
+                return ' '.$this->receipt;
+            }),
             Text::make(__('Auth ID'), 'auth_id'),
             Select::make(__('Card Brand'), 'card_brand')->options([
                 'VISA' => 'VISA',
@@ -84,16 +87,16 @@ class Statement extends Resource
             Badge::make(__('Type'), 'type')->map([
                 'credit' => 'success',
                 'debit' => 'danger',
-            ]), 
+            ]),
             Text::make(__('Amount'), 'amount', function () {
                 return round($this->amount, 2);
-            }),            
+            }),
 
             Text::make(__('Balance'), 'balance', function () {
                 return round($this->balance, 2);
             }),
-            
-            BelongsTo::make(__('User'), 'user', User::class),
+
+            BelongsTo::make(__('User'), 'user', User::class)->searchable(),
         ];
     }
 
@@ -141,14 +144,16 @@ class Statement extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel)->withHeadings(),
+        ];
     }
 
     public static function authorizedToCreate(Request $request)
     {
         return false;
     }
-    
+
     public function authorizedToDelete(Request $request)
     {
         return false;

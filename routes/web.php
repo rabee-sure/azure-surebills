@@ -3,7 +3,7 @@
 use App\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use GuzzleHttp\Client;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('test', 'TestController@test');
+Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
 
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
-Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () { 
+Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
     Route::get('/clients', [
         'uses' => 'ClientController@forUser',
         'as' => 'passport.clients.index',
@@ -82,14 +82,19 @@ Route::post('/bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel')
 Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
 
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
-	Route::resource('applications', 'ApplicationController');
+	Route::apiResource('applications', 'ApplicationController');
+    Route::apiResource('channels.applications', 'ChannelApplicationController');
+    Route::resource('channels', 'ChannelController');
+    Route::resource('bills', 'BillController');
+
+    Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
+	Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
+
+	Route::resource('customers', 'CustomerController');
+
 	Route::get('statement', 'StatementController@index')->name('statement.index');
     Route::get('transfer', 'TransferController@index')->name('transfer.index');
     Route::post('transfers', 'TransferController@store');
-	Route::resource('bills', 'BillController');
-	Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
-	Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
-	Route::resource('customers', 'CustomerController');
 
 	Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/terms', 'HomeController@terms');
@@ -121,5 +126,5 @@ Route::get('users/{user}/transactions', 'UserController@transactions')->name('us
 Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
 Route::get('users/{user}', 'UserController@show')->name('users.show');
 
-Route::get('test_upload', 'AccountController@test_upload')->name('test_upload');
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
+

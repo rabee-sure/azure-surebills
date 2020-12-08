@@ -8,6 +8,7 @@
 	"The number of bills paid": "عدد الفواتير المدفوعة",
 	"Total bills": "إجمالي الفواتير",
 	"The amount of the payments": "مبلغ المدفوعات",
+	"Create Transfer": "إضافة تحويل",
 	"The total must be greater than 0": "يجب ان تكون مبلغ الفاتورة اكبر من صفر",
 	"application_id or application_secret is not coreect": "Id التطبيق أو كلمة سر التطبيق غير صحيح",
 	"Method Type": "نوع البطاقة",
@@ -15,9 +16,13 @@
 	"Payment Fees Vat": "الضرايب",
 	"Net": "الصافي",
 	"Paid At": "دفع في",
+	"Channels": "القنوات",
+	"Channel": "القناة",
+	"channels": "قنوات",
+	"channel": "قناة",
 
 	"Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url": "اهلا بك :name لقد تلقيت فاتورة جديدة من :business_name باجمالي :total ريال. ادفع الان :url",
-
+    "taxvalue": "قيمة الضريبة",
 
 	"monthly": "شهري",
 	"weekly": "اسبوعي",
@@ -33,9 +38,10 @@
 	"Disable Bank Documents": "عدم السماح برفع وثائق البنك",
 
 	"Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility": "حمل صورة بطاقة الايبان أو كشف حساب موضح فيه رقم الايبان وإسم المنشأة",
-	"Upload the required documents": "حمل الوثائق المطلوبة ",
+    "Upload the required documents": "حمل الوثائق المطلوبة (حد اقصى 5 ملفات)",
+    "reach the max num of files": "لقد وصلت للحد الاقصى من الملفات المحملة",
 	"Commercial registry, self-employment document, ID card ..etc": "سجل تجاري ، وثيقة عمل حر ، بطاقة هوية … ",
-
+    "item name should not be greater than 50 character": "اسم المنتج يجب أن لا يتعدى 50 حرفا",
 	"Actions": "أجراءات",
 	"request contains no cc/bank account holder": "الطلب لا يحتوي على نسخة إلى / صاحب حساب مصرفي",
 	"Mobile Verified": "التحقق من الهاتف",
@@ -62,6 +68,12 @@
 	"Update": "تعديل",
 	"Are You sure Delete this Customer?": "هل أنت متأكد من حذف هذا العميل؟",
 	"Delete Customer": "حذف العميل",
+
+    "Mada Fixed": "رسوم مدى ثابتة",
+    "Mada Percentage": "رسوم مدى متغيره",
+    "Credit Cards Fixed": "الرسوم الثابتة لبطاقة الائتمان",
+    "Credit Cards Percentage": "الرسوم المتغيره لبطاقة الائتمان",
+    "Client Email": "ايميل العميل",
 
 	"Url": "لينك",
 	"Bill link": "رابط الفاتورة",
@@ -150,7 +162,8 @@
 	"Canceled" : "ملغي",
 	"amount must be less than or equal to user balance :balance" : "يجب أن يكون المبلغ أقل من رصيد المستخدم ':balance' أو مساويًا له",
 	"Users" : "المستخدمين",
-	"Reference" : "مرجع",
+    "Reference" : "مرجع",
+    "No Data": "لا يوجد بيانات",
 	"Receipt" : "إيصال",
 	"Auth ID" : "معرف المصادقة",
 	"Card" : "بطاقة",
@@ -180,7 +193,8 @@
 	"Last 30 Days" : "آخر 30 يومًا",
 	"This Month" : "هذا الشهر",
 	"Last Month" : "الشهر الماضي",
-
+    "yes": "نعم",
+    "no": "لا",
 	"payment fees" : "رسوم الدفع",
 	"Active Langs" : "اللغات المفعلة للفواتير",
 	"this bill has been canceled" : "تم إلغاء الفاتورة #:number",
@@ -204,7 +218,7 @@
 	"60 Day": "٦٠ يوم",
 	"90 Day": "٩٠ يوم",
 	"Never": "لايوجد",
-	
+
 	"Sunday" : "الأحد",
     "Monday" : "الاثنين",
     "Tuesday" : "الثلاثاء",
@@ -353,6 +367,8 @@
 	"fixed" : "قيمة",
 	"Percentage Discount (%)" : "نسبة",
 	"Discount Value" : "قيمة الخصم",
+    "Discount value is required" : "قيمة الخصم مطلوبة",
+    "Tax value is required" : "قيمة الضريبة مطلوبة",
 	"Tax Value" : "قيمة الضريبة",
 	"Send The Bill To Customer" : "أرسل الفاتورة إلى العميل",
 	"Send SMS" : "أرسل رسالة نصية قصيرة",
@@ -384,6 +400,7 @@
 	"new password required" : "كلمة المرور الجديدة مطلوبه",
 	"customer name required" : "اسم العميل مطلوب",
 	"customer mobile required" : "رقم الجوال مطلوب",
+	"customer mobile is not correct" : "رقم الجوال غير صحيح",
 	"item name required" : "اسم المنتج / الخدمة مطلوب",
 	"item price required" : "سعر المنتج / الخدمة مطلوب",
 	"item quantity required" : "الكمية مطلوب",
@@ -493,5 +510,16 @@
   "Monthly" : "شهري",
   "Paid Bills Amount" : "مبلغ المدفوعات",
   "Number of Paid Bills" : "عدد الفواتير المدفوعة",
-  "Total Number of Bills" : "إجمالي الفواتير"
+  "Total Number of Bills" : "إجمالي الفواتير",
+  "invalid_min_total": "قيمة الفاتورة الاجمالية اقل من 2 ريال",
+  "invalid_max_total": "قيمة الفاتورة الاجمالية اكثر من 14000 ريال",
+  "file max size should be less than or equal": "حجم الملف يجب ان يكون اقل من او يساوي :value MB",
+  "file extension should be in": "امتداد الملف يجب ان يكون :value",
+  "invalid iban number": "رقم الحساب المصرفي غير صحيح",
+  "code": "كود",
+  "Email is required if sending email is active": "البريد الالكتروني مطلوب في حال ما إذا كان ارسل بريد الكتروني مفعل",
+  "this bill is paid successfully": "تم دفع هذه الفاتورة",
+  "this bill is canceled": "هذه الفاتورة ملغية",
+  "this bill is expired": "هذه الفاتورة منتهية"
+
 }

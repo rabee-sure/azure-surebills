@@ -9,6 +9,7 @@ use App\Events\BillCreated;
 use App\Events\BillPaid;
 use App\Events\BillStatusUpdated;
 use App\Exceptions\ValidationException;
+use App\Helpers\PaymentHelper as HelpersPaymentHelper;
 use App\Http\Requests\BillRequest;
 use App\Http\Requests\PayBillRequest;
 use App\PaymentLog;
@@ -20,6 +21,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException as ValidationsException;
+use PaymentHelper;
+use Log;
+use IlluminateSupportFacadesLog;
 
 class BillController extends Controller
 {
@@ -28,8 +32,9 @@ class BillController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index(Request $request)
-    {   
+    {
         $date_start = $request->date_start ?? null;
         $date_to = $request->date_to ?? null;
 
@@ -75,7 +80,7 @@ class BillController extends Controller
                 'mobile' => $request->customer_mobile,
                 'user_id' => $user->id,
             ],[
-                'name' => $request->customer_name, 
+                'name' => $request->customer_name,
                 'email' => $request->customer_email,
             ]);
 
@@ -133,7 +138,7 @@ class BillController extends Controller
                         $discount = ($sub_total + $payment_fees) * $request->discount_value / 100;
                         break;
                 }
-            } 
+            }
 
             if($request->add_tax){
                $vat = ($sub_total + $payment_fees - $discount) * $request->tax_value /100;
@@ -151,7 +156,7 @@ class BillController extends Controller
             $bill->save();
             return $bill;
         });
-        
+
         event(new BillCreated($bill));
         return redirect()->route('bills.show', $bill);
     }
@@ -180,7 +185,7 @@ class BillController extends Controller
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
         }else{
-           \App::setLocale($bill->user->settings->default_lang); 
+           \App::setLocale($bill->user->settings->default_lang);
         }
 
         if(!$bill){
@@ -200,7 +205,7 @@ class BillController extends Controller
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
         $invoice->detail(['bill' => $bill->toArray()])
             ->detail(['hash' => $bill->pay_id]);
-        
+
         $countdown = $bill->created_at
                 ->addDays($bill->expiry_date)
                 ->addMinutes($bill->expiry_minutes)
@@ -210,7 +215,7 @@ class BillController extends Controller
                 // dd($countdown);
         return view('bills.pay', compact('bill', 'id', 'countdown'));
     }
-    
+
     /**
      * Display the payment page for a specified resource.
      *
@@ -234,7 +239,7 @@ class BillController extends Controller
             ->detail(['surebills_payment_log_id' => $payment->id])
             ->detail(['hash' => $payment->hash_id])
             ->detail(['locale' => $locale ?? app()->getLocale()]);
-        
+
         return $payment_iframe = Payment::via($payment->payment_method)->generateIframe($invoice);
     }
 
@@ -264,31 +269,11 @@ class BillController extends Controller
             ->detail(['payment_id' => $request->get('id')]);
         $invoice = Payment::via($payment->payment_method)->paymentStatus($invoice);
 
-
-        // if success
-        if($invoice->getDetail('success')){
-
-            // log
-            $payment->results = $invoice->getDetails();
-            $payment->status = 1;
-            $payment->save();
-            
-            $bill->setPaid();
-
-            if($bill->application){
-                return redirect($bill->redirect_url);
-            }
-            return redirect()->route('paybillpage', ['id' => $bill->pay_id]);
-        }
-
-        // log for the payment
-        $payment->results = $invoice->getDetails();
-        $payment->status = 0;
-        $payment->save();
+        return PaymentHelper::checkPaymentStatus($invoice, $payment, $bill);
 
         // return the view with errors
-        return redirect()->route('paybillpage', ['id' => $bill->pay_id])
-            ->withErrors(['field_name' => $invoice->getDetail('description')]);
+        // return redirect()->route('paybillpage', ['id' => $bill->pay_id])
+        //     ->withErrors(['field_name' => $invoice->getDetail('description')]);
     }
 
     /**
@@ -312,7 +297,7 @@ class BillController extends Controller
     {
         $bill = Bill::find($id);
 
-        if($bill->status != 'paid'){    
+        if($bill->status != 'paid'){
             $bill->status = 'canceled';
             $bill->canceled_at = Carbon::now();
             $bill->save();
@@ -335,5 +320,26 @@ class BillController extends Controller
             'bill' => $log->bill,
             'log' => $log
         ]);
+    }
+
+    public function masterCardWebHookResponse(Request $request)
+    {
+        if($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret'))
+        {
+            $response = $request->all();
+            $orderBody = json_decode(json_encode($response), FALSE);
+            $notPaidBill = Bill::where([['id', $orderBody->order->reference], ['status', '<>', 'paid']])->first();
+
+            if($notPaidBill)
+            {
+                $invoice = new Invoice();
+                $details = $invoice->detail(['bill' => $notPaidBill->toArray()])->getDetails();
+                PaymentHelper::handlePaymentResponse($invoice, $orderBody->order->id, $details, true);
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 }

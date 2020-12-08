@@ -11,6 +11,7 @@
               <span>أرسل فواتير منتجاتك <br> و استقبل مدفوعاتك بسهولة</span>
               <p>بدون تعقيدات الربط مع بوابات الدفع إبدأ بإستخدام شور بيلز</p>
               <a href="{{ url('/') }}/register" title="سجل الآن">سجل الآن</a>
+              <small>إعدادات سهلة وخلال دقائق</small>
             </div><!-- txt -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-6 col-xl-6">
@@ -29,32 +30,30 @@
           <p>لا تخسر عميلك و سهل عملية الشراء والدفع</p>
           <b>اذا كنت تملك عملك الحر وتتعامل مع عملائك بشكل يومي من خلال القنوات التقليدية مثل واتساب وانستقرام .. ، نحن هنا مساعدتك بتوفير رابط الكتروني يمكنك من عرض منتجاتك و خدماتك للعملاء لتوفير طريقة سداد آمنة وسريعة لهم، و لتحصل على أموالك بشكل أسرع وأسهل.</b>
         </div><!-- desc -->
-
-        <a href="{{ url('/') }}/login" title="انضم لتجارنا">انضم لتجارنا</a>
-
+        <a href="{{ url('/') }}/login" title="سجل مجاناً">سجل مجاناً</a>
       </div><!-- container -->
     </section><!-- start_work -->
 
     <section id="how_work">
       <div class="container">
-        <div class="title">كيف نعمل ؟</div>
+        <div class="title">ببساطة أنشئ وشارك الفاتورة</div>
         <div class="how_work_slider owl-carousel owl-theme">
           <div class="item">
             <div class="item_inside">
               <div class="imgthumb">
-                <img src="/landing/dist/images/how_img1.svg" alt="سجل وفعل حسابك">
+                <img src="/landing/dist/images/how_img1.svg" alt="سجل معنا">
               </div><!-- imgthumb -->
-              <span>سجل وفعل حسابك</span>
-              <p>بخطوات سهلة فعل حسابك و أضف منتجاتك وأعرضها للعملاء</p>
+              <span>سجل معنا</span>
+              <p>التسجيل سهل وسريع وخلال دقائق يمكنك البدء بإصدار فواتيرك</p>
             </div><!-- item_inside -->
           </div><!-- item -->
           <div class="item">
             <div class="item_inside">
               <div class="imgthumb">
-                <img src="/landing/dist/images/how_img2.svg" alt="استقبل طلبات الشراء">
+                <img src="/landing/dist/images/how_img2.svg" alt="أنشئ وشارك الفاتورة">
               </div><!-- imgthumb -->
-              <span>استقبل طلبات الشراء</span>
-              <p>طلبات شراء مدفوعة من قبل العملاء دورك تجهيز الطلب وإيصاله</p>
+              <span>أنشئ وشارك الفاتورة</span>
+              <p>ارسل فواتيرك من خلال رسالة نصية او مواقع التواصل الإجتماعي او في أي مكان يتواجد فيه عملاؤك</p>
             </div><!-- item_inside -->
           </div><!-- item -->
           <div class="item">
