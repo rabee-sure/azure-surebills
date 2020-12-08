@@ -175,7 +175,7 @@
                 </div><!-- payment_method -->
             @endif
 
-            @if($bill->application)
+            @if($bill->application && $bill->is_redirect)
               <div id="back_btn" class="text-center">
                 <a href="{{ $bill->back_url}}" class="btn btn-light">{{__('Back')}}
                   <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
