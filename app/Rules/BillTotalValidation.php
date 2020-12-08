@@ -27,7 +27,7 @@ class BillTotalValidation implements Rule
     public function passes($attribute, $value)
     {
         $this->total = array_sum(collect(request()->items)->map(function ($item){
-            return $item['price'] * $item['quantity'];
+            return $item['price']??0 * $item['quantity']??0;
         })->toArray());
 
         if(request()->has('add_discount'))

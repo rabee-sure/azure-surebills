@@ -41,11 +41,13 @@ class BillController extends Controller
 
         if(!isset($application)){
            return response()->json([
-               'errors' => [
+                "message" => "The given data was invalid.",
+                'errors' => [
                     'credential' =>[__('application_id or application_secret is not coreect')] 
-               ] 
+                ] 
            ], 422);
         }
+
         $user = $application->user ?? null;
 
         if($request->application_name){
@@ -290,10 +292,29 @@ class BillController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show( $id, CheckBillApiRequest $request)
+    public function show($id, CheckBillApiRequest $request)
     {
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+
+        if(!isset($application)){
+           return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'credential' =>[__('application_id or application_secret is not coreect')] 
+                ] 
+           ], 422);
+        }
+
+
         $bill = Bill::find($id);
+        if(!isset($bill)){
+           return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'credential' =>[__("can't find this record in database.")] 
+                ] 
+           ], 422);
+        }
 
         if(isset($application) && $application->user_id == $bill->user_id){
             return new BillResource($bill);
@@ -311,7 +332,24 @@ class BillController extends Controller
     public function cancel($id, CheckBillApiRequest $request)
     {
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+        if(!isset($application)){
+           return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'credential' =>[__('application_id or application_secret is not coreect')] 
+                ] 
+           ], 422);
+        }
+
         $bill = Bill::find($id);
+        if(!isset($bill)){
+           return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'credential' =>[__("can't find this record in database.")] 
+                ] 
+           ], 422);
+        }
 
         if(isset($application) && $application->user_id == $bill->user_id){
             if($bill->status != 'canceled' && $bill->status != 'paid'){
@@ -335,7 +373,25 @@ class BillController extends Controller
     public function timeout($id, CheckBillApiRequest $request)
     {
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+        if(!isset($application)){
+           return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'credential' =>[__('application_id or application_secret is not coreect')] 
+                ] 
+           ], 422);
+        }
+
+
         $bill = Bill::find($id);
+        if(!isset($bill)){
+           return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'credential' =>[__("can't find this record in database.")] 
+                ] 
+           ], 422);
+        }
 
         if(isset($application) && $application->user_id == $bill->user_id){
             if($bill->status != 'expired' && $bill->status != 'paid'){

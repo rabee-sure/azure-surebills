@@ -29,8 +29,8 @@ Route::prefix('v1')->group(function () {
 
 	Route::get('users/{user}/stats', 'UserController@stats');
 
-	Route::post('bills/create', 'BillController@store');
 	Route::post('bills/create/wordpress', 'BillController@wordpress');
+	Route::post('bills/create', 'BillController@store');
 	Route::put('bills/{bill}/cancel', 'BillController@cancel');
 	Route::put('bills/{bill}/timeout', 'BillController@timeout');
 	Route::get('bills/{bill}', 'BillController@show');
