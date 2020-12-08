@@ -20,7 +20,7 @@
 	"Channel": "القناة",
 	"channels": "قنوات",
 	"channel": "قناة",
-
+    "link is copied": "تم نسخ الرابط",
 	"Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url": "اهلا بك :name لقد تلقيت فاتورة جديدة من :business_name باجمالي :total ريال. ادفع الان :url",
     "taxvalue": "قيمة الضريبة",
 
@@ -520,6 +520,12 @@
   "Email is required if sending email is active": "البريد الالكتروني مطلوب في حال ما إذا كان ارسل بريد الكتروني مفعل",
   "this bill is paid successfully": "تم دفع هذه الفاتورة",
   "this bill is canceled": "هذه الفاتورة ملغية",
-  "this bill is expired": "هذه الفاتورة منتهية"
+  "this bill is expired": "هذه الفاتورة منتهية",
+  "cvv": "رمز التحقق (CVV)",
+  "expiration month": "شهر الانتهاء",
+  "expiration year": "سنة الانتهاء",
+  "name on card": "الاسم على البطاقة"
+
+
 
 }
