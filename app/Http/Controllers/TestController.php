@@ -53,8 +53,8 @@ class TestController extends Controller
                 // 'session' => ['authenticationLimit' => 25],
                         'apiOperation' => 'CREATE_CHECKOUT_SESSION',
                         'interaction' => ['operation' => 'VERIFY'],
-                        'order' => ["amount" => 101.00, "currency" => 'SAR', 'id' => 981],
-                        'authentication' => ['transactionId' => 981],
+                        'order' => ["amount" => 101.00, "currency" => 'SAR', 'id' => 663],
+                        'authentication' => ['transactionId' => 663],
 
                     ],
             'auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')],

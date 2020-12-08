@@ -127,5 +127,3 @@ Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
 Route::get('users/{user}', 'UserController@show')->name('users.show');
 
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
-
-Route::get('create-session', 'TestController@createSession');
