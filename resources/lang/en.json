@@ -80,6 +80,9 @@
 "Quantity" : "Quantity",
 "Delete" : "Delete",
 "Add Item" : "Add Item",
+"select date range": "Select date range",
+"invalid amount": "Invalid amount",
+"invalid date range": "Invalid date range",
 "Price" : "Price",
 "Additonal Details" : "Additonal Details",
 "Add Discount" : "Add Discount",
@@ -233,6 +236,7 @@
 "cvv": "CVV",
 "expiration month": "Expiration month",
 "expiration year": "Expiration year",
-"name on card": "Cardholder name"
+"name on card": "Cardholder name",
+"no bills in selected date range": "No bills in selected date range"
 
 }
