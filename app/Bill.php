@@ -401,9 +401,29 @@ class Bill extends Model
      *
      * @return Collection
      */
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    /**
+     * Get items.
+     *
+     * @return Collection
+     */
     public function depositTransaction()
     {
         return $this->hasOne(Transaction::class)->where('type', 'credit');
+    }
+
+    /**
+     * Get items.
+     *
+     * @return Collection
+     */
+    public function withdrawTransactions()
+    {
+        return $this->hasMany(Transaction::class)->where('type', 'debit');
     }
 
     /**
@@ -466,6 +486,89 @@ class Bill extends Model
         return $number == 0 ? 1000001 : $number + 1;
     }
 
+    /**
+     * get Percentage from object.
+     *
+     * @return double
+     */
+    public function getPercentage($from_channel = false)
+    {
+        if (!$this->success_payment) {
+            return 0;
+        }
+
+        $response = $this->success_payment->results['response'];
+        if( isset($this->application) && isset($this->application->channel)) {
+            $object = $from_channel ? $this->application->channel : $this->application;
+        }else{
+            $object = $this->user;
+        }
+        if(isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA'){
+            return $object->mada_percentage;
+        }else{
+            return $object->credit_cards_percentage;
+        }
+    }
+
+    /**
+     * get Fixed from object.
+     *
+     * @return double
+     */
+    public function getFixed($from_channel = false)
+    {
+        if (!$this->success_payment) {
+            return 0;
+        }
+
+        $response = $this->success_payment->results['response'];
+        if( isset($this->application) && isset($this->application->channel)) {
+            $object = $from_channel ? $this->application->channel : $this->application;
+        }else{
+            $object = $this->user;
+        }
+        if(isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA'){
+            return $object->mada_fixed;
+        }else{ 
+            return $object->credit_cards_fixed;
+        }
+    }
+
+
+    /**
+     * ReCalculate payment fess
+     */
+    public function reCalculateFees()
+    {
+        // update bill
+        $percentage = $this->getPercentage();
+        $fixed = $this->getFixed();
+        $this->pricing_fees_details = $percentage.'%,'. $fixed;
+        $this->payment_fees = $this->total * ($percentage / 100) + $fixed;
+        $this->payment_fees_vat = $this->payment_fees * (Transaction::VAT_PERCENTAGE / 100);
+        $this->save();
+
+        // update transactions
+        foreach ($this->withdrawTransactions as $transaction) {
+            if ($transaction->description == 'Fee - Transaction Processing') {
+                if ($transaction->amount < $this->payment_fees) {
+                    $transaction->balance = $transaction->balance - ($this->payment_fees - $transaction->amount);
+                } else {
+                    $transaction->balance = $transaction->balance + ($transaction->amount - $this->payment_fees);
+                }
+                $transaction->amount  = $this->payment_fees;
+                $transaction->save();
+            } else if ($transaction->description == 'VAT - Transaction Processing') {
+                if ($transaction->amount < $this->payment_fees_vat) {
+                    $transaction->balance = $transaction->balance - ($this->payment_fees_vat - $transaction->amount);
+                } else {
+                    $transaction->balance = $transaction->balance + ($transaction->amount - $this->payment_fees_vat);
+                }
+                $transaction->amount = $this->payment_fees_vat;
+                $transaction->save();
+            }
+        }
+    }
 
     /**
      * Get payment_logs.

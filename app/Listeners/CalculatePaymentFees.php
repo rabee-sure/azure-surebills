@@ -33,8 +33,8 @@ class CalculatePaymentFees
     {
         if($event->bill->success_payment){
             $bill = $event->bill;
-            $percentage = $this->getPercentage($bill);
-            $fixed = $this->getFixed($bill);
+            $percentage = $bill->getPercentage();
+            $fixed = $bill->getFixed();
 
             $bill->settled = false;
             $bill->pricing_fees_details = $percentage.'%,'. $fixed;
@@ -57,8 +57,8 @@ class CalculatePaymentFees
      */
     protected function makeTransactionsForChannel($bill)
     {
-        $percentage = $this->getPercentage($bill, true);
-        $fixed = $this->getFixed($bill, true);
+        $percentage = $bill->getPercentage(true);
+        $fixed = $bill->getFixed(true);
 
         $payment_fees = $bill->total * ($percentage / 100) + $fixed;
         $payment_fees_vat = $payment_fees * (Transaction::VAT_PERCENTAGE / 100);
@@ -96,45 +96,5 @@ class CalculatePaymentFees
         $vat_trans->description = 'Vat - Channel: '.$bill->application->channel->name;
         $vat_trans->balance     = $vat_trans->user->balance + $vat_trans->amount;
         $vat_trans->save();
-    }
-
-    /**
-     * get Percentage from object.
-     *
-     * @return double
-     */
-    protected function getPercentage($bill, $from_channel = false)
-    {
-        $response = $bill->success_payment->results['response'];
-        if( isset($bill->application) && isset($bill->application->channel)) {
-            $object = $from_channel ? $bill->application->channel : $bill->application;
-        }else{
-            $object = $bill->user;
-        }
-        if(isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA'){
-            return $object->mada_percentage;
-        }else{
-            return $object->credit_cards_percentage;
-        }
-    }
-
-    /**
-     * get Fixed from object.
-     *
-     * @return double
-     */
-    protected function getFixed($bill, $from_channel = false)
-    {
-        $response = $bill->success_payment->results['response'];
-        if( isset($bill->application) && isset($bill->application->channel)) {
-            $object = $from_channel ? $bill->application->channel : $bill->application;
-        }else{
-            $object = $bill->user;
-        }
-        if(isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA'){
-            return $object->mada_fixed;
-        }else{ 
-            return $object->credit_cards_fixed;
-        }
     }
 }
