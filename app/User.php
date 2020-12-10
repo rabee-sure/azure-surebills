@@ -190,7 +190,18 @@ class User extends Authenticatable implements HasMedia
     public function applications()
     {
         return $this->hasMany(Application::class);
+    }    
+
+    /**
+     * Get applications.
+     *
+     * @return Collection
+     */
+    public function channelsApplications()
+    {
+        return $this->belongsToMany(Application::class, 'channels', 'user_id', 'id', 'id', 'channel_id');
     }
+
 
     /**
      * Get bills.
@@ -201,6 +212,7 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Bill::class);
     }
+
 
     /**
      * Get Transfers.

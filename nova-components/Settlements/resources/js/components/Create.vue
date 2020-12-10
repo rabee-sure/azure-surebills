@@ -101,6 +101,9 @@
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
         <Table stripe height="400" :columns="billsTable" :data="bills">
+            <template slot-scope="{ row }" slot="name">
+                    <p>{{row.name}}     <Badge v-if="row.related_channel" text="channel"></Badge></p>
+            </template>
         </Table>
     </Modal>
 </div>
@@ -124,7 +127,7 @@ export default {
             billsTable: [
                 {
                     title: this.__('Name'),
-                    key: 'name',
+                    slot: 'name',
                     width: 220,
                 },
                 {

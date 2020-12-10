@@ -63,14 +63,29 @@ class UserController extends Controller
         else
             $to = $to->copy()->endOfDay()->toDateTimeString();
 
-        $billsids = $user->bills()
-            ->when($request->from, function ($query) use($from, $to) {
-                return $query->whereBetween('paid_at', [$from, $to]);
+        $billsids = Bill::
+            //get user bills
+            where(function ($query) use($user, $request, $from, $to){
+                $query->where('user_id', $user->id)
+                    ->paid()
+                    ->when($request->from, function ($query) use($from, $to) {
+                        return $query->whereBetween('paid_at', [$from, $to]);
+                    })
+                    ->when($request->not_settled, function ($query) use($request){
+                        return $query->where('settled', false);
+                    });
             })
-            ->when($request->bills_not_settled, function ($query) use($request){
-                return $query->where('settled', false);
+            //get user "channels" bills
+            ->orWhere(function ($query) use($user, $request, $from, $to){
+                $query->whereIn('application_id', $user->channelsApplications->pluck('id')->toArray())
+                    ->paid()
+                    ->when($request->from, function ($query) use($from, $to) {
+                        return $query->whereBetween('paid_at', [$from, $to]);
+                    })
+                    ->when($request->not_settled, function ($query) use($request){
+                        return $query->where('settled', false);
+                    });
             })
-            ->paid()
             ->orderBy('id', 'desc')
             ->get()
             ->pluck('id')
@@ -78,6 +93,7 @@ class UserController extends Controller
 
 
         $transactions = Transaction::whereIn('bill_id', $billsids)
+            ->where('user_id', $user->id)
             ->orderBy('created_at', 'ASC')
             ->orderBy('receipt', 'ASC')
             ->get();
@@ -103,14 +119,32 @@ class UserController extends Controller
         else
             $to = $to->copy()->endOfDay()->toDateTimeString();
 
-        $bills = $user->bills()
-            ->when($request->from, function ($query) use($from, $to) {
-                return $query->whereBetween('paid_at', [$from, $to]);
+        $request->request->add(['channel_user_id' => $user->id]);
+
+        $bills = Bill::
+            //get user bills
+            where(function ($query) use($user, $request, $from, $to){
+                $query->where('user_id', $user->id)
+                    ->paid()
+                    ->when($request->from, function ($query) use($from, $to) {
+                        return $query->whereBetween('paid_at', [$from, $to]);
+                    })
+                    ->when($request->not_settled, function ($query) use($request){
+                        return $query->where('settled', false);
+                    });
             })
-            ->when($request->not_settled, function ($query) use($request){
-                return $query->where('settled', false);
+            //get user "channels" bills
+            ->orWhere(function ($query) use($user, $request, $from, $to){
+                $query->whereIn('application_id', $user->channelsApplications->pluck('id')->toArray())
+                    ->paid()
+                    ->when($request->from, function ($query) use($from, $to) {
+                        return $query->whereBetween('paid_at', [$from, $to]);
+                    })
+                    ->when($request->not_settled, function ($query) use($request){
+                        return $query->where('settled', false);
+                    });
             })
-            ->paid()
+            
             ->orderBy('paid_at', 'asc')
             ->get();
 
