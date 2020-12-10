@@ -42,6 +42,17 @@ class TestController extends Controller
         ]);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function bill(Request $request)
+    {
+        $biil = Bill::find('37e306d9-b2a9-4b5a-9fc2-341c1a407ab9');
+
+        event(new BillPaid($biil));
+    }
 
 
 }
