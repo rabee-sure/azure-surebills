@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         'App\Events\BillCreated' => [
-            'App\Listeners\SendBillPayEmail',
+            // 'App\Listeners\SendBillPayEmail',
             'App\Listeners\SendBillPaySms',
         ],
         'App\Events\UserCreated' => [
@@ -31,8 +31,8 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\BillPaid' => [
             'App\Listeners\CalculatePaymentFees',
             'App\Listeners\AddBillTransactions',
-            'App\Listeners\SendBillPaidEmailToOwner',
-            'App\Listeners\SendBillPaidEmailToCustomer',
+            // 'App\Listeners\SendBillPaidEmailToOwner',
+            // 'App\Listeners\SendBillPaidEmailToCustomer',
             // 'App\Listeners\SendBillPaidWebhook',
         ],
     ];
