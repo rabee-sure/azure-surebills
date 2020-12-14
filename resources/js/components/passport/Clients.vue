@@ -116,8 +116,8 @@
           </div>
           <!-- Modal Actions -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="store">Create</button>
+            <button type="button" class="btn btn-primary mr-2" @click="store">Create</button>
+            <button type="button" class="btn btn-secondary m-0" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -176,8 +176,8 @@
           </div>
           <!-- Modal Actions -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="update">Save Changes</button>
+            <button type="button" class="btn btn-primary mr-2" @click="update">Save Changes</button>
+            <button type="button" class="btn btn-secondary m-0" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

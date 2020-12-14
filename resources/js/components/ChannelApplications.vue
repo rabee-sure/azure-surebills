@@ -131,8 +131,8 @@
           </div>
           <!-- Modal Actions -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
-            <button type="button" class="btn btn-primary" @click="store">{{ __('Create')}}</button>
+            <button type="button" class="btn btn-primary mr-2" @click="store">{{ __('Create')}}</button>
+            <button type="button" class="btn btn-secondary m-0" data-dismiss="modal">{{ __('Close')}}</button>
           </div>
         </div>
       </div>
@@ -209,8 +209,8 @@
           </div>
           <!-- Modal Actions -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
-            <button type="button" class="btn btn-primary" @click="update">{{ __('Save Changes')}}</button>
+            <button type="button" class="btn btn-primary mr-2" @click="update">{{ __('Save Changes')}}</button>
+            <button type="button" class="btn btn-secondary m-0" data-dismiss="modal">{{ __('Close')}}</button>
           </div>
         </div>
       </div>
