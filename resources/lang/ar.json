@@ -15,15 +15,17 @@
 	"Date From To": "التاريخ من إلى",
 	"Payment Fees Vat": "الضرايب",
 	"Net": "الصافي",
-	"Paid At": "دفع في",
+    "Paid At": "دفع في",
+    "select date range": "اختر التاريخ",
+    "invalid amount": "المبلغ غير صحيح",
 	"Channels": "القنوات",
 	"Channel": "القناة",
 	"channels": "قنوات",
 	"channel": "قناة",
-
+    "link is copied": "تم نسخ الرابط",
 	"Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url": "اهلا بك :name لقد تلقيت فاتورة جديدة من :business_name باجمالي :total ريال. ادفع الان :url",
     "taxvalue": "قيمة الضريبة",
-
+    "no bills in selected date range": "لا يوجد اي فواتير في التاريخ",
 	"monthly": "شهري",
 	"weekly": "اسبوعي",
 	"daily": "يومي",
@@ -109,7 +111,8 @@
 	"Redirect URL" : "لينك إعادة التوجيه",
 	"User Id": "Id المستخدم",
 	"Date Range": "نطاق الموعد",
-	"Source": "المصدر",
+    "Source": "المصدر",
+    "Bill num": "رقم الفاتورة",
 	"Business logo": "شعار الشركة",
 	"Dark Mode": "الوضع المظلم",
 	"30 Days": "يوم 30",
@@ -520,6 +523,12 @@
   "Email is required if sending email is active": "البريد الالكتروني مطلوب في حال ما إذا كان ارسل بريد الكتروني مفعل",
   "this bill is paid successfully": "تم دفع هذه الفاتورة",
   "this bill is canceled": "هذه الفاتورة ملغية",
-  "this bill is expired": "هذه الفاتورة منتهية"
+  "this bill is expired": "هذه الفاتورة منتهية",
+  "cvv": "رمز التحقق (CVV)",
+  "expiration month": "شهر الانتهاء",
+  "expiration year": "سنة الانتهاء",
+  "name on card": "الاسم على البطاقة"
+
+
 
 }

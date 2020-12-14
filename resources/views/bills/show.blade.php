@@ -221,7 +221,7 @@
       $.notify(
         {
           title: false,
-          message: "تم نسخ الرابط",
+          message: "{{__('link is copied')}}",
           target: "_blank"
         },
         {

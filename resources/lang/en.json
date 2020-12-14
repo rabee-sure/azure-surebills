@@ -75,11 +75,15 @@
 "Due Date" : "Due Date",
 "Expiry Date" : "Expiry Date",
 "Bill items" : "Bill items",
+"Bill num": "Bill number",
 "Product/Service" : "Product/Service",
 "Product/Service Price" : "Product/Service Price",
 "Quantity" : "Quantity",
 "Delete" : "Delete",
 "Add Item" : "Add Item",
+"select date range": "Select date range",
+"invalid amount": "Invalid amount",
+"invalid date range": "Invalid date range",
 "Price" : "Price",
 "Additonal Details" : "Additonal Details",
 "Add Discount" : "Add Discount",
@@ -189,6 +193,7 @@
 "Status" : "Status",
 "The merchant bears the payment fee" : "The merchant bears the payment fee",
 "The customer bears the payment fee" : "The customer bears the payment fee",
+"link is copied": "Link is copied",
 "No incorporation fees" : "No incorporation fees",
 "No monthly fees" : "No monthly fees",
 "2.95% + 1 SAR on each transaction" : "2.95% + 1 SAR on each transaction",
@@ -228,5 +233,11 @@
 "invalid iban number": "Invalid iban number",
 "this bill is paid successfully": "This bill is paid successfully",
 "this bill is canceled": "This bill is canceled",
-"this bill is expired": "This bill is expired"
+"this bill is expired": "This bill is expired",
+"cvv": "CVV",
+"expiration month": "Expiration month",
+"expiration year": "Expiration year",
+"name on card": "Cardholder name",
+"no bills in selected date range": "No bills in selected date range"
+
 }

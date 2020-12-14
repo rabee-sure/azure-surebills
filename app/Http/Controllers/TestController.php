@@ -17,6 +17,8 @@ use Hashids\Hashids;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Uuid;
+use GuzzleHttp\Client;
+use URL;
 
 class TestController extends Controller
 {
@@ -41,6 +43,27 @@ class TestController extends Controller
             'bills_setteld' => $not_settled,
         ]);
     }
+
+    public function createSession()
+    {
+        // return view('master-pay');
+        $client = new Client();
+        $response = $client->post(config('payment.drivers.mastercard_iframe.api_base_url').'/session',[
+            'json' => [
+                // 'session' => ['authenticationLimit' => 25],
+                        'apiOperation' => 'CREATE_CHECKOUT_SESSION',
+                        'interaction' => ['operation' => 'VERIFY'],
+                        'order' => ["amount" => 101.00, "currency" => 'SAR', 'id' => 663],
+                        'authentication' => ['transactionId' => 663],
+
+                    ],
+            'auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')],
+        ]);
+
+        $body = json_decode($response->getBody()->getContents(), false);
+        return view('master-pay', array('sessionId' => $body->session->id));
+    }
+
 
 
 

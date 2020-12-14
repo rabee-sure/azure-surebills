@@ -6,7 +6,8 @@
             <Row :gutter="10">
                 <Col span="22">
                     <FormItem :label="__('Date Range')" prop="date_range">
-                        <DatePicker v-model="form.date_range" size="large" type="datetimerange" placement="bottom-end" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
+                        <DatePicker v-model="form.date_range" size="large" type="daterange" placement="bottom-end" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
+                        <p :hidden="validDateRange" style="color:red;">{{__("invalid date range")}}</p>
                     </FormItem>
                 </Col>
                 <Col span="1">
@@ -47,7 +48,7 @@
                         <p>{{ __('Click or drag files here to upload') }}</p>
                     </div>
                 </Upload>
-                <p class="file-error" style="color:red; direction: rtl;">{{fileError}} {{this.language}}</p>
+                <p class="file-error" v-bind:style="{ color: 'red', textAlign: 'center', direction: this.language == 'en'? 'ltr': 'rtl' }">{{fileError}}</p>
             </FormItem>
             <Divider orientation="left">{{__('Bank Info')}}</Divider>
             <FormItem :label="__('Bank') + ' :'" v-if="user.bank">
@@ -83,12 +84,13 @@
         <download-excel v-if="new_transactions.length" :data="new_transactions" :name="'transactions-'+ Date.now()">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
-        <Table stripe height="400" :columns="transactionsTable" :data="transactions">
+        <Table stripe height="400" v-if="new_transactions.length" :columns="transactionsTable" :data="transactions">
             <template slot-scope="{ row }" slot="type">
                 <Button type="success" v-if="row.type == 'credit'" size="small">{{ __(row.type) }}</Button>
                 <Button type="error" v-if="row.type == 'debit'" size="small">{{ __(row.type) }}</Button>
             </template>
         </Table>
+        <p v-if="new_transactions.length == 0" style="text-align:center">{{__('No Data')}}</p>
     </Modal>
 
     <Modal
@@ -100,8 +102,9 @@
         <download-excel v-if="new_bills.length" :data="new_bills" :name="'bills-'+ Date.now()">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
-        <Table stripe height="400" :columns="billsTable" :data="bills">
+        <Table stripe height="400" v-if="new_bills.length" :columns="billsTable" :data="bills">
         </Table>
+        <p v-if="new_bills.length == 0"  style="text-align:center">{{__('No Data')}}</p>
     </Modal>
 </div>
 
@@ -116,8 +119,10 @@ export default {
     components: { expandRow },
     data() {
         return {
+            validDateRange: true,
             billsModal: false,
             disableBtn: false,
+            language: 'ar',
             uploadFileActionUrl: '/api/upload?lang=',
             bills: [],
             new_bills: [],
@@ -244,12 +249,8 @@ export default {
                 }
             ],
             ruleInline: {
-                date_range: [
-                    { type: 'array', required: true, message: 'Choose date Range', trigger: 'blur' },
-                ],
-                amount: [
-                    { type: 'number', min:1, required: true, message: 'Incorrect amount', trigger: 'blur' }
-                ]
+                date_range: [{ type: 'array', required: true, message: this.__('select date range'), trigger: 'blur'}],
+                amount: [{ type: 'number', min:1, required: true, message: this.__('invalid amount'), trigger: 'blur'}]
             }
         };
     },
@@ -262,6 +263,7 @@ export default {
             .then(response => {
                 this.user = response.data.data;
                 this.uploadFileActionUrl += response.data.data.language;
+                this.language = response.data.data.language;
             });
             Nova.request().get('/users/'+id+'/transfers', {
                     params: {
@@ -272,13 +274,17 @@ export default {
                 this.transfers = response.data.data;
             });
         },
+        isValidDate(d){
+            return !isNaN((new Date(d)).getTime());
+        },
         handleChangeDate (date) {
             this.bills = [];
             this.new_bills = [];
             this.transactions = [];
             this.new_transactions = [];
             this.form.amount = 0;
-            if(date[0] != ''){
+            if(date[0] != '' && this.isValidDate(date[0]) && this.isValidDate(date[1])){
+                this.validDateRange = true;
                 Nova.request().get('/users/'+this.$route.params.id+'/transactions', {
                     params: {
                         from: date[0],
@@ -303,7 +309,7 @@ export default {
                             duration:3,
                             render: h => {
                                 return h('span', [
-                                    'لا يوجد اي فواتير في التاريخ '
+                                    this.language == 'en'? 'No bills in selected date range': 'لا يوجد اي فواتير في التاريخ'
                                 ])
                             }
                         });
@@ -332,6 +338,10 @@ export default {
                     });
                 });
             }
+            else
+            {
+                this.validDateRange = false;
+            }
         },
         handleProgress()
         {
@@ -358,6 +368,7 @@ export default {
         handleSubmit(name) {
             this.loading = true;
             this.disableBtn = true;
+
             this.$refs[name].validate((valid) => {
                 if (valid) {
                     Nova.request().post('/transfers', {
@@ -386,10 +397,10 @@ export default {
                     .catch(function (error) {
                         this.disableBtn = false;
                     });
-                    this.$Message.success('Success!');
+                    this.$Message.success(this.language == 'en'? 'Success': 'تم');
                 } else {
                     this.disableBtn = false;
-                    this.$Message.error('Fail!');
+                    this.$Message.error(this.language == 'en'? 'Fail': 'فشل');
                 }
             })
         }
