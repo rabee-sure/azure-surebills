@@ -128,6 +128,8 @@ class Bill extends Resource
         ];
         return [
 
+            Text::make(__('Bill num'), 'number'),
+
             Text::make(__('Name'), function () {
                 return __('Bill').' '.  $this->number  .'-'. $this->customer_name;
             }),

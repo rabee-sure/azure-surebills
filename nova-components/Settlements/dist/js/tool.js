@@ -60332,7 +60332,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60457,6 +60457,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -60466,8 +60470,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { expandRow: __WEBPACK_IMPORTED_MODULE_0__table_expand_vue___default.a },
     data: function data() {
         return {
+            validDateRange: true,
             billsModal: false,
             disableBtn: false,
+            language: 'ar',
             uploadFileActionUrl: '/api/upload?lang=',
             bills: [],
             new_bills: [],
@@ -60573,8 +60579,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 key: 'created_at'
             }],
             ruleInline: {
-                date_range: [{ type: 'array', required: true, message: 'Choose date Range', trigger: 'blur' }],
-                amount: [{ type: 'number', min: 1, required: true, message: 'Incorrect amount', trigger: 'blur' }]
+                date_range: [{ type: 'array', required: true, message: this.__('select date range'), trigger: 'blur' }],
+                amount: [{ type: 'number', min: 1, required: true, message: this.__('invalid amount'), trigger: 'blur' }]
             }
         };
     },
@@ -60589,6 +60595,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             Nova.request().get('/users/' + id).then(function (response) {
                 _this.user = response.data.data;
                 _this.uploadFileActionUrl += response.data.data.language;
+                _this.language = response.data.data.language;
             });
             Nova.request().get('/users/' + id + '/transfers', {
                 params: {
@@ -60598,6 +60605,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.transfers = response.data.data;
             });
         },
+        isValidDate: function isValidDate(d) {
+            return !isNaN(new Date(d).getTime());
+        },
         handleChangeDate: function handleChangeDate(date) {
             var _this2 = this;
 
@@ -60606,7 +60616,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.transactions = [];
             this.new_transactions = [];
             this.form.amount = 0;
-            if (date[0] != '') {
+            if (date[0] != '' && this.isValidDate(date[0]) && this.isValidDate(date[1])) {
+                this.validDateRange = true;
                 Nova.request().get('/users/' + this.$route.params.id + '/transactions', {
                     params: {
                         from: date[0],
@@ -60629,7 +60640,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this2.$Message.warning({
                             duration: 3,
                             render: function render(h) {
-                                return h('span', ['لا يوجد اي فواتير في التاريخ ']);
+                                return h('span', [_this2.language == 'en' ? 'No bills in selected date range' : 'لا يوجد اي فواتير في التاريخ']);
                             }
                         });
                     }
@@ -60655,6 +60666,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         };
                     });
                 });
+            } else {
+                this.validDateRange = false;
             }
         },
         handleProgress: function handleProgress() {
@@ -60679,6 +60692,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.loading = true;
             this.disableBtn = true;
+
             this.$refs[name].validate(function (valid) {
                 if (valid) {
                     Nova.request().post('/transfers', {
@@ -60707,10 +60721,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }).catch(function (error) {
                         this.disableBtn = false;
                     });
-                    _this3.$Message.success('Success!');
+                    _this3.$Message.success(_this3.language == 'en' ? 'Success' : 'تم');
                 } else {
                     _this3.disableBtn = false;
-                    _this3.$Message.error('Fail!');
+                    _this3.$Message.error(_this3.language == 'en' ? 'Fail' : 'فشل');
                 }
             });
         }
@@ -61042,7 +61056,7 @@ var render = function() {
                             staticStyle: { width: "100%" },
                             attrs: {
                               size: "large",
-                              type: "datetimerange",
+                              type: "daterange",
                               placement: "bottom-end",
                               placeholder: "Select date"
                             },
@@ -61054,7 +61068,16 @@ var render = function() {
                               },
                               expression: "form.date_range"
                             }
-                          })
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            {
+                              staticStyle: { color: "red" },
+                              attrs: { hidden: _vm.validDateRange }
+                            },
+                            [_vm._v(_vm._s(_vm.__("invalid date range")))]
+                          )
                         ],
                         1
                       )
@@ -61222,13 +61245,13 @@ var render = function() {
                     "p",
                     {
                       staticClass: "file-error",
-                      staticStyle: { color: "red", direction: "rtl" }
+                      style: {
+                        color: "red",
+                        textAlign: "center",
+                        direction: this.language == "en" ? "ltr" : "rtl"
+                      }
                     },
-                    [
-                      _vm._v(
-                        _vm._s(_vm.fileError) + " " + _vm._s(this.language)
-                      )
-                    ]
+                    [_vm._v(_vm._s(_vm.fileError))]
                   )
                 ],
                 1
@@ -61353,39 +61376,52 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _c("Table", {
-            attrs: {
-              stripe: "",
-              height: "400",
-              columns: _vm.transactionsTable,
-              data: _vm.transactions
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "type",
-                fn: function(ref) {
-                  var row = ref.row
-                  return [
-                    row.type == "credit"
-                      ? _c(
-                          "Button",
-                          { attrs: { type: "success", size: "small" } },
-                          [_vm._v(_vm._s(_vm.__(row.type)))]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    row.type == "debit"
-                      ? _c(
-                          "Button",
-                          { attrs: { type: "error", size: "small" } },
-                          [_vm._v(_vm._s(_vm.__(row.type)))]
-                        )
-                      : _vm._e()
-                  ]
-                }
-              }
-            ])
-          })
+          _vm.new_transactions.length
+            ? _c("Table", {
+                attrs: {
+                  stripe: "",
+                  height: "400",
+                  columns: _vm.transactionsTable,
+                  data: _vm.transactions
+                },
+                scopedSlots: _vm._u(
+                  [
+                    {
+                      key: "type",
+                      fn: function(ref) {
+                        var row = ref.row
+                        return [
+                          row.type == "credit"
+                            ? _c(
+                                "Button",
+                                { attrs: { type: "success", size: "small" } },
+                                [_vm._v(_vm._s(_vm.__(row.type)))]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          row.type == "debit"
+                            ? _c(
+                                "Button",
+                                { attrs: { type: "error", size: "small" } },
+                                [_vm._v(_vm._s(_vm.__(row.type)))]
+                              )
+                            : _vm._e()
+                        ]
+                      }
+                    }
+                  ],
+                  null,
+                  false,
+                  2436715341
+                )
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.new_transactions.length == 0
+            ? _c("p", { staticStyle: { "text-align": "center" } }, [
+                _vm._v(_vm._s(_vm.__("No Data")))
+              ])
+            : _vm._e()
         ],
         1
       ),
@@ -61456,7 +61492,13 @@ var render = function() {
                 }
               }
             ])
-          })
+          }),
+          _vm._v(" "),
+          _vm.new_bills.length == 0
+            ? _c("p", { staticStyle: { "text-align": "center" } }, [
+                _vm._v(_vm._s(_vm.__("No Data")))
+              ])
+            : _vm._e()
         ],
         1
       )
