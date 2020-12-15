@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class BillResource extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
@@ -53,6 +54,7 @@ class BillResource extends JsonResource
             'hyperpay_id' => $this->hyperpay_id,
             'total' => $this->total,
             'title' => $this->bill_title,
+            "related_channel" => ($request->channel_user_id) ? ($request->channel_user_id != $this->user_id) : false,
         ];
     }
 }
