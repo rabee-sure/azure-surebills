@@ -328,6 +328,7 @@ export default {
                             'net': item.net,
                             'paid_at': item.paid_at,
                             'hyperpay_id': item.hyperpay_id,
+                            'merchant_name': item.customer_name,
                         }
                     });
                 });

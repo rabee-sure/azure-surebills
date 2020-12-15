@@ -46283,8 +46283,8 @@ exports.staticRenderFns = staticRenderFns;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.12
- * (c) 2014-2020 Evan You
+ * Vue.js v2.6.11
+ * (c) 2014-2019 Evan You
  * Released under the MIT License.
  */
 
@@ -51723,7 +51723,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.12';
+Vue.version = '2.6.11';
 
 /*  */
 
@@ -53929,7 +53929,7 @@ function updateDOMProps (oldVnode, vnode) {
       // skip the update if old and new VDOM state is the same.
       // `value` is handled separately because the DOM value may be temporarily
       // out of sync with VDOM state due to focus, composition and modifiers.
-      // This  #4521 by skipping the unnecessary `checked` update.
+      // This  #4521 by skipping the unnecesarry `checked` update.
       cur !== oldProps[key]
     ) {
       // some property updates can throw
@@ -56174,7 +56174,7 @@ function parse (
       }
     },
     comment: function comment (text, start, end) {
-      // adding anything as a sibling to the root node is forbidden
+      // adding anyting as a sibling to the root node is forbidden
       // comments should still be allowed, but ignored
       if (currentParent) {
         var child = {
@@ -59294,7 +59294,7 @@ var download = createCommonjsModule(function (module, exports) {
 			blob,
 			reader;
 			myBlob= myBlob.call ? myBlob.bind(self) : Blob ;
-
+	  
 		if(String(this)==="true"){ //reverse arguments, allowing download.bind(true, "text/xml", "export.xml") to act as a callback
 			payload=[payload, mimeType];
 			mimeType=payload[0];
@@ -59309,7 +59309,7 @@ var download = createCommonjsModule(function (module, exports) {
         		var ajax=new XMLHttpRequest();
         		ajax.open( "GET", url, true);
         		ajax.responseType = 'blob';
-        		ajax.onload= function(e){
+        		ajax.onload= function(e){ 
 				  download(e.target.response, fileName, defaultMime);
 				};
         		setTimeout(function(){ ajax.send();}, 0); // allows setting custom ajax headers using the return:
@@ -59320,22 +59320,22 @@ var download = createCommonjsModule(function (module, exports) {
 
 		//go ahead and download dataURLs right away
 		if(/^data:([\w+-]+\/[\w+.-]+)?[,;]/.test(payload)){
-
+		
 			if(payload.length > (1024*1024*1.999) && myBlob !== toString ){
 				payload=dataUrlToBlob(payload);
 				mimeType=payload.type || defaultMime;
-			}else {
+			}else {			
 				return navigator.msSaveBlob ?  // IE10 can't do a[download], only Blobs:
 					navigator.msSaveBlob(dataUrlToBlob(payload), fileName) :
 					saver(payload) ; // everyone else can save dataURLs un-processed
 			}
-
+			
 		}else {//not data url, is it a string with special needs?
-			if(/([\x80-\xff])/.test(payload)){
+			if(/([\x80-\xff])/.test(payload)){			  
 				var i=0, tempUiArr= new Uint8Array(payload.length), mx=tempUiArr.length;
 				for(i;i<mx;++i) tempUiArr[i]= payload.charCodeAt(i);
 			 	payload=new myBlob([tempUiArr], {type: mimeType});
-			}
+			}		  
 		}
 		blob = payload instanceof myBlob ?
 			payload :
@@ -59890,11 +59890,11 @@ __vue_render__._withStripped = true;
   /* functional template */
   const __vue_is_functional_template__ = false;
   /* style inject */
-
+  
   /* style inject SSR */
+  
 
-
-
+  
   var JsonExcel = normalizeComponent_1(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
@@ -59972,7 +59972,7 @@ var content = __webpack_require__(25);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("61326252", content, false, {});
+var update = __webpack_require__(2)("283f0064", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -59996,7 +59996,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Scoped Styles */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60308,7 +60308,7 @@ var content = __webpack_require__(31);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("4bb7ad7e", content, false, {});
+var update = __webpack_require__(2)("c75bad58", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -60332,7 +60332,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Scoped Styles */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60648,7 +60648,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             'payment_fees_vat': item.payment_fees_vat,
                             'net': item.net,
                             'paid_at': item.paid_at,
-                            'hyperpay_id': item.hyperpay_id
+                            'hyperpay_id': item.hyperpay_id,
+                            'merchant_name': item.customer_name
                         };
                     });
                 });
@@ -60776,7 +60777,7 @@ var content = __webpack_require__(35);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("4fd179de", content, false, {});
+var update = __webpack_require__(2)("2495dfb1", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
