@@ -51,9 +51,9 @@ class CompareExcelSheet extends Command
 
             $uniqueids = $data->pluck('uniqueid')
                 ->map(fn($item, $key) => str_replace(["'", '"'], '', $item));
-            $payment_log_ids = PaymentLog::whereIn('results->bill->id', $uniqueids->toArray())
+            $payment_log_ids = PaymentLog::whereIn('results->response->id', $uniqueids->toArray())
                 ->get()
-                ->pluck('results.bill.id');
+                ->pluck('results.response.id');
 
             $diff = $uniqueids->diff($payment_log_ids);
 
