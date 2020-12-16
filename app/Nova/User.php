@@ -194,19 +194,19 @@ class User extends Resource
     {
         return [
             Number::make(__('Mada fixed fees'), 'mada_fixed')
-                ->rules('required')
+                ->rules('required', 'numeric', 'max:1000')
                 ->step(0.1)
                 ->hideFromIndex(),
             Number::make(__('Mada percentage fees'), 'mada_percentage')
-                ->rules('required')
+                ->rules('required', 'numeric', 'max:100')
                 ->step(0.1)
                 ->hideFromIndex(),
             Number::make(__('Credit Card fixed fees'), 'credit_cards_fixed')
-                ->rules('required')
+                ->rules('required', 'numeric', 'max:1000')
                 ->step(0.1)
                 ->hideFromIndex(),
             Number::make(__('Credit Card percentage fees'), 'credit_cards_percentage')
-                ->rules('required')
+                ->rules('required', 'numeric', 'max:100')
                 ->step(0.1)
                 ->hideFromIndex(),
         ];
