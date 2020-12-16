@@ -24,13 +24,36 @@ class ChannelApplicationRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'email' => ['required','email', 'exists:users,email'],
+        $rules =  [
             'mada_fixed' => ['required', 'numeric', 'max:1000', 'min:'.$this->channel->mada_fixed],
             'mada_percentage' => ['required', 'numeric', 'max:100', 'min:'.$this->channel->mada_percentage],
             'credit_cards_fixed' => ['required', 'numeric', 'max:1000', 'min:'.$this->channel->credit_cards_fixed],
-            'credit_cards_percentage' => ['required', 'numeric', 'max:100', 'min:'.$this->channel->credit_cards_percentage],
+            'credit_cards_percentage' => ['required', 'numeric', 'max:100', 'min:'.$this->channel->credit_cards_percentage],            
+
+            'redirect' => ['required', 'url'],
+            'webhook_url' => ['required', 'url'],
         ];
+
+        switch($this->method())
+        {
+            case 'GET':
+            case 'DELETE':
+            {
+                return [];
+            }
+            case 'POST':
+            {
+                return array_merge($rules, [
+                    'email' => ['required','email', 'exists:users,email'],
+                ]);
+            }
+            case 'PUT':
+            case 'PATCH':
+            {
+                return $rules;
+            }
+            default:break;
+        }
     }
 
     /**

@@ -62,11 +62,11 @@ class ChannelApplicationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ChannelApplicationRequest  $request
      * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Channel $channel, Application $application)
+    public function update(ChannelApplicationRequest $request, Channel $channel, Application $application)
     {
         $application->name = $request->name;
         $application->redirect = $request->redirect;
