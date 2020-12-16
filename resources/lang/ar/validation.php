@@ -153,6 +153,7 @@ return [
     */
 
     'attributes' => [
+        "channel"           => "القناة",
         "webhook_url"           => "لينك webhook",
         "redirect"              => "لينك إعادة التوجيه",
         'user'                  => 'المستخدم',
