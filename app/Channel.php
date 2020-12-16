@@ -34,6 +34,14 @@ class Channel extends Model
     }
 
     /**
+     * Get all of the bills for the channel.
+     */
+    public function bills()
+    {
+        return $this->hasManyThrough(Bill::class, Application::class);
+    }
+
+    /**
      * Get user.
      *
      * @return Collection
