@@ -86,8 +86,10 @@ class Application extends Resource
             ->rules('required'),            
             BelongsTo::make(__('Channel'), 'channel', Channel::class),
 
-            Text::make(__('Redirect Url'), 'redirect'),
-            Text::make(__('Webhook URL'), 'webhook_url'),
+            Text::make(__('Redirect Url'), 'redirect')
+                ->rules('required', 'url'),
+            Text::make(__('Webhook URL'), 'webhook_url')
+                ->rules('required', 'url'),
 
 
         ];
