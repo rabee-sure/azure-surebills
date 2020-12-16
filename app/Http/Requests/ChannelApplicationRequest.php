@@ -26,10 +26,10 @@ class ChannelApplicationRequest extends FormRequest
     {
         return [
             'email' => ['required','email', 'exists:users,email'],
-            'mada_fixed' => ['required', 'numeric', 'max:1000'],
-            'mada_percentage' => ['required', 'numeric', 'max:100'],
-            'credit_cards_fixed' => ['required', 'numeric', 'max:1000'],
-            'credit_cards_percentage' => ['required', 'numeric', 'max:100'],
+            'mada_fixed' => ['required', 'numeric', 'max:1000', 'min:'.$this->channel->mada_fixed],
+            'mada_percentage' => ['required', 'numeric', 'max:100', 'min:'.$this->channel->mada_percentage],
+            'credit_cards_fixed' => ['required', 'numeric', 'max:1000', 'min:'.$this->channel->credit_cards_fixed],
+            'credit_cards_percentage' => ['required', 'numeric', 'max:100', 'min:'.$this->channel->credit_cards_percentage],
         ];
     }
 
