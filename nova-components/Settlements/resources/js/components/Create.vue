@@ -294,6 +294,7 @@ export default {
                             'description': item.description,
                             'type': item.type,
                             'amount': item.amount,
+                            'reference_id': item.reference_id,
                             'hyperpay_id': item.hyperpay_id,
                         }
                     });
@@ -327,6 +328,7 @@ export default {
                             'payment_fees_vat': item.payment_fees_vat,
                             'net': item.net,
                             'paid_at': item.paid_at,
+                            'reference_id': item.reference_id,
                             'hyperpay_id': item.hyperpay_id,
                         }
                     });
