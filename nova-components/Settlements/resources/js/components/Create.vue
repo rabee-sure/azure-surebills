@@ -330,6 +330,7 @@ export default {
                             'paid_at': item.paid_at,
                             'reference_id': item.reference_id,
                             'hyperpay_id': item.hyperpay_id,
+                            'merchant_name': item.business_name,
                         }
                     });
                 });
