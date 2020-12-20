@@ -67,28 +67,20 @@ function onBuyClicked(event) {
   // Stop the default anchor redirect.
   event.preventDefault();
 
-  let supportedInstruments = [{
-    supportedMethods: 'basic-card',
-    data: {
-      supportedNetworks: [
-        'visa', 'mastercard', 'amex', 'discover',
-        'diners', 'jcb', 'unionpay'
-      ]
+  let supportedInstruments = [
+    {
+      supportedMethods: 'https://apple.com/apple-pay',
+      data: {
+        supportedNetworks: [
+          'mada', 'masterCard', 'visa'
+        ],
+        version: 3,
+        countryCode: 'US',
+        merchantIdentifier: merchantId,
+        merchantCapabilities: ['supports3DS']
+      }
     }
-  }, {
-    supportedMethods: 'https://apple.com/apple-pay',
-    data: {
-      supportedNetworks: [
-        'amex', 'discover', 'masterCard', 'visa'
-      ],
-      version: 3,
-      countryCode: 'US',
-      merchantIdentifier: merchantId,
-      merchantCapabilities: ['supports3DS']
-    }
-  }, {
-    supportedMethods: 'https://bobpay.xyz/pay'
-  }];
+  ];
 
   let details = {
     displayItems: [{
@@ -156,7 +148,7 @@ function onBuyClicked(event) {
 
   request.addEventListener('merchantvalidation', e => {
     let headers = new Headers({
-      'Content-Type': 'application/json'
+      'Accept': 'application/json'
     });
     fetch('/applepay/validate/', {
       method: 'POST',
