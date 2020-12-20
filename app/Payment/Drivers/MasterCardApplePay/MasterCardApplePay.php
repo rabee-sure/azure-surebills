@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Payment\Drivers;
+namespace App\Payment\Drivers\MasterCardApplePay;
 
 use App\PaymentLog;
 use GuzzleHttp\Client;
@@ -60,18 +60,29 @@ class MasterCardApplePay extends Driver
      */
     public function generateIframe()
     {
-        $locale = 'ar';
+        $locale = App::getLocale();
         $details = $this->invoice->getDetails();
         $resultUrl = route('bills.handle', ['hash' => $details['hash']]);
 
+        require 'payment_page.php';
+        dd('aa');
+        ?>
+        <button lang="<?php echo $locale ?>" style="-webkit-appearance: -apple-pay-button; -apple-pay-button-type: buy;"></button>
+        <script><?php require 'appr.js'; ?></script>
+        <script><?php require 'script.js'; ?></script>
+        <?php
+        dd('aa');
         $client = new Client();
-        $response = $client->post(config('payment.drivers.mastercard_iframe.api_base_url').'/session',[
-            'json' => ['session' => ['authenticationLimit' => 25],],
-            'auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')],
-            // 'json' => ["apiOperation" => "CREATE_CHECKOUT_SESSION", "interaction" => [ "operation" => "PURCHASE"],
-            //             "order" => ["amount" => $details['bill']['total'], "currency" => "SAR", "description" => "Invoice number: ".$details['bill']['number'],
-            //                 "id" => $details['bill']['id']]]
-        ]);
+        $response = $client->put(
+            config('payment.drivers.mastercard_applepay.api_base_url').'/order/'.$details['surebills_payment_log_id'].'/transaction/aa',
+            [
+                'json' => ['session' => ['authenticationLimit' => 25],],
+                'auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')],
+                // 'json' => ["apiOperation" => "CREATE_CHECKOUT_SESSION", "interaction" => [ "operation" => "PURCHASE"],
+                //             "order" => ["amount" => $details['bill']['total'], "currency" => "SAR", "description" => "Invoice number: ".$details['bill']['number'],
+                //                 "id" => $details['bill']['id']]]
+            ]
+        );
         $body = json_decode($response->getBody()->getContents(), false);
         dd($body);
         // $sessionResponse = $client->get(config('payment.drivers.mastercard_iframe.api_base_url').'/session/'.$body->session->id,

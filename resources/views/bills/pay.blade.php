@@ -144,25 +144,25 @@
                 {{-- mastercard --}}
 
                 {{-- Apple pay mastercard --}}
-                {{-- <div class="item">
+                <div id="applepay_show" class="item">
                     <input type="radio" id="mastercard_applepay" name="payment_method" value="mastercard_applepay">
                     <label for="mastercard_applepay">
-                    <p>Apple Pay</p>
-                    <div class="icon_mada"></div>
+                    <p>{{ __('Apple Pay') }}</p>
+                    <div class="icon_apple"></div>
                     <div class="checkmark"></div>
                     </label>
-                </div><!-- item --> --}}
+                </div><!-- item -->
                 {{-- mastercard --}}
 
 
-                <div id="applepay_show" class="item">
+                {{-- <div id="applepay_show" class="item">
                     <input type="radio" id="apple_pay" name="payment_method" value="hyperpay_applepay">
                     <label for="apple_pay">
                     <p>{{ __('Apple Pay') }}</p>
                     <div class="icon_apple"></div>
                     <div class="checkmark"></div>
                     </label>
-                </div><!-- item -->
+                </div> --}}<!-- item -->
                 <div class="item disable">
                     <input type="radio" id="stc_pay" name="payment_method" value="stc_pay" >
                     <label for="pay_3">

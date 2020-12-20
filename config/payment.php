@@ -79,6 +79,6 @@ return [
         'hyperpay_iframe' => \App\Payment\Drivers\HyperPayFrame::class,
         'hyperpay_applepay' => \App\Payment\Drivers\HyperPayApplePay::class,
         'mastercard_iframe' => \App\Payment\Drivers\MasterCardFrame::class,
-        'mastercard_applepay' => \App\Payment\Drivers\MasterCardApplePay::class,
+        'mastercard_applepay' => \App\Payment\Drivers\MasterCardApplePay\MasterCardApplePay::class,
     ]
 ];
