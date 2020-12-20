@@ -29,6 +29,8 @@
 /storage/tmp
 /vendor
 /app/Http/Controllers/Api/TestController.php
+/app/Payment/Drivers/MasterCardApplePay/ApplePay.crt.pem
+/app/Payment/Drivers/MasterCardApplePay/ApplePay.key.pem
 .env
 .env.backup
 .phpunit.result.cache

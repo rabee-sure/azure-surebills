@@ -148,14 +148,14 @@ function onBuyClicked(event) {
 
   request.addEventListener('merchantvalidation', e => {
     let headers = new Headers({
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     });
     fetch('/applepay/validate/', {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({validationURL: e.validationURL})
     }).then(res => {
-      console.log(e.validationURL);
       if (res.status === 200) {
         return res.json();
       } else {
