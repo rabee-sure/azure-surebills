@@ -31,6 +31,7 @@ class ApplePayController extends Controller
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);    //for production, set value to 2
             curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
             curl_setopt($ch, CURLOPT_SSLCERT, 'https://sure-bills.sure-lab.com/certs/apple-pay-cert.pem');
+            curl_setopt($ch, CURLOPT_SSLCERTPASSWD, '');
             curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE, false );        
             $content = curl_exec($ch);
             if (FALSE === $content) {
