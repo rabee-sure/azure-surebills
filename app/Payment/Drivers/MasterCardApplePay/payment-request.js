@@ -14,51 +14,6 @@
 
 const merchantId = 'merchant.bills.surepay.mastercard.applepay.sandbox';
 
-let priceCalc = function(details) {
-  this.details = details;
-};
-
-priceCalc.prototype.selectShippingOption = function(id) {
-  let newShippingOption = null;
-  let oldShippingOption = null;
-
-  // Pick new shipping option and clear selection
-  for (let index in this.details.shippingOptions) {
-    let option = this.details.shippingOptions[index];
-    if (option.id === id) {
-      if (!option.selected) {
-        this.details.shippingOptions[index].selected = true;
-        newShippingOption = option;
-      }
-    } else {
-      if (option.selected) {
-        oldShippingOption = option;
-      }
-      this.details.shippingOptions[index].selected = false;
-    }
-  }
-
-  // If `newShippingOption` is not assigned, no changes.
-  if (!newShippingOption) {
-    return this.details;
-  }
-
-  let price = 0;
-  for (let index = 0; index < this.details.displayItems.length; index++) {
-    let item = this.details.displayItems[index];
-    if (oldShippingOption && item.label === oldShippingOption.label) {
-      this.details.displayItems.splice(index--, 1);
-    } else {
-      price += parseFloat(item.amount.value);
-    }
-  }
-  this.details.displayItems.push(newShippingOption);
-  price += parseFloat(newShippingOption.amount.value);
-
-  this.details.total.amount.value = price.toString();
-  return this.details;
-};
-
 function onBuyClicked(event) {
   if (!PaymentRequest) {
     return;
@@ -75,7 +30,7 @@ function onBuyClicked(event) {
           'mada', 'masterCard', 'visa'
         ],
         version: 3,
-        countryCode: 'US',
+        countryCode: 'SA',
         merchantIdentifier: merchantId,
         merchantCapabilities: ['supports3DS']
       }
@@ -85,66 +40,24 @@ function onBuyClicked(event) {
   let details = {
     displayItems: [{
       label: 'Original donation amount',
-      amount: { currency: 'USD', value: '0.01' }
-    }],
-    shippingOptions: [{
-      id: 'standard',
-      label: 'Standard shipping',
-      amount: { currency: 'USD', value: '0.01' }
-    }, {
-      id: 'express',
-      label: 'Express shipping',
-      amount: { currency: 'USD', value: '0.99' }
+      amount: { currency: 'SAR', value: '2.00' }
     }],
     total: {
       label: 'Total due',
-      amount: { currency: 'USD', value : '0.01' }
+      amount: { currency: 'SAR', value : '2.00' }
     }
   };
 
   let options = {
-    requestShipping: true,
-    requestPayerEmail: true,
-    requestPayerPhone: true,
-    requestPayerName: true,
-    shippingType: 'shipping'
+    requestShipping: false,
+    requestPayerEmail: false,
+    requestPayerPhone: false,
+    requestPayerName: false,
+    shippingType: 'pickup'
   };
 
   // Initialization
   let request = new PaymentRequest(supportedInstruments, details, options);
-
-  // When user selects a shipping address
-  request.addEventListener('shippingaddresschange', e => {
-    e.updateWith(new Promise(resolve => {
-      let result;
-      let addr = request.shippingAddress;
-      let price = new priceCalc(details);
-      // Shipping to US is supported
-      if (addr.country.toUpperCase() === 'US') {
-        result = price.selectShippingOption('standard');
-      // Shipping to JP is supported
-      } else if (addr.country.toUpperCase() === 'JP') {
-        result = price.selectShippingOption('express');
-      // Shipping to elsewhere is unsupported
-      } else {
-        // Empty array indicates rejection of the address
-        details.shippingOptions = [];
-        resolve(details);
-        return;
-      }
-      resolve(result);
-    }));
-  });
-
-  // When user selects a shipping option
-  request.addEventListener('shippingoptionchange', e => {
-    e.updateWith(new Promise(resolve => {
-      let calc = new priceCalc(details);
-      let result = calc.selectShippingOption(request.shippingOption);
-      // There should be only one option. Do nothing.
-      resolve(result);
-    }));
-  });
 
   request.addEventListener('merchantvalidation', e => {
     let headers = new Headers({
@@ -157,11 +70,14 @@ function onBuyClicked(event) {
       body: JSON.stringify({validationURL: e.validationURL})
     }).then(res => {
       if (res.status === 200) {
+        console.log(res);
+        console.log(res.json());
         return res.json();
       } else {
         throw 'Merchant validation error.';
       }
     }).then((merchantSession) => {
+      console.log(merchantSession);
       e.complete(merchantSession);
     });
   });
