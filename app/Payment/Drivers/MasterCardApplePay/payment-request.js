@@ -70,9 +70,9 @@ function onBuyClicked(event) {
       body: JSON.stringify({validationURL: e.validationURL})
     }).then(res => {
       if (res.status === 200) {
-        console.log(res);
-        console.log(res.json());
-        return res.json();
+        var resJson = res.json();
+        console.log(resJson);
+        return resJson;
       } else {
         throw 'Merchant validation error.';
       }
