@@ -36,6 +36,7 @@ if (window.ApplePaySession) {
    var merchantIdentifier = 'merchant.bills.surepay.mastercard.applepay.sandbox';
    var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
    promise.then(function (canMakePayments) {
+        logit(canMakePayments);
       if (canMakePayments) {
          document.getElementById("applePay").style.display = "block";
          logit('hi, I can do ApplePay');
