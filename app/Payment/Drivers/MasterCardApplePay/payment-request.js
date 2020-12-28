@@ -64,7 +64,7 @@ function onBuyClicked(event) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     });
-    fetch('/api/applepay/validate/', {
+    fetch('/dev/public/api/applepay/validate/', {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({validationURL: e.validationURL})
