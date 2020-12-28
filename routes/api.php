@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('applepay/validate', 'ApplePayController@validateMerchant');
+Route::post('applepay/validate', 'ApplePayController@validateMerchant');
 // Route::get('test', 'TestController@test');
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
