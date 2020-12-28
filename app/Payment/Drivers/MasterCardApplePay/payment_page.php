@@ -87,7 +87,7 @@ document.getElementById("applePay").onclick = function(evt) {
                 resolve(data);
             };
             xhr.onerror = reject;
-            xhr.open('GET', '/api/applepay/validate/' + valURL);
+            xhr.open('GET', '/dev/public/api/applepay/validate/' + encodeURI(valURL));
             xhr.send();
         });
     }
