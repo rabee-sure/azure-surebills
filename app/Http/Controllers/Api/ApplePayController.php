@@ -8,11 +8,11 @@ use Illuminate\Support\Str;
 
 class ApplePayController extends Controller
 {
-    public function validateMerchant(Request $request, $url)
+    public function validateMerchant(Request $request)
     {
         $ch = curl_init();
         $data = '{"merchantIdentifier":"merchant.bills.surepay.mastercard.applepay.sandbox", "domainName":"bills.surepay.sa", "displayName":"SureBills"}';
-        curl_setopt($ch, CURLOPT_URL, urldecode($url));
+        curl_setopt($ch, CURLOPT_URL, $request->validationURL);
         curl_setopt($ch, CURLOPT_SSLCERT, base_path('app/Payment/Drivers/MasterCardApplePay/ApplePay.crt.pem'));
         curl_setopt($ch, CURLOPT_SSLKEY, base_path('app/Payment/Drivers/MasterCardApplePay/ApplePay.key.pem'));
         curl_setopt($ch, CURLOPT_SSLKEYPASSWD, '7t2R8sYhc3Tz');
