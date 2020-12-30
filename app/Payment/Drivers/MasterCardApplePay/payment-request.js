@@ -62,7 +62,7 @@ function onBuyClicked(event) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     });
-    fetch('/public/dev/api/applepay/validate/', {
+    fetch('/dev/public/api/applepay/validate/', {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({validationURL: e.validationURL})
@@ -88,7 +88,7 @@ function onBuyClicked(event) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     });
-    fetch('/public/dev/api/applepay/check-payment/', {
+    fetch('/dev/public/api/applepay/check-payment/', {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
