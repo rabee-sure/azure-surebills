@@ -151,6 +151,9 @@
                     <div class="icon_apple"></div>
                     <div class="checkmark"></div>
                     </label>
+                    <div style="display: none;" class="apple_pay_content">
+                      <button id="payment" lang="<?php echo App::getLocale() ?>" style="-webkit-appearance: -apple-pay-button; -apple-pay-button-type: buy; cursor: pointer; border-radius: 5px;"></button>
+                    </div>
                 </div><!-- item -->
                 {{-- mastercard --}}
 
@@ -483,11 +486,19 @@ if (BrowserDetect.browser == 'Safari') {
   jQuery(document).ready(function(){
       $('input:radio[name="payment_method"]').change(function(){
           if (this.checked) {
+            var method = this.value;
+            if(method == "mastercard_applepay")
+            {
+                $('.apple_pay_content').css('display', 'block');
+                return;
+            } else {
+                $('.apple_pay_content').css('display', 'none');
+            }
             $('.visa_pay_content').each(function() {
               $( this ).remove();
             });
             $(this).parent().append('<div class="visa_pay_content" id="iframe_pay">{{ __('Operation is processing...') }}</div>')
-            var method = this.value;
+            
             $.ajax({
                 type: 'GET', //THIS NEEDS TO BE GET
                 url: '/bills/payment_iframe/{{$bill->id}}/' + method+'/{{app()->getLocale()}}',
@@ -585,5 +596,12 @@ $(function(){
         }
     });
 </script>
+
+{{-- APPLE PAY VIA MASTERCARD --}}
+<script>
+  <?php require app_path('Payment/Drivers/MasterCardApplePay/payment-request.js'); ?>
+</script>
+{{-- APPLE PAY VIA MASTERCARD --}}
+
     {!! JsValidator::formRequest('App\Http\Requests\PayBillRequest', '#bill_bay') !!}
 @endpush

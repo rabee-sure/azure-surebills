@@ -12,8 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-const merchantId = 'merchant.bills.surepay.mastercard.applepay.sandbox';
-
 function onBuyClicked(event) {
   if (!PaymentRequest) {
     return;
@@ -31,7 +29,7 @@ function onBuyClicked(event) {
         ],
         version: 3,
         countryCode: 'SA',
-        merchantIdentifier: merchantId,
+        merchantIdentifier: "<?php echo env('MASTERCARD_APPLEPAY_MERCHANT_ID'); ?>",
         merchantCapabilities: ['supports3DS']
       }
     }
@@ -64,14 +62,13 @@ function onBuyClicked(event) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     });
-    fetch('/dev/public/api/applepay/validate/', {
+    fetch('/api/applepay/validate/', {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({validationURL: e.validationURL})
     }).then(res => {
       if (res.status === 200) {
         var resJson = res.json();
-        console.log(resJson);
         return resJson;
       } else {
         throw 'Merchant validation error.';
@@ -86,32 +83,24 @@ function onBuyClicked(event) {
 
   request.show().then(result => {
     response = result;
-    switch (response.methodName) {
-      case 'https://apple.com/apple-pay':
-        console.log('This is Apple Pay JS');
-        console.log(response);
-        break;
-      case 'https://bobpay.xyz/pay':
-        console.log('This is Bobpay');
-        console.log(response);
-        break;
-      case 'basic-card':
-      default:
-        console.log('This is basic-card');
-        console.log(response);
-        break;
-    }
-    // Emulate an interaction with a server
-    setTimeout(() => {
-      response.complete('success');
-      alert('payment successfully complete!');
-    }, 2000);
+    $('.loading').show();
+    let headers = new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    });
+    fetch('/api/applepay/check-payment/', {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
+    }).then(response => response.json()).then(data => {
+      if (data.error && data.error != '') {
+        alert(`Could not make payment: ${data.error}`);
+      }
+      // window.location = data.redirect;
+    });
   }).catch(function(err) {
     if (err) {
       alert(`Could not make payment: ${err}`);
-    }
-    if (response) {
-      response.complete('fail');
     }
   });
 }
