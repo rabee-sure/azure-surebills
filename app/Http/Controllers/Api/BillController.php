@@ -70,6 +70,7 @@ class BillController extends Controller
 
             'business_name' => $user->business_name,
             'customer_id' => $customer->id,
+
             'customer_name' => $request->customer_name,
             'customer_email' => $request->customer_email,
             'customer_mobile' => $request->customer_mobile,
