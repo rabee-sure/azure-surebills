@@ -95,12 +95,16 @@ function onBuyClicked(event) {
     }).then(response => response.json()).then(data => {
       if (data.error && data.error != '') {
         alert(`Could not make payment: ${data.error}`);
+        response.complete('fail');
+      } else {
+        response.complete('success');
       }
       // window.location = data.redirect;
     });
   }).catch(function(err) {
     if (err) {
       alert(`Could not make payment: ${err}`);
+      response.complete('fail');
     }
   });
 }
