@@ -329,7 +329,7 @@ class BillController extends Controller
             $response = $request->all();
             Log::emergency(json_encode($response));
             $orderBody = json_decode(json_encode($response), FALSE);
-            $notPaidBill = Bill::where([['id', $orderBody->order->reference], ['status', '<>', 'paid']])->first();
+            $notPaidBill = Bill::where([['id', $orderBody->order->id], ['status', '<>', 'paid']])->first();
 
             if($notPaidBill)
             {
