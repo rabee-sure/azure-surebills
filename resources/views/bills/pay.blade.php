@@ -125,14 +125,14 @@
               <div class="bill_payment">
 
                 {{-- mastercard --}}
-                {{-- <div class="item">
+                <div class="item">
                     <input type="radio" id="mastercard_pay" name="payment_method" value="mastercard_iframe">
                     <label for="mastercard_pay">
                     <p>{{ __('Credit Card - mada') }}</p>
                     <div class="icon_mada"></div>
                     <div class="checkmark"></div>
                     </label>
-                </div> --}}
+                </div><!-- item -->
                 {{-- mastercard --}}
 
                 {{-- Apple pay mastercard --}}
@@ -515,9 +515,9 @@ $(function(){
     window.print();
   }
 
-	$("#hm_timer").countdowntimer({
+  $("#hm_timer").countdowntimer({
     minutes : {{ $bill->remaining_time_minutes}},
-		seconds : {{ $bill->remaining_time_seconds}},
+    seconds : {{ $bill->remaining_time_seconds}},
     size : "lg",
     timeUp : timeisUp
   });
