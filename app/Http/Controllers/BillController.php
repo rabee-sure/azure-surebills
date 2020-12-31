@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Log;
 use App\Bill;
 use App\BillItem;
 use App\Customer;
