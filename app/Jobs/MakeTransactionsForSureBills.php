@@ -37,6 +37,7 @@ class MakeTransactionsForSureBills implements ShouldQueue
      */
     public function handle()
     {
+        return null;
         if(isset($this->bill->application) && isset($this->bill->application->channel)){
             $percentage = $this->bill->getPercentage($this->log, true);
             $fixed = $this->bill->getFixed($this->log, true);
