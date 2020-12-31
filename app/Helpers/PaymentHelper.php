@@ -4,6 +4,7 @@ namespace App\Helpers;
 use App\Bill;
 use App\PaymentLog;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 class PaymentHelper
 {
@@ -12,6 +13,7 @@ class PaymentHelper
         if($billDetail['bill']['status'] != 'paid')
         {
             $orderBody = PaymentHelper::orderResponse($orderId);
+            Log::emergency(json_encode($orderBody));
             $orderResponseJson['id'] = $orderBody->id;
             $orderResponseJson['card']['bin'] = '';
             $orderResponseJson['card']['holder'] = $orderBody->sourceOfFunds->provided->card->nameOnCard;
