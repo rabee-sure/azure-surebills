@@ -69,9 +69,10 @@
     "Id": "المعرّف",
     "Created By": "تم انشائها بواسطة",
     "Transfers for": "التحويلات لـ",
-
+    "select date range": "اختر التاريخ",
+    "invalid date range": "التاريخ غير صحيح",
+    "invalid amount": "المبلغ غير صحيح",
     "Add New Media" : "أضف وسائط جديدة",
-    
     "Bills": "الفواتير",
     "Banks": "البنوك",
     "Actions": "الإجراءات",

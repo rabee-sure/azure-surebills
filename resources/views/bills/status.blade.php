@@ -58,7 +58,7 @@
             </div>
             <div class="date_time">
               <span>
-                {{__('Due on')}} {{ $bill->due_date->format('M d Y')}}
+                {{__('Due on')}} {{ $bill->dateLocalization()}}
                 @if($bill->user->vat_registration_number)
                   <div class="vat_reg"> {{ __('VAT Registration Number') }} : {{ $bill->user->vat_registration_number }}</div>
                 @endif
@@ -138,7 +138,7 @@
     }
   });
   /* New countdown */
-  
+
   Echo.channel('bill.{{$bill->id}}')
     .listen('BillStatusUpdated', (e) => {
         console.log(e.bill.id);
@@ -152,19 +152,19 @@
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-success" role="alert">this bill paid successfully</div>');
+            $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
             break;
           case "canceled":
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-danger" role="alert">this bill has been canceled</div>');
+            $("#status").append('<div class="alert alert-danger" role="alert">{{ __("this bill is canceled") }}</div>');
             break;
           case "expired":
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-secondary" role="alert">this bill has been expired</div>');
+            $("#status").append('<div class="alert alert-secondary" role="alert">{{ __("this bill is expired") }}</div>');
             break;
           default:
             $("#payment_method").remove();

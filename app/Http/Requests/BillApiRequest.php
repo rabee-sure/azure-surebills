@@ -60,6 +60,8 @@ class BillApiRequest extends FormRequest
 
             'due_date' => ['required'],
             'expiry_date' => ['required'],
+            'expiry_hours' => ['required'],
+            'expiry_minutes' => ['required'],
 
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],

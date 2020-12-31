@@ -213,5 +213,7 @@ return [
         "translations_name_ar" => "الاسم ar",
         "on" => 'مفعل',
         "off" => 'غير مفعل',
+        "due_date" => "تاريخ الاستحقاق",
+        "expiry_date" => "تاريخ الانتهاء"
     ],
 ];

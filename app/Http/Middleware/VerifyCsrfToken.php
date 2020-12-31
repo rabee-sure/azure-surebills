@@ -28,7 +28,7 @@ class VerifyCsrfToken extends Middleware
     {
         parent::__construct($app, $encrypter);
         $this->except = [
-            route('logout'), route('webhook-success'), env('APP_URL').'/success?*', //route('pay-master'),
+            route('logout'), route('webhook-success'), env('APP_URL').'/success?*',
         ];
     }
 }

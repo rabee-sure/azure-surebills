@@ -17,6 +17,7 @@ use GuzzleHttp\Client;
 
 Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
 
+Route::get('test/bill', 'TestController@bill');
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
 Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
@@ -127,4 +128,3 @@ Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
 Route::get('users/{user}', 'UserController@show')->name('users.show');
 
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
-
