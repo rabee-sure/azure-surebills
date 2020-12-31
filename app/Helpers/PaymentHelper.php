@@ -28,8 +28,8 @@ class PaymentHelper
 
             $orderResponseJson['id'] = $orderBody->id;
             $orderResponseJson['card']['last4Digits'] = substr($orderBody->sourceOfFunds->provided->card->number, -4);
-            $orderResponseJson['result']['code'] = $orderBody->response->acquirerCode;
-            $orderResponseJson['result']['description'] = $orderBody->response->acquirerMessage;
+            $orderResponseJson['result']['code'] = $orderBody->transaction[0]->response->acquirerCode;
+            $orderResponseJson['result']['description'] = $orderBody->transaction[0]->response->acquirerMessage;
             $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
 
             PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook);
@@ -40,12 +40,12 @@ class PaymentHelper
     {
         $payment = PaymentLog::find($orderBody->id);
         $bill    = $payment->bill;
-        
+
         $invoice->detail(['result_code' => $orderResponseJson['result']['code']])
-            ->detail(['success' => ($orderBody->order->status == 'CAPTURED' && $orderBody->order->amount == $bill->total) ? true : false])
+            ->detail(['success' => ($orderBody->transaction[0]->order->status == 'CAPTURED' && $orderBody->transaction[0]->order->amount == $bill->total) ? true : false])
             ->detail(['response' => $orderResponseJson])
             ->detail(['description' => $orderResponseJson['result']['description']])
-            ->detail(['gateway' => isset($orderBody->order->walletProvider) && $orderBody->order->walletProvider == 'APPLE_PAY' ? 'mastercard_applepay' : 'mastercard_iframe'])
+            ->detail(['gateway' => isset($orderBody->transaction[0]->order->walletProvider) && $orderBody->transaction[0]->order->walletProvider == 'APPLE_PAY' ? 'mastercard_applepay' : 'mastercard_iframe'])
             ->detail(['gateway_response' => $orderBody]);
         $invoice->transactionId($orderBody->id);
 
