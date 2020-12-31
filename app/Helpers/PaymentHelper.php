@@ -30,7 +30,11 @@ class PaymentHelper
             $orderResponseJson['card']['last4Digits'] = substr($orderBody->sourceOfFunds->provided->card->number, -4);
             $orderResponseJson['result']['code'] = $orderBody->transaction[0]->response->acquirerCode;
             $orderResponseJson['result']['description'] = $orderBody->transaction[0]->response->acquirerMessage;
-            $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
+            if (isset($orderBody->sourceOfFunds->provided->card->localBrand) && strpos($orderBody->sourceOfFunds->provided->card->localBrand, 'MADA') !== false) {
+                $orderResponseJson['paymentBrand'] = 'MADA';
+            } else {
+                $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
+            }
 
             PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook);
         }
@@ -78,7 +82,7 @@ class PaymentHelper
                 ];
             }
 
-            return redirect();
+            return redirect($redirect);
         }
 
         // log for the payment
