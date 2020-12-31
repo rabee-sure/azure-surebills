@@ -123,20 +123,12 @@
                 <div id="payment_method" class="payment_method">
               <div class="name">{{__('Payment Method')}}</div>
               <div class="bill_payment">
-                <div class="item">
-                    <input type="radio" id="visa_pay" name="payment_method" value="hyperpay_iframe">
-                    <label for="visa_pay">
-                    <p>{{ __('Credit Card - mada') }}</p>
-                    <div class="icon_mada"></div>
-                    <div class="checkmark"></div>
-                    </label>
-                </div><!-- item -->
 
                 {{-- mastercard --}}
                 <div class="item">
                     <input type="radio" id="mastercard_pay" name="payment_method" value="mastercard_iframe">
                     <label for="mastercard_pay">
-                    <p>Mastercard</p>
+                    <p>{{ __('Credit Card - mada') }}</p>
                     <div class="icon_mada"></div>
                     <div class="checkmark"></div>
                     </label>
@@ -157,23 +149,6 @@
                 </div><!-- item -->
                 {{-- mastercard --}}
 
-
-                {{-- <div id="applepay_show" class="item">
-                    <input type="radio" id="apple_pay" name="payment_method" value="hyperpay_applepay">
-                    <label for="apple_pay">
-                    <p>{{ __('Apple Pay') }}</p>
-                    <div class="icon_apple"></div>
-                    <div class="checkmark"></div>
-                    </label>
-                </div> --}}<!-- item -->
-                <div class="item disable">
-                    <input type="radio" id="stc_pay" name="payment_method" value="stc_pay" >
-                    <label for="pay_3">
-                        <p>STC Pay</p>
-                        <div class="icon_stc"></div>
-                        <div class="checkmark"></div>
-                    </label>
-                </div><!-- item -->
               </div><!-- bill_payment -->
                 </div><!-- payment_method -->
             @endif
