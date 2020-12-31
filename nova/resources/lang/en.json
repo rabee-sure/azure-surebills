@@ -67,6 +67,8 @@
     "Preview": "Preview",
     "Previous": "Previous",
     "No Data": "No Data",
+    "invalid amount": "Invalid amount",
+    "select date range": "Select date range",
     "No Current Data": "No Current Data",
     "No Prior Data": "No Prior Data",
     "No Increase": "No Increase",

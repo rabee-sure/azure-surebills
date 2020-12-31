@@ -5,25 +5,25 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\BillItem;
 use App\Customer;
-use App\Events\BillCreated;
+use Carbon\Carbon;
+use PaymentHelper;
+use App\PaymentLog;
+use App\Transaction;
 use App\Events\BillPaid;
+use App\Payment\Invoice;
+use App\Events\BillCreated;
+use Illuminate\Http\Request;
+use App\Payment\Facades\Payment;
+use IlluminateSupportFacadesLog;
 use App\Events\BillStatusUpdated;
+use App\Http\Requests\BillRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use App\Http\Requests\PayBillRequest;
 use App\Exceptions\ValidationException;
 use App\Helpers\PaymentHelper as HelpersPaymentHelper;
-use App\Http\Requests\BillRequest;
-use App\Http\Requests\PayBillRequest;
-use App\PaymentLog;
-use App\Payment\Facades\Payment;
-use App\Payment\Invoice;
-use App\Transaction;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException as ValidationsException;
-use PaymentHelper;
-use Log;
-use IlluminateSupportFacadesLog;
 
 class BillController extends Controller
 {
@@ -270,10 +270,6 @@ class BillController extends Controller
         $invoice = Payment::via($payment->payment_method)->paymentStatus($invoice);
 
         return PaymentHelper::checkPaymentStatus($invoice, $payment, $bill);
-
-        // return the view with errors
-        // return redirect()->route('paybillpage', ['id' => $bill->pay_id])
-        //     ->withErrors(['field_name' => $invoice->getDetail('description')]);
     }
 
     /**
@@ -327,8 +323,9 @@ class BillController extends Controller
         if($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret'))
         {
             $response = $request->all();
+            Log::emergency(json_encode($response));
             $orderBody = json_decode(json_encode($response), FALSE);
-            $notPaidBill = Bill::where([['id', $orderBody->order->reference], ['status', '<>', 'paid']])->first();
+            $notPaidBill = Bill::where([['id', $orderBody->order->id], ['status', '<>', 'paid']])->first();
 
             if($notPaidBill)
             {

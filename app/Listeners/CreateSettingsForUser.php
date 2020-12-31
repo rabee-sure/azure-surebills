@@ -27,7 +27,9 @@ class CreateSettingsForUser
      */
     public function handle(UserCreated $event)
     {
-        $settings = Settings::create([
+        $settings = Settings::updateOrCreate([
+            'user_id' => $event->user->id, 
+        ],[
             'add_tax' => false,
             'tax_value' => 0,
             'default_lang' => 'ar',
@@ -36,7 +38,7 @@ class CreateSettingsForUser
             'create_send_email' => false,
             'paid_send_sms' => false,
             'paid_send_email' => false,
-            'user_id' => $event->user->id,
+
         ]);
         
     }

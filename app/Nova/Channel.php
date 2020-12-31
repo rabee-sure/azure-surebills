@@ -75,7 +75,7 @@ class Channel extends Resource
         return [
             ID::make()->sortable(),
             Text::make(__('Name'), 'name')->rules('required'),
-            BelongsTo::make(__('User'), 'user', User::class)->rules('required'),
+            BelongsTo::make(__('User'), 'user', User::class)->searchable()->rules('required'),
             HasMany::make(__('Applications'), 'applications', Application::class)->rules('required'),
             Boolean::make(__('Active'), 'activate')->rules('required'),
             Number::make(__('Mada fixed fees'), 'mada_fixed')
