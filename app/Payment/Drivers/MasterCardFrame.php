@@ -82,7 +82,7 @@ class MasterCardFrame extends Driver
         $script .= 'Checkout.configure({';
         $script .= 'session: {id: "'.$body->session->id.'"},';
         $script .= 'merchant: "'.$this->settings->merchant_id.'",';
-        $script .= 'order: { amount: '.$details['bill']['total'].', currency: "SAR", description: "Invoice number: '.$details['bill']['number'].'", reference:"'.$details['bill']['id'].'"},';
+        $script .= 'order: { amount: '.$details['bill']['total'].', currency: "SAR", description: "Invoice number: '.$details['bill']['number'].'", id:"'.$details['surebills_payment_log_id'].'", reference:"'.$details['bill']['id'].'"},';
         $script .= 'interaction: {theme: "default", operation: "PURCHASE", merchant: {name: "'.$details['bill']['business_name'].'"}, displayControl: {billingAddress: "HIDE", orderSummary: "HIDE"}, locale: "'.$locale.'"}';
         $script .= '});';
         $script .= 'Checkout.showLightbox();</script>';
@@ -103,8 +103,15 @@ class MasterCardFrame extends Driver
         $details = $this->invoice->getDetails();
         $client = new Client();
 
-        $sessionResponse = $client->get(config('payment.drivers.mastercard_iframe.api_base_url').'/session/'.request()->sessionId,
-                                    ['auth' => [config('payment.drivers.mastercard_iframe.operator_username'), config('payment.drivers.mastercard_iframe.operator_password')]]);
+        $sessionResponse = $client->get(
+            config('payment.drivers.mastercard_iframe.api_base_url').'/session/'.request()->sessionId,
+            [
+                'auth' => [
+                    config('payment.drivers.mastercard_iframe.operator_username'),
+                    config('payment.drivers.mastercard_iframe.operator_password')
+                ]
+            ]
+        );
         $sessionBody = json_decode($sessionResponse->getBody()->getContents(), false);
 
         if(isset($sessionBody->result) == 'error')

@@ -37,12 +37,12 @@ function onBuyClicked(event) {
 
   let details = {
     displayItems: [{
-      label: 'Original donation amount',
-      amount: { currency: 'SAR', value: '2.00' }
+      label: "<?php echo __('Bill'); ?> #<?php echo $bill->number; ?>",
+      amount: { currency: 'SAR', value: '<?php echo $bill->total; ?>'}
     }],
     total: {
-      label: 'Total due',
-      amount: { currency: 'SAR', value : '2.00' }
+      label: "<?php echo __('Total'); ?>",
+      amount: {currency: 'SAR', value: '<?php echo $bill->total; ?>'}
     }
   };
 
@@ -98,8 +98,8 @@ function onBuyClicked(event) {
         response.complete('fail');
       } else {
         response.complete('success');
+        window.location = data.redirect;
       }
-      // window.location = data.redirect;
     });
   }).catch(function(err) {
     if (err) {

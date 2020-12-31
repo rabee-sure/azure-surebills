@@ -270,10 +270,6 @@ class BillController extends Controller
         $invoice = Payment::via($payment->payment_method)->paymentStatus($invoice);
 
         return PaymentHelper::checkPaymentStatus($invoice, $payment, $bill);
-
-        // return the view with errors
-        // return redirect()->route('paybillpage', ['id' => $bill->pay_id])
-        //     ->withErrors(['field_name' => $invoice->getDetail('description')]);
     }
 
     /**
