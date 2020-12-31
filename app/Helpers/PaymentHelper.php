@@ -42,7 +42,7 @@ class PaymentHelper
             ->detail(['success' => ($orderResponseJson['result']['description'] == 'SUCCESS' && $orderBody->status == 'CAPTURED') ? 1:0])
             ->detail(['response' => $orderResponseJson])
             ->detail(['description' => $orderResponseJson['result']['description']])
-            ->detail(['gateway' => isset($orderBody['order']['walletProvider']) ? 'mastercard_applepay' : 'mastercard'])
+            ->detail(['gateway' => isset($orderResponseJson['order']['walletProvider']) ? 'mastercard_applepay' : 'mastercard_iframe'])
             ->detail(['gateway_response' => $orderBody]);
         $invoice->transactionId(request()->sessionId ?? "not have id");
 
