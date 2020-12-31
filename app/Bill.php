@@ -489,54 +489,6 @@ class Bill extends Model
         return $number == 0 ? 1000001 : $number + 1;
     }
 
-    /**
-     * get Percentage from object.
-     *
-     * @return double
-     */
-    public function getPercentage($from_channel = false)
-    {
-        if (!$this->success_payment) {
-            return 0;
-        }
-
-        $response = $this->success_payment->results['response'];
-        if( isset($this->application) && isset($this->application->channel)) {
-            $object = $from_channel ? $this->application->channel : $this->application;
-        }else{
-            $object = $this->user;
-        }
-        if(isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA'){
-            return $object->mada_percentage;
-        }else{
-            return $object->credit_cards_percentage;
-        }
-    }
-
-    /**
-     * get Fixed from object.
-     *
-     * @return double
-     */
-    public function getFixed($from_channel = false)
-    {
-        if (!$this->success_payment) {
-            return 0;
-        }
-
-        $response = $this->success_payment->results['response'];
-        if( isset($this->application) && isset($this->application->channel)) {
-            $object = $from_channel ? $this->application->channel : $this->application;
-        }else{
-            $object = $this->user;
-        }
-        if(isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA'){
-            return $object->mada_fixed;
-        }else{ 
-            return $object->credit_cards_fixed;
-        }
-    }
-
 
     /**
      * ReCalculate payment fess
