@@ -76,7 +76,7 @@ class ApplePayController extends Controller
                             'provided' => [
                                 'card' => [
                                     'devicePayment' => [
-                                        'paymentToken' => $request->paymentToken
+                                        'paymentToken' => json_encode($request->paymentToken)
                                     ]
                                 ]
                             ]
