@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 use Spatie\NovaTranslatable\Translatable;
 
 class Application extends Resource
@@ -91,10 +92,36 @@ class Application extends Resource
             Text::make(__('Webhook URL'), 'webhook_url')
                 ->rules('required', 'url'),
 
-
+            new Panel(__('Pricing'), $this->pricingFields()),
         ];
     }
 
+    /**
+     * Get the address fields for the resource.
+     *
+     * @return array
+     */
+    protected function pricingFields()
+    {
+        return [
+            Number::make(__('Mada fixed fees'), 'mada_fixed')
+                ->rules('required', 'numeric', 'max:1000')
+                ->step(0.01)
+                ->hideFromIndex(),
+            Number::make(__('Mada percentage fees'), 'mada_percentage')
+                ->rules('required', 'numeric', 'max:100')
+                ->step(0.01)
+                ->hideFromIndex(),
+            Number::make(__('Credit Card fixed fees'), 'credit_cards_fixed')
+                ->rules('required', 'numeric', 'max:1000')
+                ->step(0.01)
+                ->hideFromIndex(),
+            Number::make(__('Credit Card percentage fees'), 'credit_cards_percentage')
+                ->rules('required', 'numeric', 'max:100')
+                ->step(0.01)
+                ->hideFromIndex(),
+        ];
+    }
     /**
      * Get the cards available for the request.
      *
