@@ -31,7 +31,7 @@ class Application extends Resource
      */    
     public static function searchable()
     {
-        return false;
+        return true;
     }
 
     /**
