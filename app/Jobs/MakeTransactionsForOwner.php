@@ -38,21 +38,19 @@ class MakeTransactionsForOwner implements ShouldQueue
     public function handle()
     {
         $logResponse = isset($this->log->results['response']) ? $this->log->results['response'] : [];
-        $authorizeId = isset($logResponse['resultDetails']) && isset($logResponse['resultDetails']['AuthorizeId']) ? $logResponse['resultDetails']['AuthorizeId'] : null;
 
         $transaction = new Transaction;
         $transaction->user_id     = $this->bill->user_id;
         $transaction->bill_id     = $this->bill->id;
         $transaction->type        = 'credit';
-        $transaction->amount      = isset($logResponse['amount']) ? $logResponse['amount'] : 0;
+        $transaction->amount      = $this->bill->total;
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'Bill ' . $this->bill->number . ' - ' . $this->bill->customer_name;
-        $transaction->auth_id     = $authorizeId;
-        if (isset($logResponse['paymentBrand']) && $this->log->payment_method != 'hyperpay_applepay') {
-            $transaction->card_brand  = $logResponse['paymentBrand'];
-            $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
-        } else if (isset($logResponse['card']) && $this->log->payment_method == 'hyperpay_applepay') {
+        if (isset($logResponse['paymentBrand']) && $this->log->payment_method == 'mastercard_applepay') {
             $transaction->card_brand  = 'APPLEPAY';
+            $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
+        } else if (isset($logResponse['card'])) {
+            $transaction->card_brand  = $logResponse['paymentBrand'];
             $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
         }
         $transaction->transaction_source = 'bill';
