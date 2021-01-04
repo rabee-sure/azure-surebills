@@ -68,7 +68,6 @@ class ChannelApplicationController extends Controller
      */
     public function update(ChannelApplicationRequest $request, Channel $channel, Application $application)
     {
-        $application->name = $request->name;
         $application->redirect = $request->redirect;
         $application->fail_redirect_url = $request->fail_redirect_url;
         $application->webhook_secret = '';

@@ -157,6 +157,15 @@
             </div>
             <!-- Edit Application Form -->
             <form role="form">
+
+              <!-- Email -->
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">{{ __('Client Email')}}</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" name="email" @keyup.enter="update" v-model="editForm.email" disabled>
+                </div>
+              </div>  
+
               <!-- Redirect URL -->
               <div class="form-group row">
                 <label class="col-md-3 col-form-label">{{ __('Redirect URL')}}</label>
@@ -257,6 +266,7 @@
 
                 editForm: {
                     errors: [],
+                    email: '',
                     redirect: '',
                     webhook_url: '',
                     mada_fixed: '',
@@ -331,6 +341,7 @@
              */
             edit(application) {
                 this.editForm.id = application.id;
+                this.editForm.email = application.email;
                 this.editForm.redirect = application.redirect;
                 this.editForm.webhook_url = application.webhook_url;
                 this.editForm.mada_fixed = application.mada_fixed;

@@ -362,7 +362,8 @@ dataBrowser: [
         subString: "Chrome",
         identity: "Chrome"
     },
-    {     string: navigator.userAgent,
+    {     
+        string: navigator.userAgent,
         subString: "OmniWeb",
         versionSearch: "OmniWeb/",
         identity: "OmniWeb"
@@ -489,8 +490,9 @@ if (BrowserDetect.browser == 'Safari') {
                 },
                 complete:function(){
                 },
-                error: function() {
-                     console.log(data);
+                error: function(xhr, status, error) {
+                  console.log(xhr.responseText);
+                  $('.loading').hide();
                 }
             });
           }
