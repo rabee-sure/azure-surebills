@@ -24,12 +24,13 @@ class PaymentHelper
                 ]
             );
             $orderBody = json_decode($orderResponse->getBody()->getContents(), false);
+            $transaction = $orderBody->transaction[count($orderBody->transaction)-1];
             Log::emergency(json_encode($orderBody));
 
             $orderResponseJson['id'] = $orderBody->id;
             $orderResponseJson['card']['last4Digits'] = substr($orderBody->sourceOfFunds->provided->card->number, -4);
-            $orderResponseJson['result']['code'] = $orderBody->transaction[0]->response->acquirerCode;
-            $orderResponseJson['result']['description'] = $orderBody->transaction[0]->response->acquirerMessage;
+            $orderResponseJson['result']['code'] = isset($transaction->response->acquirerCode) ? $transaction->response->acquirerCode : null;
+            $orderResponseJson['result']['description'] = isset($transaction->response->acquirerMessage) ? $transaction->response->acquirerMessage : null;
             if (isset($orderBody->sourceOfFunds->provided->card->localBrand) && strpos($orderBody->sourceOfFunds->provided->card->localBrand, 'MADA') !== false) {
                 $orderResponseJson['paymentBrand'] = 'MADA';
             } else {
@@ -42,14 +43,15 @@ class PaymentHelper
 
     public static function savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook = false)
     {
-        $payment = PaymentLog::find($orderBody->id);
-        $bill    = $payment->bill;
+        $payment     = PaymentLog::find($orderBody->id);
+        $bill        = $payment->bill;
+        $transaction = $orderBody->transaction[count($orderBody->transaction)-1];
 
         $invoice->detail(['result_code' => $orderResponseJson['result']['code']])
-            ->detail(['success' => ($orderBody->transaction[0]->order->status == 'CAPTURED' && $orderBody->transaction[0]->order->amount == $bill->total) ? true : false])
+            ->detail(['success' => ($transaction->order->status == 'CAPTURED' && $transaction->order->amount == $bill->total) ? true : false])
             ->detail(['response' => $orderResponseJson])
             ->detail(['description' => $orderResponseJson['result']['description']])
-            ->detail(['gateway' => isset($orderBody->transaction[0]->order->walletProvider) && $orderBody->transaction[0]->order->walletProvider == 'APPLE_PAY' ? 'mastercard_applepay' : 'mastercard_iframe'])
+            ->detail(['gateway' => isset($transaction->order->walletProvider) && $transaction->order->walletProvider == 'APPLE_PAY' ? 'mastercard_applepay' : 'mastercard_iframe'])
             ->detail(['gateway_response' => $orderBody]);
         $invoice->transactionId($orderBody->id);
 
