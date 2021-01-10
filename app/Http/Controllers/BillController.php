@@ -325,14 +325,14 @@ class BillController extends Controller
             $response = $request->all();
             Log::emergency(json_encode($response));
             $orderBody = json_decode(json_encode($response), FALSE);
-            $notPaidBill = Bill::where([['id', $orderBody->order->id], ['status', '<>', 'paid']])->first();
 
-            if($notPaidBill)
-            {
-                $invoice = new Invoice();
-                $details = $invoice->detail(['bill' => $notPaidBill->toArray()])->getDetails();
-                PaymentHelper::handlePaymentResponse($invoice, $orderBody->order->id, $details, true);
-            }
+            $payment = PaymentLog::find($orderBody->order->id);
+            $bill = $payment->bill;
+
+            // process payment
+            $invoice = new Invoice();
+            $details = $invoice->detail(['bill' => $bill->toArray()])->getDetails();
+            PaymentHelper::handlePaymentResponse($invoice, $orderBody->order->id, $details, true);
         }
         else
         {

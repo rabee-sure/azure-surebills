@@ -159,7 +159,7 @@ class Bill extends Resource
                     'credit' => 'credit',
                     'stc' => 'stc',
                     'apple' => 'apple',
-                ]),
+                ])->onlyOnDetail(),
 
             Number::make(__('Total'), 'total')
                 ->min(1)
@@ -167,7 +167,7 @@ class Bill extends Resource
 
             Number::make( __('Payment Fees'), 'payment_fees', function () {
                 return (string) $this->payment_fees;
-            })->min(1)->step(0.1),
+            })->min(1)->step(0.1)->onlyOnDetail(),
 
             Number::make(__('discount'), 'discount')
                 ->min(1)
@@ -179,14 +179,16 @@ class Bill extends Resource
                 ->step(0.1)
                 ->onlyOnDetail(),
 
+            Text::make(__('Reference Id'), 'reference_id'),
+            
+            BelongsTo::make(__('User'), 'user', User::class),
+
             DateTime::make(__('Created At'), 'created_at')
                 ->exceptOnForms(),
 
 
-            BelongsTo::make(__('User'), 'user', User::class),
             BelongsTo::make(__('Customer'), 'customer', Customer::class)->onlyOnDetail(),
             Text::make(__('Business Name'), 'business_name')->onlyOnDetail(),
-            Text::make(__('Reference Id'), 'reference_id')->onlyOnDetail(),
             Date::make(__('Due Date'), 'due_date')->onlyOnDetail(),
             DateTime::make(__('Paid At'), 'paid_at')->onlyOnDetail(),
             DateTime::make(__('Canceled At'), 'canceled_at')->onlyOnDetail(),
@@ -195,7 +197,7 @@ class Bill extends Resource
 
             new Panel(__('Payment Details'), function(){
                 return [
-                    Text::make(__('Method Type'), 'payment_method_details'),
+                    Text::make(__('Method Type'), 'payment_method_details')->onlyOnDetail(),
 
                     Number::make(__('Sub Total'), 'sub_total')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make(__('Discount'), 'discount')->min(1)->step(0.1)->onlyOnDetail(),

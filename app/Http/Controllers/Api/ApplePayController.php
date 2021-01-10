@@ -56,7 +56,7 @@ class ApplePayController extends Controller
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''))
             ->detail(['bill_id' => $bill->id])
             ->detail(['bill' => $bill->toArray()])
-            ->detail(['payment_id' => $request->get('id')]);
+            ->detail(['payment_id' => $payment->id]);
 
         // check payment
         try {
