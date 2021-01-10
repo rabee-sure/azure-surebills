@@ -42,8 +42,7 @@ class CompareCsv extends Command
      */
     public function handle()
     {
-        // $path = $this->ask('What is your file name in "app/public"?');
-        $path = 'csv.csv';
+        $path = $this->ask('What is your file name in "app/public"?');
 
         $excel_file = storage_path('app/public/'.$path);
 
