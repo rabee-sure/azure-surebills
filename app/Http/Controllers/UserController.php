@@ -54,43 +54,8 @@ class UserController extends Controller
      */
     public function transactions(Request $request, User $user)
     {
-        $from = Carbon::parse($request->from)->toDateTimeString();
-        $to = Carbon::parse($request->to);
-
-        $start_day = $to->copy()->startOfDay();
-        if($start_day != $to)
-            $to = $to->copy()->toDateTimeString();
-        else
-            $to = $to->copy()->endOfDay()->toDateTimeString();
-
-        $billsids = Bill::
-            //get user bills
-            where(function ($query) use($user, $request, $from, $to){
-                $query->where('user_id', $user->id)
-                    ->paid()
-                    ->when($request->from, function ($query) use($from, $to) {
-                        return $query->whereBetween('paid_at', [$from, $to]);
-                    })
-                    ->when($request->not_settled, function ($query) use($request){
-                        return $query->where('settled', false);
-                    });
-            })
-            //get user "channels" bills
-            ->orWhere(function ($query) use($user, $request, $from, $to){
-                $query->whereIn('application_id', $user->channelsApplications->pluck('id')->toArray())
-                    ->paid()
-                    ->when($request->from, function ($query) use($from, $to) {
-                        return $query->whereBetween('paid_at', [$from, $to]);
-                    })
-                    ->when($request->not_settled, function ($query) use($request){
-                        return $query->where('settled', false);
-                    });
-            })
-            ->orderBy('id', 'desc')
-            ->get()
-            ->pluck('id')
-            ->toArray();
-
+        $bills = $this->getbills($request, $user);
+        $billsids = $bills->pluck('id')->toArray();
 
         $transactions = Transaction::whereIn('bill_id', $billsids)
             ->where('user_id', $user->id)
@@ -110,6 +75,16 @@ class UserController extends Controller
      */
     public function bills(Request $request, User $user)
     {
+        $bills = $this->getbills($request, $user);
+        return BillResource::collection($bills);
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected function getbills($request, $user)
+    {
         $from = Carbon::parse($request->from)->toDateTimeString();
         $to = Carbon::parse($request->to);
 
@@ -121,7 +96,7 @@ class UserController extends Controller
 
         $request->request->add(['channel_user_id' => $user->id]);
 
-        $bills = Bill::
+        return Bill::
             //get user bills
             where(function ($query) use($user, $request, $from, $to){
                 $query->where('user_id', $user->id)
@@ -129,7 +104,7 @@ class UserController extends Controller
                     ->when($request->from, function ($query) use($from, $to) {
                         return $query->whereBetween('paid_at', [$from, $to]);
                     })
-                    ->when($request->not_settled, function ($query) use($request){
+                    ->when($request->not_settled || $request->bills_not_settled, function ($query) use($request){
                         return $query->where('settled', false);
                     });
             })
@@ -140,15 +115,13 @@ class UserController extends Controller
                     ->when($request->from, function ($query) use($from, $to) {
                         return $query->whereBetween('paid_at', [$from, $to]);
                     })
-                    ->when($request->not_settled, function ($query) use($request){
+                    ->when($request->not_settled || $request->bills_not_settled, function ($query) use($request){
                         return $query->where('settled', false);
                     });
             })
             
             ->orderBy('paid_at', 'asc')
             ->get();
-
-        return BillResource::collection($bills);
     }
     /**
      * Display a listing of the resource.
