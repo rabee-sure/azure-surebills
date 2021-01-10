@@ -69,12 +69,12 @@
       </div><!-- container -->
     </section><!-- how_work -->
 
-    <section id="prices">
+    <!-- <section id="prices">
       <div class="title">الأسعار</div>
       <div class="content">
         <div class="imgthumb">
           <img src="/landing/dist/images/price_img.svg" alt="#">
-        </div><!-- imgthumb -->
+        </div>
         <ul>
           <li>1.7 % + 1 ريال على كل عملية دفع عن طريق مدى</li>
           <li>2.7 % + 1 ريال على كل عملية دفع عن طريق البطاقة الائتمانية</li>
@@ -82,12 +82,12 @@
           <li>بدون رسوم شهرية</li>
           <li>8 ريال رسوم تحويل الرصيد لحساب التاجر</li>
         </ul>
-      </div><!-- content -->
+      </div>
       <span>دعم مدى وآبل باي والبطاقات الإئتمانية</span>
       <div class="pay_icons">
         <img src="/landing/dist/images/price_icons.svg" alt="#">
-      </div><!-- pay_icons -->
-    </section><!-- prices -->
+      </div>
+    </section> -->
 
     <section id="faq">
       <div class="container">
