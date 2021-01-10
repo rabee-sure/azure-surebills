@@ -71,7 +71,11 @@
     <div  style="padding-top: 10px;">
         <Card :bordered="false">
             <p slot="title">{{ __('Transfers for')}} {{ user.name}}</p>
-            <Table :columns="transfersTable" :data="transfers"></Table>
+            <Table :columns="transfersTable" :data="transfers">
+                <template slot-scope="{ row }" slot="fromto">
+                    {{ __(row.filter_from) }} <br> {{ __(row.filter_to) }}
+                </template>
+            </Table>
         </Card>
     </div>
 
@@ -238,6 +242,10 @@ export default {
                 {
                     title: this.__('Amount'),
                     key: 'amount'
+                },
+                {
+                    title: this.__('from - to'),
+                    slot: 'fromto',
                 },
                 {
                     title: this.__('Note'),

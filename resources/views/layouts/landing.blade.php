@@ -33,7 +33,7 @@
         <div class="main_menu">
           <a href="{{ url('/') }}" title="شور بيلز">شور بيلز</a>
           <a href="{{ url('/') }}#start_work" title="المميزات">المميزات</a>
-          <a href="{{ url('/') }}#prices" title="الأسعار">الأسعار</a>
+          <!-- <a href="{{ url('/') }}#prices" title="الأسعار">الأسعار</a> -->
           <a href="{{ url('/') }}/contact" title="اتصل بنا">اتصل بنا</a>
 
           <a href="{{ url('/') }}/register" class="register" title="تسجيل"><i class="far fa-user"></i><span>تسجيل</span></a>

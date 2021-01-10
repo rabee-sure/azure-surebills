@@ -20,6 +20,8 @@ class TransferResource extends JsonResource
             'amount' => $this->amount,
             'note' => $this->note,
             'attachment' => $this->attachment,
+            'filter_from' => Carbon::parse($this->filters['date']['from'])->format('d/m/Y H:i'),
+            'filter_to' => Carbon::parse($this->filters['date']['to'])->format('d/m/Y H:i'),
             'created_by_name' => $this->created_by->name ?? 'NAN',
             'created_at' => $this->created_at->format('d/m/Y H:i'),
         ];
