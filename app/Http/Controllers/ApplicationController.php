@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application;
+use App\Http\Requests\ApplicationRequest;
 use App\Http\Resources\ApplicationResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -26,7 +27,7 @@ class ApplicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ApplicationRequest $request)
     {
         $application = new Application;
         $application->user_id = auth()->user()->id;
@@ -50,7 +51,7 @@ class ApplicationController extends Controller
      * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Application $application)
+    public function update(ApplicationRequest $request, Application $application)
     {
         $application->name = $request->name;
         $application->redirect = $request->redirect;

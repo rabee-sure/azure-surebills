@@ -16,7 +16,7 @@ class ChannelController extends Controller
      */
     public function index(Request $request)
     {
-        $channels = Channel::where('user_id', auth()->user()->id)
+        $channels = auth()->user()->channels()
             ->orderBy('id', 'desc')
             ->paginate($request->get('per_page', 10));
         return view('channels.index',  ['channels' => $channels]);

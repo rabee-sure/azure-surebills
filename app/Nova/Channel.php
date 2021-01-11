@@ -61,7 +61,7 @@ class Channel extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'name'
     ];
 
     /**
@@ -79,20 +79,20 @@ class Channel extends Resource
             HasMany::make(__('Applications'), 'applications', Application::class)->rules('required'),
             Boolean::make(__('Active'), 'activate')->rules('required'),
             Number::make(__('Mada fixed fees'), 'mada_fixed')
-                ->rules('required')
-                ->step(0.1)
+                ->rules('required', 'numeric', 'max:1000')
+                ->step(0.01)
                 ->hideFromIndex(),
             Number::make(__('Mada percentage fees'), 'mada_percentage')
-                ->rules('required')
-                ->step(0.1)
+                ->rules('required', 'numeric', 'max:100')
+                ->step(0.01)
                 ->hideFromIndex(),
             Number::make(__('Credit Card fixed fees'), 'credit_cards_fixed')
-                ->rules('required')
-                ->step(0.1)
+                ->rules('required', 'numeric', 'max:1000')
+                ->step(0.01)
                 ->hideFromIndex(),
             Number::make(__('Credit Card percentage fees'), 'credit_cards_percentage')
-                ->rules('required')
-                ->step(0.1)
+                ->rules('required', 'numeric', 'max:100')
+                ->step(0.01)
                 ->hideFromIndex(),
 
             DateTime::make(__('Created At'), 'created_at')

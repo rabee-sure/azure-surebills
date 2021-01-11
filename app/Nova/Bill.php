@@ -154,6 +154,20 @@ class Bill extends Resource
             BelongsTo::make(__('Application'), 'application', Application::class)
                 ->onlyOnDetail(),
 
+
+            Text::make(__('Channel'), 'pay_url')
+                ->displayUsing(function(){
+                    $id = $this->application->channel->id ?? '';
+                    $name = $this->application->channel->name ?? '---';
+                    if(!empty($id)){
+                        return'<a href="/nova/resources/channels/'.$id.'" class="no-underline dim text-primary view_reservation">' . $name. '</a>';
+                    }else{
+                        return '--';
+                    }
+                })
+                ->onlyOnDetail()
+                ->asHtml(),
+
             Select::make(__('Payment Method'), 'payment_method')
                 ->options([
                     'credit' => 'credit',
@@ -186,7 +200,7 @@ class Bill extends Resource
             DateTime::make(__('Created At'), 'created_at')
                 ->exceptOnForms(),
 
-
+            BelongsTo::make(__('User'), 'user', User::class),
             BelongsTo::make(__('Customer'), 'customer', Customer::class)->onlyOnDetail(),
             Text::make(__('Business Name'), 'business_name')->onlyOnDetail(),
             Date::make(__('Due Date'), 'due_date')->onlyOnDetail(),

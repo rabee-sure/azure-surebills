@@ -446,6 +446,16 @@ class Bill extends Model
     }
 
     /**
+     * Get application.
+     *
+     * @return Collection
+     */
+    public function channel()
+    {
+        return $this->application->channel;
+    }
+
+    /**
      * Get user.
      *
      * @return Collection

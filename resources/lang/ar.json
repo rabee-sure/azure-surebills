@@ -1,4 +1,8 @@
 {
+	"Application Name required": "اسم التطبيق مطلوب",
+	"Application redirect url required": "لينك إعادة التوجيه مطلوب",
+	"Something went wrong!": "هناك خطأ ما!",
+	"We can't find a user with that e-mail address": "لا يمكننا العثور على مستخدم بعنوان البريد الإلكتروني هذا",
 	"Invoice total is less than 2 SAR": "قيمة الفاتورة الاجمالية اقل من 2 ريال",
   	"Invoice total is more than 14000 SAR": "قيمة الفاتورة الاجمالية اكثر من 14000 ريال",
   	"after add discount": "بعد إضافة الخصم",

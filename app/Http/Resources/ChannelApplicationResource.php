@@ -17,6 +17,7 @@ class ChannelApplicationResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'email' => $this->user->email,
             'name' => $this->name,
             'secret' => $this->secret,
             'redirect' => $this->redirect, 
