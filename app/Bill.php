@@ -53,6 +53,12 @@ class Bill extends Model
         'expiry_hours',
         'pricing_fees_details',
         'is_redirect',
+
+        'payment_channel_fees',
+        'payment_channel_fees_vat',
+        
+        'payment_surebills_fees',
+        'payment_surebills_fees_vat',
     ];
 
     /**
