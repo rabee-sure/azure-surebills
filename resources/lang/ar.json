@@ -149,8 +149,15 @@
 	"vat": "ضريبة القيمة المضافة",
 	"Discount": "الخصم",
 	"discount": "الخصم",
-	"Payment Fees": "عمولة الدفع",
-	"Payment Fees VAT": "ضريبة عمولة الدفع",
+
+	"Payment Fees": "اجمال عمولة الدفع",
+	"Payment Fees VAT": "اجمالي ضريبة الدفع",
+
+	"Payment Surebills Fees": "عمولة SureBills",
+	"Payment Surebills Fees Vat": "ضريبة SureBills",
+	"Payment Channel Fees": "عمولة القناة",
+	"Payment Channel Fees Vat": "اجمالي ضريبة القناة",
+
 	"Due to client": "المبلغ المستحق للعميل",
 	"Payment Details": "تفاصيل الدفع",
 	"amount must be less than or equal to user balance :balance" : "يجب أن يكون المبلغ أقل من رصيد المستخدم ':balance' أو مساويًا له",
