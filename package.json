@@ -11,7 +11,9 @@
         "build-settlements": "cd nova-components/Settlements && npm run dev",
         "build-settlements-prod": "cd nova-components/Settlements && npm run prod",
         "build-userstats": "cd nova-components/Userstats && npm run dev",
-        "build-userstats-prod": "cd nova-components/Userstats && npm run prod"
+        "build-userstats-prod": "cd nova-components/Userstats && npm run prod",
+        "build-home-analytics": "cd nova-components/HomeAnalytics && npm run dev",
+        "build-home-analytics-prod": "cd nova-components/HomeAnalytics && npm run prod"
     },
     "devDependencies": {
         "axios": "^0.19",
