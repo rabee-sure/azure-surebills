@@ -205,6 +205,12 @@ class Bill extends Resource
                     Number::make(__('Total'), 'total')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make( __('Payment Fees'), 'payment_fees')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make( __('Payment Fees VAT'), 'payment_fees_vat')->min(1)->step(0.1)->onlyOnDetail(),
+
+                    Number::make( __('Payment Surebills Fees'), 'payment_surebills_fees')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Payment Surebills Fees Vat'), 'payment_surebills_fees_vat')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Payment Channel Fees'), 'payment_channel_fees')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Payment Channel Fees Vat'), 'payment_channel_fees_vat')->min(1)->step(0.1)->onlyOnDetail(),
+
                     Number::make( __('Due to client'), 'due_to_client')->min(1)->step(0.1)->onlyOnDetail(),
                 ];
             }),
