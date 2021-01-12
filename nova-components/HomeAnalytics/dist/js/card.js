@@ -59495,71 +59495,79 @@ var render = function() {
       _vm._v(" "),
       _c("div", { attrs: { id: "users_statistics" } }, [
         _c("div", { staticClass: "item" }, [
-          _c("a", [
+          _c("a", { attrs: { href: _vm.analytics.users.link } }, [
             _c("span", [_vm._v(_vm._s(_vm.__("Users")))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.analytics.users))])
+            _c("p", [_vm._v(_vm._s(_vm.analytics.users.count))])
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "item" }, [
-          _c("a", [
+          _c("a", { attrs: { href: _vm.analytics.bills.link } }, [
             _c("span", [_vm._v(_vm._s(_vm.__("Bills")))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.analytics.bills))])
+            _c("p", [_vm._v(_vm._s(_vm.analytics.bills.count))])
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "item" }, [
-          _c("a", [
+          _c("a", { attrs: { href: _vm.analytics.successful_bills.link } }, [
             _c("span", [_vm._v(_vm._s(_vm.__("Successful Bills")))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.analytics.successful_bills))])
+            _c("p", [_vm._v(_vm._s(_vm.analytics.successful_bills.count))])
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "item" }, [
-          _c("a", [
+          _c("a", { attrs: { href: _vm.analytics.total_transactions.link } }, [
             _c("span", [_vm._v(_vm._s(_vm.__("Total Transactions")))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.analytics.total_transactions))])
+            _c("p", [_vm._v(_vm._s(_vm.analytics.total_transactions.count))])
           ])
         ])
       ]),
       _vm._v(" "),
       _c("div", { attrs: { id: "users_statistics" } }, [
         _c("div", { staticClass: "item" }, [
-          _c("a", [
+          _c("a", { attrs: { href: _vm.analytics.surebills_fees.link } }, [
             _c("span", [_vm._v(_vm._s(_vm.__("SureBills Fees")))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.analytics.surebills_fees))])
+            _c("p", [_vm._v(_vm._s(_vm.analytics.surebills_fees.count))])
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "item" }, [
-          _c("a", [
+          _c("a", { attrs: { href: _vm.analytics.surebills_fees_vat.link } }, [
             _c("span", [_vm._v(_vm._s(_vm.__("SureBills Fees Vat")))]),
             _vm._v(" "),
-            _c("p", [_vm._v(" " + _vm._s(_vm.analytics.surebills_fees_vat))])
+            _c("p", [
+              _vm._v(" " + _vm._s(_vm.analytics.surebills_fees_vat.count))
+            ])
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "item" }, [
-          _c("a", [
+          _c("a", { attrs: { href: _vm.analytics.total_due_merchants.link } }, [
             _c("span", [_vm._v(_vm._s(_vm.__("Total due to traders")))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.analytics.total_due_merchants))])
+            _c("p", [_vm._v(_vm._s(_vm.analytics.total_due_merchants.count))])
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "item" }, [
-          _c("a", [
-            _c("span", [
-              _vm._v(_vm._s(_vm.__("Total transfers to merchants")))
-            ]),
-            _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.analytics.total_transfers_merchants))])
-          ])
+          _c(
+            "a",
+            { attrs: { href: _vm.analytics.total_transfers_merchants.link } },
+            [
+              _c("span", [
+                _vm._v(_vm._s(_vm.__("Total transfers to merchants")))
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v(_vm._s(_vm.analytics.total_transfers_merchants.count))
+              ])
+            ]
+          )
         ])
       ])
     ],
