@@ -1,4 +1,9 @@
 {
+	"Successful Bills": " الفواتير الناجحة",
+	"Application Name required": "اسم التطبيق مطلوب",
+	"Application redirect url required": "لينك إعادة التوجيه مطلوب",
+	"Something went wrong!": "هناك خطأ ما!",
+	"We can't find a user with that e-mail address": "لا يمكننا العثور على مستخدم بعنوان البريد الإلكتروني هذا",
 	"Invoice total is less than 2 SAR": "قيمة الفاتورة الاجمالية اقل من 2 ريال",
   	"Invoice total is more than 14000 SAR": "قيمة الفاتورة الاجمالية اكثر من 14000 ريال",
   	"after add discount": "بعد إضافة الخصم",
@@ -149,8 +154,15 @@
 	"vat": "ضريبة القيمة المضافة",
 	"Discount": "الخصم",
 	"discount": "الخصم",
-	"Payment Fees": "عمولة الدفع",
-	"Payment Fees VAT": "ضريبة عمولة الدفع",
+
+	"Payment Fees": "اجمال عمولة الدفع",
+	"Payment Fees VAT": "اجمالي ضريبة الدفع",
+
+	"Payment Surebills Fees": "عمولة SureBills",
+	"Payment Surebills Fees Vat": "ضريبة SureBills",
+	"Payment Channel Fees": "عمولة القناة",
+	"Payment Channel Fees Vat": "اجمالي ضريبة القناة",
+
 	"Due to client": "المبلغ المستحق للعميل",
 	"Payment Details": "تفاصيل الدفع",
 	"amount must be less than or equal to user balance :balance" : "يجب أن يكون المبلغ أقل من رصيد المستخدم ':balance' أو مساويًا له",

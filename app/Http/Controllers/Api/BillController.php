@@ -35,8 +35,6 @@ class BillController extends Controller
      */
     public function store(BillApiRequest $request)
     {
-        logger([$request->all()]);
-        logger($request->application_id);
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
 
         if(!isset($application)){
@@ -164,14 +162,12 @@ class BillController extends Controller
      */
     public function wordpress(Request $request)
     {
-        logger([$request->all()]);
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
         $user = $application->user ?? null;
 
         if(!isset($application)){
            return view('bills.error', ['error' => __('application_id or application_secret is not coreect')]);
         }
-
 
         $mobile = ltrim($request->customer_mobile, '+966');
         $mobile = ltrim($mobile, '966');
@@ -227,14 +223,13 @@ class BillController extends Controller
             'reference_id' => $request->reference_id,
         ]);
 
-        if($user->settings->create_send_sms){
+        if(isset($user->settings->create_send_sms)){
             $bill->send_sms = $user->settings->create_send_sms;
         }
-        if($user->settings->create_send_email){
+        if(isset($user->settings->create_send_email)){
             $bill->send_email = $user->settings->create_send_email;
         }
         $bill->save();
-
 
         foreach ($request->items as $item) {
             BillItem::create([

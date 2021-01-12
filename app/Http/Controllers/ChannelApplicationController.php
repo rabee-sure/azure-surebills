@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Application;
 use App\Channel;
+use App\Http\Requests\ChannelApplicationRequest;
 use App\Http\Requests\ChannelRequest;
 use App\Http\Requests\ChannelUpdateRequest;
 use App\Http\Resources\ChannelApplicationResource;
@@ -31,16 +32,9 @@ class ChannelApplicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Channel $channel, Request $request)
+    public function store(Channel $channel, ChannelApplicationRequest $request)
     {
         $user = User::where('email', $request->email)->first();
-        if(!isset($user)){
-           return response()->json([
-               'errors' => [
-                    'email' =>[__("We can't find a user with that e-mail address")] 
-               ] 
-           ], 422);
-        }
         
         $application = Application::firstOrNew([
             'user_id' => $user->id,
@@ -68,13 +62,12 @@ class ChannelApplicationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ChannelApplicationRequest  $request
      * @param  \App\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Channel $channel, Application $application)
+    public function update(ChannelApplicationRequest $request, Channel $channel, Application $application)
     {
-        $application->name = $request->name;
         $application->redirect = $request->redirect;
         $application->fail_redirect_url = $request->fail_redirect_url;
         $application->webhook_secret = '';

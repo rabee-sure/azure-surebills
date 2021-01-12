@@ -37,23 +37,15 @@ class MakeTransactionsForSureBills implements ShouldQueue
      */
     public function handle()
     {
-        if(isset($this->bill->application) && isset($this->bill->application->channel)){
-            $percentage = $this->bill->getPercentage($this->log, true);
-            $fixed = $this->bill->getFixed($this->log, true);
+        return null;
 
-            $payment_fees = $this->bill->total * ($percentage / 100) + $fixed;
-            $payment_fees_vat = $payment_fees * (Transaction::VAT_PERCENTAGE / 100);
-        }else{
-            $payment_fees = $this->bill->payment_fees;
-            $payment_fees_vat = $this->bill->payment_fees_vat;
-        }
         $user = User::whereEmail('surebills@sura.com.sa')->first();
 
         $fee_trans = new Transaction;
         $fee_trans->user_id     = $user->id;
         $fee_trans->bill_id     = $this->bill->id;
         $fee_trans->type        = 'credit';
-        $fee_trans->amount      = $payment_fees;
+        $fee_trans->amount      = $this->bill->payment_surebills_fees;
         $fee_trans->reference   = $this->bill->number;
         $fee_trans->description = 'Fee - Bill Number: '.$this->bill->number;
         $fee_trans->transaction_source = 'surebills_fees';
@@ -63,8 +55,8 @@ class MakeTransactionsForSureBills implements ShouldQueue
         $vat_trans->user_id     = $user->id;
         $vat_trans->bill_id     = $this->bill->id;
         $vat_trans->type        = 'credit';
-        $vat_trans->amount      = $payment_fees_vat;
-        $vat_trans->reference   = $this->bill->number;
+        $vat_trans->amount      = $this->bill->payment_surebills_fees;
+        $vat_trans->reference   = $this->bill->payment_surebills_fees_vat;
         $vat_trans->description = 'Vat - Bill Number: '.$this->bill->number;
         $vat_trans->transaction_source = 'surebills_vat';
         $vat_trans->save();

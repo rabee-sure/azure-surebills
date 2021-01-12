@@ -71,7 +71,11 @@
     <div  style="padding-top: 10px;">
         <Card :bordered="false">
             <p slot="title">{{ __('Transfers for')}} {{ user.name}}</p>
-            <Table :columns="transfersTable" :data="transfers"></Table>
+            <Table :columns="transfersTable" :data="transfers">
+                <template slot-scope="{ row }" slot="fromto">
+                    {{ __(row.filter_from) }} <br> {{ __(row.filter_to) }}
+                </template>
+            </Table>
         </Card>
     </div>
 
@@ -240,6 +244,10 @@ export default {
                     key: 'amount'
                 },
                 {
+                    title: this.__('from - to'),
+                    slot: 'fromto',
+                },
+                {
                     title: this.__('Note'),
                     key: 'note'
                 },
@@ -304,6 +312,8 @@ export default {
                             'description': item.description,
                             'type': item.type,
                             'amount': item.amount,
+                            'customer_notes': item.customer_notes,
+                            'reference_id': item.reference_id,
                             'hyperpay_id': item.hyperpay_id,
                         }
                     });
@@ -337,7 +347,10 @@ export default {
                             'payment_fees_vat': item.payment_fees_vat,
                             'net': item.net,
                             'paid_at': item.paid_at,
+                            'customer_notes': item.customer_notes,
+                            'reference_id': item.reference_id,
                             'hyperpay_id': item.hyperpay_id,
+                            'merchant_name': item.business_name,
                         }
                     });
                 });

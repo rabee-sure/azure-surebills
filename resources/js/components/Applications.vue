@@ -42,7 +42,7 @@
                 </td>
                 <!-- Delete Button -->
                 <td style="vertical-align: middle;">
-                  <a class="action-link text-danger" @click="destroy(application)">{{ __('Delete')}}</a>
+                  <a class="action-link text-danger" @click="destroy(application)"  v-if="application.channel == null">{{ __('Delete')}}</a>
                 </td>
               </tr>
             </tbody>

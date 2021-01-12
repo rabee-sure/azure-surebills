@@ -261,7 +261,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function channels()
     {
-        return $this->hasMany(Channel::class);
+        return $this->hasMany(Channel::class)->activate();
     }
 
     /**

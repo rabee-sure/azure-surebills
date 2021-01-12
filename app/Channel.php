@@ -16,6 +16,7 @@ class Channel extends Model
     protected $fillable = [
         'name', 
         'user_id',
+        'activate',
         'mada_fixed',
         'mada_percentage',
         'credit_cards_fixed',
@@ -34,6 +35,14 @@ class Channel extends Model
     }
 
     /**
+     * Get all of the bills for the channel.
+     */
+    public function bills()
+    {
+        return $this->hasManyThrough(Bill::class, Application::class);
+    }
+
+    /**
      * Get user.
      *
      * @return Collection
@@ -41,6 +50,13 @@ class Channel extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * get only Active
+     */
+    public function scopeActivate($query){
+        $query->where('activate', true);
     }
 
     public static function boot()

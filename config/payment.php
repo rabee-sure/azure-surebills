@@ -41,25 +41,23 @@ return [
             'api_base_url' => env('HYPERPAY_APPLEPAY_BASE_URL', 'https://test.oppwa.com/v1'),
         ],
         'mastercard_iframe' => [
-            /* normal api */
-            'merchant_id' => env('MASTERCARD_MERCHANT_ID','TEST3000000330'),
-            'checkout_script' => env('MASTERCARD_CHECKOUT_SCRIPT','https://test-gateway.mastercard.com/checkout/version/58/checkout.js'),
-            'session_script' => env('MASTERCARD_SESSION_SCRIPT','https://test-gateway.mastercard.com/form/version/58/merchant/TEST3000000330/session.js'),
-            'api_base_url' => env('MASTERCARD_API_BASE_URL','https://test-gateway.mastercard.com/api/rest/version/58/merchant/TEST3000000330'),
-            'operator_username' => env('MASTERCARD_OPERATOR_USERNAME','merchant.TEST3000000330'),
-            'operator_password' => env('MASTERCARD_OPERATOR_PASSWORD','d4da5ee0b3612ec2b7a51c058a8c7f09'),
-            'X-Notification-Secret' => env('MASTERCARD_NOTIFICATION_SECRET', 'BC8ADD92A6D896296BA45395FF251A9E'),
+            'merchant_id'           => env('MASTERCARD_MERCHANT_ID'),
+            'checkout_script'       => env('MASTERCARD_CHECKOUT_SCRIPT'),
+            'session_script'        => env('MASTERCARD_SESSION_SCRIPT'),
+            'api_base_url'          => env('MASTERCARD_API_BASE_URL'),
+            'operator_username'     => env('MASTERCARD_OPERATOR_USERNAME'),
+            'operator_password'     => env('MASTERCARD_OPERATOR_PASSWORD'),
+            'X-Notification-Secret' => env('MASTERCARD_NOTIFICATION_SECRET'),
         ],
         'mastercard_applepay' => [
-            /* normal api */
-            'merchant_id' => env('MASTERCARD_MERCHANT_ID','TEST3000000330'),
-            'checkout_script' => env('MASTERCARD_CHECKOUT_SCRIPT','https://test-gateway.mastercard.com/checkout/version/58/checkout.js'),
-            'session_script' => env('MASTERCARD_SESSION_SCRIPT','https://test-gateway.mastercard.com/form/version/58/merchant/TEST3000000330/session.js'),
-            'api_base_url' => env('MASTERCARD_API_BASE_URL','https://test-gateway.mastercard.com/api/rest/version/58/merchant/TEST3000000330'),
-            'operator_username' => env('MASTERCARD_OPERATOR_USERNAME','merchant.TEST3000000330'),
-            'operator_password' => env('MASTERCARD_OPERATOR_PASSWORD','d4da5ee0b3612ec2b7a51c058a8c7f09'),
+            'merchant_id'          => env('MASTERCARD_APPLEPAY_MASTERCARD_MERCHANT_ID'),
+            'applepay_merchant_id' => env('MASTERCARD_APPLEPAY_MERCHANT_ID'),
+            'domain'               => env('MASTERCARD_APPLEPAY_DOMAIN'),
+            'passwd'               => env('MASTERCARD_APPLEPAY_KEY_PASSWD'),
+            'api_base_url'         => env('MASTERCARD_APPLEPAY_COMPLETE_PAYMENT'),
+            'operator_username'    => env('MASTERCARD_OPERATOR_USERNAME'),
+            'operator_password'    => env('MASTERCARD_OPERATOR_PASSWORD'),
         ],
-
     ],
 
     /*

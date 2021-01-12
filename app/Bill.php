@@ -53,6 +53,12 @@ class Bill extends Model
         'expiry_hours',
         'pricing_fees_details',
         'is_redirect',
+
+        'payment_channel_fees',
+        'payment_channel_fees_vat',
+        
+        'payment_surebills_fees',
+        'payment_surebills_fees_vat',
     ];
 
     /**
@@ -82,7 +88,7 @@ class Bill extends Model
      */
     public function getHyperpayIdAttribute()
     {
-        if (isset($this->payment_logs[0]) && isset($this->payment_logs[0]->results) && isset($this->payment_logs[0]->results['response'])) {
+        if (isset($this->payment_logs[0]) && isset($this->payment_logs[0]->results) && isset($this->payment_logs[0]->results['response']) && isset($this->payment_logs[0]->results['response']['id'])) {
             return $this->payment_logs[0]->results['response']['id'];
         }
 
@@ -404,9 +410,29 @@ class Bill extends Model
      *
      * @return Collection
      */
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    /**
+     * Get items.
+     *
+     * @return Collection
+     */
     public function depositTransaction()
     {
         return $this->hasOne(Transaction::class)->where('type', 'credit');
+    }
+
+    /**
+     * Get items.
+     *
+     * @return Collection
+     */
+    public function withdrawTransactions()
+    {
+        return $this->hasMany(Transaction::class)->where('type', 'debit');
     }
 
     /**
@@ -417,6 +443,16 @@ class Bill extends Model
     public function application()
     {
         return $this->belongsTo(Application::class);
+    }
+
+    /**
+     * Get application.
+     *
+     * @return Collection
+     */
+    public function channel()
+    {
+        return $this->application->channel;
     }
 
     /**
@@ -469,6 +505,41 @@ class Bill extends Model
         return $number == 0 ? 1000001 : $number + 1;
     }
 
+
+    /**
+     * ReCalculate payment fess
+     */
+    public function reCalculateFees()
+    {
+        // update bill
+        $percentage = $this->getPercentage();
+        $fixed = $this->getFixed();
+        $this->pricing_fees_details = $percentage.'%,'. $fixed;
+        $this->payment_fees = $this->total * ($percentage / 100) + $fixed;
+        $this->payment_fees_vat = $this->payment_fees * (Transaction::VAT_PERCENTAGE / 100);
+        $this->save();
+
+        // update transactions
+        foreach ($this->withdrawTransactions as $transaction) {
+            if ($transaction->description == 'Fee - Transaction Processing') {
+                if ($transaction->amount < $this->payment_fees) {
+                    $transaction->balance = $transaction->balance - ($this->payment_fees - $transaction->amount);
+                } else {
+                    $transaction->balance = $transaction->balance + ($transaction->amount - $this->payment_fees);
+                }
+                $transaction->amount  = $this->payment_fees;
+                $transaction->save();
+            } else if ($transaction->description == 'VAT - Transaction Processing') {
+                if ($transaction->amount < $this->payment_fees_vat) {
+                    $transaction->balance = $transaction->balance - ($this->payment_fees_vat - $transaction->amount);
+                } else {
+                    $transaction->balance = $transaction->balance + ($transaction->amount - $this->payment_fees_vat);
+                }
+                $transaction->amount = $this->payment_fees_vat;
+                $transaction->save();
+            }
+        }
+    }
 
     /**
      * Get payment_logs.

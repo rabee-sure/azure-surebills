@@ -123,20 +123,12 @@
                 <div id="payment_method" class="payment_method">
               <div class="name">{{__('Payment Method')}}</div>
               <div class="bill_payment">
-                <div class="item">
-                    <input type="radio" id="visa_pay" name="payment_method" value="hyperpay_iframe">
-                    <label for="visa_pay">
-                    <p>{{ __('Credit Card - mada') }}</p>
-                    <div class="icon_mada"></div>
-                    <div class="checkmark"></div>
-                    </label>
-                </div><!-- item -->
 
                 {{-- mastercard --}}
                 <div class="item">
                     <input type="radio" id="mastercard_pay" name="payment_method" value="mastercard_iframe">
                     <label for="mastercard_pay">
-                    <p>Mastercard</p>
+                    <p>{{ __('Credit Card - mada') }}</p>
                     <div class="icon_mada"></div>
                     <div class="checkmark"></div>
                     </label>
@@ -151,26 +143,12 @@
                     <div class="icon_apple"></div>
                     <div class="checkmark"></div>
                     </label>
+                    <div style="display: none;" class="apple_pay_content">
+                      <button id="payment" lang="<?php echo App::getLocale() ?>" style="-webkit-appearance: -apple-pay-button; -apple-pay-button-type: buy; cursor: pointer; border-radius: 5px;"></button>
+                    </div>
                 </div><!-- item -->
                 {{-- mastercard --}}
 
-
-                {{-- <div id="applepay_show" class="item">
-                    <input type="radio" id="apple_pay" name="payment_method" value="hyperpay_applepay">
-                    <label for="apple_pay">
-                    <p>{{ __('Apple Pay') }}</p>
-                    <div class="icon_apple"></div>
-                    <div class="checkmark"></div>
-                    </label>
-                </div> --}}<!-- item -->
-                <div class="item disable">
-                    <input type="radio" id="stc_pay" name="payment_method" value="stc_pay" >
-                    <label for="pay_3">
-                        <p>STC Pay</p>
-                        <div class="icon_stc"></div>
-                        <div class="checkmark"></div>
-                    </label>
-                </div><!-- item -->
               </div><!-- bill_payment -->
                 </div><!-- payment_method -->
             @endif
@@ -187,7 +165,6 @@
             @endif
 
           </div><!-- single_bill_content -->
-          <a href="/" title="Sure Bills" class="logo_bills"></a>
         </div><!-- col-12 -->
     </div><!-- row -->
   </div><!-- container -->
@@ -229,7 +206,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color:#108168 ;
+  background-color: #000;
   opacity: 0.6;
 }
 
@@ -385,7 +362,8 @@ dataBrowser: [
         subString: "Chrome",
         identity: "Chrome"
     },
-    {     string: navigator.userAgent,
+    {     
+        string: navigator.userAgent,
         subString: "OmniWeb",
         versionSearch: "OmniWeb/",
         identity: "OmniWeb"
@@ -483,11 +461,19 @@ if (BrowserDetect.browser == 'Safari') {
   jQuery(document).ready(function(){
       $('input:radio[name="payment_method"]').change(function(){
           if (this.checked) {
+            var method = this.value;
+            if(method == "mastercard_applepay")
+            {
+                $('.apple_pay_content').css('display', 'block');
+                return;
+            } else {
+                $('.apple_pay_content').css('display', 'none');
+            }
             $('.visa_pay_content').each(function() {
               $( this ).remove();
             });
             $(this).parent().append('<div class="visa_pay_content" id="iframe_pay">{{ __('Operation is processing...') }}</div>')
-            var method = this.value;
+            
             $.ajax({
                 type: 'GET', //THIS NEEDS TO BE GET
                 url: '/bills/payment_iframe/{{$bill->id}}/' + method+'/{{app()->getLocale()}}',
@@ -504,8 +490,9 @@ if (BrowserDetect.browser == 'Safari') {
                 },
                 complete:function(){
                 },
-                error: function() {
-                     console.log(data);
+                error: function(xhr, status, error) {
+                  console.log(xhr.responseText);
+                  $('.loading').hide();
                 }
             });
           }
@@ -530,9 +517,9 @@ $(function(){
     window.print();
   }
 
-	$("#hm_timer").countdowntimer({
+  $("#hm_timer").countdowntimer({
     minutes : {{ $bill->remaining_time_minutes}},
-		seconds : {{ $bill->remaining_time_seconds}},
+    seconds : {{ $bill->remaining_time_seconds}},
     size : "lg",
     timeUp : timeisUp
   });
@@ -585,5 +572,12 @@ $(function(){
         }
     });
 </script>
+
+{{-- APPLE PAY VIA MASTERCARD --}}
+<script>
+  <?php require app_path('Payment/Drivers/MasterCardApplePay/payment-request.js'); ?>
+</script>
+{{-- APPLE PAY VIA MASTERCARD --}}
+
     {!! JsValidator::formRequest('App\Http\Requests\PayBillRequest', '#bill_bay') !!}
 @endpush
