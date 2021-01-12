@@ -1,4 +1,10 @@
 {
+    "Total Transactions": "قيمة المعاملات المالية",
+    "Successful Bills": " الفواتير الناجحة",
+    "SureBills Fees": " عمولات شور بلز",
+    "SureBills Fees Vat": "ضريبة العمولات",
+    "Total due to traders": " إجمالي المستحق للتجار",
+    "Total transfers to merchants": "إجمالي التحويلات للتجار",
     "from - to": "من - الي",
     "Mada Fixed": "رسوم مدى ثابتة",
     "Mada Percentage": "رسوم مدى متغيره",

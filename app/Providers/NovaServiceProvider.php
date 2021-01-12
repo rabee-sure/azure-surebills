@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Sure\HomeAnalytics\HomeAnalytics;
 use Sure\Settlements\Settlements;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -64,8 +65,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [     
-            new NewUsers,
-            (new BillsPerDay)->width('2/3'),
+            // new NewUsers,
+            (new HomeAnalytics)->width('full'),
         ];
     }
 

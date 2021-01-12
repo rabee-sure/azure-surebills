@@ -106,16 +106,26 @@ class ChartsController extends Controller
         $last_date = date("Y-m-t",strtotime($first_date));
         $first_week = date("W",strtotime($first_date));
         $last_week = date("W",strtotime($last_date));
-        for($i=$first_week;$i<=$last_week;$i++)
-        {
+
+        //in new year somtimes get week from old year
+        if($first_week > $last_week){
+            $old_first_week = $first_week ;
+            $first_week = 0;
+        }
+
+        for($i=$first_week;$i<=$last_week;$i++){
+            $week_number = $i;
+            if(isset($old_first_week) && $i == 0){
+                $week_number = $old_first_week;
+            }
             $list[]= [
-                'number' => (string) $i,
+                'number' => (string) $week_number,
                 'date_between' => [
-                    $this->daysInWeek($i)[0],
-                    $this->daysInWeek($i)[7],
+                    $this->daysInWeek($week_number)[0],
+                    $this->daysInWeek($week_number)[7],
                 ],
-                'first_day' => $this->daysInWeek($i)[0],
-                'last_day' => $this->daysInWeek($i)[6],
+                'first_day' => $this->daysInWeek($week_number)[0],
+                'last_day' => $this->daysInWeek($week_number)[6],
             ];
         }
         return $list;
