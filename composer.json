@@ -43,7 +43,8 @@
         "sure/settlements": "*",
         "sure/userstats": "*",
         "timothyasp/nova-badge-field": "^1.0",
-        "titasgailius/search-relations": "^1.0"
+        "titasgailius/search-relations": "^1.0",
+        "sure/home-analytics": "*"
     },
     "require-dev": {
         "laravel/telescope": "^3.5.1",
@@ -108,6 +109,10 @@
         {
             "type": "path",
             "url": "./nova-components/Userstats"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/HomeAnalytics"
         }
     ]
 }

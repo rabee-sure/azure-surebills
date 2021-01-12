@@ -25,6 +25,8 @@ Route::post('applepay/check-payment', 'ApplePayController@checkPayment');
 Route::post('upload', 'MediaController@upload')->name('media.upload');
 
 Route::prefix('v1')->group(function () {
+    Route::get('analytics', 'AnalyticsController@index');
+
     Route::get('charts/bills_paid_amount', 'ChartsController@billsPaidAmount');
 	Route::get('charts/bills_paid_count', 'ChartsController@billsPaidCount');
 	Route::get('charts/bills_count', 'ChartsController@billsCount');
