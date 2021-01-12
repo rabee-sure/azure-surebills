@@ -6,53 +6,53 @@
 
   <div id="users_statistics">
     <div class="item">
-      <a >
+      <a  :href="analytics.users.link">
         <span>{{ __('Users') }}</span>
-        <p>{{ analytics.users}}</p>
+        <p>{{ analytics.users.count}}</p>
       </a>
     </div><!-- item -->
     <div class="item">
-      <a>
+      <a :href="analytics.bills.link">
         <span>{{ __('Bills') }}</span>
-        <p>{{ analytics.bills }}</p>
+        <p>{{ analytics.bills.count }}</p>
       </a>
     </div><!-- item -->
     <div class="item">
-      <a>
+      <a :href="analytics.successful_bills.link">
         <span>{{ __('Successful Bills') }}</span>
-        <p>{{ analytics.successful_bills }}</p>
+        <p>{{ analytics.successful_bills.count}}</p>
       </a>
     </div><!-- item -->
     <div class="item">
-      <a>
+      <a :href="analytics.total_transactions.link">
         <span>{{ __('Total Transactions') }}</span>
-        <p>{{ analytics.total_transactions }}</p>
+        <p>{{ analytics.total_transactions.count }}</p>
       </a>
     </div><!-- item -->
   </div><!-- users_statistics -->
     <div id="users_statistics">
     <div class="item">
-      <a>
+      <a :href="analytics.surebills_fees.link">
         <span>{{ __('SureBills Fees') }}</span>
-        <p>{{ analytics.surebills_fees }}</p>
+        <p>{{ analytics.surebills_fees.count }}</p>
       </a>
     </div><!-- item -->
     <div class="item">
-      <a>
+      <a :href="analytics.surebills_fees_vat.link">
         <span>{{ __('SureBills Fees Vat') }}</span>
-        <p> {{ analytics.surebills_fees_vat }}</p>
+        <p> {{ analytics.surebills_fees_vat.count }}</p>
       </a>
     </div><!-- item -->
     <div class="item">
-      <a>
+      <a :href="analytics.total_due_merchants.link">
         <span>{{ __('Total due to traders') }}</span>
-        <p>{{ analytics.total_due_merchants }}</p>
+        <p>{{ analytics.total_due_merchants.count  }}</p>
       </a>
     </div><!-- item -->
     <div class="item">
-      <a>
+      <a  :href="analytics.total_transfers_merchants.link">
         <span>{{ __('Total transfers to merchants') }}</span>
-        <p>{{ analytics.total_transfers_merchants }}</p>
+        <p>{{ analytics.total_transfers_merchants.count }}</p>
       </a>
     </div><!-- item -->
   </div><!-- users_statistics -->

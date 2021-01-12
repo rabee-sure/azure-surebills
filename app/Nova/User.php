@@ -2,20 +2,23 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\DateRange;
 use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
 use App\Nova\Metrics\NewBills;
+use App\Rules\ValidateUploadFile;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
@@ -25,8 +28,6 @@ use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Naif\Toggle\Toggle;
 use Sure\Userstats\Userstats;
-use App\Rules\ValidateUploadFile;
-use Illuminate\Support\Facades\Storage;
 
 class User extends Resource
 {
@@ -272,6 +273,7 @@ class User extends Resource
     {
         return [
             new UserBalance,
+            new DateRange,
         ];
     }
 
