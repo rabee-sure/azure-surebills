@@ -4,10 +4,7 @@ namespace App\Listeners;
 
 use App\Events\BillStatusUpdated;
 use App\Jobs\CallbackWebhook;
-use GuzzleHttp\Client;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Multicaret\Unifonic\UnifonicFacade;
+use Spatie\WebhookServer\WebhookCall;
 
 class CallbackApplication
 {
@@ -32,6 +29,18 @@ class CallbackApplication
         $bill = $event->bill;
 
         if($bill->application){
+            WebhookCall::create()
+                ->url($bill->application->webhook_url)
+                ->payload([
+                    'reference_id' => $bill->reference_id,
+                    'status' => $bill->status,
+                    'bill_id' => $bill->id,
+                    'pay_url' => $bill->pay_url,
+                    'total' => $bill->total,
+                ])
+                ->useSecret($bill->application->webhook_secret)
+                ->dispatch();
+    
             CallbackWebhook::dispatch($bill);
         }
     }

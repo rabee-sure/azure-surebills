@@ -18,11 +18,19 @@ class StatementController extends Controller
         $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
         
-        $statement = auth()->user()->statement()->when($date_start, function($q) use($date_start, $date_to){
-            $q->whereDate('created_at', '>=', Carbon::parse($date_start))
-                ->whereDate('created_at', '<=', Carbon::parse($date_to))
-                ;
-        })->get();
+        $statement = auth()->user()
+            ->statement()
+            ->when($date_start, function($q) use($date_start, $date_to){
+                $q->whereDate('created_at', '>=', Carbon::parse($date_start))
+                    ->whereDate('created_at', '<=', Carbon::parse($date_to));
+            })
+            ->when($request->transaction_type == 'debit' || $request->transaction_type == 'credit', function($q) use($request){
+                $q->whereType($request->transaction_type);
+            })
+            ->when(isset($request->transaction_source) && $request->transaction_source != 'all', function($q) use($request){
+                $q->whereTransactionSource($request->transaction_source);
+            })
+            ->get();
 
         return view('statements.index', compact('statement', 'date_start', 'date_to'));
     }

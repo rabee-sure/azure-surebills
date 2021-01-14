@@ -41,19 +41,76 @@ class AnalyticsController extends Controller
         $sum_total = $paid_bills->sum('total');
         $sum_surebills_fees = $paid_bills->sum('payment_surebills_fees');
         $sum_surebills_fees_vat = $paid_bills->sum('payment_surebills_fees_vat');
+
         $total_transfers_merchants = Transfer::whereBetween('created_at', [$from, $to])->sum('amount');
         $total_due_merchants = $sum_total - $sum_surebills_fees_vat - $sum_surebills_fees - $total_transfers_merchants;
-        return response()->json([
-            'data' => [
-                'users' => User::whereBetween('created_at', [$from, $to])->count(),
-                'bills' => Bill::whereBetween('created_at', [$from, $to])->count(),
-                'successful_bills' => Bill::whereBetween('created_at', [$from, $to])->paid()->count(),
-                'total_transactions' => $sum_total,
-                'surebills_fees' => $sum_surebills_fees,
-                'surebills_fees_vat' => $sum_surebills_fees_vat,
-                'total_transfers_merchants' => round($total_transfers_merchants, 2),
-                'total_due_merchants' => round($total_due_merchants, 2),
+
+        $filter2 = $this->encode([
+            [    
+                "class"=> "App\Nova\Filters\DateRange",
+                "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
+            ],
+            [    
+                "class"=> "App\Nova\Filters\BillStatus",
+                "value" => ["paid"]
+            ]
+        ]);        
+        $filter = $this->encode([
+            [    
+                "class"=> "App\Nova\Filters\DateRange",
+                "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ]
         ]);
+        
+
+        return response()->json([
+            'data' => [
+                'users' => [
+                    'count' =>  User::whereBetween('created_at', [$from, $to])->count(),
+                     'filter' =>  $filter,
+                     'link' =>  '/nova/resources/users?users_page=1&users_filter='.$filter,
+                ],
+                'bills' => [
+                    'count' =>  Bill::whereBetween('created_at', [$from, $to])->count(),
+                    'filter' =>  $filter,
+                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter,
+                ],
+                'successful_bills' => [
+                    'count' =>  $paid_bills->count(),
+                    'filter' =>  $filter2,
+                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
+                ],
+                'total_transactions' => [
+                    'count' =>  $sum_total,
+                    'filter' =>  $filter,
+                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
+                ],
+                'surebills_fees' => [
+                    'count' =>  $sum_surebills_fees,
+                    'filter' =>  $filter,
+                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
+                ],
+                'surebills_fees_vat' => [
+                    'count' =>  $sum_surebills_fees_vat,
+                    'filter' =>  $filter,
+                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
+                ],
+                'total_due_merchants' => [
+                    'count' =>  round($total_due_merchants, 2),
+                    'filter' =>  $filter,
+                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
+                ],
+                'total_transfers_merchants' => [
+                    'count' =>  round($total_transfers_merchants, 2),
+                    'filter' =>  $filter,
+                    'link' =>  '/nova/resources/transfers?transfers_page=1&transfers_filter='.$filter,
+                ],
+            ]
+        ]);
+    }
+
+    protected function encode($data)
+    {
+        return base64_encode(json_encode($data));
     }
 }
