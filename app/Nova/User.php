@@ -141,13 +141,9 @@ class User extends Resource
             Image::make(__('Business logo'), 'logo')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
                 ->preview(function ($value) {
                     if(Storage::disk('public')->exists($value))
-                    {
                         return url('storage/'.$value);
-                    }
                     else
-                    {
                         return url($value);
-                    }
             }),
 
             HasMany::make(__('Transfers'), 'transfers', Transfer::class),
