@@ -40,8 +40,8 @@ class UserController extends Controller
     public function transfers(Request $request, User $user)
     {
         $Transfers = $user->Transfers()
-        ->orderBy('id', 'desc')
-        ->paginate($request->per_page);
+            ->orderBy('id', 'desc')
+            ->paginate($request->per_page);
 
         return TransferResource::collection($Transfers);
     }

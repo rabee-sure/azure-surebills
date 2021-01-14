@@ -21,11 +21,86 @@
 
         {{-- <div class="collapse dont-collapse-sm" id="displayOptions"> --}}
         <div class="" id="displayOptions">
+
+
           <div class="d-block d-md-inline-block">
             <div class="search-sm calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
               <input class="form-control" name="dates" placeholder="Search by day" readonly="readonly">
             </div>
           </div>  
+          <div class="btn-group float-md-left mr-1 mb-1 ">
+            <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              @if(request()->transaction_type == 'debit')
+                {{ __('Debit') }}
+              @elseif(request()->transaction_type == 'credit')
+                {{ __('Credit') }}
+              @else
+                {{ __('Transaction Type') }}
+              @endif
+
+            </button>
+            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 25px, 0px);">
+              <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_type' => 'all']) }}">{{ __('All') }}</a>
+              <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_type' => 'debit']) }}">{{ __('Debit') }}</a>
+              <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_type' => 'credit']) }}">{{ __('Credit') }}</a>
+            </div>
+          </div>
+
+            <div class="btn-group float-md-left mr-1 mb-1 disabled">
+              <button @if(request()->transaction_type != 'credit' && request()->transaction_type != 'debit') disabled @endif class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                @switch(request()->transaction_source)
+                    @case('bill')
+                        {{ __('Bill') }}
+                        @break
+
+                    @case('channel_fees')
+                        {{ __('Channel Fees') }}
+                        @break                    
+
+                    @case('channel_vat')
+                        {{ __('Channel VAT') }}
+                        @break                   
+
+                    @case('fees')
+                        {{ __('Bill Fees') }}
+                        @break                  
+
+                    @case('vat')
+                        {{ __('Bill VAT') }}
+                        @break                 
+
+                    @case('transfer')
+                        {{ __('Transfer') }}
+                        @break
+
+                    @default
+                        {{ __('Transactions') }}
+                @endswitch
+              </button>
+              <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 25px, 0px);">
+                  <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'all']) }}">{{ __('All') }}</a>
+                  @if(request()->transaction_type == 'credit')
+                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'bill']) }}">
+                      {{ __('Bill') }}
+                    </a>
+                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'channel_fees']) }}">
+                      {{ __('Channel Fees') }}
+                    </a>
+                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'channel_vat']) }}">
+                      {{ __('Channel VAT') }}
+                    </a>
+                  @elseif(request()->transaction_type == 'debit')
+                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'fees']) }}">
+                      {{ __('Bill Fees') }}
+                    </a>
+                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'vat']) }}">
+                      {{ __('Bill VAT') }}
+                    </a>
+                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'transfer']) }}">{{ __('Transfer') }}</a>
+                  @endif
+              </div>
+            </div>
+
         </div>
       </div>
        
@@ -94,6 +169,12 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <script type="text/javascript">
+      function oldParams() {
+        var params = ''    
+        params += '&transaction_type='+getUrlParameter('transaction_type')
+        params += '&transaction_source='+getUrlParameter('transaction_source')
+        return params;
+      }
       var getUrlParameter = function getUrlParameter(sParam) {
           var sPageURL = window.location.search.substring(1),
               sURLVariables = sPageURL.split('&'),
@@ -154,7 +235,7 @@
           startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"), 
           endDate: getUrlParameter('date_to')?getUrlParameter('date_to'):moment(new Date()).format("MM/DD/YYYY"),
         }, function(start, end, label) {
-            var dateParam = '?date_start=' + start.format('MM/DD/YYYY') + '&date_to='+end.format('MM/DD/YYYY');
+            var dateParam = '?date_start=' + start.format('MM/DD/YYYY') + '&date_to='+end.format('MM/DD/YYYY')+oldParams();
             window.history.pushState('', '', dateParam);
             location.reload();
         });
