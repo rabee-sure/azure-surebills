@@ -51,7 +51,7 @@ class AnalyticsController extends Controller
                 'surebills_fees' => $sum_surebills_fees,
                 'surebills_fees_vat' => $sum_surebills_fees_vat,
                 'total_due_merchants' => round($total_due_merchants, 2),
-                'total_transfers_merchants' => Transfer::whereBetween('created_at', [$from, $to])->sum('amount'),
+                'total_transfers_merchants' => round(Transfer::whereBetween('created_at', [$from, $to])->sum('amount'), 2),
             ]
         ]);
     }
