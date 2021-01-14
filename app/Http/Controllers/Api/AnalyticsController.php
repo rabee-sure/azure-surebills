@@ -41,7 +41,8 @@ class AnalyticsController extends Controller
         $sum_total = $paid_bills->sum('total');
         $sum_surebills_fees = $paid_bills->sum('payment_surebills_fees');
         $sum_surebills_fees_vat = $paid_bills->sum('payment_surebills_fees_vat');
-        $total_due_merchants = $sum_total - $sum_surebills_fees_vat - $sum_surebills_fees;
+        $total_transfers_merchants = Transfer::whereBetween('created_at', [$from, $to])->sum('amount');
+        $total_due_merchants = $sum_total - $sum_surebills_fees_vat - $sum_surebills_fees - $total_transfers_merchants;
         return response()->json([
             'data' => [
                 'users' => User::whereBetween('created_at', [$from, $to])->count(),
@@ -50,8 +51,8 @@ class AnalyticsController extends Controller
                 'total_transactions' => $sum_total,
                 'surebills_fees' => $sum_surebills_fees,
                 'surebills_fees_vat' => $sum_surebills_fees_vat,
+                'total_transfers_merchants' => round($total_transfers_merchants, 2),
                 'total_due_merchants' => round($total_due_merchants, 2),
-                'total_transfers_merchants' => round(Transfer::whereBetween('created_at', [$from, $to])->sum('amount'), 2),
             ]
         ]);
     }
