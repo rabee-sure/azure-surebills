@@ -37,7 +37,7 @@ class AnalyticsController extends Controller
         $to = Carbon::parse($request->to)->addHours(2)->endOfDay();
 
         // dd($to);
-        $paid_bills = Bill::whereBetween('created_at', [$from, $to])->paid();
+        $paid_bills = Bill::whereBetween('paid_at', [$from, $to])->paid();
         $sum_total = $paid_bills->sum('total');
         $sum_surebills_fees = $paid_bills->sum('payment_surebills_fees');
         $sum_surebills_fees_vat = $paid_bills->sum('payment_surebills_fees_vat');
