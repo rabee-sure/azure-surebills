@@ -1,4 +1,11 @@
 {
+	"All": "الكل",
+	"Bill Fees": "عمولة دفع",
+	"Channel Fees": "عمولة القناة",
+	"Channel VAT": "ضريبة القناة",
+	"Bill VAT": "ضريبة دفع",
+	"Transaction Type": "نوع العملية",
+	"Transactions": "العمليات",
 	"Payment Process": "عملية الدفع",
 	"client should not have multiple applications under the same channel": "يجب ألا يكون لدى العميل تطبيقات متعددة ضمن نفس القناة",
 	"Successful Bills": " الفواتير الناجحة",
@@ -157,7 +164,7 @@
 	"Discount": "الخصم",
 	"discount": "الخصم",
 
-	"Payment Fees": "اجمال عمولة الدفع",
+	"Payment Fees": "عمولة الدفع",
 	"Payment Fees VAT": "اجمالي ضريبة الدفع",
 
 	"Payment Surebills Fees": "عمولة SureBills",
