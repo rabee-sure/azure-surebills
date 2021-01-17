@@ -228,6 +228,7 @@
       </div>
     </div>
   </div>
+
 @endsection
 
 @push('footer-scripts')

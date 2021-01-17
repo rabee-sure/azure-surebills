@@ -62,18 +62,19 @@
             </FormItem>
 
             <FormItem>
-                <Button type="primary" @click="handleSubmit('form')" :disabled="disableBtn"> {{__('Submit')}} </Button>
+                <Button type="primary" @click="handleSubmit('form')" :disabled="disableBtn">   {{__('Submit')}} 
+                </Button>
                 <Button style="margin-left: 8px">{{__('Cancel')}}</Button>
             </FormItem>
         </Form>
     </Card>
 
-    <div  style="padding-top: 10px;">
+    <div style="padding-top: 10px;">
         <Card :bordered="false">
             <p slot="title">{{ __('Transfers for')}} {{ user.name}}</p>
             <Table :columns="transfersTable" :data="transfers">
                 <template slot-scope="{ row }" slot="fromto">
-                    {{ __(row.filter_from) }} <br> {{ __(row.filter_to) }}
+                    {{ __(row.filter_from) }} - {{ __(row.filter_to) }}
                 </template>
             </Table>
         </Card>
@@ -238,14 +239,17 @@ export default {
                 {
                     title: this.__('Id'),
                     key: 'id',
+                    width: 70,
                 },
                 {
                     title: this.__('Amount'),
-                    key: 'amount'
+                    key: 'amount',
+                    width: 180,
                 },
                 {
                     title: this.__('from - to'),
                     slot: 'fromto',
+                    width: 300,
                 },
                 {
                     title: this.__('Note'),

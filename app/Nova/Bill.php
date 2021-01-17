@@ -200,7 +200,6 @@ class Bill extends Resource
             DateTime::make(__('Created At'), 'created_at')
                 ->exceptOnForms(),
 
-            BelongsTo::make(__('User'), 'user', User::class),
             BelongsTo::make(__('Customer'), 'customer', Customer::class)->onlyOnDetail(),
             Text::make(__('Business Name'), 'business_name')->onlyOnDetail(),
             Date::make(__('Due Date'), 'due_date')->onlyOnDetail(),

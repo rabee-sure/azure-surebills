@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailChannel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -44,7 +45,11 @@ class ChannelApplicationRequest extends FormRequest
             case 'POST':
             {
                 return array_merge($rules, [
-                    'email' => ['required','email', 'exists:users,email'],
+                    'email' => [
+                        'required',
+                        'email', 
+                        'exists:users,email', 
+                        new EmailChannel],
                 ]);
             }
             case 'PUT':

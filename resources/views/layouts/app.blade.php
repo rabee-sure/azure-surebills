@@ -46,7 +46,6 @@
       </div>
     </main>
 
-
     @include('layouts.footer')
     @stack('footer-scripts')
 

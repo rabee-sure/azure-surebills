@@ -41,7 +41,10 @@ class AnalyticsController extends Controller
         $sum_total = $paid_bills->sum('total');
         $sum_surebills_fees = $paid_bills->sum('payment_surebills_fees');
         $sum_surebills_fees_vat = $paid_bills->sum('payment_surebills_fees_vat');
-        $total_due_merchants = $sum_total - $sum_surebills_fees_vat - $sum_surebills_fees;
+
+        $total_transfers_merchants = Transfer::whereBetween('created_at', [$from, $to])->sum('amount');
+        $total_due_merchants = $sum_total - $sum_surebills_fees_vat - $sum_surebills_fees - $total_transfers_merchants;
+
         $filter2 = $this->encode([
             [    
                 "class"=> "App\Nova\Filters\DateRange",
@@ -98,7 +101,7 @@ class AnalyticsController extends Controller
                     'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
                 ],
                 'total_transfers_merchants' => [
-                    'count' =>  Transfer::whereBetween('created_at', [$from, $to])->sum('amount'),
+                    'count' =>  round($total_transfers_merchants, 2),
                     'filter' =>  $filter,
                     'link' =>  '/nova/resources/transfers?transfers_page=1&transfers_filter='.$filter,
                 ],

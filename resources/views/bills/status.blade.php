@@ -22,7 +22,7 @@
           </div>
             @if($bill->user->logo)
               <div class="logo">
-                <img src="{{ url($bill->user->logo) }}" alt="logo">
+                <img src="{{ $bill->user->logo_url }}" alt="logo">
               </div><!-- logo -->
             @endif
             <div class="title">
