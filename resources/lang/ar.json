@@ -1,5 +1,9 @@
 {
 	"All": "الكل",
+	"Paid at Date Range": "تم الدفع في النطاق الزمني",
+	"Settled": "التسوية",
+	"settled": "تم التسوية",
+	"not settled": "لم يتم التسوية",
 	"Bill Fees": "عمولة دفع",
 	"Channel Fees": "عمولة القناة",
 	"Channel VAT": "ضريبة القناة",
