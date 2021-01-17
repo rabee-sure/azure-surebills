@@ -19,6 +19,7 @@
       <script src="/js/app.js?v={{ config('app.asset_version') }}" ></script>
       <script src="/js/jbootstrap.js?v={{ config('app.asset_version') }}"></script>
       <script src="/js/all.js?v={{ config('app.asset_version') }}" defer></script>
+
       <script src="/js/dore.script.js?v={{ config('app.asset_version') }}"></script>
     @endif
 
@@ -28,4 +29,5 @@
 </script>
 <script type="text/javascript" src="/vendor/jsvalidation/js/jsvalidation.js?v={{ config('app.asset_version')}}"></script>
 <script src="/js/custom.js"></script>
+
 

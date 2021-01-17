@@ -54,7 +54,7 @@
                       <td>{{ $bill->total}} {{__('SAR') }}</td>
                     </tr>
                     <tr>
-                      <td>{{__('Descrption') }}</td>
+                      <td>{{__('Notes') }}</td>
                       <td>{{$bill->customer_notes}}</td>
                     </tr>
                     <tr>
