@@ -60576,7 +60576,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 key: 'amount',
                 width: 180
             }, {
-                title: this.__('from - to'),
+                title: this.__('From - To'),
                 slot: 'fromto',
                 width: 300
             }, {

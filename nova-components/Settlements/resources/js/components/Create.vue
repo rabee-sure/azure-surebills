@@ -247,7 +247,7 @@ export default {
                     width: 180,
                 },
                 {
-                    title: this.__('from - to'),
+                    title: this.__('From - To'),
                     slot: 'fromto',
                     width: 300,
                 },
