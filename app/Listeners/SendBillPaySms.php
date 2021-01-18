@@ -27,7 +27,7 @@ class SendBillPaySms implements ShouldQueue
      */
     public function handle(BillCreated $event)
     {
-        \App::setLocale($event->bill->user->settings->default_lang); 
+        // \App::setLocale($event->bill->user->settings->default_lang);
 
         if($event->bill->send_sms && ($event->bill->application_id == null || $event->bill->application->channel_id == null)){
             $message = __('Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url', [
