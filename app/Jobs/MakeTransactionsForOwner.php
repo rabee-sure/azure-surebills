@@ -56,17 +56,6 @@ class MakeTransactionsForOwner implements ShouldQueue
         $transaction->transaction_source = 'bill';
         $transaction->save();
 
-        //withdrawBillVat
-        $transaction = new Transaction;
-        $transaction->user_id     = $this->bill->user_id;
-        $transaction->bill_id     = $this->bill->id;
-        $transaction->type        = 'debit';
-        $transaction->amount      = $this->bill->payment_fees_vat;
-        $transaction->reference   = $this->bill->number;
-        $transaction->description = 'VAT - Transaction Processing';
-        $transaction->transaction_source = 'vat';
-        $transaction->save();
-
         //withdrawBillFees
         $transaction = new Transaction;
         $transaction->user_id     = $this->bill->user_id;
@@ -76,6 +65,17 @@ class MakeTransactionsForOwner implements ShouldQueue
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'Fee - Transaction Processing';
         $transaction->transaction_source = 'fees';
+        $transaction->save();
+
+        //withdrawBillVat
+        $transaction = new Transaction;
+        $transaction->user_id     = $this->bill->user_id;
+        $transaction->bill_id     = $this->bill->id;
+        $transaction->type        = 'debit';
+        $transaction->amount      = $this->bill->payment_fees_vat;
+        $transaction->reference   = $this->bill->number;
+        $transaction->description = 'VAT - Transaction Processing';
+        $transaction->transaction_source = 'vat';
         $transaction->save();
     }
 }

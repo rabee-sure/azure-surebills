@@ -119,7 +119,6 @@
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Reference') }}</th>
                 <th>{{ __('Receipt') }}</th>
-                <th>{{ __('Auth ID') }}</th>
                 <th>{{ __('Card') }}</th>
                 <th>{{ __('Debit') }}</th>
                 <th>{{ __('Credit') }}</th>
@@ -133,7 +132,6 @@
                   <td>{{ $transaction->description }}</td>
                   <td>{{ $transaction->reference }}</td>
                   <td>{{ $transaction->receipt }}</td>
-                  <td>{{ $transaction->auth_id }}</td>
                   <td>
                     @if ($transaction->card_brand == 'VISA')
                       <img alt="mastercard" src="img/cards/visa.gif" class="mr-1" width="18px"> 
