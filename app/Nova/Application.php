@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Rules\MinValueOfChannel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsTo;
@@ -105,19 +106,19 @@ class Application extends Resource
     {
         return [
             Number::make(__('Mada fixed fees'), 'mada_fixed')
-                ->rules('required', 'numeric', 'max:1000')
+                ->rules('required', 'numeric', 'max:1000', new MinValueOfChannel())
                 ->step(0.01)
                 ->hideFromIndex(),
             Number::make(__('Mada percentage fees'), 'mada_percentage')
-                ->rules('required', 'numeric', 'max:100')
+                ->rules('required', 'numeric', 'max:100', new MinValueOfChannel())
                 ->step(0.01)
                 ->hideFromIndex(),
             Number::make(__('Credit Card fixed fees'), 'credit_cards_fixed')
-                ->rules('required', 'numeric', 'max:1000')
+                ->rules('required', 'numeric', 'max:1000', new MinValueOfChannel())
                 ->step(0.01)
                 ->hideFromIndex(),
             Number::make(__('Credit Card percentage fees'), 'credit_cards_percentage')
-                ->rules('required', 'numeric', 'max:100')
+                ->rules('required', 'numeric', 'max:100', new MinValueOfChannel())
                 ->step(0.01)
                 ->hideFromIndex(),
         ];
