@@ -24,6 +24,7 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Naif\Toggle\Toggle;
@@ -319,5 +320,20 @@ class User extends Resource
     public static function authorizedToCreate(Request $request)
     {
         return false;
+    }
+
+    /**
+     * Build a "relatable" query for the given resource.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function relatableBanks(NovaRequest $request, $query)
+    {
+        return $query->where('active', true);
     }
 }
