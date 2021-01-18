@@ -60332,7 +60332,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60345,8 +60345,6 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__table_expand_vue__);
-//
-//
 //
 //
 //
@@ -61343,7 +61341,11 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("Table", {
-                attrs: { columns: _vm.transfersTable, data: _vm.transfers },
+                attrs: {
+                  columns: _vm.transfersTable,
+                  data: _vm.transfers,
+                  "no-data-text": _vm.__("No Data")
+                },
                 scopedSlots: _vm._u([
                   {
                     key: "fromto",
@@ -61413,52 +61415,40 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.new_transactions.length
-            ? _c("Table", {
-                attrs: {
-                  stripe: "",
-                  height: "400",
-                  columns: _vm.transactionsTable,
-                  data: _vm.transactions
-                },
-                scopedSlots: _vm._u(
-                  [
-                    {
-                      key: "type",
-                      fn: function(ref) {
-                        var row = ref.row
-                        return [
-                          row.type == "credit"
-                            ? _c(
-                                "Button",
-                                { attrs: { type: "success", size: "small" } },
-                                [_vm._v(_vm._s(_vm.__(row.type)))]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          row.type == "debit"
-                            ? _c(
-                                "Button",
-                                { attrs: { type: "error", size: "small" } },
-                                [_vm._v(_vm._s(_vm.__(row.type)))]
-                              )
-                            : _vm._e()
-                        ]
-                      }
-                    }
-                  ],
-                  null,
-                  false,
-                  2436715341
-                )
-              })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.new_transactions.length == 0
-            ? _c("p", { staticStyle: { "text-align": "center" } }, [
-                _vm._v(_vm._s(_vm.__("No Data")))
-              ])
-            : _vm._e()
+          _c("Table", {
+            attrs: {
+              stripe: "",
+              height: "400",
+              columns: _vm.transactionsTable,
+              data: _vm.transactions,
+              "no-data-text": _vm.__("No Data")
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "type",
+                fn: function(ref) {
+                  var row = ref.row
+                  return [
+                    row.type == "credit"
+                      ? _c(
+                          "Button",
+                          { attrs: { type: "success", size: "small" } },
+                          [_vm._v(_vm._s(_vm.__(row.type)))]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    row.type == "debit"
+                      ? _c(
+                          "Button",
+                          { attrs: { type: "error", size: "small" } },
+                          [_vm._v(_vm._s(_vm.__(row.type)))]
+                        )
+                      : _vm._e()
+                  ]
+                }
+              }
+            ])
+          })
         ],
         1
       ),
@@ -61507,7 +61497,8 @@ var render = function() {
               stripe: "",
               height: "400",
               columns: _vm.billsTable,
-              data: _vm.bills
+              data: _vm.bills,
+              "no-data-text": _vm.__("No Data")
             },
             scopedSlots: _vm._u([
               {
@@ -61529,13 +61520,7 @@ var render = function() {
                 }
               }
             ])
-          }),
-          _vm._v(" "),
-          _vm.new_bills.length == 0
-            ? _c("p", { staticStyle: { "text-align": "center" } }, [
-                _vm._v(_vm._s(_vm.__("No Data")))
-              ])
-            : _vm._e()
+          })
         ],
         1
       )
