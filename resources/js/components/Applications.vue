@@ -88,7 +88,7 @@
               </div>              
               <!-- Redirect URL -->
               <div class="form-group row">
-                <label class="col-md-3 col-form-label">{{ __('Webhook URL')}}</label>
+                <label class="col-md-3 col-form-label">{{ __('Webhook URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
                   <input type="text" class="form-control" name="webhook_url" @keyup.enter="store" v-model="createForm.webhook_url">
                 </div>
@@ -142,7 +142,7 @@
               </div>              
               <!-- Webhook URL -->
               <div class="form-group row">
-                <label class="col-md-3 col-form-label">{{ __('Webhook URL')}}</label>
+                <label class="col-md-3 col-form-label">{{ __('Webhook URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
                   <input type="text" class="form-control" name="webhook_url" @keyup.enter="update" v-model="editForm.webhook_url">
                 </div>
