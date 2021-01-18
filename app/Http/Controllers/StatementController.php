@@ -27,7 +27,7 @@ class StatementController extends Controller
             ->when($request->transaction_type == 'debit' || $request->transaction_type == 'credit', function($q) use($request){
                 $q->whereType($request->transaction_type);
             })
-            ->when(isset($request->transaction_source) && $request->transaction_source != 'all', function($q) use($request){
+            ->when(isset($request->transaction_source) && $request->transaction_source != 'all' && $request->transaction_source != 'undefined', function($q) use($request){
                 $q->whereTransactionSource($request->transaction_source);
             })
             ->get();

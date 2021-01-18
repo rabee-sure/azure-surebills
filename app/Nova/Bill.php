@@ -2,12 +2,13 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\BillSettled;
 use App\Nova\Filters\BillSource;
 use App\Nova\Filters\BillStatus;
 use App\Nova\Filters\DateRange;
+use App\Nova\Filters\PaidDateRange;
 use App\Nova\Filters\UserId;
 use Illuminate\Http\Request;
-use Timothyasp\Badge\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
@@ -21,8 +22,9 @@ use Laravel\Nova\Fields\Stack;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Titasgailius\SearchRelations\SearchesRelations;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use Timothyasp\Badge\Badge;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Bill extends Resource
 {
@@ -253,7 +255,9 @@ class Bill extends Resource
             new BillStatus,
             new BillSource,
             new DateRange,
+            new PaidDateRange,
             new UserId(),
+            new BillSettled(),
         ];
     }
 

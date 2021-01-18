@@ -72,7 +72,7 @@
     <div style="padding-top: 10px;">
         <Card :bordered="false">
             <p slot="title">{{ __('Transfers for')}} {{ user.name}}</p>
-            <Table :columns="transfersTable" :data="transfers">
+            <Table :columns="transfersTable" :data="transfers" :no-data-text="__('No Data')">
                 <template slot-scope="{ row }" slot="fromto">
                     {{ __(row.filter_from) }} - {{ __(row.filter_to) }}
                 </template>
@@ -89,13 +89,12 @@
         <download-excel v-if="new_transactions.length" :data="new_transactions" :name="'transactions-'+ Date.now()">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
-        <Table stripe height="400" v-if="new_transactions.length" :columns="transactionsTable" :data="transactions">
+        <Table stripe height="400" :columns="transactionsTable" :data="transactions" :no-data-text="__('No Data')">
             <template slot-scope="{ row }" slot="type">
                 <Button type="success" v-if="row.type == 'credit'" size="small">{{ __(row.type) }}</Button>
                 <Button type="error" v-if="row.type == 'debit'" size="small">{{ __(row.type) }}</Button>
             </template>
         </Table>
-        <p v-if="new_transactions.length == 0" style="text-align:center">{{__('No Data')}}</p>
     </Modal>
 
     <Modal
@@ -108,12 +107,11 @@
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
 
-        <Table stripe height="400" :columns="billsTable" :data="bills">
+        <Table stripe height="400" :columns="billsTable" :data="bills" :no-data-text="__('No Data')">
             <template slot-scope="{ row }" slot="name">
                     <p>{{row.name}}     <Badge v-if="row.related_channel" text="channel"></Badge></p>
             </template>
         </Table>
-        <p v-if="new_bills.length == 0"  style="text-align:center">{{__('No Data')}}</p>
     </Modal>
 </div>
 
@@ -247,7 +245,7 @@ export default {
                     width: 180,
                 },
                 {
-                    title: this.__('from - to'),
+                    title: this.__('From - To'),
                     slot: 'fromto',
                     width: 300,
                 },

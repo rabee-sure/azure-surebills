@@ -28,6 +28,7 @@ class ApplicationRequest extends FormRequest
         return [
             'name' => ['required'],
             'redirect' => ['required', 'url'],
+            'webhook_url' => ['required', 'url'],
         ];
     }
 

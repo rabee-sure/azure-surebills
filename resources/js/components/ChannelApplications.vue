@@ -19,6 +19,7 @@
               <tr>
                 <th scope="col">{{ __('ID')}}</th>
                 <th scope="col">{{ __('Name')}}</th>
+                <th scope="col">{{ __('Client Email')}}</th>
                 <th scope="col">{{ __('Secret')}}</th>
                 <th scope="col">{{ __('webhook URL')}}</th>
                 <th scope="col">{{ __('webhook Secret')}}</th>
@@ -33,6 +34,7 @@
                 <td style="vertical-align: middle;">{{ application.id }}</td>
                 <!-- Name -->
                 <td style="vertical-align: middle;">{{ application.name }}</td>
+                <td style="vertical-align: middle;">{{ application.email}}</td>
                 <!-- Secret -->
                 <td style="vertical-align: middle;"><code>{{ application.secret ? application.secret : '-' }}</code></td>
                 <td style="vertical-align: middle;">{{ application.webhook_url }}</td>
@@ -44,7 +46,23 @@
                 </td>
                 <!-- Delete Button -->
                 <td style="vertical-align: middle;">
-                  <a class="action-link text-danger" @click="destroy(application)">{{ __('Delete')}}</a>
+                  <a class="action-link text-danger" @click="showDeleteModal()">{{ __('Delete')}}</a>
+
+                      <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title">{{ __('Are you sure you want to delete this item?')}}</h4>
+                            </div>
+
+                            <!-- Modal Actions -->
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-danger" data-dismiss="modal" @click="destroy(application)">{{ __('Delete')}}</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                 </td>
               </tr>
             </tbody>
@@ -406,7 +424,6 @@
              */
             showApplicationSecret(applicationSecret) {
                 this.applicationSecret = applicationSecret;
-
                 $('#modal-application-secret').modal('show');
             },
 
@@ -418,7 +435,10 @@
                         .then(response => {
                             this.getApplications();
                         });
-            }
+            },
+            showDeleteModal() {
+                $('#modal-delete').modal('show');
+            },
         }
     }
 </script>

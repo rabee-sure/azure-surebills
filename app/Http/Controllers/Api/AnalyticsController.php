@@ -36,33 +36,42 @@ class AnalyticsController extends Controller
         $from = Carbon::parse($request->from)->addHours(2)->startOfDay();
         $to = Carbon::parse($request->to)->addHours(2)->endOfDay();
 
-        // dd($to);
-        $paid_bills = Bill::whereBetween('created_at', [$from, $to])->paid();
+        $paid_bills = Bill::whereBetween('paid_at', [$from, $to])->paid()->get();
         $sum_total = $paid_bills->sum('total');
         $sum_surebills_fees = $paid_bills->sum('payment_surebills_fees');
         $sum_surebills_fees_vat = $paid_bills->sum('payment_surebills_fees_vat');
 
+        $paid_bills_not_settled =  $paid_bills->where('settled', false);
+        $total_due_merchants = $paid_bills_not_settled->sum('total') - $paid_bills_not_settled->sum('payment_surebills_fees') - $paid_bills_not_settled->sum('payment_surebills_fees_vat');
         $total_transfers_merchants = Transfer::whereBetween('created_at', [$from, $to])->sum('amount');
-        $total_due_merchants = $sum_total - $sum_surebills_fees_vat - $sum_surebills_fees - $total_transfers_merchants;
 
-        $filter2 = $this->encode([
-            [    
-                "class"=> "App\Nova\Filters\DateRange",
-                "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
-            ],
-            [    
-                "class"=> "App\Nova\Filters\BillStatus",
-                "value" => ["paid"]
-            ]
-        ]);        
+     
         $filter = $this->encode([
             [    
                 "class"=> "App\Nova\Filters\DateRange",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ]
         ]);
-        
-
+        $filter2 = $this->encode([
+            [    
+                "class"=> "App\Nova\Filters\PaidDateRange",
+                "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
+            ],
+            [    
+                "class"=> "App\Nova\Filters\BillStatus",
+                "value" => ["paid"]
+            ]
+        ]);
+        $filter3 = $this->encode([
+            [    
+                "class"=> "App\Nova\Filters\PaidDateRange",
+                "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
+            ],
+            [    
+                "class"=> "App\Nova\Filters\BillSettled",
+                "value" => [1]
+            ]
+        ]);   
         return response()->json([
             'data' => [
                 'users' => [
@@ -86,19 +95,19 @@ class AnalyticsController extends Controller
                     'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
                 ],
                 'surebills_fees' => [
-                    'count' =>  $sum_surebills_fees,
+                    'count' =>  round($sum_surebills_fees, 2),
                     'filter' =>  $filter,
                     'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
                 ],
                 'surebills_fees_vat' => [
-                    'count' =>  $sum_surebills_fees_vat,
+                    'count' =>  round($sum_surebills_fees_vat, 2),
                     'filter' =>  $filter,
                     'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
                 ],
                 'total_due_merchants' => [
                     'count' =>  round($total_due_merchants, 2),
-                    'filter' =>  $filter,
-                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
+                    'filter' =>  $filter3,
+                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter3,
                 ],
                 'total_transfers_merchants' => [
                     'count' =>  round($total_transfers_merchants, 2),
