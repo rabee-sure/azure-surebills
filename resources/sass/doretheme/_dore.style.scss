@@ -9692,6 +9692,9 @@ button.sendBill {
   } /* invalid-feedback */
   .image-side {
     background: #fff;
+    html.body-dark-mode & {
+      background: $background-color;
+    }
     @media (min-width: 320px) and (max-width: 767px) {
       border-top-left-radius: 0.75rem;
     }
@@ -9719,6 +9722,9 @@ button.sendBill {
   } /* logo-single */
   .image-side {
     background: #fff;
+    html.body-dark-mode & {
+      background: $background-color;
+    }
     @media (min-width: 320px) and (max-width: 767px) {
       border-top-left-radius: 0.75rem;
     }
@@ -9754,6 +9760,11 @@ button.sendBill {
       font-size: 0.8rem;
       border: 1px solid #d7d7d7;
       margin: 0 -1px 0 0;
+      html.body-dark-mode & {
+        background: #424242;
+        color: #969696;
+        border-color: #424242;
+      }
     } /* phone_key */
     label.form-group {
       flex: 1 1 0;
@@ -9774,6 +9785,10 @@ button.sendBill {
     display: table;
   } /* logo-single */
   .image-side {
+    background: #fff;
+    html.body-dark-mode & {
+      background: $background-color;
+    }
     @media (min-width: 320px) and (max-width: 767px) {
       border-top-left-radius: 0.75rem;
     }
@@ -10336,9 +10351,15 @@ span.discount_type_item2 {
   flex-wrap: wrap;
   .custom-control {
     margin: -4px 0 0 20px;
+    [dir="ltr"] & {
+      margin: -4px 20px 0 0;
+    } /* ltr */
     @include respond-below(sm) {
       width: 25%;
       margin: 0;
+      [dir="ltr"] & {
+        margin: 0;
+      } /* ltr */
     }
     label {
       display: flex;
@@ -10354,6 +10375,9 @@ span.discount_type_item2 {
 
 #displayOptions {
   margin: 0 0 0 15px;
+  [dir="ltr"] & {
+    margin: 0 15px 0 0;
+  } /* ltr */
   @include respond-below(sm) {
     width: 100%;
     margin: 10px auto;
@@ -10364,12 +10388,12 @@ span.discount_type_item2 {
     }
     input.form-control {
       height: 30px;
-      padding: 0 10px 0 30px;
+      padding: 0 30px 0 5px;
       min-width: 200px;
       font-size: 14px;
       border-radius: 4px;
       [dir="ltr"] & {
-        direction: rtl;
+        padding: 0 5px 0 30px;
       } /* ltr */
       @include respond-below(sm) {
         height: 35px;
@@ -10382,6 +10406,9 @@ span.discount_type_item2 {
       } /* ltr */
     } /* input */
     &::after {
+      top: 4px;
+      right: 7px;
+      left: auto;
       @include respond-below(sm) {
         top: 7px;
         left: 20px;
@@ -10429,6 +10456,20 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
   [dir="ltr"] & {
     direction: ltr !important;
   } /* ltr */
+  html.body-dark-mode & {
+    background: #333333;
+    border-color: #555555;
+  }
+  &::before {
+    html.body-dark-mode & {
+      border-bottom-color: #555555;
+    }
+  }
+  &::after {
+    html.body-dark-mode & {
+      border-bottom-color: #333333;
+    }
+  }
   .ranges {
     float: right !important;
     text-align: right !important;
@@ -10461,6 +10502,9 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
       border-left: none;
       border-right: 1px solid #ddd;
       padding: 8px 8px 8px 0;
+      html.body-dark-mode & {
+        border-color:#555555 !important;
+      }
       @include respond-below(sm) {
         width: 100%;
         margin: 0;
@@ -10487,8 +10531,15 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
       [dir="ltr"] & {
         float: right;
       } /* ltr */
+      html.body-dark-mode & {
+        border-color:#555555 !important;
+      }
     } /* right */
     .calendar-table {
+      html.body-dark-mode & {
+        background: #333333;
+        border: 1px solid #333333;
+      }
       table {
         thead {
           tr {
@@ -10528,6 +10579,11 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
       } /* table */
     } /* calendar-table */
   } /* drp-calendar */
+  .drp-buttons {
+    html.body-dark-mode & {
+      border-color:#555555 !important;
+    }
+  } /* drp-buttons */
 } /* daterangepicker */
 
 span.requirement {
@@ -10811,3 +10867,34 @@ div#smartWizardValidation {
     } /* i */
   } /* label */
 } /* smartWizardValidation */
+
+div#modal-create-application {
+  padding: 0 !important;
+} /* modal-create-application */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid #d7d7d7 !important;
+  -webkit-text-fill-color: #3a3a3a !important;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+  html.body-dark-mode & {
+    border: 1px solid #424242 !important;
+    -webkit-text-fill-color: #969696 !important;
+    -webkit-box-shadow: 0 0 0px 1000px #232223 inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
+
+.form-control:disabled, .form-control[readonly] {
+  html.body-dark-mode & {
+    background: #000;
+  }
+}

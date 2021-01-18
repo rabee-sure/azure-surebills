@@ -189,8 +189,9 @@
       };
 
       $(function() {
+        var lang = "<?php echo app()->getLocale(); ?>"; 
         $('input[name="dates"]').daterangepicker({
-          opens: 'left',
+          opens: lang == 'en' ? 'right' : 'left',
           locale: {
               daysOfWeek: [
                   '{{__('Sun')}}',

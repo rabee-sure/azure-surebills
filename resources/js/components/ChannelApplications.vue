@@ -73,7 +73,7 @@
 
     <!-- Create Application Modal -->
     <div class="modal fade" id="modal-create-application" tabindex="-1" role="dialog">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">{{ __('Create Application')}} </h4>
@@ -93,7 +93,7 @@
 
               <!-- Email -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Client Email')}} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Client Email')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="text" class="form-control" name="email" @keyup.enter="store" v-model="createForm.email">
                 </div>
@@ -101,7 +101,7 @@
 
               <!-- Redirect URL -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Redirect URL')}} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Redirect URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="text" class="form-control" name="redirect" @keyup.enter="store" v-model="createForm.redirect">
                   <span class="form-text text-muted">{{ __('Your application\'s authorization callback URL.')}}</span>
@@ -109,7 +109,7 @@
               </div>              
               <!-- Redirect URL -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Webhook URL')}} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Webhook URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="text" class="form-control" name="webhook_url" @keyup.enter="store" v-model="createForm.webhook_url">
                 </div>
@@ -117,7 +117,7 @@
 
               <!-- Mada Fixed -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Mada Fixed') }} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Mada Fixed') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="number" class="form-control" name="mada_fixed" @keyup.enter="store" v-model="createForm.mada_fixed">
                 </div>
@@ -125,7 +125,7 @@
 
               <!-- Mada Percentage -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Mada Percentage') }} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Mada Percentage') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="number" class="form-control" name="mada_percentage" @keyup.enter="store" v-model="createForm.mada_percentage">
                 </div>
@@ -133,7 +133,7 @@
 
               <!-- Credit Cards Fixed -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Credit Cards Fixed') }} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Credit Cards Fixed') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="number" class="form-control" name="credit_cards_fixed" @keyup.enter="store" v-model="createForm.credit_cards_fixed">
                 </div>
@@ -141,7 +141,7 @@
 
               <!-- Credit Cards Percentage -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Credit Cards Percentage') }} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Credit Cards Percentage') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="number" class="form-control" name="credit_cards_percentage" @keyup.enter="store" v-model="createForm.credit_cards_percentage">
                 </div>
@@ -160,7 +160,7 @@
 
     <!-- Edit Application Modal -->
     <div class="modal fade" id="modal-edit-application" tabindex="-1" role="dialog">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">{{ __('Edit Application')}}</h4>
@@ -180,7 +180,7 @@
 
               <!-- Email -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Client Email')}} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Client Email')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="text" class="form-control" name="email" @keyup.enter="update" v-model="editForm.email" disabled>
                 </div>
@@ -188,7 +188,7 @@
 
               <!-- Redirect URL -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Redirect URL')}} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Redirect URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="text" class="form-control" name="redirect" @keyup.enter="update" v-model="editForm.redirect">
                   <span class="form-text text-muted">{{ __('Your application\'s authorization callback URL.')}}</span>
@@ -197,7 +197,7 @@
 
               <!-- Webhook URL -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Webhook URL')}} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Webhook URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="text" class="form-control" name="webhook_url" @keyup.enter="update" v-model="editForm.webhook_url">
                 </div>
@@ -205,7 +205,7 @@
 
               <!-- Mada Fixed -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Mada Fixed') }} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Mada Fixed') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="number" class="form-control" name="mada_fixed" @keyup.enter="update" v-model="editForm.mada_fixed">
                 </div>
@@ -213,7 +213,7 @@
 
               <!-- Mada Percentage -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Mada Percentage') }} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Mada Percentage') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="number" class="form-control" name="mada_percentage" @keyup.enter="update" v-model="editForm.mada_percentage">
                 </div>
@@ -221,7 +221,7 @@
 
               <!-- Credit Cards Fixed -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Credit Cards Fixed') }} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Credit Cards Fixed') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="number" class="form-control" name="credit_cards_fixed" @keyup.enter="update" v-model="editForm.credit_cards_fixed">
                 </div>
@@ -229,7 +229,7 @@
 
               <!-- Credit Cards Percentage -->
               <div class="form-group row">
-                <label class="col-md-4 col-form-label">{{ __('Credit Cards Percentage') }} *</label>
+                <label class="col-md-4 col-form-label">{{ __('Credit Cards Percentage') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input type="number" class="form-control" name="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage">
                 </div>
