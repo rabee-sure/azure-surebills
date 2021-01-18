@@ -19,6 +19,7 @@
               <tr>
                 <th scope="col">{{ __('ID')}}</th>
                 <th scope="col">{{ __('Name')}}</th>
+                <th scope="col">{{ __('Client Email')}}</th>
                 <th scope="col">{{ __('Secret')}}</th>
                 <th scope="col">{{ __('webhook URL')}}</th>
                 <th scope="col">{{ __('webhook Secret')}}</th>
@@ -33,6 +34,7 @@
                 <td style="vertical-align: middle;">{{ application.id }}</td>
                 <!-- Name -->
                 <td style="vertical-align: middle;">{{ application.name }}</td>
+                <td style="vertical-align: middle;">{{ application.email}}</td>
                 <!-- Secret -->
                 <td style="vertical-align: middle;"><code>{{ application.secret ? application.secret : '-' }}</code></td>
                 <td style="vertical-align: middle;">{{ application.webhook_url }}</td>
