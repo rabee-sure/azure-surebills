@@ -53,7 +53,7 @@
 
     <!-- Create Application Modal -->
     <div class="modal fade" id="modal-create-application" tabindex="-1" role="dialog">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">{{ __('Create Application')}} </h4>
@@ -72,7 +72,7 @@
             <form role="form">
               <!-- Name -->
               <div class="form-group row">
-                <label class="col-md-3 col-form-label">{{ __('Name')}}</label>
+                <label class="col-md-3 col-form-label">{{ __('Name')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
                   <input id="create-application-name" type="text" class="form-control" @keyup.enter="store" v-model="createForm.name">
                   <span class="form-text text-muted">{{ __('Something your users will recognize and trust.')}}</span>
@@ -80,7 +80,7 @@
               </div>
               <!-- Redirect URL -->
               <div class="form-group row">
-                <label class="col-md-3 col-form-label">{{ __('Redirect URL')}}</label>
+                <label class="col-md-3 col-form-label">{{ __('Redirect URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
                   <input type="text" class="form-control" name="redirect" @keyup.enter="store" v-model="createForm.redirect">
                   <span class="form-text text-muted">{{ __('Your application\'s authorization callback URL.')}}</span>
@@ -107,7 +107,7 @@
 
     <!-- Edit Application Modal -->
     <div class="modal fade" id="modal-edit-application" tabindex="-1" role="dialog">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">{{ __('Edit Application')}}</h4>
@@ -126,7 +126,7 @@
             <form role="form">
               <!-- Name -->
               <div class="form-group row">
-                <label class="col-md-3 col-form-label">{{ __('Name')}}</label>
+                <label class="col-md-3 col-form-label">{{ __('Name')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
                   <input id="edit-application-name" type="text" class="form-control" @keyup.enter="update" v-model="editForm.name">
                   <span class="form-text text-muted">{{ __('Something your users will recognize and trust.')}}</span>
@@ -134,7 +134,7 @@
               </div>
               <!-- Redirect URL -->
               <div class="form-group row">
-                <label class="col-md-3 col-form-label">{{ __('Redirect URL')}}</label>
+                <label class="col-md-3 col-form-label">{{ __('Redirect URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
                   <input type="text" class="form-control" name="redirect" @keyup.enter="update" v-model="editForm.redirect">
                   <span class="form-text text-muted">{{ __('Your application\'s authorization callback URL.')}}</span>

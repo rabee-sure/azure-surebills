@@ -10336,9 +10336,15 @@ span.discount_type_item2 {
   flex-wrap: wrap;
   .custom-control {
     margin: -4px 0 0 20px;
+    [dir="ltr"] & {
+      margin: -4px 20px 0 0;
+    } /* ltr */
     @include respond-below(sm) {
       width: 25%;
       margin: 0;
+      [dir="ltr"] & {
+        margin: 0;
+      } /* ltr */
     }
     label {
       display: flex;
@@ -10354,6 +10360,9 @@ span.discount_type_item2 {
 
 #displayOptions {
   margin: 0 0 0 15px;
+  [dir="ltr"] & {
+    margin: 0 15px 0 0;
+  } /* ltr */
   @include respond-below(sm) {
     width: 100%;
     margin: 10px auto;
@@ -10364,12 +10373,12 @@ span.discount_type_item2 {
     }
     input.form-control {
       height: 30px;
-      padding: 0 10px 0 30px;
+      padding: 0 30px 0 5px;
       min-width: 200px;
       font-size: 14px;
       border-radius: 4px;
       [dir="ltr"] & {
-        direction: rtl;
+        padding: 0 5px 0 30px;
       } /* ltr */
       @include respond-below(sm) {
         height: 35px;
@@ -10382,6 +10391,9 @@ span.discount_type_item2 {
       } /* ltr */
     } /* input */
     &::after {
+      top: 4px;
+      right: 7px;
+      left: auto;
       @include respond-below(sm) {
         top: 7px;
         left: 20px;
@@ -10811,3 +10823,7 @@ div#smartWizardValidation {
     } /* i */
   } /* label */
 } /* smartWizardValidation */
+
+div#modal-create-application {
+  padding: 0 !important;
+} /* modal-create-application */
