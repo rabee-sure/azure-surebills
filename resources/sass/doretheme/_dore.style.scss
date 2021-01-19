@@ -10497,6 +10497,13 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
   } /* .drp-buttons */
   .drp-calendar {
     max-width: 320px !important;
+    .next, .prev {
+      span {
+        html.body-dark-mode & {
+          border-color:#969696 !important;
+        }
+      }
+    } /* next */
     &.left {
       float: right;
       border-left: none;
@@ -10564,18 +10571,36 @@ table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_des
             } /* th */
           } /* tr */
         } /* thead */
-        td.start-date {
-          border-radius: 0 4px 4px 0;
-          [dir="ltr"] & {
-            border-radius: 4px 0 0 4px;
-          } /* ltr */
-        } /* start-date */
-        td.end-date {
-          border-radius: 4px 0 0 4px;
-          [dir="ltr"] & {
+        td {
+          &.start-date {
             border-radius: 0 4px 4px 0;
-          } /* ltr */
-        } /* end-date */
+            [dir="ltr"] & {
+              border-radius: 4px 0 0 4px;
+            } /* ltr */
+          } /* start-date */
+          &.end-date {
+            border-radius: 4px 0 0 4px;
+            [dir="ltr"] & {
+              border-radius: 0 4px 4px 0;
+            } /* ltr */
+          } /* end-date */
+          &.off {
+            html.body-dark-mode & {
+              background-color:#333333;
+              color: #666666;
+            }
+          } /* off */
+          &.active {
+            background-color:$theme-color-1 !important;
+            color: #ffffff !important;
+          } /* active */
+          &.in-range {
+            html.body-dark-mode & {
+              background-color:#444444;
+              color: #999999;
+            }
+          } /* in-range */
+        } /* td */
       } /* table */
     } /* calendar-table */
   } /* drp-calendar */
