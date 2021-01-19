@@ -26,10 +26,10 @@ class ChannelApplicationRequest extends FormRequest
     public function rules()
     {
         $rules =  [
-            'mada_fixed' => ['required', 'numeric', 'max:1000', 'min:'.$this->channel->mada_fixed],
-            'mada_percentage' => ['required', 'numeric', 'max:100', 'min:'.$this->channel->mada_percentage],
-            'credit_cards_fixed' => ['required', 'numeric', 'max:1000', 'min:'.$this->channel->credit_cards_fixed],
-            'credit_cards_percentage' => ['required', 'numeric', 'max:100', 'min:'.$this->channel->credit_cards_percentage],            
+            'mada_fixed' => ['required', 'numeric', 'max:1000', 'gt:'.$this->channel->mada_fixed],
+            'mada_percentage' => ['required', 'numeric', 'max:100', 'gt:'.$this->channel->mada_percentage],
+            'credit_cards_fixed' => ['required', 'numeric', 'max:1000', 'gt:'.$this->channel->credit_cards_fixed],
+            'credit_cards_percentage' => ['required', 'numeric', 'max:100', 'gt:'.$this->channel->credit_cards_percentage],            
 
             'redirect' => ['required', 'url'],
             'webhook_url' => ['required', 'url'],
