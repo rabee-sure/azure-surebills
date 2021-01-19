@@ -12,7 +12,7 @@
 	"Bill VAT": "ضريبة دفع",
 	"Transaction Type": "نوع العملية",
 	"Transactions": "العمليات",
-	"Payment Process": "عملية الدفع",
+	"Payment Transactions": "عملية الدفع",
 	"client should not have multiple applications under the same channel": "يجب ألا يكون لدى العميل تطبيقات متعددة ضمن نفس القناة",
 	"Successful Bills": " الفواتير الناجحة",
 	"Application Name required": "اسم التطبيق مطلوب",
