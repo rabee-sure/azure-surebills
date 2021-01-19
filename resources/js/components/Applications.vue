@@ -42,7 +42,7 @@
                 </td>
                 <!-- Delete Button -->
                 <td style="vertical-align: middle;">
-                  <a class="action-link text-danger" @click="destroy(application)"  v-if="application.channel == null">{{ __('Delete')}}</a>
+                  <a class="action-link text-danger" @click="deletes(application)"  v-if="application.channel == null">{{ __('Delete')}}</a>
                 </td>
               </tr>
             </tbody>
@@ -159,6 +159,23 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="modal-delete-application" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ __('Are you sure you want to delete this item?')}}</h4>
+          </div>
+
+          <!-- Modal Actions -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="destroy">{{ __('Delete')}}</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Application Secret Modal -->
     <div class="modal fade" id="modal-application-secret" tabindex="-1" role="dialog">
       <div class="modal-dialog">
@@ -188,6 +205,7 @@
                 applications: [],
 
                 applicationSecret: null,
+                deleteId: null,
 
                 createForm: {
                     errors: [],
@@ -327,12 +345,13 @@
 
                 $('#modal-application-secret').modal('show');
             },
+            deletes(application) {
+                this.deleteId = application.id;
 
-            /**
-             * Destroy the given application.
-             */
-            destroy(application) {
-                axios.delete('/applications/' + application.id)
+                $('#modal-delete-application').modal('show');
+            },
+            destroy() {
+              axios.delete('/applications/' + this.deleteId )
                         .then(response => {
                             this.getApplications();
                         });
