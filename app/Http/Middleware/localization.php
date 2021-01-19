@@ -19,9 +19,9 @@ class localization
         $local = 'ar';
 
         if($request->hasHeader('X-localization')) {
-            $local =  $request->header('X-localization') ;
+            $local = $request->header('X-localization') ;
         }elseif($request->has('lang')){
-            $local =$request->lang;
+            $local = $request->lang;
         }
 
         // set laravel localization

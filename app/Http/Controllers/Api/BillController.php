@@ -35,6 +35,7 @@ class BillController extends Controller
      */
     public function store(BillApiRequest $request)
     {
+
         $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
 
         if(!isset($application)){
@@ -62,6 +63,9 @@ class BillController extends Controller
             'email' => $request->customer_email,
         ]);
 
+        $send_sms = $request->send_sms === null ? $user->settings->create_send_sms : $request->send_sms;
+        $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
+
         $bill = Bill::create([
             'user_id' => $user->id,
             'application_id' => $application->id,
@@ -79,7 +83,7 @@ class BillController extends Controller
             'expiry_minutes' => $request->expiry_minutes,
             'due_date' => Carbon::parse($request->due_date),
 
-            'add_discount' => $request->add_discount?? false,
+            'add_discount' => $request->add_discount ?? false,
             'discount_type' => $request->discount_type,
             'discount_value' => $request->discount_value,
 
@@ -87,20 +91,11 @@ class BillController extends Controller
             'tax_name' => $request->tax_name,
             'tax_value' => $request->tax_value,
 
-            'send_sms' => $request->send_sms,
-            'send_email' => $request->send_email,
+            'send_sms' => $send_sms,
+            'send_email' => $send_email,
             'reference_id' => $request->reference_id,
             'is_redirect' => $request->is_redirect,
         ]);
-
-        if($user->settings->create_send_sms){
-            $bill->send_sms = $user->settings->create_send_sms;
-        }
-        if($user->settings->create_send_email){
-            $bill->send_email = $user->settings->create_send_email;
-        }
-        $bill->save();
-
 
         foreach ($request->items as $item) {
             BillItem::create([
@@ -126,17 +121,13 @@ class BillController extends Controller
             }
         }
 
-        if($request->add_tax ){
+        if($request->add_tax !== null){
             $bill->add_tax = $request->add_tax;
             $bill->tax_value = $request->tax_value;
+            $vat = ($sub_total -$discount) * $request->tax_value /100;
         }elseif($user->settings->add_tax){
             $bill->add_tax = $user->settings->add_tax;
             $bill->tax_value = $user->settings->tax_value;      
-        }
-
-        if($request->add_tax){
-           $vat = ($sub_total -$discount) * $request->tax_value /100;
-        }elseif($user->settings->add_tax){
             $vat = ($sub_total -$discount) * $user->settings->tax_value /100;
         }
 
@@ -147,9 +138,8 @@ class BillController extends Controller
         $bill->total = $sub_total - $discount + $vat;
         $bill->status = 'pending';
         $bill->save();
-        
         event(new BillCreated($bill));
-
+        
         return new BillApiResource($bill);
     }
 

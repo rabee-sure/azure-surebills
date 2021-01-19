@@ -146,7 +146,8 @@ class Bill extends Model
      */
     public function getPayUrlAttribute()
     {
-        return route('paybillpage', ['id' => $this->pay_id]);
+        // dd(\App::getLocale());
+        return route('paybillpagelang', ['id' => $this->pay_id, 'lang' => app()->getLocale()]);
     }
 
     /**
