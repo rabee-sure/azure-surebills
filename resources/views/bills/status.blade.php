@@ -120,7 +120,7 @@
             @endif
 
           </div><!-- single_bill_content -->
-          <a href="/" target="_blank" title="Sure Bills" class="logo_bills"></a>
+          <a target="_blank" title="Sure Bills" class="logo_bills"></a>
         </div><!-- col-12 -->
       </div><!-- row -->
     </div><!-- container -->
