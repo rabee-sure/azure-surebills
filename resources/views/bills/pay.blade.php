@@ -30,7 +30,7 @@
             </div><!-- logo -->
           @endif
 
-          @if($bill->application_id == null)
+          @if($bill->application_id == null && !$bill->user->settings->api_bill_style)
             <div class="title">
               <span>{{ $bill->user->business_name }}</span>
 
@@ -68,7 +68,7 @@
             </div>
           @endif
 
-          @if($bill->application_id == null)
+          @if($bill->application_id == null && !$bill->user->settings->api_bill_style)
             <div class="date_time">
               <span>
                 {{__('Due on')}} {{ $bill->dateLocalization()}}
