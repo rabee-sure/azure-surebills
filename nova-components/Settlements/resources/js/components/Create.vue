@@ -164,9 +164,9 @@ export default {
                     key: 'paid_at',
                     width: 150,
                 },{
-                    title: this.__('A'),
+                    title: this.__('Details'),
                     key: 'action',
-                    width: 50,
+                    width: 150,
                     align: 'center',
                     render: (h, params) => {
                         return h('div', [
