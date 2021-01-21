@@ -27,7 +27,7 @@ class BillTotalValidation implements Rule
     public function passes($attribute, $value)
     {
         $this->total = collect(request()->items)->sum(function ($item) {
-            return $item['price'] ?? 0 * $item['quantity'] ?? 0;
+            return ($item['price'] ?? 0) * ($item['quantity'] ?? 0);
         });
 
         if(request()->has('add_discount'))
@@ -37,8 +37,7 @@ class BillTotalValidation implements Rule
             else if(request()->discount_type == 'percentage')
                 $this->total -= ($this->total * request()->discount_value) / 100;
         }
-
-        return ($this->total > 2 || $this->total < 14000);
+        return !($this->total < 2 || $this->total > 14000);
     }
 
     /**
@@ -48,6 +47,7 @@ class BillTotalValidation implements Rule
      */
     public function message()
     {
+
         if($this->total < 2)
             return __('Invoice total is less than 2 SAR');
         else if($this->total > 14000)
