@@ -46,23 +46,7 @@
                 </td>
                 <!-- Delete Button -->
                 <td style="vertical-align: middle;">
-                  <a class="action-link text-danger" @click="showDeleteModal()">{{ __('Delete')}}</a>
-
-                      <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h4 class="modal-title">{{ __('Are you sure you want to delete this item?')}}</h4>
-                            </div>
-
-                            <!-- Modal Actions -->
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-danger" data-dismiss="modal" @click="destroy(application)">{{ __('Delete')}}</button>
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                  <a class="action-link text-danger" @click="deletes(application)">{{ __('Delete')}}</a>
                 </td>
               </tr>
             </tbody>
@@ -80,22 +64,18 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body">
-            <!-- Form Errors -->
-            <div class="alert alert-danger" v-if="createForm.errors.length > 0">
-              <p class="mb-0"><strong> {{ __('Whoops!')}}</strong> {{ __('Something went wrong!')}}</p>
-              <br>
-              <ul>
-                <li v-for="error in createForm.errors">{{ error }}</li>
-              </ul>
-            </div>
+
             <!-- Create Application Form -->
             <form role="form">     
-
               <!-- Email -->
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Client Email')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control" name="email" @keyup.enter="store" v-model="createForm.email">
+                  <input :class="{'is-invalid': haveError('email') }" type="text" class="form-control" name="email" @keyup.enter="store" v-model="createForm.email">
+
+                    <div class="invalid-feedback" v-if="haveError('email')">
+                        {{errorMessage('email')}}
+                    </div> 
                 </div>
               </div>   
 
@@ -103,15 +83,23 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Redirect URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control" name="redirect" @keyup.enter="store" v-model="createForm.redirect">
+                  <input :class="{'is-invalid': haveError('redirect') }" type="text" class="form-control" name="redirect" @keyup.enter="store" v-model="createForm.redirect">
                   <span class="form-text text-muted">{{ __('Your application\'s authorization callback URL.')}}</span>
+
+                    <div class="invalid-feedback" v-if="haveError('redirect')">
+                        {{errorMessage('redirect')}}
+                    </div> 
                 </div>
               </div>              
               <!-- Redirect URL -->
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Webhook URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control" name="webhook_url" @keyup.enter="store" v-model="createForm.webhook_url">
+                  <input  :class="{'is-invalid': haveError('webhook_url') }" type="text" class="form-control" name="webhook_url" @keyup.enter="store" v-model="createForm.webhook_url">
+
+                    <div class="invalid-feedback" v-if="haveError('webhook_url')">
+                        {{errorMessage('webhook_url')}}
+                    </div> 
                 </div>
               </div>                         
 
@@ -119,7 +107,11 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Mada Fixed') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="number" class="form-control" name="mada_fixed" @keyup.enter="store" v-model="createForm.mada_fixed">
+                  <input  :class="{'is-invalid': haveError('mada_fixed') }" type="number" class="form-control" name="mada_fixed" @keyup.enter="store" v-model="createForm.mada_fixed">
+
+                    <div class="invalid-feedback" v-if="haveError('mada_fixed')">
+                        {{errorMessage('mada_fixed')}}
+                    </div> 
                 </div>
               </div>              
 
@@ -127,7 +119,11 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Mada Percentage') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="number" class="form-control" name="mada_percentage" @keyup.enter="store" v-model="createForm.mada_percentage">
+                  <input :class="{'is-invalid': haveError('mada_percentage') }" type="number" class="form-control" name="mada_percentage" @keyup.enter="store" v-model="createForm.mada_percentage">
+
+                    <div class="invalid-feedback" v-if="haveError('mada_percentage')">
+                        {{errorMessage('mada_percentage')}}
+                    </div> 
                 </div>
               </div>              
 
@@ -135,7 +131,11 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Credit Cards Fixed') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="number" class="form-control" name="credit_cards_fixed" @keyup.enter="store" v-model="createForm.credit_cards_fixed">
+                  <input :class="{'is-invalid': haveError('credit_cards_fixed') }" type="number" class="form-control" name="credit_cards_fixed" @keyup.enter="store" v-model="createForm.credit_cards_fixed">
+
+                    <div class="invalid-feedback" v-if="haveError('credit_cards_fixed')">
+                        {{errorMessage('credit_cards_fixed')}}
+                    </div> 
                 </div>
               </div>              
 
@@ -143,7 +143,11 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Credit Cards Percentage') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="number" class="form-control" name="credit_cards_percentage" @keyup.enter="store" v-model="createForm.credit_cards_percentage">
+                  <input :class="{'is-invalid': haveError('credit_cards_percentage') }" type="number" class="form-control" name="credit_cards_percentage" @keyup.enter="store" v-model="createForm.credit_cards_percentage">
+
+                    <div class="invalid-feedback" v-if="haveError('credit_cards_percentage')">
+                        {{errorMessage('credit_cards_percentage')}}
+                    </div> 
                 </div>
               </div>              
 
@@ -167,14 +171,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body">
-            <!-- Form Errors -->
-            <div class="alert alert-danger" v-if="editForm.errors.length > 0">
-              <p class="mb-0"><strong>{{ __('Whoops!')}}</strong> {{ __('Something went wrong!')}}</p>
-              <br>
-              <ul>
-                <li v-for="error in editForm.errors">{{ error }}</li>
-              </ul>
-            </div>
+
             <!-- Edit Application Form -->
             <form role="form">
 
@@ -182,7 +179,11 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Client Email')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control" name="email" @keyup.enter="update" v-model="editForm.email" disabled>
+                  <input :class="{'is-invalid': haveError('email', 2) }" type="text" class="form-control" name="email" @keyup.enter="update" v-model="editForm.email" disabled>
+
+                    <div class="invalid-feedback" v-if="haveError('email', 2)">
+                        {{errorMessage('email', 2)}}
+                    </div>  
                 </div>
               </div>  
 
@@ -190,8 +191,12 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Redirect URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control" name="redirect" @keyup.enter="update" v-model="editForm.redirect">
+                  <input :class="{'is-invalid': haveError('redirect', 2) }"  type="text" class="form-control" name="redirect" @keyup.enter="update" v-model="editForm.redirect">
                   <span class="form-text text-muted">{{ __('Your application\'s authorization callback URL.')}}</span>
+    
+                    <div class="invalid-feedback" v-if="haveError('redirect', 2)">
+                        {{errorMessage('redirect', 2)}}
+                    </div>  
                 </div>
               </div>    
 
@@ -199,7 +204,11 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Webhook URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control" name="webhook_url" @keyup.enter="update" v-model="editForm.webhook_url">
+                  <input :class="{'is-invalid': haveError('webhook_url', 2) }"  type="text" class="form-control" name="webhook_url" @keyup.enter="update" v-model="editForm.webhook_url">
+    
+                    <div class="invalid-feedback" v-if="haveError('form', 2)">
+                        {{errorMessage('form', 2)}}
+                    </div>  
                 </div>
               </div>              
 
@@ -207,7 +216,11 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Mada Fixed') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="number" class="form-control" name="mada_fixed" @keyup.enter="update" v-model="editForm.mada_fixed">
+                  <input :class="{'is-invalid': haveError('mada_fixed', 2) }" type="number" class="form-control" name="mada_fixed" @keyup.enter="update" v-model="editForm.mada_fixed">
+    
+                    <div class="invalid-feedback" v-if="haveError('mada_fixed', 2)">
+                        {{errorMessage('mada_fixed', 2)}}
+                    </div>  
                 </div>
               </div>              
 
@@ -215,7 +228,11 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Mada Percentage') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="number" class="form-control" name="mada_percentage" @keyup.enter="update" v-model="editForm.mada_percentage">
+                  <input :class="{'is-invalid': haveError('mada_percentage', 2) }" type="number" class="form-control" name="mada_percentage" @keyup.enter="update" v-model="editForm.mada_percentage">
+    
+                    <div class="invalid-feedback" v-if="haveError('mada_percentage', 2)">
+                        {{errorMessage('mada_percentage', 2)}}
+                    </div>  
                 </div>
               </div>              
 
@@ -223,7 +240,11 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Credit Cards Fixed') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="number" class="form-control" name="credit_cards_fixed" @keyup.enter="update" v-model="editForm.credit_cards_fixed">
+                  <input :class="{'is-invalid': haveError('credit_cards_fixed', 2) }" type="number" class="form-control" name="credit_cards_fixed" @keyup.enter="update" v-model="editForm.credit_cards_fixed">
+    
+                    <div class="invalid-feedback" v-if="haveError('credit_cards_fixed', 2)">
+                        {{errorMessage('credit_cards_fixed', 2)}}
+                    </div>  
                 </div>
               </div>              
 
@@ -231,7 +252,11 @@
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Credit Cards Percentage') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
-                  <input type="number" class="form-control" name="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage">
+                  <input :class="{'is-invalid': haveError('credit_cards_percentage', 2) }"  type="number" class="form-control" name="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage">
+    
+                    <div class="invalid-feedback" v-if="haveError('credit_cards_percentage', 2)">
+                        {{errorMessage('credit_cards_percentage', 2)}}
+                    </div>  
                 </div>
               </div>              
             </form>
@@ -244,6 +269,22 @@
         </div>
       </div>
     </div>
+
+     <div class="modal fade" id="modal-delete-application" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ __('Are you sure you want to delete this item?')}}</h4>
+          </div>
+          <!-- Modal Actions -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="destroy()">{{ __('Delete')}}</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Application Secret Modal -->
     <div class="modal fade" id="modal-application-secret" tabindex="-1" role="dialog">
       <div class="modal-dialog">
@@ -274,6 +315,7 @@
 
                 createForm: {
                     errors: [],
+                    errors_obj: [],
                     email: '',
                     redirect: '',
                     webhook_url: '',
@@ -283,9 +325,10 @@
                     credit_cards_percentage: '',
                     confidential: true
                 },
-
+                deleteId: null,
                 editForm: {
                     errors: [],
+                    errors_obj: [],
                     email: '',
                     redirect: '',
                     webhook_url: '',
@@ -389,6 +432,7 @@
              */
             persistApplication(method, uri, form, modal) {
                 form.errors = [];
+                form.errors_obj = [];
 
                 axios[method](uri, form)
                     .then(response => {
@@ -403,6 +447,7 @@
                         form.credit_cards_percentage = '';
 
                         form.errors = [];
+                        form.errors_obj = [];
 
                         $(modal).modal('hide');
 
@@ -413,37 +458,53 @@
                     .catch(error => {
                         if (typeof error.response.data === 'object') {
                             form.errors = _.flatten(_.toArray(error.response.data.errors));
+                            var obj = error.response.data.errors;
+                            form.errors_obj = Object.keys(obj).map(function(key, index) {
+                                return {key: key,value: obj[key][0]};
+                            });
                         } else {
                             form.errors = ['Something went wrong. Please try again.'];
                         }
                     });
             },
-
-            /**
-             * Show the given application secret to the user.
-             */
             showApplicationSecret(applicationSecret) {
                 this.applicationSecret = applicationSecret;
                 $('#modal-application-secret').modal('show');
             },
+            deletes(application) {
+                this.deleteId = application.id;
 
-            /**
-             * Destroy the given application.
-             */
-            destroy(application) {
-                axios.delete('/channels/'+ this.channel_id +'/applications/' + application.id)
+                $('#modal-delete-application').modal('show');
+            },
+            destroy() {
+              axios.delete('/applications/' + this.deleteId )
                         .then(response => {
                             this.getApplications();
-                        });
-            },
-            showDeleteModal() {
-                $('#modal-delete').modal('show');
-            },
+                        })
+            },     
+            haveError(key, type=1) {
+                if(type == 1){
+                    return !!this.createForm.errors_obj.find(x => x.key === key)
+                }else{
+                    return !!this.editForm.errors_obj.find(x => x.key === key)
+                }
+            },     
+            errorMessage(key, type=1) {
+                if(type == 1){
+                    return this.createForm.errors_obj.find(x => x.key === key).value
+                }else{
+                    return this.editForm.errors_obj.find(x => x.key === key).value
+                }
+            }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+input.is-invalid {
+    border-color: #dc3545 !important;
+}
+
   .Applications {
     margin: 20px auto;
     .card-header {

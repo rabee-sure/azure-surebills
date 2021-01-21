@@ -103,6 +103,7 @@ class Bill extends Resource
     public static $search = [
         'id',
         'number',
+        'customer_name',
     ];
 
     /**

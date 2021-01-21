@@ -17,9 +17,9 @@
           <div class="change-lang">
             @if($bill->user->settings->active_lang == 'all')
               @if(App::isLocale('en'))
-                <a href="{{ $bill->pay_url }}/ar" title="عربي">عربي</a>
+                <a href="{{ route('paybillpagelang', ['id' => $bill->pay_id, 'lang' => 'ar'])}}" title="عربي">عربي</a>
               @else
-                <a href="{{ $bill->pay_url }}/en" title="English">English</a>
+                <a href="{{ route('paybillpagelang', ['id' => $bill->pay_id, 'lang' => 'en'])}}" title="English">English</a>
               @endif
             @endif
           </div>
@@ -91,7 +91,7 @@
               @endforeach
             </div><!-- shopping_cart -->
             <div class="total_bill">
-              @if( $bill->add_tax && $bill->add_discount)
+              @if( $bill->add_tax || $bill->add_discount)
                 <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} {{ __('SAR') }}</p>
               @endif
               @if( $bill->add_discount)
