@@ -27,7 +27,8 @@
             <div class="search-sm calendar-sm d-inline-block float-md-left mr-1 mb-1 align-top">
               <input class="form-control" name="dates" placeholder="Search by day" readonly="readonly">
             </div>
-          </div>  
+          </div> 
+
           <div class="btn-group float-md-left mr-1 mb-1 ">
             <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               @if(request()->transaction_type == 'debit')
@@ -46,60 +47,102 @@
             </div>
           </div>
 
-            <div class="btn-group float-md-left mr-1 mb-1 disabled">
-              <button @if(request()->transaction_type != 'credit' && request()->transaction_type != 'debit') disabled @endif class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                @switch(request()->transaction_source)
-                    @case('bill')
-                        {{ __('Bill') }}
-                        @break
-
-                    @case('channel_fees')
-                        {{ __('Channel Fees') }}
-                        @break                    
-
-                    @case('channel_vat')
-                        {{ __('Channel VAT') }}
-                        @break                   
-
-                    @case('fees')
-                        {{ __('Bill Fees') }}
-                        @break                  
-
-                    @case('vat')
-                        {{ __('Bill VAT') }}
-                        @break                 
-
-                    @case('transfer')
-                        {{ __('Transfer') }}
-                        @break
-
-                    @default
-                        {{ __('Transactions') }}
-                @endswitch
-              </button>
-              <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 25px, 0px);">
-                  <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'all']) }}">{{ __('All') }}</a>
-                  @if(request()->transaction_type == 'credit')
-                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'bill']) }}">
+          <div class="btn-group float-md-left mr-1 mb-1 disabled">
+            <button @if(request()->transaction_type != 'credit' && request()->transaction_type != 'debit') disabled @endif class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              @switch(request()->transaction_source)
+                  @case('bill')
                       {{ __('Bill') }}
-                    </a>
-                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'channel_fees']) }}">
+                      @break
+
+                  @case('channel_fees')
                       {{ __('Channel Fees') }}
-                    </a>
-                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'channel_vat']) }}">
+                      @break                    
+
+                  @case('channel_vat')
                       {{ __('Channel VAT') }}
-                    </a>
-                  @elseif(request()->transaction_type == 'debit')
-                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'fees']) }}">
+                      @break                   
+
+                  @case('fees')
                       {{ __('Bill Fees') }}
-                    </a>
-                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'vat']) }}">
+                      @break                  
+
+                  @case('vat')
                       {{ __('Bill VAT') }}
-                    </a>
-                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'transfer']) }}">{{ __('Transfer') }}</a>
+                      @break                 
+
+                  @case('transfer')
+                      {{ __('Transfer') }}
+                      @break
+
+                  @default
+                      {{ __('Transactions') }}
+              @endswitch
+            </button>
+            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 25px, 0px);">
+                <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'all']) }}">{{ __('All') }}</a>
+                @if(request()->transaction_type == 'credit')
+                  <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'bill']) }}">
+                    {{ __('Bill') }}
+                  </a>
+                  @if(isset($channel))
+                  <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'channel_fees']) }}">
+                    {{ __('Channel Fees') }}
+                  </a>
+                  <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'channel_vat']) }}">
+                    {{ __('Channel VAT') }}
+                  </a>
                   @endif
-              </div>
+                @elseif(request()->transaction_type == 'debit')
+                  <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'fees']) }}">
+                    {{ __('Bill Fees') }}
+                  </a>
+                  <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'vat']) }}">
+                    {{ __('Bill VAT') }}
+                  </a>
+                  <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'transfer']) }}">{{ __('Transfer') }}</a>
+                @endif
             </div>
+          </div>
+
+        @if(count($channels))    
+          <div class="btn-group float-md-left mr-1 mb-1 ">
+            <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              @if(isset($channel))
+                {{ $channel->name}}
+              @else
+                {{ __('Channels') }}
+              @endif
+
+            </button>
+            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 25px, 0px);">
+              <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['channel_id' => 'all', 'application_id' => 'all']) }}">{{ __('All') }}</a>
+              @foreach($channels as $channel)
+                <a class="dropdown-item" href="{{request()->fullUrlWithQuery([
+                'channel_id' => $channel->id]) }}">{{$channel->name}}</a>
+              @endforeach
+            </div>
+          </div>
+
+          <div class="btn-group float-md-left mr-1 mb-1 disabled">
+            <button @if(count($applications) == 0) disabled @endif class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              @if(isset($application))
+                {{$application->id}} - {{ $application->user->name}}
+              @else
+                {{ __('Applications') }}
+              @endif
+            </button>
+            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 25px, 0px);">
+                <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['application_id' => 'all']) }}">{{ __('All') }}</a>
+                @if($applications)
+                  @foreach($applications as $application)
+                    <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['application_id' => $application->id]) }}">
+                      {{$application->id}} - {{ $application->user->name }}
+                    </a>
+                  @endforeach
+                @endif
+            </div>
+          </div>
+        @endif
 
         </div>
       </div>
@@ -168,9 +211,18 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <script type="text/javascript">
       function oldParams() {
-        var params = ''    
-        params += '&transaction_type='+getUrlParameter('transaction_type')
-        params += '&transaction_source='+getUrlParameter('transaction_source')
+        var params = ''  
+        let array1 = [
+          'transaction_type',
+          'transaction_source',
+          'channel_id',
+          'application_id',
+        ];
+        array1.forEach(i => {
+          if(getUrlParameter(i)){
+            params += '&'+i+'='+getUrlParameter(i)
+          }
+        });
         return params;
       }
       var getUrlParameter = function getUrlParameter(sParam) {

@@ -90,7 +90,7 @@ class AnalyticsController extends Controller
                     'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
                 ],
                 'total_transactions' => [
-                    'count' =>  $sum_total,
+                    'count' =>  round($sum_total, 2),
                     'filter' =>  $filter,
                     'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
                 ],

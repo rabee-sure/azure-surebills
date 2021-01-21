@@ -109,7 +109,7 @@
         @endforeach
       </div><!-- shopping_cart -->
       <div class="total_bill">
-          @if( $bill->add_tax && $bill->add_discount)
+          @if( $bill->add_tax || $bill->add_discount)
             <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} {{ __('SAR') }}</p>
           @endif
           @if( $bill->add_discount)
@@ -143,7 +143,7 @@
   <div class="col-12 col-md-6 col-lg-6 col-xl-6">
     <div class="card">
       <div class="card-body">
-        <h2 class="mb-3">{{__('Payment Process')}}</h2>
+        <h2 class="mb-3">{{__('Payment Transactions')}}</h2>
         <div class="table-responsive">
           <table class="table table-striped">
             <thead>
