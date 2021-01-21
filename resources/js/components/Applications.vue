@@ -60,37 +60,37 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body">
-            <!-- Form Errors -->
-            <div class="alert alert-danger" v-if="createForm.errors.length > 0">
-              <p class="mb-0"><strong> {{ __('Whoops!')}}</strong> {{ __('Something went wrong!')}}</p>
-              <br>
-              <ul>
-                <li v-for="error in createForm.errors">{{ error }}</li>
-              </ul>
-            </div>
+
             <!-- Create Application Form -->
             <form role="form">
               <!-- Name -->
               <div class="form-group row">
                 <label class="col-md-3 col-form-label">{{ __('Name')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
-                  <input id="create-application-name" type="text" class="form-control" @keyup.enter="store" v-model="createForm.name">
-                  <span class="form-text text-muted">{{ __('Something your users will recognize and trust.')}}</span>
+                  <input id="create-application-name" type="text" class="form-control" :class="{'is-invalid': haveError('name') }" @keyup.enter="store" v-model="createForm.name" :placeholder="__('Something your users will recognize and trust.')">
+                    <div class="invalid-feedback" v-if="haveError('name')">
+                        {{errorMessage('name')}}
+                    </div>  
                 </div>
               </div>
               <!-- Redirect URL -->
               <div class="form-group row">
                 <label class="col-md-3 col-form-label">{{ __('Redirect URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
-                  <input type="text" class="form-control" name="redirect" @keyup.enter="store" v-model="createForm.redirect">
-                  <span class="form-text text-muted">{{ __('Your application\'s authorization callback URL.')}}</span>
+                  <input type="text" class="form-control" :class="{'is-invalid': haveError('redirect') }" name="redirect" @keyup.enter="store" v-model="createForm.redirect" :placeholder="__('Your application\'s authorization callback URL.')">
+                    <div class="invalid-feedback" v-if="haveError('redirect')">
+                        {{errorMessage('redirect')}}
+                    </div>  
                 </div>
               </div>              
               <!-- Redirect URL -->
               <div class="form-group row">
                 <label class="col-md-3 col-form-label">{{ __('Webhook URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
-                  <input type="text" class="form-control" name="webhook_url" @keyup.enter="store" v-model="createForm.webhook_url">
+                  <input :class="{'is-invalid': haveError('webhook_url') }" type="text" class="form-control" name="webhook_url" @keyup.enter="store" v-model="createForm.webhook_url">
+                    <div class="invalid-feedback" v-if="haveError('webhook_url')">
+                        {{errorMessage('webhook_url')}}
+                    </div>  
                 </div>
               </div>              
               <!-- fail_redirect_url URL -->
@@ -114,37 +114,39 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body">
-            <!-- Form Errors -->
-            <div class="alert alert-danger" v-if="editForm.errors.length > 0">
-              <p class="mb-0"><strong>{{ __('Whoops!')}}</strong> {{ __('Something went wrong!')}}</p>
-              <br>
-              <ul>
-                <li v-for="error in editForm.errors">{{ error }}</li>
-              </ul>
-            </div>
+
             <!-- Edit Application Form -->
             <form role="form">
               <!-- Name -->
               <div class="form-group row">
                 <label class="col-md-3 col-form-label">{{ __('Name')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
-                  <input id="edit-application-name" type="text" class="form-control" @keyup.enter="update" v-model="editForm.name">
+                  <input id="edit-application-name" :class="{'is-invalid': haveError('name', 2) }" type="text" class="form-control" @keyup.enter="update" v-model="editForm.name">
                   <span class="form-text text-muted">{{ __('Something your users will recognize and trust.')}}</span>
+                    <div class="invalid-feedback" v-if="haveError('name', 2)">
+                        {{errorMessage('name', 2)}}
+                    </div>  
                 </div>
               </div>
               <!-- Redirect URL -->
               <div class="form-group row">
                 <label class="col-md-3 col-form-label">{{ __('Redirect URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
-                  <input type="text" class="form-control" name="redirect" @keyup.enter="update" v-model="editForm.redirect">
+                  <input :class="{'is-invalid': haveError('redirect', 2) }" type="text" class="form-control" name="redirect" @keyup.enter="update" v-model="editForm.redirect">
                   <span class="form-text text-muted">{{ __('Your application\'s authorization callback URL.')}}</span>
+                    <div class="invalid-feedback" v-if="haveError('redirect', 2)">
+                        {{errorMessage('redirect', 2)}}
+                    </div>  
                 </div>
               </div>              
               <!-- Webhook URL -->
               <div class="form-group row">
                 <label class="col-md-3 col-form-label">{{ __('Webhook URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-9">
-                  <input type="text" class="form-control" name="webhook_url" @keyup.enter="update" v-model="editForm.webhook_url">
+                  <input :class="{'is-invalid': haveError('webhook_url', 2) }" type="text" class="form-control" name="webhook_url" @keyup.enter="update" v-model="editForm.webhook_url">
+                    <div class="invalid-feedback" v-if="haveError('webhook_url', 2)">
+                        {{errorMessage('webhook_url', 2)}}
+                    </div>
                 </div>
               </div>              
               <!-- Fail Redirect URL -->
@@ -209,6 +211,7 @@
 
                 createForm: {
                     errors: [],
+                    errors_obj: [],
                     name: '',
                     redirect: '',
                     webhook_url: '',
@@ -217,6 +220,7 @@
 
                 editForm: {
                     errors: [],
+                    errors_obj: [],
                     name: '',
                     redirect: '',
                     webhook_url: '',
@@ -312,6 +316,7 @@
              */
             persistApplication(method, uri, form, modal) {
                 form.errors = [];
+                form.errors_obj = [];
 
                 axios[method](uri, form)
                     .then(response => {
@@ -321,6 +326,7 @@
                         form.redirect = '';
                         form.webhook_url = '';
                         form.errors = [];
+                        form.errors_obj = [];
 
                         $(modal).modal('hide');
 
@@ -330,6 +336,11 @@
                     })
                     .catch(error => {
                         if (typeof error.response.data === 'object') {
+                            var obj = error.response.data.errors;
+                            form.errors_obj = Object.keys(obj).map(function(key, index) {
+                                return {key: key,value: obj[key][0]};
+                            });
+
                             form.errors = _.flatten(_.toArray(error.response.data.errors));
                         } else {
                             form.errors = ['Something went wrong. Please try again.'];
@@ -355,12 +366,30 @@
                         .then(response => {
                             this.getApplications();
                         });
+            },     
+            haveError(key, type=1) {
+                if(type == 1){
+                    return !!this.createForm.errors_obj.find(x => x.key === key)
+                }else{
+                    return !!this.editForm.errors_obj.find(x => x.key === key)
+                }
+            },     
+            errorMessage(key, type=1) {
+                if(type == 1){
+                    return this.createForm.errors_obj.find(x => x.key === key).value
+                }else{
+                    return this.editForm.errors_obj.find(x => x.key === key).value
+                }
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+input.is-invalid {
+    border-color: #dc3545 !important;
+}
+
 .Applications {
   margin: 20px auto;
   .card-header {
