@@ -64,7 +64,7 @@
             <FormItem>
                 <Button type="primary" @click="handleSubmit('form')" :disabled="disableBtn">   {{__('Submit')}} 
                 </Button>
-                <Button style="margin-left: 8px">{{__('Cancel')}}</Button>
+                <Button style="margin-left: 8px" @click="handleCancel" >{{__('Cancel')}}</Button>
             </FormItem>
         </Form>
     </Card>
@@ -292,11 +292,7 @@ export default {
             return !isNaN((new Date(d)).getTime());
         },
         handleChangeDate (date) {
-            this.bills = [];
-            this.new_bills = [];
-            this.transactions = [];
-            this.new_transactions = [];
-            this.form.amount = 0;
+            this.refresh();
             if(date[0] != '' && this.isValidDate(date[0]) && this.isValidDate(date[1])){
                 this.validDateRange = true;
                 Nova.request().get('/users/'+this.$route.params.id+'/transactions', {
@@ -422,6 +418,20 @@ export default {
                     this.$Message.error(this.language == 'en'? 'Fail': 'فشل');
                 }
             })
+        },
+        handleCancel() {
+            this.$Message.success(this.language == 'en'? 'Cancel Transfer successfully': 'تم الغاء التحويل بنجاح');
+            this.form.date_range = null;     
+            this.form.note = null;     
+            this.form.attachment = null;     
+            this.refresh();  
+        },
+        refresh() {
+            this.bills = [];
+            this.new_bills = [];
+            this.transactions = [];
+            this.new_transactions = [];
+            this.form.amount = 0;           
         }
     }
 }
