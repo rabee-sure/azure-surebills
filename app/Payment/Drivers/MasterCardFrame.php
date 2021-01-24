@@ -77,13 +77,13 @@ class MasterCardFrame extends Driver
         {
             $locale = 'en_us';
         }
-
+        $business_name = substr($details['bill']['business_name'], 0, 40);
         $script = '<script>';
         $script .= 'Checkout.configure({';
         $script .= 'session: {id: "'.$body->session->id.'"},';
         $script .= 'merchant: "'.$this->settings->merchant_id.'",';
         $script .= 'order: { amount: '.$details['bill']['total'].', currency: "SAR", description: "Invoice number: '.$details['bill']['number'].'", id:"'.$details['surebills_payment_log_id'].'", reference:"'.$details['bill']['id'].'"},';
-        $script .= 'interaction: {theme: "default", operation: "PURCHASE", merchant: {name: "'.$details['bill']['business_name'].'"}, displayControl: {billingAddress: "HIDE", orderSummary: "HIDE"}, locale: "'.$locale.'"}';
+        $script .= 'interaction: {theme: "default", operation: "PURCHASE", merchant: {name: "'.$business_name.'"}, displayControl: {billingAddress: "HIDE", orderSummary: "HIDE"}, locale: "'.$locale.'"}';
         $script .= '});';
         $script .= 'Checkout.showLightbox();</script>';
         $script .= '<form action="'.$resultUrl.'" method="GET" class="mastercardPaymentWidgets" data-brands="VISA MASTER MADA">';
