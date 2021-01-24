@@ -83,9 +83,7 @@
     <Modal
         :title="__('transactions')"
         v-model="transactionsModal"
-        width="760"
-        :ok-text="__('OK')"
-        :cancel-text="__('Cancel')">
+        width="760">
         <download-excel v-if="new_transactions.length" :data="new_transactions" :name="'transactions-'+ Date.now()">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
@@ -95,14 +93,15 @@
                 <Button type="error" v-if="row.type == 'debit'" size="small">{{ __(row.type) }}</Button>
             </template>
         </Table>
+        <div slot="footer">
+            <Button type="primary"  @click="transactionsModal = !transactionsModal">{{__('OK')}}</Button>
+        </div>
     </Modal>
 
     <Modal
         :title="__('Bills')"
         v-model="billsModal"
-        width="760"
-        :ok-text="__('OK')"
-        :cancel-text="__('Cancel')">
+        width="760">
         <download-excel v-if="new_bills.length" :data="new_bills" :name="'bills-'+ Date.now()">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
@@ -112,6 +111,9 @@
                     <p>{{row.name}}     <Badge v-if="row.related_channel" text="channel"></Badge></p>
             </template>
         </Table>
+        <div slot="footer">
+            <Button type="primary"  @click="billsModal = !billsModal">{{__('OK')}}</Button>
+        </div>
     </Modal>
 </div>
 
