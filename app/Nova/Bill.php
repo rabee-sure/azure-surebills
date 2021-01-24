@@ -84,7 +84,7 @@ class Bill extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'number';
 
     /**
      * The relationship columns that should be searched.
