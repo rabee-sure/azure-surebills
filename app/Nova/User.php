@@ -148,6 +148,12 @@ class User extends Resource
                         return url('storage/'.$value);
                     else
                         return url($value);
+                })
+                ->thumbnail(function ($value) {
+                    if(Storage::disk('public')->exists($value))
+                        return url('storage/'.$value);
+                    else
+                        return url($value);
                 }),
 
             HasMany::make(__('Transfers'), 'transfers', Transfer::class),
