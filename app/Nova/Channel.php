@@ -77,7 +77,7 @@ class Channel extends Resource
             Text::make(__('Name'), 'name')->rules('required'),
             BelongsTo::make(__('User'), 'user', User::class)->searchable()->rules('required'),
             HasMany::make(__('Applications'), 'applications', Application::class)->rules('required'),
-            Boolean::make(__('Active'), 'activate')->rules('required'),
+            Boolean::make(__('Active'), 'activate'),
             Number::make(__('Mada fixed fees'), 'mada_fixed')
                 ->rules('required', 'numeric', 'max:1000')
                 ->step(0.01)
