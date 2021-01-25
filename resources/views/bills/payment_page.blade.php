@@ -2,7 +2,7 @@
 <!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
 <!--[if IE 9 ]><html class="ie ie9" lang="en"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!-->
-<html lang="{{ App::getLocale() }}" dir="{{ App::getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="{{ App::getLocale() }}" dir="{{ App::isLocale('ar') ? 'rtl' : 'ltr' }}">
 <!--<![endif]-->
 <head>
     <!-- Basic Page Needs -->
@@ -32,10 +32,12 @@
             <div class="pay_apple mt-4">
                 <div class="title rounded-top border bg-light p-2 d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center justify-content-start">
-                        <img src="https://codesign.com.bd/conversations/content/images/2020/03/yahoo_default_logo.png" alt="#" class="rounded-circle" width="30px" height="30px">
-                        <span class="mr-2 d-block">Shawarma Classic</span>
+                        <img src="{{ $bill->user->logo_url }}" alt="{{ $bill->user->business_name }}" class="rounded-circle" width="30px" height="30px">
+                        <span class="mr-2 d-block">{{ $bill->user->business_name }}</span>
                     </div><!-- d-flex -->
-                    <a href="#" title="Cancel" class="text-secondary">Cancel</a>
+                    @if($bill->application && $bill->is_redirect)
+                        <a href="#" title="{{ _('Cancel') }}" class="text-secondary">{{ _('Cancel') }}</a>
+                    @endif
                 </div><!-- title -->
                 <span class="d-block font-weight-bold text-dark p-3 text-center border-right border-left" dir="ltr">120.00 SAR</span> 
                 <div class="pay_button border bg-light p-2">
@@ -106,6 +108,20 @@ PaymentSession.configure({
                     if (response.sourceOfFunds.provided.card.securityCode) {
                         console.log("Security code was provided.");
                     }
+                    let headers = new Headers({
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    });
+                    fetch('/api/mastercard/check-payment/', {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify({
+                            billId: '<?php echo $bill->id; ?>',
+                            paymentToken: response.session.id
+                        })
+                    }).then(response => response.json()).then(data => {
+                        console.log(data);
+                    });
   
                     //check if the user entered a Mastercard credit card
                     if (response.sourceOfFunds.provided.card.scheme == 'MASTERCARD') {
