@@ -38,10 +38,10 @@
                     <a href="#" title="Cancel" class="text-secondary">Cancel</a>
                 </div><!-- title -->
                 <span class="d-block font-weight-bold text-dark p-3 text-center border-right border-left" dir="ltr">120.00 SAR</span> 
-                <div class="pay_button border bg-light p-2">
+                <div class="pay_button border-right border-left bg-light p-2">
                   <a href="#" title="#"><img src="/payment_page/images/apple-pay.png" width="250px" class="d-block mx-auto" alt="#"></a>
                 </div><!-- pay_button -->
-                <div class="pay_form border-right border-left border-bottom rounded-bottom">
+                <div class="pay_form border-right border-left border-bottom border-top rounded-bottom">
                     <div class="d-flex align-items-start justify-content-start  border-bottom">
                         <div class="icons p-3 d-flex align-items-center justify-content-between flex-column h-100 align-self-center">
                             <img src="/payment_page/images/mada.png" class="d-block mx-auto mw-100" alt="#">
@@ -49,16 +49,23 @@
                             <img src="/payment_page/images/visa.png" class="d-block mx-auto mw-100" alt="#">
                         </div><!-- icon -->
                         <div class="inputs border-left">
-                          <input type="text" id="card-number" class="form-control border-top-0 border-right-0 border-left-0 rounded-0 px-2 shadow-none" title="Card Number" aria-label="enter your card number" placeholder="card number" value="" tabindex="1" readonly>
-                          <div class="d-flex align-items-center justify-content-start">
-                            <input type="text" id="expiry-month" class="form-control border-top-0 border-left-0 rounded-0 px-2 shadow-none" width="50%" title="expiry month" aria-label="two digit expiry month" placeholder="Expiry Month" value="" tabindex="2" readonly>
-                            <input type="text" id="expiry-year" class="form-control border-top-0 border-right-0 border-left-0 rounded-0 px-2 shadow-none" title="expiry year" aria-label="two digit expiry year" placeholder="Expiry Year" width="50%" value="" tabindex="3" readonly>
+                          <input type="text" id="card-number" class="input-field" title="Card Number" aria-label="enter your card number" placeholder="card number" value="" tabindex="1" readonly>
+                          <div class="tow_inputs">
+                            <input type="text" id="expiry-month" class="input-field expiry-month" title="expiry month" aria-label="two digit expiry month" placeholder="Expiry Month" value="" tabindex="2" readonly>
+                            <input type="text" id="expiry-year" class="input-field" title="expiry year" aria-label="two digit expiry year" placeholder="Expiry Year" value="" tabindex="3" readonly>
                           </div><!-- inputs -->
-                          <input type="text" id="security-code" class="form-control border-right-0 border-left-0 border-top-0 border-bottom rounded-0 px-2 shadow-none" title="security code" aria-label="three digit CCV security code" placeholder="Security Code" value="" tabindex="4" readonly>
-                          <input type="text" id="cardholder-name" class="form-control border-0 rounded-0 px-2 " title="cardholder name" aria-label="enter name on card" placeholder="Cardholder Name" value="" tabindex="5" readonly>
+                          <input type="text" id="security-code" class="input-field security-code" title="security code" aria-label="three digit CCV security code" placeholder="Security Code" value="" tabindex="4" readonly>
+                          <input type="text" id="cardholder-name" class="input-field" title="cardholder name" aria-label="enter name on card" placeholder="Cardholder Name" value="" tabindex="5" readonly>
                         </div><!-- inputs --> 
                     </div>
                     <div class="p-2">
+                      <div class="alert alert-danger" role="alert">
+                        <ul>
+                          <li>error here type</li>
+                          <li>error here type</li>
+                          <li>error here type</li>
+                        </ul>
+                      </div>
                         <button type="button" class="btn btn-success btn-block" id="payButton" onclick="pay('card');">Pay</button>
                     </div>
                 </div><!-- pay_form -->
@@ -71,6 +78,7 @@
 <script>
 // Loadin Page
 $(window).on("load",function(){$("body").removeClass('hidden_overflow')});
+
 
 if (self === top) {
     var antiClickjack = document.getElementById("antiClickjack");
