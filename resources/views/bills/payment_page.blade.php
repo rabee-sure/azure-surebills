@@ -51,8 +51,8 @@
                         <div class="inputs border-left">
                           <input type="text" id="card-number" class="input-field" title="Card Number" aria-label="enter your card number" placeholder="card number" value="" tabindex="1" readonly>
                           <div class="tow_inputs">
-                            <input type="text" id="expiry-month" class="input-field expiry-month" title="expiry month" aria-label="two digit expiry month" placeholder="Expiry Month" value="" tabindex="2" readonly>
-                            <input type="text" id="expiry-year" class="input-field" title="expiry year" aria-label="two digit expiry year" placeholder="Expiry Year" value="" tabindex="3" readonly>
+                            <span><input type="text" id="expiry-month" class="input-field expiry-month" title="expiry month" aria-label="two digit expiry month" placeholder="Expiry Month" value="" tabindex="2" readonly></span>
+                            <span><input type="text" id="expiry-year" class="input-field" title="expiry year" aria-label="two digit expiry year" placeholder="Expiry Year" value="" tabindex="3" readonly></span>
                           </div><!-- inputs -->
                           <input type="text" id="security-code" class="input-field security-code" title="security code" aria-label="three digit CCV security code" placeholder="Security Code" value="" tabindex="4" readonly>
                           <input type="text" id="cardholder-name" class="input-field" title="cardholder name" aria-label="enter name on card" placeholder="Cardholder Name" value="" tabindex="5" readonly>
