@@ -28,8 +28,9 @@
 
 <div class="container">
     <div class="row align-items-center justify-content-center">
-        <div class="col-12 col-md-4">
-            <div class="pay_apple mt-4">
+        <div class="col-12 col-md-4 mt-4">
+            <div class="pay_apple">
+              <div class="load_form active"><div class="spinner-border text-muted"></div></div>
                 <div class="title rounded-top border bg-light p-2 d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center justify-content-start">
                         <img src="https://codesign.com.bd/conversations/content/images/2020/03/yahoo_default_logo.png" alt="#" class="rounded-circle" width="30px" height="30px">
@@ -48,7 +49,7 @@
                             <img src="/payment_page/images/master.png" class="d-block my-3 mx-auto mw-100" alt="#">
                             <img src="/payment_page/images/visa.png" class="d-block mx-auto mw-100" alt="#">
                         </div><!-- icon -->
-                        <div class="inputs border-left">
+                        <div class="inputs">
                           <input type="text" id="card-number" class="input-field" title="Card Number" aria-label="enter your card number" placeholder="card number" value="" tabindex="1" readonly>
                           <div class="tow_inputs">
                             <span><input type="text" id="expiry-month" class="input-field expiry-month" title="expiry month" aria-label="two digit expiry month" placeholder="Expiry Month" value="" tabindex="2" readonly></span>
