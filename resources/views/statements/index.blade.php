@@ -84,7 +84,7 @@
                   <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'bill']) }}">
                     {{ __('Bill') }}
                   </a>
-                  @if(isset($channel))
+                  @if(count($channels))
                   <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'channel_fees']) }}">
                     {{ __('Channel Fees') }}
                   </a>
@@ -126,7 +126,7 @@
           <div class="btn-group float-md-left mr-1 mb-1 disabled">
             <button @if(count($applications) == 0) disabled @endif class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               @if(isset($application))
-                {{$application->id}} - {{ $application->user->name}}
+                {{$application->id}} - {{ $application->user->business_name}}
               @else
                 {{ __('Applications') }}
               @endif
@@ -136,7 +136,7 @@
                 @if($applications)
                   @foreach($applications as $application)
                     <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['application_id' => $application->id]) }}">
-                      {{$application->id}} - {{ $application->user->name }}
+                      {{$application->id}} - {{ $application->user->business_name }}
                     </a>
                   @endforeach
                 @endif

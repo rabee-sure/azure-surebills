@@ -64,7 +64,7 @@
             <FormItem>
                 <Button type="primary" @click="handleSubmit('form')" :disabled="disableBtn">   {{__('Submit')}} 
                 </Button>
-                <Button style="margin-left: 8px">{{__('Cancel')}}</Button>
+                <Button style="margin-left: 8px" @click="handleCancel" >{{__('Cancel')}}</Button>
             </FormItem>
         </Form>
     </Card>
@@ -83,9 +83,7 @@
     <Modal
         :title="__('transactions')"
         v-model="transactionsModal"
-        width="760"
-        :ok-text="__('OK')"
-        :cancel-text="__('Cancel')">
+        width="760">
         <download-excel v-if="new_transactions.length" :data="new_transactions" :name="'transactions-'+ Date.now()">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
@@ -95,14 +93,15 @@
                 <Button type="error" v-if="row.type == 'debit'" size="small">{{ __(row.type) }}</Button>
             </template>
         </Table>
+        <div slot="footer">
+            <Button type="primary"  @click="transactionsModal = !transactionsModal">{{__('OK')}}</Button>
+        </div>
     </Modal>
 
     <Modal
         :title="__('Bills')"
         v-model="billsModal"
-        width="760"
-        :ok-text="__('OK')"
-        :cancel-text="__('Cancel')">
+        width="760">
         <download-excel v-if="new_bills.length" :data="new_bills" :name="'bills-'+ Date.now()">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
@@ -112,6 +111,9 @@
                     <p>{{row.name}}     <Badge v-if="row.related_channel" text="channel"></Badge></p>
             </template>
         </Table>
+        <div slot="footer">
+            <Button type="primary"  @click="billsModal = !billsModal">{{__('OK')}}</Button>
+        </div>
     </Modal>
 </div>
 
@@ -164,9 +166,9 @@ export default {
                     key: 'paid_at',
                     width: 150,
                 },{
-                    title: this.__('A'),
+                    title: this.__('Details'),
                     key: 'action',
-                    width: 50,
+                    width: 150,
                     align: 'center',
                     render: (h, params) => {
                         return h('div', [
@@ -292,11 +294,7 @@ export default {
             return !isNaN((new Date(d)).getTime());
         },
         handleChangeDate (date) {
-            this.bills = [];
-            this.new_bills = [];
-            this.transactions = [];
-            this.new_transactions = [];
-            this.form.amount = 0;
+            this.refresh();
             if(date[0] != '' && this.isValidDate(date[0]) && this.isValidDate(date[1])){
                 this.validDateRange = true;
                 Nova.request().get('/users/'+this.$route.params.id+'/transactions', {
@@ -422,6 +420,20 @@ export default {
                     this.$Message.error(this.language == 'en'? 'Fail': 'فشل');
                 }
             })
+        },
+        handleCancel() {
+            this.$Message.success(this.language == 'en'? 'Cancel Transfer successfully': 'تم الغاء التحويل بنجاح');
+            this.form.date_range = null;     
+            this.form.note = null;     
+            this.form.attachment = null;     
+            this.refresh();  
+        },
+        refresh() {
+            this.bills = [];
+            this.new_bills = [];
+            this.transactions = [];
+            this.new_transactions = [];
+            this.form.amount = 0;           
         }
     }
 }
