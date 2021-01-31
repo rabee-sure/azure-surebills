@@ -557,8 +557,6 @@
   "cvv": "رمز التحقق (CVV)",
   "expiration month": "شهر الانتهاء",
   "expiration year": "سنة الانتهاء",
-  "name on card": "الاسم على البطاقة"
-
-
-
+  "name on card": "الاسم على البطاقة",
+  "Cancel": "الغاء"
 }

@@ -22,14 +22,13 @@
     <!-- APPLY CLICK-JACKING STYLING AND HIDE CONTENTS OF THE PAGE -->
     <style id="antiClickjack">body{display:none !important;}</style>
 </head>
-<body class="hidden_overflow">
-
-<div id="loading_page"></div>
+<body>
 
 <div class="container">
     <div class="row align-items-center justify-content-center">
-        <div class="col-12 col-md-4">
-            <div class="pay_apple mt-4">
+        <div class="col-12 col-md-4 mt-4">
+            <div class="pay_apple">
+              <div class="load_form active"><div class="spinner-border text-muted"></div></div>
                 <div class="title rounded-top border bg-light p-2 d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center justify-content-start">
                         <img src="{{ $bill->user->logo_url }}" alt="{{ $bill->user->business_name }}" class="rounded-circle" width="30px" height="30px">
@@ -50,7 +49,7 @@
                             <img src="/payment_page/images/master.png" class="d-block my-3 mx-auto mw-100" alt="#">
                             <img src="/payment_page/images/visa.png" class="d-block mx-auto mw-100" alt="#">
                         </div><!-- icon -->
-                        <div class="inputs border-left">
+                        <div class="inputs">
                           <input type="text" id="card-number" class="input-field" title="Card Number" aria-label="enter your card number" placeholder="card number" value="" tabindex="1" readonly>
                           <div class="tow_inputs">
                             <span><input type="text" id="expiry-month" class="input-field expiry-month" title="expiry month" aria-label="two digit expiry month" placeholder="Expiry Month" value="" tabindex="2" readonly></span>
@@ -61,14 +60,12 @@
                         </div><!-- inputs --> 
                     </div>
                     <div class="p-2">
-                      <div class="alert alert-danger" role="alert">
-                        <ul>
-                          <li>error here type</li>
-                          <li>error here type</li>
-                          <li>error here type</li>
-                        </ul>
-                      </div>
-                        <button type="button" class="btn btn-success btn-block" id="payButton" onclick="pay('card');">Pay</button>
+                        <div class="alert alert-danger" role="alert" id="errors" style="display: none;">
+                            <ul></ul>
+                        </div>
+                        <button type="button" class="btn btn-success btn-block" id="payButton" onclick="pay('card');">
+                            {{ __('Pay') }}
+                        </button>
                     </div>
                 </div><!-- pay_form -->
             </div><!-- pay_apple -->
@@ -78,8 +75,30 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
+
+function loading() {
+    $('#errors').css('display', 'none');
+    $("#errors ul").html('');
+    $(".load_form").addClass('active');
+}
+function loaded() {
+    $(".load_form").removeClass('active');
+}
+function addError(error) {
+    $('#errors').css('display', 'block');
+    $('#errors ul').append('<li>' + error + '</li>');
+    loaded();
+}
+
 // Loadin Page
-$(window).on("load",function(){$("body").removeClass('hidden_overflow')});
+$(window).on("load",function(){
+    loaded();
+});
+
+// On Click
+$('#payButton').on("click", function(e){
+    loading();
+});
 
 
 if (self === top) {
@@ -120,7 +139,7 @@ PaymentSession.configure({
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     });
-                    fetch('/api/mastercard/check-payment/', {
+                    fetch('/api/mastercard/handle-payment/', {
                         method: 'POST',
                         headers: headers,
                         body: JSON.stringify({
@@ -130,33 +149,26 @@ PaymentSession.configure({
                     }).then(response => response.json()).then(data => {
                         console.log(data);
                     });
-  
-                    //check if the user entered a Mastercard credit card
-                    if (response.sourceOfFunds.provided.card.scheme == 'MASTERCARD') {
-                        console.log("The user entered a Mastercard credit card.")
-                    }
                 } else if ("fields_in_error" == response.status)  {
-  
-                    console.log("Session update failed with field errors.");
                     if (response.errors.cardNumber) {
-                        console.log("Card number invalid or missing.");
+                        addError('Card number invalid or missing.');
                     }
                     if (response.errors.expiryYear) {
-                        console.log("Expiry year invalid or missing.");
+                        addError('Expiry year invalid or missing.');
                     }
                     if (response.errors.expiryMonth) {
-                        console.log("Expiry month invalid or missing.");
+                        addError('Expiry month invalid or missing.');
                     }
                     if (response.errors.securityCode) {
-                        console.log("Security code invalid.");
+                        addError('Security code invalid.');
                     }
                 } else if ("request_timeout" == response.status)  {
-                    console.log("Session update failed with request timeout: " + response.errors.message);
+                    addError('Session update failed with request timeout: ' + response.errors.message);
                 } else if ("system_error" == response.status)  {
-                    console.log("Session update failed with system error: " + response.errors.message);
+                    addError('Session update failed with system error: ' + response.errors.message);
                 }
             } else {
-                console.log("Session update failed: " + response);
+                addError('Session update failed: ' + response);
             }
         }
     },

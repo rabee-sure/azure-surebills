@@ -41,8 +41,11 @@ return [
             'api_base_url' => env('HYPERPAY_APPLEPAY_BASE_URL', 'https://test.oppwa.com/v1'),
         ],
         'mastercard' => [
-            'merchant_id' => env('MASTERCARD_MERCHANT_ID'),
-            'base_url'    => env('MASTERCARD_BASE_URL'),
+            'merchant_id'           => env('MASTERCARD_MERCHANT_ID'),
+            'base_url'              => env('MASTERCARD_BASE_URL'),
+            'operator_username'     => env('MASTERCARD_OPERATOR_USERNAME'),
+            'operator_password'     => env('MASTERCARD_OPERATOR_PASSWORD'),
+            'X-Notification-Secret' => env('MASTERCARD_NOTIFICATION_SECRET'),
         ],
         'mastercard_iframe' => [
             'merchant_id'           => env('MASTERCARD_MERCHANT_ID'),
