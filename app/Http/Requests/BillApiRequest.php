@@ -111,10 +111,10 @@ class BillApiRequest extends FormRequest
     public function withValidator($validator)
     {
         $this->merge([
-            'add_discount' => $this->add_discount== 'on' ? true : ($this->add_discount == 'off') ? false : null,
-            'add_tax' => $this->add_tax == 'on' ? true : ($this->add_tax == 'off') ? false : null,
-            'send_sms' => $this->send_sms == 'on' ? true : ($this->send_sms == 'off') ? false : null,
-            'send_email' => $this->send_email == 'on' ? true : ($this->send_email == 'off') ? false : null,
+            'add_discount' => $this->add_discount == 'on' ? true : (($this->add_discount == 'off') ? false : null),
+            'add_tax' => $this->add_tax == 'on' ? true : (($this->add_tax == 'off') ? false : null),
+            'send_sms' => $this->send_sms == 'on' ? true : (($this->send_sms == 'off') ? false : null),
+            'send_email' => $this->send_email == 'on' ? true : (($this->send_email == 'off') ? false : null),
         ]);
     }
 }
