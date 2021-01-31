@@ -140,13 +140,21 @@ class User extends Resource
 
             new Panel(__('Business Information'), $this->businessInformation()),
 
-            Image::make(__('Business logo'), 'logo')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
+            Image::make(__('Business logo'), 'logo')
+                ->disk('public')
+                ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
                 ->preview(function ($value) {
                     if(Storage::disk('public')->exists($value))
                         return url('storage/'.$value);
                     else
                         return url($value);
-                }),
+                })
+                ->thumbnail(function ($value) {
+                    if(Storage::disk('public')->exists($value))
+                        return url('storage/'.$value);
+                    else
+                        return url($value);
+                })->disableDownload(),
 
             HasMany::make(__('Transfers'), 'transfers', Transfer::class),
             // HasMany::make('statement'),
