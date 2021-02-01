@@ -35,8 +35,8 @@ class MasterCardController extends Controller
             ->detail(['bill' => $bill->toArray()])
             ->detail(['payment_id' => $payment->id]);
 
-        // check payment
-        // try {
+        // Initiate Authentication
+        try {
             $client = new Client();
             $response = $client->put(
                 config('payment.drivers.mastercard.base_url').'/api/rest/version/57/merchant/'.config('payment.drivers.mastercard.merchant_id').'/order/'.$payment->id.'/transaction/'.$payment->id,
@@ -49,6 +49,11 @@ class MasterCardController extends Controller
                         ],
                         'session' => [
                             'id' => $request->paymentToken
+                        ],
+                        'authentication' => [
+                            'acceptVersions' => '3DS1,3DS2',
+                            'channel'        => 'PAYER_BROWSER',
+                            'purpose'        => 'PAYMENT_TRANSACTION'
                         ]
                     ],
                     'auth' => [
@@ -58,24 +63,57 @@ class MasterCardController extends Controller
                 ]
             );
             $response = json_decode($response->getBody()->getContents(), true);
-            dd($response);
-        // } catch (ClientException $e) {
-        //     $response = json_decode($e->getResponse()->getBody()->getContents(), true);
-        // } catch (\Exception $e) {
-        //     $response = $e->getMessage();
-        // }
-
-        if (isset($response['result']) && $response['result'] == 'ERROR') {
-            $reason = isset($response['error']) && isset($response['error']['explanation']) ? $response['error']['explanation'] : '';
-            return [
-                'error'    => $reason,
-                'redirect' => $bill->pay_url
-            ];
+        } catch (ClientException $e) {
+            $response = json_decode($e->getResponse()->getBody()->getContents(), true);
+        } catch (\Exception $e) {
+            $response = $e->getMessage();
         }
 
-        PaymentHelper::handlePaymentResponse($invoice, $payment->id, $invoice->getDetails());
+        // Authenticate Payer
+        if (isset($response['result']) && $response['result'] == 'SUCCESS') {
 
-        return PaymentHelper::checkPaymentStatus($invoice, $payment, $bill, true);
+            $client = new Client();
+            $response = $client->put(
+                config('payment.drivers.mastercard.base_url').'/api/rest/version/57/merchant/'.config('payment.drivers.mastercard.merchant_id').'/order/'.$payment->id.'/transaction/'.$payment->id,
+                [
+                    'json' => [
+                        'authentication' => [
+                            'redirectResponseUrl' => route('bills.handle', ['hash' => $payment->hash_id])
+                        ],
+                        'apiOperation' => 'AUTHENTICATE_PAYER',
+                        'device' => [
+                            "browserDetails" => [
+                                "3DSecureChallengeWindowSize" => "FULL_SCREEN",
+                                "acceptHeaders" => "application/json",
+                                "javaEnabled" => true,
+                                "language" => \App::getLocale(),
+                                "colorDepth" => 24,
+                                "screenHeight" => 640,
+                                "screenWidth" => 480,
+                                "timeZone" => 273
+                            ]
+                        ],
+                        'order' => [
+                            'amount'   => $invoice->getDetails('bill')['bill']['total'],
+                            'currency' => 'SAR'
+                        ],
+                        'session' => [
+                            'id' => $request->paymentToken
+                        ]
+                    ],
+                    'auth' => [
+                        config('payment.drivers.mastercard.operator_username'),
+                        config('payment.drivers.mastercard.operator_password')
+                    ],
+                ]
+            );
+            return json_decode($response->getBody()->getContents(), true);
+        }
+
+        return [
+            'error'    => Yii::t('frontend', '3DS Failure'),
+            'redirect' => $bill->pay_url
+        ];
     }
 
     public function checkPayment(Request $request)

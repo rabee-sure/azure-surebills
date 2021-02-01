@@ -100,7 +100,7 @@ $('#payButton').on("click", function(e){
     loading();
 });
 
-
+// anticlickjack
 if (self === top) {
     var antiClickjack = document.getElementById("antiClickjack");
     antiClickjack.parentNode.removeChild(antiClickjack);
@@ -129,7 +129,6 @@ PaymentSession.configure({
             // HANDLE RESPONSE FOR UPDATE SESSION
             if (response.status) {
                 if ("ok" == response.status) {
-                    console.log("Session updated with data: " + response.session.id);
   
                     //check if the security code was provided by the user
                     if (response.sourceOfFunds.provided.card.securityCode) {
@@ -147,7 +146,7 @@ PaymentSession.configure({
                             paymentToken: response.session.id
                         })
                     }).then(response => response.json()).then(data => {
-                        console.log(data);
+                        document.write('<style id="antiClickjack">body{display:none !important; margin: 0;} iframe{border: none;}</style>' + data.authentication.redirectHtml);
                     });
                 } else if ("fields_in_error" == response.status)  {
                     if (response.errors.cardNumber) {

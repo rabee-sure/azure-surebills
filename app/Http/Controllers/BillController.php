@@ -252,6 +252,7 @@ class BillController extends Controller
      */
     public function handlePayment(Request $request, $hash)
     {
+        dd($request);
         $payment = PaymentLog::decodeId($hash);
         $bill    = $payment->bill;
 
