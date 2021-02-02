@@ -101,6 +101,15 @@
                 <b>{{ __('Total') }} : {{ $bill->total}} {{ __('SAR') }}</b>
               </div><!-- total_bill -->
               @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
+            <div class="customer_information">
+              <!-- <div class="name">Customer Information</div> -->
+              <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
+              <p class="ltr">+966{{ $bill->customer_mobile}}</p>
+              <p>{{ $bill->customer_email}}</p>
+              @if(isset($bill->user->settings->footer_bill))
+                <p>{{ $bill->user->settings->footer_bill }}</p>
+              @endif
+            </div><!-- customer_information -->
 
             @else
               <div class="date_time">

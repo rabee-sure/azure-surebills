@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Decimal;
 use App\Rules\EmailChannel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,10 +27,10 @@ class ChannelApplicationRequest extends FormRequest
     public function rules()
     {
         $rules =  [
-            'mada_fixed' => ['required', 'numeric', 'max:1000', 'gt:'.$this->channel->mada_fixed],
-            'mada_percentage' => ['required', 'numeric', 'max:100', 'gt:'.$this->channel->mada_percentage],
-            'credit_cards_fixed' => ['required', 'numeric', 'max:1000', 'gt:'.$this->channel->credit_cards_fixed],
-            'credit_cards_percentage' => ['required', 'numeric', 'max:100', 'gt:'.$this->channel->credit_cards_percentage],            
+            'mada_fixed' => ['required', 'numeric', 'max:1000', 'gt:'.$this->channel->mada_fixed, new Decimal(2,2)],
+            'mada_percentage' => ['required', 'numeric', 'max:100', 'gt:'.$this->channel->mada_percentage, new Decimal(2,2)],
+            'credit_cards_fixed' => ['required', 'numeric', 'max:1000', 'gt:'.$this->channel->credit_cards_fixed, new Decimal(2,2)],
+            'credit_cards_percentage' => ['required', 'numeric', 'max:100', 'gt:'.$this->channel->credit_cards_percentage, new Decimal(2,2)],            
 
             'redirect' => ['required', 'url'],
             'webhook_url' => ['required', 'url'],

@@ -46283,8 +46283,8 @@ exports.staticRenderFns = staticRenderFns;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.12
- * (c) 2014-2020 Evan You
+ * Vue.js v2.6.11
+ * (c) 2014-2019 Evan You
  * Released under the MIT License.
  */
 
@@ -51723,7 +51723,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.12';
+Vue.version = '2.6.11';
 
 /*  */
 
@@ -53929,7 +53929,7 @@ function updateDOMProps (oldVnode, vnode) {
       // skip the update if old and new VDOM state is the same.
       // `value` is handled separately because the DOM value may be temporarily
       // out of sync with VDOM state due to focus, composition and modifiers.
-      // This  #4521 by skipping the unnecessary `checked` update.
+      // This  #4521 by skipping the unnecesarry `checked` update.
       cur !== oldProps[key]
     ) {
       // some property updates can throw
@@ -56174,7 +56174,7 @@ function parse (
       }
     },
     comment: function comment (text, start, end) {
-      // adding anything as a sibling to the root node is forbidden
+      // adding anyting as a sibling to the root node is forbidden
       // comments should still be allowed, but ignored
       if (currentParent) {
         var child = {
@@ -60332,7 +60332,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60345,6 +60345,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__table_expand_vue__);
+//
+//
 //
 //
 //
@@ -60505,9 +60507,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 key: 'paid_at',
                 width: 150
             }, {
-                title: this.__('A'),
+                title: this.__('Details'),
                 key: 'action',
-                width: 50,
+                width: 150,
                 align: 'center',
                 render: function render(h, params) {
                     return h('div', [h('Button', {
@@ -60620,11 +60622,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handleChangeDate: function handleChangeDate(date) {
             var _this2 = this;
 
-            this.bills = [];
-            this.new_bills = [];
-            this.transactions = [];
-            this.new_transactions = [];
-            this.form.amount = 0;
+            this.refresh();
             if (date[0] != '' && this.isValidDate(date[0]) && this.isValidDate(date[1])) {
                 this.validDateRange = true;
                 Nova.request().get('/users/' + this.$route.params.id + '/transactions', {
@@ -60741,6 +60739,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this3.$Message.error(_this3.language == 'en' ? 'Fail' : 'فشل');
                 }
             });
+        },
+        handleCancel: function handleCancel() {
+            this.$Message.success(this.language == 'en' ? 'Cancel Transfer successfully' : 'تم الغاء التحويل بنجاح');
+            this.form.date_range = null;
+            this.form.note = null;
+            this.form.attachment = null;
+            this.refresh();
+        },
+        refresh: function refresh() {
+            this.bills = [];
+            this.new_bills = [];
+            this.transactions = [];
+            this.new_transactions = [];
+            this.form.amount = 0;
         }
     }
 });
@@ -61313,9 +61325,14 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c("Button", { staticStyle: { "margin-left": "8px" } }, [
-                    _vm._v(_vm._s(_vm.__("Cancel")))
-                  ])
+                  _c(
+                    "Button",
+                    {
+                      staticStyle: { "margin-left": "8px" },
+                      on: { click: _vm.handleCancel }
+                    },
+                    [_vm._v(_vm._s(_vm.__("Cancel")))]
+                  )
                 ],
                 1
               )
@@ -61374,12 +61391,7 @@ var render = function() {
       _c(
         "Modal",
         {
-          attrs: {
-            title: _vm.__("transactions"),
-            width: "760",
-            "ok-text": _vm.__("OK"),
-            "cancel-text": _vm.__("Cancel")
-          },
+          attrs: { title: _vm.__("transactions"), width: "760" },
           model: {
             value: _vm.transactionsModal,
             callback: function($$v) {
@@ -61448,7 +61460,27 @@ var render = function() {
                 }
               }
             ])
-          })
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: { type: "primary" },
+                  on: {
+                    click: function($event) {
+                      _vm.transactionsModal = !_vm.transactionsModal
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(_vm.__("OK")))]
+              )
+            ],
+            1
+          )
         ],
         1
       ),
@@ -61456,12 +61488,7 @@ var render = function() {
       _c(
         "Modal",
         {
-          attrs: {
-            title: _vm.__("Bills"),
-            width: "760",
-            "ok-text": _vm.__("OK"),
-            "cancel-text": _vm.__("Cancel")
-          },
+          attrs: { title: _vm.__("Bills"), width: "760" },
           model: {
             value: _vm.billsModal,
             callback: function($$v) {
@@ -61520,7 +61547,27 @@ var render = function() {
                 }
               }
             ])
-          })
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: { type: "primary" },
+                  on: {
+                    click: function($event) {
+                      _vm.billsModal = !_vm.billsModal
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(_vm.__("OK")))]
+              )
+            ],
+            1
+          )
         ],
         1
       )

@@ -1,5 +1,6 @@
 {
 	"All": "الكل",
+	"The :attribute must be an appropriately formatted decimal e.g. ": ":attribute يجب أن يكون رقمًا عشريًا بتنسيق مناسب ، مثل ",
 	":attribute must be greater than :number": ":attribute يجب ان تكون اكبر من :number",
 	"Are you sure you want to delete this item?": "هل أنت متأكد أنك تريد حذف هذا البند؟",
 	"Paid at Date Range": "تم الدفع في النطاق الزمني",
@@ -112,7 +113,7 @@
 	"Business Address": "عنوان العمل",
 	"Iban Number": "رقم الحساب البنكي",
 	"Account Name": "اسم صاحب الحساب",
-	"Beneficiary Name": "الوضع",
+	"Beneficiary Name": "اسم صاحب الحساب",
 	"Tax": "الضريبة",
 	"Sort Number": "الترتيب",
 	"Applications" : "التطبيقات",
