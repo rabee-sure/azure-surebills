@@ -40,6 +40,10 @@ return [
             'entity_id'    => env('HYPERPAY_APPLEPAY_ENTITY_ID', '8ac9a4cb6cfb27dc016d3422a55644f7'),
             'api_base_url' => env('HYPERPAY_APPLEPAY_BASE_URL', 'https://test.oppwa.com/v1'),
         ],
+        'mastercard' => [
+            'merchant_id' => env('MASTERCARD_MERCHANT_ID'),
+            'base_url'    => env('MASTERCARD_BASE_URL'),
+        ],
         'mastercard_iframe' => [
             'merchant_id'           => env('MASTERCARD_MERCHANT_ID'),
             'checkout_script'       => env('MASTERCARD_CHECKOUT_SCRIPT'),

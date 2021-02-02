@@ -210,9 +210,9 @@ class BillController extends Controller
                 ->addDays($bill->expiry_date)
                 ->addMinutes($bill->expiry_minutes)
                 ->addHours($bill->expiry_hours)
-                ->format('m/d/Y H:i:s')
-                ;
-                // dd($countdown);
+                ->format('m/d/Y H:i:s');
+
+        return view('bills.payment_page', compact('bill', 'id', 'countdown'));
         return view('bills.pay', compact('bill', 'id', 'countdown'));
     }
 
