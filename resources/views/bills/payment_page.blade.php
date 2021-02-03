@@ -104,6 +104,7 @@
 <script src="{{ asset('js/app.js') }}"></script>
 @endif
 
+
 <script>
 function loading() {
     $('#errors').css('display', 'none');

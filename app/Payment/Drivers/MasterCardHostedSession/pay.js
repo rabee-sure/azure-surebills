@@ -34,6 +34,8 @@ PaymentSession.configure({
                     if (response.sourceOfFunds.provided.card.securityCode) {
                         // console.log("Security code was provided.");
                     }
+
+                    // handle 3ds process
                     let headers = new Headers({
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -46,28 +48,38 @@ PaymentSession.configure({
                             paymentToken: response.session.id
                         })
                     }).then(response => response.json()).then(data => {
-                        document.write('<style>body{margin: 0;} iframe{border: none;}</style>' + data.authentication.redirectHtml);
+
+                        // parse html
+                        let redirectHtml = $( '<div></div>' );
+                        redirectHtml.html(data.authentication.redirectHtml);
+
+                        // change form target to be in the same page
+                        redirectHtml.find('form').attr('target', '_self');
+
+                        // append redirect form
+                        $( "body" ).append(redirectHtml);
                     });
+
                 } else if ("fields_in_error" == response.status)  {
                     if (response.errors.cardNumber) {
-                        addError('Card number invalid or missing.');
-                    }
-                    if (response.errors.expiryYear) {
-                        addError('Expiry year invalid or missing.');
+                        addError("<?php echo __('Card number invalid or missing.') ?>");
                     }
                     if (response.errors.expiryMonth) {
-                        addError('Expiry month invalid or missing.');
+                        addError("<?php echo __('Expiry month invalid or missing, example: 02') ?>");
+                    }
+                    if (response.errors.expiryYear) {
+                        addError("<?php echo __('Expiry year invalid or missing, example: 26') ?>");
                     }
                     if (response.errors.securityCode) {
-                        addError('Security code invalid.');
+                        addError("<?php echo __('Security code invalid.') ?>");
                     }
                 } else if ("request_timeout" == response.status)  {
-                    addError('Session update failed with request timeout: ' + response.errors.message);
+                    addError("<?php echo __('Session update failed with request timeout:') ?> " + response.errors.message);
                 } else if ("system_error" == response.status)  {
-                    addError('Session update failed with system error: ' + response.errors.message);
+                    addError("<?php echo __('Session update failed with system error:') ?> " + response.errors.message);
                 }
             } else {
-                addError('Session update failed: ' + response);
+                addError("<?php echo __('Session update failed:') ?> " + response);
             }
         }
     },
