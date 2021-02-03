@@ -34,7 +34,8 @@ class CallbackWebhook implements ShouldQueue
     public function handle()
     {
         $client = new \GuzzleHttp\Client([
-            'http_errors' => false
+            'http_errors' => false,
+            'verify' => false
         ]);
 
         if (!$this->bill->webhook_url) {
