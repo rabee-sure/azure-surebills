@@ -42,8 +42,10 @@ Route::prefix('v1')->group(function () {
 	Route::put('bills/{bill}/timeout', 'BillController@timeout');
 	Route::get('bills/{bill}', 'BillController@show');
 
-    Route::post('fandaqah-register', 'UserController@register');
+    Route::post('fandaqah-register', 'UserController@registerFandaqah');
     Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
 
     Route::post('channels/{channel}/applications/create', 'ChannelController@storeApplication');
+
+    Route::post('register', 'UserController@register');
 });
