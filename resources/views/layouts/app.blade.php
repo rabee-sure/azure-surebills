@@ -51,6 +51,11 @@
         @yield('content')
       </div>
     </main>
+    <script type="text/javascript">
+         if (typeof Storage !== "undefined") {
+          localStorage.setItem("dore-direction", @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr"@endif);
+        }   
+    </script>
 
     @include('layouts.footer')
     @stack('footer-scripts')
