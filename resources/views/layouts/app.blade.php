@@ -28,6 +28,12 @@
     @stack('header-css')
 
 
+
+    <style type="text/css" media="print">
+  @media print {
+    #paymentslog {display: none;}
+  }
+</style>
   </head>
   <body id="app-container" class=" @if(app()->getLocale() == 'ar') rtl @else ltr @endif 
     @if(auth()->user()->is_complete_profile) 

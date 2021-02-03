@@ -8,7 +8,7 @@
     // dd(app()->getLocale());
 @endphp
 
-@section('content')
+@section('content') 
 <div class="row">
   <div class="col-12">
     <h1>{{ __('Bill') }}</h1>
@@ -140,7 +140,7 @@
     <a title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
   @if(count($bill->payment_logs) > 0)
-  <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+  <div id="paymentslog" class="col-12 col-md-6 col-lg-6 col-xl-6">
     <div class="card">
       <div class="card-body">
         <h2 class="mb-3">{{__('Payment Transactions')}}</h2>
@@ -210,7 +210,7 @@
   </div>
 </div>
 
-@endsection
+@endsection 
 
 @push('footer-scripts')
   <script src="{{ asset('js/bootstrap-notify.min.js') }}" defer></script>

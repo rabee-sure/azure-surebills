@@ -26,7 +26,7 @@
               </div><!-- logo -->
             @endif
 
-            @if($bill->application_id == null)
+            @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
               <div class="title">
                 <span>{{ $bill->user->business_name }}</span>
 
@@ -61,7 +61,7 @@
               @endif
             </div>
 
-            @if($bill->application_id == null)
+            @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
               <div class="date_time">
                 <span>
                   {{__('Due on')}} {{ $bill->dateLocalization()}}
@@ -141,15 +141,6 @@
 
 @push('footer-scripts')
 <script type="text/javascript">
-  /* New countdown */
-  $(function(){
-    let searchParams = new URLSearchParams(window.location.search)
-    if(searchParams.has('print')){
-      window.print();
-    }
-  });
-  /* New countdown */
-
   Echo.channel('bill.{{$bill->id}}')
     .listen('BillStatusUpdated', (e) => {
         console.log(e.bill.id);
@@ -189,5 +180,4 @@
         //   .addClass(className);
     });
 </script>
-    {!! JsValidator::formRequest('App\Http\Requests\PayBillRequest', '#bill_bay') !!}
 @endpush

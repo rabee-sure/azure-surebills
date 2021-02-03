@@ -43,17 +43,17 @@ class PaymentHelper
 
     public static function savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook = false)
     {
-        $payment     = PaymentLog::find($orderBody->id);
-        $bill        = $payment->bill;
         $transaction = $orderBody->transaction[count($orderBody->transaction)-1];
+        $bill        = Bill::find($orderBody->id);
+        $payment     = PaymentLog::find($transaction->transaction->id);
 
         $invoice->detail(['result_code' => $orderResponseJson['result']['code']])
             ->detail(['success' => ($transaction->order->status == 'CAPTURED' && $transaction->order->amount == $bill->total) ? true : false])
             ->detail(['response' => $orderResponseJson])
             ->detail(['description' => $orderResponseJson['result']['description']])
-            ->detail(['gateway' => isset($transaction->order->walletProvider) && $transaction->order->walletProvider == 'APPLE_PAY' ? 'mastercard_applepay' : 'mastercard_iframe'])
+            ->detail(['gateway' => $payment->payment_method])
             ->detail(['gateway_response' => $orderBody]);
-        $invoice->transactionId($orderBody->id);
+        $invoice->transactionId($payment->id);
 
         if($viaWebHook) {
             PaymentHelper::checkPaymentStatus($invoice, $payment, $bill);

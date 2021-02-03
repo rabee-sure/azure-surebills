@@ -82,7 +82,7 @@ function onBuyClicked(event) {
 
   request.show().then(result => {
     response = result;
-    $('.loading').show();
+    loading();
     let headers = new Headers({
       'Accept': 'application/json',
       'Content-Type': 'application/json'
