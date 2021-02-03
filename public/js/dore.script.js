@@ -3341,7 +3341,7 @@ $.dore = function (element, options) {
       $("input.datepicker").datepicker({
         autoclose: true,
         rtl: isRtl,
-        language: "ar",
+        language: isRtl ? "ar" : "en",
         templates: {
           leftArrow: '<i class="simple-icon-arrow-left"></i>',
           rightArrow: '<i class="simple-icon-arrow-right"></i>'
