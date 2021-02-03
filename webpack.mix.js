@@ -69,7 +69,6 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
 
     // bill details
-    .js('resources/js/bill_details.js', 'public/js')
     .sass('resources/sass/bill_details.scss', 'public/css')
 
     // bill details

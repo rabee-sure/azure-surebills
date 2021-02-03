@@ -16,11 +16,6 @@
 
     @yield('content')
     <script src="{{ asset('js/jbootstrap.js') }}"></script>
-    {{-- <script src="{{ asset('js/jquery.countdown.js') }}"></script> --}}
-    <script src="{{ asset('js/jquery.counter.js') }}"></script>
-    <script src="{{ asset('js/jquery.card.js') }}" defer></script>
-    <script src="{{ asset('js/bill_details.js') }}" defer></script>
-    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @stack('footer-scripts')
 </body>

@@ -212,8 +212,11 @@ class BillController extends Controller
                 ->addHours($bill->expiry_hours)
                 ->format('m/d/Y H:i:s');
 
+        if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
+            return view('bills.pay', compact('bill', 'id', 'countdown'));
+        }
+
         return view('bills.payment_page', compact('bill', 'id', 'countdown'));
-        return view('bills.pay', compact('bill', 'id', 'countdown'));
     }
 
     /**

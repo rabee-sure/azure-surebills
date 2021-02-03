@@ -59,42 +59,36 @@ class ApplePayController extends Controller
             ->detail(['payment_id' => $payment->id]);
 
         // check payment
-        try {
-            $client = new Client();
-            $response = $client->put(
-                config('payment.drivers.mastercard_applepay.api_base_url').'/'.config('payment.drivers.mastercard_applepay.merchant_id').'/order/'.$payment->id.'/transaction/'.$payment->id,
-                [
-                    'json' => [
-                        'apiOperation' => 'PAY',
-                        'order' => [
-                            'walletProvider' => 'APPLE_PAY',
-                            'amount'         => $invoice->getDetails('bill')['bill']['total'],
-                            'currency'       => 'SAR',
-                            'reference'      => $bill->id
-                        ],
-                        'sourceOfFunds' => [
-                            'type' => 'CARD',
-                            'provided' => [
-                                'card' => [
-                                    'devicePayment' => [
-                                        'paymentToken' => json_encode($request->paymentToken)
-                                    ]
+        $client = new Client(['http_errors' => false]);
+        $response = $client->put(
+            config('payment.drivers.mastercard_applepay.api_base_url').'/'.config('payment.drivers.mastercard_applepay.merchant_id').'/order/'.$payment->id.'/transaction/'.$payment->id,
+            [
+                'json' => [
+                    'apiOperation' => 'PAY',
+                    'order' => [
+                        'walletProvider' => 'APPLE_PAY',
+                        'amount'         => $invoice->getDetails('bill')['bill']['total'],
+                        'currency'       => 'SAR',
+                        'reference'      => $bill->id
+                    ],
+                    'sourceOfFunds' => [
+                        'type' => 'CARD',
+                        'provided' => [
+                            'card' => [
+                                'devicePayment' => [
+                                    'paymentToken' => json_encode($request->paymentToken)
                                 ]
                             ]
                         ]
-                    ],
-                    'auth' => [
-                        config('payment.drivers.mastercard_applepay.operator_username'),
-                        config('payment.drivers.mastercard_applepay.operator_password')
-                    ],
-                ]
-            );
-            $response = json_decode($response->getBody()->getContents(), true);
-        } catch (ClientException $e) {
-            $response = json_decode($e->getResponse()->getBody()->getContents(), true);
-        } catch (\Exception $e) {
-            $response = $e->getMessage();
-        }
+                    ]
+                ],
+                'auth' => [
+                    config('payment.drivers.mastercard_applepay.operator_username'),
+                    config('payment.drivers.mastercard_applepay.operator_password')
+                ],
+            ]
+        );
+        $response = json_decode($response->getBody()->getContents(), true);
 
         if (isset($response['result']) && $response['result'] == 'ERROR') {
             $reason = isset($response['error']) && isset($response['error']['explanation']) ? $response['error']['explanation'] : '';
