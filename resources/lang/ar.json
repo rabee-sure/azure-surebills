@@ -562,5 +562,12 @@
   "expiration month": "شهر الانتهاء",
   "expiration year": "سنة الانتهاء",
   "name on card": "الاسم على البطاقة",
-  "Cancel": "الغاء"
+  "Cancel": "الغاء",
+  "Card number invalid or missing.": "رقم البطاقة غير صحيح.",
+  "Expiry year invalid or missing, example: 26": "ادخل سنة انتهاء صحيحة، مثال: 26",
+  "Expiry month invalid or missing, example: 02": "ادخل شهر انتهاء صحيح، مثال: 02",
+  "Security code invalid.": "ادخل رمز التحقق",
+  "Session update failed with request timeout:": "خطأ في بدأ عملية الدفع، برجاء المحاولة مرة اخرى",
+  "Session update failed with system error:": "خطأ في بدأ عملية الدفع، برجاء المحاولة مرة اخرى",
+  "Session update failed:": "خطأ في بدأ عملية الدفع، برجاء المحاولة مرة اخرى"
 }
