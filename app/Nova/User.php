@@ -5,6 +5,8 @@ namespace App\Nova;
 use App\Nova\Filters\DateRange;
 use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
+use App\Nova\Filters\UsersVerified;
+use App\Nova\Filters\UsersUnverified;
 use App\Nova\Metrics\NewBills;
 use App\Rules\ValidateUploadFile;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
@@ -279,6 +281,7 @@ class User extends Resource
         return [
             new UserBalance,
             new DateRange,
+            new UsersVerified,
         ];
     }
 

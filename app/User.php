@@ -41,6 +41,7 @@ class User extends Authenticatable implements HasMedia
         'vat_registration_number',
         'license_type',
         'organization_name',
+        'commercial_registry_expiry_date',
 
         //bank_id info
         'bank_id',
