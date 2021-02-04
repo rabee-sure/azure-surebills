@@ -329,10 +329,9 @@ class BillController extends Controller
             Log::emergency(json_encode($response));
             $orderBody = json_decode(json_encode($response), FALSE);
 
-            $payment = PaymentLog::find($orderBody->order->id);
-            $bill = $payment->bill;
 
             // process payment
+            $bill = Bill::find($orderBody->order->id);
             $invoice = new Invoice();
             $details = $invoice->detail(['bill' => $bill->toArray()])->getDetails();
             PaymentHelper::handlePaymentResponse($invoice, $orderBody->order->id, $details, true);
