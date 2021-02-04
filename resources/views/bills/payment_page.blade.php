@@ -26,7 +26,7 @@
 
 <div class="container" @if($bill->user->settings->api_bill_style && $bill->application_id) id="app" @endif >
     <div class="row align-items-center justify-content-center">
-        <div class="col-12 @if($bill->user->settings->api_bill_style && $bill->application_id) col-md-4 @else col-md-12 @endif mt-4">
+        <div class="col-12 @if($bill->user->settings->api_bill_style && $bill->application_id) col-md-4 @else col-md-12 @endif mt-4 p-0">
             <div class="pay_apple">
               <div class="load_form active"><div class="spinner-border text-muted"></div></div>
                 @if($bill->user->settings->api_bill_style && $bill->application_id)
@@ -54,7 +54,7 @@
                     </div>
                 @endif
                 <div id="payment_area">
-                    <div class="pay_button border-right border-left bg-light p-2" id="applepay_button">
+                    <div class="pay_button border-right border-left bg-light p-2 border-top" id="applepay_button">
                         <button id="payment" class="d-block mx-auto" lang="<?php echo App::getLocale() ?>" style="-webkit-appearance: -apple-pay-button; -apple-pay-button-type: buy; width: 230px; height: 40px; cursor: pointer; border-radius: 5px;"></button>
                     </div><!-- pay_button -->
                     <div class="pay_form border-right border-left border-bottom border-top rounded-bottom">
