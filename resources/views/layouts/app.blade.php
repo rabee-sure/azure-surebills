@@ -16,7 +16,7 @@
     <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png" />
     <title>@yield('title') - Sure Bills</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
