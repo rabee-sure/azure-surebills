@@ -26,6 +26,9 @@ class Decimal implements Rule
      */
     public function passes($attribute, $value)
     {
+        if(is_int($value+0))
+            return true;
+
         return preg_match("/^[0-9]{1,{$this->parameters[0]}}(\.[0-9]{1,{$this->parameters[1]}})$/", $value);
     }
 

@@ -165,6 +165,8 @@ class BillController extends Controller
         $request->merge(['customer_mobile'=> $mobile]);
         $validator = Validator::make($request->all(), [
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
+            'customer_name' => ['required'],
+            'customer_email' => ['required'],
         ]);
 
         if ($validator->fails()){
