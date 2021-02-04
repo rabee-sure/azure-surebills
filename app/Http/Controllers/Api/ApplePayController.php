@@ -61,7 +61,7 @@ class ApplePayController extends Controller
         // check payment
         $client = new Client(['http_errors' => false]);
         $response = $client->put(
-            config('payment.drivers.mastercard_applepay.api_base_url').'/'.config('payment.drivers.mastercard_applepay.merchant_id').'/order/'.$payment->id.'/transaction/'.$payment->id,
+            config('payment.drivers.mastercard_applepay.api_base_url').'/'.config('payment.drivers.mastercard_applepay.merchant_id').'/order/'.$bill->id.'/transaction/'.$payment->id,
             [
                 'json' => [
                     'apiOperation' => 'PAY',
@@ -69,7 +69,7 @@ class ApplePayController extends Controller
                         'walletProvider' => 'APPLE_PAY',
                         'amount'         => $invoice->getDetails('bill')['bill']['total'],
                         'currency'       => 'SAR',
-                        'reference'      => $bill->id
+                        'reference'      => $bill->reference_id
                     ],
                     'sourceOfFunds' => [
                         'type' => 'CARD',
@@ -98,7 +98,7 @@ class ApplePayController extends Controller
             ];
         }
 
-        PaymentHelper::handlePaymentResponse($invoice, $payment->id, $invoice->getDetails());
+        PaymentHelper::handlePaymentResponse($invoice, $bill->id, $invoice->getDetails());
 
         return PaymentHelper::checkPaymentStatus($invoice, $payment, $bill, true);
     }

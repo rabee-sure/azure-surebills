@@ -548,7 +548,8 @@ class Bill extends Model
      */
     public function payment_logs()
     {
-        return $this->hasMany(PaymentLog::class)->orderBy('id', 'desc');;
+        return $this->hasMany(PaymentLog::class)->orderBy('id', 'desc')
+            ->where('payment_logs.payment_method', '!=', 'mastercard_auth');
     }
 
     public function dateLocalization()
