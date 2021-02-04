@@ -26,7 +26,7 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label name="license_type" for="inputEmail3">{{ __('License type') }} <button class="license_button" type="button" data-toggle="modal" data-target=".license_type_modal"></button></label>
-              <select name="license_type" class="form-control">
+              <select id="license_type" name="license_type" class="form-control">
                 <option value="Commercial Record" @if ($user->license_type == 'Commercial Record')selected="selected"@endif>{{ __('Commercial Record') }}</option>
                 <option value="Freelance" @if ($user->license_type == 'Freelance')selected="selected"@endif>{{ __('Freelance') }}</option>
               </select>
@@ -35,6 +35,13 @@
               <label for="vat_registration_number">{{ __('VAT Registration Number') }} ( {{ __('optional') }} )</label>
               <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
             </div>
+          </div>
+
+          <div id="registry_expiry_date" class="form-row" @if($user->license_type != 'Commercial Record')style="display: none;"@endif>
+              <div class="form-group col-12 col-md-12">
+                <label>{{ __('Commercial Registry Expiry Date') }}  <span class="requirement">*</span></label>
+                <input value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="commercial_registry_expiry_date" class="form-control datepicker" placeholder="{{ __('Commercial Registry Expiry Date') }}">
+              </div><!-- form-group -->
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -131,5 +138,15 @@
 @endsection
 
 @push('footer-scripts')
+    <script type="text/javascript">
+      $('#license_type').on('change', function() {
+        if(this.value == 'Commercial Record'){
+            $('#registry_expiry_date').show();
+        }else{
+            console.log('ss');
+            $('#registry_expiry_date').hide();
+        }
+      });
+    </script>
     {!! JsValidator::formRequest('App\Http\Requests\BusinessInformationRequest', '#form') !!}
 @endpush

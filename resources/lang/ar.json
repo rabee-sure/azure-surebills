@@ -1,5 +1,6 @@
 {
 	"All": "الكل",
+	"Commercial Registry Expiry Date": "تاريخ انتهاء السجل التجاري",
 	"The :attribute must be an appropriately formatted decimal e.g. ": ":attribute يجب أن يكون رقمًا عشريًا بتنسيق مناسب ، مثل ",
 	":attribute must be greater than :number": ":attribute يجب ان تكون اكبر من :number",
 	"Are you sure you want to delete this item?": "هل أنت متأكد أنك تريد حذف هذا البند؟",

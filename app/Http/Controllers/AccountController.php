@@ -161,6 +161,7 @@ class AccountController extends Controller
             'business_address' => $request->get('business_address'),
             'business_mobile' => $request->get('business_mobile'),
             'vat_registration_number' => $request->get('vat_registration_number'),
+            'commercial_registry_expiry_date' => Carbon::parse($request->commercial_registry_expiry_date),
         ]);
 
         if (count(auth()->user()->business_documents) > 0) {
