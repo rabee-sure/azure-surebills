@@ -21,7 +21,7 @@ class UsersVerified extends Filter
      */
     public function name()
     {
-        return  __('Settled');
+        return  __('Verified');
     }
 
     /**
@@ -57,7 +57,7 @@ class UsersVerified extends Filter
     public function options(Request $request)
     {
         return [
-            __('verified') => 1,
+            __(' Verified') => 1,
             __('Un Verified') => 2,
             __('Un Verified + Complete Profile') => 3,
         ];

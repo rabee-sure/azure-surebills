@@ -1,5 +1,8 @@
 {
 	"All": "الكل",
+	"Un Verified + Complete Profile": "لم يتم التوثيق + اكمل بياناته",
+	" Verified": "تم التوثيق",
+	"Un Verified": "لم يتم التوثيق",
 	"Commercial Registry Expiry Date": "تاريخ انتهاء السجل التجاري",
 	"The :attribute must be an appropriately formatted decimal e.g. ": ":attribute يجب أن يكون رقمًا عشريًا بتنسيق مناسب ، مثل ",
 	":attribute must be greater than :number": ":attribute يجب ان تكون اكبر من :number",
