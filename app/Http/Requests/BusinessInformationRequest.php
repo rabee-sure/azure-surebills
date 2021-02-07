@@ -26,7 +26,7 @@ class BusinessInformationRequest extends FormRequest
     {
         return [
             'license_type' => ['required'],
-            'commercial_registry_expiry_date' => ['required_if:license_type,Commercial Record', 'required'],
+            // 'commercial_registry_expiry_date' => ['required_if:license_type,Commercial Record', 'required'],
             'business_name_en' => ['required', 'max:50'],
             'business_name_ar' => ['required', 'max:50'],
             'sector' => ['nullable', 'max:50'],

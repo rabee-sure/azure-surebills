@@ -33,7 +33,7 @@ class PaymentHelper
             $orderResponseJson['result']['description'] = isset($transaction->response->acquirerMessage) ? $transaction->response->acquirerMessage : null;
             if (isset($orderBody->sourceOfFunds->provided->card->localBrand) && strpos($orderBody->sourceOfFunds->provided->card->localBrand, 'MADA') !== false) {
                 $orderResponseJson['paymentBrand'] = 'MADA';
-            } else {
+            } else if (isset($orderBody->sourceOfFunds->provided->card->brand)) {
                 $orderResponseJson['paymentBrand'] = $orderBody->sourceOfFunds->provided->card->brand;
             }
 

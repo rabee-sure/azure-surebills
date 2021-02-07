@@ -80,6 +80,7 @@ class MasterCardController extends Controller
                         ],
                         'apiOperation' => 'AUTHENTICATE_PAYER',
                         'device' => [
+                            "browser" => \Request::header('User-Agent'),
                             "browserDetails" => [
                                 "3DSecureChallengeWindowSize" => "FULL_SCREEN",
                                 "acceptHeaders" => "application/json",
