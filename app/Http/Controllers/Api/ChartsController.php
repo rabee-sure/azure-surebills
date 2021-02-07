@@ -153,6 +153,7 @@ class ChartsController extends Controller
      */
     protected function datasets($collection, $method, $data)
     {
+
         return [
             'daily' => [
                 "labels" => [
@@ -227,8 +228,8 @@ class ChartsController extends Controller
                                 $this->weeks[3]['date_between'][1]
                             ),
                             $this->{$method}($collection,
-                                $this->weeks[4]['date_between'][0],
-                                $this->weeks[4]['date_between'][1]
+                                $this->weeks[4]['date_between'][0] ?? '',
+                                $this->weeks[4]['date_between'][1] ?? ''
                             ),
                         ]
                     ]
