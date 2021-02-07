@@ -81,13 +81,15 @@ class ChannelController extends Controller
      * @param  \App\Channel  $channels
      * @return \Illuminate\Http\Response
      */
-    public function update(ChannelUpdateRequest $request, Channel $channels)
+    public function update(ChannelUpdateRequest $request, Channel $channel)
     {
-        $channels->name = $request->name;
-        $channels->email = $request->email;
-        $channels->mobile = $request->mobile;
-        $channels->notes = $request->notes;
-        $channels->save();
+        $this->authorize('update', $channel);
+
+        $channel->name = $request->name;
+        $channel->email = $request->email;
+        $channel->mobile = $request->mobile;
+        $channel->notes = $request->notes;
+        $channel->save();
 
         return redirect()->route('channels.index');
     }
