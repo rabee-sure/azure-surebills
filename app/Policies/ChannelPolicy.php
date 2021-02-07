@@ -31,7 +31,7 @@ class ChannelPolicy
      */
     public function view(User $user, Channel $channel)
     {
-        return true;
+        return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
     }
 
     /**
@@ -54,7 +54,7 @@ class ChannelPolicy
      */
     public function update(User $user, Channel $channel)
     {
-        return true;
+        return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
     }
 
     /**
@@ -66,7 +66,7 @@ class ChannelPolicy
      */
     public function delete(User $user, Channel $channel)
     {
-        return true;
+        return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
     }
 
     /**
@@ -78,7 +78,7 @@ class ChannelPolicy
      */
     public function restore(User $user, Channel $channel)
     {
-        return true;
+        return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
     }
 
     /**
@@ -90,7 +90,7 @@ class ChannelPolicy
      */
     public function forceDelete(User $user, Channel $channel)
     {
-        return true;
+        return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
     }
 
     /**

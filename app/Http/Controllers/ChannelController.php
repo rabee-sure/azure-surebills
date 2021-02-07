@@ -59,6 +59,7 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
+        $this->authorize('view', $channel);
         return view('channels.show', ['channel' => $channel]);
     }
 
