@@ -93,8 +93,9 @@
           <div class="custom-control custom-checkbox mb-4">
             <input type="checkbox" class="custom-control-input  @error('terms') is-invalid @enderror" name="terms" value="1" id="customCheckThis">
             <label class="custom-control-label" for="customCheckThis">
-              {{ __('I agree to') }} <a href="#" title="{{ __('Terms & Conditions') }}"  data-toggle="modal" data-target=".bd-example-modal-lg">{{ __('Terms & Conditions') }}</a>
+              {{ __('I agree to') }} 
             </label>
+              <a id="read_terms" style="line-height: 1.5rem; padding-top: 1px;" href="#" title="{{ __('Terms & Conditions') }}"  data-toggle="modal" data-target=".bd-example-modal-lg pt-2">{{ __('Terms & Conditions') }}</a>
             @error('terms')
               <p class="invalid-feedback" role="alert">{{ $message }}</p>
             @enderror

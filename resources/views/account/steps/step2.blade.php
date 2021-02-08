@@ -117,8 +117,8 @@
 
               </div><!-- step-1 -->
               <div class="btn-toolbar custom-toolbar text-center d-flex justify-content-center card-body pt-0">
-                    <a class="btn btn-primary mx-2" href="/account?previous=1">{{__('Previous')}}</a>
-                <button class="btn btn-primary next-btn mx-2" type="submit">{{__('Next')}}</button>
+                    <a  id="previous" class="btn btn-primary mx-2" href="/account?previous=1">{{__('Previous')}}</a>
+                <button  id="next" class="btn btn-primary next-btn mx-2" type="submit">{{__('Next')}}</button>
               </div>
           </form>
 
@@ -146,7 +146,6 @@
 @push('footer-scripts')
     <script type="text/javascript">
       $('#license_type').on('change', function() {
-        console.log('eee')
         if(this.value == 'Commercial Record'){
             $('#registry_expiry_date').show();
         }else{

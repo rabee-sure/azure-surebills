@@ -39,9 +39,9 @@
 				</div><!-- step-0 -->
 
 				<div class="btn-toolbar custom-toolbar text-center d-flex justify-content-center card-body pt-0">
-					<button class="btn btn-primary prev-btn mx-2" type="button">{{__('Previous')}}</button>
-					<button class="btn btn-primary next-btn mx-2" type="submit">{{__('Next')}}</button>
-					<button class="btn btn-primary finish-btn mx-2" type="submit">{{__('Finish')}}</button>
+					<button id="previous" class="btn btn-primary prev-btn mx-2" type="button">{{__('Previous')}}</button>
+					<button id="next" class="btn btn-primary next-btn mx-2" type="submit">{{__('Next')}}</button>
+					<button  id="finish" class="btn btn-primary finish-btn mx-2" type="submit">{{__('Finish')}}</button>
 				</div>
 			</form>
 
