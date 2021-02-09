@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Application;
-use App\Customer;
+use App\Models\Application;
+use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Rules\BillTotalValidation;

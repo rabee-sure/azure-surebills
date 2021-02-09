@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Bill;
+use App\Models\Bill;
 use App\Events\BillStatusUpdated;
 use Carbon\Carbon;
 use Illuminate\Console\Command;

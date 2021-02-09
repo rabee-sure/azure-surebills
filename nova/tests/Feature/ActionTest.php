@@ -3,6 +3,9 @@
 namespace Laravel\Nova\Tests\Feature;
 
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\ActionRequest;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Tests\IntegrationTest;
 
 class ActionTest extends IntegrationTest
@@ -192,6 +195,65 @@ class ActionTest extends IntegrationTest
         $action->confirmText('Are you sure!');
 
         $this->assertSubset(['confirmText' => 'Are you sure!'], $action->jsonSerialize());
+    }
+
+    public function test_actions_can_use_custom_css_classes_for_the_buttons()
+    {
+        $action = new class extends Action {
+            public function actionClass()
+            {
+                return 'bg-warning text-warning-dark';
+            }
+        };
+
+        $this->assertSubset(['class' => 'bg-warning text-warning-dark'], $action->jsonSerialize());
+    }
+
+    public function test_actions_can_handle_validation()
+    {
+        $this->expectException('Illuminate\Validation\ValidationException');
+        $this->expectExceptionMessage('The given data was invalid.');
+
+        $action = new class extends Action {
+            public function fields()
+            {
+                return [
+                    Text::make('Name')->rules('required'),
+                ];
+            }
+        };
+
+        $request = ActionRequest::create('POST', '/', [
+            'name' => null,
+        ]);
+
+        $action->validateFields($request);
+    }
+
+    public function test_actions_can_handle_after_validation()
+    {
+        $this->expectException('Illuminate\Validation\ValidationException');
+        $this->expectExceptionMessage('The given data was invalid.');
+
+        $action = new class extends Action {
+            public function fields()
+            {
+                return [
+                    Text::make('Name'),
+                ];
+            }
+
+            protected function afterValidation(NovaRequest $request, $validator)
+            {
+                $validator->errors()->add('name', 'Something is wrong with this field!');
+            }
+        };
+
+        $request = ActionRequest::create('POST', '/', [
+            'name' => null,
+        ]);
+
+        $action->validateFields($request);
     }
 
     protected function assertShownOnIndex(Action $action)

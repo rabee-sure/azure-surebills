@@ -26,33 +26,35 @@
       </tooltip>
     </div>
 
-    <div class="overflow-hidden overflow-y-auto max-h-90px">
-      <ul class="list-reset">
-        <li
-          v-for="item in formattedItems"
-          class="text-xs text-80 leading-normal"
-        >
-          <span
-            class="inline-block rounded-full w-2 h-2 mr-2"
-            :style="{
-              backgroundColor: item.color,
-            }"
-          />{{ item.label }} ({{ item.value }} - {{ item.percentage }}%)
-        </li>
-      </ul>
-    </div>
+    <div class="min-h-90px">
+      <div class="overflow-hidden overflow-y-auto max-h-90px">
+        <ul class="list-reset">
+          <li
+            v-for="item in formattedItems"
+            class="text-xs text-80 leading-normal"
+          >
+            <span
+              class="inline-block rounded-full w-2 h-2 mr-2"
+              :style="{
+                backgroundColor: item.color,
+              }"
+            />{{ item.label }} ({{ item.value }} - {{ item.percentage }}%)
+          </li>
+        </ul>
+      </div>
 
-    <div
-      ref="chart"
-      :class="chartClasses"
-      style="
-        width: 90px;
-        height: 90px;
-        right: 20px;
-        bottom: 30px;
-        top: calc(50% + 15px);
-      "
-    />
+      <div
+        ref="chart"
+        :class="chartClasses"
+        style="
+          width: 90px;
+          height: 90px;
+          right: 20px;
+          bottom: 30px;
+          top: calc(50% + 15px);
+        "
+      />
+    </div>
   </loading-card>
 </template>
 
@@ -149,7 +151,11 @@ export default {
             color: this.getItemColor(item, index),
             percentage:
               this.formattedTotal > 0
-                ? ((item.value * 100) / this.formattedTotal).toFixed(2)
+                ? Nova.formatNumber(
+                    new String(
+                      ((item.value * 100) / this.formattedTotal).toFixed(2)
+                    )
+                  )
                 : '0',
           }
         })

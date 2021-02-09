@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Bill;
-use App\Transaction;
-use App\User;
+use App\Models\Bill;
+use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Bill;
+use App\Models\Bill;
 use App\Events\BillPaid;
 use App\Events\BillStatusUpdated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AccountInformationRequest;
-use App\Http\Requests\BankInformationRequest;
-use App\Http\Requests\BusinessInformationRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Jobs\CallbackWebhook;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
-use Hashids\Hashids;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Uuid;

@@ -18,7 +18,7 @@ class Bank extends Resource
      *
      * @var string
      */
-    public static $model = \App\Bank::class;
+    public static $model = \App\Models\Bank::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

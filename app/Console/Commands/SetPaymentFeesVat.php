@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Bill;
-use App\Transaction;
+use App\Models\Bill;
+use App\Models\Transaction;
 use Illuminate\Console\Command;
 
 class SetPaymentFeesVat extends Command

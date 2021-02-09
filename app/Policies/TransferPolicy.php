@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use App\Bill;
-use App\Transfer;
-use App\User;
+use App\Models\Bill;
+use App\Models\Transfer;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TransferPolicy
@@ -14,7 +14,7 @@ class TransferPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -25,8 +25,8 @@ class TransferPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\Transfer  $transfer
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Transfer  $transfer
      * @return mixed
      */
     public function view(User $user, Transfer $transfer)
@@ -37,7 +37,7 @@ class TransferPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -48,8 +48,8 @@ class TransferPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\Transfer  $transfer
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Transfer  $transfer
      * @return mixed
      */
     public function update(User $user, Transfer $transfer)
@@ -60,8 +60,8 @@ class TransferPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\Transfer  $transfer
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Transfer  $transfer
      * @return mixed
      */
     public function delete(User $user, Transfer $transfer)
@@ -72,8 +72,8 @@ class TransferPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\Transfer  $transfer
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Transfer  $transfer
      * @return mixed
      */
     public function restore(User $user, Transfer $transfer)
@@ -84,8 +84,8 @@ class TransferPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\Transfer  $transfer
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Transfer  $transfer
      * @return mixed
      */
     public function forceDelete(User $user, Transfer $transfer)
@@ -96,9 +96,9 @@ class TransferPolicy
     /**
      * Determine whether the user can attach a bill to a podcast.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Podcast  $podcast
-     * @param  \App\Bill  $bill
+     * @param  \App\Models\Bill  $bill
      * @return mixed
      */
     public function attachBill(User $user, Transfer $transfer, Bill $bill)
@@ -109,7 +109,7 @@ class TransferPolicy
         /**
      * Determine whether the user can detach a tag from a podcast.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Podcast  $podcast
      * @param  \App\Tag  $tag
      * @return mixed
@@ -123,7 +123,7 @@ class TransferPolicy
     /**
      * Determine whether the user can attach any tags to the podcast.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Podcast  $podcast
      * @return mixed
      */

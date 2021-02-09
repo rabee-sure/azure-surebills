@@ -4,7 +4,7 @@ namespace App\Payment\Drivers;
 
 use App\Exceptions\InvalidPaymentException;
 use App\Exceptions\PurchaseFailedException;
-use App\PaymentLog;
+use App\Models\PaymentLog;
 use App\Payment\Abstracts\Driver;
 use App\Payment\Contracts\ReceiptInterface;
 use App\Payment\Invoice;

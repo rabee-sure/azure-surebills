@@ -2,8 +2,8 @@
 
 namespace App\Nova\Metrics;
 
-use App\Bill;
-use App\Transfer;
+use App\Models\Bill;
+use App\Models\Transfer;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 

@@ -36,7 +36,7 @@ class Transfer extends Resource
      *
      * @var string
      */
-    public static $model = \App\Transfer::class;
+    public static $model = \App\Models\Transfer::class;
 
     /**
      * Get the displayble label of the resource.
