@@ -10,10 +10,23 @@ context('Login', () => {
             'name': 'Abdullah Ghanem',
             'email': '3bdullah.ghanem@gmail.com',
             'mobile': '50002002',
-            'password': '123456789',
         })
     });
     context('Login With Invalid Credetials', () => {
+        it('Open Login Form', () => {
+            cy.visit('/');
+            cy.get('.login').click();
+            cy.assertRedirect('login');
+        });
+
+        it('Login To the System', () => {
+            cy.visit('/login');
+            cy.get('#email').type('3bdullah.ghanem@gmail.com');
+            cy.get('#password').type('123456789');
+            cy.get('.login_button').click();
+            cy.get('.user').contains('Abdullah Ghanem');
+        });
+
         it('required vaild email', () => {
             cy.visit('/');
             cy.get('.login').click();

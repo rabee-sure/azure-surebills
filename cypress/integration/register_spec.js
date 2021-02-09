@@ -2,7 +2,7 @@ import faker from 'faker'
 
 context('Register', () => {
     const email = faker.internet.email();
-    const password = faker.internet.password();
+    const password = faker.internet.password()+'dddAA';
 
     // beforeEach(() => {
     //     cy.refreshDatabase().seed();
