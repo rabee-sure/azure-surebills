@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\PaymentLog;
-use App\Transaction;
+use App\Models\PaymentLog;
+use App\Models\Transaction;
 use App\Events\BillPaid;
 use Illuminate\Support\Facades\Log;
 use App\Mail\SendBillPaidToCustomer;

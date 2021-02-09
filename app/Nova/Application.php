@@ -22,7 +22,7 @@ class Application extends Resource
      *
      * @var string
      */
-    public static $model = \App\Application::class;
+    public static $model = \App\Models\Application::class;
 
     public static $displayInNavigation = false;
 

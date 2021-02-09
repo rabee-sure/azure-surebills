@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Application;
+use App\Models\Application;
 use App\Http\Requests\ApplicationRequest;
 use App\Http\Resources\ApplicationResource;
 use Illuminate\Http\Request;
@@ -48,7 +48,7 @@ class ApplicationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Application  $application
+     * @param  \App\Models\Application  $application
      * @return \Illuminate\Http\Response
      */
     public function update(ApplicationRequest $request, Application $application)
@@ -69,7 +69,7 @@ class ApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Application  $application
+     * @param  \App\Models\Application  $application
      * @return \Illuminate\Http\Response
      */
     public function destroy(Application $application)

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Application;
-use App\Channel;
-use App\Transfer;
+use App\Models\Application;
+use App\Models\Channel;
+use App\Models\Transfer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -76,7 +76,7 @@ class StatementController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Transfer  $Transfer
+     * @param  \App\Models\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
     public function show(Transfer $Transfer)
@@ -87,7 +87,7 @@ class StatementController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Transfer  $Transfer
+     * @param  \App\Models\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
     public function edit(Transfer $Transfer)
@@ -99,7 +99,7 @@ class StatementController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Transfer  $Transfer
+     * @param  \App\Models\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Transfer $Transfer)
@@ -110,7 +110,7 @@ class StatementController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Transfer  $Transfer
+     * @param  \App\Models\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
     public function destroy(Transfer $Transfer)

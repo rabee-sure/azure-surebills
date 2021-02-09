@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\PaymentLog;
+use App\Models\PaymentLog;
 use App\Imports\HyperPayImport;
-use App\Transaction;
+use App\Models\Transaction;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;

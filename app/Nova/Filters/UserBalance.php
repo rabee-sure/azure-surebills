@@ -2,7 +2,7 @@
 
 namespace App\Nova\Filters;
 
-use App\User;
+use App\Models\User;
 use DigitalCreative\RangeInputFilter\RangeInputFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;

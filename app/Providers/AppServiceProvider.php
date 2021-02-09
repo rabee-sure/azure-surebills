@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
-use App\Application;
+use App\Models\Application;
 use App\Observers\ApplicationObserver;
 use App\Observers\TransferObserver;
-use App\Transfer;
+use App\Models\Transfer;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -35,5 +37,7 @@ class AppServiceProvider extends ServiceProvider
         Transfer::observe(TransferObserver::class);
         Application::observe(ApplicationObserver::class);
         Schema::defaultStringLength(191);
+        Paginator::useBootstrap();
+
     }
 }

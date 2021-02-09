@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Application;
-use App\Bill;
+use App\Models\Application;
+use App\Models\Bill;
 use App\Http\Requests\SettingsRequest;
 use Illuminate\Http\Request;
 

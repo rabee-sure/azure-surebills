@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Application;
-use App\Channel;
+use App\Models\Application;
+use App\Models\Channel;
 use App\Exceptions\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChannelApplicationAPiRequest;
 use App\Http\Resources\ChannelApplicationResource;
 use App\Http\Resources\ChannelResource;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;

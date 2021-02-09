@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Application;
-use App\Bill;
-use App\BillItem;
-use App\Customer;
+use App\Models\Application;
+use App\Models\Bill;
+use App\Models\BillItem;
+use App\Models\Customer;
 use App\Events\BillCreated;
 use App\Events\BillStatusUpdated;
 use App\Exceptions\ValidationException;
@@ -15,8 +15,8 @@ use App\Http\Requests\CheckBillApiRequest;
 use App\Http\Requests\PayBillRequest;
 use App\Http\Resources\BillApiResource;
 use App\Http\Resources\BillResource;
-use App\OauthClient;
-use App\PaymentLog;
+use App\Models\OauthClient;
+use App\Models\PaymentLog;
 use App\Payment\Facades\Payment;
 use App\Payment\Invoice;
 use Carbon\Carbon;
@@ -396,7 +396,7 @@ class BillController extends Controller
     /**
      * get Application.
      *
-     * @return \App\Application
+     * @return \App\Models\Application
      */
     public function getApplication($application, $request)
     {

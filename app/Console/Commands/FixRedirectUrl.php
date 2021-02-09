@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Application;
-use App\Bill;
+use App\Models\Application;
+use App\Models\Bill;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 

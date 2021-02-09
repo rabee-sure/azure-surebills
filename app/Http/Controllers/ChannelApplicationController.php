@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Application;
-use App\Channel;
+use App\Models\Application;
+use App\Models\Channel;
 use App\Http\Requests\ChannelApplicationRequest;
 use App\Http\Requests\ChannelRequest;
 use App\Http\Requests\ChannelUpdateRequest;
 use App\Http\Resources\ChannelApplicationResource;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -63,7 +63,7 @@ class ChannelApplicationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\ChannelApplicationRequest  $request
-     * @param  \App\Application  $application
+     * @param  \App\Models\Application  $application
      * @return \Illuminate\Http\Response
      */
     public function update(ChannelApplicationRequest $request, Channel $channel, Application $application)
@@ -88,7 +88,7 @@ class ChannelApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Application  $application
+     * @param  \App\Models\Application  $application
      * @return \Illuminate\Http\Response
      */
     public function destroy(Channel $channel, Application $application)

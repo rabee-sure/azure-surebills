@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Bill;
-use App\PaymentLog;
+use App\Models\Bill;
+use App\Models\PaymentLog;
 use GuzzleHttp\Client;
 use App\Payment\Invoice;
 use Illuminate\Support\Str;

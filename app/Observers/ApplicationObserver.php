@@ -2,15 +2,15 @@
 
 namespace App\Observers;
 
-use App\Transaction;
-use App\Application;
+use App\Models\Transaction;
+use App\Models\Application;
 
 class ApplicationObserver
 {
     /**
      * Handle the application "created" event.
      *
-     * @param  \App\Application  $application
+     * @param  \App\Models\Application  $application
      * @return void
      */
     public function created(Application $application)
@@ -30,7 +30,7 @@ class ApplicationObserver
     /**
      * Handle the application "updated" event.
      *
-     * @param  \App\Application  $application
+     * @param  \App\Models\Application  $application
      * @return void
      */
     public function updated(Application $application)
@@ -41,7 +41,7 @@ class ApplicationObserver
     /**
      * Handle the application "deleted" event.
      *
-     * @param  \App\Application  $application
+     * @param  \App\Models\Application  $application
      * @return void
      */
     public function deleted(Application $application)
@@ -52,7 +52,7 @@ class ApplicationObserver
     /**
      * Handle the application "restored" event.
      *
-     * @param  \App\Application  $application
+     * @param  \App\Models\Application  $application
      * @return void
      */
     public function restored(Application $application)
@@ -63,7 +63,7 @@ class ApplicationObserver
     /**
      * Handle the application "force deleted" event.
      *
-     * @param  \App\Application  $application
+     * @param  \App\Models\Application  $application
      * @return void
      */
     public function forceDeleted(Application $application)
