@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Customer;
+use App\Models\Customer;
 use App\Rules\PasswordRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

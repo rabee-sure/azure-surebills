@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Helpers;
-use App\Bill;
-use App\PaymentLog;
+use App\Models\Bill;
+use App\Models\PaymentLog;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 

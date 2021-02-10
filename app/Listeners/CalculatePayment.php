@@ -2,14 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Bill;
+use App\Models\Bill;
 use App\Events\BillPaid;
 use App\Jobs\MakeTransactionsForChannel;
 use App\Jobs\MakeTransactionsForOwner;
 use App\Jobs\MakeTransactionsForSureBills;
 use App\Mail\SendBillPaidToCustomer;
-use App\PaymentLog;
-use App\Transaction;
+use App\Models\PaymentLog;
+use App\Models\Transaction;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;

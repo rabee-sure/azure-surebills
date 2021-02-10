@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Bill;
-use App\Settings;
-use App\User;
+use App\Models\Bill;
+use App\Models\Settings;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 

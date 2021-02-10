@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Bill;
+use App\Models\Bill;
 use App\Events\TransferCreated;
 use App\Http\Resources\TransferResource;
-use App\Transfer;
+use App\Models\Transfer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -81,7 +81,7 @@ class TransferController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Transfer  $Transfer
+     * @param  \App\Models\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
     public function show(Transfer $Transfer)
@@ -92,7 +92,7 @@ class TransferController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Transfer  $Transfer
+     * @param  \App\Models\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
     public function edit(Transfer $Transfer)
@@ -104,7 +104,7 @@ class TransferController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Transfer  $Transfer
+     * @param  \App\Models\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Transfer $Transfer)
@@ -115,7 +115,7 @@ class TransferController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Transfer  $Transfer
+     * @param  \App\Models\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
     public function destroy(Transfer $Transfer)

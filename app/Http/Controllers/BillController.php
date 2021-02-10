@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Bill;
-use App\BillItem;
-use App\Customer;
+use App\Models\Bill;
+use App\Models\BillItem;
+use App\Models\Customer;
 use Carbon\Carbon;
 use PaymentHelper;
-use App\PaymentLog;
-use App\Transaction;
+use App\Models\PaymentLog;
+use App\Models\Transaction;
 use App\Events\BillPaid;
 use App\Payment\Invoice;
 use App\Events\BillCreated;

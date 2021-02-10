@@ -2,7 +2,7 @@
 
 namespace App\Nova\Metrics;
 
-use App\Bill;
+use App\Models\Bill;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
 

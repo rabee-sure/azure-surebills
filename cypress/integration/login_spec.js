@@ -5,15 +5,10 @@ context('Login', () => {
     before(() => {
         cy.refreshDatabase().seed();
 
-        cy.create('App\\User', {
-            'business_name_en': 'Ghanem',
-            'name': 'Abdullah Ghanem',
-            'email': '3bdullah.ghanem@gmail.com',
-            'mobile': '50002002',
-        })
+        cy.create('App\\Models\\User')
     });
     context('Login With Invalid Credetials', () => {
-        it('Open Login Form', () => {
+        it.only('Open Login Form', () => {
             cy.visit('/');
             cy.get('.login').click();
             cy.assertRedirect('login');

@@ -22,7 +22,9 @@ class UserResource extends Resource
      *
      * @var string
      */
-    public static $model = \Laravel\Nova\Tests\Fixtures\User::class; /**
+    public static $model = \Laravel\Nova\Tests\Fixtures\User::class;
+
+    /**
      * The columns that should be searched.
      *
      * @var array
@@ -39,6 +41,26 @@ class UserResource extends Resource
     public static function authorizable()
     {
         return $_SERVER['nova.user.authorizable'] ?? false;
+    }
+
+    /**
+     * Determine whether to show borders for each column on the X-axis.
+     *
+     * @return string
+     */
+    public static function showColumnBorders()
+    {
+        return $_SERVER['nova.user.showColumnBorders'] ?? static::$showColumnBorders;
+    }
+
+    /**
+     * Get the visual style that should be used for the table.
+     *
+     * @return string
+     */
+    public static function tableStyle()
+    {
+        return $_SERVER['nova.user.tableStyle'] ?? static::$tableStyle;
     }
 
     /**
@@ -207,6 +229,7 @@ class UserResource extends Resource
     {
         return [
             new UserLens,
+            new HavingUserLens,
             new GroupingUserLens,
             new PaginatingUserLens,
         ];
@@ -228,6 +251,7 @@ class UserResource extends Resource
             new ExceptionAction,
             new FailingAction,
             new NoopAction,
+            StandaloneAction::make()->standalone(),
             tap(new QueuedAction, function (QueuedAction $action) {
                 if ($_SERVER['nova.user.actionCallbacks'] ?? false) {
                     $action->canRun(function ($request, $model) {

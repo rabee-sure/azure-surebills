@@ -2,6 +2,8 @@
 
 namespace Laravel\Nova\Fields;
 
+use Laravel\Nova\Http\Requests\NovaRequest;
+
 class ID extends Field
 {
     /**
@@ -9,7 +11,7 @@ class ID extends Field
      *
      * @var string
      */
-    public $component = 'text-field';
+    public $component = 'id-field';
 
     /**
      * Create a new field.
@@ -22,6 +24,36 @@ class ID extends Field
     public function __construct($name = null, $attribute = null, $resolveCallback = null)
     {
         parent::__construct($name ?? 'ID', $attribute, $resolveCallback);
+    }
+
+    /**
+     * Create a new, resolved ID field for the given resource.
+     *
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return static
+     */
+    public static function forResource($resource)
+    {
+        $model = $resource->model();
+
+        $methods = collect(['fieldsForIndex', 'fieldsForDetail'])
+            ->filter(function ($method) use ($resource) {
+                return method_exists($resource, $method);
+            })->all();
+
+        $field = transform(
+            $resource->buildAvailableFields(app(NovaRequest::class), $methods)
+                    ->whereInstanceOf(self::class)
+                    ->first(),
+            function ($field) use ($model) {
+                return tap($field)->resolve($model);
+            },
+            function () use ($model) {
+                return ! is_null($model) && $model->exists ? static::forModel($model) : null;
+            }
+        );
+
+        return empty($field->value) && $field->nullable !== true ? null : $field;
     }
 
     /**

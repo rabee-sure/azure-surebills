@@ -16,7 +16,7 @@ class Customer extends Resource
      *
      * @var string
      */
-    public static $model = \App\Customer::class;
+    public static $model = \App\Models\Customer::class;
 
     /**
      * Get the displayble label of the resource.

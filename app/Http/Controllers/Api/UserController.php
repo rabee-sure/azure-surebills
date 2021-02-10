@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Application;
+use App\Models\Application;
 use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserStatResource;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

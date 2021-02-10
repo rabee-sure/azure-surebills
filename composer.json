@@ -11,24 +11,24 @@
         "php": "^7.2.5",
         "ampeco/nova-date-range-filter": "^0.1.1",
         "anaseqal/nova-sidebar-icons": "^0.0.3",
-        "beyondcode/laravel-websockets": "^1.4",
         "chris-ware/nova-breadcrumbs": "^2.0",
         "codebykyle/calculated-field": "^1.1",
         "digital-creative/nova-range-input-filter": "^0.1.5",
         "ebess/advanced-nova-media-library": "^3.3",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.0.1",
         "hashids/hashids": "^4.0",
         "jenssegers/date": "^4.0",
         "laravel-validation-rules/credit-card": "^1.3",
-        "laravel/framework": "^7.0",
-        "laravel/horizon": "^4.0.0",
+        "laravel/framework": "^8.0",
+        "laravel/horizon": "^5.0.0",
+        "laravel/legacy-factories": "^1.1",
         "laravel/nova": "*",
-        "laravel/passport": "^9.2",
+        "laravel/passport": "^10.0",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.0",
+        "laravel/ui": "^3.0",
         "laravel/vapor-cli": "^1.7",
         "maatwebsite/excel": "^3.1",
         "maatwebsite/laravel-nova-excel": "^1.2",
@@ -38,8 +38,8 @@
         "proengsoft/laravel-jsvalidation": "^4.0",
         "pusher/pusher-php-server": "^4.0",
         "rcknr/nova-multiselect-filter": "^1.3",
-        "spatie/laravel-medialibrary": "^8.0.0",
-        "spatie/laravel-translatable": "^4.4",
+        "spatie/laravel-medialibrary": "^9.0.0",
+        "spatie/laravel-translatable": "^4.6",
         "spatie/laravel-webhook-server": "^1.11",
         "spatie/nova-translatable": "^3.0",
         "sure/home-analytics": "*",
@@ -49,13 +49,13 @@
         "titasgailius/search-relations": "^1.0"
     },
     "require-dev": {
-        "facade/ignition": "^2.0",
-        "fzaninotto/faker": "^1.9.1",
+        "facade/ignition": "^2.3.6",
+        "fakerphp/faker": "^1.13",
         "laracasts/cypress": "^1.3",
-        "laravel/telescope": "^3.5.1",
+        "laravel/telescope": "^4.0",
         "mockery/mockery": "^1.3.1",
-        "nunomaduro/collision": "^4.1",
-        "phpunit/phpunit": "^8.5"
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -74,7 +74,9 @@
             "app/helpers.php"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         },
         "classmap": [
             "database/seeds",

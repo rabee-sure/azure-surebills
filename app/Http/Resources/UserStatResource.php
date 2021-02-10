@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Bill;
+use App\Models\Bill;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 

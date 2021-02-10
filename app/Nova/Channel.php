@@ -19,7 +19,7 @@ class Channel extends Resource
      *
      * @var string
      */
-    public static $model = \App\Channel::class;
+    public static $model = \App\Models\Channel::class;
 
     /**
      * Get the displayble label of the resource.

@@ -26,6 +26,7 @@ import CustomCreateHeader from '@/components/CustomCreateHeader'
 import CustomDashboardHeader from '@/components/CustomDashboardHeader'
 import CustomDetailHeader from '@/components/CustomDetailHeader'
 import CustomDetailToolbar from '@/components/CustomDetailToolbar'
+import CustomLensHeader from '@/components/CustomLensHeader'
 import CustomIndexHeader from '@/components/CustomIndexHeader'
 import CustomIndexToolbar from '@/components/CustomIndexToolbar'
 import CustomUpdateHeader from '@/components/CustomUpdateHeader'
@@ -75,6 +76,7 @@ import PartitionMetric from '@/components/Metrics/PartitionMetric'
 import Play from '@/components/Icons/Play'
 import ProgressButton from '@/components/ProgressButton'
 import Refresh from '@/components/Icons/Refresh'
+import ResourcePollingButton from '@/components/ResourcePollingButton'
 import ResourceTable from '@/components/ResourceTable'
 import ResourceTableRow from '@/components/Index/ResourceTableRow'
 import InlineActionSelector from '@/components/Index/InlineActionSelector'
@@ -118,6 +120,7 @@ Vue.component('custom-create-header', CustomCreateHeader)
 Vue.component('custom-dashboard-header', CustomDashboardHeader)
 Vue.component('custom-detail-header', CustomDetailHeader)
 Vue.component('custom-detail-toolbar', CustomDetailToolbar)
+Vue.component('custom-lens-header', CustomLensHeader)
 Vue.component('custom-index-header', CustomIndexHeader)
 Vue.component('custom-index-toolbar', CustomIndexToolbar)
 Vue.component('custom-update-header', CustomUpdateHeader)
@@ -197,3 +200,5 @@ Vue.component('select-control', SelectControl)
 Vue.component('date-time-picker', DateTimePicker)
 
 Vue.component('fade-transition', FadeTransition)
+
+Vue.component('resource-polling-button', ResourcePollingButton)

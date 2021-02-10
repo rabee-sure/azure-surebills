@@ -1,60 +1,11 @@
 {
-  "": {
-    "name": null,
+  "generated::Zzmk43856RSkrjbh": {
+    "name": "generated::Zzmk43856RSkrjbh",
     "domain": null,
-    "action": "Ebess\\AdvancedNovaMediaLibrary\\Http\\Controllers\\MediaController@index",
-    "uri": "nova-vendor/ebess/advanced-nova-media-library/media",
-    "method": [
-      "GET",
-      "HEAD"
-    ]
-  },
-  "ignition.healthCheck": {
-    "name": "ignition.healthCheck",
-    "domain": null,
-    "action": "Facade\\Ignition\\Http\\Controllers\\HealthCheckController",
-    "uri": "_ignition/health-check",
-    "method": [
-      "GET",
-      "HEAD"
-    ]
-  },
-  "ignition.executeSolution": {
-    "name": "ignition.executeSolution",
-    "domain": null,
-    "action": "Facade\\Ignition\\Http\\Controllers\\ExecuteSolutionController",
-    "uri": "_ignition/execute-solution",
+    "action": "Codebykyle\\CalculatedField\\Http\\Controllers\\CalculatedFieldController@calculate",
+    "uri": "codebykyle/calculated-field/calculate/{resource}/{field}",
     "method": [
       "POST"
-    ]
-  },
-  "ignition.shareReport": {
-    "name": "ignition.shareReport",
-    "domain": null,
-    "action": "Facade\\Ignition\\Http\\Controllers\\ShareReportController",
-    "uri": "_ignition/share-report",
-    "method": [
-      "POST"
-    ]
-  },
-  "ignition.scripts": {
-    "name": "ignition.scripts",
-    "domain": null,
-    "action": "Facade\\Ignition\\Http\\Controllers\\ScriptController",
-    "uri": "_ignition/scripts/{script}",
-    "method": [
-      "GET",
-      "HEAD"
-    ]
-  },
-  "ignition.styles": {
-    "name": "ignition.styles",
-    "domain": null,
-    "action": "Facade\\Ignition\\Http\\Controllers\\StyleController",
-    "uri": "_ignition/styles/{style}",
-    "method": [
-      "GET",
-      "HEAD"
     ]
   },
   "cypress.factory": {
@@ -229,6 +180,35 @@
       "HEAD"
     ]
   },
+  "horizon.jobs-batches.index": {
+    "name": "horizon.jobs-batches.index",
+    "domain": null,
+    "action": "Laravel\\Horizon\\Http\\Controllers\\BatchesController@index",
+    "uri": "horizon/api/batches",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "horizon.jobs-batches.show": {
+    "name": "horizon.jobs-batches.show",
+    "domain": null,
+    "action": "Laravel\\Horizon\\Http\\Controllers\\BatchesController@show",
+    "uri": "horizon/api/batches/{id}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "horizon.jobs-batches.retry": {
+    "name": "horizon.jobs-batches.retry",
+    "domain": null,
+    "action": "Laravel\\Horizon\\Http\\Controllers\\BatchesController@retry",
+    "uri": "horizon/api/batches/retry/{id}",
+    "method": [
+      "POST"
+    ]
+  },
   "horizon.pending-jobs.index": {
     "name": "horizon.pending-jobs.index",
     "domain": null,
@@ -296,6 +276,395 @@
     "method": [
       "GET",
       "HEAD"
+    ]
+  },
+  "generated::zkOlsYvll72FWdVw": {
+    "name": "generated::zkOlsYvll72FWdVw",
+    "domain": null,
+    "action": "Laravel\\Sanctum\\Http\\Controllers\\CsrfCookieController@show",
+    "uri": "sanctum/csrf-cookie",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::KOx7vIGBIDrmCy8N": {
+    "name": "generated::KOx7vIGBIDrmCy8N",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\MailController@index",
+    "uri": "telescope/telescope-api/mail",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::NzGIKa7AeKngf2FV": {
+    "name": "generated::NzGIKa7AeKngf2FV",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\MailController@show",
+    "uri": "telescope/telescope-api/mail/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::AdDHudbAjwowzuaA": {
+    "name": "generated::AdDHudbAjwowzuaA",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\MailHtmlController@show",
+    "uri": "telescope/telescope-api/mail/{telescopeEntryId}/preview",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::PGbvk7b3fvRJD15c": {
+    "name": "generated::PGbvk7b3fvRJD15c",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\MailEmlController@show",
+    "uri": "telescope/telescope-api/mail/{telescopeEntryId}/download",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::N7UbF5JiWHDf6Nrx": {
+    "name": "generated::N7UbF5JiWHDf6Nrx",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\ExceptionController@index",
+    "uri": "telescope/telescope-api/exceptions",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::j454u8yM5mVTRR08": {
+    "name": "generated::j454u8yM5mVTRR08",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\ExceptionController@show",
+    "uri": "telescope/telescope-api/exceptions/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::t2iPgagEqXQKHGIv": {
+    "name": "generated::t2iPgagEqXQKHGIv",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\ExceptionController@update",
+    "uri": "telescope/telescope-api/exceptions/{telescopeEntryId}",
+    "method": [
+      "PUT"
+    ]
+  },
+  "generated::VLYze00Adcz6MQP2": {
+    "name": "generated::VLYze00Adcz6MQP2",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\DumpController@index",
+    "uri": "telescope/telescope-api/dumps",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::M3syDgSX15Zop1lQ": {
+    "name": "generated::M3syDgSX15Zop1lQ",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\LogController@index",
+    "uri": "telescope/telescope-api/logs",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::cWufhTYJmjbllLpf": {
+    "name": "generated::cWufhTYJmjbllLpf",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\LogController@show",
+    "uri": "telescope/telescope-api/logs/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::kjUvU3XxiXaOfvi7": {
+    "name": "generated::kjUvU3XxiXaOfvi7",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\NotificationsController@index",
+    "uri": "telescope/telescope-api/notifications",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::JQDFjgENLSZ2gZdj": {
+    "name": "generated::JQDFjgENLSZ2gZdj",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\NotificationsController@show",
+    "uri": "telescope/telescope-api/notifications/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::YC3eHrsSWY4OzRyx": {
+    "name": "generated::YC3eHrsSWY4OzRyx",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\QueueController@index",
+    "uri": "telescope/telescope-api/jobs",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::pZ0EvFM4ekGMM3B7": {
+    "name": "generated::pZ0EvFM4ekGMM3B7",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\QueueController@show",
+    "uri": "telescope/telescope-api/jobs/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::ygF3q0EA9W2iENvw": {
+    "name": "generated::ygF3q0EA9W2iENvw",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\QueueBatchesController@index",
+    "uri": "telescope/telescope-api/batches",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::yDDM5Cvi3loQ0GaL": {
+    "name": "generated::yDDM5Cvi3loQ0GaL",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\QueueBatchesController@show",
+    "uri": "telescope/telescope-api/batches/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::bWRurYwt9lGogLXh": {
+    "name": "generated::bWRurYwt9lGogLXh",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\EventsController@index",
+    "uri": "telescope/telescope-api/events",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::lkdxd8f6ISYh4ZFk": {
+    "name": "generated::lkdxd8f6ISYh4ZFk",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\EventsController@show",
+    "uri": "telescope/telescope-api/events/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::9jljVji1nN8bNzQz": {
+    "name": "generated::9jljVji1nN8bNzQz",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\GatesController@index",
+    "uri": "telescope/telescope-api/gates",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::zlMBGAbf57oiGqCM": {
+    "name": "generated::zlMBGAbf57oiGqCM",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\GatesController@show",
+    "uri": "telescope/telescope-api/gates/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::ySehMCo143pNCqeA": {
+    "name": "generated::ySehMCo143pNCqeA",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\CacheController@index",
+    "uri": "telescope/telescope-api/cache",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::cFDfLWtypjUAHiWY": {
+    "name": "generated::cFDfLWtypjUAHiWY",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\CacheController@show",
+    "uri": "telescope/telescope-api/cache/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::9RiocVDbmu2jmLuV": {
+    "name": "generated::9RiocVDbmu2jmLuV",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\QueriesController@index",
+    "uri": "telescope/telescope-api/queries",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::ZMXIrmCFLVwOZrLk": {
+    "name": "generated::ZMXIrmCFLVwOZrLk",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\QueriesController@show",
+    "uri": "telescope/telescope-api/queries/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::8RWdpK3PcbQvP3bh": {
+    "name": "generated::8RWdpK3PcbQvP3bh",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\ModelsController@index",
+    "uri": "telescope/telescope-api/models",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::RyAtD5O4kR6rbiS7": {
+    "name": "generated::RyAtD5O4kR6rbiS7",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\ModelsController@show",
+    "uri": "telescope/telescope-api/models/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::vhYCljEEKVFI27Ey": {
+    "name": "generated::vhYCljEEKVFI27Ey",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\RequestsController@index",
+    "uri": "telescope/telescope-api/requests",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::qfUVhXdUBkwh4pld": {
+    "name": "generated::qfUVhXdUBkwh4pld",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\RequestsController@show",
+    "uri": "telescope/telescope-api/requests/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::kT2iGVOZhvfXmRn8": {
+    "name": "generated::kT2iGVOZhvfXmRn8",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\ViewsController@index",
+    "uri": "telescope/telescope-api/views",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::GD0DD7WRU83Ia99w": {
+    "name": "generated::GD0DD7WRU83Ia99w",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\ViewsController@show",
+    "uri": "telescope/telescope-api/views/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::KYotNbqMctcSSuWu": {
+    "name": "generated::KYotNbqMctcSSuWu",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\CommandsController@index",
+    "uri": "telescope/telescope-api/commands",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::qvin8Pex3CFGDq5m": {
+    "name": "generated::qvin8Pex3CFGDq5m",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\CommandsController@show",
+    "uri": "telescope/telescope-api/commands/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::zJqjR6IVOIzaF0Z3": {
+    "name": "generated::zJqjR6IVOIzaF0Z3",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\ScheduleController@index",
+    "uri": "telescope/telescope-api/schedule",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::rb5gRIs4TPNa18MM": {
+    "name": "generated::rb5gRIs4TPNa18MM",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\ScheduleController@show",
+    "uri": "telescope/telescope-api/schedule/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::PbiKPoS9UNHv7SQq": {
+    "name": "generated::PbiKPoS9UNHv7SQq",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\RedisController@index",
+    "uri": "telescope/telescope-api/redis",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::h8nh42pkA3uaMLQI": {
+    "name": "generated::h8nh42pkA3uaMLQI",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\RedisController@show",
+    "uri": "telescope/telescope-api/redis/{telescopeEntryId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::AU8p98gKPzqn6BYe": {
+    "name": "generated::AU8p98gKPzqn6BYe",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\MonitoredTagController@index",
+    "uri": "telescope/telescope-api/monitored-tags",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::mFs7JqC7K2MS06SU": {
+    "name": "generated::mFs7JqC7K2MS06SU",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\MonitoredTagController@store",
+    "uri": "telescope/telescope-api/monitored-tags",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::iC91cNHaAC4xUkcn": {
+    "name": "generated::iC91cNHaAC4xUkcn",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\MonitoredTagController@destroy",
+    "uri": "telescope/telescope-api/monitored-tags/delete",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::ADUfioMYUmUBWtBl": {
+    "name": "generated::ADUfioMYUmUBWtBl",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\RecordingController@toggle",
+    "uri": "telescope/telescope-api/toggle-recording",
+    "method": [
+      "POST"
     ]
   },
   "telescope": {
@@ -448,6 +817,27 @@
       "DELETE"
     ]
   },
+  "generated::hGlQXr0Qs6WB7KSl": {
+    "name": "generated::hGlQXr0Qs6WB7KSl",
+    "domain": null,
+    "action": "\\Illuminate\\Broadcasting\\BroadcastController@authenticate",
+    "uri": "broadcasting/auth",
+    "method": [
+      "GET",
+      "POST",
+      "HEAD"
+    ]
+  },
+  "generated::pEOeYons7rPMwX1K": {
+    "name": "generated::pEOeYons7rPMwX1K",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LoginController@showLoginForm",
+    "uri": "nova/login",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
   "nova.login": {
     "name": "nova.login",
     "domain": null,
@@ -496,6 +886,42 @@
       "HEAD"
     ]
   },
+  "generated::FnYpMAQpHJbZhyQ0": {
+    "name": "generated::FnYpMAQpHJbZhyQ0",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ResetPasswordController@reset",
+    "uri": "nova/password/reset",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::c88r0qo1S86qyRp3": {
+    "name": "generated::c88r0qo1S86qyRp3",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\ApplePayController@validateMerchant",
+    "uri": "api/applepay/validate",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::FEUvGZiE4Kybnp6L": {
+    "name": "generated::FEUvGZiE4Kybnp6L",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\ApplePayController@checkPayment",
+    "uri": "api/applepay/check-payment",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::NofzJpI9vrJ0ADyb": {
+    "name": "generated::NofzJpI9vrJ0ADyb",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\MasterCardController@handlePyament",
+    "uri": "api/mastercard/handle-payment",
+    "method": [
+      "POST"
+    ]
+  },
   "mastercard.3ds": {
     "name": "mastercard.3ds",
     "domain": null,
@@ -505,11 +931,153 @@
       "POST"
     ]
   },
+  "generated::LcOqBZ52R0QvgbqB": {
+    "name": "generated::LcOqBZ52R0QvgbqB",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\TestController@test",
+    "uri": "api/test",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
   "media.upload": {
     "name": "media.upload",
     "domain": null,
     "action": "App\\Http\\Controllers\\Api\\MediaController@upload",
     "uri": "api/upload",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::59jmRUme5UKYTU5b": {
+    "name": "generated::59jmRUme5UKYTU5b",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\AnalyticsController@index",
+    "uri": "api/v1/analytics",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::1hn6N6HxZbS2Zyfk": {
+    "name": "generated::1hn6N6HxZbS2Zyfk",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\ChartsController@billsPaidAmount",
+    "uri": "api/v1/charts/bills_paid_amount",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::OSr49ynzP8glxVJk": {
+    "name": "generated::OSr49ynzP8glxVJk",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\ChartsController@billsPaidCount",
+    "uri": "api/v1/charts/bills_paid_count",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::mqBzqHop8Q4IM7Zd": {
+    "name": "generated::mqBzqHop8Q4IM7Zd",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\ChartsController@billsCount",
+    "uri": "api/v1/charts/bills_count",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::xfVCiZPP5ZR15Dbz": {
+    "name": "generated::xfVCiZPP5ZR15Dbz",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\UserController@stats",
+    "uri": "api/v1/users/{user}/stats",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::9zgiHf8MyhfpWVqW": {
+    "name": "generated::9zgiHf8MyhfpWVqW",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\BillController@wordpress",
+    "uri": "api/v1/bills/create/wordpress",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::HZs3KmcTnNBvv7YH": {
+    "name": "generated::HZs3KmcTnNBvv7YH",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\BillController@store",
+    "uri": "api/v1/bills/create",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::OYV86dF2DfiOUb7s": {
+    "name": "generated::OYV86dF2DfiOUb7s",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\BillController@cancel",
+    "uri": "api/v1/bills/{bill}/cancel",
+    "method": [
+      "PUT"
+    ]
+  },
+  "generated::SdmrtsZddo76MPIm": {
+    "name": "generated::SdmrtsZddo76MPIm",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\BillController@timeout",
+    "uri": "api/v1/bills/{bill}/timeout",
+    "method": [
+      "PUT"
+    ]
+  },
+  "generated::XIQF7QgPMeDccX08": {
+    "name": "generated::XIQF7QgPMeDccX08",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\BillController@show",
+    "uri": "api/v1/bills/{bill}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::wkmOrXuj6NCYesIv": {
+    "name": "generated::wkmOrXuj6NCYesIv",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\UserController@registerFandaqah",
+    "uri": "api/v1/fandaqah-register",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::RabNTWkR6YN2amzk": {
+    "name": "generated::RabNTWkR6YN2amzk",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\UserController@updateRedirect",
+    "uri": "api/v1/fandaqah-update-redirect",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::GIh3jQHkl5Zv8jpy": {
+    "name": "generated::GIh3jQHkl5Zv8jpy",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\ChannelController@storeApplication",
+    "uri": "api/v1/channels/{channel}/applications/create",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::1Dxbquxbg7Cm0fp9": {
+    "name": "generated::1Dxbquxbg7Cm0fp9",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Api\\UserController@register",
+    "uri": "api/v1/register",
     "method": [
       "POST"
     ]
@@ -527,6 +1095,16 @@
       "PATCH",
       "DELETE",
       "OPTIONS"
+    ]
+  },
+  "generated::cvfKL8LOJstfJfEH": {
+    "name": "generated::cvfKL8LOJstfJfEH",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\TestController@bill",
+    "uri": "test/bill",
+    "method": [
+      "GET",
+      "HEAD"
     ]
   },
   "changeLang": {
@@ -549,6 +1127,15 @@
       "HEAD"
     ]
   },
+  "generated::diY4qQe4OiDRlXT2": {
+    "name": "generated::diY4qQe4OiDRlXT2",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\LoginController@login",
+    "uri": "login",
+    "method": [
+      "POST"
+    ]
+  },
   "logout": {
     "name": "logout",
     "domain": null,
@@ -566,6 +1153,15 @@
     "method": [
       "GET",
       "HEAD"
+    ]
+  },
+  "generated::h5cGJQSs3oDT3akg": {
+    "name": "generated::h5cGJQSs3oDT3akg",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\RegisterController@register",
+    "uri": "register",
+    "method": [
+      "POST"
     ]
   },
   "password.request": {
@@ -611,6 +1207,25 @@
     "domain": null,
     "action": "App\\Http\\Controllers\\Auth\\ConfirmPasswordController@showConfirmForm",
     "uri": "password/confirm",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::pgekq4Ve3M4OySy1": {
+    "name": "generated::pgekq4Ve3M4OySy1",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\Auth\\ConfirmPasswordController@confirm",
+    "uri": "password/confirm",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::D4DbksEG3z9ouzGV": {
+    "name": "generated::D4DbksEG3z9ouzGV",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\FandaqahOperationsController@loginBySecret",
+    "uri": "login-by-secret/{secret}/{secret2}",
     "method": [
       "GET",
       "HEAD"
@@ -1176,11 +1791,30 @@
       "HEAD"
     ]
   },
+  "generated::OyLIyapu1SdMi8em": {
+    "name": "generated::OyLIyapu1SdMi8em",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\TransferController@store",
+    "uri": "transfers",
+    "method": [
+      "POST"
+    ]
+  },
   "home": {
     "name": "home",
     "domain": null,
     "action": "App\\Http\\Controllers\\HomeController@index",
     "uri": "home",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::pG7EcF5o4dbUwogk": {
+    "name": "generated::pG7EcF5o4dbUwogk",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\HomeController@terms",
+    "uri": "terms",
     "method": [
       "GET",
       "HEAD"
@@ -1286,6 +1920,36 @@
       "HEAD"
     ]
   },
+  "generated::cHpJPqAUa9Y8cAfL": {
+    "name": "generated::cHpJPqAUa9Y8cAfL",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\HomeController@landing",
+    "uri": "/",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::6tgvW61EvOTyKLRX": {
+    "name": "generated::6tgvW61EvOTyKLRX",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\HomeController@contact",
+    "uri": "contact",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::xBbj8xiNj6pdUpoH": {
+    "name": "generated::xBbj8xiNj6pdUpoH",
+    "domain": null,
+    "action": "App\\Http\\Controllers\\HomeController@privacy",
+    "uri": "privacy",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
   "users.all": {
     "name": "users.all",
     "domain": null,
@@ -1345,11 +2009,591 @@
       "POST"
     ]
   },
+  "generated::cBKdklzRissRKhCv": {
+    "name": "generated::cBKdklzRissRKhCv",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ScriptController@show",
+    "uri": "nova-api/scripts/{script}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::1m2DB0cNq7EV2n6t": {
+    "name": "generated::1m2DB0cNq7EV2n6t",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\StyleController@show",
+    "uri": "nova-api/styles/{style}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::OJBA7jNp1oSzaJJC": {
+    "name": "generated::OJBA7jNp1oSzaJJC",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\SearchController@index",
+    "uri": "nova-api/search",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::OkVjgOyc6czhz0cg": {
+    "name": "generated::OkVjgOyc6czhz0cg",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\FieldController@show",
+    "uri": "nova-api/{resource}/field/{field}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::GHWYlffU6m4q0rNP": {
+    "name": "generated::GHWYlffU6m4q0rNP",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\TrixAttachmentController@store",
+    "uri": "nova-api/{resource}/trix-attachment/{field}",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::7PCBhQCuJxoWMbd4": {
+    "name": "generated::7PCBhQCuJxoWMbd4",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\TrixAttachmentController@destroyAttachment",
+    "uri": "nova-api/{resource}/trix-attachment/{field}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::IjghU4SmvrabVFRR": {
+    "name": "generated::IjghU4SmvrabVFRR",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\TrixAttachmentController@destroyPending",
+    "uri": "nova-api/{resource}/trix-attachment/{field}/{draftId}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::IYldDpEDy9Cc5SS8": {
+    "name": "generated::IYldDpEDy9Cc5SS8",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\CreationFieldController@index",
+    "uri": "nova-api/{resource}/creation-fields",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::oYxeDjjDerLueKyK": {
+    "name": "generated::oYxeDjjDerLueKyK",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\UpdateFieldController@index",
+    "uri": "nova-api/{resource}/{resourceId}/update-fields",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::XgNkM5BpjM5gV78R": {
+    "name": "generated::XgNkM5BpjM5gV78R",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\CreationPivotFieldController@index",
+    "uri": "nova-api/{resource}/{resourceId}/creation-pivot-fields/{relatedResource}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::COOV5f7Gt7idWtml": {
+    "name": "generated::COOV5f7Gt7idWtml",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\UpdatePivotFieldController@index",
+    "uri": "nova-api/{resource}/{resourceId}/update-pivot-fields/{relatedResource}/{relatedResourceId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::khLdz6Px8n4FGiJB": {
+    "name": "generated::khLdz6Px8n4FGiJB",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\FieldDownloadController@show",
+    "uri": "nova-api/{resource}/{resourceId}/download/{field}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::PjcJduWzJ31YiHgD": {
+    "name": "generated::PjcJduWzJ31YiHgD",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\FieldDestroyController@handle",
+    "uri": "nova-api/{resource}/{resourceId}/field/{field}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::VitbjF0ZhcA6kzcG": {
+    "name": "generated::VitbjF0ZhcA6kzcG",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\PivotFieldDestroyController@handle",
+    "uri": "nova-api/{resource}/{resourceId}/{relatedResource}/{relatedResourceId}/field/{field}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::vhlvHjPKYhAlyBmb": {
+    "name": "generated::vhlvHjPKYhAlyBmb",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\DashboardController@index",
+    "uri": "nova-api/dashboards/{dashboard}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::i8yYidzrjx4dqNNx": {
+    "name": "generated::i8yYidzrjx4dqNNx",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\DashboardCardController@index",
+    "uri": "nova-api/dashboards/cards/{dashboard}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::4G2xgAjv54fiixnV": {
+    "name": "generated::4G2xgAjv54fiixnV",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ActionController@index",
+    "uri": "nova-api/{resource}/actions",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::lNCMmBFpCxwM10mK": {
+    "name": "generated::lNCMmBFpCxwM10mK",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ActionController@store",
+    "uri": "nova-api/{resource}/action",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::kkgUuU8iK9lGbEhk": {
+    "name": "generated::kkgUuU8iK9lGbEhk",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\FilterController@index",
+    "uri": "nova-api/{resource}/filters",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::vtXw32v9EVQuUDuW": {
+    "name": "generated::vtXw32v9EVQuUDuW",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensController@index",
+    "uri": "nova-api/{resource}/lenses",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::5ufon9J3g2uqLgEw": {
+    "name": "generated::5ufon9J3g2uqLgEw",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensController@show",
+    "uri": "nova-api/{resource}/lens/{lens}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::cQI26zErLY15vDxe": {
+    "name": "generated::cQI26zErLY15vDxe",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensResourceCountController@show",
+    "uri": "nova-api/{resource}/lens/{lens}/count",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::jKIOrd2NKryxYVQc": {
+    "name": "generated::jKIOrd2NKryxYVQc",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensResourceDestroyController@handle",
+    "uri": "nova-api/{resource}/lens/{lens}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::OAxWs5YpIQBdhxEs": {
+    "name": "generated::OAxWs5YpIQBdhxEs",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensResourceForceDeleteController@handle",
+    "uri": "nova-api/{resource}/lens/{lens}/force",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::8ztTJ7g0edO8o1S0": {
+    "name": "generated::8ztTJ7g0edO8o1S0",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensResourceRestoreController@handle",
+    "uri": "nova-api/{resource}/lens/{lens}/restore",
+    "method": [
+      "PUT"
+    ]
+  },
+  "generated::4WkGN1XtdjxIf6DX": {
+    "name": "generated::4WkGN1XtdjxIf6DX",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensActionController@index",
+    "uri": "nova-api/{resource}/lens/{lens}/actions",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::zKAFRmFuoqZXJ72H": {
+    "name": "generated::zKAFRmFuoqZXJ72H",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensActionController@store",
+    "uri": "nova-api/{resource}/lens/{lens}/action",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::zjJgFpWeFqnCFRoA": {
+    "name": "generated::zjJgFpWeFqnCFRoA",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensFilterController@index",
+    "uri": "nova-api/{resource}/lens/{lens}/filters",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::EVP2STwu0SKDUYtf": {
+    "name": "generated::EVP2STwu0SKDUYtf",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\DashboardMetricController@index",
+    "uri": "nova-api/metrics",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::HIh5HdILSgEyA3wM": {
+    "name": "generated::HIh5HdILSgEyA3wM",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\DashboardMetricController@show",
+    "uri": "nova-api/metrics/{metric}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::dUBL1FPKfW8YWu3Q": {
+    "name": "generated::dUBL1FPKfW8YWu3Q",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\MetricController@index",
+    "uri": "nova-api/{resource}/metrics",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::OKtvPnlVOd6p1jA2": {
+    "name": "generated::OKtvPnlVOd6p1jA2",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\MetricController@show",
+    "uri": "nova-api/{resource}/metrics/{metric}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::et55p2v2iE8Z7SNM": {
+    "name": "generated::et55p2v2iE8Z7SNM",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\DetailMetricController@show",
+    "uri": "nova-api/{resource}/{resourceId}/metrics/{metric}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::EKXBvpFetncqgV8i": {
+    "name": "generated::EKXBvpFetncqgV8i",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensMetricController@index",
+    "uri": "nova-api/{resource}/lens/{lens}/metrics",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::sJfr6TlzdqYAKsdH": {
+    "name": "generated::sJfr6TlzdqYAKsdH",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensMetricController@show",
+    "uri": "nova-api/{resource}/lens/{lens}/metrics/{metric}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::y30kZiP3q7X5jwKx": {
+    "name": "generated::y30kZiP3q7X5jwKx",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\DashboardCardController@index",
+    "uri": "nova-api/cards",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::p6AyD5HXkSiOqc0f": {
+    "name": "generated::p6AyD5HXkSiOqc0f",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\CardController@index",
+    "uri": "nova-api/{resource}/cards",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::BSpdJRbsL3r9DDlU": {
+    "name": "generated::BSpdJRbsL3r9DDlU",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\LensCardController@index",
+    "uri": "nova-api/{resource}/lens/{lens}/cards",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::4wflFfnaxjdavw3h": {
+    "name": "generated::4wflFfnaxjdavw3h",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\RelatableAuthorizationController@show",
+    "uri": "nova-api/{resource}/relate-authorization",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::EWrWiBQYxuYybGW9": {
+    "name": "generated::EWrWiBQYxuYybGW9",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\SoftDeleteStatusController@show",
+    "uri": "nova-api/{resource}/soft-deletes",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::PvJWqUTOoTvOKR4Y": {
+    "name": "generated::PvJWqUTOoTvOKR4Y",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ResourceIndexController@handle",
+    "uri": "nova-api/{resource}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::OWr777E4MSmzwhnD": {
+    "name": "generated::OWr777E4MSmzwhnD",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ResourceCountController@show",
+    "uri": "nova-api/{resource}/count",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::OIXdDq87jWExelWw": {
+    "name": "generated::OIXdDq87jWExelWw",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ResourceDetachController@handle",
+    "uri": "nova-api/{resource}/detach",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::papOvlKBhARXz9Tl": {
+    "name": "generated::papOvlKBhARXz9Tl",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ResourceRestoreController@handle",
+    "uri": "nova-api/{resource}/restore",
+    "method": [
+      "PUT"
+    ]
+  },
+  "generated::TqqTQe4T7gbP2u8a": {
+    "name": "generated::TqqTQe4T7gbP2u8a",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ResourceForceDeleteController@handle",
+    "uri": "nova-api/{resource}/force",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::cXSCK3byyfdQeahx": {
+    "name": "generated::cXSCK3byyfdQeahx",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ResourceShowController@handle",
+    "uri": "nova-api/{resource}/{resourceId}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::R7j3yR8f9SYfxi0d": {
+    "name": "generated::R7j3yR8f9SYfxi0d",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ResourceStoreController@handle",
+    "uri": "nova-api/{resource}",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::FBoe9ysBRe8W4T6B": {
+    "name": "generated::FBoe9ysBRe8W4T6B",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ResourceUpdateController@handle",
+    "uri": "nova-api/{resource}/{resourceId}",
+    "method": [
+      "PUT"
+    ]
+  },
+  "generated::plWI9HtJ0oeLlKzC": {
+    "name": "generated::plWI9HtJ0oeLlKzC",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ResourceDestroyController@handle",
+    "uri": "nova-api/{resource}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "generated::iLlD9QtPcQiziU7F": {
+    "name": "generated::iLlD9QtPcQiziU7F",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\AssociatableController@index",
+    "uri": "nova-api/{resource}/associatable/{field}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::bzJnZjZbIZSL1OJV": {
+    "name": "generated::bzJnZjZbIZSL1OJV",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\AttachableController@index",
+    "uri": "nova-api/{resource}/{resourceId}/attachable/{field}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::jDKckyrCBiaXF5kz": {
+    "name": "generated::jDKckyrCBiaXF5kz",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\MorphableController@index",
+    "uri": "nova-api/{resource}/morphable/{field}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::ToeSBOgu9XV2ATfB": {
+    "name": "generated::ToeSBOgu9XV2ATfB",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ResourceAttachController@handle",
+    "uri": "nova-api/{resource}/{resourceId}/attach/{relatedResource}",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::yvICAn9GShDEjD8m": {
+    "name": "generated::yvICAn9GShDEjD8m",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\AttachedResourceUpdateController@handle",
+    "uri": "nova-api/{resource}/{resourceId}/update-attached/{relatedResource}/{relatedResourceId}",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::2SMlO03qOsXci1vy": {
+    "name": "generated::2SMlO03qOsXci1vy",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\MorphedResourceAttachController@handle",
+    "uri": "nova-api/{resource}/{resourceId}/attach-morphed/{relatedResource}",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::JO0xMHiQNRI6zs5D": {
+    "name": "generated::JO0xMHiQNRI6zs5D",
+    "domain": null,
+    "action": "ChrisWare\\NovaBreadcrumbs\\Http\\Controllers\\NovaBreadcrumbsController",
+    "uri": "nova-vendor/chris-ware/nova-breadcrumbs",
+    "method": [
+      "POST"
+    ]
+  },
+  "generated::tOvNRfXXeZsL9w5a": {
+    "name": "generated::tOvNRfXXeZsL9w5a",
+    "domain": null,
+    "action": "Ebess\\AdvancedNovaMediaLibrary\\Http\\Controllers\\DownloadMediaController@show",
+    "uri": "nova-vendor/ebess/advanced-nova-media-library/download/{media}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::kHzdv00xkJl9gush": {
+    "name": "generated::kHzdv00xkJl9gush",
+    "domain": null,
+    "action": "Ebess\\AdvancedNovaMediaLibrary\\Http\\Controllers\\MediaController@index",
+    "uri": "nova-vendor/ebess/advanced-nova-media-library/media",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
   "laravel-nova-excel.download": {
     "name": "laravel-nova-excel.download",
     "domain": null,
     "action": "Maatwebsite\\LaravelNovaExcel\\Http\\Controllers\\ExcelController@download",
     "uri": "nova-vendor/maatwebsite/laravel-nova-excel/download",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "nova.index": {
+    "name": "nova.index",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\RouterController@show",
+    "uri": "nova",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "generated::yUxQu0A1xS5fli21": {
+    "name": "generated::yUxQu0A1xS5fli21",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\RouterController@show",
+    "uri": "nova/{view}",
     "method": [
       "GET",
       "HEAD"
