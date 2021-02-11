@@ -31,10 +31,12 @@
               <div class="load_form active"><div class="spinner-border text-muted"></div></div>
                 @if($bill->user->settings->api_bill_style && $bill->application_id)
                     <div class="title rounded-top border bg-light p-2 d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center justify-content-start">
-                            <img src="{{ $bill->user->logo_url }}" alt="{{ $bill->user->business_name }}" class="rounded-circle" width="30px" height="30px">
-                            <span class="mr-2 d-block">{{ $bill->user->business_name }}</span>
-                        </div><!-- d-flex -->
+                        @if($bill->user->logo)
+                            <div class="d-flex align-items-center justify-content-start">
+                                <img src="{{ $bill->user->logo_url }}" alt="{{ $bill->user->business_name }}" class="rounded-circle" width="30px" height="30px">
+                                <span class="mr-2 d-block">{{ $bill->user->business_name }}</span>
+                            </div><!-- d-flex -->
+                        @endif
                         @if($bill->application && $bill->is_redirect)
                             <a href="{{ $bill->back_url}}" title="{{ _('Back') }}" class="text-secondary">{{ _('Back') }}</a>
                         @endif
