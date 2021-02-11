@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\User;
+use App\Settings;
 use App\Application;
 use App\Events\UserCreated;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserStatResource;
-use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -119,7 +120,16 @@ class UserController extends Controller
             $user->business_name_en = $request->business_name;
             $user->password = $request->email . $request->name;
             $user->save();
-            event(new UserCreated($user));  
+            event(new UserCreated($user));
+        }
+
+        // api_bill_style
+        if ($request->api_bill_style) {
+            $settings = Settings::updateOrCreate([
+                'user_id' => $user->id, 
+            ],[
+                'api_bill_style' => true,
+            ]);
         }
 
         $validatedData = $request->validate([

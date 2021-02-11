@@ -38,11 +38,11 @@ function onBuyClicked(event) {
   let details = {
     displayItems: [{
       label: "<?php echo __('Bill'); ?> #<?php echo $bill->number; ?>",
-      amount: { currency: 'SAR', value: '<?php echo $bill->total; ?>'}
+      amount: { currency: 'SAR', value: parseFloat("<?php echo $bill->total; ?>").toFixed(2)}
     }],
     total: {
       label: "<?php echo __('Total'); ?>",
-      amount: {currency: 'SAR', value: '<?php echo $bill->total; ?>'}
+      amount: {currency: 'SAR', value: parseFloat("<?php echo $bill->total; ?>").toFixed(2)}
     }
   };
 

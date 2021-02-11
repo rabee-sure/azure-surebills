@@ -93,7 +93,7 @@ class MasterCardController extends Controller
                             ]
                         ],
                         'order' => [
-                            'amount'   => $invoice->getDetails('bill')['bill']['total'],
+                            'amount'   => number_format($invoice->getDetails('bill')['bill']['total'], 2, '.', ''),
                             'currency' => 'SAR'
                         ],
                         'session' => [
@@ -159,7 +159,7 @@ class MasterCardController extends Controller
                         'transactionId' => $authTransaction->id
                     ],
                     'order' => [
-                        'amount'    => $invoice->getDetails('bill')['bill']['total'],
+                        'amount'    => number_format($invoice->getDetails('bill')['bill']['total'], 2, '.', ''),
                         'currency'  => 'SAR',
                         'reference' => $bill->reference_id
                     ],
