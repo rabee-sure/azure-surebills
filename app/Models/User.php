@@ -316,4 +316,20 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->getMedia('bank_documents');
     }
+
+    /**
+     * Vrification Request
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function scopeVrificationRequest($query)
+    {
+        return $query->where('verified', false)
+                ->whereNotNull(['business_name_en',
+                    'business_address',
+                    'business_mobile'
+                ]);
+    }
+
 }
