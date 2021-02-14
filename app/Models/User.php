@@ -13,10 +13,11 @@ use Laravel\Passport\HasApiTokens;
 use Multicaret\Unifonic\UnifonicFacade;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, Notifiable, InteractsWithMedia;
+    use HasFactory, HasApiTokens, Notifiable, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.

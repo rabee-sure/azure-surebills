@@ -27,7 +27,7 @@
     window._locale = '{{ app()->getLocale() }}';
     window._translations = {!! cache('translations') !!};
 </script>
-<script type="text/javascript" src="/vendor/jsvalidation/js/jsvalidation.js?v={{ config('app.asset_version')}}"></script>
+<script type="text/javascript" src="/vendor/jsvalidation/js/jsvalidation.min.js?v={{ config('app.asset_version')}}"></script>
 <script src="/js/custom.js"></script>
 
 

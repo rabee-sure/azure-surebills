@@ -1,6 +1,5 @@
 @extends('account.account_complete')
 
-
 @push('footer-scripts')
     {!! JsValidator::formRequest('App\Http\Requests\BankInformationRequest', '#form') !!}
 @endpush
@@ -14,7 +13,7 @@
                     <li  class="nav-item active"><a href="#step-1">2<br /><small>{{ __('Business Information') }}</small></a></li>
                     <li class="nav-item active"><a href="#step-2">3<br /><small>{{ __('Bank Information') }}</small></a></li>
                 </ul>
-                <form id="form" method="POST" action="{{ route('bank.information', ['redirectHome' => true]) }}" class="card-body">
+                <form id="form" role="form" method="POST" action="{{ route('bank.information', ['redirectHome' => true]) }}" class="card-body">
                     @csrf
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -60,7 +59,7 @@
 
                     </div><!-- step-2 -->
                     <div class="btn-toolbar custom-toolbar text-center d-flex justify-content-center card-body pt-4">
-                        <a class="btn btn-primary mx-2" href="/account?previous=2">{{__('Previous')}}</a>
+                        <a  id="previous" class="btn btn-primary mx-2" href="/account?previous=2">{{__('Previous')}}</a>
                         <button class="btn btn-primary next-btn mx-2" type="submit">{{__('Finish')}}</button>
                     </div>
                 </form>
