@@ -110,6 +110,9 @@
             <template slot-scope="{ row }" slot="name">
                     <p>{{row.name}}     <Badge v-if="row.related_channel" text="channel"></Badge></p>
             </template>
+            <template slot-scope="{ row }" slot="channel">
+                <p v-if="row.related_channel">{{row.channel}}</p>
+            </template>
         </Table>
         <div slot="footer">
             <Button type="primary"  @click="billsModal = !billsModal">{{__('OK')}}</Button>
@@ -138,7 +141,7 @@ export default {
             billsTable: [
                 {
                     title: this.__('Name'),
-                    slot: 'name',
+                    key: 'name',
                     width: 220,
                 },
                 {
@@ -159,6 +162,21 @@ export default {
                 {
                     title: this.__('Net'),
                     key: 'net',
+                    width: 100,
+                },
+                {
+                    title: this.__('Channel'),
+                    key: 'channel_name',
+                    width: 100,
+                },
+                {
+                    title: this.__('Channel Fees'),
+                    key: 'payment_channel_fees',
+                    width: 100,
+                },
+                {
+                    title: this.__('Channel Fees Vat'),
+                    key: 'payment_channel_fees_vat',
                     width: 100,
                 },
                 {
@@ -351,6 +369,9 @@ export default {
                             'reference_id': item.reference_id,
                             'hyperpay_id': item.hyperpay_id,
                             'merchant_name': item.business_name,
+                            'channel_name': item.channel_name,
+                            'channel_fees': item.payment_channel_fees,
+                            'channel_fees_vat': item.payment_channel_fees_vat,
                         }
                     });
                 });

@@ -55,6 +55,9 @@ class BillResource extends JsonResource
             'total' => $this->total,
             'title' => $this->bill_title,
             "related_channel" => ($request->channel_user_id) ? ($request->channel_user_id != $this->user_id) : false,
+            "channel_name" => ($request->channel_user_id && $request->channel_user_id != $this->user_id) ? $this->application->channel->name : null,
+            "payment_channel_fees" =>  round($this->payment_channel_fees, 2),
+            "payment_channel_fees_vat" =>round( $this->payment_channel_fees_vat, 2),
         ];
     }
 }
