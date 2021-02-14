@@ -39,6 +39,7 @@
 
             <FormItem :label="__('Attachment')">
                 <Upload
+                    ref="uploadFiles"
                     :on-success="handleUploadFileSuccess" :multiple="false"
                     :on-progress="handleProgress"
                     type="drag"
@@ -447,6 +448,7 @@ export default {
             this.form.date_range = null;     
             this.form.note = null;     
             this.form.attachment = null;     
+            this.$refs['uploadFiles'].clearFiles();
             this.refresh();  
         },
         refresh() {
