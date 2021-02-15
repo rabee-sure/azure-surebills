@@ -39,6 +39,7 @@
 
             <FormItem :label="__('Attachment')">
                 <Upload
+                    ref="uploadFiles"
                     :on-success="handleUploadFileSuccess" :multiple="false"
                     :on-progress="handleProgress"
                     type="drag"
@@ -150,6 +151,16 @@ export default {
                     width: 100,
                 },
                 {
+                    title: this.__('Relation'),
+                    key: 'channel_relation',
+                    width: 100,
+                },
+                {
+                    title: this.__('Total Due'),
+                    key: 'total_due',
+                    width: 100,
+                },
+                {
                     title: this.__('FEES'),
                     key: 'payment_fees',
                     width: 100,
@@ -160,16 +171,6 @@ export default {
                     width: 100,
                 },
                 {
-                    title: this.__('Net'),
-                    key: 'net',
-                    width: 100,
-                },
-                {
-                    title: this.__('Channel'),
-                    key: 'channel_name',
-                    width: 100,
-                },
-                {
                     title: this.__('Channel Fees'),
                     key: 'payment_channel_fees',
                     width: 100,
@@ -177,6 +178,11 @@ export default {
                 {
                     title: this.__('Channel Fees Vat'),
                     key: 'payment_channel_fees_vat',
+                    width: 100,
+                },
+                {
+                    title: this.__('Net'),
+                    key: 'net',
                     width: 100,
                 },
                 {
@@ -361,17 +367,15 @@ export default {
                         return {
                             'name': item.name,
                             'total': item.total,
-                            'payment_fees': item.payment_fees,
-                            'payment_fees_vat': item.payment_fees_vat,
-                            'net': item.net,
-                            'paid_at': item.paid_at,
-                            'customer_notes': item.customer_notes,
-                            'reference_id': item.reference_id,
-                            'hyperpay_id': item.hyperpay_id,
-                            'merchant_name': item.business_name,
-                            'channel_name': item.channel_name,
+                            'channel_relation': item.channel_relation,
+                            'total_due': item.total_due,
+                            'payment_fees "Sure FEES"': item.payment_fees,
+                            'payment_fees_vat "Sure FEES Vat"': item.payment_fees_vat,
                             'channel_fees': item.payment_channel_fees,
                             'channel_fees_vat': item.payment_channel_fees_vat,
+                            'net': item.net,
+                            'paid_at': item.paid_at,
+                            'reference_id': item.reference_id,
                         }
                     });
                 });
@@ -447,6 +451,7 @@ export default {
             this.form.date_range = null;     
             this.form.note = null;     
             this.form.attachment = null;     
+            this.$refs['uploadFiles'].clearFiles();
             this.refresh();  
         },
         refresh() {
