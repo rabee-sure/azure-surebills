@@ -59,7 +59,7 @@ class UserController extends Controller
             ->get();
 
         return (TransactionResource::collection($transactions))->additional(['meta' => [
-                'balance' => $transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'),
+                'balance' => round($transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'), 2),
             ]]);;
     }
 
