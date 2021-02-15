@@ -2,7 +2,7 @@
 
 namespace App\Payment\Drivers;
 
-use App\PaymentLog;
+use App\Models\PaymentLog;
 use GuzzleHttp\Client;
 use App\Payment\Invoice;
 use App\Payment\Receipt;

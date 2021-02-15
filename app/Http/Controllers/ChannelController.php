@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
+use App\Models\Channel;
 use App\Http\Requests\ChannelRequest;
 use App\Http\Requests\ChannelUpdateRequest;
 use Illuminate\Http\Request;
@@ -54,18 +54,19 @@ class ChannelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Channel  $channels
+     * @param  \App\Models\Channel  $channels
      * @return \Illuminate\Http\Response
      */
     public function show(Channel $channel)
     {
+        $this->authorize('view', $channel);
         return view('channels.show', ['channel' => $channel]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Channel  $channels
+     * @param  \App\Models\Channel  $channels
      * @return \Illuminate\Http\Response
      */
     public function edit(Channel $channel)
@@ -77,16 +78,18 @@ class ChannelController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Channel  $channels
+     * @param  \App\Models\Channel  $channels
      * @return \Illuminate\Http\Response
      */
-    public function update(ChannelUpdateRequest $request, Channel $channels)
+    public function update(ChannelUpdateRequest $request, Channel $channel)
     {
-        $channels->name = $request->name;
-        $channels->email = $request->email;
-        $channels->mobile = $request->mobile;
-        $channels->notes = $request->notes;
-        $channels->save();
+        $this->authorize('update', $channel);
+
+        $channel->name = $request->name;
+        $channel->email = $request->email;
+        $channel->mobile = $request->mobile;
+        $channel->notes = $request->notes;
+        $channel->save();
 
         return redirect()->route('channels.index');
     }
@@ -94,7 +97,7 @@ class ChannelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Channel  $channels
+     * @param  \App\Models\Channel  $channels
      * @return \Illuminate\Http\Response
      */
     public function destroy(Channel $channel)

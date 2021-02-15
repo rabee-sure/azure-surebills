@@ -39,7 +39,7 @@ class User extends Resource
      *
      * @var string
      */
-    public static $model = \App\User::class;
+    public static $model = \App\Models\User::class;
     private $verifyStatus = '';
 
     /**

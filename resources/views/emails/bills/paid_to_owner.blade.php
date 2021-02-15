@@ -229,18 +229,22 @@
           <small>{{  $bill->user->business_mobile }}</small>
         </div><!-- block_1 -->
         @if($bill->status == 'expired')
-          <div class="alert alert-secondary" role="alert">
-            {{ __('this bill') }} #{{ $bill->number }} has been expired
+          <div class="alert alert-danger" role="alert">
+            {{ __('this bill has been expired', ['number' => $bill->number ]) }}
           </div>
         @endif
         @if($bill->status == 'paid')
           <div class="alert alert-success" role="alert">
-            {{ __('this bill') }} #{{ $bill->number }}  {{ __('paid successfully') }}
+            @if ($bill->depositTransaction)
+              {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
+            @else
+            {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
+            @endif
           </div>
         @endif
         @if($bill->status == 'canceled')
           <div class="alert alert-danger" role="alert">
-            {{ __('this bill') }} #{{ $bill->number }} {{ __('has been canceled') }}
+            {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
           </div>
         @endif
         <div class="block_2">

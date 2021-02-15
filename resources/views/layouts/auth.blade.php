@@ -27,10 +27,10 @@
 <!-- Scripts -->
 
  <!-- Laravel Javascript Validation -->
-      <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>
       @stack('footer-scripts')
       <script src="{{ asset('js/slick.min.js') }}"></script>
-      <script src="{{ asset('js/glide.min.js') }}"></script>
+      {{-- <script src="{{ asset('js/glide.min.js') }}"></script> --}}
 
       
   </body>

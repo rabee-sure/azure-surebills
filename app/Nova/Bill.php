@@ -35,7 +35,7 @@ class Bill extends Resource
      *
      * @var string
      */
-    public static $model = \App\Bill::class;
+    public static $model = \App\Models\Bill::class;
 
     /**
      * Get the displayble label of the resource.

@@ -20,7 +20,7 @@
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label name="license_type" for="inputEmail3">{{ __('License type') }} <button class="license_button" type="button" data-toggle="modal" data-target=".license_type_modal"></button></label>
-                      <select name="license_type" class="form-control">
+                      <select id="license_type" name="license_type" class="form-control">
                         {{-- <option value="Commercial Record"@if($errors->any()) @if(old('license_type') == 'Commercial Record') {{selected}} @elseif($user->license_type == 'Commercial Record')selected="selected"@endif>{{ __('Commercial Record') }}</option> --}}
 
                         <option value="Commercial Record"
@@ -48,6 +48,12 @@
                     </div>
                   </div>
 
+          <div id="registry_expiry_date" class="form-row" >
+              <div class="form-group col-12 col-md-12">
+                <label>{{ __('Commercial Registry Expiry Date') }}  <span class="requirement">*</span></label>
+                <input value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="commercial_registry_expiry_date" class="form-control datepicker" placeholder="{{ __('Commercial Registry Expiry Date') }}">
+              </div><!-- form-group -->
+          </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="business_name_en">{{ __('Business Name') }} (EN)<i class="text-danger">*</i></label>
@@ -111,8 +117,8 @@
 
               </div><!-- step-1 -->
               <div class="btn-toolbar custom-toolbar text-center d-flex justify-content-center card-body pt-0">
-                    <a class="btn btn-primary mx-2" href="/account?previous=1">{{__('Previous')}}</a>
-                <button class="btn btn-primary next-btn mx-2" type="submit">{{__('Next')}}</button>
+                    <a  id="previous" class="btn btn-primary mx-2" href="/account?previous=1">{{__('Previous')}}</a>
+                <button  id="next" class="btn btn-primary next-btn mx-2" type="submit">{{__('Next')}}</button>
               </div>
           </form>
 
@@ -137,4 +143,14 @@
   </div>
 </div>
 @endsection
-
+@push('footer-scripts')
+    <script type="text/javascript">
+      $('#license_type').on('change', function() {
+        if(this.value == 'Commercial Record'){
+            $('#registry_expiry_date').show();
+        }else{
+            $('#registry_expiry_date').hide();
+        }
+      });
+    </script>
+@endpush

@@ -60332,7 +60332,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60345,6 +60345,10 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__table_expand_vue__);
+//
+//
+//
+//
 //
 //
 //
@@ -60484,11 +60488,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             new_bills: [],
             billsTable: [{
                 title: this.__('Name'),
-                slot: 'name',
+                key: 'name',
                 width: 220
             }, {
                 title: this.__('Total'),
                 key: 'total',
+                width: 100
+            }, {
+                title: this.__('Relation'),
+                key: 'channel_relation',
+                width: 100
+            }, {
+                title: this.__('Total Due'),
+                key: 'total_due',
                 width: 100
             }, {
                 title: this.__('FEES'),
@@ -60497,6 +60509,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }, {
                 title: this.__('Payment Fees Vat'),
                 key: 'payment_fees_vat',
+                width: 100
+            }, {
+                title: this.__('Channel Fees'),
+                key: 'payment_channel_fees',
+                width: 100
+            }, {
+                title: this.__('Channel Fees Vat'),
+                key: 'payment_channel_fees_vat',
                 width: 100
             }, {
                 title: this.__('Net'),
@@ -60667,14 +60687,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         return {
                             'name': item.name,
                             'total': item.total,
-                            'payment_fees': item.payment_fees,
-                            'payment_fees_vat': item.payment_fees_vat,
+                            'channel_relation': item.channel_relation,
+                            'total_due': item.total_due,
+                            'payment_fees "Sure FEES"': item.payment_fees,
+                            'payment_fees_vat "Sure FEES Vat"': item.payment_fees_vat,
+                            'channel_fees': item.payment_channel_fees,
+                            'channel_fees_vat': item.payment_channel_fees_vat,
                             'net': item.net,
                             'paid_at': item.paid_at,
-                            'customer_notes': item.customer_notes,
-                            'reference_id': item.reference_id,
-                            'hyperpay_id': item.hyperpay_id,
-                            'merchant_name': item.business_name
+                            'reference_id': item.reference_id
                         };
                     });
                 });
@@ -60745,6 +60766,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.form.date_range = null;
             this.form.note = null;
             this.form.attachment = null;
+            this.$refs['uploadFiles'].clearFiles();
             this.refresh();
         },
         refresh: function refresh() {
@@ -61236,6 +61258,7 @@ var render = function() {
                   _c(
                     "Upload",
                     {
+                      ref: "uploadFiles",
                       attrs: {
                         "on-success": _vm.handleUploadFileSuccess,
                         multiple: false,
@@ -61543,6 +61566,17 @@ var render = function() {
                       ],
                       1
                     )
+                  ]
+                }
+              },
+              {
+                key: "channel",
+                fn: function(ref) {
+                  var row = ref.row
+                  return [
+                    row.related_channel
+                      ? _c("p", [_vm._v(_vm._s(row.channel))])
+                      : _vm._e()
                   ]
                 }
               }

@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Bill;
-use App\Http\Requests\AccountInformationRequest;
-use App\Http\Requests\BankInformationRequest;
-use App\Http\Requests\BusinessInformationRequest;
-use App\Http\Requests\ChangePasswordRequest;
+use App\Models\Bill;
 use App\Http\Resources\BillResource;
 use App\Http\Resources\TransactionResource;
 use App\Http\Resources\TransferResource;
 use App\Http\Resources\UserResource;
-use App\Transaction;
-use App\User;
+use App\Models\Transaction;
+use App\Models\User;
 use Carbon\Carbon;
-use Hashids\Hashids;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Uuid;
@@ -64,7 +59,7 @@ class UserController extends Controller
             ->get();
 
         return (TransactionResource::collection($transactions))->additional(['meta' => [
-                'balance' => $transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'),
+                'balance' => round($transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'), 2),
             ]]);;
     }
 

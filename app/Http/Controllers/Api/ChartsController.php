@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Application;
-use App\Bill;
+use App\Models\Application;
+use App\Models\Bill;
 use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserStatResource;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -153,6 +153,7 @@ class ChartsController extends Controller
      */
     protected function datasets($collection, $method, $data)
     {
+
         return [
             'daily' => [
                 "labels" => [
@@ -227,8 +228,8 @@ class ChartsController extends Controller
                                 $this->weeks[3]['date_between'][1]
                             ),
                             $this->{$method}($collection,
-                                $this->weeks[4]['date_between'][0],
-                                $this->weeks[4]['date_between'][1]
+                                $this->weeks[4]['date_between'][0] ?? '',
+                                $this->weeks[4]['date_between'][1] ?? ''
                             ),
                         ]
                     ]

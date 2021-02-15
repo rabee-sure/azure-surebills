@@ -21,7 +21,7 @@ class Statement extends Resource
      *
      * @var string
      */
-    public static $model = \App\Transaction::class;
+    public static $model = \App\Models\Transaction::class;
 
 
     public static $displayInNavigation = false;

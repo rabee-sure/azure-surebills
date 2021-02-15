@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Application;
-use App\Bill;
+use App\Models\Application;
+use App\Models\Bill;
 use App\Events\BillStatusUpdated;
 use App\Events\UserCreated;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;

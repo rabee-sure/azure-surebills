@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\OauthClient;
+use App\Models\OauthClient;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
