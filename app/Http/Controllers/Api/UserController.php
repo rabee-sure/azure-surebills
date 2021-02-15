@@ -9,8 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserStatResource;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use App\Models\Application;
 
 class UserController extends Controller
