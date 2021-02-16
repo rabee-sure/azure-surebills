@@ -30,7 +30,7 @@
                                 <label for="inputEmail5">{{__('Bank')}}<i class="text-danger">*</i></label>
                                 <select name="bank_id" id="inputEmail5" class="form-control">
                                     <option value="" disabled selected>{{__('Select your Bank')}}</option>
-                                    @foreach(App\Bank::active()->get() as $bank)
+                                    @foreach(App\Models\Bank::active()->get() as $bank)
                                         <option value="{{$bank->id}}" @if ($user->bank_id == $bank->id)selected="selected"@endif>
                                             {{$bank->name}}
                                         </option>
