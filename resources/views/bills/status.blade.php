@@ -61,6 +61,13 @@
               @endif
             </div>
 
+                      
+          @if($errors->any())
+            <div class="alert alert-danger" role="alert">
+              {{ __($errors->first()) }}
+            </div>
+          @endif
+
             @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
               <div class="date_time">
                 <span>
