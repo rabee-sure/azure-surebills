@@ -213,6 +213,15 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsToMany(Application::class, 'channels', 'user_id', 'id', 'id', 'channel_id');
     }
 
+    /**
+     * Get customers.
+     *
+     * @return Collection
+     */
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
 
     /**
      * Get bills.
@@ -327,9 +336,10 @@ class User extends Authenticatable implements HasMedia
     public function scopeVrificationRequest($query)
     {
         return $query->where('verified', false)
-                ->whereNotNull(['business_name_en',
+                ->whereNotNull([
+                    'business_name_en',
                     'business_address',
-                    'business_mobile'
+                    'business_mobile',
                 ]);
     }
 

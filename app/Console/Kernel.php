@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('expire:bill')->everyMinute();
+        $schedule->command('delete:uncompleted')->daily();
     }
 
     /**
