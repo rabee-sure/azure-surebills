@@ -597,4 +597,17 @@ class Bill extends Model
             return $object->credit_cards_fixed;
         }
     }
+
+
+    // this is a recommended way to declare event handlers
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($bill) {
+            // before delete() method call this
+             $bill->items()->delete();
+             $bill->transactions()->delete();
+             // do the rest of the cleanup...
+        });
+    }
 }
