@@ -6,6 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Spatie\WebhookServer\Events\WebhookCallFailedEvent;
+use Spatie\WebhookServer\Events\WebhookCallSucceededEvent;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        WebhookCallSucceededEvent::class => [
+            'App\Listeners\Webhook\SaveWebhookSucceededLog',
+        ],        
+        WebhookCallFailedEvent::class => [
+            'App\Listeners\Webhook\SaveWebhookFailedLog',
         ],
         'App\Events\BillCreated' => [
             'App\Listeners\SendBillPayEmail',
