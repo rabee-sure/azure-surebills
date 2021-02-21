@@ -16,7 +16,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $customers = Customer::where('user_id', auth()->user()->id)
+        $customers = auth()->user()->customers()
             ->orderBy('id', 'desc')
             ->paginate($request->get('per_page', 10));
         return view('customers.index',  ['customers' => $customers]);
