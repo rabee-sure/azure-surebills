@@ -51,6 +51,7 @@ class Bill extends Model
 
         'expiry_minutes',
         'expiry_hours',
+        'pricing',
         'pricing_fees_details',
         'is_redirect',
 
@@ -70,6 +71,7 @@ class Bill extends Model
         'due_date' => 'datetime:Y-m-d',
         'canceled_at' => 'datetime',
         'paid_at' => 'datetime',
+        'pricing' => 'array',
     ];
 
     /**
