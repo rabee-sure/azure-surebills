@@ -54,6 +54,18 @@ class CalculatePayment
             $payment_channel = $this->paymentChannelFees($bill, $payment_log);
             $bill->payment_channel_fees = $payment_channel['fees'];
             $bill->payment_channel_fees_vat = $payment_channel['fees_vat'];
+
+            $bill->pricing = [
+                'type' => $this->getType($bill),
+                'fees_percentage' => $percentage,
+                'fees_fixed' => $fixed,
+                'channel_fees_percentage' => $this->getType($bill) == 'channel' ?$bill->getPercentage($payment_log, true) : null,
+                'channel_fees_fixed' =>  $this->getType($bill) == 'channel' ? $bill->getFixed($payment_log, true) : null,
+                'vat_percentage' => Transaction::VAT_PERCENTAGE,
+                'surebills_fees_percentage' => $percentage - ($this->getType($bill) == 'channel' ?$bill->getPercentage($payment_log, true) : 0),
+                'surebills_fees_fixed' => $fixed - ($this->getType($bill) == 'channel' ? $bill->getFixed($payment_log, true) : 0),
+            ];
+
             $bill->save();
             
             //make Transactions For Owner.
@@ -86,6 +98,19 @@ class CalculatePayment
         ];
     }
 
+    protected function getType($bill)
+    {
+        if($bill->application_id){
+            if($bill->application->channel_id){
+                return 'channel';
+            }
+            else{
+                return 'application';
+            }
+        }else{
+            return 'user';
+        }
+    }
     protected function paymentChannelFees($bill, $log):Array
     {
         if(isset($bill->application) && isset($bill->application->channel)){
