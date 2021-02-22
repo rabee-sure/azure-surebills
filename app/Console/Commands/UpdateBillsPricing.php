@@ -79,7 +79,7 @@ class UpdateBillsPricing extends Command
 
     protected function getType($bill)
     {
-        if($bill->application_id){
+        if($bill->application_id && isset($bill->application)){
             if($bill->application->channel_id){
                 return 'channel';
             }
