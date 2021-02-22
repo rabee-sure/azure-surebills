@@ -61,6 +61,10 @@ class BillResource extends JsonResource
             "payment_channel_fees" =>  round($this->payment_channel_fees, 2),
             "payment_channel_fees_vat" =>round( $this->payment_channel_fees_vat, 2),
             "total_due" => ($request->channel_user_id && $request->channel_user_id != $this->user_id) ? round($this->payment_channel_fees + $this->payment_channel_fees_vat, 2) : round($this->total - $this->payment_fees - $this->payment_fees_vat, 2),
+
+            "payment_surebills_fees" =>  round($this->payment_surebills_fees, 2),
+            "payment_surebills_fees_vat" =>round( $this->payment_surebills_fees_vat
+                , 2),
         ];
     }
 }
