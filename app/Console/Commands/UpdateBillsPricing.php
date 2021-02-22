@@ -47,7 +47,7 @@ class UpdateBillsPricing extends Command
      */
     public function handle()
     {
-        Bill::where('pricing', null)->paid()->chunk(500, function($bills)
+        Bill::paid()->chunk(500, function($bills)
         {
             foreach ($bills as $bill) {
                 $payment_log = $bill->success_payment;
@@ -64,6 +64,8 @@ class UpdateBillsPricing extends Command
                         'channel_fees_percentage' => $this->getType($bill) == 'channel' ?$bill->getPercentage($payment_log, true) : null,
                         'channel_fees_fixed' =>  $this->getType($bill) == 'channel' ? $bill->getFixed($payment_log, true) : null,
                         'vat_percentage' => Transaction::VAT_PERCENTAGE,
+                        'surebills_fees_percentage' => $percentage - ($this->getType($bill) == 'channel' ?$bill->getPercentage($payment_log, true) : 0),
+                        'surebills_fees_fixed' => $fixed - ($this->getType($bill) == 'channel' ? $bill->getFixed($payment_log, true) : 0),
                     ];
 
                     $bill->save();
@@ -73,7 +75,7 @@ class UpdateBillsPricing extends Command
             }
         });
     }
-    
+
     protected function getType($bill)
     {
         if($bill->application_id){

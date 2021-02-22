@@ -367,13 +367,25 @@ export default {
                         return {
                             'name': item.name,
                             'total': item.total,
-                            'channel_relation': item.channel_relation,
-                            'total_due': item.total_due,
-                            'payment_fees "Sure FEES"': item.payment_fees,
-                            'payment_fees_vat "Sure FEES Vat"': item.payment_fees_vat,
-                            'channel_fees': item.payment_channel_fees,
-                            'channel_fees_vat': item.payment_channel_fees_vat,
+                            'channel relation': item.channel_relation,
+                            'total due': item.total_due,
+
+                            'payment fees "Sure FEES"': item.payment_fees,
+                            'surebills fees fixed': item.pricing.surebills_fees_fixed,
+                            'surebills fees %': item.pricing.surebills_fees_percentage,
+                            'payment fees_vat "Sure FEES Vat"': item.payment_fees_vat,
+
+                            'channel fees': item.payment_channel_fees,
+                            'channel fees fixed': item.pricing.channel_fees_fixed,
+                            'channel fees %': item.pricing.channel_fees_percentage,
+                            'channel fees_vat': item.payment_channel_fees_vat,
+                            
+                            'fees_percentage': item.pricing.fees_percentage,
+                            'fees_fixed': item.pricing.fees_fixed,
+
                             'net': item.net,
+
+
                             'paid_at': item.paid_at,
                             'reference_id': item.reference_id,
                         }
