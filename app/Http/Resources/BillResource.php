@@ -54,6 +54,7 @@ class BillResource extends JsonResource
             'hyperpay_id' => $this->hyperpay_id,
             'total' => $this->total,
             'title' => $this->bill_title,
+            'pricing' => $this->pricing,
             "related_channel" => ($request->channel_user_id) ? ($request->channel_user_id != $this->user_id) : false,
             "channel_name" => ($request->channel_user_id && $request->channel_user_id != $this->user_id) ? $this->application->channel->name : null,
             "channel_relation" => ($request->channel_user_id && $request->channel_user_id != $this->user_id) ? 'Channel' : 'Owner',
