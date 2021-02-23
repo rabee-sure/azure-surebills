@@ -51,6 +51,7 @@ class Bill extends Model
 
         'expiry_minutes',
         'expiry_hours',
+        'pricing',
         'pricing_fees_details',
         'is_redirect',
 
@@ -70,6 +71,7 @@ class Bill extends Model
         'due_date' => 'datetime:Y-m-d',
         'canceled_at' => 'datetime',
         'paid_at' => 'datetime',
+        'pricing' => 'array',
     ];
 
     /**
@@ -596,5 +598,18 @@ class Bill extends Model
         }else{ 
             return $object->credit_cards_fixed;
         }
+    }
+
+
+    // this is a recommended way to declare event handlers
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($bill) {
+            // before delete() method call this
+             $bill->items()->delete();
+             $bill->transactions()->delete();
+             // do the rest of the cleanup...
+        });
     }
 }

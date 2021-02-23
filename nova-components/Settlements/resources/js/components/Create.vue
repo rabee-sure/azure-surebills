@@ -366,16 +366,28 @@ export default {
                     this.new_bills = this.bills.map((item) => {
                         return {
                             'name': item.name,
-                            'total': item.total,
-                            'channel_relation': item.channel_relation,
-                            'total_due': item.total_due,
-                            'payment_fees "Sure FEES"': item.payment_fees,
-                            'payment_fees_vat "Sure FEES Vat"': item.payment_fees_vat,
-                            'channel_fees': item.payment_channel_fees,
-                            'channel_fees_vat': item.payment_channel_fees_vat,
-                            'net': item.net,
-                            'paid_at': item.paid_at,
-                            'reference_id': item.reference_id,
+                            'Card Type': item.payment_method_type,
+                            'Total Paid': item.total,
+                            'VAT Percentage': item.pricing.vat_percentage,
+
+                            'Total Fees': item.payment_fees,
+                            'Total Fees VAT': item.payment_fees_vat,
+                            'Total Fees Percentage': item.pricing.fees_percentage,
+                            'Total Fees Fixed': item.pricing.fees_fixed,
+
+                            'SureBills Fees': item.payment_surebills_fees,
+                            'SureBills Fees VAT': item.payment_surebills_fees_vat,
+                            'SureBills Fees Percentage': item.pricing.surebills_fees_percentage,
+                            'SureBills Fees Fixed': item.pricing.surebills_fees_fixed,
+
+                            'Channel Fees': item.payment_channel_fees,
+                            'Channel Fees VAT': item.payment_channel_fees_vat,
+                            'Channel Fees Percentage': item.pricing.channel_fees_percentage,
+                            'Channel Fees Fixed': item.pricing.channel_fees_fixed,
+
+                            'Channel Relation': item.channel_relation,
+                            'Total Due': item.total_due,
+                            'Paid At': item.paid_at,
                         }
                     });
                 });
