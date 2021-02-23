@@ -2,6 +2,7 @@
 
 namespace App\Listeners\Webhook;
 
+use App\Models\Bill;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Multicaret\Unifonic\UnifonicFacade;
