@@ -93,6 +93,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 	Route::resource('customers', 'CustomerController');
 
 	Route::get('statement', 'StatementController@index')->name('statement.index');
+    Route::get('statement/export', 'StatementController@export')->name('statement.export');
     Route::get('transfer', 'TransferController@index')->name('transfer.index');
     Route::post('transfers', 'TransferController@store');
 

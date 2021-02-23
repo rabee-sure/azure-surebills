@@ -365,7 +365,8 @@ export default {
                     this.bills = response.data.data;
                     this.new_bills = this.bills.map((item) => {
                         return {
-                            'name': item.name,
+                            'Name': item.name,
+                            'Source': item.source,
                             'Card Type': item.payment_method_type,
                             'Total Paid': item.total,
                             'VAT Percentage': item.pricing.vat_percentage,
