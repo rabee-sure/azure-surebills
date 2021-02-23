@@ -322,6 +322,43 @@ class User extends Authenticatable implements HasMedia
      * @param  string  $token
      * @return void
      */
+    public function getStatement()
+    {
+        $date_start = request()->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
+        $date_to = request()->date_to ?? Carbon::today()->format('m/d/Y');
+        
+        $channel = (request()->has('channel_id') && !in_array(request()->channel_id, ['all','undefined']))? Channel::find(request()->channel_id) : null;
+        $application = (request()->has('application_id') && !in_array(request()->application_id, ['all','undefined']))? Application::find(request()->application_id) : null;
+        return $this->statement()
+            ->when($date_start, function($q) use($date_start, $date_to){
+                $q->whereDate('created_at', '>=', Carbon::parse($date_start))
+                    ->whereDate('created_at', '<=', Carbon::parse($date_to));
+            })
+            ->when(request()->transaction_type == 'debit' || request()->transaction_type == 'credit', function($q) {
+                $q->whereType(request()->transaction_type);
+            })
+            ->when(isset(request()->transaction_source) && request()->transaction_source != 'all' && request()->transaction_source != 'undefined', function($q){
+                $q->whereTransactionSource(request()->transaction_source);
+            })
+            ->when($channel, function($q) use($channel){
+                $q->whereHas('bill.application', function ( $query) use($channel){
+                    $query->where('channel_id', $channel->id);
+                });
+            })
+            ->when($application, function($q) use($application){
+                $q->whereHas('bill', function ( $query) use($application){
+                    $query->where('application_id', $application->id);
+                });
+            })
+            ->get();
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
     public function getBankDocumentsAttribute($token)
     {
         return $this->getMedia('bank_documents');
