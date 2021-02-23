@@ -50,6 +50,10 @@
           <label class="custom-control-label" for="customCheckThis4">{{ __('Canceled') }}</label>
         </div>
 
+        <div class="search-sm d-inline-block float-md-left mb-1">
+          <input id="keyword" class="form-control" value="{{request()->get('keyword')}}" placeholder="{{__('Search')}}">
+        </div>
+
       </div>
       <div class="separator mb-5"></div>
     </div>
@@ -73,7 +77,7 @@
         @endforeach
                   </tbody>
                 </table>
-                {{ $bills->links() }}
+                {{ $bills->appends($_GET)->links() }}
               </div>
               @else
     <div class="no_bills_yet">
@@ -101,6 +105,9 @@
         }
         if(getParams()['statuses[]'] && type != 1){
           getParams()['statuses[]'].forEach(element => params += '&statuses[]='+element );
+        }
+        if(getUrlParameter('keyword') && type != 3){
+          params += '&keyword='+getUrlParameter('keyword')
         }
         return params;
       }
@@ -134,6 +141,21 @@
           var dateParam = '?'+names.join('&')+oldParams(1);
           window.history.pushState('', '', dateParam);
           location.reload();
+      });
+
+      //watch Keword 
+      var searchTimer = null,
+      minLength = 3,
+      searchDelay = 300;
+      $('#keyword').on("input", function() {
+        clearTimeout(searchTimer);
+        var searchVal = this.value;
+        // start new timer
+        searchTimer = setTimeout(function() {
+          var dateParam = '?'+'keyword='+searchVal+oldParams(3);
+          window.history.pushState('', '', dateParam);
+          location.reload();
+        }, searchDelay);
       });
 
       var getUrlParameter = function getUrlParameter(sParam) {
