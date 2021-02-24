@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeErrorMessageInWebhookLogsTable extends Migration
+class ChangeResponseInWebhookLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class ChangeErrorMessageInWebhookLogsTable extends Migration
     public function up()
     {
         Schema::table('webhook_logs', function (Blueprint $table) {
-            $table->text('error_message')->nullable()->change();  
+            $table->json('response')->nullable()->change();
+            $table->json('payload')->nullable()->change(); 
         });
     }
 
