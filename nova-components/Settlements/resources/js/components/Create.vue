@@ -85,7 +85,8 @@
         :title="__('transactions')"
         v-model="transactionsModal"
         width="760">
-        <download-excel v-if="new_transactions.length" :data="new_transactions" :name="'transactions-'+ Date.now()">
+        <download-excel v-if="new_transactions.length" :data="new_transactions" 
+            :name="'Transactions-'+user.business_name_en+'-FROM-'+ formatDate(form.date_range[0])+'-TO-'+ formatDate(form.date_range[1])">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
         <Table stripe height="400" :columns="transactionsTable" :data="transactions" :no-data-text="__('No Data')">
@@ -103,7 +104,7 @@
         :title="__('Bills')"
         v-model="billsModal"
         width="760">
-        <download-excel v-if="new_bills.length" :data="new_bills" :name="'bills-'+ Date.now()">
+        <download-excel v-if="new_bills.length" :data="new_bills" :name="'Bills-'+user.business_name_en+'-FROM-'+ formatDate(form.date_range[0])+'-TO-'+ formatDate(form.date_range[1])">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
 
@@ -298,6 +299,19 @@ export default {
         this.getUser(this.$route.params.id)
     },
     methods: {
+        formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        },
         getUser(id) {
             Nova.request().get('/users/'+id)
             .then(response => {
