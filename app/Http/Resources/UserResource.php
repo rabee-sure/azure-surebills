@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'balance' => round($this->balance, 2),
             'business_name' => $this->business_name,
+            'business_name_en' => $this->business_name_en,
             'email' => $this->email,
             'mobile' => $this->mobile,
             'mobile_sent_at' => $this->mobile_sent_at->timestamp ?? null,
