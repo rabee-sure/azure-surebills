@@ -119,7 +119,16 @@ class UserController extends Controller
             $user->business_name_en = $request->business_name;
             $user->password = $request->email . $request->name;
             $user->save();
-            event(new UserCreated($user));  
+            event(new UserCreated($user));
+        }
+
+        // api_bill_style
+        if ($request->api_bill_style) {
+            $settings = Settings::updateOrCreate([
+                'user_id' => $user->id, 
+            ],[
+                'api_bill_style' => true,
+            ]);
         }
 
         $validatedData = $request->validate([

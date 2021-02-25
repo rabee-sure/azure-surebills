@@ -67,7 +67,7 @@ class ApplePayController extends Controller
                     'apiOperation' => 'PAY',
                     'order' => [
                         'walletProvider' => 'APPLE_PAY',
-                        'amount'         => $invoice->getDetails('bill')['bill']['total'],
+                        'amount'         => number_format($invoice->getDetails('bill')['bill']['total'], 2, '.', ''),
                         'currency'       => 'SAR',
                         'reference'      => $bill->reference_id
                     ],
