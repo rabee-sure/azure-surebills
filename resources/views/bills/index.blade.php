@@ -36,18 +36,23 @@
         </div>
 
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis2" value="paid" @if(in_array('paid', request()->get('statuses', [])) ) checked @endif>
-          <label class="custom-control-label" for="customCheckThis2">{{ __('Paid') }} </label>
+          <input type="checkbox" class="custom-control-input status_checkbox" id="paid" value="paid" @if(in_array('paid', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="paid">{{ __('Paid') }} </label>
         </div>
 
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis3" value="expired" @if(in_array('expired', request()->get('statuses', [])) ) checked @endif>
-          <label class="custom-control-label" for="customCheckThis3">{{ __('Expired') }} </label>
+          <input type="checkbox" class="custom-control-input status_checkbox" id="expired" value="expired" @if(in_array('expired', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="expired">{{ __('Expired') }} </label>
         </div>
 
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis4" value="canceled" @if(in_array('canceled', request()->get('statuses', [])) ) checked @endif>
-          <label class="custom-control-label" for="customCheckThis4">{{ __('Canceled') }}</label>
+          <input type="checkbox" class="custom-control-input status_checkbox" id="canceled" value="canceled" @if(in_array('canceled', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="canceled">{{ __('Canceled') }}</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input status_checkbox" id="refunded" value="refunded" @if(in_array('refunded', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="refunded">{{ __('Refunded') }}</label>
         </div>
 
       </div>

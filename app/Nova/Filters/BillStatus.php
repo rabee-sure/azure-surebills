@@ -45,6 +45,7 @@ class BillStatus extends MultiselectFilter
             'Paid' => 'paid',
             'Canceled' => 'canceled',
             'Expired' => 'expired',
+            'Refunded' => 'refunded',
         ];
     }
 }

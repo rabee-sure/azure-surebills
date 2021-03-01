@@ -41,6 +41,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendBillPaidEmailToOwner',
             'App\Listeners\SendBillPaidEmailToCustomer',
             // 'App\Listeners\SendBillPaidWebhook',
+        ],        
+        'App\Events\BillRefunded' => [
+            'App\Listeners\CalculateRefundedPayment',
         ],
     ];
 

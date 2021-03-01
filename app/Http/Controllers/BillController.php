@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BillCreated;
+use App\Events\BillPaid;
+use App\Events\BillRefunded;
+use App\Events\BillStatusUpdated;
+use App\Exceptions\ValidationException;
+use App\Helpers\PaymentHelper as HelpersPaymentHelper;
+use App\Http\Requests\BillRequest;
+use App\Http\Requests\PayBillRequest;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\Customer;
-use Carbon\Carbon;
-use PaymentHelper;
 use App\Models\PaymentLog;
 use App\Models\Transaction;
-use App\Events\BillPaid;
-use App\Payment\Invoice;
-use App\Events\BillCreated;
-use Illuminate\Http\Request;
 use App\Payment\Facades\Payment;
+use App\Payment\Invoice;
+use Carbon\Carbon;
 use IlluminateSupportFacadesLog;
-use App\Events\BillStatusUpdated;
-use App\Http\Requests\BillRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
-use App\Http\Requests\PayBillRequest;
-use App\Exceptions\ValidationException;
-use App\Helpers\PaymentHelper as HelpersPaymentHelper;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException as ValidationsException;
+use PaymentHelper;
 
 class BillController extends Controller
 {
@@ -86,6 +87,7 @@ class BillController extends Controller
 
             $bill = Bill::create([
                 'user_id' => $user->id,
+                'status' => 'pending',
                 'business_name' => $user->business_name,
                 'customer_id' => $customer->id,
                 'customer_name' => $request->customer_name,
@@ -287,12 +289,12 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Cancel Bill.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function cancel($id)
+    public function cancel($id, Request $request)
     {
         $bill = Bill::find($id);
 
@@ -306,6 +308,26 @@ class BillController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * refund Bill.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function refund($id, Request $request)
+    {
+        $bill = Bill::find($id);
+
+        if($bill->is_able_refund){
+            $bill->status = 'refunded';
+            $bill->refunded_at = Carbon::now();
+            $bill->save();
+            event(new BillRefunded($bill));
+            event(new BillStatusUpdated($bill));
+        }
+
+        return redirect()->back();
+    }
 
     /**
      * Display the specified resource.
