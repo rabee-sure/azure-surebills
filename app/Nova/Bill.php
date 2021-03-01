@@ -128,6 +128,7 @@ class Bill extends Resource
             'paid' =>  __('Paid'),
             'canceled' =>  __('Canceled'),
             'expired' =>  __('Expired'),
+            'refunded' =>  __('Refunded'),
         ];
         return [
 
@@ -144,6 +145,7 @@ class Bill extends Resource
                   'paid' => '#3e884f',
                   'canceled' => '#c43d4b',
                   'expired' => '#ececec',
+                  'refunded' => '#b69329',
                ])->displayUsingLabels(),
 
             Text::make(__('Url') , 'pay_url')

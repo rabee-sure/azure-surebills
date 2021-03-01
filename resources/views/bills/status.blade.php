@@ -39,27 +39,29 @@
               </div><!-- title -->
             @endif
 
-            <div id="status">
-              @if($bill->status == 'expired')
-                <div class="alert alert-danger" role="alert">
-                  {{ __('this bill has been expired', ['number' => $bill->number ]) }}
-                </div>
-              @endif
-              @if($bill->status == 'paid')
-                <div class="alert alert-success" role="alert">
-                  @if ($bill->depositTransaction)
-                    {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
-                  @else
-                  {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
-                  @endif
-                </div>
-              @endif
-              @if($bill->status == 'canceled')
-                <div class="alert alert-danger" role="alert">
-                  {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
-                </div>
+      <div id="status">
+          @if($bill->status == 'expired')
+            <div class="alert alert-danger" role="alert">
+              {{ __('this bill has been expired', ['number' => $bill->number ]) }}
+            </div>
+          @elseif($bill->status == 'paid')
+            <div class="alert alert-success" role="alert">
+              @if ($bill->depositTransaction)
+                {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
+              @else
+              {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
               @endif
             </div>
+          @elseif($bill->status == 'canceled')
+            <div class="alert alert-danger" role="alert">
+              {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
+            </div>
+          @elseif($bill->status == 'refunded')
+            <div class="alert alert-warning" role="alert">
+              {{ __('this bill has been refunded', ['number' => $bill->number ]) }}
+            </div>
+          @endif
+      </div>
 
                       
           @if($errors->any())
