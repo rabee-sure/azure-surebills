@@ -14,8 +14,12 @@
     <h1>{{ __('Bill') }}</h1>
     <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
       <ol class="breadcrumb pt-0">
-        <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
-        <li class="breadcrumb-item"><a href="/bills?{{$separated}}" title="{{__('Bills')}}">{{__('Bills')}}</a></li>
+        <li class="breadcrumb-item">
+          <a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="/bills?{{$separated}}" title="{{__('Bills')}}">{{__('Bills')}}</a>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">{{__('Bill')}} {{ $bill->number }}</li>
       </ol>
     </nav>
@@ -42,6 +46,12 @@
           <button id="cancel_btn" type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#exampleModal" title="{{ __('Cancel Bill') }}" data-from="top" data-align="right">
             <img src="{{ asset('images/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
           </button>
+        @endif 
+
+        @if($bill->is_able_refund)
+          <button id="cancel_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#refundModal" title="{{ __('Refund Bill') }}" data-from="top" data-align="right">
+            <img src="{{ asset('img/refund.svg') }}" alt="{{ __('Refund Bill') }}" style="height: 25px;">
+          </button>
         @endif
 
       </div>
@@ -66,27 +76,30 @@
         <p>{{  $bill->user->business_address}}</p>
         <b>{{  $bill->user->business_mobile }}</b>
       </div><!-- title -->
-            <div id="status">
-              @if($bill->status == 'expired')
-                <div class="alert alert-danger" role="alert">
-                  {{ __('this bill has been expired', ['number' => $bill->number ]) }}
-                </div>
-              @endif
-              @if($bill->status == 'paid')
-                <div class="alert alert-success" role="alert">
-                  @if ($bill->depositTransaction)
-                    {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
-                  @else
-                  {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
-                  @endif
-                </div>
-              @endif
-              @if($bill->status == 'canceled')
-                <div class="alert alert-danger" role="alert">
-                  {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
-                </div>
+      
+      <div id="status">
+          @if($bill->status == 'expired')
+            <div class="alert alert-danger" role="alert">
+              {{ __('this bill has been expired', ['number' => $bill->number ]) }}
+            </div>
+          @elseif($bill->status == 'paid')
+            <div class="alert alert-success" role="alert">
+              @if ($bill->depositTransaction)
+                {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
+              @else
+              {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
               @endif
             </div>
+          @elseif($bill->status == 'canceled')
+            <div class="alert alert-danger" role="alert">
+              {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
+            </div>
+          @elseif($bill->status == 'refunded')
+            <div class="alert alert-warning" role="alert">
+              {{ __('this bill has been refunded', ['number' => $bill->number ]) }}
+            </div>
+          @endif
+      </div>
       <div class="date_time">
         <span>
           {{__('Due on')}} {{ $bill->dateLocalization()}}
@@ -189,7 +202,11 @@
   @endif
 </div><!-- row -->
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" 
+  id="exampleModal" tabindex="-1" 
+  role="dialog" 
+  aria-labelledby="exampleModalLabel" 
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -199,12 +216,36 @@
         </button>
       </div>
       <div class="modal-footer">
-<form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
-  @csrf
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+        <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
+          @csrf
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
 
-        <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
-                  </form>
+                <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" 
+  id="refundModal" tabindex="-1" 
+  role="dialog" 
+  aria-labelledby="refundModalLabel" 
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="refundModalLabel">{{ __('Are you Sure to Refund Bill ?')}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
+          @csrf
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+            <button type="submit" class="btn btn-primary">{{__('Refund Bill')}}</button>
+        </form>
       </div>
     </div>
   </div>

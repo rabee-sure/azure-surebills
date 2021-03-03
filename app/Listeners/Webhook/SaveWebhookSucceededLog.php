@@ -2,6 +2,9 @@
 
 namespace App\Listeners\Webhook;
 
+use App\Models\Bill;
+use App\Models\WebhookLog;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Multicaret\Unifonic\UnifonicFacade;
@@ -30,7 +33,7 @@ class SaveWebhookSucceededLog implements ShouldQueue
         $bill = Bill::find($event->payload['bill_id']);
 
         $log = new WebhookLog;
-        $log->status = 0;
+        $log->status = 1;
         $log->bill_id = $bill->id;
         $log->user_id = $bill->user_id;
         $log->application_id = $bill->application_id;

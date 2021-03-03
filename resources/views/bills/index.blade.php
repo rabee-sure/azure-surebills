@@ -36,18 +36,27 @@
         </div>
 
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis2" value="paid" @if(in_array('paid', request()->get('statuses', [])) ) checked @endif>
-          <label class="custom-control-label" for="customCheckThis2">{{ __('Paid') }} </label>
+          <input type="checkbox" class="custom-control-input status_checkbox" id="paid" value="paid" @if(in_array('paid', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="paid">{{ __('Paid') }} </label>
         </div>
 
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis3" value="expired" @if(in_array('expired', request()->get('statuses', [])) ) checked @endif>
-          <label class="custom-control-label" for="customCheckThis3">{{ __('Expired') }} </label>
+          <input type="checkbox" class="custom-control-input status_checkbox" id="expired" value="expired" @if(in_array('expired', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="expired">{{ __('Expired') }} </label>
         </div>
 
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input status_checkbox" id="customCheckThis4" value="canceled" @if(in_array('canceled', request()->get('statuses', [])) ) checked @endif>
-          <label class="custom-control-label" for="customCheckThis4">{{ __('Canceled') }}</label>
+          <input type="checkbox" class="custom-control-input status_checkbox" id="canceled" value="canceled" @if(in_array('canceled', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="canceled">{{ __('Canceled') }}</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input status_checkbox" id="refunded" value="refunded" @if(in_array('refunded', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="refunded">{{ __('Refunded') }}</label>
+        </div>
+
+        <div class="search-sm d-inline-block float-md-left mb-1">
+          <input id="keyword" class="form-control" value="{{request()->get('keyword')}}" placeholder="{{__('Search')}}">
         </div>
 
       </div>
@@ -73,7 +82,7 @@
         @endforeach
                   </tbody>
                 </table>
-                {{ $bills->links() }}
+                {{ $bills->appends($_GET)->links() }}
               </div>
               @else
     <div class="no_bills_yet">
@@ -101,6 +110,9 @@
         }
         if(getParams()['statuses[]'] && type != 1){
           getParams()['statuses[]'].forEach(element => params += '&statuses[]='+element );
+        }
+        if(getUrlParameter('keyword') && type != 3){
+          params += '&keyword='+getUrlParameter('keyword')
         }
         return params;
       }
@@ -134,6 +146,21 @@
           var dateParam = '?'+names.join('&')+oldParams(1);
           window.history.pushState('', '', dateParam);
           location.reload();
+      });
+
+      //watch Keword 
+      var searchTimer = null,
+      minLength = 3,
+      searchDelay = 300;
+      $('#keyword').on("input", function() {
+        clearTimeout(searchTimer);
+        var searchVal = this.value;
+        // start new timer
+        searchTimer = setTimeout(function() {
+          var dateParam = '?'+'keyword='+searchVal+oldParams(3);
+          window.history.pushState('', '', dateParam);
+          location.reload();
+        }, searchDelay);
       });
 
       var getUrlParameter = function getUrlParameter(sParam) {

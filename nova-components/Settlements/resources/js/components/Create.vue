@@ -85,7 +85,8 @@
         :title="__('transactions')"
         v-model="transactionsModal"
         width="760">
-        <download-excel v-if="new_transactions.length" :data="new_transactions" :name="'transactions-'+ Date.now()">
+        <download-excel v-if="new_transactions.length" :data="new_transactions" 
+            :name="'Transactions-'+user.business_name_en+'-FROM-'+ formatDate(form.date_range[0])+'-TO-'+ formatDate(form.date_range[1])">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
         <Table stripe height="400" :columns="transactionsTable" :data="transactions" :no-data-text="__('No Data')">
@@ -103,7 +104,7 @@
         :title="__('Bills')"
         v-model="billsModal"
         width="760">
-        <download-excel v-if="new_bills.length" :data="new_bills" :name="'bills-'+ Date.now()">
+        <download-excel v-if="new_bills.length" :data="new_bills" :name="'Bills-'+user.business_name_en+'-FROM-'+ formatDate(form.date_range[0])+'-TO-'+ formatDate(form.date_range[1])">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
 
@@ -298,6 +299,19 @@ export default {
         this.getUser(this.$route.params.id)
     },
     methods: {
+        formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        },
         getUser(id) {
             Nova.request().get('/users/'+id)
             .then(response => {
@@ -365,29 +379,30 @@ export default {
                     this.bills = response.data.data;
                     this.new_bills = this.bills.map((item) => {
                         return {
-                            'name': item.name,
-                            'total': item.total,
-                            'channel relation': item.channel_relation,
-                            'total due': item.total_due,
+                            'Name': item.name,
+                            'Source': item.source,
+                            'Card Type': item.payment_method_type,
+                            'Total Paid': item.total,
+                            'VAT Percentage': item.pricing.vat_percentage,
 
-                            'payment fees "Sure FEES"': item.payment_fees,
-                            'surebills fees fixed': item.pricing.surebills_fees_fixed,
-                            'surebills fees %': item.pricing.surebills_fees_percentage,
-                            'payment fees_vat "Sure FEES Vat"': item.payment_fees_vat,
+                            'Total Fees': item.payment_fees,
+                            'Total Fees VAT': item.payment_fees_vat,
+                            'Total Fees Percentage': item.pricing.fees_percentage,
+                            'Total Fees Fixed': item.pricing.fees_fixed,
 
-                            'channel fees': item.payment_channel_fees,
-                            'channel fees fixed': item.pricing.channel_fees_fixed,
-                            'channel fees %': item.pricing.channel_fees_percentage,
-                            'channel fees_vat': item.payment_channel_fees_vat,
-                            
-                            'fees_percentage': item.pricing.fees_percentage,
-                            'fees_fixed': item.pricing.fees_fixed,
+                            'SureBills Fees': item.payment_surebills_fees,
+                            'SureBills Fees VAT': item.payment_surebills_fees_vat,
+                            'SureBills Fees Percentage': item.pricing.surebills_fees_percentage,
+                            'SureBills Fees Fixed': item.pricing.surebills_fees_fixed,
 
-                            'net': item.net,
+                            'Channel Fees': item.payment_channel_fees,
+                            'Channel Fees VAT': item.payment_channel_fees_vat,
+                            'Channel Fees Percentage': item.pricing.channel_fees_percentage,
+                            'Channel Fees Fixed': item.pricing.channel_fees_fixed,
 
-
-                            'paid_at': item.paid_at,
-                            'reference_id': item.reference_id,
+                            'Channel Relation': item.channel_relation,
+                            'Total Due': item.total_due,
+                            'Paid At': item.paid_at,
                         }
                     });
                 });

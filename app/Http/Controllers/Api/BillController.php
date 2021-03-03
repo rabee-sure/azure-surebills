@@ -68,6 +68,7 @@ class BillController extends Controller
 
         $bill = Bill::create([
             'user_id' => $user->id,
+            'status' => 'pending',
             'application_id' => $application->id,
 
             'business_name' => $user->business_name,
@@ -188,6 +189,7 @@ class BillController extends Controller
 
         $bill = Bill::create([
             'user_id' => $user->id,
+            'status' => 'pending',
             'application_id' => $application->id,
 
             'business_name' => $user->business_name,
@@ -266,7 +268,6 @@ class BillController extends Controller
         $bill->number = $bill->getNumber();
         $bill->sub_total = $sub_total;
         $bill->total = $sub_total - $discount + $vat;
-        $bill->status = 'pending';
         $bill->save();
         
         event(new BillCreated($bill));

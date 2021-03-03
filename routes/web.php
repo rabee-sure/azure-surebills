@@ -79,6 +79,7 @@ Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
 Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang');
 Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::post('/bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
+Route::post('/bills/{id}/refund', 'BillController@refund')->name('bills.refund');
 Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
 
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
@@ -93,6 +94,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 	Route::resource('customers', 'CustomerController');
 
 	Route::get('statement', 'StatementController@index')->name('statement.index');
+    Route::get('statement/export', 'StatementController@export')->name('statement.export');
     Route::get('transfer', 'TransferController@index')->name('transfer.index');
     Route::post('transfers', 'TransferController@store');
 

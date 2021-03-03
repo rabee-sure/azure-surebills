@@ -144,6 +144,15 @@
           </div>
         @endif
 
+          <div class="float-md-right">
+            @php
+            $items = explode("?", request()->fullUrl());
+             $query = $items[1]??'';
+            @endphp
+              <a href="{{ route('statement.export')}}?{{$query}}" target="_blanck" class="btn btn-outline-dark btn-xs ">
+                Excel
+              </a>
+          </div>
         </div>
       </div>
        
@@ -162,6 +171,9 @@
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Reference') }}</th>
                 <th>{{ __('Receipt') }}</th>
+              @if(count($channels))
+                <th>{{ __('Application') }}</th>
+              @endif
                 <th>{{ __('Card') }}</th>
                 <th>{{ __('Debit') }}</th>
                 <th>{{ __('Credit') }}</th>
@@ -175,6 +187,16 @@
                   <td>{{ $transaction->description }}</td>
                   <td>{{ $transaction->reference }}</td>
                   <td>{{ $transaction->receipt }}</td>
+                  @if(count($channels))
+                    <td>
+                      @if(isset($transaction->bill->application_id) && isset ($transaction->bill->application->channel_id))
+                          
+                        {{$transaction->bill->application_id}} - {{ $transaction->bill->user->business_name}}
+                      @else
+                      --
+                      @endif
+                    </td>
+                  @endif
                   <td>
                     @if ($transaction->card_brand == 'VISA')
                       <img alt="mastercard" src="{{ asset('images/cards/visa.gif') }}" class="mr-1" width="18px"> 

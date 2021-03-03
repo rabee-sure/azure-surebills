@@ -49,6 +49,7 @@ class UpdateBillsPricing extends Command
     {
         Bill::paid()->chunk(500, function($bills)
         {
+            // dd($bills->count());
             foreach ($bills as $bill) {
                 $payment_log = $bill->success_payment;
 
@@ -78,7 +79,7 @@ class UpdateBillsPricing extends Command
 
     protected function getType($bill)
     {
-        if($bill->application_id){
+        if($bill->application_id && isset($bill->application)){
             if($bill->application->channel_id){
                 return 'channel';
             }

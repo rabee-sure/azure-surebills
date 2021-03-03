@@ -60332,7 +60332,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60345,6 +60345,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__table_expand_vue__);
+//
 //
 //
 //
@@ -60620,6 +60621,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        formatDate: function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [year, month, day].join('-');
+        },
         getUser: function getUser(id) {
             var _this = this;
 
@@ -60685,28 +60697,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this2.bills = response.data.data;
                     _this2.new_bills = _this2.bills.map(function (item) {
                         return {
-                            'name': item.name,
-                            'total': item.total,
-                            'channel relation': item.channel_relation,
-                            'total due': item.total_due,
+                            'Name': item.name,
+                            'Source': item.source,
+                            'Card Type': item.payment_method_type,
+                            'Total Paid': item.total,
+                            'VAT Percentage': item.pricing.vat_percentage,
 
-                            'payment fees "Sure FEES"': item.payment_fees,
-                            'surebills fees fixed': item.pricing.surebills_fees_fixed,
-                            'surebills fees %': item.pricing.surebills_fees_percentage,
-                            'payment fees_vat "Sure FEES Vat"': item.payment_fees_vat,
+                            'Total Fees': item.payment_fees,
+                            'Total Fees VAT': item.payment_fees_vat,
+                            'Total Fees Percentage': item.pricing.fees_percentage,
+                            'Total Fees Fixed': item.pricing.fees_fixed,
 
-                            'channel fees': item.payment_channel_fees,
-                            'channel fees fixed': item.pricing.channel_fees_fixed,
-                            'channel fees %': item.pricing.channel_fees_percentage,
-                            'channel fees_vat': item.payment_channel_fees_vat,
+                            'SureBills Fees': item.payment_surebills_fees,
+                            'SureBills Fees VAT': item.payment_surebills_fees_vat,
+                            'SureBills Fees Percentage': item.pricing.surebills_fees_percentage,
+                            'SureBills Fees Fixed': item.pricing.surebills_fees_fixed,
 
-                            'fees_percentage': item.pricing.fees_percentage,
-                            'fees_fixed': item.pricing.fees_fixed,
+                            'Channel Fees': item.payment_channel_fees,
+                            'Channel Fees VAT': item.payment_channel_fees_vat,
+                            'Channel Fees Percentage': item.pricing.channel_fees_percentage,
+                            'Channel Fees Fixed': item.pricing.channel_fees_fixed,
 
-                            'net': item.net,
-
-                            'paid_at': item.paid_at,
-                            'reference_id': item.reference_id
+                            'Channel Relation': item.channel_relation,
+                            'Total Due': item.total_due,
+                            'Paid At': item.paid_at
                         };
                     });
                 });
@@ -61441,7 +61455,13 @@ var render = function() {
                 {
                   attrs: {
                     data: _vm.new_transactions,
-                    name: "transactions-" + Date.now()
+                    name:
+                      "Transactions-" +
+                      _vm.user.business_name_en +
+                      "-FROM-" +
+                      _vm.formatDate(_vm.form.date_range[0]) +
+                      "-TO-" +
+                      _vm.formatDate(_vm.form.date_range[1])
                   }
                 },
                 [
@@ -61535,7 +61555,18 @@ var render = function() {
           _vm.new_bills.length
             ? _c(
                 "download-excel",
-                { attrs: { data: _vm.new_bills, name: "bills-" + Date.now() } },
+                {
+                  attrs: {
+                    data: _vm.new_bills,
+                    name:
+                      "Bills-" +
+                      _vm.user.business_name_en +
+                      "-FROM-" +
+                      _vm.formatDate(_vm.form.date_range[0]) +
+                      "-TO-" +
+                      _vm.formatDate(_vm.form.date_range[1])
+                  }
+                },
                 [
                   _c(
                     "Button",
