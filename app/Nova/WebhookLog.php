@@ -87,16 +87,12 @@ class WebhookLog extends Resource
     {
         return [
             ID::make()->sortable(),
-            Boolean::make(__('Status'), 'staus'),
+            Boolean::make(__('Status'), 'status'),
             BelongsTo::make(__('Bill'), 'bill', Bill::class)->searchable()->rules('required'),
             BelongsTo::make(__('Application'), 'application', Application::class)->searchable()->rules('required'),
             BelongsTo::make(__('User'), 'user', User::class)->searchable()->rules('required'),
             Text::make(__('Status Code'), 'status_code'),
-            Text::make(__('Error Message'), 'error_message')
-                ->displayUsing(function($error_message) {
-                    $part = strip_tags(substr($error_message, 0, 30));
-                    return $part . " ...";
-                }),
+            Text::make(__('Error Message'), 'error_message')->hideFromIndex(),
 
             Code::make('response')->json(),
             Code::make('payload')->json(),

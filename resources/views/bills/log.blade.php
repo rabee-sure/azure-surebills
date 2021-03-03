@@ -2,7 +2,6 @@
 
 @section('title', __('Bills'))
 
-
 @section('content')
   <div class="row">
     <div class="col-12">
