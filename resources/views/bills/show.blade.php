@@ -32,19 +32,19 @@
       <div class="card-body">
         <!-- Button trigger modal -->
         <button class="btn btn-primary mr-2 mb-2 d-inline-block notify-btn rounded-sm copyButton" title="{{ __('Copy Link') }}" data-from="top" data-align="right">
-          <img src="{{ asset('img/copy.svg') }}" alt="{{ __('Copy Link') }}" style="height: 25px;">
+          <img src="{{ asset('images/copy.svg') }}" alt="{{ __('Copy Link') }}" style="height: 25px;">
         </button>
         <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->pay_url}}" target="_blanck" title="{{ __('Open Link') }}">
-          <img src="{{ asset('img/link.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
+          <img src="{{ asset('images/link.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
         </a>
         <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
         <a onclick="window.print(); return false;" class="btn btn-primary mr-2 mb-2 rounded-sm d-inline-block" href="#" title="{{ __('Print') }}">
-          <img src="{{ asset('img/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
+          <img src="{{ asset('images/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
         </a>
         <!-- <a class="btn btn-primary mr-2 mb-2 d-inline-block" href="#">{{ __('Send Reminder') }}</a> -->
         @if($bill->is_pending)
           <button id="cancel_btn" type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#exampleModal" title="{{ __('Cancel Bill') }}" data-from="top" data-align="right">
-            <img src="{{ asset('img/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
+            <img src="{{ asset('images/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
           </button>
         @endif 
 
@@ -172,15 +172,15 @@
               @foreach($bill->payment_logs as $log)
                 <tr>
                   @if(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MADA')
-                    <td><img src="{{ asset('/payments/mada.png') }}" alt="mada" height="25px"></td>
+                    <td><img src="{{ asset('/images/payments/mada.png') }}" alt="mada" height="25px"></td>
                   @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'VISA')
-                    <td><img src="{{ asset('/payments/visa.png') }}" alt="visa" height="25px"></td>
+                    <td><img src="{{ asset('/images/payments/visa.png') }}" alt="visa" height="25px"></td>
                   @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MASTERCARD')
-                    <td><img src="{{ asset('/payments/card.png') }}" alt="mastercard" height="25px"></td>
+                    <td><img src="{{ asset('/images/payments/card.png') }}" alt="mastercard" height="25px"></td>
                   @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'APPLEPAY')
-                    <td><img src="{{ asset('/payments/pay.png') }}" alt="apple pay" height="25px"></td>
+                    <td><img src="{{ asset('/images/payments/pay.png') }}" alt="apple pay" height="25px"></td>
                   @else
-                    <td><img src="{{ asset('/payments/cardnon.png') }}" alt="apple pay" height="25px"></td>
+                    <td><img src="{{ asset('/images/payments/cardnon.png') }}" alt="apple pay" height="25px"></td>
                   @endif
 
                   <td><a href="/logs/{{$log->id}}" title="{{ isset($log->results['response']) && isset($log->results['response']['id']) ? $log->results['response']['id'] : null }}">{{ isset($log->results['response']) && isset($log->results['response']['id']) ? $log->results['response']['id'] : null }}</a></td>

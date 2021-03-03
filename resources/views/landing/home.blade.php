@@ -16,7 +16,7 @@
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-6 col-xl-6">
             <div class="imgthumb">
-              <img src="/landing/dist/images/slider_img1.svg" alt="#">
+              <img src="/images/slider_img1.svg" alt="#">
             </div>
           </div><!-- col-12 -->
         </div><!-- row -->
@@ -41,7 +41,7 @@
           <div class="item">
             <div class="item_inside">
               <div class="imgthumb">
-                <img src="/landing/dist/images/how_img1.svg" alt="سجل معنا">
+                <img src="/images/how_img1.svg" alt="سجل معنا">
               </div><!-- imgthumb -->
               <span>سجل معنا</span>
               <p>التسجيل سهل وسريع وخلال دقائق يمكنك البدء بإصدار فواتيرك</p>
@@ -50,7 +50,7 @@
           <div class="item">
             <div class="item_inside">
               <div class="imgthumb">
-                <img src="/landing/dist/images/how_img2.svg" alt="أنشئ وشارك الفاتورة">
+                <img src="/images/how_img2.svg" alt="أنشئ وشارك الفاتورة">
               </div><!-- imgthumb -->
               <span>أنشئ وشارك الفاتورة</span>
               <p>ارسل فواتيرك من خلال رسالة نصية او مواقع التواصل الإجتماعي او في أي مكان يتواجد فيه عملاؤك</p>
@@ -59,7 +59,7 @@
           <div class="item">
             <div class="item_inside">
               <div class="imgthumb">
-                <img src="/landing/dist/images/how_img3.svg" alt="تابع مبيعاتك">
+                <img src="/images/how_img3.svg" alt="تابع مبيعاتك">
               </div><!-- imgthumb -->
               <span>تابع مبيعاتك</span>
               <p>متابعة مبيعاتك ومعاملاتك المالية بشكل مباشر</p>
@@ -73,7 +73,7 @@
       <div class="title">الأسعار</div>
       <div class="content">
         <div class="imgthumb">
-          <img src="/landing/dist/images/price_img.svg" alt="#">
+          <img src="/images/price_img.svg" alt="#">
         </div>
         <ul>
           <li>1.7 % + 1 ريال على كل عملية دفع عن طريق مدى</li>
@@ -85,7 +85,7 @@
       </div>
       <span>دعم مدى وآبل باي والبطاقات الإئتمانية</span>
       <div class="pay_icons">
-        <img src="/landing/dist/images/price_icons.svg" alt="#">
+        <img src="/images/price_icons.svg" alt="#">
       </div>
     </section>-->
 
