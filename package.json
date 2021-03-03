@@ -17,7 +17,7 @@
         "jquery": "^3.2",
         "laravel-echo": "^1.9.0",
         "laravel-mix": "^6.0.13",
-        "lodash": "^4.17.20",
+        "lodash": "^4.17.19",
         "popper.js": "^1.12",
         "postcss": "^8.1.14",
         "pusher-js": "^7.0.0",
