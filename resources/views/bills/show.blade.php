@@ -48,7 +48,7 @@
           </button>
         @endif 
 
-        @if($bill->is_able_refund)
+        @if($bill->is_able_refund && 1 == 2)
           <button id="cancel_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#refundModal" title="{{ __('Refund Bill') }}" data-from="top" data-align="right">
             <img src="{{ asset('img/refund.svg') }}" alt="{{ __('Refund Bill') }}" style="height: 25px;">
           </button>
