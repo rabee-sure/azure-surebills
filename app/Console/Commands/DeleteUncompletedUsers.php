@@ -40,6 +40,7 @@ class DeleteUncompletedUsers extends Command
      */
     public function handle()
     {
+        return null;
         $users = User::where('verified', false)
             ->whereNull('business_address')
             ->orWhereNull('business_mobile')
