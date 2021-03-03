@@ -29,7 +29,7 @@
 
       <div class="card d-flex flex-row mb-3">
           <a class="d-flex" href=".html">
-              <img src="../../img/fat-rascal-thumb.jpg" alt="Fat Rascal"
+              <img src="{{ asset('images/fat-rascal-thumb.jpg') }}" alt="Fat Rascal"
                   class="list-thumbnail responsive border-0 card-img-left" />
           </a>
           <div class="pl-2 d-flex flex-grow-1 min-width-zero">
@@ -48,7 +48,7 @@
 
       <div class="card d-flex flex-row mb-3">
           <a class="d-flex" href=".html">
-              <img src="../../img/goose-breast-thumb.jpg" alt="Goose Breast"
+              <img src="{{ asset('images/goose-breast-thumb.jpg') }}" alt="Goose Breast"
                   class="list-thumbnail responsive border-0 card-img-left" />
           </a>
           <div class="pl-2 d-flex flex-grow-1 min-width-zero">
@@ -66,7 +66,7 @@
 
       <div class="card d-flex flex-row mb-3">
           <a class="d-flex" href=".html">
-              <img src="../../img/petit-gateau-thumb.jpg" alt="Petit Gateau"
+              <img src="{{ asset('images/petit-gateau-thumb.jpg') }}" alt="Petit Gateau"
                   class="list-thumbnail responsive border-0 card-img-left" />
           </a>
           <div class="pl-2 d-flex flex-grow-1 min-width-zero">
@@ -84,7 +84,7 @@
 
       <div class="card d-flex flex-row mb-3">
           <a class="d-flex" href=".html">
-              <img src="../../img/salzburger-nockerl-thumb.jpg" alt="Salzburger Nockerl"
+              <img src="{{ asset('images/salzburger-nockerl-thumb.jpg') }}" alt="Salzburger Nockerl"
                   class="list-thumbnail responsive border-0 card-img-left" />
           </a>
           <div class="pl-2 d-flex flex-grow-1 min-width-zero">

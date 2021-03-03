@@ -11,23 +11,23 @@
 </footer>
 
     @if(in_array(request()->route()->getName(), ['channels.show', 'integration','mobile_verify', 'home' ]))
-      <script src="/js/app.js?v={{ config('app.asset_version') }}" defer></script>
-      <script src="/js/jbootstrap.js?v={{ config('app.asset_version') }}"></script>
-      <script src="/js/all.js?v={{ config('app.asset_version') }}"></script>
-      <script src="/js/dore.script.js?v={{ config('app.asset_version') }}"></script>
+      <script src="{{ asset('js/app.js') }}?v={{ config('app.asset_version') }}" defer></script>
+      <script src="{{ asset('js/jbootstrap.js') }}?v={{ config('app.asset_version') }}"></script>
+      <script src="{{ asset('js/all.js') }}?v={{ config('app.asset_version') }}"></script>
+      <script src="{{ asset('js/dore.script.js') }}?v={{ config('app.asset_version') }}"></script>
     @else
-      <script src="/js/app.js?v={{ config('app.asset_version') }}" ></script>
-      <script src="/js/jbootstrap.js?v={{ config('app.asset_version') }}"></script>
-      <script src="/js/all.js?v={{ config('app.asset_version') }}" defer></script>
+      <script src="{{ asset('js/app.js') }}?v={{ config('app.asset_version') }}" ></script>
+      <script src="{{ asset('js/jbootstrap.js') }}?v={{ config('app.asset_version') }}"></script>
+      <script src="{{ asset('js/all.js') }}?v={{ config('app.asset_version') }}" defer></script>
 
-      <script src="/js/dore.script.js?v={{ config('app.asset_version') }}"></script>
+      <script src="{{ asset('js/dore.script.js') }}?v={{ config('app.asset_version') }}"></script>
     @endif
 
 <script>
     window._locale = '{{ app()->getLocale() }}';
     window._translations = {!! cache('translations') !!};
 </script>
-<script type="text/javascript" src="/vendor/jsvalidation/js/jsvalidation.min.js?v={{ config('app.asset_version')}}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js') }}?v={{ config('app.asset_version')}}"></script>
 <script src="/js/custom.js"></script>
 
 
