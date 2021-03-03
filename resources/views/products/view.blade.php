@@ -17,22 +17,22 @@
                   <div class="glide__track" data-glide-el="track">
                     <ul class="glide__slides gallery">
                       <li class="glide__slide">
-                        <a href="../../img/parkin.jpg"><img alt="detail" src="../../img/parkin.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
+                        <a href="../../images/parkin.jpg"><img alt="detail" src="../../images/parkin.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                       <li class="glide__slide">
-                        <a href="../../img/napoleonshat.jpg"><img alt="detail" src="../../img/napoleonshat.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
+                        <a href="../../images/napoleonshat.jpg"><img alt="detail" src="../../images/napoleonshat.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                       <li class="glide__slide">
-                        <a href="../../img/marble-cake.jpg"><img alt="detail" src="../../img/marble-cake.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
+                        <a href="../../images/marble-cake.jpg"><img alt="detail" src="../../images/marble-cake.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                       <li class="glide__slide">
-                        <a href="../../img/fruitcake.jpg"><img alt="detail" src="../../img/fruitcake.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
+                        <a href="../../images/fruitcake.jpg"><img alt="detail" src="../../images/fruitcake.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                       <li class="glide__slide">
-                        <a href="../../img/magdalena.jpg"><img alt="detail" src="../../img/magdalena.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
+                        <a href="../../images/magdalena.jpg"><img alt="detail" src="../../images/magdalena.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                       <li class="glide__slide">
-                        <a href="../../img/tea-loaf.jpg"><img alt="detail" src="../../img/tea-loaf.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
+                        <a href="../../images/tea-loaf.jpg"><img alt="detail" src="../../images/tea-loaf.jpg" class="responsive border-0 border-radius img-fluid mb-3" /></a>
                       </li>
                     </ul>
                   </div>
@@ -41,22 +41,22 @@
                   <div class="glide__track" data-glide-el="track">
                     <ul class="glide__slides">
                       <li class="glide__slide">
-                        <img alt="thumb" src="../../img/parkin-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../images/parkin-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                       <li class="glide__slide">
-                        <img alt="thumb" src="../../img/napoleonshat-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../images/napoleonshat-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                       <li class="glide__slide">
-                        <img alt="thumb" src="../../img/marble-cake-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../images/marble-cake-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                       <li class="glide__slide">
-                        <img alt="thumb" src="../../img/fruitcake-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../images/fruitcake-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                       <li class="glide__slide">
-                        <img alt="thumb" src="../../img/magdalena-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../images/magdalena-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                       <li class="glide__slide">
-                        <img alt="thumb" src="../../img/tea-loaf-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
+                        <img alt="thumb" src="../../images/tea-loaf-thumb.jpg" class="responsive border-0 border-radius img-fluid" />
                       </li>
                     </ul>
                   </div>
@@ -89,7 +89,7 @@
                   <div class="tab-pane fade" id="second" role="tabpanel" aria-labelledby="second-tab">
                     <div class="d-flex flex-row mb-3 border-bottom justify-content-between">
                       <a href="#">
-                        <img src="../../img/profile-pic-l-7.jpg" alt="Mimi Carreira" class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall" />
+                        <img src="../../images/profile-pic-l-7.jpg" alt="Mimi Carreira" class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall" />
                       </a>
                       <div class="pl-3 flex-grow-1">
                         <a href="#">
@@ -104,7 +104,7 @@
                     </div>
                     <div class="d-flex flex-row mb-3 border-bottom justify-content-between">
                       <a href="#">
-                        <img src="../../img/profile-pic-l-3.jpg" alt="Kathryn Mengel" class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall" />
+                        <img src="../../images/profile-pic-l-3.jpg" alt="Kathryn Mengel" class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall" />
                       </a>
                       <div class="pl-3 flex-grow-1">
                         <a href="#">

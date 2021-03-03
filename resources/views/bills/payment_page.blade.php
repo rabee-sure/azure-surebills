@@ -11,7 +11,7 @@
     <title>{{ __('Bill') . ' ' . $bill->number }} - SureBills</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <!-- App Css -->
-    <link rel="stylesheet" href="/payment_page/css/app.css">
+    <link rel="stylesheet" href="/css/payment_page.css">
     <!-- Arabic Font -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <!-- Englesh Font -->
@@ -62,9 +62,9 @@
                     <div class="pay_form border-right border-left border-bottom border-top rounded-bottom">
                         <div class="d-flex align-items-start justify-content-start  border-bottom">
                             <div class="icons p-3 d-flex align-items-center justify-content-between flex-column h-100 align-self-center">
-                                <img src="/payment_page/images/mada.png" class="d-block mx-auto mw-100" alt="#">
-                                <img src="/payment_page/images/master.png" class="d-block my-3 mx-auto mw-100" alt="#">
-                                <img src="/payment_page/images/visa.png" class="d-block mx-auto mw-100" alt="#">
+                                <img src="/images/payment_page/mada.png" class="d-block mx-auto mw-100" alt="#">
+                                <img src="/images/payment_page/master.png" class="d-block my-3 mx-auto mw-100" alt="#">
+                                <img src="/images/payment_page/visa.png" class="d-block mx-auto mw-100" alt="#">
                             </div><!-- icon -->
                             <div class="inputs">
                                 <input type="text" id="card-number" class="input-field" title="{{ __('Card Number') }}" aria-label="enter your card number" placeholder="{{ __('Card Number') }}" value="" tabindex="1" dir="ltr" readonly>

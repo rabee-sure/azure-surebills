@@ -19,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/landing/dist/css/main.css">
+    <link rel="stylesheet" href="/css/landing.css">
     @yield('css_styles')
 </head>
 <body>
@@ -27,7 +27,7 @@
       <div class="container insideDiv">
         <div class="logo">
           <a href="{{ url('/') }}" title="شور بيلز">
-            <img src="/landing/dist/images/logo.png" alt="شور بيلز">
+            <img src="/images/logo.png" alt="شور بيلز">
           </a>
         </div><!-- logo -->
         <div class="main_menu">
@@ -79,7 +79,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
     <script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
     <![endif]-->
-    <script type="text/javascript" src="/landing/dist/js/main.js"></script>
+    <script type="text/javascript" src="/landing/dist/js/landing.js"></script>
 
     @stack('footer-scripts')
 </body>
