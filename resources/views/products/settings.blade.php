@@ -6,7 +6,7 @@
 
         <div class="row">
           <div class="col-12 mb-5 relative">
-            <img class="social-header card-img" src="../../img/social-header.jpg" />
+            <img class="social-header card-img" src="../../images/social-header.jpg" />
             <div class="edit_cover">
               <button type="button" data-toggle="modal" data-target="#edit_cover_Modal"></button>
             </div><!-- edit_cover -->
@@ -39,7 +39,7 @@
             <!-- Modal -->
           </div>
           <div class="col-12 col-lg-5 col-xl-4 col-left">
-            <img alt="Profile" src="../../img/logoCN.png" class="img-thumbnail card-img social-profile-img">
+            <img alt="Profile" src="../../images/logoCN.png" class="img-thumbnail card-img social-profile-img">
             <div class="card mb-4">
               <div class="card-body">
                 <div class="edit_store">
@@ -134,7 +134,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/marble-cake-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/marble-cake-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -149,7 +149,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/goose-breast-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/goose-breast-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -164,7 +164,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/chocolate-cake-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/chocolate-cake-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -179,7 +179,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/souffle-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/souffle-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -194,7 +194,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/marble-cake-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/marble-cake-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -209,7 +209,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/goose-breast-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/goose-breast-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -224,7 +224,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/chocolate-cake-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/chocolate-cake-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -239,7 +239,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/souffle-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/souffle-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -254,7 +254,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/marble-cake-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/marble-cake-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -269,7 +269,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/goose-breast-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/goose-breast-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -284,7 +284,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/chocolate-cake-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/chocolate-cake-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -299,7 +299,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/souffle-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/souffle-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -314,7 +314,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/marble-cake-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/marble-cake-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -329,7 +329,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/goose-breast-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/goose-breast-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
@@ -344,7 +344,7 @@
                 <div class="card">
                   <div class="position-relative">
                     <a href="product.html">
-                      <img class="card-img-top" src="../../img/chocolate-cake-thumb.jpg" alt="Card image cap">
+                      <img class="card-img-top" src="../../images/chocolate-cake-thumb.jpg" alt="Card image cap">
                     </a>
                   </div>
                   <div class="card-body">
