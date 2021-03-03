@@ -32,15 +32,14 @@
   <td>
     @if($bill->status == 'pending')
       <span id="status-{{$bill->id}}" class="badge badge-pill badge-info bill_status_badge">{{ __('Pending')}}</span>
-    @endif
-    @if($bill->status == 'paid')
+    @elseif($bill->status == 'paid')
       <span id="status-{{$bill->id}}"  class="badge badge-pill badge-success bill_status_badge">{{ __('Paid')}}</span>
-    @endif             
-    @if($bill->status == 'canceled')
+    @elseif($bill->status == 'canceled')
       <span id="status-{{$bill->id}}"  class="badge badge-pill badge-danger bill_status_badge">{{ __('Canceled')}}</span>
-    @endif              
-    @if($bill->status == 'expired')
+    @elseif($bill->status == 'expired')
       <span id="status-{{$bill->id}}"  class="badge badge-pill badge-light bill_status_badge">{{ __('Expired')}}</span>
+    @elseif($bill->status == 'refunded')
+      <span id="status-{{$bill->id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Refunded')}}</span>
     @endif
   </td>
 </tr>
@@ -66,6 +65,9 @@
             break;          
           case "expired":
             className = "badge-light";
+            break;
+          case "refunded":
+            className = "badge-warning";
             break;
           default:
             className = "badge-info";

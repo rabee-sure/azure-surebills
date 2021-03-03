@@ -60,6 +60,7 @@ class Bill extends Model
         
         'payment_surebills_fees',
         'payment_surebills_fees_vat',
+        'refunded_at',
     ];
 
     /**
@@ -71,6 +72,7 @@ class Bill extends Model
         'due_date' => 'datetime:Y-m-d',
         'canceled_at' => 'datetime',
         'paid_at' => 'datetime',
+        'refunded_at' => 'datetime',
         'pricing' => 'array',
     ];
 
@@ -118,6 +120,16 @@ class Bill extends Model
     public function getBillTitleAttribute()
     {
         return __('Bill') .' '. $this->number .' - '. $this->customer_name;
+    }
+
+    /**
+     * Redirect Url.
+     *
+     * @var string
+     */
+    public function getIsAbleRefundAttribute()
+    {
+        return $this->status == 'paid' && $this->settled == false; 
     }
 
 

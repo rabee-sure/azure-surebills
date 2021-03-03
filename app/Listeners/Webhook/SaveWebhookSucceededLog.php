@@ -33,7 +33,7 @@ class SaveWebhookSucceededLog implements ShouldQueue
         $bill = Bill::find($event->payload['bill_id']);
 
         $log = new WebhookLog;
-        $log->status = 0;
+        $log->status = 1;
         $log->bill_id = $bill->id;
         $log->user_id = $bill->user_id;
         $log->application_id = $bill->application_id;
