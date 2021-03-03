@@ -1,5 +1,8 @@
 {
 	"All": "الكل",
+	"Are you Sure to Refund Bill ?": "هل أنت متأكد من رد الفاتورة؟",
+	"Refund Bill": "رد الفتاورة",
+	"Refunded": "استردت",
 	"Verification Requests": "طلبات التوثيق  ",
 	"Un Verified + Complete Profile": "لم يتم التوثيق + اكمل بياناته",
 	" Verified": "تم التوثيق",
@@ -237,6 +240,7 @@
 	"payment fees" : "رسوم الدفع",
 	"Active Langs" : "اللغات المفعلة للفواتير",
 	"this bill has been canceled" : "تم إلغاء الفاتورة #:number",
+	"this bill has been refunded" : "تم رد الفاتورة #:number",
 	"this bill has been successfully" : "تم دفع الفاتورة #:number بنجاح",
 	"this bill has been expired" : "انتهت صلاحية الفاتورة #:number",
 
