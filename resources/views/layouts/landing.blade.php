@@ -79,7 +79,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
     <script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
     <![endif]-->
-    <script type="text/javascript" src="/landing/dist/js/landing.js"></script>
+    <script type="text/javascript" src="{{ asset('js/landing.js') }}"></script>
 
     @stack('footer-scripts')
 </body>
