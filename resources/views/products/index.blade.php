@@ -57,7 +57,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-1.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-1.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>
@@ -77,7 +77,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-3.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-3.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>
@@ -97,7 +97,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-4.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-4.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>
@@ -117,7 +117,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-2.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-2.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>
@@ -137,7 +137,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-1.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-1.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>
@@ -157,7 +157,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-3.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-3.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>
@@ -177,7 +177,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-4.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-4.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>
@@ -197,7 +197,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-2.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-2.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>
@@ -217,7 +217,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-1.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-1.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>
@@ -237,7 +237,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-3.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-3.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>
@@ -257,7 +257,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-4.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-4.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>
@@ -277,7 +277,7 @@
           <div class="card">
             <div class="position-relative">
               <a href="products/1/view">
-                <img class="card-img-top" src="img/card-thumb-2.jpg" alt="Card image cap">
+                <img class="card-img-top" src="images/card-thumb-2.jpg" alt="Card image cap">
               </a>
               <div class="edit_product">
                 <button type="button"></button>

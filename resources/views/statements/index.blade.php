@@ -177,13 +177,13 @@
                   <td>{{ $transaction->receipt }}</td>
                   <td>
                     @if ($transaction->card_brand == 'VISA')
-                      <img alt="mastercard" src="img/cards/visa.gif" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="images/cards/visa.gif" class="mr-1" width="18px"> 
                     @elseif ($transaction->card_brand == 'MASTER')
-                      <img alt="mastercard" src="img/cards/mastercard.gif" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="images/cards/mastercard.gif" class="mr-1" width="18px"> 
                     @elseif ($transaction->card_brand == 'MADA')
-                      <img alt="mastercard" src="img/cards/mada.gif" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="images/cards/mada.gif" class="mr-1" width="18px"> 
                     @elseif ($transaction->card_brand == 'APPLEPAY')
-                      <img alt="mastercard" src="img/cards/applepay.gif" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="images/cards/applepay.gif" class="mr-1" width="18px"> 
                     @endif
                     {{ $transaction->card }}
                   </td>

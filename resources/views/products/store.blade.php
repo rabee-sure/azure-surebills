@@ -7,7 +7,7 @@
 <div id="header_fixed">
       <div class="container">
         <div class="logo_client">
-          <a href="#" title="#"><img alt="Profile" src="../img/logoCN.png"></a>
+          <a href="#" title="#"><img alt="Profile" src="../images/logoCN.png"></a>
         </div><!-- logo_client -->
         <div class="social_media">
           <a href="#"><i class="simple-icon-social-facebook"></i></a>
@@ -20,10 +20,10 @@
     <div class="container my-5">
       <div class="row">
         <div class="col-12 mb-5">
-          <img class="social-header card-img" src="../img/social-header.jpg" />
+          <img class="social-header card-img" src="../images/social-header.jpg" />
         </div>
         <div class="col-12 col-lg-5 col-xl-4 col-left">
-          <img alt="Profile" src="../img/logoCN.png" class="img-thumbnail card-img social-profile-img">
+          <img alt="Profile" src="../images/logoCN.png" class="img-thumbnail card-img social-profile-img">
           <div class="card mb-4">
             <div class="card-body">
               <div class="text-center pt-4">
@@ -55,7 +55,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/marble-cake-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/marble-cake-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -70,7 +70,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/goose-breast-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/goose-breast-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -85,7 +85,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/chocolate-cake-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/chocolate-cake-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -100,7 +100,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/souffle-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/souffle-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -115,7 +115,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/marble-cake-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/marble-cake-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -130,7 +130,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/goose-breast-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/goose-breast-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -145,7 +145,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/chocolate-cake-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/chocolate-cake-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -160,7 +160,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/souffle-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/souffle-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -175,7 +175,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/marble-cake-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/marble-cake-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -190,7 +190,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/goose-breast-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/goose-breast-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -205,7 +205,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/chocolate-cake-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/chocolate-cake-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -220,7 +220,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/souffle-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/souffle-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -235,7 +235,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/marble-cake-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/marble-cake-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -250,7 +250,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/goose-breast-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/goose-breast-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
@@ -265,7 +265,7 @@
               <div class="card">
                 <div class="position-relative">
                   <a href="product-client.html">
-                    <img class="card-img-top" src="../img/chocolate-cake-thumb.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="../images/chocolate-cake-thumb.jpg" alt="Card image cap">
                   </a>
                 </div>
                 <div class="card-body">
