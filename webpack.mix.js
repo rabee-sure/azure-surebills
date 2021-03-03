@@ -11,7 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js('resources/js/app.js', 'public/js').vue()
     .scripts([
         "public/js/jquery-3.3.1.min.js",
         "public/js/bootstrap.bundle.min.js"

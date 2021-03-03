@@ -6,9 +6,6 @@
   <link rel="stylesheet" href="{{ asset('css/smart_wizard.min.css') }}">
 @endsection
 
-
-<link rel="stylesheet" href="css/vendor/" />
-
 @section('content')
 	<div class="row">
 
