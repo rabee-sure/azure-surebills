@@ -7,6 +7,7 @@ use App\Nova\Filters\BillSource;
 use App\Nova\Filters\BillStatus;
 use App\Nova\Filters\DateRange;
 use App\Nova\Filters\PaidDateRange;
+use App\Nova\Filters\RefundedDateRange;
 use App\Nova\Filters\UserId;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -259,6 +260,7 @@ class Bill extends Resource
             new BillSource,
             new DateRange,
             new PaidDateRange,
+            new RefundedDateRange,
             new UserId(),
             new BillSettled(),
         ];
