@@ -28,10 +28,7 @@ class SendBillPaidWebhook
      */
     public function handle(BillPaid $event)
     {
-        // dd($event->bill->client_id && $event->bill->client->webhook_url);
         if($event->bill->client_id && $event->bill->client->webhook_url){
-            logger($event->bill->client->webhook_url);
-            logger($event->bill->client->webhook_secret);
             WebhookCall::create()
                ->url($event->bill->client->webhook_url)
                ->payload([

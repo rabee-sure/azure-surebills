@@ -2,18 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Bill;
-use App\Events\BillPaid;
-use App\Events\BillStatusUpdated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ChangePasswordRequest;
-use App\Http\Resources\UserResource;
-use App\Jobs\CallbackWebhook;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Ramsey\Uuid\Uuid;
 use App\Rules\ValidateUploadFile;
 use Illuminate\Support\Facades\Validator;
 

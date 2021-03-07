@@ -53,7 +53,7 @@ class RefundTransactionsForOwner implements ShouldQueue
             $transaction->card_brand  = $logResponse['paymentBrand'];
             $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
         }
-        $transaction->transaction_source = 'bill';
+        $transaction->transaction_source = 'refund';
         $transaction->save();
 
         //withdrawBillFees
@@ -64,7 +64,7 @@ class RefundTransactionsForOwner implements ShouldQueue
         $transaction->amount      = $this->bill->payment_fees;
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'REFUND Fee';
-        $transaction->transaction_source = 'fees';
+        $transaction->transaction_source = 'refund';
         $transaction->save();
 
         //withdrawBillVat
@@ -75,7 +75,7 @@ class RefundTransactionsForOwner implements ShouldQueue
         $transaction->amount      = $this->bill->payment_fees_vat;
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'REFUND VAT';
-        $transaction->transaction_source = 'vat';
+        $transaction->transaction_source = 'refund';
         $transaction->save();
     }
 }
