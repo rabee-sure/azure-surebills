@@ -218,9 +218,8 @@
       <div class="modal-footer">
         <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
           @csrf
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
-
-                <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
+            <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
+            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Cancel')}}</button>
         </form>
       </div>
     </div>
@@ -243,8 +242,8 @@
       <div class="modal-footer">
         <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
           @csrf
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
             <button type="submit" class="btn btn-primary">{{__('Refund Bill')}}</button>
+            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Cancel')}}</button>
         </form>
       </div>
     </div>
