@@ -183,8 +183,8 @@ class User extends Resource
                 ->hideFromIndex(),
 
             Text::make(__('Verified'), 'verified')->displayUsing(function(){
-                $yes = '<img src="/img/verified.svg" style="height: 30px;">';
-                $no = '<img src="/img/verifiedx.svg" style="height: 30px;">';
+                $yes = '<img src="/images/verified.svg" style="height: 30px;">';
+                $no = '<img src="/images/verifiedx.svg" style="height: 30px;">';
                 return ($this->verified) ?  $yes : $no ;
             })
             ->asHtml()
