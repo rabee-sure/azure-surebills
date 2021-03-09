@@ -59072,7 +59072,7 @@ var content = __webpack_require__(22);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(23)("6d4f9d7b", content, false, {});
+var update = __webpack_require__(23)("64ea96b0", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -59096,7 +59096,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n#users_statistics[data-v-b9bc2c0a] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  margin: 0 -15px;\n  /* item */\n}\n#users_statistics .item[data-v-b9bc2c0a] {\n    padding: 0 15px;\n    padding-top: 15px;\n    -webkit-box-flex: 0;\n        -ms-flex: 0 0 20%;\n            flex: 0 0 20%;\n    max-width: 20%;\n    /* a */\n}\n#users_statistics .item a[data-v-b9bc2c0a] {\n      border-radius: 0.75rem;\n      background: #fff;\n      text-align: center;\n      min-height: 130px;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: column;\n              flex-direction: column;\n      -webkit-box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);\n              box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);\n      text-decoration: none;\n      color: #4099de;\n      /* span */\n      /* p */\n}\n#users_statistics .item a span[data-v-b9bc2c0a] {\n        display: block;\n        font-size: 17px;\n        text-transform: capitalize;\n        margin: 0 auto 10px;\n        color: #8f8f8f;\n}\n#users_statistics .item a p[data-v-b9bc2c0a] {\n        display: block;\n        font-size: 17px;\n}\n\n/* users_statistics */\n", ""]);
+exports.push([module.i, "\n#users_statistics[data-v-b9bc2c0a] {\n  margin: 1rem auto;\n  display: grid;\n  gap: 1rem;\n  grid-template-columns: repeat(4, minmax(0, 1fr));\n  /* item */\n}\n#users_statistics .item[data-v-b9bc2c0a] {\n    /* a */\n}\n#users_statistics .item a[data-v-b9bc2c0a] {\n      border-radius: 0.75rem;\n      background: #fff;\n      text-align: center;\n      min-height: 130px;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: column;\n              flex-direction: column;\n      -webkit-box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);\n              box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);\n      text-decoration: none;\n      color: #4099de;\n      padding: .5rem;\n      /* span */\n      /* p */\n}\n#users_statistics .item a span[data-v-b9bc2c0a] {\n        display: block;\n        font-size: 15px;\n        font-weight: 500;\n        text-transform: capitalize;\n        margin: 0 auto 10px;\n        color: #8f8f8f;\n}\n#users_statistics .item a p[data-v-b9bc2c0a] {\n        display: block;\n        font-size: 17px;\n}\n\n/* users_statistics */\n", ""]);
 
 // exports
 
@@ -59546,7 +59546,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card', 'resource', 'resourceId', 'resourceName'],
@@ -59651,10 +59650,8 @@ var render = function() {
             _vm._v(" "),
             _c("p", [_vm._v(_vm._s(_vm.analytics.total_transactions.count))])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { attrs: { id: "users_statistics" } }, [
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "item" }, [
           _c("a", { attrs: { href: _vm.analytics.surebills_fees.link } }, [
             _c("span", [_vm._v(_vm._s(_vm.__("SureBills Fees")))]),
