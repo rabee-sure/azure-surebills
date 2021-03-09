@@ -38,8 +38,6 @@ class CreateSettingsForUser
             'create_send_email' => false,
             'paid_send_sms' => false,
             'paid_send_email' => false,
-
         ]);
-        
     }
 }
