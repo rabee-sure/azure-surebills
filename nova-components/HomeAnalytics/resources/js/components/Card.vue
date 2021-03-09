@@ -17,12 +17,21 @@
         <p>{{ analytics.bills.count }}</p>
       </a>
     </div><!-- item -->
+
     <div class="item">
       <a :href="analytics.successful_bills.link">
         <span>{{ __('Successful Bills') }}</span>
         <p>{{ analytics.successful_bills.count}}</p>
       </a>
+    </div> 
+
+    <div class="item">
+      <a :href="analytics.refunded_bills.link">
+        <span>{{ __('Refunded Bills') }}</span>
+        <p>{{ analytics.refunded_bills.count}}</p>
+      </a>
     </div><!-- item -->
+
     <div class="item">
       <a :href="analytics.total_transactions.link">
         <span>{{ __('Total Transactions') }}</span>
@@ -103,8 +112,8 @@ export default {
     .item {
       padding: 0 15px;
       padding-top: 15px;
-      flex: 0 0 25%;
-      max-width: 25%;
+      flex: 0 0 20%;
+      max-width: 20%;
       a {
         border-radius: 0.75rem;
         background: #fff;

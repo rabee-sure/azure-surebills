@@ -76,6 +76,7 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'email_verified_at' => 'datetime',
         'mobile_sent_at' => 'datetime',
+        'commercial_registry_expiry_date' => 'datetime',
     ];
 
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ce7b9b4c3dcd622394d212e6358079a",
+    "content-hash": "e32a163d185124718641de85c78ce39a",
     "packages": [
         {
             "name": "ampeco/nova-date-range-filter",
@@ -575,6 +575,60 @@
                 "source": "https://github.com/defuse/php-encryption/tree/master"
             },
             "time": "2018-07-24T23:27:56+00:00"
+        },
+        {
+            "name": "digital-creative/conditional-container",
+            "version": "v1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dcasia/conditional-container.git",
+                "reference": "a7e0582c8f4b2dd3f2c02ec792e28cea6cf96e9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dcasia/conditional-container/zipball/a7e0582c8f4b2dd3f2c02ec792e28cea6cf96e9d",
+                "reference": "a7e0582c8f4b2dd3f2c02ec792e28cea6cf96e9d",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^3.12.0",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "DigitalCreative\\ConditionalContainer\\ConditionalContainerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DigitalCreative\\ConditionalContainer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rafael Milewski"
+                }
+            ],
+            "description": "Provides an easy way to conditionally show and hide fields in your Nova resources.",
+            "keywords": [
+                "conditional",
+                "dependency",
+                "dynamic",
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/dcasia/conditional-container/issues",
+                "source": "https://github.com/dcasia/conditional-container/tree/v1.3.2"
+            },
+            "time": "2021-02-25T11:49:31+00:00"
         },
         {
             "name": "digital-creative/nova-range-input-filter",
