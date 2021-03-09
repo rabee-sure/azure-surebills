@@ -43,8 +43,8 @@ class ExpireBill extends Command
         $bills = Bill::pending()
             ->where(function($query) {
                 $query->where('expiry_date', '>', 0)
-                ->orWhere('expiry_hours', '>', 0)
-                ->orWhere('expiry_minutes', '>', 0);
+                    ->orWhere('expiry_hours', '>', 0)
+                    ->orWhere('expiry_minutes', '>', 0);
             })->get();
             
         $this->info("expire bill comand count: {$bills->count()} working!");

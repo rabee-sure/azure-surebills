@@ -391,6 +391,13 @@ class Bill extends Model
     /**
      * get only paid bills
      */
+    public function scopeRefunded($query){
+        $query->where('status', 'refunded');
+    }
+
+    /**
+     * get only paid bills
+     */
     public function scopeSettled($query){
         $query->where('settled', true);
     }

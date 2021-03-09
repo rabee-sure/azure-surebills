@@ -37,6 +37,8 @@ class AnalyticsController extends Controller
         $to = Carbon::parse($request->to)->addHours(2)->endOfDay();
 
         $paid_bills = Bill::whereBetween('paid_at', [$from, $to])->paid()->get();
+        $refunded_bills = Bill::whereBetween('refunded_at', [$from, $to])->refunded()->get();
+         
         $sum_total = $paid_bills->sum('total');
         $sum_surebills_fees = $paid_bills->sum('payment_surebills_fees');
         $sum_surebills_fees_vat = $paid_bills->sum('payment_surebills_fees_vat');
@@ -60,6 +62,16 @@ class AnalyticsController extends Controller
             [    
                 "class"=> "App\Nova\Filters\BillStatus",
                 "value" => ["paid"]
+            ]
+        ]);
+        $filter4 = $this->encode([
+            [    
+                "class"=> "App\Nova\Filters\RefundedDateRange",
+                "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
+            ],
+            [    
+                "class"=> "App\Nova\Filters\BillStatus",
+                "value" => ["refunded"]
             ]
         ]);
         $filter3 = $this->encode([
@@ -88,6 +100,11 @@ class AnalyticsController extends Controller
                     'count' =>  $paid_bills->count(),
                     'filter' =>  $filter2,
                     'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
+                ],
+                'refunded_bills' => [
+                    'count' =>  $refunded_bills->count(),
+                    'filter' =>  $filter4,
+                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter4,
                 ],
                 'total_transactions' => [
                     'count' =>  round($sum_total, 2),

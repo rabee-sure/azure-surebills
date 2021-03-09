@@ -1,7 +1,8 @@
 {
 	"All": "الكل",
 	"Are you Sure to Refund Bill ?": "هل أنت متأكد من رد الفاتورة؟",
-	"Refund Bill": "رد الفتاورة",
+	"Refund Bill": "رد الفاتورة",
+	"Refunded Bills": "الفواتير المستردة",
 	"Refunded": "استردت",
 	"Verification Requests": "طلبات التوثيق  ",
 	"Un Verified + Complete Profile": "لم يتم التوثيق + اكمل بياناته",
@@ -32,7 +33,7 @@
   	"Invoice total is more than 14000 SAR": "قيمة الفاتورة الاجمالية اكثر من 14000 ريال",
   	"after add discount": "بعد إضافة الخصم",
 	"Sorry, you cannot delete this record because it has dependencies": "عذرا ، لا يمكنك حذف هذا السجل لأن له تبعيات",
-	"You've got a payment! :total SAR from :name": "لقد حصلت على دفعة! :total ريال  من :name",
+	"You've got a payment! :total SAR from :name": "لقد حصلت على دفعة! :total ريال من :name",
 	"Your bill of :total SAR has been successfully paid": "تم دفع فاتورتك بملغ :total ريال بنجاح",
 	"You’ve got a new bill of :total SAR": "لقد حصلت على فاتورة جديدة باجمالي :total ريال",
 	"Your bill of :total SAR has been created": "تم إنشاء فاتورة باجمالي :total ريال",
