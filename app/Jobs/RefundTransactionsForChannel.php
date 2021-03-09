@@ -45,7 +45,7 @@ class RefundTransactionsForChannel
             $fee_trans->amount      = $this->bill->payment_channel_fees;
             $fee_trans->reference   = $this->bill->number;
             $fee_trans->description = 'REFUND Fee - Channel: '.$this->bill->application->channel->name;
-            $fee_trans->transaction_source = 'channel_vat';
+            $fee_trans->transaction_source = 'refund';
             $fee_trans->save();
 
             $vat_trans = new Transaction;
@@ -55,7 +55,7 @@ class RefundTransactionsForChannel
             $vat_trans->amount      = $this->bill->payment_channel_fees_vat;
             $vat_trans->reference   = $this->bill->number;
             $vat_trans->description = 'REFUND Vat - Channel: '.$this->bill->application->channel->name;
-            $vat_trans->transaction_source = 'channel_fees';
+            $vat_trans->transaction_source = 'refund';
             $vat_trans->save();
         }
     }

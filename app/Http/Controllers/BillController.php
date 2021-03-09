@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Events\BillCreated;
-use App\Events\BillPaid;
 use App\Events\BillRefunded;
 use App\Events\BillStatusUpdated;
 use App\Exceptions\ValidationException;

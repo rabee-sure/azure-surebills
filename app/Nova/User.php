@@ -5,8 +5,8 @@ namespace App\Nova;
 use App\Nova\Filters\DateRange;
 use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
-use App\Nova\Filters\UsersVerified;
 use App\Nova\Filters\UsersUnverified;
+use App\Nova\Filters\UsersVerified;
 use App\Nova\Metrics\NewBills;
 use App\Rules\ValidateUploadFile;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
@@ -31,9 +32,13 @@ use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Naif\Toggle\Toggle;
 use Sure\Userstats\Userstats;
+use DigitalCreative\ConditionalContainer\ConditionalContainer;
+use DigitalCreative\ConditionalContainer\HasConditionalContainer;
 
 class User extends Resource
 {
+    use HasConditionalContainer; 
+
     /**
      * The model the resource corresponds to.
      *
@@ -233,6 +238,9 @@ class User extends Resource
                 'Commercial Record' => __('Commercial Record'),
                 'Freelance' => __('Freelance'),
             ])->displayUsingLabels()->hideFromIndex(),
+                      ConditionalContainer::make([Date::make(__('Commercial Registry Expiry Date'), 'commercial_registry_expiry_date')->hideFromIndex() ])
+                                ->if('license_type = Commercial Record'),
+    
             Text::make(__('VAT Registration Number'), 'vat_registration_number')->hideFromIndex(),
             Text::make(__('Business Name').' en', 'business_name_en')->hideFromIndex(),
             Text::make(__('Business Name').' ar', 'business_name_ar')->hideFromIndex(),

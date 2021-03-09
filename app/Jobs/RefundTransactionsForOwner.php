@@ -39,7 +39,6 @@ class RefundTransactionsForOwner implements ShouldQueue
     {
         $logResponse = isset($this->log->results['response']) ? $this->log->results['response'] : [];
 
-
         //withdrawBillFees
         $transaction = new Transaction;
         $transaction->user_id     = $this->bill->user_id;
@@ -48,7 +47,7 @@ class RefundTransactionsForOwner implements ShouldQueue
         $transaction->amount      = $this->bill->payment_fees;
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'REFUND Fee';
-        $transaction->transaction_source = 'fees';
+        $transaction->transaction_source = 'refund';
         $transaction->save();
 
         //withdrawBillVat
@@ -59,7 +58,7 @@ class RefundTransactionsForOwner implements ShouldQueue
         $transaction->amount      = $this->bill->payment_fees_vat;
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'REFUND VAT';
-        $transaction->transaction_source = 'vat';
+        $transaction->transaction_source = 'refund';
         $transaction->save();
 
         $transaction = new Transaction;
