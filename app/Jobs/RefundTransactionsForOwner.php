@@ -39,22 +39,6 @@ class RefundTransactionsForOwner implements ShouldQueue
     {
         $logResponse = isset($this->log->results['response']) ? $this->log->results['response'] : [];
 
-        $transaction = new Transaction;
-        $transaction->user_id     = $this->bill->user_id;
-        $transaction->bill_id     = $this->bill->id;
-        $transaction->type        = 'debit';
-        $transaction->amount      = $this->bill->total;
-        $transaction->reference   = $this->bill->number;
-        $transaction->description = 'REFUND Bill ' . $this->bill->number . ' - ' . $this->bill->customer_name;
-        if (isset($logResponse['paymentBrand']) && $this->log->payment_method == 'mastercard_applepay') {
-            $transaction->card_brand  = 'APPLEPAY';
-            $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
-        } else if (isset($logResponse['card'])) {
-            $transaction->card_brand  = $logResponse['paymentBrand'];
-            $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
-        }
-        $transaction->transaction_source = 'bill';
-        $transaction->save();
 
         //withdrawBillFees
         $transaction = new Transaction;
@@ -76,6 +60,23 @@ class RefundTransactionsForOwner implements ShouldQueue
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'REFUND VAT';
         $transaction->transaction_source = 'vat';
+        $transaction->save();
+
+        $transaction = new Transaction;
+        $transaction->user_id     = $this->bill->user_id;
+        $transaction->bill_id     = $this->bill->id;
+        $transaction->type        = 'debit';
+        $transaction->amount      = $this->bill->total;
+        $transaction->reference   = $this->bill->number;
+        $transaction->description = 'REFUND Bill ' . $this->bill->number . ' - ' . $this->bill->customer_name;
+        if (isset($logResponse['paymentBrand']) && $this->log->payment_method == 'mastercard_applepay') {
+            $transaction->card_brand  = 'APPLEPAY';
+            $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
+        } else if (isset($logResponse['card'])) {
+            $transaction->card_brand  = $logResponse['paymentBrand'];
+            $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
+        }
+        $transaction->transaction_source = 'bill';
         $transaction->save();
     }
 }
