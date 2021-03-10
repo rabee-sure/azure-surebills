@@ -321,13 +321,7 @@ class BillController extends Controller
     {
         $bill = Bill::find($id);
 
-        if($bill->is_able_refund){
-            $bill->status = 'refunded';
-            $bill->refunded_at = Carbon::now();
-            $bill->save();
-            event(new BillRefunded($bill));
-            event(new BillStatusUpdated($bill));
-        }
+        $bill->setRefunded();
 
         return redirect()->back();
     }

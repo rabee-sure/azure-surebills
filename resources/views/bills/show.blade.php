@@ -183,10 +183,12 @@
                     <td><img src="{{ asset('/images/payments/cardnon.png') }}" alt="apple pay" height="25px"></td>
                   @endif
 
-                  <td><a href="/logs/{{$log->id}}" title="{{ isset($log->results['response']) && isset($log->results['response']['id']) ? $log->results['response']['id'] : null }}">{{ isset($log->results['response']) && isset($log->results['response']['id']) ? $log->results['response']['id'] : null }}</a></td>
+                  <td><a href="/logs/{{$log->id}}" title="{{ $log->id }}">{{ $log->id }}</a></td>
                   <td>{{ $bill->total}} {{__('SAR') }}</td>
                   <td>{{$log->created_at}}</td>
-                  @if($log->status == true)
+                  @if($log->payment_method == 'mastercard_refund')
+                    <td><span class="badge badge-pill badge-warning bill_status_badge">{{ __('Refund') }}</span></td>
+                  @elseif($log->status == true)
                     <td><span class="badge badge-pill badge-success bill_status_badge">{{ __('Paid') }}</span></td>
                   @else
                     <td><span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span></td>
