@@ -11,9 +11,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class RefundTransactionsForSureBills implements ShouldQueue
+class RefundTransactionsForSureBills
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, SerializesModels;
 
     protected $bill;
 

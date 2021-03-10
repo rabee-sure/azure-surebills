@@ -3,6 +3,7 @@
 @section('title', __('Bill') . ' ' . $bill->number)
 
 @section('content')
+
   <div class="single_bill_page"  id="app">
     <div class="container">
       <div class="row  justify-content-center">
@@ -175,7 +176,7 @@
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-secondary" role="alert">{{ __("this bill is expired") }}</div>');
+            $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
             break;
           default:
             $("#payment_method").remove();

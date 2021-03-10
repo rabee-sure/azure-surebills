@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendBillPayEmail implements ShouldQueue
+class SendBillPayEmail
 {
     /**
      * Create the event listener.
@@ -32,16 +32,16 @@ class SendBillPayEmail implements ShouldQueue
         if($event->bill->send_email){
             if(isset($event->bill->customer_email)){
                 $subject = __('You’ve got a new bill of :total SAR', ['total' => $event->bill->total]);
-                Mail::to($event->bill->customer_email)
-                    ->send(new SendBillPayLink($event->bill, $subject));
+                $message = (new SendBillPayLink($event->bill, $subject))->onQueue('emails');
+                Mail::to($event->bill->customer_email)->queue($message);
             }
         }
 
         //owner
         if(isset($event->bill->user->email)){
             $subject = __('Your bill of :total SAR has been created', ['total' => $event->bill->total]);
-            Mail::to($event->bill->user->email)
-                ->send(new SendBillPayLink($event->bill, $subject));
+            $message = (new SendBillPayLink($event->bill, $subject))->onQueue('emails');
+            Mail::to($event->bill->user->email)->queue($message);
         }
     }
 }

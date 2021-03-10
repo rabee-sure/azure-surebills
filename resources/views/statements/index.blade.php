@@ -224,7 +224,7 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="6">{{ __('Total')}}</td>
+                <td colspan="@if(count($channels)) 6 @else 5 @endif">{{ __('Total')}}</td>
                 <td class="text-danger">{{ round($statement->where('type', 'debit')->sum('amount'), 2) }}</td>
                 <td class="text-success">{{ round($statement->where('type', 'credit')->sum('amount'), 2) }}</td>
                 <td>{{ round($statement->where('type', 'credit')->sum('amount') - $statement->where('type', 'debit')->sum('amount'), 2) }}</td>

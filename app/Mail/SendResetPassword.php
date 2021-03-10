@@ -6,10 +6,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use romanzipp\QueueMonitor\Traits\IsMonitored;
 
-class SendResetPassword extends Mailable
+class SendResetPassword extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable, SerializesModels, IsMonitored;
 
     public $url;
 

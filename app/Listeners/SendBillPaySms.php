@@ -9,6 +9,14 @@ use Multicaret\Unifonic\UnifonicFacade;
 
 class SendBillPaySms implements ShouldQueue
 {
+
+    /**
+     * The name of the queue the job should be sent to.
+     *
+     * @var string|null
+     */
+    public $queue = 'sms';
+
     /**
      * Create the event listener.
      *
@@ -37,7 +45,6 @@ class SendBillPaySms implements ShouldQueue
                 'url' => $event->bill->pay_url
             ]);
             if(app()->environment('production')){
-
                 $mobile = (int) $event->bill->customer_mobile;
                 $mobile = (int) '966'.$mobile;
                 UnifonicFacade::send($mobile, $message);

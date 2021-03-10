@@ -336,7 +336,8 @@
               break;
             case "expired":
               $("#cancel_btn").remove();
-              $("#status").append('<div class="alert alert-secondary" role="alert">{{ __("this bill is expired") }}</div>');
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
               break;
             default:
               $("#cancel_btn").remove();
