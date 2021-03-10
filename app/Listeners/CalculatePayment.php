@@ -59,11 +59,11 @@ class CalculatePayment
                 'type' => $this->getType($bill),
                 'fees_percentage' => $percentage,
                 'fees_fixed' => $fixed,
-                'channel_fees_percentage' => $this->getType($bill) == 'channel' ?$bill->getPercentage($payment_log, true) : null,
-                'channel_fees_fixed' =>  $this->getType($bill) == 'channel' ? $bill->getFixed($payment_log, true) : null,
+                'surebills_fees_percentage' => $this->getType($bill) == 'channel' ? $bill->getPercentage($payment_log, true) : $percentage,
+                'surebills_fees_fixed' =>  $this->getType($bill) == 'channel' ? $bill->getFixed($payment_log, true) : $fixed,
                 'vat_percentage' => Transaction::VAT_PERCENTAGE,
-                'surebills_fees_percentage' => $percentage - ($this->getType($bill) == 'channel' ?$bill->getPercentage($payment_log, true) : 0),
-                'surebills_fees_fixed' => $fixed - ($this->getType($bill) == 'channel' ? $bill->getFixed($payment_log, true) : 0),
+                'channel_fees_percentage' => $this->getType($bill) == 'channel' ?  $percentage - $bill->getPercentage($payment_log, true) : null,
+                'channel_fees_fixed' =>  $this->getType($bill) == 'channel' ? $fixed - $bill->getFixed($payment_log, true) : null,
             ];
 
             $bill->save();

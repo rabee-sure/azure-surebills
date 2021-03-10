@@ -66,7 +66,13 @@ class TransferController extends Controller
 
             foreach ($request->bills_ids as $bill_id) {
                 $bill = Bill::find($bill_id);
-                $bill->settled = true;
+                if($bill->user_id == $request->user_id){
+                    $bill->settled = true;
+                }
+
+                if($bill->isHaveChannelOwenByUser($request->user_id)){
+                   $bill->channel_settled = true; 
+                }
                 $bill->save();
             }
             $transfer->bills()->attach($request->bills_ids);
