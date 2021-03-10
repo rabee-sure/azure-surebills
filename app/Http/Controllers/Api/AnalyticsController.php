@@ -81,7 +81,7 @@ class AnalyticsController extends Controller
             ],
             [    
                 "class"=> "App\Nova\Filters\BillSettled",
-                "value" => [1]
+                "value" => 1
             ]
         ]);   
         return response()->json([
@@ -131,7 +131,8 @@ class AnalyticsController extends Controller
                     'filter' =>  $filter,
                     'link' =>  '/nova/resources/transfers?transfers_page=1&transfers_filter='.$filter,
                 ],
-            ]
+            ],
+            'date' =>  [$from->format('Y-m-d'), $to->format('Y-m-d')]
         ]);
     }
 
