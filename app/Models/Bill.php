@@ -48,6 +48,7 @@ class Bill extends Model
         'application_id',
         'payment_fees',
         'settled',
+        'channel_settled',
 
         'expiry_minutes',
         'expiry_hours',
@@ -97,6 +98,21 @@ class Bill extends Model
         }
 
         return null;
+    }
+
+    /**
+     * Pay Id.
+     *
+     * @var array
+     */
+    public function isHaveChannelOwenByUser($user_id)
+    {
+        if($this->application_id && isset($this->application)){
+            if($this->application->channel_id && isset($this->application->channel) && $this->application->channel->user_id == $user_id){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
