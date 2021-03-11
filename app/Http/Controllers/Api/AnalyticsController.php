@@ -83,6 +83,21 @@ class AnalyticsController extends Controller
                 "class"=> "App\Nova\Filters\BillSettled",
                 "value" => 1
             ]
+        ]);           
+
+        $filter5 = $this->encode([
+            [    
+                "class"=> "App\Nova\Filters\PaidDateRange",
+                "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
+            ],
+            [    
+                "class"=> "App\Nova\Filters\BillSettled",
+                "value" => 2
+            ],
+            [    
+                "class"=> "App\Nova\Filters\BillStatus",
+                "value" => ["paid"]
+            ]
         ]);   
         return response()->json([
             'data' => [
@@ -123,8 +138,8 @@ class AnalyticsController extends Controller
                 ],
                 'total_due_merchants' => [
                     'count' =>  round($total_due_merchants, 2),
-                    'filter' =>  $filter3,
-                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter3,
+                    'filter' =>  $filter5,
+                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter5,
                 ],
                 'total_transfers_merchants' => [
                     'count' =>  round($total_transfers_merchants, 2),
