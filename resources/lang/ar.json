@@ -3,9 +3,11 @@
 	"All": "الكل",
 	"Details": "التفاصيل",
 	"Relation": "الصلة",
+	"Retreat": "تراجع",
 	"Total Due": "الاجمالي المستحق",
-	"Are you Sure to Refund Bill ?": "هل أنت متأكد من رد الفاتورة؟",
+	"Are you Sure to Refund Bill ?": "هل انت متأكد من الغاء العملية  واسترداد المبلغ لبطاقة العميل ؟",
 	"Refund Bill": "رد الفاتورة",
+	"Confirm Refund Bill": "تأكيد الاسترداد للعملية",
 	"Refunded Bills": "الفواتير المستردة",
 	"Refunded": "استردت",
 	"Verification Requests": "طلبات التوثيق  ",
