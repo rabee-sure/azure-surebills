@@ -244,8 +244,8 @@
       <div class="modal-footer">
         <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
           @csrf
-            <button type="submit" class="btn btn-primary">{{__('Refund Bill')}}</button>
-            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Cancel')}}</button>
+            <button type="submit" class="btn btn-primary">{{__('Confirm Refund Bill')}}</button>
+            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Retreat')}}</button>
         </form>
       </div>
     </div>
