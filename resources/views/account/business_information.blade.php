@@ -40,7 +40,12 @@
           <div id="registry_expiry_date" class="form-row" @if($user->license_type != 'Commercial Record')style="display: none;"@endif>
               <div class="form-group col-12 col-md-12">
                 <label>{{ __('Commercial Registry Expiry Date') }}  <span class="requirement">*</span></label>
-                <input value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="commercial_registry_expiry_date" class="form-control datepicker" placeholder="{{ __('Commercial Registry Expiry Date') }}">
+                <input 
+                @if($user->commercial_registry_expiry_date)
+                  value="{{ Carbon\Carbon::parse($user->commercial_registry_expiry_date)->format('m/d/Y') }}"
+                @else 
+                  value="{{ Carbon\Carbon::now()->format('m/d/Y') }}"
+                @endif name="commercial_registry_expiry_date" class="form-control datepicker" placeholder="{{ __('Commercial Registry Expiry Date') }}">
               </div><!-- form-group -->
           </div>
           <div class="form-row">
