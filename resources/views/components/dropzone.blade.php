@@ -64,10 +64,8 @@
 
         init: function () {
           @if($documents)
-            var files =
-              {!! json_encode($documents) !!}
+            var files = {!! json_encode($documents) !!}
             for (var i in files) {
-
               var file = files[i]
               $('.dropzone')[0].dropzone.files.push(file);
               this.options.addedfile.call(this, file)

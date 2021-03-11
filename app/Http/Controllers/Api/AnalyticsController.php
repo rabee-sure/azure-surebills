@@ -87,15 +87,15 @@ class AnalyticsController extends Controller
 
         $filter5 = $this->encode([
             [    
-                "class"=> "App\Nova\Filters\PaidDateRange",
+                "class" => "App\Nova\Filters\PaidDateRange",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ],
             [    
-                "class"=> "App\Nova\Filters\BillSettled",
+                "class" => "App\Nova\Filters\BillSettled",
                 "value" => 2
             ],
             [    
-                "class"=> "App\Nova\Filters\BillStatus",
+                "class" => "App\Nova\Filters\BillStatus",
                 "value" => ["paid"]
             ]
         ]);   

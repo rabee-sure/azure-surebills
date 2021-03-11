@@ -112,7 +112,7 @@
                   <p class="">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
 
                   @include('components.dropzone',[
-                    'documents' => auth()->user()->business_documents
+                    'documents' => auth()->user()->business_documents->toArray()
                   ])
 
               </div><!-- step-1 -->

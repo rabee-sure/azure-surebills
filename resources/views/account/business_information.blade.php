@@ -108,7 +108,7 @@
             </div>
           @else
             @include('components.dropzone',[
-              'documents' => auth()->user()->business_documents
+              'documents' => auth()->user()->business_documents->toArray()
             ])
           @endif
           <button type="submit" class="btn btn-primary d-block mt-2">{{ __('Save') }}</button>
