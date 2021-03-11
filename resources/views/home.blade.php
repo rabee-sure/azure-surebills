@@ -21,7 +21,7 @@
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Balance') }}</p>
-                  <p class="lead text-center">{{ round(auth()->user()->balance, 2) }}</p>
+                  <p class="lead text-center">{{ (int) round(auth()->user()->balance, 2) }}</p>
                 </div>
               </a>
             </div>

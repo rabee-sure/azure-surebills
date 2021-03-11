@@ -54,7 +54,7 @@
                         <p class="">{{ __('Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility') }}</p>
 
                         @include('components.dropzone',[
-                            'documents' => auth()->user()->bank_documents
+                            'documents' => auth()->user()->bank_documents->toArray()
                         ])
 
                     </div><!-- step-2 -->

@@ -121,6 +121,7 @@ class AccountController extends Controller
      */
     public function business_information()
     {
+        // dd(auth()->user()->business_documents->first()->toArray());
         return view('account.business_information', ['user' => auth()->user()]);
     }
 

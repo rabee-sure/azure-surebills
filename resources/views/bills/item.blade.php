@@ -30,17 +30,7 @@
   <td>{{ $bill->total}} {{ __('SAR')}}</td>
   <td>{{ $bill->created_at}}</td>
   <td>
-    @if($bill->status == 'pending')
-      <span id="status-{{$bill->id}}" class="badge badge-pill badge-info bill_status_badge">{{ __('Pending')}}</span>
-    @elseif($bill->status == 'paid')
-      <span id="status-{{$bill->id}}"  class="badge badge-pill badge-success bill_status_badge">{{ __('Paid')}}</span>
-    @elseif($bill->status == 'canceled')
-      <span id="status-{{$bill->id}}"  class="badge badge-pill badge-danger bill_status_badge">{{ __('Canceled')}}</span>
-    @elseif($bill->status == 'expired')
-      <span id="status-{{$bill->id}}"  class="badge badge-pill badge-light bill_status_badge">{{ __('Expired')}}</span>
-    @elseif($bill->status == 'refunded')
-      <span id="status-{{$bill->id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Refunded')}}</span>
-    @endif
+    @include('bills.status_badge', ['status' => $bill->status, 'id' => $bill->id])
   </td>
 </tr>
 

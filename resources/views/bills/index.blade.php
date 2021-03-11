@@ -56,7 +56,7 @@
         </div>
 
         <div class="search-sm d-inline-block float-md-left mb-1">
-          <input id="keyword" class="form-control" value="{{request()->get('keyword')}}" placeholder="{{__('Search')}}">
+          <input id="keyword" class="form-control" value="{{request()->get('keyword')}}" placeholder="{{__('Search')}}" >
         </div>
 
       </div>
@@ -100,6 +100,7 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <script type="text/javascript">
+
       function oldParams(type) {
         var params = ''    
         if(getUrlParameter('date_start') && type != 2){
@@ -148,10 +149,11 @@
           location.reload();
       });
 
+
       //watch Keword 
       var searchTimer = null,
       minLength = 3,
-      searchDelay = 300;
+      searchDelay = 1000;
       $('#keyword').on("input", function() {
         clearTimeout(searchTimer);
         var searchVal = this.value;
@@ -160,8 +162,13 @@
           var dateParam = '?'+'keyword='+searchVal+oldParams(3);
           window.history.pushState('', '', dateParam);
           location.reload();
+
         }, searchDelay);
       });
+      //focus in search
+      var q = $('#keyword').val();        
+      $('#keyword').focus().val('').val(q);  
+
 
       var getUrlParameter = function getUrlParameter(sParam) {
           var sPageURL = window.location.search.substring(1),
