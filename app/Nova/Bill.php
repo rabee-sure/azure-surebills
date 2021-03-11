@@ -7,6 +7,7 @@ use App\Nova\Filters\BillSource;
 use App\Nova\Filters\BillStatus;
 use App\Nova\Filters\DateRange;
 use App\Nova\Filters\PaidDateRange;
+use App\Nova\Filters\RefundedDateRange;
 use App\Nova\Filters\UserId;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -221,15 +222,50 @@ class Bill extends Resource
                     Number::make(__('Discount'), 'discount')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make(__('Tax'), 'vat')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make(__('Total'), 'total')->min(1)->step(0.1)->onlyOnDetail(),
-                    Number::make( __('Payment Fees'), 'payment_fees')->min(1)->step(0.1)->onlyOnDetail(),
-                    Number::make( __('Payment Fees VAT'), 'payment_fees_vat')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Payment Fees'), function () {
+                        if($this->status == 'refunded')
+                            return '0';
+                        else
+                            return $this->payment_fees;
+                    })->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Payment Fees VAT'), function () {
+                        if($this->status == 'refunded')
+                            return '0';
+                        else
+                            return $this->payment_fees_vat;
+                    })->min(1)->step(0.1)->onlyOnDetail(),
 
-                    Number::make( __('Payment Surebills Fees'), 'payment_surebills_fees')->min(1)->step(0.1)->onlyOnDetail(),
-                    Number::make( __('Payment Surebills Fees Vat'), 'payment_surebills_fees_vat')->min(1)->step(0.1)->onlyOnDetail(),
-                    Number::make( __('Payment Channel Fees'), 'payment_channel_fees')->min(1)->step(0.1)->onlyOnDetail(),
-                    Number::make( __('Payment Channel Fees Vat'), 'payment_channel_fees_vat')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Payment Surebills Fees'), function () {
+                        if($this->status == 'refunded')
+                            return '0';
+                        else
+                            return $this->payment_surebills_fees;
+                    })->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Payment Surebills Fees Vat'), function () {
+                        if($this->status == 'refunded')
+                            return '0';
+                        else
+                            return $this->payment_surebills_fees_vat;
+                    })->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Payment Channel Fees'), function () {
+                        if($this->status == 'refunded')
+                            return '0';
+                        else
+                            return $this->payment_channel_fees;
+                    })->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Payment Channel Fees Vat'), function () {
+                        if($this->status == 'refunded')
+                            return '0';
+                        else
+                            return $this->payment_channel_fees_vat;
+                    })->min(1)->step(0.1)->onlyOnDetail(),
 
-                    Number::make( __('Due to client'), 'due_to_client')->min(1)->step(0.1)->onlyOnDetail(),
+                    Number::make( __('Due to client'), function () {
+                        if($this->status == 'refunded')
+                            return '0';
+                        else
+                            return $this->due_to_client;
+                    })->min(1)->step(0.1)->onlyOnDetail(),
                 ];
             }),
         ];
@@ -259,6 +295,7 @@ class Bill extends Resource
             new BillSource,
             new DateRange,
             new PaidDateRange,
+            new RefundedDateRange,
             new UserId(),
             new BillSettled(),
         ];

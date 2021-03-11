@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use App\Models\PaymentLog;
 use Hashids\Hashids;
 use Ramsey\Uuid\Uuid;
 use App\Events\BillPaid;
 use App\Traits\UsesUuid;
+use Jenssegers\Date\Date;
+use App\Models\PaymentLog;
+use App\Events\BillRefunded;
 use App\Jobs\CallbackWebhook;
 use App\Events\BillStatusUpdated;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use Jenssegers\Date\Date;
 
 class Bill extends Model
 {
@@ -48,6 +49,7 @@ class Bill extends Model
         'application_id',
         'payment_fees',
         'settled',
+        'channel_settled',
 
         'expiry_minutes',
         'expiry_hours',
@@ -97,6 +99,21 @@ class Bill extends Model
         }
 
         return null;
+    }
+
+    /**
+     * Pay Id.
+     *
+     * @var array
+     */
+    public function isHaveChannelOwenByUser($user_id)
+    {
+        if($this->application_id && isset($this->application)){
+            if($this->application->channel_id && isset($this->application->channel) && $this->application->channel->user_id == $user_id){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -391,6 +408,13 @@ class Bill extends Model
     /**
      * get only paid bills
      */
+    public function scopeRefunded($query){
+        $query->where('status', 'refunded');
+    }
+
+    /**
+     * get only paid bills
+     */
     public function scopeSettled($query){
         $query->where('settled', true);
     }
@@ -495,6 +519,25 @@ class Bill extends Model
 
         event(new BillPaid($this));
         event( new BillStatusUpdated($this) );
+    }
+
+    /**
+     * Mark invoice as refunded
+     */
+    public function setRefunded()
+    {
+        if (!$this->is_able_refund) {
+            return false;
+        }
+
+        $this->status = 'refunded';
+        $this->refunded_at = Carbon::now();
+        $this->save();
+
+        $this->success_payment->refund($this->total);
+        
+        event(new BillRefunded($this));
+        event(new BillStatusUpdated($this));
     }
 
     /**

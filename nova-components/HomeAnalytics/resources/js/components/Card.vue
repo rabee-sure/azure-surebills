@@ -17,20 +17,28 @@
         <p>{{ analytics.bills.count }}</p>
       </a>
     </div><!-- item -->
+
     <div class="item">
       <a :href="analytics.successful_bills.link">
         <span>{{ __('Successful Bills') }}</span>
         <p>{{ analytics.successful_bills.count}}</p>
       </a>
+    </div> 
+
+    <div class="item">
+      <a :href="analytics.refunded_bills.link">
+        <span>{{ __('Refunded Bills') }}</span>
+        <p>{{ analytics.refunded_bills.count}}</p>
+      </a>
     </div><!-- item -->
+
     <div class="item">
       <a :href="analytics.total_transactions.link">
         <span>{{ __('Total Transactions') }}</span>
         <p>{{ analytics.total_transactions.count }}</p>
       </a>
     </div><!-- item -->
-  </div><!-- users_statistics -->
-    <div id="users_statistics">
+
     <div class="item">
       <a :href="analytics.surebills_fees.link">
         <span>{{ __('SureBills Fees') }}</span>
@@ -96,15 +104,11 @@ export default {
 
 <style lang="scss" scoped>
   #users_statistics {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 -15px;
+    margin: 1rem auto;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     .item {
-      padding: 0 15px;
-      padding-top: 15px;
-      flex: 0 0 25%;
-      max-width: 25%;
       a {
         border-radius: 0.75rem;
         background: #fff;
@@ -117,9 +121,11 @@ export default {
         box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
         text-decoration: none;
         color: #4099de;
+        padding: .5rem;
         span {
           display: block;
-          font-size: 17px;
+          font-size: 15px;
+          font-weight: 500;
           text-transform: capitalize;
           margin: 0 auto 10px;
           color: #8f8f8f;

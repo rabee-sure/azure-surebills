@@ -80,7 +80,7 @@ class ChartsController extends Controller
         return (string) $collection->whereBetween('paid_at', [
             $from, 
             $to
-        ])->sum('total');
+        ])->where('status', 'paid')->sum('total');
     }
 
     protected function getCountBetweenDate($collection, $from, $to)

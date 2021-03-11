@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendBillPaidEmailToOwner implements ShouldQueue
+class SendBillPaidEmailToOwner
 {
     /**
      * Create the event listener.
@@ -29,7 +29,8 @@ class SendBillPaidEmailToOwner implements ShouldQueue
     public function handle(BillPaid $event)
     {
         if(isset($event->bill->user->email)){
-            Mail::to($event->bill->user->email)->send(new SendBillPaidToOwner($event->bill));
+            $message = (new SendBillPaidToOwner($event->bill))->onQueue('emails');
+            Mail::to($event->bill->user->email)->queue($message);
         }
     }
 }

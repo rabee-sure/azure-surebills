@@ -72,6 +72,10 @@
 
                   @case('transfer')
                       {{ __('Transfer') }}
+                      @break 
+
+                  @case('refund')
+                      {{ __('Refunded') }}
                       @break
 
                   @default
@@ -101,6 +105,9 @@
                   </a>
                   <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'transfer']) }}">{{ __('Transfer') }}</a>
                 @endif
+                  <a class="dropdown-item" href="{{request()->fullUrlWithQuery(['transaction_source' => 'refund']) }}">
+                    {{ __('Refunded') }}
+                  </a>
             </div>
           </div>
 
@@ -215,6 +222,14 @@
                 </tr>
               @endforeach
             </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="@if(count($channels)) 6 @else 5 @endif">{{ __('Total')}}</td>
+                <td class="text-danger">{{ round($statement->where('type', 'debit')->sum('amount'), 2) }}</td>
+                <td class="text-success">{{ round($statement->where('type', 'credit')->sum('amount'), 2) }}</td>
+                <td>{{ round($statement->where('type', 'credit')->sum('amount') - $statement->where('type', 'debit')->sum('amount'), 2) }}</td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>

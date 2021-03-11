@@ -6,10 +6,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use romanzipp\QueueMonitor\Traits\IsMonitored;
 
-class SendBillPayLink extends Mailable
+class SendBillPayLink extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable, SerializesModels, IsMonitored;
 
     public $bill;
     public $subject;

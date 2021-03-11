@@ -6,6 +6,7 @@ use App\Models\Bill;
 use Hashids\Hashids;
 use Ramsey\Uuid\Uuid;
 use App\Traits\UsesUuid;
+use App\Jobs\RefundMasterCardJob;
 use Illuminate\Database\Eloquent\Model;
 
 class PaymentLog extends Model
@@ -47,5 +48,23 @@ class PaymentLog extends Model
     public function bill()
     {
         return $this->belongsTo(Bill::class);
+    }
+
+    /**
+     * Get bill.
+     *
+     * @return Collection
+     */
+    public function refund($amount)
+    {
+        if ($amount > ($this->bill->total - $this->refunded_amount)) {
+            return false;
+        }
+
+        // update refunded amount
+        $this->refunded_amount += $amount;
+        $this->save();
+
+        RefundMasterCardJob::dispatch($this->bill, $this, $amount);
     }
 }

@@ -11,9 +11,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class RefundTransactionsForOwner implements ShouldQueue
+class RefundTransactionsForOwner 
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, SerializesModels;
 
     protected $bill;
 
@@ -39,6 +39,28 @@ class RefundTransactionsForOwner implements ShouldQueue
     {
         $logResponse = isset($this->log->results['response']) ? $this->log->results['response'] : [];
 
+        //withdrawBillFees
+        $transaction = new Transaction;
+        $transaction->user_id     = $this->bill->user_id;
+        $transaction->bill_id     = $this->bill->id;
+        $transaction->type        = 'credit';
+        $transaction->amount      = $this->bill->payment_fees;
+        $transaction->reference   = $this->bill->number;
+        $transaction->description = 'REFUND Fee';
+        $transaction->transaction_source = 'refund';
+        $transaction->save();
+
+        //withdrawBillVat
+        $transaction = new Transaction;
+        $transaction->user_id     = $this->bill->user_id;
+        $transaction->bill_id     = $this->bill->id;
+        $transaction->type        = 'credit';
+        $transaction->amount      = $this->bill->payment_fees_vat;
+        $transaction->reference   = $this->bill->number;
+        $transaction->description = 'REFUND VAT';
+        $transaction->transaction_source = 'refund';
+        $transaction->save();
+
         $transaction = new Transaction;
         $transaction->user_id     = $this->bill->user_id;
         $transaction->bill_id     = $this->bill->id;
@@ -54,28 +76,6 @@ class RefundTransactionsForOwner implements ShouldQueue
             $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
         }
         $transaction->transaction_source = 'bill';
-        $transaction->save();
-
-        //withdrawBillFees
-        $transaction = new Transaction;
-        $transaction->user_id     = $this->bill->user_id;
-        $transaction->bill_id     = $this->bill->id;
-        $transaction->type        = 'credit';
-        $transaction->amount      = $this->bill->payment_fees;
-        $transaction->reference   = $this->bill->number;
-        $transaction->description = 'REFUND Fee';
-        $transaction->transaction_source = 'fees';
-        $transaction->save();
-
-        //withdrawBillVat
-        $transaction = new Transaction;
-        $transaction->user_id     = $this->bill->user_id;
-        $transaction->bill_id     = $this->bill->id;
-        $transaction->type        = 'credit';
-        $transaction->amount      = $this->bill->payment_fees_vat;
-        $transaction->reference   = $this->bill->number;
-        $transaction->description = 'REFUND VAT';
-        $transaction->transaction_source = 'vat';
         $transaction->save();
     }
 }

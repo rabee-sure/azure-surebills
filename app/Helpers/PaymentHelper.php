@@ -10,7 +10,7 @@ class PaymentHelper
 {
     public static function handlePaymentResponse($invoice, $orderId, $billDetail, $viaWebHook = false)
     {
-        if($billDetail['bill']['status'] != 'paid')
+        if($billDetail['bill']['status'] != 'paid' && $billDetail['bill']['status'] != 'refunded')
         {
             // mastercard response
             $client = new Client();

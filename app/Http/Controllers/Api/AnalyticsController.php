@@ -37,6 +37,8 @@ class AnalyticsController extends Controller
         $to = Carbon::parse($request->to)->addHours(2)->endOfDay();
 
         $paid_bills = Bill::whereBetween('paid_at', [$from, $to])->paid()->get();
+        $refunded_bills = Bill::whereBetween('refunded_at', [$from, $to])->refunded()->get();
+         
         $sum_total = $paid_bills->sum('total');
         $sum_surebills_fees = $paid_bills->sum('payment_surebills_fees');
         $sum_surebills_fees_vat = $paid_bills->sum('payment_surebills_fees_vat');
@@ -62,6 +64,16 @@ class AnalyticsController extends Controller
                 "value" => ["paid"]
             ]
         ]);
+        $filter4 = $this->encode([
+            [    
+                "class"=> "App\Nova\Filters\RefundedDateRange",
+                "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
+            ],
+            [    
+                "class"=> "App\Nova\Filters\BillStatus",
+                "value" => ["refunded"]
+            ]
+        ]);
         $filter3 = $this->encode([
             [    
                 "class"=> "App\Nova\Filters\PaidDateRange",
@@ -69,7 +81,22 @@ class AnalyticsController extends Controller
             ],
             [    
                 "class"=> "App\Nova\Filters\BillSettled",
-                "value" => [1]
+                "value" => 1
+            ]
+        ]);           
+
+        $filter5 = $this->encode([
+            [    
+                "class" => "App\Nova\Filters\PaidDateRange",
+                "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
+            ],
+            [    
+                "class" => "App\Nova\Filters\BillSettled",
+                "value" => 2
+            ],
+            [    
+                "class" => "App\Nova\Filters\BillStatus",
+                "value" => ["paid"]
             ]
         ]);   
         return response()->json([
@@ -89,6 +116,11 @@ class AnalyticsController extends Controller
                     'filter' =>  $filter2,
                     'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter2,
                 ],
+                'refunded_bills' => [
+                    'count' =>  $refunded_bills->count(),
+                    'filter' =>  $filter4,
+                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter4,
+                ],
                 'total_transactions' => [
                     'count' =>  round($sum_total, 2),
                     'filter' =>  $filter,
@@ -106,15 +138,16 @@ class AnalyticsController extends Controller
                 ],
                 'total_due_merchants' => [
                     'count' =>  round($total_due_merchants, 2),
-                    'filter' =>  $filter3,
-                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter3,
+                    'filter' =>  $filter5,
+                    'link' =>  '/nova/resources/bills?bills_page=1&bills_filter='.$filter5,
                 ],
                 'total_transfers_merchants' => [
                     'count' =>  round($total_transfers_merchants, 2),
                     'filter' =>  $filter,
                     'link' =>  '/nova/resources/transfers?transfers_page=1&transfers_filter='.$filter,
                 ],
-            ]
+            ],
+            'date' =>  [$from->format('Y-m-d'), $to->format('Y-m-d')]
         ]);
     }
 

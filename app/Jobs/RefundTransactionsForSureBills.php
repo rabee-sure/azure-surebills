@@ -11,9 +11,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class RefundTransactionsForSureBills implements ShouldQueue
+class RefundTransactionsForSureBills
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, SerializesModels;
 
     protected $bill;
 
@@ -48,7 +48,7 @@ class RefundTransactionsForSureBills implements ShouldQueue
         $fee_trans->amount      = $this->bill->payment_surebills_fees;
         $fee_trans->reference   = $this->bill->number;
         $fee_trans->description = 'REFUND Fee - Bill Number: '.$this->bill->number;
-        $fee_trans->transaction_source = 'surebills_fees';
+        $fee_trans->transaction_source = 'refund';
         $fee_trans->save();
 
         $vat_trans = new Transaction;
@@ -58,7 +58,7 @@ class RefundTransactionsForSureBills implements ShouldQueue
         $vat_trans->amount      = $this->bill->payment_surebills_fees;
         $vat_trans->reference   = $this->bill->payment_surebills_fees_vat;
         $vat_trans->description = 'REFUND Vat - Bill Number: '.$this->bill->number;
-        $vat_trans->transaction_source = 'surebills_vat';
+        $vat_trans->transaction_source = 'refund';
         $vat_trans->save();
     }
 }

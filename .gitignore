@@ -26,6 +26,7 @@
 /public/uploads
 /storage/*.key
 /storage/tmp
+/storage/framework/laravel-excel
 /vendor
 /app/Http/Controllers/Api/TestController.php
 /app/Payment/Drivers/MasterCardApplePay/ApplePay.crt.pem
@@ -40,3 +41,4 @@ yarn-error.log
 .vapor/
 .env.production
 .env.staging
+.env.dev

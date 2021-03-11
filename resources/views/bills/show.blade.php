@@ -50,7 +50,7 @@
 
         @if($bill->is_able_refund && 1 == 2)
           <button id="cancel_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#refundModal" title="{{ __('Refund Bill') }}" data-from="top" data-align="right">
-            <img src="{{ asset('img/refund.svg') }}" alt="{{ __('Refund Bill') }}" style="height: 25px;">
+            <img src="{{ asset('images/refund.svg') }}" alt="{{ __('Refund Bill') }}" style="height: 25px;">
           </button>
         @endif
 
@@ -183,10 +183,12 @@
                     <td><img src="{{ asset('/images/payments/cardnon.png') }}" alt="apple pay" height="25px"></td>
                   @endif
 
-                  <td><a href="/logs/{{$log->id}}" title="{{ isset($log->results['response']) && isset($log->results['response']['id']) ? $log->results['response']['id'] : null }}">{{ isset($log->results['response']) && isset($log->results['response']['id']) ? $log->results['response']['id'] : null }}</a></td>
+                  <td><a href="/logs/{{$log->id}}" title="{{ $log->id }}">{{ $log->id }}</a></td>
                   <td>{{ $bill->total}} {{__('SAR') }}</td>
                   <td>{{$log->created_at}}</td>
-                  @if($log->status == true)
+                  @if($log->payment_method == 'mastercard_refund')
+                    <td><span class="badge badge-pill badge-warning bill_status_badge">{{ __('Refund') }}</span></td>
+                  @elseif($log->status == true)
                     <td><span class="badge badge-pill badge-success bill_status_badge">{{ __('Paid') }}</span></td>
                   @else
                     <td><span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span></td>
@@ -218,9 +220,8 @@
       <div class="modal-footer">
         <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
           @csrf
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
-
-                <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
+            <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
+            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Cancel')}}</button>
         </form>
       </div>
     </div>
@@ -243,8 +244,8 @@
       <div class="modal-footer">
         <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
           @csrf
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
-            <button type="submit" class="btn btn-primary">{{__('Refund Bill')}}</button>
+            <button type="submit" class="btn btn-primary">{{__('Confirm Refund Bill')}}</button>
+            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Retreat')}}</button>
         </form>
       </div>
     </div>
@@ -337,7 +338,8 @@
               break;
             case "expired":
               $("#cancel_btn").remove();
-              $("#status").append('<div class="alert alert-secondary" role="alert">{{ __("this bill is expired") }}</div>');
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
               break;
             default:
               $("#cancel_btn").remove();

@@ -111,7 +111,7 @@ class UserController extends Controller
                         return $query->whereBetween('paid_at', [$from, $to]);
                     })
                     ->when($request->not_settled || $request->bills_not_settled, function ($query) use($request){
-                        return $query->where('settled', false);
+                        return $query->where('channel_settled', false);
                     });
             })
             

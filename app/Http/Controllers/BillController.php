@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Events\BillCreated;
-use App\Events\BillPaid;
 use App\Events\BillRefunded;
 use App\Events\BillStatusUpdated;
 use App\Exceptions\ValidationException;
@@ -185,6 +184,7 @@ class BillController extends Controller
      */
     public function pay($id, $lang = null)
     {
+
         $bill = Bill::decodeId($id);
 
         if ($lang && in_array($lang, ['en', 'ar'])) {
@@ -321,13 +321,7 @@ class BillController extends Controller
     {
         $bill = Bill::find($id);
 
-        if($bill->is_able_refund){
-            $bill->status = 'refunded';
-            $bill->refunded_at = Carbon::now();
-            $bill->save();
-            event(new BillRefunded($bill));
-            event(new BillStatusUpdated($bill));
-        }
+        $bill->setRefunded();
 
         return redirect()->back();
     }
