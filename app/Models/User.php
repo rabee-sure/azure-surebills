@@ -57,6 +57,8 @@ class User extends Authenticatable implements HasMedia
         'mobile_verified',
         'disable_business_documents',
         'disable_bank_documents',
+        
+        'able_refund',
     ];
 
     /**

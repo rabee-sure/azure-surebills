@@ -144,6 +144,9 @@ class User extends Resource
                 ->sortable()
                 ->hideFromIndex(),
 
+            Boolean::make(__('Able Refund'), 'able_refund')
+                ->hideFromIndex(),
+
             new Panel(__('Pricing'), $this->pricingFields()),
 
             new Panel(__('Business Information'), $this->businessInformation()),
