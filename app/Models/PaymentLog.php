@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Models\Bill;
 use Hashids\Hashids;
 use Ramsey\Uuid\Uuid;
+use GuzzleHttp\Client;
 use App\Traits\UsesUuid;
+use App\Models\PaymentLog;
 use App\Jobs\RefundMasterCardJob;
 use Illuminate\Database\Eloquent\Model;
 
@@ -58,13 +60,56 @@ class PaymentLog extends Model
     public function refund($amount)
     {
         if ($amount > ($this->bill->total - $this->refunded_amount)) {
+            session(['refund_error' => __('Amount is more than bill paid amount.')]);
             return false;
         }
 
-        // update refunded amount
-        $this->refunded_amount += $amount;
-        $this->save();
+        // new log
+        $payment = PaymentLog::create([
+            'bill_id'        => $this->bill->id,
+            'payment_method' => 'mastercard_refund',
+            'results'        => [],
+            'data'           => [],
+            'status'         => 0,
+        ]);
 
-        RefundMasterCardJob::dispatch($this->bill, $this, $amount);
+        // api link
+        $link = config('payment.drivers.mastercard.base_url').'/api/rest/version/58/merchant/'.config('payment.drivers.mastercard.merchant_id').'/order/'.$this->bill->id.'/transaction/'.$payment->id;
+        $client = new Client(['http_errors' => false]);
+        $response = $client->put($link,
+            [
+                'json' => [
+                    'apiOperation' => 'REFUND',
+                    'transaction' => [
+                        'amount'   => number_format($amount, 2, '.', ''),
+                        'currency' => 'SAR'
+                    ]
+                ],
+                'auth' => [
+                    config('payment.drivers.mastercard.operator_username'),
+                    config('payment.drivers.mastercard.operator_password')
+                ],
+            ]
+        );
+        $response = json_decode($response->getBody()->getContents(), true);
+        $payment->results = $response;
+        $payment->save();
+
+        if (isset($response['response']) && isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] == 'APPROVED') {
+            // update refunded amount
+            $this->refunded_amount += $amount;
+            $this->save();
+
+            return true;
+        }
+
+        // error message
+        if (isset($response['error']) && isset($response['error']['explanation'])) {
+            session(['refund_error' => $response['error']['explanation']]);
+        } else if (isset($response['response']) && isset($response['response']['gatewayCode'])) {
+            session(['refund_error' => $response['response']['gatewayCode']]);
+        }
+
+        return false;
     }
 }

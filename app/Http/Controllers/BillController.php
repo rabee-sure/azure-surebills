@@ -321,9 +321,11 @@ class BillController extends Controller
     {
         $bill = Bill::find($id);
 
-        $bill->setRefunded();
+        if ($bill->setRefunded()) {
+            return redirect()->back();
+        }
 
-        return redirect()->back();
+        return redirect()->back()->withErrors(['refund' => session('refund_error')]);
     }
 
     /**

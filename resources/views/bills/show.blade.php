@@ -28,6 +28,14 @@
 </div>
  <div class="row">
   <div class="col-12">
+
+      @if($errors->any())
+      <div class="alert alert-danger" role="alert">
+        {{$errors->first()}}
+      </div>
+      @endif
+
+
     <div class="card mb-5">
       <div class="card-body">
         <!-- Button trigger modal -->
@@ -244,7 +252,7 @@
       <div class="modal-footer">
         <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
           @csrf
-            <button type="submit" class="btn btn-primary">{{__('Confirm Refund Bill')}}</button>
+            <button type="submit" class="btn btn-primary login_button">{{__('Confirm Refund Bill')}}</button>
             <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Retreat')}}</button>
         </form>
       </div>
