@@ -20,7 +20,7 @@
         <td>{{ $transaction->created_at }}</td>
         <td>{{ $transaction->description }}</td>
         <td>{{ $transaction->reference }}</td>
-        <td>{{ $transaction->receipt }}</td>
+        <td>{{  'R: '. $transaction->receipt }}</td>
         @if(count($channels))
           <td>
             @if(isset($transaction->bill->application_id) && isset ($transaction->bill->application->channel_id))
