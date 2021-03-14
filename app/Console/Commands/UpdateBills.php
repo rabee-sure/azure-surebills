@@ -47,6 +47,36 @@ class UpdateBills extends Command
      */
     public function handle()
     {
+        $this->fixChannelFeesVat();
+        // $this->updatePricing();
+    }
+
+
+    protected function fixChannelFeesVat()
+    {
+        Bill::whereHas('application')->paid()->chunk(500, function($bills)
+        {
+            foreach ($bills as $bill) {
+                $trans = $bill->transactions()->whereIn('transaction_source', ['channel_vat', 'channel_fees'])->get();
+
+                if($trans->count() == 2){
+                    $o_vat = $trans->where('transaction_source', 'channel_vat')->first();
+                    $o_fees = $trans->where('transaction_source', 'channel_fees')->first();
+                    if($o_vat->amount > $o_fees->amount){
+                        $o_vat->transaction_source = 'channel_fees';
+                        $o_vat->save();                        
+
+                        $o_fees->transaction_source = 'channel_vat';
+                        $o_fees->save();
+                        $this->info("fix Channel Fees Vat in bill id: {$bill->id}");
+                    }
+                }
+            }
+        });
+    }
+
+    protected function updatePricing()
+    {
         Bill::where('payment_surebills_fees_vat', null)->paid()->chunk(500, function($bills)
         {
             foreach ($bills as $bill) {
@@ -75,8 +105,7 @@ class UpdateBills extends Command
                 }
             }
         });
-    }
-
+    } 
 
     protected function paymentSurebillsFees($bill, $log):Array
     {

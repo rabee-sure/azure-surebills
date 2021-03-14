@@ -226,45 +226,45 @@ class Bill extends Resource
                         if($this->status == 'refunded')
                             return '0';
                         else
-                            return $this->payment_fees;
+                            return round($this->payment_fees, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make( __('Payment Fees VAT'), function () {
                         if($this->status == 'refunded')
                             return '0';
                         else
-                            return $this->payment_fees_vat;
+                            return  round($this->payment_fees_vat, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
 
                     Number::make( __('Payment Surebills Fees'), function () {
                         if($this->status == 'refunded')
                             return '0';
                         else
-                            return $this->payment_surebills_fees;
+                            return round($this->payment_surebills_fees, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make( __('Payment Surebills Fees Vat'), function () {
                         if($this->status == 'refunded')
                             return '0';
                         else
-                            return $this->payment_surebills_fees_vat;
+                            return round($this->payment_surebills_fees_vat, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make( __('Payment Channel Fees'), function () {
                         if($this->status == 'refunded')
                             return '0';
                         else
-                            return $this->payment_channel_fees;
+                            return round($this->payment_channel_fees, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make( __('Payment Channel Fees Vat'), function () {
                         if($this->status == 'refunded')
                             return '0';
                         else
-                            return $this->payment_channel_fees_vat;
+                            return round($this->payment_channel_fees_vat, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
 
                     Number::make( __('Due to client'), function () {
                         if($this->status == 'refunded')
                             return '0';
                         else
-                            return $this->due_to_client;
+                            return round($this->due_to_client, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
                 ];
             }),
