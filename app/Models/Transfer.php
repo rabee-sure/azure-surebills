@@ -21,6 +21,10 @@ class Transfer extends Model
         'iban_number',
         'beneficiary_name',
         'filters',
+        
+        'status',
+        'transfer_fees',
+        'net_amount',
 	];
 
     /**

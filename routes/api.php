@@ -26,6 +26,7 @@ Route::get('test', 'TestController@test');
 // });
 // Route::get('test', 'TestController@test')->name('test');
 Route::post('upload', 'MediaController@upload')->name('media.upload');
+Route::post('transfers/{transfer}/upload_attachment', 'MediaController@uploadAttachment');
 
 Route::prefix('v1')->group(function () {
     Route::get('analytics', 'AnalyticsController@index');

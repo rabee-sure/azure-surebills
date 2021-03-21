@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f878cc658fe5bf5c9a0c278fcd07e4a3",
+    "content-hash": "27a555f8169fab2958067ad0fee4ee68",
     "packages": [
         {
             "name": "ampeco/nova-date-range-filter",
@@ -226,6 +226,66 @@
                 "sdk"
             ],
             "time": "2021-02-22T19:22:33+00:00"
+        },
+        {
+            "name": "bakerkretzmar/nova-settings-tool",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bakerkretzmar/nova-settings-tool.git",
+                "reference": "19443a542db7797dfe4c97536f06cea33e863ed7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bakerkretzmar/nova-settings-tool/zipball/19443a542db7797dfe4c97536f06cea33e863ed7",
+                "reference": "19443a542db7797dfe4c97536f06cea33e863ed7",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "*",
+                "php": ">=7.1.0",
+                "spatie/valuestore": "^1.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.4",
+                "phpunit/phpunit": "^9.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bakerkretzmar\\NovaSettingsTool\\SettingsToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bakerkretzmar\\NovaSettingsTool\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Baker-Kretzmar",
+                    "email": "jacobtbk@gmail.com"
+                }
+            ],
+            "description": "A Laravel Nova tool to manage application settings.",
+            "homepage": "https://github.com/bakerkretzmar/nova-settings-tool",
+            "keywords": [
+                "Settings",
+                "laravel",
+                "nova",
+                "tool"
+            ],
+            "support": {
+                "issues": "https://github.com/bakerkretzmar/nova-settings-tool/issues",
+                "source": "https://github.com/bakerkretzmar/nova-settings-tool/tree/1.1.0"
+            },
+            "time": "2020-11-18T00:06:35+00:00"
         },
         {
             "name": "brick/math",
@@ -6546,6 +6606,73 @@
             "time": "2020-11-09T15:54:21+00:00"
         },
         {
+            "name": "spatie/valuestore",
+            "version": "1.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/valuestore.git",
+                "reference": "eafde51f0068bcbb605fdf589a952677ada74a33"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/valuestore/zipball/eafde51f0068bcbb605fdf589a952677ada74a33",
+                "reference": "eafde51f0068bcbb605fdf589a952677ada74a33",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Valuestore\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Jolita Grazyte",
+                    "email": "jolita@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easily store some values",
+            "homepage": "https://github.com/spatie/valuestore",
+            "keywords": [
+                "json",
+                "spatie",
+                "valuestore"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/valuestore/issues",
+                "source": "https://github.com/spatie/valuestore/tree/1.2.5"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-30T16:21:03+00:00"
+        },
+        {
             "name": "sure/home-analytics",
             "version": "dev-update-bill-excel",
             "dist": {
@@ -11962,5 +12089,5 @@
         "php": "^7.2.5"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
