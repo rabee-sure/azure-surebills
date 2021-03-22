@@ -60442,7 +60442,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60581,6 +60581,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -60590,6 +60609,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { expandRow: __WEBPACK_IMPORTED_MODULE_0__table_expand_vue___default.a },
     data: function data() {
         return {
+            switch_loading: false,
             validDateRange: true,
             billsModal: false,
             disableBtn: false,
@@ -60705,7 +60725,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }, {
                 title: this.__('Amount'),
                 key: 'amount',
-                width: 180
+                width: 120
+            }, {
+                title: this.__('Transfer Fees'),
+                key: 'transfer_fees',
+                width: 100
+            }, {
+                title: this.__('Net Amount'),
+                key: 'net_amount',
+                width: 120
             }, {
                 title: this.__('From - To'),
                 slot: 'fromto',
@@ -60717,8 +60745,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 title: this.__('Created By'),
                 key: 'created_by_name'
             }, {
+                title: this.__('Status'),
+                slot: 'status',
+                key: 'status',
+                width: 100,
+                align: 'center'
+            }, {
                 title: this.__('Created At'),
                 key: 'created_at'
+            }, {
+                title: this.__('Action'),
+                slot: 'action',
+                width: 150,
+                align: 'center'
             }],
             ruleInline: {
                 date_range: [{ type: 'array', required: true, message: this.__('select date range'), trigger: 'blur' }],
@@ -60910,6 +60949,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.transactions = [];
             this.new_transactions = [];
             this.form.amount = 0;
+        },
+        changeStatus: function changeStatus(status, id) {
+            var _this4 = this;
+
+            console.log(status, id);
+            this.switch_loading = true;
+            Nova.request().put('/transfers/' + id + '/change_status', {
+                status: status ? 'completed' : 'pending'
+            }).then(function (response) {
+                _this4.switch_loading = false;
+            }).catch(function (error) {
+                this.switch_loading = false;
+            });
         }
     }
 });
@@ -61533,6 +61585,94 @@ var render = function() {
                             " - " +
                             _vm._s(_vm.__(row.filter_to)) +
                             "\n                "
+                        )
+                      ]
+                    }
+                  },
+                  {
+                    key: "status",
+                    fn: function(ref) {
+                      var row = ref.row
+                      return [
+                        row.status_bool
+                          ? _c("Badge", { attrs: { status: "success" } })
+                          : _c("Badge", { attrs: { status: "warning" } })
+                      ]
+                    }
+                  },
+                  {
+                    key: "action",
+                    fn: function(ref) {
+                      var row = ref.row
+                      var index = ref.index
+                      return [
+                        _c(
+                          "Row",
+                          [
+                            _c(
+                              "Col",
+                              { attrs: { span: "12" } },
+                              [
+                                _c("i-switch", {
+                                  attrs: {
+                                    disabled: row.status_bool,
+                                    loading: _vm.switch_loading,
+                                    "false-color": "#f90",
+                                    "true-color": "#13ce66"
+                                  },
+                                  on: {
+                                    "on-change": function($event) {
+                                      return _vm.changeStatus($event, row.id)
+                                    }
+                                  },
+                                  model: {
+                                    value: row.status_bool,
+                                    callback: function($$v) {
+                                      _vm.$set(row, "status_bool", $$v)
+                                    },
+                                    expression: "row.status_bool"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "Col",
+                              { attrs: { span: "12" } },
+                              [
+                                _c(
+                                  "Upload",
+                                  {
+                                    attrs: {
+                                      action:
+                                        "/api/transfers/" +
+                                        row.id +
+                                        "/upload_attachment",
+                                      "show-upload-list": false
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      [
+                                        _c("Icon", {
+                                          staticStyle: { color: "#3399ff" },
+                                          attrs: {
+                                            type: "ios-cloud-upload",
+                                            size: "30"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
                         )
                       ]
                     }

@@ -13,6 +13,7 @@ use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Sure\HomeAnalytics\HomeAnalytics;
 use Sure\Settlements\Settlements;
+use Bakerkretzmar\NovaSettingsTool\SettingsTool;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -92,6 +93,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             new Settlements,
             new NovaSidebarIcons,
             new NovaBreadcrumbs,
+            new SettingsTool,
         ];
     }
 

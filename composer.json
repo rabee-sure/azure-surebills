@@ -11,6 +11,7 @@
         "php": "^7.2.5",
         "ampeco/nova-date-range-filter": "^0.1.1",
         "anaseqal/nova-sidebar-icons": "^0.0.3",
+        "bakerkretzmar/nova-settings-tool": "^1.1",
         "chris-ware/nova-breadcrumbs": "^2.0",
         "codebykyle/calculated-field": "^1.1",
         "digital-creative/conditional-container": "^1.3",
