@@ -3,6 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Events\TransferCreated;
+use App\Exports\BillsExport;
+use App\Http\Resources\BillResource;
+use App\Mail\AutoTransferMail;
 use App\Models\Bank;
 use App\Models\Bill;
 use App\Models\Settings;
@@ -12,6 +15,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Valuestore\Valuestore;
 
 class TransferAutomatic extends Command
@@ -54,16 +59,14 @@ class TransferAutomatic extends Command
         $transfer_emails = $settings->get('transfer_emails');
 
         $to = Carbon::now()->startOfDay();
-
-
-
         if($transfer_automatic && $to->dayOfWeek == $transfer_day ){
             $users = User::all();
             foreach ($users as $user) {
 
                 if($user->balance >= $transfer_minimum){
                     $from = $this->getToDate($user);
-                    $bills = $this->getbillsBetweenDate( $from, $to, $user);
+                    $bills = $this->getbillsBetweenDate($from, $to, $user);
+                    $this->sendMails($transfer_emails, $to);
                     $amount = $this->getAmount($bills, $user);
 
                     $transfer = DB::transaction(function () use($user, $bills, $amount){
@@ -107,6 +110,11 @@ class TransferAutomatic extends Command
         }
     }
 
+    /**
+     * get To Date foryouser.
+     *
+     * @return Carbon\Carbon
+     */
     public function getToDate($user)
     {
         $last_transfer = $user->transfers()->latest()->first();
@@ -119,18 +127,16 @@ class TransferAutomatic extends Command
     }
 
     /**
-     * getbillsBetweenDate.
+     * get bills Between Date.
      *
      * @return \Illuminate\Http\Response
      */
-    protected function getbillsBetweenDate($from, $to, $user)
+    protected function getbillsBetweenDate($from_s, $to_s, $user)
     {
+        $to = $to_s->copy()->endOfDay()->toDateTimeString();
+        $from = $from_s->copy()->startOfDay()->toDateTimeString();
 
-        $to = $to->copy()->endOfDay()->toDateTimeString();
-
-        $from = $from->copy()->startOfDay()->toDateTimeString();
-
-        return Bill::
+        $bills =  Bill::
             //get user bills
             where(function ($query) use($user, $from, $to){
                 // dd($from);
@@ -149,12 +155,19 @@ class TransferAutomatic extends Command
             
             ->orderBy('paid_at', 'asc')
             ->get();
+
+            $this->createExcel($bills, $user, $from, $to, $to_s->timestamp);
+        return $bills;
+
     }
 
+
     /**
-     * getbillsBetweenDate.
+     * get Amount.
      *
-     * @return \Illuminate\Http\Response
+     * @param  App\Bill  $bills
+     * @param  App\User  $user
+     * @return double
      */
     protected function getAmount($bills, $user)
     {
@@ -165,5 +178,37 @@ class TransferAutomatic extends Command
             ->orderBy('receipt', 'ASC')
             ->get();
         return round($transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'), 2);
+    }    
+
+    /**
+     * create Excel.
+     *
+     * @param  App\Bill  $bills
+     * @param  App\User  $user
+     * @param  Carbon\Carbon  $from
+     * @param  Carbon\Carbon  $to
+     * @param  integer  $timestamp
+     * @return boolean
+     */
+    protected function createExcel($bills, $user, $from, $to, $timestamp)
+    {
+        $title = "bills/$timestamp/Bills-{$user->business_name_en}-FROM-{$from}-TO-{$to}.xlsx";
+        $data = json_decode((BillResource::collection($bills))->toJson(), true);
+        return Excel::store(new BillsExport($data), $title);
+    }
+
+    /**
+     * send Mails.
+     *
+     * @return void
+     */
+    protected function sendMails($emails_string, $date)
+    {
+        $emails = explode(",", $emails_string);
+        if(count($emails)){
+            foreach ($emails as $email) {
+                Mail::to($email)->send(new AutoTransferMail($date));
+            }
+        }
     }
 }
