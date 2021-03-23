@@ -147,6 +147,9 @@ class User extends Resource
             Boolean::make(__('Able Refund'), 'able_refund')
                 ->hideFromIndex(),
 
+            Boolean::make(__('Auto Trnasfer'), 'auto_trnasfer')
+                ->hideFromIndex(),
+
             new Panel(__('Pricing'), $this->pricingFields()),
 
             new Panel(__('Business Information'), $this->businessInformation()),

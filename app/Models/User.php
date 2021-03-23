@@ -59,6 +59,7 @@ class User extends Authenticatable implements HasMedia
         'disable_bank_documents',
         
         'able_refund',
+        'auto_trnasfer',
     ];
 
     /**
@@ -114,12 +115,10 @@ class User extends Authenticatable implements HasMedia
 
     public function getVerifyStatusAttribute()
     {
-        if($this->verified == 1)
-        {
+        if($this->verified == 1){
             return __('yes');
         }
-        else
-        {
+        else{
             return __('no');
         }
     }
