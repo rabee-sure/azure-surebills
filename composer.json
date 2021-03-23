@@ -22,6 +22,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "hashids/hashids": "^4.0",
         "jenssegers/date": "^4.0",
+        "kabbouchi/nova-impersonate": "^1.5",
         "laravel-validation-rules/credit-card": "^1.3",
         "laravel/framework": "^8.0",
         "laravel/horizon": "^5.0.0",
@@ -50,7 +51,7 @@
         "sure/settlements": "*",
         "sure/userstats": "*",
         "timothyasp/nova-badge-field": "^1.0",
-        "titasgailius/search-relations": "^1.0"    
+        "titasgailius/search-relations": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
