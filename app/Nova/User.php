@@ -34,6 +34,7 @@ use Naif\Toggle\Toggle;
 use Sure\Userstats\Userstats;
 use DigitalCreative\ConditionalContainer\ConditionalContainer;
 use DigitalCreative\ConditionalContainer\HasConditionalContainer;
+use KABBOUCHI\NovaImpersonate\Impersonate;
 
 class User extends Resource
 {
@@ -173,6 +174,10 @@ class User extends Resource
             HasMany::make(__('Transfers'), 'transfers', Transfer::class),
             // HasMany::make('statement'),
             new Panel(__('Documents'), $this->documents()),
+
+            Impersonate::make($this)->withMeta([
+                'hideText' => true,
+            ]),
 
         ];
     }
