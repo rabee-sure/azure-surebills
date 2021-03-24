@@ -28,6 +28,7 @@ class TransferResource extends JsonResource
             'filter_to' => Carbon::parse($this->filters['date']['to'])->format('d/m/Y H:i'),
             'created_by_name' => $this->created_by->name ?? 'NAN',
             'created_at' => $this->created_at->format('d/m/Y H:i'),
+            'user_business_name_en' => $this->user->business_name_en,
         ];
     }
 }

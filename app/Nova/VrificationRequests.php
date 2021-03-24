@@ -29,7 +29,6 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
-use Naif\Toggle\Toggle;
 use Sure\Userstats\Userstats;
 
 class VrificationRequests extends Resource
