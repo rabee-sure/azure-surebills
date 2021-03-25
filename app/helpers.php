@@ -1,5 +1,18 @@
 <?php
  
+if (!function_exists('getMastercardError')) {
+    function getMastercardError($response)
+    {
+        if (isset($response['error']) && isset($response['error']['explanation'])) {
+            return $response['error']['explanation'];
+        }
+        
+        if (isset($response['response']) && isset($response['response']['gatewayCode'])) {
+            return $response['response']['gatewayCode'];
+        }
+    }
+}
+ 
 if (!function_exists('getBanks')) {
     function getBanks()
     {
