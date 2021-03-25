@@ -24,6 +24,21 @@ class TransferController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function all(Request $request)
+    {
+        $transfers = Transfer::orderBy('id', 'desc')
+            ->where('status', 'pending')
+            ->orWhereNull('attachment')
+            ->paginate($request->per_page);
+
+        return TransferResource::collection($transfers);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

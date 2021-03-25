@@ -60106,7 +60106,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60188,18 +60188,77 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            switch_loading: false,
+            meta: [],
             users: [],
-            settlements: [],
             user: [],
-            select: ''
+            select: '',
+            transfers: [],
+            transfersTable: [{
+                title: this.__('Id'),
+                key: 'id',
+                width: 70
+            }, {
+                title: this.__('Business Name'),
+                key: 'user_business_name_en'
+            }, {
+                title: this.__('Amount'),
+                key: 'amount',
+                width: 120
+            }, {
+                title: this.__('Transfer Fees'),
+                key: 'transfer_fees',
+                width: 100
+            }, {
+                title: this.__('Net Amount'),
+                key: 'net_amount',
+                width: 120
+            }, {
+                title: this.__('From - To'),
+                slot: 'fromto',
+                width: 300
+            }, {
+                title: this.__('Note'),
+                width: 150,
+                key: 'note'
+            },
+            // {
+            //     title: this.__('Created By'),
+            //     key: 'created_by_name'
+            // },
+            {
+                title: this.__('Created At'),
+                width: 150,
+                key: 'created_at'
+            }, {
+                title: this.__('Action'),
+                slot: 'action',
+                width: 150,
+                align: 'center'
+            }]
         };
     },
     mounted: function mounted() {
         this.getUsers();
+        this.getTransfers();
     },
 
     methods: {
@@ -60210,20 +60269,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.users = response.data.data;
             });
         },
-        onChange: function onChange(event) {
+        getTransfers: function getTransfers() {
             var _this2 = this;
+
+            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            Nova.request().get('/transfers/all', {
+                params: {
+                    per_page: 10,
+                    page: page
+                }
+            }).then(function (response) {
+                _this2.transfers = response.data.data;
+                _this2.meta = response.data.meta;
+            });
+        },
+        onChange: function onChange(event) {
+            var _this3 = this;
 
             this.user = [];
             if (event.target.value) {
                 this.user = this.users.find(function (x) {
                     return x.id == event.target.value;
                 });
-                console.log(this.user);
-                axios.get('/users/' + event.target.value + '/settlements').then(function (response) {
-                    _this2.settlements = response.data.data;
+                axios.get('/users/' + event.target.value + '/transfers').then(function (response) {
+                    _this3.transfers = response.data.data;
                 });
             }
-            console.log(event.target.value);
+        },
+        changePage: function changePage(page) {
+            this.getTransfers(page);
+        },
+        changeStatus: function changeStatus(status, id) {
+            var _this4 = this;
+
+            this.switch_loading = true;
+            Nova.request().put('/transfers/' + id + '/change_status', {
+                status: status ? 'completed' : 'pending'
+            }).then(function (response) {
+                _this4.switch_loading = false;
+            }).catch(function (error) {
+                this.switch_loading = false;
+                this.$Message.success('This is a success tip');
+            });
+        },
+        uploadSuccess: function uploadSuccess() {
+            console.log('dddd');
+            this.$Message.success(this.__('Upload Success'));
         }
     }
 });
@@ -60236,117 +60328,155 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("heading", { staticClass: "mb-6" }, [_vm._v("Settlements")]),
-      _vm._v(" "),
-      _c(
-        "select",
-        {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.select,
-              expression: "select"
-            }
-          ],
-          staticClass: "custom-select",
-          on: {
-            change: [
-              function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.select = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              },
-              function($event) {
-                return _vm.onChange($event)
-              }
-            ]
-          }
-        },
-        [
-          _c("option", { attrs: { selected: "", value: "" } }, [
-            _vm._v("select User")
-          ]),
-          _vm._v(" "),
-          _vm._l(_vm.users, function(user) {
-            return _c("option", { domProps: { value: user.id } }, [
-              _vm._v(_vm._s(user.name) + " - Balance " + _vm._s(user.balance))
-            ])
-          })
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _vm.select
-        ? _c(
-            "a",
-            { attrs: { href: "/nova/settlements/" + _vm.user.id + "/create" } },
-            [_vm._v("\n      create Settlement\n    ")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.settlements.length > 0
-        ? _c("table", { staticClass: "table-auto" }, [
-            _vm._m(0),
+  return _c("div", [
+    _c(
+      "div",
+      { staticStyle: { "padding-top": "10px" } },
+      [
+        _c(
+          "Card",
+          { attrs: { bordered: false } },
+          [
+            _c("p", { attrs: { slot: "title" }, slot: "title" }, [
+              _vm._v(_vm._s(_vm.__("Transfers")))
+            ]),
             _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.settlements, function(settlement) {
-                return _c("tr", [
-                  _c("td", { staticClass: "border px-4 py-2" }, [
-                    _vm._v(_vm._s(settlement.id))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "border px-4 py-2" }, [
-                    _vm._v(_vm._s(_vm.user.name))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "border px-4 py-2" }, [
-                    _vm._v(_vm._s(settlement.amount))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "border px-4 py-2" }, [
-                    _vm._v(_vm._s(settlement.created_at))
-                  ])
-                ])
-              }),
-              0
-            )
-          ])
-        : _c("div", [_vm._v("\n        don't have settlements ...\n    ")])
-    ],
-    1
-  )
+            _c("Table", {
+              attrs: {
+                columns: _vm.transfersTable,
+                data: _vm.transfers,
+                "no-data-text": _vm.__("No Data")
+              },
+              scopedSlots: _vm._u([
+                {
+                  key: "fromto",
+                  fn: function(ref) {
+                    var row = ref.row
+                    return [
+                      _vm._v(
+                        "\n                      " +
+                          _vm._s(_vm.__(row.filter_from)) +
+                          " - " +
+                          _vm._s(_vm.__(row.filter_to)) +
+                          "\n                  "
+                      )
+                    ]
+                  }
+                },
+                {
+                  key: "status",
+                  fn: function(ref) {
+                    var row = ref.row
+                    return [
+                      row.status_bool
+                        ? _c("Badge", { attrs: { status: "success" } })
+                        : _c("Badge", { attrs: { status: "warning" } })
+                    ]
+                  }
+                },
+                {
+                  key: "action",
+                  fn: function(ref) {
+                    var row = ref.row
+                    var index = ref.index
+                    return [
+                      _c(
+                        "Row",
+                        [
+                          _c(
+                            "Col",
+                            { attrs: { span: "12" } },
+                            [
+                              _c("i-switch", {
+                                attrs: {
+                                  disabled: row.status_bool,
+                                  loading: _vm.switch_loading,
+                                  "false-color": "#f90",
+                                  "true-color": "#13ce66"
+                                },
+                                on: {
+                                  "on-change": function($event) {
+                                    return _vm.changeStatus($event, row.id)
+                                  }
+                                },
+                                model: {
+                                  value: row.status_bool,
+                                  callback: function($$v) {
+                                    _vm.$set(row, "status_bool", $$v)
+                                  },
+                                  expression: "row.status_bool"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "Col",
+                            { attrs: { span: "12" } },
+                            [
+                              _c(
+                                "Upload",
+                                {
+                                  attrs: {
+                                    "on-success": _vm.uploadSuccess,
+                                    action:
+                                      "/api/transfers/" +
+                                      row.id +
+                                      "/upload_attachment",
+                                    "show-upload-list": false
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    [
+                                      _c("Icon", {
+                                        staticStyle: { color: "#3399ff" },
+                                        attrs: {
+                                          type: "ios-cloud-upload",
+                                          size: "30"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  }
+                }
+              ])
+            }),
+            _vm._v(" "),
+            _c("div", { staticStyle: { margin: "10px", overflow: "hidden" } }, [
+              _c(
+                "div",
+                { staticStyle: { float: "right" } },
+                [
+                  _c("Page", {
+                    attrs: { total: _vm.meta.total },
+                    on: { "on-change": _vm.changePage }
+                  })
+                ],
+                1
+              )
+            ])
+          ],
+          1
+        )
+      ],
+      1
+    )
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "px-4 py-2" }, [_vm._v("Id")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-4 py-2" }, [_vm._v("User")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-4 py-2" }, [_vm._v("Amount")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-4 py-2" }, [_vm._v("Create At")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
