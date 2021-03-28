@@ -61,6 +61,7 @@ class TransferAutomatic extends Command
         $to = Carbon::now()->startOfDay();
         if($transfer_automatic && $to->dayOfWeek == $transfer_day ){
             $users = User::where('verified', true)->where('auto_trnasfer', true)->get();
+            
             $filtered_users = $users->filter(function($user) use($transfer_minimum){
                 return $user->balance >= $transfer_minimum;
             });
