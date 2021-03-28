@@ -488,6 +488,7 @@
     "New :resource": ":resource جديد",
     "Edit :resource": "تحرير :resource",
     "Update :resource": "تحديث :resource",
+    "Update :resource: :title": "تحديث :resource: :title",
     "Choose :field": "أختر :field",
     "Download": "تحميل",
     "Action": "إجراء",
