@@ -44,6 +44,14 @@ class CalculateRefundedPayment
 
             //Refund Transactions For SureBills
             RefundTransactionsForSureBills::dispatch($bill, $payment_log);
+
+            $bill->payment_fees = null;
+            $bill->payment_fees_vat = null;
+            $bill->payment_channel_fees = null;
+            $bill->payment_channel_fees_vat = null;
+            $bill->payment_surebills_fees = null;
+            $bill->payment_surebills_fees_vat = null;
+            $bill->save();
         }
     }
 }

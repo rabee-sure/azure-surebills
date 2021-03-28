@@ -11,7 +11,12 @@ class Bank extends Model
 
     public $translatable = ['name'];
 
-    protected $fillable = ['code', 'active', 'sort_number'];
+    protected $fillable = [
+        'code', 
+        'active', 
+        'sort_number', 
+        'fees'
+    ];
 
     public function scopeActive($query)
     {

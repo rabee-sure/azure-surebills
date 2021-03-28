@@ -77,6 +77,25 @@
                 <template slot-scope="{ row }" slot="fromto">
                     {{ __(row.filter_from) }} - {{ __(row.filter_to) }}
                 </template>
+                <template slot-scope="{ row }" slot="status">
+                    <Badge v-if="row.status_bool" status="success" />
+                    <Badge v-else status="warning" />
+                </template>
+
+                <template slot-scope="{ row, index }" slot="action">
+                    <Row>
+                        <Col span="12">                    
+                            <i-switch :disabled="row.status_bool" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id)" false-color="#f90" true-color="#13ce66" />
+                        </Col>
+                        <Col span="12">
+                            <Upload :action="'/api/transfers/'+row.id+'/upload_attachment'" :show-upload-list="false">
+                                <div>
+                                    <Icon type="ios-cloud-upload" size="30" style="color: #3399ff"></Icon>
+                                </div>
+                            </Upload>
+                        </Col>
+                    </Row>
+                </template>
             </Table>
         </Card>
     </div>
@@ -117,7 +136,7 @@
             </template>
         </Table>
         <div slot="footer">
-            <Button type="primary"  @click="billsModal = !billsModal">{{__('OK')}}</Button>
+            <Button type="primary" @click="billsModal = !billsModal">{{__('OK')}}</Button>
         </div>
     </Modal>
 </div>
@@ -133,6 +152,7 @@ export default {
     components: { expandRow },
     data() {
         return {
+            switch_loading: false,
             validDateRange: true,
             billsModal: false,
             disableBtn: false,
@@ -269,7 +289,17 @@ export default {
                 {
                     title: this.__('Amount'),
                     key: 'amount',
-                    width: 180,
+                    width: 120,
+                },
+                {
+                    title: this.__('Transfer Fees'),
+                    key: 'transfer_fees',
+                    width: 100,
+                },
+                {
+                    title: this.__('Net Amount'),
+                    key: 'net_amount',
+                    width: 120,
                 },
                 {
                     title: this.__('From - To'),
@@ -285,8 +315,21 @@ export default {
                     key: 'created_by_name'
                 },
                 {
+                    title: this.__('Status'),
+                    slot: 'status',
+                    key: 'status',
+                    width: 100,
+                    align: 'center'
+                },
+                {
                     title: this.__('Created At'),
                     key: 'created_at'
+                },
+                {
+                    title: this.__('Action'),
+                    slot: 'action',
+                    width: 150,
+                    align: 'center'
                 }
             ],
             ruleInline: {
@@ -487,6 +530,19 @@ export default {
             this.transactions = [];
             this.new_transactions = [];
             this.form.amount = 0;           
+        },
+        changeStatus(status, id) {
+            console.log(status, id)    
+            this.switch_loading = true;
+            Nova.request().put('/transfers/'+id+'/change_status', {
+                status: status? 'completed': 'pending',
+            })
+            .then(response => {
+                this.switch_loading = false;
+            })
+            .catch(function (error) {
+                this.switch_loading = false;
+            });   
         }
     }
 }

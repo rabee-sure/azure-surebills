@@ -89,6 +89,9 @@ class Bank extends Resource
             ->rules('required'),
             Boolean::make(__('Active'), 'active'),
             HasMany::make(__('Users'), 'users', User::class),
+            Number::make(__('Transfer Fees'), 'fees')
+                ->default(0)
+                ->rules('required'),
         ];
     }
 

@@ -96,7 +96,9 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 	Route::get('statement', 'StatementController@index')->name('statement.index');
     Route::get('statement/export', 'StatementController@export')->name('statement.export');
     Route::get('transfer', 'TransferController@index')->name('transfer.index');
+    Route::get('transfers/all', 'TransferController@all');
     Route::post('transfers', 'TransferController@store');
+    Route::put('transfers/{transfer}/change_status', 'TransferController@changeStatus');
 
 	Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/terms', 'HomeController@terms');

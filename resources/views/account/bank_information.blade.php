@@ -57,7 +57,7 @@
             </div>
           @else
             @include('components.dropzone',[
-              'documents' => auth()->user()->bank_documents
+              'documents' => auth()->user()->bank_documents->toArray()
             ])
           @endif
 

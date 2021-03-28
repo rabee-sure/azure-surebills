@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bill;
 use App\Events\TransferCreated;
 use App\Http\Resources\TransferResource;
+use App\Models\Bank;
+use App\Models\Bill;
 use App\Models\Transfer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class TransferController extends Controller
 {
@@ -20,6 +21,21 @@ class TransferController extends Controller
     public function index()
     {
         return view('transfers.index', ['transfers' => auth()->user()->transfers]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function all(Request $request)
+    {
+        $transfers = Transfer::orderBy('id', 'desc')
+            ->where('status', 'pending')
+            ->orWhereNull('attachment')
+            ->paginate($request->per_page);
+
+        return TransferResource::collection($transfers);
     }
 
     /**
@@ -46,10 +62,12 @@ class TransferController extends Controller
         $toDate = $toDate->addDays(1);
 
         $transfer = DB::transaction(function () use($request, $fromDate, $toDate){
-
+            $bank = Bank::find($request->bank_id);
             $transfer = Transfer::create([
                 'user_id' => $request->user_id,
                 'amount' => $request->amount,
+                'transfer_fees' => $bank->fees+ ($bank->fees * 0.15),
+                'net_amount' => $request->amount - $bank->fees+ ($bank->fees * 0.15),
                 'note' => $request->note,
                 'attachment' => $request->attachment,
                 'created_by_id' => auth()->user()->id,
@@ -118,14 +136,18 @@ class TransferController extends Controller
         //
     }
 
+
     /**
-     * Remove the specified resource from storage.
+     * change Status.
      *
      * @param  \App\Models\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Transfer $Transfer)
+    public function changeStatus(Request $request, Transfer $transfer)
     {
-        //
+        $transfer->status = $request->status;
+        $transfer->save();
+        return new TransferResource($transfer);
     }
+
 }

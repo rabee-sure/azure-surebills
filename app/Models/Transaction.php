@@ -33,6 +33,7 @@ class Transaction extends Model
             return 500000000001;
     }
 
+
     /**
      * Get bill.
      *

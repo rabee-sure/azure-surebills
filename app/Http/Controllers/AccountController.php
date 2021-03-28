@@ -90,22 +90,24 @@ class AccountController extends Controller
             'iban_number' => $request->get('iban_number'),
             'beneficiary_name' => $request->get('beneficiary_name'),
         ]);
-
-        if (count(auth()->user()->bank_documents) > 0) {
-            foreach (auth()->user()->bank_documents as $media) {
-                if (!in_array($media->file_name, $request->input('document', []))) {
-                    $media->delete();
+        if (!auth()->user()->disable_bank_documents){
+             if (count(auth()->user()->bank_documents) > 0) {
+                foreach (auth()->user()->bank_documents as $media) {
+                    if (!in_array($media->file_name, $request->input('document', []))) {
+                        $media->delete();
+                    }
                 }
             }
+
+            $media = auth()->user()->bank_documents->pluck('file_name')->toArray();
+
+            foreach ($request->input('document', []) as $file) {
+                if (count($media) === 0 || !in_array($file, $media)) {
+                    auth()->user()->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('bank_documents');
+                }
+            }       
         }
 
-        $media = auth()->user()->bank_documents->pluck('file_name')->toArray();
-
-        foreach ($request->input('document', []) as $file) {
-            if (count($media) === 0 || !in_array($file, $media)) {
-                auth()->user()->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('bank_documents');
-            }
-        }
 
         if ($request->redirectHome) {
             return redirect('/');
@@ -121,6 +123,7 @@ class AccountController extends Controller
      */
     public function business_information()
     {
+        // dd(auth()->user()->business_documents->first()->toArray());
         return view('account.business_information', ['user' => auth()->user()]);
     }
 
@@ -163,20 +166,21 @@ class AccountController extends Controller
             'vat_registration_number' => $request->get('vat_registration_number'),
             'commercial_registry_expiry_date' => Carbon::parse($request->commercial_registry_expiry_date),
         ]);
-
-        if (count(auth()->user()->business_documents) > 0) {
-            foreach (auth()->user()->business_documents as $media) {
-                if (!in_array($media->file_name, $request->input('document', []))) {
-                    $media->delete();
+        if (!auth()->user()->disable_business_documents){
+            if (count(auth()->user()->business_documents) > 0) {
+                foreach (auth()->user()->business_documents as $media) {
+                    if (!in_array($media->file_name, $request->input('document', []))) {
+                        $media->delete();
+                    }
                 }
             }
-        }
 
-        $media = auth()->user()->business_documents->pluck('file_name')->toArray();
+            $media = auth()->user()->business_documents->pluck('file_name')->toArray();
 
-        foreach ($request->input('document', []) as $file) {
-            if (count($media) === 0 || !in_array($file, $media)) {
-                auth()->user()->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('business_documents');
+            foreach ($request->input('document', []) as $file) {
+                if (count($media) === 0 || !in_array($file, $media)) {
+                    auth()->user()->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('business_documents');
+                }
             }
         }
 

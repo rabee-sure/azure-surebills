@@ -9,8 +9,10 @@ use App\Nova\Metrics\TotalIncome;
 use App\Nova\Metrics\TotalPaid;
 use App\Nova\Metrics\TotalVatOnCommissions;
 use App\Rules\TransferBalance;
+use App\Rules\ValidateUploadFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Code;
@@ -26,7 +28,6 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Panel;
 use Titasgailius\SearchRelations\SearchesRelations;
-use App\Rules\ValidateUploadFile;
 
 class Transfer extends Resource
 {
@@ -94,7 +95,21 @@ class Transfer extends Resource
         return [
             ID::make()->sortable(),
             BelongsTo::make(__('User'), 'user', User::class)->searchable(),
-            Number::make(__('Amount'), 'amount')->min(1)->step(0.1)->rules('required', new TransferBalance($request->viaResourceId)),
+            Number::make(__('Amount'), 'amount')
+                ->min(1)
+                ->step(0.1)
+                ->rules('required', new TransferBalance($request->viaResourceId)),
+
+            Number::make(__('Transfer Fees'), 'transfer_fees')
+                ->min(1)
+                ->step(0.1)
+                ->rules('required'),
+
+            Number::make(__('Net Amount'), 'net_amount')
+                ->min(1)
+                ->step(0.1)
+                ->rules('required'),
+
             Textarea::make(__('Note'), 'note'),
             File::make(__('Attachment'), 'attachment')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])),
 
@@ -109,7 +124,10 @@ class Transfer extends Resource
             }),
 
             DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
-
+            Badge::make(__('Status'), 'status')->map([
+                'pending' => 'warning',
+                'completed' => 'success',
+            ]),
             BelongsToMany::make(__('Bills'), 'bills', Bill::class)
         ];
     }
