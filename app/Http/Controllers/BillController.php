@@ -32,7 +32,6 @@ class BillController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index(Request $request)
     {
         $date_start = $request->date_start ?? null;
