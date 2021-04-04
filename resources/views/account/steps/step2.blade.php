@@ -48,12 +48,12 @@
                     </div>
                   </div>
 
-          <div id="registry_expiry_date" class="form-row" >
-              <div class="form-group col-12 col-md-12">
-                <label>{{ __('Commercial Registry Expiry Date') }}  <span class="requirement">*</span></label>
-                <input value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="commercial_registry_expiry_date" class="form-control datepicker" placeholder="{{ __('Commercial Registry Expiry Date') }}">
-              </div><!-- form-group -->
-          </div>
+                  <div id="registry_expiry_date" class="form-row" >
+                      <div class="form-group col-12 col-md-12">
+                        <label>{{ __('Commercial Registry Expiry Date') }}  <span class="requirement">*</span></label>
+                        <input value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="commercial_registry_expiry_date" class="form-control datepicker" placeholder="{{ __('Commercial Registry Expiry Date') }}">
+                      </div><!-- form-group -->
+                  </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="business_name_en">{{ __('Business Name') }} (EN)<i class="text-danger">*</i></label>

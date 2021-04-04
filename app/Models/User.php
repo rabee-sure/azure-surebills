@@ -140,13 +140,13 @@ class User extends Authenticatable implements HasMedia
     public function getIsCompleteProfileAttribute()
     {
         return (
-            isset($this->business_name_en)&&
-            isset($this->business_address)&&
-            isset($this->business_mobile)&&
+            isset($this->business_name_en)&& !empty($this->business_name_en)&&
+            isset($this->business_address)&& !empty($this->business_address)&&
+            isset($this->business_address)&& !empty($this->business_address)&&
 
-            isset($this->bank_id) &&
-            isset($this->iban_number) &&
-            isset($this->beneficiary_name)
+            isset($this->bank_id) && !empty($this->bank_id) &&
+            isset($this->iban_number) && !empty($this->iban_number) &&
+            isset($this->beneficiary_name) && !empty($this->beneficiary_name)
         );
     }
 
@@ -328,9 +328,11 @@ class User extends Authenticatable implements HasMedia
     {
         $date_start = request()->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = request()->date_to ?? Carbon::today()->format('m/d/Y');
+
         
         $channel = (request()->has('channel_id') && !in_array(request()->channel_id, ['all','undefined']))? Channel::find(request()->channel_id) : null;
         $application = (request()->has('application_id') && !in_array(request()->application_id, ['all','undefined']))? Application::find(request()->application_id) : null;
+
         return $this->statement()
             ->when($date_start, function($q) use($date_start, $date_to){
                 $q->whereDate('created_at', '>=', Carbon::parse($date_start))
