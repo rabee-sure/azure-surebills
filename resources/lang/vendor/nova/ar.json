@@ -1,5 +1,10 @@
 {
     "Upload Success": "تم التحميل بنجاح",
+        "Confirm Transfer": "تأكيد التحويل",
+    "Transfer Deed": "تأكيد التحويل",
+    "Attention": "تنبيه",
+    "Are you sure you confirm transfer, this action cannot be undone": "هل انت متأكد من تأكيد التحويل, لا يمكن التراجع عن هذا الاجراء",
+    "Home": "الرئيسية",
     "Pending Transfers": "التحويلات المعلقة",
     "Transfers": "التحويلات",
     "Business Name" : "الاسم التجاري",

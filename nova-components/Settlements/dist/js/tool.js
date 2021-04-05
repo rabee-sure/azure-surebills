@@ -60106,7 +60106,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60202,10 +60202,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            modal1: false,
             switch_loading: false,
             meta: [],
             users: [],
@@ -60246,8 +60256,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 width: 150,
                 key: 'created_at'
             }, {
-                title: this.__('Action'),
-                slot: 'action',
+                title: this.__('Confirm Transfer'),
+                slot: 'confirm',
+                width: 150,
+                align: 'center'
+            }, {
+                title: this.__('Transfer Deed'),
+                slot: 'deed',
                 width: 150,
                 align: 'center'
             }]
@@ -60300,18 +60315,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         changeStatus: function changeStatus(status, id) {
             var _this4 = this;
 
-            this.switch_loading = true;
-            Nova.request().put('/transfers/' + id + '/change_status', {
-                status: status ? 'completed' : 'pending'
-            }).then(function (response) {
-                _this4.switch_loading = false;
-            }).catch(function (error) {
-                this.switch_loading = false;
-                this.$Message.success('This is a success tip');
+            this.$Modal.confirm({
+                title: this.__('Attention'),
+                content: this.__('Are you sure you confirm transfer, this action cannot be undone'),
+                onOk: function onOk() {
+                    _this4.switch_loading = true;
+                    Nova.request().put('/transfers/' + id + '/change_status', {
+                        status: status ? 'completed' : 'pending'
+                    }).then(function (response) {
+                        _this4.switch_loading = false;
+                    }).catch(function (error) {
+                        this.switch_loading = false;
+                    });
+                },
+                onCancel: function onCancel() {
+                    _this4.$refs['switch' + id].value = false;
+                    _this4.$refs['switch' + id].disabled = false;
+                }
             });
         },
         uploadSuccess: function uploadSuccess() {
-            console.log('dddd');
             this.$Message.success(this.__('Upload Success'));
         }
     }
@@ -60325,153 +60348,202 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { staticStyle: { "padding-top": "10px" } },
-      [
-        _c(
-          "Card",
-          { attrs: { bordered: false } },
-          [
-            _c("p", { attrs: { slot: "title" }, slot: "title" }, [
-              _vm._v(_vm._s(_vm.__("Transfers")))
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "mb-3" }, [
+        _c("div"),
+        _vm._v(" "),
+        _c("nav", { attrs: { "resource-name": "vrification-requests" } }, [
+          _c("ul", { staticClass: "breadcrumbs" }, [
+            _c("li", { staticClass: "breadcrumbs__item" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "router-link-active",
+                  attrs: { href: "/nova/" }
+                },
+                [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.__("Home")) +
+                      "\n            "
+                  )
+                ]
+              )
             ]),
-            _vm._v(" "),
-            _c("Table", {
-              attrs: {
-                columns: _vm.transfersTable,
-                data: _vm.transfers,
-                "no-data-text": _vm.__("No Data")
-              },
-              scopedSlots: _vm._u([
-                {
-                  key: "fromto",
-                  fn: function(ref) {
-                    var row = ref.row
-                    return [
-                      _vm._v(
-                        "\n                      " +
-                          _vm._s(_vm.__(row.filter_from)) +
-                          " - " +
-                          _vm._s(_vm.__(row.filter_to)) +
-                          "\n                  "
-                      )
-                    ]
-                  }
+            _c("li", { staticClass: "breadcrumbs__item" }, [
+              _c("span", [_vm._v(_vm._s(_vm.__("Pending Transfers")))])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div")
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticStyle: { "padding-top": "10px" } },
+        [
+          _c(
+            "Card",
+            { attrs: { bordered: false } },
+            [
+              _c("p", { attrs: { slot: "title" }, slot: "title" }, [
+                _vm._v(_vm._s(_vm.__("Transfers")))
+              ]),
+              _vm._v(" "),
+              _c("Table", {
+                attrs: {
+                  columns: _vm.transfersTable,
+                  data: _vm.transfers,
+                  "no-data-text": _vm.__("No Data")
                 },
-                {
-                  key: "status",
-                  fn: function(ref) {
-                    var row = ref.row
-                    return [
-                      row.status_bool
-                        ? _c("Badge", { attrs: { status: "success" } })
-                        : _c("Badge", { attrs: { status: "warning" } })
-                    ]
-                  }
-                },
-                {
-                  key: "action",
-                  fn: function(ref) {
-                    var row = ref.row
-                    var index = ref.index
-                    return [
-                      _c(
-                        "Row",
-                        [
-                          _c(
-                            "Col",
-                            { attrs: { span: "12" } },
-                            [
-                              _c("i-switch", {
-                                attrs: {
-                                  disabled: row.status_bool,
-                                  loading: _vm.switch_loading,
-                                  "false-color": "#f90",
-                                  "true-color": "#13ce66"
-                                },
-                                on: {
-                                  "on-change": function($event) {
-                                    return _vm.changeStatus($event, row.id)
-                                  }
-                                },
-                                model: {
-                                  value: row.status_bool,
-                                  callback: function($$v) {
-                                    _vm.$set(row, "status_bool", $$v)
-                                  },
-                                  expression: "row.status_bool"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "Col",
-                            { attrs: { span: "12" } },
-                            [
-                              _c(
-                                "Upload",
-                                {
+                scopedSlots: _vm._u([
+                  {
+                    key: "fromto",
+                    fn: function(ref) {
+                      var row = ref.row
+                      return [
+                        _vm._v(
+                          "\n                      " +
+                            _vm._s(_vm.__(row.filter_from)) +
+                            " - " +
+                            _vm._s(_vm.__(row.filter_to)) +
+                            "\n                  "
+                        )
+                      ]
+                    }
+                  },
+                  {
+                    key: "status",
+                    fn: function(ref) {
+                      var row = ref.row
+                      return [
+                        row.status_bool
+                          ? _c("Badge", { attrs: { status: "success" } })
+                          : _c("Badge", { attrs: { status: "warning" } })
+                      ]
+                    }
+                  },
+                  {
+                    key: "confirm",
+                    fn: function(ref) {
+                      var row = ref.row
+                      var index = ref.index
+                      return [
+                        _c("i-switch", {
+                          ref: "switch" + row.id,
+                          attrs: {
+                            disabled: row.status_bool,
+                            loading: _vm.switch_loading,
+                            "false-color": "#f90",
+                            "true-color": "#13ce66"
+                          },
+                          on: {
+                            "on-change": function($event) {
+                              return _vm.changeStatus($event, row.id)
+                            }
+                          },
+                          model: {
+                            value: row.status_bool,
+                            callback: function($$v) {
+                              _vm.$set(row, "status_bool", $$v)
+                            },
+                            expression: "row.status_bool"
+                          }
+                        })
+                      ]
+                    }
+                  },
+                  {
+                    key: "deed",
+                    fn: function(ref) {
+                      var row = ref.row
+                      var index = ref.index
+                      return [
+                        _c(
+                          "Upload",
+                          {
+                            attrs: {
+                              "on-success": _vm.uploadSuccess,
+                              action:
+                                "/api/transfers/" +
+                                row.id +
+                                "/upload_attachment",
+                              "show-upload-list": false
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              [
+                                _c("Icon", {
+                                  staticStyle: { color: "#3399ff" },
                                   attrs: {
-                                    "on-success": _vm.uploadSuccess,
-                                    action:
-                                      "/api/transfers/" +
-                                      row.id +
-                                      "/upload_attachment",
-                                    "show-upload-list": false
+                                    type: "ios-cloud-upload",
+                                    size: "30"
                                   }
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    [
-                                      _c("Icon", {
-                                        staticStyle: { color: "#3399ff" },
-                                        attrs: {
-                                          type: "ios-cloud-upload",
-                                          size: "30"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ]
+                                })
+                              ],
+                              1
+                            )
+                          ]
+                        )
+                      ]
+                    }
                   }
-                }
-              ])
-            }),
-            _vm._v(" "),
-            _c("div", { staticStyle: { margin: "10px", overflow: "hidden" } }, [
+                ])
+              }),
+              _vm._v(" "),
               _c(
                 "div",
-                { staticStyle: { float: "right" } },
+                { staticStyle: { margin: "10px", overflow: "hidden" } },
                 [
-                  _c("Page", {
-                    attrs: { total: _vm.meta.total },
-                    on: { "on-change": _vm.changePage }
-                  })
-                ],
-                1
+                  _c(
+                    "div",
+                    { staticStyle: { float: "right" } },
+                    [
+                      _c("Page", {
+                        attrs: { total: _vm.meta.total },
+                        on: { "on-change": _vm.changePage }
+                      })
+                    ],
+                    1
+                  )
+                ]
               )
-            ])
-          ],
-          1
-        )
-      ],
-      1
-    )
-  ])
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { title: "Common Modal dialog box title" },
+          on: { "on-ok": _vm.ok, "on-cancel": _vm.cancel },
+          model: {
+            value: _vm.modal1,
+            callback: function($$v) {
+              _vm.modal1 = $$v
+            },
+            expression: "modal1"
+          }
+        },
+        [
+          _c("p", [_vm._v("Content of dialog")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Content of dialog")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Content of dialog")])
+        ]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
