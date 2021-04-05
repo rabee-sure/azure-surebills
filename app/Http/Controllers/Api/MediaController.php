@@ -29,7 +29,7 @@ class MediaController extends Controller
 
 
 	        $file = $request->file('file');
-	        $name = time().'-'.$file->getClientOriginalName().'.'.$file->getClientOriginalExtension();
+	        $name = time().'-'.$file->getClientOriginalName();
 	        $destinationPath = ($request->folder)? storage_path('/app/public/').$request->folder : storage_path('/app/public');
 	        $file->move($destinationPath, $name);
 	        return response()->json(['data' => ($request->folder)? $request->folder.'/'.$name : $name]);

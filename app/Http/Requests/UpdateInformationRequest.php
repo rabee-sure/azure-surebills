@@ -44,7 +44,7 @@ class UpdateInformationRequest extends FormRequest
             'facebook' => ['nullable', 'url'],
             'instagram' => ['nullable', 'url'],
             'hidden_logo' => ['nullable'],
-            'logo' => ['nullable', new ValidateUploadFile(['png', 'jpg', 'jpeg'])],
+            'logo' => ['nullable'],
             'description' => ['nullable'],
             'business_address' => ['required', 'max:100'],
             'business_mobile' => ['required'],
