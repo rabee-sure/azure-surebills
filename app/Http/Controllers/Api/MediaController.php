@@ -23,16 +23,16 @@ class MediaController extends Controller
                 'file' => ['required', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])],
             ]);
 
-            if ($validator->fails())
-            {
+            if ($validator->fails()){
                 return response()->json(['error' =>$validator->errors()]);
             }
 
-	        $image = $request->file('file');
-	        $name = time().'.'.$image->getClientOriginalExtension();
-	        $destinationPath = storage_path('/app/public');
-	        $image->move($destinationPath, $name);
-	        return response()->json(['data' => $name]);
+
+	        $file = $request->file('file');
+	        $name = time().'-'.$file->getClientOriginalName();
+	        $destinationPath = ($request->folder)? storage_path('/app/public/').$request->folder : storage_path('/app/public');
+	        $file->move($destinationPath, $name);
+	        return response()->json(['data' => ($request->folder)? $request->folder.'/'.$name : $name]);
 	    }
     }
 
@@ -50,8 +50,7 @@ class MediaController extends Controller
                 'file' => ['required', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])],
             ]);
 
-            if ($validator->fails())
-            {
+            if ($validator->fails()){
                 return response()->json(['error' =>$validator->errors()]);
             }
 

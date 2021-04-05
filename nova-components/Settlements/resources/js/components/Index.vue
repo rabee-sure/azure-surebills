@@ -69,11 +69,12 @@ export default {
                 {
                     title: this.__('Business Name'),
                     key: 'user_business_name_en',
+                    width: 150,
                 },
                 {
                     title: this.__('Amount'),
                     key: 'amount',
-                    width: 120,
+                    width: 130,
                 },
                 {
                     title: this.__('Transfer Fees'),
@@ -89,11 +90,6 @@ export default {
                     title: this.__('From - To'),
                     slot: 'fromto',
                     width: 300,
-                },
-                {
-                    title: this.__('Note'),
-                    width: 150,
-                    key: 'note'
                 },
                 // {
                 //     title: this.__('Created By'),
