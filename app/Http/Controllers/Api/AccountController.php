@@ -43,6 +43,24 @@ class AccountController extends Controller
                 'iban_number' => $request->get('iban_number'),
                 'beneficiary_name' => $request->get('beneficiary_name'),
             ]);
+
+
+            if(!$user->disable_bank_documents){
+                $bank_documents = $request->input('bank_documents', []);
+                //delete if Deleted
+                foreach ($user->bank_documents as $media) {
+                    if (!in_array($media->id, array_column($bank_documents, 'id'))) {
+                        $media->delete();
+                    }
+                }
+
+                //create
+                foreach ($bank_documents as $file) {
+                    if($file['id'] == null && isset($file['file'])){
+                        $user->addMedia(storage_path('app/public/'.$file['file']))->toMediaCollection('bank_documents');        
+                    }
+                }       
+            }
         }
 
         if($request->type == 'business' || $request->type == "all"){
@@ -59,44 +77,26 @@ class AccountController extends Controller
                 'commercial_registry_expiry_date' => Carbon::parse($request->commercial_registry_expiry_date),
                 'logo' => $request->get('logo'),
             ]);
-        }
 
-
-        if (!$user->disable_bank_documents){
-            $bank_documents = $request->input('bank_documents', []);
-            //delete if Deleted
-            if (count($user->bank_documents) > 0 && count($bank_documents) > 0) {
-                foreach ($user->bank_documents as $media) {
-                    if (!in_array($media->id, array_column($bank_documents, 'id'))) {
-                        $media->delete();
-                    }
-                }
-            }
-            //create
-            foreach ($bank_documents as $file) {
-                if($file['id'] == null && isset($file['file'])){
-                    $user->addMedia(storage_path('app/public/'.$file['file']))->toMediaCollection('bank_documents');        
-                }
-            }       
-        }
-
-        if (!$user->disable_business_documents){
-            $business_documents = $request->input('business_documents', []);
-            //delete if Deleted
-            if (count($user->business_documents) > 0 && count($business_documents) > 0) {
+            if (!$user->disable_business_documents ){
+                $business_documents = $request->input('business_documents', []);
+                //delete if Deleted
                 foreach ($user->business_documents as $media) {
                     if (!in_array($media->id, array_column($business_documents, 'id'))) {
                         $media->delete();
                     }
                 }
+                
+                //create
+                foreach ($business_documents as $file) {
+                    if($file['id'] == null && isset($file['file'])){
+                        $user->addMedia(storage_path('app/public/'.$file['file']))->toMediaCollection('business_documents');        
+                    }
+                }       
             }
-            //create
-            foreach ($business_documents as $file) {
-                if($file['id'] == null && isset($file['file'])){
-                    $user->addMedia(storage_path('app/public/'.$file['file']))->toMediaCollection('business_documents');        
-                }
-            }       
         }
+
+
 
         return new UserInformationResource($user);
     }
