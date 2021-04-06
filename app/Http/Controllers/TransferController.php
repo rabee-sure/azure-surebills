@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\TransferCreated;
-use App\Http\Resources\TransferResource;
+use Carbon\Carbon;
 use App\Models\Bank;
 use App\Models\Bill;
 use App\Models\Transfer;
-use Carbon\Carbon;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Events\TransferCreated;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\TransferResource;
 
 class TransferController extends Controller
 {
@@ -147,6 +148,34 @@ class TransferController extends Controller
     {
         $transfer->status = $request->status;
         $transfer->save();
+        if($request->status == 'completed'){
+
+            $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
+            $bankNumber = substr($transfer->user->iban_number, -4);
+    
+            $transaction = new Transaction;
+            $transaction->user_id     = $transfer->user_id;
+            $transaction->type        = 'debit';
+            $transaction->amount      = $transfer->amount;
+            $transaction->reference   = $transfer->id;
+            $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
+            $transaction->transaction_source = 'transfer';
+            $transaction->save();
+
+            $bills = $transfer->bills;
+            $user_id = $transfer->user_id;
+            foreach ($bills as $bill) {
+                if($bill->user_id == $user_id){
+                    $bill->settled = true;
+                }
+
+                if($bill->isHaveChannelOwenByUser($user_id)){
+                   $bill->channel_settled = true; 
+                }
+                $bill->save();
+            }
+            event(new TransferCreated($transfer));
+        }
         return new TransferResource($transfer);
     }
 

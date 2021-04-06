@@ -45,6 +45,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\BillRefunded' => [
             'App\Listeners\CalculateRefundedPayment',
         ],
+        'App\Events\TransferCreated' => [
+            'App\Listeners\SendMailTransferMailToCustomer',
+        ],
     ];
 
     /**

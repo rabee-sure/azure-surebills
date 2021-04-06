@@ -6,9 +6,7 @@ use App\Events\TransferCreated;
 use App\Exports\BillsExport;
 use App\Http\Resources\BillResource;
 use App\Mail\AutoTransferMail;
-use App\Models\Bank;
 use App\Models\Bill;
-use App\Models\Settings;
 use App\Models\Transaction;
 use App\Models\Transfer;
 use App\Models\User;
@@ -93,21 +91,10 @@ class TransferAutomatic extends Command
                         ],
                     ]);
 
-                    foreach ($bills as $bill) {
-                        if($bill->user_id == $user->id){
-                            $bill->settled = true;
-                        }
-
-                        if($bill->isHaveChannelOwenByUser($user->id)){
-                           $bill->channel_settled = true; 
-                        }
-                        $bill->save();
-                    }
                     $transfer->bills()->attach($bills->pluck('id')->toArray());
 
                     return $transfer;
                 });
-                event(new TransferCreated($transfer));
             }
 
             if($filtered_users->count())
