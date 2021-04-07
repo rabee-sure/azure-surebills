@@ -90,7 +90,8 @@ class AccountController extends Controller
                 //create
                 foreach ($business_documents as $file) {
                     if($file['id'] == null && isset($file['file'])){
-                        $user->addMedia(storage_path('app/public/'.$file['file']))->toMediaCollection('business_documents');        
+                        $file_name =  str_replace('storage/','', $file['file']);
+                        $user->addMedia(storage_path('app/public/'.$file_name))->toMediaCollection('business_documents');        
                     }
                 }       
             }
