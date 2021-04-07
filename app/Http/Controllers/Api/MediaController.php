@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Transfer;
-use App\Rules\ValidateUploadFile;
 use Illuminate\Http\Request;
+use App\Rules\ValidateUploadFile;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class MediaController extends Controller
@@ -32,7 +33,9 @@ class MediaController extends Controller
 	        $name = time().'-'.$file->getClientOriginalName();
 	        $destinationPath = ($request->folder)? storage_path('/app/public/').$request->folder : storage_path('/app/public');
 	        $file->move($destinationPath, $name);
-	        return response()->json(['data' => ($request->folder)? $request->folder.'/'.$name : $name]);
+            $file_path = ($request->folder)? $request->folder.'/'.$name : $name;
+
+	        return response()->json(['data' => Storage::disk('public')->exists($file_path) ? "storage/$file_path":$file_path]);
 	    }
     }
 
