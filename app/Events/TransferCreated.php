@@ -14,16 +14,16 @@ class TransferCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $Transfer;
+    public $transfer;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($Transfer)
+    public function __construct($transfer)
     {
-        $this->Transfer = $Transfer;
+        $this->transfer = $transfer;
     }
 
     /**

@@ -46,6 +46,17 @@ class Transfer extends Model
         return $this->belongsTo(User::class);
     }   
 
+	/**
+     * Get bank.
+     *
+     * @return Collection
+     */
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class);
+    }   
+
+
     /**
      * Get bills.
      *

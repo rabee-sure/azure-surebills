@@ -1,5 +1,10 @@
 <template>
     <div>
+      <div class="mb-3"><div></div> <nav resource-name="vrification-requests"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a href="/nova/" class="router-link-active">
+                {{ __('Home') }}
+            </a>
+          </li><li class="breadcrumbs__item"><span>{{ __('Pending Transfers') }}</span></li></ul></nav> <div></div>
+          </div>
 <!--         <heading class="mb-6">Settlements</heading>
 
         <select class="custom-select"  @change="onChange($event)" v-model="select">
@@ -23,19 +28,15 @@
                       <Badge v-else status="warning" />
                   </template>
 
-                  <template slot-scope="{ row, index }" slot="action">
-                      <Row>
-                          <Col span="12">                    
-                              <i-switch :disabled="row.status_bool" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id)" false-color="#f90" true-color="#13ce66" />
-                          </Col>
-                          <Col span="12">
-                              <Upload :on-success="uploadSuccess" :action="'/api/transfers/'+row.id+'/upload_attachment'" :show-upload-list="false">
-                                  <div>
-                                      <Icon type="ios-cloud-upload" size="30" style="color: #3399ff"></Icon>
-                                  </div>
-                              </Upload>
-                          </Col>
-                      </Row>
+                  <template slot-scope="{ row, index }" slot="confirm">              
+                    <i-switch :disabled="row.status_bool" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id)" false-color="#f90" true-color="#13ce66" :ref="'switch' + row.id" />
+                  </template>
+                  <template slot-scope="{ row, index }" slot="deed">
+                      <Upload :on-success="uploadSuccess" :action="'/api/transfers/'+row.id+'/upload_attachment'" :show-upload-list="false">
+                          <div>
+                              <Icon type="ios-cloud-upload" size="30" style="color: #3399ff"></Icon>
+                          </div>
+                      </Upload>
                   </template>
               </Table>
               <div style="margin: 10px;overflow: hidden">
@@ -45,7 +46,15 @@
               </div>
           </Card>
       </div>
-
+      <Modal
+          v-model="modal1"
+          title="Common Modal dialog box title"
+          @on-ok="ok"
+          @on-cancel="cancel">
+          <p>Content of dialog</p>
+          <p>Content of dialog</p>
+          <p>Content of dialog</p>
+      </Modal>
     </div>
 
 </template>
@@ -54,6 +63,7 @@
 export default {
     data() {
         return {
+            modal1: false,
             switch_loading: false,
             meta: [],
             users: [],
@@ -101,8 +111,14 @@ export default {
                     key: 'created_at'
                 },
                 {
-                    title: this.__('Action'),
-                    slot: 'action',
+                    title: this.__('Confirm Transfer'),
+                    slot: 'confirm',
+                    width: 150,
+                    align: 'center'
+                },
+                {
+                    title: this.__('Transfer Deed'),
+                    slot: 'deed',
                     width: 150,
                     align: 'center'
                 }
@@ -146,23 +162,33 @@ export default {
             this.getTransfers(page)
         },
         changeStatus(status, id) {
-            this.switch_loading = true;
-            Nova.request().put('/transfers/'+id+'/change_status', {
-                status: status? 'completed': 'pending',
-            })
-            .then(response => {
-                this.switch_loading = false;
-            })
-            .catch(function (error) {
-                this.switch_loading = false;
-                                this.$Message.success('This is a success tip');
 
-            });   
+              this.$Modal.confirm({
+                    title: this.__('Attention'),
+                    content: this.__('Are you sure you confirm transfer, this action cannot be undone'),
+                    onOk: () => {
+                        this.switch_loading = true;
+                        Nova.request().put('/transfers/'+id+'/change_status', {
+                            status: status? 'completed': 'pending',
+                        })
+                        .then(response => {
+                            this.switch_loading = false;
+                        })
+                        .catch(function (error) {
+                            this.switch_loading = false;
+                        });
+                    },
+                    onCancel: () => {
+                      this.$refs['switch'+id].value = false
+                      this.$refs['switch'+id].disabled = false
+                    }
+                });
+   
         },
         uploadSuccess() {
-          console.log('dddd');
           this.$Message.success(this.__('Upload Success'));
-        }
+        },
+
     }
 }
 </script>

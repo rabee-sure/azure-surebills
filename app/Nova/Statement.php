@@ -71,7 +71,15 @@ class Statement extends Resource
     public function fields(Request $request)
     {
         return [
-            DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
+            // DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
+            Text::make(__('Created At'), 'created_at')
+                ->displayUsing(function(){
+                    if($this->created_at)
+                        return $this->created_at->format('Y-m-d h:i a');
+                    else
+                        return 'NULL';
+                })->exceptOnForms(),
+                
             Text::make(__('Description'), 'description'),
             Text::make(__('Reference'), 'reference'),
             Text::make(__('Receipt'), 'receipt', function(){

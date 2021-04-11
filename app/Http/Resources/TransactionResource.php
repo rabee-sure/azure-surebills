@@ -23,7 +23,7 @@ class TransactionResource extends JsonResource
             'reference'      => $this->reference,
             'description'    => $this->description,
             'type'           => $this->type,
-            'balance'        => $this->balance,
+            'balance'        => round($this->balance,2),
             'card'           => $this->card,
             'card_brand'     => $this->card_brand,
             'auth_id'        => $this->auth_id,

@@ -39,6 +39,8 @@ class Transfer extends Resource
      */
     public static $model = \App\Models\Transfer::class;
 
+    public static $displayInNavigation = false;
+
     /**
      * Get the displayble label of the resource.
      *
@@ -145,11 +147,11 @@ class Transfer extends Resource
     public function cards(Request $request)
     {
         return [
-            (new TotalIncome)->width('1/5'),
-            (new TotalCommissions)->width('1/5'),
-            (new TotalVatOnCommissions)->width('1/5'),
-            (new TotalPaid)->width('1/5'),
-            (new TotalDue)->width('1/5'),
+            // (new TotalIncome)->width('1/5'),
+            // (new TotalCommissions)->width('1/5'),
+            // (new TotalVatOnCommissions)->width('1/5'),
+            // (new TotalPaid)->width('1/5'),
+            // (new TotalDue)->width('1/5'),
         ];
     }
 
