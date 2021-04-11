@@ -218,6 +218,7 @@ return [
         "on" => 'مفعل',
         "off" => 'غير مفعل',
         "due_date" => "تاريخ الاستحقاق",
+        "commercial_registry_expiry_date" => "تاريخ انتهاء السجل التجاري",
         "expiry_date" => "تاريخ الانتهاء"
     ],
 ];
