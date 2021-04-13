@@ -1,62 +1,81 @@
- @extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Settlements')
 
 @section('content')
     <div class="row">
-      <div class="col-12">
-        <h1>Statement</h1>
-        <div class="top-right-button-container">
-         <h3>Balance : 177.96 SAR</h3>
+        <div class="col-12">
+            <h1>{{ __('Transfers') }}</h1>
+            <div class="top-right-button-container">
+                @include('transfers.request_transfer')
+
+                <h3>{{ __('Balance') }} : {{ (int) round(auth()->user()->balance, 2) }} {{__('SAR')}}</h3>
+            </div>
+            <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                <ol class="breadcrumb pt-0">
+                    <li class="breadcrumb-item"><a href="/">{{ __('Home') }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ __('Transfers') }}</li>
+                </ol>
+            </nav>
+            <div class="mb-2"></div>
+
+            <div class="separator mb-5"></div>
         </div>
-        <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-          <ol class="breadcrumb pt-0">
-            <li class="breadcrumb-item">
-              <a href="index.html">Home</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">Statement</li>
-          </ol>
-        </nav>
-        <div class="mb-2">x
-        </div>
-        <div class="separator mb-5"></div>
-      </div>
+
     </div>
 
     <div class="row mb-4">
-      <div class="col-12 mb-4">
-        <div class="card">
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-striped text-center">
-                <thead>
-                  <tr>
-                    <th>Id</th>
-                    <th>bills paid from</th>
-                    <th>bills paid to</th>
-                    <th>total number of bills</th>
-                    <th>total amount of bills</th>
-                    <th>total paid amount</th>
-                    <th>total fees amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    @foreach($transfers as $transfer)
-                        <tr>
-                            <td>{{$transfer->id}}</td>
-                            <td>{{$transfer->bills_paid_from}}</td>
-                            <td>{{$transfer->bills_paid_to}}</td>
-                            <td>{{$transfer->total_number_of_bills}}</td>
-                            <td>{{$transfer->total_amount_of_bills}}</td>
-                            <td>{{$transfer->total_paid_amount}}</td>
-                            <td>{{$transfer->total_fees_amount}}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-              </table>
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th>{{__('Id')}}</th>
+                                    <th>{{__('Amount')}}</th>
+                                    <th>{{__('Transfer Fees')}}</th>
+                                    <th>{{__('Net Amount')}}</th>
+                                    <th>{{__('Note')}}</th>
+                                    <th>{{__('Date From To')}}</th>
+                                    <th>{{__('Created At')}}</th>
+                                    <th>{{__('Status')}}</th>
+                                    <th>{{__('Bills')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($transfers as $transfer)
+                                <tr>
+                                    <td>{{$transfer->id}}</td>
+                                    <td>{{$transfer->amount}}</td>
+                                    <td>{{$transfer->transfer_fees}}</td>
+                                    <td>{{$transfer->net_amount}}</td>
+                                    <td>{{$transfer->note}}</td>
+                                    <td>{{$transfer->date_from_to}}</td>
+                                    <td>{{$transfer->created_at}}</td>
+                                    <td>
+                                        @if($transfer->status == 'completed')
+                                            <div class="badge badge-pill badge-success bill_status_badge" role="alert">
+                                                {{__('Transfer ' .$transfer->status)}}
+                                            </div>
+                                        @elseif($transfer->status == 'pending')
+                                            <div class="badge badge-pill badge-warning bill_status_badge" role="alert">
+                                                {{__('Transfer ' .$transfer->status)}}
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="transfers/{{$transfer->id }}/bills"  data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Show Bills') }}">
+                                            {{ __('Bills') }}
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>    
+                        </table>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
 @endsection

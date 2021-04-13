@@ -48,7 +48,9 @@
 </g>
 <g>
 </g>
-</svg></button></div>
+</svg></button>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="delete_customer_Modal_{{$customer->id}}" tabindex="-1" role="dialog" aria-hidden="true">
 

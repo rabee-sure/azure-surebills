@@ -29,6 +29,58 @@ class TransferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function bills(Transfer $transfer, Request $request)
+    {
+        return view('transfers.bills', [
+            'transfer' => $transfer,
+            'bills' => $transfer->bills,
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function request(Request $request)
+    {
+        $from = $this->getToDate($user);
+        $bills = $this->getbillsBetweenDate($from, $to, $user);
+        $amount = $this->getAmount($bills, $user);
+        $this->info("transfer to $user->name amount: $amount");
+
+        $transfer = DB::transaction(function () use($user, $bills, $amount){
+            $bank = $user->bank;
+            $transfer = Transfer::create([
+                'status' => 'pending',
+                'user_id' => $user->id,
+                'amount' => $amount,
+                'transfer_fees' => $bank->fees+ ($bank->fees * 0.15),
+                'net_amount' => $amount - $bank->fees+ ($bank->fees * 0.15),
+                'note' => 'automatic transfer',
+                'created_by_id' => null,
+                'bank_id' => $bank->id,
+                'iban_number' => $user->iban_number,
+                'beneficiary_name' => $user->beneficiary_name,
+                'filters' => [
+                    'date' => [
+                        "from" => '',
+                        "to" => '',
+                    ]
+                ],
+            ]);
+
+            $transfer->bills()->attach($bills->pluck('id')->toArray());
+
+            return $transfer;
+        });
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function all(Request $request)
     {
         $transfers = Transfer::orderBy('id', 'desc')
