@@ -11,13 +11,18 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
+    'values' => [
+        'license_type' => [
+            "Commercial Record" => "السجل التجاري",
+        ],
+     ],
     'credit_card' => [
         'card_cvc_invalid' => 'The :attribute invalid.',
         'card_checksum_invalid' => 'The :attribute invalid',
         'card_length_invalid' => 'The :attribute length must be 16',
         'card_invalid' => 'The :attribute invalid',
     ],
-
+    "Commercial Record" => "السجل التجاري",
     'match_old_password' => 'كلمة المرور الجديدة لا تتطابق مع كلمة المرور القديمة.',
     'accepted'        => 'يجب قبول :attribute.',
     'active_url'      => ':attribute لا يُمثّل رابطًا صحيحًا.',
@@ -218,6 +223,9 @@ return [
         "on" => 'مفعل',
         "off" => 'غير مفعل',
         "due_date" => "تاريخ الاستحقاق",
+        "commercial_registry_expiry_date" => "تاريخ انتهاء السجل التجاري",
+        "license_type" => "نوع الترخيص",
+
         "expiry_date" => "تاريخ الانتهاء"
     ],
 ];
