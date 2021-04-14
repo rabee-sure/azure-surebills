@@ -21,8 +21,17 @@
 
             <div class="separator mb-5"></div>
         </div>
-
     </div>
+    
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <div class="row mb-4">
         <div class="col-12 mb-4">

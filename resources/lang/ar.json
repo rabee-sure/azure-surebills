@@ -1,5 +1,6 @@
 {
 	"All": "الكل",
+	"Your balance is not allowed to transfer. The minimum transfer balance is :minimum": "رصيدك لا يسمح بعملية تحويل اقل رصيد للتحويل هو :minimum ريال",
 	"Request Transfer": "طلب تحويل",
 	"Request": "طلب",
 	"Are You sure you want Request transfer?": "هل أنت متأكد أنك تريد طلب التحويل؟",

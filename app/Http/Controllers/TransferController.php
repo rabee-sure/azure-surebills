@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
+use App\Events\TransferCreated;
+use App\Http\Resources\TransferResource;
 use App\Models\Bank;
 use App\Models\Bill;
-use App\Models\Transfer;
 use App\Models\Transaction;
+use App\Models\Transfer;
+use App\Services\TransferService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Events\TransferCreated;
 use Illuminate\Support\Facades\DB;
-use App\Http\Resources\TransferResource;
+use Spatie\Valuestore\Valuestore;
 
 class TransferController extends Controller
 {
@@ -44,10 +46,17 @@ class TransferController extends Controller
      */
     public function request(Request $request)
     {
-        $from = $this->getToDate($user);
-        $bills = $this->getbillsBetweenDate($from, $to, $user);
-        $amount = $this->getAmount($bills, $user);
-        $this->info("transfer to $user->name amount: $amount");
+        $user = auth()->user();
+        $to = Carbon::now()->startOfDay();
+        $from = TransferService::getFromDate($user);
+        $bills = TransferService::getbillsBetweenDate($from, $to, $user);
+        $amount = TransferService::getAmount($bills, $user);
+        $settings =  Valuestore::make(storage_path('app/settings.json'));
+        $transfer_minimum = $settings->get('transfer_minimum');
+
+        if ($transfer_minimum > $amount) {
+            return redirect()->back()->withErrors([__('Your balance is not allowed to transfer. The minimum transfer balance is :minimum', ['minimum'=>$transfer_minimum])]);
+        }
 
         $transfer = DB::transaction(function () use($user, $bills, $amount){
             $bank = $user->bank;
@@ -89,16 +98,6 @@ class TransferController extends Controller
             ->paginate($request->per_page);
 
         return TransferResource::collection($transfers);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -153,40 +152,6 @@ class TransferController extends Controller
         event(new TransferCreated($transfer));
 
         return new TransferResource($transfer);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Transfer  $Transfer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Transfer $Transfer)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Transfer  $Transfer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Transfer $Transfer)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Transfer  $Transfer
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Transfer $Transfer)
-    {
-        //
     }
 
 
