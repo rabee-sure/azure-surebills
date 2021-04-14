@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Transfer extends Model
@@ -36,6 +37,20 @@ class Transfer extends Model
         'filters' => 'array',
     ];
 
+
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getDateFromToAttribute()
+    {
+        $from = Carbon::parse($this->filters['date']['from'])->toDateTimeString();
+        $to = Carbon::parse($this->filters['date']['to'])->toDateTimeString();
+        return  $from.' - '. $to;
+    }
+
 	/**
      * Get user.
      *
@@ -66,6 +81,7 @@ class Transfer extends Model
     {
         return $this->belongsToMany(Bill::class);
     }
+
 
     /**
      * Get user.

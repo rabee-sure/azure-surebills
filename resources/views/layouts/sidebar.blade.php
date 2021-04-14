@@ -33,18 +33,18 @@
             {{ __('Statement') }}
           </a>
         </li>
-        <!-- <li>
+        {{-- <li>
           <a href="#store" title="Store">
             <i class="iconsminds-shop-2"></i>
             {{ __('Store') }}
           </a>
-        </li>
-        <li class="{{ Request::is('transfer*') ? 'active' : '' }}">
-          <a href="{{ route('transfer.index') }}" title="Statement">
-            <i class="iconsminds-statistic"></i>
-            {{ __('Settlements') }}
+        </li> --}}
+        <li class="{{ Request::is('transfers*') ? 'active' : '' }}">
+          <a href="{{ route('transfers.index') }}" title="{{ __('Transfers') }}">
+            <i class="iconsminds-money-bag"></i>
+            {{ __('Transfers') }}
           </a>
-        </li> -->
+        </li>
         <li class="{{ Request::is('account*') ? 'active' : '' }}">
           <a href="{{ route('account') }}" title="{{ __('My Account') }}">
             <i class="iconsminds-male-2"></i>

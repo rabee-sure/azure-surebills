@@ -82,7 +82,6 @@ class User extends Authenticatable implements HasMedia
         'commercial_registry_expiry_date' => 'datetime',
     ];
 
-
     /**
      * Get the user's is Active.
      *
@@ -96,7 +95,6 @@ class User extends Authenticatable implements HasMedia
         $withdraws = $transactions->where('type', 'debit')->sum('amount');
         return $deposits - $withdraws;
     }
-
 
     /**
      * Get the user's is Active.
