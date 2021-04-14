@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\TransferCreated;
 use App\Http\Resources\TransferResource;
+use App\Mail\RequestTransferMail;
 use App\Models\Bank;
 use App\Models\Bill;
 use App\Models\Transaction;
@@ -12,6 +13,7 @@ use App\Services\TransferService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Valuestore\Valuestore;
 
 class TransferController extends Controller
@@ -52,10 +54,17 @@ class TransferController extends Controller
         $bills = TransferService::getbillsBetweenDate($from, $to, $user);
         $amount = TransferService::getAmount($bills, $user);
         $settings =  Valuestore::make(storage_path('app/settings.json'));
+
         $transfer_minimum = $settings->get('transfer_minimum');
+        $transfer_emails = $settings->get('transfer_emails');
+
 
         if ($transfer_minimum > $amount) {
             return redirect()->back()->withErrors([__('Your balance is not allowed to transfer. The minimum transfer balance is :minimum', ['minimum'=>$transfer_minimum])]);
+        }
+
+        if ($user->transfers->where('status', 'pending')->count()) {
+            return redirect()->back()->withErrors([__('Sorry, you cannot request a transfer now. Please wait for the Transfer of the previous transfer')]);
         }
 
         $transfer = DB::transaction(function () use($user, $bills, $amount){
@@ -83,6 +92,11 @@ class TransferController extends Controller
 
             return $transfer;
         });
+
+        if($transfer)
+            $this->sendMails($transfer_emails, $to, $transfer);
+        
+        return redirect()->back();
     }
 
     /**
@@ -194,6 +208,21 @@ class TransferController extends Controller
             event(new TransferCreated($transfer));
         }
         return new TransferResource($transfer);
+    }
+
+        /**
+     * send Mails.
+     *
+     * @return void
+     */
+    protected function sendMails($emails_string, $date, $transfer)
+    {
+        $emails = explode(",", $emails_string);
+        if(count($emails)){
+            foreach ($emails as $email) {
+                Mail::to($email)->send(new RequestTransferMail($date, auth()->user(), $transfer));
+            }
+        }
     }
 
 }
