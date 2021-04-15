@@ -82,7 +82,7 @@ class BillController extends Controller
             'expiry_date' => $request->expiry_date,
             'expiry_hours' => $request->expiry_hours,
             'expiry_minutes' => $request->expiry_minutes,
-            'due_date' => $this->parseDate($request->due_date),
+            'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => $request->add_discount ?? false,
             'discount_type' => $request->discount_type,
@@ -142,21 +142,6 @@ class BillController extends Controller
         event(new BillCreated($bill));
         
         return new BillApiResource($bill);
-    }
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    protected function parseDate($date)
-    {
-        if(strpos($date, '/') !== false)
-            return Carbon::createFromFormat('d/m/Y', $date);
-        else
-            return Carbon::parse($date);
     }
 
     /**
