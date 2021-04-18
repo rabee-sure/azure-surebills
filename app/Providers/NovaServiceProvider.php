@@ -5,6 +5,12 @@ namespace App\Providers;
 use Anaseqal\NovaSidebarIcons\NovaSidebarIcons;
 use App\Nova\Metrics\BillsPerDay;
 use App\Nova\Metrics\NewUsers;
+use App\Nova\Metrics\TotalCommissions;
+use App\Nova\Metrics\TotalDue;
+use App\Nova\Metrics\TotalIncome;
+use App\Nova\Metrics\TotalPaid;
+use App\Nova\Metrics\TotalVatOnCommissions;
+use Bakerkretzmar\NovaSettingsTool\SettingsTool;
 use ChrisWare\NovaBreadcrumbs\NovaBreadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -13,7 +19,6 @@ use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Sure\HomeAnalytics\HomeAnalytics;
 use Sure\Settlements\Settlements;
-use Bakerkretzmar\NovaSettingsTool\SettingsTool;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -68,6 +73,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         return [     
             // new NewUsers,
             (new HomeAnalytics)->width('full'),
+
+            (new TotalIncome)->width('1/5'),
+            (new TotalCommissions)->width('1/5'),
+            (new TotalVatOnCommissions)->width('1/5'),
+            (new TotalPaid)->width('1/5'),
+            (new TotalDue)->width('1/5'),
         ];
     }
 

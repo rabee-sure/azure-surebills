@@ -203,8 +203,15 @@ class Bill extends Resource
             
             BelongsTo::make(__('User'), 'user', User::class),
 
-            DateTime::make(__('Created At'), 'created_at')
-                ->exceptOnForms(),
+            // DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
+
+            Text::make(__('Created At'), 'created_at')
+                ->displayUsing(function(){
+                    if($this->created_at)
+                        return $this->created_at->format('Y-m-d h:i a');
+                    else
+                        return 'NULL';
+                })->exceptOnForms(),
 
             BelongsTo::make(__('Customer'), 'customer', Customer::class)->onlyOnDetail(),
             Text::make(__('Business Name'), 'business_name')->onlyOnDetail(),
