@@ -11,8 +11,8 @@ class Transfer extends Model
     protected $table = 'settlements';
 
     protected $fillable = [
-		'amount',
-		'user_id',
+        'amount',
+        'user_id',
         'created_by_id',
         'note',
         'attachment',
@@ -26,7 +26,7 @@ class Transfer extends Model
         'status',
         'transfer_fees',
         'net_amount',
-	];
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -46,12 +46,12 @@ class Transfer extends Model
      */
     public function getDateFromToAttribute()
     {
-        $from = Carbon::parse($this->filters['date']['from'])->toDateTimeString();
-        $to = Carbon::parse($this->filters['date']['to'])->toDateTimeString();
+        $from = Carbon::parse($this->filters['date']['from'])->toDateTimeString()?? '';
+        $to = Carbon::parse($this->filters['date']['to'])->toDateTimeString()?? '';
         return  $from.' - '. $to;
     }
 
-	/**
+    /**
      * Get user.
      *
      * @return Collection
@@ -61,7 +61,7 @@ class Transfer extends Model
         return $this->belongsTo(User::class);
     }   
 
-	/**
+    /**
      * Get bank.
      *
      * @return Collection
