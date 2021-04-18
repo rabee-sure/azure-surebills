@@ -226,6 +226,7 @@ return [
         "commercial_registry_expiry_date" => "تاريخ انتهاء السجل التجاري",
         "license_type" => "نوع الترخيص",
 
-        "expiry_date" => "تاريخ الانتهاء"
+        "expiry_date" => "تاريخ الانتهاء",
+        "amount" => "المبلغ"
     ],
 ];

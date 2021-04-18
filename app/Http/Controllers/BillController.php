@@ -8,6 +8,7 @@ use App\Events\BillStatusUpdated;
 use App\Exceptions\ValidationException;
 use App\Helpers\PaymentHelper as HelpersPaymentHelper;
 use App\Http\Requests\BillRequest;
+use App\Http\Requests\PartialRefundRequest;
 use App\Http\Requests\PayBillRequest;
 use App\Models\Bill;
 use App\Models\BillItem;
@@ -321,6 +322,21 @@ class BillController extends Controller
         $bill = Bill::find($id);
 
         $bill->setRefunded();
+
+        return redirect()->back();
+    }
+
+    /**
+     * partial Refund Bill.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function partialRefund($id, PartialRefundRequest $request)
+    {
+        $bill = Bill::find($id);
+
+        $bill->setPartialRefunded($request->amount);
 
         return redirect()->back();
     }

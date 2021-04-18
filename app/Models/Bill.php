@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
+use App\Events\BillPaid;
+use App\Events\BillPartialRefunded;
+use App\Events\BillRefunded;
+use App\Events\BillStatusUpdated;
+use App\Jobs\CallbackWebhook;
+use App\Models\PaymentLog;
+use App\Traits\UsesUuid;
 use Carbon\Carbon;
 use Hashids\Hashids;
-use Ramsey\Uuid\Uuid;
-use App\Events\BillPaid;
-use App\Traits\UsesUuid;
-use Jenssegers\Date\Date;
-use App\Models\PaymentLog;
-use App\Events\BillRefunded;
-use App\Jobs\CallbackWebhook;
-use App\Events\BillStatusUpdated;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Jenssegers\Date\Date;
+use Ramsey\Uuid\Uuid;
 
 class Bill extends Model
 {
@@ -540,6 +541,22 @@ class Bill extends Model
         $this->success_payment->refund($this->total);
         
         event(new BillRefunded($this));
+        event(new BillStatusUpdated($this));
+    }
+
+
+    /**
+     * Mark invoice as Partial refunded
+     */
+    public function setPartialRefunded($amount)
+    {
+        if (!$this->is_able_refund) {
+            return false;
+        }
+
+        $this->success_payment->refund($amount);
+        
+        event(new BillPartialRefunded($this, $amount));
         event(new BillStatusUpdated($this));
     }
 

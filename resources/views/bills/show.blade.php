@@ -26,6 +26,15 @@
     <div class="separator mb-5"></div>
   </div>
 </div>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
  <div class="row">
   <div class="col-12">
     <div class="card mb-5">
@@ -245,6 +254,9 @@
         <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
           @csrf
             <button type="submit" class="btn btn-primary">{{__('Confirm Refund Bill')}}</button>
+            <button id="cancel_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#partialRefundModal" title="{{ __('Partial Refund') }}" data-from="top" data-align="right"  data-dismiss="modal">
+                {{__('Partial Refund')}}
+            </button>
             <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Retreat')}}</button>
         </form>
       </div>
@@ -252,6 +264,44 @@
   </div>
 </div>
 
+
+<div class="modal fade" 
+  id="partialRefundModal" tabindex="-1" 
+  role="dialog" 
+  aria-labelledby="partialRefundModalLabel" 
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="partialRefundModalLabel">
+            {{ __('Are you Sure to Partial Refund Bill ?')}}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{{ route('bills.partial.refund', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
+          @csrf
+            <div class="form-group row">
+                <label for="amount" class="col-sm-2 col-form-label">{{__('Amount')}}</label>
+                <div class="col-sm-10">
+                  <input type="number" min="1" class="form-control" id="amount" name="amount" placeholder="{{__('Amount')}}">
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">
+                {{__('Confirm Refund Bill')}}
+            </button>
+            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">
+                {{__('Retreat')}}
+            </button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection 
 
 @push('footer-scripts')
