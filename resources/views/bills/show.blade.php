@@ -131,7 +131,7 @@
         @endforeach
       </div><!-- shopping_cart -->
       <div class="total_bill">
-          @if( $bill->add_tax || $bill->add_discount)
+          @if( $bill->add_tax || $bill->add_discount || $bill->refund_amount)
             <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} {{ __('SAR') }}</p>
           @endif
           @if( $bill->add_discount)
@@ -144,6 +144,9 @@
           @endif
           @if( $bill->add_tax)
             <p>{{ __('Vat') }} ({{ $bill->tax_value }}%) : {{ $bill->vat }} {{ __('SAR') }}</p>
+          @endif
+          @if( $bill->refund_amount)
+            <p>{{ __('Refund Amount') }} : {{ $bill->refund_amount }}  {{ __('SAR') }}</p>
           @endif
           <b>{{ __('Total') }} : {{ $bill->total}} {{ __('SAR') }}</b>
       </div><!-- total_bill -->
@@ -193,7 +196,11 @@
                   @endif
 
                   <td><a href="/logs/{{$log->id}}" title="{{ $log->id }}">{{ $log->id }}</a></td>
-                  <td>{{ $bill->total}} {{__('SAR') }}</td>
+                  @if($log->payment_method == 'mastercard_refund')
+                    <td>{{ $log->results['transaction']['amount']}} {{__('SAR') }}</td>
+                  @else
+                    <td>{{ $log->results['bill']['total']}} {{__('SAR') }}</td>
+                  @endif
                   <td>{{$log->created_at}}</td>
                   @if($log->payment_method == 'mastercard_refund')
                     <td><span class="badge badge-pill badge-warning bill_status_badge">{{ __('Refund') }}</span></td>

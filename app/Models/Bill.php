@@ -64,6 +64,7 @@ class Bill extends Model
         'payment_surebills_fees',
         'payment_surebills_fees_vat',
         'refunded_at',
+        'refund_amount',
     ];
 
     /**
@@ -553,6 +554,8 @@ class Bill extends Model
         if (!$this->is_able_refund) {
             return false;
         }
+        $this->refund_amount = $this->refund_amount+$amount;
+        $this->save();
 
         $this->success_payment->refund($amount);
         
