@@ -26,6 +26,15 @@
     <div class="separator mb-5"></div>
   </div>
 </div>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
  <div class="row">
   <div class="col-12">
     <div class="card mb-5">
@@ -122,7 +131,7 @@
         @endforeach
       </div><!-- shopping_cart -->
       <div class="total_bill">
-          @if( $bill->add_tax || $bill->add_discount)
+          @if( $bill->add_tax || $bill->add_discount || $bill->refund_amount)
             <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} {{ __('SAR') }}</p>
           @endif
           @if( $bill->add_discount)
@@ -135,6 +144,9 @@
           @endif
           @if( $bill->add_tax)
             <p>{{ __('Vat') }} ({{ $bill->tax_value }}%) : {{ $bill->vat }} {{ __('SAR') }}</p>
+          @endif
+          @if( $bill->refund_amount)
+            <p>{{ __('Refund Amount') }} : {{ $bill->refund_amount }}  {{ __('SAR') }}</p>
           @endif
           <b>{{ __('Total') }} : {{ $bill->total}} {{ __('SAR') }}</b>
       </div><!-- total_bill -->
@@ -184,7 +196,11 @@
                   @endif
 
                   <td><a href="/logs/{{$log->id}}" title="{{ $log->id }}">{{ $log->id }}</a></td>
-                  <td>{{ $bill->total}} {{__('SAR') }}</td>
+                  @if($log->payment_method == 'mastercard_refund')
+                    <td>{{ $log->results['transaction']['amount']}} {{__('SAR') }}</td>
+                  @else
+                    <td>{{ $log->results['bill']['total']}} {{__('SAR') }}</td>
+                  @endif
                   <td>{{$log->created_at}}</td>
                   @if($log->payment_method == 'mastercard_refund')
                     <td><span class="badge badge-pill badge-warning bill_status_badge">{{ __('Refund') }}</span></td>
@@ -245,6 +261,9 @@
         <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
           @csrf
             <button type="submit" class="btn btn-primary">{{__('Confirm Refund Bill')}}</button>
+            <button id="cancel_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#partialRefundModal" title="{{ __('Partial Refund') }}" data-from="top" data-align="right"  data-dismiss="modal">
+                {{__('Partial Refund')}}
+            </button>
             <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Retreat')}}</button>
         </form>
       </div>
@@ -252,6 +271,44 @@
   </div>
 </div>
 
+
+<div class="modal fade" 
+  id="partialRefundModal" tabindex="-1" 
+  role="dialog" 
+  aria-labelledby="partialRefundModalLabel" 
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="partialRefundModalLabel">
+            {{ __('Are you Sure to Partial Refund Bill ?')}}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{{ route('bills.partial.refund', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
+          @csrf
+            <div class="form-group row">
+                <label for="amount" class="col-sm-2 col-form-label">{{__('Amount')}}</label>
+                <div class="col-sm-10">
+                  <input type="number" min="1" class="form-control" id="amount" name="amount" placeholder="{{__('Amount')}}">
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">
+                {{__('Confirm Refund Bill')}}
+            </button>
+            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">
+                {{__('Retreat')}}
+            </button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection 
 
 @push('footer-scripts')
