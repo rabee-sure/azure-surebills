@@ -10923,3 +10923,46 @@ select:-webkit-autofill:focus {
     background: #000;
   }
 }
+
+.select_refund {
+  label {
+    input {
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      opacity: 0;
+      cursor: pointer;
+      &:checked ~ {
+        .txt {
+          background-color: #eeeff0 !important;
+          color: #000 !important;
+          .checkmark {
+            border-color: #00D595;
+            background-color: #00D595;
+            p {
+              opacity: 1;
+            } /* p */
+          } /* checkmark */
+        } /* txt */
+      } /* checked */
+    } /* input */
+    .txt {
+      span {
+        font-size: 14px;
+      } /* span */
+      .checkmark {
+        width: 15px;
+        height: 15px;
+        border: 1px solid #dfe0e1;
+        background-color: #eeeff0;
+        margin: 0 0 0 0.4rem;
+        p {
+          width: 10px;
+          height: 10px;
+          opacity: 0;
+        } /* p */
+      } /* checkmark */
+    } /* txt */
+  } /* label */
+} /* .select_refund */
