@@ -40,7 +40,7 @@ class PartialRefundTransactionsForOwner
         $percentage = $this->bill->pricing['fees_percentage'];
         $fixed = $this->bill->pricing['fees_fixed'];
 
-        $payment_fees = $this->amount * ($percentage / 100) + $fixed;
+        $payment_fees = $this->amount * ($percentage / 100);
         $payment_fees_vat = $payment_fees * ($this->bill->pricing['vat_percentage'] / 100);
 
 
