@@ -94,7 +94,7 @@
                 @endforeach
               </div><!-- shopping_cart -->
               <div class="total_bill">
-                @if( $bill->add_tax || $bill->add_discount)
+                @if( $bill->add_tax || $bill->add_discount || $bill->refund_amount)
                   <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} {{ __('SAR') }}</p>
                 @endif
                 @if( $bill->add_discount)
@@ -107,6 +107,9 @@
                 @endif
                 @if( $bill->add_tax)
                   <p>{{ __('Vat') }} ({{ $bill->tax_value }}%) : {{ $bill->vat }} {{ __('SAR') }}</p>
+                @endif
+                @if( $bill->refund_amount)
+                  <p>{{ __('Refund Amount') }} : {{ $bill->refund_amount }}  {{ __('SAR') }}</p>
                 @endif
                 <b>{{ __('Total') }} : {{ $bill->total}} {{ __('SAR') }}</b>
               </div><!-- total_bill -->
