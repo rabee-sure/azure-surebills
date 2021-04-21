@@ -166,6 +166,8 @@ export default {
               this.$Modal.confirm({
                     title: this.__('Attention'),
                     content: this.__('Are you sure you confirm transfer, this action cannot be undone'),
+                    okText: this.__('Ok'),
+                    cancelText: this.__('Cancel'),
                     onOk: () => {
                         this.switch_loading = true;
                         Nova.request().put('/transfers/'+id+'/change_status', {

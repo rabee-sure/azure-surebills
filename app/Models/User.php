@@ -93,7 +93,8 @@ class User extends Authenticatable implements HasMedia
         $transactions = $this->transactions;
         $deposits = $transactions->where('type', 'credit')->sum('amount');
         $withdraws = $transactions->where('type', 'debit')->sum('amount');
-        return $deposits - $withdraws;
+        $balance = $deposits - $withdraws;
+        return $balance > 0 ? $balance : 0;
     }
 
     /**
