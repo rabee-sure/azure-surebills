@@ -14,6 +14,9 @@ return [
     'values' => [
         'license_type' => [
             "Commercial Record" => "السجل التجاري",
+        ],        
+        'type' => [
+            "partial_refund" => "الاسترداد الجزئي",
         ],
      ],
     'credit_card' => [
@@ -227,6 +230,7 @@ return [
         "license_type" => "نوع الترخيص",
 
         "expiry_date" => "تاريخ الانتهاء",
+        "type" => "النوع",
         "amount" => "المبلغ"
     ],
 ];

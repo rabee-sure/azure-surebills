@@ -148,7 +148,6 @@
         if(this.value == 'Commercial Record'){
             $('#registry_expiry_date').show();
         }else{
-            console.log('ss');
             $('#registry_expiry_date').hide();
         }
       });

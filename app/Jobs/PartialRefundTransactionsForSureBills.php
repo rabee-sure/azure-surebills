@@ -38,6 +38,7 @@ class PartialRefundTransactionsForSureBills
     public function handle()
     {
         return null;
+        $order_max = Transaction::where('bill_id', $this->bill->id)->max('order');
 
         $payment_surebills = BillService::getPaymentSurebillsFees($this->bill, $this->amount);
 
@@ -51,6 +52,7 @@ class PartialRefundTransactionsForSureBills
         $fee_trans->reference   = $this->bill->number;
         $fee_trans->description = 'PARTIAL REFUND Fee - Bill Number: '.$this->bill->number;
         $fee_trans->transaction_source = 'refund';
+        $fee_trans->order = $order_max+1;
         $fee_trans->save();
 
         $vat_trans = new Transaction;
@@ -61,6 +63,7 @@ class PartialRefundTransactionsForSureBills
         $vat_trans->reference   = $this->bill->number;
         $vat_trans->description = 'PARTIAL REFUND Vat - Bill Number: '.$this->bill->number;
         $vat_trans->transaction_source = 'refund';
+        $vat_trans->order = $order_max+1;
         $vat_trans->save();
     }
 }
