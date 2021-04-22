@@ -51,7 +51,10 @@ class TransferController extends Controller
         $user = auth()->user();
         $to = Carbon::now()->startOfDay();
         $from = TransferService::getFromDate($user);
-        $bills = TransferService::getbillsBetweenDate($from, $to, $user);
+
+        $file_name = $this->getExcelFileName($user, $to);
+        $bills = TransferService::getbillsBetweenDate($from, $to, $user, $file_name);
+
         $amount = TransferService::getAmount($bills, $user);
         $settings =  Valuestore::make(storage_path('app/settings.json'));
 
@@ -224,5 +227,15 @@ class TransferController extends Controller
             }
         }
     }
+    /**
+     * get Excel File Name.
+     *
+     * @return String
+     */
+    protected function getExcelFileName($user, $to)
+    {
+        return "bills/$user->business_name_slug/{$to->timestamp}_sure_bills_request_transfer.xlsx";
+    }
+
 
 }
