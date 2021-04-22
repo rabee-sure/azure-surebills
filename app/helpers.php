@@ -133,3 +133,11 @@ if (!function_exists('getBanks')) {
         return $banks;
     }
 }
+
+if (!function_exists('round2')) {
+    function round2($number)
+    {
+        $resualt = round($number, 2);
+        return $resualt > 0 ? $resualt:0;
+    }
+}

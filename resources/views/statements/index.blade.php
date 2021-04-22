@@ -8,7 +8,7 @@
       <div class="mb-2">
         <h1>{{ __('Statement') }}</h1>
         <div class="top-right-button-container">
-         <h3>{{ __('Balance') }} : {{ round(auth()->user()->balance, 2) }} {{ __('SAR')}}</h3>
+         <h3>{{ __('Balance') }} : {{ round2(auth()->user()->balance) }} {{ __('SAR')}}</h3>
         </div>
         <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
           <ol class="breadcrumb pt-0">
@@ -216,18 +216,18 @@
                     @endif
                     {{ $transaction->card }}
                   </td>
-                  <td class="text-danger">{{ $transaction->type == 'debit' ? round($transaction->amount, 2) : '-' }}</td>
-                  <td class="text-success">{{ $transaction->type == 'credit' ? round($transaction->amount, 2) : '-' }}</td>
-                  <td>{{ round($transaction->balance, 2) }}</td>
+                  <td class="text-danger">{{ $transaction->type == 'debit' ? round2($transaction->amount) : '-' }}</td>
+                  <td class="text-success">{{ $transaction->type == 'credit' ? round2($transaction->amount) : '-' }}</td>
+                  <td>{{ round2($transaction->balance) }}</td>
                 </tr>
               @endforeach
             </tbody>
             <tfoot>
               <tr>
                 <td colspan="@if(count($channels)) 6 @else 5 @endif">{{ __('Total')}}</td>
-                <td class="text-danger">{{ round($statement->where('type', 'debit')->sum('amount'), 2) }}</td>
-                <td class="text-success">{{ round($statement->where('type', 'credit')->sum('amount'), 2) }}</td>
-                <td>{{ round($statement->where('type', 'credit')->sum('amount') - $statement->where('type', 'debit')->sum('amount'), 2) }}</td>
+                <td class="text-danger">{{ round2($statement->where('type', 'debit')->sum('amount')) }}</td>
+                <td class="text-success">{{ round2($statement->where('type', 'credit')->sum('amount')) }}</td>
+                <td>{{ round2($statement->where('type', 'credit')->sum('amount') - $statement->where('type', 'debit')->sum('amount')) }}</td>
               </tr>
             </tfoot>
           </table>
