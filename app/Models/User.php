@@ -292,7 +292,10 @@ class User extends Authenticatable implements HasMedia
      */
     public function statement()
     {
-        return $this->hasMany(Transaction::class)->orderBy('created_at', 'ASC')->orderBy('receipt', 'ASC');
+        return $this->hasMany(Transaction::class)->orderBy('created_at', 'ASC')->orderBy('order', 'ASC')
+            ->orderBy('receipt', 'ASC')
+            
+            ;
     }
 
     /**

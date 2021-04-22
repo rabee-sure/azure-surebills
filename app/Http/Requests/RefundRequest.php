@@ -9,7 +9,7 @@ use App\Rules\BillTotalValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class PartialRefundRequest extends FormRequest
+class RefundRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,20 +21,6 @@ class PartialRefundRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation()
-    {
-        if ($this->has('customer_mobile')) {
-            $mobile = ltrim($this->customer_mobile, '+966');
-            $mobile = ltrim($mobile, '966');
-            $mobile = (int) $mobile;
-            $this->merge(['customer_mobile'=> $mobile]);
-        }
-
-        if (!$this->has('is_redirect')) {
-            $this->is_redirect = true;
-        }
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -43,7 +29,8 @@ class PartialRefundRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => ['required', new AmountPartialRefund($this->id)],
+            'type' => ['nullable'],
+            'amount' => ['required_if:type,partial_refund', new AmountPartialRefund($this->id)],
         ];
     }
 

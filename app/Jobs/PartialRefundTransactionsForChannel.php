@@ -39,6 +39,7 @@ class PartialRefundTransactionsForChannel
     public function handle()
     {
         $payment_channel = BillService::getPaymentChannelFees($this->bill, $this->amount);
+        $order_max = Transaction::where('bill_id', $this->bill->id)->max('order');
 
         if(isset($this->bill->application) && isset($this->bill->application->channel)){
             $fee_trans = new Transaction;
@@ -49,6 +50,7 @@ class PartialRefundTransactionsForChannel
             $fee_trans->reference   = $this->bill->number;
             $fee_trans->description = 'PARTIAL REFUND Fee - Channel: '.$this->bill->application->channel->name;
             $fee_trans->transaction_source = 'refund';
+            $fee_trans->order = $order_max+1;
             $fee_trans->save();
 
             $vat_trans = new Transaction;
@@ -59,6 +61,7 @@ class PartialRefundTransactionsForChannel
             $vat_trans->reference   = $this->bill->number;
             $vat_trans->description = 'PARTIAL REFUND Vat - Channel: '.$this->bill->application->channel->name;
             $vat_trans->transaction_source = 'refund';
+            $vat_trans->order = $order_max+2;
             $vat_trans->save();
         }
     }
