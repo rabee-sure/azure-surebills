@@ -38,6 +38,8 @@ class RefundTransactionsForChannel
     public function handle()
     {
         if(isset($this->bill->application) && isset($this->bill->application->channel)){
+            $order_max = Transaction::where('bill_id', $this->bill->id)->max('order');
+
             $fee_trans = new Transaction;
             $fee_trans->user_id     = $this->bill->application->channel->user_id;
             $fee_trans->bill_id     = $this->bill->id;
@@ -46,6 +48,7 @@ class RefundTransactionsForChannel
             $fee_trans->reference   = $this->bill->number;
             $fee_trans->description = 'REFUND Fee - Channel: '.$this->bill->application->channel->name;
             $fee_trans->transaction_source = 'refund';
+            $fee_trans->order = $order_max+1;
             $fee_trans->save();
 
             $vat_trans = new Transaction;
@@ -56,6 +59,7 @@ class RefundTransactionsForChannel
             $vat_trans->reference   = $this->bill->number;
             $vat_trans->description = 'REFUND Vat - Channel: '.$this->bill->application->channel->name;
             $vat_trans->transaction_source = 'refund';
+            $vat_trans->order = $order_max+2;
             $vat_trans->save();
         }
     }

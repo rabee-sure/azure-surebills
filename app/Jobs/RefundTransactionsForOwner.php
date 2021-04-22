@@ -38,7 +38,8 @@ class RefundTransactionsForOwner
     public function handle()
     {
         $logResponse = isset($this->log->results['response']) ? $this->log->results['response'] : [];
-        
+        $order_max = Transaction::where('bill_id', $this->bill->id)->max('order');
+
         $transaction = new Transaction;
         $transaction->user_id     = $this->bill->user_id;
         $transaction->bill_id     = $this->bill->id;
@@ -54,6 +55,7 @@ class RefundTransactionsForOwner
             $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
         }
         $transaction->transaction_source = 'bill';
+        $transaction->order = $order_max+1;
         $transaction->save();
 
         //withdrawBillFees
@@ -65,6 +67,7 @@ class RefundTransactionsForOwner
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'REFUND Fee';
         $transaction->transaction_source = 'refund';
+        $transaction->order = $order_max+2;
         $transaction->save();
 
         //withdrawBillVat
@@ -76,6 +79,7 @@ class RefundTransactionsForOwner
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'REFUND VAT';
         $transaction->transaction_source = 'refund';
+        $transaction->order = $order_max+3;
         $transaction->save();
 
 
