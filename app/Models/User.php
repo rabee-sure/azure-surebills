@@ -193,6 +193,16 @@ class User extends Authenticatable implements HasMedia
         return (isset($this->business_name_ar) && app()->getLocale() == 'ar')?$this->business_name_ar : $this->business_name_en;
     }
 
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getBusinessNameSlugAttribute()
+    {
+        return str_slug($this->business_name_en, '_');
+    }
 
     /**
      * Get applications.

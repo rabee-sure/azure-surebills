@@ -67,7 +67,10 @@ class TransferAutomatic extends Command
 
             foreach ($filtered_users as $user) {
                 $from = TransferService::getFromDate($user);
-                $bills = TransferService::getbillsBetweenDate($from, $to, $user);
+
+                $file_name = $this->getExcelFileName($user, $from, $to);
+                $bills = TransferService::getbillsBetweenDate($from, $to, $user, $file_name);
+
                 $amount = TransferService::getAmount($bills, $user);
 
                 $this->info("transfer to $user->name amount: $amount");
@@ -118,5 +121,18 @@ class TransferAutomatic extends Command
                 Mail::to($email)->send(new AutoTransferMail($date));
             }
         }
+    }
+
+    
+    /**
+     * get Excel File Name.
+     *
+     * @return String
+     */
+    protected function getExcelFileName($user, $from_s, $to_s)
+    {
+        $to = $to_s->copy()->endOfDay()->toDateTimeString();
+        $from = $from_s->copy()->startOfDay()->toDateTimeString();
+        return "bills/{$to_s->timestamp}/Bills-{$user->business_name_slug}-FROM-{$from}-TO-{$to}.xlsx";
     }
 }

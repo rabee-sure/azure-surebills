@@ -15,19 +15,6 @@ class TransferObserver
      */
     public function created(Transfer $transfer)
     {
-        if($transfer->status == 'completed'){
-            $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
-            $bankNumber = substr($transfer->user->iban_number, -4);
-    
-            $transaction = new Transaction;
-            $transaction->user_id     = $transfer->user_id;
-            $transaction->type        = 'debit';
-            $transaction->amount      = $transfer->amount;
-            $transaction->reference   = $transfer->id;
-            $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
-            $transaction->transaction_source = 'transfer';
-            $transaction->save();
-        }
     }
 
     /**
