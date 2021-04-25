@@ -51,7 +51,10 @@ class TransferController extends Controller
         $user = auth()->user();
         $to = Carbon::now()->startOfDay();
         $from = TransferService::getFromDate($user);
-        $bills = TransferService::getbillsBetweenDate($from, $to, $user);
+
+        $file_name = $this->getExcelFileName($user, $to);
+        $bills = TransferService::getbillsBetweenDate($from, $to, $user, $file_name);
+
         $amount = TransferService::getAmount($bills, $user);
         $settings =  Valuestore::make(storage_path('app/settings.json'));
 
@@ -140,6 +143,7 @@ class TransferController extends Controller
                 'bank_id' => $request->bank_id,
                 'iban_number' => $request->iban_number,
                 'beneficiary_name' => $request->beneficiary_name,
+                'status' => 'completed',
                 'filters' => [
                     'date' => [
                         "from" => $fromDate,
@@ -161,6 +165,8 @@ class TransferController extends Controller
             }
             $transfer->bills()->attach($request->bills_ids);
 
+            $this->createTransferTransaction($transfer);
+            
             return $transfer;
         });
         event(new TransferCreated($transfer));
@@ -181,17 +187,7 @@ class TransferController extends Controller
         $transfer->save();
         if($request->status == 'completed'){
 
-            $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
-            $bankNumber = substr($transfer->user->iban_number, -4);
-    
-            $transaction = new Transaction;
-            $transaction->user_id     = $transfer->user_id;
-            $transaction->type        = 'debit';
-            $transaction->amount      = $transfer->amount;
-            $transaction->reference   = $transfer->id;
-            $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
-            $transaction->transaction_source = 'transfer';
-            $transaction->save();
+            $this->createTransferTransaction($transfer);
 
             $bills = $transfer->bills;
             $user_id = $transfer->user_id;
@@ -210,7 +206,7 @@ class TransferController extends Controller
         return new TransferResource($transfer);
     }
 
-        /**
+    /**
      * send Mails.
      *
      * @return void
@@ -224,5 +220,36 @@ class TransferController extends Controller
             }
         }
     }
+
+    /**
+     * get Excel File Name.
+     *
+     * @return String
+     */
+    protected function getExcelFileName($user, $to)
+    {
+        return "bills/$user->business_name_slug/{$to->timestamp}_sure_bills_request_transfer.xlsx";
+    }    
+
+    /**
+     * create Transfer Transaction.
+     *
+     * @return void
+     */
+    protected function createTransferTransaction($transfer)
+    {
+        $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
+        $bankNumber = substr($transfer->user->iban_number, -4);
+
+        $transaction = new Transaction;
+        $transaction->user_id     = $transfer->user_id;
+        $transaction->type        = 'debit';
+        $transaction->amount      = $transfer->amount;
+        $transaction->reference   = $transfer->id;
+        $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
+        $transaction->transaction_source = 'transfer';
+        $transaction->save();    
+    }
+
 
 }

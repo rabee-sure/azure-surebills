@@ -41,36 +41,14 @@ class RequestTransferMail extends Mailable
         $formate = $this->date->format('l d/m/Y');
         $day = $this->date->format('d-m-Y');
 
-        $fileName = "app/bills/$timestamp/sure_bills_transfers_$day.zip";
-        $this->zip($fileName, $timestamp);
+        $fileName = "app/bills/{$this->user->business_name_slug}/{$timestamp}_sure_bills_request_transfer.xlsx";
+
         return $this->subject( $this->user->business_name ." requesting a new transfer - SureBills Transfers")
             ->view('emails.bills.request_transfer', [
                 'user' => $this->user,
                 'transfer' => $this->transfer,
             ])
-            // ->attach(storage_path($fileName))
-            ;
+            ->attach(storage_path($fileName));
     }
 
-    /**
-     * zipping file.
-     *
-     * @return $this
-     */
-    protected function zip($fileName, $timestamp)
-    {
-        //first delete file
-        if(is_file(storage_path($fileName)))
-            unlink(storage_path($fileName));
-
-        $zip = new \ZipArchive;
-        if ($zip->open(storage_path($fileName), \ZipArchive::CREATE) === TRUE){
-            $files = File::files(storage_path("app/bills/$timestamp"));
-            foreach ($files as $key => $value) {
-                $relativeNameInZipFile = basename($value);
-                $zip->addFile($value, $relativeNameInZipFile);
-            }
-            $zip->close();
-        }
-    }  
 }

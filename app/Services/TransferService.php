@@ -36,7 +36,7 @@ class TransferService
      *
      * @return \Illuminate\Http\Response
      */
-    public static function getbillsBetweenDate($from_s, $to_s, $user)
+    public static function getbillsBetweenDate($from_s, $to_s, $user, $excel_file_name = null)
     {
         $to = $to_s->copy()->endOfDay()->toDateTimeString();
         $from = $from_s->copy()->startOfDay()->toDateTimeString();
@@ -61,7 +61,9 @@ class TransferService
             ->orderBy('paid_at', 'asc')
             ->get();
 
-            self::createExcel($bills, $user, $from, $to, $to_s->timestamp);
+            if($excel_file_name)
+                self::createExcel($bills, $excel_file_name);
+
         return $bills;
 
     }
@@ -95,10 +97,9 @@ class TransferService
      * @param  integer  $timestamp
      * @return boolean
      */
-    public static function createExcel($bills, $user, $from, $to, $timestamp)
+    public static function createExcel($bills, $file_name)
     {
-        $title = "bills/$timestamp/Bills-{$user->business_name_en}-FROM-{$from}-TO-{$to}.xlsx";
         $data = json_decode((BillResource::collection($bills))->toJson(), true);
-        return Excel::store(new BillsExport($data), $title);
+        return Excel::store(new BillsExport($data), $file_name);
     }
 }
