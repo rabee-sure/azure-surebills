@@ -20,7 +20,7 @@
       </a>
     </div><!-- item -->
     <div class="item">
-      <a :href="'/nova/resources/bills?bills_page=1&bills_filter='+user.stats.filter_user_id">
+      <a :href="'/nova/resources/bills?bills_page=1&bills_filter='+user.stats.filter_user_id_and_bill_status_paid">
         <span>{{ __('Total Paid Bills') }}</span>
         <p v-if="user.stats">{{ user.stats.total_paid_bills }}</p>
       </a>
