@@ -285,7 +285,7 @@
         </div><!-- modal-body -->
         <div class="modal-footer"> 
           <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
-          <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Retreat')}}</button>
+          <button id="refund_cancel" type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Retreat')}}</button>
         </div>
       </form>
     </div>
@@ -299,6 +299,12 @@
 
   <script src="{{ asset('js/bootstrap-notify.min.js') }}" defer></script>
   <script>
+    $("#refund_cancel").click(function(){
+      $('#amount_partial_refund').hide();
+      $('input#type').val('refund');
+      $('#ConfirmRefund').prop("checked", true);
+    });
+
     $("#amount_partial_refund").hide(); 
     $('input[type=radio][name=refund]').change(function(){
         if(this.value == 'partial_refund'){
@@ -306,6 +312,7 @@
           $('input#type').val('partial_refund');
         }else{
           $('#amount_partial_refund').hide();
+          $('input#type').val('refund');
         }
     });
 
@@ -370,10 +377,9 @@
         document.execCommand("copy");
     });
 
-  console.log('bill.{{$bill->id}}');
+
     Echo.channel('bill.{{$bill->id}}')
       .listen('BillStatusUpdated', (e) => {
-        console.log(e.bill.id);
           switch(e.bill.status) {
             case "pending":
               break;

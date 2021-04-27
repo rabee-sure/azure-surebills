@@ -710,7 +710,7 @@ var render = function() {
                       target: "_blank"
                     }
                   },
-                  [_vm._v(" Create Transfar")]
+                  [_vm._v(" " + _vm._s(_vm.__("Create Transfer")))]
                 )
               ])
             : _vm._e()
@@ -765,7 +765,7 @@ var render = function() {
           attrs: {
             href:
               "/nova/resources/bills?bills_page=1&bills_filter=" +
-              _vm.user.stats.filter_user_id
+              _vm.user.stats.filter_user_id_and_bill_status_paid
           }
         },
         [
