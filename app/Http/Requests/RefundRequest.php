@@ -30,7 +30,7 @@ class RefundRequest extends FormRequest
     {
         return [
             'type' => ['nullable'],
-            'amount' => ['required_if:type,partial_refund', new AmountPartialRefund($this->id), 'integer', 'gt:0'],
+            'amount' => ['nullable', 'required_if:type,partial_refund', new AmountPartialRefund($this->id), 'integer', 'gt:0'],
         ];
     }
 
