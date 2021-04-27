@@ -49,7 +49,7 @@
                                     <th>{{__('Date From To')}}</th>
                                     <th>{{__('Created At')}}</th>
                                     <th>{{__('Status')}}</th>
-                                    <th>{{__('Bills')}}</th>
+                                    <th class="text-center">{{__('Statement')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -73,9 +73,9 @@
                                             </div>
                                         @endif
                                     </td>
-                                    <td>
-                                        <a href="transfers/{{$transfer->id }}/bills"  data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Show Bills') }}">
-                                            {{ __('Bills') }}
+                                    <td class="text-center"  >
+                                        <a href="transfers/{{$transfer->id }}/bills"  data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Statement') }}">
+                                            <div class="glyph-icon simple-icon-eye" style="font-size: 25px"></div>
                                         </a>
                                     </td>
                                 </tr>

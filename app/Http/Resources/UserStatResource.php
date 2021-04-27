@@ -44,7 +44,19 @@ class UserStatResource extends JsonResource
                 json_encode([
                     [
                         "class" => "App\Nova\Filters\UserId",
-                        "value" => $this->id
+                        "value" => $this->id,
+                    ]
+                ])
+            ),
+            'filter_user_id_and_bill_status_paid' =>  base64_encode(
+                json_encode([
+                    [
+                        "class" => "App\Nova\Filters\UserId",
+                        "value" => $this->id,
+                    ],
+                    [
+                        "class" => "App\Nova\Filters\BillStatus",
+                        "value" => ["paid"]
                     ]
                 ])
             ),

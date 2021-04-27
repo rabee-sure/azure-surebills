@@ -57,7 +57,7 @@ class PaymentLog extends Model
      */
     public function refund($amount)
     {
-        if ($amount > ($this->bill->total - $this->refunded_amount)) {
+        if ($amount > $this->bill->total) {
             return false;
         }
 

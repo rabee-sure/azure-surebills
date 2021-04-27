@@ -39,14 +39,14 @@ class PaidDateRange extends DateRangeFilter
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    // public function options(Request $request)
-    // {
-    //     return [
-    //         'firstDayOfWeek' => 0,
-    //         'separator' => '-',
-    //         'enableTime' => false,
-    //         'enableSeconds' => false,
-    //         'twelveHourTime' => false
-    //     ];
-    // }
+    public function options(Request $request)
+    {
+        return [
+            'firstDayOfWeek' => 0,
+            'separator' => '-',
+            'enableTime' => false,
+            'enableSeconds' => false,
+            'twelveHourTime' => false
+        ];
+    }
 }

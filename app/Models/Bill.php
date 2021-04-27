@@ -537,6 +537,7 @@ class Bill extends Model
 
         $this->status = 'refunded';
         $this->refunded_at = Carbon::now();
+        $this->refund_amount = $this->total;
         $this->save();
 
         $this->success_payment->refund($this->total);
