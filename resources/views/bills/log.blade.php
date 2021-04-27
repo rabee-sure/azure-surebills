@@ -34,7 +34,13 @@
                   @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'APPLEPAY')
                     <img src="{{ asset('/payments/pay.png') }}" alt="apple pay">
                   @endif
-              <p>{{ $bill->total}} {{__('SAR') }}</p>
+              <p>           
+                  @if($log->payment_method == 'mastercard_refund')
+                    {{ $log->results['transaction']['amount']}} {{__('SAR') }}
+                  @else
+                    {{ $log->results['bill']['total']}} {{__('SAR') }}
+                  @endif
+              </p>
               @if($log->payment_method == 'mastercard_refund')
                 <td><span class="badge badge-pill badge-warning bill_status_badge">{{ __('Refund') }}</span></td>
               @elseif($log->status == true)
@@ -53,7 +59,11 @@
                     @if($log->payment_method != 'mastercard_refund')
                       <tr>
                         <td>{{__('Amount') }}</td>
-                        <td>{{ $bill->total}} {{__('SAR') }}</td>
+                            @if($log->payment_method == 'mastercard_refund')
+                              <td>{{ $log->results['transaction']['amount']}} {{__('SAR') }}</td>
+                            @else
+                              <td>{{ $log->results['bill']['total']}} {{__('SAR') }}</td>
+                            @endif
                       </tr>
                       <tr>
                         <td>{{__('Notes') }}</td>
