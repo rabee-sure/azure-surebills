@@ -26,13 +26,13 @@
           <div class="payment_block">
             <div class="title">
                   @if(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MADA')
-                    <img src="{{ asset('/payments/mada.png') }}" alt="mada">
+                    <img src="{{ asset('/images/payments/mada.png') }}" alt="mada">
                   @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'VISA')
-                    <img src="{{ asset('/payments/visa.png') }}" alt="visa">
+                    <img src="{{ asset('/images/payments/visa.png') }}" alt="visa">
                   @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MASTERCARD')
-                    <img src="{{ asset('/payments/card.png') }}" alt="mastercard">
+                    <img src="{{ asset('/images/payments/card.png') }}" alt="mastercard">
                   @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'APPLEPAY')
-                    <img src="{{ asset('/payments/pay.png') }}" alt="apple pay">
+                    <img src="{{ asset('/images/payments/pay.png') }}" alt="apple pay">
                   @endif
               <p>           
                   @if($log->payment_method == 'mastercard_refund')
