@@ -26,6 +26,7 @@ class Statement extends Resource
 
     public static $displayInNavigation = false;
 
+
     /**
      * Get the displayble label of the resource.
      *
@@ -59,6 +60,7 @@ class Statement extends Resource
      */
     public static $orderBy = [
         'created_at' => 'ASC',
+        'order' => 'ASC',
         'receipt' => 'ASC',
     ];
 
