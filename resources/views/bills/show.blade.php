@@ -252,7 +252,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="refundModalLabel">{{ __('Are you Sure to Refund Bill ?')}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button id="refund_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="form" >
         @csrf
@@ -264,7 +264,7 @@
               <input  type="radio" id="ConfirmRefund" name="refund" class="position-absolute w-100 h-100" value="refund" checked>
               <div class="txt bg-light border text-body p-2 mb-2 d-flex align-items-center justify-content-start">
                 <div class="checkmark rounded-circle position-relative d-flex align-items-center justify-content-center"><p class="rounded-circle bg-white m-0 d-block"></p></div>
-                <span class="d-block">{{__('Confirm Refund Bill')}}</span>
+                <span class="d-block">{{__('Total refund')}}</span>
               </div><!-- txt -->
             </label>
             <label for="PartialRefund" class="position-relative d-block">
@@ -303,6 +303,14 @@
       $('#amount_partial_refund').hide();
       $('input#type').val('refund');
       $('#ConfirmRefund').prop("checked", true);
+      $("#amount").val("");
+    });    
+
+    $("#refund_close").click(function(){
+      $('#amount_partial_refund').hide();
+      $('input#type').val('refund');
+      $('#ConfirmRefund').prop("checked", true);
+      $("#amount").val("");
     });
 
     $("#amount_partial_refund").hide(); 
@@ -313,6 +321,7 @@
         }else{
           $('#amount_partial_refund').hide();
           $('input#type').val('refund');
+          $("#amount").val("");
         }
     });
 

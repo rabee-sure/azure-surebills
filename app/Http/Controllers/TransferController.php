@@ -78,7 +78,7 @@ class TransferController extends Controller
                 'amount' => $amount,
                 'transfer_fees' => $bank->fees+ ($bank->fees * 0.15),
                 'net_amount' => $amount - $bank->fees+ ($bank->fees * 0.15),
-                'note' => 'automatic transfer',
+                'note' => '',
                 'created_by_id' => null,
                 'bank_id' => $bank->id,
                 'iban_number' => $user->iban_number,
