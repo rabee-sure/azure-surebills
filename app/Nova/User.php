@@ -165,7 +165,7 @@ class User extends Resource
                         if($value){
                             return url($value);
                         }else{
-                            return '/images/company.png';
+                            return '/images/no-image.jpg';
                         }
                     }
                 })
@@ -176,7 +176,7 @@ class User extends Resource
                         if($value){
                             return url($value);
                         }else{
-                            return '/images/company.png';
+                            return '/images/no-image.jpg';
                         }
                     }
                 })->disableDownload(),

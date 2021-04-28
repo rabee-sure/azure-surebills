@@ -63,6 +63,14 @@ class Transaction extends Model
         static::creating(function($trans)
         {
             $trans->receipt = $trans->generateReceipt();
+
+            logger([
+                'type' => $trans->type,
+                'user_balance' => $trans->user->balance,
+                'amount' => $trans->amount,
+                'description' => $trans->description,
+            ]);
+
             $trans->balance = ($trans->type == 'debit') ? $trans->user->balance - $trans->amount : $trans->user->balance + $trans->amount;
         });
     }
