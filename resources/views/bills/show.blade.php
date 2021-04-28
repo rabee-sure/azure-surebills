@@ -303,6 +303,7 @@
       $('#amount_partial_refund').hide();
       $('input#type').val('refund');
       $('#ConfirmRefund').prop("checked", true);
+      $("#amount").val("");
     });
 
     $("#amount_partial_refund").hide(); 
@@ -313,6 +314,7 @@
         }else{
           $('#amount_partial_refund').hide();
           $('input#type').val('refund');
+          $("#amount").val("");
         }
     });
 
