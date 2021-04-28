@@ -304,6 +304,7 @@
       $('input#type').val('refund');
       $('#ConfirmRefund').prop("checked", true);
       $("#amount").val("");
+      $('#amount-error').text('');
     });    
 
     $("#refund_close").click(function(){
@@ -311,6 +312,7 @@
       $('input#type').val('refund');
       $('#ConfirmRefund').prop("checked", true);
       $("#amount").val("");
+      $('#amount-error').text('');
     });
 
     $("#amount_partial_refund").hide(); 
