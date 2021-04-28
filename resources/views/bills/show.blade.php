@@ -252,7 +252,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="refundModalLabel">{{ __('Are you Sure to Refund Bill ?')}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button id="refund_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="form" >
         @csrf
@@ -300,6 +300,13 @@
   <script src="{{ asset('js/bootstrap-notify.min.js') }}" defer></script>
   <script>
     $("#refund_cancel").click(function(){
+      $('#amount_partial_refund').hide();
+      $('input#type').val('refund');
+      $('#ConfirmRefund').prop("checked", true);
+      $("#amount").val("");
+    });    
+
+    $("#refund_close").click(function(){
       $('#amount_partial_refund').hide();
       $('input#type').val('refund');
       $('#ConfirmRefund').prop("checked", true);
