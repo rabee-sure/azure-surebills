@@ -49,6 +49,10 @@ PaymentSession.configure({
                         })
                     }).then(response => response.json()).then(data => {
 
+                        if (data.error) {
+                            alert(data.error);
+                            window.location = data.redirect;
+                        }
                         // parse html
                         let redirectHtml = $( '<div></div>' );
                         redirectHtml.html(data.authentication.redirectHtml);

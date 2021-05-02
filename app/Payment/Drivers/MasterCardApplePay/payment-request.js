@@ -12,6 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
+if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
+    document.getElementById('applepay_button').style.display = 'block';
+} else {
+    document.getElementById('applepay_button').style.display = 'none';
+}
+
 function onBuyClicked(event) {
   if (!PaymentRequest) {
     return;
@@ -94,6 +100,7 @@ function onBuyClicked(event) {
     }).then(response => response.json()).then(data => {
       if (data.error && data.error != '') {
         alert(`Could not make payment: ${data.error}`);
+        location.reload();
         response.complete('fail');
       } else {
         response.complete('success');
@@ -103,6 +110,7 @@ function onBuyClicked(event) {
   }).catch(function(err) {
     if (err) {
       alert(`Could not make payment: ${err}`);
+      location.reload();
       response.complete('fail');
     }
   });

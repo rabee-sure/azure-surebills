@@ -609,5 +609,7 @@
   "Security code invalid.": "ادخل رمز التحقق",
   "Session update failed with request timeout:": "خطأ في بدأ عملية الدفع، برجاء المحاولة مرة اخرى",
   "Session update failed with system error:": "خطأ في بدأ عملية الدفع، برجاء المحاولة مرة اخرى",
-  "Session update failed:": "خطأ في بدأ عملية الدفع، برجاء المحاولة مرة اخرى"
+  "Session update failed:": "خطأ في بدأ عملية الدفع، برجاء المحاولة مرة اخرى",
+  "You can not refund this bill.": "لا يمكنك استرداد هذه الفاتورة.",
+  "Amount is more than bill paid amount.": "المبلغ المسترد اكبر من من المبلغ المدفوع."
 }

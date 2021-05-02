@@ -63,7 +63,7 @@ class PaymentHelper
     public static function checkPaymentStatus($invoice, $payment, $bill, $apiResponse = false)
     {
         // if success
-        if($invoice->getDetail('success'))
+        if($invoice->getDetail('success') && $payment->status != 1)
         {
             // log
             $payment->results = $invoice->getDetails();
