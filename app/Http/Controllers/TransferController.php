@@ -72,12 +72,13 @@ class TransferController extends Controller
 
         $transfer = DB::transaction(function () use($user, $bills, $amount){
             $bank = $user->bank;
+            $transfer_fees = $bank->fees+ ($bank->fees * 0.15);
             $transfer = Transfer::create([
                 'status' => 'pending',
                 'user_id' => $user->id,
                 'amount' => $amount,
-                'transfer_fees' => $bank->fees+ ($bank->fees * 0.15),
-                'net_amount' => $amount - $bank->fees+ ($bank->fees * 0.15),
+                'transfer_fees' => $transfer_fees,
+                'net_amount' => $amount - $transfer_fees,
                 'note' => '',
                 'created_by_id' => null,
                 'bank_id' => $bank->id,
@@ -132,11 +133,12 @@ class TransferController extends Controller
 
         $transfer = DB::transaction(function () use($request, $fromDate, $toDate){
             $bank = Bank::find($request->bank_id);
+            $transfer_fees = $bank->fees+ ($bank->fees * 0.15);
             $transfer = Transfer::create([
                 'user_id' => $request->user_id,
                 'amount' => $request->amount,
-                'transfer_fees' => $bank->fees+ ($bank->fees * 0.15),
-                'net_amount' => $request->amount - $bank->fees+ ($bank->fees * 0.15),
+                'transfer_fees' =>  $transfer_fees,
+                'net_amount' => $request->amount -  $transfer_fees,
                 'note' => $request->note,
                 'attachment' => $request->attachment,
                 'created_by_id' => auth()->user()->id,
