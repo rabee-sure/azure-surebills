@@ -130,7 +130,6 @@ $(window).on("load",function(){
 <?php require app_path('Payment/Drivers/MasterCardHostedSession/pay.js'); ?>
 
 {{-- APPLE PAY VIA MASTERCARD --}}
-<?php require app_path('Payment/Drivers/MasterCardApplePay/browser-detect.js'); ?>
 <?php require app_path('Payment/Drivers/MasterCardApplePay/payment-request.js'); ?>
 {{-- APPLE PAY VIA MASTERCARD --}}
 
