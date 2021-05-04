@@ -58,7 +58,7 @@ class BillApiRequest extends FormRequest
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
             'customer_notes' => ['nullable'],
 
-            'due_date' => ['required'],
+            'due_date' => ['required', 'date_format:d-m-Y'],
             'expiry_date' => ['required'],
             'expiry_hours' => ['required'],
             'expiry_minutes' => ['required'],

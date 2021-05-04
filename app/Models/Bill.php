@@ -535,18 +535,22 @@ class Bill extends Model
     public function setRefunded()
     {
         if (!$this->is_able_refund) {
+            session(['refund_error' => __('You can not refund this bill.')]);
             return false;
         }
 
-        $this->status = 'refunded';
-        $this->refunded_at = Carbon::now();
-        $this->refund_amount = $this->total;
-        $this->save();
+        if ($this->success_payment->refund($this->total)) {
+            $this->status = 'refunded';
+            $this->refunded_at = Carbon::now();
+            $this->save();
+            
+            event(new BillRefunded($this));
+            event(new BillStatusUpdated($this));
 
-        $this->success_payment->refund($this->total);
-        
-        event(new BillRefunded($this));
-        event(new BillStatusUpdated($this));
+            return true;
+        }
+
+        return false;
     }
 
 

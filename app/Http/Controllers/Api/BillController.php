@@ -144,7 +144,6 @@ class BillController extends Controller
         return new BillApiResource($bill);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
