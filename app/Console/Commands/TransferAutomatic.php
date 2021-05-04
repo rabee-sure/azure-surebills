@@ -96,6 +96,11 @@ class TransferAutomatic extends Command
                         ],
                     ]);
 
+                    foreach ($bills as $bill) {
+                        $bill->pending_settled = true;
+                        $bill->save();
+                    }
+
                     $transfer->bills()->attach($bills->pluck('id')->toArray());
 
                     return $transfer;
