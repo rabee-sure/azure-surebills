@@ -76,6 +76,7 @@ class RefundMasterCardJob implements ShouldQueue
         );
         $response = json_decode($response->getBody()->getContents(), true);
         $payment->results = $response;
+        $payment->refunded_amount = $this->amount;
         $payment->save();
     }
 }
