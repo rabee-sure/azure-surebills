@@ -46,7 +46,11 @@
                                             {{ $log->refund_amount}} {{__('SAR') }}
                                         @endif
                                     @else
-                                        {{ $log->results['bill']['total']}} {{__('SAR') }}
+                                        @if(isset($log->results['bill']['total']))
+                                            {{ $log->results['bill']['total']}} {{__('SAR') }}
+                                        @else
+                                            ---
+                                        @endif
                                     @endif
                                 </td>
 
