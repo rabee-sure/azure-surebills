@@ -35,6 +35,7 @@ class TransferController extends Controller
      */
     public function bills(Transfer $transfer, Request $request)
     {
+        $this->authorize('viewBills', $transfer);
         return view('transfers.bills', [
             'transfer' => $transfer,
             'bills' => $transfer->bills,
@@ -91,6 +92,11 @@ class TransferController extends Controller
                     ]
                 ],
             ]);
+
+            foreach ($bills as $bill) {
+                $bill->pending_settled = true;
+                $bill->save();
+            }
 
             $transfer->bills()->attach($bills->pluck('id')->toArray());
 
