@@ -35,6 +35,7 @@ class TransferController extends Controller
      */
     public function bills(Transfer $transfer, Request $request)
     {
+        $this->authorize('viewBills', $transfer);
         return view('transfers.bills', [
             'transfer' => $transfer,
             'bills' => $transfer->bills,
