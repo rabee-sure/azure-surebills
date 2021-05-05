@@ -99,7 +99,7 @@
     "Description": "وصف",
     "Type": "نوع",
     "Id": "المعرّف",
-    "Created By": "تم انشائها بواسطة",
+    "Created By": "المنشئ",
     "Transfers for": "التحويلات لـ",
     "select date range": "اختر التاريخ",
     "invalid date range": "التاريخ غير صحيح",
