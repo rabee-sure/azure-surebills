@@ -60833,7 +60833,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }, {
                 title: this.__('Total Due'),
                 key: 'total_due',
-                width: 100
+                width: 120
             }, {
                 title: this.__('FEES'),
                 key: 'payment_fees',
@@ -60939,24 +60939,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 title: this.__('From - To'),
                 slot: 'fromto',
                 width: 300
-            }, {
-                title: this.__('Note'),
-                key: 'note'
-            }, {
+            },
+            // {
+            //     title: this.__('Note'),
+            //     key: 'note'
+            // },
+            {
                 title: this.__('Created By'),
                 key: 'created_by_name'
+            }, {
+                title: this.__('Created At'),
+                key: 'created_at',
+                width: 150
             }, {
                 title: this.__('Status'),
                 slot: 'status',
                 key: 'status',
-                width: 100,
-                align: 'center'
-            }, {
-                title: this.__('Created At'),
-                key: 'created_at'
-            }, {
-                title: this.__('Action'),
-                slot: 'action',
                 width: 150,
                 align: 'center'
             }],
@@ -61154,7 +61152,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         changeStatus: function changeStatus(status, id) {
             var _this4 = this;
 
-            console.log(status, id);
             this.switch_loading = true;
             Nova.request().put('/transfers/' + id + '/change_status', {
                 status: status ? 'completed' : 'pending'
@@ -61796,8 +61793,12 @@ var render = function() {
                       var row = ref.row
                       return [
                         row.status_bool
-                          ? _c("Badge", { attrs: { status: "success" } })
-                          : _c("Badge", { attrs: { status: "warning" } })
+                          ? _c("Badge", {
+                              attrs: { status: "success", text: "completed" }
+                            })
+                          : _c("Badge", {
+                              attrs: { status: "warning", text: "pending" }
+                            })
                       ]
                     }
                   },

@@ -96,7 +96,7 @@ class User extends Resource
             ID::make()->sortable(),
 
             Text::make(__('Balance'), function () {
-                return $this->round_balance;
+                return round2($this->balance);
             })->readonly(),
 
             Text::make(__('Business Name'), 'business_name_en')->rules('required', 'max:50'),
