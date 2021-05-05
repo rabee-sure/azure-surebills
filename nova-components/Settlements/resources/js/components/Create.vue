@@ -78,8 +78,8 @@
                     {{ __(row.filter_from) }} - {{ __(row.filter_to) }}
                 </template>
                 <template slot-scope="{ row }" slot="status">
-                    <Badge v-if="row.status_bool" status="success" />
-                    <Badge v-else status="warning" />
+                    <Badge v-if="row.status_bool" status="success" text="completed"/>
+                    <Badge v-else status="warning" text="pending"/>
                 </template>
 
                 <template slot-scope="{ row, index }" slot="action">
@@ -306,31 +306,32 @@ export default {
                     slot: 'fromto',
                     width: 300,
                 },
-                {
-                    title: this.__('Note'),
-                    key: 'note'
-                },
+                // {
+                //     title: this.__('Note'),
+                //     key: 'note'
+                // },
                 {
                     title: this.__('Created By'),
                     key: 'created_by_name'
                 },
                 {
+                    title: this.__('Created At'),
+                    key: 'created_at',
+                    width: 150,
+                },
+                {
                     title: this.__('Status'),
                     slot: 'status',
                     key: 'status',
-                    width: 100,
-                    align: 'center'
-                },
-                {
-                    title: this.__('Created At'),
-                    key: 'created_at'
-                },
-                {
-                    title: this.__('Action'),
-                    slot: 'action',
                     width: 150,
                     align: 'center'
-                }
+                },
+                // {
+                //     title: this.__('Action'),
+                //     slot: 'action',
+                //     width: 150,
+                //     align: 'center'
+                // }
             ],
             ruleInline: {
                 date_range: [{ type: 'array', required: true, message: this.__('select date range'), trigger: 'blur'}],
@@ -532,7 +533,6 @@ export default {
             this.form.amount = 0;           
         },
         changeStatus(status, id) {
-            console.log(status, id)    
             this.switch_loading = true;
             Nova.request().put('/transfers/'+id+'/change_status', {
                 status: status? 'completed': 'pending',
