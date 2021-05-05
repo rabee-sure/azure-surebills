@@ -179,7 +179,7 @@ export default {
                 {
                     title: this.__('Total Due'),
                     key: 'total_due',
-                    width: 100,
+                    width: 120,
                 },
                 {
                     title: this.__('FEES'),
