@@ -18,7 +18,7 @@ class UserStatResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'balance' => round($this->balance, 2),
+            'balance' => round2($this->balance),
             'business_name' => $this->business_name,
             'email' => $this->email,
             'mobile' => $this->mobile,
