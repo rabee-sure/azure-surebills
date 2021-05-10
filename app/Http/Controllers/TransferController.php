@@ -70,7 +70,7 @@ class TransferController extends Controller
             return redirect()->back()->withErrors([__('Sorry, you cannot request a transfer now. Please wait for the Transfer of the previous transfer')]);
         }
 
-        $transfer = DB::transaction(function () use($user, $bills, $amount){
+        $transfer = DB::transaction(function () use($user, $bills, $amount, $from, $to,){
             $bank = $user->bank;
             $transfer_fees = $bank->fees+ ($bank->fees * 0.15);
             $transfer = Transfer::create([
@@ -86,8 +86,8 @@ class TransferController extends Controller
                 'beneficiary_name' => $user->beneficiary_name,
                 'filters' => [
                     'date' => [
-                        "from" => '',
-                        "to" => '',
+                        "from" => $from->toDateTimeString(),
+                        "to" => $to->toDateTimeString(),
                     ]
                 ],
             ]);
