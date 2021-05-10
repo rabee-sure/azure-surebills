@@ -116,8 +116,11 @@ class TransferService
         $array = explode('/', $file_name);
         $array[2] = 'transactions-'.$array[2];
         $file_name = implode('/', $array);
-        logger([$array, $file_name]);
-        $transactions = Transaction::whereIn('bill_id', $bills->pluck('id'))->get();
+
+        $transactions = Transaction::whereIn('bill_id', $bills->pluck('id'))
+            ->orderBy('created_at', 'ASC')
+            ->orderBy('receipt', 'ASC')
+            ->get();
         $data = json_decode((TransactionResource::collection($transactions))->toJson(), true);
         return Excel::store(new TransactionsExport($data), $file_name);
     }
