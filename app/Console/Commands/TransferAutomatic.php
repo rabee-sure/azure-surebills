@@ -75,7 +75,7 @@ class TransferAutomatic extends Command
 
                 $this->info("transfer to $user->name amount: $amount");
 
-                $transfer = DB::transaction(function () use($user, $bills, $amount){
+                $transfer = DB::transaction(function () use($user, $bills, $amount, $from, $to, $file_name){
                     $bank = $user->bank;
                     $transfer = Transfer::create([
                         'status' => 'pending',
@@ -90,9 +90,14 @@ class TransferAutomatic extends Command
                         'beneficiary_name' => $user->beneficiary_name,
                         'filters' => [
                             'date' => [
-                                "from" => '',
-                                "to" => '',
-                            ]
+                                "from" => $from->toDateTimeString(),
+                                "to" => $to->toDateTimeString(),
+                            ],
+                            'files' => [
+                                "folder" => explode('/', $file_name)[1],
+                                "bills" => explode('/', $file_name)[2],
+                                "transactions" => 'transactions-'.explode('/', $file_name)[2],
+                            ],
                         ],
                     ]);
 
