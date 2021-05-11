@@ -130,6 +130,18 @@ class TransferPolicy
     public function attachAnyBill(User $user, Transfer $transfer)
     {
         return false;
+    }    
+
+    /**
+     * Determine whether the user can attach any tags to the podcast.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Podcast  $podcast
+     * @return mixed
+     */
+    public function TranferBillsExcelDownload(User $user, Transfer $transfer)
+    {
+        return true;
     }
 
 }
