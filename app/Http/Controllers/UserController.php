@@ -55,6 +55,7 @@ class UserController extends Controller
         $transactions = Transaction::whereIn('bill_id', $billsids)
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'ASC')
+            ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC')
             ->get();
 
