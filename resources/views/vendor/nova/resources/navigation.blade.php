@@ -107,6 +107,13 @@
                             />
                         </svg>
                         <span class="sidebar-label">{{ __('Pending Transfers') }} </span>
+                        <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full" style="
+                            --bg-opacity: 1;
+                            background-color: #e53e3e;
+                            background-color: rgba(229,62,62,var(--bg-opacity));
+                            margin-left: 10px;
+                        ">{{ App\Models\Transfer::where('status', 'pending')->orWhereNull('attachment')->count()
+                            }}</span>
                     </router-link>
                 </li>
             </ul>
