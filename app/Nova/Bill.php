@@ -181,7 +181,7 @@ class Bill extends Resource
                     'apple' => 'apple',
                 ])->onlyOnDetail(),
 
-            Number::make(__('Refunded Amount'), 'refunded_amount')
+            Number::make(__('Refunded Amount'), 'refund_amount')
                 ->onlyOnDetail(),
 
             Number::make(__('Total'), 'total')

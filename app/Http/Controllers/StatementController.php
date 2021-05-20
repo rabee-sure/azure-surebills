@@ -26,9 +26,9 @@ class StatementController extends Controller
         $application = ($request->has('application_id') && !in_array($request->application_id, ['all','undefined']))? Application::find($request->application_id) : null;
 
         $statement = auth()->user()->getStatement();
-
         $channels = auth()->user()->channels;
         $applications = ($channel) ? $channel->applications : [];
+
         return view('statements.index', compact('statement', 'date_start', 'date_to', 'channels', 'channel', 'applications', 'application'));
     }
 
