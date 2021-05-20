@@ -139,7 +139,7 @@ class TransferController extends Controller
 
         $transfer = DB::transaction(function () use($request, $fromDate, $toDate){
             $bank = Bank::find($request->bank_id);
-            $transfer_fees = $bank->fees+ ($bank->fees * 0.15);
+            $transfer_fees = $bank->fees + ($bank->fees * 0.15);
             $transfer = Transfer::create([
                 'user_id' => $request->user_id,
                 'amount' => $request->amount,

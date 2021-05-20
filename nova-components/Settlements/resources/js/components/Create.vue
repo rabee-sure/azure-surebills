@@ -483,7 +483,7 @@ export default {
             this.disableBtn = true;
 
             this.$refs[name].validate((valid) => {
-                if (valid) {
+                if (valid && this.user.bank_id != null) {
                     Nova.request().post('/transfers', {
                         user_id: this.user.id,
                         amount: this.form.amount,
@@ -511,7 +511,11 @@ export default {
                         this.disableBtn = false;
                     });
                     this.$Message.success(this.language == 'en'? 'Success': 'تم');
-                } else {
+                } else if(this.user.bank_id == null){
+                    this.disableBtn = false;
+                    this.$Message.error(this.language == 'en'? 'User Must complete Profile Info': 'يجب استكمال بيانات هذا العميل');
+                }
+                else {
                     this.disableBtn = false;
                     this.$Message.error(this.language == 'en'? 'Fail': 'فشل');
                 }
