@@ -31,7 +31,7 @@ class TransferPolicy
      */
     public function view(User $user, Transfer $transfer)
     {
-        return $transfer->user_id == $user->id;
+        return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
     }
 
     /**
@@ -43,7 +43,7 @@ class TransferPolicy
      */
     public function viewBills(User $user, Transfer $transfer)
     {
-        return $transfer->user_id == $user->id;
+        return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
     }
 
     /**
