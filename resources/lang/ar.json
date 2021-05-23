@@ -60,6 +60,7 @@
 	"We can't find a user with that e-mail address": "لا يمكننا العثور على مستخدم بعنوان البريد الإلكتروني هذا",
 	"Invoice total is less than 2 SAR": "قيمة الفاتورة الاجمالية اقل من 2 ريال",
   	"Invoice total is more than 14000 SAR": "قيمة الفاتورة الاجمالية اكثر من 14000 ريال",
+  	"Invoice total is more than :amount SAR": "قيمة الفاتورة الاجمالية اكثر من :amount ريال",
   	"after add discount": "بعد إضافة الخصم",
 	"Sorry, you cannot delete this record because it has dependencies": "عذرا ، لا يمكنك حذف هذا السجل لأن له تبعيات",
 	"You've got a payment! :total SAR from :name": "لقد حصلت على دفعة! :total ريال من :name",

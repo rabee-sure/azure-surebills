@@ -6,7 +6,10 @@ use Illuminate\Contracts\Validation\Rule;
 
 class BillTotalValidation implements Rule
 {
+    const MAX_TOTAL_AMOUNT = 25000;
+
     private $total;
+
     /**
      * Create a new rule instance.
      *
@@ -37,7 +40,7 @@ class BillTotalValidation implements Rule
             else if(request()->discount_type == 'percentage')
                 $this->total -= ($this->total * request()->discount_value) / 100;
         }
-        return !($this->total < 2 || $this->total > 14000);
+        return !($this->total < 2 || $this->total > self::MAX_TOTAL_AMOUNT);
     }
 
     /**
@@ -50,7 +53,7 @@ class BillTotalValidation implements Rule
 
         if($this->total < 2)
             return __('Invoice total is less than 2 SAR');
-        else if($this->total > 14000)
-            return __("Invoice total is more than 14000 SAR");
+        else if($this->total > self::MAX_TOTAL_AMOUNT)
+            return __("Invoice total is more than :amount SAR", ['amount' => self::MAX_TOTAL_AMOUNT]);
     }
 }
