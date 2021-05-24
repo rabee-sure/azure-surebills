@@ -156,7 +156,7 @@
             $items = explode("?", request()->fullUrl());
              $query = $items[1]??'';
             @endphp
-              <a href="{{ route('statement.export')}}?{{$query}}" target="_blanck" class="btn btn-outline-dark btn-xs ">
+              <a href="{{ route('statement.export')}}?{{$query}}" target="_blanck" class="btn btn-success btn-xs">
                 Excel
               </a>
           </div>
