@@ -155,3 +155,22 @@ if (!function_exists('round2')) {
         return $resualt > 0 ? $resualt:0;
     }
 }
+
+if (!function_exists('floorp')) {
+    function floorp($val, $precision)
+    {
+        $mult = pow(10, $precision); // Can be cached in lookup table        
+        return floor($val * $mult) / $mult;
+    }
+}
+
+
+if (!function_exists('fact_number')) {
+    function fact_number($number)
+    {
+        if($number == -0)
+            return 0;
+        else
+            return $number;
+    }
+}
