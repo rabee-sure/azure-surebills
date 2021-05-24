@@ -51,7 +51,8 @@ class TransferController extends Controller
     {
         $user = auth()->user();
         $to = Carbon::now()->startOfDay();
-        $from = TransferService::getFromDate($user);
+        // $from = TransferService::getFromDate($user);
+        $from = $user->created_at;
 
         $file_name = $this->getExcelFileName($user, $to);
         $bills = TransferService::getbillsBetweenDate($from, $to, $user, $file_name);
@@ -61,7 +62,6 @@ class TransferController extends Controller
 
         $transfer_minimum = $settings->get('transfer_minimum');
         $transfer_emails = $settings->get('transfer_emails');
-
 
         if ($transfer_minimum > $amount) {
             return redirect()->back()->withErrors([__('Your balance is not allowed to transfer. The minimum transfer balance is :minimum', ['minimum'=>$transfer_minimum])]);
