@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Filters\DateRange;
+use App\Nova\Filters\UserName;
 use App\Nova\Metrics\TotalCommissions;
 use App\Nova\Metrics\TotalDue;
 use App\Nova\Metrics\TotalIncome;
@@ -165,6 +166,7 @@ class Transfer extends Resource
     {
         return [
             new DateRange(),
+            new UserName(),
         ];
     }
 

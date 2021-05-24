@@ -71,7 +71,7 @@ class TransferController extends Controller
             return redirect()->back()->withErrors([__('Sorry, you cannot request a transfer now. Please wait for the Transfer of the previous transfer')]);
         }
 
-        $transfer = DB::transaction(function () use($user, $bills, $amount){
+        $transfer = DB::transaction(function () use($user, $bills, $amount, $from, $to){
             $bank = $user->bank;
             $transfer_fees = $bank->fees+ ($bank->fees * 0.15);
             $transfer = Transfer::create([
@@ -87,8 +87,8 @@ class TransferController extends Controller
                 'beneficiary_name' => $user->beneficiary_name,
                 'filters' => [
                     'date' => [
-                        "from" => '',
-                        "to" => '',
+                        "from" => $from,
+                        "to" => $to,
                     ]
                 ],
             ]);
@@ -132,6 +132,7 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
+        logger($request->all());
         $fromDate = new Carbon($request->from);
         $fromDate = $fromDate->addDays(1);
         $toDate = new Carbon($request->to);
@@ -139,8 +140,9 @@ class TransferController extends Controller
 
         $transfer = DB::transaction(function () use($request, $fromDate, $toDate){
             $bank = Bank::find($request->bank_id);
-            $transfer_fees = $bank->fees+ ($bank->fees * 0.15);
+            $transfer_fees = $bank->fees + ($bank->fees * 0.15);
             $transfer = Transfer::create([
+                'status' => $request->get('status', 'pending'),
                 'user_id' => $request->user_id,
                 'amount' => $request->amount,
                 'transfer_fees' =>  $transfer_fees,
@@ -151,7 +153,6 @@ class TransferController extends Controller
                 'bank_id' => $request->bank_id,
                 'iban_number' => $request->iban_number,
                 'beneficiary_name' => $request->beneficiary_name,
-                'status' => 'completed',
                 'filters' => [
                     'date' => [
                         "from" => $fromDate,
@@ -162,12 +163,16 @@ class TransferController extends Controller
 
             foreach ($request->bills_ids as $bill_id) {
                 $bill = Bill::find($bill_id);
-                if($bill->user_id == $request->user_id){
-                    $bill->settled = true;
-                }
+                if($request->get('status', 'pending') == 'completed'){
+                    if($bill->user_id == $request->user_id){
+                        $bill->settled = true;
+                    }
 
-                if($bill->isHaveChannelOwenByUser($request->user_id)){
-                   $bill->channel_settled = true; 
+                    if($bill->isHaveChannelOwenByUser($request->user_id)){
+                       $bill->channel_settled = true; 
+                    }
+                }else{
+                    $bill->pending_settled = true;
                 }
                 $bill->save();
             }
