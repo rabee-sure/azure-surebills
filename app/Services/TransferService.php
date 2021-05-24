@@ -48,7 +48,8 @@ class TransferService
                 $query->where('user_id', $user->id)
                     ->paid()
                     ->whereBetween('paid_at', [$from, $to])
-                    ->where('settled', false);
+                    ->where('settled', false)
+                    ->where('pending_settled', false);
             })
             //get user "channels" bills
             ->orWhere(function ($query) use($user, $from, $to){
@@ -80,6 +81,29 @@ class TransferService
     {
         $billsids = $bills->pluck('id')->toArray();
         $transactions = Transaction::whereIn('bill_id', $billsids)
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'ASC')
+            ->orderBy('receipt', 'ASC')
+            ->get();
+
+        return round(
+            $transactions->where('type', 'credit')->sum('amount') -
+            $transactions->where('type', 'debit')->sum('amount')
+            , 2);
+    }
+
+    /**
+     * get Amount.
+     *
+     * @param  App\Bill  $bills
+     * @param  App\User  $user
+     * @return double
+     */
+    public static function getAmountBetweenDate($bills, $user, $from, $to)
+    {
+        $billsids = $bills->pluck('id')->toArray();
+        $transactions = Transaction::whereIn('bill_id', $billsids)
+        ->whereBetween('created_at', [$from, $to])
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'ASC')
             ->orderBy('receipt', 'ASC')

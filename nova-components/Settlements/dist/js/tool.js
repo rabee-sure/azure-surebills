@@ -60643,7 +60643,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60801,6 +60801,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -60810,6 +60824,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { expandRow: __WEBPACK_IMPORTED_MODULE_0__table_expand_vue___default.a },
     data: function data() {
         return {
+            statuses: [{
+                value: 'pending',
+                label: this.__('Pending Transfer')
+            }, {
+                value: 'completed',
+                label: this.__('Completed Transfer')
+            }],
             switch_loading: false,
             validDateRange: true,
             billsModal: false,
@@ -60916,7 +60937,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 date_range: null,
                 amount: 0,
                 note: null,
-                attachment: null
+                attachment: null,
+                status: 'completed'
             },
             transfers: [],
             transfersTable: [{
@@ -61100,9 +61122,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.disableBtn = true;
 
             this.$refs[name].validate(function (valid) {
-                if (valid) {
+                if (valid && _this3.user.bank_id != null) {
                     Nova.request().post('/transfers', {
                         user_id: _this3.user.id,
+                        status: _this3.form.status,
                         amount: _this3.form.amount,
                         note: _this3.form.note,
                         attachment: _this3.form.attachment,
@@ -61121,6 +61144,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this3.transactions = [];
                         _this3.form.date_range = null;
                         _this3.form.amount = 0;
+                        _this3.form.status = 'completed';
                         _this3.form.note = null;
                         _this3.form.attachment = null;
                         _this3.disableBtn = false;
@@ -61128,6 +61152,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         this.disableBtn = false;
                     });
                     _this3.$Message.success(_this3.language == 'en' ? 'Success' : 'تم');
+                } else if (_this3.user.bank_id == null) {
+                    _this3.disableBtn = false;
+                    _this3.$Message.error(_this3.language == 'en' ? 'User Must complete Profile Info' : 'يجب استكمال بيانات هذا العميل');
                 } else {
                     _this3.disableBtn = false;
                     _this3.$Message.error(_this3.language == 'en' ? 'Fail' : 'فشل');
@@ -61148,6 +61175,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.transactions = [];
             this.new_transactions = [];
             this.form.amount = 0;
+            this.form.status = 'completed';
         },
         changeStatus: function changeStatus(status, id) {
             var _this4 = this;
@@ -61582,33 +61610,93 @@ var render = function() {
               ),
               _vm._v(" "),
               _c(
-                "FormItem",
-                { attrs: { label: _vm.__("Amount"), prop: "amount" } },
+                "Row",
+                { attrs: { gutter: 10 } },
                 [
-                  _c("InputNumber", {
-                    staticStyle: { width: "100%" },
-                    attrs: {
-                      min: 1,
-                      step: 0.5,
-                      size: "large",
-                      placeholder: "Enter number",
-                      name: "amount",
-                      formatter: function(value) {
-                        return value + " SAR"
-                      },
-                      parser: function(value) {
-                        return value.replace(" SAR", "")
-                      },
-                      disabled: ""
-                    },
-                    model: {
-                      value: _vm.form.amount,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "amount", $$v)
-                      },
-                      expression: "form.amount"
-                    }
-                  })
+                  _c(
+                    "Col",
+                    { attrs: { span: "12" } },
+                    [
+                      _c(
+                        "FormItem",
+                        { attrs: { label: _vm.__("Amount"), prop: "amount" } },
+                        [
+                          _c("InputNumber", {
+                            staticStyle: { width: "100%" },
+                            attrs: {
+                              min: 1,
+                              step: 0.5,
+                              size: "large",
+                              placeholder: "Enter number",
+                              name: "amount",
+                              formatter: function(value) {
+                                return value + " SAR"
+                              },
+                              parser: function(value) {
+                                return value.replace(" SAR", "")
+                              },
+                              disabled: ""
+                            },
+                            model: {
+                              value: _vm.form.amount,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "amount", $$v)
+                              },
+                              expression: "form.amount"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Col",
+                    { attrs: { span: "12" } },
+                    [
+                      _c(
+                        "FormItem",
+                        { attrs: { label: _vm.__("Status"), prop: "status" } },
+                        [
+                          _c(
+                            "Select",
+                            {
+                              staticStyle: { width: "100%" },
+                              attrs: { size: "large" },
+                              model: {
+                                value: _vm.form.status,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "status", $$v)
+                                },
+                                expression: "form.status"
+                              }
+                            },
+                            _vm._l(_vm.statuses, function(item) {
+                              return _c(
+                                "Option",
+                                {
+                                  key: item.value,
+                                  attrs: { value: item.value }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(item.label) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            }),
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               ),

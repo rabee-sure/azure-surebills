@@ -71,40 +71,42 @@ class TransferAutomatic extends Command
                 $file_name = $this->getExcelFileName($user, $from, $to);
                 $bills = TransferService::getbillsBetweenDate($from, $to, $user, $file_name);
 
-                $amount = TransferService::getAmount($bills, $user);
+                if($bills->count()){
+                    $amount = TransferService::getAmount($bills, $user);
 
-                $this->info("transfer to $user->name amount: $amount");
+                    $this->info("transfer to $user->name amount: $amount");
 
-                $transfer = DB::transaction(function () use($user, $bills, $amount){
-                    $bank = $user->bank;
-                    $transfer = Transfer::create([
-                        'status' => 'pending',
-                        'user_id' => $user->id,
-                        'amount' => $amount,
-                        'transfer_fees' => $bank->fees+ ($bank->fees * 0.15),
-                        'net_amount' => $amount - $bank->fees+ ($bank->fees * 0.15),
-                        'note' => 'automatic transfer',
-                        'created_by_id' => null,
-                        'bank_id' => $bank->id,
-                        'iban_number' => $user->iban_number,
-                        'beneficiary_name' => $user->beneficiary_name,
-                        'filters' => [
-                            'date' => [
-                                "from" => '',
-                                "to" => '',
-                            ]
-                        ],
-                    ]);
+                    $transfer = DB::transaction(function () use($user, $bills, $amount, $from, $to){
+                        $bank = $user->bank;
+                        $transfer = Transfer::create([
+                            'status' => 'pending',
+                            'user_id' => $user->id,
+                            'amount' => $amount,
+                            'transfer_fees' => $bank->fees+ ($bank->fees * 0.15),
+                            'net_amount' => $amount - $bank->fees+ ($bank->fees * 0.15),
+                            'note' => 'automatic transfer',
+                            'created_by_id' => null,
+                            'bank_id' => $bank->id,
+                            'iban_number' => $user->iban_number,
+                            'beneficiary_name' => $user->beneficiary_name,
+                            'filters' => [
+                                'date' => [
+                                    "from" => $from,
+                                    "to" => $to,
+                                ]
+                            ],
+                        ]);
 
-                    foreach ($bills as $bill) {
-                        $bill->pending_settled = true;
-                        $bill->save();
-                    }
+                        foreach ($bills as $bill) {
+                            $bill->pending_settled = true;
+                            $bill->save();
+                        }
 
-                    $transfer->bills()->attach($bills->pluck('id')->toArray());
+                        $transfer->bills()->attach($bills->pluck('id')->toArray());
 
-                    return $transfer;
-                });
+                        return $transfer;
+                    });
+                }
             }
 
             if($filtered_users->count())

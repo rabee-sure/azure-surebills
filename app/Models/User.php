@@ -212,6 +212,16 @@ class User extends Authenticatable implements HasMedia
     public function applications()
     {
         return $this->hasMany(Application::class);
+    }  
+
+    /**
+     * Get last transfer.
+     *
+     * @return Collection
+     */
+    public function lastTransferTransaction()
+    {
+        return $this->transactions()->where('transaction_source', 'transfer')->latest()->first();
     }    
 
     /**
