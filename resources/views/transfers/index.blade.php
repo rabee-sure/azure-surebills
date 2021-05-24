@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-12">
             <h1>{{ __('Transfers') }}</h1>
-            <div class="top-right-button-container">
+            <div class="top-right-button-container d-flex align-items-center justify-content-center flex-column">
                 @include('transfers.request_transfer')
 
                 <h3>{{ __('Balance') }} : {{  round2(auth()->user()->balance)  }} {{__('SAR')}}</h3>
