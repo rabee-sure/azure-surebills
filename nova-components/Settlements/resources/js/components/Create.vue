@@ -26,12 +26,26 @@
                 </Col>
             </Row>
 
-            <FormItem :label="__('Amount')" prop="amount">
-                <InputNumber :min="1" :step=".5" size="large" placeholder="Enter number" name="amount" v-model="form.amount"
-                :formatter="value => `${value} SAR`"
-                :parser="value => value.replace(' SAR', '')"
-                style="width: 100%" disabled></InputNumber>
-            </FormItem>
+            <Row :gutter="10">
+                <Col span="12">
+                    <FormItem :label="__('Amount')" prop="amount">
+                        <InputNumber :min="1" :step=".5" size="large" placeholder="Enter number" name="amount" v-model="form.amount"
+                        :formatter="value => `${value} SAR`"
+                        :parser="value => value.replace(' SAR', '')"
+                        style="width: 100%" disabled></InputNumber>
+                    </FormItem>
+                </Col>
+                <Col span="12">
+                    <FormItem :label="__('Status')" prop="status">
+                        <Select size="large"  v-model="form.status" style="width: 100%">
+                            <Option v-for="item in statuses" :value="item.value" :key="item.value">
+                                {{ item.label }}
+                            </Option>
+                        </Select>
+                    </FormItem>
+                </Col>
+
+            </Row>
 
             <FormItem :label="__('Note')"  prop="note">
                 <Input size="large" v-model="form.note" type="textarea" :autosize="{minRows: 4,maxRows: 5}" :placeholder="__('')" />
@@ -152,6 +166,16 @@ export default {
     components: { expandRow },
     data() {
         return {
+             statuses: [
+                {
+                    value: 'pending',
+                    label: this.__('Pending Transfer')
+                },
+                {
+                    value: 'completed',
+                    label: this.__('Completed Transfer')
+                },
+            ],
             switch_loading: false,
             validDateRange: true,
             billsModal: false,
@@ -278,6 +302,7 @@ export default {
                 amount: 0,
                 note: null,
                 attachment: null,
+                status: 'completed',
             },
             transfers: [],
             transfersTable: [
@@ -486,6 +511,7 @@ export default {
                 if (valid && this.user.bank_id != null) {
                     Nova.request().post('/transfers', {
                         user_id: this.user.id,
+                        status: this.form.status,
                         amount: this.form.amount,
                         note: this.form.note,
                         attachment: this.form.attachment,
@@ -503,6 +529,7 @@ export default {
                         this.transactions = [];
                         this.form.date_range = null;
                         this.form.amount = 0;
+                        this.form.status = 'completed';
                         this.form.note = null;
                         this.form.attachment = null;
                         this.disableBtn = false;
@@ -535,6 +562,7 @@ export default {
             this.transactions = [];
             this.new_transactions = [];
             this.form.amount = 0;           
+            this.form.status = 'completed';           
         },
         changeStatus(status, id) {
             this.switch_loading = true;
