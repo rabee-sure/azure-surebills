@@ -1,6 +1,12 @@
 {
-    "Upload Success": "تم التحميل بنجاح",
     "Ok": "موافق",
+    "save": "حفظ",
+    "Plz Use a Comma as a Separator": "برجاء استخدام علامة , للفصل بين الايميلات",
+    "Transfer Automatic": "التحويل التلقائي",
+    "Transfer Day": "يوم التحويل",
+    "Upload Success": "تم التحميل بنجاح",
+    "Transfer emails": "ايميلات التحويل",
+    "Transfer Minimum": "الحد الادني للتحويل",
     "Pending Transfer": "في انتظار الموافقة",
     "Transfer Status": "نوع التحويل",
     "Completed Transfer": "تحويل مباشر ",
