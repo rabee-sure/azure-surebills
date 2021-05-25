@@ -2,6 +2,7 @@
     "Upload Success": "تم التحميل بنجاح",
     "Ok": "موافق",
     "Pending Transfer": "في انتظار الموافقة",
+    "Transfer Status": "نوع التحويل",
     "Completed Transfer": "تحويل مباشر ",
     "Confirm Transfer": "تأكيد التحويل",
     "An amount of :amount has been transferred to your bank account. Operation number #:number": "تم تحويل مبلغ وقدرة :amount الي حسابك البنكي. برقم العملية #:number",
