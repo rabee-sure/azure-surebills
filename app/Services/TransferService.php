@@ -86,7 +86,7 @@ class TransferService
             ->orderBy('receipt', 'ASC')
             ->get();
 
-        return round(
+        return floorp(
             $transactions->where('type', 'credit')->sum('amount') -
             $transactions->where('type', 'debit')->sum('amount')
             , 2);

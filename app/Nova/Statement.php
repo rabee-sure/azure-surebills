@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use Inspheric\Fields\Indicator;
 
 class Statement extends Resource
 {
@@ -94,16 +95,23 @@ class Statement extends Resource
                 'MADA' => 'MADA',
                 'APPLEPAY' => 'APPLEPAY',
             ]),
-            Badge::make(__('Type'), 'type')->map([
-                'credit' => 'success',
-                'debit' => 'danger',
-            ]),
+            
+            Indicator::make('type')
+                ->labels([
+                    'credit' => __('credit'),
+                    'debit' => __('debit'),
+                ])
+                ->colors([
+                    'debit' => 'red',
+                    'credit' => 'green',
+                ]),
+
             Text::make(__('Amount'), 'amount', function () {
                 return round($this->amount, 2);
             }),
 
             Text::make(__('Balance'), 'balance', function () {
-                return $this->balance > 0 ? round($this->balance, 2) : '0';
+                return fact_number(round($this->balance, 2));
             }),
 
             BelongsTo::make(__('User'), 'user', User::class)->searchable(),

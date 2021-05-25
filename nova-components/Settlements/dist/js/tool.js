@@ -61611,7 +61611,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "Row",
-                { attrs: { gutter: 10 } },
+                { attrs: { gutter: 30 } },
                 [
                   _c(
                     "Col",
@@ -61658,7 +61658,12 @@ var render = function() {
                     [
                       _c(
                         "FormItem",
-                        { attrs: { label: _vm.__("Status"), prop: "status" } },
+                        {
+                          attrs: {
+                            label: _vm.__("Transfer Status"),
+                            prop: "status"
+                          }
+                        },
                         [
                           _c(
                             "Select",
