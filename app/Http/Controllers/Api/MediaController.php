@@ -18,17 +18,15 @@ class MediaController extends Controller
      */
     public function upload(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'file' => ['required', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])],
+        ]);
+
+        if ($validator->fails()){
+            return response()->json(['error' =>$validator->errors()]);
+        }
+        
 	    if ($request->hasFile('file')) {
-
-            $validator = Validator::make($request->all(), [
-                'file' => ['required', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])],
-            ]);
-
-            if ($validator->fails()){
-                return response()->json(['error' =>$validator->errors()]);
-            }
-
-
 	        $file = $request->file('file');
 	        $name = time().'-'.$file->getClientOriginalName();
 	        $destinationPath = ($request->folder)? storage_path('/app/public/').$request->folder : storage_path('/app/public');
