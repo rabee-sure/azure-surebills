@@ -21,6 +21,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "hashids/hashids": "^4.0",
+        "inspheric/nova-indicator-field": "^1.43",
         "jenssegers/date": "^4.0",
         "kabbouchi/nova-impersonate": "^1.5",
         "laravel-validation-rules/credit-card": "^1.3",

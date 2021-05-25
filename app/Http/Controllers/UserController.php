@@ -59,8 +59,9 @@ class UserController extends Controller
             ->orderBy('receipt', 'ASC')
             ->get();
 
+        $balance = $transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount');
         return (TransactionResource::collection($transactions))->additional(['meta' => [
-                'balance' => round($transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'), 2),
+                'balance' => floorp($balance, 2),
             ]]);;
     }
 
