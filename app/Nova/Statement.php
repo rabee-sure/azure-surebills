@@ -103,7 +103,7 @@ class Statement extends Resource
             }),
 
             Text::make(__('Balance'), 'balance', function () {
-                return $this->balance > 0 ? round($this->balance, 2) : '0';
+                return fact_number(round($this->balance, 2));
             }),
 
             BelongsTo::make(__('User'), 'user', User::class)->searchable(),
