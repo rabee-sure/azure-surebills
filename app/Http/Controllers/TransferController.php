@@ -178,7 +178,9 @@ class TransferController extends Controller
             }
             $transfer->bills()->attach($request->bills_ids);
 
-            $this->createTransferTransaction($transfer);
+            if($request->get('status', 'pending') == 'completed'){
+                $this->createTransferTransaction($transfer);
+            }
             
             return $transfer;
         });
