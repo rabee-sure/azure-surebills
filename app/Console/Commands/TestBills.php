@@ -50,14 +50,22 @@ class TestBills extends Command
      */
     public function handle()
     {
-        $transfers = Transfer::all();
+        // $transfers = Transfer::all();
+        $transfers = Transfer::whereIn('id', [156])->get();
         foreach ($transfers as $key => $transfer) {
             
             $bank = $transfer->bank;
             $user = $transfer->user;
             $bills = $transfer->bills;
             $bill_ids = $bills->pluck('id');
-            // $this->testTotoalDue($bill_ids);
+
+            dd($user->balance);
+            $transactions = Transaction::whereIn('bill_id', $bill_ids)
+                    ->where('user_id', $user->id)
+                    ->count();
+            dd($transactions);
+
+            $this->testTotoalDue($bill_ids);
             // $this->testBeforTransfer($transfer, $user);
             if($transfer->status == 'pending'){
                 $this->testSetteldBills($bill_ids);
@@ -93,7 +101,7 @@ class TestBills extends Command
                     // $this->error("bill id: {$bill->id} - {$total_due} - {$am}");
                 }
             }
-            $diff = $total_dues -$ams;
+            $diff = $total_dues - $ams;
                 $this->line("{$total_dues} - {$ams} - diff {$diff}");
         });
     }

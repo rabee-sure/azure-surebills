@@ -222,6 +222,27 @@ class TransferController extends Controller
     }
 
     /**
+     * change Status.
+     *
+     * @param  \App\Models\Transfer  $Transfer
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel(Request $request, Transfer $transfer)
+    {
+        $transfer->status = 'canceled';
+        $transfer->save();
+
+        $bills = $transfer->bills;
+        $user_id = $transfer->user_id;
+        foreach ($bills as $bill) {
+            $bill->pending_settled = false; 
+            $bill->save();
+        }
+ 
+        return new TransferResource($transfer);
+    }
+
+    /**
      * send Mails.
      *
      * @return void
