@@ -524,6 +524,8 @@ export default {
                         beneficiary_name: this.user.beneficiary_name,
                     })
                     .then(response => {
+                        console.log('response.data')
+                        console.log(response.data)
                         this.$router.push('/resources/transfers/' + response.data.data.id)
                         this.loading = false
                         this.bills = [];
@@ -534,11 +536,13 @@ export default {
                         this.form.note = null;
                         this.form.attachment = null;
                         this.disableBtn = false;
+                        this.$Message.success(this.language == 'en'? 'Success': 'تم');
                     })
-                    .catch(function (error) {
+                    .catch(error => {
+                        console.log(error.response.data)
+                        this.$Message.error(error.response.data.error);
                         this.disableBtn = false;
                     });
-                    this.$Message.success(this.language == 'en'? 'Success': 'تم');
                 } else if(this.user.bank_id == null){
                     this.disableBtn = false;
                     this.$Message.error(this.language == 'en'? 'User Must complete Profile Info': 'يجب استكمال بيانات هذا العميل');

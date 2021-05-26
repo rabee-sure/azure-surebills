@@ -137,56 +137,60 @@ class TransferController extends Controller
         $fromDate = $fromDate->addDays(1);
         $toDate = new Carbon($request->to);
         $toDate = $toDate->addDays(1);
+        
+        $bills = Bill::whereIn('id', $request->bills_ids)->get();
+        if($bills->where('pending_settled', true)->count() == 0 && $bills->where('settled', true)->count() == 0){
+            $transfer = DB::transaction(function () use($request, $fromDate, $toDate, $bills){
+                $bank = Bank::find($request->bank_id);
+                $transfer_fees = $bank->fees + ($bank->fees * 0.15);
+                $transfer = Transfer::create([
+                    'status' => $request->get('status', 'pending'),
+                    'user_id' => $request->user_id,
+                    'amount' => $request->amount,
+                    'transfer_fees' =>  $transfer_fees,
+                    'net_amount' => $request->amount -  $transfer_fees,
+                    'note' => $request->note,
+                    'attachment' => $request->attachment,
+                    'created_by_id' => auth()->user()->id,
+                    'bank_id' => $request->bank_id,
+                    'iban_number' => $request->iban_number,
+                    'beneficiary_name' => $request->beneficiary_name,
+                    'filters' => [
+                        'date' => [
+                            "from" => $fromDate,
+                            "to" => $toDate,
+                        ]
+                    ],
+                ]);
 
-        $transfer = DB::transaction(function () use($request, $fromDate, $toDate){
-            $bank = Bank::find($request->bank_id);
-            $transfer_fees = $bank->fees + ($bank->fees * 0.15);
-            $transfer = Transfer::create([
-                'status' => $request->get('status', 'pending'),
-                'user_id' => $request->user_id,
-                'amount' => $request->amount,
-                'transfer_fees' =>  $transfer_fees,
-                'net_amount' => $request->amount -  $transfer_fees,
-                'note' => $request->note,
-                'attachment' => $request->attachment,
-                'created_by_id' => auth()->user()->id,
-                'bank_id' => $request->bank_id,
-                'iban_number' => $request->iban_number,
-                'beneficiary_name' => $request->beneficiary_name,
-                'filters' => [
-                    'date' => [
-                        "from" => $fromDate,
-                        "to" => $toDate,
-                    ]
-                ],
-            ]);
+                foreach ($bills as $bill) {
+                    if($request->get('status', 'pending') == 'completed'){
+                        if($bill->user_id == $request->user_id){
+                            $bill->settled = true;
+                        }
 
-            foreach ($request->bills_ids as $bill_id) {
-                $bill = Bill::find($bill_id);
-                if($request->get('status', 'pending') == 'completed'){
-                    if($bill->user_id == $request->user_id){
-                        $bill->settled = true;
+                        if($bill->isHaveChannelOwenByUser($request->user_id)){
+                           $bill->channel_settled = true; 
+                        }
+                    }else{
+                        $bill->pending_settled = true;
                     }
-
-                    if($bill->isHaveChannelOwenByUser($request->user_id)){
-                       $bill->channel_settled = true; 
-                    }
-                }else{
-                    $bill->pending_settled = true;
+                    $bill->save();
                 }
-                $bill->save();
-            }
-            $transfer->bills()->attach($request->bills_ids);
+                $transfer->bills()->attach($request->bills_ids);
 
-            if($request->get('status', 'pending') == 'completed'){
-                $this->createTransferTransaction($transfer);
-            }
-            
-            return $transfer;
-        });
-        event(new TransferCreated($transfer));
+                if($request->get('status', 'pending') == 'completed'){
+                    $this->createTransferTransaction($transfer);
+                }
+                
+                return $transfer;
+            });
+            event(new TransferCreated($transfer));
 
-        return new TransferResource($transfer);
+            return new TransferResource($transfer);
+        } else{
+            return response()->json(['error' => __('Bills duplicate in another transfer')], 422);
+        }
     }
 
 
