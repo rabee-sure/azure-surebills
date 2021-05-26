@@ -210,9 +210,8 @@ export default {
                         this.cancel_loading = true;
                         Nova.request().put('/transfers/'+id+'/cancel')
                         .then(response => {
-                          console.log(response.data.data)
                             var index = this.transfers.map(function(x) {return x.id; }).indexOf(id);
-                            this.transfers.$set(index, response.data.data)
+                            this.$set(this.transfers, index, response.data.data)
                             this.cancel_loading = false;
                         })
                         .catch(error => {

@@ -92,8 +92,9 @@
                     {{ __(row.filter_from) }} - {{ __(row.filter_to) }}
                 </template>
                 <template slot-scope="{ row }" slot="status">
-                    <Badge v-if="row.status_bool" status="success" text="completed"/>
-                    <Badge v-else status="warning" text="pending"/>
+                    <Badge v-if="row.status == 'completed'" status="success" :text="__('completed transfer')"/>
+                    <Badge v-if="row.status == 'canceled'" status="error" :text="__('canceled')"/>
+                    <Badge v-if="row.status == 'pending'" status="warning" :text="__('pending transfer')"/>
                 </template>
 
                 <template slot-scope="{ row, index }" slot="action">
