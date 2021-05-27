@@ -60106,7 +60106,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60211,12 +60211,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             modal1: false,
             switch_loading: false,
+            cancel_loading: false,
             meta: [],
             users: [],
             user: [],
@@ -60258,6 +60265,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }, {
                 title: this.__('Confirm Transfer'),
                 slot: 'confirm',
+                width: 150,
+                align: 'center'
+            }, {
+                title: this.__('Cancel Transfer'),
+                slot: 'cancel',
                 width: 150,
                 align: 'center'
             }, {
@@ -60327,13 +60339,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }).then(function (response) {
                         _this4.switch_loading = false;
                     }).catch(function (error) {
-                        this.switch_loading = false;
+                        _this4.switch_loading = false;
                     });
                 },
                 onCancel: function onCancel() {
                     _this4.$refs['switch' + id].value = false;
                     _this4.$refs['switch' + id].disabled = false;
                 }
+            });
+        },
+        cancelTranfer: function cancelTranfer(id) {
+            var _this5 = this;
+
+            this.$Modal.confirm({
+                title: this.__('Attention'),
+                content: this.__('Are you sure you will Cancel transfer, this action cannot be undone ?'),
+                okText: this.__('Ok'),
+                cancelText: this.__('Cancel'),
+                onOk: function onOk() {
+                    _this5.cancel_loading = true;
+                    Nova.request().put('/transfers/' + id + '/cancel').then(function (response) {
+                        var index = _this5.transfers.map(function (x) {
+                            return x.id;
+                        }).indexOf(id);
+                        _this5.$set(_this5.transfers, index, response.data.data);
+                        _this5.cancel_loading = false;
+                    }).catch(function (error) {
+                        _this5.cancel_loading = false;
+                    });
+                },
+                onCancel: function onCancel() {}
             });
         },
         uploadSuccess: function uploadSuccess() {
@@ -60437,7 +60472,7 @@ var render = function() {
                         _c("i-switch", {
                           ref: "switch" + row.id,
                           attrs: {
-                            disabled: row.status_bool,
+                            disabled: !row.status_is_pending,
                             loading: _vm.switch_loading,
                             "false-color": "#f90",
                             "true-color": "#13ce66"
@@ -60455,6 +60490,34 @@ var render = function() {
                             expression: "row.status_bool"
                           }
                         })
+                      ]
+                    }
+                  },
+                  {
+                    key: "cancel",
+                    fn: function(ref) {
+                      var row = ref.row
+                      var index = ref.index
+                      return [
+                        _c(
+                          "Button",
+                          {
+                            attrs: {
+                              disabled:
+                                row.status == "canceled" ||
+                                row.status == "completed",
+                              loading: _vm.cancel_loading,
+                              type: "error",
+                              icon: "ios-close-circle"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.cancelTranfer(row.id)
+                              }
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.__("Cancel")))]
+                        )
                       ]
                     }
                   },
@@ -60643,7 +60706,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60656,6 +60719,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__table_expand_vue__);
+//
 //
 //
 //
@@ -61138,6 +61202,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         iban_number: _this3.user.iban_number,
                         beneficiary_name: _this3.user.beneficiary_name
                     }).then(function (response) {
+                        console.log('response.data');
+                        console.log(response.data);
                         _this3.$router.push('/resources/transfers/' + response.data.data.id);
                         _this3.loading = false;
                         _this3.bills = [];
@@ -61148,10 +61214,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this3.form.note = null;
                         _this3.form.attachment = null;
                         _this3.disableBtn = false;
+                        _this3.$Message.success(_this3.language == 'en' ? 'Success' : 'تم');
                     }).catch(function (error) {
-                        this.disableBtn = false;
+                        console.log(error.response.data);
+                        _this3.$Message.error(error.response.data.error);
+                        _this3.disableBtn = false;
                     });
-                    _this3.$Message.success(_this3.language == 'en' ? 'Success' : 'تم');
                 } else if (_this3.user.bank_id == null) {
                     _this3.disableBtn = false;
                     _this3.$Message.error(_this3.language == 'en' ? 'User Must complete Profile Info' : 'يجب استكمال بيانات هذا العميل');
@@ -61885,13 +61953,32 @@ var render = function() {
                     fn: function(ref) {
                       var row = ref.row
                       return [
-                        row.status_bool
+                        row.status == "completed"
                           ? _c("Badge", {
-                              attrs: { status: "success", text: "completed" }
+                              attrs: {
+                                status: "success",
+                                text: _vm.__("completed transfer")
+                              }
                             })
-                          : _c("Badge", {
-                              attrs: { status: "warning", text: "pending" }
+                          : _vm._e(),
+                        _vm._v(" "),
+                        row.status == "canceled"
+                          ? _c("Badge", {
+                              attrs: {
+                                status: "error",
+                                text: _vm.__("canceled")
+                              }
                             })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        row.status == "pending"
+                          ? _c("Badge", {
+                              attrs: {
+                                status: "warning",
+                                text: _vm.__("pending transfer")
+                              }
+                            })
+                          : _vm._e()
                       ]
                     }
                   },

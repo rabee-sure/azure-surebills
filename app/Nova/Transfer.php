@@ -13,6 +13,7 @@ use App\Rules\TransferBalance;
 use App\Rules\ValidateUploadFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Inspheric\Fields\Indicator;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -127,10 +128,19 @@ class Transfer extends Resource
             }),
 
             DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
-            Badge::make(__('Status'), 'status')->map([
-                'pending' => 'warning',
-                'completed' => 'success',
-            ]),
+
+            Indicator::make(__('Status'), 'status')
+                ->labels([
+                    'pending' => __('pending transfer'),
+                    'completed' => __('completed transfer'),
+                    'canceled' => __('canceled'),
+                ])
+                ->colors([
+                    'canceled' => 'red',
+                    'completed' => 'green',
+                    'pending' => 'warning',
+                ]),
+
             BelongsToMany::make(__('Bills'), 'bills', Bill::class)
         ];
     }
