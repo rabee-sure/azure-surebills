@@ -6,7 +6,7 @@
             <Row :gutter="10">
                 <Col span="22">
                     <FormItem :label="__('Date Range')" prop="date_range">
-                        <DatePicker v-model="form.date_range" size="large" type="datetimerange" placement="bottom-end" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
+                        <DatePicker :options="options" v-model="form.date_range" size="large" type="datetimerange" placement="bottom-end" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
                         <p :hidden="validDateRange" style="color:red;">{{__("invalid date range")}}</p>
                     </FormItem>
                 </Col>
@@ -298,6 +298,11 @@ export default {
             errors: [],
             loading: false,
             fileError: null,
+            options: {
+                disabledDate (date) {
+                    return date && date.valueOf() >= Date.now();
+                }
+            },
             form: {
                 date_range: null,
                 amount: 0,

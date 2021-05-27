@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\Transfer;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TransferService 
@@ -125,5 +126,85 @@ class TransferService
     {
         $data = json_decode((BillResource::collection($bills))->toJson(), true);
         return Excel::store(new BillsExport($data), $file_name);
+    }
+
+    /**
+     * create Transfer Transaction.
+     *
+     * @param  App\Models\Transfer  $transfer
+     * @return void
+     */
+    public static function createTransferTransaction($transfer)
+    {
+        $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
+        $bankNumber = substr($transfer->user->iban_number, -4);
+
+        $transaction = new Transaction;
+        $transaction->user_id     = $transfer->user_id;
+        $transaction->type        = 'debit';
+        $transaction->amount      = $transfer->amount;
+        $transaction->reference   = $transfer->id;
+        $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
+        $transaction->transaction_source = 'transfer';
+        $transaction->save();    
+    }
+
+    /**
+     * Make Transaction.
+     *
+     * @param  String  $status
+     * @param  double  $amount
+     * @param  Collection  $bills
+     * @param  Array  $data
+     *
+     * @return void
+     */
+    public static function makeTransfer($status, $amount, $bills, $data)
+    {
+        return DB::transaction(function () use($status, $amount, $bills, $data){
+            $transfer = Transfer::create([
+                'status' => $status,
+                'amount' => $amount,
+                'user_id' => $data['user_id'],
+                'transfer_fees' => $data['transfer_fees'],
+                'net_amount' => $amount - $data['transfer_fees'],
+                'note' => $data['note'] ?? null,
+                'attachment' => $data['attachment'] ?? null,
+                'created_by_id' => $data['created_by_id'],
+                'bank_id' => $data['bank_id'],
+                'iban_number' => $data['iban_number'],
+                'beneficiary_name' => $data['beneficiary_name'],
+                'filters' => [
+                    'date' => [
+                        "from" => $data['from'],
+                        "to" => $data['to'],
+                    ]
+                ],
+            ]);
+
+            foreach ($bills as $bill) {
+                if($status == 'completed'){
+                    if($bill->user_id == $data['user_id']){
+                        $bill->settled = true;
+                    }
+
+                    if($bill->isHaveChannelOwenByUser( $data['user_id'])){
+                       $bill->channel_settled = true; 
+                    }
+                }else{
+                    $bill->pending_settled = true;
+                }
+                $bill->save();
+            }
+
+            $transfer->bills()->attach($bills->pluck('id')->toArray());
+
+            if($status == 'completed'){
+                TransferService::createTransferTransaction($transfer);
+            }
+
+
+            return $transfer;
+        }); 
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Bank;
 use App\Models\Bill;
 use App\Models\Transaction;
 use App\Models\Transfer;
+use App\Models\User;
 use App\Services\TransferService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -71,37 +72,21 @@ class TransferController extends Controller
             return redirect()->back()->withErrors([__('Sorry, you cannot request a transfer now. Please wait for the Transfer of the previous transfer')]);
         }
 
-        $transfer = DB::transaction(function () use($user, $bills, $amount, $from, $to){
-            $bank = $user->bank;
-            $transfer_fees = $bank->fees+ ($bank->fees * 0.15);
-            $transfer = Transfer::create([
-                'status' => 'pending',
-                'user_id' => $user->id,
-                'amount' => $amount,
-                'transfer_fees' => $transfer_fees,
-                'net_amount' => $amount - $transfer_fees,
-                'note' => '',
-                'created_by_id' => null,
-                'bank_id' => $bank->id,
-                'iban_number' => $user->iban_number,
-                'beneficiary_name' => $user->beneficiary_name,
-                'filters' => [
-                    'date' => [
-                        "from" => $from,
-                        "to" => $to,
-                    ]
-                ],
-            ]);
-
-            foreach ($bills as $bill) {
-                $bill->pending_settled = true;
-                $bill->save();
-            }
-
-            $transfer->bills()->attach($bills->pluck('id')->toArray());
-
-            return $transfer;
-        });
+        $bank = $user->bank;
+        $transfer_fees = $bank->fees+ ($bank->fees * 0.15);
+        $data = [
+            'from' => $from,
+            'to' => $to,
+            'transfer_fees' => $transfer_fees,
+            'note' => '',
+            'created_by_id' => null,
+            'bank_id' => $bank->id,
+            'user_id' => $user->id,
+            'iban_number' => $user->iban_number,
+            'beneficiary_name' => $user->beneficiary_name,
+        ];
+        
+        $transfer = TransferService::makeTransfer('pending', $amount, $bills, $data);
 
         if($transfer)
             $this->sendMails($transfer_emails, $to, $transfer);
@@ -132,59 +117,36 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
-        logger($request->all());
         $fromDate = new Carbon($request->from);
         $fromDate = $fromDate->addDays(1);
         $toDate = new Carbon($request->to);
         $toDate = $toDate->addDays(1);
         
         $bills = Bill::whereIn('id', $request->bills_ids)->get();
+        $user = User::find($request->user_id);
+        $amount = TransferService::getAmount($bills, $user);
         if($bills->where('pending_settled', true)->count() == 0 && $bills->where('settled', true)->count() == 0){
-            $transfer = DB::transaction(function () use($request, $fromDate, $toDate, $bills){
-                $bank = Bank::find($request->bank_id);
-                $transfer_fees = $bank->fees + ($bank->fees * 0.15);
-                $transfer = Transfer::create([
-                    'status' => $request->get('status', 'pending'),
-                    'user_id' => $request->user_id,
-                    'amount' => $request->amount,
-                    'transfer_fees' =>  $transfer_fees,
-                    'net_amount' => $request->amount -  $transfer_fees,
-                    'note' => $request->note,
-                    'attachment' => $request->attachment,
-                    'created_by_id' => auth()->user()->id,
-                    'bank_id' => $request->bank_id,
-                    'iban_number' => $request->iban_number,
-                    'beneficiary_name' => $request->beneficiary_name,
-                    'filters' => [
-                        'date' => [
-                            "from" => $fromDate,
-                            "to" => $toDate,
-                        ]
-                    ],
-                ]);
 
-                foreach ($bills as $bill) {
-                    if($request->get('status', 'pending') == 'completed'){
-                        if($bill->user_id == $request->user_id){
-                            $bill->settled = true;
-                        }
+            $bank = Bank::find($request->bank_id);
+            $transfer_fees = $bank->fees + ($bank->fees * 0.15);
+            $status = $request->get('status', 'pending');
 
-                        if($bill->isHaveChannelOwenByUser($request->user_id)){
-                           $bill->channel_settled = true; 
-                        }
-                    }else{
-                        $bill->pending_settled = true;
-                    }
-                    $bill->save();
-                }
-                $transfer->bills()->attach($request->bills_ids);
+            $data = [
+                'from' => $fromDate,
+                'to' => $toDate,
+                'transfer_fees' => $transfer_fees,
 
-                if($request->get('status', 'pending') == 'completed'){
-                    $this->createTransferTransaction($transfer);
-                }
-                
-                return $transfer;
-            });
+                'user_id' => $user->id,
+                'note' => $request->note,
+                'attachment' => $request->attachment,
+                'created_by_id' => auth()->user()->id,
+                'bank_id' => $user->bank_id,
+                'iban_number' => $user->iban_number,
+                'beneficiary_name' => $user->beneficiary_name,
+            ];
+            
+            $transfer = TransferService::makeTransfer($status, $amount, $bills, $data);
+
             event(new TransferCreated($transfer));
 
             return new TransferResource($transfer);
@@ -206,7 +168,7 @@ class TransferController extends Controller
         $transfer->save();
         if($request->status == 'completed'){
 
-            $this->createTransferTransaction($transfer);
+            TransferService::createTransferTransaction($transfer);
 
             $bills = $transfer->bills;
             $user_id = $transfer->user_id;
@@ -270,26 +232,4 @@ class TransferController extends Controller
     {
         return "bills/$user->business_name_slug/{$to->timestamp}_sure_bills_request_transfer.xlsx";
     }    
-
-    /**
-     * create Transfer Transaction.
-     *
-     * @return void
-     */
-    protected function createTransferTransaction($transfer)
-    {
-        $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
-        $bankNumber = substr($transfer->user->iban_number, -4);
-
-        $transaction = new Transaction;
-        $transaction->user_id     = $transfer->user_id;
-        $transaction->type        = 'debit';
-        $transaction->amount      = $transfer->amount;
-        $transaction->reference   = $transfer->id;
-        $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
-        $transaction->transaction_source = 'transfer';
-        $transaction->save();    
-    }
-
-
 }
