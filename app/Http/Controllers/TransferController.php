@@ -9,6 +9,7 @@ use App\Models\Bank;
 use App\Models\Bill;
 use App\Models\Transaction;
 use App\Models\Transfer;
+use App\Models\User;
 use App\Services\TransferService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -122,6 +123,8 @@ class TransferController extends Controller
         $toDate = $toDate->addDays(1);
         
         $bills = Bill::whereIn('id', $request->bills_ids)->get();
+        $user = User::find($request->user_id);
+        $amount = TransferService::getAmount($bills, $user);
         if($bills->where('pending_settled', true)->count() == 0 && $bills->where('settled', true)->count() == 0){
 
             $bank = Bank::find($request->bank_id);
@@ -133,16 +136,16 @@ class TransferController extends Controller
                 'to' => $toDate,
                 'transfer_fees' => $transfer_fees,
 
-                'user_id' => $request->user_id,
+                'user_id' => $user->id,
                 'note' => $request->note,
                 'attachment' => $request->attachment,
                 'created_by_id' => auth()->user()->id,
-                'bank_id' => $request->bank_id,
-                'iban_number' => $request->iban_number,
-                'beneficiary_name' => $request->beneficiary_name,
+                'bank_id' => $user->bank_id,
+                'iban_number' => $user->iban_number,
+                'beneficiary_name' => $user->beneficiary_name,
             ];
             
-            $transfer = TransferService::makeTransfer($status, $request->amount, $bills, $data);
+            $transfer = TransferService::makeTransfer($status, $amount, $bills, $data);
 
             event(new TransferCreated($transfer));
 
