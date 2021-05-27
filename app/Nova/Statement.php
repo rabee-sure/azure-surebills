@@ -96,7 +96,7 @@ class Statement extends Resource
                 'APPLEPAY' => 'APPLEPAY',
             ]),
             
-            Indicator::make('type')
+            Indicator::make(__('Type'), 'type')
                 ->labels([
                     'credit' => __('credit'),
                     'debit' => __('debit'),
