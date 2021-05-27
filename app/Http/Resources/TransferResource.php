@@ -23,6 +23,7 @@ class TransferResource extends JsonResource
             'note' => $this->note,
             'status' => $this->status,
             'status_bool' =>(bool) ($this->status == 'completed'),
+            'status_is_pending' =>(bool) ($this->status == 'pending'),
             'attachment' => $this->attachment,
             'filter_from' => isset($this->filters['date']['from']) ? Carbon::parse($this->filters['date']['from'])->format('d/m/Y H:i') : null,
             'filter_to' => isset($this->filters['date']['to']) ? Carbon::parse($this->filters['date']['to'])->format('d/m/Y H:i') : null,
