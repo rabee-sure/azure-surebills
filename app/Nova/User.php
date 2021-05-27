@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use PosLifestyle\DateRangeFilter\DateRangeFilter;
 use App\Nova\Filters\DateRange;
 use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
@@ -9,11 +10,14 @@ use App\Nova\Filters\UsersUnverified;
 use App\Nova\Filters\UsersVerified;
 use App\Nova\Metrics\NewBills;
 use App\Rules\ValidateUploadFile;
+use DigitalCreative\ConditionalContainer\ConditionalContainer;
+use DigitalCreative\ConditionalContainer\HasConditionalContainer;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use KABBOUCHI\NovaImpersonate\Impersonate;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
@@ -32,9 +36,6 @@ use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Naif\Toggle\Toggle;
 use Sure\Userstats\Userstats;
-use DigitalCreative\ConditionalContainer\ConditionalContainer;
-use DigitalCreative\ConditionalContainer\HasConditionalContainer;
-use KABBOUCHI\NovaImpersonate\Impersonate;
 
 class User extends Resource
 {
@@ -311,6 +312,7 @@ class User extends Resource
         return [
             new UserBalance,
             new DateRange,
+            new DateRangeFilter,
             new UsersVerified,
         ];
     }
