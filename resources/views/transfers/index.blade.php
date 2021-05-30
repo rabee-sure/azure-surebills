@@ -71,6 +71,10 @@
                                             <div class="badge badge-pill badge-warning bill_status_badge" role="alert">
                                                 {{__('Transfer ' .$transfer->status)}}
                                             </div>
+                                        @elseif($transfer->status == 'canceled')
+                                            <div class="badge badge-pill badge-danger bill_status_badge" role="alert">
+                                                {{__('Transfer ' .$transfer->status)}}
+                                            </div>
                                         @endif
                                     </td>
                                     <td class="text-center"  >
