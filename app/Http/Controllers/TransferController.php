@@ -125,7 +125,14 @@ class TransferController extends Controller
         $bills = Bill::whereIn('id', $request->bills_ids)->get();
         $user = User::find($request->user_id);
         $amount = TransferService::getAmount($bills, $user);
-        if($bills->where('pending_settled', true)->count() == 0 && $bills->where('settled', true)->count() == 0){
+        if($bills->where('pending_settled', true)->count() != 0 || $bills->where('settled', true)->count() != 0){
+            return response()->json(['error' => __('Bills duplicate in another transfer')], 422);
+
+        }elseif($bills->whereNotNull('refunded_at')->count() != 0 ){
+            return response()->json(['error' => __('Bills have refunded bill')], 422);
+        }elseif($amount <= 0 ){
+            return response()->json(['error' => __('balance must be greater than 0')], 422);
+        } else{
 
             $bank = Bank::find($request->bank_id);
             $transfer_fees = $bank->fees + ($bank->fees * 0.15);
@@ -150,8 +157,6 @@ class TransferController extends Controller
             event(new TransferCreated($transfer));
 
             return new TransferResource($transfer);
-        } else{
-            return response()->json(['error' => __('Bills duplicate in another transfer')], 422);
         }
     }
 

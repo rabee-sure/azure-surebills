@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use PosLifestyle\DateRangeFilter\DateRangeFilter;
 use App\Nova\Filters\DateRange;
 use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
@@ -312,7 +311,6 @@ class User extends Resource
         return [
             new UserBalance,
             new DateRange,
-            new DateRangeFilter,
             new UsersVerified,
         ];
     }
