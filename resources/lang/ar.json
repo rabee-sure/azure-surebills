@@ -1,5 +1,7 @@
 {
 	"All": "الكل",
+	"Refunded at Date Range": "استردت في النطاق الزمني",
+	"User Name": "اسم المستخدم",
 	"balance must be greater than 0": "يجب أن يكون الرصيد أكبر من 0",
 	"Bills have refunded bill": "تم رد فاتورة داخل الفواتير",
 	"Transfer canceled": "تم الإلغاء",
