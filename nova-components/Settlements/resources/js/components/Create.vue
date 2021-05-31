@@ -26,26 +26,22 @@
                 </Col>
             </Row>
 
-            <Row  :gutter="30">
-                <Col span="12">
-                    <FormItem :label="__('Amount')" prop="amount">
-                        <InputNumber :min="1" :step=".5" size="large" placeholder="Enter number" name="amount" v-model="form.amount"
-                        :formatter="value => `${value} SAR`"
-                        :parser="value => value.replace(' SAR', '')"
-                        style="width: 100%" disabled></InputNumber>
-                    </FormItem>
-                </Col>
-                <Col span="12">
-                    <FormItem :label="__('Transfer Status')" prop="status">
-                        <Select size="large"  v-model="form.status" style="width: 100%">
-                            <Option v-for="item in statuses" :value="item.value" :key="item.value">
-                                {{ item.label }}
-                            </Option>
-                        </Select>
-                    </FormItem>
-                </Col>
 
-            </Row>
+            <FormItem :label="__('Amount')" prop="amount">
+                <InputNumber :min="1" :step=".5" size="large" placeholder="Enter number" name="amount" v-model="form.amount"
+                :formatter="value => `${value} SAR`"
+                :parser="value => value.replace(' SAR', '')"
+                style="width: 100%" disabled></InputNumber>
+            </FormItem>
+
+            <FormItem :label="__('Transfer Status')" prop="status">
+                <Select size="large"  v-model="form.status" style="width: 100%">
+                    <Option v-for="item in statuses" :value="item.value" :key="item.value">
+                        {{ item.label }}
+                    </Option>
+                </Select>
+            </FormItem>
+
 
             <FormItem :label="__('Note')"  prop="note">
                 <Input size="large" v-model="form.note" type="textarea" :autosize="{minRows: 4,maxRows: 5}" :placeholder="__('')" />

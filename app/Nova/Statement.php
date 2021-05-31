@@ -73,8 +73,17 @@ class Statement extends Resource
      */
     public function fields(Request $request)
     {
+        if (!$request->count) {
+            $request->count = 0;
+        }
         return [
             // DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
+            Text::make(__('#'), '#', function()use ($request){
+                $request->count += 1;
+
+                $rowNumber = $request->page == 1 ? $request->count : $request->count + ($request->perPage * ($request->page - 1));
+                return $rowNumber;
+            })->readonly(true),
             Text::make(__('Created At'), 'created_at')
                 ->displayUsing(function(){
                     if($this->created_at)
