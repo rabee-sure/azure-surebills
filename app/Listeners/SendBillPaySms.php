@@ -47,7 +47,7 @@ class SendBillPaySms implements ShouldQueue
             if(app()->environment('production'))
             {
                 $mobile = (int) $event->bill->customer_mobile;
-                $data = ["Tagname" => "Sure-Easy", "RecepientNumber" => "0".$mobile, "Message" => $message, "Username" => env('YAMAMAH_USERNAME'), "Password" => env('YAMAMAH_PASSWORD')];
+                $data = ["Tagname" => "SURE-Pay", "RecepientNumber" => "0".$mobile, "Message" => $message, "Username" => env('YAMAMAH_USERNAME'), "Password" => env('YAMAMAH_PASSWORD')];
                 $payload = json_encode($data);
                 $ch = curl_init('http://api.yamamah.com/SendSMS');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
