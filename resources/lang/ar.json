@@ -606,6 +606,7 @@
   "code": "كود",
   "Email is required if sending email is active": "البريد الالكتروني مطلوب في حال ما إذا كان ارسل بريد الكتروني مفعل",
   "this bill is paid successfully": "تم دفع هذه الفاتورة",
+  "this bill is refunded successfully": "تم رد هذه الفاتورة",
   "this bill is canceled": "هذه الفاتورة ملغية",
   "this bill is expired": "هذه الفاتورة منتهية",
   "cvv": "رمز التحقق (CVV)",
