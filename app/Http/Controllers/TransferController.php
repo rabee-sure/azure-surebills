@@ -51,7 +51,7 @@ class TransferController extends Controller
     public function request(Request $request)
     {
         $user = auth()->user();
-        $to = Carbon::now()->startOfDay();
+        $to = Carbon::now()->addHours(3);
         // $from = TransferService::getFromDate($user);
         $from = $user->created_at;
 
@@ -74,6 +74,7 @@ class TransferController extends Controller
 
         $bank = $user->bank;
         $transfer_fees = $bank->fees+ ($bank->fees * 0.15);
+        // dd([$from, $to ]);
         $data = [
             'from' => $from,
             'to' => $to,
@@ -119,8 +120,8 @@ class TransferController extends Controller
     {
         $fromDate = new Carbon($request->from);
         $toDate = new Carbon($request->to);
-        $fromDate = $fromDate->addHours(2);
-        $toDate = $toDate->addHours(2);
+        $fromDate = $fromDate->addHours(3);
+        $toDate = $toDate->addHours(3);
         if($request->from == $request->to){
             $fromDate = $fromDate->startOfDay();
             $toDate = $toDate->endOfDay();
