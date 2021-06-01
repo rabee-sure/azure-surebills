@@ -187,6 +187,8 @@ export default {
                             status: status? 'completed': 'pending',
                         })
                         .then(response => {
+                            var index = this.transfers.map(function(x) {return x.id; }).indexOf(id);
+                            this.$set(this.transfers, index, response.data.data)
                             this.switch_loading = false;
                         })
                         .catch(error => {
