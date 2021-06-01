@@ -232,6 +232,7 @@
             </tfoot>
           </table>
         </div>
+          {{ $statement->appends($_GET)->links() }}
       </div>
     </div>
   @else

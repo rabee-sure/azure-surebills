@@ -25,7 +25,7 @@ class StatementController extends Controller
         $channel = ($request->has('channel_id') && !in_array($request->channel_id, ['all','undefined']))? Channel::find($request->channel_id) : null;
         $application = ($request->has('application_id') && !in_array($request->application_id, ['all','undefined']))? Application::find($request->application_id) : null;
 
-        $statement = auth()->user()->getStatement();
+        $statement = auth()->user()->getStatement()->paginate(100);
         $channels = auth()->user()->channels;
         $applications = ($channel) ? $channel->applications : [];
 
