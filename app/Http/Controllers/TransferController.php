@@ -118,9 +118,13 @@ class TransferController extends Controller
     public function store(Request $request)
     {
         $fromDate = new Carbon($request->from);
-        $fromDate = $fromDate->addDays(1);
         $toDate = new Carbon($request->to);
-        $toDate = $toDate->addDays(1);
+        $fromDate = $fromDate->addHours(2);
+        $toDate = $toDate->addHours(2);
+        if($request->from == $request->to){
+            $fromDate = $fromDate->startOfDay();
+            $toDate = $toDate->endOfDay();
+        }
         
         $bills = Bill::whereIn('id', $request->bills_ids)->get();
         $user = User::find($request->user_id);
