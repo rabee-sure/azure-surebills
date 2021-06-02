@@ -72,7 +72,7 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::get('/logs/{log}/', 'BillController@log')->name('logpage');
+Route::get('/logs/{log}/', 'PaymentLogController@show')->name('logpage');
 
 // py bill page
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
@@ -102,6 +102,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::post('transfers', 'TransferController@store');
     Route::post('transfers/request', 'TransferController@request')->name('transfers.request');
     Route::put('transfers/{transfer}/change_status', 'TransferController@changeStatus');
+    Route::put('transfers/{transfer}/cancel', 'TransferController@cancel');
 
 	Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/terms', 'HomeController@terms');

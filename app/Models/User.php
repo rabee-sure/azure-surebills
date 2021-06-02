@@ -57,7 +57,7 @@ class User extends Authenticatable implements HasMedia
         'mobile_verified',
         'disable_business_documents',
         'disable_bank_documents',
-        
+
         'able_refund',
         'auto_trnasfer',
     ];
@@ -161,12 +161,27 @@ class User extends Authenticatable implements HasMedia
         $this->mobile_sent_at = Carbon::now();
         $this->mobile_active_code = !app()->environment('production') ? '0000' : $mobile_active_code;
         $this->save();
-        if(app()->environment('production')){
+        if(app()->environment('production'))
+        {
             $message = __('verification code : ',[],'en') . $mobile_active_code;
             $message .= PHP_EOL;
+
             $mobile = (int) $this->mobile;
-            $mobile = (int) '966'.$mobile;
-            UnifonicFacade::send($mobile, $message);
+            $data = ["Tagname" => "SURE-Pay", "RecepientNumber" => "0".$mobile, "Message" => $message, "Username" => env('YAMAMAH_USERNAME'), "Password" => env('YAMAMAH_PASSWORD')];
+            $payload = json_encode($data);
+            $ch = curl_init('http://api.yamamah.com/SendSMS');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($payload)));
+            $result = curl_exec($ch);
+            curl_close($ch);
+            $response = json_decode($result, true);
+
+            // $mobile = (int) $this->mobile;
+            // $mobile = (int) '966'.$mobile;
+            // UnifonicFacade::send($mobile, $message);
         }
     }
 
@@ -212,7 +227,17 @@ class User extends Authenticatable implements HasMedia
     public function applications()
     {
         return $this->hasMany(Application::class);
-    }    
+    }
+
+    /**
+     * Get last transfer.
+     *
+     * @return Collection
+     */
+    public function lastTransferTransaction()
+    {
+        return $this->transactions()->where('transaction_source', 'transfer')->latest()->first();
+    }
 
     /**
      * Get applications.
@@ -302,9 +327,10 @@ class User extends Authenticatable implements HasMedia
      */
     public function statement()
     {
-        return $this->hasMany(Transaction::class)->orderBy('created_at', 'ASC')->orderBy('order', 'ASC')
+        return $this->hasMany(Transaction::class)
+            ->orderBy('created_at', 'ASC')
+            ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC')
-            
             ;
     }
 
@@ -341,7 +367,7 @@ class User extends Authenticatable implements HasMedia
         $date_start = request()->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = request()->date_to ?? Carbon::today()->format('m/d/Y');
 
-        
+
         $channel = (request()->has('channel_id') && !in_array(request()->channel_id, ['all','undefined']))? Channel::find(request()->channel_id) : null;
         $application = (request()->has('application_id') && !in_array(request()->application_id, ['all','undefined']))? Application::find(request()->application_id) : null;
 

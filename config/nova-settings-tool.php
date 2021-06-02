@@ -72,14 +72,6 @@ return [
 
         ],
 
-        [
-            'key' => 'snippet',
-            'label' => 'Tracking Snippet',
-            'type' => 'code',
-            'language' => 'htmlmixed',
-            'help' => 'Analytics snippet to add to all marketing pages.',
-        ],
-
 
     ],
 

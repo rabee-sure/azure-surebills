@@ -156,7 +156,7 @@
             $items = explode("?", request()->fullUrl());
              $query = $items[1]??'';
             @endphp
-              <a href="{{ route('statement.export')}}?{{$query}}" target="_blanck" class="btn btn-outline-dark btn-xs ">
+              <a href="{{ route('statement.export')}}?{{$query}}" target="_blanck" class="btn btn-success btn-xs">
                 Excel
               </a>
           </div>
@@ -218,7 +218,7 @@
                   </td>
                   <td class="text-danger">{{ $transaction->type == 'debit' ? round2($transaction->amount) : '-' }}</td>
                   <td class="text-success">{{ $transaction->type == 'credit' ? round2($transaction->amount) : '-' }}</td>
-                  <td>{{ round($transaction->balance, 2) }}</td>
+                  <td>{{ fact_number(round($transaction->balance, 2)) }}</td>
                 </tr>
               @endforeach
             </tbody>

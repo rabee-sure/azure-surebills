@@ -55,11 +55,13 @@ class UserController extends Controller
         $transactions = Transaction::whereIn('bill_id', $billsids)
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'ASC')
+            ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC')
             ->get();
 
+        $balance = $transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount');
         return (TransactionResource::collection($transactions))->additional(['meta' => [
-                'balance' => round($transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'), 2),
+                'balance' => floorp($balance, 2),
             ]]);;
     }
 
@@ -100,7 +102,7 @@ class UserController extends Controller
                         return $query->whereBetween('paid_at', [$from, $to]);
                     })
                     ->when($request->not_settled || $request->bills_not_settled, function ($query) use($request){
-                        return $query->where('settled', false);
+                        return $query->where('settled', false)->where('pending_settled', false);
                     });
             })
             //get user "channels" bills

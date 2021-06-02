@@ -6,7 +6,7 @@
             <Row :gutter="10">
                 <Col span="22">
                     <FormItem :label="__('Date Range')" prop="date_range">
-                        <DatePicker v-model="form.date_range" size="large" type="datetimerange" placement="bottom-end" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
+                        <DatePicker :options="options" v-model="form.date_range" size="large" type="datetimerange" placement="bottom-end" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
                         <p :hidden="validDateRange" style="color:red;">{{__("invalid date range")}}</p>
                     </FormItem>
                 </Col>
@@ -26,12 +26,22 @@
                 </Col>
             </Row>
 
+
             <FormItem :label="__('Amount')" prop="amount">
                 <InputNumber :min="1" :step=".5" size="large" placeholder="Enter number" name="amount" v-model="form.amount"
                 :formatter="value => `${value} SAR`"
                 :parser="value => value.replace(' SAR', '')"
                 style="width: 100%" disabled></InputNumber>
             </FormItem>
+
+            <FormItem :label="__('Transfer Status')" prop="status">
+                <Select size="large"  v-model="form.status" style="width: 100%">
+                    <Option v-for="item in statuses" :value="item.value" :key="item.value">
+                        {{ item.label }}
+                    </Option>
+                </Select>
+            </FormItem>
+
 
             <FormItem :label="__('Note')"  prop="note">
                 <Input size="large" v-model="form.note" type="textarea" :autosize="{minRows: 4,maxRows: 5}" :placeholder="__('')" />
@@ -78,8 +88,9 @@
                     {{ __(row.filter_from) }} - {{ __(row.filter_to) }}
                 </template>
                 <template slot-scope="{ row }" slot="status">
-                    <Badge v-if="row.status_bool" status="success" />
-                    <Badge v-else status="warning" />
+                    <Badge v-if="row.status == 'completed'" status="success" :text="__('completed transfer')"/>
+                    <Badge v-if="row.status == 'canceled'" status="error" :text="__('canceled')"/>
+                    <Badge v-if="row.status == 'pending'" status="warning" :text="__('pending transfer')"/>
                 </template>
 
                 <template slot-scope="{ row, index }" slot="action">
@@ -152,6 +163,16 @@ export default {
     components: { expandRow },
     data() {
         return {
+             statuses: [
+                {
+                    value: 'pending',
+                    label: this.__('Pending Transfer')
+                },
+                {
+                    value: 'completed',
+                    label: this.__('Completed Transfer')
+                },
+            ],
             switch_loading: false,
             validDateRange: true,
             billsModal: false,
@@ -179,7 +200,7 @@ export default {
                 {
                     title: this.__('Total Due'),
                     key: 'total_due',
-                    width: 100,
+                    width: 120,
                 },
                 {
                     title: this.__('FEES'),
@@ -273,11 +294,17 @@ export default {
             errors: [],
             loading: false,
             fileError: null,
+            options: {
+                disabledDate (date) {
+                    return date && date.valueOf() >= Date.now();
+                }
+            },
             form: {
                 date_range: null,
                 amount: 0,
                 note: null,
                 attachment: null,
+                status: 'completed',
             },
             transfers: [],
             transfersTable: [
@@ -306,31 +333,32 @@ export default {
                     slot: 'fromto',
                     width: 300,
                 },
-                {
-                    title: this.__('Note'),
-                    key: 'note'
-                },
+                // {
+                //     title: this.__('Note'),
+                //     key: 'note'
+                // },
                 {
                     title: this.__('Created By'),
                     key: 'created_by_name'
                 },
                 {
+                    title: this.__('Created At'),
+                    key: 'created_at',
+                    width: 150,
+                },
+                {
                     title: this.__('Status'),
                     slot: 'status',
                     key: 'status',
-                    width: 100,
-                    align: 'center'
-                },
-                {
-                    title: this.__('Created At'),
-                    key: 'created_at'
-                },
-                {
-                    title: this.__('Action'),
-                    slot: 'action',
                     width: 150,
                     align: 'center'
-                }
+                },
+                // {
+                //     title: this.__('Action'),
+                //     slot: 'action',
+                //     width: 150,
+                //     align: 'center'
+                // }
             ],
             ruleInline: {
                 date_range: [{ type: 'array', required: true, message: this.__('select date range'), trigger: 'blur'}],
@@ -482,9 +510,10 @@ export default {
             this.disableBtn = true;
 
             this.$refs[name].validate((valid) => {
-                if (valid) {
+                if (valid && this.user.bank_id != null) {
                     Nova.request().post('/transfers', {
                         user_id: this.user.id,
+                        status: this.form.status,
                         amount: this.form.amount,
                         note: this.form.note,
                         attachment: this.form.attachment,
@@ -496,21 +525,30 @@ export default {
                         beneficiary_name: this.user.beneficiary_name,
                     })
                     .then(response => {
+                        console.log('response.data')
+                        console.log(response.data)
                         this.$router.push('/resources/transfers/' + response.data.data.id)
                         this.loading = false
                         this.bills = [];
                         this.transactions = [];
                         this.form.date_range = null;
                         this.form.amount = 0;
+                        this.form.status = 'completed';
                         this.form.note = null;
                         this.form.attachment = null;
                         this.disableBtn = false;
+                        this.$Message.success(this.language == 'en'? 'Success': 'تم');
                     })
-                    .catch(function (error) {
+                    .catch(error => {
+                        console.log(error.response.data)
+                        this.$Message.error(error.response.data.error);
                         this.disableBtn = false;
                     });
-                    this.$Message.success(this.language == 'en'? 'Success': 'تم');
-                } else {
+                } else if(this.user.bank_id == null){
+                    this.disableBtn = false;
+                    this.$Message.error(this.language == 'en'? 'User Must complete Profile Info': 'يجب استكمال بيانات هذا العميل');
+                }
+                else {
                     this.disableBtn = false;
                     this.$Message.error(this.language == 'en'? 'Fail': 'فشل');
                 }
@@ -530,9 +568,9 @@ export default {
             this.transactions = [];
             this.new_transactions = [];
             this.form.amount = 0;           
+            this.form.status = 'completed';           
         },
         changeStatus(status, id) {
-            console.log(status, id)    
             this.switch_loading = true;
             Nova.request().put('/transfers/'+id+'/change_status', {
                 status: status? 'completed': 'pending',

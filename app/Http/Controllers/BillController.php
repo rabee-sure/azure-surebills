@@ -184,7 +184,6 @@ class BillController extends Controller
      */
     public function pay($id, $lang = null)
     {
-
         $bill = Bill::decodeId($id);
 
         if ($lang && in_array($lang, ['en', 'ar'])) {
@@ -333,20 +332,6 @@ class BillController extends Controller
         return redirect()->back()->withErrors(['refund' => session('refund_error')]);
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function log(PaymentLog $log)
-    {
-        return view('bills.log', [
-            'bill' => $log->bill,
-            'log' => $log
-        ]);
-    }
 
     public function masterCardWebHookResponse(Request $request)
     {

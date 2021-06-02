@@ -2,9 +2,8 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\TranferBillsExcelDownload;
-use App\Nova\Actions\TranferTransactionsExcelDownload;
 use App\Nova\Filters\DateRange;
+use App\Nova\Filters\UserName;
 use App\Nova\Metrics\TotalCommissions;
 use App\Nova\Metrics\TotalDue;
 use App\Nova\Metrics\TotalIncome;
@@ -14,6 +13,7 @@ use App\Rules\TransferBalance;
 use App\Rules\ValidateUploadFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Inspheric\Fields\Indicator;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -28,7 +28,6 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Titasgailius\SearchRelations\SearchesRelations;
 
@@ -129,13 +128,20 @@ class Transfer extends Resource
             }),
 
             DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
-            Badge::make(__('Status'), 'status')->map([
-                'pending' => 'warning',
-                'completed' => 'success',
-            ]),
-            BelongsToMany::make(__('Bills'), 'bills', Bill::class),
 
+            Indicator::make(__('Status'), 'status')
+                ->labels([
+                    'pending' => __('pending transfer'),
+                    'completed' => __('completed transfer'),
+                    'canceled' => __('canceled'),
+                ])
+                ->colors([
+                    'canceled' => 'red',
+                    'completed' => 'green',
+                    'pending' => 'warning',
+                ]),
 
+            BelongsToMany::make(__('Bills'), 'bills', Bill::class)
         ];
     }
 
@@ -170,6 +176,7 @@ class Transfer extends Resource
     {
         return [
             new DateRange(),
+            new UserName(),
         ];
     }
 
@@ -192,18 +199,7 @@ class Transfer extends Resource
      */
     public function actions(Request $request)
     {
-        return [
-            (new TranferBillsExcelDownload)
-                ->onlyOnDetail()
-                ->canRun(function(NovaRequest $request) {
-                    return TRUE;
-                }),
-            (new TranferTransactionsExcelDownload)
-                ->onlyOnDetail()
-                ->canRun(function(NovaRequest $request) {
-                    return TRUE;
-                }),
-        ];
+        return [];
     }
 
     public static function authorizedToCreate(Request $request)

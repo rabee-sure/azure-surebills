@@ -29,8 +29,14 @@
                   </template>
 
                   <template slot-scope="{ row, index }" slot="confirm">              
-                    <i-switch :disabled="row.status_bool" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id)" false-color="#f90" true-color="#13ce66" :ref="'switch' + row.id" />
+                    <i-switch :disabled="!row.status_is_pending" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id)" false-color="#f90" true-color="#13ce66" :ref="'switch' + row.id" />
                   </template>
+
+                  <template slot-scope="{ row, index }" slot="cancel">              
+                      <Button :disabled="row.status == 'canceled' || row.status == 'completed'" :loading="cancel_loading" @click="cancelTranfer(row.id)"  type="error" icon="ios-close-circle" >{{ __('Cancel')}}</Button>
+
+                  </template>
+
                   <template slot-scope="{ row, index }" slot="deed">
                       <Upload :on-success="uploadSuccess" :action="'/api/transfers/'+row.id+'/upload_attachment'" :show-upload-list="false">
                           <div>
@@ -65,6 +71,7 @@ export default {
         return {
             modal1: false,
             switch_loading: false,
+            cancel_loading: false,
             meta: [],
             users: [],
             user: [],
@@ -113,6 +120,12 @@ export default {
                 {
                     title: this.__('Confirm Transfer'),
                     slot: 'confirm',
+                    width: 150,
+                    align: 'center'
+                },
+                {
+                    title: this.__('Cancel Transfer'),
+                    slot: 'cancel',
                     width: 150,
                     align: 'center'
                 },
@@ -174,15 +187,40 @@ export default {
                             status: status? 'completed': 'pending',
                         })
                         .then(response => {
+                            var index = this.transfers.map(function(x) {return x.id; }).indexOf(id);
+                            this.$set(this.transfers, index, response.data.data)
                             this.switch_loading = false;
                         })
-                        .catch(function (error) {
+                        .catch(error => {
                             this.switch_loading = false;
                         });
                     },
                     onCancel: () => {
                       this.$refs['switch'+id].value = false
                       this.$refs['switch'+id].disabled = false
+                    }
+                });
+   
+        },        
+        cancelTranfer(id) {
+              this.$Modal.confirm({
+                    title: this.__('Attention'),
+                    content: this.__('Are you sure you will Cancel transfer, this action cannot be undone ?'),
+                    okText: this.__('Ok'),
+                    cancelText: this.__('Cancel'),
+                    onOk: () => {
+                        this.cancel_loading = true;
+                        Nova.request().put('/transfers/'+id+'/cancel')
+                        .then(response => {
+                            var index = this.transfers.map(function(x) {return x.id; }).indexOf(id);
+                            this.$set(this.transfers, index, response.data.data)
+                            this.cancel_loading = false;
+                        })
+                        .catch(error => {
+                            this.cancel_loading = false;
+                        });
+                    },
+                    onCancel: () => {
                     }
                 });
    

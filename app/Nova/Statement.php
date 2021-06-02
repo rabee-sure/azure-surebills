@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use Inspheric\Fields\Indicator;
 
 class Statement extends Resource
 {
@@ -72,8 +73,17 @@ class Statement extends Resource
      */
     public function fields(Request $request)
     {
+        if (!$request->count) {
+            $request->count = 0;
+        }
         return [
             // DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
+            Text::make(__('#'), '#', function()use ($request){
+                $request->count += 1;
+
+                $rowNumber = $request->page == 1 ? $request->count : $request->count + ($request->perPage * ($request->page - 1));
+                return $rowNumber;
+            })->readonly(true),
             Text::make(__('Created At'), 'created_at')
                 ->displayUsing(function(){
                     if($this->created_at)
@@ -94,16 +104,23 @@ class Statement extends Resource
                 'MADA' => 'MADA',
                 'APPLEPAY' => 'APPLEPAY',
             ]),
-            Badge::make(__('Type'), 'type')->map([
-                'credit' => 'success',
-                'debit' => 'danger',
-            ]),
+            
+            Indicator::make(__('Type'), 'type')
+                ->labels([
+                    'credit' => __('credit'),
+                    'debit' => __('debit'),
+                ])
+                ->colors([
+                    'debit' => 'red',
+                    'credit' => 'green',
+                ]),
+
             Text::make(__('Amount'), 'amount', function () {
                 return round($this->amount, 2);
             }),
 
             Text::make(__('Balance'), 'balance', function () {
-                return $this->balance > 0 ? round($this->balance, 2) : '0';
+                return fact_number(round($this->balance, 2));
             }),
 
             BelongsTo::make(__('User'), 'user', User::class)->searchable(),

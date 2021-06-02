@@ -3,11 +3,11 @@
 namespace App\Policies;
 
 use App\Models\Bill;
-use App\Models\Transfer;
+use App\Models\PaymentLog;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TransferPolicy
+class PaymentLogPolicy
 {
     use HandlesAuthorization;
 
@@ -26,24 +26,24 @@ class TransferPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Transfer  $transfer
+     * @param  \App\Models\PaymentLog  $log
      * @return mixed
      */
-    public function view(User $user, Transfer $transfer)
+    public function view(User $user, PaymentLog $log)
     {
-        return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
+        return $log->bill->user_id == $user->id;
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Transfer  $transfer
+     * @param  \App\Models\PaymentLog  $log
      * @return mixed
      */
-    public function viewBills(User $user, Transfer $transfer)
+    public function viewBills(User $user, PaymentLog $log)
     {
-        return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
+        return $log->user_id == $user->id;
     }
 
     /**
@@ -61,10 +61,10 @@ class TransferPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Transfer  $transfer
+     * @param  \App\Models\PaymentLog  $log
      * @return mixed
      */
-    public function update(User $user, Transfer $transfer)
+    public function update(User $user, PaymentLog $log)
     {
         return true;
     }
@@ -73,10 +73,10 @@ class TransferPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Transfer  $transfer
+     * @param  \App\Models\PaymentLog  $log
      * @return mixed
      */
-    public function delete(User $user, Transfer $transfer)
+    public function delete(User $user, PaymentLog $log)
     {
         return true;
     }
@@ -85,10 +85,10 @@ class TransferPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Transfer  $transfer
+     * @param  \App\Models\PaymentLog  $log
      * @return mixed
      */
-    public function restore(User $user, Transfer $transfer)
+    public function restore(User $user, PaymentLog $log)
     {
         return true;
     }
@@ -97,10 +97,10 @@ class TransferPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Transfer  $transfer
+     * @param  \App\Models\PaymentLog  $log
      * @return mixed
      */
-    public function forceDelete(User $user, Transfer $transfer)
+    public function forceDelete(User $user, PaymentLog $log)
     {
         return true;
     }
@@ -113,7 +113,7 @@ class TransferPolicy
      * @param  \App\Models\Bill  $bill
      * @return mixed
      */
-    public function attachBill(User $user, Transfer $transfer, Bill $bill)
+    public function attachBill(User $user, PaymentLog $log, Bill $bill)
     {
         return false;
     }
@@ -126,7 +126,7 @@ class TransferPolicy
      * @param  \App\Tag  $tag
      * @return mixed
      */
-    public function detachBill(User $user, Transfer $transfer, Bill $bill)
+    public function detachBill(User $user, PaymentLog $log, Bill $bill)
     {
         return false;
     }
@@ -139,21 +139,9 @@ class TransferPolicy
      * @param  \App\Podcast  $podcast
      * @return mixed
      */
-    public function attachAnyBill(User $user, Transfer $transfer)
+    public function attachAnyBill(User $user, PaymentLog $log)
     {
         return false;
-    }    
-
-    /**
-     * Determine whether the user can attach any tags to the podcast.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Podcast  $podcast
-     * @return mixed
-     */
-    public function TranferBillsExcelDownload(User $user, Transfer $transfer)
-    {
-        return true;
     }
 
 }

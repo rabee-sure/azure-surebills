@@ -52,7 +52,7 @@
         </a>
         <!-- <a class="btn btn-primary mr-2 mb-2 d-inline-block" href="#">{{ __('Send Reminder') }}</a> -->
         @if($bill->is_pending)
-          <button id="cancel_btn" type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#exampleModal" title="{{ __('Cancel Bill') }}" data-from="top" data-align="right">
+          <button id="cancel_btn" type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#cancelModal" title="{{ __('Cancel Bill') }}" data-from="top" data-align="right">
             <img src="{{ asset('images/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
           </button>
         @endif 
@@ -168,166 +168,21 @@
     <a title="Sure Bills" class="logo_bills"></a>
   </div><!-- col-12 -->
   @if(count($bill->payment_logs) > 0)
-  <div id="paymentslog" class="col-12 col-md-6 col-lg-6 col-xl-6">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="mb-3">{{__('Payment Transactions')}}</h2>
-        <div class="table-responsive">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col" width="5%"></th>
-                <th scope="col">{{__('ID') }}</th>
-                <th scope="col">{{__('Values') }}</th>
-                <th scope="col">{{__('Date created') }}</th>
-                <th scope="col" width="10%">{{__('Status') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($bill->payment_logs as $log)
-                <tr>
-                  @if(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MADA')
-                    <td><img src="{{ asset('/images/payments/mada.png') }}" alt="mada" height="25px"></td>
-                  @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'VISA')
-                    <td><img src="{{ asset('/images/payments/visa.png') }}" alt="visa" height="25px"></td>
-                  @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MASTERCARD')
-                    <td><img src="{{ asset('/images/payments/card.png') }}" alt="mastercard" height="25px"></td>
-                  @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'APPLEPAY')
-                    <td><img src="{{ asset('/images/payments/pay.png') }}" alt="apple pay" height="25px"></td>
-                  @else
-                    <td><img src="{{ asset('/images/payments/cardnon.png') }}" alt="apple pay" height="25px"></td>
-                  @endif
-
-                  <td><a href="/logs/{{$log->id}}" title="{{ $log->id }}">{{ $log->id }}</a></td>
-                  @if($log->payment_method == 'mastercard_refund')
-                    <td>{{ $log->results['transaction']['amount']}} {{__('SAR') }}</td>
-                  @else
-                    <td>{{ $log->results['bill']['total']}} {{__('SAR') }}</td>
-                  @endif
-                  <td>{{$log->created_at}}</td>
-                  @if($log->payment_method == 'mastercard_refund')
-                    <td><span class="badge badge-pill badge-warning bill_status_badge">{{ __('Refund') }}</span></td>
-                  @elseif($log->status == true)
-                    <td><span class="badge badge-pill badge-success bill_status_badge">{{ __('Paid') }}</span></td>
-                  @else
-                    <td><span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span></td>
-                  @endif
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div><!-- table-responsive -->
-      </div><!-- card-body -->
-    </div><!-- card -->
-  </div><!-- col-12 -->
+    @include('bills.partials.payment_logs')
   @endif
 </div><!-- row -->
-<!-- Modal -->
-<div class="modal fade" 
-  id="exampleModal" tabindex="-1" 
-  role="dialog" 
-  aria-labelledby="exampleModalLabel" 
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{ __('Are you Sure to Cancel Bill ?')}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-footer">
-        <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
-          @csrf
-            <button type="submit" class="btn btn-primary">{{__('Cancel Bill')}}</button>
-            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Cancel')}}</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="modal fade" id="refundModal" tabindex="-1" role="dialog" aria-labelledby="refundModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="refundModalLabel">{{ __('Are you Sure to Refund Bill ?')}}</h5>
-        <button id="refund_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="form" >
-        @csrf
-         <input type="hidden" id="type" name="type" value="refund">
 
-        <div class="modal-body">
-          <div class="select_refund">
-            <label for="ConfirmRefund" class="position-relative d-block">
-              <input  type="radio" id="ConfirmRefund" name="refund" class="position-absolute w-100 h-100" value="refund" checked>
-              <div class="txt bg-light border text-body p-2 mb-2 d-flex align-items-center justify-content-start">
-                <div class="checkmark rounded-circle position-relative d-flex align-items-center justify-content-center"><p class="rounded-circle bg-white m-0 d-block"></p></div>
-                <span class="d-block">{{__('Total refund')}}</span>
-              </div><!-- txt -->
-            </label>
-            {{-- <label for="PartialRefund" class="position-relative d-block"> --}}
-            <label for="PartialRefund" class="position-relative" style="display: none;">
-              <input type="radio" id="PartialRefund" name="refund" class="position-absolute w-100 h-100" value="partial_refund">
-              <div class="txt bg-light border text-body p-2 d-flex align-items-center justify-content-start">
-                <div class="checkmark rounded-circle position-relative d-flex align-items-center justify-content-center"><p class="rounded-circle bg-white m-0 d-block"></p></div>
-                <span class="d-block">{{__('Partial Refund')}}</span>
-              </div><!-- txt -->
-            </label>
-          </div><!-- select_refund -->
-          <div id="amount_partial_refund" class="form-group row mt-3">
-            <label for="amount" class="col-sm-2 col-form-label">{{__('Amount')}}</label>
-            <div class="col-sm-10">
-              <input type="number" min="1" class="form-control" id="amount" name="amount" placeholder="{{__('Amount')}}">
-              {{-- <span class="d-block text-danger mt-1">يجب أن تكون المبلغ أقل من مبلغ الفاتورة</span> --}}
-            </div><!-- col-sm-10 -->
-          </div><!-- form-group -->
-        </div><!-- modal-body -->
-        <div class="modal-footer"> 
-          <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
-          <button id="refund_cancel" type="button" class="btn btn-secondary ml-2" data-dismiss="modal">{{__('Retreat')}}</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+
+@include('bills.partials.cancel',['bill' => $bill])
+@include('bills.partials.refund',['bill' => $bill])
 
 @endsection 
 
 @push('footer-scripts')
-    {!! JsValidator::formRequest('App\Http\Requests\RefundRequest', '#form') !!}
 
   <script src="{{ asset('js/bootstrap-notify.min.js') }}" defer></script>
   <script>
-    $("#refund_cancel").click(function(){
-      $('#amount_partial_refund').hide();
-      $('input#type').val('refund');
-      $('#ConfirmRefund').prop("checked", true);
-      $("#amount").val("");
-      $('#amount-error').text('');
-    });    
-
-    $("#refund_close").click(function(){
-      $('#amount_partial_refund').hide();
-      $('input#type').val('refund');
-      $('#ConfirmRefund').prop("checked", true);
-      $("#amount").val("");
-      $('#amount-error').text('');
-    });
-
-    $("#amount_partial_refund").hide(); 
-    $('input[type=radio][name=refund]').change(function(){
-        if(this.value == 'partial_refund'){
-          $('#amount_partial_refund').show();
-          $('input#type').val('partial_refund');
-        }else{
-          $('#amount_partial_refund').hide();
-          $('input#type').val('refund');
-          $("#amount").val("");
-        }
-    });
-
   /* 03.12. Notification */
   function showNotification(placementFrom, placementAlign, type) {
       $.notify(

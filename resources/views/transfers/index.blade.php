@@ -6,8 +6,11 @@
     <div class="row">
         <div class="col-12">
             <h1>{{ __('Transfers') }}</h1>
-            <div class="top-right-button-container">
-                {{-- @include('transfers.request_transfer') --}}
+
+            <div class="top-right-button-container d-flex align-items-center justify-content-center flex-column">
+                @if(!auth()->user()->auto_trnasfer)
+                    @include('transfers.request_transfer')
+                @endif
 
                 <h3>{{ __('Balance') }} : {{  round2(auth()->user()->balance)  }} {{__('SAR')}}</h3>
             </div>
@@ -69,6 +72,10 @@
                                             </div>
                                         @elseif($transfer->status == 'pending')
                                             <div class="badge badge-pill badge-warning bill_status_badge" role="alert">
+                                                {{__('Transfer ' .$transfer->status)}}
+                                            </div>
+                                        @elseif($transfer->status == 'canceled')
+                                            <div class="badge badge-pill badge-danger bill_status_badge" role="alert">
                                                 {{__('Transfer ' .$transfer->status)}}
                                             </div>
                                         @endif

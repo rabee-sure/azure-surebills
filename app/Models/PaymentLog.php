@@ -93,6 +93,7 @@ class PaymentLog extends Model
         );
         $response = json_decode($response->getBody()->getContents(), true);
         $payment->results = $response;
+        $payment->refunded_amount = $amount;
         $payment->save();
 
         if (isset($response['response']) && isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] == 'APPROVED') {

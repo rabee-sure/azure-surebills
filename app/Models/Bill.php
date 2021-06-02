@@ -65,6 +65,8 @@ class Bill extends Model
         'payment_surebills_fees_vat',
         'refunded_at',
         'refund_amount',
+        
+        'pending_settled',
     ];
 
     /**
@@ -150,6 +152,7 @@ class Bill extends Model
     {
         return $this->status == 'paid' 
             && !$this->settled 
+            && !$this->pending_settled 
             && $this->user->able_refund 
             && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')); 
     }
@@ -539,6 +542,7 @@ class Bill extends Model
         if ($this->success_payment->refund($this->total)) {
             $this->status = 'refunded';
             $this->refunded_at = Carbon::now();
+            $this->refund_amount = $this->refund_amount+$this->total;
             $this->save();
             
             event(new BillRefunded($this));

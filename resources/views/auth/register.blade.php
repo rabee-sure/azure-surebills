@@ -95,7 +95,7 @@
             <label class="custom-control-label" for="customCheckThis">
               {{ __('I agree to') }} 
             </label>
-              <a id="read_terms" style="line-height: 1.5rem; padding-top: 1px;" href="#" title="{{ __('Terms & Conditions') }}"  data-toggle="modal" data-target=".bd-example-modal-lg pt-2">{{ __('Terms & Conditions') }}</a>
+              <a id="read_terms" style="line-height: 1.5rem; padding-top: 1px;" href="#" title="{{ __('Terms & Conditions') }}"  data-toggle="modal" data-target="#conditionsModal">{{ __('Terms & Conditions') }}</a>
             @error('terms')
               <p class="invalid-feedback" role="alert">{{ $message }}</p>
             @enderror
@@ -108,7 +108,7 @@
         <h5 class="mt-4 mb-0 text-center">لديك حساب في شور بيلز ! <br> <a style="color: #00D595;" class="d-inline-block mt-2" href="{{ route('login') }}" title="سجل دخول"> سجل دخول</a></h5>
 
         <!-- modal -->
-        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-lg" id="conditionsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">

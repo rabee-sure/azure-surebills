@@ -71,40 +71,27 @@ class TransferAutomatic extends Command
                 $file_name = $this->getExcelFileName($user, $from, $to);
                 $bills = TransferService::getbillsBetweenDate($from, $to, $user, $file_name);
 
-                $amount = TransferService::getAmount($bills, $user);
+                if($bills->count()){
+                    $amount = TransferService::getAmount($bills, $user);
 
-                $this->info("transfer to $user->name amount: $amount");
+                    $this->info("transfer to $user->name amount: $amount");
 
-                $transfer = DB::transaction(function () use($user, $bills, $amount, $from, $to, $file_name){
                     $bank = $user->bank;
-                    $transfer = Transfer::create([
-                        'status' => 'pending',
-                        'user_id' => $user->id,
-                        'amount' => $amount,
-                        'transfer_fees' => $bank->fees+ ($bank->fees * 0.15),
-                        'net_amount' => $amount - $bank->fees+ ($bank->fees * 0.15),
+                    $transfer_fees = $bank->fees + ($bank->fees * 0.15);
+                    $data = [
+                        'from' => $from,
+                        'to' => $to,
+                        'transfer_fees' => $transfer_fees,
                         'note' => 'automatic transfer',
                         'created_by_id' => null,
                         'bank_id' => $bank->id,
+
+                        'user_id' => $user->id,
                         'iban_number' => $user->iban_number,
                         'beneficiary_name' => $user->beneficiary_name,
-                        'filters' => [
-                            'date' => [
-                                "from" => $from->toDateTimeString(),
-                                "to" => $to->toDateTimeString(),
-                            ],
-                            'files' => [
-                                "folder" => explode('/', $file_name)[1],
-                                "bills" => explode('/', $file_name)[2],
-                                "transactions" => 'transactions-'.explode('/', $file_name)[2],
-                            ],
-                        ],
-                    ]);
-
-                    $transfer->bills()->attach($bills->pluck('id')->toArray());
-
-                    return $transfer;
-                });
+                    ];
+                    $transfer = TransferService::makeTransfer('pending', $amount, $bills, $data);
+                }
             }
 
             if($filtered_users->count())

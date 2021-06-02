@@ -35,6 +35,6 @@ class PasswordRule implements Rule
      */
     public function message()
     {
-        return 'Your password must contain at least one capital letter and one number and small letter';
+        return __('Your password must contain at least one capital letter and one number and small letter');
     }
 }
