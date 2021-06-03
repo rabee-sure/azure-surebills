@@ -169,6 +169,12 @@
             $("#status").empty();
             $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
             break;
+          case "refunded":
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
+            break;
           case "canceled":
             $("#payment_method").remove();
             $("#back_btn").remove();
