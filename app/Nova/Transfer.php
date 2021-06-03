@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\TranferBillsExcelDownload;
+use App\Nova\Actions\TranferTransactionsExcelDownload;
 use App\Nova\Filters\DateRange;
 use App\Nova\Filters\UserName;
 use App\Nova\Metrics\TotalCommissions;
@@ -28,6 +30,7 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Titasgailius\SearchRelations\SearchesRelations;
 
@@ -191,15 +194,20 @@ class Transfer extends Resource
         return [];
     }
 
-    /**
-     * Get the actions available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new TranferBillsExcelDownload)
+                ->onlyOnDetail()
+                ->canRun(function(NovaRequest $request) {
+                    return TRUE;
+                }),
+            (new TranferTransactionsExcelDownload)
+                ->onlyOnDetail()
+                ->canRun(function(NovaRequest $request) {
+                    return TRUE;
+                }),
+        ];
     }
 
     public static function authorizedToCreate(Request $request)

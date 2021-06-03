@@ -85,10 +85,10 @@ class TransferAutomatic extends Command
                         'note' => 'automatic transfer',
                         'created_by_id' => null,
                         'bank_id' => $bank->id,
-
                         'user_id' => $user->id,
                         'iban_number' => $user->iban_number,
                         'beneficiary_name' => $user->beneficiary_name,
+                        'file_name' => $user->file_name,
                     ];
                     $transfer = TransferService::makeTransfer('pending', $amount, $bills, $data);
                 }
