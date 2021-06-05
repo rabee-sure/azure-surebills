@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Rule;
 
 class BillTotalValidation implements Rule
 {
-    const MAX_TOTAL_AMOUNT = 25000;
+    const MAX_TOTAL_AMOUNT = 150000;
 
     private $total;
 
