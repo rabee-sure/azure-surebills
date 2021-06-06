@@ -2,17 +2,19 @@
 
 namespace App\Services;
 
-use App\Events\TransferCreated;
-use App\Exports\BillsExport;
-use App\Http\Resources\BillResource;
-use App\Mail\AutoTransferMail;
-use App\Models\Bill;
-use App\Models\Transaction;
-use App\Models\Transfer;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\Bill;
+use App\Models\User;
+use App\Models\Transfer;
+use App\Models\Transaction;
+use App\Exports\BillsExport;
+use App\Mail\AutoTransferMail;
+use App\Events\TransferCreated;
 use Illuminate\Support\Facades\DB;
+use App\Exports\TransactionsExport;
+use App\Http\Resources\BillResource;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Resources\TransactionResource;
 
 class TransferService 
 {
@@ -63,8 +65,10 @@ class TransferService
             ->orderBy('paid_at', 'asc')
             ->get();
 
-            if($excel_file_name)
-                self::createExcel($bills, $excel_file_name);
+            if($excel_file_name) {
+                self::createBillsExcel($bills, $excel_file_name);
+                self::createTransactionsExcel($bills, $excel_file_name);
+            }
 
         return $bills;
 
@@ -122,10 +126,31 @@ class TransferService
      * @param  integer  $timestamp
      * @return boolean
      */
-    public static function createExcel($bills, $file_name)
+    public static function createBillsExcel($bills, $file_name)
     {
         $data = json_decode((BillResource::collection($bills))->toJson(), true);
         return Excel::store(new BillsExport($data), $file_name);
+    }
+
+    /**
+     * create Excel.
+     *
+     * @param  App\Bill  $bills
+     * @param  string  $file_name
+     * @return boolean
+     */
+    public static function createTransactionsExcel($bills, $file_name)
+    {
+        $array = explode('/', $file_name);
+        $array[2] = 'transactions-'.$array[2];
+        $file_name = implode('/', $array);
+
+        $transactions = Transaction::whereIn('bill_id', $bills->pluck('id'))
+            ->orderBy('created_at', 'ASC')
+            ->orderBy('receipt', 'ASC')
+            ->get();
+        $data = json_decode((TransactionResource::collection($transactions))->toJson(), true);
+        return Excel::store(new TransactionsExport($data), $file_name);
     }
 
     /**
