@@ -1,5 +1,5 @@
 <div class="d-inline-block" data-toggle="modal" data-target="#request_transfer_Modal">
-    <button type="button" class="btn btn-success btn-md top-right-button mr-1" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Request Transfer') }}">
+    <button type="button" class="btn btn-success btn-md top-right-button mr-1">
         {{ __('Request Transfer') }}
     </button>
 </div>
