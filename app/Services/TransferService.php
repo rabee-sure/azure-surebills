@@ -41,8 +41,8 @@ class TransferService
      */
     public static function getbillsBetweenDate($from_s, $to_s, $user, $excel_file_name = null)
     {
-        $to = $to_s->copy()->endOfDay()->toDateTimeString();
         $from = $from_s->copy()->startOfDay()->toDateTimeString();
+        $to = $to_s->copy()->endOfDay()->toDateTimeString();
 
         $bills =  Bill::
             //get user bills
