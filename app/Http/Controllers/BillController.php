@@ -337,8 +337,8 @@ class BillController extends Controller
     {
         if($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret'))
         {
+            sleep(5);
             $response = $request->all();
-            Log::emergency(json_encode($response));
             $orderBody = json_decode(json_encode($response), FALSE);
 
             // process payment
