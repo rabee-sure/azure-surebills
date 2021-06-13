@@ -12,6 +12,17 @@ use Laravel\Nova\Fields\ActionFields;
 
 class TranferBillsExcelDownload extends Action
 {
+
+    /**
+     * Get the displayable name of the metric.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return  __('Download Transfer Bills Excel');
+    }
+
     /**
      * Perform the action on the given models.
      *
