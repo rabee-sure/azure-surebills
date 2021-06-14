@@ -13,20 +13,13 @@ class SendBillPaySms implements ShouldQueue
     use IsMonitored;
 
     /**
-     * The name of the queue the job should be sent to.
-     *
-     * @var string|null
-     */
-    public $queue = 'sms';
-
-    /**
      * Create the event listener.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->queue = env('SMS_QUEUE');
+        //
     }
 
     /**
