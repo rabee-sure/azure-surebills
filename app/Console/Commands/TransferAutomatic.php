@@ -64,10 +64,9 @@ class TransferAutomatic extends Command
             $filtered_users = $users->filter(function($user) use($transfer_minimum){
                 return $user->balance >= $transfer_minimum;
             });
-
             foreach ($filtered_users as $user) {
-                $from = TransferService::getFromDate($user);
-
+                // $from = TransferService::getFromDate($user);
+                $from = $user->created_at;
                 $file_name = $this->getExcelFileName($user, $from, $to);
                 $bills = TransferService::getbillsBetweenDate($from, $to, $user, $file_name);
 
@@ -85,10 +84,10 @@ class TransferAutomatic extends Command
                         'note' => 'automatic transfer',
                         'created_by_id' => null,
                         'bank_id' => $bank->id,
-
                         'user_id' => $user->id,
                         'iban_number' => $user->iban_number,
                         'beneficiary_name' => $user->beneficiary_name,
+                        'file_name' => $file_name,
                     ];
                     $transfer = TransferService::makeTransfer('pending', $amount, $bills, $data);
                 }

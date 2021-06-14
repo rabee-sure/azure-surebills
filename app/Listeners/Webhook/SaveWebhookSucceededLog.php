@@ -12,6 +12,8 @@ use Spatie\WebhookServer\Events\WebhookCallSucceededEvent;
 
 class SaveWebhookSucceededLog implements ShouldQueue
 {
+    use IsMonitored;
+    
     /**
      * Create the event listener.
      *

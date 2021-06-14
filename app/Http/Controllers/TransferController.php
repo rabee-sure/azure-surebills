@@ -48,6 +48,21 @@ class TransferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function all(Request $request)
+    {
+        $transfers = Transfer::orderBy('id', 'desc')
+            ->where('status', 'pending')
+            ->orWhereNull('attachment')
+            ->paginate($request->per_page);
+
+        return TransferResource::collection($transfers);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function request(Request $request)
     {
         $user = auth()->user();
@@ -85,6 +100,7 @@ class TransferController extends Controller
             'user_id' => $user->id,
             'iban_number' => $user->iban_number,
             'beneficiary_name' => $user->beneficiary_name,
+            'file_name' => $file_name,
         ];
         
         $transfer = TransferService::makeTransfer('pending', $amount, $bills, $data);
@@ -96,21 +112,6 @@ class TransferController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function all(Request $request)
-    {
-        $transfers = Transfer::orderBy('id', 'desc')
-            ->where('status', 'pending')
-            ->orWhereNull('attachment')
-            ->paginate($request->per_page);
-
-        return TransferResource::collection($transfers);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -118,6 +119,8 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
+        $user = User::find($request->user_id);
+
         $fromDate = new Carbon($request->from);
         $toDate = new Carbon($request->to);
         $fromDate = $fromDate->addHours(3);
@@ -126,9 +129,14 @@ class TransferController extends Controller
             $fromDate = $fromDate->startOfDay();
             $toDate = $toDate->endOfDay();
         }
-        
+
+
         $bills = Bill::whereIn('id', $request->bills_ids)->get();
-        $user = User::find($request->user_id);
+
+        $file_name = $this->getExcelFileName($user, $toDate);
+        TransferService::createBillsExcel($bills, $file_name);
+        TransferService::createTransactionsExcel($bills, $file_name);
+
         $amount = TransferService::getAmount($bills, $user);
         if($bills->where('pending_settled', true)->count() != 0 || $bills->where('settled', true)->count() != 0){
             return response()->json(['error' => __('Bills duplicate in another transfer')], 422);
@@ -155,6 +163,7 @@ class TransferController extends Controller
                 'bank_id' => $user->bank_id,
                 'iban_number' => $user->iban_number,
                 'beneficiary_name' => $user->beneficiary_name,
+                'file_name' => $file_name,
             ];
             
             $transfer = TransferService::makeTransfer($status, $amount, $bills, $data);

@@ -54,7 +54,7 @@ class RefundTransactionsForOwner
             $transaction->card_brand  = $logResponse['paymentBrand'];
             $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
         }
-        $transaction->transaction_source = 'bill';
+        $transaction->transaction_source = 'refund';
         $transaction->order = $order_max+1;
         $transaction->save();
 

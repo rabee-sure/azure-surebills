@@ -135,3 +135,10 @@ Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
 Route::get('users/{user}', 'UserController@show')->name('users.show');
 
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
+
+
+Route::middleware(config('nova.middleware', []))->group(function () {
+    Route::prefix('nova/jobs')->group(function () {
+        Route::queueMonitor();
+    });
+});

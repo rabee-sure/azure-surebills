@@ -37,7 +37,7 @@ class SendBillPaidWebhook
                ])
                ->useSecret($event->bill->client->webhook_secret)
                ->dispatch()
-               ->onQueue('webhook');          
+               ->onQueue(env('WEBHOOK_QUEUE'));          
         }
 
     }

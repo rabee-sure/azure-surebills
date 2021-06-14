@@ -2,19 +2,19 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
-use App\Models\Bill;
-use App\Models\User;
-use App\Models\Transfer;
-use App\Models\Transaction;
-use App\Exports\BillsExport;
-use App\Mail\AutoTransferMail;
 use App\Events\TransferCreated;
-use Illuminate\Support\Facades\DB;
+use App\Exports\BillsExport;
 use App\Exports\TransactionsExport;
 use App\Http\Resources\BillResource;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\TransactionResource;
+use App\Mail\AutoTransferMail;
+use App\Models\Bill;
+use App\Models\Transaction;
+use App\Models\Transfer;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransferService 
 {
@@ -41,8 +41,8 @@ class TransferService
      */
     public static function getbillsBetweenDate($from_s, $to_s, $user, $excel_file_name = null)
     {
-        $to = $to_s->copy()->endOfDay()->toDateTimeString();
         $from = $from_s->copy()->startOfDay()->toDateTimeString();
+        $to = $to_s->copy()->endOfDay()->toDateTimeString();
 
         $bills =  Bill::
             //get user bills
@@ -65,13 +65,12 @@ class TransferService
             ->orderBy('paid_at', 'asc')
             ->get();
 
-            if($excel_file_name) {
+            if($excel_file_name){
                 self::createBillsExcel($bills, $excel_file_name);
                 self::createTransactionsExcel($bills, $excel_file_name);
             }
 
         return $bills;
-
     }
 
 
@@ -117,13 +116,10 @@ class TransferService
     }    
 
     /**
-     * create Excel.
+     * create Bills Excel.
      *
      * @param  App\Bill  $bills
-     * @param  App\User  $user
-     * @param  Carbon\Carbon  $from
-     * @param  Carbon\Carbon  $to
-     * @param  integer  $timestamp
+     * @param  string  $file_name
      * @return boolean
      */
     public static function createBillsExcel($bills, $file_name)
@@ -132,8 +128,8 @@ class TransferService
         return Excel::store(new BillsExport($data), $file_name);
     }
 
-    /**
-     * create Excel.
+      /**
+     * create Transactions Excel.
      *
      * @param  App\Bill  $bills
      * @param  string  $file_name
@@ -144,14 +140,11 @@ class TransferService
         $array = explode('/', $file_name);
         $array[2] = 'transactions-'.$array[2];
         $file_name = implode('/', $array);
-
-        $transactions = Transaction::whereIn('bill_id', $bills->pluck('id'))
-            ->orderBy('created_at', 'ASC')
-            ->orderBy('receipt', 'ASC')
-            ->get();
+        $transactions = Transaction::whereIn('bill_id', $bills->pluck('id'))->get();
         $data = json_decode((TransactionResource::collection($transactions))->toJson(), true);
         return Excel::store(new TransactionsExport($data), $file_name);
     }
+
 
     /**
      * create Transfer Transaction.
@@ -203,7 +196,12 @@ class TransferService
                     'date' => [
                         "from" => $data['from'],
                         "to" => $data['to'],
-                    ]
+                    ],
+                    'files' => [
+                        "folder" => explode('/', $data['file_name'])[1],
+                        "bills" => explode('/', $data['file_name'])[2],
+                        "transactions" => 'transactions-'.explode('/', $data['file_name'])[2],
+                    ],
                 ],
             ]);
 
