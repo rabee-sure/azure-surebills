@@ -26,7 +26,7 @@ class SendMailTransferMailToCustomer
      */
     public function handle(TransferCreated $event)
     {
-        $message = (new SendTransferToCustomer($event->transfer))->onQueue('emails');
+        $message = (new SendTransferToCustomer($event->transfer));
         Mail::to($event->transfer->user->email)->queue($message);
 
     }
