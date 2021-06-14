@@ -3,12 +3,14 @@
 namespace App\Listeners;
 
 use App\Events\BillCreated;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Multicaret\Unifonic\UnifonicFacade;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class SendBillPaySms implements ShouldQueue
 {
+    use IsMonitored;
 
     /**
      * The name of the queue the job should be sent to.

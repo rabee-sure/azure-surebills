@@ -23,6 +23,9 @@
 /public/mix-manifest.json
 /public/js/app.js.map
 /public/vendor/jsvalidation/js/jsvalidation.js
+/public/vendor/jsvalidation/js/jsvalidation.js.map
+/public/vendor/jsvalidation/js/jsvalidation.min.js
+/public/vendor/jsvalidation/js/jsvalidation.min.js.map
 /public/uploads
 /storage/*.key
 /storage/tmp
