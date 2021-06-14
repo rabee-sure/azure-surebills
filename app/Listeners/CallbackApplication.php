@@ -39,7 +39,8 @@ class CallbackApplication
                     'total' => $bill->total,
                 ])
                 ->useSecret($bill->application->webhook_secret)
-                ->dispatch();
+                ->dispatch()
+                ->onQueue(env('WEBHOOK_QUEUE'));
     
             CallbackWebhook::dispatch($bill);
         }

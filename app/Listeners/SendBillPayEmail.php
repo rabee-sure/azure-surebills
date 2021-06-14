@@ -32,7 +32,7 @@ class SendBillPayEmail
         if($event->bill->send_email){
             if(isset($event->bill->customer_email)){
                 $subject = __('You’ve got a new bill of :total SAR', ['total' => $event->bill->total]);
-                $message = (new SendBillPayLink($event->bill, $subject));
+                $message = (new SendBillPayLink($event->bill, $subject))->onQueue(env('EMAILS_QUEUE'));
                 Mail::to($event->bill->customer_email)->queue($message);
             }
         }
@@ -40,7 +40,7 @@ class SendBillPayEmail
         //owner
         if(isset($event->bill->user->email)){
             $subject = __('Your bill of :total SAR has been created', ['total' => $event->bill->total]);
-            $message = (new SendBillPayLink($event->bill, $subject));
+            $message = (new SendBillPayLink($event->bill, $subject))->onQueue(env('EMAILS_QUEUE'));
             Mail::to($event->bill->user->email)->queue($message);
         }
     }
