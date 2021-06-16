@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Multicaret\Unifonic\UnifonicFacade;
+use romanzipp\QueueMonitor\Traits\IsMonitored;
 use Spatie\WebhookServer\Events\WebhookCallSucceededEvent;
 
 class SaveWebhookSucceededLog implements ShouldQueue
