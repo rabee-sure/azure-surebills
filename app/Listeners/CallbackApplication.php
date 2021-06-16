@@ -29,6 +29,8 @@ class CallbackApplication
         $bill = $event->bill;
 
         if($bill->application){
+            CallbackWebhook::dispatch($bill);
+
             WebhookCall::create()
                 ->url($bill->application->webhook_url)
                 ->payload([
@@ -41,8 +43,6 @@ class CallbackApplication
                 ->useSecret($bill->application->webhook_secret)
                 ->dispatch()
                 ->onQueue(env('WEBHOOK_QUEUE'));
-    
-            CallbackWebhook::dispatch($bill);
         }
     }
 }
