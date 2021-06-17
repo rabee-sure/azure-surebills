@@ -2,19 +2,20 @@
 
 namespace App\Models;
 
-use App\Events\BillPaid;
-use App\Events\BillPartialRefunded;
-use App\Events\BillRefunded;
-use App\Events\BillStatusUpdated;
-use App\Jobs\CallbackWebhook;
-use App\Models\PaymentLog;
-use App\Traits\UsesUuid;
 use Carbon\Carbon;
 use Hashids\Hashids;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Jenssegers\Date\Date;
 use Ramsey\Uuid\Uuid;
+use App\Events\BillPaid;
+use App\Traits\UsesUuid;
+use Jenssegers\Date\Date;
+use App\Models\PaymentLog;
+use App\Models\WebhookLog;
+use App\Events\BillRefunded;
+use App\Jobs\CallbackWebhook;
+use App\Events\BillStatusUpdated;
+use App\Events\BillPartialRefunded;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model
 {
@@ -442,6 +443,20 @@ class Bill extends Model
     }
 
     /**
+     * get only paid bills that doesn't have succeded webhook call
+     */
+    public function scopePaidButNotHaveSuccessWebhook($query){
+        $query
+            ->whereHas('application')->paid()
+            ->where(function($query) {
+                $query->where('bills.is_callbacked', '!=', true)
+                    ->orWhereDoesntHave('webhookLogs', function ($query) {
+                        $query->where('webhook_logs.status_code', 200);
+                    });
+            });
+    }
+
+    /**
      * Get items.
      *
      * @return Collection
@@ -698,5 +713,15 @@ class Bill extends Model
              $bill->transactions()->delete();
              // do the rest of the cleanup...
         });
+    }
+
+    /**
+     * Get all of the webhookLogs for the Bill
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function webhookLogs()
+    {
+        return $this->hasMany(WebhookLog::class, 'bill_id', 'id');
     }
 }
