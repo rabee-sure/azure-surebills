@@ -448,6 +448,7 @@ class Bill extends Model
     public function scopePaidButNotHaveSuccessWebhook($query){
         $query
             ->whereHas('application')->paid()
+            ->whereDate('paid_at', '>', (new Carbon('2021-06-09')))
             ->where(function($query) {
                 $query->where('bills.is_callbacked', '!=', true)
                     ->orWhereDoesntHave('webhookLogs', function ($query) {
