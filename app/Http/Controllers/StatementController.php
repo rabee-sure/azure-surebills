@@ -29,7 +29,13 @@ class StatementController extends Controller
         $channels = auth()->user()->channels;
         $applications = ($channel) ? $channel->applications : [];
 
-        return view('statements.index', compact('statement', 'date_start', 'date_to', 'channels', 'channel', 'applications', 'application'));
+        $all_statement = auth()->user()->getStatement();
+        $totals = [];
+        $totals['debit'] = round2($all_statement->where('type', 'debit')->sum('amount'));
+        $totals['credit'] = round2($all_statement->where('type', 'credit')->sum('amount'));
+        $totals['all'] = round2($totals['credit'] - $totals['debit']);        
+
+        return view('statements.index', compact('statement', 'date_start', 'date_to', 'channels', 'channel', 'applications', 'application', 'totals'));
     }
 
     public function export() 
