@@ -225,9 +225,9 @@
             <tfoot>
               <tr>
                 <td colspan="@if(count($channels)) 6 @else 5 @endif">{{ __('Total')}}</td>
-                <td class="text-danger">{{ round2($statement->where('type', 'debit')->sum('amount')) }}</td>
-                <td class="text-success">{{ round2($statement->where('type', 'credit')->sum('amount')) }}</td>
-                <td>{{ round2($statement->where('type', 'credit')->sum('amount') - $statement->where('type', 'debit')->sum('amount')) }}</td>
+                <td class="text-danger">{{ $totals['debit'] ?? 0 }}</td>
+                <td class="text-success">{{ $totals['credit'] ?? 0 }}</td>
+                <td>{{ $totals['all'] ?? 0 }}</td>
               </tr>
             </tfoot>
           </table>
