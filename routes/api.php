@@ -47,9 +47,8 @@ Route::prefix('v1')->group(function () {
     Route::post('fandaqah-register', 'UserController@registerFandaqah');
     Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
 
-    Route::post('channels/{channel}/applications/create', 'ChannelController@storeApplication');
-
-    Route::post('register', 'UserController@register');
+    Route::post('channels/{channel}/sub-account', 'ChannelController@subAccount');
+    Route::post('channels/{channel}/transactions', 'ChannelController@transactions');
 
     //should send application id and secret
     Route::group(['middleware' => ['User.from.application']], function () {
