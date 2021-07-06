@@ -138,6 +138,10 @@ class ChannelController extends Controller
 
         $application->save();
 
-        return new ChannelApplicationResource($application);
+        return [
+            'client_id'      => $application->id,
+            'secret'         => $application->secret,
+            'webhook_secret' => $application->webhook_secret
+        ];
     }
 }
