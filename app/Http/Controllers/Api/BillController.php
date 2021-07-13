@@ -348,7 +348,12 @@ class BillController extends Controller
 
             return new BillResource($bill);
         }else{
-            return response()->json(['success' => false]);
+           return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'credential' =>[__("your application not match bill's application")] 
+                ] 
+           ], 422);
         }
     }    
 
