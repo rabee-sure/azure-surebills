@@ -49,6 +49,7 @@ Route::prefix('v1')->group(function () {
 
     Route::post('channels/{channel}/sub-account', 'ChannelController@subAccount');
     Route::post('channels/{channel}/transactions', 'ChannelController@transactions');
+    Route::put('channels/{channel}/update_sub_account_payment_fees', 'ChannelController@updateSubAccountPaymentFees');
 
     //should send application id and secret
     Route::group(['middleware' => ['User.from.application']], function () {

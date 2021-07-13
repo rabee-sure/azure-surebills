@@ -6,6 +6,7 @@ use App\Events\UserCreated;
 use App\Exceptions\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChannelApplicationAPiRequest;
+use App\Http\Requests\ChannelUpdateApplicationPaymentFeesApiRequest;
 use App\Http\Resources\ChannelApplicationResource;
 use App\Http\Resources\ChannelResource;
 use App\Http\Resources\TransactionResource;
@@ -138,6 +139,47 @@ class ChannelController extends Controller
 
         $application->save();
 
-        return new ChannelApplicationResource($application);
+        return [
+            'client_id'      => $application->id,
+            'secret'         => $application->secret,
+            'webhook_secret' => $application->webhook_secret
+        ];
+    }
+
+    /**
+     * Store a new sub account.
+     *
+     * @param  \App\Channel  $channel
+     * @param  \Illuminate\Http\ChannelApplicationAPiRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateSubAccountPaymentFees(Channel $channel, ChannelUpdateApplicationPaymentFeesApiRequest $request)
+    {
+        $token_channel = Channel::where('secret_token', $request->channel_token)->first();
+
+        if(!isset($token_channel) || $token_channel->id != $channel->id){
+           return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'credential' =>[__('token or channel id is not correct')] 
+                ] 
+           ], 422);
+        }
+
+        $application = Application::find($request->application_id);
+
+        $application->mada_fixed = $request->mada_fixed;
+        $application->mada_percentage = $request->mada_percentage;
+        $application->credit_cards_fixed = $request->credit_cards_fixed;
+        $application->credit_cards_percentage = $request->credit_cards_percentage;
+
+        $application->save();
+
+        return [
+            'mada_fixed' => $application->mada_fixed,
+            'mada_percentage' => $application->mada_percentage,
+            'credit_cards_fixed' => $application->credit_cards_fixed,
+            'credit_cards_percentage' => $application->credit_cards_percentage,
+        ];
     }
 }
