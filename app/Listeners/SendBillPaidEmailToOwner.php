@@ -28,7 +28,7 @@ class SendBillPaidEmailToOwner
      */
     public function handle(BillPaid $event)
     {
-        if(isset($event->bill->user->email)){
+        if(isset($event->bill->user->email) && $event->bill->user->settings->paid_send_email){
             $message = (new SendBillPaidToOwner($event->bill))->onQueue(env('EMAILS_QUEUE'));
             Mail::to($event->bill->user->email)->queue($message);
         }
