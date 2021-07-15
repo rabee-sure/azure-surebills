@@ -38,7 +38,7 @@ class SendBillPayEmail
         }
 
         //owner
-        if(isset($event->bill->user->email)){
+        if(isset($event->bill->user->email) && $event->bill->user->settings->create_send_email){
             $subject = __('Your bill of :total SAR has been created', ['total' => $event->bill->total]);
             $message = (new SendBillPayLink($event->bill, $subject))->onQueue(env('EMAILS_QUEUE'));
             Mail::to($event->bill->user->email)->queue($message);
