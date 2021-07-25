@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Application;
-use App\Models\Bill;
-use App\Models\BillItem;
-use App\Models\Customer;
 use App\Events\BillCreated;
 use App\Events\BillStatusUpdated;
 use App\Exceptions\ValidationException;
@@ -15,10 +11,15 @@ use App\Http\Requests\CheckBillApiRequest;
 use App\Http\Requests\PayBillRequest;
 use App\Http\Resources\BillApiResource;
 use App\Http\Resources\BillResource;
+use App\Models\Application;
+use App\Models\Bill;
+use App\Models\BillItem;
+use App\Models\Customer;
 use App\Models\OauthClient;
 use App\Models\PaymentLog;
 use App\Payment\Facades\Payment;
 use App\Payment\Invoice;
+use App\Rules\AmountPartialRefund;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -35,18 +36,7 @@ class BillController extends Controller
      */
     public function store(BillApiRequest $request)
     {
-
-        $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
-
-        if(!isset($application)){
-           return response()->json([
-                "message" => "The given data was invalid.",
-                'errors' => [
-                    'credential' =>[__('application_id or application_secret is not coreect')] 
-                ] 
-           ], 422);
-        }
-
+        $application = $request->application;
         $user = $application->user ?? null;
 
         if($request->application_name){
@@ -152,12 +142,8 @@ class BillController extends Controller
      */
     public function wordpress(Request $request)
     {
-        $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
+        $application = $request->application;
         $user = $application->user ?? null;
-
-        if(!isset($application)){
-           return view('bills.error', ['error' => __('application_id or application_secret is not coreect')]);
-        }
 
         $mobile = ltrim($request->customer_mobile, '+966');
         $mobile = ltrim($mobile, '966');
@@ -282,16 +268,7 @@ class BillController extends Controller
      */
     public function show($id, CheckBillApiRequest $request)
     {
-        $application = Application::whereId($request->application_id)->whereSecret($request->application_secret)->first();
-
-        if(!isset($application)){
-           return response()->json([
-                "message" => "The given data was invalid.",
-                'errors' => [
-                    'credential' =>[__('application_id or application_secret is not coreect')] 
-                ] 
-           ], 422);
-        }
+        $application = $request->application;
 
 
         $bill = Bill::find($id);
@@ -421,5 +398,34 @@ class BillController extends Controller
             }
         }
         return $application;
+    }
+
+
+    /**
+     * refund Bill.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function refund($id, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'type' => ['required', 'in:partial_refund,total_refund'],
+            'amount' => ['nullable', 'required_if:type,partial_refund', new AmountPartialRefund($id), 'integer', 'gt:0'],
+        ]);
+
+        if ($validator->fails())
+        {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        $bill = Bill::find($id);
+
+        if($request->type == 'partial_refund'){
+            $bill->setPartialRefunded($request->amount);
+        } else if ($bill->setRefunded()){
+            $bill->setRefunded();
+        }
+        return new BillResource($bill);
     }
 }
