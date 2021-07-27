@@ -21,6 +21,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
     @yield('css_styles')
+@if (env('APP_ENV') == 'production')
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K4WN2GW');</script>
+<!-- End Google Tag Manager -->
+@endif
 </head>
 <body>
     <header>
@@ -82,6 +91,13 @@
     <script type="text/javascript" src="{{ asset('js/landing.js') }}"></script>
 
     @stack('footer-scripts')
+
+@if (env('APP_ENV') == 'production')
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4WN2GW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+@endif
 </body>
 
 </html>
