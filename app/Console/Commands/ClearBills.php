@@ -52,7 +52,8 @@ class ClearBills extends Command
             DB::table('payment_logs')->truncate();
             DB::table('bill_items')->truncate();
             DB::table('bill_transfer')->truncate();
-            DB::table('transactions')->truncate();
+            DB::table('transaction_transfer')->truncate();
+            DB::table('transactions')->delete();
             DB::table('settlements')->delete();
             DB::table('bills')->delete();
         }

@@ -151,8 +151,6 @@ class Bill extends Model
     public function getIsAbleRefundAttribute()
     {
         return $this->status == 'paid' 
-            && !$this->settled 
-            && !$this->pending_settled 
             && $this->user->able_refund 
             && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')); 
     }
