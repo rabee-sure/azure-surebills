@@ -42,7 +42,7 @@ class RequestTransferMail extends Mailable
         $formate = $this->date->format('l d/m/Y');
         $day = $this->date->format('d-m-Y');
 
-        $fileName = "app/bills/{$this->user->business_name_slug}/{$this->transfer->filters['files']['bills']}";
+        // $fileName = "app/bills/{$this->user->business_name_slug}/{$this->transfer->filters['files']['bills']}";
         $transactionsFileName = "app/bills/{$this->user->business_name_slug}/{$this->transfer->filters['files']['transactions']}";
 
         return $this->subject( $this->user->business_name ." requesting a new transfer - SureBills Transfers")
@@ -50,7 +50,7 @@ class RequestTransferMail extends Mailable
                 'user' => $this->user,
                 'transfer' => $this->transfer,
             ])
-            ->attach(storage_path($fileName))
+            // ->attach(storage_path($fileName))
             ->attach(storage_path($transactionsFileName));
     }
 
