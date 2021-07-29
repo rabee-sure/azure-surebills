@@ -36,13 +36,15 @@ Route::prefix('v1')->group(function () {
 	Route::get('charts/bills_count', 'ChartsController@billsCount');
 
 	Route::get('users/{user}/stats', 'UserController@stats');
-
-	Route::post('bills/create/wordpress', 'BillController@wordpress');
-	Route::post('bills/create', 'BillController@store');
-	Route::put('bills/{bill}/cancel', 'BillController@cancel');
-	Route::put('bills/{bill}/timeout', 'BillController@timeout');
-	Route::get('bills/{bill}', 'BillController@show');
-
+	
+	Route::group(['middleware' => ['User.from.application']], function () {
+		Route::post('bills/create/wordpress', 'BillController@wordpress');
+		Route::post('bills/create', 'BillController@store');
+		Route::put('bills/{bill}/cancel', 'BillController@cancel');
+		Route::put('bills/{bill}/timeout', 'BillController@timeout');
+		Route::put('bills/{bill}/refund', 'BillController@refund');
+		Route::get('bills/{bill}', 'BillController@show');
+	});
 
     Route::post('fandaqah-register', 'UserController@registerFandaqah');
     Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
@@ -56,7 +58,6 @@ Route::prefix('v1')->group(function () {
     	Route::post('transactions', 'TransactionController@index');
     	Route::get('account/information', 'AccountController@getInformation');
     	Route::post('account/information', 'AccountController@updateInformation');
-
 	});
     Route::get('banks', 'BankController@index');
 
