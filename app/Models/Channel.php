@@ -22,6 +22,8 @@ class Channel extends Model
         'credit_cards_fixed',
         'credit_cards_percentage',
         'secret_token',
+        'sub_account_status_webhook',
+        'sub_account_settled_webhook',
     ];
 
     /**
