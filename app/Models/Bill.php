@@ -67,6 +67,9 @@ class Bill extends Model
         'refund_amount',
         
         'pending_settled',
+
+        'bill_redirect_url',
+        'bill_webhook_url',
     ];
 
     /**
@@ -219,7 +222,8 @@ class Bill extends Model
         ];
 
         $ks = (str_contains($this->application->redirect, '?')) ? "&" : '?';
-        return $this->application->redirect.$ks.implode("&", $data);
+        $link = $this->bill_redirect_url ?? $this->application->redirect;
+        return $link . $ks . implode("&", $data);
     }
 
     /**
@@ -242,7 +246,8 @@ class Bill extends Model
         ];
 
         $ks = (str_contains($this->application->webhook_url, '?')) ? "&" : '?';
-        return $this->application->webhook_url.$ks.implode("&", $data);
+        $link = $this->bill_webhook_url ?? $this->application->webhook_url;
+        return $this->link . $ks . implode("&", $data);
     }
 
     /**

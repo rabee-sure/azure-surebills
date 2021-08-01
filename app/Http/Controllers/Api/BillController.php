@@ -86,6 +86,9 @@ class BillController extends Controller
             'send_email' => $send_email,
             'reference_id' => $request->reference_id,
             'is_redirect' => $request->is_redirect,
+
+            'bill_redirect_url' => $request->redirect_url,
+            'bill_webhook_url' => $request->webhook_url,
         ]);
 
         foreach ($request->items as $item) {
