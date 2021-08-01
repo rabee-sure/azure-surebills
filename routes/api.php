@@ -45,6 +45,7 @@ Route::prefix('v1')->group(function () {
 		Route::put('bills/{bill}/refund', 'BillController@refund');
 		Route::get('bills/{bill}', 'BillController@show');
 	});
+	Route::get('transfers/{transfer}/transactions', 'TransferController@transactions');
 
     Route::post('fandaqah-register', 'UserController@registerFandaqah');
     Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
@@ -60,5 +61,6 @@ Route::prefix('v1')->group(function () {
     	Route::post('account/information', 'AccountController@updateInformation');
 	});
     Route::get('banks', 'BankController@index');
+
 
 });
