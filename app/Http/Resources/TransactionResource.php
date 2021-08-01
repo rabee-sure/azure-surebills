@@ -30,7 +30,6 @@ class TransactionResource extends JsonResource
             'receipt'        => $this->receipt,
             'customer_notes' => $this->bill->customer_notes ?? null,
             'reference_id'   => $this->bill->reference_id ?? null,
-            'hyperpay_id'    => $this->bill->hyperpay_id ?? null,
             'created_at' => $this->created_at->format('d/m/Y H:i'),
         ];
     }
