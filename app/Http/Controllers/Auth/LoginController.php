@@ -50,6 +50,7 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
+
         $this->validateLogin($request);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -63,7 +64,14 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
-            return $this->sendLoginResponse($request);
+            $channel = auth()->user()->fromChannel;
+
+            if(isset($channel) && $channel->disable_login_sub_accounts){
+                auth()->logout();
+                return $this->sendFailedLoginResponse($request);
+            }else{
+                return $this->sendLoginResponse($request);
+            }
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts

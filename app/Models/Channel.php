@@ -24,6 +24,7 @@ class Channel extends Model
         'secret_token',
         'sub_account_status_webhook',
         'sub_account_settled_webhook',
+        'disable_login_sub_accounts',
     ];
 
     /**
