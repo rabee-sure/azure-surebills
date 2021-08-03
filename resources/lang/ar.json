@@ -1,5 +1,7 @@
 {
 	"All": "الكل",
+	"mobile_number": "رقم الهاتف المحمول",
+	"Your account is being verified so that you can withdraw the collected amounts. The documentation process may take up to two business days. In the event that the documentation is not completed before :date, please contact us on :mobile": "جاري توثيق حسابك لتتمكن من سحب المبالغ المحصلة. قد تستغرق عملية التوثيق يومين عمل. في حال لم يتم التوثيق قبل :date يرجى التواصل معنا على :mobile",
 	"Your balance is not allowed to perform this transaction": "رصيدك لا يسمح لاجراء هذه المعاملة",
 	"Download Transfer Bills Excel": "تحميل ملف الاكسل الخاص بتحويل (الفواتير)",
 	"Download Transfer Transactions Excel": "تحميل ملف الاكسل الخاص بتحويل (المعاملات)",
@@ -595,6 +597,9 @@
   "Search By Day" : "البحث باليوم",
   "Order" : "طلب",
   "Quantity Activation" : "تفعيل الكمية",
+  "To upload files, please click on the" : "لرفع الملفات الرجاء الدخول علي",
+  "Account Settings" : "اعدادات الحساب",
+  "Your account is not verified. Please upload the necessary documents to verify your account and avoid delays in transferring dues." : "حسابك غير موثق. يرجى رفع الوثائق اللازمة لتوثيق حسابك وتجنب التأخير في تحويل المستحقات.",
   "Your account is not verified, we are processing the verification." : "حسابك غير موثق، مازال جاري التحقق من حسابك.",
   "Daily" : "يومي",
   "Weekly" : "اسبوعي",

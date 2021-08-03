@@ -363,6 +363,33 @@ class User extends Authenticatable implements HasMedia
      * @param  string  $token
      * @return void
      */
+    public function getIsUploadedDocumentsAttribute()
+    {
+        return $this->getMedia('business_documents')->count() && $this->getMedia('bank_documents')->count();
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function getTwoBusinessDaysAttribute()
+    {
+        $last_business_documents = $this->getMedia('business_documents')->last()->created_at;
+        $last_bank_documents = $this->getMedia('bank_documents')->last()->created_at;
+        // dd($last_bank_documents);
+        $result = $last_business_documents->gt($last_bank_documents);
+        $date = ($result) ? $last_business_documents : $last_bank_documents;
+        return $date->addDays(2)->format('d/m/Y');
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
     public function getBusinessDocumentsAttribute($token)
     {
         return $this->getMedia('business_documents');
