@@ -310,7 +310,6 @@ export default {
                             'amount': item.amount,
                             'customer_notes': item.customer_notes,
                             'reference_id': item.reference_id,
-                            'hyperpay_id': item.hyperpay_id,
                         }
                     });
                     this.form.amount = response.data.meta.balance;
