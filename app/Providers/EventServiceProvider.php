@@ -51,6 +51,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TransferCreated' => [
             'App\Listeners\SendMailTransferMailToCustomer',
         ],
+        'App\Events\UserVerifiedChanged' => [
+            'App\Listeners\SendSubAccountStatusWebhook',
+        ],
+        'App\Events\TransferCompleted' => [
+            'App\Listeners\SendSubAccountSettledWebhook',
+        ],
     ];
 
     /**

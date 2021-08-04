@@ -83,9 +83,9 @@ class ChannelController extends Controller
      */
     public function subAccount(Channel $channel, ChannelApplicationAPiRequest $request)
     {
-        $token_channel = Channel::where('secret_token', $request->channel_token)->first();
+        $channel = Channel::where('secret_token', $request->channel_token)->first();
 
-        if(!isset($token_channel) || $token_channel->id != $channel->id){
+        if(!isset($channel) || $channel->id != $channel->id){
            return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
@@ -109,6 +109,7 @@ class ChannelController extends Controller
             $user->mobile = $request->mobile;
             $user->business_name_en = $request->business_name;
             $user->password = $request->email . $request->name;
+            $user->from_channel_id = $channel->id;
             $user->save();
             event(new UserCreated($user));
         }

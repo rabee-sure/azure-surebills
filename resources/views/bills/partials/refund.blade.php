@@ -13,6 +13,7 @@
 
                 <div class="modal-body">
                     <div class="select_refund">
+                        @if($bill->sub_total <= auth()->user()->balance)
                         <label for="ConfirmRefund" class="position-relative d-block">
                             <input  type="radio" id="ConfirmRefund" name="refund" class="position-absolute w-100 h-100" value="refund" checked>
                             <div class="txt bg-light border text-body p-2 mb-2 d-flex align-items-center justify-content-start">
@@ -27,6 +28,9 @@
                             <span class="d-block">{{__('Partial Refund')}}</span>
                             </div><!-- txt -->
                         </label> --}}
+                        @else
+                            {{__('Your balance is not allowed to perform this transaction')}}
+                        @endif
                     </div><!-- select_refund -->
                     <div id="amount_partial_refund" class="form-group row mt-3">
                         <label for="amount" class="col-sm-2 col-form-label">{{__('Amount')}}</label>

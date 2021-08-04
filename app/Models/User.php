@@ -60,6 +60,7 @@ class User extends Authenticatable implements HasMedia
 
         'able_refund',
         'auto_trnasfer',
+        'from_channel_id',
     ];
 
     /**
@@ -80,6 +81,7 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'mobile_sent_at' => 'datetime',
         'commercial_registry_expiry_date' => 'datetime',
+        'verified' => 'boolean',
     ];
 
     /**
@@ -318,6 +320,16 @@ class User extends Authenticatable implements HasMedia
     public function channels()
     {
         return $this->hasMany(Channel::class)->activate();
+    }    
+
+    /**
+     * Get channels.
+     *
+     * @return Collection
+     */
+    public function fromChannel()
+    {
+        return $this->belongsTo(Channel::class, 'from_channel_id');
     }
 
     /**

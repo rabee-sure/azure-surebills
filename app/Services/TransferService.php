@@ -39,38 +39,26 @@ class TransferService
      *
      * @return \Illuminate\Http\Response
      */
-    public static function getbillsBetweenDate($from_s, $to_s, $user, $excel_file_name = null)
+    public static function getTransactionsBetweenDate($from_s, $to_s, $user, $excel_file_name = null)
     {
         $from = $from_s->copy()->startOfDay()->toDateTimeString();
         $to = $to_s->copy()->endOfDay()->toDateTimeString();
 
-        $bills =  Bill::
-            //get user bills
-            where(function ($query) use($user, $from, $to){
-                // dd($from);
-                $query->where('user_id', $user->id)
-                    ->paid()
-                    ->whereBetween('paid_at', [$from, $to])
-                    ->where('settled', false)
-                    ->where('pending_settled', false);
-            })
-            //get user "channels" bills
-            ->orWhere(function ($query) use($user, $from, $to){
-                $query->whereIn('application_id', $user->channelsApplications->pluck('id')->toArray())
-                    ->paid()
-                    ->whereBetween('paid_at', [$from, $to])
-                    ->where('channel_settled', false);
-            })
-            
-            ->orderBy('paid_at', 'asc')
+        $transactions = Transaction::where('user_id', $user->id)
+            ->where('settled', false)
+            ->where('pending_settled', false)
+            ->where('transaction_source', '!=', "transfer")
+            ->whereBetween('created_at', [$from, $to])
+            ->orderBy('created_at', 'ASC')
+            ->orderBy('order', 'ASC')
+            ->orderBy('receipt', 'ASC')
             ->get();
 
-            if($excel_file_name){
-                self::createBillsExcel($bills, $excel_file_name);
-                self::createTransactionsExcel($bills, $excel_file_name);
-            }
+        if($excel_file_name){
+            self::createTransactionsExcel($transactions, $excel_file_name);
+        }
 
-        return $bills;
+        return $transactions;
     }
 
 
@@ -81,15 +69,8 @@ class TransferService
      * @param  App\User  $user
      * @return double
      */
-    public static function getAmount($bills, $user)
+    public static function getAmount($transactions)
     {
-        $billsids = $bills->pluck('id')->toArray();
-        $transactions = Transaction::whereIn('bill_id', $billsids)
-            ->where('user_id', $user->id)
-            ->orderBy('created_at', 'ASC')
-            ->orderBy('receipt', 'ASC')
-            ->get();
-
         return floorp(
             $transactions->where('type', 'credit')->sum('amount') -
             $transactions->where('type', 'debit')->sum('amount')
@@ -107,7 +88,7 @@ class TransferService
     {
         $billsids = $bills->pluck('id')->toArray();
         $transactions = Transaction::whereIn('bill_id', $billsids)
-        ->whereBetween('created_at', [$from, $to])
+            ->whereBetween('created_at', [$from, $to])
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'ASC')
             ->orderBy('receipt', 'ASC')
@@ -116,31 +97,17 @@ class TransferService
     }    
 
     /**
-     * create Bills Excel.
-     *
-     * @param  App\Bill  $bills
-     * @param  string  $file_name
-     * @return boolean
-     */
-    public static function createBillsExcel($bills, $file_name)
-    {
-        $data = json_decode((BillResource::collection($bills))->toJson(), true);
-        return Excel::store(new BillsExport($data), $file_name);
-    }
-
-      /**
      * create Transactions Excel.
      *
      * @param  App\Bill  $bills
      * @param  string  $file_name
      * @return boolean
      */
-    public static function createTransactionsExcel($bills, $file_name)
+    public static function createTransactionsExcel($transactions, $file_name)
     {
         $array = explode('/', $file_name);
         $array[2] = 'transactions-'.$array[2];
         $file_name = implode('/', $array);
-        $transactions = Transaction::whereIn('bill_id', $bills->pluck('id'))->get();
         $data = json_decode((TransactionResource::collection($transactions))->toJson(), true);
         return Excel::store(new TransactionsExport($data), $file_name);
     }
@@ -177,9 +144,9 @@ class TransferService
      *
      * @return void
      */
-    public static function makeTransfer($status, $amount, $bills, $data)
+    public static function makeTransfer($status, $amount, $transactions, $data)
     {
-        return DB::transaction(function () use($status, $amount, $bills, $data){
+        return DB::transaction(function () use($status, $amount, $transactions, $data){
             $transfer = Transfer::create([
                 'status' => $status,
                 'amount' => $amount,
@@ -199,28 +166,24 @@ class TransferService
                     ],
                     'files' => [
                         "folder" => explode('/', $data['file_name'])[1],
-                        "bills" => explode('/', $data['file_name'])[2],
+                        // "bills" => explode('/', $data['file_name'])[2],
                         "transactions" => 'transactions-'.explode('/', $data['file_name'])[2],
                     ],
                 ],
             ]);
 
-            foreach ($bills as $bill) {
+            foreach ($transactions as $transaction) {
                 if($status == 'completed'){
-                    if($bill->user_id == $data['user_id']){
-                        $bill->settled = true;
-                    }
-
-                    if($bill->isHaveChannelOwenByUser( $data['user_id'])){
-                       $bill->channel_settled = true; 
+                    if($transaction->user_id == $data['user_id']){
+                        $transaction->settled = true;
                     }
                 }else{
-                    $bill->pending_settled = true;
+                    $transaction->pending_settled = true;
                 }
-                $bill->save();
+                $transaction->save();
             }
 
-            $transfer->bills()->attach($bills->pluck('id')->toArray());
+            $transfer->transactions()->attach($transactions->pluck('id')->toArray());
 
             if($status == 'completed'){
                 TransferService::createTransferTransaction($transfer);
