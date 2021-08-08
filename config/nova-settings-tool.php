@@ -36,6 +36,13 @@ return [
     */
     'settings' => [
         [
+            'key' => 'mobile_number',
+            'type' => 'text',
+            'label' => 'mobile_number',
+            'panel' => 'system info',
+            // 'help' => 'For the upcoming release. <a href="/docs#feature_42">Read more here.</a>',
+        ],
+        [
             'key' => 'transfer_automatic',
             'type' => 'toggle',
             'label' => 'Transfer Automatic',

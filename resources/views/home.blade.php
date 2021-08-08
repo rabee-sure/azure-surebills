@@ -3,10 +3,22 @@
 @section('title', __('Home'))
 
 @section('content')
+    @php
+        $settings =  Spatie\Valuestore\Valuestore::make(storage_path('app/settings.json'));
+        $mobile_number = $settings->get('mobile_number');
+    @endphp
       @if (!auth()->user()->verified)
+        @if(auth()->user()->is_uploaded_documents)
           <div class="alert alert-warning account_not_verified mb-5" role="alert">
-            {{ __('Your account is not verified, we are processing the verification.') }}
+            {{ __('Your account is being verified so that you can withdraw the collected amounts. The documentation process may take up to two business days. In the event that the documentation is not completed before :date, please contact us on :mobile', ['mobile' => $mobile_number, 'date' => auth()->user()->two_business_days]) }}
           </div>
+        @else
+        <div class="alert alert-warning account_not_verified mb-5" role="alert">
+          {{ __('Your account is not verified. Please upload the necessary documents to verify your account and avoid delays in transferring dues.') }}
+          {{__('To upload files, please click on the')}}
+          <a href="/account">{{ __('Account Settings') }}.</a>
+          </div>
+        @endif
       @endif
       @if (session('status'))
           <div class="alert alert-success" role="alert">

@@ -47,7 +47,7 @@ Route::prefix('v1')->group(function () {
 	});
 	Route::get('transfers/{transfer}/transactions', 'TransferController@transactions');
 
-    Route::post('fandaqah-register', 'UserController@registerFandaqah');
+    // Route::post('fandaqah-register', 'UserController@registerFandaqah');
     Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
 
     Route::post('channels/{channel}/sub-account', 'ChannelController@subAccount');
