@@ -65,8 +65,8 @@ class TransferAutomatic extends Command
                 return $user->balance >= $transfer_minimum;
             });
             foreach ($filtered_users as $user) {
-                // $from = TransferService::getFromDate($user);
-                $from = $user->created_at;
+                $from = TransferService::getFromDate($user);
+                // $from = $user->created_at;
                 $file_name = $this->getExcelFileName($user, $from, $to);
                 $transactions = TransferService::getTransactionsBetweenDate($from, $to, $user, $file_name);
 

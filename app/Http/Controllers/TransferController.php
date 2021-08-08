@@ -67,8 +67,8 @@ class TransferController extends Controller
     {
         $user = auth()->user();
         $to = Carbon::now()->addHours(3);
-        // $from = TransferService::getFromDate($user);
-        $from = $user->created_at;
+        $from = TransferService::getFromDate($user);
+        // $from = $user->created_at;
 
         $file_name = $this->getExcelFileName($user, $to);
         $transactions = TransferService::getTransactionsBetweenDate($from, $to, $user, $file_name);
