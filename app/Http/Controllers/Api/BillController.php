@@ -91,6 +91,14 @@ class BillController extends Controller
             'bill_webhook_url' => $request->webhook_url,
         ]);
 
+        //check if bill under channel
+        if(isset($bill->application->channel_id)){
+            $bill->channel_extra_amount = $request->channel_extra_amount;
+            $bill->channel_extra_title = $request->channel_extra_title;
+            $bill->save();
+        }
+
+
         foreach ($request->items as $item) {
             BillItem::create([
                 'bill_id' => $bill->id,
@@ -129,7 +137,7 @@ class BillController extends Controller
         $bill->vat = $vat;
         $bill->number = $bill->getNumber();
         $bill->sub_total = $sub_total;
-        $bill->total = $sub_total - $discount + $vat;
+        $bill->total = $sub_total - $discount + $vat + $bill->channel_extra_amount;
         $bill->status = 'pending';
         $bill->save();
         event(new BillCreated($bill));

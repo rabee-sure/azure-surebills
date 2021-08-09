@@ -70,6 +70,9 @@ class Bill extends Model
 
         'bill_redirect_url',
         'bill_webhook_url',
+
+        'channel_extra_amount',
+        'channel_extra_title',
     ];
 
     /**
