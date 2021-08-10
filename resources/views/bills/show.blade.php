@@ -150,6 +150,10 @@
             <p> {{$bill->channel_extra_title}}  : {{ $bill->channel_extra_amount }} {{ __('SAR') }}</p>
           @endif
 
+          @if( $bill->channel_extra_vat)
+            <p> {{ __('Vat') }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))  : {{ $bill->channel_extra_vat }} {{ __('SAR') }}</p>
+          @endif
+
           @if( $bill->refund_amount)
             <p>{{ __('Refund Amount') }} : {{ $bill->refund_amount }}  {{ __('SAR') }}</p>
           @endif

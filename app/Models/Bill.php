@@ -73,6 +73,7 @@ class Bill extends Model
 
         'channel_extra_amount',
         'channel_extra_title',
+        'channel_extra_vat'
     ];
 
     /**
