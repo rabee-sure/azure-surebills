@@ -40,7 +40,7 @@
                     </div><!-- form-group -->
                 </div><!-- modal-body -->
                 <div class="modal-footer"> 
-                    <button type="submit" class="btn btn-primary" id="refund_btn">
+                    <button type="submit" class="btn btn-primary" id="refund_btn" @if($bill->sub_total > auth()->user()->balance) disabled @endif>
                         {{__('Save')}}
                     </button>
                     <button id="refund_cancel" type="button" class="btn btn-secondary ml-2" data-dismiss="modal">
