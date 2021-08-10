@@ -48,6 +48,25 @@ class TransferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function transactions(Transfer $transfer, Request $request)
+    {
+        $this->authorize('viewTransactions', $transfer);
+        $transactions = $transfer->transactions;
+        $totals['debit'] = round2($transactions->where('type', 'debit')->sum('amount'));
+        $totals['credit'] = round2($transactions->where('type', 'credit')->sum('amount'));
+        $totals['all'] = round2($totals['credit'] - $totals['debit']);   
+        return view('transfers.transactions', [
+            'transfer' => $transfer,
+            'transactions' => $transactions,
+            'totals' => $totals,
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function all(Request $request)
     {
         $transfers = Transfer::orderBy('id', 'desc')
