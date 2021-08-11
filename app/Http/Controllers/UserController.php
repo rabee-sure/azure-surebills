@@ -49,11 +49,11 @@ class UserController extends Controller
      */
     public function transactions(Request $request, User $user)
     {
-        $bills = $this->getbills($request, $user);
-        $billsids = $bills->pluck('id')->toArray();
-
-        $transactions = Transaction::whereIn('bill_id', $billsids)
-            ->where('user_id', $user->id)
+        $transactions = Transaction::
+            where('user_id', $user->id)
+            ->where('settled', false)
+            ->where('pending_settled', false)
+            ->where('transaction_source', '!=', 'transfer')
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC')

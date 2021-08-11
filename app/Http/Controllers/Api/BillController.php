@@ -91,6 +91,7 @@ class BillController extends Controller
             'bill_webhook_url' => $request->webhook_url,
         ]);
 
+
         foreach ($request->items as $item) {
             BillItem::create([
                 'bill_id' => $bill->id,
@@ -119,17 +120,27 @@ class BillController extends Controller
             $bill->add_tax = $request->add_tax;
             $bill->tax_value = $request->tax_value;
             $vat = ($sub_total -$discount) * $request->tax_value /100;
+
         }elseif($user->settings->add_tax){
             $bill->add_tax = $user->settings->add_tax;
             $bill->tax_value = $user->settings->tax_value;      
             $vat = ($sub_total -$discount) * $user->settings->tax_value /100;
         }
 
+        //check if bill under channel
+        if(isset($bill->application->channel_id)){
+            $bill->channel_extra_amount = $request->channel_extra_amount;
+            $bill->channel_extra_title = $request->channel_extra_title;
+            if($bill->add_tax){
+                $bill->channel_extra_vat = $bill->channel_extra_amount * $bill->tax_value / 100;
+            }
+        }
+
         $bill->discount = $discount;
         $bill->vat = $vat;
         $bill->number = $bill->getNumber();
         $bill->sub_total = $sub_total;
-        $bill->total = $sub_total - $discount + $vat;
+        $bill->total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
         $bill->status = 'pending';
         $bill->save();
         event(new BillCreated($bill));

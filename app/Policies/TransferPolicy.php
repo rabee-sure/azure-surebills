@@ -47,6 +47,18 @@ class TransferPolicy
     }
 
     /**
+     * Determine whether the user can view the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Transfer  $transfer
+     * @return mixed
+     */
+    public function viewTransactions(User $user, Transfer $transfer)
+    {
+        return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
+    }
+
+    /**
      * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user
