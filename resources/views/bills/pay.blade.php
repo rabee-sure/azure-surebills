@@ -90,12 +90,22 @@
                 @endif
                 <p>{{ __('Subtotal - Discount') }}: {{ $bill->sub_total- $bill->discount }}  {{ __('SAR') }}</p>
               @endif
+              
               @if( $bill->user->pay_fees == 'client')
                 <p>{{ __('payment fees') }} : {{ $bill->payment_fees }}  {{ __('SAR') }}</p>
               @endif
               @if( $bill->add_tax)
                 <p>{{ __('Vat') }} ({{ $bill->tax_value }}%) : {{ $bill->vat }}  {{ __('SAR') }}</p>
               @endif
+
+              @if( $bill->channel_extra_amount)
+                <p> {{$bill->channel_extra_title}}  : {{ $bill->channel_extra_amount }} {{ __('SAR') }}</p>
+              @endif
+
+              @if( $bill->channel_extra_vat)
+                <p> {{ __('Vat') }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))  : {{ $bill->channel_extra_vat }} {{ __('SAR') }}</p>
+              @endif
+              
               <b>{{ __('Total') }} : {{ $bill->total}}  {{ __('SAR') }}</b>
             </div><!-- total_bill -->
 
