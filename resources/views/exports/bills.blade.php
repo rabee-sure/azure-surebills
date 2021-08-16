@@ -30,19 +30,19 @@
         <td>{{ $bill['source'] }}</td>
         <td>{{ $bill['payment_method_type'] }}</td>
         <td>{{ $bill['total'] }}</td>
-        <td>{{ $bill['pricing']['vat_percentage'] }}</td>
+        <td>{{ $bill['pricing']['vat_percentage'] ?? ''}}</td>
         <td>{{ $bill['payment_fees'] }}</td>
         <td>{{ $bill['payment_fees_vat'] }}</td>
-        <td>{{ $bill['pricing']['fees_percentage'] }}</td>
-        <td>{{ $bill['pricing']['fees_fixed'] }}</td>
-        <td>{{ $bill['payment_surebills_fees'] }}</td>
+        <td>{{ $bill['pricing']['fees_percentage'] ?? ''}}</td>
+        <td>{{ $bill['pricing']['fees_fixed'] ?? ''}}</td>
+        <td>{{ $bill['payment_surebills_fees'] ?? ''}}</td>
         <td>{{ $bill['payment_surebills_fees_vat'] }}</td>
-        <td>{{ $bill['pricing']['surebills_fees_percentage'] }}</td>
-        <td>{{ $bill['pricing']['surebills_fees_fixed'] }}</td>
+        <td>{{ $bill['pricing']['surebills_fees_percentage'] ?? ''}}</td>
+        <td>{{ $bill['pricing']['surebills_fees_fixed'] ?? ''}}</td>
         <td>{{ $bill['payment_channel_fees'] }}</td>
         <td>{{ $bill['payment_channel_fees_vat'] }}</td>
-        <td>{{ $bill['pricing']['channel_fees_percentage'] }}</td>
-        <td>{{ $bill['pricing']['channel_fees_fixed'] }}</td>
+        <td>{{ $bill['pricing']['channel_fees_percentage'] ?? ''}}</td>
+        <td>{{ $bill['pricing']['channel_fees_fixed'] ?? ''}}</td>
         <td>{{ $bill['channel_relation'] }}</td>
         <td>{{ $bill['total_due'] }}</td>
         <td>{{ $bill['paid_at'] }}</td>
