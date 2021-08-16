@@ -17,6 +17,23 @@
     @yield('content')
     <script src="{{ asset('js/jbootstrap.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+
+    @if (env('APP_ENV') == 'production')
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4WN2GW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WRYZ8313H2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WRYZ8313H2');
+</script>
+@endif
+
     @stack('footer-scripts')
 </body>
 </html>
