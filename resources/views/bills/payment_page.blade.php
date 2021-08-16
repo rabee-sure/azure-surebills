@@ -28,7 +28,10 @@
     <div class="row align-items-center justify-content-center">
         <div class="col-12 @if($bill->user->settings->api_bill_style && $bill->application_id) col-md-4 @else col-md-12 @endif mt-4 p-0">
             <div class="pay_apple">
-              <div class="load_form active"><div class="spinner-border text-muted"></div></div>
+
+                <div class="load_form active">
+                    <div class="spinner-border text-muted"></div>
+                </div>
                 @if($bill->user->settings->api_bill_style && $bill->application_id)
                     <div class="title rounded-top border bg-light p-2 d-flex align-items-center justify-content-between">
                         @if($bill->user->logo)
