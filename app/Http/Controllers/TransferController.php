@@ -48,6 +48,25 @@ class TransferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function transactions(Transfer $transfer, Request $request)
+    {
+        $this->authorize('viewTransactions', $transfer);
+        $transactions = $transfer->transactions;
+        $totals['debit'] = round2($transactions->where('type', 'debit')->sum('amount'));
+        $totals['credit'] = round2($transactions->where('type', 'credit')->sum('amount'));
+        $totals['all'] = round2($totals['credit'] - $totals['debit']);   
+        return view('transfers.transactions', [
+            'transfer' => $transfer,
+            'transactions' => $transactions,
+            'totals' => $totals,
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function all(Request $request)
     {
         $transfers = Transfer::orderBy('id', 'desc')
@@ -67,13 +86,13 @@ class TransferController extends Controller
     {
         $user = auth()->user();
         $to = Carbon::now()->addHours(3);
-        // $from = TransferService::getFromDate($user);
-        $from = $user->created_at;
+        $from = TransferService::getFromDate($user);
+        // $from = $user->created_at;
 
         $file_name = $this->getExcelFileName($user, $to);
-        $bills = TransferService::getbillsBetweenDate($from, $to, $user, $file_name);
+        $transactions = TransferService::getTransactionsBetweenDate($from, $to, $user, $file_name);
 
-        $amount = TransferService::getAmount($bills, $user);
+        $amount = TransferService::getAmount($transactions, $user);
         $settings =  Valuestore::make(storage_path('app/settings.json'));
 
         $transfer_minimum = $settings->get('transfer_minimum');
@@ -103,7 +122,7 @@ class TransferController extends Controller
             'file_name' => $file_name,
         ];
         
-        $transfer = TransferService::makeTransfer('pending', $amount, $bills, $data);
+        $transfer = TransferService::makeTransfer('pending', $amount, $transactions, $data);
 
         if($transfer)
             $this->sendMails($transfer_emails, $to, $transfer);
@@ -130,21 +149,18 @@ class TransferController extends Controller
             $toDate = $toDate->endOfDay();
         }
 
-
-        $bills = Bill::whereIn('id', $request->bills_ids)->get();
-
+        $transactions = Transaction::whereIn('id', $request->transactions_ids)->get();
         $file_name = $this->getExcelFileName($user, $toDate);
-        TransferService::createBillsExcel($bills, $file_name);
-        TransferService::createTransactionsExcel($bills, $file_name);
+        TransferService::createTransactionsExcel($transactions, $file_name);
 
-        $amount = TransferService::getAmount($bills, $user);
-        if($bills->where('pending_settled', true)->count() != 0 || $bills->where('settled', true)->count() != 0){
+        $amount = TransferService::getAmount($transactions, $user);
+        if($transactions->where('pending_settled', true)->count() != 0 || $transactions->where('settled', true)->count() != 0){
             return response()->json(['error' => __('Bills duplicate in another transfer')], 422);
 
-        }elseif($bills->whereNotNull('refunded_at')->count() != 0 ){
-            return response()->json(['error' => __('Bills have refunded bill')], 422);
-        }elseif($amount <= 0 ){
-            return response()->json(['error' => __('balance must be greater than 0')], 422);
+        }if($amount <= 0 ){
+            return response()->json(['error' => __('amount must be greater than 0')], 422);
+        }elseif($amount > $user->balance){
+            return response()->json(['error' => __('amount must be greater than user balance')], 422);
         } else{
 
             $bank = Bank::find($request->bank_id);
@@ -166,7 +182,7 @@ class TransferController extends Controller
                 'file_name' => $file_name,
             ];
             
-            $transfer = TransferService::makeTransfer($status, $amount, $bills, $data);
+            $transfer = TransferService::makeTransfer($status, $amount, $transactions, $data);
 
             event(new TransferCreated($transfer));
 
@@ -216,12 +232,18 @@ class TransferController extends Controller
     {
         $transfer->status = 'canceled';
         $transfer->save();
+        $user_id = $transfer->user_id;
 
         $bills = $transfer->bills;
-        $user_id = $transfer->user_id;
         foreach ($bills as $bill) {
             $bill->pending_settled = false; 
             $bill->save();
+        }
+
+        $transactions = $transfer->transactions;
+        foreach ($transactions as $transaction) {
+            $transaction->pending_settled = false; 
+            $transaction->save();
         }
  
         return new TransferResource($transfer);

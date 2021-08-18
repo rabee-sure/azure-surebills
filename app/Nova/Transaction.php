@@ -11,7 +11,6 @@ use App\Nova\Metrics\TotalDue;
 use App\Nova\Metrics\TotalIncome;
 use App\Nova\Metrics\TotalPaid;
 use App\Nova\Metrics\TotalVatOnCommissions;
-use App\Rules\TransferBalance;
 use App\Rules\ValidateUploadFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -34,7 +33,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Titasgailius\SearchRelations\SearchesRelations;
 
-class Transfer extends Resource
+class Transaction extends Resource
 {
     use SearchesRelations;
     /**
@@ -42,7 +41,7 @@ class Transfer extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Transfer::class;
+    public static $model = \App\Models\Transaction::class;
 
     public static $displayInNavigation = false;
 
@@ -53,7 +52,7 @@ class Transfer extends Resource
      */
     public static function label()
     {
-        return __('Transfers');
+        return __('Transactions');
     }
 
     /**
@@ -63,7 +62,7 @@ class Transfer extends Resource
      */
     public static function singularLabel()
     {
-        return __('Transfer');
+        return __('Transaction');
     }
 
     /**
@@ -102,50 +101,29 @@ class Transfer extends Resource
         return [
             ID::make()->sortable(),
             BelongsTo::make(__('User'), 'user', User::class)->searchable(),
+            BelongsTo::make(__('Bill'), 'bill', Bill::class)->searchable(),
+
+            Indicator::make(__('Type'), 'type')
+                ->labels([
+                    'debit' => __('debit'),
+                    'credit' => __('credit'),
+                ])
+                ->colors([
+                    'debit' => 'red',
+                    'credit' => 'green',
+                ]),
+
             Number::make(__('Amount'), 'amount')
                 ->min(1)
                 ->step(0.1)
-                ->rules('required', new TransferBalance($request->viaResourceId)),
-
-            Number::make(__('Transfer Fees'), 'transfer_fees')
-                ->min(1)
-                ->step(0.1)
                 ->rules('required'),
 
-            Number::make(__('Net Amount'), 'net_amount')
-                ->min(1)
-                ->step(0.1)
-                ->rules('required'),
+            text::make(__('Transaction Source'), 'transaction_source'),
 
-            Textarea::make(__('Note'), 'note'),
-            File::make(__('Attachment'), 'attachment')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])),
+            Textarea::make(__('Description'), 'description'),
 
-            Text::make(__('Date From To'))->displayUsing(function(){
-                if(isset($this->filters['date'])){
-                    $from = (isset($this->filters['date']['from'])) ? Carbon::parse($this->filters['date']['from'])->toDateTimeString() : '-';
-                    $to = (isset($this->filters['date']['from'])) ? Carbon::parse($this->filters['date']['to'])->toDateTimeString(): '-';
-                    return  $from.' - '. $to;
-                }
-                return '-';
-
-            }),
 
             DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
-
-            Indicator::make(__('Status'), 'status')
-                ->labels([
-                    'pending' => __('pending transfer'),
-                    'completed' => __('completed transfer'),
-                    'canceled' => __('canceled'),
-                ])
-                ->colors([
-                    'canceled' => 'red',
-                    'completed' => 'green',
-                    'pending' => 'warning',
-                ]),
-
-            // BelongsToMany::make(__('Bills'), 'bills', Bill::class),
-            BelongsToMany::make(__('Transactions'), 'transactions', Transaction::class),
         ];
     }
 

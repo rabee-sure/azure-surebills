@@ -82,6 +82,15 @@ class Transfer extends Model
         return $this->belongsToMany(Bill::class);
     }
 
+    /**
+     * Get bills.
+     *
+     * @return Collection
+     */
+    public function transactions()
+    {
+        return $this->belongsToMany(Transaction::class);
+    }
 
     /**
      * Get user.

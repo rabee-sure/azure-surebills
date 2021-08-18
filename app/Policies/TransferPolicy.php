@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Bill;
+use App\Models\Transaction;
 use App\Models\Transfer;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -42,6 +43,18 @@ class TransferPolicy
      * @return mixed
      */
     public function viewBills(User $user, Transfer $transfer)
+    {
+        return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Transfer  $transfer
+     * @return mixed
+     */
+    public function viewTransactions(User $user, Transfer $transfer)
     {
         return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
     }
@@ -140,6 +153,44 @@ class TransferPolicy
      * @return mixed
      */
     public function attachAnyBill(User $user, Transfer $transfer)
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can attach a bill to a podcast.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Podcast  $podcast
+     * @param  \App\Models\Bill  $bill
+     * @return mixed
+     */
+    public function attachTransaction(User $user, Transfer $transfer, Transaction $bill)
+    {
+        return false;
+    }
+    
+        /**
+     * Determine whether the user can detach a tag from a podcast.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Podcast  $podcast
+     * @param  \App\Tag  $tag
+     * @return mixed
+     */
+    public function detachTransaction(User $user, Transfer $transfer, Transaction $bill)
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can attach any tags to the podcast.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Podcast  $podcast
+     * @return mixed
+     */
+    public function attachAnyTransaction(User $user, Transfer $transfer)
     {
         return false;
     }    

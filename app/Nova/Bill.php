@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\BillsExcelDownload;
 use App\Nova\Filters\BillSettled;
 use App\Nova\Filters\BillSource;
 use App\Nova\Filters\BillStatus;
@@ -331,7 +332,10 @@ class Bill extends Resource
     public function actions(Request $request)
     {
         return [
-            (new DownloadExcel)->withHeadings(),
+            (new BillsExcelDownload)->canRun(function(NovaRequest $request) {
+                return true;
+            }),
+            // (new DownloadExcel)->withHeadings(),
         ];
     }
 

@@ -60710,7 +60710,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60723,34 +60723,6 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__table_expand_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -60901,69 +60873,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             disableBtn: false,
             language: 'ar',
             uploadFileActionUrl: '/api/upload?lang=',
-            bills: [],
-            new_bills: [],
-            billsTable: [{
-                title: this.__('Name'),
-                key: 'name',
-                width: 220
-            }, {
-                title: this.__('Total'),
-                key: 'total',
-                width: 100
-            }, {
-                title: this.__('Relation'),
-                key: 'channel_relation',
-                width: 100
-            }, {
-                title: this.__('Total Due'),
-                key: 'total_due',
-                width: 120
-            }, {
-                title: this.__('FEES'),
-                key: 'payment_fees',
-                width: 100
-            }, {
-                title: this.__('Payment Fees Vat'),
-                key: 'payment_fees_vat',
-                width: 100
-            }, {
-                title: this.__('Channel Fees'),
-                key: 'payment_channel_fees',
-                width: 100
-            }, {
-                title: this.__('Channel Fees Vat'),
-                key: 'payment_channel_fees_vat',
-                width: 100
-            }, {
-                title: this.__('Net'),
-                key: 'net',
-                width: 100
-            }, {
-                title: this.__('Paid At'),
-                key: 'paid_at',
-                width: 150
-            }, {
-                title: this.__('Details'),
-                key: 'action',
-                width: 150,
-                align: 'center',
-                render: function render(h, params) {
-                    return h('div', [h('Button', {
-                        props: {
-                            size: 'small',
-                            shape: "circle",
-                            icon: "md-eye"
-                        },
-                        on: {
-                            click: function click() {
-                                var win = window.open('/nova/resources/bills/' + params.row.id, '_blank');
-                                win.focus();
-                            }
-                        }
-                    })]);
-                }
-            }],
+
             transactionsModal: false,
             transactions: [],
             new_transactions: [],
@@ -61030,12 +60940,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 title: this.__('From - To'),
                 slot: 'fromto',
                 width: 300
-            },
-            // {
-            //     title: this.__('Note'),
-            //     key: 'note'
-            // },
-            {
+            }, {
                 title: this.__('Created By'),
                 key: 'created_by_name'
             }, {
@@ -61111,8 +61016,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             'type': item.type,
                             'amount': item.amount,
                             'customer_notes': item.customer_notes,
-                            'reference_id': item.reference_id,
-                            'hyperpay_id': item.hyperpay_id
+                            'reference_id': item.reference_id
                         };
                     });
                     _this2.form.amount = response.data.meta.balance;
@@ -61124,44 +61028,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             }
                         });
                     }
-                });
-
-                Nova.request().get('/users/' + this.$route.params.id + '/bills', {
-                    params: {
-                        from: date[0],
-                        to: date[1],
-                        not_settled: true
-                    }
-                }).then(function (response) {
-                    _this2.bills = response.data.data;
-                    _this2.new_bills = _this2.bills.map(function (item) {
-                        return {
-                            'Name': item.name,
-                            'Source': item.source,
-                            'Card Type': item.payment_method_type,
-                            'Total Paid': item.total,
-                            'VAT Percentage': item.pricing.vat_percentage,
-
-                            'Total Fees': item.payment_fees,
-                            'Total Fees VAT': item.payment_fees_vat,
-                            'Total Fees Percentage': item.pricing.fees_percentage,
-                            'Total Fees Fixed': item.pricing.fees_fixed,
-
-                            'SureBills Fees': item.payment_surebills_fees,
-                            'SureBills Fees VAT': item.payment_surebills_fees_vat,
-                            'SureBills Fees Percentage': item.pricing.surebills_fees_percentage,
-                            'SureBills Fees Fixed': item.pricing.surebills_fees_fixed,
-
-                            'Channel Fees': item.payment_channel_fees,
-                            'Channel Fees VAT': item.payment_channel_fees_vat,
-                            'Channel Fees Percentage': item.pricing.channel_fees_percentage,
-                            'Channel Fees Fixed': item.pricing.channel_fees_fixed,
-
-                            'Channel Relation': item.channel_relation,
-                            'Total Due': item.total_due,
-                            'Paid At': item.paid_at
-                        };
-                    });
                 });
             } else {
                 this.validDateRange = false;
@@ -61200,7 +61066,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         attachment: _this3.form.attachment,
                         from: _this3.form.date_range[0],
                         to: _this3.form.date_range[1],
-                        bills_ids: _this3.bills.map(function (a) {
+                        transactions_ids: _this3.transactions.map(function (a) {
                             return a.id;
                         }),
                         bank_id: _this3.user.bank_id,
@@ -61211,7 +61077,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         console.log(response.data);
                         _this3.$router.push('/resources/transfers/' + response.data.data.id);
                         _this3.loading = false;
-                        _this3.bills = [];
                         _this3.transactions = [];
                         _this3.form.date_range = null;
                         _this3.form.amount = 0;
@@ -61243,8 +61108,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.refresh();
         },
         refresh: function refresh() {
-            this.bills = [];
-            this.new_bills = [];
             this.transactions = [];
             this.new_transactions = [];
             this.form.amount = 0;
@@ -61575,7 +61438,7 @@ var render = function() {
                 [
                   _c(
                     "Col",
-                    { attrs: { span: "22" } },
+                    { attrs: { span: "23" } },
                     [
                       _c(
                         "FormItem",
@@ -61637,36 +61500,6 @@ var render = function() {
                                 on: {
                                   click: function($event) {
                                     _vm.transactionsModal = true
-                                  }
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "Col",
-                    { attrs: { span: "1" } },
-                    [
-                      _c(
-                        "Tooltip",
-                        { attrs: { content: _vm.__("bills") } },
-                        [
-                          _c(
-                            "Badge",
-                            { attrs: { count: _vm.bills.length } },
-                            [
-                              _c("Button", {
-                                attrs: { icon: "ios-paper", size: "large" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.billsModal = true
                                   }
                                 }
                               })
@@ -62136,115 +61969,6 @@ var render = function() {
                   on: {
                     click: function($event) {
                       _vm.transactionsModal = !_vm.transactionsModal
-                    }
-                  }
-                },
-                [_vm._v(_vm._s(_vm.__("OK")))]
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Modal",
-        {
-          attrs: { title: _vm.__("Bills"), width: "760" },
-          model: {
-            value: _vm.billsModal,
-            callback: function($$v) {
-              _vm.billsModal = $$v
-            },
-            expression: "billsModal"
-          }
-        },
-        [
-          _vm.new_bills.length
-            ? _c(
-                "download-excel",
-                {
-                  attrs: {
-                    data: _vm.new_bills,
-                    name:
-                      "Bills-" +
-                      _vm.user.business_name_en +
-                      "-FROM-" +
-                      _vm.formatDate(_vm.form.date_range[0]) +
-                      "-TO-" +
-                      _vm.formatDate(_vm.form.date_range[1])
-                  }
-                },
-                [
-                  _c(
-                    "Button",
-                    {
-                      attrs: {
-                        size: _vm.buttonSize,
-                        icon: "ios-download-outline",
-                        type: "primary"
-                      }
-                    },
-                    [_vm._v(_vm._s(_vm.__("Export")))]
-                  )
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c("Table", {
-            attrs: {
-              stripe: "",
-              height: "400",
-              columns: _vm.billsTable,
-              data: _vm.bills,
-              "no-data-text": _vm.__("No Data")
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "name",
-                fn: function(ref) {
-                  var row = ref.row
-                  return [
-                    _c(
-                      "p",
-                      [
-                        _vm._v(_vm._s(row.name) + "     "),
-                        row.related_channel
-                          ? _c("Badge", { attrs: { text: "channel" } })
-                          : _vm._e()
-                      ],
-                      1
-                    )
-                  ]
-                }
-              },
-              {
-                key: "channel",
-                fn: function(ref) {
-                  var row = ref.row
-                  return [
-                    row.related_channel
-                      ? _c("p", [_vm._v(_vm._s(row.channel))])
-                      : _vm._e()
-                  ]
-                }
-              }
-            ])
-          }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { attrs: { slot: "footer" }, slot: "footer" },
-            [
-              _c(
-                "Button",
-                {
-                  attrs: { type: "primary" },
-                  on: {
-                    click: function($event) {
-                      _vm.billsModal = !_vm.billsModal
                     }
                   }
                 },

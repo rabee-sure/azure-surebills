@@ -68,6 +68,13 @@ class Bill extends Model
         'refund_amount',
         
         'pending_settled',
+
+        'bill_redirect_url',
+        'bill_webhook_url',
+
+        'channel_extra_amount',
+        'channel_extra_title',
+        'channel_extra_vat'
     ];
 
     /**
@@ -152,8 +159,6 @@ class Bill extends Model
     public function getIsAbleRefundAttribute()
     {
         return $this->status == 'paid' 
-            && !$this->settled 
-            && !$this->pending_settled 
             && $this->user->able_refund 
             && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')); 
     }
@@ -222,7 +227,8 @@ class Bill extends Model
         ];
 
         $ks = (str_contains($this->application->redirect, '?')) ? "&" : '?';
-        return $this->application->redirect.$ks.implode("&", $data);
+        $link = $this->bill_redirect_url ?? $this->application->redirect;
+        return $link . $ks . implode("&", $data);
     }
 
     /**
@@ -245,7 +251,8 @@ class Bill extends Model
         ];
 
         $ks = (str_contains($this->application->webhook_url, '?')) ? "&" : '?';
-        return $this->application->webhook_url.$ks.implode("&", $data);
+        $link = $this->bill_webhook_url ?? $this->application->webhook_url;
+        return $this->link . $ks . implode("&", $data);
     }
 
     /**

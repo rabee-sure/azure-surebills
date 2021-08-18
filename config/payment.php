@@ -64,6 +64,9 @@ return [
             'api_base_url'         => env('MASTERCARD_APPLEPAY_COMPLETE_PAYMENT'),
             'operator_username'    => env('MASTERCARD_OPERATOR_USERNAME'),
             'operator_password'    => env('MASTERCARD_OPERATOR_PASSWORD'),
+        ],        
+        'stcpay' => [
+            'merchant_id'          => env('MASTERCARD_APPLEPAY_MASTERCARD_MERCHANT_ID'),
         ],
     ],
 
@@ -85,5 +88,6 @@ return [
         'hyperpay_applepay' => \App\Payment\Drivers\HyperPayApplePay::class,
         'mastercard_iframe' => \App\Payment\Drivers\MasterCardFrame::class,
         'mastercard_applepay' => \App\Payment\Drivers\MasterCardApplePay\MasterCardApplePay::class,
+        'stcpay' => \App\Payment\Drivers\StcPay::class,
     ]
 ];

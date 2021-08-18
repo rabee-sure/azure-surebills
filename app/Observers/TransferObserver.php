@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\TransferCompleted;
 use App\Models\Transaction;
 use App\Models\Transfer;
 
@@ -15,6 +16,9 @@ class TransferObserver
      */
     public function created(Transfer $transfer)
     {
+        if($transfer->status == "completed"){
+            TransferCompleted::dispatch($transfer);
+        }
     }
 
     /**
@@ -25,7 +29,9 @@ class TransferObserver
      */
     public function updated(Transfer $transfer)
     {
-        //
+        if($transfer->isDirty('status') && $transfer->status == "completed"){
+            TransferCompleted::dispatch($transfer);
+        }
     }
 
     /**

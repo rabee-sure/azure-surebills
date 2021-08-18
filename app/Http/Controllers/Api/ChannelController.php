@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Application;
-use App\Models\Channel;
+use App\Events\UserCreated;
 use App\Exceptions\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChannelApplicationAPiRequest;
+use App\Http\Requests\ChannelUpdateApplicationPaymentFeesApiRequest;
 use App\Http\Resources\ChannelApplicationResource;
 use App\Http\Resources\ChannelResource;
+use App\Http\Resources\TransactionResource;
+use App\Models\Application;
+use App\Models\Channel;
+use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -34,14 +38,16 @@ class ChannelController extends Controller
         }else{
             return response()->json(['success' => false]);
         }
-    }
-        /**
+    }    
+
+    /**
      * Store a newly created resource in storage.
      *
+     * @param  \App\Channel  $channel
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeApplication(Channel $channel, ChannelApplicationAPiRequest $request)
+    public function transactions(Channel $channel, Request $request)
     {
         $token_channel = Channel::where('secret_token', $request->channel_token)->first();
 
@@ -54,14 +60,58 @@ class ChannelController extends Controller
            ], 422);
         }
 
-        $user = User::where('email', $request->email)->first();
-        if(!isset($user)){
+        $transactions =  Transaction::when($channel, function($q) use($channel){
+                $q->whereHas('bill.application', function ( $query) use($channel){
+                    $query->where('channel_id', $channel->id);
+                });
+            })
+            ->get();
+
+        return TransactionResource::collection($transactions)->additional(['meta' => [
+            'balance' => round($transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'), 2),
+            'total_credit' => round($transactions->where('type', 'credit')->sum('amount'), 2),
+            'total_debit' => round($transactions->where('type', 'debit')->sum('amount'), 2),
+        ]]);
+    }
+    
+    /**
+     * Store a new sub account.
+     *
+     * @param  \App\Channel  $channel
+     * @param  \Illuminate\Http\ChannelApplicationAPiRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function subAccount(Channel $channel, ChannelApplicationAPiRequest $request)
+    {
+        $channel = Channel::where('secret_token', $request->channel_token)->first();
+
+        if(!isset($channel) || $channel->id != $channel->id){
            return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
-                    'email' =>[__("We can't find a user with that e-mail address")] 
+                    'credential' =>[__('token or channel id is not correct')] 
                 ] 
            ], 422);
+        }
+
+        $user = User::whereEmail($request->email)->orWhere('mobile', $request->mobile)->first();
+        if($user == null){
+            $validatedData = $request->validate([
+                'business_name' => ['required', 'string', 'max:100'],
+                'name' => ['required', 'string', 'max:50'],
+                'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email'],
+                'mobile' => ['unique:users'],
+            ]);
+
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->mobile = $request->mobile;
+            $user->business_name_en = $request->business_name;
+            $user->password = $request->email . $request->name;
+            $user->from_channel_id = $channel->id;
+            $user->save();
+            event(new UserCreated($user));
         }
 
         $application = Application::firstOrNew([
@@ -90,6 +140,47 @@ class ChannelController extends Controller
 
         $application->save();
 
-        return new ChannelApplicationResource($application);
+        return [
+            'client_id'      => $application->id,
+            'secret'         => $application->secret,
+            'webhook_secret' => $application->webhook_secret
+        ];
+    }
+
+    /**
+     * Store a new sub account.
+     *
+     * @param  \App\Channel  $channel
+     * @param  \Illuminate\Http\ChannelApplicationAPiRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateSubAccountPaymentFees(Channel $channel, ChannelUpdateApplicationPaymentFeesApiRequest $request)
+    {
+        $token_channel = Channel::where('secret_token', $request->channel_token)->first();
+
+        if(!isset($token_channel) || $token_channel->id != $channel->id){
+           return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'credential' =>[__('token or channel id is not correct')] 
+                ] 
+           ], 422);
+        }
+
+        $application = Application::find($request->application_id);
+
+        $application->mada_fixed = $request->mada_fixed;
+        $application->mada_percentage = $request->mada_percentage;
+        $application->credit_cards_fixed = $request->credit_cards_fixed;
+        $application->credit_cards_percentage = $request->credit_cards_percentage;
+
+        $application->save();
+
+        return [
+            'mada_fixed' => $application->mada_fixed,
+            'mada_percentage' => $application->mada_percentage,
+            'credit_cards_fixed' => $application->credit_cards_fixed,
+            'credit_cards_percentage' => $application->credit_cards_percentage,
+        ];
     }
 }

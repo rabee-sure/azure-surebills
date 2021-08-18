@@ -60,6 +60,7 @@ class User extends Authenticatable implements HasMedia
 
         'able_refund',
         'auto_trnasfer',
+        'from_channel_id',
     ];
 
     /**
@@ -80,6 +81,7 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'mobile_sent_at' => 'datetime',
         'commercial_registry_expiry_date' => 'datetime',
+        'verified' => 'boolean',
     ];
 
     /**
@@ -107,6 +109,7 @@ class User extends Authenticatable implements HasMedia
     {
         return round($this->balance, 2);
     }
+
     public function getBalanceStringAttribute()
     {
         return ' '.$this->balance;
@@ -318,6 +321,16 @@ class User extends Authenticatable implements HasMedia
     public function channels()
     {
         return $this->hasMany(Channel::class)->activate();
+    }    
+
+    /**
+     * Get channels.
+     *
+     * @return Collection
+     */
+    public function fromChannel()
+    {
+        return $this->belongsTo(Channel::class, 'from_channel_id');
     }
 
     /**
@@ -343,6 +356,55 @@ class User extends Authenticatable implements HasMedia
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function getIsUploadedDocumentsAttribute()
+    {
+        return $this->getMedia('business_documents')->count() && $this->getMedia('bank_documents')->count();
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function getIsUploadedBusinessDocumentsAttribute()
+    {
+        return $this->getMedia('business_documents')->count();
+    }    
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function getIsUploadedBankDocumentsAttribute()
+    {
+        return $this->getMedia('bank_documents')->count();
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function getTwoBusinessDaysAttribute()
+    {
+        $last_business_documents = $this->getMedia('business_documents')->last()->created_at;
+        $last_bank_documents = $this->getMedia('bank_documents')->last()->created_at;
+        // dd($last_bank_documents);
+        $result = $last_business_documents->gt($last_bank_documents);
+        $date = ($result) ? $last_business_documents : $last_bank_documents;
+        return $date->addDays(2)->format('d/m/Y');
     }
 
     /**

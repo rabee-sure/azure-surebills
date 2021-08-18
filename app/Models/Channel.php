@@ -22,6 +22,9 @@ class Channel extends Model
         'credit_cards_fixed',
         'credit_cards_percentage',
         'secret_token',
+        'sub_account_status_webhook',
+        'sub_account_settled_webhook',
+        'disable_login_sub_accounts',
     ];
 
     /**
@@ -66,5 +69,38 @@ class Channel extends Model
         {
             $channel->secret_token = Str::random(30);
         });
+    }
+
+
+    /**
+     * get Percentage from object.
+     *
+     * @return double
+     */
+    public function getPercentage($log)
+    {
+        $response = $log->results['response'] ?? $this->success_payment->results['response'];
+
+        if(isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA'){
+            return $this->mada_percentage;
+        }else{
+            return $this->credit_cards_percentage;
+        }
+    }
+
+    /**
+     * get Fixed from object.
+     *
+     * @return double
+     */
+    public function getFixed($log, $from_channel = false)
+    {
+        $response = $log->results['response'] ?? $this->success_payment->results['response'];
+
+        if(isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA'){
+            return $this->mada_fixed;
+        }else{ 
+            return $this->credit_cards_fixed;
+        }
     }
 }

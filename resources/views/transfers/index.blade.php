@@ -8,7 +8,7 @@
             <h1>{{ __('Transfers') }}</h1>
 
             <div class="top-right-button-container d-flex align-items-center justify-content-center flex-column">
-                @if(!auth()->user()->auto_trnasfer)
+                @if(!auth()->user()->auto_trnasfer && auth()->user()->verified)
                     @include('transfers.request_transfer')
                 @endif
 
@@ -81,7 +81,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center"  >
-                                        <a href="transfers/{{$transfer->id }}/bills"  data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Statement') }}">
+                                        <a href="transfers/{{$transfer->id }}/transactions"  data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Statement') }}">
                                             <div class="glyph-icon simple-icon-eye" style="font-size: 25px"></div>
                                         </a>
                                     </td>

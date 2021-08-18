@@ -4,7 +4,7 @@
         <p slot="title">{{ __('Create Transfer to') }} {{ user.name}}</p>
         <Form ref="form" :model="form" label-position="left" :label-width="150" :rules="ruleInline">
             <Row :gutter="10">
-                <Col span="22">
+                <Col span="23">
                     <FormItem :label="__('Date Range')" prop="date_range">
                         <DatePicker :options="options" v-model="form.date_range" size="large" type="datetimerange" placement="bottom-end" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
                         <p :hidden="validDateRange" style="color:red;">{{__("invalid date range")}}</p>
@@ -14,13 +14,6 @@
                     <Tooltip :content="__('Transactions')" >
                         <Badge :count="transactions.length">
                             <Button @click="transactionsModal = true" icon="md-reorder"  size="large"></Button>
-                        </Badge>
-                    </Tooltip>
-                </Col>
-                <Col span="1">
-                    <Tooltip :content="__('bills')">
-                         <Badge :count="bills.length">
-                            <Button @click="billsModal = true" icon="ios-paper" size="large"></Button>
                         </Badge>
                     </Tooltip>
                 </Col>
@@ -129,27 +122,6 @@
             <Button type="primary"  @click="transactionsModal = !transactionsModal">{{__('OK')}}</Button>
         </div>
     </Modal>
-
-    <Modal
-        :title="__('Bills')"
-        v-model="billsModal"
-        width="760">
-        <download-excel v-if="new_bills.length" :data="new_bills" :name="'Bills-'+user.business_name_en+'-FROM-'+ formatDate(form.date_range[0])+'-TO-'+ formatDate(form.date_range[1])">
-            <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
-        </download-excel>
-
-        <Table stripe height="400" :columns="billsTable" :data="bills" :no-data-text="__('No Data')">
-            <template slot-scope="{ row }" slot="name">
-                    <p>{{row.name}}     <Badge v-if="row.related_channel" text="channel"></Badge></p>
-            </template>
-            <template slot-scope="{ row }" slot="channel">
-                <p v-if="row.related_channel">{{row.channel}}</p>
-            </template>
-        </Table>
-        <div slot="footer">
-            <Button type="primary" @click="billsModal = !billsModal">{{__('OK')}}</Button>
-        </div>
-    </Modal>
 </div>
 
 </template>
@@ -179,82 +151,7 @@ export default {
             disableBtn: false,
             language: 'ar',
             uploadFileActionUrl: '/api/upload?lang=',
-            bills: [],
-            new_bills: [],
-            billsTable: [
-                {
-                    title: this.__('Name'),
-                    key: 'name',
-                    width: 220,
-                },
-                {
-                    title: this.__('Total'),
-                    key: 'total',
-                    width: 100,
-                },
-                {
-                    title: this.__('Relation'),
-                    key: 'channel_relation',
-                    width: 100,
-                },
-                {
-                    title: this.__('Total Due'),
-                    key: 'total_due',
-                    width: 120,
-                },
-                {
-                    title: this.__('FEES'),
-                    key: 'payment_fees',
-                    width: 100,
-                },
-                {
-                    title: this.__('Payment Fees Vat'),
-                    key: 'payment_fees_vat',
-                    width: 100,
-                },
-                {
-                    title: this.__('Channel Fees'),
-                    key: 'payment_channel_fees',
-                    width: 100,
-                },
-                {
-                    title: this.__('Channel Fees Vat'),
-                    key: 'payment_channel_fees_vat',
-                    width: 100,
-                },
-                {
-                    title: this.__('Net'),
-                    key: 'net',
-                    width: 100,
-                },
-                {
-                    title: this.__('Paid At'),
-                    key: 'paid_at',
-                    width: 150,
-                },{
-                    title: this.__('Details'),
-                    key: 'action',
-                    width: 150,
-                    align: 'center',
-                    render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {
-                                    size: 'small',
-                                    shape: "circle",
-                                    icon: "md-eye"
-                                },
-                                on: {
-                                    click: () => {
-                                        var win = window.open('/nova/resources/bills/'+params.row.id, '_blank');
-                                        win.focus();
-                                    }
-                                }
-                            })
-                        ]);
-                    }
-                }
-            ],
+
             transactionsModal: false,
             transactions: [],
             new_transactions: [],
@@ -333,10 +230,6 @@ export default {
                     slot: 'fromto',
                     width: 300,
                 },
-                // {
-                //     title: this.__('Note'),
-                //     key: 'note'
-                // },
                 {
                     title: this.__('Created By'),
                     key: 'created_by_name'
@@ -353,12 +246,6 @@ export default {
                     width: 150,
                     align: 'center'
                 },
-                // {
-                //     title: this.__('Action'),
-                //     slot: 'action',
-                //     width: 150,
-                //     align: 'center'
-                // }
             ],
             ruleInline: {
                 date_range: [{ type: 'array', required: true, message: this.__('select date range'), trigger: 'blur'}],
@@ -423,7 +310,6 @@ export default {
                             'amount': item.amount,
                             'customer_notes': item.customer_notes,
                             'reference_id': item.reference_id,
-                            'hyperpay_id': item.hyperpay_id,
                         }
                     });
                     this.form.amount = response.data.meta.balance;
@@ -437,45 +323,6 @@ export default {
                             }
                         });
                     }
-                });
-
-                Nova.request().get('/users/'+this.$route.params.id+'/bills', {
-                    params: {
-                        from: date[0],
-                        to: date[1],
-                        not_settled: true
-                    }
-                })
-                .then(response => {
-                    this.bills = response.data.data;
-                    this.new_bills = this.bills.map((item) => {
-                        return {
-                            'Name': item.name,
-                            'Source': item.source,
-                            'Card Type': item.payment_method_type,
-                            'Total Paid': item.total,
-                            'VAT Percentage': item.pricing.vat_percentage,
-
-                            'Total Fees': item.payment_fees,
-                            'Total Fees VAT': item.payment_fees_vat,
-                            'Total Fees Percentage': item.pricing.fees_percentage,
-                            'Total Fees Fixed': item.pricing.fees_fixed,
-
-                            'SureBills Fees': item.payment_surebills_fees,
-                            'SureBills Fees VAT': item.payment_surebills_fees_vat,
-                            'SureBills Fees Percentage': item.pricing.surebills_fees_percentage,
-                            'SureBills Fees Fixed': item.pricing.surebills_fees_fixed,
-
-                            'Channel Fees': item.payment_channel_fees,
-                            'Channel Fees VAT': item.payment_channel_fees_vat,
-                            'Channel Fees Percentage': item.pricing.channel_fees_percentage,
-                            'Channel Fees Fixed': item.pricing.channel_fees_fixed,
-
-                            'Channel Relation': item.channel_relation,
-                            'Total Due': item.total_due,
-                            'Paid At': item.paid_at,
-                        }
-                    });
                 });
             }
             else
@@ -519,7 +366,7 @@ export default {
                         attachment: this.form.attachment,
                         from: this.form.date_range[0],
                         to: this.form.date_range[1],
-                        bills_ids: this.bills.map(a => a.id),
+                        transactions_ids: this.transactions.map(a => a.id),
                         bank_id: this.user.bank_id,
                         iban_number: this.user.iban_number,
                         beneficiary_name: this.user.beneficiary_name,
@@ -529,7 +376,6 @@ export default {
                         console.log(response.data)
                         this.$router.push('/resources/transfers/' + response.data.data.id)
                         this.loading = false
-                        this.bills = [];
                         this.transactions = [];
                         this.form.date_range = null;
                         this.form.amount = 0;
@@ -563,8 +409,6 @@ export default {
             this.refresh();  
         },
         refresh() {
-            this.bills = [];
-            this.new_bills = [];
             this.transactions = [];
             this.new_transactions = [];
             this.form.amount = 0;           

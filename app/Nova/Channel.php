@@ -99,6 +99,13 @@ class Channel extends Resource
                 // ->hideFromIndex()
                 ->exceptOnForms(),
 
+            Text::make(__('sub account status webhook'), 'sub_account_status_webhook')->rules('nullable', 'url'),
+            Text::make(__('sub account settled webhook'), 'sub_account_settled_webhook')->rules('nullable','url'),
+
+            Boolean::make(__('Disable Login for sub-account'), 'disable_login_sub_accounts'),
+
+
+
         ];
     }
 
