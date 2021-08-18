@@ -308,7 +308,7 @@ class Bill extends Resource
             new PaidDateRange,
             new RefundedDateRange,
             new UserId(),
-            new BillSettled(),
+            // new BillSettled(),
         ];
     }
 
