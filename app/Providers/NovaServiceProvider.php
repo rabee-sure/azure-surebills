@@ -117,4 +117,20 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         //
     }
+
+
+    /**
+     * Configure the Nova authorization services.
+     *
+     * @return void
+     */
+    protected function authorization()
+    {
+        $this->gate();
+
+        Nova::auth(function ($request) { 
+            return Gate::check('viewNova', [$request->user()]);
+           // return in_array($request->user()->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        });
+    }
 }
