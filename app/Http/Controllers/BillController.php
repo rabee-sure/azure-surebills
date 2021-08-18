@@ -323,9 +323,10 @@ class BillController extends Controller
         if($request->type == 'partial_refund'){
             $bill->setPartialRefunded($request->amount);
             return redirect()->back();
-        } else if ($bill->setRefunded()){
-            $bill->setRefunded();
-            return redirect()->back();
+        } else if ($bill->total <= $bill->user->balance){
+            if($bill->setRefunded()){
+                return redirect()->back();
+            }
         }
 
         return redirect()->back()->withErrors(['refund' => session('refund_error')]);
