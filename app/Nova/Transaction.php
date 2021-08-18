@@ -113,7 +113,10 @@ class Transaction extends Resource
                     'credit' => 'green',
                 ]),
 
-            Number::make(__('Amount'), 'amount')
+            Number::make(__('Amount'), 'amount', function (){
+                return number_format($this->amount, 2, '.', '');
+
+            })
                 ->min(1)
                 ->step(0.1)
                 ->rules('required'),
