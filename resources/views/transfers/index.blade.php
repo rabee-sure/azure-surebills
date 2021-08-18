@@ -8,7 +8,7 @@
             <h1>{{ __('Transfers') }}</h1>
 
             <div class="top-right-button-container d-flex align-items-center justify-content-center flex-column">
-                @if(!auth()->user()->auto_trnasfer)
+                @if(!auth()->user()->auto_trnasfer && auth()->user()->verified)
                     @include('transfers.request_transfer')
                 @endif
 

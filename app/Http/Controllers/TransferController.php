@@ -158,7 +158,9 @@ class TransferController extends Controller
             return response()->json(['error' => __('Bills duplicate in another transfer')], 422);
 
         }if($amount <= 0 ){
-            return response()->json(['error' => __('balance must be greater than 0')], 422);
+            return response()->json(['error' => __('amount must be greater than 0')], 422);
+        }elseif($amount > $user->balance){
+            return response()->json(['error' => __('amount must be greater than user balance')], 422);
         } else{
 
             $bank = Bank::find($request->bank_id);
