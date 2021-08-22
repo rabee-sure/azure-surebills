@@ -6,8 +6,12 @@ if (self === top) {
     var antiClickjack = document.getElementById("antiClickjack");
     antiClickjack.parentNode.removeChild(antiClickjack);
 } else {
-    top.location = self.location;
+    console.log('bug bug bug');
+    var antiClickjack = document.getElementById("antiClickjack");
+    antiClickjack.parentNode.removeChild(antiClickjack);
+    // top.location = self.location;
 }
+
 PaymentSession.configure({
     fields: {
         // ATTACH HOSTED FIELDS TO YOUR PAYMENT PAGE FOR A CREDIT CARD
@@ -45,13 +49,14 @@ PaymentSession.configure({
                         headers: headers,
                         body: JSON.stringify({
                             billId: '<?php echo $bill->id; ?>',
-                            paymentToken: response.session.id
+                            paymentToken: response.session.id,
+                            from_iframe: '<?php echo request()->from_iframe; ?>',
                         })
                     }).then(response => response.json()).then(data => {
 
                         if (data.error) {
                             alert(data.error);
-                            window.location = data.redirect;
+                            // window.location = data.redirect;
                         }
                         // parse html
                         let redirectHtml = $( '<div></div>' );
@@ -94,6 +99,7 @@ PaymentSession.configure({
         }
     }
 });
+
 function pay() {
     PaymentSession.updateSessionFromForm('card');
 }

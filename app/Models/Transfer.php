@@ -89,7 +89,10 @@ class Transfer extends Model
      */
     public function transactions()
     {
-        return $this->belongsToMany(Transaction::class);
+        return $this->belongsToMany(Transaction::class)
+            ->orderBy('created_at', 'ASC')
+            ->orderBy('order', 'ASC')
+            ->orderBy('receipt', 'ASC');
     }
 
     /**

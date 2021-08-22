@@ -345,7 +345,9 @@ class BillController extends Controller
             $bill = Bill::find($orderBody->order->id);
             if($bill){
                 $invoice = new Invoice();
-                $details = $invoice->detail(['bill' => $bill->toArray()])->getDetails();
+                $details = $invoice
+                    ->detail(['bill' => $bill->toArray()])
+                    ->getDetails();
                 PaymentHelper::handlePaymentResponse($invoice, $orderBody->order->id, $details, true);
             }else{
                 return false;

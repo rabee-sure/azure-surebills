@@ -24,7 +24,7 @@ class SendSubAccountSettledWebhook
     /**
      * Handle the event.
      *
-     * @param  UserVerifiedChanged  $event
+     * @param  TransferCompleted  $event
      * @return void
      */
     public function handle(TransferCompleted $event)
@@ -44,7 +44,7 @@ class SendSubAccountSettledWebhook
                    ->url($channel->sub_account_settled_webhook)
                    ->payload([
                         'type' => 'TransferCompleted',
-                        'transfer' => $transfer,
+                        'transfer' => new TransferResource($transfer)->toArray(),
                    ])
                    ->useSecret($channel->secret_token)
                    ->dispatch()
