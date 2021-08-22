@@ -16,7 +16,6 @@ class ValidationException extends Exception
 
 	public function apiHandler()
 	{
-		dd('s');
 		return response()->json([
 			'success' => false,
 			'message' => $this->exception_message,

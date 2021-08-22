@@ -48,7 +48,6 @@ class BillsExcelDownload extends Action
             return Action::download( Storage::url($new_file_name), $file_name);
         }
         else{
-        dd('dd');
             return Action::danger(404);
         }
     }

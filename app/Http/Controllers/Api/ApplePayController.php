@@ -55,6 +55,7 @@ class ApplePayController extends Controller
         // prepare invoice
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''))
             ->detail(['bill_id' => $bill->id])
+            ->detail(['from_iframe' => $request->from_iframe])
             ->detail(['bill' => $bill->toArray()])
             ->detail(['payment_id' => $payment->id]);
 
