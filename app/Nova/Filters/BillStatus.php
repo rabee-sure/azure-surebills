@@ -41,11 +41,11 @@ class BillStatus extends MultiselectFilter
     public function options(Request $request)
     {
         return [
-            'Pending' => 'pending',
-            'Paid' => 'paid',
-            'Canceled' => 'canceled',
-            'Expired' => 'expired',
-            'Refunded' => 'refunded',
+            __('Pending') => 'pending',
+            __('Paid') => 'paid',
+            __('Canceled') => 'canceled',
+            __('Expired') => 'expired',
+            __('Refunded') => 'refunded',
         ];
     }
 }

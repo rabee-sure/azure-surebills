@@ -32,8 +32,10 @@ class MasterCardController extends Controller
         // prepare invoice
         $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''))
             ->detail(['bill_id' => $bill->id])
+            ->detail(['from_iframe' => $request->from_iframe])
             ->detail(['bill' => $bill->toArray()])
             ->detail(['payment_id' => $payment->id]);
+
 
         // Initiate Authentication
         $client = new Client(['http_errors' => false]);
@@ -69,14 +71,15 @@ class MasterCardController extends Controller
 
         // Authenticate Payer
         if (isset($response['result']) && $response['result'] == 'SUCCESS') {
-
             $client = new Client(['http_errors' => false]);
             $response = $client->put(
                 config('payment.drivers.mastercard.base_url').'/api/rest/version/57/merchant/'.config('payment.drivers.mastercard.merchant_id').'/order/'.$bill->id.'/transaction/'.$payment->id,
                 [
                     'json' => [
                         'authentication' => [
-                            'redirectResponseUrl' => route('mastercard.3ds', ['session' => $request->paymentToken])
+                            'redirectResponseUrl' => route('mastercard.3ds', [
+                                $request->paymentToken,
+                            ])
                         ],
                         'apiOperation' => 'AUTHENTICATE_PAYER',
                         'device' => [
