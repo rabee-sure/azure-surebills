@@ -178,16 +178,6 @@ class Transaction extends Resource
     public function actions(Request $request)
     {
         return [
-            // (new TranferBillsExcelDownload)
-            //     ->onlyOnDetail()
-            //     ->canRun(function(NovaRequest $request) {
-            //         return TRUE;
-            //     }),
-            (new TranferTransactionsExcelDownload)
-                ->onlyOnDetail()
-                ->canRun(function(NovaRequest $request) {
-                    return TRUE;
-                }),
         ];
     }
 

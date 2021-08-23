@@ -327,6 +327,8 @@ class BillController extends Controller
             if($bill->setRefunded()){
                 return redirect()->back();
             }
+        }else{
+            return redirect()->back()->withErrors(['refund' => __("Quantity must be less than or equal to the user's balance")]);
         }
 
         return redirect()->back()->withErrors(['refund' => session('refund_error')]);
