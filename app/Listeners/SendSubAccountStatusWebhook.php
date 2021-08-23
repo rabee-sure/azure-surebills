@@ -42,8 +42,8 @@ class SendSubAccountStatusWebhook
                    ->url($channel->sub_account_status_webhook)
                    ->payload([
                         'type' => 'UserVerifiedChanged',
-                        'user_id' => $event->user->id,
-                        'user_verified' => $event->user->verified,
+                        'account_id' => $event->user->id,
+                        'account_verified' => $event->user->verified,
                    ])
                    ->useSecret($channel->secret_token)
                    ->dispatch()
