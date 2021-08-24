@@ -57,18 +57,16 @@ class TransferAutomatic extends Command
         $transfer_minimum = $settings->get('transfer_minimum');
         $transfer_emails = $settings->get('transfer_emails');
 
-        $to = Carbon::now()->startOfDay();
-        if($transfer_automatic && $to->dayOfWeek == $transfer_day ){
+        $cycleDate = Carbon::now()->startOfDay();
+        if($transfer_automatic && $cycleDate->dayOfWeek == $transfer_day ){
             $users = User::where('verified', true)->where('auto_trnasfer', true)->get();
             
             $filtered_users = $users->filter(function($user) use($transfer_minimum){
                 return $user->balance >= $transfer_minimum;
             });
             foreach ($filtered_users as $user) {
-                $from = TransferService::getFromDate($user);
-                // $from = $user->created_at;
-                $file_name = $this->getExcelFileName($user, $from, $to);
-                $transactions = TransferService::getTransactionsBetweenDate($from, $to, $user, $file_name);
+                $file_name = $this->getExcelFileName($user, $cycleDate);
+                $transactions = TransferService::getTransactionsBetweenDate($cycleDate, $user, $file_name);
 
                 if($transactions->count()){
                     $amount = TransferService::getAmount($transactions);
@@ -77,8 +75,7 @@ class TransferAutomatic extends Command
                     $bank = $user->bank;
                     $transfer_fees = $bank->fees + ($bank->fees * 0.15);
                     $data = [
-                        'from' => $from,
-                        'to' => $to,
+                        'cycle_date' => $cycleDate,
                         'transfer_fees' => $transfer_fees,
                         'note' => 'automatic transfer',
                         'created_by_id' => null,
@@ -93,7 +90,7 @@ class TransferAutomatic extends Command
             }
 
             if($filtered_users->count())
-                $this->sendMails($transfer_emails, $to);
+                $this->sendMails($transfer_emails, $cycleDate);
         }
     }
  
@@ -119,10 +116,9 @@ class TransferAutomatic extends Command
      *
      * @return String
      */
-    protected function getExcelFileName($user, $from_s, $to_s)
+    protected function getExcelFileName($user, $_cycleDate)
     {
-        $to = $to_s->copy()->endOfDay()->toDateTimeString();
-        $from = $from_s->copy()->startOfDay()->toDateTimeString();
-        return "bills/{$to_s->timestamp}/Bills-{$user->business_name_slug}-FROM-{$from}-TO-{$to}.xlsx";
+        $cycleDate = $_cycleDate->copy()->endOfDay()->toDateTimeString();
+        return "bills/{$_cycleDate->timestamp}/Bills-cycle-date-{$cycleDate}.xlsx";
     }
 }

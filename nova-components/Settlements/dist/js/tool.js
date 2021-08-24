@@ -60106,7 +60106,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60217,6 +60217,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -60250,7 +60252,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 key: 'net_amount',
                 width: 120
             }, {
-                title: this.__('From - To'),
+                title: this.__('Cycle Date'),
                 slot: 'fromto',
                 width: 300
             },
@@ -60446,13 +60448,9 @@ var render = function() {
                     fn: function(ref) {
                       var row = ref.row
                       return [
-                        _vm._v(
-                          "\n                      " +
-                            _vm._s(_vm.__(row.filter_from)) +
-                            " - " +
-                            _vm._s(_vm.__(row.filter_to)) +
-                            "\n                  "
-                        )
+                        row.filter_from
+                          ? _c("div", [_vm._v(_vm._s(_vm.__(row.filter_to)))])
+                          : _c("div", [_vm._v(_vm._s(_vm.__(row.cycle_date)))])
                       ]
                     }
                   },
@@ -60710,7 +60708,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60913,7 +60911,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             },
             form: {
-                date_range: null,
+                cycle_date: null,
                 amount: 0,
                 note: null,
                 attachment: null,
@@ -60955,7 +60953,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 align: 'center'
             }],
             ruleInline: {
-                date_range: [{ type: 'array', required: true, message: this.__('select date range'), trigger: 'blur' }],
+                cycle_date: [{ type: 'date', required: true, message: this.__('select date range'), trigger: 'blur' }],
                 amount: [{ type: 'number', min: 1, required: true, message: this.__('invalid amount'), trigger: 'blur' }]
             }
         };
@@ -60999,12 +60997,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             this.refresh();
-            if (date[0] != '' && this.isValidDate(date[0]) && this.isValidDate(date[1])) {
+            if (date != '' && this.isValidDate(date) && this.isValidDate(date)) {
                 this.validDateRange = true;
                 Nova.request().get('/users/' + this.$route.params.id + '/transactions', {
                     params: {
-                        from: date[0],
-                        to: date[1],
+                        cycle_date: date,
                         bills_not_settled: true
                     }
                 }).then(function (response) {
@@ -61064,8 +61061,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         amount: _this3.form.amount,
                         note: _this3.form.note,
                         attachment: _this3.form.attachment,
-                        from: _this3.form.date_range[0],
-                        to: _this3.form.date_range[1],
+                        cycle_date: _this3.form.cycle_date,
                         transactions_ids: _this3.transactions.map(function (a) {
                             return a.id;
                         }),
@@ -61078,7 +61074,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this3.$router.push('/resources/transfers/' + response.data.data.id);
                         _this3.loading = false;
                         _this3.transactions = [];
-                        _this3.form.date_range = null;
+                        _this3.form.cycle_date = null;
                         _this3.form.amount = 0;
                         _this3.form.status = 'completed';
                         _this3.form.note = null;
@@ -61101,7 +61097,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         handleCancel: function handleCancel() {
             this.$Message.success(this.language == 'en' ? 'Cancel Transfer successfully' : 'تم الغاء التحويل بنجاح');
-            this.form.date_range = null;
+            this.form.cycle_date = null;
             this.form.note = null;
             this.form.attachment = null;
             this.$refs['uploadFiles'].clearFiles();
@@ -61445,7 +61441,7 @@ var render = function() {
                         {
                           attrs: {
                             label: _vm.__("Date Range"),
-                            prop: "date_range"
+                            prop: "cycle_date"
                           }
                         },
                         [
@@ -61454,17 +61450,17 @@ var render = function() {
                             attrs: {
                               options: _vm.options,
                               size: "large",
-                              type: "datetimerange",
+                              type: "date",
                               placement: "bottom-end",
                               placeholder: "Select date"
                             },
                             on: { "on-change": _vm.handleChangeDate },
                             model: {
-                              value: _vm.form.date_range,
+                              value: _vm.form.cycle_date,
                               callback: function($$v) {
-                                _vm.$set(_vm.form, "date_range", $$v)
+                                _vm.$set(_vm.form, "cycle_date", $$v)
                               },
-                              expression: "form.date_range"
+                              expression: "form.cycle_date"
                             }
                           }),
                           _vm._v(" "),
@@ -61901,9 +61897,7 @@ var render = function() {
                       "Transactions-" +
                       _vm.user.business_name_en +
                       "-FROM-" +
-                      _vm.formatDate(_vm.form.date_range[0]) +
-                      "-TO-" +
-                      _vm.formatDate(_vm.form.date_range[1])
+                      _vm.formatDate(_vm.form.cycle_date)
                   }
                 },
                 [

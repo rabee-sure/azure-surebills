@@ -39,16 +39,15 @@ class TransferService
      *
      * @return \Illuminate\Http\Response
      */
-    public static function getTransactionsBetweenDate($from_s, $to_s, $user, $excel_file_name = null)
+    public static function getTransactionsBetweenDate($cycleDate, $user, $excel_file_name = null)
     {
-        $from = $from_s->copy()->startOfDay()->toDateTimeString();
-        $to = $to_s->copy()->endOfDay()->toDateTimeString();
+        $cycleDate = $cycleDate->copy()->endOfDay()->toDateTimeString();
 
         $transactions = Transaction::where('user_id', $user->id)
             ->where('settled', false)
             ->where('pending_settled', false)
             ->where('transaction_source', '!=', "transfer")
-            ->whereBetween('created_at', [$from, $to])
+            ->whereDate('created_at', '<=', $cycleDate)
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC')
@@ -161,12 +160,10 @@ class TransferService
                 'beneficiary_name' => $data['beneficiary_name'],
                 'filters' => [
                     'date' => [
-                        "from" => $data['from'],
-                        "to" => $data['to'],
+                        "cycle_date" => $data['cycle_date'],
                     ],
                     'files' => [
                         "folder" => explode('/', $data['file_name'])[1],
-                        // "bills" => explode('/', $data['file_name'])[2],
                         "transactions" => 'transactions-'.explode('/', $data['file_name'])[2],
                     ],
                 ],

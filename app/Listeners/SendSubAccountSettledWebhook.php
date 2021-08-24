@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\TransferCompleted;
+use App\Http\Resources\WebhookTransferResource;
 use App\Models\Channel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -44,7 +45,7 @@ class SendSubAccountSettledWebhook
                    ->url($channel->sub_account_settled_webhook)
                    ->payload([
                         'type' => 'TransferCompleted',
-                        'transfer' => new TransferResource($transfer),
+                        'transfer' => new WebhookTransferResource($transfer),
                    ])
                    ->useSecret($channel->secret_token)
                    ->dispatch()

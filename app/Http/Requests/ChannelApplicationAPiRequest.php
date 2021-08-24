@@ -25,7 +25,8 @@ class ChannelApplicationAPiRequest extends FormRequest
     {
         return [
             'channel_token' => ['required'],
-            'email' => ['required'],
+            'email' => ['required', 'unique:users'],
+            'mobile' => ['required', 'unique:users'],
             'redirect' => ['required'],
             'webhook_url' => ['required'],
             'mada_fixed' => ['required'],

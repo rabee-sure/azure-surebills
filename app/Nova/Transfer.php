@@ -120,11 +120,11 @@ class Transfer extends Resource
             Textarea::make(__('Note'), 'note'),
             File::make(__('Attachment'), 'attachment')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])),
 
-            Text::make(__('Date From To'))->displayUsing(function(){
+            Text::make(__('Cycle Date'))->displayUsing(function(){
                 if(isset($this->filters['date'])){
-                    $from = (isset($this->filters['date']['from'])) ? Carbon::parse($this->filters['date']['from'])->toDateTimeString() : '-';
-                    $to = (isset($this->filters['date']['from'])) ? Carbon::parse($this->filters['date']['to'])->toDateTimeString(): '-';
-                    return  $from.' - '. $to;
+                    $to = (isset($this->filters['date']['to'])) ? Carbon::parse($this->filters['date']['to'])->toDateString(): null;
+                    $cycle_date = (isset($this->filters['date']['cycle_date'])) ? Carbon::parse($this->filters['date']['cycle_date'])->toDateString(): '-';
+                    return  $to ?? $cycle_date;
                 }
                 return '-';
 

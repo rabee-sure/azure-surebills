@@ -49,7 +49,7 @@
                                     <th>{{__('Transfer Fees')}}</th>
                                     <th>{{__('Net Amount')}}</th>
                                     <th>{{__('Note')}}</th>
-                                    <th>{{__('Date From To')}}</th>
+                                    <th>{{__('Cycle Date')}}</th>
                                     <th>{{__('Created At')}}</th>
                                     <th>{{__('Status')}}</th>
                                     <th class="text-center">{{__('Statement')}}</th>
