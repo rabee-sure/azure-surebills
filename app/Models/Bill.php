@@ -586,13 +586,19 @@ class Bill extends Model
         if (!$this->is_able_refund) {
             return false;
         }
-        $this->refund_amount = $this->refund_amount+$amount;
-        $this->save();
-
-        $this->success_payment->refund($amount);
         
-        event(new BillPartialRefunded($this, $amount));
-        event(new BillStatusUpdated($this));
+        if ($this->success_payment->refund($amount)) {
+
+            $this->refund_amount = $this->refund_amount+$amount;
+            $this->save();
+            
+            event(new BillPartialRefunded($this, $amount));
+            event(new BillStatusUpdated($this));
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
