@@ -21,13 +21,13 @@
                                 <span class="d-block">{{__('Total refund')}}</span>
                             </div><!-- txt -->
                         </label>
-                        {{-- <label for="PartialRefund" class="position-relative d-block">
+                        <label for="PartialRefund" class="position-relative d-block">
                             <input type="radio" id="PartialRefund" name="refund" class="position-absolute w-100 h-100" value="partial_refund">
                             <div class="txt bg-light border text-body p-2 d-flex align-items-center justify-content-start">
                             <div class="checkmark rounded-circle position-relative d-flex align-items-center justify-content-center"><p class="rounded-circle bg-white m-0 d-block"></p></div>
                             <span class="d-block">{{__('Partial Refund')}}</span>
                             </div><!-- txt -->
-                        </label> --}}
+                        </label>
                         @else
                             {{__('Your balance is not allowed to perform this transaction')}}
                         @endif
