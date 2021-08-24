@@ -17,6 +17,7 @@ class BillApiResource extends JsonResource
     {
         return [
             'bill_id' => $this->id,
+            'bill_number' => $this->number,
             'bill_status' => $this->status,
             'reference_id' => $this->reference_id,
             'pay_url' => $this->when($this->is_pending, $this->pay_url),

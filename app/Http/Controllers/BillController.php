@@ -173,6 +173,7 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
+        dd($bill->redirect_url);
         return view('bills.show', ['bill' => $bill]);
     }
 

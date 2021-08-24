@@ -57,6 +57,7 @@ class UserController extends Controller
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC')
+            ->whereDate('created_at', '<=', $request->cycle_date)
             ->get();
 
         $balance = $transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount');

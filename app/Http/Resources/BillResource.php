@@ -18,6 +18,7 @@ class BillResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'number' => $this->number,
             'name' => $this->number  .'-'. $this->customer_name,
             'status' => $this->status,
             'payment_method' => $this->payment_method,
