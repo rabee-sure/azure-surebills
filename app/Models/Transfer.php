@@ -46,9 +46,9 @@ class Transfer extends Model
      */
     public function getDateFromToAttribute()
     {
-        $from = (isset($this->filters['date']['from'])) ? Carbon::parse($this->filters['date']['from'])->toDateTimeString(): '';
-        $to = (isset($this->filters['date']['to'])) ? Carbon::parse($this->filters['date']['to'])->toDateTimeString(): '';
-        return  $from.' - '. $to;
+        $to = (isset($this->filters['date']['to'])) ? Carbon::parse($this->filters['date']['to'])->toDateString(): null;        
+        $cycle_date = (isset($this->filters['date']['cycle_date'])) ? Carbon::parse($this->filters['date']['cycle_date'])->toDateString(): '';
+        return  $to ?? $cycle_date;
     }
 
     /**

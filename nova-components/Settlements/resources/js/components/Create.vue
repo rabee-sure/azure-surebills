@@ -5,8 +5,8 @@
         <Form ref="form" :model="form" label-position="left" :label-width="150" :rules="ruleInline">
             <Row :gutter="10">
                 <Col span="23">
-                    <FormItem :label="__('Date Range')" prop="date_range">
-                        <DatePicker :options="options" v-model="form.date_range" size="large" type="datetimerange" placement="bottom-end" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
+                    <FormItem :label="__('Date Range')" prop="cycle_date">
+                        <DatePicker :options="options" v-model="form.cycle_date" size="large" type="date" placement="bottom-end" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
                         <p :hidden="validDateRange" style="color:red;">{{__("invalid date range")}}</p>
                     </FormItem>
                 </Col>
@@ -109,7 +109,7 @@
         v-model="transactionsModal"
         width="760">
         <download-excel v-if="new_transactions.length" :data="new_transactions" 
-            :name="'Transactions-'+user.business_name_en+'-FROM-'+ formatDate(form.date_range[0])+'-TO-'+ formatDate(form.date_range[1])">
+            :name="'Transactions-'+user.business_name_en+'-FROM-'+ formatDate(form.cycle_date)">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
         <Table stripe height="400" :columns="transactionsTable" :data="transactions" :no-data-text="__('No Data')">
@@ -197,7 +197,7 @@ export default {
                 }
             },
             form: {
-                date_range: null,
+                cycle_date: null,
                 amount: 0,
                 note: null,
                 attachment: null,
@@ -248,7 +248,7 @@ export default {
                 },
             ],
             ruleInline: {
-                date_range: [{ type: 'array', required: true, message: this.__('select date range'), trigger: 'blur'}],
+                cycle_date: [{type: 'date',  required: true, message: this.__('select date range'), trigger: 'blur'}],
                 amount: [{ type: 'number', min:1, required: true, message: this.__('invalid amount'), trigger: 'blur'}]
             }
         };
@@ -291,12 +291,11 @@ export default {
         },
         handleChangeDate (date) {
             this.refresh();
-            if(date[0] != '' && this.isValidDate(date[0]) && this.isValidDate(date[1])){
+            if(date != '' && this.isValidDate(date) && this.isValidDate(date)){
                 this.validDateRange = true;
                 Nova.request().get('/users/'+this.$route.params.id+'/transactions', {
                     params: {
-                        from: date[0],
-                        to: date[1],
+                        cycle_date: date,
                         bills_not_settled: true
                     }
                 })
@@ -364,8 +363,7 @@ export default {
                         amount: this.form.amount,
                         note: this.form.note,
                         attachment: this.form.attachment,
-                        from: this.form.date_range[0],
-                        to: this.form.date_range[1],
+                        cycle_date: this.form.cycle_date,
                         transactions_ids: this.transactions.map(a => a.id),
                         bank_id: this.user.bank_id,
                         iban_number: this.user.iban_number,
@@ -377,7 +375,7 @@ export default {
                         this.$router.push('/resources/transfers/' + response.data.data.id)
                         this.loading = false
                         this.transactions = [];
-                        this.form.date_range = null;
+                        this.form.cycle_date = null;
                         this.form.amount = 0;
                         this.form.status = 'completed';
                         this.form.note = null;
@@ -402,7 +400,7 @@ export default {
         },
         handleCancel() {
             this.$Message.success(this.language == 'en'? 'Cancel Transfer successfully': 'تم الغاء التحويل بنجاح');
-            this.form.date_range = null;     
+            this.form.cycle_date = null;     
             this.form.note = null;     
             this.form.attachment = null;     
             this.$refs['uploadFiles'].clearFiles();

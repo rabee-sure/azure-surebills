@@ -85,12 +85,11 @@ class TransferController extends Controller
     public function request(Request $request)
     {
         $user = auth()->user();
-        $to = Carbon::now()->addHours(3);
-        $from = TransferService::getFromDate($user);
+        $cycleDate = Carbon::now()->addHours(3);
         // $from = $user->created_at;
 
-        $file_name = $this->getExcelFileName($user, $to);
-        $transactions = TransferService::getTransactionsBetweenDate($from, $to, $user, $file_name);
+        $file_name = $this->getExcelFileName($user, $cycleDate);
+        $transactions = TransferService::getTransactionsBetweenDate($cycleDate, $user, $file_name);
 
         $amount = TransferService::getAmount($transactions, $user);
         $settings =  Valuestore::make(storage_path('app/settings.json'));
@@ -110,8 +109,7 @@ class TransferController extends Controller
         $transfer_fees = $bank->fees+ ($bank->fees * 0.15);
         // dd([$from, $to ]);
         $data = [
-            'from' => $from,
-            'to' => $to,
+            'cycle_date' => $cycleDate,
             'transfer_fees' => $transfer_fees,
             'note' => '',
             'created_by_id' => null,
@@ -125,7 +123,7 @@ class TransferController extends Controller
         $transfer = TransferService::makeTransfer('pending', $amount, $transactions, $data);
 
         if($transfer)
-            $this->sendMails($transfer_emails, $to, $transfer);
+            $this->sendMails($transfer_emails, $cycleDate, $transfer);
         
         return redirect()->back();
     }
@@ -140,17 +138,10 @@ class TransferController extends Controller
     {
         $user = User::find($request->user_id);
 
-        $fromDate = new Carbon($request->from);
-        $toDate = new Carbon($request->to);
-        $fromDate = $fromDate->addHours(3);
-        $toDate = $toDate->addHours(3);
-        if($request->from == $request->to){
-            $fromDate = $fromDate->startOfDay();
-            $toDate = $toDate->endOfDay();
-        }
+        $cycleDate = new Carbon($request->cycle_date);
 
         $transactions = Transaction::whereIn('id', $request->transactions_ids)->get();
-        $file_name = $this->getExcelFileName($user, $toDate);
+        $file_name = $this->getExcelFileName($user, $cycleDate);
         TransferService::createTransactionsExcel($transactions, $file_name);
 
         $amount = TransferService::getAmount($transactions, $user);
@@ -168,8 +159,7 @@ class TransferController extends Controller
             $status = $request->get('status', 'pending');
 
             $data = [
-                'from' => $fromDate,
-                'to' => $toDate,
+                'cycle_date' => $cycleDate,
                 'transfer_fees' => $transfer_fees,
 
                 'user_id' => $user->id,

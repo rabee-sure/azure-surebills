@@ -284,7 +284,6 @@ class BillController extends Controller
     {
         $application = $request->application;
 
-
         $bill = Bill::find($id);
         if(!isset($bill)){
            return response()->json([

@@ -21,7 +21,9 @@
               <p slot="title">{{ __('Transfers')}}</p>
               <Table :columns="transfersTable" :data="transfers" :no-data-text="__('No Data')">
                   <template slot-scope="{ row }" slot="fromto">
-                      {{ __(row.filter_from) }} - {{ __(row.filter_to) }}
+                    <div v-if="row.filter_from">{{ __(row.filter_to) }}</div>
+                    <div v-else>{{ __(row.cycle_date) }}</div>
+                      
                   </template>
                   <template slot-scope="{ row }" slot="status">
                       <Badge v-if="row.status_bool" status="success" />
@@ -104,7 +106,7 @@ export default {
                     width: 120,
                 },
                 {
-                    title: this.__('From - To'),
+                    title: this.__('Cycle Date'),
                     slot: 'fromto',
                     width: 300,
                 },
