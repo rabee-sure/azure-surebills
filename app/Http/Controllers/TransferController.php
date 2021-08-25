@@ -89,7 +89,7 @@ class TransferController extends Controller
         // $from = $user->created_at;
 
         $file_name = $this->getExcelFileName($user, $cycleDate);
-        $transactions = TransferService::getTransactionsBetweenDate($cycleDate, $user, $file_name);
+        $transactions = TransferService::getTransactionsByCycleDate($cycleDate, $user, $file_name);
 
         $amount = TransferService::getAmount($transactions, $user);
         $settings =  Valuestore::make(storage_path('app/settings.json'));
@@ -145,6 +145,7 @@ class TransferController extends Controller
         TransferService::createTransactionsExcel($transactions, $file_name);
 
         $amount = TransferService::getAmount($transactions, $user);
+        
         if($transactions->where('pending_settled', true)->count() != 0 || $transactions->where('settled', true)->count() != 0){
             return response()->json(['error' => __('Bills duplicate in another transfer')], 422);
 

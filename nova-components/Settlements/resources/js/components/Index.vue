@@ -5,16 +5,6 @@
             </a>
           </li><li class="breadcrumbs__item"><span>{{ __('Pending Transfers') }}</span></li></ul></nav> <div></div>
           </div>
-<!--         <heading class="mb-6">Settlements</heading>
-
-        <select class="custom-select"  @change="onChange($event)" v-model="select">
-          <option selected value="">select User</option>
-          <option v-for="user in users" :value="user.id">{{ user.name }} - Balance {{user.balance}}</option>
-        </select>
-        <a v-if="select" :href="'/nova/settlements/'+user.id+'/create'">
-          create Settlement
-        </a>
- -->
 
       <div style="padding-top: 10px;">
           <Card :bordered="false">
@@ -25,17 +15,18 @@
                     <div v-else>{{ __(row.cycle_date) }}</div>
                       
                   </template>
-                  <template slot-scope="{ row }" slot="status">
-                      <Badge v-if="row.status_bool" status="success" />
-                      <Badge v-else status="warning" />
-                  </template>
 
                   <template slot-scope="{ row, index }" slot="confirm">              
-                    <i-switch :disabled="!row.status_is_pending" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id)" false-color="#f90" true-color="#13ce66" :ref="'switch' + row.id" />
+                    <i-switch v-if="row.status == 'pending' || row.status =='completed'" :disabled="!row.status_is_pending" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id, 'completed')" false-color="#f90" true-color="#13ce66" :ref="'switch' + row.id" />
+                  </template>
+
+
+                  <template slot-scope="{ row, index }" slot="sps">              
+                    <i-switch  v-if="row.status == 'pending' || row.status =='send_to_sps'" :disabled="!row.status_is_pending" :loading="switch_loading" v-model="row.status_sps" @on-change="changeStatus($event, row.id, 'send_to_sps')"  :ref="'switch' + row.id" />
                   </template>
 
                   <template slot-scope="{ row, index }" slot="cancel">              
-                      <Button :disabled="row.status == 'canceled' || row.status == 'completed'" :loading="cancel_loading" @click="cancelTranfer(row.id)"  type="error" icon="ios-close-circle" >{{ __('Cancel')}}</Button>
+                      <Button :disabled="row.status == 'canceled' || row.status == 'completed' || row.status == 'send_to_sps'" :loading="cancel_loading" @click="cancelTranfer(row.id)"  type="error" icon="ios-close-circle" >{{ __('Cancel')}}</Button>
 
                   </template>
 
@@ -108,7 +99,7 @@ export default {
                 {
                     title: this.__('Cycle Date'),
                     slot: 'fromto',
-                    width: 300,
+                    width: 120,
                 },
                 // {
                 //     title: this.__('Created By'),
@@ -122,6 +113,12 @@ export default {
                 {
                     title: this.__('Confirm Transfer'),
                     slot: 'confirm',
+                    width: 150,
+                    align: 'center'
+                },
+                {
+                    title: this.__('Send To SPS'),
+                    slot: 'sps',
                     width: 150,
                     align: 'center'
                 },
@@ -176,8 +173,8 @@ export default {
         changePage(page) {
             this.getTransfers(page)
         },
-        changeStatus(status, id) {
-
+        changeStatus(e, id, status) {
+            console.log('status ' + status);
               this.$Modal.confirm({
                     title: this.__('Attention'),
                     content: this.__('Are you sure you confirm transfer, this action cannot be undone'),
@@ -186,7 +183,7 @@ export default {
                     onOk: () => {
                         this.switch_loading = true;
                         Nova.request().put('/transfers/'+id+'/change_status', {
-                            status: status? 'completed': 'pending',
+                            status: status,
                         })
                         .then(response => {
                             var index = this.transfers.map(function(x) {return x.id; }).indexOf(id);

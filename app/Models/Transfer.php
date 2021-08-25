@@ -104,4 +104,16 @@ class Transfer extends Model
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
+
+
+    /**
+     * Get user.
+     *
+     * @return Collection
+     */
+    public function logs()
+    {
+        return $this->belongsTo(TransferLog::class);
+    }   
+
 }

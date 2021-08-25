@@ -11,6 +11,7 @@ use App\Mail\AutoTransferMail;
 use App\Models\Bill;
 use App\Models\Transaction;
 use App\Models\Transfer;
+use App\Models\TransferLog;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -19,27 +20,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class TransferService 
 {
     /**
-     * get To Date foryouser.
-     *
-     * @return Carbon\Carbon
-     */
-    public static function getFromDate($user)
-    {
-        $last_transfer = $user->transfers()->latest()->first();
-        
-        if(isset($last_transfer) && isset($last_transfer->filters['date']['to'])){
-            return Carbon::parse($last_transfer->filters['date']['to']);
-        }else{
-            return $user->created_at;
-        }
-    }
-
-    /**
      * get bills Between Date.
      *
      * @return \Illuminate\Http\Response
      */
-    public static function getTransactionsBetweenDate($cycleDate, $user, $excel_file_name = null)
+    public static function getTransactionsByCycleDate($cycleDate, $user, $excel_file_name = null)
     {
         $cycleDate = $cycleDate->copy()->endOfDay()->toDateTimeString();
 
@@ -74,26 +59,7 @@ class TransferService
             $transactions->where('type', 'credit')->sum('amount') -
             $transactions->where('type', 'debit')->sum('amount')
             , 2);
-    }
-
-    /**
-     * get Amount.
-     *
-     * @param  App\Bill  $bills
-     * @param  App\User  $user
-     * @return double
-     */
-    public static function getAmountBetweenDate($bills, $user, $from, $to)
-    {
-        $billsids = $bills->pluck('id')->toArray();
-        $transactions = Transaction::whereIn('bill_id', $billsids)
-            ->whereBetween('created_at', [$from, $to])
-            ->where('user_id', $user->id)
-            ->orderBy('created_at', 'ASC')
-            ->orderBy('receipt', 'ASC')
-            ->get();
-        return round($transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'), 2);
-    }    
+    }  
 
     /**
      * create Transactions Excel.
@@ -109,28 +75,6 @@ class TransferService
         $file_name = implode('/', $array);
         $data = json_decode((TransactionResource::collection($transactions))->toJson(), true);
         return Excel::store(new TransactionsExport($data), $file_name);
-    }
-
-
-    /**
-     * create Transfer Transaction.
-     *
-     * @param  App\Models\Transfer  $transfer
-     * @return void
-     */
-    public static function createTransferTransaction($transfer)
-    {
-        $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
-        $bankNumber = substr($transfer->user->iban_number, -4);
-
-        $transaction = new Transaction;
-        $transaction->user_id     = $transfer->user_id;
-        $transaction->type        = 'debit';
-        $transaction->amount      = $transfer->amount;
-        $transaction->reference   = $transfer->id;
-        $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
-        $transaction->transaction_source = 'transfer';
-        $transaction->save();    
     }
 
     /**
@@ -169,6 +113,12 @@ class TransferService
                 ],
             ]);
 
+            TransferLog::create([
+                'type' => 'create transfer',
+                'user_id' => auth()->user()->id,
+                'transfer_id' => $transfer->id,
+            ]);
+
             foreach ($transactions as $transaction) {
                 if($status == 'completed'){
                     if($transaction->user_id == $data['user_id']){
@@ -186,8 +136,28 @@ class TransferService
                 TransferService::createTransferTransaction($transfer);
             }
 
-
             return $transfer;
         }); 
+    }
+
+    /**
+     * create Transfer Transaction.
+     *
+     * @param  App\Models\Transfer  $transfer
+     * @return void
+     */
+    public static function createTransferTransaction($transfer)
+    {
+        $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
+        $bankNumber = substr($transfer->user->iban_number, -4);
+
+        $transaction = new Transaction;
+        $transaction->user_id     = $transfer->user_id;
+        $transaction->type        = 'debit';
+        $transaction->amount      = $transfer->amount;
+        $transaction->reference   = $transfer->id;
+        $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
+        $transaction->transaction_source = 'transfer';
+        $transaction->save();    
     }
 }

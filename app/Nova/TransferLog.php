@@ -11,7 +11,7 @@ use App\Nova\Metrics\TotalDue;
 use App\Nova\Metrics\TotalIncome;
 use App\Nova\Metrics\TotalPaid;
 use App\Nova\Metrics\TotalVatOnCommissions;
-use App\Rules\TransferBalance;
+use App\Rules\TransferLogBalance;
 use App\Rules\ValidateUploadFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,7 +24,6 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Password;
@@ -35,7 +34,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Titasgailius\SearchRelations\SearchesRelations;
 
-class Transfer extends Resource
+class TransferLog extends Resource
 {
     use SearchesRelations;
     /**
@@ -43,7 +42,7 @@ class Transfer extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Transfer::class;
+    public static $model = \App\Models\TransferLog::class;
 
     public static $displayInNavigation = false;
 
@@ -54,7 +53,7 @@ class Transfer extends Resource
      */
     public static function label()
     {
-        return __('Transfers');
+        return __('Transfer Logs');
     }
 
     /**
@@ -64,7 +63,7 @@ class Transfer extends Resource
      */
     public static function singularLabel()
     {
-        return __('Transfer');
+        return __('Transfer Log');
     }
 
     /**
@@ -103,55 +102,6 @@ class Transfer extends Resource
         return [
             ID::make()->sortable(),
             BelongsTo::make(__('User'), 'user', User::class)->searchable(),
-            Number::make(__('Amount'), 'amount')
-                ->min(1)
-                ->step(0.1)
-                ->rules('required', new TransferBalance($request->viaResourceId)),
-
-            Number::make(__('Transfer Fees'), 'transfer_fees')
-                ->min(1)
-                ->step(0.1)
-                ->rules('required'),
-
-            Number::make(__('Net Amount'), 'net_amount')
-                ->min(1)
-                ->step(0.1)
-                ->rules('required'),
-
-            Textarea::make(__('Note'), 'note'),
-            File::make(__('Attachment'), 'attachment')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])),
-
-            Text::make(__('Cycle Date'))->displayUsing(function(){
-                if(isset($this->filters['date'])){
-                    $to = (isset($this->filters['date']['to'])) ? Carbon::parse($this->filters['date']['to'])->toDateString(): null;
-                    $cycle_date = (isset($this->filters['date']['cycle_date'])) ? Carbon::parse($this->filters['date']['cycle_date'])->toDateString(): '-';
-                    return  $to ?? $cycle_date;
-                }
-                return '-';
-
-            }),
-
-            DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
-
-            Indicator::make(__('Status'), 'status')
-                ->labels([
-                    'pending' => __('pending transfer'),
-                    'send_to_sps' => __('Send To SPS'),
-                    'completed' => __('completed transfer'),
-                    'failed' => __('Failed'),
-                    'canceled' => __('canceled'),
-                ])
-                ->colors([
-                    'canceled' => 'grey',
-                    'completed' => 'green',
-                    'send_to_sps' => 'blue',
-                    'failed' => 'red',
-                    'pending' => 'warning',
-                ]),
-
-            // BelongsToMany::make(__('Bills'), 'bills', Bill::class),
-            BelongsToMany::make(__('Transactions'), 'transactions', Transaction::class),
-            HasMany::make(__('Logs'), 'logs', TransferLog::class),
         ];
     }
 
