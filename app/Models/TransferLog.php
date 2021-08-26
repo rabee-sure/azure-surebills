@@ -15,6 +15,7 @@ class TransferLog extends Model
         'status',
         'results',
         'transfer_id',
+        'transfer_status',
     ];
 
 

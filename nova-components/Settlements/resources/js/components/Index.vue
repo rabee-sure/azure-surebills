@@ -37,6 +37,13 @@
                           </div>
                       </Upload>
                   </template>
+                    <template slot-scope="{ row, index }" slot="show_transfer">
+                        <span class="inline-flex">
+                            <a :href="'/nova/resources/transfers/'+row.id" class="cursor-pointer text-70 hover:text-primary mr-3 inline-flex items-center has-tooltip" data-testid="transfers-items-0-view-button" dusk="165-view-button" data-original-title="null" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="18" viewBox="0 0 22 16" aria-labelledby="view" role="presentation" class="fill-current"><path d="M16.56 13.66a8 8 0 0 1-11.32 0L.3 8.7a1 1 0 0 1 0-1.42l4.95-4.95a8 8 0 0 1 11.32 0l4.95 4.95a1 1 0 0 1 0 1.42l-4.95 4.95-.01.01zm-9.9-1.42a6 6 0 0 0 8.48 0L19.38 8l-4.24-4.24a6 6 0 0 0-8.48 0L2.4 8l4.25 4.24h.01zM10.9 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path></svg>
+                            </a>
+                        </span>
+                  </template>
               </Table>
               <div style="margin: 10px;overflow: hidden">
                   <div style="float: right;">
@@ -132,6 +139,12 @@ export default {
                     title: this.__('Transfer Deed'),
                     slot: 'deed',
                     width: 150,
+                    align: 'center'
+                },
+                {
+                    title: this.__('Show'),
+                    slot: 'show_transfer',
+                    width: 100,
                     align: 'center'
                 }
             ],

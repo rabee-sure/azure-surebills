@@ -117,7 +117,7 @@ class TransferService
                 'type' => 'create transfer',
                 'user_id' => auth()->user()->id,
                 'transfer_id' => $transfer->id,
-                'transfer_status' => $transfer->status,
+                'transfer_status' => $status,
             ]);
 
             foreach ($transactions as $transaction) {
@@ -135,6 +135,8 @@ class TransferService
 
             if($status == 'completed'){
                 TransferService::createTransferTransaction($transfer);
+            }elseif($status == 'send_to_sps'){
+                $this->sendToSPS($transfer, $log);
             }
 
             return $transfer;
@@ -160,5 +162,26 @@ class TransferService
         $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
         $transaction->transaction_source = 'transfer';
         $transaction->save();    
+    }
+
+
+    /**
+     * create Transfer Transaction.
+     *
+     * @param  App\Models\Transfer  $transfer
+     * @return void
+     */
+    protected function sendToSPS($transfer, $log)
+    {
+        $body = [
+            'ReferenceNumber' => $transfer->id,
+            'Amount' => $transfer->amount,
+            'BeneficiaryName' => $transfer->user->beneficiary_name,
+            'BeneficiaryIban' => $transfer->user->iban_number,
+            'BeneficiaryStreet' => $transfer->user->business_address,
+            'BeneficiaryCountry' => 'SA',
+            'BeneficiaryBank' => $transfer->user->bank->code,
+        ];
+        //here request to transfer/sps
     }
 }
