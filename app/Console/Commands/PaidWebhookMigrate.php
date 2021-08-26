@@ -52,6 +52,7 @@ class PaidWebhookMigrate extends Command
             WebhookCall::create()
                 ->url($bill->application->webhook_url)
                 ->payload([
+                    'bill_number' => $bill->number,
                     'reference_id' => $bill->reference_id,
                     'status' => $bill->status,
                     'bill_id' => $bill->id,
