@@ -202,6 +202,7 @@ class Bill extends Model
     public function getBackUrlAttribute()
     {
         $data = [
+            'bill_number='.$this->number,
             'reference_id='.$this->reference_id,
             'status=fail',
             'bill_id='.$this->id,
@@ -219,6 +220,7 @@ class Bill extends Model
     public function getRedirectUrlAttribute()
     {
         $data = [
+            'bill_number='.$this->number,
             'reference_id='.$this->reference_id,
             'status='.$this->status,
             'bill_id='.$this->id,
@@ -243,6 +245,7 @@ class Bill extends Model
         }
 
         $data = [
+            'bill_number='.$this->number,
             'reference_id='.$this->reference_id,
             'status='.$this->status,
             'bill_id='.$this->id,
