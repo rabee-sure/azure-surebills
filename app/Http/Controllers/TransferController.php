@@ -9,6 +9,7 @@ use App\Models\Bank;
 use App\Models\Bill;
 use App\Models\Transaction;
 use App\Models\Transfer;
+use App\Models\TransferLog;
 use App\Models\User;
 use App\Services\TransferService;
 use Carbon\Carbon;
@@ -192,6 +193,14 @@ class TransferController extends Controller
     {
         $transfer->status = $request->status;
         $transfer->save();
+
+         $log = TransferLog::create([
+            'type' => $request->status.' transfer',
+            'user_id' => auth()->user()->id,
+            'transfer_id' => $transfer->id,
+            'transfer_status' => $transfer->status,
+        ]);
+
         if($request->status == 'completed'){
 
             TransferService::createTransferTransaction($transfer);
@@ -236,7 +245,14 @@ class TransferController extends Controller
             $transaction->pending_settled = false; 
             $transaction->save();
         }
- 
+
+         $log = TransferLog::create([
+            'type' => 'cancel transfer',
+            'user_id' => auth()->user()->id,
+            'transfer_id' => $transfer->id,
+            'transfer_status' => $transfer->status,
+        ]);
+
         return new TransferResource($transfer);
     }
 

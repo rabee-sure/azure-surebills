@@ -16,6 +16,7 @@ class CreateTransferLogsTable extends Migration
         Schema::create('transfer_logs', function (Blueprint $table) {
             $table->id();
             $table->string('type');
+            $table->string('transfer_status')->nullable();
             $table->integer('status')->default(0);
             $table->json('results')->nullable();
             $table->unsignedBigInteger('user_id')->nullable()->index();

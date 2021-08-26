@@ -101,6 +101,23 @@ class TransferLog extends Resource
     {
         return [
             ID::make()->sortable(),
+            Text::make(__('Type'), 'type'),
+     
+            Indicator::make(__('Transfer Status'), 'transfer_status')
+                ->labels([
+                    'pending' => __('pending transfer'),
+                    'send_to_sps' => __('Send To SPS'),
+                    'completed' => __('completed transfer'),
+                    'failed' => __('Failed'),
+                    'canceled' => __('canceled'),
+                ])
+                ->colors([
+                    'canceled' => 'grey',
+                    'completed' => 'green',
+                    'send_to_sps' => 'blue',
+                    'failed' => 'red',
+                    'pending' => 'warning',
+                ]),
             BelongsTo::make(__('User'), 'user', User::class)->searchable(),
         ];
     }
@@ -118,11 +135,6 @@ class TransferLog extends Resource
     public function cards(Request $request)
     {
         return [
-            // (new TotalIncome)->width('1/5'),
-            // (new TotalCommissions)->width('1/5'),
-            // (new TotalVatOnCommissions)->width('1/5'),
-            // (new TotalPaid)->width('1/5'),
-            // (new TotalDue)->width('1/5'),
         ];
     }
 
@@ -135,8 +147,6 @@ class TransferLog extends Resource
     public function filters(Request $request)
     {
         return [
-            new DateRange(),
-            new UserName(),
         ];
     }
 
@@ -154,16 +164,6 @@ class TransferLog extends Resource
     public function actions(Request $request)
     {
         return [
-            // (new TranferBillsExcelDownload)
-            //     ->onlyOnDetail()
-            //     ->canRun(function(NovaRequest $request) {
-            //         return TRUE;
-            //     }),
-            (new TranferTransactionsExcelDownload)
-                ->onlyOnDetail()
-                ->canRun(function(NovaRequest $request) {
-                    return TRUE;
-                }),
         ];
     }
 

@@ -113,10 +113,11 @@ class TransferService
                 ],
             ]);
 
-            TransferLog::create([
+            $log = TransferLog::create([
                 'type' => 'create transfer',
                 'user_id' => auth()->user()->id,
                 'transfer_id' => $transfer->id,
+                'transfer_status' => $transfer->status,
             ]);
 
             foreach ($transactions as $transaction) {

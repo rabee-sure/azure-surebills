@@ -113,7 +113,7 @@ class Transfer extends Model
      */
     public function logs()
     {
-        return $this->belongsTo(TransferLog::class);
+        return $this->hasMany(TransferLog::class);
     }   
 
 }
