@@ -45,6 +45,7 @@ class SendSubAccountSettledWebhook
                    ->url($channel->sub_account_settled_webhook)
                    ->payload([
                         'type' => 'TransferCompleted',
+                        'account_id' => $transfer->user_id,
                         'transfer' => new WebhookTransferResource($transfer),
                    ])
                    ->useSecret($channel->secret_token)

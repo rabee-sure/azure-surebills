@@ -33,13 +33,13 @@ class SaveWebhookFailedLog implements ShouldQueue
      */
     public function handle(WebhookCallFailedEvent $event)
     {
-        $bill = Bill::find($event->payload['bill_id']);
+        $bill = Bill::find($event->payload['bill_id']??null);
 
         $log = new WebhookLog;
         $log->status = 0;
-        $log->bill_id = $bill->id;
-        $log->user_id = $bill->user_id;
-        $log->application_id = $bill->application_id;
+        $log->bill_id = $bill->id ?? null;
+        $log->user_id = $bill->user_id ?? $event->payload['account_id'];
+        $log->application_id = $bill->application_id ?? null;
         $log->error_message = $event->errorMessage;
         $log->status_code = $event->response? $event->response->getStatusCode():0;
         $log->response = $event->response? json_decode($event->response->getBody(), true): [];
