@@ -60106,7 +60106,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60217,8 +60217,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -60254,7 +60252,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }, {
                 title: this.__('Cycle Date'),
                 slot: 'fromto',
-                width: 300
+                width: 120
             },
             // {
             //     title: this.__('Created By'),
@@ -60270,6 +60268,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 width: 150,
                 align: 'center'
             }, {
+                title: this.__('Send To SPS'),
+                slot: 'sps',
+                width: 150,
+                align: 'center'
+            }, {
                 title: this.__('Cancel Transfer'),
                 slot: 'cancel',
                 width: 150,
@@ -60278,6 +60281,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 title: this.__('Transfer Deed'),
                 slot: 'deed',
                 width: 150,
+                align: 'center'
+            }, {
+                title: this.__('Show'),
+                slot: 'show_transfer',
+                width: 100,
                 align: 'center'
             }]
         };
@@ -60326,9 +60334,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         changePage: function changePage(page) {
             this.getTransfers(page);
         },
-        changeStatus: function changeStatus(status, id) {
+        changeStatus: function changeStatus(e, id, status) {
             var _this4 = this;
 
+            console.log('status ' + status);
             this.$Modal.confirm({
                 title: this.__('Attention'),
                 content: this.__('Are you sure you confirm transfer, this action cannot be undone'),
@@ -60337,7 +60346,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 onOk: function onOk() {
                     _this4.switch_loading = true;
                     Nova.request().put('/transfers/' + id + '/change_status', {
-                        status: status ? 'completed' : 'pending'
+                        status: status
                     }).then(function (response) {
                         var index = _this4.transfers.map(function (x) {
                             return x.id;
@@ -60408,9 +60417,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.__("Home")) +
-                      "\n            "
+                    "\n            " + _vm._s(_vm.__("Home")) + "\n        "
                   )
                 ]
               )
@@ -60455,43 +60462,72 @@ var render = function() {
                     }
                   },
                   {
-                    key: "status",
-                    fn: function(ref) {
-                      var row = ref.row
-                      return [
-                        row.status_bool
-                          ? _c("Badge", { attrs: { status: "success" } })
-                          : _c("Badge", { attrs: { status: "warning" } })
-                      ]
-                    }
-                  },
-                  {
                     key: "confirm",
                     fn: function(ref) {
                       var row = ref.row
                       var index = ref.index
                       return [
-                        _c("i-switch", {
-                          ref: "switch" + row.id,
-                          attrs: {
-                            disabled: !row.status_is_pending,
-                            loading: _vm.switch_loading,
-                            "false-color": "#f90",
-                            "true-color": "#13ce66"
-                          },
-                          on: {
-                            "on-change": function($event) {
-                              return _vm.changeStatus($event, row.id)
-                            }
-                          },
-                          model: {
-                            value: row.status_bool,
-                            callback: function($$v) {
-                              _vm.$set(row, "status_bool", $$v)
-                            },
-                            expression: "row.status_bool"
-                          }
-                        })
+                        row.status == "pending" || row.status == "completed"
+                          ? _c("i-switch", {
+                              ref: "switch" + row.id,
+                              attrs: {
+                                disabled: !row.status_is_pending,
+                                loading: _vm.switch_loading,
+                                "false-color": "#f90",
+                                "true-color": "#13ce66"
+                              },
+                              on: {
+                                "on-change": function($event) {
+                                  return _vm.changeStatus(
+                                    $event,
+                                    row.id,
+                                    "completed"
+                                  )
+                                }
+                              },
+                              model: {
+                                value: row.status_bool,
+                                callback: function($$v) {
+                                  _vm.$set(row, "status_bool", $$v)
+                                },
+                                expression: "row.status_bool"
+                              }
+                            })
+                          : _vm._e()
+                      ]
+                    }
+                  },
+                  {
+                    key: "sps",
+                    fn: function(ref) {
+                      var row = ref.row
+                      var index = ref.index
+                      return [
+                        row.status == "pending" || row.status == "send_to_sps"
+                          ? _c("i-switch", {
+                              ref: "switch" + row.id,
+                              attrs: {
+                                disabled: !row.status_is_pending,
+                                loading: _vm.switch_loading
+                              },
+                              on: {
+                                "on-change": function($event) {
+                                  return _vm.changeStatus(
+                                    $event,
+                                    row.id,
+                                    "send_to_sps"
+                                  )
+                                }
+                              },
+                              model: {
+                                value: row.status_sps,
+                                callback: function($$v) {
+                                  _vm.$set(row, "status_sps", $$v)
+                                },
+                                expression: "row.status_sps"
+                              }
+                            })
+                          : _vm._e()
                       ]
                     }
                   },
@@ -60507,7 +60543,8 @@ var render = function() {
                             attrs: {
                               disabled:
                                 row.status == "canceled" ||
-                                row.status == "completed",
+                                row.status == "completed" ||
+                                row.status == "send_to_sps",
                               loading: _vm.cancel_loading,
                               type: "error",
                               icon: "ios-close-circle"
@@ -60557,6 +60594,55 @@ var render = function() {
                             )
                           ]
                         )
+                      ]
+                    }
+                  },
+                  {
+                    key: "show_transfer",
+                    fn: function(ref) {
+                      var row = ref.row
+                      var index = ref.index
+                      return [
+                        _c("span", { staticClass: "inline-flex" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass:
+                                "cursor-pointer text-70 hover:text-primary mr-3 inline-flex items-center has-tooltip",
+                              attrs: {
+                                href: "/nova/resources/transfers/" + row.id,
+                                "data-testid": "transfers-items-0-view-button",
+                                dusk: "165-view-button",
+                                "data-original-title": "null",
+                                target: "_blank"
+                              }
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass: "fill-current",
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    width: "22",
+                                    height: "18",
+                                    viewBox: "0 0 22 16",
+                                    "aria-labelledby": "view",
+                                    role: "presentation"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M16.56 13.66a8 8 0 0 1-11.32 0L.3 8.7a1 1 0 0 1 0-1.42l4.95-4.95a8 8 0 0 1 11.32 0l4.95 4.95a1 1 0 0 1 0 1.42l-4.95 4.95-.01.01zm-9.9-1.42a6 6 0 0 0 8.48 0L19.38 8l-4.24-4.24a6 6 0 0 0-8.48 0L2.4 8l4.25 4.24h.01zM10.9 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          )
+                        ])
                       ]
                     }
                   }
@@ -60708,7 +60794,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60849,6 +60935,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -60859,6 +60946,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             statuses: [{
+                value: 'send_to_sps',
+                label: this.__('Send To SPS')
+            }, {
                 value: 'pending',
                 label: this.__('Pending Transfer')
             }, {
@@ -61768,10 +61858,19 @@ var render = function() {
                             })
                           : _vm._e(),
                         _vm._v(" "),
+                        row.status == "send_to_sps"
+                          ? _c("Badge", {
+                              attrs: {
+                                status: "processing",
+                                text: _vm.__("Send To SPS")
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
                         row.status == "canceled"
                           ? _c("Badge", {
                               attrs: {
-                                status: "error",
+                                status: "Default",
                                 text: _vm.__("canceled")
                               }
                             })
@@ -61783,6 +61882,12 @@ var render = function() {
                                 status: "warning",
                                 text: _vm.__("pending transfer")
                               }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        row.status == "failed"
+                          ? _c("Badge", {
+                              attrs: { status: "error", text: _vm.__("Failed") }
                             })
                           : _vm._e()
                       ]

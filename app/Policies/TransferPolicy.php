@@ -59,6 +59,7 @@ class TransferPolicy
         return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
     }
 
+
     /**
      * Determine whether the user can create models.
      *
