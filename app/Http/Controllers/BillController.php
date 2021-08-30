@@ -173,6 +173,10 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
+        // dd([
+        //     'bill_' => $bill->due_to_client,
+        //     'balance' => auth()->user()->balance
+        // ]);
         return view('bills.show', ['bill' => $bill]);
     }
 
@@ -324,7 +328,7 @@ class BillController extends Controller
             if($bill->setRefunded()){
                 $bill->setPartialRefunded($request->amount);
             }
-        } else if ($bill->total <= $bill->user->balance){
+        } else if ($bill->due_to_client <= $bill->user->balance){
             if($bill->setRefunded()){
                 return redirect()->back();
             }

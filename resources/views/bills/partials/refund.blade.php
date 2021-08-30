@@ -13,7 +13,7 @@
 
                 <div class="modal-body">
                     <div class="select_refund">
-                        @if($bill->sub_total <= auth()->user()->balance)
+                        @if($bill->due_to_client <= auth()->user()->balance)
                         <label for="ConfirmRefund" class="position-relative d-block">
                             <input  type="radio" id="ConfirmRefund" name="refund" class="position-absolute w-100 h-100" value="refund" checked>
                             <div class="txt bg-light border text-body p-2 mb-2 d-flex align-items-center justify-content-start">
@@ -40,7 +40,7 @@
                     </div><!-- form-group -->
                 </div><!-- modal-body -->
                 <div class="modal-footer"> 
-                    <button type="submit" class="btn btn-primary" id="refund_btn" @if($bill->sub_total > auth()->user()->balance) disabled @endif>
+                    <button type="submit" class="btn btn-primary" id="refund_btn" @if($bill->due_to_client > auth()->user()->balance) disabled @endif>
                         {{__('Save')}}
                     </button>
                     <button id="refund_cancel" type="button" class="btn btn-secondary ml-2" data-dismiss="modal">
