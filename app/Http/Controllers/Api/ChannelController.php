@@ -142,6 +142,7 @@ class ChannelController extends Controller
         $application->save();
 
         return [
+            'account_id'     => $user->id,
             'client_id'      => $application->id,
             'secret'         => $application->secret,
             'webhook_secret' => $application->webhook_secret

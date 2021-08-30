@@ -322,7 +322,7 @@ export default {
                             duration:3,
                             render: h => {
                                 return h('span', [
-                                    this.language == 'en'? 'No bills in selected date range': 'لا يوجد اي فواتير في التاريخ'
+                                    this.language == 'en'? 'No transaction on this date': 'لا يوجد معاملات في هذا التاريخ'
                                 ])
                             }
                         });
