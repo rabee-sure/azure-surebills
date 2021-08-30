@@ -66,7 +66,7 @@ class TransferAutomatic extends Command
             });
             foreach ($filtered_users as $user) {
                 $file_name = $this->getExcelFileName($user, $cycleDate);
-                $transactions = TransferService::getTransactionsBetweenDate($cycleDate, $user, $file_name);
+                $transactions = TransferService::getTransactionsByCycleDate($cycleDate, $user, $file_name);
 
                 if($transactions->count()){
                     $amount = TransferService::getAmount($transactions);

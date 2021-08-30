@@ -5,16 +5,6 @@
             </a>
           </li><li class="breadcrumbs__item"><span>{{ __('Pending Transfers') }}</span></li></ul></nav> <div></div>
           </div>
-<!--         <heading class="mb-6">Settlements</heading>
-
-        <select class="custom-select"  @change="onChange($event)" v-model="select">
-          <option selected value="">select User</option>
-          <option v-for="user in users" :value="user.id">{{ user.name }} - Balance {{user.balance}}</option>
-        </select>
-        <a v-if="select" :href="'/nova/settlements/'+user.id+'/create'">
-          create Settlement
-        </a>
- -->
 
       <div style="padding-top: 10px;">
           <Card :bordered="false">
@@ -25,17 +15,18 @@
                     <div v-else>{{ __(row.cycle_date) }}</div>
                       
                   </template>
-                  <template slot-scope="{ row }" slot="status">
-                      <Badge v-if="row.status_bool" status="success" />
-                      <Badge v-else status="warning" />
-                  </template>
 
                   <template slot-scope="{ row, index }" slot="confirm">              
-                    <i-switch :disabled="!row.status_is_pending" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id)" false-color="#f90" true-color="#13ce66" :ref="'switch' + row.id" />
+                    <i-switch v-if="row.status == 'pending' || row.status =='completed'" :disabled="!row.status_is_pending" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id, 'completed')" false-color="#f90" true-color="#13ce66" :ref="'switch' + row.id" />
+                  </template>
+
+
+                  <template slot-scope="{ row, index }" slot="sps">              
+                    <i-switch  v-if="row.status == 'pending' || row.status =='send_to_sps'" :disabled="!row.status_is_pending" :loading="switch_loading" v-model="row.status_sps" @on-change="changeStatus($event, row.id, 'send_to_sps')"  :ref="'switch' + row.id" />
                   </template>
 
                   <template slot-scope="{ row, index }" slot="cancel">              
-                      <Button :disabled="row.status == 'canceled' || row.status == 'completed'" :loading="cancel_loading" @click="cancelTranfer(row.id)"  type="error" icon="ios-close-circle" >{{ __('Cancel')}}</Button>
+                      <Button :disabled="row.status == 'canceled' || row.status == 'completed' || row.status == 'send_to_sps'" :loading="cancel_loading" @click="cancelTranfer(row.id)"  type="error" icon="ios-close-circle" >{{ __('Cancel')}}</Button>
 
                   </template>
 
@@ -45,6 +36,13 @@
                               <Icon type="ios-cloud-upload" size="30" style="color: #3399ff"></Icon>
                           </div>
                       </Upload>
+                  </template>
+                    <template slot-scope="{ row, index }" slot="show_transfer">
+                        <span class="inline-flex">
+                            <a :href="'/nova/resources/transfers/'+row.id" class="cursor-pointer text-70 hover:text-primary mr-3 inline-flex items-center has-tooltip" data-testid="transfers-items-0-view-button" dusk="165-view-button" data-original-title="null" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="18" viewBox="0 0 22 16" aria-labelledby="view" role="presentation" class="fill-current"><path d="M16.56 13.66a8 8 0 0 1-11.32 0L.3 8.7a1 1 0 0 1 0-1.42l4.95-4.95a8 8 0 0 1 11.32 0l4.95 4.95a1 1 0 0 1 0 1.42l-4.95 4.95-.01.01zm-9.9-1.42a6 6 0 0 0 8.48 0L19.38 8l-4.24-4.24a6 6 0 0 0-8.48 0L2.4 8l4.25 4.24h.01zM10.9 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path></svg>
+                            </a>
+                        </span>
                   </template>
               </Table>
               <div style="margin: 10px;overflow: hidden">
@@ -108,7 +106,7 @@ export default {
                 {
                     title: this.__('Cycle Date'),
                     slot: 'fromto',
-                    width: 300,
+                    width: 120,
                 },
                 // {
                 //     title: this.__('Created By'),
@@ -126,6 +124,12 @@ export default {
                     align: 'center'
                 },
                 {
+                    title: this.__('Send To SPS'),
+                    slot: 'sps',
+                    width: 150,
+                    align: 'center'
+                },
+                {
                     title: this.__('Cancel Transfer'),
                     slot: 'cancel',
                     width: 150,
@@ -135,6 +139,12 @@ export default {
                     title: this.__('Transfer Deed'),
                     slot: 'deed',
                     width: 150,
+                    align: 'center'
+                },
+                {
+                    title: this.__('Show'),
+                    slot: 'show_transfer',
+                    width: 100,
                     align: 'center'
                 }
             ],
@@ -176,8 +186,8 @@ export default {
         changePage(page) {
             this.getTransfers(page)
         },
-        changeStatus(status, id) {
-
+        changeStatus(e, id, status) {
+            console.log('status ' + status);
               this.$Modal.confirm({
                     title: this.__('Attention'),
                     content: this.__('Are you sure you confirm transfer, this action cannot be undone'),
@@ -186,7 +196,7 @@ export default {
                     onOk: () => {
                         this.switch_loading = true;
                         Nova.request().put('/transfers/'+id+'/change_status', {
-                            status: status? 'completed': 'pending',
+                            status: status,
                         })
                         .then(response => {
                             var index = this.transfers.map(function(x) {return x.id; }).indexOf(id);
