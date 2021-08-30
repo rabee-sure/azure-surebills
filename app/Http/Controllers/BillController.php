@@ -325,9 +325,7 @@ class BillController extends Controller
         $bill = Bill::find($id);
 
         if($request->type == 'partial_refund'){
-            if($bill->setRefunded()){
-                $bill->setPartialRefunded($request->amount);
-            }
+            $bill->setPartialRefunded($request->amount);
         } else if ($bill->due_to_client <= $bill->user->balance){
             if($bill->setRefunded()){
                 return redirect()->back();
