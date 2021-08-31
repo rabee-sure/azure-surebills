@@ -56,6 +56,7 @@ class SurepayGenerate extends Command
             'name'     => 'sure easy admin',
             'mobile'   => '500000000',
             'password' => Hash::make($password),
+            'able_refund_with_fees' => false,
         ]);
         $user->save();
         event(new UserCreated($user));

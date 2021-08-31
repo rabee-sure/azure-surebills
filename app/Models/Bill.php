@@ -171,8 +171,10 @@ class Bill extends Model
      */
     public function getIsAbleTotalRefundAttribute()
     {
-        return $this->is_able_refund
-            && round($this->due_to_client) <= round($this->user->balance); 
+        $with_fees = $this->is_able_refund && round($this->due_to_client) <= round($this->user->balance);
+        $without_fees = $this->is_able_refund && $this->sub_total <= $this->user->balance;
+        
+        return $this->user->able_refund_with_fees ? $with_fees : $without_fees; 
     }
 
 

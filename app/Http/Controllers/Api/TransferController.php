@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\UserCreated;
 use App\Exceptions\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TransactionResource;

@@ -46,13 +46,14 @@ class CreateSureBillsAccount extends Command
      */
     public function handle()
     {
-         $user = User::updateOrCreate([
+        $user = User::updateOrCreate([
             'email'    => 'surebills@sura.com.sa',
         ],[
             'business_name_en' => 'surebills',
             'name'     => 'surebills admin',
             'mobile'   => '500000000',
             'password' => Hash::make('123456789Aa'),
+            'able_refund_with_fees' => false,
         ]);
         $user->save();
         event(new UserCreated($user));
