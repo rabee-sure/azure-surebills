@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Application;
 use App\Models\Customer;
 use App\Rules\AmountPartialRefund;
+use App\Rules\AmountPartialRefundGTBalance;
 use App\Rules\BillTotalValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -30,7 +31,7 @@ class RefundRequest extends FormRequest
     {
         return [
             'type' => ['nullable'],
-            'amount' => ['nullable', 'required_if:type,partial_refund', new AmountPartialRefund($this->id), 'integer', 'gt:0'],
+            'amount' => ['nullable', 'required_if:type,partial_refund', new AmountPartialRefund($this->id), 'integer', 'gt:0', new AmountPartialRefundGTBalance($this->id)],
         ];
     }
 

@@ -175,7 +175,8 @@ class BillController extends Controller
     {
         // dd([
         //     'bill_' => $bill->due_to_client,
-        //     'balance' => auth()->user()->balance
+        //     'balance' => auth()->user()->balance,
+        //     'if' => $bill->is_able_total_refund,
         // ]);
         return view('bills.show', ['bill' => $bill]);
     }
