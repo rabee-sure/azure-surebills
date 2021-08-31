@@ -19,7 +19,6 @@
                 </Col>
             </Row>
 
-
             <FormItem :label="__('Amount')" prop="amount">
                 <InputNumber :min="1" :step=".5" size="large" placeholder="Enter number" name="amount" v-model="form.amount"
                 :formatter="value => `${value} SAR`"
@@ -82,8 +81,10 @@
                 </template>
                 <template slot-scope="{ row }" slot="status">
                     <Badge v-if="row.status == 'completed'" status="success" :text="__('completed transfer')"/>
-                    <Badge v-if="row.status == 'canceled'" status="error" :text="__('canceled')"/>
+                    <Badge v-if="row.status == 'send_to_sps'" status="processing" :text="__('Send To SPS')"/>
+                    <Badge v-if="row.status == 'canceled'" status="Default" :text="__('canceled')"/>
                     <Badge v-if="row.status == 'pending'" status="warning" :text="__('pending transfer')"/>
+                    <Badge v-if="row.status == 'failed'" status="error" :text="__('Failed')"/>
                 </template>
 
                 <template slot-scope="{ row, index }" slot="action">
@@ -136,6 +137,10 @@ export default {
     data() {
         return {
              statuses: [
+                {
+                    value: 'send_to_sps',
+                    label: this.__('Send To SPS')
+                },                
                 {
                     value: 'pending',
                     label: this.__('Pending Transfer')
