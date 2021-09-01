@@ -1,6 +1,9 @@
 {
     "Ok": "موافق",
     "save": "حفظ",
+        "cycle date": "التاريخ الدوري",
+        "Cycle Date": "التاريخ الدوري",
+
     "Cancel Transfer": "إلغاء التحويل",
     "completed transfer": "تحويل مأكد",
     "pending transfer": "تحويل تحت الانتظار",
