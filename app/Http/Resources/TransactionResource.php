@@ -29,7 +29,7 @@ class TransactionResource extends JsonResource
             'auth_id'        => $this->auth_id,
             'receipt'        => $this->receipt,
             'customer_notes' => $this->bill->customer_notes ?? null,
-            'reference_id'   => $this->bill->reference_id ?? null,
+            'reference_id'   => $this->bill->reference_id ?? $this->reference,
             'created_at' => $this->created_at->format('d/m/Y H:i'),
         ];
     }
