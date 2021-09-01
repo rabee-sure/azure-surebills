@@ -221,7 +221,7 @@
               </div><!-- form-group -->
             </div><!-- form-row -->
             <div class="d-flex justify-content-start mt-3">
-              <button type="submit" class="btn btn-primary btn-lg login_button"> {{__('Send')}}</button>
+              <button id="create-bill" type="submit" class="btn btn-primary btn-lg login_button"> {{__('Send')}}</button>
             </div><!-- d-flex  -->
           </form>
         </div>
@@ -235,6 +235,12 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="{{ asset('js/jquery.repeater.min.js') }}" defer></script>
   <script>
+
+  $('#create-bill').click(function() {
+      $(this).attr('disabled','disabled');
+      $('#bill_create').submit();
+      return true;
+  });
 
     $(document).on("change", ".qty1", function() {
         var name = $(this).attr('name');
@@ -319,9 +325,7 @@
       minLength: 1
    });
   });
-  </script>
 
-<script>
     $('.inner-repeater').on('keypress', '.product_price',function (e) {
         var key = e.which;
         if(key == 13)  // the enter key code
