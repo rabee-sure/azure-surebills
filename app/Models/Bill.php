@@ -165,6 +165,18 @@ class Bill extends Model
 
 
     /**
+     * Redirect Url.
+     *
+     * @var string
+     */
+    public function getIsAbleTotalRefundAttribute()
+    {
+        return $this->is_able_refund
+            && round($this->due_to_client) <= round($this->user->balance); 
+    }
+
+
+    /**
      * Translation Status.
      *
      * @var array

@@ -13,24 +13,27 @@
 
                 <div class="modal-body">
                     <div class="select_refund">
-                        @if($bill->sub_total <= auth()->user()->balance)
-                        <label for="ConfirmRefund" class="position-relative d-block">
-                            <input  type="radio" id="ConfirmRefund" name="refund" class="position-absolute w-100 h-100" value="refund" checked>
-                            <div class="txt bg-light border text-body p-2 mb-2 d-flex align-items-center justify-content-start">
+                        @if($bill->is_able_total_refund)
+                            <label for="ConfirmRefund" class="position-relative d-block">
+                                <input  type="radio" id="ConfirmRefund" name="refund" class="position-absolute w-100 h-100" value="refund" checked>
+                                <div class="txt bg-light border text-body p-2 mb-2 d-flex align-items-center justify-content-start">
+                                    <div class="checkmark rounded-circle position-relative d-flex align-items-center justify-content-center"><p class="rounded-circle bg-white m-0 d-block"></p></div>
+                                    <span class="d-block">{{__('Total refund')}}</span>
+                                </div><!-- txt -->
+                            </label>
+                        @elseif(auth()->user()->balance > 1)
+
+                            <label for="PartialRefund" class="position-relative d-block">
+                                <input type="radio" id="PartialRefund" name="refund" class="position-absolute w-100 h-100" value="partial_refund">
+                                <div class="txt bg-light border text-body p-2 d-flex align-items-center justify-content-start">
                                 <div class="checkmark rounded-circle position-relative d-flex align-items-center justify-content-center"><p class="rounded-circle bg-white m-0 d-block"></p></div>
-                                <span class="d-block">{{__('Total refund')}}</span>
-                            </div><!-- txt -->
-                        </label>
-                        <label for="PartialRefund" class="position-relative d-block">
-                            <input type="radio" id="PartialRefund" name="refund" class="position-absolute w-100 h-100" value="partial_refund">
-                            <div class="txt bg-light border text-body p-2 d-flex align-items-center justify-content-start">
-                            <div class="checkmark rounded-circle position-relative d-flex align-items-center justify-content-center"><p class="rounded-circle bg-white m-0 d-block"></p></div>
-                            <span class="d-block">{{__('Partial Refund')}}</span>
-                            </div><!-- txt -->
-                        </label>
+                                <span class="d-block">{{__('Partial Refund')}}</span>
+                                </div><!-- txt -->
+                            </label>
                         @else
                             {{__('Your balance is not allowed to perform this transaction')}}
                         @endif
+
                     </div><!-- select_refund -->
                     <div id="amount_partial_refund" class="form-group row mt-3">
                         <label for="amount" class="col-sm-2 col-form-label">{{__('Amount')}}</label>
@@ -40,7 +43,7 @@
                     </div><!-- form-group -->
                 </div><!-- modal-body -->
                 <div class="modal-footer"> 
-                    <button type="submit" class="btn btn-primary" id="refund_btn" @if($bill->sub_total > auth()->user()->balance) disabled @endif>
+                    <button type="submit" class="btn btn-primary" id="refund_btn" @if(!$bill->is_able_total_refund && auth()->user()->balance < 1) disabled @endif>
                         {{__('Save')}}
                     </button>
                     <button id="refund_cancel" type="button" class="btn btn-secondary ml-2" data-dismiss="modal">
