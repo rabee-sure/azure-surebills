@@ -443,7 +443,7 @@ class BillController extends Controller
         }else{
             return response()->json(['error' => [
                 'refund' => __("Quantity must be less than or equal to the user's balance")
-            ], 400);
+            ]], 400);
         }
         return new BillResource($bill);
     }
