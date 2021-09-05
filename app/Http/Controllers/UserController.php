@@ -52,7 +52,7 @@ class UserController extends Controller
         $transactions = Transaction::
             where('user_id', $user->id)
             ->where('settled', false)
-            // ->where('pending_settled', false)
+            ->where('pending_settled', false)
             ->where('transaction_source', '!=', 'transfer')
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')

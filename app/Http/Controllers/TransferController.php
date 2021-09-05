@@ -157,7 +157,7 @@ class TransferController extends Controller
         } else{
 
             $bank = Bank::find($request->bank_id);
-            $transfer_fees = $bank->fees + ($bank->fees * 0.15);
+            $transfer_fees = ($bank) ? $bank->fees + ($bank->fees * 0.15): 0;
             $status = $request->get('status', 'pending');
 
             $data = [
