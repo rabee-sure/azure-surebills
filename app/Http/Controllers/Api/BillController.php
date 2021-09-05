@@ -20,6 +20,7 @@ use App\Models\PaymentLog;
 use App\Payment\Facades\Payment;
 use App\Payment\Invoice;
 use App\Rules\AmountPartialRefund;
+use App\Rules\AmountPartialRefundGTBalance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -424,7 +425,7 @@ class BillController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'type' => ['required', 'in:partial_refund,total_refund'],
-            'amount' => ['nullable', 'required_if:type,partial_refund', new AmountPartialRefund($id), 'integer', 'gt:0'],
+            'amount' => ['nullable', 'required_if:type,partial_refund', new AmountPartialRefund($id), 'integer', 'gt:0', new AmountPartialRefundGTBalance($this->id)],
         ]);
 
         if ($validator->fails())
@@ -436,8 +437,13 @@ class BillController extends Controller
 
         if($request->type == 'partial_refund'){
             $bill->setPartialRefunded($request->amount);
-        } else if ($bill->setRefunded()){
-            $bill->setRefunded();
+        } else if ($bill->is_able_total_refund){
+            if($bill->setRefunded()){
+            }
+        }else{
+            return response()->json(['error' => [
+                'refund' => __("Quantity must be less than or equal to the user's balance")
+            ], 400);
         }
         return new BillResource($bill);
     }

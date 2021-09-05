@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\Application;
 use App\Models\Bill;
 use App\Events\BillStatusUpdated;
-use App\Events\UserCreated;
 use App\Jobs\MakeTransactionsForSureBills;
 use App\Models\Transaction;
 use App\Models\User;

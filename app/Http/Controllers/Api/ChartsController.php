@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Application;
 use App\Models\Bill;
-use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserStatResource;
 use App\Models\User;

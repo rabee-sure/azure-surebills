@@ -48,6 +48,7 @@ class UserController extends Controller
         $user->mobile          = $request->mobile;
         $user->fandaqah_user   = true;
         $user->password        = $request->email . $request->name;
+        $user->able_refund_with_fees = false;
         $user->save();
         event(new UserCreated($user));
 
@@ -119,6 +120,7 @@ class UserController extends Controller
             $user->mobile = $request->mobile;
             $user->business_name_en = $request->business_name;
             $user->password = $request->email . $request->name;
+            $user->able_refund_with_fees = false;
             $user->save();
             event(new UserCreated($user));
         }

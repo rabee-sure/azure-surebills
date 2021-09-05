@@ -1,5 +1,8 @@
 {
 	"All": "الكل",
+	"The :attribute must be less than user balance": ":attribute يجب ان يكون اقل من الرصيد",
+	"cycle date": "التاريخ الدوري",
+	"Cycle Date": "التاريخ الدوري",
 	"Quantity must be less than or equal to the user's balance": "الكميه يجب ان تكون اصغر من  او يساوي رصيد المستخدم",
 	"Transaction Source": "مصدر العملية",
 	"Bank account information has not been sent": "لم يتم ارسال معلومات الحساب البنكي",

@@ -76,9 +76,7 @@
         <Card :bordered="false">
             <p slot="title">{{ __('Transfers for')}} {{ user.name}}</p>
             <Table :columns="transfersTable" :data="transfers" :no-data-text="__('No Data')">
-                <template slot-scope="{ row }" slot="fromto">
-                    {{ __(row.filter_from) }} - {{ __(row.filter_to) }}
-                </template>
+
                 <template slot-scope="{ row }" slot="status">
                     <Badge v-if="row.status == 'completed'" status="success" :text="__('completed transfer')"/>
                     <Badge v-if="row.status == 'send_to_sps'" status="processing" :text="__('Send To SPS')"/>
@@ -231,9 +229,9 @@ export default {
                     width: 120,
                 },
                 {
-                    title: this.__('From - To'),
-                    slot: 'fromto',
-                    width: 300,
+                    title: this.__('Cycle Date'),
+                    key: 'cycle_date',
+                    width: 120,
                 },
                 {
                     title: this.__('Created By'),

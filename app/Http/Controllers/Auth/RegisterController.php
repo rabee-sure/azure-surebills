@@ -86,6 +86,7 @@ class RegisterController extends Controller
             'email'            => $data['email'],
             'mobile'           => $data['mobile'],
             'password'         => Hash::make($data['password']),
+            'able_refund_with_fees' => false,
         ]);
         event(new UserCreated($user));
         $user->sendMobileCode();

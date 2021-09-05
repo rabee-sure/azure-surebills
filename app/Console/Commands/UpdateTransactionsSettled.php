@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Events\BillStatusUpdated;
-use App\Events\UserCreated;
 use App\Jobs\MakeTransactionsForSureBills;
 use App\Models\Application;
 use App\Models\Bill;

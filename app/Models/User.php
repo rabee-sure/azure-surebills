@@ -59,6 +59,7 @@ class User extends Authenticatable implements HasMedia
         'disable_bank_documents',
 
         'able_refund',
+        'able_refund_with_fees',
         'auto_trnasfer',
         'from_channel_id',
     ];
