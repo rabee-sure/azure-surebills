@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 
 class AccountController extends Controller
 {
@@ -46,7 +47,7 @@ class AccountController extends Controller
 
 
             if(!$user->disable_bank_documents){
-                $bank_documents = $request->input('bank_documents', []);
+                $bank_documents = $request->get('bank_documents') ?? [];
                 //delete if Deleted
                 foreach ($user->bank_documents as $media) {
                     if (!in_array($media->id, array_column($bank_documents, 'id'))) {
@@ -58,7 +59,18 @@ class AccountController extends Controller
                 foreach ($bank_documents as $file) {
                     if($file['id'] == null && isset($file['file'])){
                         $file_name =  str_replace('storage/','', $file['file']);
-                        $user->addMedia(storage_path('app/public/'.$file_name))->toMediaCollection('bank_documents');        
+                        try {
+                            $user->addMedia(storage_path('app/public/'.$file_name))->toMediaCollection('bank_documents');
+                        } catch (FileDoesNotExist $e) {
+                            return [
+                                "message" => "File Does Not Exist.",
+                                "errors" => [
+                                    "bank_documents" => [
+                                        $file['file']. ' File Does Not Exist'
+                                    ]
+                                ]
+                            ];
+                        }  
                     }
                 }       
             }
@@ -80,7 +92,7 @@ class AccountController extends Controller
             ]);
 
             if (!$user->disable_business_documents ){
-                $business_documents = $request->input('business_documents', []);
+                $business_documents = $request->get('business_documents') ?? [];
                 //delete if Deleted
                 foreach ($user->business_documents as $media) {
                     if (!in_array($media->id, array_column($business_documents, 'id'))) {
@@ -92,13 +104,24 @@ class AccountController extends Controller
                 foreach ($business_documents as $file) {
                     if($file['id'] == null && isset($file['file'])){
                         $file_name =  str_replace('storage/','', $file['file']);
-                        $user->addMedia(storage_path('app/public/'.$file_name))->toMediaCollection('business_documents');        
+                        try {
+                            $user->addMedia(storage_path('app/public/'.$file_name))->toMediaCollection('business_documents');   
+                        } catch (FileDoesNotExist $e) {
+                            return [
+                                "message" => "File Does Not Exist.",
+                                "errors" => [
+                                    "business_documents" => [
+                                        $file['file']. ' File Does Not Exist'
+                                    ]
+                                ]
+                            ];
+                        }
                     }
                 }       
             }
         }
 
-
+        $user->refresh();
 
         return new UserInformationResource($user);
     }
