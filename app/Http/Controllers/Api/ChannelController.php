@@ -111,6 +111,7 @@ class ChannelController extends Controller
             $user->password = $request->email . $request->name;
             $user->from_channel_id = $channel->id;
             $user->able_refund = true;
+            $user->able_refund_with_fees = false;
             $user->save();
             event(new UserCreated($user));
         }
