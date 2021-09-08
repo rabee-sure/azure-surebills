@@ -52,7 +52,9 @@ class TransferController extends Controller
     {
         $transfers = Transfer::orderBy('id', 'desc')
             ->where('status', 'pending')
-            ->orWhereNull('attachment')
+            ->orWhere(function($q){
+                $q->where('status', 'completed')->whereNull('attachment');
+            })
             ->paginate($request->per_page);
 
         return TransferResource::collection($transfers);
