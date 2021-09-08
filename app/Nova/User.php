@@ -35,6 +35,7 @@ use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Naif\Toggle\Toggle;
 use Sure\Userstats\Userstats;
+use PosLifestyle\DateRangeFilter\DateRangeFilter;
 
 class User extends Resource
 {
@@ -312,7 +313,7 @@ class User extends Resource
     {
         return [
             new UserBalance,
-            new DateRange,
+            new DateRangeFilter(__('Date Range'), 'created_at'),
             new UsersVerified,
         ];
     }

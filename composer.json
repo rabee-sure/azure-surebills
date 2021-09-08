@@ -40,6 +40,7 @@
         "maatwebsite/laravel-nova-excel": "^1.2",
         "multicaret/laravel-unifonic": "^1.0",
         "naif/toggle": "^1.2",
+        "pos-lifestyle/laravel-nova-date-range-filter": "^1.3",
         "predis/predis": "^1.1",
         "proengsoft/laravel-jsvalidation": "^4.0",
         "pusher/pusher-php-server": "^4.0",

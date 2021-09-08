@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "54e929c6b745fe7e600e47648859d47f",
+    "content-hash": "79c8ac458ee5a1f84d269f02c17d5939",
     "packages": [
         {
             "name": "ampeco/nova-date-range-filter",
@@ -5706,6 +5706,67 @@
                 }
             ],
             "time": "2021-06-14T06:54:45+00:00"
+        },
+        {
+            "name": "pos-lifestyle/laravel-nova-date-range-filter",
+            "version": "1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pos-lifestyle/laravel-nova-date-range-filter.git",
+                "reference": "9c1c1c1e8939c7c48ec04c550c9b0dbe4fdf5d6d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pos-lifestyle/laravel-nova-date-range-filter/zipball/9c1c1c1e8939c7c48ec04c550c9b0dbe4fdf5d6d",
+                "reference": "9c1c1c1e8939c7c48ec04c550c9b0dbe4fdf5d6d",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.8 || ^6.0 || ^7.0 || ^8.0",
+                "laravel/nova": "^2.0 || ^3.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "roave/security-advisories": "dev-master"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "PosLifestyle\\DateRangeFilter\\FilterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PosLifestyle\\DateRangeFilter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Hähne",
+                    "email": "jan.haehne@pos-lifestyle.de",
+                    "homepage": "https://github.com/jhae-de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Nova date range filter.",
+            "keywords": [
+                "date",
+                "filter",
+                "laravel",
+                "nova",
+                "range"
+            ],
+            "support": {
+                "issues": "https://github.com/pos-lifestyle/laravel-nova-date-range-filter/issues",
+                "source": "https://github.com/pos-lifestyle/laravel-nova-date-range-filter/tree/1.3.3"
+            },
+            "time": "2021-07-29T13:24:51+00:00"
         },
         {
             "name": "predis/predis",
