@@ -140,6 +140,7 @@ class TransferController extends Controller
         $user = User::find($request->user_id);
 
         $cycleDate = new Carbon($request->cycle_date);
+        $cycleDate = $cycleDate->addHours(3);
 
         $transactions = Transaction::whereIn('id', $request->transactions_ids)->get();
         $file_name = $this->getExcelFileName($user, $cycleDate);

@@ -26,6 +26,10 @@ class TransferController extends Controller
      */
     public function transactions(Transfer $transfer, Request $request)
     {
+        if($transfer->user_id !== $request->user->id){
+            return response('Unauthorized.', 401);
+        }
+
         $transactions = $transfer->transactions;
         return TransactionResource::collection($transactions)->additional(['meta' => [
             'balance' => round($transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'), 2),

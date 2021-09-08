@@ -45,8 +45,9 @@ Route::prefix('v1')->group(function () {
 		Route::put('bills/{bill}/timeout', 'BillController@timeout');
 		Route::put('bills/{bill}/refund', 'BillController@refund');
 		Route::get('bills/{bill}', 'BillController@show');
+		
+		Route::get('transfers/{transfer}/transactions', 'TransferController@transactions');
 	});
-	Route::get('transfers/{transfer}/transactions', 'TransferController@transactions');
 
     // Route::post('fandaqah-register', 'UserController@registerFandaqah');
     Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
