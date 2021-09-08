@@ -92,4 +92,15 @@ class Transfer extends Model
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
+
+
+    /**
+     * get only paid bills
+     */
+    public function scopePending($query){
+        $query->where('status', 'pending')
+            ->orWhere(function($q){
+                $q->where('status', 'completed')->whereNull('attachment');
+            });
+    }
 }
