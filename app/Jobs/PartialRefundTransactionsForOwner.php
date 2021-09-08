@@ -57,28 +57,30 @@ class PartialRefundTransactionsForOwner
         $transaction->order = $order_max+1;
         $transaction->save();
         
-        //withdrawBillFees
-        $transaction = new Transaction;
-        $transaction->user_id     = $this->bill->user_id;
-        $transaction->bill_id     = $this->bill->id;
-        $transaction->type        = 'credit';
-        $transaction->amount      = $payment_fees;
-        $transaction->reference   = $this->bill->number;
-        $transaction->description = 'PARTIAL REFUND Fee';
-        $transaction->transaction_source = 'refund';
-        $transaction->order = $order_max+2;
-        $transaction->save();
+        if($this->bill->user->able_refund_with_fees){
+            //withdrawBillFees
+            $transaction = new Transaction;
+            $transaction->user_id     = $this->bill->user_id;
+            $transaction->bill_id     = $this->bill->id;
+            $transaction->type        = 'credit';
+            $transaction->amount      = $payment_fees;
+            $transaction->reference   = $this->bill->number;
+            $transaction->description = 'PARTIAL REFUND Fee';
+            $transaction->transaction_source = 'refund';
+            $transaction->order = $order_max+2;
+            $transaction->save();
 
-        //withdrawBillVat
-        $transaction = new Transaction;
-        $transaction->user_id     = $this->bill->user_id;
-        $transaction->bill_id     = $this->bill->id;
-        $transaction->type        = 'credit';
-        $transaction->amount      = $payment_fees_vat;
-        $transaction->reference   = $this->bill->number;
-        $transaction->description = 'PARTIAL REFUND VAT';
-        $transaction->transaction_source = 'refund';
-        $transaction->order = $order_max+2;
-        $transaction->save();
+            //withdrawBillVat
+            $transaction = new Transaction;
+            $transaction->user_id     = $this->bill->user_id;
+            $transaction->bill_id     = $this->bill->id;
+            $transaction->type        = 'credit';
+            $transaction->amount      = $payment_fees_vat;
+            $transaction->reference   = $this->bill->number;
+            $transaction->description = 'PARTIAL REFUND VAT';
+            $transaction->transaction_source = 'refund';
+            $transaction->order = $order_max+2;
+            $transaction->save();
+        }
     }
 }
