@@ -112,7 +112,7 @@
                             background-color: #e53e3e;
                             background-color: rgba(229,62,62,var(--bg-opacity));
                             margin-left: 10px;
-                        ">{{ App\Models\Transfer::where('status', 'pending')->orWhereNull('attachment')->count()
+                        ">{{ App\Models\Transfer::pending()->count()
                             }}</span>
                     </router-link>
                 </li>
