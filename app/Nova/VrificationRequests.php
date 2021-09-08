@@ -305,7 +305,7 @@ class VrificationRequests extends Resource
     {
         return [
             new UserBalance,
-            new DateRange,
+            new DateRangeFilter(__('Date Range'), 'created_at'),
         ];
     }
 

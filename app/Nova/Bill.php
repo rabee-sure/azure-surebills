@@ -304,7 +304,7 @@ class Bill extends Resource
         return [
             new BillStatus,
             new BillSource,
-            new DateRange,
+            new DateRangeFilter(__('Date Range'), 'created_at'),
             new PaidDateRange,
             new RefundedDateRange,
             new UserId(),
