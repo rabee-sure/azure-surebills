@@ -231,6 +231,7 @@ return [
 
         "expiry_date" => "تاريخ الانتهاء",
         "type" => "النوع",
-        "amount" => "المبلغ"
+        "amount" => "المبلغ",
+        "transfers.*.ReferenceNumber" => "لمعرف التحويل",
     ],
 ];

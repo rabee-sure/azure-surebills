@@ -166,7 +166,7 @@ class TransferService
 
 
     /**
-     * create Transfer Transaction.
+     * send To SPS.
      *
      * @param  App\Models\Transfer  $transfer
      * @return void
@@ -184,4 +184,46 @@ class TransferService
         ];
         //here request to transfer/sps
     }
+
+
+    /**
+     * change Tranfer Status Transaction.
+     * 
+     * @param  App\Models\Transfer  $transfer
+     * @return void
+     */
+    public static function changeTranferStatus($transfer, $status, $user_id=null, $results=null , $from_sps=false)
+    {
+        $transfer->status = $status;
+        $transfer->save();
+
+         $log = TransferLog::create([
+            'type' =>  $from_sps ? $status.' sps transfer':$status.' transfer' ,
+            'user_id' => $user_id,
+            'transfer_id' => $transfer->id,
+            'transfer_status' => $transfer->status,
+            'status' => $status,
+            'results' => $results,
+        ]);
+
+        if($status == 'completed'){
+            
+            TransferService::createTransferTransaction($transfer);
+
+            $bills = $transfer->bills;
+            $user_id = $transfer->user_id;
+            foreach ($bills as $bill) {
+                if($bill->user_id == $user_id){
+                    $bill->settled = true;
+                }
+
+                if($bill->isHaveChannelOwenByUser($user_id)){
+                   $bill->channel_settled = true; 
+                }
+                $bill->save();
+            }
+            event(new TransferCreated($transfer));
+        }
+    }
+
 }
