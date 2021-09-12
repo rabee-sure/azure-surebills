@@ -30,6 +30,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Sure\Userstats\Userstats;
+use PosLifestyle\DateRangeFilter\DateRangeFilter;
 
 class VrificationRequests extends Resource
 {
