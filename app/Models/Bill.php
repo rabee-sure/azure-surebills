@@ -248,7 +248,7 @@ class Bill extends Model
     }
 
     /**
-     * Redirect Url.
+     * webhook Url.
      *
      * @var string
      */

@@ -93,6 +93,7 @@ class PaymentHelper
         $payment->save();
 
 
+
         if ($apiResponse) {
             return [
                 'error'    => $invoice->getDetail('description'),
@@ -100,6 +101,11 @@ class PaymentHelper
             ];
         }
 
-        return redirect()->route('paybillpage', ['id' => $bill->pay_id])->withErrors(['field_name' => $invoice->getDetail('description')]);
+        if($bill->application && $bill->is_redirect) {
+            return redirect($bill->redirect_url);
+        } else {
+            return redirect()->route('paybillpage', ['id' => $bill->pay_id])->withErrors(['field_name' => $invoice->getDetail('description')]);
+        }
+
     }
 }
