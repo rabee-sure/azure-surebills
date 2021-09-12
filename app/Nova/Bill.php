@@ -27,6 +27,7 @@ use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Timothyasp\Badge\Badge;
 use Titasgailius\SearchRelations\SearchesRelations;
+use PosLifestyle\DateRangeFilter\DateRangeFilter;
 
 class Bill extends Resource
 {
@@ -305,8 +306,8 @@ class Bill extends Resource
             new BillStatus,
             new BillSource,
             new DateRangeFilter(__('Date Range'), 'created_at'),
-            new PaidDateRange,
-            new RefundedDateRange,
+            new DateRangeFilter(__('Paid at Date Range'), 'paid_at'),
+            new DateRangeFilter(__('Refunded at Date Range'), 'refunded_at'),
             new UserId(),
             // new BillSettled(),
         ];
