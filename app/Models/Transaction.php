@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\Bill;
 use App\Models\User;
-use App\Models\PaymentLog;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 

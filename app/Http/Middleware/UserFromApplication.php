@@ -18,7 +18,10 @@ class UserFromApplication
     {
         $application_id = $request->hasHeader('X-application-id') ? $request->header('X-application-id') : $request->application_id;
         $application_secret = $request->hasHeader('X-application-secret') ? $request->header('X-application-secret') : $request->application_secret;
-
+        // dd([
+        //     $application_id,
+        //     $application_secret
+        // ]);
         $application = Application::whereId($application_id)
             ->whereSecret($application_secret)
             ->first();

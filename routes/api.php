@@ -38,6 +38,7 @@ Route::prefix('v1')->group(function () {
 
 	Route::get('users/{user}/stats', 'UserController@stats');
 	
+	//should send application id and secret
 	Route::group(['middleware' => ['User.from.application']], function () {
 		Route::post('bills/create/wordpress', 'BillController@wordpress');
 		Route::post('bills/create', 'BillController@store');
@@ -47,6 +48,10 @@ Route::prefix('v1')->group(function () {
 		Route::get('bills/{bill}', 'BillController@show');
 		
 		Route::get('transfers/{transfer}/transactions', 'TransferController@transactions');
+
+		Route::get('transactions', 'TransactionController@index');
+    	Route::get('account/information', 'AccountController@getInformation');
+    	Route::post('account/information', 'AccountController@updateInformation');
 	});
 
     // Route::post('fandaqah-register', 'UserController@registerFandaqah');
@@ -56,12 +61,7 @@ Route::prefix('v1')->group(function () {
     Route::post('channels/{channel}/transactions', 'ChannelController@transactions');
     Route::put('channels/{channel}/update_sub_account_payment_fees', 'ChannelController@updateSubAccountPaymentFees');
 
-    //should send application id and secret
-    Route::group(['middleware' => ['User.from.application']], function () {
-    	Route::post('transactions', 'TransactionController@index');
-    	Route::get('account/information', 'AccountController@getInformation');
-    	Route::post('account/information', 'AccountController@updateInformation');
-	});
+
     Route::get('banks', 'BankController@index');
 
 	Route::prefix('sps')->group(function () {

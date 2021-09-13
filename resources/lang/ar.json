@@ -1,5 +1,6 @@
 {
 	"All": "الكل",
+	"It must not pass more than 14 days on the date of payment of the Bill": "يجب ان لا يمر اكثر من ١٤ يوم علي تاريخ دفع الفاتورة",
 	"The :attribute must be less than user balance": ":attribute يجب ان يكون اقل من الرصيد",
 	"cycle date": "التاريخ الدوري",
 	"Cycle Date": "التاريخ الدوري",
@@ -45,7 +46,6 @@
 	"Auto Trnasfer": "التحويل التلقائي",
 	"Transfer Fees": "رسوم التحويل",
 	"Able Refund": "إمكانية الاسترداد",
-	"All": "الكل",
 	"Details": "التفاصيل",
 	"Relation": "الصلة",
 	"Retreat": "تراجع",
@@ -55,7 +55,7 @@
 	"Total refund": "استرداد كلي",
 	"Refunded Bills": "الفواتير المستردة",
 	"Refunded": "استردت",
-	"Verification Requests": "طلبات التوثيق  ",
+	"Verification Requests": "طلبات التوثيق",
 	"Un Verified + Complete Profile": "لم يتم التوثيق + اكمل بياناته",
 	" Verified": "تم التوثيق",
 	"Un Verified": "لم يتم التوثيق",
@@ -143,7 +143,6 @@
 	"Canceled" : "ملغي",
 	"Total Commissions": "إجمالي العمولات",
 	"Total Paid": "مجموع المدفوع",
-	"Total Due": "الاجمالي المستحق",
 	"Total Income": "إجمالي الدخل",
 	"Total Vat On Commissions": "إجمالي VAT على العمولات",
 	"All time": "كل الوقت",

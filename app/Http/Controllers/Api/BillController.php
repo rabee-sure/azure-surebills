@@ -418,15 +418,28 @@ class BillController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'type' => ['required', 'in:partial_refund,total_refund'],
-            'amount' => ['nullable', 'required_if:type,partial_refund', new AmountPartialRefund($id), 'integer', 'gt:0', new AmountPartialRefundGTBalance($this->id)],
+            'amount' => [
+                'nullable', 
+                'required_if:type,partial_refund', 
+                new AmountPartialRefund($id), 
+                'integer', 'gt:0', new AmountPartialRefundGTBalance($id)
+            ],
         ]);
+
+        $bill = Bill::find($id);
+
+        $validator->after(function ($validator) use($bill){
+            $otherDate = Carbon::now()->subDays(14);
+
+            if ($otherDate->gt($bill->paid_at)) {
+                $validator->errors()->add('bill', __('It must not pass more than 14 days on the date of payment of the Bill'));
+            }
+        });
 
         if ($validator->fails())
         {
             return response()->json(['error' => $validator->errors()], 400);
         }
-
-        $bill = Bill::find($id);
 
         if($request->type == 'partial_refund'){
             $bill->setPartialRefunded($request->amount);
