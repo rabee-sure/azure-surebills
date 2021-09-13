@@ -106,6 +106,30 @@ class User extends Authenticatable implements HasMedia
      * @param  string  $value
      * @return string
      */
+    public function getPendingBalanceAttribute()
+    {
+        $transfer = $this->transfers()->where('status', 'pending')->latest()->first();
+        return($transfer) ? $transfer->amount : 0;
+    }
+
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getActualBalanceAttribute()
+    {
+        $balance = $this->balance - $this->pending_balance;
+        return $balance;
+    }
+
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
     public function getRoundBalanceAttribute()
     {
         return round($this->balance, 2);

@@ -37,7 +37,17 @@
                 </div>
               </a>
             </div>
+
             <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+              <a href="{{ route('statement.index') }}" class="card mb-4">
+                <div class="card-body text-center">
+                  <div class="statistic_icon balance_icon"></div>
+                  <p class="card-text font-weight-semibold mb-0">{{ __('Pending Balance') }}</p>
+                  <p class="lead text-center">{{ round2(auth()->user()->pending_balance) }}</p>
+                </div>
+              </a>
+            </div>
+            <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
               <a href="{{ route('statement.index') }}" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon available_balance_icon"></div>
@@ -46,7 +56,7 @@
                 </div>
               </a>
             </div>
-            <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
               <a href="/bills?dont_update_statuses=true" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon pending_balance_icon"></div>
@@ -55,7 +65,7 @@
                 </div>
               </a>
             </div>
-            <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
               <a href="/bills?statuses[]=paid&dont_update_statuses=true" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon settlements_icon"></div>

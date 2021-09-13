@@ -236,10 +236,16 @@
   <script src="{{ asset('js/jquery.repeater.min.js') }}" defer></script>
   <script>
 
+  var fewSeconds = 5;
   $('#create-bill').click(function() {
-      $(this).attr('disabled','disabled');
+      var btn = $(this);
+      btn.prop('disabled', true);
       $('#bill_create').submit();
+      setTimeout(function(){
+          btn.prop('disabled', false);
+      }, fewSeconds*1000);
       return true;
+
   });
 
     $(document).on("change", ".qty1", function() {

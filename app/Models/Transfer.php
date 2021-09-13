@@ -94,6 +94,16 @@ class Transfer extends Model
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC');
     }
+    
+    /**
+     * Pending
+     */
+    public function scopePending($query){
+        $query->where('status', 'pending')
+            ->orWhere(function($q){
+                $q->where('status', 'completed')->whereNull('attachment');
+            });
+    }
 
     /**
      * Get user.
@@ -114,6 +124,6 @@ class Transfer extends Model
     public function logs()
     {
         return $this->hasMany(TransferLog::class);
-    }   
+    }
 
 }

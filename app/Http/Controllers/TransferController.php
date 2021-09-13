@@ -70,9 +70,7 @@ class TransferController extends Controller
      */
     public function all(Request $request)
     {
-        $transfers = Transfer::orderBy('id', 'desc')
-            ->where('status', 'pending')
-            ->orWhereNull('attachment')
+        $transfers = Transfer::orderBy('id', 'desc')->pending()
             ->paginate($request->per_page);
 
         return TransferResource::collection($transfers);
