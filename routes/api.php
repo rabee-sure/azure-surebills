@@ -64,5 +64,9 @@ Route::prefix('v1')->group(function () {
 	});
     Route::get('banks', 'BankController@index');
 
+	Route::prefix('sps')->group(function () {
+		Route::post('transfer_statement', 'SPSController@transferStatement');
+	});
+
 
 });
