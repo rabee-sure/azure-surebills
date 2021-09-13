@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Events\UserCreated;
-use App\Exceptions\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChannelApplicationAPiRequest;
 use App\Http\Requests\ChannelUpdateApplicationPaymentFeesApiRequest;
@@ -14,10 +13,7 @@ use App\Models\Application;
 use App\Models\Channel;
 use App\Models\Transaction;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ChannelController extends Controller

@@ -2,18 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TransactionResource;
-use App\Models\Application;
 use App\Models\Transfer;
-use App\Models\Transaction;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class TransferController extends Controller
 {   
