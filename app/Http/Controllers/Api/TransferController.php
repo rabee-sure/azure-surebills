@@ -2,18 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TransactionResource;
-use App\Models\Application;
 use App\Models\Transfer;
-use App\Models\Transaction;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class TransferController extends Controller
 {   
@@ -30,11 +22,12 @@ class TransferController extends Controller
             return response('Unauthorized.', 401);
         }
 
-        $transactions = $transfer->transactions;
+        $transactions_all = $transfer->transactions()->get();
+        $transactions = $transfer->transactions()->paginate($request->get('per_page', 10));
         return TransactionResource::collection($transactions)->additional(['meta' => [
-            'balance' => round($transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'), 2),
-            'total_credit' => round($transactions->where('type', 'credit')->sum('amount'), 2),
-            'total_debit' => round($transactions->where('type', 'debit')->sum('amount'), 2),
+            'balance' => round($transactions_all->where('type', 'credit')->sum('amount')-$transactions_all->where('type', 'debit')->sum('amount'), 2),
+            'total_credit' => round($transactions_all->where('type', 'credit')->sum('amount'), 2),
+            'total_debit' => round($transactions_all->where('type', 'debit')->sum('amount'), 2),
         ]]);
     }
 }

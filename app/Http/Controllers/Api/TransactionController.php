@@ -22,34 +22,39 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
+        $all_transactions = $this->query($request)->get();
+        $transactions = $this->query($request)->paginate($request->get('per_page', 10));
+
+        return TransactionResource::collection($transactions)->additional(['meta' => [
+            'balance' => round($all_transactions->where('type', 'credit')->sum('amount')-$all_transactions->where('type', 'debit')->sum('amount'), 2),
+            'total_credit' => round($all_transactions->where('type', 'credit')->sum('amount'), 2),
+            'total_debit' => round($all_transactions->where('type', 'debit')->sum('amount'), 2),
+        ]]);
+    }
+    
+    protected function query ($request){
         $user = $request->user;
         $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
         $transaction_type = $request->transaction_type ?? null;
         $transaction_source = $request->transaction_source ?? null;
         $channel = $request->channel ?? null;
-        $transactions =  $user->statement()
-            ->when($date_start, function($q) use($date_start, $date_to){
-                $q->whereDate('created_at', '>=', Carbon::parse($date_start))
-                    ->whereDate('created_at', '<=', Carbon::parse($date_to));
-            })
-            ->when(request()->transaction_type == 'debit' || request()->transaction_type == 'credit', function($q) {
-                $q->whereType(request()->transaction_type);
-            })
-            ->when(isset(request()->transaction_source) && request()->transaction_source != 'all' && request()->transaction_source != 'undefined', function($q){
-                $q->whereTransactionSource(request()->transaction_source);
-            })
-            ->when($channel, function($q) use($channel){
-                $q->whereHas('bill.application', function ( $query) use($channel){
-                    $query->where('channel_id', $channel->id);
-                });
-            })
-            ->get();
 
-        return TransactionResource::collection($transactions)->additional(['meta' => [
-            'balance' => round($transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'), 2),
-            'total_credit' => round($transactions->where('type', 'credit')->sum('amount'), 2),
-            'total_debit' => round($transactions->where('type', 'debit')->sum('amount'), 2),
-        ]]);
+        return $user->statement()
+        ->when($date_start, function($q) use($date_start, $date_to){
+            $q->whereDate('created_at', '>=', Carbon::parse($date_start))
+                ->whereDate('created_at', '<=', Carbon::parse($date_to));
+        })
+        ->when($transaction_type == 'debit' || $transaction_type == 'credit', function($q) use($transaction_type){
+            $q->whereType($transaction_type);
+        })
+        ->when(isset($transaction_source) && $transaction_source != 'all' && $transaction_source != 'undefined', function($q) use($transaction_source){
+            $q->whereTransactionSource($transaction_source);
+        })
+        ->when($channel, function($q) use($channel){
+            $q->whereHas('bill.application', function ( $query) use($channel){
+                $query->where('channel_id', $channel->id);
+            });
+        });
     }
 }

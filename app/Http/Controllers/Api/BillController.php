@@ -4,26 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\BillCreated;
 use App\Events\BillStatusUpdated;
-use App\Exceptions\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\CheckBillApiRequest;
-use App\Http\Requests\PayBillRequest;
 use App\Http\Resources\BillApiResource;
 use App\Http\Resources\BillResource;
 use App\Models\Application;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\Customer;
-use App\Models\OauthClient;
-use App\Models\PaymentLog;
-use App\Payment\Facades\Payment;
-use App\Payment\Invoice;
 use App\Rules\AmountPartialRefund;
 use App\Rules\AmountPartialRefundGTBalance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -425,15 +418,28 @@ class BillController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'type' => ['required', 'in:partial_refund,total_refund'],
-            'amount' => ['nullable', 'required_if:type,partial_refund', new AmountPartialRefund($id), 'integer', 'gt:0', new AmountPartialRefundGTBalance($this->id)],
+            'amount' => [
+                'nullable', 
+                'required_if:type,partial_refund', 
+                new AmountPartialRefund($id), 
+                'integer', 'gt:0', new AmountPartialRefundGTBalance($id)
+            ],
         ]);
+
+        $bill = Bill::find($id);
+
+        $validator->after(function ($validator) use($bill){
+            $otherDate = Carbon::now()->subDays(14);
+
+            if ($otherDate->gt($bill->paid_at)) {
+                $validator->errors()->add('bill', __('It must not pass more than 14 days on the date of payment of the Bill'));
+            }
+        });
 
         if ($validator->fails())
         {
             return response()->json(['error' => $validator->errors()], 400);
         }
-
-        $bill = Bill::find($id);
 
         if($request->type == 'partial_refund'){
             $bill->setPartialRefunded($request->amount);

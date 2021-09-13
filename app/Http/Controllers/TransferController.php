@@ -190,34 +190,8 @@ class TransferController extends Controller
      */
     public function changeStatus(Request $request, Transfer $transfer)
     {
-        $transfer->status = $request->status;
-        $transfer->save();
-
-         $log = TransferLog::create([
-            'type' => $request->status.' transfer',
-            'user_id' => auth()->user()->id,
-            'transfer_id' => $transfer->id,
-            'transfer_status' => $transfer->status,
-        ]);
-
-        if($request->status == 'completed'){
-
-            TransferService::createTransferTransaction($transfer);
-
-            $bills = $transfer->bills;
-            $user_id = $transfer->user_id;
-            foreach ($bills as $bill) {
-                if($bill->user_id == $user_id){
-                    $bill->settled = true;
-                }
-
-                if($bill->isHaveChannelOwenByUser($user_id)){
-                   $bill->channel_settled = true; 
-                }
-                $bill->save();
-            }
-            event(new TransferCreated($transfer));
-        }
+        TransferService::changeTranferStatus($transfer, $request->status, auth()->user()->id);
+        
         return new TransferResource($transfer);
     }
 

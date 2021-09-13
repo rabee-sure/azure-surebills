@@ -3,26 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Events\BillCreated;
-use App\Events\BillRefunded;
 use App\Events\BillStatusUpdated;
-use App\Exceptions\ValidationException;
-use App\Helpers\PaymentHelper as HelpersPaymentHelper;
 use App\Http\Requests\BillRequest;
 use App\Http\Requests\RefundRequest;
-use App\Http\Requests\PayBillRequest;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\Customer;
 use App\Models\PaymentLog;
-use App\Models\Transaction;
 use App\Payment\Facades\Payment;
 use App\Payment\Invoice;
 use Carbon\Carbon;
-use IlluminateSupportFacadesLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException as ValidationsException;
 use PaymentHelper;
 
