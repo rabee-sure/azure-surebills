@@ -19,6 +19,7 @@ class UserInformationResource extends JsonResource
             'id' => $this->id,
             'is_complete_profile' => $this->is_complete_profile,
             'balance' => round($this->balance, 2),
+            'pending_balance' => round($this->pending_balance, 2),
             'license_type' => $this->license_type,
             'business_name_en' => $this->business_name_en,
             'business_name_ar' => $this->business_name_ar,

@@ -1,5 +1,6 @@
 {
 	"All": "الكل",
+	"Able Refund With Fees": "استرداد عموله الدفع والضريبه",
 	"It must not pass more than 14 days on the date of payment of the Bill": "يجب ان لا يمر اكثر من ١٤ يوم علي تاريخ دفع الفاتورة",
 	"The :attribute must be less than user balance": ":attribute يجب ان يكون اقل من الرصيد",
 	"cycle date": "التاريخ الدوري",
