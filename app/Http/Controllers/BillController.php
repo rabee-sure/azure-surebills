@@ -324,7 +324,6 @@ class BillController extends Controller
     public function refund($id, RefundRequest $request)
     {
         $bill = Bill::find($id);
-
         if($request->type == 'partial_refund'){
             $bill->setPartialRefunded($request->amount);
         } else if ($bill->is_able_total_refund){
