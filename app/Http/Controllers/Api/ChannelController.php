@@ -6,7 +6,6 @@ use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChannelApplicationAPiRequest;
 use App\Http\Requests\ChannelUpdateApplicationPaymentFeesApiRequest;
-use App\Http\Resources\ChannelApplicationResource;
 use App\Http\Resources\ChannelResource;
 use App\Http\Resources\TransactionResource;
 use App\Models\Application;
@@ -55,18 +54,24 @@ class ChannelController extends Controller
                 ] 
            ], 422);
         }
+        
+        $all_transactions =  Transaction::when($channel, function($q) use($channel){
+            $q->whereHas('bill.application', function ( $query) use($channel){
+                $query->where('channel_id', $channel->id);
+            });
+        })->get();
 
         $transactions =  Transaction::when($channel, function($q) use($channel){
                 $q->whereHas('bill.application', function ( $query) use($channel){
                     $query->where('channel_id', $channel->id);
                 });
             })
-            ->get();
+            ->paginate($request->get('per_page', 10));
 
         return TransactionResource::collection($transactions)->additional(['meta' => [
-            'balance' => round($transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount'), 2),
-            'total_credit' => round($transactions->where('type', 'credit')->sum('amount'), 2),
-            'total_debit' => round($transactions->where('type', 'debit')->sum('amount'), 2),
+            'balance' => round($all_transactions->where('type', 'credit')->sum('amount')-$all_transactions->where('type', 'debit')->sum('amount'), 2),
+            'total_credit' => round($all_transactions->where('type', 'credit')->sum('amount'), 2),
+            'total_debit' => round($all_transactions->where('type', 'debit')->sum('amount'), 2),
         ]]);
     }
     
