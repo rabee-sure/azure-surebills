@@ -38,7 +38,7 @@ class SettingsRequest extends FormRequest
         return $rules;
     }
 
-        /**
+    /**
      * Configure the validator instance.
      *
      * @param  \Illuminate\Validation\Validator  $validator

@@ -2,13 +2,15 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Application;
+use Carbon\Carbon;
+use App\Models\Bill;
 use App\Models\Customer;
-use App\Rules\AmountPartialRefund;
-use App\Rules\AmountPartialRefundGTBalance;
-use App\Rules\BillTotalValidation;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Application;
 use Illuminate\Validation\Rule;
+use App\Rules\AmountPartialRefund;
+use App\Rules\BillTotalValidation;
+use App\Rules\AmountPartialRefundGTBalance;
+use Illuminate\Foundation\Http\FormRequest;
 
 class RefundRequest extends FormRequest
 {
@@ -45,5 +47,25 @@ class RefundRequest extends FormRequest
         return [
           'customer_name.required' => __('customer name required'),
         ];
+    }
+
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+
+        $bill = Bill::find($this->id);
+        $validator->after(function ($validator) use($bill){
+            $otherDate = Carbon::now()->subDays(14);
+
+            if ($otherDate->gt($bill->paid_at)) {
+                $validator->errors()->add('field', __('It must not pass more than 14 days on the date of payment of the Bill'));
+            }
+        });
     }
 }
