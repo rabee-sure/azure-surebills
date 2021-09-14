@@ -115,7 +115,7 @@ class TransferService
 
             $log = TransferLog::create([
                 'type' => 'create transfer',
-                'user_id' => auth()->user()->id,
+                'user_id' => auth()->user()->id?? null,
                 'transfer_id' => $transfer->id,
                 'transfer_status' => $status,
             ]);
