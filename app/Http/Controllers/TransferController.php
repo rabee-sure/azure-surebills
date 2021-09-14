@@ -111,7 +111,7 @@ class TransferController extends Controller
             'cycle_date' => $cycleDate,
             'transfer_fees' => $transfer_fees,
             'note' => '',
-            'created_by_id' => null,
+            'created_by_id' => $user->id,
             'bank_id' => $bank->id,
             'user_id' => $user->id,
             'iban_number' => $user->iban_number,
