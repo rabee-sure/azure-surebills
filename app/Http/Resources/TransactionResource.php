@@ -23,6 +23,7 @@ class TransactionResource extends JsonResource
             'reference'      => $this->reference,
             'description'    => $this->description,
             'type'           => $this->type,
+            'source'           => $this->transaction_source,
             'balance'        => round($this->balance,2),
             'card'           => $this->card,
             'card_brand'     => $this->card_brand,
@@ -31,6 +32,7 @@ class TransactionResource extends JsonResource
             'customer_notes' => $this->bill->customer_notes ?? null,
             'reference_id'   => $this->bill->reference_id ?? $this->reference,
             'created_at' => $this->created_at->format('d/m/Y H:i'),
+            'bill' => new BillResource($this->whenLoaded('bill')),
         ];
     }
 }
