@@ -10970,3 +10970,16 @@ select:-webkit-autofill:focus {
     } /* txt */
   } /* label */
 } /* .select_refund */
+
+.homepage_blocks {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0;
+  @include respond-below(md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  @include respond-below(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+} /* homepage_blocks */

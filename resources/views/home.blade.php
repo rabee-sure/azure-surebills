@@ -27,8 +27,8 @@
       @endif
       <div class="row">
         <div class="col-12">
-          <div class="row icon-cards-row mx-n3">
-            <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <div class="homepage_blocks icon-cards-row">
+            <div class="item">
               <a href="{{ route('statement.index') }}" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
@@ -37,8 +37,7 @@
                 </div>
               </a>
             </div>
-
-            <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <div class="item">
               <a href="{{ route('statement.index') }}" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
@@ -47,7 +46,7 @@
                 </div>
               </a>
             </div>
-            <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+            <div class="item">
               <a href="{{ route('statement.index') }}" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon available_balance_icon"></div>
@@ -56,7 +55,7 @@
                 </div>
               </a>
             </div>
-            <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+            <div class="item">
               <a href="/bills?dont_update_statuses=true" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon pending_balance_icon"></div>
@@ -65,7 +64,7 @@
                 </div>
               </a>
             </div>
-            <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+            <div class="item">
               <a href="/bills?statuses[]=paid&dont_update_statuses=true" class="card mb-4">
                 <div class="card-body text-center">
                   <div class="statistic_icon settlements_icon"></div>
