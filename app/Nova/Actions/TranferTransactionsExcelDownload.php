@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Services\TransferService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -32,7 +33,9 @@ class TranferTransactionsExcelDownload extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         foreach ($models as $model) {
+            $this->updateFile($model);
             $filename = 'bills/'.$model->filters['files']['folder'].'/'.$model->filters['files']['transactions'];
+
             $new_file_name = 'public/shared-bills/'.$model->filters['files']['transactions'];
             Storage::delete( $new_file_name );
             Storage::copy( $filename, $new_file_name );
@@ -54,4 +57,17 @@ class TranferTransactionsExcelDownload extends Action
     {
         return [];
     }
+    /**
+     * Get the fields available on the action.
+     *
+     * @return array
+     */
+    public function updateFile($model)
+    {
+        $filename = 'bills/'.$model->filters['files']['folder'].'/';
+        $filename = $filename . str_replace('transactions-', '', $model->filters['files']['transactions']);
+        TransferService::createTransactionsExcel( $model->transactions->load('bill'), $filename);
+    }
+
+
 }
