@@ -417,8 +417,9 @@ export default {
         },
         changeStatus(status, id) {
             this.switch_loading = true;
-            Nova.request().put('/transfers/'+id+'/change_status', {
+            Nova.request().put('/transfers/change_status', {
                 status: status? 'completed': 'pending',
+                ids: id,
             })
             .then(response => {
                 this.switch_loading = false;

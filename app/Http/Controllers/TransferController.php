@@ -188,11 +188,14 @@ class TransferController extends Controller
      * @param  \App\Models\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
-    public function changeStatus(Request $request, Transfer $transfer)
+    public function changeStatus(Request $request)
     {
-        TransferService::changeTranferStatus($transfer, $request->status, auth()->user()->id);
+        $transfers = Transfer::whereIn('id', $request->ids )->get();
+        foreach($transfers as $transfer){
+            TransferService::changeTranferStatus($transfer, $request->status, auth()->user()->id);
+        }
         
-        return new TransferResource($transfer);
+        return  TransferResource::collection($transfers);
     }
 
     /**

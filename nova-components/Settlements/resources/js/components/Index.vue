@@ -9,7 +9,31 @@
       <div style="padding-top: 10px;">
           <Card :bordered="false">
               <p slot="title">{{ __('Transfers')}}</p>
-              <Table :columns="transfersTable" :data="transfers" :no-data-text="__('No Data')">
+
+            <Dropdown style="margin-left: 20px" slot="extra" v-show="selected_transfers_ids.length">
+                <Button type="primary">
+                    {{ __('Actions')}}
+                    <Icon type="ios-arrow-down"></Icon>
+                </Button>
+                <DropdownMenu slot="list">
+                    <DropdownItem >
+                        <Button @click="makeAction('canceled')" type="error" long>{{ __('Cancel')}}</Button>
+                    </DropdownItem>
+                    <DropdownItem>
+                        <Button @click="makeAction('completed')" type="warning" long>
+                            {{ __('Confirm Transfer')}}
+                        </Button>
+                    </DropdownItem>
+                    <DropdownItem>
+                        <Button @click="makeAction('send_to_sps')" type="success" long>
+                            {{ __('Send To SPS')}}
+                        </Button>
+                        
+                    </DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+
+              <Table @on-selection-change="updateSelectedList" ref="selection" :columns="transfersTable" :data="transfers" :no-data-text="__('No Data')">
                   <template slot-scope="{ row }" slot="fromto">
                     <div v-if="row.filter_from">{{ __(row.filter_to) }}</div>
                     <div v-else>{{ __(row.cycle_date) }}</div>
@@ -77,7 +101,13 @@ export default {
             user: [],
             select: '',
             transfers: [],
+            selected_transfers_ids: [],
             transfersTable: [
+                {
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
                 {
                     title: this.__('Id'),
                     key: 'id',
@@ -155,6 +185,42 @@ export default {
         this.getTransfers()
     },
     methods: {
+        updateSelectedList(selection, row) {
+            this.selected_transfers_ids = selection.map(row => row.id);
+        },        
+        makeAction(type) {
+            this.$Modal.confirm({
+                title: this.__('Attention'),
+                content: this.__('Are you sure you confirm transfer, this action cannot be undone'),
+                okText: this.__('Ok'),
+                cancelText: this.__('Cancel'),
+                onOk: () => {
+                    this.switch_loading = true;
+                    Nova.request().put('/transfers/change_status', {
+                        status: type,
+                        ids: this.selected_transfers_ids,
+                    })
+                    .then(response => {
+                        this.selected_transfers_ids.forEach(id => {
+                            var index = this.transfers.map(x => x.id).indexOf(id);
+                            let item = response.data.data.find(item=> item.id == id);
+                            this.$set(this.transfers, index,item)
+
+                        });
+                        this.switch_loading = false;
+                    })
+                    .catch(error => {
+                        this.switch_loading = false;
+                    });
+                },
+                onCancel: () => {
+                  this.$refs['switch'+id].value = false
+                  this.$refs['switch'+id].disabled = false
+                }
+            });
+            console.log(this.selected_transfers_ids);
+
+        },
         getUsers() {
           axios.get('/users/all')
             .then(response => {
@@ -195,12 +261,14 @@ export default {
                     cancelText: this.__('Cancel'),
                     onOk: () => {
                         this.switch_loading = true;
-                        Nova.request().put('/transfers/'+id+'/change_status', {
+                        Nova.request().put('/transfers/change_status', {
                             status: status,
+                            ids: [id],
                         })
                         .then(response => {
                             var index = this.transfers.map(function(x) {return x.id; }).indexOf(id);
-                            this.$set(this.transfers, index, response.data.data)
+                            let item = response.data.data.find(item=> item.id == id);
+                            this.$set(this.transfers, index, item)
                             this.switch_loading = false;
                         })
                         .catch(error => {

@@ -194,35 +194,49 @@ class TransferService
      */
     public static function changeTranferStatus($transfer, $status, $user_id=null, $results=null , $from_sps=false)
     {
-        $transfer->status = $status;
-        $transfer->save();
+        if($transfer->status == 'pending' ){
+            $transfer->status = $status;
+            $transfer->save();
 
-         $log = TransferLog::create([
-            'type' =>  $from_sps ? $status.' sps transfer':$status.' transfer' ,
-            'user_id' => $user_id,
-            'transfer_id' => $transfer->id,
-            'transfer_status' => $transfer->status,
-            'status' => $status,
-            'results' => $results,
-        ]);
+             $log = TransferLog::create([
+                'type' =>  $from_sps ? $status.' sps transfer':$status.' transfer' ,
+                'user_id' => $user_id,
+                'transfer_id' => $transfer->id,
+                'transfer_status' => $transfer->status,
+                'status' => $status,
+                'results' => $results,
+            ]);
 
-        if($status == 'completed'){
-            
-            TransferService::createTransferTransaction($transfer);
+            if($status == 'completed'){
+                
+                TransferService::createTransferTransaction($transfer);
 
-            $bills = $transfer->bills;
-            $user_id = $transfer->user_id;
-            foreach ($bills as $bill) {
-                if($bill->user_id == $user_id){
-                    $bill->settled = true;
+                $bills = $transfer->bills;
+                $user_id = $transfer->user_id;
+                foreach ($bills as $bill) {
+                    if($bill->user_id == $user_id){
+                        $bill->settled = true;
+                    }
+
+                    if($bill->isHaveChannelOwenByUser($user_id)){
+                       $bill->channel_settled = true; 
+                    }
+                    $bill->save();
+                }
+                event(new TransferCreated($transfer));
+            }elseif($status == 'canceled'){
+                $bills = $transfer->bills;
+                foreach ($bills as $bill) {
+                    $bill->pending_settled = false; 
+                    $bill->save();
                 }
 
-                if($bill->isHaveChannelOwenByUser($user_id)){
-                   $bill->channel_settled = true; 
+                $transactions = $transfer->transactions;
+                foreach ($transactions as $transaction) {
+                    $transaction->pending_settled = false; 
+                    $transaction->save();
                 }
-                $bill->save();
             }
-            event(new TransferCreated($transfer));
         }
     }
 
