@@ -60106,7 +60106,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60217,6 +60217,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -60229,7 +60253,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             user: [],
             select: '',
             transfers: [],
+            selected_transfers_ids: [],
             transfersTable: [{
+                type: 'selection',
+                width: 60,
+                align: 'center'
+            }, {
                 title: this.__('Id'),
                 key: 'id',
                 width: 70
@@ -60296,15 +60325,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        getUsers: function getUsers() {
+        updateSelectedList: function updateSelectedList(selection, row) {
+            this.selected_transfers_ids = selection.map(function (row) {
+                return row.id;
+            });
+        },
+        makeAction: function makeAction(type) {
             var _this = this;
 
+            this.$Modal.confirm({
+                title: this.__('Attention'),
+                content: this.__('Are you sure you confirm transfer, this action cannot be undone'),
+                okText: this.__('Ok'),
+                cancelText: this.__('Cancel'),
+                onOk: function onOk() {
+                    _this.switch_loading = true;
+                    Nova.request().put('/transfers/change_status', {
+                        status: type,
+                        ids: _this.selected_transfers_ids
+                    }).then(function (response) {
+                        _this.selected_transfers_ids.forEach(function (id) {
+                            var index = _this.transfers.map(function (x) {
+                                return x.id;
+                            }).indexOf(id);
+                            var item = response.data.data.find(function (item) {
+                                return item.id == id;
+                            });
+                            _this.$set(_this.transfers, index, item);
+                        });
+                        _this.switch_loading = false;
+                    }).catch(function (error) {
+                        _this.switch_loading = false;
+                    });
+                },
+                onCancel: function onCancel() {
+                    _this.$refs['switch' + id].value = false;
+                    _this.$refs['switch' + id].disabled = false;
+                }
+            });
+            console.log(this.selected_transfers_ids);
+        },
+        getUsers: function getUsers() {
+            var _this2 = this;
+
             axios.get('/users/all').then(function (response) {
-                _this.users = response.data.data;
+                _this2.users = response.data.data;
             });
         },
         getTransfers: function getTransfers() {
-            var _this2 = this;
+            var _this3 = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -60314,12 +60383,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     page: page
                 }
             }).then(function (response) {
-                _this2.transfers = response.data.data;
-                _this2.meta = response.data.meta;
+                _this3.transfers = response.data.data;
+                _this3.meta = response.data.meta;
             });
         },
         onChange: function onChange(event) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.user = [];
             if (event.target.value) {
@@ -60327,7 +60396,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return x.id == event.target.value;
                 });
                 axios.get('/users/' + event.target.value + '/transfers').then(function (response) {
-                    _this3.transfers = response.data.data;
+                    _this4.transfers = response.data.data;
                 });
             }
         },
@@ -60335,7 +60404,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getTransfers(page);
         },
         changeStatus: function changeStatus(e, id, status) {
-            var _this4 = this;
+            var _this5 = this;
 
             console.log('status ' + status);
             this.$Modal.confirm({
@@ -60344,27 +60413,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 okText: this.__('Ok'),
                 cancelText: this.__('Cancel'),
                 onOk: function onOk() {
-                    _this4.switch_loading = true;
-                    Nova.request().put('/transfers/' + id + '/change_status', {
-                        status: status
+                    _this5.switch_loading = true;
+                    Nova.request().put('/transfers/change_status', {
+                        status: status,
+                        ids: [id]
                     }).then(function (response) {
-                        var index = _this4.transfers.map(function (x) {
+                        var index = _this5.transfers.map(function (x) {
                             return x.id;
                         }).indexOf(id);
-                        _this4.$set(_this4.transfers, index, response.data.data);
-                        _this4.switch_loading = false;
+                        var item = response.data.data.find(function (item) {
+                            return item.id == id;
+                        });
+                        _this5.$set(_this5.transfers, index, item);
+                        _this5.switch_loading = false;
                     }).catch(function (error) {
-                        _this4.switch_loading = false;
+                        _this5.switch_loading = false;
                     });
                 },
                 onCancel: function onCancel() {
-                    _this4.$refs['switch' + id].value = false;
-                    _this4.$refs['switch' + id].disabled = false;
+                    _this5.$refs['switch' + id].value = false;
+                    _this5.$refs['switch' + id].disabled = false;
                 }
             });
         },
         cancelTranfer: function cancelTranfer(id) {
-            var _this5 = this;
+            var _this6 = this;
 
             this.$Modal.confirm({
                 title: this.__('Attention'),
@@ -60372,15 +60445,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 okText: this.__('Ok'),
                 cancelText: this.__('Cancel'),
                 onOk: function onOk() {
-                    _this5.cancel_loading = true;
+                    _this6.cancel_loading = true;
                     Nova.request().put('/transfers/' + id + '/cancel').then(function (response) {
-                        var index = _this5.transfers.map(function (x) {
+                        var index = _this6.transfers.map(function (x) {
                             return x.id;
                         }).indexOf(id);
-                        _this5.$set(_this5.transfers, index, response.data.data);
-                        _this5.cancel_loading = false;
+                        _this6.$set(_this6.transfers, index, response.data.data);
+                        _this6.cancel_loading = false;
                     }).catch(function (error) {
-                        _this5.cancel_loading = false;
+                        _this6.cancel_loading = false;
                     });
                 },
                 onCancel: function onCancel() {}
@@ -60443,12 +60516,123 @@ var render = function() {
                 _vm._v(_vm._s(_vm.__("Transfers")))
               ]),
               _vm._v(" "),
+              _c(
+                "Dropdown",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.selected_transfers_ids.length,
+                      expression: "selected_transfers_ids.length"
+                    }
+                  ],
+                  staticStyle: { "margin-left": "20px" },
+                  attrs: { slot: "extra" },
+                  slot: "extra"
+                },
+                [
+                  _c(
+                    "Button",
+                    { attrs: { type: "primary" } },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(_vm.__("Actions")) +
+                          "\n                "
+                      ),
+                      _c("Icon", { attrs: { type: "ios-arrow-down" } })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "DropdownMenu",
+                    { attrs: { slot: "list" }, slot: "list" },
+                    [
+                      _c(
+                        "DropdownItem",
+                        [
+                          _c(
+                            "Button",
+                            {
+                              attrs: { type: "error", long: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.makeAction("canceled")
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(_vm.__("Cancel")))]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "DropdownItem",
+                        [
+                          _c(
+                            "Button",
+                            {
+                              attrs: { type: "warning", long: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.makeAction("completed")
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(_vm.__("Confirm Transfer")) +
+                                  "\n                    "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "DropdownItem",
+                        [
+                          _c(
+                            "Button",
+                            {
+                              attrs: { type: "success", long: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.makeAction("send_to_sps")
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(_vm.__("Send To SPS")) +
+                                  "\n                    "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
               _c("Table", {
+                ref: "selection",
                 attrs: {
                   columns: _vm.transfersTable,
                   data: _vm.transfers,
                   "no-data-text": _vm.__("No Data")
                 },
+                on: { "on-selection-change": _vm.updateSelectedList },
                 scopedSlots: _vm._u([
                   {
                     key: "fromto",
@@ -60794,7 +60978,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -61201,8 +61385,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this4 = this;
 
             this.switch_loading = true;
-            Nova.request().put('/transfers/' + id + '/change_status', {
-                status: status ? 'completed' : 'pending'
+            Nova.request().put('/transfers/change_status', {
+                status: status ? 'completed' : 'pending',
+                ids: id
             }).then(function (response) {
                 _this4.switch_loading = false;
             }).catch(function (error) {

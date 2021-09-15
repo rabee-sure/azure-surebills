@@ -145,13 +145,13 @@ class TransferController extends Controller
         TransferService::createTransactionsExcel($transactions, $file_name);
 
         $amount = TransferService::getAmount($transactions, $user);
-        
+
         if($transactions->where('pending_settled', true)->count() != 0 || $transactions->where('settled', true)->count() != 0){
             return response()->json(['error' => __('Bills duplicate in another transfer')], 422);
 
         }if($amount <= 0 ){
             return response()->json(['error' => __('amount must be greater than 0')], 422);
-        }elseif($amount > $user->balance){
+        }elseif(bccomp($amount, $user->balance, 1) == -1){
             return response()->json(['error' => __("Quantity must be less than or equal to the user's balance")], 422);
         } else{
 
@@ -188,11 +188,14 @@ class TransferController extends Controller
      * @param  \App\Models\Transfer  $Transfer
      * @return \Illuminate\Http\Response
      */
-    public function changeStatus(Request $request, Transfer $transfer)
+    public function changeStatus(Request $request)
     {
-        TransferService::changeTranferStatus($transfer, $request->status, auth()->user()->id);
+        $transfers = Transfer::whereIn('id', $request->ids )->get();
+        foreach($transfers as $transfer){
+            TransferService::changeTranferStatus($transfer, $request->status, auth()->user()->id);
+        }
         
-        return new TransferResource($transfer);
+        return  TransferResource::collection($transfers);
     }
 
     /**

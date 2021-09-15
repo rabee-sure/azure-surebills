@@ -66,6 +66,9 @@ class BillResource extends JsonResource
             "payment_surebills_fees" =>  round($this->payment_surebills_fees, 2),
             "payment_surebills_fees_vat" =>round( $this->payment_surebills_fees_vat
                 , 2),
+
+            "application_channel_id" => ($this->application) ? $this->application->channel_id : null,
+            "application_channel_name" => ($this->application && $this->application->channel_id) ? $this->application->channel->name : null,
         ];
     }
 }
