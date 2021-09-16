@@ -4,11 +4,7 @@ namespace App\Models;
 
 use App\Models\Bill;
 use Hashids\Hashids;
-use Ramsey\Uuid\Uuid;
 use GuzzleHttp\Client;
-use App\Traits\UsesUuid;
-use App\Models\PaymentLog;
-use App\Jobs\RefundMasterCardJob;
 use Illuminate\Database\Eloquent\Model;
 
 class PaymentLog extends Model

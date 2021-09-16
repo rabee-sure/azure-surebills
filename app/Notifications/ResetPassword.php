@@ -3,12 +3,7 @@
 namespace App\Notifications;
 
 use App\Mail\SendResetPassword;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Mail;
 
 class ResetPassword extends Notification
 {

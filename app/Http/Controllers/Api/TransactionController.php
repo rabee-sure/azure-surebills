@@ -4,13 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TransactionResource;
-use App\Http\Resources\UserStatResource;
-use App\Models\Application;
-use App\Models\Settings;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class TransactionController extends Controller
 {

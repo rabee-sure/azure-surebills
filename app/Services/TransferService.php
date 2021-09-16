@@ -2,25 +2,19 @@
 
 namespace App\Services;
 
-use App\Events\TransferCreated;
-use App\Exports\BillsExport;
 use App\Exports\TransactionsExport;
-use App\Http\Resources\BillResource;
 use App\Http\Resources\TransactionResource;
-use App\Mail\AutoTransferMail;
-use App\Models\Bill;
 use App\Models\Transaction;
 use App\Models\Transfer;
 use App\Models\TransferLog;
-use App\Models\User;
-use Carbon\Carbon;
+use App\Services\TransferOperations;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TransferService 
 {
     /**
-     * get bills Between Date.
+     * get Transactions By Date.
      *
      * @return \Illuminate\Http\Response
      */
@@ -136,7 +130,8 @@ class TransferService
             if($status == 'completed'){
                 TransferService::createTransferTransaction($transfer);
             }elseif($status == 'send_to_sps'){
-                $this->sendToSPS($transfer, $log);
+                $perations = new TransferOperations();
+                $perations->sendToSps([$transfer], $status, auth()->user()->id, null, false);
             }
 
             return $transfer;
@@ -165,78 +160,16 @@ class TransferService
     }
 
 
-    /**
-     * send To SPS.
-     *
-     * @param  App\Models\Transfer  $transfer
-     * @return void
-     */
-    protected function sendToSPS($transfer, $log)
+
+    public static function changeTranfersStatus($transfers, $status, $user_id=null, $results=null , $from_sps=false)
     {
-        $body = [
-            'ReferenceNumber' => $transfer->id,
-            'Amount' => $transfer->amount,
-            'BeneficiaryName' => $transfer->user->beneficiary_name,
-            'BeneficiaryIban' => $transfer->user->iban_number,
-            'BeneficiaryStreet' => $transfer->user->business_address,
-            'BeneficiaryCountry' => 'SA',
-            'BeneficiaryBank' => $transfer->user->bank->code,
-        ];
-        //here request to transfer/sps
-    }
-
-
-    /**
-     * change Tranfer Status Transaction.
-     * 
-     * @param  App\Models\Transfer  $transfer
-     * @return void
-     */
-    public static function changeTranferStatus($transfer, $status, $user_id=null, $results=null , $from_sps=false)
-    {
-        if($transfer->status == 'pending' ){
-            $transfer->status = $status;
-            $transfer->save();
-
-             $log = TransferLog::create([
-                'type' =>  $from_sps ? $status.' sps transfer':$status.' transfer' ,
-                'user_id' => $user_id,
-                'transfer_id' => $transfer->id,
-                'transfer_status' => $transfer->status,
-                'status' => $status,
-                'results' => $results,
-            ]);
-
-            if($status == 'completed'){
-                
-                TransferService::createTransferTransaction($transfer);
-
-                $bills = $transfer->bills;
-                $user_id = $transfer->user_id;
-                foreach ($bills as $bill) {
-                    if($bill->user_id == $user_id){
-                        $bill->settled = true;
-                    }
-
-                    if($bill->isHaveChannelOwenByUser($user_id)){
-                       $bill->channel_settled = true; 
-                    }
-                    $bill->save();
-                }
-                event(new TransferCreated($transfer));
-            }elseif($status == 'canceled'){
-                $bills = $transfer->bills;
-                foreach ($bills as $bill) {
-                    $bill->pending_settled = false; 
-                    $bill->save();
-                }
-
-                $transactions = $transfer->transactions;
-                foreach ($transactions as $transaction) {
-                    $transaction->pending_settled = false; 
-                    $transaction->save();
-                }
-            }
+        $perations = new TransferOperations();
+        if($status == 'send_to_sps'){
+            $perations->sendToSps($transfers, $status, $user_id, $results , $from_sps);
+        }else if($status == 'completed'){
+            $perations->complete($transfers, $status, $user_id, $results , $from_sps);
+        }elseif($status == 'canceled'){
+            $perations->cancel($transfers, $status, $user_id, $results , $from_sps);
         }
     }
 

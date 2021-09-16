@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\Channel;
 use App\Http\Requests\ChannelApplicationRequest;
-use App\Http\Requests\ChannelRequest;
-use App\Http\Requests\ChannelUpdateRequest;
 use App\Http\Resources\ChannelApplicationResource;
 use App\Models\User;
 use Illuminate\Http\Request;

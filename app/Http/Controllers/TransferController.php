@@ -151,7 +151,7 @@ class TransferController extends Controller
 
         }if($amount <= 0 ){
             return response()->json(['error' => __('amount must be greater than 0')], 422);
-        }elseif(bccomp($amount, $user->balance, 1) == -1){
+        }elseif(bccomp($amount, $user->balance, 1) != -1){
             return response()->json(['error' => __("Quantity must be less than or equal to the user's balance")], 422);
         } else{
 
@@ -191,9 +191,8 @@ class TransferController extends Controller
     public function changeStatus(Request $request)
     {
         $transfers = Transfer::whereIn('id', $request->ids )->get();
-        foreach($transfers as $transfer){
-            TransferService::changeTranferStatus($transfer, $request->status, auth()->user()->id);
-        }
+
+        TransferService::changeTranfersStatus($transfers, $request->status, auth()->user()->id);
         
         return  TransferResource::collection($transfers);
     }
