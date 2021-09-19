@@ -231,6 +231,7 @@ class Bill extends Model
      */
     public function getRedirectUrlAttribute()
     {
+        $link = $this->bill_redirect_url ?? $this->application->redirect;
         $data = [
             'bill_number='.$this->number,
             'reference_id='.$this->reference_id,
@@ -240,8 +241,7 @@ class Bill extends Model
             'total='.$this->total,
         ];
 
-        $ks = (str_contains($this->application->redirect, '?')) ? "&" : '?';
-        $link = $this->bill_redirect_url ?? $this->application->redirect;
+        $ks = (str_contains($link, '?')) ? "&" : '?';
         return $link . $ks . implode("&", $data);
     }
 
