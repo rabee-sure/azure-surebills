@@ -2,17 +2,6 @@
 
 namespace App\Services;
 
-use App\Events\TransferCreated;
-use App\Exports\BillsExport;
-use App\Http\Resources\BillResource;
-use App\Mail\AutoTransferMail;
-use App\Models\Bill;
-use App\Models\Transaction;
-use App\Models\Transfer;
-use App\Models\User;
-use Carbon\Carbon;
-use Maatwebsite\Excel\Facades\Excel;
-
 class BillService 
 {
     /**

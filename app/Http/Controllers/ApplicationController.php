@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Http\Requests\ApplicationRequest;
 use App\Http\Resources\ApplicationResource;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ApplicationController extends Controller

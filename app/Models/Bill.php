@@ -11,10 +11,8 @@ use Jenssegers\Date\Date;
 use App\Models\PaymentLog;
 use App\Models\WebhookLog;
 use App\Events\BillRefunded;
-use App\Jobs\CallbackWebhook;
 use App\Events\BillStatusUpdated;
 use App\Events\BillPartialRefunded;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model

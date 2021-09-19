@@ -36,7 +36,6 @@ class SPSController extends Controller
                 'Message' => $validator->errors()->first(),
             ]);
         }
-
         
         foreach($request->transfers as $data){
             $transfer = Transfer::find($data['ReferenceNumber']);

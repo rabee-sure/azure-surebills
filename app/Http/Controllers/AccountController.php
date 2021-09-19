@@ -6,8 +6,6 @@ use App\Http\Requests\AccountInformationRequest;
 use App\Http\Requests\BankInformationRequest;
 use App\Http\Requests\BusinessInformationRequest;
 use App\Http\Requests\ChangePasswordRequest;
-use App\Http\Resources\UserResource;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;

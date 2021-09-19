@@ -3,19 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AccountInformationRequest;
-use App\Http\Requests\BankInformationRequest;
-use App\Http\Requests\BusinessInformationRequest;
-use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UpdateInformationRequest;
 use App\Http\Resources\UserInformationResource;
-use App\Http\Resources\UserResource;
-use App\Models\User;
-use App\Rules\ValidateUploadFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 
 class AccountController extends Controller
