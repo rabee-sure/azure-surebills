@@ -73,7 +73,7 @@ class TransferOperations
             if($transfer->status == 'pending' || $transfer->status == 'send_to_sps'){
                 $type = $status.' sps transfer';
                 $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results );
-                $body[] = $this->transformToSPS();
+                $body[] = $this->transformToSPS($transfer);
             }
         }
 
