@@ -91,10 +91,11 @@ class User extends Authenticatable implements HasMedia
      */
     public function getBalanceAttribute()
     {
-        $transactions = $this->transactions;
-        $deposits = $transactions->where('type', 'credit')->sum('amount');
-        $withdraws = $transactions->where('type', 'debit')->sum('amount');
-        $balance = $deposits - $withdraws;
+        $balance = $this->transactions()->orderBy('created_at', 'desc')->first()->balance ?? 0;
+        // $transactions = $this->transactions;
+        // $deposits = $transactions->where('type', 'credit')->sum('amount');
+        // $withdraws = $transactions->where('type', 'debit')->sum('amount');
+        // $balance = $deposits - $withdraws;
         return $balance;
     }
 

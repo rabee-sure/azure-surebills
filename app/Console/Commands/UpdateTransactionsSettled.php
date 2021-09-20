@@ -49,7 +49,7 @@ class UpdateTransactionsSettled extends Command
      */
     public function handle()
     {
-        $transfers = Transfer::all();
+        $transfers = Transfer::where('status', 'completed')->get();
         foreach ($transfers as $key => $transfer) {
             $user = $transfer->user;
             $bills = $transfer->bills;
@@ -58,19 +58,30 @@ class UpdateTransactionsSettled extends Command
             $transactions = Transaction::whereIn('bill_id', $bill_ids)
                     ->where('user_id', $user->id);
 
-            // dd([
-            //     'bill_id_count' => $bill_ids->count(), 
-            //     'transactions_count' =>  $transactions->count(),
-            //     '$user' =>  $user->id,
-            // ]);
-
             $this->updateTranscations($transactions);
+        }        
+
+        $transfers = Transfer::where('status', 'pending')->get();
+        foreach ($transfers as $key => $transfer) {
+            $user = $transfer->user;
+            $bills = $transfer->bills;
+            $bill_ids = $bills->pluck('id');
+
+            $transactions = Transaction::whereIn('bill_id', $bill_ids)
+                    ->where('user_id', $user->id);
+
+            $this->updateTranscationsTopending($transactions);
         }
 
     }
 
+    protected function updateTranscationsTopending($transactions)
+    {
+        $transactions->update(['pending_settled' => true]);
+    }
+
     protected function updateTranscations($transactions)
     {
-        $transactions->update(['settled' => true]);
+        $transactions->update(['pending_settled' => true]);
     }
 }

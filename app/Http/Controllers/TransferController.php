@@ -140,12 +140,23 @@ class TransferController extends Controller
         $cycleDate = new Carbon($request->cycle_date);
         $cycleDate = $cycleDate->addHours(3);
 
-        $transactions = Transaction::whereIn('id', $request->transactions_ids)->get();
+        $transactions = Transaction::
+            where('user_id', $user->id)
+            ->where('settled', false)
+            ->where('pending_settled', false)
+            ->where('transaction_source', '!=', 'transfer')
+            ->whereDate('created_at', '<=', $cycleDate->format('Y-m-d'))
+            ->get();
         $file_name = $this->getExcelFileName($user, $cycleDate);
-        TransferService::createTransactionsExcel($transactions, $file_name);
+        // TransferService::createTransactionsExcel($transactions, $file_name);
 
         $amount = TransferService::getAmount($transactions, $user);
-
+// dd([
+//     $transactions->count(),
+//     $transactions->where('type', 'credit')->count(),
+//     $transactions->where('type', 'debit')->count(), 
+//     $cycleDate->format('Y-m-d'), 
+//     $amount, $user->balance]);
         if($transactions->where('pending_settled', true)->count() != 0 || $transactions->where('settled', true)->count() != 0){
             return response()->json(['error' => __('Bills duplicate in another transfer')], 422);
 

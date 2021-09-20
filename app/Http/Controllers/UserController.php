@@ -57,10 +57,18 @@ class UserController extends Controller
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC')
+            ->with(['bill'])
             ->whereDate('created_at', '<=', $request->cycle_date)
-            ->get();
+            ->paginate(10);
+            
+        $balance_transactions = $user->transactions()
+            ->where('settled', false)
+            ->where('pending_settled', false)
+            ->where('transaction_source', '!=', 'transfer')
+            ->whereDate('created_at', '<=', $request->cycle_date)
+            ->get() ;
 
-        $balance = $transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount');
+        $balance = $balance_transactions->where('type', 'credit')->sum('amount')- $balance_transactions->where('type', 'debit')->sum('amount');
         return (TransactionResource::collection($transactions))->additional(['meta' => [
                 'balance' => floorp($balance, 2),
             ]]);;
