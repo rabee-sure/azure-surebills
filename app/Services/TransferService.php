@@ -23,8 +23,8 @@ class TransferService
         $cycleDate = $cycleDate->copy()->endOfDay()->toDateTimeString();
 
         $transactions = Transaction::where('user_id', $user->id)
-            ->where('settled', false)
             ->where('pending_settled', false)
+            ->where('settled', false)
             ->where('transaction_source', '!=', "transfer")
             ->whereDate('created_at', '<=', $cycleDate)
             ->orderBy('created_at', 'ASC')
@@ -33,7 +33,7 @@ class TransferService
             ->get();
 
         if($excel_file_name){
-            self::createTransactionsExcel($transactions, $excel_file_name);
+            // self::createTransactionsExcel($transactions, $excel_file_name);
         }
 
         return $transactions;
@@ -53,6 +53,23 @@ class TransferService
             $transactions->where('type', 'credit')->sum('amount') -
             $transactions->where('type', 'debit')->sum('amount')
             , 2);
+    }  
+
+    /**
+     * get Amount.
+     *
+     * @param  App\Bill  $bills
+     * @param  App\User  $user
+     * @return double
+     */
+    public static function getAmountByCycleDate($user, $cycle_date)
+    {
+        $balance_total = $user->transactions()
+            ->whereDate('created_at', '<=', $cycle_date)
+            ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
+            ->first();
+            $balance =  $balance_total->credit_total - $balance_total->debit_total;
+        return floorp($balance, 2);
     }  
 
     /**
@@ -81,9 +98,9 @@ class TransferService
      *
      * @return void
      */
-    public static function makeTransfer($status, $amount, $transactions, $data)
+    public static function makeTransfer($status, $amount, $data)
     {
-        return DB::transaction(function () use($status, $amount, $transactions, $data){
+        return DB::transaction(function () use($status, $amount, $data){
             $transfer = Transfer::create([
                 'status' => $status,
                 'amount' => $amount,
@@ -114,18 +131,38 @@ class TransferService
                 'transfer_status' => $status,
             ]);
 
-            foreach ($transactions as $transaction) {
-                if($status == 'completed'){
-                    if($transaction->user_id == $data['user_id']){
-                        $transaction->settled = true;
-                    }
-                }else{
-                    $transaction->pending_settled = true;
-                }
-                $transaction->save();
+            Transaction::
+                where('user_id', $data['user_id'])
+                ->where('settled', false)
+                ->where('transaction_source', '!=', 'transfer')
+                ->where('pending_settled', false)
+                ->whereDate('created_at', '<=', $data['cycle_date']->format('Y-m-d'))
+                ->chunk(1000, function($transactions_ids) use($transfer){
+                    $transfer->transactions()->attach($transactions_ids->pluck('id'));
+                });
+
+            if($status == 'completed'){
+                Transaction::
+                    where('user_id', $data['user_id'])
+                    ->where('settled', false)
+                    ->where('transaction_source', '!=', 'transfer')
+                    ->where('pending_settled', false)
+                    ->whereDate('created_at', '<', $data['cycle_date']->format('Y-m-d'))
+                    ->update(['settled' => true]);
+
+            }else{
+                Transaction::
+                    where('user_id', $data['user_id'])
+                    ->where('settled', false)
+                    ->where('transaction_source', '!=', 'transfer')
+                    ->where('pending_settled', false)
+                    ->whereDate('created_at', '<', $data['cycle_date']->format('Y-m-d'))
+                    ->update(['pending_settled' => true]);
             }
 
-            $transfer->transactions()->attach($transactions->pluck('id')->toArray());
+
+
+
 
             if($status == 'completed'){
                 TransferService::createTransferTransaction($transfer);

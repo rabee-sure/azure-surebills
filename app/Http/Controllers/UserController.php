@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -52,8 +53,8 @@ class UserController extends Controller
         $transactions = Transaction::
             where('user_id', $user->id)
             ->where('settled', false)
-            ->where('pending_settled', false)
             ->where('transaction_source', '!=', 'transfer')
+            ->where('pending_settled', false)
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC')
@@ -61,14 +62,12 @@ class UserController extends Controller
             ->whereDate('created_at', '<=', $request->cycle_date)
             ->paginate(10);
             
-        $balance_transactions = $user->transactions()
-            ->where('settled', false)
-            ->where('pending_settled', false)
-            ->where('transaction_source', '!=', 'transfer')
-            ->whereDate('created_at', '<=', $request->cycle_date)
-            ->get() ;
 
-        $balance = $balance_transactions->where('type', 'credit')->sum('amount')- $balance_transactions->where('type', 'debit')->sum('amount');
+        $balance_total = $user->transactions()
+            ->whereDate('created_at', '<=', $request->cycle_date)
+            ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
+            ->first();
+            $balance =  $balance_total->credit_total - $balance_total->debit_total;
         return (TransactionResource::collection($transactions))->additional(['meta' => [
                 'balance' => floorp($balance, 2),
             ]]);;

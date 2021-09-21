@@ -52,13 +52,17 @@ class TransferController extends Controller
     public function transactions(Transfer $transfer, Request $request)
     {
         $this->authorize('viewTransactions', $transfer);
-        $transactions = $transfer->transactions;
-        $totals['debit'] = round2($transactions->where('type', 'debit')->sum('amount'));
-        $totals['credit'] = round2($transactions->where('type', 'credit')->sum('amount'));
-        $totals['all'] = round2($totals['credit'] - $totals['debit']);   
+
+        $balance_total = $transfer->transactions()
+            ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
+            ->first();
+        $totals['debit'] = round2($balance_total->debit_total);
+        $totals['credit'] = round2($balance_total->credit_total);
+        $totals['all'] = round2($balance_total->credit_total - $balance_total->debit_total);
+          
         return view('transfers.transactions', [
             'transfer' => $transfer,
-            'transactions' => $transactions,
+            'transactions' => $transfer->transactions()->paginate($request->per_page),
             'totals' => $totals,
         ]);
     }
@@ -85,13 +89,12 @@ class TransferController extends Controller
     {
         $user = auth()->user();
         $cycleDate = Carbon::now()->addHours(3);
-        // $from = $user->created_at;
 
         $file_name = $this->getExcelFileName($user, $cycleDate);
-        $transactions = TransferService::getTransactionsByCycleDate($cycleDate, $user, $file_name);
+        // $transactions = TransferService::getTransactionsByCycleDate($cycleDate, $user, $file_name);
 
-        $amount = TransferService::getAmount($transactions, $user);
-        $settings =  Valuestore::make(storage_path('app/settings.json'));
+        $amount = TransferService::getAmountByCycleDate($user, $cycleDate->format('Y-m-d'));
+        $settings = Valuestore::make(storage_path('app/settings.json'));
 
         $transfer_minimum = $settings->get('transfer_minimum');
         $transfer_emails = $settings->get('transfer_emails');
@@ -119,10 +122,10 @@ class TransferController extends Controller
             'file_name' => $file_name,
         ];
         
-        $transfer = TransferService::makeTransfer('pending', $amount, $transactions, $data);
+        $transfer = TransferService::makeTransfer('pending', $amount, $data);
 
         if($transfer)
-            $this->sendMails($transfer_emails, $cycleDate, $transfer);
+            // $this->sendMails($transfer_emails, $cycleDate, $transfer);
         
         return redirect()->back();
     }
@@ -140,29 +143,16 @@ class TransferController extends Controller
         $cycleDate = new Carbon($request->cycle_date);
         $cycleDate = $cycleDate->addHours(3);
 
-        $transactions = Transaction::
-            where('user_id', $user->id)
-            ->where('settled', false)
-            ->where('pending_settled', false)
-            ->where('transaction_source', '!=', 'transfer')
-            ->whereDate('created_at', '<=', $cycleDate->format('Y-m-d'))
-            ->get();
+
         $file_name = $this->getExcelFileName($user, $cycleDate);
         // TransferService::createTransactionsExcel($transactions, $file_name);
 
-        $amount = TransferService::getAmount($transactions, $user);
-// dd([
-//     $transactions->count(),
-//     $transactions->where('type', 'credit')->count(),
-//     $transactions->where('type', 'debit')->count(), 
-//     $cycleDate->format('Y-m-d'), 
-//     $amount, $user->balance]);
-        if($transactions->where('pending_settled', true)->count() != 0 || $transactions->where('settled', true)->count() != 0){
-            return response()->json(['error' => __('Bills duplicate in another transfer')], 422);
-
-        }if($amount <= 0 ){
+        // $amount = TransferService::getAmount($transactions);
+        $amount = TransferService::getAmountByCycleDate($user, $cycleDate->format('Y-m-d'));
+        
+        if($amount <= 0 ){
             return response()->json(['error' => __('amount must be greater than 0')], 422);
-        }elseif(bccomp($amount, $user->balance, 1) != -1){
+        }elseif($amount > $user->balance){
             return response()->json(['error' => __("Quantity must be less than or equal to the user's balance")], 422);
         } else{
 
@@ -184,7 +174,7 @@ class TransferController extends Controller
                 'file_name' => $file_name,
             ];
             
-            $transfer = TransferService::makeTransfer($status, $amount, $transactions, $data);
+            $transfer = TransferService::makeTransfer($status, $amount, $data);
 
             event(new TransferCreated($transfer));
 

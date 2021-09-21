@@ -62,16 +62,16 @@ class TransferAutomatic extends Command
             $users = User::where('verified', true)->where('auto_trnasfer', true)->get();
             
             $filtered_users = $users->filter(function($user) use($transfer_minimum){
-                return $user->balance >= $transfer_minimum;
+                return $user->actual_balance >= $transfer_minimum;
             });
+            
             foreach ($filtered_users as $user) {
-                $file_name = $this->getExcelFileName($user, $cycleDate);
-                $transactions = TransferService::getTransactionsByCycleDate($cycleDate, $user, $file_name);
 
-                if($transactions->count()){
-                    $amount = TransferService::getAmount($transactions);
-                    $this->info("transfer to $user->name amount: $amount");
+                $amount = TransferService::getAmountByCycleDate($user, $cycleDate->format('Y-m-d'));
+                if($amount  >= $transfer_minimum){
+                    $this->info("transfer to user ID $user->id amount: $amount");
 
+                    $file_name = $this->getExcelFileName($user, $cycleDate);
                     $bank = $user->bank;
                     $transfer_fees = $bank->fees + ($bank->fees * 0.15);
                     $data = [
@@ -85,12 +85,15 @@ class TransferAutomatic extends Command
                         'beneficiary_name' => $user->beneficiary_name,
                         'file_name' => $file_name,
                     ];
-                    $transfer = TransferService::makeTransfer('pending', $amount, $transactions, $data);
+                    $transfer = TransferService::makeTransfer('pending', $amount, $data);
                 }
+
+
+            
             }
 
-            if($filtered_users->count())
-                $this->sendMails($transfer_emails, $cycleDate);
+            // if($filtered_users->count())
+                // $this->sendMails($transfer_emails, $cycleDate);
         }
     }
  

@@ -23,18 +23,9 @@ class TransferOperations
 
                 TransferService::createTransferTransaction($transfer);
 
-                $bills = $transfer->bills;
-                $user_id = $transfer->user_id;
-                foreach ($bills as $bill) {
-                    if($bill->user_id == $user_id){
-                        $bill->settled = true;
-                    }
+                $transfer->bills()->update(["settled" => false]);
+                $transfer->transactions()->update(['settled' => true]);
 
-                    if($bill->isHaveChannelOwenByUser($user_id)){
-                       $bill->channel_settled = true; 
-                    }
-                    $bill->save();
-                }
                 event(new TransferCreated($transfer));
             }
         }

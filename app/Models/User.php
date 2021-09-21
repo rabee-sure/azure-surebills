@@ -12,6 +12,7 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -91,12 +92,11 @@ class User extends Authenticatable implements HasMedia
      */
     public function getBalanceAttribute()
     {
-        $balance = $this->transactions()->orderBy('created_at', 'desc')->first()->balance ?? 0;
-        // $transactions = $this->transactions;
-        // $deposits = $transactions->where('type', 'credit')->sum('amount');
-        // $withdraws = $transactions->where('type', 'debit')->sum('amount');
-        // $balance = $deposits - $withdraws;
-        return $balance;
+        $user = $this->transactions()
+            ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
+            ->first();
+        $balance = $user->credit_total - $user->debit_total;
+        return floorp($balance, 2);
     }
 
     /**
@@ -107,8 +107,10 @@ class User extends Authenticatable implements HasMedia
      */
     public function getPendingBalanceAttribute()
     {
-        $transfer = $this->transfers()->where('status', 'pending')->latest()->first();
-        return($transfer) ? $transfer->amount : 0;
+        $transfer = $this->transfers()
+            ->select(DB::raw("SUM(CASE WHEN status  = 'pending' THEN amount ELSE 0 END) AS total"))
+            ->first();
+        return $transfer->total;
     }
 
     /**
