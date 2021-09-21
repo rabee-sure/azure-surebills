@@ -109,7 +109,7 @@ class TransferOperations
     {
         return [
             'referenceNumber' => (string) $transfer->id,
-            'amount' => $transfer->amount,
+            'amount' => $transfer->net_amount,
             'beneficiaryName' => $transfer->user->beneficiary_name,
             'beneficiaryIban' => $transfer->user->iban_number,
             'beneficiaryStreet' => $transfer->user->business_address,
