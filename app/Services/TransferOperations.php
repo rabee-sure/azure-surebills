@@ -77,7 +77,7 @@ class TransferOperations
             }
         }
 
-        $response = Http::post('http://10.2.2.45:8087/api/Transfer/Transfer', [
+        $response = Http::post('https://surebill-api.surepay.sa/api/Transfer/Transfer', [
             'transfers' => $body
         ]);
     }
