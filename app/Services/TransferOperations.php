@@ -113,7 +113,7 @@ class TransferOperations
             'beneficiaryName' => $transfer->user->beneficiary_name,
             'beneficiaryIban' => $transfer->user->iban_number,
             'beneficiaryStreet' => $transfer->user->business_address,
-            'beneficiaryCountry' => 'SA',
+            'beneficiaryCountry' => 'Saudi Arabia',
             'beneficiaryBank' => $transfer->user->bank->code,
             "isSynced" => true,
             "transferRequest" => "string",
