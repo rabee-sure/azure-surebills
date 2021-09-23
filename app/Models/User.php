@@ -510,4 +510,20 @@ class User extends Authenticatable implements HasMedia
                 ]);
     }
 
+    /**
+     * Vrification Request
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function getBalanceBefore($date)
+    {
+        $balance_total = $this->transactions()
+            ->amountByCycleDate($date)
+            ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
+            ->first();
+            $balance =  $balance_total->credit_total - $balance_total->debit_total;
+        return floorp($balance, 2);
+    }
+
 }

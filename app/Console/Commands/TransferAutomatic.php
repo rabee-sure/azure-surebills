@@ -66,12 +66,10 @@ class TransferAutomatic extends Command
             });
             
             foreach ($filtered_users as $user) {
-
-                $amount = TransferService::getAmountByCycleDate($user, $cycleDate->format('Y-m-d'));
+                $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d'));
                 if($amount  >= $transfer_minimum){
                     $this->info("transfer to user ID $user->id amount: $amount");
 
-                    $file_name = $this->getExcelFileName($user, $cycleDate);
                     $bank = $user->bank;
                     $transfer_fees = $bank->fees + ($bank->fees * 0.15);
                     $data = [
@@ -83,13 +81,9 @@ class TransferAutomatic extends Command
                         'user_id' => $user->id,
                         'iban_number' => $user->iban_number,
                         'beneficiary_name' => $user->beneficiary_name,
-                        'file_name' => $file_name,
                     ];
                     $transfer = TransferService::makeTransfer('pending', $amount, $data);
                 }
-
-
-            
             }
 
             // if($filtered_users->count())
@@ -97,7 +91,6 @@ class TransferAutomatic extends Command
         }
     }
  
-
     /**
      * send Mails.
      *
@@ -111,17 +104,5 @@ class TransferAutomatic extends Command
                 Mail::to($email)->send(new AutoTransferMail($date));
             }
         }
-    }
-
-    
-    /**
-     * get Excel File Name.
-     *
-     * @return String
-     */
-    protected function getExcelFileName($user, $_cycleDate)
-    {
-        $cycleDate = $_cycleDate->copy()->endOfDay()->toDateTimeString();
-        return "bills/{$_cycleDate->timestamp}/Bills-cycle-date-{$cycleDate}.xlsx";
     }
 }

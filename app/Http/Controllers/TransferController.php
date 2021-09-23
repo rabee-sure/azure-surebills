@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\TransferCreated;
+use App\Http\Resources\TransactionResource;
 use App\Http\Resources\TransferResource;
 use App\Mail\RequestTransferMail;
 use App\Models\Bank;
@@ -90,10 +91,7 @@ class TransferController extends Controller
         $user = auth()->user();
         $cycleDate = Carbon::now()->addHours(3);
 
-        $file_name = $this->getExcelFileName($user, $cycleDate);
-        // $transactions = TransferService::getTransactionsByCycleDate($cycleDate, $user, $file_name);
-
-        $amount = TransferService::getAmountByCycleDate($user, $cycleDate->format('Y-m-d'));
+        $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d')); 
         $settings = Valuestore::make(storage_path('app/settings.json'));
 
         $transfer_minimum = $settings->get('transfer_minimum');
@@ -103,13 +101,13 @@ class TransferController extends Controller
             return redirect()->back()->withErrors([__('Your balance is not allowed to transfer. The minimum transfer balance is :minimum', ['minimum'=>$transfer_minimum])]);
         }
 
-        if ($user->transfers->where('status', 'pending')->count()) {
+        if ($user->transfers->where('status', 'pending')->count()||$user->transfers->where('status', 'send_to_sps')->count()) {
             return redirect()->back()->withErrors([__('Sorry, you cannot request a transfer now. Please wait for the Transfer of the previous transfer')]);
         }
 
         $bank = $user->bank;
         $transfer_fees = $bank->fees+ ($bank->fees * 0.15);
-        // dd([$from, $to ]);
+
         $data = [
             'cycle_date' => $cycleDate,
             'transfer_fees' => $transfer_fees,
@@ -119,7 +117,6 @@ class TransferController extends Controller
             'user_id' => $user->id,
             'iban_number' => $user->iban_number,
             'beneficiary_name' => $user->beneficiary_name,
-            'file_name' => $file_name,
         ];
         
         $transfer = TransferService::makeTransfer('pending', $amount, $data);
@@ -143,19 +140,13 @@ class TransferController extends Controller
         $cycleDate = new Carbon($request->cycle_date);
         $cycleDate = $cycleDate->addHours(3);
 
-
-        $file_name = $this->getExcelFileName($user, $cycleDate);
-        // TransferService::createTransactionsExcel($transactions, $file_name);
-
-        // $amount = TransferService::getAmount($transactions);
-        $amount = TransferService::getAmountByCycleDate($user, $cycleDate->format('Y-m-d'));
+        $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d'));
         
         if($amount <= 0 ){
             return response()->json(['error' => __('amount must be greater than 0')], 422);
         }elseif($amount > $user->balance){
             return response()->json(['error' => __("Quantity must be less than or equal to the user's balance")], 422);
         } else{
-
             $bank = Bank::find($request->bank_id);
             $transfer_fees = ($bank) ? $bank->fees + ($bank->fees * 0.15): 0;
             $status = $request->get('status', 'pending');
@@ -163,7 +154,6 @@ class TransferController extends Controller
             $data = [
                 'cycle_date' => $cycleDate,
                 'transfer_fees' => $transfer_fees,
-
                 'user_id' => $user->id,
                 'note' => $request->note,
                 'attachment' => $request->attachment,
@@ -171,12 +161,11 @@ class TransferController extends Controller
                 'bank_id' => $user->bank_id,
                 'iban_number' => $user->iban_number,
                 'beneficiary_name' => $user->beneficiary_name,
-                'file_name' => $file_name,
             ];
             
             $transfer = TransferService::makeTransfer($status, $amount, $data);
 
-            event(new TransferCreated($transfer));
+            // event(new TransferCreated($transfer));
 
             return new TransferResource($transfer);
         }
@@ -245,15 +234,28 @@ class TransferController extends Controller
                 Mail::to($email)->send(new RequestTransferMail($date, auth()->user(), $transfer));
             }
         }
-    }
+    } 
+
 
     /**
-     * get Excel File Name.
+     * get userT ransactions with balance by date.
      *
-     * @return String
+     * @return \Illuminate\Http\Response
      */
-    protected function getExcelFileName($user, $to)
+    public function userTransactions(Request $request, User $user)
     {
-        return "bills/$user->business_name_slug/{$to->timestamp}_sure_bills_request_transfer.xlsx";
-    }    
+        $transactions = $user->transactions()
+            ->amountByCycleDate($request->cycle_date)
+            ->orderBy('created_at', 'ASC')
+            ->orderBy('order', 'ASC')
+            ->orderBy('receipt', 'ASC')
+            ->with(['bill'])
+            ->paginate(10);
+            
+
+        $balance = $user->getBalanceBefore($request->cycle_date);
+        return (TransactionResource::collection($transactions))->additional(['meta' => [
+                'balance' => $balance,
+            ]]);;
+    }  
 }

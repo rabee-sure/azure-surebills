@@ -23,7 +23,6 @@ class TransferOperations
 
                 TransferService::createTransferTransaction($transfer);
 
-                $transfer->bills()->update(["settled" => false]);
                 $transfer->transactions()->update(['settled' => true]);
 
                 event(new TransferCreated($transfer));
@@ -44,9 +43,7 @@ class TransferOperations
 
                 $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results);
 
-                $bills = $transfer->bills()->update(["pending_settled" => false]);
-
-                $transactions = $transfer->transactions()->update(["pending_settled" => false]);
+                $transfer->transactions()->update(["pending_settled" => false]);
             }
         }
 
@@ -64,6 +61,7 @@ class TransferOperations
             if($transfer->status == 'pending' || $transfer->status == 'send_to_sps'){
                 $type = $status.' sps transfer';
                 $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results );
+                $transfer->transactions()->update(["pending_settled" => true]);
                 $body[] = $this->transformToSPS($transfer);
             }
         }

@@ -42,37 +42,6 @@ class UserController extends Controller
         return TransferResource::collection($Transfers);
     }
 
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function transactions(Request $request, User $user)
-    {
-        $transactions = Transaction::
-            where('user_id', $user->id)
-            ->where('settled', false)
-            ->where('transaction_source', '!=', 'transfer')
-            ->where('pending_settled', false)
-            ->orderBy('created_at', 'ASC')
-            ->orderBy('order', 'ASC')
-            ->orderBy('receipt', 'ASC')
-            ->with(['bill'])
-            ->whereDate('created_at', '<=', $request->cycle_date)
-            ->paginate(10);
-            
-
-        $balance_total = $user->transactions()
-            ->whereDate('created_at', '<=', $request->cycle_date)
-            ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
-            ->first();
-            $balance =  $balance_total->credit_total - $balance_total->debit_total;
-        return (TransactionResource::collection($transactions))->additional(['meta' => [
-                'balance' => floorp($balance, 2),
-            ]]);;
-    }
-
     /**
      * Display a listing of the resource.
      *
