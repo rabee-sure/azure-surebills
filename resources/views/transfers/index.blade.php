@@ -70,9 +70,9 @@
                                             <div class="badge badge-pill badge-success bill_status_badge" role="alert">
                                                 {{__('Transfer ' .$transfer->status)}}
                                             </div>
-                                        @elseif($transfer->status == 'pending')
+                                        @elseif($transfer->status == 'pending' || $transfer->status == 'send_to_sps')
                                             <div class="badge badge-pill badge-warning bill_status_badge" role="alert">
-                                                {{__('Transfer ' .$transfer->status)}}
+                                                {{__('Transfer ' .'pending')}}
                                             </div>
                                         @elseif($transfer->status == 'canceled')
                                             <div class="badge badge-pill badge-danger bill_status_badge" role="alert">

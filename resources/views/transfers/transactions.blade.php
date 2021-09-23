@@ -46,6 +46,8 @@
                 </tr>
               @endforeach
             </tbody>
+
+
             <tfoot>
               <tr>
                 <td colspan=" 5">{{ __('Total')}}</td>
@@ -56,6 +58,7 @@
             </tfoot>
           </table>
         </div>
+        {{ $transactions->links() }}
       </div>
     </div>
   @else

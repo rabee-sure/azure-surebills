@@ -54,6 +54,19 @@ class Transaction extends Model
     }
 
     /**
+     * Get user.
+     *
+     * @return Collection
+     */
+    public function scopeAmountByCycleDate($query, $cycleDate)
+    {
+        return $query->where('pending_settled', false)
+            ->where('settled', false)
+            ->where('transaction_source', '!=', "transfer")
+            ->whereDate('created_at', '<=', $cycleDate);
+    }
+
+    /**
      * boot method.
      */
     public static function boot()
