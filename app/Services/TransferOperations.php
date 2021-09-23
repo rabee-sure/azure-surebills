@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\TransferCreated;
+use App\Models\Transaction;
 use App\Models\TransferLog;
 use App\Services\TransferService;
 use Illuminate\Support\Facades\Http;
@@ -13,7 +14,7 @@ class TransferOperations
      * complete Transfars.
      * 
      */
-    public function complete($transfers, $status, $user_id, $results, $from_sps)
+    public function complete($transfers, $status, $user_id, $results=null, $from_sps=false)
     {
         foreach($transfers as $transfer){
             if($transfer->status == 'pending' ){
@@ -21,7 +22,7 @@ class TransferOperations
 
                 $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results);
 
-                TransferService::createTransferTransaction($transfer);
+                $this->createTransferTransaction($transfer);
 
                 $transfer->transactions()->update(['settled' => true]);
 
@@ -35,25 +36,36 @@ class TransferOperations
      * cancel Transfars.
      * 
      */
-    public function cancel($transfers, $status, $user_id, $results, $from_sps)
+    public function cancel($transfers, $status, $user_id, $results=null, $from_sps=false)
     {
         foreach($transfers as $transfer){
             if($transfer->status == 'pending' ){
                 $type = $from_sps ? $status.' sps transfer':$status.' transfer';
-
                 $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results);
 
                 $transfer->transactions()->update(["pending_settled" => false]);
             }
         }
+    }
 
+    /**
+     * pending Transfars.
+     * 
+     */
+    public function pending($transfers, $status, $user_id, $results=null, $from_sps=false)
+    {
+        foreach($transfers as $transfer){
+            if($transfer->status == 'pending' ){
+                $transfer->transactions()->update(['pending_settled' => true]);
+            }
+        }
     }
 
     /**
      * send transfers To Sps.
      * 
      */
-    public function sendToSps($transfers, $status, $user_id, $results, $from_sps)
+    public function sendToSps($transfers, $status, $user_id, $results=null, $from_sps=false)
     {
         $body = [];
 
@@ -111,5 +123,27 @@ class TransferOperations
             "transferStatusName" => "string",
             "beneficiaryCity" => "riyadh"
         ];
+    }
+
+
+    /**
+     * create Transfer Transaction.
+     *
+     * @param  App\Models\Transfer  $transfer
+     * @return void
+     */
+    protected function createTransferTransaction($transfer)
+    {
+        $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
+        $bankNumber = substr($transfer->user->iban_number, -4);
+
+        $transaction = new Transaction;
+        $transaction->user_id     = $transfer->user_id;
+        $transaction->type        = 'debit';
+        $transaction->amount      = $transfer->amount;
+        $transaction->reference   = $transfer->id;
+        $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
+        $transaction->transaction_source = 'transfer';
+        $transaction->save();    
     }
 }

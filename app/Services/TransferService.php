@@ -29,7 +29,7 @@ class TransferService
         return DB::transaction(function () use($status, $amount, $data){
 
             $transfer = Transfer::create([
-                'status' => $status,
+                'status' => 'pending',
                 'amount' => $amount,
                 'user_id' => $data['user_id'],
                 'transfer_fees' => $data['transfer_fees'],
@@ -62,21 +62,13 @@ class TransferService
                     $transfer->transactions()->attach($transactions_ids->pluck('id'));
                 });
 
+            $perations = new TransferOperations();
             if($status == 'completed'){
-                Transaction::
-                    where('user_id', $data['user_id'])
-                    ->amountByCycleDate($data['cycle_date']->format('Y-m-d'))
-                    ->update(['settled' => true]);
-                    TransferService::createTransferTransaction($transfer);
-
+                $perations->complete([$transfer], $status, auth()->user()->id);
             }elseif($status == 'pending'){
-                Transaction::
-                    where('user_id', $data['user_id'])
-                    ->amountByCycleDate($data['cycle_date']->format('Y-m-d'))
-                    ->update(['pending_settled' => true]);
+                $perations->pending([$transfer], $status, auth()->user()->id ?? null);
             }elseif($status == 'send_to_sps'){
-                $perations = new TransferOperations();
-                $perations->sendToSps([$transfer], $status, auth()->user()->id, null, false);
+                $perations->sendToSps([$transfer], $status, auth()->user()->id);
             }
 
             self::createTransactionsExcel($transfer);
@@ -96,27 +88,6 @@ class TransferService
         }elseif($status == 'canceled'){
             $perations->cancel($transfers, $status, $user_id, $results , $from_sps);
         }
-    }
-
-    /**
-     * create Transfer Transaction.
-     *
-     * @param  App\Models\Transfer  $transfer
-     * @return void
-     */
-    public static function createTransferTransaction($transfer)
-    {
-        $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
-        $bankNumber = substr($transfer->user->iban_number, -4);
-
-        $transaction = new Transaction;
-        $transaction->user_id     = $transfer->user_id;
-        $transaction->type        = 'debit';
-        $transaction->amount      = $transfer->amount;
-        $transaction->reference   = $transfer->id;
-        $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
-        $transaction->transaction_source = 'transfer';
-        $transaction->save();    
     }
 
 

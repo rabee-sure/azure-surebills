@@ -12,6 +12,7 @@ use App\Models\Transaction;
 use App\Models\Transfer;
 use App\Models\TransferLog;
 use App\Models\User;
+use App\Services\TransferOperations;
 use App\Services\TransferService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -122,7 +123,7 @@ class TransferController extends Controller
         $transfer = TransferService::makeTransfer('pending', $amount, $data);
 
         if($transfer)
-            // $this->sendMails($transfer_emails, $cycleDate, $transfer);
+            $this->sendMails($transfer_emails, $cycleDate, $transfer);
         
         return redirect()->back();
     }
@@ -165,8 +166,6 @@ class TransferController extends Controller
             
             $transfer = TransferService::makeTransfer($status, $amount, $data);
 
-            // event(new TransferCreated($transfer));
-
             return new TransferResource($transfer);
         }
     }
@@ -195,28 +194,8 @@ class TransferController extends Controller
      */
     public function cancel(Request $request, Transfer $transfer)
     {
-        $transfer->status = 'canceled';
-        $transfer->save();
-        $user_id = $transfer->user_id;
-
-        $bills = $transfer->bills;
-        foreach ($bills as $bill) {
-            $bill->pending_settled = false; 
-            $bill->save();
-        }
-
-        $transactions = $transfer->transactions;
-        foreach ($transactions as $transaction) {
-            $transaction->pending_settled = false; 
-            $transaction->save();
-        }
-
-         $log = TransferLog::create([
-            'type' => 'cancel transfer',
-            'user_id' => auth()->user()->id,
-            'transfer_id' => $transfer->id,
-            'transfer_status' => $transfer->status,
-        ]);
+        $perations = new TransferOperations();
+        $perations->cancel([$transfer], 'canceled', auth()->user()->id);
 
         return new TransferResource($transfer);
     }
@@ -254,8 +233,11 @@ class TransferController extends Controller
             
 
         $balance = $user->getBalanceBefore($request->cycle_date);
-        return (TransactionResource::collection($transactions))->additional(['meta' => [
+        return (TransactionResource::collection($transactions))
+        ->additional([
+            'meta' => [
                 'balance' => $balance,
-            ]]);;
+            ]
+        ]);
     }  
 }
