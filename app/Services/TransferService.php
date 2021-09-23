@@ -4,14 +4,15 @@ namespace App\Services;
 
 use App\Exports\TransactionsExport;
 use App\Http\Resources\TransactionResource;
+use App\Jobs\UpdateTransferExcelFile;
 use App\Models\Transaction;
 use App\Models\Transfer;
 use App\Models\TransferLog;
 use App\Services\TransferOperations;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
-use Carbon\Carbon;
 
 class TransferService 
 { 
@@ -101,12 +102,17 @@ class TransferService
     {
         $file_name = self::saveExcelFileName($transfer);
         $data = json_decode((TransactionResource::collection($transfer->transactions))->toJson(), true);
-        if(Excel::store(new TransactionsExport($data), $file_name , 'public')){
+        (new TransactionsExport($data))->store($file_name, 'public')->chain([
+            new UpdateTransferExcelFile($transfer, $file_name),
+        ]);
+        
 
-            $transfer->addMedia(storage_path('app/public/'.$file_name))
-                ->preservingOriginal()
-                ->toMediaCollection('transfers_transactions');
-        }
+        // if(Excel::store(new TransactionsExport($data), $file_name , 'public')){
+
+        //     $transfer->addMedia(storage_path('app/public/'.$file_name))
+        //         ->preservingOriginal()
+        //         ->toMediaCollection('transfers_transactions');
+        // }
         return $transfer;
     }
 

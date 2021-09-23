@@ -6,9 +6,13 @@ use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Concerns\Exportable;
 
-class TransactionsExport implements FromView
+class TransactionsExport implements FromView, ShouldQueue
 {
+    use Exportable;
+
     protected $transactions;
 
     public function __construct( $transactions)
