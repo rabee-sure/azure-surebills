@@ -22,12 +22,14 @@ class TransferController extends Controller
             return response('Unauthorized.', 401);
         }
 
-        $transactions_all = $transfer->transactions()->get();
+        $balance_total = $transfer->transactions()
+            ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
+            ->first();
         $transactions = $transfer->transactions()->paginate($request->get('per_page', 10));
         return TransactionResource::collection($transactions)->additional(['meta' => [
-            'balance' => round($transactions_all->where('type', 'credit')->sum('amount')-$transactions_all->where('type', 'debit')->sum('amount'), 2),
-            'total_credit' => round($transactions_all->where('type', 'credit')->sum('amount'), 2),
-            'total_debit' => round($transactions_all->where('type', 'debit')->sum('amount'), 2),
+            'balance' => round2($balance_total->credit_total - $balance_total->debit_total),
+            'total_credit' => round2($balance_total->credit_total),
+            'total_debit' => round2($balance_total->debit_total),
         ]]);
     }
 }

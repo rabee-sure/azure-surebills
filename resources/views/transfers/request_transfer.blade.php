@@ -18,7 +18,7 @@
                 <div class="modal-body">
                     @csrf
                     @method('POST')
-                    @if($transfers->where('status', 'pending')->count())
+                    @if($transfers->where('status', 'pending')->count() || $transfers->where('status', 'send_to_sps')->count())
                         <h4 class="text-center m-0">{{ __('Sorry, you cannot request a transfer now. Please wait for the Transfer of the previous transfer')}}</h4>
                     @else
                         <h4 class="text-center m-0">{{ __('Are You sure you want Request transfer?')}}</h4>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="modal-footer">
 
-                @if(!$transfers->where('status', 'pending')->count())
+                @if(!$transfers->where('status', 'pending')->count() &&  !$transfers->where('status', 'send_to_sps')->count())
                     <button type="submit" class="btn btn-danger login_button mr-3">
                         {{__('Request')}}
                     </button>

@@ -7,10 +7,10 @@
         $settings =  Spatie\Valuestore\Valuestore::make(storage_path('app/settings.json'));
         $mobile_number = $settings->get('mobile_number');
     @endphp
-      @if (!auth()->user()->verified)
-        @if(auth()->user()->is_uploaded_documents)
+      @if (!$user->verified)
+        @if($user->is_uploaded_documents)
           <div class="alert alert-warning account_not_verified mb-5" role="alert">
-            {{ __('Your account is being verified so that you can withdraw the collected amounts. The documentation process may take up to two business days. In the event that the documentation is not completed before :date, please contact us on :mobile', ['mobile' => $mobile_number, 'date' => auth()->user()->two_business_days]) }}
+            {{ __('Your account is being verified so that you can withdraw the collected amounts. The documentation process may take up to two business days. In the event that the documentation is not completed before :date, please contact us on :mobile', ['mobile' => $mobile_number, 'date' => $user->two_business_days]) }}
           </div>
         @else
         <div class="alert alert-warning account_not_verified mb-5" role="alert">
@@ -33,7 +33,7 @@
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Balance') }}</p>
-                  <p class="lead text-center">{{ round2(auth()->user()->balance) }}</p>
+                  <p class="lead text-center">{{ round2($balance) }}</p>
                 </div>
               </a>
             </div>
@@ -42,7 +42,7 @@
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
                   <p class="card-text font-weight-semibold mb-0">{{ __('Pending Balance') }}</p>
-                  <p class="lead text-center">{{ round2(auth()->user()->pending_balance) }}</p>
+                  <p class="lead text-center">{{ round2($user->pending_balance) }}</p>
                 </div>
               </a>
             </div>
@@ -77,9 +77,9 @@
         </div>
 
         <div class="col-12">
-          <bills-paid-amount :user="{{auth()->user()}}"></bills-paid-amount>
-          <bills-paid-count :user="{{auth()->user()}}"></bills-paid-count>
-          <bills-count :user="{{auth()->user()}}"></bills-count>
+          <bills-paid-amount :user="{{$user}}"></bills-paid-amount>
+          <bills-paid-count :user="{{$user}}"></bills-paid-count>
+          <bills-count :user="{{$user}}"></bills-count>
         </div>
         
         <div class="col-xl-12 col-lg-12 mb-4">

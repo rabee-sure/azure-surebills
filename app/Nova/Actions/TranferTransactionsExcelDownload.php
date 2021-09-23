@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 
@@ -32,16 +33,20 @@ class TranferTransactionsExcelDownload extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        foreach ($models as $model) {
-            $this->updateFile($model);
-            $filename = 'bills/'.$model->filters['files']['folder'].'/'.$model->filters['files']['transactions'];
+        foreach ($models as $transfer) {
+            $transfer_files = $transfer->filters['files']??[];
+            $transactions_file_path = $transfer_files['file_path'] ?? 'rfedw';
+            $path = storage_path('app/public/' . $transactions_file_path);
 
-            $new_file_name = 'public/shared-bills/'.$model->filters['files']['transactions'];
-            Storage::delete( $new_file_name );
-            Storage::copy( $filename, $new_file_name );
-            $path = storage_path('app/'.$new_file_name);
-            if(\File::exists($path)){
-                return Action::download( Storage::url($new_file_name), $model->filters['files']['transactions']);
+            if (!File::exists($path)) {
+                TransferService::createTransactionsExcel($transfer);
+                $transfer->refresh();
+                $path = storage_path('app/public/' . $transfer->filters['files']['file_path']);
+            }
+
+          
+            if(File::exists($path)){
+                return Action::download( Storage::url('public/'.$transfer->filters['files']['file_path']), $transfer->filters['files']['file_name']);
             }
             else
                 return Action::danger(404);
