@@ -4,7 +4,12 @@ namespace App\Console\Commands;
 
 use App\Events\TransferCreated;
 use App\Exports\BillsExport;
+use App\Exports\TransactionsExport;
 use App\Http\Resources\BillResource;
+use App\Http\Resources\TransactionExportResource;
+use App\Jobs\ExportTransactionsFileJob;
+use App\Jobs\SendAutoTransferMailsJob;
+use App\Jobs\ZipFolderJob;
 use App\Mail\AutoTransferMail;
 use App\Models\Bill;
 use App\Models\Transaction;
@@ -59,12 +64,12 @@ class TransferAutomatic extends Command
 
         $cycleDate = Carbon::now()->startOfDay();
         if($transfer_automatic && $cycleDate->dayOfWeek == $transfer_day ){
-            $users = User::where('verified', true)->where('auto_trnasfer', true)->get();
+            $users = User::where('verified', true)->where('auto_trnasfer', true)->with('bank')->get();
             
             $filtered_users = $users->filter(function($user) use($transfer_minimum){
                 return $user->actual_balance >= $transfer_minimum;
             });
-            
+            $transfer_ids = [];
             foreach ($filtered_users as $user) {
                 $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d'));
                 if($amount  >= $transfer_minimum){
@@ -83,26 +88,48 @@ class TransferAutomatic extends Command
                         'beneficiary_name' => $user->beneficiary_name,
                     ];
                     $transfer = TransferService::makeTransfer('pending', $amount, $data);
+                    $transfer_ids[] = $transfer->id;
                 }
             }
 
-            // if($filtered_users->count())
-                // $this->sendMails($transfer_emails, $cycleDate);
+            $this->createMasterSheet($transfer_ids, $cycleDate);
         }
     }
  
     /**
-     * send Mails.
+     * create Transactions Excel.
      *
-     * @return void
+     * @param  App\Transfer  $transfer
+     * @return App\Transfer  $transfer
      */
-    protected function sendMails($emails_string, $date)
+    public function createMasterSheet($transfer_ids, $cycleDate)
     {
-        $emails = explode(",", $emails_string);
-        if(count($emails)){
-            foreach ($emails as $email) {
-                Mail::to($email)->send(new AutoTransferMail($date));
-            }
+        $channel_sources = [
+            'channel_extra_amount',
+            'channel_extra_amount_vat',
+            'channel_extra_amount_fees',
+            'channel_fees',
+            'channel_vat',
+        ];
+
+        if(count($transfer_ids)){
+            $transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids, $channel_sources){
+                $q->whereIn('transfer_id', $transfer_ids)->whereNotIn('transaction_source', $channel_sources);
+            })->with('bill.application.channel')->get();
+
+
+
+            $day = $cycleDate->format('Y-m-d');
+            $merchants_file = "automatic_transfers/$day/merchants_transactions.xlsx";
+            $channels_file = "automatic_transfers/$day/channels_transactions.xlsx";
+
+            $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
+            (new TransactionsExport($data))->store($merchants_file, 'public')->chain([
+               new ExportTransactionsFileJob($transfer_ids, $channels_file),
+               new ZipFolderJob("automatic_transfers/$day", "master_sheet_$day.zip"),
+               new SendAutoTransferMailsJob($day),
+            ]);
         }
+        return true;
     }
 }

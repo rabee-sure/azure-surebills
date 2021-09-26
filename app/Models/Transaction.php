@@ -44,6 +44,16 @@ class Transaction extends Model
     }
 
     /**
+     * Get transfers.
+     *
+     * @return Collection
+     */
+    public function transfers()
+    {
+        return $this->belongsToMany(Transfer::class);
+    }
+
+    /**
      * Get user.
      *
      * @return Collection

@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function all()
     {
-        $users = User::all();
+        $users = User::with('bank')->get();
         return UserResource::collection($users);
     }
 
@@ -37,6 +37,7 @@ class UserController extends Controller
     {
         $Transfers = $user->Transfers()
             ->orderBy('id', 'desc')
+            ->with('created_by', 'user')
             ->paginate($request->per_page);
 
         return TransferResource::collection($Transfers);

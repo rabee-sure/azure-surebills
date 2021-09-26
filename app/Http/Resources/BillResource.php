@@ -70,5 +70,6 @@ class BillResource extends JsonResource
             "application_channel_id" => ($this->application) ? $this->application->channel_id : null,
             "application_channel_name" => ($this->application && $this->application->channel_id) ? $this->application->channel->name : null,
         ];
+
     }
 }

@@ -16,7 +16,7 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        $applications = auth()->user()->applications;
+        $applications = auth()->user()->applications()->with('channel')->get();
         return ApplicationResource::collection($applications);
     }
 
