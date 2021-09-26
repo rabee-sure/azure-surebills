@@ -56,11 +56,14 @@ class TransferService
                 'transfer_status' => $status,
             ]);
 
-            Transaction::
-                where('user_id', $data['user_id'])
+            Transaction::select('id')
+                ->where('user_id', $data['user_id'])
                 ->amountByCycleDate($data['cycle_date']->format('Y-m-d'))
                 ->chunk(1000, function($transactions_ids) use($transfer){
-                    $transfer->transactions()->attach($transactions_ids->pluck('id'));
+                    $transactions = $transactions_ids->transform(function ($item) use ($transfer) {
+                        return collect(['transaction_id' => $item->id, 'transfer_id' => $transfer->id]);
+                    })->toArray();
+                    DB::table('transaction_transfer')->insert($transactions);
                 });
 
             $perations = new TransferOperations();
