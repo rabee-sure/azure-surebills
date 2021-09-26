@@ -60978,7 +60978,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60991,6 +60991,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__table_expand_vue__);
+//
+//
 //
 //
 //
@@ -61146,6 +61148,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             transactionsModal: false,
             transactions: [],
+            transactions_meta: {},
             new_transactions: [],
             transactionsTable: [{
                 type: 'expand',
@@ -61176,6 +61179,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             user: [],
             errors: [],
             loading: false,
+            table_loading: false,
             fileError: null,
             options: {
                 disabledDate: function disabledDate(date) {
@@ -61268,7 +61272,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handleChangeDate: function handleChangeDate(date) {
             var _this2 = this;
 
-            this.refresh();
+            var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+            var refresh = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+            if (refresh) {
+                this.refresh();
+            }
+            this.table_loading = true;
             if (date != '' && this.isValidDate(date) && this.isValidDate(date)) {
                 this.validDateRange = true;
                 Nova.request().get('/users/' + this.$route.params.id + '/transactions', {
@@ -61277,7 +61287,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         bills_not_settled: true
                     }
                 }).then(function (response) {
+
                     _this2.transactions = response.data.data;
+                    _this2.transactions_meta = response.data.meta;
                     _this2.new_transactions = _this2.transactions.map(function (item) {
                         return {
                             'created_at': item.created_at,
@@ -61297,6 +61309,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             }
                         });
                     }
+                    _this2.table_loading = false;
                 });
             } else {
                 this.validDateRange = false;
@@ -61380,6 +61393,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.new_transactions = [];
             this.form.amount = 0;
             this.form.status = 'completed';
+        },
+        nextPage: function nextPage(page) {
+            this.handleChangeDate(this.form.cycle_date, page, false);
         },
         changeStatus: function changeStatus(status, id) {
             var _this4 = this;
@@ -61762,7 +61778,7 @@ var render = function() {
                         [
                           _c(
                             "Badge",
-                            { attrs: { count: _vm.transactions.length } },
+                            { attrs: { count: _vm.transactions_meta.total } },
                             [
                               _c("Button", {
                                 attrs: { icon: "md-reorder", size: "large" },
@@ -62192,6 +62208,7 @@ var render = function() {
           _vm._v(" "),
           _c("Table", {
             attrs: {
+              loading: _vm.table_loading,
               stripe: "",
               height: "400",
               columns: _vm.transactionsTable,
@@ -62223,6 +62240,15 @@ var render = function() {
                 }
               }
             ])
+          }),
+          _vm._v(" "),
+          _c("Page", {
+            attrs: {
+              total: _vm.transactions_meta.total,
+              size: "small",
+              "show-total": ""
+            },
+            on: { "on-change": _vm.nextPage }
           }),
           _vm._v(" "),
           _c(

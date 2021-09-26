@@ -50,30 +50,32 @@ class UpdateTransactionsSettled extends Command
     public function handle()
     {
         // completed
-        $transfers = Transfer::where('status', 'completed')->get();
+        $transfers = Transfer::all();
         foreach ($transfers as $key => $transfer) {
+            $this->info('transfer '. $transfer->id. ' status '.  $transfer->status);
             $user = $transfer->user;
             $bills = $transfer->bills;
             $bill_ids = $bills->pluck('id');
 
-            $transactions = Transaction::whereIn('bill_id', $bill_ids)
-                    ->where('user_id', $user->id);
 
-            $transactions->update(['settled' => true]);
-        }
+            $transactions_id = Transaction::whereIn('bill_id', $bill_ids)
+                ->where('user_id', $user->id)->pluck('id')->toArray();
+            $transfer->transactions()->sync($transactions_id);
 
-        // pending
-        $pending_transfers = Transfer::where('status', 'pending')->get();
-        foreach ($pending_transfers as $key => $transfer) {
-            $user = $transfer->user;
-            $bills = $transfer->bills;
-            $bill_ids = $bills->pluck('id');
 
-            $transactions = Transaction::whereIn('bill_id', $bill_ids)
-                    ->where('user_id', $user->id);
-
-            $transactions->update(['pending_settled' => true]);
+            if($transfer->status == 'completed'){
+                Transaction::whereIn('bill_id', $bill_ids)
+                    ->where('user_id', $user->id)
+                    ->update(['settled' => true]);
+            }elseif($transfer->status == 'pending'){
+                Transaction::whereIn('bill_id', $bill_ids)
+                    ->where('user_id', $user->id)
+                    ->update(['pending_settled' => true]);
+            }
         }
 
     }
+
+
+       
 }

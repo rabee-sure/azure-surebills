@@ -43,7 +43,7 @@ class RequestTransferMail extends Mailable
         $day = $this->date->format('d-m-Y');
 
         // $fileName = "app/bills/{$this->user->business_name_slug}/{$this->transfer->filters['files']['bills']}";
-        $transactionsFileName = "app/bills/{$this->user->business_name_slug}/{$this->transfer->filters['files']['transactions']}";
+        $transactionsFileName = "app/public/{$this->transfer->filters['files']['file_path']}";
 
         return $this->subject( $this->user->business_name ." requesting a new transfer - SureBills Transfers")
             ->view('emails.bills.request_transfer', [

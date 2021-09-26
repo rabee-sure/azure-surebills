@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -39,31 +40,6 @@ class UserController extends Controller
             ->paginate($request->per_page);
 
         return TransferResource::collection($Transfers);
-    }
-
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function transactions(Request $request, User $user)
-    {
-        $transactions = Transaction::
-            where('user_id', $user->id)
-            ->where('settled', false)
-            ->where('pending_settled', false)
-            ->where('transaction_source', '!=', 'transfer')
-            ->orderBy('created_at', 'ASC')
-            ->orderBy('order', 'ASC')
-            ->orderBy('receipt', 'ASC')
-            ->whereDate('created_at', '<=', $request->cycle_date)
-            ->get();
-
-        $balance = $transactions->where('type', 'credit')->sum('amount')-$transactions->where('type', 'debit')->sum('amount');
-        return (TransactionResource::collection($transactions))->additional(['meta' => [
-                'balance' => floorp($balance, 2),
-            ]]);;
     }
 
     /**

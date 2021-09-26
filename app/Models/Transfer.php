@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Transfer extends Model
+class Transfer extends Model implements HasMedia
 {
-    
+    use InteractsWithMedia;
+
     protected $table = 'settlements';
 
     protected $fillable = [
@@ -37,6 +41,10 @@ class Transfer extends Model
         'filters' => 'array',
     ];
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('transfers_transactions')->singleFile();
+    }
 
     /**
      * Get the user's is Active.

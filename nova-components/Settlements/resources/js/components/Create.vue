@@ -12,7 +12,7 @@
                 </Col>
                 <Col span="1">
                     <Tooltip :content="__('Transactions')" >
-                        <Badge :count="transactions.length">
+                        <Badge :count="transactions_meta.total">
                             <Button @click="transactionsModal = true" icon="md-reorder"  size="large"></Button>
                         </Badge>
                     </Tooltip>
@@ -111,12 +111,14 @@
             :name="'Transactions-'+user.business_name_en+'-FROM-'+ formatDate(form.cycle_date)">
             <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
         </download-excel>
-        <Table stripe height="400" :columns="transactionsTable" :data="transactions" :no-data-text="__('No Data')">
+        <Table :loading="table_loading" stripe height="400" :columns="transactionsTable" :data="transactions" :no-data-text="__('No Data')">
             <template slot-scope="{ row }" slot="type">
                 <Button type="success" v-if="row.type == 'credit'" size="small">{{ __(row.type) }}</Button>
                 <Button type="error" v-if="row.type == 'debit'" size="small">{{ __(row.type) }}</Button>
             </template>
         </Table>
+        <Page :total="transactions_meta.total" size="small" show-total @on-change="nextPage"/>
+
         <div slot="footer">
             <Button type="primary"  @click="transactionsModal = !transactionsModal">{{__('OK')}}</Button>
         </div>
@@ -157,6 +159,7 @@ export default {
 
             transactionsModal: false,
             transactions: [],
+            transactions_meta:{},
             new_transactions: [],
             transactionsTable: [
                 {
@@ -193,6 +196,7 @@ export default {
             user: [],
             errors: [],
             loading: false,
+            table_loading: false,
             fileError: null,
             options: {
                 disabledDate (date) {
@@ -292,8 +296,11 @@ export default {
         isValidDate(d){
             return !isNaN((new Date(d)).getTime());
         },
-        handleChangeDate (date) {
-            this.refresh();
+        handleChangeDate (date, page=1, refresh=true) {
+            if(refresh){
+                this.refresh();
+            }
+            this.table_loading = true
             if(date != '' && this.isValidDate(date) && this.isValidDate(date)){
                 this.validDateRange = true;
                 Nova.request().get('/users/'+this.$route.params.id+'/transactions', {
@@ -303,7 +310,9 @@ export default {
                     }
                 })
                 .then(response => {
+
                     this.transactions = response.data.data;
+                    this.transactions_meta = response.data.meta;
                     this.new_transactions = this.transactions.map((item) => {
                         return {
                             'created_at': item.created_at,
@@ -325,6 +334,7 @@ export default {
                             }
                         });
                     }
+                    this.table_loading = false
                 });
             }
             else
@@ -414,6 +424,9 @@ export default {
             this.new_transactions = [];
             this.form.amount = 0;           
             this.form.status = 'completed';           
+        },        
+        nextPage(page) {
+            this.handleChangeDate(this.form.cycle_date,page, false)       
         },
         changeStatus(status, id) {
             this.switch_loading = true;
