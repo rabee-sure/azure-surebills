@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Events\TransferCreated;
 use App\Exports\BillsExport;
-use App\Exports\TransactionsExport;
+use App\Exports\TransactionsExportQueued;
 use App\Http\Resources\BillResource;
 use App\Http\Resources\TransactionExportResource;
 use App\Jobs\ExportTransactionsFileJob;
@@ -124,7 +124,7 @@ class TransferAutomatic extends Command
             $channels_file = "automatic_transfers/$day/channels_transactions.xlsx";
 
             $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
-            (new TransactionsExport($data))->store($merchants_file, 'public')->chain([
+            (new TransactionsExportQueued($data))->store($merchants_file, 'public')->chain([
                new ExportTransactionsFileJob($transfer_ids, $channels_file),
                new ZipFolderJob("automatic_transfers/$day", "master_sheet_$day.zip"),
                new SendAutoTransferMailsJob($day),
