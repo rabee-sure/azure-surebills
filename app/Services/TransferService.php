@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exports\TransactionsExport;
 use App\Http\Resources\TransactionExportResource;
+use App\Jobs\CreateTransferExcelFileJob;
 use App\Jobs\UpdateTransferExcelFile;
 use App\Models\Transaction;
 use App\Models\Transfer;
@@ -71,8 +72,10 @@ class TransferService
             }elseif($status == 'send_to_sps'){
                 $perations->sendToSps([$transfer], $status, auth()->user()->id);
             }
+
             $file_name = self::saveExcelFileName($transfer);
-            self::createTransactionsExcel($transfer, $file_name);
+
+            CreateTransferExcelFileJob::dispatch($transfer->id);
 
             return $transfer;
         }); 

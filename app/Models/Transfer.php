@@ -107,7 +107,7 @@ class Transfer extends Model implements HasMedia
      * Pending
      */
     public function scopePending($query){
-        $query->where('status', 'pending')
+        $query->whereIn('status', ['pending', 'send_to_sps'])
             ->orWhere(function($q){
                 $q->where('status', 'completed')->whereNull('attachment');
             });
