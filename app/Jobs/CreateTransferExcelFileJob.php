@@ -11,13 +11,12 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateTransferExcelFile implements ShouldQueue
+class CreateTransferExcelFileJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
 
-    protected $transfer;
-    protected $file_name;
+    protected $transfer_id;
 
 
     /**
@@ -25,10 +24,9 @@ class UpdateTransferExcelFile implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Transfer $transfer, $file_name )
+    public function __construct($transfer_id)
     {
-        $this->transfer = $transfer;
-        $this->file_name = $file_name;
+        $this->transfer_id = $transfer_id;
     }
 
     /**
@@ -38,8 +36,9 @@ class UpdateTransferExcelFile implements ShouldQueue
      */
     public function handle()
     {
-        $this->transfer->addMedia(storage_path('app/public/'.$this->file_name))
-            ->preservingOriginal()
-            ->toMediaCollection('transfers_transactions');
+
+        \Artisan::call('transfer:excel', [
+            'id' => $this->transfer_id 
+        ]);
     }
 }

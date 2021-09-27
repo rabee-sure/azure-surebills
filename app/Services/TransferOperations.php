@@ -24,7 +24,12 @@ class TransferOperations
 
                 $this->createTransferTransaction($transfer);
 
-                $transfer->transactions()->update(['settled' => true]);
+            $transfer->transactions()
+                ->chunkById(1000, function($transactions_ids){
+                    Transaction::whereIn('id', $transactions_ids->pluck('id'))->update(['settled' => true]);
+                });
+
+                // $transfer->transactions()->update(['settled' => true]);
 
                 event(new TransferCreated($transfer));
             }

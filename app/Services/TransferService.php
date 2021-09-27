@@ -3,7 +3,8 @@
 namespace App\Services;
 
 use App\Exports\TransactionsExport;
-use App\Http\Resources\TransactionResource;
+use App\Http\Resources\TransactionExportResource;
+use App\Jobs\CreateTransferExcelFileJob;
 use App\Jobs\UpdateTransferExcelFile;
 use App\Models\Transaction;
 use App\Models\Transfer;
@@ -72,7 +73,9 @@ class TransferService
                 $perations->sendToSps([$transfer], $status, auth()->user()->id);
             }
 
-            self::createTransactionsExcel($transfer);
+            $file_name = self::saveExcelFileName($transfer);
+
+            CreateTransferExcelFileJob::dispatch($transfer->id);
 
             return $transfer;
         }); 
@@ -98,10 +101,10 @@ class TransferService
      * @param  App\Transfer  $transfer
      * @return App\Transfer  $transfer
      */
-    public static function createTransactionsExcel($transfer)
+    public static function createTransactionsExcel($transfer, $file_name)
     {
-        $file_name = self::saveExcelFileName($transfer);
-        $data = json_decode((TransactionResource::collection($transfer->transactions))->toJson(), true);
+        $data = json_decode((TransactionExportResource::collection($transfer->transactions->load('bill.application.channel')))->toJson(), true);
+        
         (new TransactionsExport($data))->store($file_name, 'public')->chain([
             new UpdateTransferExcelFile($transfer, $file_name),
         ]);
