@@ -39,7 +39,8 @@ class TranferTransactionsExcelDownload extends Action
             $path = storage_path('app/public/' . $transactions_file_path);
 
             if (!File::exists($path)) {
-                TransferService::createTransactionsExcel($transfer);
+                $file_name = TransferService::saveExcelFileName($transfer);
+                TransferService::createTransactionsExcel($transfer, $file_name);
                 $transfer->refresh();
                 $path = storage_path('app/public/' . $transfer->filters['files']['file_path']);
             }
