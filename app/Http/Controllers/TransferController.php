@@ -29,7 +29,8 @@ class TransferController extends Controller
      */
     public function index()
     {
-        return view('transfers.index', ['transfers' => auth()->user()->transfers]);
+        $transfers = auth()->user()->transfers()->with('created_by')->get();
+        return view('transfers.index', ['transfers' => $transfers]);
     }
 
     /**
@@ -76,7 +77,7 @@ class TransferController extends Controller
      */
     public function all(Request $request)
     {
-        $transfers = Transfer::orderBy('id', 'desc')->pending()
+        $transfers = Transfer::orderBy('id', 'desc')->pending()->with('created_by', 'user')
             ->paginate($request->per_page);
 
         return TransferResource::collection($transfers);
@@ -179,7 +180,7 @@ class TransferController extends Controller
      */
     public function changeStatus(Request $request)
     {
-        $transfers = Transfer::whereIn('id', $request->ids )->get();
+        $transfers = Transfer::whereIn('id', $request->ids )->with('created_by', 'user')->get();
 
         TransferService::changeTranfersStatus($transfers, $request->status, auth()->user()->id);
         
