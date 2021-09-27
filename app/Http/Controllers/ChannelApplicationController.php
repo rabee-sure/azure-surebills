@@ -19,7 +19,7 @@ class ChannelApplicationController extends Controller
      */
     public function index(Channel $channel)
     {
-        $applications = $channel->applications;
+        $applications = $channel->applications()->with('user', 'channel')->get();
         return ChannelApplicationResource::collection($applications);
     }
 

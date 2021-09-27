@@ -18,6 +18,7 @@ class CustomerController extends Controller
     {
         $customers = auth()->user()->customers()
             ->orderBy('id', 'desc')
+            ->with('bills')
             ->paginate($request->get('per_page', 10));
         return view('customers.index',  ['customers' => $customers]);
     }

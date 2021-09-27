@@ -38,8 +38,8 @@ class UpdateTransferExcelFile implements ShouldQueue
      */
     public function handle()
     {
-            $this->transfer->addMedia(storage_path('app/public/'.$this->file_name))
-                ->preservingOriginal()
-                ->toMediaCollection('transfers_transactions');
+        $this->transfer->addMedia(storage_path('app/public/'.$this->file_name))
+            ->preservingOriginal()
+            ->toMediaCollection('transfers_transactions');
     }
 }

@@ -27,15 +27,15 @@
         <td>{{ $transaction['amount'] }}</td>
         <td>{{ $transaction['id'] }}</td>
         <td>{{ $transaction['bill_id'] }}</td>
-        <td>{{ $transaction['bill']['reference_id'] }}</td>
-        <td>{{ $transaction['bill']['number'] }}</td>
-        <td>{{ $transaction['bill']['user_id'] }}</td>
-        <td>{{ $transaction['bill']['business_name'] }}</td>
+        <td>{{ $transaction['bill_reference_id'] }}</td>
+        <td>{{ $transaction['bill_number'] }}</td>
+        <td>{{ $transaction['bill_user_id'] }}</td>
+        <td>{{ $transaction['bill_business_name'] }}</td>
         <td>{{ $transaction['card_brand'] }}</td>
         <td>{{ $transaction['card'] }}</td>
         <td>{{ $transaction['source'] }}</td>
-        <td>{{ $transaction['bill']['application_channel_id'] }}</td>
-        <td>{{ $transaction['bill']['application_channel_name'] }}</td>
+        <td>{{ $transaction['bill_application_channel_id'] }}</td>
+        <td>{{ $transaction['bill_application_channel_name'] }}</td>
       </tr>
     @endforeach
   </tbody>
