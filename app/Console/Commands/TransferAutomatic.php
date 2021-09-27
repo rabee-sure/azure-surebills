@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Events\TransferCreated;
 use App\Exports\BillsExport;
+use App\Exports\TransactionsExport;
 use App\Exports\TransactionsExportQueued;
 use App\Http\Resources\BillResource;
 use App\Http\Resources\TransactionExportResource;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Valuestore\Valuestore;
+use Illuminate\Support\Facades\File;
 
 class TransferAutomatic extends Command
 {
@@ -124,12 +126,45 @@ class TransferAutomatic extends Command
             $channels_file = "automatic_transfers/$day/channels_transactions.xlsx";
 
             $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
-            (new TransactionsExportQueued($data))->store($merchants_file, 'public')->chain([
-               new ExportTransactionsFileJob($transfer_ids, $channels_file),
-               new ZipFolderJob("automatic_transfers/$day", "master_sheet_$day.zip"),
-               new SendAutoTransferMailsJob($day),
-            ]);
+
+
+            $channel_transactions = Transaction::whereHas('transfers', function($q) use( $channel_sources, $transfer_ids){
+                $q->whereIn('transfer_id', $transfer_ids)->whereIn('transaction_source', $channel_sources);
+            })->with('bill.application.channel')->get();
+            $channels_data = json_decode((TransactionExportResource::collection($channel_transactions))->toJson(), true);
+            Excel::store(new TransactionsExport($channels_data), $channels_file , 'public');
+           
+
+            $this->zipFolder("automatic_transfers/$day", "master_sheet_$day.zip");
+
+            $settings =  Valuestore::make(storage_path('app/settings.json'));
+            $transfer_emails = $settings->get('transfer_emails');
+            $emails = explode(",", $transfer_emails);
+            if(count($emails)){
+                foreach ($emails as $email) {
+                    Mail::to($email)->send(new AutoTransferMail($day));
+                }
+            }
         }
         return true;
     }
+
+    public function zipFolder($folder_name , $file_name)
+    {
+        $file_full_path = 'app/public/'.$folder_name.'/'.$file_name;
+        //first delete file
+        if(is_file(storage_path($file_full_path)))
+            unlink(storage_path($file_full_path));
+
+        $zip = new \ZipArchive;
+        if ($zip->open(storage_path($file_full_path), \ZipArchive::CREATE) === TRUE){
+            $files = File::files(storage_path("app/public/$folder_name"));
+            foreach ($files as $key => $value) {
+                $relativeNameInZipFile = basename($value);
+                $zip->addFile($value, $relativeNameInZipFile);
+            }
+            $zip->close();
+        }
+    }
+
 }
