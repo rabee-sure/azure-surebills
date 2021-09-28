@@ -82,6 +82,8 @@ class BillApiRequest extends FormRequest
             'application_name' => ['nullable'],
             'redirect_url' => ['nullable'],
             'webhook_url' => ['nullable'],
+
+            'tags' => ['nullable', 'string'],
         ];
     }
 
