@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Events\TransferCreated;
 use App\Exports\BillsExport;
 use App\Exports\TransactionsExport;
+use App\Exports\TransactionsExportQueued;
 use App\Http\Resources\BillResource;
 use App\Http\Resources\TransactionExportResource;
 use App\Jobs\ExportTransactionsFileJob;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Valuestore\Valuestore;
+use Illuminate\Support\Facades\File;
 
 class TransferAutomatic extends Command
 {
@@ -39,6 +41,14 @@ class TransferAutomatic extends Command
      */
     protected $description = 'transfer automatic';
 
+    protected $CHANNEL_SOURCES = [
+        'channel_extra_amount',
+        'channel_extra_amount_vat',
+        'channel_extra_amount_fees',
+        'channel_fees',
+        'channel_vat',
+    ];
+
     /**
      * Create a new command instance.
      *
@@ -48,6 +58,7 @@ class TransferAutomatic extends Command
     {
         parent::__construct();
     }
+
 
     /**
      * Execute the console command.
@@ -104,32 +115,67 @@ class TransferAutomatic extends Command
      */
     public function createMasterSheet($transfer_ids, $cycleDate)
     {
-        $channel_sources = [
-            'channel_extra_amount',
-            'channel_extra_amount_vat',
-            'channel_extra_amount_fees',
-            'channel_fees',
-            'channel_vat',
-        ];
-
         if(count($transfer_ids)){
-            $transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids, $channel_sources){
-                $q->whereIn('transfer_id', $transfer_ids)->whereNotIn('transaction_source', $channel_sources);
-            })->with('bill.application.channel')->get();
-
-
-
             $day = $cycleDate->format('Y-m-d');
-            $merchants_file = "automatic_transfers/$day/merchants_transactions.xlsx";
-            $channels_file = "automatic_transfers/$day/channels_transactions.xlsx";
 
-            $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
-            (new TransactionsExport($data))->store($merchants_file, 'public')->chain([
-               new ExportTransactionsFileJob($transfer_ids, $channels_file),
-               new ZipFolderJob("automatic_transfers/$day", "master_sheet_$day.zip"),
-               new SendAutoTransferMailsJob($day),
-            ]);
+            $this->createMerchantsFile($transfer_ids, $day);
+            $this->createChannelsFile($transfer_ids, $day);
+            $this->zipFolder("automatic_transfers/$day", "master_sheet_$day.zip");
+            $this->sendMails($day);
         }
         return true;
     }
+
+    public function createMerchantsFile($transfer_ids, $day)
+    {
+        $transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
+                $q->whereIn('transfer_id', $transfer_ids)->whereNotIn('transaction_source', $this->CHANNEL_SOURCES);
+            })->with('bill.application.channel')->get();
+
+        $merchants_file = "automatic_transfers/$day/merchants_transactions.xlsx";
+        $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
+        Excel::store(new TransactionsExport($data), $merchants_file , 'public');
+    } 
+
+    public function createChannelsFile($transfer_ids, $day)
+    {
+        $channels_file = "automatic_transfers/$day/channels_transactions.xlsx";
+
+        $channel_transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
+            $q->whereIn('transfer_id', $transfer_ids)->whereIn('transaction_source', $this->CHANNEL_SOURCES);
+        })->with('bill.application.channel')->get();
+        $channels_data = json_decode((TransactionExportResource::collection($channel_transactions))->toJson(), true);
+        Excel::store(new TransactionsExport($channels_data), $channels_file , 'public');
+    } 
+
+    public function zipFolder($folder_name , $file_name)
+    {
+        $file_full_path = 'app/public/'.$folder_name.'/'.$file_name;
+        //first delete file
+        if(is_file(storage_path($file_full_path)))
+            unlink(storage_path($file_full_path));
+
+        $zip = new \ZipArchive;
+        if ($zip->open(storage_path($file_full_path), \ZipArchive::CREATE) === TRUE){
+            $files = File::files(storage_path("app/public/$folder_name"));
+            foreach ($files as $key => $value) {
+                $relativeNameInZipFile = basename($value);
+                $zip->addFile($value, $relativeNameInZipFile);
+            }
+            $zip->close();
+        }
+    }    
+
+    public function sendMails($day)
+    {
+        $settings =  Valuestore::make(storage_path('app/settings.json'));
+        $transfer_emails = $settings->get('transfer_emails');
+        $emails = explode(",", $transfer_emails);
+        if(count($emails)){
+            foreach ($emails as $email) {
+                Mail::to($email)->send(new AutoTransferMail($day));
+            }
+        }
+    }
+
 }

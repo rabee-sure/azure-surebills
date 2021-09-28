@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Exports\TransactionsExport;
+use App\Exports\TransactionsExportQueued;
 use App\Http\Resources\TransactionExportResource;
 use App\Jobs\CreateTransferExcelFileJob;
 use App\Jobs\UpdateTransferExcelFile;
@@ -105,12 +105,12 @@ class TransferService
     {
         $data = json_decode((TransactionExportResource::collection($transfer->transactions->load('bill.application.channel')))->toJson(), true);
         
-        (new TransactionsExport($data))->store($file_name, 'public')->chain([
+        (new TransactionsExportQueued($data))->store($file_name, 'public')->chain([
             new UpdateTransferExcelFile($transfer, $file_name),
         ]);
         
 
-        // if(Excel::store(new TransactionsExport($data), $file_name , 'public')){
+        // if(Excel::store(new TransactionsExportQueued($data), $file_name , 'public')){
 
         //     $transfer->addMedia(storage_path('app/public/'.$file_name))
         //         ->preservingOriginal()

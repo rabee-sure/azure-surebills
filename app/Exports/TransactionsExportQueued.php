@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
 
-class TransactionsExport implements FromView
+class TransactionsExportQueued implements FromView, ShouldQueue
 {
     use Exportable;
 
