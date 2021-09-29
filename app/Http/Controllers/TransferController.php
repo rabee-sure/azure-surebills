@@ -229,7 +229,7 @@ class TransferController extends Controller
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC')
-            ->with(['bill'])
+            ->with(['bill.application'])
             ->paginate(10);
             
 

@@ -83,6 +83,7 @@ class TransferOperations
             }
         }
 
+        dd($body);
         $response = Http::post('http://10.2.2.45:8087/api/Transfer/Transfer', [
             'transfers' => $body
         ]);
