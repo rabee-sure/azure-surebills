@@ -53,6 +53,23 @@ class TransferOperations
         }
     }
 
+
+    /**
+     * fail Transfars.
+     * 
+     */
+    public function fail($transfers, $status, $user_id, $results=null, $from_sps=false)
+    {
+        foreach($transfers as $transfer){
+            if($transfer->status == 'send_to_sps' ){
+                $type = $from_sps ? $status.' sps transfer':$status.' transfer';
+                $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results);
+
+                $transfer->transactions()->update(["pending_settled" => false]);
+            }
+        }
+    }
+
     /**
      * pending Transfars.
      * 
