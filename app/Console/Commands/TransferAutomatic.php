@@ -12,6 +12,7 @@ use App\Jobs\ExportTransactionsFileJob;
 use App\Jobs\SendAutoTransferMailsJob;
 use App\Jobs\ZipFolderJob;
 use App\Mail\AutoTransferMail;
+use App\Models\AutoTransfer;
 use App\Models\Bill;
 use App\Models\Transaction;
 use App\Models\Transfer;
@@ -20,10 +21,10 @@ use App\Services\TransferService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Valuestore\Valuestore;
-use Illuminate\Support\Facades\File;
 
 class TransferAutomatic extends Command
 {
@@ -103,7 +104,18 @@ class TransferAutomatic extends Command
                 }
             }
 
-            $this->createMasterSheet($transfer_ids, $cycleDate);
+            $day = $cycleDate->format('Y-m-d');
+            $auto_tranfer = AutoTransfer::create([
+                'day' => $day,
+                'folder' => "automatic_transfers/$day",
+                'zip_file' => "automatic_transfers/$day/master_sheet_$day.zip",
+                'merchants_file' => "automatic_transfers/$day/merchants_transactions.xlsx",
+                'channels_file' => "automatic_transfers/$day/channels_transactions.xlsx",
+                'tranfer_ids' => $transfer_ids,
+            ]);
+            $auto_tranfer->transfers()->attach($transfer_ids);
+
+            $this->createMasterSheet($transfer_ids, $day);
         }
     }
  
@@ -113,10 +125,10 @@ class TransferAutomatic extends Command
      * @param  App\Transfer  $transfer
      * @return App\Transfer  $transfer
      */
-    public function createMasterSheet($transfer_ids, $cycleDate)
+    public function createMasterSheet($transfer_ids, $day)
     {
         if(count($transfer_ids)){
-            $day = $cycleDate->format('Y-m-d');
+
 
             $this->createMerchantsFile($transfer_ids, $day);
             $this->createChannelsFile($transfer_ids, $day);
