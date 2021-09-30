@@ -147,6 +147,8 @@ class User extends Resource
                 ->hideFromIndex(),
 
             Boolean::make(__('Able Refund'), 'able_refund')
+                ->hideFromIndex(),            
+            Boolean::make(__('Vat Inclusive'), 'vat_inclusive')
                 ->hideFromIndex(),
             Boolean::make(__('Able Refund With Fees'), 'able_refund_with_fees')
                 ->hideFromIndex(),
