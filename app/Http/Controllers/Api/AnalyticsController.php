@@ -46,13 +46,13 @@ class AnalyticsController extends Controller
      
         $filter = $this->encode([
             [    
-                "class"=> "App\Nova\Filters\DateRange",
+                "class"=> "PosLifestyle\DateRangeFilter\DateRangeFilter_created_at",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ]
         ]);
         $filter2 = $this->encode([
             [    
-                "class"=> "App\Nova\Filters\PaidDateRange",
+                "class"=> "PosLifestyle\DateRangeFilter\DateRangeFilter_paid_at",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ],
             [    
@@ -72,24 +72,24 @@ class AnalyticsController extends Controller
         ]);
         $filter3 = $this->encode([
             [    
-                "class"=> "App\Nova\Filters\PaidDateRange",
+                "class"=> "PosLifestyle\DateRangeFilter\DateRangeFilter_paid_at",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ],
-            [    
-                "class"=> "App\Nova\Filters\BillSettled",
-                "value" => 1
-            ]
+            // [    
+            //     "class"=> "App\Nova\Filters\BillSettled",
+            //     "value" => 1
+            // ]
         ]);           
 
         $filter5 = $this->encode([
             [    
-                "class" => "App\Nova\Filters\PaidDateRange",
+                "class" => "PosLifestyle\DateRangeFilter\DateRangeFilter_paid_at",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ],
-            [    
-                "class" => "App\Nova\Filters\BillSettled",
-                "value" => 2
-            ],
+            // [    
+            //     "class" => "App\Nova\Filters\BillSettled",
+            //     "value" => 2
+            // ],
             [    
                 "class" => "App\Nova\Filters\BillStatus",
                 "value" => ["paid"]
