@@ -94,14 +94,14 @@ class TransferOperations
         foreach($transfers as $transfer){
             if($transfer->status == 'pending' || $transfer->status == 'send_to_sps'){
                 $type = $status.' sps transfer';
-                $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results );
+                $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results);
                 $transfer->transactions()->update(["pending_settled" => true]);
                 $body[] = $this->transformToSPS($transfer);
             }
         }
 
-        dd($body);
-        $response = Http::post('http://10.2.2.45:8087/api/Transfer/Transfer', [
+        // $response = Http::post('http://10.2.2.45:8087/api/Transfer/Transfer', [
+        $response = Http::post('http://surebill-api.surepay.sa/api/Transfer/Transfer', [
             'transfers' => $body
         ]);
     }
@@ -133,7 +133,7 @@ class TransferOperations
     {
         return [
             'referenceNumber' => (string) $transfer->id,
-            'amount' => $transfer->amount,
+            'amount' => $transfer->net_amount,
             'beneficiaryName' => $transfer->user->beneficiary_name,
             'beneficiaryIban' => $transfer->user->iban_number,
             'beneficiaryStreet' => $transfer->user->business_address,
