@@ -154,6 +154,7 @@ export default {
             validDateRange: true,
             billsModal: false,
             disableBtn: false,
+            day: null,
             language: 'ar',
             uploadFileActionUrl: '/api/upload?lang=',
 
@@ -296,17 +297,19 @@ export default {
         isValidDate(d){
             return !isNaN((new Date(d)).getTime());
         },
-        handleChangeDate (date, page=1, refresh=true) {
+        handleChangeDate (date, refresh=true, page=1) {
             if(refresh){
                 this.refresh();
             }
             this.table_loading = true
             if(date != '' && this.isValidDate(date) && this.isValidDate(date)){
+                this.day = date;
                 this.validDateRange = true;
                 Nova.request().get('/users/'+this.$route.params.id+'/transactions', {
                     params: {
                         cycle_date: date,
-                        bills_not_settled: true
+                        bills_not_settled: true,
+                        page: page,
                     }
                 })
                 .then(response => {
@@ -342,8 +345,7 @@ export default {
                 this.validDateRange = false;
             }
         },
-        handleProgress()
-        {
+        handleProgress(){
             this.disableBtn=true;
         },
         handleUploadFileSuccess (res, file, filelist) {
@@ -426,7 +428,7 @@ export default {
             this.form.status = 'completed';           
         },        
         nextPage(page) {
-            this.handleChangeDate(this.form.cycle_date,page, false)       
+            this.handleChangeDate(this.day, false, page)       
         },
         changeStatus(status, id) {
             this.switch_loading = true;

@@ -4,7 +4,7 @@ namespace App\Nova;
 
 use App\Nova\Actions\TranferBillsExcelDownload;
 use App\Nova\Actions\TranferTransactionsExcelDownload;
-use App\Nova\Filters\DateRange;
+use PosLifestyle\DateRangeFilter\DateRangeFilter;
 use App\Nova\Filters\UserName;
 use App\Nova\Metrics\TotalCommissions;
 use App\Nova\Metrics\TotalDue;
@@ -189,7 +189,7 @@ class Transfer extends Resource
     public function filters(Request $request)
     {
         return [
-            new DateRange(),
+            new DateRangeFilter(__('Date Range'), 'created_at'),
             new UserName(),
         ];
     }

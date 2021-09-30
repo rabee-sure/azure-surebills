@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Models\Tag;
 
 class BillController extends Controller
 {
@@ -137,6 +138,15 @@ class BillController extends Controller
         $bill->total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
         $bill->status = 'pending';
         $bill->save();
+
+        if(isset($request->tags)){
+            $tags = explode(',', $request->tags);
+            foreach($tags as $name){
+                $tag = Tag::firstOrCreate(['name' => $name]);
+                $tag->bills()->attach($bill);
+            }
+        }
+
         event(new BillCreated($bill));
         
         return new BillApiResource($bill);
