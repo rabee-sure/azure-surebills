@@ -36,33 +36,34 @@ class AccountController extends Controller
                 'beneficiary_name' => $request->get('beneficiary_name'),
             ]);
 
+            if(!$user->disable_bank_documents && $request->bank_documents){
+                $bank_documents = $request->bank_documents;
 
-            if(!$user->disable_bank_documents){
-                $bank_documents = $request->get('bank_documents') ?? [];
-                //delete if Deleted
+                //first delete bank_documents
                 foreach ($user->bank_documents as $media) {
-                    if (!in_array($media->id, array_column($bank_documents, 'id'))) {
-                        $media->delete();
-                    }
+                    $media->delete();
                 }
 
                 //create
                 foreach ($bank_documents as $file) {
-                    if($file['id'] == null && isset($file['file'])){
-                        $file_name =  str_replace('storage/','', $file['file']);
-                        try {
-                            $user->addMedia(storage_path('app/public/'.$file_name))->toMediaCollection('bank_documents');
-                        } catch (FileDoesNotExist $e) {
-                            return [
-                                "message" => "File Does Not Exist.",
-                                "errors" => [
-                                    "bank_documents" => [
-                                        $file['file']. ' File Does Not Exist'
-                                    ]
+                    $name = time().'-'.$file->getClientOriginalName();
+                    $destinationPath = storage_path('/app/public');
+                    $file->move($destinationPath, $name);
+                    $file_name = $name;
+
+                    try {
+                        $user->addMedia(storage_path('app/public/'.$file_name))->toMediaCollection('bank_documents');
+                    } catch (FileDoesNotExist $e) {
+                        return [
+                            "message" => "File Does Not Exist.",
+                            "errors" => [
+                                "bank_documents" => [
+                                    $file. ' File Does Not Exist'
                                 ]
-                            ];
-                        }  
-                    }
+                            ]
+                        ];
+                    }  
+                    
                 }       
             }
         }
@@ -108,6 +109,37 @@ class AccountController extends Controller
                             ];
                         }
                     }
+                }       
+            }
+
+            if(!$user->disable_business_documents && $request->business_documents){
+                $business_documents = $request->business_documents;
+
+                //first delete business_documents
+                foreach ($user->business_documents as $media) {
+                    $media->delete();
+                }
+
+                //create
+                foreach ($business_documents as $file) {
+                    $name = time().'-'.$file->getClientOriginalName();
+                    $destinationPath = storage_path('/app/public');
+                    $file->move($destinationPath, $name);
+                    $file_name = $name;
+
+                    try {
+                        $user->addMedia(storage_path('app/public/'.$file_name))->toMediaCollection('business_documents');
+                    } catch (FileDoesNotExist $e) {
+                        return [
+                            "message" => "File Does Not Exist.",
+                            "errors" => [
+                                "business_documents" => [
+                                    $file. ' File Does Not Exist'
+                                ]
+                            ]
+                        ];
+                    }  
+                    
                 }       
             }
         }

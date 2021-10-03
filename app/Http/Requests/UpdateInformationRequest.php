@@ -30,7 +30,7 @@ class UpdateInformationRequest extends FormRequest
             'bank_id' => ['required'],
             'iban_number' => ['required', new ValidateIban()],
             'beneficiary_name' => ['required', 'max:50'],
-            'bank_documents' => ['nullable', 'array', "max:5"],
+            'bank_documents' => ['nullable', 'array', "max:5", new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])],
         ];
 
         $business =  [
@@ -49,7 +49,8 @@ class UpdateInformationRequest extends FormRequest
             'business_address' => ['required', 'max:100'],
             'business_mobile' => ['required'],
             'vat_registration_number' => ['nullable'],
-            'business_documents' => ['nullable', 'array', "max:5"],
+            // 'business_documents' => ['nullable', 'array', "max:5"],
+            'business_documents' => ['array', "max:5", 'nullable', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])],
         ];
 
         if($this->type == 'bank')
