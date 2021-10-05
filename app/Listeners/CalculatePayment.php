@@ -46,8 +46,9 @@ class CalculatePayment
             $bill->settled = false;
             $bill->pricing_fees_details = $percentage.'%,'. $fixed;
             $bill->payment_fees = ($bill->total- $bill->channel_extra_amount - $bill->channel_extra_vat) * ($percentage / 100) + $fixed;
-            $bill->payment_fees_vat = $this->getFeesAndVat($bill, $bill->payment_fees)['vat'];
-            $bill->payment_fees = $this->getFeesAndVat($bill, $bill->payment_fees)['fees'];
+            $payment = $this->getFeesAndVat($bill, $bill->payment_fees);
+            $bill->payment_fees_vat = $payment['vat'];
+            $bill->payment_fees = $payment['fees'];
 
             $payment_surebills = $this->paymentSurebillsFees($bill, $payment_log);
             $bill->payment_surebills_fees = $payment_surebills['fees'];
@@ -93,8 +94,7 @@ class CalculatePayment
             $fixed = $bill->getFixed($log, true);
 
             $payment_fees = ($bill->total- $bill->channel_extra_amount - $bill->channel_extra_vat) * ($percentage / 100) + $fixed;
-            $payment_fees_vat = $this->getFeesAndVat($bill, $payment_fees)['vat'];
-            $$payment_fees = $this->getFeesAndVat($bill, $payment_fees)['fees'];
+            $payment_fees_vat = $payment_fees * (Transaction::VAT_PERCENTAGE / 100);
         }else{
             $payment_fees = $bill->payment_fees;
             $payment_fees_vat = $bill->payment_fees_vat;
@@ -126,9 +126,8 @@ class CalculatePayment
             $fixed = $bill->getFixed($log, true);
 
             $p_fees = ($bill->total- $bill->channel_extra_amount - $bill->channel_extra_vat) * ($percentage / 100) + $fixed;
-            $p_fees_vat = $this->getFeesAndVat($bill, $p_fees)['vat'];
-             $p_fees = $this->getFeesAndVat($bill, $p_fees)['fees'];
-
+            $p_fees_vat = $p_fees * (Transaction::VAT_PERCENTAGE / 100);
+            
             $payment_fees = $bill->payment_fees - $p_fees;
             $payment_fees_vat = $bill->payment_fees_vat - $p_fees_vat;
         }else{
