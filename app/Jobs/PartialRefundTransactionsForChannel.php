@@ -38,15 +38,18 @@ class PartialRefundTransactionsForChannel
      */
     public function handle()
     {
-        $payment_channel = BillService::getPaymentChannelFees($this->bill, $this->amount);
-        $order_max = Transaction::where('bill_id', $this->bill->id)->max('order');
-
         if(isset($this->bill->application) && isset($this->bill->application->channel)){
+            $percentage = $this->amount /$this->bill->total;
+            $fees = $this->bill->payment_channel_fees * $percentage;
+            $fees_vat = $this->bill->payment_channel_fees_vat * $percentage;
+            
+            $order_max = Transaction::where('bill_id', $this->bill->id)->max('order');
+
             $fee_trans = new Transaction;
             $fee_trans->user_id     = $this->bill->application->channel->user_id;
             $fee_trans->bill_id     = $this->bill->id;
             $fee_trans->type        = 'debit';
-            $fee_trans->amount      = $payment_channel['fees'];
+            $fee_trans->amount      = $fees;
             $fee_trans->reference   = $this->bill->number;
             $fee_trans->description = 'PARTIAL REFUND Fee - Channel: '.$this->bill->application->channel->name;
             $fee_trans->transaction_source = 'refund';
@@ -57,7 +60,7 @@ class PartialRefundTransactionsForChannel
             $vat_trans->user_id     = $this->bill->application->channel->user_id;
             $vat_trans->bill_id     = $this->bill->id;
             $vat_trans->type        = 'debit';
-            $vat_trans->amount      = $payment_channel['fees_vat'];
+            $vat_trans->amount      = $fees_vat;
             $vat_trans->reference   = $this->bill->number;
             $vat_trans->description = 'PARTIAL REFUND Vat - Channel: '.$this->bill->application->channel->name;
             $vat_trans->transaction_source = 'refund';

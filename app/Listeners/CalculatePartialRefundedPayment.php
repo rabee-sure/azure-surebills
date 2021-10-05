@@ -55,18 +55,18 @@ class CalculatePartialRefundedPayment
 
     protected function updateBillAmounts($bill, $amount)
     {
-        $bill->total = $bill->total - $amount;
-        $percentage = $bill->pricing['fees_percentage'];
-        $fixed = $bill->pricing['fees_fixed'];
-        $bill->payment_fees = $bill->total * ($percentage / 100) + $fixed;
-        $bill->payment_fees_vat = $bill->payment_fees * ( $bill->pricing['vat_percentage']/ 100);
-        $payment_surebills = BillService::getPaymentSurebillsFees($bill);
-        $bill->payment_surebills_fees = $payment_surebills['fees'];
-        $bill->payment_surebills_fees_vat = $payment_surebills['fees_vat'];
+        $amount_prc = $amount/$bill->total;
 
-        $payment_channel = BillService::getPaymentChannelFees($bill);
-        $bill->payment_channel_fees = $payment_channel['fees'];
-        $bill->payment_channel_fees_vat = $payment_channel['fees_vat'];
+        $bill->total = $bill->total - $amount;
+        $bill->payment_fees -= $bill->payment_fees * $amount_prc;
+        $bill->payment_fees_vat -= $bill->payment_fees_vat * $amount_prc;
+        
+        $bill->payment_surebills_fees -= $bill->payment_surebills_fees * $amount_prc;
+        $bill->payment_surebills_fees_vat -= $bill->payment_surebills_fees_vat * $amount_prc;
+
+        $bill->payment_channel_fees -= $bill->payment_channel_fees * $amount_prc;
+        $bill->payment_channel_fees_vat -= $bill->payment_channel_fees_vat * $amount_prc;
+
         $bill->save();
     }
 }
