@@ -128,8 +128,6 @@ class TransferAutomatic extends Command
     public function createMasterSheet($transfer_ids, $day)
     {
         if(count($transfer_ids)){
-
-
             $this->createMerchantsFile($transfer_ids, $day);
             $this->createChannelsFile($transfer_ids, $day);
             $this->zipFolder("automatic_transfers/$day", "master_sheet_$day.zip");
@@ -141,7 +139,9 @@ class TransferAutomatic extends Command
     public function createMerchantsFile($transfer_ids, $day)
     {
         $transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
-                $q->whereIn('transfer_id', $transfer_ids)->whereNotIn('transaction_source', $this->CHANNEL_SOURCES);
+                $q->whereIn('transfer_id', $transfer_ids)
+                    ->whereNotIn('transaction_source', $this->CHANNEL_SOURCES)
+                    ->where('description', 'not like', "%Channel:%");
             })->with('bill.application.channel')->get();
 
         $merchants_file = "automatic_transfers/$day/merchants_transactions.xlsx";
@@ -154,7 +154,12 @@ class TransferAutomatic extends Command
         $channels_file = "automatic_transfers/$day/channels_transactions.xlsx";
 
         $channel_transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
-            $q->whereIn('transfer_id', $transfer_ids)->whereIn('transaction_source', $this->CHANNEL_SOURCES);
+            $q->whereIn('transfer_id', $transfer_ids)
+                ->where(function ($q){
+                    $q->whereIn('transaction_source', $this->CHANNEL_SOURCES)
+                        ->orWhere('description', 'like', "%Channel:%")
+                        ;
+                });
         })->with('bill.application.channel')->get();
         $channels_data = json_decode((TransactionExportResource::collection($channel_transactions))->toJson(), true);
         Excel::store(new TransactionsExport($channels_data), $channels_file , 'public');
