@@ -56,6 +56,10 @@
           @elseif($bill->status == 'canceled')
             <div class="alert alert-danger" role="alert">
               {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
+            </div>          
+          @elseif($bill->status == 'failed')
+            <div class="alert alert-danger" role="alert">
+              {{ __('this bill has been failed', ['number' => $bill->number ]) }}
             </div>
           @elseif($bill->status == 'refunded')
             <div class="alert alert-warning" role="alert">
