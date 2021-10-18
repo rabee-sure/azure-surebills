@@ -29,8 +29,7 @@ class CallbackApplication
         $bill = $event->bill;
 
         if($bill->application){
-            CallbackWebhook::dispatch($bill);
-
+            $log= $bill->last_payment->results['response'];
             WebhookCall::create()
                 ->url($bill->application->webhook_url)
                 ->payload([
@@ -40,10 +39,17 @@ class CallbackApplication
                     'bill_id' => $bill->id,
                     'pay_url' => $bill->pay_url,
                     'total' => $bill->total,
+                    
+                    'payment_brand' => $log['paymentBrand']??null,
+                    'last_4_digits' => $log['card']['last4Digits']??null,
+                    'code' => $log['result']['code']??null,
+                    'description' => $log['result']['description']??null,
+
                 ])
                 ->useSecret($bill->application->webhook_secret)
                 ->dispatch()
                 ->onQueue(env('WEBHOOK_QUEUE'));
+                            CallbackWebhook::dispatch($bill);
         }
     }
 }

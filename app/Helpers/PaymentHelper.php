@@ -73,7 +73,7 @@ class PaymentHelper
 
             // get redirect link
             if($bill->application && $bill->is_redirect) {
-                $redirect = $bill->redirect_url;
+                $redirect = $bill->getRedirectUrl($payment->results['response']);
             } else {
                 $redirect = route('paybillpage', ['id' => $bill->pay_id]);
             }
@@ -105,7 +105,7 @@ class PaymentHelper
         if($bill->application && $bill->is_redirect) {
             $bill->status = 'failed';
             $bill->save();
-            return redirect($bill->redirect_url);
+            return redirect($bill->getRedirectUrl($payment->results['response']));
         } else {
             return redirect()->route('paybillpage', ['id' => $bill->pay_id])->withErrors(['field_name' => $invoice->getDetail('description')]);
         }
