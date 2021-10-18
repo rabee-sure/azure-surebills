@@ -101,7 +101,10 @@ class PaymentHelper
             ];
         }
 
+        //redirect if failed
         if($bill->application && $bill->is_redirect) {
+            $bill->status = 'failed';
+            $bill->save();
             return redirect($bill->redirect_url);
         } else {
             return redirect()->route('paybillpage', ['id' => $bill->pay_id])->withErrors(['field_name' => $invoice->getDetail('description')]);

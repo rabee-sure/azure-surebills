@@ -126,13 +126,6 @@ class Bill extends Resource
      */
     public function fields(Request $request)
     {
-        $options = [
-            'pending' => __('Pending'),
-            'paid' =>  __('Paid'),
-            'canceled' =>  __('Canceled'),
-            'expired' =>  __('Expired'),
-            'refunded' =>  __('Refunded'),
-        ];
         return [
 
             Text::make(__('Bill num'), 'number'),
@@ -142,11 +135,19 @@ class Bill extends Resource
             }),
 
             Badge::make(__('Status'), 'status')
-               ->options($options)
+               ->options([
+                    'pending' => __('Pending'),
+                    'paid' =>  __('Paid'),
+                    'canceled' =>  __('Canceled'),
+                    'failed' =>  __('Failed'),
+                    'expired' =>  __('Expired'),
+                    'refunded' =>  __('Refunded'),
+                ])
                ->colors([
                   'pending' => '#3195a5',
                   'paid' => '#3e884f',
                   'canceled' => '#c43d4b',
+                  'failed' => '#c43d4b',
                   'expired' => '#ececec',
                   'refunded' => '#b69329',
                ])->displayUsingLabels(),

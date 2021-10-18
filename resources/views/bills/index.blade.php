@@ -50,6 +50,12 @@
           <label class="custom-control-label" for="canceled">{{ __('Canceled') }}</label>
         </div>
 
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input status_checkbox" id="failed" value="failed" @if(in_array('failed', request()->get('statuses', [])) ) checked @endif>
+          <label class="custom-control-label" for="failed">{{ __('Failed') }}</label>
+        </div>
+
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input status_checkbox" id="refunded" value="refunded" @if(in_array('refunded', request()->get('statuses', [])) ) checked @endif>
           <label class="custom-control-label" for="refunded">{{ __('Refunded') }}</label>
