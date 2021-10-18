@@ -44,6 +44,7 @@ class BillStatus extends MultiselectFilter
             __('Pending') => 'pending',
             __('Paid') => 'paid',
             __('Canceled') => 'canceled',
+            __('Failed') => 'failed',
             __('Expired') => 'expired',
             __('Refunded') => 'refunded',
         ];

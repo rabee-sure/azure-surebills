@@ -8,4 +8,6 @@
       <span id="status-{{$id}}"  class="badge badge-pill badge-light bill_status_badge">{{ __('Expired')}}</span>
     @elseif($status == 'refunded')
       <span id="status-{{$id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Refunded')}}</span>
+    @elseif($status == 'failed')
+      <span id="status-{{$id}}"  class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed')}}</span>
     @endif
