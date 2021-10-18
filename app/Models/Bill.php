@@ -243,7 +243,36 @@ class Bill extends Model
 
         $ks = (str_contains($link, '?')) ? "&" : '?';
         return $link . $ks . implode("&", $data);
+    }    
+
+    /**
+     * Redirect Url.
+     *
+     * @var string
+     */
+    public function getRedirectUrl($log_resault=null)
+    {
+        $link = $this->bill_redirect_url ?? $this->application->redirect;
+        $data = [
+            'bill_number='.$this->number,
+            'reference_id='.$this->reference_id,
+            'status='.$this->status,
+            'bill_id='.$this->id,
+            'pay_url='.$this->pay_url,
+            'total='.$this->total,
+        ];
+        if($log_resault){
+            $data[] = 'payment_brand='.$log_resault['paymentBrand']??null;
+            $data[] = 'last_4_digits='.$log_resault['card']['last4Digits']??null;
+            $data[] = 'code='.$log_resault['result']['code']??null;
+            $data[] = 'description='.$log_resault['result']['description']??null;
+        }
+
+        $ks = (str_contains($link, '?')) ? "&" : '?';
+        return $link . $ks . implode("&", $data);
     }
+
+
 
     /**
      * webhook Url.
@@ -268,6 +297,15 @@ class Bill extends Model
         $ks = (str_contains($this->application->webhook_url, '?')) ? "&" : '?';
         $link = $this->bill_webhook_url ?? $this->application->webhook_url;
         return $this->link . $ks . implode("&", $data);
+    }
+    /**
+     * Success Payment.
+     *
+     * @var string
+     */
+    public function getLastPaymentAttribute()
+    {
+        return PaymentLog::where('bill_id', $this->id)->orderBy('id', 'desc')->first();
     }
 
     /**
