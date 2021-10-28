@@ -37,28 +37,33 @@ class MakeTransactionsForSureBills
      */
     public function handle()
     {
-        return null;
-
         $user = User::whereEmail('surebills@sura.com.sa')->first();
 
-        $fee_trans = new Transaction;
-        $fee_trans->user_id     = $user->id;
-        $fee_trans->bill_id     = $this->bill->id;
-        $fee_trans->type        = 'credit';
-        $fee_trans->amount      = $this->bill->payment_surebills_fees;
-        $fee_trans->reference   = $this->bill->number;
-        $fee_trans->description = 'Fee - Bill Number: '.$this->bill->number;
-        $fee_trans->transaction_source = 'surebills_fees';
-        $fee_trans->save();
+        // dd([
+        //     'payment_surebills_fees' => $this->bill->payment_surebills_fees,
+        //     'number' => $this->bill->number,
+        // ]);
+        if(isset($this->bill->payment_surebills_fees) && isset($this->bill->payment_surebills_fees_vat) ){
 
-        $vat_trans = new Transaction;
-        $vat_trans->user_id     = $user->id;
-        $vat_trans->bill_id     = $this->bill->id;
-        $vat_trans->type        = 'credit';
-        $vat_trans->amount      = $this->bill->payment_surebills_fees;
-        $vat_trans->reference   = $this->bill->payment_surebills_fees_vat;
-        $vat_trans->description = 'Vat - Bill Number: '.$this->bill->number;
-        $vat_trans->transaction_source = 'surebills_vat';
-        $vat_trans->save();
+            $fee_trans = new Transaction;
+            $fee_trans->user_id     = $user->id;
+            $fee_trans->bill_id     = $this->bill->id;
+            $fee_trans->type        = 'credit';
+            $fee_trans->amount      = $this->bill->payment_surebills_fees;
+            $fee_trans->reference   = $this->bill->number;
+            $fee_trans->description = 'Fee - Bill Number: '.$this->bill->number;
+            $fee_trans->transaction_source = 'surebills_fees';
+            $fee_trans->save();
+
+            $vat_trans = new Transaction;
+            $vat_trans->user_id     = $user->id;
+            $vat_trans->bill_id     = $this->bill->id;
+            $vat_trans->type        = 'credit';
+            $vat_trans->amount      = $this->bill->payment_surebills_fees_vat;
+            $vat_trans->reference   = $this->bill->number;
+            $vat_trans->description = 'Vat - Bill Number: '.$this->bill->number;
+            $vat_trans->transaction_source = 'surebills_vat';
+            $vat_trans->save();
+        }
     }
 }
