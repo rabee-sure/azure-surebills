@@ -57,14 +57,20 @@ class TransfersSummary extends Command
     {
         $ids = (count($this->argument('id')) == 1) ? explode(',', $this->argument('id')[0]):$this->argument('id');
         $transfers = Transfer::whereIn('id', $ids)->with('user')->get();
-        $this->createMerchantsSummaryFile($transfers);
-        // $this->createDueAmountsFile($transfers->pluck('id')->toArray());
+
+        $transfer_ids = $transfers->pluck('id')->toArray();
+        $transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
+                $q->whereIn('transfer_id', $transfer_ids)->whereNotIn('transaction_source', $this->CHANNEL_SOURCES);
+            })->with('bill.application.channel')->get();
+
+        $this->createMerchantsSummaryFile($transfers, $transactions);
+        $this->createDueAmountsFile($transfers, $transactions);
     }
 
 
-    public function createMerchantsSummaryFile($transfers)
+    public function createMerchantsSummaryFile($transfers, $transactions)
     {
-        $data = $this->getMerchantsSummaryData($transfers);
+        $data = $this->getMerchantsSummaryData($transfers, $transactions);
 
         $t_file_n = implode('_', $transfers->pluck('id')->toArray());
         $file_name = "summary_transfers/$t_file_n/merchants_summary.xlsx";
@@ -73,55 +79,23 @@ class TransfersSummary extends Command
     } 
 
 
-    public function createDueAmountsFile($transfer_ids)
-    {
-        $transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
-                $q->whereIn('transfer_id', $transfer_ids)->whereNotIn('transaction_source', $this->CHANNEL_SOURCES);
-            })->with('bill.application.channel')->get();
-        $rr = [
-            'merchant_id' => '',
-            'merchant_name' => '',
-            'merchan_iban' => '',
-            'bank' => '',
-            'total_amount' => '',
-            'total_fees' => '',
-            'total_fees_vat' => '',
-            'sure_fees' => '',
-            'sure_fees_vat' => '',
-            'channel_fees' => '',
-            'channel_fees_vat' => '',
-            'bank_charges' => '',
-            'net_due' => '',
-        ];
-        $t_file_n = implode('_', $transfer_ids);
-        $file_name = "summary_transfers/$t_file_n/merchants_summary.xlsx";
-        $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
-        Excel::store(new DueAmountsExport($data), $file_name , 'public');
-    } 
-
-
-    public function getMerchantsSummaryData($transfers)
+    public function getMerchantsSummaryData($transfers, $transactions)
     {
         $data = [];
-        $transfer_ids = $transfers->pluck('id')->toArray();
-        $transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
-                $q->whereIn('transfer_id', $transfer_ids)->whereNotIn('transaction_source', $this->CHANNEL_SOURCES);
-            })->with('bill.application.channel')->get();
-
         foreach($transfers as $transfer){
             $user = $transfer->user;
             $user_transactions =  $transactions->where('user_id', $user->id);
             $bills = $transactions->pluck('bill')->unique()->where('user_id', $user->id);
             $payment_methods = array_count_values($bills->pluck('paymentMethodDetails')->toArray());
-            $data[] = $this->getItem($user, $user_transactions, $bills, 'MADA');
-            $data[] = $this->getItem($user, $user_transactions, $bills, 'VISA');
-            $data[] = $this->getItem($user, $user_transactions, $bills, 'MASTERCARD');
+            $data[] = $this->getSummaryItem($user, $user_transactions, $bills, 'MADA');
+            $data[] = $this->getSummaryItem($user, $user_transactions, $bills, 'VISA');
+            $data[] = $this->getSummaryItem($user, $user_transactions, $bills, 'MASTERCARD');
         }
 
         return $data;
     }
 
-    public function getItem($user, $transactions, $bills, $card_brand)
+    public function getSummaryItem($user, $transactions, $bills, $card_brand)
     {
         $bills = $bills->where('paymentMethodDetails',$card_brand);
         $pricing = $bills->whereNotNull('pricing')->first()->pricing ?? [];
@@ -149,6 +123,53 @@ class TransfersSummary extends Command
             'channel_fees' => $bills->sum('payment_channel_fees'),
             'channels_vat' => $bills->sum('payment_channel_fees_vat'),
             'channel_id' => $channel_id,
+        ];
+    }
+
+    public function createDueAmountsFile($transfers, $transactions)
+    {
+        $data = $this->getDueAmountsData($transfers, $transactions);
+
+        $t_file_n = implode('_', $transfers->pluck('id')->toArray());
+        $file_name = "summary_transfers/$t_file_n/due_amounts.xlsx";
+
+        Excel::store(new DueAmountsExport($data), $file_name , 'public');
+    } 
+
+    public function getDueAmountsData($transfers, $transactions)
+    {
+        $data = [];
+        foreach($transfers as $transfer){
+            $user = $transfer->user;
+            $data[] = $this->getDueAmountsItem($transfer, $user, $transactions->where('user_id', $user->id));
+        }
+        return $data;
+    }
+
+    public function getDueAmountsItem($transfer, $user, $transactions)
+    {
+        $bills = $transactions->pluck('bill')->unique()->where('user_id', $user->id);
+        return [
+            'merchant_id' => $user->id,
+            'merchant_name' => $user->business_name_ar,
+            'merchan_iban' => $user->iban_number,
+            'bank' => $user->bank->name,
+            'total_amount' => $transfer->amount,
+            // 'total_fees' => $transactions->where('transaction_source', 'fees')->sum('amount'),
+            // 'total_fees_vat' => $transactions->where('transaction_source', 'vat')->sum('amount'),
+            // 'sure_fees' => $transactions->where('transaction_source', '')->sum('amount'),
+            // 'sure_fees_vat' => $transactions->where('transaction_source', '')->sum('amount'),
+            // 'channel_fees' => $transactions->where('transaction_source', 'channel_fees')->sum('amount'),
+            // 'channel_fees_vat' => $transactions->where('transaction_source', 'channel_vat')->sum('amount'),            
+
+            'total_fees' => $bills->sum('payment_fees'),
+            'total_fees_vat' => $bills->sum('payment_fees_vat'),
+            'sure_fees' => $bills->sum('payment_surebills_fees'),
+            'sure_fees_vat' => $bills->sum('payment_surebills_fees_vat'),
+            'channel_fees' => $bills->sum('payment_channel_fees'),
+            'channel_fees_vat' => $bills->sum('payment_channel_fees_vat'),
+            'bank_charges' => $transfer->transfer_fees,
+            'net_due' => $transfer->net_amount,
         ];
     }
 }
