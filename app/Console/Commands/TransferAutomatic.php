@@ -104,7 +104,12 @@ class TransferAutomatic extends Command
             }
 
             $this->createMasterSheet($transfer_ids, $cycleDate);
+            
+            $this->call("transfers:summary", [
+                'id' =>  $transfer_ids
+            ]);
         }
+
     }
  
     /**
