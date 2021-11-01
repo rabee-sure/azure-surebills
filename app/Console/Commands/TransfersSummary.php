@@ -12,6 +12,9 @@ use App\Models\Transfer;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Valuestore\Valuestore;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TransfersSummaryMail;
 
 class TransfersSummary extends Command
 {
@@ -56,7 +59,7 @@ class TransfersSummary extends Command
     public function handle()
     {
         $ids = (count($this->argument('id')) == 1) ? explode(',', $this->argument('id')[0]):$this->argument('id');
-        $transfers = Transfer::whereIn('id', $ids)->with('user')->get();
+        $transfers = Transfer::whereIn('id', $ids)->with('user.bank')->get();
 
         $transfer_ids = $transfers->pluck('id')->toArray();
         $transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
@@ -65,6 +68,8 @@ class TransfersSummary extends Command
 
         $this->createMerchantsSummaryFile($transfers, $transactions);
         $this->createDueAmountsFile($transfers, $transactions);
+        $this->sendMails($transfers);
+        
     }
 
 
@@ -83,6 +88,7 @@ class TransfersSummary extends Command
     {
         $data = [];
         foreach($transfers as $transfer){
+            $this->info("Merchants Summary transfer id:{$transfer->id}");
             $user = $transfer->user;
             $user_transactions =  $transactions->where('user_id', $user->id);
             $bills = $transactions->pluck('bill')->unique()->where('user_id', $user->id);
@@ -141,7 +147,9 @@ class TransfersSummary extends Command
         $data = [];
         foreach($transfers as $transfer){
             $user = $transfer->user;
-            $data[] = $this->getDueAmountsItem($transfer, $user, $transactions->where('user_id', $user->id));
+            $trans = $transactions->where('user_id', $user->id);
+            $this->info("Due Amounts transfer id: {$transfer->id} count: {$trans->count()}");
+            $data[] = $this->getDueAmountsItem($transfer, $user, $trans);
         }
         return $data;
     }
@@ -171,5 +179,19 @@ class TransfersSummary extends Command
             'bank_charges' => $transfer->transfer_fees,
             'net_due' => $transfer->net_amount,
         ];
+    }
+
+
+    public function sendMails($transfers)
+    {
+        $settings =  Valuestore::make(storage_path('app/settings.json'));
+        $transfer_emails = $settings->get('transfer_emails');
+        $emails = explode(",", $transfer_emails);
+        $t_file_n = implode('_', $transfers->pluck('id')->toArray());
+        if(count($emails)){
+            foreach ($emails as $email) {
+                Mail::to($email)->send(new TransfersSummaryMail($t_file_n));
+            }
+        }
     }
 }
