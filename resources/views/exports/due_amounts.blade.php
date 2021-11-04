@@ -14,6 +14,8 @@
       <th>channel fees vat</th>
       <th>bank charges</th>
       <th>net due</th>
+      <th>channel id</th>
+      <th>reference</th>
     </tr>
   </thead>
   <tbody>
@@ -32,6 +34,8 @@
         <td>{{ $item['channel_fees_vat'] }}</td>
         <td>{{ $item['bank_charges'] }}</td>
         <td>{{ $item['net_due'] }}</td>
+        <td>{{ $item['channel_id'] }}</td>
+        <td>{{ $item['transfer_id'] }}</td>
       </tr>
     @endforeach
   </tbody>
