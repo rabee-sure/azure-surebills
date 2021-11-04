@@ -92,7 +92,6 @@ class TransfersSummary extends Command
             $user = $transfer->user;
             $user_transactions =  $transactions->where('user_id', $user->id);
             $bills = $transactions->pluck('bill')->unique()->where('user_id', $user->id);
-            $payment_methods = array_count_values($bills->pluck('paymentMethodDetails')->toArray());
             $data[] = $this->getSummaryItem($user, $user_transactions, $bills, 'MADA');
             $data[] = $this->getSummaryItem($user, $user_transactions, $bills, 'VISA');
             $data[] = $this->getSummaryItem($user, $user_transactions, $bills, 'MASTERCARD');
@@ -105,10 +104,6 @@ class TransfersSummary extends Command
     {
         $bills = $bills->where('paymentMethodDetails',$card_brand);
         $pricing = $bills->whereNotNull('pricing')->first()->pricing ?? [];
-
-        $application_id = $bills->whereNotNull('application_id')->first()->application_id ?? null;
-        $channel_id = $application_id ? Application::find($application_id)->channel_id ?? '' : '';
-
         return [
             'client_id' => $user->id,
             'payment_type' => $card_brand,
@@ -122,13 +117,11 @@ class TransfersSummary extends Command
             'sure_fixed_rate' => $pricing['surebills_fees_fixed'] ?? '',
             'channel_variable_rate' => $pricing['channel_fees_percentage'] ?? '',
             'channel_fixed_rate' => $pricing['channel_fees_fixed'] ?? '',
-
-
             'sure_fees' => $bills->sum('payment_surebills_fees'),
             'sure_vat' => $bills->sum('payment_surebills_fees_vat'),
             'channel_fees' => $bills->sum('payment_channel_fees'),
             'channels_vat' => $bills->sum('payment_channel_fees_vat'),
-            'channel_id' => $channel_id,
+            'channel_id' => $this->getChannelId($bills),
         ];
     }
 
@@ -162,14 +155,7 @@ class TransfersSummary extends Command
             'merchant_name' => $user->business_name_ar,
             'merchan_iban' => $user->iban_number,
             'bank' => $user->bank->name,
-            'total_amount' => $transfer->amount,
-            // 'total_fees' => $transactions->where('transaction_source', 'fees')->sum('amount'),
-            // 'total_fees_vat' => $transactions->where('transaction_source', 'vat')->sum('amount'),
-            // 'sure_fees' => $transactions->where('transaction_source', '')->sum('amount'),
-            // 'sure_fees_vat' => $transactions->where('transaction_source', '')->sum('amount'),
-            // 'channel_fees' => $transactions->where('transaction_source', 'channel_fees')->sum('amount'),
-            // 'channel_fees_vat' => $transactions->where('transaction_source', 'channel_vat')->sum('amount'),            
-
+            'total_amount' => $bills->sum('total'),
             'total_fees' => $bills->sum('payment_fees'),
             'total_fees_vat' => $bills->sum('payment_fees_vat'),
             'sure_fees' => $bills->sum('payment_surebills_fees'),
@@ -178,6 +164,8 @@ class TransfersSummary extends Command
             'channel_fees_vat' => $bills->sum('payment_channel_fees_vat'),
             'bank_charges' => $transfer->transfer_fees,
             'net_due' => $transfer->net_amount,
+            'channel_id' => $this->getChannelId($bills),
+            'transfer_id' => $transfer->id,
         ];
     }
 
@@ -193,5 +181,11 @@ class TransfersSummary extends Command
                 Mail::to($email)->send(new TransfersSummaryMail($t_file_n));
             }
         }
+    }
+
+    protected function getChannelId($bills)
+    {
+        $application_id = $bills->whereNotNull('application_id')->first()->application_id ?? null;
+        return $application_id ? Application::find($application_id)->channel_id ?? '' : '';
     }
 }
