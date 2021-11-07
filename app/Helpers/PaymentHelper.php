@@ -92,8 +92,6 @@ class PaymentHelper
         $payment->status = 0;
         $payment->save();
 
-
-
         if ($apiResponse) {
             return [
                 'error'    => $invoice->getDetail('description'),
