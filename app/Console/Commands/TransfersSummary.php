@@ -154,6 +154,7 @@ class TransfersSummary extends Command
         $sum_bills = $trans->where('transaction_source', 'bill')->sum('amount') + $trans->where('transaction_source', 'channel_fees')->sum('amount') + $trans->where('transaction_source', 'channel_vat')->sum('amount');
         $sum_fees = $trans->where('transaction_source', 'fees')->sum('amount');
         $sum_fees_vat = $trans->where('transaction_source', 'vat')->sum('amount');
+        $sum_refund = $trans->where('transaction_source', 'refund')->sum('amount');
 
         return [
             'merchant_id' => $user->id,
@@ -163,10 +164,11 @@ class TransfersSummary extends Command
             'total_amount' => $sum_bills,
             'total_fees' => $sum_fees,
             'total_fees_vat' => $sum_fees_vat,
-            'sure_fees' => $bills->sum('payment_surebills_fees'),
-            'sure_fees_vat' => $bills->sum('payment_surebills_fees_vat'),
-            'channel_fees' => $bills->sum('payment_channel_fees'),
-            'channel_fees_vat' => $bills->sum('payment_channel_fees_vat'),
+            'total_refund' => $sum_refund,
+            // 'sure_fees' => $bills->sum('payment_surebills_fees'),
+            // 'sure_fees_vat' => $bills->sum('payment_surebills_fees_vat'),
+            // 'channel_fees' => $bills->sum('payment_channel_fees'),
+            // 'channel_fees_vat' => $bills->sum('payment_channel_fees_vat'),
             'bank_charges' => $transfer->transfer_fees,
             'net_due' => $transfer->net_amount,
             'channel_id' => $this->getChannelId($bills),

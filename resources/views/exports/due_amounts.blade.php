@@ -8,10 +8,11 @@
       <th>Total amount</th>
       <th>total fees</th>
       <th>Total fees vat</th>
-      <th>Sure fees</th>
+      <th>Total Refund</th>
+{{--       <th>Sure fees</th>
       <th>sure fees vat</th>
       <th>channel fees</th>
-      <th>channel fees vat</th>
+      <th>channel fees vat</th> --}}
       <th>bank charges</th>
       <th>net due</th>
       <th>channel id</th>
@@ -28,10 +29,11 @@
         <td>{{ $item['total_amount'] }}</td>
         <td>{{ $item['total_fees'] }}</td>
         <td>{{ $item['total_fees_vat'] }}</td>
-        <td>{{ $item['sure_fees'] }}</td>
+        <td>{{ $item['total_refund'] }}</td>
+{{--         <td>{{ $item['sure_fees'] }}</td>
         <td>{{ $item['sure_fees_vat'] }}</td>
         <td>{{ $item['channel_fees'] }}</td>
-        <td>{{ $item['channel_fees_vat'] }}</td>
+        <td>{{ $item['channel_fees_vat'] }}</td> --}}
         <td>{{ $item['bank_charges'] }}</td>
         <td>{{ $item['net_due'] }}</td>
         <td>{{ $item['channel_id'] }}</td>
