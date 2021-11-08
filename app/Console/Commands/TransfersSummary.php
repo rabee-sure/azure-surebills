@@ -59,7 +59,7 @@ class TransfersSummary extends Command
     public function handle()
     {
         $ids = (count($this->argument('id')) == 1) ? explode(',', $this->argument('id')[0]):$this->argument('id');
-        $transfers = Transfer::whereIn('id', $ids)->with('user.bank')->get();
+        $transfers = Transfer::whereIn('id', $ids)->with('user.bank', 'transactions')->get();
 
         $transfer_ids = $transfers->pluck('id')->toArray();
         $transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
@@ -150,14 +150,19 @@ class TransfersSummary extends Command
     public function getDueAmountsItem($transfer, $user, $transactions)
     {
         $bills = $transactions->pluck('bill')->unique()->where('user_id', $user->id);
+        $trans = $transfer->transactions;
+        $sum_bills = $trans->where('transaction_source', 'bill')->sum('amount') + $trans->where('transaction_source', 'channel_fees')->sum('amount') + $trans->where('transaction_source', 'channel_vat')->sum('amount');
+        $sum_fees = $trans->where('transaction_source', 'fees')->sum('amount');
+        $sum_fees_vat = $trans->where('transaction_source', 'vat')->sum('amount');
+
         return [
             'merchant_id' => $user->id,
             'merchant_name' => $user->business_name_ar,
             'merchan_iban' => $user->iban_number,
             'bank' => $user->bank->name,
-            'total_amount' => $bills->sum('total'),
-            'total_fees' => $bills->sum('payment_fees'),
-            'total_fees_vat' => $bills->sum('payment_fees_vat'),
+            'total_amount' => $sum_bills,
+            'total_fees' => $sum_fees,
+            'total_fees_vat' => $sum_fees_vat,
             'sure_fees' => $bills->sum('payment_surebills_fees'),
             'sure_fees_vat' => $bills->sum('payment_surebills_fees_vat'),
             'channel_fees' => $bills->sum('payment_channel_fees'),
