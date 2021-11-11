@@ -355,4 +355,16 @@ class BillController extends Controller
             return false;
         }
     }
+
+    /**
+     * invoice.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function invoice($id, $lang = null)
+    {
+        $bill = Bill::decodeId($id);
+        return view('bills.invoice', compact('bill', 'id'));
+    }
 }

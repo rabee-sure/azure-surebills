@@ -1,5 +1,14 @@
 {
 	"All": "الكل",
+
+	"bullding_no":"رقم المبني",
+    "street_name":"اسم الشارع",
+    "district":"الحي",
+    "city":"المدينة",
+    "postal_code":"الرمز البريدي",
+    "additional_no":"الرقم الاضافي للعنوان",
+    "other_buyer_id":"معرف آخر",
+
 	"Pending Balance": "الرصيد المعلق",
 	"Able Refund With Fees": "استرداد عموله الدفع والضريبه",
 	"It must not pass more than 14 days on the date of payment of the Bill": "يجب ان لا يمر اكثر من ١٤ يوم علي تاريخ دفع الفاتورة",

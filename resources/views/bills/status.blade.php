@@ -140,6 +140,10 @@
                 </a>
               </div>
             @endif
+            <div class="d-flex justify-content-center">
+            {!! QrCode::size(50)->generate(route('invoice', ['id' => $bill->pay_id])) !!}
+             </div>
+             <a class="d-flex justify-content-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">الفاتورة الضريبية</a> 
 
           </div><!-- single_bill_content -->
           <a target="_blank" title="Sure Bills" class="logo_bills"></a>

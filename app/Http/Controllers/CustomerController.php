@@ -77,6 +77,14 @@ class CustomerController extends Controller
             'mobile' => $request->mobile,
             'notes' => $request->notes,
             'user_id' => auth()->user()->id,
+
+            'bullding_no' => $request->bullding_no,
+            'street_name' => $request->street_name,
+            'district' => $request->district,
+            'city' => $request->city,
+            'postal_code' => $request->postal_code,
+            'additional_no' => $request->additional_no,
+            'other_buyer_id' => $request->other_buyer_id,
         ]);
 
         return redirect()->route('customers.index');
@@ -117,6 +125,13 @@ class CustomerController extends Controller
         $customer->email = $request->email;
         $customer->mobile = $request->mobile;
         $customer->notes = $request->notes;
+        $customer->bullding_no = $request->bullding_no;
+        $customer->street_name = $request->street_name;
+        $customer->district = $request->district;
+        $customer->city = $request->city;
+        $customer->postal_code = $request->postal_code;
+        $customer->additional_no = $request->additional_no;
+        $customer->other_buyer_id = $request->other_buyer_id;
         $customer->save();
 
         return redirect()->route('customers.index');

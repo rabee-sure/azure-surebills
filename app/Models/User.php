@@ -61,6 +61,14 @@ class User extends Authenticatable implements HasMedia
         'able_refund_with_fees',
         'auto_trnasfer',
         'from_channel_id',
+        
+        'bullding_no',
+        'street_name',
+        'district',
+        'city',
+        'postal_code',
+        'additional_no',
+        'other_buyer_id'
     ];
 
     /**
