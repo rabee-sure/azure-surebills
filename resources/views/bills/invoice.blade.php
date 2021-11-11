@@ -256,9 +256,9 @@
             @foreach($bill->items as $item)
             @php
 
-              if($bill->discount_type == 'percentage'){
+              if($bill->add_discount && $bill->discount_type == 'percentage'){
                 $discount_total = ($bill->add_discount) ? $bill->discount_value * $item->product_price* $item->quantity / 100 : 0;
-              }elseif($bill->discount_type == 'fixed'){
+              }elseif($bill->add_discount && $bill->discount_type == 'fixed'){
                 $perc = $bill->sub_total / $bill->discount_value;
                 $discount_total = ($bill->add_discount) ? $perc * $item->product_price* $item->quantity / 100 : 0;
               }else{
