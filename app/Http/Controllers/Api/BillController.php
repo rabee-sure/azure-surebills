@@ -45,6 +45,14 @@ class BillController extends Controller
         ],[
             'name' => $request->customer_name, 
             'email' => $request->customer_email,
+            
+            'bullding_no' => $request->customer_bullding_no,
+            'street_name' => $request->customer_street_name,
+            'district' => $request->customer_district,
+            'city' => $request->customer_city,
+            'postal_code' => $request->customer_postal_code,
+            'additional_no' => $request->customer_additional_no,
+            'other_buyer_id' => $request->customer_other_buyer_id,
         ]);
 
         $send_sms = $request->send_sms === null ? $user->settings->create_send_sms : $request->send_sms;

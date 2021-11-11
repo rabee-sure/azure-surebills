@@ -61,6 +61,14 @@ class AccountController extends Controller
             'name'=> $request->name,
             'email'=> $request->email,
             'gender'=> $request->gender,
+
+            'bullding_no' => $request->bullding_no,
+            'street_name' => $request->street_name,
+            'district' => $request->district,
+            'city' => $request->city,
+            'postal_code' => $request->postal_code,
+            'additional_no' => $request->additional_no,
+            'other_buyer_id' => $request->other_buyer_id,
         ]);
         session()->put(auth()->user()->id.'_complete_profile_step_1', true);
         return redirect('/account');

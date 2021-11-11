@@ -63,6 +63,35 @@
                             <label for="Notes">{{__('Notes')}}</label>
                             <input name="notes" type="text" class="form-control" id="Notes" placeholder="{{__('Notes')}}" value="{{ $customer->notes }}">
                         </div>
+
+                        <div class="form-group">
+                            <label for="bullding_no">{{__('bullding_no')}}</label>
+                            <input name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('bullding_no')}}"  value="{{ $customer->bullding_no }}">
+                        </div> 
+                        <div class="form-group">
+                            <label for="street_name">{{__('street_name')}}</label>
+                            <input name="street_name" type="text" class="form-control" id="street_name" placeholder="{{__('street_name')}}"  value="{{ $customer->street_name }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="district">{{__('district')}}</label>
+                            <input name="district" type="text" class="form-control" id="district" placeholder="{{__('district')}}"  value="{{ $customer->district }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="city">{{__('city')}}</label>
+                            <input name="city" type="text" class="form-control" id="city" placeholder="{{__('city')}}"  value="{{ $customer->city }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="postal_code">{{__('postal_code')}}</label>
+                            <input name="postal_code" type="text" class="form-control" id="postal_code" placeholder="{{__('postal_code')}}"  value="{{ $customer->postal_code }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="additional_no">{{__('additional_no')}}</label>
+                            <input name="additional_no" type="text" class="form-control" id="additional_no" placeholder="{{__('additional_no')}}"  value="{{ $customer->additional_no }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="other_buyer_id">{{__('other_buyer_id')}}</label>
+                            <input name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}"  value="{{ $customer->other_buyer_id }}">
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary login_button mr-3">{{__('Update')}}</button>
