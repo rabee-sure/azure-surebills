@@ -154,7 +154,7 @@ class TransfersSummary extends Command
         $sum_bills = $trans->where('transaction_source', 'bill')->sum('amount') + $trans->where('transaction_source', 'channel_fees')->sum('amount') + $trans->where('transaction_source', 'channel_vat')->sum('amount');
         $sum_fees = $trans->where('transaction_source', 'fees')->sum('amount');
         $sum_fees_vat = $trans->where('transaction_source', 'vat')->sum('amount');
-        $sum_refund = $trans->where('transaction_source', 'refund')->sum('amount');
+        $sum_refund = $trans->where('transaction_source', 'refund')->where('type', 'debit')->sum('amount') - $trans->where('transaction_source', 'refund')->where('type', 'credit')->sum('amount');
 
         return [
             'merchant_id' => $user->id,
