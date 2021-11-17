@@ -176,7 +176,6 @@ class TransfersSummary extends Command
         ];
     }
 
-
     public function sendMails($transfers)
     {
         $settings =  Valuestore::make(storage_path('app/settings.json'));
