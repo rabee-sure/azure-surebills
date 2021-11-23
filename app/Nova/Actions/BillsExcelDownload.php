@@ -37,7 +37,7 @@ class BillsExcelDownload extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $file_name = 'bills/'.Carbon::now()->timestamp.'.xlsx';
-        $data = json_decode((BillResource::collection($models))->toJson(), true);
+        $data = json_decode((BillResource::collection($models->load('application')))->toJson(), true);
         Excel::store(new BillsExport($data), $file_name);
 
         $new_file_name = 'public/shared-bills/'.$file_name;
