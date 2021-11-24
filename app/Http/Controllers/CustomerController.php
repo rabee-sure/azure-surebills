@@ -85,6 +85,7 @@ class CustomerController extends Controller
             'postal_code' => $request->postal_code,
             'additional_no' => $request->additional_no,
             'other_buyer_id' => $request->other_buyer_id,
+            'vat_registration_number' => $request->vat_registration_number,
         ]);
 
         return redirect()->route('customers.index');
@@ -132,6 +133,7 @@ class CustomerController extends Controller
         $customer->postal_code = $request->postal_code;
         $customer->additional_no = $request->additional_no;
         $customer->other_buyer_id = $request->other_buyer_id;
+        $customer->vat_registration_number = $request->vat_registration_number;
         $customer->save();
 
         return redirect()->route('customers.index');

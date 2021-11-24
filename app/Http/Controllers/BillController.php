@@ -77,6 +77,14 @@ class BillController extends Controller
             ],[
                 'name' => $request->customer_name,
                 'email' => $request->customer_email,
+                'bullding_no' => $request->bullding_no,
+                'street_name' => $request->street_name,
+                'district' => $request->district,
+                'city' => $request->city,
+                'postal_code' => $request->postal_code,
+                'additional_no' => $request->additional_no,
+                'other_buyer_id' => $request->other_buyer_id,
+                'vat_registration_number' => $request->vat_registration_number,
             ]);
 
             $bill = Bill::create([
