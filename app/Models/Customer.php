@@ -13,7 +13,8 @@ class Customer extends Model
         'city',
         'postal_code',
         'additional_no',
-        'other_buyer_id'
+        'other_buyer_id',
+        'vat_registration_number'
     ];
 
     /**

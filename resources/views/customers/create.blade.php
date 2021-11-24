@@ -61,6 +61,10 @@
                         <div class="form-group">
                             <label for="other_buyer_id">{{__('other_buyer_id')}}</label>
                             <input name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}">
+                        </div> 
+                        <div class="form-group">
+                            <label for="vat_registration_number">{{__('vat_registration_number')}}</label>
+                            <input name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{__('vat_registration_number')}}">
                         </div>
                 </div>
                 <div class="modal-footer">

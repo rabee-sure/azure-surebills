@@ -113,8 +113,8 @@
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">رقم تسجيل ضريبة القيمة المضافة :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;"></td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;"></td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->vat_registration_number}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->vat_registration_number}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">VAT Number :</td>
                     </tr>
                     <tr>
