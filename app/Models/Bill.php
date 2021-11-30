@@ -20,32 +20,32 @@ class Bill extends Model
     use UsesUuid;
 
     protected $fillable = [
-    	'status',
-    	'payment_method',
-    	'user_id',
-    	'customer_id',
-    	'business_name',
-    	'customer_name',
-    	'customer_mobile',
-    	'customer_email',
+        'status',
+        'payment_method',
+        'user_id',
+        'customer_id',
+        'business_name',
+        'customer_name',
+        'customer_mobile',
+        'customer_email',
         'customer_notes',
-    	'reference_id',
-    	'due_date',
-    	'expiry_date',
-    	'add_discount',
-    	'discount_type',
-    	'discount_value',
-    	'add_tax',
-    	'tax_name',
-    	'tax_value',
-    	'send_sms',
-    	'send_email',
-    	'sub_total',
-    	'vat',
-    	'discount',
-    	'total',
-    	'paid_at',
-    	'canceled_at',
+        'reference_id',
+        'due_date',
+        'expiry_date',
+        'add_discount',
+        'discount_type',
+        'discount_value',
+        'add_tax',
+        'tax_name',
+        'tax_value',
+        'send_sms',
+        'send_email',
+        'sub_total',
+        'vat',
+        'discount',
+        'total',
+        'paid_at',
+        'canceled_at',
         'application_id',
         'payment_fees',
         'settled',
@@ -59,12 +59,12 @@ class Bill extends Model
 
         'payment_channel_fees',
         'payment_channel_fees_vat',
-        
+
         'payment_surebills_fees',
         'payment_surebills_fees_vat',
         'refunded_at',
         'refund_amount',
-        
+
         'pending_settled',
 
         'bill_redirect_url',
@@ -118,8 +118,8 @@ class Bill extends Model
      */
     public function isHaveChannelOwenByUser($user_id)
     {
-        if($this->application_id && isset($this->application)){
-            if($this->application->channel_id && isset($this->application->channel) && $this->application->channel->user_id == $user_id){
+        if ($this->application_id && isset($this->application)) {
+            if ($this->application->channel_id && isset($this->application->channel) && $this->application->channel->user_id == $user_id) {
                 return true;
             }
         }
@@ -146,7 +146,7 @@ class Bill extends Model
      */
     public function getBillTitleAttribute()
     {
-        return __('Bill') .' '. $this->number .' - '. $this->customer_name;
+        return __('Bill') . ' ' . $this->number . ' - ' . $this->customer_name;
     }
 
     /**
@@ -156,9 +156,20 @@ class Bill extends Model
      */
     public function getIsAbleRefundAttribute()
     {
-        return $this->status == 'paid' 
-            && $this->user->able_refund 
-            && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')); 
+        return in_array($this->status, ['paid', 'paid_cash', 'paid_bank_transfer'])
+            && $this->user->able_refund
+            && $this->total > 0
+            && ($this->paid_at && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')));
+    }
+
+    /**
+     * Redirect Url.
+     *
+     * @var string
+     */
+    public function getIsAbleChangeStatusAttribute()
+    {
+        return $this->status == 'pending';
     }
 
 
@@ -169,10 +180,14 @@ class Bill extends Model
      */
     public function getIsAbleTotalRefundAttribute()
     {
-        $with_fees = $this->is_able_refund && round($this->due_to_client) <= round($this->user->actual_balance);
-        $without_fees = $this->is_able_refund && $this->sub_total <= $this->user->actual_balance;
-        
-        return $this->user->able_refund_with_fees ? $with_fees : $without_fees; 
+        if ($this->status == 'paid') {
+            $with_fees = $this->is_able_refund && round($this->due_to_client) <= round($this->user->actual_balance);
+            $without_fees = $this->is_able_refund && $this->sub_total <= $this->user->actual_balance;
+
+            return $this->user->able_refund_with_fees ? $with_fees : $without_fees;
+        } else {
+            return true;
+        }
     }
 
 
@@ -193,7 +208,7 @@ class Bill extends Model
      */
     public function getIsPendingAttribute()
     {
-        return ($this->status == 'pending') ;
+        return ($this->status == 'pending');
     }
 
     /**
@@ -214,14 +229,14 @@ class Bill extends Model
     public function getBackUrlAttribute()
     {
         $data = [
-            'bill_number='.$this->number,
-            'reference_id='.$this->reference_id,
+            'bill_number=' . $this->number,
+            'reference_id=' . $this->reference_id,
             'status=fail',
-            'bill_id='.$this->id,
-            'pay_url='.$this->pay_url,
+            'bill_id=' . $this->id,
+            'pay_url=' . $this->pay_url,
         ];
         $ks = (str_contains($this->application->redirect, '?')) ? "&" : '?';
-        return $this->application->redirect.$ks.implode("&", $data);
+        return $this->application->redirect . $ks . implode("&", $data);
     }
 
     /**
@@ -233,12 +248,12 @@ class Bill extends Model
     {
         $link = $this->bill_redirect_url ?? $this->application->redirect;
         $data = [
-            'bill_number='.$this->number,
-            'reference_id='.$this->reference_id,
-            'status='.$this->status,
-            'bill_id='.$this->id,
-            'pay_url='.$this->pay_url,
-            'total='.$this->total,
+            'bill_number=' . $this->number,
+            'reference_id=' . $this->reference_id,
+            'status=' . $this->status,
+            'bill_id=' . $this->id,
+            'pay_url=' . $this->pay_url,
+            'total=' . $this->total,
         ];
 
         $ks = (str_contains($link, '?')) ? "&" : '?';
@@ -257,12 +272,12 @@ class Bill extends Model
         }
 
         $data = [
-            'bill_number='.$this->number,
-            'reference_id='.$this->reference_id,
-            'status='.$this->status,
-            'bill_id='.$this->id,
-            'pay_url='.$this->pay_url,
-            'total='.$this->total,
+            'bill_number=' . $this->number,
+            'reference_id=' . $this->reference_id,
+            'status=' . $this->status,
+            'bill_id=' . $this->id,
+            'pay_url=' . $this->pay_url,
+            'total=' . $this->total,
         ];
 
         $ks = (str_contains($this->application->webhook_url, '?')) ? "&" : '?';
@@ -292,9 +307,9 @@ class Bill extends Model
         }
 
         $date = $this->created_at
-                ->addDays($this->expiry_date)
-                ->addMinutes($this->expiry_minutes)
-                ->addHours($this->expiry_hours);
+            ->addDays($this->expiry_date)
+            ->addMinutes($this->expiry_minutes)
+            ->addHours($this->expiry_hours);
         return $date->isPast();
     }
 
@@ -340,13 +355,13 @@ class Bill extends Model
     public function getRemainingTimeMinutesAttribute()
     {
         $date = $this->created_at
-                ->addDays($this->expiry_date)
-                ->addMinutes($this->expiry_minutes)
-                ->addHours($this->expiry_hours);
-        if(!$this->is_expired){
+            ->addDays($this->expiry_date)
+            ->addMinutes($this->expiry_minutes)
+            ->addHours($this->expiry_hours);
+        if (!$this->is_expired) {
             $totalDuration = Carbon::now()->diffInSeconds($date);
             return gmdate('i', $totalDuration);
-        }else{
+        } else {
             return "00";
         }
     }
@@ -359,16 +374,16 @@ class Bill extends Model
     public function getRemainingTimeHoursAttribute()
     {
         $date = $this->created_at
-                ->addDays($this->expiry_date)
-                ->addMinutes($this->expiry_minutes)
-                ->addHours($this->expiry_hours);
-        if(!$this->is_expired){
+            ->addDays($this->expiry_date)
+            ->addMinutes($this->expiry_minutes)
+            ->addHours($this->expiry_hours);
+        if (!$this->is_expired) {
             $totalDuration = Carbon::now()->diffInSeconds($date);
             return [
                 'days' => Carbon::now()->diffInDays($date),
                 'hours' => gmdate('H', $totalDuration),
             ];
-        }else{
+        } else {
             return "00";
         }
     }
@@ -380,13 +395,13 @@ class Bill extends Model
     public function getRemainingTimesecondsAttribute()
     {
         $date = $this->created_at
-                ->addDays($this->expiry_date)
-                ->addMinutes($this->expiry_minutes)
-                ->addHours($this->expiry_hours);
-        if(!$this->is_expired){
+            ->addDays($this->expiry_date)
+            ->addMinutes($this->expiry_minutes)
+            ->addHours($this->expiry_hours);
+        if (!$this->is_expired) {
             $totalDuration = Carbon::now()->diffInSeconds($date);
             return gmdate('s', $totalDuration);
-        }else{
+        } else {
             return "00";
         }
     }
@@ -414,7 +429,7 @@ class Bill extends Model
             return substr_replace($uuid, '-', $offset, 0);
         }, str_pad($hex, 32, '0', STR_PAD_LEFT));
 
-        return self::find($id??null);
+        return self::find($id ?? null);
     }
 
     /**
@@ -432,46 +447,52 @@ class Bill extends Model
     /**
      * get only paid bills
      */
-    public function scopePaid($query){
+    public function scopePaid($query)
+    {
         $query->where('status', 'paid');
     }
 
     /**
      * get only paid bills
      */
-    public function scopeRefunded($query){
+    public function scopeRefunded($query)
+    {
         $query->where('status', 'refunded');
     }
 
     /**
      * get only paid bills
      */
-    public function scopeSettled($query){
+    public function scopeSettled($query)
+    {
         $query->where('settled', true);
     }
 
     /**
      * get only pending bills
      */
-    public function scopePending($query){
+    public function scopePending($query)
+    {
         $query->where('status', 'pending');
     }
 
     /**
      * get only paid bills
      */
-    public function scopeNotSettled($query){
+    public function scopeNotSettled($query)
+    {
         $query->where('settled', false);
     }
 
     /**
      * get only paid bills that doesn't have succeded webhook call
      */
-    public function scopePaidButNotHaveSuccessWebhook($query){
+    public function scopePaidButNotHaveSuccessWebhook($query)
+    {
         $query
             ->whereHas('application')->paid()
             ->where('paid_at', '>', '2021-06-09')
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query->where('bills.is_callbacked', '!=', true)
                     ->orWhereDoesntHave('webhookLogs', function ($query) {
                         $query->where('webhook_logs.status_code', 200);
@@ -564,7 +585,7 @@ class Bill extends Model
         $this->save();
 
         event(new BillPaid($this));
-        event( new BillStatusUpdated($this) );
+        event(new BillStatusUpdated($this));
     }
 
     /**
@@ -577,15 +598,21 @@ class Bill extends Model
             return false;
         }
 
-        if ($this->success_payment->refund($this->total)) {
+        if ($this->success_payment && $this->success_payment->refund($this->total)) {
             $this->status = 'refunded';
             $this->refunded_at = Carbon::now();
-            $this->refund_amount = $this->refund_amount+$this->total;
+            $this->refund_amount = $this->refund_amount + $this->total;
             $this->save();
-            
+
             event(new BillRefunded($this));
             event(new BillStatusUpdated($this));
 
+            return true;
+        } else {
+            $this->total = 0;
+            $this->refunded_at = Carbon::now();
+            $this->refund_amount = $this->refund_amount + $this->total;
+            $this->save();
             return true;
         }
 
@@ -601,14 +628,20 @@ class Bill extends Model
         if (!$this->is_able_refund) {
             return false;
         }
-        
-        if ($this->success_payment->refund($amount)) {
 
-            $this->refund_amount = $this->refund_amount+$amount;
+        if ($this->success_payment && $this->success_payment->refund($amount)) {
+
+            $this->refund_amount = $this->refund_amount + $amount;
             $this->save();
-            
+
             event(new BillPartialRefunded($this, $amount));
             event(new BillStatusUpdated($this));
+
+            return true;
+        } else {
+            $this->total = $this->total - $amount;
+            $this->refund_amount = $this->refund_amount + $amount;
+            $this->save();
 
             return true;
         }
@@ -647,7 +680,7 @@ class Bill extends Model
         // update bill
         $percentage = $this->getPercentage();
         $fixed = $this->getFixed();
-        $this->pricing_fees_details = $percentage.'%,'. $fixed;
+        $this->pricing_fees_details = $percentage . '%,' . $fixed;
         $this->payment_fees = $this->total * ($percentage / 100) + $fixed;
         $this->payment_fees_vat = $this->payment_fees * (Transaction::VAT_PERCENTAGE / 100);
         $this->save();
@@ -699,14 +732,14 @@ class Bill extends Model
     public function getPercentage($log, $from_channel = false)
     {
         $response = $log->results['response'] ?? $this->success_payment->results['response'];
-        if( isset($this->application) && isset($this->application->channel)) {
+        if (isset($this->application) && isset($this->application->channel)) {
             $object = $from_channel ? $this->application->channel : $this->application;
-        }else{
+        } else {
             $object = $this->user;
         }
-        if(isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA'){
+        if (isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA') {
             return $object->mada_percentage;
-        }else{
+        } else {
             return $object->credit_cards_percentage;
         }
     }
@@ -719,28 +752,29 @@ class Bill extends Model
     public function getFixed($log, $from_channel = false)
     {
         $response = $log->results['response'] ?? $this->success_payment->results['response'];
-        if( isset($this->application) && isset($this->application->channel)) {
+        if (isset($this->application) && isset($this->application->channel)) {
             $object = $from_channel ? $this->application->channel : $this->application;
-        }else{
+        } else {
             $object = $this->user;
         }
-        if(isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA'){
+        if (isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA') {
             return $object->mada_fixed;
-        }else{ 
+        } else {
             return $object->credit_cards_fixed;
         }
     }
 
 
     // this is a recommended way to declare event handlers
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
 
-        static::deleting(function($bill) {
+        static::deleting(function ($bill) {
             // before delete() method call this
-             $bill->items()->delete();
-             $bill->transactions()->delete();
-             // do the rest of the cleanup...
+            $bill->items()->delete();
+            $bill->transactions()->delete();
+            // do the rest of the cleanup...
         });
     }
 

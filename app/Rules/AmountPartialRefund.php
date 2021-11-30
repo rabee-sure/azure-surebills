@@ -28,6 +28,7 @@ class AmountPartialRefund implements Rule
     public function passes($attribute, $value)
     {
         $bill = Bill::find($this->id);
+
         return $value < $bill->total;
     }
 
