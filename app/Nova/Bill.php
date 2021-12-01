@@ -132,28 +132,32 @@ class Bill extends Resource
             'canceled' =>  __('Canceled'),
             'expired' =>  __('Expired'),
             'refunded' =>  __('Refunded'),
+            'paid_cash' =>  __('Paid Cash'),
+            'paid_bank_transfer' =>  __('Paid Bank Transfer'),
         ];
         return [
 
             Text::make(__('Bill num'), 'number'),
 
             Text::make(__('Name'), function () {
-                return __('Bill').' '.  $this->number  .'-'. $this->customer_name;
+                return __('Bill') . ' ' .  $this->number  . '-' . $this->customer_name;
             }),
 
             Badge::make(__('Status'), 'status')
-               ->options($options)
-               ->colors([
-                  'pending' => '#3195a5',
-                  'paid' => '#3e884f',
-                  'canceled' => '#c43d4b',
-                  'expired' => '#ececec',
-                  'refunded' => '#b69329',
-               ])->displayUsingLabels(),
+                ->options($options)
+                ->colors([
+                    'pending' => '#3195a5',
+                    'paid' => '#3e884f',
+                    'canceled' => '#c43d4b',
+                    'expired' => '#ececec',
+                    'refunded' => '#b69329',
+                    'paid_cash' => '#3e884f',
+                    'paid_bank_transfer' => '#3e884f',
+                ])->displayUsingLabels(),
 
-            Text::make(__('Url') , 'pay_url')
-                ->displayUsing(function(){
-                    return '<a href="'.$this->pay_url.'" target="_blank" class="no-underline dim text-primary  view_reservation">' . __('Bill link') . '</a>';
+            Text::make(__('Url'), 'pay_url')
+                ->displayUsing(function () {
+                    return '<a href="' . $this->pay_url . '" target="_blank" class="no-underline dim text-primary  view_reservation">' . __('Bill link') . '</a>';
                 })
                 ->sortable()
                 ->onlyOnDetail()
@@ -164,12 +168,12 @@ class Bill extends Resource
 
 
             Text::make(__('Channel'), 'pay_url')
-                ->displayUsing(function(){
+                ->displayUsing(function () {
                     $id = $this->application->channel->id ?? '';
                     $name = $this->application->channel->name ?? '---';
-                    if(!empty($id)){
-                        return'<a href="/nova/resources/channels/'.$id.'" class="no-underline dim text-primary view_reservation">' . $name. '</a>';
-                    }else{
+                    if (!empty($id)) {
+                        return '<a href="/nova/resources/channels/' . $id . '" class="no-underline dim text-primary view_reservation">' . $name . '</a>';
+                    } else {
                         return '--';
                     }
                 })
@@ -190,7 +194,7 @@ class Bill extends Resource
                 ->min(1)
                 ->step(0.1),
 
-            Number::make( __('Payment Fees'), 'payment_fees', function () {
+            Number::make(__('Payment Fees'), 'payment_fees', function () {
                 return (string) $this->payment_fees;
             })->min(1)->step(0.1)->onlyOnDetail(),
 
@@ -205,14 +209,14 @@ class Bill extends Resource
                 ->onlyOnDetail(),
 
             Text::make(__('Reference Id'), 'reference_id'),
-            
+
             BelongsTo::make(__('User'), 'user', User::class),
 
             // DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
 
             Text::make(__('Created At'), 'created_at')
-                ->displayUsing(function(){
-                    if($this->created_at)
+                ->displayUsing(function () {
+                    if ($this->created_at)
                         return $this->created_at->format('Y-m-d h:i a');
                     else
                         return 'NULL';
@@ -226,7 +230,7 @@ class Bill extends Resource
             Boolean::make(__('Send Email'), 'send_email')->onlyOnDetail(),
             Boolean::make(__('Send Sms'), 'send_sms')->onlyOnDetail(),
 
-            new Panel(__('Payment Details'), function(){
+            new Panel(__('Payment Details'), function () {
                 return [
                     Text::make(__('Method Type'), 'payment_method_details')->onlyOnDetail(),
 
@@ -234,46 +238,46 @@ class Bill extends Resource
                     Number::make(__('Discount'), 'discount')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make(__('Tax'), 'vat')->min(1)->step(0.1)->onlyOnDetail(),
                     Number::make(__('Total'), 'total')->min(1)->step(0.1)->onlyOnDetail(),
-                    Number::make( __('Payment Fees'), function () {
-                        if($this->status == 'refunded')
+                    Number::make(__('Payment Fees'), function () {
+                        if ($this->status == 'refunded')
                             return '0';
                         else
                             return round($this->payment_fees, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
-                    Number::make( __('Payment Fees VAT'), function () {
-                        if($this->status == 'refunded')
+                    Number::make(__('Payment Fees VAT'), function () {
+                        if ($this->status == 'refunded')
                             return '0';
                         else
                             return  round($this->payment_fees_vat, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
 
-                    Number::make( __('Payment Surebills Fees'), function () {
-                        if($this->status == 'refunded')
+                    Number::make(__('Payment Surebills Fees'), function () {
+                        if ($this->status == 'refunded')
                             return '0';
                         else
                             return round($this->payment_surebills_fees, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
-                    Number::make( __('Payment Surebills Fees Vat'), function () {
-                        if($this->status == 'refunded')
+                    Number::make(__('Payment Surebills Fees Vat'), function () {
+                        if ($this->status == 'refunded')
                             return '0';
                         else
                             return round($this->payment_surebills_fees_vat, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
-                    Number::make( __('Payment Channel Fees'), function () {
-                        if($this->status == 'refunded')
+                    Number::make(__('Payment Channel Fees'), function () {
+                        if ($this->status == 'refunded')
                             return '0';
                         else
                             return round($this->payment_channel_fees, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
-                    Number::make( __('Payment Channel Fees Vat'), function () {
-                        if($this->status == 'refunded')
+                    Number::make(__('Payment Channel Fees Vat'), function () {
+                        if ($this->status == 'refunded')
                             return '0';
                         else
                             return round($this->payment_channel_fees_vat, 2);
                     })->min(1)->step(0.1)->onlyOnDetail(),
 
-                    Number::make( __('Due to client'), function () {
-                        if($this->status == 'refunded')
+                    Number::make(__('Due to client'), function () {
+                        if ($this->status == 'refunded')
                             return '0';
                         else
                             return round($this->due_to_client, 2);
@@ -333,7 +337,7 @@ class Bill extends Resource
     public function actions(Request $request)
     {
         return [
-            (new BillsExcelDownload)->canRun(function(NovaRequest $request) {
+            (new BillsExcelDownload)->canRun(function (NovaRequest $request) {
                 return true;
             }),
             // (new DownloadExcel)->withHeadings(),
@@ -372,6 +376,4 @@ class Bill extends Resource
     {
         return false;
     }
-
-
 }

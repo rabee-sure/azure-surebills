@@ -56,10 +56,15 @@
             <img src="{{ asset('images/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
           </button>
         @endif 
-
         @if($bill->is_able_refund)
           <button id="cancel_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#refundModal" title="{{ __('Refund Bill') }}" data-from="top" data-align="right">
               <img src="{{ asset('images/refund.svg') }}" alt="{{ __('Refund Bill') }}" style="height: 25px;">
+            </button>
+        @endif
+
+        @if($bill->is_able_change_status)
+          <button type="button" class="btn btn-success mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#changeStatusModal" title="{{ __('Change status') }}" data-from="top" data-align="right">
+              <img src="{{ asset('images/change_status.svg') }}" alt="{{ __('Change Status') }}" style="height: 25px;">
             </button>
         @endif
 
@@ -91,13 +96,21 @@
             <div class="alert alert-danger" role="alert">
               {{ __('this bill has been expired', ['number' => $bill->number ]) }}
             </div>
-          @elseif($bill->status == 'paid')
+        @elseif($bill->status == 'paid')
             <div class="alert alert-success" role="alert">
               @if ($bill->depositTransaction)
                 {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
               @else
               {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
               @endif
+            </div>
+        @elseif($bill->status == 'paid_cash')
+            <div class="alert alert-success" role="alert">
+              {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}
+            </div>
+        @elseif($bill->status == 'paid_bank_transfer')
+            <div class="alert alert-success" role="alert">
+              {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
             </div>
           @elseif($bill->status == 'canceled')
             <div class="alert alert-danger" role="alert">
@@ -182,6 +195,7 @@
 
 @include('bills.partials.cancel',['bill' => $bill])
 @include('bills.partials.refund',['bill' => $bill])
+@include('bills.partials.change_status',['bill' => $bill])
 
 @endsection 
 

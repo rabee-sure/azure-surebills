@@ -46,6 +46,8 @@ class BillStatus extends MultiselectFilter
             __('Canceled') => 'canceled',
             __('Expired') => 'expired',
             __('Refunded') => 'refunded',
+            __('Paid Cash') => 'paid_cash',
+            __('Paid Bank Transfer') => 'paid_bank_transfer',
         ];
     }
 }

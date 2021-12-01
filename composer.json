@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3",
+        "php": "^7.3|^8.0",
         "ampeco/nova-date-range-filter": "^0.1.2",
         "anaseqal/nova-sidebar-icons": "^0.0.3",
         "bakerkretzmar/nova-settings-tool": "^1.1",
