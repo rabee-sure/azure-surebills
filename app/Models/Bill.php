@@ -222,6 +222,15 @@ class Bill extends Model
     }
 
     /**
+     * Pay Url.
+     *
+     * @var string
+     */
+    public function getInvoiceUrlAttribute()
+    {
+        return route('invoice', ['id' => $this->pay_id, 'lang' => app()->getLocale()]);
+    }
+    /**
      * Back Url.
      *
      * @var string
