@@ -63,7 +63,7 @@
         @endif
 
         @if($bill->is_able_change_status)
-          <button type="button" class="btn btn-success mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#changeStatusModal" title="{{ __('Change status') }}" data-from="top" data-align="right">
+          <button type="button" class="btn btn-success mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#changeStatusModal" title="{{ __('Change Status') }}" data-from="top" data-align="right">
               <img src="{{ asset('images/change_status.svg') }}" alt="{{ __('Change Status') }}" style="height: 25px;">
             </button>
         @endif
@@ -112,11 +112,11 @@
             <div class="alert alert-success" role="alert">
               {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
             </div>
-          @elseif($bill->status == 'canceled')
+        @elseif($bill->status == 'canceled')
             <div class="alert alert-danger" role="alert">
               {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
             </div>
-          @elseif($bill->status == 'refunded')
+        @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
             <div class="alert alert-warning" role="alert">
               {{ __('this bill has been refunded', ['number' => $bill->number ]) }}
             </div>

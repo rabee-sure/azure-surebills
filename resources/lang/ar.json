@@ -1,5 +1,18 @@
 {
 	"All": "الكل",
+	"Getway Balance": "رصيد بوابة الدفع الالكتروني",
+	"Paid Cash Balance": "رصيد الدفع النقدي",
+	"Paid Bank Transfer Balance": "رصيد التحويل البنكي",
+
+	"Paid Bank Transfer": "مدفوعة تحويل بنكي",
+	"Paid Cash": "مدفوعة نقدي",
+
+	"Refunded Bank Transfer": "استردت بتحويل بنكي",
+	"Refunded Cash": "استردت نقدي",
+
+	"vat_registration_number": "رقم التسجيل الضريبي",
+	"Change Status": "تغيير الحالة",
+	"Are you Sure to Change Status ?": "تغيير حالة الفاتورة",
 
 	"bullding_no":"رقم المبني",
     "street_name":"اسم الشارع",
