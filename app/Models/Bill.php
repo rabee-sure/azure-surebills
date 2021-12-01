@@ -609,6 +609,7 @@ class Bill extends Model
 
             return true;
         } else {
+            $this->status = $this->status == 'paid_cash' ? 'refunded_cash' : 'refunded_bank_transfer';
             $this->total = 0;
             $this->refunded_at = Carbon::now();
             $this->refund_amount = $this->refund_amount + $this->total;

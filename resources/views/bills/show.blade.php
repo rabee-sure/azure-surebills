@@ -112,11 +112,11 @@
             <div class="alert alert-success" role="alert">
               {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
             </div>
-          @elseif($bill->status == 'canceled')
+        @elseif($bill->status == 'canceled')
             <div class="alert alert-danger" role="alert">
               {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
             </div>
-          @elseif($bill->status == 'refunded')
+        @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
             <div class="alert alert-warning" role="alert">
               {{ __('this bill has been refunded', ['number' => $bill->number ]) }}
             </div>
