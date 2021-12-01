@@ -361,6 +361,14 @@
         $('#customer_mobile').val(item.mobile);
         $('#customer_email').val(item.email);
         $('#customer_notes').val(item.notes);
+        $('#bullding_no').val(item.bullding_no);
+        $('#street_name').val(item.street_name);
+        $('#district').val(item.district);
+        $('#city').val(item.city);
+        $('#postal_code').val(item.postal_code);
+        $('#additional_no').val(item.additional_no);
+        $('#other_buyer_id').val(item.other_buyer_id);
+        $('#vat_registration_number').val(item.vat_registration_number);        
        return false;
       },
       minLength: 1

@@ -63,7 +63,7 @@
         @endif
 
         @if($bill->is_able_change_status)
-          <button type="button" class="btn btn-success mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#changeStatusModal" title="{{ __('Change status') }}" data-from="top" data-align="right">
+          <button type="button" class="btn btn-success mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#changeStatusModal" title="{{ __('Change Status') }}" data-from="top" data-align="right">
               <img src="{{ asset('images/change_status.svg') }}" alt="{{ __('Change Status') }}" style="height: 25px;">
             </button>
         @endif
