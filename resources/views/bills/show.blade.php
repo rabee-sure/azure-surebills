@@ -46,6 +46,9 @@
         <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->pay_url}}" target="_blank" title="{{ __('Open Link') }}">
           <img src="{{ asset('images/link.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
         </a>
+        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->invoice_url}}" target="_blank" title="{{ __('Open Link') }}">
+          <img src="{{ asset('images/qr.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
+        </a>
         <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
         <a onclick="window.print(); return false;" class="btn btn-primary mr-2 mb-2 rounded-sm d-inline-block" href="#" title="{{ __('Print') }}">
           <img src="{{ asset('images/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
