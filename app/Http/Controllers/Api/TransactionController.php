@@ -18,7 +18,7 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         $all_transactions = $this->query($request)->get();
-        $transactions = $this->query($request)->paginate($request->get('per_page', 10));
+        $transactions = $this->query($request)->with('bill')->paginate($request->get('per_page', 10));
 
         return TransactionResource::collection($transactions)->additional(['meta' => [
             'balance' => round($all_transactions->where('type', 'credit')->sum('amount')-$all_transactions->where('type', 'debit')->sum('amount'), 2),
