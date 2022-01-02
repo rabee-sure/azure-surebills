@@ -7,6 +7,8 @@ use App\Http\Requests\ApplicationRequest;
 use App\Http\Resources\ApplicationResource;
 use Illuminate\Support\Str;
 
+use function PHPUnit\Framework\isEmpty;
+
 class ApplicationController extends Controller
 {
     /**
@@ -55,8 +57,7 @@ class ApplicationController extends Controller
         $application->name = $request->name;
         $application->redirect = $request->redirect;
         $application->fail_redirect_url = $request->fail_redirect_url;
-        $application->webhook_secret = '';
-        if($request->webhook_url){
+        if($request->webhook_url && (!$application->webhook_secret || isEmpty($application->webhook_secret))){
             $application->webhook_url = $request->webhook_url;
             $application->webhook_secret = Str::random(20);
         }
