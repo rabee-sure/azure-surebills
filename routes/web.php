@@ -46,55 +46,56 @@ Auth::routes();
 Route::get('login-by-secret/{secret}/{secret2}', 'FandaqahOperationsController@loginBySecret');
 
 Route::middleware(['auth'])->group(function () {
-	Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
-	Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
-	Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('resend_code');
+    Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
+    Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
+    Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('resend_code');
 
-	Route::get('settings', 'SettingsController@settings')->name('settings');
-	Route::post('settings', 'SettingsController@postSettings')->name('post.settings');
+    Route::get('settings', 'SettingsController@settings')->name('settings');
+    Route::post('settings', 'SettingsController@postSettings')->name('post.settings');
 
-	Route::get('account', 'AccountController@account')->name('account');
+    Route::get('account', 'AccountController@account')->name('account');
     Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
-	Route::post('account-information', 'AccountController@storeAccountInformation')->name('account.information');
+    Route::post('account-information', 'AccountController@storeAccountInformation')->name('account.information');
 
-	Route::get('account/bank_information', 'AccountController@bank_information')->name('bank_information');
-	Route::post('bank-information', 'AccountController@storeBankInformation')->name('bank.information');
+    Route::get('account/bank_information', 'AccountController@bank_information')->name('bank_information');
+    Route::post('bank-information', 'AccountController@storeBankInformation')->name('bank.information');
 
-	Route::get('account/business_information', 'AccountController@business_information')->name('business_information');
-	Route::post('business-information', 'AccountController@storeBusinessInformation')->name('business.information');
+    Route::get('account/business_information', 'AccountController@business_information')->name('business_information');
+    Route::post('business-information', 'AccountController@storeBusinessInformation')->name('business.information');
 
-	Route::get('account/change_password', 'AccountController@changePassword')->name('change_password');
-	Route::post('change-password', 'AccountController@storeChangePassword')->name('change.password');
+    Route::get('account/change_password', 'AccountController@changePassword')->name('change_password');
+    Route::post('change-password', 'AccountController@storeChangePassword')->name('change.password');
 
-	Route::get('pricing', 'PricingController@index')->name('pricing');
-	Route::put('pricing', 'PricingController@update')->name('update_price');
-	Route::get('pricing/details', 'PricingController@details')->name('details');
-
+    Route::get('pricing', 'PricingController@index')->name('pricing');
+    Route::put('pricing', 'PricingController@update')->name('update_price');
+    Route::get('pricing/details', 'PricingController@details')->name('details');
 });
 
 Route::get('/logs/{log}/', 'PaymentLogController@show')->name('logpage');
 
 // py bill page
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
+Route::get('/bills/{id}/invoice', 'BillController@invoice')->name('invoice');
 Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang');
 Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::post('/bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
 Route::post('/bills/{id}/refund', 'BillController@refund')->name('bills.refund');
+Route::post('/bills/{id}/change_status', 'BillController@changeStatus')->name('bills.change_status');
 Route::post('/bills/{id}/partial-refund', 'BillController@partialRefund')->name('bills.partial.refund');
 Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
 
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
-	Route::apiResource('applications', 'ApplicationController');
+    Route::apiResource('applications', 'ApplicationController');
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
 
     Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
-	Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
+    Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
 
-	Route::resource('customers', 'CustomerController');
+    Route::resource('customers', 'CustomerController');
 
-	Route::get('statement', 'StatementController@index')->name('statement.index');
+    Route::get('statement', 'StatementController@index')->name('statement.index');
     Route::get('statement/export', 'StatementController@export')->name('statement.export');
     Route::get('transfers', 'TransferController@index')->name('transfers.index');
     Route::get('transfers/{transfer}/bills', 'TransferController@bills')->name('transfer.bills');
@@ -105,10 +106,10 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::put('transfers/change_status', 'TransferController@changeStatus');
     Route::put('transfers/{transfer}/cancel', 'TransferController@cancel');
 
-	Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/terms', 'HomeController@terms');
-	Route::get('/integration', 'IntegrationController@index')->name('integration');
-	Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
+    Route::get('/integration', 'IntegrationController@index')->name('integration');
+    Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
 
     Route::get('products', 'ProductsController@index')->name('products.all');
     Route::get('products/{id}/view', 'ProductsController@view')->name('products.view');
@@ -119,9 +120,9 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 
     Route::get('products/settings', 'ProductsController@settings')->name('products.settings');
 
-  // Orders
-  Route::get('orders', 'OrdersController@index')->name('orders.all');
-  Route::get('orders/view', 'OrdersController@view')->name('orders.view');
+    // Orders
+    Route::get('orders', 'OrdersController@index')->name('orders.all');
+    Route::get('orders/view', 'OrdersController@view')->name('orders.view');
 });
 
 Route::get('/', 'HomeController@landing');

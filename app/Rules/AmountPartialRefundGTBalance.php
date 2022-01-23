@@ -28,7 +28,11 @@ class AmountPartialRefundGTBalance implements Rule
     public function passes($attribute, $value)
     {
         $bill = Bill::find($this->id);
-        return $value <= $bill->user->actual_balance;
+        if ($bill->status == 'paid') {
+            return $value <= $bill->user->actual_balance;
+        } else {
+            return true;
+        }
     }
 
     /**

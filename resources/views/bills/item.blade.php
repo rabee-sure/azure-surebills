@@ -23,6 +23,12 @@
           case "paid":
             className = " badge-success";
             break;
+          case "paid_cash":
+            className = " badge-success";
+            break;
+          case "paid_bank_transfer":
+            className = " badge-success";
+            break;
           case "canceled":
             className = "badge-danger";
             break;          
@@ -30,6 +36,12 @@
             className = "badge-light";
             break;
           case "refunded":
+            className = "badge-warning";
+            break;
+          case "refunded_cash":
+            className = "badge-warning";
+            break;
+          case "refunded_bank_transfer":
             className = "badge-warning";
             break;
           default:

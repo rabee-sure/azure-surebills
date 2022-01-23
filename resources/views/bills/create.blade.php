@@ -60,6 +60,41 @@
                 <input value="{{ old('customer_notes') }}" name="customer_notes" type="text" class="form-control" id="customer_notes" placeholder="{{ __('Special Note') }}">
               </div><!-- form-group -->
             </div><!-- form-row -->
+            
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label for="bullding_no">{{__('bullding_no')}}</label>
+                  <input value="{{ old('bullding_no') }}" name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('bullding_no')}}">
+              </div> 
+              <div class="form-group col-md-6">
+                  <label for="street_name">{{__('street_name')}}</label>
+                  <input value="{{ old('street_name') }}" name="street_name" type="text" class="form-control" id="street_name" placeholder="{{__('street_name')}}">
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="district">{{__('district')}}</label>
+                  <input value="{{ old('district') }}" name="district" type="text" class="form-control" id="district" placeholder="{{__('district')}}">
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="city">{{__('city')}}</label>
+                  <input value="{{ old('city') }}" name="city" type="text" class="form-control" id="city" placeholder="{{__('city')}}">
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="postal_code">{{__('postal_code')}}</label>
+                  <input value="{{ old('postal_code') }}" name="postal_code" type="text" class="form-control" id="postal_code" placeholder="{{__('postal_code')}}">
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="additional_no">{{__('additional_no')}}</label>
+                  <input value="{{ old('additional_no') }}"  name="additional_no" type="text" class="form-control" id="additional_no" placeholder="{{__('additional_no')}}">
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="other_buyer_id">{{__('other_buyer_id')}}</label>
+                  <input value="{{ old('other_buyer_id') }}"  name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}">
+              </div> 
+              <div class="form-group col-md-6">
+                  <label for="vat_registration_number">{{__('vat_registration_number')}}</label>
+                  <input value="{{ old('vat_registration_number') }}"  name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{__('vat_registration_number')}}">
+              </div>
+            </div>
 
             <div class="form-row">
               <div class="form-group col-6 col-md-6">
@@ -326,6 +361,14 @@
         $('#customer_mobile').val(item.mobile);
         $('#customer_email').val(item.email);
         $('#customer_notes').val(item.notes);
+        $('#bullding_no').val(item.bullding_no);
+        $('#street_name').val(item.street_name);
+        $('#district').val(item.district);
+        $('#city').val(item.city);
+        $('#postal_code').val(item.postal_code);
+        $('#additional_no').val(item.additional_no);
+        $('#other_buyer_id').val(item.other_buyer_id);
+        $('#vat_registration_number').val(item.vat_registration_number);        
        return false;
       },
       minLength: 1

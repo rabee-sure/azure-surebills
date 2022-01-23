@@ -62,6 +62,13 @@ class User extends Authenticatable implements HasMedia
         'auto_trnasfer',
         'from_channel_id',
         'vat_inclusive',
+        'bullding_no',
+        'street_name',
+        'district',
+        'city',
+        'postal_code',
+        'additional_no',
+        'other_buyer_id'
     ];
 
     /**
@@ -114,6 +121,36 @@ class User extends Authenticatable implements HasMedia
         return $transfer->total;
     }
 
+
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getPaidCashBalanceAttribute()
+    {
+        $bills_paid_cash = $this->bills()
+            ->select(DB::raw("SUM(CASE WHEN status  = 'paid_cash' THEN total ELSE 0 END) AS totals"))
+            ->first();
+        return $bills_paid_cash->totals;
+    }
+
+
+    /**
+     * Get the user's is Active.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getPaidBankTransferBalanceAttribute()
+    {
+        $bills_paid_cash = $this->bills()
+            ->select(DB::raw("SUM(CASE WHEN status  = 'paid_bank_transfer' THEN total ELSE 0 END) AS totals"))
+            ->first();
+        return $bills_paid_cash->totals;
+    }
+
     /**
      * Get the user's is Active.
      *
@@ -139,23 +176,22 @@ class User extends Authenticatable implements HasMedia
 
     public function getBalanceStringAttribute()
     {
-        return ' '.$this->balance;
+        return ' ' . $this->balance;
     }
 
     public function getVerifyStatusAttribute()
     {
-        if($this->verified == 1){
+        if ($this->verified == 1) {
             return __('yes');
-        }
-        else{
+        } else {
             return __('no');
         }
     }
 
     public function getLogoUrlAttribute()
     {
-        if(Storage::disk('public')->exists($this->logo))
-            return url('storage/'.$this->logo);
+        if (Storage::disk('public')->exists($this->logo))
+            return url('storage/' . $this->logo);
         else
             return url($this->logo);
     }
@@ -168,15 +204,13 @@ class User extends Authenticatable implements HasMedia
      */
     public function getIsCompleteProfileAttribute()
     {
-        return (
-            isset($this->business_name_en)&& !empty($this->business_name_en)&&
-            isset($this->business_address)&& !empty($this->business_address)&&
-            isset($this->business_address)&& !empty($this->business_address)&&
+        return (isset($this->business_name_en) && !empty($this->business_name_en) &&
+            isset($this->business_address) && !empty($this->business_address) &&
+            isset($this->business_address) && !empty($this->business_address) &&
 
             isset($this->bank_id) && !empty($this->bank_id) &&
             isset($this->iban_number) && !empty($this->iban_number) &&
-            isset($this->beneficiary_name) && !empty($this->beneficiary_name)
-        );
+            isset($this->beneficiary_name) && !empty($this->beneficiary_name));
     }
 
     /**
@@ -187,17 +221,16 @@ class User extends Authenticatable implements HasMedia
      */
     public function sendMobileCode()
     {
-        $mobile_active_code = str_pad(rand(0, pow(10, 4)-1), 4, '0', STR_PAD_LEFT);
+        $mobile_active_code = str_pad(rand(0, pow(10, 4) - 1), 4, '0', STR_PAD_LEFT);
         $this->mobile_sent_at = Carbon::now();
         $this->mobile_active_code = !app()->environment('production') ? '0000' : $mobile_active_code;
         $this->save();
-        if(app()->environment('production'))
-        {
-            $message = __('verification code : ',[],'en') . $mobile_active_code;
+        if (app()->environment('production')) {
+            $message = __('verification code : ', [], 'en') . $mobile_active_code;
             $message .= PHP_EOL;
 
             $mobile = (int) $this->mobile;
-            $data = ["Tagname" => "SURE-Pay", "RecepientNumber" => "0".$mobile, "Message" => $message, "Username" => env('YAMAMAH_USERNAME'), "Password" => env('YAMAMAH_PASSWORD')];
+            $data = ["Tagname" => "SURE-Pay", "RecepientNumber" => "0" . $mobile, "Message" => $message, "Username" => env('YAMAMAH_USERNAME'), "Password" => env('YAMAMAH_PASSWORD')];
             $payload = json_encode($data);
             $ch = curl_init('http://api.yamamah.com/SendSMS');
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -235,7 +268,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function getBusinessNameAttribute()
     {
-        return (isset($this->business_name_ar) && app()->getLocale() == 'ar')?$this->business_name_ar : $this->business_name_en;
+        return (isset($this->business_name_ar) && app()->getLocale() == 'ar') ? $this->business_name_ar : $this->business_name_en;
     }
 
     /**
@@ -348,7 +381,7 @@ class User extends Authenticatable implements HasMedia
     public function channels()
     {
         return $this->hasMany(Channel::class)->activate();
-    }    
+    }
 
     /**
      * Get channels.
@@ -370,8 +403,7 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Transaction::class)
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')
-            ->orderBy('receipt', 'ASC')
-            ;
+            ->orderBy('receipt', 'ASC');
     }
 
     /**
@@ -405,7 +437,7 @@ class User extends Authenticatable implements HasMedia
     public function getIsUploadedBusinessDocumentsAttribute()
     {
         return $this->getMedia('business_documents')->count();
-    }    
+    }
 
     /**
      * Send the password reset notification.
@@ -457,27 +489,27 @@ class User extends Authenticatable implements HasMedia
         $date_to = request()->date_to ?? Carbon::today()->format('m/d/Y');
 
 
-        $channel = (request()->has('channel_id') && !in_array(request()->channel_id, ['all','undefined']))? Channel::find(request()->channel_id) : null;
-        $application = (request()->has('application_id') && !in_array(request()->application_id, ['all','undefined']))? Application::find(request()->application_id) : null;
+        $channel = (request()->has('channel_id') && !in_array(request()->channel_id, ['all', 'undefined'])) ? Channel::find(request()->channel_id) : null;
+        $application = (request()->has('application_id') && !in_array(request()->application_id, ['all', 'undefined'])) ? Application::find(request()->application_id) : null;
 
         return $this->statement()
-            ->when($date_start, function($q) use($date_start, $date_to){
+            ->when($date_start, function ($q) use ($date_start, $date_to) {
                 $q->whereDate('created_at', '>=', Carbon::parse($date_start))
                     ->whereDate('created_at', '<=', Carbon::parse($date_to));
             })
-            ->when(request()->transaction_type == 'debit' || request()->transaction_type == 'credit', function($q) {
+            ->when(request()->transaction_type == 'debit' || request()->transaction_type == 'credit', function ($q) {
                 $q->whereType(request()->transaction_type);
             })
-            ->when(isset(request()->transaction_source) && request()->transaction_source != 'all' && request()->transaction_source != 'undefined', function($q){
+            ->when(isset(request()->transaction_source) && request()->transaction_source != 'all' && request()->transaction_source != 'undefined', function ($q) {
                 $q->whereTransactionSource(request()->transaction_source);
             })
-            ->when($channel, function($q) use($channel){
-                $q->whereHas('bill.application', function ( $query) use($channel){
+            ->when($channel, function ($q) use ($channel) {
+                $q->whereHas('bill.application', function ($query) use ($channel) {
                     $query->where('channel_id', $channel->id);
                 });
             })
-            ->when($application, function($q) use($application){
-                $q->whereHas('bill', function ( $query) use($application){
+            ->when($application, function ($q) use ($application) {
+                $q->whereHas('bill', function ($query) use ($application) {
                     $query->where('application_id', $application->id);
                 });
             })->with('bill')
@@ -504,11 +536,11 @@ class User extends Authenticatable implements HasMedia
     public function scopeVrificationRequest($query)
     {
         return $query->where('verified', false)
-                ->whereNotNull([
-                    'business_name_en',
-                    'business_address',
-                    'business_mobile',
-                ]);
+            ->whereNotNull([
+                'business_name_en',
+                'business_address',
+                'business_mobile',
+            ]);
     }
 
     /**
@@ -523,8 +555,7 @@ class User extends Authenticatable implements HasMedia
             ->amountByCycleDate($date)
             ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
             ->first();
-            $balance =  $balance_total->credit_total - $balance_total->debit_total;
+        $balance =  $balance_total->credit_total - $balance_total->debit_total;
         return floorp($balance, 2);
     }
-
 }

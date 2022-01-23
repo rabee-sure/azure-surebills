@@ -30,21 +30,24 @@ class BillController extends Controller
         $date_start = $request->date_start ?? null;
         $date_to = $request->date_to ?? null;
 
-        if(!$request->dont_update_statuses){
-            session(['status_filters'=> $request->statuses]);
+        if (!$request->dont_update_statuses) {
+            session(['status_filters' => $request->statuses]);
         }
+        $statuses = $request->statuses;
+        $statuses = in_array('paid', $statuses) ? array_merge($statuses, ['paid_cash', 'paid_bank_transfer']) : $statuses;
+        $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
 
         $bills = Bill::where('user_id', auth()->user()->id)
             ->orderBy('created_at', 'desc')
-            ->when($request->statuses, function ($q) use($request){
-                $q->whereIn('status', $request->statuses);
+            ->when($statuses, function ($q) use ($statuses) {
+                $q->whereIn('status', $statuses);
             })
-            ->when($request->keyword, function ($q) use($request){
+            ->when($request->keyword, function ($q) use ($request) {
                 $q->whereLike(['customer_name', 'number', 'user.name', 'user.business_name_en', 'user.business_name_ar'], $request->keyword);
             })
-            ->when($date_start, function($q) use($date_start, $date_to){
+            ->when($date_start, function ($q) use ($date_start, $date_to) {
                 $q->whereDate('created_at', '>=', Carbon::parse($date_start))
-                    ->whereDate('created_at', '<=', Carbon::parse($date_to)) ;
+                    ->whereDate('created_at', '<=', Carbon::parse($date_to));
             })
             ->paginate($request->get('per_page', 10));
         return view('bills.index', ['bills' => $bills]);
@@ -68,15 +71,23 @@ class BillController extends Controller
      */
     public function store(BillRequest $request)
     {
-        $bill = DB::transaction(function() use($request){
+        $bill = DB::transaction(function () use ($request) {
             $user = auth()->user();
 
             $customer = Customer::updateOrCreate([
                 'mobile' => $request->customer_mobile,
                 'user_id' => $user->id,
-            ],[
+            ], [
                 'name' => $request->customer_name,
                 'email' => $request->customer_email,
+                'bullding_no' => $request->bullding_no,
+                'street_name' => $request->street_name,
+                'district' => $request->district,
+                'city' => $request->city,
+                'postal_code' => $request->postal_code,
+                'additional_no' => $request->additional_no,
+                'other_buyer_id' => $request->other_buyer_id,
+                'vat_registration_number' => $request->vat_registration_number,
             ]);
 
             $bill = Bill::create([
@@ -112,7 +123,7 @@ class BillController extends Controller
                     'product_name' => $item['name'],
                     'product_price' => $item['price'],
                     'quantity' => $item['quantity'],
-                    'total' => $item['quantity']*$item['price'],
+                    'total' => $item['quantity'] * $item['price'],
                 ]);
             }
 
@@ -121,11 +132,11 @@ class BillController extends Controller
             $vat = 0;
             $payment_fees = 0;
 
-            if($user->pay_fees == "client"){
+            if ($user->pay_fees == "client") {
                 $payment_fees = ($sub_total * ($user->credit_cards_percentage / 100)) + $user->credit_cards_fixed;
             }
 
-            if($request->add_discount){
+            if ($request->add_discount) {
                 switch ($request->discount_type) {
                     case 'fixed':
                         $discount = $request->discount_value;
@@ -136,8 +147,8 @@ class BillController extends Controller
                 }
             }
 
-            if($request->add_tax){
-               $vat = ($sub_total + $payment_fees - $discount) * $request->tax_value /100;
+            if ($request->add_tax) {
+                $vat = ($sub_total + $payment_fees - $discount) * $request->tax_value / 100;
             }
 
             $bill->payment_fees = $payment_fees;
@@ -146,7 +157,7 @@ class BillController extends Controller
             $bill->number = $bill->getNumber();
             $bill->sub_total = $sub_total;
             $bill->total = $sub_total + $payment_fees - $discount + $vat;
-            if($bill->total <= 0){
+            if ($bill->total <= 0) {
                 throw ValidationsException::withMessages(['total' => __('The total must be greater than 0')]);
             }
             $bill->save();
@@ -185,33 +196,33 @@ class BillController extends Controller
 
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
-        }else{
-           \App::setLocale($bill->user->settings->default_lang);
+        } else {
+            \App::setLocale($bill->user->settings->default_lang);
         }
 
-        if(!$bill){
+        if (!$bill) {
             abort(404);
         }
 
-        if($bill->is_expired && $bill->status != 'paid' && $bill->status != 'canceled'){
+        if ($bill->is_expired && $bill->status != 'paid' && $bill->status != 'canceled') {
             $bill->status = 'expired';
             $bill->save();
-            event( new BillStatusUpdated($bill) );
+            event(new BillStatusUpdated($bill));
         }
 
-        if($bill->is_invalid){
+        if ($bill->is_invalid) {
             return view('bills.status', ['bill' => $bill]);
         }
 
-        $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
+        $invoice = (new Invoice)->amount(number_format($bill->total, 2, '.', ''));
         $invoice->detail(['bill' => $bill->toArray()])
             ->detail(['hash' => $bill->pay_id]);
 
         $countdown = $bill->created_at
-                ->addDays($bill->expiry_date)
-                ->addMinutes($bill->expiry_minutes)
-                ->addHours($bill->expiry_hours)
-                ->format('m/d/Y H:i:s');
+            ->addDays($bill->expiry_date)
+            ->addMinutes($bill->expiry_minutes)
+            ->addHours($bill->expiry_hours)
+            ->format('m/d/Y H:i:s');
 
         if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
             return view('bills.pay', compact('bill', 'id', 'countdown'));
@@ -238,7 +249,7 @@ class BillController extends Controller
             'status'         => 0,
         ]);
 
-        $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''));
+        $invoice = (new Invoice)->amount(number_format($bill->total, 2, '.', ''));
         $invoice->detail(['bill' => $bill->toArray()])
             ->detail(['surebills_payment_log_id' => $payment->id])
             ->detail(['hash' => $payment->hash_id])
@@ -259,15 +270,15 @@ class BillController extends Controller
         $payment = PaymentLog::decodeId($hash);
         $bill    = $payment->bill;
 
-        if(!$payment || !$bill){
+        if (!$payment || !$bill) {
             abort(404);
         }
 
-        if($bill->is_invalid){
+        if ($bill->is_invalid) {
             return view('bills.status', ['bill' => $bill]);
         }
 
-        $invoice = (new Invoice)->amount( number_format($bill->total, 2, '.', ''))
+        $invoice = (new Invoice)->amount(number_format($bill->total, 2, '.', ''))
             ->detail(['bill_id' => $bill->id])
             ->detail(['bill' => $bill->toArray()])
             ->detail(['payment_id' => $request->get('id')]);
@@ -297,11 +308,31 @@ class BillController extends Controller
     {
         $bill = Bill::find($id);
 
-        if($bill->status != 'paid'){
+        if ($bill->status != 'paid') {
             $bill->status = 'canceled';
             $bill->canceled_at = Carbon::now();
             $bill->save();
-            event( new BillStatusUpdated($bill) );
+            event(new BillStatusUpdated($bill));
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Cancel Bill.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function changeStatus($id, Request $request)
+    {
+        $bill = Bill::find($id);
+
+        if ($bill->status == 'pending') {
+            $bill->status = $request->status;
+            $bill->paid_at = Carbon::now();
+            $bill->save();
+            event(new BillStatusUpdated($bill));
         }
 
         return redirect()->back();
@@ -315,14 +346,15 @@ class BillController extends Controller
      */
     public function refund($id, RefundRequest $request)
     {
+
         $bill = Bill::find($id);
-        if($request->type == 'partial_refund'){
+        if ($request->type == 'partial_refund') {
             $bill->setPartialRefunded($request->amount);
-        } else if ($bill->is_able_total_refund){
-            if($bill->setRefunded()){
+        } else if ($bill->is_able_total_refund) {
+            if ($bill->setRefunded()) {
                 return redirect()->back();
             }
-        }else{
+        } else {
             return redirect()->back()->withErrors(['refund' => __("Quantity must be less than or equal to the user's balance")]);
         }
 
@@ -332,27 +364,36 @@ class BillController extends Controller
 
     public function masterCardWebHookResponse(Request $request)
     {
-        if($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret'))
-        {
+        if ($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret')) {
             sleep(5);
             $response = $request->all();
             $orderBody = json_decode(json_encode($response), FALSE);
 
             // process payment
             $bill = Bill::find($orderBody->order->id);
-            if($bill){
+            if ($bill) {
                 $invoice = new Invoice();
                 $details = $invoice
                     ->detail(['bill' => $bill->toArray()])
                     ->getDetails();
                 PaymentHelper::handlePaymentResponse($invoice, $orderBody->order->id, $details, true);
-            }else{
+            } else {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
+    }
+
+    /**
+     * invoice.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function invoice($id, $lang = null)
+    {
+        $bill = Bill::decodeId($id);
+        return view('bills.invoice', compact('bill', 'id'));
     }
 }

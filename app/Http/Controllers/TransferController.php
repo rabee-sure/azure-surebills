@@ -180,7 +180,7 @@ class TransferController extends Controller
      */
     public function changeStatus(Request $request)
     {
-        $transfers = Transfer::whereIn('id', $request->ids )->with('created_by', 'user')->get();
+        $transfers = Transfer::whereIn('id', $request->ids )->with('created_by', 'user.bank')->get();
 
         TransferService::changeTranfersStatus($transfers, $request->status, auth()->user()->id);
         

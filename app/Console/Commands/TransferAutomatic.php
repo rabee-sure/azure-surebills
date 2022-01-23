@@ -104,19 +104,13 @@ class TransferAutomatic extends Command
                 }
             }
 
-            $day = $cycleDate->format('Y-m-d');
-            $auto_tranfer = AutoTransfer::create([
-                'day' => $day,
-                'folder' => "automatic_transfers/$day",
-                'zip_file' => "automatic_transfers/$day/master_sheet_$day.zip",
-                'merchants_file' => "automatic_transfers/$day/merchants_transactions.xlsx",
-                'channels_file' => "automatic_transfers/$day/channels_transactions.xlsx",
-                'tranfer_ids' => $transfer_ids,
+            $this->createMasterSheet($transfer_ids, $cycleDate);
+            
+            $this->call("transfers:summary", [
+                'id' =>  $transfer_ids
             ]);
-            $auto_tranfer->transfers()->attach($transfer_ids);
-
-            $this->createMasterSheet($transfer_ids, $day);
         }
+
     }
  
     /**

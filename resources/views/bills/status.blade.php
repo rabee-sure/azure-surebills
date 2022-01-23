@@ -41,11 +41,11 @@
             @endif
 
       <div id="status">
-          @if($bill->status == 'expired')
+        @if($bill->status == 'expired')
             <div class="alert alert-danger" role="alert">
               {{ __('this bill has been expired', ['number' => $bill->number ]) }}
             </div>
-          @elseif($bill->status == 'paid')
+        @elseif($bill->status == 'paid')
             <div class="alert alert-success" role="alert">
               @if ($bill->depositTransaction)
                 {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
@@ -53,7 +53,15 @@
               {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
               @endif
             </div>
-          @elseif($bill->status == 'canceled')
+        @elseif($bill->status == 'paid_cash')
+            <div class="alert alert-success" role="alert">
+              {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}
+            </div>
+        @elseif($bill->status == 'paid_bank_transfer')
+            <div class="alert alert-success" role="alert">
+              {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
+            </div>
+        @elseif($bill->status == 'canceled')
             <div class="alert alert-danger" role="alert">
               {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
             </div>          
@@ -61,11 +69,11 @@
             <div class="alert alert-danger" role="alert">
               {{ __('this bill has been failed', ['number' => $bill->number ]) }}
             </div>
-          @elseif($bill->status == 'refunded')
+        @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
             <div class="alert alert-warning" role="alert">
               {{ __('this bill has been refunded', ['number' => $bill->number ]) }}
             </div>
-          @endif
+        @endif
       </div>
 
                       
@@ -144,6 +152,10 @@
                 </a>
               </div>
             @endif
+            <div class="d-flex justify-content-center">
+            {!! QrCode::size(50)->generate(route('invoice', ['id' => $bill->pay_id])) !!}
+             </div>
+             <a class="d-flex justify-content-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">الفاتورة الضريبية</a> 
 
           </div><!-- single_bill_content -->
           <a target="_blank" title="Sure Bills" class="logo_bills"></a>
@@ -164,34 +176,58 @@
         var className;
 
         switch(e.bill.status) {
-          case "pending":
+        case "pending":
             className = "badge-info";
             break;
-          case "paid":
+        case "paid":
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
             $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
             break;
-          case "refunded":
+        case "paid_cash":
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
+            break;
+        case "paid_bank_trnasfer":
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
+            break;
+        case "refunded":
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
             $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
             break;
-          case "canceled":
+        case "refunded_cash":
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
+            break;
+        case "refunded_bank_transfer":
+            $("#payment_method").remove();
+            $("#back_btn").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
+            break;
+        case "canceled":
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
             $("#status").append('<div class="alert alert-danger" role="alert">{{ __("this bill is canceled") }}</div>');
             break;
-          case "expired":
+        case "expired":
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
             $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
             break;
-          default:
+        default:
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();

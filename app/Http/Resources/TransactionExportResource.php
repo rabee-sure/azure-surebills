@@ -26,12 +26,12 @@ class TransactionExportResource extends JsonResource
             'card'           => $this->card,
             'source'         => $this->transaction_source,
 
-            'bill_reference_id' => $this->bill->reference_id,
-            'bill_number' => $this->bill->number,
-            'bill_user_id' => $this->bill->user_id, 
-            'bill_business_name' => $this->bill->business_name, 
-            "bill_application_channel_id" => ($this->bill->application) ? $this->bill->application->channel_id : null,
-            "bill_application_channel_name" => ($this->bill->application && $this->bill->application->channel_id) ? $this->bill->application->channel->name : null,
+            'bill_reference_id' => $this->bill->reference_id ?? '',
+            'bill_number' => $this->bill->number  ?? '',
+            'bill_user_id' => $this->bill->user_id?? '', 
+            'bill_business_name' => $this->bill->business_name?? '', 
+            "bill_application_channel_id" => ($this->bill && $this->bill->application) ? $this->bill->application->channel_id : null,
+            "bill_application_channel_name" => ($this->bill && $this->bill->application && $this->bill->application->channel_id) ? $this->bill->application->channel->name : null,
         ];
     }
 }

@@ -44,6 +44,35 @@
 									<option value="2" @if ($user->gender == 2)selected="selected"@endif>{{ __('female')}}</option>
 								</select>
 							</div>
+
+							<div class="form-group  col-md-6">
+                            <label for="bullding_no">{{__('bullding_no')}}</label>
+                            <input name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('bullding_no')}}"  value="{{ $user->bullding_no }}">
+                        </div> 
+                        <div class="form-group  col-md-6">
+                            <label for="street_name">{{__('street_name')}}</label>
+                            <input name="street_name" type="text" class="form-control" id="street_name" placeholder="{{__('street_name')}}"  value="{{ $user->street_name }}">
+                        </div>
+                        <div class="form-group  col-md-6">
+                            <label for="district">{{__('district')}}</label>
+                            <input name="district" type="text" class="form-control" id="district" placeholder="{{__('district')}}"  value="{{ $user->district }}">
+                        </div>
+                        <div class="form-group  col-md-6">
+                            <label for="city">{{__('city')}}</label>
+                            <input name="city" type="text" class="form-control" id="city" placeholder="{{__('city')}}"  value="{{ $user->city }}">
+                        </div>
+                        <div class="form-group  col-md-6">
+                            <label for="postal_code">{{__('postal_code')}}</label>
+                            <input name="postal_code" type="text" class="form-control" id="postal_code" placeholder="{{__('postal_code')}}"  value="{{ $user->postal_code }}">
+                        </div>
+                        <div class="form-group  col-md-6">
+                            <label for="additional_no">{{__('additional_no')}}</label>
+                            <input name="additional_no" type="text" class="form-control" id="additional_no" placeholder="{{__('additional_no')}}"  value="{{ $user->additional_no }}">
+                        </div>
+                        <div class="form-group  col-md-6">
+                            <label for="other_buyer_id">{{__('other_buyer_id')}}</label>
+                            <input name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}"  value="{{ $user->other_buyer_id }}">
+                        </div>
 						</div>
 						<button type="submit" class="btn btn-primary d-block mt-2">{{ __('Save')}}</button>
 					</form>
