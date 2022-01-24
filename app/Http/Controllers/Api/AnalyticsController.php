@@ -62,7 +62,7 @@ class AnalyticsController extends Controller
         ]);
         $filter4 = $this->encode([
             [    
-                "class"=> "App\Nova\Filters\RefundedDateRange",
+                "class"=> "PosLifestyle\DateRangeFilter\DateRangeFilter_refunded_at", 
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ],
             [    
