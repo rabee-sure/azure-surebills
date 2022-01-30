@@ -43,7 +43,7 @@ function onBuyClicked(event) {
 
   let details = {
     displayItems: [{
-      label: "<?php echo __('Bill'); ?> #<?php echo $bill->number; ?>",
+      label: "<?php echo __('Bill No.'); ?> #<?php echo $bill->number; ?>",
       amount: { currency: 'SAR', value: parseFloat("<?php echo $bill->total; ?>").toFixed(2)}
     }],
     total: {

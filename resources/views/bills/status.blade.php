@@ -1,6 +1,6 @@
 @extends('layouts.bill')
 
-@section('title', __('Bill') . ' ' . $bill->number)
+@section('title', __('Bill No.') . ' ' . $bill->number)
 
 @section('content')
 
@@ -88,7 +88,7 @@
                   @endif
                 </span>
                 <div>
-                  <p>{{ __('Bill') }} #{{ $bill->number }}</p>
+                  <p>{{ __('Bill No.') }} #{{ $bill->number }}</p>
                   <b>{{ $bill->created_at->format('Y/m/d')}}</b>
                 </div>
               </div><!-- date_time -->
