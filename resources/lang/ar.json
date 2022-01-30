@@ -12,7 +12,7 @@
 
 	"vat_registration_number": "رقم التسجيل الضريبي",
 	"Change Status": "تغيير الحالة",
-	"Are you Sure to Change Status ?": "تغيير حالة الفاتورة",
+	"Are you Sure to Change Status ?": "تغيير حالة السداد",
 
 	"bullding_no":"رقم المبني",
     "street_name":"اسم الشارع",
@@ -369,8 +369,8 @@
 	"customer email": "ايميل العميل",
 	"customer_email": "ايميل العميل",
 
-	"Cancel Bill": "إلغاء الفاتورة",
-	"Are you Sure to Cancel Bill ?": "هل انت متأكد من إلغاء الفاتورة ؟",
+	"Cancel Bill": "إلغاء طلب السداد",
+	"Are you Sure to Cancel Bill ?": "هل انت متأكد من إلغاء طلب السداد ؟",
 	"Subtotal": "المجموع الفرعي",
 	"Sub Total": "المجموع",
 	"Total": "المجموع الكلي",
@@ -403,7 +403,7 @@
 	"Integration": "اعدادات التكامل",
 	"Logo required": "قم بتحميل اللوجو",
 	"Due on": "موعد الاستحقاق",
-	"Bill": "الفاتورة",
+	"Bill": "طلب السداد",
 	"A fresh verification link has been sent to your email address.": "تم إرسال رابط تحقق جديد إلى عنوان بريدك الإلكتروني.",
 	"All rights reserved.": "جميع الحقوق محفوظة.",
 	"Before proceeding, please check your email for a verification link.": "قبل المتابعة، يرجى التحقق من بريدك الإلكتروني عن رابط التحقق.",
