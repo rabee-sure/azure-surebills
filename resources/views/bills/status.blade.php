@@ -124,7 +124,7 @@
               @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
             <div class="customer_information">
               <!-- <div class="name">Customer Information</div> -->
-              <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
+              <p>{{ $bill->customer_name}}</p>
               <p class="ltr">+966{{ $bill->customer_mobile}}</p>
               <p>{{ $bill->customer_email}}</p>
               @if(isset($bill->user->settings->footer_bill))
@@ -148,10 +148,10 @@
                 </a>
               </div>
             @endif
-            <div class="d-flex justify-content-center">
+            <!-- <div class="d-flex justify-content-center">
             {!! QrCode::size(50)->generate(route('invoice', ['id' => $bill->pay_id])) !!}
              </div>
-             <a class="d-flex justify-content-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">الفاتورة الضريبية</a> 
+             <a class="d-flex justify-content-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">الفاتورة الضريبية</a>  -->
 
           </div><!-- single_bill_content -->
           <a target="_blank" title="Sure Bills" class="logo_bills"></a>
