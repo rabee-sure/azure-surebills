@@ -1,6 +1,6 @@
 @extends('layouts.bill')
 
-@section('title', __('Bill') . ' ' . $bill->number)
+@section('title', __('Bill No.') . ' ' . $bill->number)
 
 @section('content')
 

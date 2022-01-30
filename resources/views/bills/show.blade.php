@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Bill') . ' ' . $bill->number . ' ' . __('Bills'))
+@section('title', __('Bill No.') . ' ' . $bill->number . ' ' . __('Bills'))
 
 @php
     $statues = session('status_filters', ['pending', 'paid'])?? [];
@@ -20,7 +20,7 @@
         <li class="breadcrumb-item">
           <a href="/bills?{{$separated}}" title="{{__('Bills')}}">{{__('Bills')}}</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">{{__('Bill')}} {{ $bill->number }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{__('Bill No.')}} {{ $bill->number }}</li>
       </ol>
     </nav>
     <div class="separator mb-5"></div>
@@ -133,7 +133,7 @@
           @endif
         </span>
         <div>
-          <p>{{ __('Bill') }} #{{ $bill->number }}</p>
+          <p>{{ __('Bill No.') }} #{{ $bill->number }}</p>
           <b>{{ $bill->created_at->format('Y/m/d')}}</b>
         </div>
       </div><!-- date_time -->
