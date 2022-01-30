@@ -41,7 +41,7 @@ class AnalyticsController extends Controller
 
         $paid_bills_not_settled =  $paid_bills->where('settled', false);
         $total_due_merchants = $paid_bills_not_settled->sum('total') - $paid_bills_not_settled->sum('payment_surebills_fees') - $paid_bills_not_settled->sum('payment_surebills_fees_vat');
-        $total_transfers_merchants = Transfer::whereBetween('created_at', [$from, $to])->sum('amount');
+        $total_transfers_merchants = Transfer::where('status', 'completed')->whereBetween('created_at', [$from, $to])->sum('amount');
 
      
         $filter = $this->encode([
