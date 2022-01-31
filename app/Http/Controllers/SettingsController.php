@@ -51,6 +51,7 @@ class SettingsController extends Controller
         $settings->create_send_email =  $request->create_send_email;
         $settings->paid_send_sms = $request->paid_send_sms;
         $settings->paid_send_email = $request->paid_send_email;
+        $settings->api_bill_style = $request->api_bill_style == "on" ? true : false;
         $settings->setTranslation('header_bill', 'en', $request->header_bill_en);
         $settings->setTranslation('header_bill', 'ar', $request->header_bill_ar);
         $settings->setTranslation('footer_bill', 'en', $request->footer_bill_en);
