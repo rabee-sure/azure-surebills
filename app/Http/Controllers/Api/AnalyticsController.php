@@ -94,7 +94,18 @@ class AnalyticsController extends Controller
                 "class" => "App\Nova\Filters\BillStatus",
                 "value" => ["paid"]
             ]
-        ]);   
+        ]);
+        
+        $filter6 = $this->encode([
+            [    
+                "class"=> "PosLifestyle\DateRangeFilter\DateRangeFilter_created_at",
+                "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
+            ],
+            [    
+                "class" => "App\Nova\Filters\TransferStatus",
+                "value" => ["completed"]
+            ]
+        ]);
         return response()->json([
             'data' => [
                 'users' => [
@@ -139,8 +150,8 @@ class AnalyticsController extends Controller
                 ],
                 'total_transfers_merchants' => [
                     'count' =>  round($total_transfers_merchants, 2),
-                    'filter' =>  $filter,
-                    'link' =>  '/nova/resources/transfers?transfers_page=1&transfers_filter='.$filter,
+                    'filter' =>  $filter6,
+                    'link' =>  '/nova/resources/transfers?transfers_page=1&transfers_filter='.$filter6,
                 ],
             ],
             'date' =>  [$from->format('Y-m-d'), $to->format('Y-m-d')]
