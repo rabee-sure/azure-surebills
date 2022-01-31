@@ -483,6 +483,14 @@ body {
       font-weight: bold;
     } /* span */
   } /* timer */
+  a.tax_invoice_link {
+    text-decoration: none;
+    span {
+      color: #000000;
+      margin-top: 5px;
+      font-size: 15px;
+    } /* span */
+  } /* tax_invoice_link */
 } /* single_bill_page */
 .cnpBillingCheckoutWrapper {position:relative;}
 .cnpBillingCheckoutHeader {width:100%;border-bottom: 1px solid #c0c0c0;margin-bottom:10px;}
