@@ -11765,3 +11765,91 @@ select:-webkit-autofill:focus {
     } /* before */
   } /* collapsed */
 } /* additional_information_button */ 
+
+
+#statement_index {
+  .filter_area {
+    .select2 {
+      min-width: 160px;
+      width: auto !important;
+      margin: 0 0 10px 15px;
+      @include respond-below(sm) {
+        width: 100% !important;
+        margin: 0 0 10px;
+      }
+      [dir="ltr"] & {
+        margin: 0 15px 10px 0;
+        @include respond-below(sm) {
+          margin: 0 0 10px;
+        }
+      } /* ltr */
+      .selection {
+        .select2-selection {
+          height: 35px;
+          border-radius: 0.25rem !important;
+          padding: 0 10px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          line-height: normal;
+          .body-dark-mode & {
+            background-color: #232223 !important;
+            border-color: #424242;
+          } /* body-dark-mode */
+          .select2-selection__rendered {
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: initial;
+            white-space: nowrap;
+          } /* select2-selection__rendered */
+        } /* select2-selection */
+      } /* selection */
+    } /* select2 */
+    .calendar-sm {
+      min-width: 180px;
+      cursor: pointer;
+      margin: 0 0 10px;
+      [dir="ltr"] & {
+        min-width: 200px;
+      } /* ltr */
+      @include respond-below(sm) {
+        width: 100%;
+      }
+      input {
+        height: 35px;
+        border-radius: .25rem;
+        background-color: #ffffff !important;
+        border: 1px solid #d7d7d7;
+        white-space: nowrap;
+        font-size: 13px;
+        padding: 0 10px;
+        cursor: pointer;
+        .body-dark-mode & {
+          background-color: #232223 !important;
+          border-color: #424242;
+        } /* body-dark-mode */
+      } /* input */
+      &::after {
+        left: 10px !important;
+        top: 6px !important;
+        [dir="ltr"] & {
+          left: auto !important;
+          right: 10px !important;
+        } /* ltr */
+      } /* after */
+    } /* calendar-sm */
+    .exel_btn {
+      margin-bottom: 10px;
+      a {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        border-radius: .25rem;
+      } /* a */
+    } /* exel_btn */
+  } /* filter_area */
+} /* statement_index */
