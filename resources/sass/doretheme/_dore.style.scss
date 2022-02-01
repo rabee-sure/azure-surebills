@@ -56,7 +56,7 @@ Table of Contents
 
 @import url("https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700");
 
-$main-menu-item-height: 110px;
+$main-menu-item-height: 65px;
 $main-menu-width: 120px;
 $main-menu-width-lg: 110px;
 $main-menu-width-md: 100px;
@@ -2068,8 +2068,8 @@ button {
         background: $foreground-color;
         z-index: 3;
         position: fixed;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
         left: 0;
 
         .scroll {
@@ -2119,8 +2119,8 @@ button {
                 }
 
                 i {
-                    font-size: 32px;
-                    line-height: 42px;
+                    font-size: 25px;
+                    line-height: 40px;
                 }
 
                 &.active a {
@@ -2134,7 +2134,7 @@ button {
                     border-radius: 10px;
                     position: absolute;
                     width: 6px;
-                    height: 90px;
+                    height: 65px;
                     top: 50%;
                     transform: translateY(-50%);
                     left: 0;
@@ -11327,8 +11327,8 @@ button.license_button {
 }
 
 span.bill_status_badge {
-    display: inline-block;
-    width: 100px;
+    display: block;
+    min-width: 100px;
     margin: 0;
     text-align: center;
     border-radius: 4px;
@@ -11730,7 +11730,7 @@ select:-webkit-autofill:focus {
 .homepage_blocks {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     margin: 0;
 
     @include respond-below(md) {
@@ -11743,3 +11743,113 @@ select:-webkit-autofill:focus {
 }
 
 /* homepage_blocks */
+
+
+.additional_information_button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 17px;
+  cursor: pointer;
+  &::before {
+    content: "\e615";
+    font-family: 'simple-line-icons';
+    margin: 0 0 0 6px;
+    [dir="ltr"] & {
+      margin: 0 6px 0 0;
+    } /* ltr */
+  } /* before */
+  &.collapsed {
+    &::before {
+      content: "\e095";
+    } /* before */
+  } /* collapsed */
+} /* additional_information_button */ 
+
+
+#statement_index {
+  .filter_area {
+    .select2 {
+      min-width: 160px;
+      width: auto !important;
+      margin: 0 0 10px 15px;
+      @include respond-below(sm) {
+        width: 100% !important;
+        margin: 0 0 10px;
+      }
+      [dir="ltr"] & {
+        margin: 0 15px 10px 0;
+        @include respond-below(sm) {
+          margin: 0 0 10px;
+        }
+      } /* ltr */
+      .selection {
+        .select2-selection {
+          height: 35px;
+          border-radius: 0.25rem !important;
+          padding: 0 10px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          line-height: normal;
+          .body-dark-mode & {
+            background-color: #232223 !important;
+            border-color: #424242;
+          } /* body-dark-mode */
+          .select2-selection__rendered {
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: initial;
+            white-space: nowrap;
+          } /* select2-selection__rendered */
+        } /* select2-selection */
+      } /* selection */
+    } /* select2 */
+    .calendar-sm {
+      min-width: 180px;
+      cursor: pointer;
+      margin: 0 0 10px;
+      [dir="ltr"] & {
+        min-width: 200px;
+      } /* ltr */
+      @include respond-below(sm) {
+        width: 100%;
+      }
+      input {
+        height: 35px;
+        border-radius: .25rem;
+        background-color: #ffffff !important;
+        border: 1px solid #d7d7d7;
+        white-space: nowrap;
+        font-size: 13px;
+        padding: 0 10px;
+        cursor: pointer;
+        .body-dark-mode & {
+          background-color: #232223 !important;
+          border-color: #424242;
+        } /* body-dark-mode */
+      } /* input */
+      &::after {
+        left: 10px !important;
+        top: 6px !important;
+        [dir="ltr"] & {
+          left: auto !important;
+          right: 10px !important;
+        } /* ltr */
+      } /* after */
+    } /* calendar-sm */
+    .exel_btn {
+      margin-bottom: 10px;
+      a {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        border-radius: .25rem;
+      } /* a */
+    } /* exel_btn */
+  } /* filter_area */
+} /* statement_index */
