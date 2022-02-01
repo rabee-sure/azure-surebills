@@ -6,6 +6,7 @@ use App\Nova\Actions\TranferBillsExcelDownload;
 use App\Nova\Actions\TranferTransactionsExcelDownload;
 use PosLifestyle\DateRangeFilter\DateRangeFilter;
 use App\Nova\Filters\UserName;
+use App\Nova\Filters\TransferStatus;
 use App\Nova\Metrics\TotalCommissions;
 use App\Nova\Metrics\TotalDue;
 use App\Nova\Metrics\TotalIncome;
@@ -191,6 +192,7 @@ class Transfer extends Resource
         return [
             new DateRangeFilter(__('Date Range'), 'created_at'),
             new UserName(),
+            new TransferStatus(),
         ];
     }
 

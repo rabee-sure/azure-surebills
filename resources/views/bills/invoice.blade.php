@@ -33,20 +33,20 @@
         <tr>
           <td style="text-align: right;border: 2px solid #000;padding: 10px;font-size: 8pt;width: 25%;">رقم الفاتورة :</td>
           <td style="text-align: center;border: 2px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->number ?? $bill->id }}</td>
-          <td style="text-align: center;border: 2px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->number ?? $bill->id }}</td>
+          <!-- <td style="text-align: center;border: 2px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->number ?? $bill->id }}</td> -->
           <td style="text-align: left;border: 2px solid #000;padding: 10px;font-size: 8pt;width: 25%; direction: ltr;">Invoice Number :</td>
         </tr>
         <tr><td><br></td></tr>
         <tr>
           <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">تاريخ اصدار الفاتورة :</td>
           <td style="text-align: center;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->created_at->format('d/m/Y')}}</td>
-          <td style="text-align: center;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->created_at->format('d/m/Y')}}</td>
+          <!-- <td style="text-align: center;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->created_at->format('d/m/Y')}}</td> -->
           <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;direction: ltr;">Invoice Issue Date :</td>
         </tr>
         <tr>
           <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">تاريخ التوريد :</td>
           <td style="text-align: center;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->paid_at->format('d/m/Y')}}</td>
-          <td style="text-align: center;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->paid_at->format('d/m/Y')}}</td>
+          <!-- <td style="text-align: center;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->paid_at->format('d/m/Y')}}</td> -->
           <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;direction: ltr;">Date Of Supply :</td>
         </tr>
       </table>
@@ -65,62 +65,52 @@
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الاسم :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->name}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->name}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->customer->name}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Name :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">رقم المبني :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->bullding_no}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->bullding_no}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->customer->bullding_no}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Bullding No. :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">اسم الشارع :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->street_name}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->street_name}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->customer->street_name}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Street Name :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الحي :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->district}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->district}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->customer->district}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">District :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">المدينة :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->city}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->city}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->customer->city}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">City :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">البلد :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">المملكة العربية السعودية</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">saudi arabia</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">المملكة العربية السعودية</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Country :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الرمز البريدي :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->postal_code}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->postal_code}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->customer->postal_code}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Postal Code :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الرقم الاضافي للعنوان :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->additional_no}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->additional_no}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->customer->additional_no}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Additional No. :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">رقم تسجيل ضريبة القيمة المضافة :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->vat_registration_number}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->vat_registration_number}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{$bill->customer->vat_registration_number}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">VAT Number :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">معرف آخر :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->other_buyer_id}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->customer->other_buyer_id}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->customer->other_buyer_id}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Other Buyer ID :</td>
                     </tr>
                   </tbody>
@@ -137,62 +127,52 @@
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الاسم :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->name}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->name}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->name}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Name :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">رقم المبني :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->bullding_no}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->bullding_no}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->bullding_no}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Bullding No. :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">اسم الشارع :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->street_name}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->street_name}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->street_name}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Street Name :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الحي :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->district}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->district}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->district}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">District :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">المدينة :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->city}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->city}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->city}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">City :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">البلد :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">المملكة العربية السعودية</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">saudi arabia</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">المملكة العربية السعودية</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Country :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الرمز البريدي :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->postal_code}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->postal_code}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->postal_code}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Postal Code :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الرقم الاضافي للعنوان :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->additional_no}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->additional_no}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->additional_no}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Additional No. :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">رقم تسجيل ضريبة القيمة المضافة :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->vat_registration_number}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->vat_registration_number}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->vat_registration_number}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">VAT Number :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">معرف آخر :</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->other_buyer_id}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->user->other_buyer_id}}</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->other_buyer_id}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Other Buyer ID :</td>
                     </tr>
                   </tbody>
@@ -206,7 +186,7 @@
         <table class="table_title" style="width: 100%;">
           <tbody>
             <tr>
-              <td colspan="8" style="color: #fff;background-color: #777;border: 1px solid #555;padding: 5px;font-weight: bold;font-size: 8pt;">
+              <td colspan="9" style="color: #fff;background-color: #777;border: 1px solid #555;padding: 5px;font-weight: bold;font-size: 8pt;">
                 <span style="float: right;">توصيف السلعة آو الخدمة :</span>
                 <span style="float: left;direction: ltr;">Line Items :</span>
               </td>
@@ -252,7 +232,12 @@
                 <br>
                 تفاصيل السلع آو الخدمات
               </td>
+              <td style="border: 1px solid #000;font-size: 8pt;padding: 5px;color: #fff;background-color: #666;font-weight: normal;text-align: center;width: 5%;"># رقم</td>
             </tr>
+
+            @php
+            $index = 0;
+            @endphp
             @foreach($bill->items as $item)
             @php
 
@@ -266,6 +251,7 @@
               }
               $tax_total = ($bill->add_tax) ? $bill->tax_value * (($item->product_price* $item->quantity)-$discount_total) / 100 : 0;
               $total = ($item->product_price* $item->quantity) - $discount_total + $tax_total;
+              $index++;
             @endphp
             <tr>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$total}}</td>
@@ -276,6 +262,7 @@
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$item->quantity}}</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$item->product_price}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$item->product_name}}</td>
+              <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width:5%;">{{$index}}</td>
             </tr>
             @endforeach
           </tbody>
@@ -291,34 +278,29 @@
               </td>
             </tr>
             <tr>
-              <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;direction: ltr;">{{ $bill->sub_total}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الاجمالي (غير شامل ضريبة القيمة المضافة)</td>
+              <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 25%;direction: ltr;">{{ $bill->sub_total}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Total (Excluding VAT)</td>
-              <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->sub_total}} SAR</td>
             </tr>
             <tr>
-              <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;direction: ltr;">{{ $bill->discount}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">مجموع الخصومات</td>
+              <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->discount}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Discount</td>
-              <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->discount}} SAR</td>
             </tr>
             <tr>
-              <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;direction: ltr;">{{ $bill->sub_total - $bill->discount}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الاجمالي الخاضع للضريبة</td>
+              <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 25%;direction: ltr;">{{ $bill->sub_total - $bill->discount}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Total Taxable Amount (Excluding VAT)</td>
-              <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->sub_total - $bill->discount}} SAR</td>
             </tr>
             <tr>
-              <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;direction: ltr;">{{ $bill->vat}}  SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">مجموع ضريبة القيمة المضافة</td>
+              <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->vat}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Total VAT</td>
-              <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->vat}} SAR</td>
             </tr>
             <tr>
-              <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;direction: ltr;">{{ $bill->total}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">اجمالي المبلغ المستحق</td>
+              <td style="border: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->total}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Total Amount Due</td>
-              <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->total}} SAR</td>
             </tr>
           </tbody>
         </table>

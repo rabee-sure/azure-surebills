@@ -24,12 +24,12 @@
       </symbol>
     </svg>
     @if(!auth()->user()->is_uploaded_business_documents)
-        <div role="alert" class="alert alert-danger mb-5">
+        <div role="alert" class="alert alert-danger mb-5 w-100">
           <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
           {{ __('No business information sent') }}
         </div>
     @elseif(!auth()->user()->is_uploaded_bank_documents)
-        <div role="alert" class="alert alert-danger mb-5">
+        <div role="alert" class="alert alert-danger mb-5 w-100">
           {{ __('Bank account information has not been sent') }}
         </div>
     @endif
@@ -65,6 +65,14 @@
             <div class="card-body text-center">
               <div class="statistic_icon iconsminds-type-pass"></div>
               <p class="card-text font-weight-semibold mb-0">{{ __('Change Password') }}</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <a href="{{ route('settings') }}" title="{{__('Settings')}}" class="card mb-4">
+            <div class="card-body text-center">
+              <div class="statistic_icon glyph-icon simple-icon-settings"></div>
+              <p class="card-text font-weight-semibold mb-0">{{__('Settings')}}</p>
             </div>
           </a>
         </div>

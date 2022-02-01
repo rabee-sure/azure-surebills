@@ -1,6 +1,6 @@
 {
 	"All": "الكل",
-	"Electronic payment Gateway": "رصيد بوابة الدفع الالكتروني",
+	"Electronic payment Gateway Balance": "رصيد بوابة الدفع الالكتروني",
 	"Paid Cash Balance": "رصيد الدفع النقدي",
 	"Paid Bank Transfer Balance": "رصيد التحويل البنكي",
 
@@ -662,5 +662,6 @@
   "Session update failed with system error:": "خطأ في بدأ عملية الدفع، برجاء المحاولة مرة اخرى",
   "Session update failed:": "خطأ في بدأ عملية الدفع، برجاء المحاولة مرة اخرى",
   "You can not refund this bill.": "لا يمكنك استرداد هذه الفاتورة.",
-  "Amount is more than bill paid amount.": "المبلغ المسترد اكبر من من المبلغ المدفوع."
+  "Amount is more than bill paid amount.": "المبلغ المسترد اكبر من من المبلغ المدفوع.",
+  "Additional Information": "معلومات إضافية"
 }

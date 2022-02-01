@@ -32,7 +32,7 @@
               <a href="{{ route('statement.index') }}" class="card mb-3">
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">{{ __('Electronic payment Gateway') }}</p>
+                  <p class="card-text font-weight-semibold mb-0">{{ __('Electronic payment Gateway Balance') }}</p>
                   <p class="lead text-center">{{ round2($balance) }}</p>
                 </div>
               </a>
