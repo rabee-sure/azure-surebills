@@ -133,7 +133,7 @@
 	"channels": "قنوات",
 	"channel": "قناة",
     "link is copied": "تم نسخ الرابط",
-	"Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url": "اهلا بك :name لقد تلقيت فاتورة جديدة من :business_name باجمالي :total ريال. ادفع الان :url",
+	"Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url": "اهلا بك :name لقد تلقيت طلب دفع جديد من :business_name باجمالي :total ريال. ادفع الان :url",
     "taxvalue": "قيمة الضريبة",
     "No transaction on this date": "لا يوجد معاملات في هذا التاريخ",
 	"monthly": "شهري",
