@@ -320,6 +320,8 @@
 	"this bill has been canceled" : "تم إلغاء الفاتورة #:number",
 	"this bill has been refunded" : "تم رد الفاتورة #:number",
 	"this bill has been successfully" : "تم دفع الفاتورة #:number بنجاح",
+	"this bill has been Paid Cash successfully" : "تم دفع الفاتورة #:number نقدي بنجاح",
+	"this bill has been Paid Bank Transfer successfully" : "تم دفع الفاتورة #:number بتحويل بنكي بنجاح",
 	"this bill has been expired" : "انتهت صلاحية الفاتورة #:number",
 
 	"Day" : "يوم",
