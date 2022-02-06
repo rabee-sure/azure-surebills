@@ -26,15 +26,18 @@
     <div class="separator mb-5"></div>
   </div>
 </div>
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+
+<div id="errors">
+  @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+  @endif
+</div>
  <div class="row">
   <div class="col-12">
     <div class="card mb-5">
@@ -59,8 +62,9 @@
             <img src="{{ asset('images/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
           </button>
         @endif 
+        
         @if($bill->is_able_refund)
-          <button id="cancel_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#refundModal" title="{{ __('Refund Bill') }}" data-from="top" data-align="right">
+          <button id="refund_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm"  title="{{ __('Refund Bill') }}" data-from="top" data-align="right">
               <img src="{{ asset('images/refund.svg') }}" alt="{{ __('Refund Bill') }}" style="height: 25px;">
             </button>
         @endif
@@ -296,6 +300,26 @@
               $("#cancel_btn").remove();
           }
       });
+  </script>
+
+  <script>
+    $(document).ready(function(){
+      $("#refund_btn").click(function(){
+        console.log('refund');
+        var otherDate = '{{\Carbon\Carbon::now()->subDays(14)}}';
+        var billPaidAt = '{{$bill->paid_at}}';
+
+        if(otherDate > billPaidAt){
+          $("#errors").append('<div id="limitdays" class="alert alert-danger" role="alert">{{  __('It must not pass more than 14 days on the date of payment of the Bill') }}</div>');
+
+          setTimeout(function() { 
+                $("#limitdays").remove();
+          }, 4000);
+        }else{
+          $('#refundModal').modal('show');
+        }
+      });
+    });
   </script>
 
 @endpush
