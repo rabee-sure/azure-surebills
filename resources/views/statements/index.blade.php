@@ -22,7 +22,7 @@
 
         <div class="filter_area d-flex align-items-center justify-content-between flex-wrap">
           <div class="d-flex align-items-center justify-content-start flex-wrap">
-            <select class="form-control select2-single">
+            <select name="transaction_type" class="form-control select2-single filter">
               <option selected disabled>
                 @if(request()->transaction_type == 'debit')
                   {{ __('Debit') }}
@@ -32,11 +32,11 @@
                   {{ __('Transaction Type') }}
                 @endif
               </option>
-              <option value="{{request()->fullUrlWithQuery(['transaction_type' => 'all']) }}">{{ __('All') }}</option>
-              <option value="{{request()->fullUrlWithQuery(['transaction_type' => 'debit']) }}">{{ __('Debit') }}</option>
-              <option value="{{request()->fullUrlWithQuery(['transaction_type' => 'credit']) }}">{{ __('Credit') }}</option>
+              <option value="all">{{ __('All') }}</option>
+              <option value="debit">{{ __('Debit') }}</option>
+              <option value="credit">{{ __('Credit') }}</option>
             </select>
-            <select class="form-control select2-single" @if(request()->transaction_type != 'credit' && request()->transaction_type != 'debit') disabled @endif>
+            <select name="transaction_source" class="form-control select2-single filter" @if(request()->transaction_type != 'credit' && request()->transaction_type != 'debit') disabled @endif>
               <option selected disabled>
                 @switch(request()->transaction_source)
                   @case('bill')
@@ -71,22 +71,22 @@
                       {{ __('Transactions') }}
                 @endswitch
               </option>
-              <option value="{{request()->fullUrlWithQuery(['transaction_source' => 'all']) }}">{{ __('All') }}</option>
+              <option value="all">{{ __('All') }}</option>
               @if(request()->transaction_type == 'credit')
-                <option value="{{request()->fullUrlWithQuery(['transaction_source' => 'bill']) }}">{{ __('Bill') }}</option>
+                <option value="bill">{{ __('Bill') }}</option>
                 @if(count($channels))
-                  <option value="{{request()->fullUrlWithQuery(['transaction_source' => 'channel_fees']) }}">{{ __('Channel Fees') }}</option>
-                  <option value="{{request()->fullUrlWithQuery(['transaction_source' => 'channel_vat']) }}">{{ __('Channel VAT') }}</option>
+                  <option value="channel_fees">{{ __('Channel Fees') }}</option>
+                  <option value="channel_vat">{{ __('Channel VAT') }}</option>
                 @endif
               @elseif(request()->transaction_type == 'debit')
-                <option value="{{request()->fullUrlWithQuery(['transaction_source' => 'fees']) }}">{{ __('Bill Fees') }}</option>
-                <option value="{{request()->fullUrlWithQuery(['transaction_source' => 'vat']) }}">{{ __('Bill VAT') }}</option>
-                <option value="{{request()->fullUrlWithQuery(['transaction_source' => 'transfer']) }}">{{ __('Transfer') }}</option>
+                <option value="fees">{{ __('Bill Fees') }}</option>
+                <option value="vat">{{ __('Bill VAT') }}</option>
+                <option value="transfer">{{ __('Transfer') }}</option>
               @endif
-              <option value="{{request()->fullUrlWithQuery(['transaction_source' => 'refund']) }}">{{ __('Refunded') }}</option>
+              <option value="refund">{{ __('Refunded') }}</option>
             </select>
             @if(count($channels))
-              <select class="form-control select2-single">
+              <select name="channel_id" class="form-control select2-single filter">
                 <option selected disabled>
                   @if(isset($channel))
                     {{ $channel->name}}
@@ -94,12 +94,12 @@
                     {{ __('Channels') }}
                   @endif
                 </option>
-                <option value="{{request()->fullUrlWithQuery(['channel_id' => 'all', 'application_id' => 'all']) }}">{{ __('All') }}</option>
+                <option value="all">{{ __('All') }}</option>
                 @foreach($channels as $channel)
-                  <option value="{{request()->fullUrlWithQuery(['channel_id' => $channel->id]) }}">{{$channel->name}}</option>
+                  <option value="{{$channel->id}}">{{$channel->name}}</option>
                 @endforeach
               </select>
-              <select class="form-control select2-single" @if(count($applications) == 0) disabled @endif>
+              <select name="application_id" class="form-control select2-single filter" @if(count($applications) == 0) disabled @endif>
                 <option selected disabled>
                   @if(isset($application))
                     {{$application->id}} - {{ $application->user->business_name}}
@@ -107,10 +107,10 @@
                     {{ __('Applications') }}
                   @endif
                 </option>
-                <option value="{{request()->fullUrlWithQuery(['application_id' => 'all']) }}">{{ __('All') }}</option>
+                <option value="all">{{ __('All') }}</option>
                 @if($applications)
                   @foreach($applications as $application)
-                    <option value="{{$application->id}} - {{ $application->user->business_name }}">{{$application->id}} - {{ $application->user->business_name }}</option>
+                    <option value="{{$application->id}}">{{$application->id}} - {{ $application->user->business_name }}</option>
                   @endforeach
                 @endif
               </select>
@@ -217,6 +217,32 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ asset('css/select2-bootstrap.min.css') }}" />
   <script type="text/javascript">
+    $(document).ready(function(){
+      var url = new URL($(location).attr("href"));
+      var paramName = '';
+      var paramValue = '';
+
+      $(".filter").change(function(e){
+        var paramName = $(this).attr('name');
+        var paramValue = $(this).val();
+
+        var search_params = url.searchParams;
+
+        // new value of "id" is set to "101"
+        search_params.set(paramName, paramValue);
+
+        // change the search property of the main url
+        url.search = search_params.toString();
+
+        // the new url string
+        var new_url = url.toString();
+
+        // output : http://demourl.com/path?id=101&topic=main
+        console.log(new_url);
+        window.location.replace(new_url);
+      });
+
+    });
       function oldParams() {
         var params = ''  
         let array1 = [
@@ -298,5 +324,7 @@
             location.reload();
         });
       });
+
+      
   </script>
 @endpush
