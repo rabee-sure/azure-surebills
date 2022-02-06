@@ -252,7 +252,7 @@
             @endif
           </span>
           <div>
-            <p>{{ __('Bill') }} # : {{ $bill->number}}</p>
+            <p>{{ __('Bill No.') }} # : {{ $bill->number}}</p>
             <small>{{ $bill->created_at->format('Y-m-d') }}</small>
           </div>
         </div><!-- block_2 -->
@@ -281,7 +281,7 @@
         @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
         <div class="block_4">
           <!-- <div class="title">Customer Information</div> -->
-          <p>{{ __('Billed to,') }} {{ $bill->customer_name }}</p>
+          <p>{{ $bill->customer_name }}</p>
           <p>+966{{ $bill->customer_mobile }}</p>
           <p>{{ $bill->customer_email }}</p>
 

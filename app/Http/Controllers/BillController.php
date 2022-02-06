@@ -33,13 +33,14 @@ class BillController extends Controller
         if (!$request->dont_update_statuses) {
             session(['status_filters' => $request->statuses]);
         }
+
         $statuses = array();
         if($request->statuses){
             $statuses = $request->statuses;
             $statuses = in_array('paid', $statuses) ? array_merge($statuses, ['paid_cash', 'paid_bank_transfer']) : $statuses;
             $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
         }
-
+        
         $bills = Bill::where('user_id', auth()->user()->id)
             ->orderBy('created_at', 'desc')
             ->when($statuses, function ($q) use ($statuses) {

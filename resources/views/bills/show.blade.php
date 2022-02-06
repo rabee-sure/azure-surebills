@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Bill') . ' ' . $bill->number . ' ' . __('Bills'))
+@section('title', __('Bill No.') . ' ' . $bill->number . ' ' . __('Bills'))
 
 @php
     $statues = session('status_filters', ['pending', 'paid'])?? [];
@@ -20,7 +20,7 @@
         <li class="breadcrumb-item">
           <a href="/bills?{{$separated}}" title="{{__('Bills')}}">{{__('Bills')}}</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">{{__('Bill')}} {{ $bill->number }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{__('Bill No.')}} {{ $bill->number }}</li>
       </ol>
     </nav>
     <div class="separator mb-5"></div>
@@ -49,9 +49,9 @@
         <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->pay_url}}" target="_blank" title="{{ __('Open Link') }}">
           <img src="{{ asset('images/link.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
         </a>
-        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->invoice_url}}" target="_blank" title="{{ __('Open Link') }}">
+        <!-- <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->invoice_url}}" target="_blank" title="{{ __('Open Link') }}">
           <img src="{{ asset('images/qr.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
-        </a>
+        </a> -->
         <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
         <a onclick="window.print(); return false;" class="btn btn-primary mr-2 mb-2 rounded-sm d-inline-block" href="#" title="{{ __('Print') }}">
           <img src="{{ asset('images/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
@@ -141,7 +141,7 @@
           @endif
         </span>
         <div>
-          <p>{{ __('Bill') }} #{{ $bill->number }}</p>
+          <p>{{ __('Bill No.') }} #{{ $bill->number }}</p>
           <b>{{ $bill->created_at->format('Y/m/d')}}</b>
         </div>
       </div><!-- date_time -->
@@ -186,7 +186,7 @@
       @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
       <div class="customer_information">
         <!-- <div class="name">Customer Information</div> -->
-        <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
+        <p>{{ $bill->customer_name}}</p>
         <p class="ltr">+966{{ $bill->customer_mobile}}</p>
         <p>{{ $bill->customer_email}}</p>
 

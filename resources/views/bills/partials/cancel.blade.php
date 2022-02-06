@@ -17,7 +17,7 @@ aria-hidden="true">
                 <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
                     @csrf
                     <button type="submit" class="btn btn-primary">
-                        {{__('Cancel Bill')}}
+                        {{__('Confirm Cancel Bill')}}
                     </button>
                     <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">
                         {{__('Cancel')}}

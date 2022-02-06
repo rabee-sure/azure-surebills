@@ -7,7 +7,7 @@
     <div class="mb-2">
       <h1>{{ __('Order')}} #310</h1>
       <div class="top-right-button-container">
-        <a href="{{ url('/bills') }}" class="btn btn-dark btn-md top-right-button bill_statue_order"><p>{{ __('Bill') }} #193 - </p><span class="badge badge-pill badge-success">{{ __('Paid') }}</span></a>
+        <a href="{{ url('/bills') }}" class="btn btn-dark btn-md top-right-button bill_statue_order"><p>{{ __('Bill No.') }} #193 - </p><span class="badge badge-pill badge-success">{{ __('Paid') }}</span></a>
       </div>
       <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
         <ol class="breadcrumb pt-0">

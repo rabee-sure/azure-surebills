@@ -10,7 +10,7 @@
         <ol class="breadcrumb pt-0">
           <li class="breadcrumb-item"><a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a></li>
           <li class="breadcrumb-item"><a href="/bills" title="{{__('Bills')}}">{{__('Bills')}}</a></li>
-          <li class="breadcrumb-item"><a href="/bills/{{ $bill->id }}" title="{{__('Bills')}}">{{__('Bill')}} #{{ $bill->number }}</a></li>
+          <li class="breadcrumb-item"><a href="/bills/{{ $bill->id }}" title="{{__('Bills')}}">{{__('Bill No.')}} #{{ $bill->number }}</a></li>
           <li class="breadcrumb-item active" aria-current="page">
             {{ $log->id }}
           </li>
