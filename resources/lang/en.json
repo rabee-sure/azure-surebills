@@ -1,11 +1,11 @@
 {
 	"You've got a payment! : total SAR from: name" : "You've got a payment! : total SAR from: name",
-	"Your bill of :total SAR has been successfully paid": "Your bill of :total SAR has been successfully paid",
-	"this bill has been canceled" : "this bill #:number  has been canceled",
-	"this bill has been successfully" : "this bill #:number  has been paid successfully",
-	"this bill has been Paid Cash successfully" : "this bill #:number  has been paid cash successfully",
-	"this bill has been Paid Bank Transfer successfully" : "this bill #:number  has been paid via bank transfer successfully",
-	"this bill has been expired" : "this bill #:number has been expired",
+	"Your bill of :total SAR has been successfully paid": "Your payment request of :total SAR has been successfully paid",
+	"this bill has been canceled" : "this payment request #:number  has been canceled",
+	"this bill has been successfully" : "this payment request #:number  has been paid successfully",
+	"this bill has been Paid Cash successfully" : "this payment request #:number  has been paid cash successfully",
+	"this bill has been Paid Bank Transfer successfully" : "this payment request #:number  has been paid via bank transfer successfully",
+	"this bill has been expired" : "this payment request #:number has been expired",
 
 "A fresh verification link has been sent to your email address.": "A fresh verification link has been sent to your email address.",
 "All rights reserved.": "All rights reserved.",
@@ -241,6 +241,12 @@
 "expiration year": "Expiration year",
 "name on card": "Cardholder name",
 "No transaction on this date": "No transaction on this date",
-"Additional Information": "Additional Information"
+"Additional Information": "Additional Information",
+
+"Cancel Bill": "Cancel payment request",
+"Confirm Cancel Bill": "Confirm Cancel payment request",
+"Are you Sure to Cancel Bill ?": "Are you Sure to Cancel payment request ?",
+"Bill": "Payment request",
+"Bill No.": "Payment request No."
 
 }
