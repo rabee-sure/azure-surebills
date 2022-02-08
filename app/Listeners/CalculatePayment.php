@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\BillPaid;
+use App\Events\BillTransactionConfirmed;
 use App\Jobs\MakeTransactionsForChannel;
 use App\Jobs\MakeTransactionsForChannelExtraFees;
 use App\Jobs\MakeTransactionsForOwner;
@@ -31,10 +31,10 @@ class CalculatePayment
     /**
      * Handle the event.
      *
-     * @param  BillPaid  $event
+     * @param  BillTransactionConfirmed  $event
      * @return void
      */
-    public function handle(BillPaid $event)
+    public function handle(BillTransactionConfirmed $event)
     {
         $payment_log = $event->bill->success_payment;
 
