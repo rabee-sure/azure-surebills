@@ -39,7 +39,7 @@ class PaymentHelper
             PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook);
         } else if($billDetail['bill']['status'] == 'paid' && $viaWebHook) {
             $bill = Bill::find($orderId);
-            $bill->transactionConfirmed();
+            $bill->firePaidEvent();
         }
     }
 
@@ -73,7 +73,7 @@ class PaymentHelper
             $payment->save();
             $bill->setPaid();
             if($viaWebHook) {
-                $bill->transactionConfirmed();
+                $bill->firePaidEvent();
             }
 
             // get redirect link

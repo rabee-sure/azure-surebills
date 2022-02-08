@@ -631,17 +631,22 @@ class Bill extends Model
         $this->paid_at = Carbon::now();
         $this->payment_method = 'credit';
         $this->save();
-
-        event(new BillPaid($this));
-        event(new BillStatusUpdated($this));
     }
 
     /**
      * Mark invoice as paid
      */
-    public function transactionConfirmed()
+    public function firePaidEvent()
     {
-        event(new BillTransactionConfirmed($this));
+        if ($this->paid_event_fired) {
+            return false;
+        }
+
+        $this->paid_event_fired = true;
+        $this->save();
+
+        event(new BillPaid($this));
+        event(new BillStatusUpdated($this));
     }
 
     /**

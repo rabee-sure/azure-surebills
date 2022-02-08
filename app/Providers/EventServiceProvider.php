@@ -37,11 +37,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\CallbackApplication',
         ],
         'App\Events\BillPaid' => [
+            'App\Listeners\CalculatePayment',
             'App\Listeners\SendBillPaidEmailToOwner',
             'App\Listeners\SendBillPaidEmailToCustomer'
-        ],
-        'App\Events\BillTransactionConfirmed' => [
-            'App\Listeners\CalculatePayment',
         ],
         'App\Events\BillRefunded' => [
             'App\Listeners\CalculateRefundedPayment',
