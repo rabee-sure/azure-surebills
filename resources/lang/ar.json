@@ -362,6 +362,9 @@
 	"When Bill Created": "عند إنشاء فاتورة",
 	"When Bill Paid": "عند سداد فاتورة",
 
+	"Simple Style for API": "أسلوب بسيط لواجهة برمجة التطبيقات",
+	"Activate simple style for API bills?": "تنشيط أسلوب بسيط لفواتير التطبيقات؟",
+
 	"Settings": "الاعدادات",
 	"Taxs": "الضرائب",
 	"Active Lang": "اللغة المفعلة للفواتير",
