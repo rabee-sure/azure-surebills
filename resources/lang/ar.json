@@ -317,12 +317,12 @@
     "no": "لا",
 	"payment fees" : "رسوم الدفع",
 	"Active Langs" : "اللغات المفعلة للفواتير",
-	"this bill has been canceled" : "تم إلغاء الفاتورة #:number",
-	"this bill has been refunded" : "تم رد الفاتورة #:number",
-	"this bill has been successfully" : "تم دفع الفاتورة #:number بنجاح",
-	"this bill has been Paid Cash successfully" : "تم دفع الفاتورة #:number نقدي بنجاح",
-	"this bill has been Paid Bank Transfer successfully" : "تم دفع الفاتورة #:number بتحويل بنكي بنجاح",
-	"this bill has been expired" : "انتهت صلاحية الفاتورة #:number",
+	"this bill has been canceled" : "تم إلغاء 'طلب السداد' #:number",
+	"this bill has been refunded" : "تم رد طلب السداد #:number",
+	"this bill has been successfully" : "تم دفع طلب السداد #:number بنجاح",
+	"this bill has been Paid Cash successfully" : "تم دفع طلب السداد #:number نقدي بنجاح",
+	"this bill has been Paid Bank Transfer successfully" : "تم دفع طلب السداد #:number بتحويل بنكي بنجاح",
+	"this bill has been expired" : "انتهت صلاحية طلب السداد #:number",
 
 	"Day" : "يوم",
 	"Days" : "ايام",
@@ -361,6 +361,9 @@
 
 	"When Bill Created": "عند إنشاء فاتورة",
 	"When Bill Paid": "عند سداد فاتورة",
+
+	"Simple Style for API": "أسلوب بسيط لواجهة برمجة التطبيقات",
+	"Activate simple style for API bills?": "تنشيط أسلوب بسيط لفواتير التطبيقات؟",
 
 	"Settings": "الاعدادات",
 	"Taxs": "الضرائب",
