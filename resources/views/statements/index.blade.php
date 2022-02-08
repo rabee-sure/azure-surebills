@@ -71,9 +71,8 @@
                       {{ __('Transactions') }}
                 @endswitch
               </option>
-              @if(request()->transaction_type == 'all')
               <option value="all">{{ __('All') }}</option>
-              @elseif(request()->transaction_type == 'credit')
+              @if(request()->transaction_type == 'credit')
                 <option value="bill">{{ __('Bill') }}</option>
                 @if(count($channels))
                   <option value="channel_fees">{{ __('Channel Fees') }}</option>
