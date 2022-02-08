@@ -14,6 +14,7 @@ use App\Events\BillRefunded;
 use App\Events\BillStatusUpdated;
 use App\Events\BillPartialRefunded;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\BillTransactionConfirmed;
 
 class Bill extends Model
 {
@@ -633,6 +634,14 @@ class Bill extends Model
 
         event(new BillPaid($this));
         event(new BillStatusUpdated($this));
+    }
+
+    /**
+     * Mark invoice as paid
+     */
+    public function transactionConfirmed()
+    {
+        event(new BillTransactionConfirmed($this));
     }
 
     /**
