@@ -1,6 +1,6 @@
 @extends('layouts.bill')
 
-@section('title', __('Bill') . ' ' . $bill->number)
+@section('title', __('Bill No.') . ' ' . $bill->number)
 
 @section('content')
 
@@ -65,7 +65,7 @@
                 @endif
               </span>
               <div>
-                <p>{{ __('Bill') }} #{{ $bill->number }}</p>
+                <p>{{ __('Bill No.') }} #{{ $bill->number }}</p>
                 <b>{{ $bill->created_at->format('Y/m/d')}}</b>
               </div>
             </div><!-- date_time -->
@@ -114,7 +114,7 @@
             @endif
             <div class="customer_information">
               <!-- <div class="name">Customer Information</div> -->
-              <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
+              <p>{{ $bill->customer_name}}</p>
               <p class="ltr">+966{{ $bill->customer_mobile}}</p>
               <p>{{ $bill->customer_email}}</p>
               @if(isset($bill->user->settings->footer_bill))

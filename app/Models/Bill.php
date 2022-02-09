@@ -14,6 +14,7 @@ use App\Events\BillRefunded;
 use App\Events\BillStatusUpdated;
 use App\Events\BillPartialRefunded;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\BillTransactionConfirmed;
 
 class Bill extends Model
 {
@@ -629,6 +630,19 @@ class Bill extends Model
         $this->status = 'paid';
         $this->paid_at = Carbon::now();
         $this->payment_method = 'credit';
+        $this->save();
+    }
+
+    /**
+     * Mark invoice as paid
+     */
+    public function firePaidEvent()
+    {
+        if ($this->paid_event_fired) {
+            return false;
+        }
+
+        $this->paid_event_fired = true;
         $this->save();
 
         event(new BillPaid($this));

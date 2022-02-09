@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Bill') . ' ' . $bill->number . ' ' . __('Bills'))
+@section('title', __('Bill No.') . ' ' . $bill->number . ' ' . __('Bills'))
 
 @php
     $statues = session('status_filters', ['pending', 'paid'])?? [];
@@ -20,21 +20,24 @@
         <li class="breadcrumb-item">
           <a href="/bills?{{$separated}}" title="{{__('Bills')}}">{{__('Bills')}}</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">{{__('Bill')}} {{ $bill->number }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{__('Bill No.')}} {{ $bill->number }}</li>
       </ol>
     </nav>
     <div class="separator mb-5"></div>
   </div>
 </div>
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+
+<div id="errors">
+  @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+  @endif
+</div>
  <div class="row">
   <div class="col-12">
     <div class="card mb-5">
@@ -46,9 +49,11 @@
         <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->pay_url}}" target="_blank" title="{{ __('Open Link') }}">
           <img src="{{ asset('images/link.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
         </a>
-        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->invoice_url}}" target="_blank" title="{{ __('Open Link') }}">
-          <img src="{{ asset('images/qr.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
-        </a>
+        @if($bill->status == 'paid')
+        <!-- <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->invoice_url}}" target="_blank" title="{{ __('Tax Invoice') }}">
+          <img src="{{ asset('images/qr.svg') }}" alt="{{ __('Tax Invoice') }}" style="height: 25px;">
+        </a> -->
+        @endif
         <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
         <a onclick="window.print(); return false;" class="btn btn-primary mr-2 mb-2 rounded-sm d-inline-block" href="#" title="{{ __('Print') }}">
           <img src="{{ asset('images/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
@@ -59,8 +64,9 @@
             <img src="{{ asset('images/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
           </button>
         @endif 
+        
         @if($bill->is_able_refund)
-          <button id="cancel_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#refundModal" title="{{ __('Refund Bill') }}" data-from="top" data-align="right">
+          <button id="refund_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm"  title="{{ __('Refund Bill') }}" data-from="top" data-align="right">
               <img src="{{ asset('images/refund.svg') }}" alt="{{ __('Refund Bill') }}" style="height: 25px;">
             </button>
         @endif
@@ -137,7 +143,7 @@
           @endif
         </span>
         <div>
-          <p>{{ __('Bill') }} #{{ $bill->number }}</p>
+          <p>{{ __('Bill No.') }} #{{ $bill->number }}</p>
           <b>{{ $bill->created_at->format('Y/m/d')}}</b>
         </div>
       </div><!-- date_time -->
@@ -182,7 +188,7 @@
       @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
       <div class="customer_information">
         <!-- <div class="name">Customer Information</div> -->
-        <p>{{ __('Billed to,') }} {{ $bill->customer_name}}</p>
+        <p>{{ $bill->customer_name}}</p>
         <p class="ltr">+966{{ $bill->customer_mobile}}</p>
         <p>{{ $bill->customer_email}}</p>
 
@@ -296,6 +302,26 @@
               $("#cancel_btn").remove();
           }
       });
+  </script>
+
+  <script>
+    $(document).ready(function(){
+      $("#refund_btn").click(function(){
+        console.log('refund');
+        var otherDate = '{{\Carbon\Carbon::now()->subDays(14)}}';
+        var billPaidAt = '{{$bill->paid_at}}';
+
+        if(otherDate > billPaidAt){
+          $("#errors").append('<div id="limitdays" class="alert alert-danger" role="alert">{{  __('It must not pass more than 14 days on the date of payment of the Bill') }}</div>');
+
+          setTimeout(function() { 
+                $("#limitdays").remove();
+          }, 4000);
+        }else{
+          $('#refundModal').modal('show');
+        }
+      });
+    });
   </script>
 
 @endpush

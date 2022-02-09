@@ -71,8 +71,9 @@
                       {{ __('Transactions') }}
                 @endswitch
               </option>
+              @if(request()->transaction_type == 'all')
               <option value="all">{{ __('All') }}</option>
-              @if(request()->transaction_type == 'credit')
+              @elseif(request()->transaction_type == 'credit')
                 <option value="bill">{{ __('Bill') }}</option>
                 @if(count($channels))
                   <option value="channel_fees">{{ __('Channel Fees') }}</option>
@@ -225,9 +226,17 @@
       $(".filter").change(function(e){
         var paramName = $(this).attr('name');
         var paramValue = $(this).val();
-
+        console.log(paramName);
+        console.log(paramValue);
         var search_params = url.searchParams;
 
+        if(paramName == 'transaction_type'){
+          search_params.set('transaction_source', 'all');
+        }
+
+        if(paramName == 'channel_id'){
+          search_params.set('application_id', 'all');
+        }
         // new value of "id" is set to "101"
         search_params.set(paramName, paramValue);
 

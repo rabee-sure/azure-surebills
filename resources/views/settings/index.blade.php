@@ -135,7 +135,22 @@
                   @if($user->settings->paid_send_email || old('paid_send_email') == 'on') checked @endif>
                   <label class="custom-switch-btn" for="paid_send_email"></label>
               </div><!-- form-group -->
+            </div></div><!-- form-row -->
+
+            <h1 class="mb-3">{{ __('Simple Style for API') }}</h1>
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="api_bill_style">{{ __('Activate simple style for API bills?') }}</label>
+                <div class="custom-switch custom-switch-primary mb-2">
+                  <input name="api_bill_style" class="custom-switch-input" id="api_bill_style" type="checkbox"
+                  @if($user->settings->api_bill_style || old('api_bill_style') == 'on') checked @endif>
+                  <label class="custom-switch-btn" for="api_bill_style"></label>
+                </div>
+              </div><!-- form-group -->
             </div><!-- form-row -->
+            
+            <hr>
+
             <div class="d-flex justify-content-start mt-3">
               <button type="submit" class="btn btn-primary btn-lg login_button"> {{__('Save')}}</button>
             </div><!-- d-flex  -->

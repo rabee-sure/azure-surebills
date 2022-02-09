@@ -1,6 +1,6 @@
 {
 	"All": "الكل",
-	"Electronic payment Gateway": "رصيد بوابة الدفع الالكتروني",
+	"Electronic payment Gateway Balance": "رصيد بوابة الدفع الالكتروني",
 	"Paid Cash Balance": "رصيد الدفع النقدي",
 	"Paid Bank Transfer Balance": "رصيد التحويل البنكي",
 
@@ -12,7 +12,7 @@
 
 	"vat_registration_number": "رقم التسجيل الضريبي",
 	"Change Status": "تغيير الحالة",
-	"Are you Sure to Change Status ?": "تغيير حالة الفاتورة",
+	"Are you Sure to Change Status ?": "تغيير حالة السداد",
 
 	"bullding_no":"رقم المبني",
     "street_name":"اسم الشارع",
@@ -134,7 +134,7 @@
 	"channels": "قنوات",
 	"channel": "قناة",
     "link is copied": "تم نسخ الرابط",
-	"Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url": "اهلا بك :name لقد تلقيت فاتورة جديدة من :business_name باجمالي :total ريال. ادفع الان :url",
+	"Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url": "اهلا بك :name لقد تلقيت طلب دفع جديد من :business_name باجمالي :total ريال. ادفع الان :url",
     "taxvalue": "قيمة الضريبة",
     "No transaction on this date": "لا يوجد معاملات في هذا التاريخ",
 	"monthly": "شهري",
@@ -317,10 +317,12 @@
     "no": "لا",
 	"payment fees" : "رسوم الدفع",
 	"Active Langs" : "اللغات المفعلة للفواتير",
-	"this bill has been canceled" : "تم إلغاء الفاتورة #:number",
-	"this bill has been refunded" : "تم رد الفاتورة #:number",
-	"this bill has been successfully" : "تم دفع الفاتورة #:number بنجاح",
-	"this bill has been expired" : "انتهت صلاحية الفاتورة #:number",
+	"this bill has been canceled" : "تم إلغاء 'طلب السداد' #:number",
+	"this bill has been refunded" : "تم رد طلب السداد #:number",
+	"this bill has been successfully" : "تم دفع طلب السداد #:number بنجاح",
+	"this bill has been Paid Cash successfully" : "تم دفع طلب السداد #:number نقدي بنجاح",
+	"this bill has been Paid Bank Transfer successfully" : "تم دفع طلب السداد #:number بتحويل بنكي بنجاح",
+	"this bill has been expired" : "انتهت صلاحية طلب السداد #:number",
 
 	"Day" : "يوم",
 	"Days" : "ايام",
@@ -360,6 +362,9 @@
 	"When Bill Created": "عند إنشاء فاتورة",
 	"When Bill Paid": "عند سداد فاتورة",
 
+	"Simple Style for API": "أسلوب بسيط لواجهة برمجة التطبيقات",
+	"Activate simple style for API bills?": "تنشيط أسلوب بسيط لفواتير التطبيقات؟",
+
 	"Settings": "الاعدادات",
 	"Taxs": "الضرائب",
 	"Active Lang": "اللغة المفعلة للفواتير",
@@ -370,8 +375,9 @@
 	"customer email": "ايميل العميل",
 	"customer_email": "ايميل العميل",
 
-	"Cancel Bill": "إلغاء الفاتورة",
-	"Are you Sure to Cancel Bill ?": "هل انت متأكد من إلغاء الفاتورة ؟",
+	"Cancel Bill": "إلغاء طلب السداد",
+	"Confirm Cancel Bill": "تأكيد إلغاء طلب السداد",
+	"Are you Sure to Cancel Bill ?": "هل انت متأكد من إلغاء طلب السداد ؟",
 	"Subtotal": "المجموع الفرعي",
 	"Sub Total": "المجموع",
 	"Total": "المجموع الكلي",
@@ -404,7 +410,8 @@
 	"Integration": "اعدادات التكامل",
 	"Logo required": "قم بتحميل اللوجو",
 	"Due on": "موعد الاستحقاق",
-	"Bill": "الفاتورة",
+	"Bill": "طلب السداد",
+	"Bill No.": "رقم طلب السداد",
 	"A fresh verification link has been sent to your email address.": "تم إرسال رابط تحقق جديد إلى عنوان بريدك الإلكتروني.",
 	"All rights reserved.": "جميع الحقوق محفوظة.",
 	"Before proceeding, please check your email for a verification link.": "قبل المتابعة، يرجى التحقق من بريدك الإلكتروني عن رابط التحقق.",
