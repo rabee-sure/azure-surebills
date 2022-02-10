@@ -81,7 +81,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center"  >
-                                        <a href="transfers/{{$transfer->id }}/transactions"  data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Statement') }}">
+                                        <a href="transfers/{{$transfer->id }}/transactions"  data-toggle="tooltip" data-placement="top" >
                                             <div class="glyph-icon simple-icon-eye" style="font-size: 25px"></div>
                                         </a>
                                     </td>
