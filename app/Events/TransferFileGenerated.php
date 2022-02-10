@@ -14,6 +14,8 @@ class TransferFileGenerated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $transfer_emails;
+    public $cycleDate;
     public $transfer;
 
     /**
@@ -21,8 +23,10 @@ class TransferFileGenerated
      *
      * @return void
      */
-    public function __construct($transfer)
+    public function __construct($transfer_emails, $cycleDate, $transfer)
     {
+        $this->transfer_emails = $transfer_emails;
+        $this->cycleDate = $cycleDate;
         $this->transfer = $transfer;
     }
 

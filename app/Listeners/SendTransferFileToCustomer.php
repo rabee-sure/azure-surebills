@@ -28,7 +28,11 @@ class SendTransferFileToCustomer
      */
     public function handle(TransferFileGenerated $event)
     {
-        $message = (new SendTransferToCustomer($event->transfer))->onQueue(env('EMAILS_QUEUE'));
-        Mail::to($event->transfer->user->email)->queue($message);
+        $emails = explode(",", $event->transfer_emails);
+        if(count($emails)){
+            foreach ($emails as $email) {
+                Mail::to($email)->send(new RequestTransferMail($event->cycleDate, auth()->user(), $event->transfer));
+            }
+        }
     }
 }
