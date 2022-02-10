@@ -11853,3 +11853,23 @@ select:-webkit-autofill:focus {
     } /* exel_btn */
   } /* filter_area */
 } /* statement_index */
+
+.select2-dropdown {
+  .select2-results {
+    .select2-results__options {
+      .select2-results__message {
+        font-size: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &::after {
+          content: "لم يتم العثور على نتائج";
+          font-size: 13px;
+          [dir="ltr"] & {
+            content: "No results found";
+          } /* ltr */
+        } /* after */
+      } /* select2-results__message */
+    } /* select2-results__options */
+  } /* select2-results */
+} /* select2-dropdown */
