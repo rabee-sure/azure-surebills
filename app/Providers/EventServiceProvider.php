@@ -57,7 +57,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendSubAccountSettledWebhook',
         ],
         'App\Events\TransferFileGenerated' => [
-            'App\Listeners\SendTransferFileToCustomer',
+            'App\Listeners\SendRequestTransferFile',
         ],
     ];
 
