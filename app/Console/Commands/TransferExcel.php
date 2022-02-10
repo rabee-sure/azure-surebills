@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Exports\TransactionsExport;
+use App\Events\TransferFileGenerated;
 use App\Http\Resources\TransactionExportResource;
 use App\Models\Transfer;
 use Illuminate\Console\Command;
@@ -52,6 +53,9 @@ class TransferExcel extends Command
             $transfer->addMedia(storage_path('app/public/'.$file_name))
                 ->preservingOriginal()
                 ->toMediaCollection('transfers_transactions');
+                
+                //fire event transfer file generated
+                event(new TransferFileGenerated($transfer));
         }
 
     }
