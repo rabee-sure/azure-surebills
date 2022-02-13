@@ -152,11 +152,12 @@
                 </a>
               </div>
             @endif
-            <!-- <div class="d-flex justify-content-center">
+            @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
+            <div class="d-flex justify-content-center">
             {!! QrCode::size(50)->generate(route('invoice', ['id' => $bill->pay_id])) !!}
              </div>
-             <a class="d-flex justify-content-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">الفاتورة الضريبية</a>  -->
-
+             <a class="d-flex justify-content-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">{{__('Tax Invoice')}}</a> 
+            @endif
           </div><!-- single_bill_content -->
           <a target="_blank" title="Sure Bills" class="logo_bills"></a>
         </div><!-- col-12 -->
