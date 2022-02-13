@@ -11873,3 +11873,46 @@ select:-webkit-autofill:focus {
     } /* select2-results__options */
   } /* select2-results */
 } /* select2-dropdown */
+
+#changeStatusModal {
+  .bill_change_status {
+    label {
+      cursor: pointer;
+      input {
+        top: 0;
+        right: 0;
+        left: 0;
+        cursor: pointer;
+        opacity: 0;
+        &:checked ~ {
+          span {
+            color: $theme-color-1;
+            &::before {
+              border-color: $theme-color-1;
+              box-shadow: 0 0 0 5px $theme-color-1 inset;
+            } /* before */
+          } /* span */
+        } /* checked */
+      } /* input */
+      span {
+        color: #000;
+        font-size: 15px;
+        &::before {
+          content: "";
+          width: 17px;
+          height: 17px;
+          border: 1px solid #ccc;
+          border-radius: 100%;
+          margin: 0 0 0 7px;
+          background-color: #ffffff;
+          position: relative;
+          top: -1px;
+          [dir="ltr"] & {
+            margin: 0 7px 0 0;
+            top: 0;
+          } /* ltr */
+        } /* before */
+      } /* span */
+    } /* label */
+  } /* bill_change_status */
+} /* changeStatusModal */
