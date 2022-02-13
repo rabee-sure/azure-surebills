@@ -3,11 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Exports\TransactionsExport;
+use App\Events\TransferFileGenerated;
 use App\Http\Resources\TransactionExportResource;
 use App\Models\Transfer;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Valuestore\Valuestore;
+use Carbon\Carbon;
 
 class TransferExcel extends Command
 {
@@ -42,6 +45,14 @@ class TransferExcel extends Command
      */
     public function handle()
     {
+
+        $settings = Valuestore::make(storage_path('app/settings.json'));
+
+
+        $transfer_emails = $settings->get('transfer_emails');
+
+        $cycleDate = Carbon::now()->addHours(3);
+
         $transfer = Transfer::findOrFail($this->argument('id'));
         $file_name = $transfer->filters['files']['file_path'];
 
@@ -52,6 +63,9 @@ class TransferExcel extends Command
             $transfer->addMedia(storage_path('app/public/'.$file_name))
                 ->preservingOriginal()
                 ->toMediaCollection('transfers_transactions');
+                
+                //fire event transfer file generated
+                event(new TransferFileGenerated($transfer_emails, $cycleDate, $transfer));
         }
 
     }
