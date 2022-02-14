@@ -601,3 +601,128 @@ a.logo_bills {
 }
 
 
+.singlebBillSimple_page {
+  background-color: #fafafa;
+  min-height: 100vh;
+  padding: 15px 0;
+  @media print {
+    min-height: auto;
+    padding: 0;
+  } /* print */
+  .all_bill_page {
+    min-width: 500px;
+    max-width: 100%;
+    @media print {
+      min-width: 100%;
+    } /* print */
+    .change_lang {
+      @media print {
+        display: none !important;
+      } /* print */
+      a {
+        text-decoration: none;
+        font-size: 14px;
+        color: #000000;
+        &:hover {
+          color: #555555;
+        } /* hover */
+      } /* a */
+    } /* change_lang */
+    .single_bill_content {
+      border: 2px solid #aaa;
+      border-radius: 10px;
+      padding: 15px;
+      background-color: #ffffff;
+      color: #000000;
+      @media print {
+        border-radius: 0;
+        border: none;
+        padding: 5px;
+      } /* print */
+      .about {
+        img {
+          max-width: 100%;
+          max-height: 50px;
+          margin-bottom: 15px;
+        } /* img */
+        span {
+          font-size: 16px;
+        } /* span */
+        p {
+          font-size: 14px;
+        } /* p */
+      } /* about */
+      .bill_info {
+        border-top: 1px dashed #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+        div {
+          margin-bottom: 5px;
+          small {
+            font-size: 12px;
+            color: #000;
+          } /* small */
+          &:last-child {
+            margin-bottom: 0;
+          } /* last-child */
+        } /* div */
+      } /* bill_info */
+      .table_items {
+        border-top: 1px dashed #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+        table {
+          width: 100%;
+          th {
+            text-align: center;
+            padding: 5px;
+            vertical-align: middle;
+            font-size: 13px;
+            &:first-child {
+              text-align: right;
+              font-weight: 800;
+              font-size: 19px;
+            } /* first-child */
+          } /* th */
+          td {
+            text-align: center;
+            padding: 5px;
+            vertical-align: middle;
+            font-size: 13px;
+            &:first-child {
+              text-align: right;
+            } /* first-child */
+          } /* td */
+        } /* table */
+      } /* table_items */
+      #status {
+        border-top: 1px dashed #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+        .alert {
+          text-align: center;
+          padding: 10px;
+          font-size: 15px;
+          margin: 0;
+        } /* alert */
+      } /* status */
+      .qrCode_area {
+        border-top: 1px dashed #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+        a {
+          text-decoration: none;
+          svg {
+            width: 120px;
+            height: 120px;
+          } /* svg */
+          span {
+            margin-top: 5px;
+            color: #000000;
+            display: block;
+          } /* span */
+        } /* a */
+      } /* qrCode_area */
+    } /* single_bill_content */
+  } /* all_bill_page */
+} /* singlebBillSimple_page */
