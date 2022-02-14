@@ -154,7 +154,7 @@
             @endif
             @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
             <div class="d-flex justify-content-center">
-            {!! QrCode::size(50)->generate(route('invoice', ['id' => $bill->pay_id])) !!}
+            {!! generateQRcode($bill) !!}
              </div>
              <a class="d-flex justify-content-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">{{__('Tax Invoice')}}</a> 
             @endif
