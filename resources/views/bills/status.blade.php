@@ -1,86 +1,22 @@
 @extends('layouts.bill')
-
 @section('title', __('Bill No.') . ' ' . $bill->number)
-
 @section('content')
 
-  <div class="single_bill_page"  id="app">
-    <div class="container">
-      <div class="row  justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-6">
-          <div class="single_bill_content">
-            {{--         <a onclick="window.print(); return false;" class="float-right btn btn-primary mr-2 mb-2 rounded-sm d-inline-block " href="#" title="{{ __('Print') }}">
-          <img src="{{ asset('images/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
-        </a> --}}
-            <div class="change-lang">
-            @if($bill->user->settings->active_lang == 'all')
-              @if(App::isLocale('en'))
-                <a href="{{ route('paybillpagelang', ['id' => $bill->pay_id, 'lang' => 'ar'])}}" title="عربي">عربي</a>
-              @else
-                <a href="{{ route('paybillpagelang', ['id' => $bill->pay_id, 'lang' => 'en'])}}" title="English">English</a>
-              @endif
-            @endif
-          </div>
-            @if($bill->user->logo)
-              <div class="logo">
-                <img src="{{ $bill->user->logo_url }}" alt="logo">
-              </div><!-- logo -->
-            @endif
-
-            @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
-              <div class="title">
-                <span>{{ $bill->user->business_name }}</span>
-
-                @if(isset($bill->user->settings->header_bill))
-                  <p>{{ $bill->user->settings->header_bill }}</p>
-                @endif
-
-                <p>{{  $bill->user->business_address }}</p>
-                <b>{{  $bill->user->business_mobile }}</b>
-              </div><!-- title -->
-            @endif
-
-      <div id="status">
-        @if($bill->status == 'expired')
-            <div class="alert alert-danger" role="alert">
-              {{ __('this bill has been expired', ['number' => $bill->number ]) }}
-            </div>
-        @elseif($bill->status == 'paid')
-            <div class="alert alert-success" role="alert">
-              @if ($bill->depositTransaction)
-                {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
-              @else
-              {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
-              @endif
-            </div>
-        @elseif($bill->status == 'paid_cash')
-            <div class="alert alert-success" role="alert">
-              {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}
-            </div>
-        @elseif($bill->status == 'paid_bank_transfer')
-            <div class="alert alert-success" role="alert">
-              {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
-            </div>
-        @elseif($bill->status == 'canceled')
-            <div class="alert alert-danger" role="alert">
-              {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
-            </div>          
-          @elseif($bill->status == 'failed')
-            <div class="alert alert-danger" role="alert">
-              {{ __('this bill has been failed', ['number' => $bill->number ]) }}
-            </div>
-        @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
-            <div class="alert alert-warning" role="alert">
-              {{ __('this bill has been refunded', ['number' => $bill->number ]) }}
-            </div>
+  <div id="app" class="singlebBillSimple_page d-flex align-items-center justify-content-center flex-column">
+    <div class="all_bill_page">
+      <div class="change_lang d-flex align-items-center justify-content-end w-100 mb-1">
+        @if($bill->user->settings->active_lang == 'all')
+          @if(App::isLocale('en'))
+            <a href="{{ route('paybillpagelang', ['id' => $bill->pay_id, 'lang' => 'ar'])}}" title="عربي" class="d-block">عربي</a>
+          @else
+            <a href="{{ route('paybillpagelang', ['id' => $bill->pay_id, 'lang' => 'en'])}}" title="English" class="d-block">English</a>
+          @endif
         @endif
-      </div>
-
-                      
-          @if($errors->any())
-            <div class="alert alert-danger" role="alert">
-              {{ __($errors->first()) }}
-            </div>
+      </div><!-- change_lang -->
+      <div class="single_bill_content">
+        <div class="about d-flex align-items-center justify-content-center flex-column">
+          @if($bill->user->logo)
+            <img src="https://surepay.sa/dist/images/logo.png" alt="logo">
           @endif
 
             @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
@@ -164,80 +100,78 @@
       </div><!-- row -->
     </div><!-- container -->
 
-
-  </div><!-- single_bill_page -->
 @endsection
 
 
 @push('footer-scripts')
-<script type="text/javascript">
-  Echo.channel('bill.{{$bill->id}}')
-    .listen('BillStatusUpdated', (e) => {
-        console.log(e.bill.id);
-        var className;
+  <script type="text/javascript">
+    Echo.channel('bill.{{$bill->id}}')
+      .listen('BillStatusUpdated', (e) => {
+          console.log(e.bill.id);
+          var className;
 
-        switch(e.bill.status) {
-        case "pending":
-            className = "badge-info";
-            break;
-        case "paid":
-            $("#payment_method").remove();
-            $("#back_btn").remove();
-            $("#status").empty();
-            $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
-            break;
-        case "paid_cash":
-            $("#payment_method").remove();
-            $("#back_btn").remove();
-            $("#status").empty();
-            $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
-            break;
-        case "paid_bank_trnasfer":
-            $("#payment_method").remove();
-            $("#back_btn").remove();
-            $("#status").empty();
-            $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
-            break;
-        case "refunded":
-            $("#payment_method").remove();
-            $("#back_btn").remove();
-            $("#status").empty();
-            $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
-            break;
-        case "refunded_cash":
-            $("#payment_method").remove();
-            $("#back_btn").remove();
-            $("#status").empty();
-            $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
-            break;
-        case "refunded_bank_transfer":
-            $("#payment_method").remove();
-            $("#back_btn").remove();
-            $("#status").empty();
-            $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
-            break;
-        case "canceled":
-            $("#payment_method").remove();
-            $("#back_btn").remove();
-            $("#status").empty();
-            $("#status").append('<div class="alert alert-danger" role="alert">{{ __("this bill is canceled") }}</div>');
-            break;
-        case "expired":
-            $("#payment_method").remove();
-            $("#back_btn").remove();
-            $("#status").empty();
-            $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
-            break;
-        default:
-            $("#payment_method").remove();
-            $("#back_btn").remove();
-            $("#status").empty();
-            className = "badge-info";
-        }
-        // $('#status')
-        //   .text(e.bill.trans_status)
-        //   .removeClass('badge-light badge-danger badge-success badge-info')
-        //   .addClass(className);
-    });
-</script>
+          switch(e.bill.status) {
+          case "pending":
+              className = "badge-info";
+              break;
+          case "paid":
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
+              break;
+          case "paid_cash":
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
+              break;
+          case "paid_bank_trnasfer":
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
+              break;
+          case "refunded":
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
+              break;
+          case "refunded_cash":
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
+              break;
+          case "refunded_bank_transfer":
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
+              break;
+          case "canceled":
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-danger" role="alert">{{ __("this bill is canceled") }}</div>');
+              break;
+          case "expired":
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
+              break;
+          default:
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              className = "badge-info";
+          }
+          // $('#status')
+          //   .text(e.bill.trans_status)
+          //   .removeClass('badge-light badge-danger badge-success badge-info')
+          //   .addClass(className);
+      });
+  </script>
 @endpush
