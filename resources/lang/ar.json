@@ -125,7 +125,7 @@
 	"Date From To": "التاريخ من إلى",
 	"Payment Fees Vat": "الضرايب",
 	"Net": "الصافي",
-    "Refund": "استرداد",
+    "Refund": "استرداد المبلغ",
     "Paid At": "دفع في",
     "select date range": "اختر التاريخ",
     "invalid amount": "المبلغ غير صحيح",
@@ -674,5 +674,7 @@
   "Additional Information": "معلومات إضافية",
 
   "An amount of :amount has been transferred to your bank account. Operation number #:number" : "تم تحويل مبلغ :amount لحسابك البنكي. رقم العملية #:number",
-	"'An amount of :amount has been transferred to your bank account number #:bank_number. Operation number #:number'" : "تم تحويل مبلغ :amount لحسابك البنكي #:bank_number. برقم العملية #:number"
+	"'An amount of :amount has been transferred to your bank account number #:bank_number. Operation number #:number'" : "تم تحويل مبلغ :amount لحسابك البنكي #:bank_number. برقم العملية #:number",
+  "Copy payment link" : "نسخ رابط الدفع",
+  "Visit Payment Link" : "زيارة رابط الدفع"
 }

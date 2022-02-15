@@ -55,6 +55,7 @@ Table of Contents
 /* 00.Variables and Imports */
 
 @import url("https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700");
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&display=swap');
 
 $main-menu-item-height: 65px;
 $main-menu-width: 120px;
@@ -130,14 +131,14 @@ html {
 }
 
 body {
-    font-family: "Nunito", "Tajawal", sans-serif;
+    font-family: "Nunito", "Almarai", sans-serif;
     font-size: 0.8rem;
     font-weight: 400;
     color: $primary-color;
     background: $background-color;
 
     [dir="rtl"] & {
-        font-family: "Tajawal", "Nunito", sans-serif;
+        font-family: "Almarai", "Nunito", sans-serif;
     }
 
     /* rtl */
@@ -470,10 +471,10 @@ a {
 p {
     font-size: 0.85rem;
     line-height: 1.3rem;
-    font-family: "Nunito", "Tajawal", sans-serif;
+    font-family: "Nunito", "Almarai", sans-serif;
 
     [dir="rtl"] & {
-        font-family: "Tajawal", "Nunito", sans-serif;
+        font-family: "Almarai", "Nunito", sans-serif;
     }
 
     /* rtl */
@@ -2091,6 +2092,7 @@ button {
 
             li {
                 position: relative;
+                margin: 0;
 
                 span {
                     text-align: center;
@@ -2099,7 +2101,10 @@ button {
                 }
 
                 a {
-                    height: $main-menu-item-height;
+                    // height: $main-menu-item-height;
+                    height: 70px;
+                    // width: $main-menu-width;
+                    width: 100px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -2107,7 +2112,10 @@ button {
                     font-size: 13px;
                     font-style: normal;
                     font-weight: 400;
-                    border-bottom: 1px solid $separator-color-light;
+                    // border-bottom: 1px solid $separator-color-light;
+                    border: 1px solid transparent;
+                    margin: 0 auto;
+                    border-radius: 10px;
                     color: $primary-color;
                     transition: color $menu-collapse-time;
                     transition: background $menu-collapse-time;
@@ -2119,14 +2127,25 @@ button {
                 }
 
                 i {
-                    font-size: 25px;
-                    line-height: 40px;
+                  font-size: 25px;
+                  width: 35px;
+                  height: 35px;
+                  display: flex;
+                  align-items: center;
+                  margin: 0;
+                  justify-content: center;
                 }
 
-                &.active a {
+                &.active {
+                  a {
+                    background-color: rgba($theme-color-1, 0.03);
                     color: $theme-color-1;
-                }
-
+                    border-color: $theme-color-1;
+                    i {
+                      color: $theme-color-1;
+                    } /* i */
+                  } /* a */
+                } /* active */
                 &.active:after {
                     content: " ";
                     background: $theme-color-1;
@@ -2138,6 +2157,7 @@ button {
                     top: 50%;
                     transform: translateY(-50%);
                     left: 0;
+                    display: none;
                 }
 
                 &:last-of-type {
@@ -11916,3 +11936,31 @@ select:-webkit-autofill:focus {
     } /* label */
   } /* bill_change_status */
 } /* changeStatusModal */
+
+.tooltip {
+  &.bs-tooltip-top {
+    .arrow {
+      &::after {
+        border-top-color: #000;
+        .body-dark-mode & {
+          border-top-color: #ffffff;
+        } /* body-dark-mode */
+      } /* after */
+    } /* arrow */
+    .tooltip-inner {
+      background-color: #000000;
+      color: #ffffff;
+      border: none;
+      border-radius: .25rem;
+      font-size: 12px;
+      font-family: "Nunito", "Almarai", sans-serif;
+      [dir="rtl"] & {
+        font-family: "Almarai", "Nunito", sans-serif;
+      } /* rtl */
+      .body-dark-mode & {
+        background-color: #ffffff;
+        color: #000000;
+      } /* body-dark-mode */
+    } /* tooltip-inner */
+  }
+} /* tooltip */
