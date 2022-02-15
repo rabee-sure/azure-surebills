@@ -1,5 +1,12 @@
 <?php
- 
+
+use Salla\ZATCA\GenerateQrCode;
+use Salla\ZATCA\Tags\InvoiceDate;
+use Salla\ZATCA\Tags\InvoiceTaxAmount;
+use Salla\ZATCA\Tags\InvoiceTotalAmount;
+use Salla\ZATCA\Tags\Seller;
+use Salla\ZATCA\Tags\TaxNumber;
+
 if (!function_exists('getMastercardError')) {
     function getMastercardError($response)
     {
@@ -172,5 +179,21 @@ if (!function_exists('fact_number')) {
             return 0;
         else
             return $number;
+    }
+}
+
+if(!function_exists('generateQRcode')){
+    function generateQRcode($bill){
+
+        $displayQRCodeAsBase64 = GenerateQrCode::fromArray([
+            new Seller($bill->user->business_name_ar), // seller name        
+            new TaxNumber($bill->user->vat_registration_number), // seller tax number
+            new InvoiceDate($bill->paid_at), // invoice date as Zulu ISO8601 @see https://en.wikipedia.org/wiki/ISO_8601
+            new InvoiceTotalAmount($bill->total), // invoice total amount
+            new InvoiceTaxAmount($bill->tax_value) // invoice tax amount
+            // TODO :: Support others tags
+        ])->render();
+
+        return '<img src="'.$displayQRCodeAsBase64.'" alt="QR Code" />';
     }
 }

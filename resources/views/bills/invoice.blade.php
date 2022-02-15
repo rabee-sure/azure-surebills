@@ -24,7 +24,7 @@
         <tbody>
           <tr>
             <td style="width: 150px;height: 150px;vertical-align: middle;text-align: center;border: 2px solid #000;">
-              {!! QrCode::size(140)->generate(route('invoice', ['id' => $id])) !!}
+              {!! generateQRcode($bill) !!}
             </td>
           </tr>
         </tbody>

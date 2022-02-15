@@ -82,6 +82,7 @@
               </div><!-- form-group -->
             </div><!-- form-row -->
 
+            @if(Auth::user()->settings->add_tax_invoice)
             <div class="additional_information_button collapsed" data-toggle="collapse" href="#additional_information" role="button" aria-expanded="true" aria-controls="collapseExample">{{__('Additional Information')}}</div>
             <div class="collapse" id="additional_information">
               <div class="form-row mt-3">
@@ -119,8 +120,9 @@
                 </div>
               </div>
             </div><!-- collapseExample -->
-
+            @endif
             <hr>
+        
             <h1 class="mb-3">{{ __('Bill items') }}</h1>
             <div class="inner-repeater">
               <div data-repeater-list="items">
