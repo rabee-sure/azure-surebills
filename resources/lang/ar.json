@@ -670,5 +670,8 @@
   "Session update failed:": "خطأ في بدأ عملية الدفع، برجاء المحاولة مرة اخرى",
   "You can not refund this bill.": "لا يمكنك استرداد هذه الفاتورة.",
   "Amount is more than bill paid amount.": "المبلغ المسترد اكبر من من المبلغ المدفوع.",
-  "Additional Information": "معلومات إضافية"
+  "Additional Information": "معلومات إضافية",
+
+  "An amount of :amount has been transferred to your bank account. Operation number #:number" : "تم تحويل مبلغ :amount لحسابك البنكي. رقم العملية #:number",
+	"'An amount of :amount has been transferred to your bank account number #:bank_number. Operation number #:number'" : "تم تحويل مبلغ :amount لحسابك البنكي #:bank_number. برقم العملية #:number"
 }
