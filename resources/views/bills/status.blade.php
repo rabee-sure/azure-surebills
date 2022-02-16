@@ -116,7 +116,7 @@
           @endif
           <div class="d-flex align-items-center justify-content-between">
             <span>{{ __('Total amount') }}</span>
-            <span>{{ $bill->total}}</span>
+            <span>{{ $bill->total}} {{ __('SAR') }}</span>
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         @if($bill->status == 'expired')
