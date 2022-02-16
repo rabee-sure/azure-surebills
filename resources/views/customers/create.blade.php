@@ -34,6 +34,7 @@
                             <input name="notes" type="text" class="form-control" id="Notes" placeholder="{{__('Notes')}}">
                         </div>                        
 
+                        @if(Auth::user()->settings->add_tax_invoice)
                         <div class="form-group">
                             <label for="bullding_no">{{__('bullding_no')}}</label>
                             <input name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('bullding_no')}}">
@@ -66,6 +67,7 @@
                             <label for="vat_registration_number">{{__('vat_registration_number')}}</label>
                             <input name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{__('vat_registration_number')}}">
                         </div>
+                        @endif
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary login_button mr-3">{{__('Add')}}</button>

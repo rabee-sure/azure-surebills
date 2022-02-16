@@ -55,12 +55,13 @@ Table of Contents
 /* 00.Variables and Imports */
 
 @import url("https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700");
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&display=swap');
 
 $main-menu-item-height: 65px;
 $main-menu-width: 120px;
 $main-menu-width-lg: 110px;
 $main-menu-width-md: 100px;
-$main-menu-width-xs: 90px;
+$main-menu-width-xs: 110px;
 
 $sub-menu-width: 230px;
 $sub-menu-width-lg: 230px;
@@ -130,14 +131,14 @@ html {
 }
 
 body {
-    font-family: "Nunito", "Tajawal", sans-serif;
+    font-family: "Nunito", "Almarai", sans-serif;
     font-size: 0.8rem;
     font-weight: 400;
     color: $primary-color;
     background: $background-color;
 
     [dir="rtl"] & {
-        font-family: "Tajawal", "Nunito", sans-serif;
+        font-family: "Almarai", "Nunito", sans-serif;
     }
 
     /* rtl */
@@ -470,10 +471,10 @@ a {
 p {
     font-size: 0.85rem;
     line-height: 1.3rem;
-    font-family: "Nunito", "Tajawal", sans-serif;
+    font-family: "Nunito", "Almarai", sans-serif;
 
     [dir="rtl"] & {
-        font-family: "Tajawal", "Nunito", sans-serif;
+        font-family: "Almarai", "Nunito", sans-serif;
     }
 
     /* rtl */
@@ -2091,6 +2092,7 @@ button {
 
             li {
                 position: relative;
+                margin: 0;
 
                 span {
                     text-align: center;
@@ -2099,7 +2101,10 @@ button {
                 }
 
                 a {
-                    height: $main-menu-item-height;
+                    // height: $main-menu-item-height;
+                    height: 70px;
+                    // width: $main-menu-width;
+                    width: 100px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -2107,7 +2112,10 @@ button {
                     font-size: 13px;
                     font-style: normal;
                     font-weight: 400;
-                    border-bottom: 1px solid $separator-color-light;
+                    // border-bottom: 1px solid $separator-color-light;
+                    border: 1px solid transparent;
+                    margin: 0 auto;
+                    border-radius: 10px;
                     color: $primary-color;
                     transition: color $menu-collapse-time;
                     transition: background $menu-collapse-time;
@@ -2119,14 +2127,25 @@ button {
                 }
 
                 i {
-                    font-size: 25px;
-                    line-height: 40px;
+                  font-size: 25px;
+                  width: 35px;
+                  height: 35px;
+                  display: flex;
+                  align-items: center;
+                  margin: 0;
+                  justify-content: center;
                 }
 
-                &.active a {
+                &.active {
+                  a {
+                    background-color: rgba($theme-color-1, 0.03);
                     color: $theme-color-1;
-                }
-
+                    border-color: $theme-color-1;
+                    i {
+                      color: $theme-color-1;
+                    } /* i */
+                  } /* a */
+                } /* active */
                 &.active:after {
                     content: " ";
                     background: $theme-color-1;
@@ -2138,6 +2157,7 @@ button {
                     top: 50%;
                     transform: translateY(-50%);
                     left: 0;
+                    display: none;
                 }
 
                 &:last-of-type {
@@ -2168,7 +2188,7 @@ button {
             }
 
             ul li a {
-                height: $main-menu-item-height-mobile;
+                height: 80px;
             }
 
             ul li.active:after {
@@ -10849,7 +10869,7 @@ body.rtl {
 
 .daterangepicker {
     top: 80px !important;
-    font-family: Tajawal, Nunito, sans-serif !important;
+    font-family: Almarai, Nunito, sans-serif !important;
 }
 
 .search-sm input {
@@ -11916,3 +11936,307 @@ select:-webkit-autofill:focus {
     } /* label */
   } /* bill_change_status */
 } /* changeStatusModal */
+
+.tooltip {
+  &.bs-tooltip-top {
+    .arrow {
+      &::after {
+        border-top-color: #000;
+        .body-dark-mode & {
+          border-top-color: #ffffff;
+        } /* body-dark-mode */
+      } /* after */
+    } /* arrow */
+    .tooltip-inner {
+      background-color: #000000;
+      color: #ffffff;
+      border: none;
+      border-radius: .25rem;
+      font-size: 12px;
+      font-family: "Nunito", "Almarai", sans-serif;
+      [dir="rtl"] & {
+        font-family: "Almarai", "Nunito", sans-serif;
+      } /* rtl */
+      .body-dark-mode & {
+        background-color: #ffffff;
+        color: #000000;
+      } /* body-dark-mode */
+    } /* tooltip-inner */
+  }
+} /* tooltip */
+
+.singlebBillSimple_page {
+  background-color: #fafafa;
+  min-height: 100vh;
+  padding: 15px 0;
+  @media print {
+    min-height: auto;
+    padding: 0;
+  } /* print */
+  .all_bill_page {
+    min-width: 500px;
+    max-width: 100%;
+    @media (max-width: 767.98px) {
+      min-width: 100%;
+      padding: 0 10px;
+    }
+    @media print {
+      min-width: 100%;
+    } /* print */
+    .change_lang {
+      @media print {
+        display: none !important;
+      } /* print */
+      a {
+        text-decoration: none;
+        font-size: 14px;
+        color: #000000;
+        &:hover {
+          color: #555555;
+        } /* hover */
+      } /* a */
+    } /* change_lang */
+    .single_bill_content {
+      border: 2px solid #aaa;
+      border-radius: 10px;
+      padding: 15px;
+      background-color: #ffffff;
+      color: #000000;
+      @media print {
+        border-radius: 0;
+        border: none;
+        padding: 5px;
+      } /* print */
+      .about {
+        img {
+          max-width: 100%;
+          max-height: 50px;
+          margin-bottom: 15px;
+        } /* img */
+        .taxInvoiceText {
+          font-size: 14px;
+          margin: 0 auto 15px;
+        } /* taxInvoiceText */
+        span {
+          font-size: 16px;
+        } /* span */
+        p {
+          font-size: 14px;
+        } /* p */
+      } /* about */
+      .countdown {
+        padding: 10px;
+        margin: 9px auto;
+        border: 1px solid #ffeeba;
+        background-color: #fff3cd;
+        color: #856404;
+        span {
+          margin: 0 5px 0 0;
+          font-weight: bold;
+        } /* span */
+      } /* countdown */
+      .bill_info {
+        border-top: 1px dashed #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+        div {
+          margin-bottom: 5px;
+          font-size: 13px;
+          small {
+            font-size: 11px;
+            color: #000;
+          } /* small */
+          &:last-child {
+            margin-bottom: 0;
+          } /* last-child */
+        } /* div */
+      } /* bill_info */
+      .table_items {
+        border-top: 1px dashed #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+        table {
+          width: 100%;
+          th {
+            text-align: center;
+            padding: 5px;
+            vertical-align: middle;
+            font-size: 13px;
+            &:first-child {
+              text-align: right;
+            } /* first-child */
+          } /* th */
+          td {
+            text-align: center;
+            padding: 5px;
+            vertical-align: middle;
+            font-size: 13px;
+            &:first-child {
+              text-align: right;
+            } /* first-child */
+          } /* td */
+        } /* table */
+      } /* table_items */
+      #status {
+        border-top: 1px dashed #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+        .alert {
+          text-align: center;
+          padding: 10px;
+          font-size: 14px;
+          margin: 0;
+        } /* alert */
+      } /* status */
+      .qrCode_area {
+        border-top: 1px dashed #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+        a {
+          text-decoration: none;
+          svg, img {
+            width: 120px;
+            height: 120px;
+          } /* svg */
+          span {
+            color: #000000;
+            display: block;
+          } /* span */
+        } /* a */
+      } /* qrCode_area */
+    } /* single_bill_content */
+  } /* all_bill_page */
+} /* singlebBillSimple_page */
+
+.billAndStatus {
+  &.billAndStatus_oneCol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @media print {
+      display: block;
+    }
+    .showBill {
+      min-width: 500px;
+      max-width: 100%;
+      @media (max-width: 767.98px) {
+        min-width: 100%;
+      }
+    } /* showBill */
+  } /* billAndStatus_oneCol */
+  &.billAndStatus_twoCol {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    @media (max-width: 767.98px) {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    @media print {
+      display: block;
+    }
+  } /* billAndStatus_twoCol */
+  .showBill {
+    border: 2px solid #aaa;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #ffffff;
+    color: #000000;
+    @media print {
+      border-radius: 0;
+      border: none;
+      padding: 5px;
+    } /* print */
+    .about {
+      img {
+        max-width: 100%;
+        max-height: 50px;
+        margin-bottom: 15px;
+      } /* img */
+      .taxInvoiceText {
+        font-size: 14px;
+        margin: 0 auto 15px;
+      } /* taxInvoiceText */
+      span {
+        font-size: 16px;
+      } /* span */
+      p {
+        font-size: 14px;
+      } /* p */
+    } /* about */
+    #status {
+      border-top: 1px dashed #ddd;
+      padding-top: 10px;
+      margin-top: 10px;
+      .alert {
+        text-align: center;
+        padding: 10px;
+        font-size: 15px;
+        margin: 0;
+        border-radius: .25rem;
+      } /* alert */
+    } /* status */
+    .bill_info {
+      border-top: 1px dashed #ddd;
+      padding-top: 10px;
+      margin-top: 10px;
+      div {
+        margin-bottom: 5px;
+        font-size: 13px;
+        small {
+          font-size: 11px;
+          color: #000;
+        } /* small */
+        &:last-child {
+          margin-bottom: 0;
+        } /* last-child */
+      } /* div */
+    } /* bill_info */
+    .table_items {
+      border-top: 1px dashed #ddd;
+      padding-top: 10px;
+      margin-top: 10px;
+      table {
+        width: 100%;
+        th {
+          text-align: center;
+          padding: 5px;
+          vertical-align: middle;
+          font-size: 13px;
+          &:first-child {
+            text-align: right;
+          } /* first-child */
+        } /* th */
+        td {
+          text-align: center;
+          padding: 5px;
+          vertical-align: middle;
+          font-size: 13px;
+          &:first-child {
+            text-align: right;
+          } /* first-child */
+        } /* td */
+      } /* table */
+    } /* table_items */
+    .customer_notes {
+      border-top: 1px dashed #ddd;
+      padding-top: 10px;
+      margin-top: 10px;
+    } /* customer_notes */
+    .qrCode_area {
+      border-top: 1px dashed #ddd;
+      padding-top: 10px;
+      margin-top: 10px;
+      a {
+        text-decoration: none;
+        svg, img {
+          width: 120px;
+          height: 120px;
+        } /* svg */
+        span {
+          color: #000000;
+          display: block;
+        } /* span */
+      } /* a */
+    } /* qrCode_area */
+  } /* showBill */
+} /* billAndStatus */
