@@ -1,4 +1,4 @@
-<div id="paymentslog" class="col-12 col-md-6 col-lg-6 col-xl-6">
+<div id="paymentslog">
     <div class="card">
         <div class="card-body">
             <h2 class="mb-3">{{__('Payment Transactions')}}</h2>
@@ -74,4 +74,4 @@
             </div><!-- table-responsive -->
         </div><!-- card-body -->
     </div><!-- card -->
-</div><!-- col-12 -->
+</div><!-- paymentslog -->

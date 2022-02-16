@@ -19,9 +19,9 @@
             <img src="{{ $bill->user->logo_url }}" alt="logo">
           @endif
           @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
-          <span class="d-block font-weight-bold">{{ $bill->user->business_name }}</span>
-          <p class="d-block mb-0">{{  $bill->user->business_address }}</p>
-          <b class="d-block font-weight-normal">{{  $bill->user->business_mobile }}</b>
+            <span class="d-block font-weight-bold">{{ $bill->user->business_name }}</span>
+            <p class="d-block mb-0">{{  $bill->user->business_address }}</p>
+            <b class="d-block font-weight-normal">{{  $bill->user->business_mobile }}</b>
           @endif
         </div><!-- about -->
 
@@ -104,47 +104,47 @@
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         @if($bill->status == 'expired')
-            <div id="status">
-              <div class="alert alert-danger"> {{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>
-            </div><!-- status -->
+          <div id="status">
+            <div class="alert alert-danger"> {{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>
+          </div><!-- status -->
         @elseif($bill->status == 'paid')
-            <div id="status">
-              <div class="alert alert-success"> 
-                @if ($bill->depositTransaction)
-                  {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
-                @else
+          <div id="status">
+            <div class="alert alert-success"> 
+              @if ($bill->depositTransaction)
+                {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
+              @else
                 {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
-                @endif
-              </div>
-            </div><!-- status -->
+              @endif
+            </div>
+          </div><!-- status -->
         @elseif($bill->status == 'paid_cash')
-            <div id="status">
-              <div class="alert alert-success"> {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}</div>
-            </div><!-- status -->
+          <div id="status">
+            <div class="alert alert-success"> {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}</div>
+          </div><!-- status -->
         @elseif($bill->status == 'paid_bank_transfer')
-            <div id="status">
-              <div class="alert alert-success"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}</div>
-            </div><!-- status -->
+          <div id="status">
+            <div class="alert alert-success"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}</div>
+          </div><!-- status -->
         @elseif($bill->status == 'canceled')
-            <div id="status">
-              <div class="alert alert-danger"> {{ __('this bill has been canceled', ['number' => $bill->number ]) }}</div>
-            </div><!-- status -->         
+          <div id="status">
+            <div class="alert alert-danger"> {{ __('this bill has been canceled', ['number' => $bill->number ]) }}</div>
+          </div><!-- status -->         
         @elseif($bill->status == 'failed')
-            <div id="status">
-              <div class="alert alert-danger"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
-            </div><!-- status -->     
+          <div id="status">
+            <div class="alert alert-danger"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
+          </div><!-- status -->     
         @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
-            <div id="status">
-              <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
-            </div><!-- status -->
+          <div id="status">
+            <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
+          </div><!-- status -->
         @endif
         @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
-        <div class="qrCode_area">
-          <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
-            {!! generateQRcode($bill) !!}
-            <span>{{ __('Tax Invoice') }}</span>
-          </a>
-        </div><!-- qrCode_area -->
+          <div class="qrCode_area">
+            <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
+              {!! generateQRcode($bill) !!}
+              <span>{{ __('Tax Invoice') }}</span>
+            </a>
+          </div><!-- qrCode_area -->
         @endif
       </div><!-- single_bill_content -->
     </div><!-- all_bill_page -->
