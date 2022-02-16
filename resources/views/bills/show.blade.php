@@ -93,7 +93,7 @@
       @if($bill->user->logo)
         <img src="{{ $bill->user->logo_url }}" alt="logo">
       @endif
-      @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
+      @if($bill->user->settings->add_tax_invoice)
         <div class="taxInvoiceText">{{ __('Simplified Tax Invoice') }}</div>
       @endif
       <span class="d-block font-weight-bold">{{ $bill->user->business_name }}</span>
@@ -139,23 +139,32 @@
       </div><!-- status -->
     @endif
     <div class="bill_info">
-      <div class="d-flex align-items-center justify-content-between">
-        <span>{{__('Due on')}}</span>
-        <span>{{ $bill->dateLocalization()}}</span>
-      </div><!-- d-flex -->
-      @if($bill->user->vat_registration_number)
+      @if($bill->user->settings->add_tax_invoice)
         <div class="d-flex align-items-center justify-content-between">
-          <span>{{ __('VAT Registration Number') }}</span>
-          <span>{{ $bill->user->vat_registration_number }}</span>
+          <span>{{ __('Bill No.') }}</span>
+          <span>{{ $bill->number }}</span>
         </div><!-- d-flex -->
+        <div class="d-flex align-items-center justify-content-between">
+          <span>{{ __('Bill created date') }}</span>
+          <span>{{ $bill->created_at->format('d/m/Y')}}</span>
+        </div><!-- d-flex -->
+        @if($bill->user->vat_registration_number)
+          <div class="d-flex align-items-center justify-content-between">
+            <span>{{ __('Organization VAT Registration Number') }}</span>
+            <span>{{ $bill->user->vat_registration_number }}</span>
+          </div><!-- d-flex -->
+        @endif
+      @else
+      <div class="d-flex align-items-center justify-content-between">
+        <span>{{ __('No.') }}</span>
+        <span>{{ $bill->number }}</span>
+      </div><!-- d-flex -->
+      <div class="d-flex align-items-center justify-content-between">
+        <span>{{ __('Date') }}</span>
+        <span>{{ $bill->created_at->format('d/m/Y')}}</span>
+      </div><!-- d-flex -->
       @endif
-      <div class="d-flex align-items-center justify-content-between">
-        <span>{{ __('Bill No.') }}</span>
-        <span>#{{ $bill->number }}</span>
-      </div><!-- d-flex -->
-      <div class="d-flex align-items-center justify-content-between">
-        <span>{{ $bill->created_at->format('Y/m/d')}}</span>
-      </div><!-- d-flex -->
+      
     </div><!-- bill_info -->
     <div class="table_items">
       <table>
@@ -164,6 +173,11 @@
             <th>{{ __('Description') }}</th>
             <th>{{ __('Price') }}</th>
             <th>{{ __('Quantity') }}</th>
+            @if($bill->user->settings->add_tax_invoice)
+            <th width="35%">{{ __('Total include added tax') }}</th>
+            @else
+            <th width="35%">{{ __('Total') }}</th>
+            @endif
           </tr>
         </thead>
         <tbody>
@@ -172,6 +186,11 @@
             <td>{!! $item->product_name !!}</td>
             <td>{{ $item->product_price  }} {{ __('SAR') }}</td>
             <td>{{ $item->quantity  }}</td>
+            @if( $bill->add_tax)
+            <td>{{ ($item->product_price * $item->quantity) + $bill->vat  }} {{ __('SAR') }}</td>
+            @else
+            <td>{{ $item->product_price * $item->quantity }} {{ __('SAR') }}</td>
+            @endif
           </tr>
           @endforeach
         </tbody>
@@ -180,26 +199,18 @@
     <div class="bill_info">
       @if( $bill->add_tax || $bill->add_discount)
         <div class="d-flex align-items-center justify-content-between">
-          <span>{{ __('Subtotal') }}</span>
+          <div class="d-flex align-items-start justify-content-between flex-column">
+            <span>{{ __('Total amount') }}</span>
+            <small>( {{ __('Exclude added tax') }} )</small>
+          </div>
           <span>{{ $bill->sub_total }} {{ __('SAR') }}</span>
         </div><!-- d-flex -->
       @endif
       @if( $bill->add_discount)
-        @if($bill->discount_type == 'percentage')
-          <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Discount') }} ({{ $bill->discount_value }}%)</span>
-            <span>{{ $bill->discount }}  {{ __('SAR') }}</span>
-          </div><!-- d-flex -->
-        @else
-          <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Discount') }} ({{ $bill->discount_value }}  {{ __('SAR') }})</span>
-            <span>{{ $bill->discount }}  {{ __('SAR') }}</span>
-          </div><!-- d-flex -->
-        @endif
-        <div class="d-flex align-items-center justify-content-between">
-          <span>{{ __('Subtotal - Discount') }}</span>
-          <span>{{ $bill->sub_total- $bill->discount }}  {{ __('SAR') }}</span>
-        </div><!-- d-flex -->
+      <div class="d-flex align-items-center justify-content-between">
+        <span>{{ __('Discount amount') }}</span>
+        <span>{{ $bill->discount }} {{ __('SAR') }}</span>
+      </div><!-- d-flex -->
       @endif
       @if( $bill->user->pay_fees == 'client')
         <div class="d-flex align-items-center justify-content-between">
@@ -209,7 +220,7 @@
       @endif
       @if( $bill->add_tax)
         <div class="d-flex align-items-center justify-content-between">
-          <span>{{ __('Vat') }} ({{ $bill->tax_value }}%)</span>
+          <span>{{ __('Added tax value') }}</span>
           <span>{{ $bill->vat }}  {{ __('SAR') }}</span>
         </div><!-- d-flex -->
       @endif
@@ -225,15 +236,21 @@
           <span>{{ $bill->channel_extra_vat }} {{ __('SAR') }}</span>
         </div><!-- d-flex -->
       @endif
+      @if( $bill->refund_amount)
+        <div class="d-flex align-items-center justify-content-between">
+          <span>{{ __('Refund Amount') }}</span>
+          <span>{{ $bill->refund_amount }}  {{ __('SAR') }}</span>
+        </div><!-- d-flex -->
+      @endif
       <div class="d-flex align-items-center justify-content-between">
-        <span>{{ __('Total') }}</span>
+        <span>{{ __('Total amount') }}</span>
         <span>{{ $bill->total}}  {{ __('SAR') }}</span>
       </div><!-- d-flex -->
     </div><!-- bill_info -->
     @if($bill->customer_notes)
       <div class="customer_notes">{{$bill->customer_notes}}</div> 
     @endif
-    @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
+    @if($bill->user->settings->add_tax_invoice)
       <div class="qrCode_area">
         <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
           {!! generateQRcode($bill) !!}
