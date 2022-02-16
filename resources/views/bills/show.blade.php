@@ -93,6 +93,9 @@
       @if($bill->user->logo)
         <img src="{{ $bill->user->logo_url }}" alt="logo">
       @endif
+      @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
+        <div class="taxInvoiceText">{{ __('Simplified Tax Invoice') }}</div>
+      @endif
       <span class="d-block font-weight-bold">{{ $bill->user->business_name }}</span>
       @if(isset($bill->user->settings->header_bill))
         <p class="d-block mb-0">{{ $bill->user->settings->header_bill }}</p>

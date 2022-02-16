@@ -18,30 +18,32 @@
           @if($bill->user->logo)
             <img src="{{ $bill->user->logo_url }}" alt="logo">
           @endif
+          @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
+            <div class="taxInvoiceText">{{ __('Simplified Tax Invoice') }}</div>
+          @endif
           @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
             <span class="d-block font-weight-bold">{{ $bill->user->business_name }}</span>
             <p class="d-block mb-0">{{  $bill->user->business_address }}</p>
             <b class="d-block font-weight-normal">{{  $bill->user->business_mobile }}</b>
           @endif
         </div><!-- about -->
-
         @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
-        <div class="bill_info">
-          <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Bill No.') }}</span>
-            <span>{{ $bill->number }}</span>
-          </div><!-- d-flex -->
-          <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Bill created date') }}</span>
-            <span>{{ $bill->created_at->format('d/m/Y')}}</span>
-          </div><!-- d-flex -->
-          <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Organization VAT Registration Number') }}</span>
-            @if($bill->user->vat_registration_number)
-            <span>{{ $bill->user->vat_registration_number }}</span>
-            @endif
-          </div><!-- d-flex -->
-        </div><!-- bill_info -->
+          <div class="bill_info">
+            <div class="d-flex align-items-center justify-content-between">
+              <span>{{ __('Bill No.') }}</span>
+              <span>{{ $bill->number }}</span>
+            </div><!-- d-flex -->
+            <div class="d-flex align-items-center justify-content-between">
+              <span>{{ __('Bill created date') }}</span>
+              <span>{{ $bill->created_at->format('d/m/Y')}}</span>
+            </div><!-- d-flex -->
+            <div class="d-flex align-items-center justify-content-between">
+              <span>{{ __('Organization VAT Registration Number') }}</span>
+              @if($bill->user->vat_registration_number)
+              <span>{{ $bill->user->vat_registration_number }}</span>
+              @endif
+            </div><!-- d-flex -->
+          </div><!-- bill_info -->
         @endif
         <div class="table_items">
           <table>
