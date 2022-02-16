@@ -16,89 +16,139 @@
       <div class="single_bill_content">
         <div class="about d-flex align-items-center justify-content-center flex-column">
           @if($bill->user->logo)
-            <img src="https://surepay.sa/dist/images/logo.png" alt="logo">
+            <img src="{{ $bill->user->logo_url }}" alt="logo">
           @endif
+          @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
+          <span class="d-block font-weight-bold">{{ $bill->user->business_name }}</span>
+          <p class="d-block mb-0">{{  $bill->user->business_address }}</p>
+          <b class="d-block font-weight-normal">{{  $bill->user->business_mobile }}</b>
+          @endif
+        </div><!-- about -->
 
-            @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
-              <div class="date_time">
-                <span>
-                  {{__('Due on')}} {{ $bill->dateLocalization()}}
-                  @if($bill->user->vat_registration_number)
-                    <div class="vat_reg"> {{ __('VAT Registration Number') }} : {{ $bill->user->vat_registration_number }}</div>
-                  @endif
-                </span>
-                <div>
-                  <p>{{ __('Bill No.') }} #{{ $bill->number }}</p>
-                  <b>{{ $bill->created_at->format('Y/m/d')}}</b>
-                </div>
-              </div><!-- date_time -->
-              <div class="shopping_cart">
-                @foreach($bill->items as $item)
-                  <div class="details_pay">
-                    <p>{!! $item->product_name !!}</p>
-                    <b>X {{ $item->quantity  }}</b>
-                    <b>{{ $item->product_price  }} {{ __('SAR') }}</b>
-                  </div><!-- details_pay -->
-                @endforeach
-              </div><!-- shopping_cart -->
-              <div class="total_bill">
-                @if( $bill->add_tax || $bill->add_discount || $bill->refund_amount)
-                  <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} {{ __('SAR') }}</p>
-                @endif
-                @if( $bill->add_discount)
-                  @if($bill->discount_type == 'percentage')
-                    <p>{{ __('Discount') }} ({{ $bill->discount_value }}%) : {{ $bill->discount }} {{ __('SAR') }}</p>
-                  @else
-                    <p>{{ __('Discount') }}  ({{ $bill->discount_value }} {{ __('SAR') }}) : {{ $bill->discount }} {{ __('SAR') }}</p>
-                  @endif
-                  <p>{{ __('Subtotal - Discount') }} : {{ $bill->sub_total- $bill->discount }} {{ __('SAR') }}</p>
-                @endif
+        @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
+        <div class="bill_info">
+          <div class="d-flex align-items-center justify-content-between">
+            <span>{{ __('Bill No.') }}</span>
+            <span>{{ $bill->number }}</span>
+          </div><!-- d-flex -->
+          <div class="d-flex align-items-center justify-content-between">
+            <span>{{ __('Bill created date') }}</span>
+            <span>{{ $bill->created_at->format('d/m/Y')}}</span>
+          </div><!-- d-flex -->
+          <div class="d-flex align-items-center justify-content-between">
+            <span>{{ __('Organization VAT Registration Number') }}</span>
+            @if($bill->user->vat_registration_number)
+            <span>{{ $bill->user->vat_registration_number }}</span>
+            @endif
+          </div><!-- d-flex -->
+        </div><!-- bill_info -->
+        @endif
+        <div class="table_items">
+          <table>
+            <thead>
+              <tr>
+                <th>{{ __('Description') }}</th>
+                <th>{{ __('Price') }}</th>
+                <th>{{ __('Quantity') }}</th>
+                <th width="35%">{{ __('Total include added tax') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($bill->items as $item)
+              <tr>
+                <td>{!! $item->product_name !!}</td>
+                <td>{{ $item->product_price  }} {{ __('SAR') }}</td>
+                <td>{{ $item->quantity  }}</td>
                 @if( $bill->add_tax)
-                  <p>{{ __('Vat') }} ({{ $bill->tax_value }}%) : {{ $bill->vat }} {{ __('SAR') }}</p>
+                <td>{{ $item->product_price + $bill->vat  }} {{ __('SAR') }}</td>
+                @else
+                <td>{{ $item->product_price }} {{ __('SAR') }}</td>
                 @endif
-                @if( $bill->refund_amount)
-                  <p>{{ __('Refund Amount') }} : {{ $bill->refund_amount }}  {{ __('SAR') }}</p>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div><!-- table_items -->
+        <div class="bill_info">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-start justify-content-between flex-column">
+              <span>{{ __('Total amount') }}</span>
+              <small>( {{ __('Exclude added tax') }} )</small>
+            </div>
+            @if( $bill->add_tax || $bill->add_discount || $bill->refund_amount)
+            <span>{{ $bill->sub_total }} {{ __('SAR') }}</span>
+            @endif
+          </div><!-- d-flex -->
+          @if( $bill->add_discount)
+          <div class="d-flex align-items-center justify-content-between">
+            <span>{{ __('Discount') }} @if($bill->discount_type == 'percentage') ({{ $bill->discount_value }}%) @else ({{ $bill->discount_value }} {{ __('SAR') }}) @endif</span>
+            <span>{{ $bill->discount }} {{ __('SAR') }}</span>
+          </div><!-- d-flex -->
+          @endif
+          @if( $bill->add_tax)
+          <div class="d-flex align-items-center justify-content-between">
+            <span>{{ __('Added tax value') }}</span>
+            <span>{{ $bill->vat }} {{ __('SAR') }}</span>
+          </div><!-- d-flex -->
+          @endif
+          @if( $bill->refund_amount)
+            <p>{{ __('Refund Amount') }} : {{ $bill->refund_amount }}  {{ __('SAR') }}</p>
+            <div class="d-flex align-items-center justify-content-between">
+              <span>{{ __('Refund Amount') }}</span>
+              <span>{{ $bill->refund_amount }}  {{ __('SAR') }}</span>
+            </div><!-- d-flex -->
+          @endif
+          <div class="d-flex align-items-center justify-content-between">
+            <span>{{ __('Total amount') }}</span>
+            <span>{{ $bill->total}}</span>
+          </div><!-- d-flex -->
+        </div><!-- bill_info -->
+        @if($bill->status == 'expired')
+            <div id="status">
+              <div class="alert alert-danger"> {{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>
+            </div><!-- status -->
+        @elseif($bill->status == 'paid')
+            <div id="status">
+              <div class="alert alert-success"> 
+                @if ($bill->depositTransaction)
+                  {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
+                @else
+                {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
                 @endif
-                <b>{{ __('Total') }} : {{ $bill->total}} {{ __('SAR') }}</b>
-              </div><!-- total_bill -->
-              @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
-            <div class="customer_information">
-              <!-- <div class="name">Customer Information</div> -->
-              <p>{{ $bill->customer_name}}</p>
-              <p class="ltr">+966{{ $bill->customer_mobile}}</p>
-              <p>{{ $bill->customer_email}}</p>
-              @if(isset($bill->user->settings->footer_bill))
-                <p>{{ $bill->user->settings->footer_bill }}</p>
-              @endif
-            </div><!-- customer_information -->
-
-            @else
-              <div class="date_time">
-                <b>{{ $bill->total}}  {{ __('SAR') }}</b>
               </div>
-            @endif
-            
-            @if($bill->application && $bill->status != 'paid')
-              <div id="back_btn" class="text-center">
-                <a href="{{ $bill->back_url}}" class="btn btn-light">{{__('Back')}}
-                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M7.854 4.646a.5.5 0 0 1 0 .708L5.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z"/>
-                    <path fill-rule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h6.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z"/>
-                  </svg>
-                </a>
-              </div>
-            @endif
-            @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
-            <div class="d-flex justify-content-center">
+            </div><!-- status -->
+        @elseif($bill->status == 'paid_cash')
+            <div id="status">
+              <div class="alert alert-success"> {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}</div>
+            </div><!-- status -->
+        @elseif($bill->status == 'paid_bank_transfer')
+            <div id="status">
+              <div class="alert alert-success"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}</div>
+            </div><!-- status -->
+        @elseif($bill->status == 'canceled')
+            <div id="status">
+              <div class="alert alert-danger"> {{ __('this bill has been canceled', ['number' => $bill->number ]) }}</div>
+            </div><!-- status -->         
+        @elseif($bill->status == 'failed')
+            <div id="status">
+              <div class="alert alert-danger"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
+            </div><!-- status -->     
+        @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
+            <div id="status">
+              <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
+            </div><!-- status -->
+        @endif
+        @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
+        <div class="qrCode_area">
+          <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
             {!! generateQRcode($bill) !!}
-             </div>
-             <a class="d-flex justify-content-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">{{__('Tax Invoice')}}</a> 
-            @endif
-          </div><!-- single_bill_content -->
-          <a target="_blank" title="Sure Bills" class="logo_bills"></a>
-        </div><!-- col-12 -->
-      </div><!-- row -->
-    </div><!-- container -->
+            <span>{{ __('Tax Invoice') }}</span>
+          </a>
+        </div><!-- qrCode_area -->
+        @endif
+      </div><!-- single_bill_content -->
+    </div><!-- all_bill_page -->
+  </div><!-- singlebBillSimple_page -->
 
 @endsection
 

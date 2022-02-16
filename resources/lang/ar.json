@@ -107,7 +107,7 @@
 	"Invoice total is less than 2 SAR": "قيمة الفاتورة الاجمالية اقل من 2 ريال",
   	"Invoice total is more than 14000 SAR": "قيمة الفاتورة الاجمالية اكثر من 14000 ريال",
   	"Invoice total is more than :amount SAR": "قيمة الفاتورة الاجمالية اكثر من :amount ريال",
-	"Tax Invoice": "فاتورة ضريبية",
+	"Tax Invoice": "الفاتورة الضريبية",
   	"after add discount": "بعد إضافة الخصم",
 	"Sorry, you cannot delete this record because it has dependencies": "عذرا ، لا يمكنك حذف هذا السجل لأن له تبعيات",
 	"You've got a payment! :total SAR from :name": "لقد حصلت على دفعة! :total ريال من :name",
@@ -675,6 +675,13 @@
 
   "An amount of :amount has been transferred to your bank account. Operation number #:number" : "تم تحويل مبلغ :amount لحسابك البنكي. رقم العملية #:number",
 	"'An amount of :amount has been transferred to your bank account number #:bank_number. Operation number #:number'" : "تم تحويل مبلغ :amount لحسابك البنكي #:bank_number. برقم العملية #:number",
+
+	"Bill created date" : "تاريخ إصدار الفاتورة",
+	"Organization VAT Registration Number" : "الرقم الضريبي للمنشأة",
+	"Total include added tax" : "المجموع شامل ضريبة القيمة المضافة",
+	"Total amount" : "إجمالي المبلغ",
+	"Exclude added tax" : "غير شامل لضريبة القيمة المضافة",
+	"Added tax value" : "مجموع ضريبة القيمة المضافة",
   "Copy payment link" : "نسخ رابط الدفع",
   "Visit Payment Link" : "زيارة رابط الدفع"
 }
