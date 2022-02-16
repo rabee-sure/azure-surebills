@@ -27,6 +27,11 @@
               {!! generateQRcode($bill) !!}
             </td>
           </tr>
+          <tr>
+            <td style="vertical-align: middle;text-align: center;font-size: 12px;">
+              <span style="display: block;margin-top: 5px;line-height: 1.5;">تم إنشاء كود الاستجابة السريعة بواسطة حل الفوترة الإلكترونية لدافعي الضرائب وفقاً لمواصفات ZATCA.</span>
+            </td>
+          </tr>
         </tbody>
       </table>
       <table style="width: 75%;float: left;">

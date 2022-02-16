@@ -254,6 +254,7 @@
       <div class="qrCode_area">
         <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
           {!! generateQRcode($bill) !!}
+          <p>تم إنشاء كود الاستجابة السريعة بواسطة حل الفوترة الإلكترونية لدافعي الضرائب وفقاً لمواصفات ZATCA.</p>
           <span>{{ __('Tax Invoice') }}</span>
         </a>
       </div><!-- qrCode_area -->
