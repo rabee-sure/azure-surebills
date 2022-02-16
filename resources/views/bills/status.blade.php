@@ -29,20 +29,31 @@
         </div><!-- about -->
         @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
           <div class="bill_info">
+            @if($bill->user->settings->add_tax_invoice)
+              <div class="d-flex align-items-center justify-content-between">
+                <span>{{ __('Bill No.') }}</span>
+                <span>{{ $bill->number }}</span>
+              </div><!-- d-flex -->
+              <div class="d-flex align-items-center justify-content-between">
+                <span>{{ __('Bill created date') }}</span>
+                <span>{{ $bill->created_at->format('d/m/Y')}}</span>
+              </div><!-- d-flex -->
+              @if($bill->user->vat_registration_number)
+                <div class="d-flex align-items-center justify-content-between">
+                  <span>{{ __('Organization VAT Registration Number') }}</span>
+                  <span>{{ $bill->user->vat_registration_number }}</span>
+                </div><!-- d-flex -->
+              @endif
+            @else
             <div class="d-flex align-items-center justify-content-between">
-              <span>{{ __('Bill No.') }}</span>
+              <span>{{ __('No.') }}</span>
               <span>{{ $bill->number }}</span>
             </div><!-- d-flex -->
             <div class="d-flex align-items-center justify-content-between">
-              <span>{{ __('Bill created date') }}</span>
+              <span>{{ __('Date') }}</span>
               <span>{{ $bill->created_at->format('d/m/Y')}}</span>
             </div><!-- d-flex -->
-            <div class="d-flex align-items-center justify-content-between">
-              <span>{{ __('Organization VAT Registration Number') }}</span>
-              @if($bill->user->vat_registration_number)
-              <span>{{ $bill->user->vat_registration_number }}</span>
-              @endif
-            </div><!-- d-flex -->
+            @endif
           </div><!-- bill_info -->
         @endif
         <div class="table_items">
@@ -52,7 +63,9 @@
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Price') }}</th>
                 <th>{{ __('Quantity') }}</th>
+                @if($bill->user->settings->add_tax_invoice)
                 <th width="35%">{{ __('Total include added tax') }}</th>
+                @endif
               </tr>
             </thead>
             <tbody>
@@ -62,9 +75,9 @@
                 <td>{{ $item->product_price  }} {{ __('SAR') }}</td>
                 <td>{{ $item->quantity  }}</td>
                 @if( $bill->add_tax)
-                <td>{{ $item->product_price + $bill->vat  }} {{ __('SAR') }}</td>
+                <td>{{ ($item->product_price * $item->quantity) + $bill->vat  }} {{ __('SAR') }}</td>
                 @else
-                <td>{{ $item->product_price }} {{ __('SAR') }}</td>
+                <td>{{ $item->product_price * $item->quantity }} {{ __('SAR') }}</td>
                 @endif
               </tr>
               @endforeach
@@ -94,7 +107,6 @@
           </div><!-- d-flex -->
           @endif
           @if( $bill->refund_amount)
-            <p>{{ __('Refund Amount') }} : {{ $bill->refund_amount }}  {{ __('SAR') }}</p>
             <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('Refund Amount') }}</span>
               <span>{{ $bill->refund_amount }}  {{ __('SAR') }}</span>
