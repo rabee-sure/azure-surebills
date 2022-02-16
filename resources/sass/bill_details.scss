@@ -1,6 +1,6 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-@import url('https://fonts.googleapis.com/css?family=Tajawal');
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&display=swap');
 
 // Variables
 @import 'variables';
@@ -18,10 +18,10 @@
 
 body {
   background: #fff;
-  font-family: 'Nunito', 'Tajawal';
+  font-family: 'Nunito', 'Almarai';
   [dir="rtl"] & {
     direction: rtl;
-    font-family: 'Tajawal', 'Nunito';
+    font-family: 'Almarai', 'Nunito';
   } /* rtl */
 }
 /* single_bill_page */
@@ -612,6 +612,10 @@ a.logo_bills {
   .all_bill_page {
     min-width: 500px;
     max-width: 100%;
+    @media (max-width: 767.98px) {
+      min-width: 100%;
+      padding: 0 10px;
+    }
     @media print {
       min-width: 100%;
     } /* print */
@@ -652,14 +656,33 @@ a.logo_bills {
           font-size: 14px;
         } /* p */
       } /* about */
+      .countdown {
+        padding: 10px;
+        margin: 9px auto;
+        border: 1px solid #ffeeba;
+        background-color: #fff3cd;
+        color: #856404;
+        span {
+          margin: 0 5px 0 0;
+          font-weight: bold;
+        } /* span */
+      } /* countdown */
+      .anyErrors {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+      } /* anyErrors */
       .bill_info {
         border-top: 1px dashed #ddd;
         padding-top: 10px;
         margin-top: 10px;
         div {
           margin-bottom: 5px;
+          font-size: 13px;
           small {
-            font-size: 12px;
+            font-size: 11px;
             color: #000;
           } /* small */
           &:last-child {
@@ -680,8 +703,6 @@ a.logo_bills {
             font-size: 13px;
             &:first-child {
               text-align: right;
-              font-weight: 800;
-              font-size: 19px;
             } /* first-child */
           } /* th */
           td {
@@ -706,18 +727,28 @@ a.logo_bills {
           margin: 0;
         } /* alert */
       } /* status */
+      .customer_notes {
+        border-top: 1px dashed #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+      } /* customer_notes */
+      .payment_area {
+        border-top: 1px dashed #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+        max-width: 466px;
+      } /* payment_area */
       .qrCode_area {
         border-top: 1px dashed #ddd;
         padding-top: 10px;
         margin-top: 10px;
         a {
           text-decoration: none;
-          svg {
+          svg, img {
             width: 120px;
             height: 120px;
           } /* svg */
           span {
-            margin-top: 5px;
             color: #000000;
             display: block;
           } /* span */
