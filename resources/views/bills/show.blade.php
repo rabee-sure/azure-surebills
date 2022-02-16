@@ -43,37 +43,43 @@
     <div class="card mb-5">
       <div class="card-body">
         <!-- Button trigger modal -->
-        <button class="btn btn-primary mr-2 mb-2 d-inline-block notify-btn rounded-sm copyButton" title="{{ __('Copy Link') }}" data-from="top" data-align="right">
+        <button class="btn btn-primary mr-2 mb-2 d-inline-block notify-btn rounded-sm copyButton" data-toggle="tooltip" data-placement="top" title="{{ __('Copy payment link') }}" data-from="top" data-align="right">
           <img src="{{ asset('images/copy.svg') }}" alt="{{ __('Copy Link') }}" style="height: 25px;">
         </button>
-        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->pay_url}}" target="_blank" title="{{ __('Open Link') }}">
+        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->pay_url}}" data-toggle="tooltip" data-placement="top" target="_blank" title="{{ __('Visit Payment Link') }}">
           <img src="{{ asset('images/link.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
         </a>
         @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
-        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->invoice_url}}" target="_blank" title="{{ __('Tax Invoice') }}">
+        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->invoice_url}}" data-toggle="tooltip" data-placement="top" target="_blank" title="{{ __('Tax Invoice') }}">
           <img src="{{ asset('images/qr.svg') }}" alt="{{ __('Tax Invoice') }}" style="height: 25px;">
         </a>
         @endif
         <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
-        <a onclick="window.print(); return false;" class="btn btn-primary mr-2 mb-2 rounded-sm d-inline-block" href="#" title="{{ __('Print') }}">
+        <a onclick="window.print(); return false;" class="btn btn-primary mr-2 mb-2 rounded-sm d-inline-block" data-toggle="tooltip" data-placement="top" href="#" title="{{ __('Print') }}">
           <img src="{{ asset('images/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
         </a>
         <!-- <a class="btn btn-primary mr-2 mb-2 d-inline-block" href="#">{{ __('Send Reminder') }}</a> -->
         @if($bill->is_pending)
-          <button id="cancel_btn" type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#cancelModal" title="{{ __('Cancel Bill') }}" data-from="top" data-align="right">
-            <img src="{{ asset('images/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
+          <button id="cancel_btn" type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="tooltip" data-placement="top" title="{{ __('Cancel Bill') }}">
+            <span class="d-block" data-from="top" data-align="right" data-toggle="modal" data-target="#cancelModal">
+              <img src="{{ asset('images/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
+            </span>
           </button>
         @endif 
         
         @if($bill->is_able_refund)
-          <button id="refund_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm"  title="{{ __('Refund Bill') }}" data-from="top" data-align="right">
+          <button id="refund_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm" data-toggle="tooltip" data-placement="top" title="{{ __('Refund') }}">
+            <span class="d-block" data-from="top" data-align="right">
               <img src="{{ asset('images/refund.svg') }}" alt="{{ __('Refund Bill') }}" style="height: 25px;">
-            </button>
+            </span>
+          </button>
         @endif
 
         @if($bill->is_able_change_status)
-          <button type="button" class="btn btn-success mr-2 mb-2 d-inline-block rounded-sm" data-toggle="modal" data-target="#changeStatusModal" title="{{ __('Change Status') }}" data-from="top" data-align="right">
+          <button type="button" class="btn btn-success mr-2 mb-2 d-inline-block rounded-sm" data-toggle="tooltip" data-placement="top" title="{{ __('Change Status') }}" >
+            <span class="d-block" data-from="top" data-align="right" data-toggle="modal" data-target="#changeStatusModal">
               <img src="{{ asset('images/change_status.svg') }}" alt="{{ __('Change Status') }}" style="height: 25px;">
+            </span>
             </button>
         @endif
 
