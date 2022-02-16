@@ -10182,7 +10182,7 @@ div.statistic_icon {
     background-size: 50px;
     width: 50px;
     height: 50px;
-    margin: 0 auto 10px;
+    margin: 0 auto 15px;
 
     &.balance_icon {
         background-image: url("../images/balance.svg");
@@ -11760,6 +11760,11 @@ select:-webkit-autofill:focus {
     @include respond-below(sm) {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+    .card-text {
+      height: auto;
+      display: block;
+      line-height: normal;
+  }
 }
 
 /* homepage_blocks */
