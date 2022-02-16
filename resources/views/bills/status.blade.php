@@ -65,6 +65,8 @@
                 <th>{{ __('Quantity') }}</th>
                 @if($bill->user->settings->add_tax_invoice)
                 <th width="35%">{{ __('Total include added tax') }}</th>
+                @else
+                <th width="35%">{{ __('Total') }}</th>
                 @endif
               </tr>
             </thead>
@@ -114,7 +116,7 @@
           @endif
           <div class="d-flex align-items-center justify-content-between">
             <span>{{ __('Total amount') }}</span>
-            <span>{{ $bill->total}}</span>
+            <span>{{ $bill->total}} {{ __('SAR') }}</span>
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         @if($bill->status == 'expired')
