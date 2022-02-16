@@ -65,6 +65,8 @@
                 <th>{{ __('Quantity') }}</th>
                 @if($bill->user->settings->add_tax_invoice)
                 <th width="35%">{{ __('Total include added tax') }}</th>
+                @else
+                <th width="35%">{{ __('Total') }}</th>
                 @endif
               </tr>
             </thead>
