@@ -23,17 +23,17 @@
         <div class="row align-items-center justify-content-center">
           <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
             <div class="item">
-              <a href="tel:920008206" class="phone" title="الهاتف">
+              <a href="tel:8001110102" class="phone" title="الهاتف">
                 <span>الهاتف :</span>
-                <p>920008206</p>
+                <p>8001110102</p>
               </a>
             </div><!-- item -->
           </div><!-- col-12 --> 
           <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
             <div class="item">
-              <a href="tel:+966 53 223 2999" class="whatsapp" title="واتساب">
+              <a href="https://api.whatsapp.com/send?phone=+966558946366" class="whatsapp" title="واتساب">
                 <span>واتساب :</span>
-                <p>+966 53 223 2999</p>
+                <p>+966558946366</p>
               </a>
             </div><!-- item -->
           </div><!-- col-12 --> 
