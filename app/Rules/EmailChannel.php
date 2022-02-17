@@ -17,6 +17,7 @@ class EmailChannel implements Rule
      */
     public function passes($attribute, $value)
     {
+        return true;
         $user_ids = request()->route('channel')->applications->pluck('user_id')->toArray();
         return !in_array(User::whereEmail($value)->first()->id?? null, $user_ids);
     }
