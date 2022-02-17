@@ -12070,6 +12070,9 @@ select:-webkit-autofill:focus {
             &:first-child {
               text-align: right;
             } /* first-child */
+            &:last-child {
+              text-align: left;
+            } /* last-child */
           } /* th */
           td {
             text-align: center;
@@ -12079,6 +12082,9 @@ select:-webkit-autofill:focus {
             &:first-child {
               text-align: right;
             } /* first-child */
+            &:last-child {
+              text-align: left;
+            } /* last-child */
           } /* td */
         } /* table */
       } /* table_items */
@@ -12219,6 +12225,9 @@ select:-webkit-autofill:focus {
           &:first-child {
             text-align: right;
           } /* first-child */
+          &:last-child {
+            text-align: left;
+          } /* last-child */
         } /* th */
         td {
           text-align: center;
@@ -12228,6 +12237,9 @@ select:-webkit-autofill:focus {
           &:first-child {
             text-align: right;
           } /* first-child */
+          &:last-child {
+            text-align: left;
+          } /* last-child */
         } /* td */
       } /* table */
     } /* table_items */

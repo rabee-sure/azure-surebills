@@ -708,6 +708,9 @@ a.logo_bills {
             &:first-child {
               text-align: right;
             } /* first-child */
+            &:last-child {
+              text-align: left;
+            } /* last-child */
           } /* th */
           td {
             text-align: center;
@@ -717,6 +720,9 @@ a.logo_bills {
             &:first-child {
               text-align: right;
             } /* first-child */
+            &:last-child {
+              text-align: left;
+            } /* last-child */
           } /* td */
         } /* table */
       } /* table_items */
