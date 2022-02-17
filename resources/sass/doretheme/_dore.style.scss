@@ -10182,7 +10182,7 @@ div.statistic_icon {
     background-size: 50px;
     width: 50px;
     height: 50px;
-    margin: 0 auto 10px;
+    margin: 0 auto 15px;
 
     &.balance_icon {
         background-image: url("../images/balance.svg");
@@ -11760,6 +11760,11 @@ select:-webkit-autofill:focus {
     @include respond-below(sm) {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+    .card-text {
+      height: auto;
+      display: block;
+      line-height: normal;
+  }
 }
 
 /* homepage_blocks */
@@ -12065,6 +12070,9 @@ select:-webkit-autofill:focus {
             &:first-child {
               text-align: right;
             } /* first-child */
+            &:last-child {
+              text-align: left;
+            } /* last-child */
           } /* th */
           td {
             text-align: center;
@@ -12074,6 +12082,9 @@ select:-webkit-autofill:focus {
             &:first-child {
               text-align: right;
             } /* first-child */
+            &:last-child {
+              text-align: left;
+            } /* last-child */
           } /* td */
         } /* table */
       } /* table_items */
@@ -12094,10 +12105,19 @@ select:-webkit-autofill:focus {
         margin-top: 10px;
         a {
           text-decoration: none;
+          margin: 0 auto;
+          width: 240px;
           svg, img {
             width: 120px;
             height: 120px;
           } /* svg */
+          p {
+            margin: 5px auto;
+            text-align: center;
+            font-size: 12px;
+            color: #000000;
+            line-height: 1.5;
+          } /* p */
           span {
             color: #000000;
             display: block;
@@ -12205,6 +12225,9 @@ select:-webkit-autofill:focus {
           &:first-child {
             text-align: right;
           } /* first-child */
+          &:last-child {
+            text-align: left;
+          } /* last-child */
         } /* th */
         td {
           text-align: center;
@@ -12214,6 +12237,9 @@ select:-webkit-autofill:focus {
           &:first-child {
             text-align: right;
           } /* first-child */
+          &:last-child {
+            text-align: left;
+          } /* last-child */
         } /* td */
       } /* table */
     } /* table_items */
@@ -12228,10 +12254,19 @@ select:-webkit-autofill:focus {
       margin-top: 10px;
       a {
         text-decoration: none;
+        margin: 0 auto;
+        width: 240px;
         svg, img {
           width: 120px;
           height: 120px;
         } /* svg */
+        p {
+          margin: 5px auto;
+          text-align: center;
+          font-size: 12px;
+          line-height: 1.5;
+          color: #000000;
+        } /* p */
         span {
           color: #000000;
           display: block;
