@@ -34,11 +34,22 @@ class ChannelApplicationController extends Controller
     {
         $user = User::where('email', $request->email)->first();
         
-        $application = Application::firstOrNew([
-            'user_id' => $user->id,
-            'channel_id' => $channel->id,
-            'name' => $channel->name,
-        ]);
+        //Zain/20-20-22/1 This for prevent user to have many application in the same channel
+        // $application = Application::firstOrNew([
+        //     'user_id' => $user->id,
+        //     'channel_id' => $channel->id,
+        //     'name' => $channel->name,
+        // ]);
+        //END Zain/20-20-22/1
+
+        //Zain/20-20-22/2 This for allow user to have many application in the same channel
+        $application = new Application;
+        $application->user_id = $user->id;
+        $application->channel_id = $channel->id;
+        $application->name = $channel->name;
+        //End Zain/20-20-22/2
+
+
         $application->secret = Str::random(20);
         $application->redirect = $request->redirect;
         $application->fail_redirect_url = $request->fail_redirect_url;
