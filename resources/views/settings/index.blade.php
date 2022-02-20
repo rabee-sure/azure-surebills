@@ -85,6 +85,10 @@
                     <label for="other_buyer_id">{{__('other_buyer_id')}}</label>
                     <input name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}"  value="{{ $user->other_buyer_id }}">
                   </div>
+                  <div class="form-group col-md-6">
+                    <label for="vat_registration_number">{{ __('VAT Registration Number') }} ( {{ __('optional') }} )</label>
+                    <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
+                  </div>
                 </div>
               </div><!-- form-row -->
 
