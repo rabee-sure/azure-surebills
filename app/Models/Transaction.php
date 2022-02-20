@@ -70,7 +70,7 @@ class Transaction extends Model
      */
     public function saveIfUnique()
     {
-        $oldTransaction = Transaction::where('user_id', $this->user_id)
+        $oldTransaction = self::where('user_id', $this->user_id)
             ->where('bill_id', $this->bill_id)
             ->where('type', $this->type)
             ->where('amount', $this->amount)
