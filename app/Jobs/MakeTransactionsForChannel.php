@@ -24,7 +24,7 @@ class MakeTransactionsForChannel
      *
      * @return void
      */
-    public function __construct(Bill $bill, PaymentLog $payment_log)
+    public function __construct(Bill $bill, $payment_log)
     {
         $this->bill = $bill;
         $this->log = $payment_log;
