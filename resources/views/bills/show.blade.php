@@ -49,7 +49,7 @@
         <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->pay_url}}" data-toggle="tooltip" data-placement="top" target="_blank" title="{{ __('Visit Payment Link') }}">
           <img src="{{ asset('images/link.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
         </a>
-        @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
+        @if($bill->user->settings->add_tax_invoice)
         <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->invoice_url}}" data-toggle="tooltip" data-placement="top" target="_blank" title="{{ __('Tax Invoice') }}">
           <img src="{{ asset('images/qr.svg') }}" alt="{{ __('Tax Invoice') }}" style="height: 25px;">
         </a>
