@@ -45,12 +45,20 @@ class ChannelApplicationRequest extends FormRequest
             }
             case 'POST':
             {
+                //Zain/20-20-22/1 This for prevent user to have many application in the same channel
+                // return array_merge($rules, [
+                //     'email' => [
+                //         'required',
+                //         'email', 
+                //         'exists:users,email', 
+                //         new EmailChannel],
+                // ]);
+
+                //Zain/20-20-22/2 This for allow user to have many application in the same channel
                 return array_merge($rules, [
                     'email' => [
                         'required',
-                        'email', 
-                        'exists:users,email', 
-                        new EmailChannel],
+                        'email'],
                 ]);
             }
             case 'PUT':
