@@ -187,7 +187,7 @@
             <td>{{ $item->product_price  }} {{ __('SAR') }}</td>
             <td>{{ $item->quantity  }}</td>
             @if( $bill->add_tax)
-            <td>{{ ($item->product_price * $item->quantity) + $bill->vat  }} {{ __('SAR') }}</td>
+            <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }} {{ __('SAR') }}</td>
             @else
             <td>{{ $item->product_price * $item->quantity }} {{ __('SAR') }}</td>
             @endif
