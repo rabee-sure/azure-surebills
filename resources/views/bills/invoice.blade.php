@@ -127,7 +127,11 @@
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الاسم :</td>
-                      <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->name}}</td>
+                      @if ( Config::get('app.locale') == 'en')
+                      <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->business_name_en}}</td>
+                      @elseif ( Config::get('app.locale') == 'ar')
+                      <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->user->business_name_ar}}</td>
+                      @endif
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Name :</td>
                     </tr>
                     <tr>
