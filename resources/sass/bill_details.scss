@@ -708,6 +708,9 @@ a.logo_bills {
             &:first-child {
               text-align: right;
             } /* first-child */
+            &:last-child {
+              text-align: left;
+            } /* last-child */
           } /* th */
           td {
             text-align: center;
@@ -717,6 +720,9 @@ a.logo_bills {
             &:first-child {
               text-align: right;
             } /* first-child */
+            &:last-child {
+              text-align: left;
+            } /* last-child */
           } /* td */
         } /* table */
       } /* table_items */
@@ -748,10 +754,19 @@ a.logo_bills {
         margin-top: 10px;
         a {
           text-decoration: none;
+          margin: 0 auto;
+          width: 240px;
           svg, img {
             width: 120px;
             height: 120px;
           } /* svg */
+          p {
+            margin: 5px auto;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #000000;
+          } /* p */
           span {
             color: #000000;
             display: block;

@@ -68,6 +68,7 @@ class SettingsController extends Controller
                 'postal_code' => $request->postal_code,
                 'additional_no' => $request->additional_no,
                 'other_buyer_id' => $request->other_buyer_id,
+                'vat_registration_number' => $request->get('vat_registration_number'),
             ]);
         }
 

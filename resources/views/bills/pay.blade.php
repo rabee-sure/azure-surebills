@@ -108,7 +108,7 @@
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Price') }}</th>
                 <th>{{ __('Quantity') }}</th>
-                @if($bill->user->settings->add_tax_invoice)
+                @if($bill->add_tax)
                 <th width="35%">{{ __('Total include added tax') }}</th>
                 @else
                 <th width="35%">{{ __('Total') }}</th>
@@ -122,7 +122,7 @@
                 <td>{{ $item->product_price  }} {{ __('SAR') }}</td>
                 <td>{{ $item->quantity  }}</td>
                 @if( $bill->add_tax)
-                <td>{{ ($item->product_price * $item->quantity) + $bill->vat  }} {{ __('SAR') }}</td>
+                <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }} {{ __('SAR') }}</td>
                 @else
                 <td>{{ $item->product_price * $item->quantity }} {{ __('SAR') }}</td>
                 @endif
@@ -186,6 +186,7 @@
           <div class="qrCode_area">
             <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
               {!! generateQRcode($bill) !!}
+              <p>تم إنشاء كود الاستجابة السريعة بواسطة حل الفوترة الإلكترونية لدافعي الضرائب وفقاً لمواصفات ZATCA.</p>
               <span>{{ __('Tax Invoice') }}</span>
             </a>
           </div><!-- qrCode_area -->

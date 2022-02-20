@@ -440,7 +440,7 @@ class BillController extends Controller
                 'nullable', 
                 'required_if:type,partial_refund', 
                 new AmountPartialRefund($id), 
-                'integer', 'gt:0', new AmountPartialRefundGTBalance($id)
+                'numeric', 'gt:0', new AmountPartialRefundGTBalance($id)
             ],
         ]);
 
