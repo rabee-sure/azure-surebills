@@ -5,16 +5,9 @@ namespace App\Jobs;
 use App\Models\Bill;
 use App\Models\Transaction;
 use App\Models\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
 class MakeTransactionsForSureBills
 {
-    use Dispatchable, SerializesModels;
-
     protected $bill;
 
     protected $log;
@@ -65,5 +58,11 @@ class MakeTransactionsForSureBills
             $vat_trans->transaction_source = 'surebills_vat';
             $vat_trans->save();
         }
+    }
+
+    public static function dispatch($bill, $payment_log)
+    {
+        $job = new self($bill, $payment_log);
+        $job->handle();
     }
 }

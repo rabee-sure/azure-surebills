@@ -3,18 +3,10 @@
 namespace App\Jobs;
 
 use App\Models\Bill;
-use App\Models\PaymentLog;
 use App\Models\Transaction;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
 class MakeTransactionsForChannelExtraFees
 {
-    use Dispatchable, SerializesModels;
-
     protected $bill;
 
     protected $log;
@@ -24,7 +16,7 @@ class MakeTransactionsForChannelExtraFees
      *
      * @return void
      */
-    public function __construct(Bill $bill, PaymentLog $payment_log)
+    public function __construct(Bill $bill, $payment_log)
     {
         $this->bill = $bill;
         $this->log = $payment_log;
@@ -78,5 +70,11 @@ class MakeTransactionsForChannelExtraFees
             $vat_trans->save();
 
         }
+    }
+
+    public static function dispatch($bill, $payment_log)
+    {
+        $job = new self($bill, $payment_log);
+        $job->handle();
     }
 }
