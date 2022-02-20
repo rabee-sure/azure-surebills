@@ -25,7 +25,6 @@ class PaymentHelper
             );
             $orderBody = json_decode($orderResponse->getBody()->getContents(), false);
             $transaction = $orderBody->transaction[count($orderBody->transaction)-1];
-            Log::emergency(json_encode($orderBody));
 
             $orderResponseJson['id'] = $orderBody->id;
             $orderResponseJson['card']['last4Digits'] = substr($orderBody->sourceOfFunds->provided->card->number, -4);
@@ -38,6 +37,9 @@ class PaymentHelper
             }
 
             PaymentHelper::savePaymentResponse($invoice, $orderResponseJson, $orderBody, $viaWebHook);
+        } else if($billDetail['bill']['status'] == 'paid' && $viaWebHook) {
+            $bill = Bill::find($orderId);
+            $bill->firePaidEvent();
         }
     }
 
@@ -56,11 +58,11 @@ class PaymentHelper
         $invoice->transactionId($payment->id);
 
         if($viaWebHook) {
-            PaymentHelper::checkPaymentStatus($invoice, $payment, $bill);
+            PaymentHelper::checkPaymentStatus($invoice, $payment, $bill, false, true);
         }
     }
 
-    public static function checkPaymentStatus($invoice, $payment, $bill, $apiResponse = false)
+    public static function checkPaymentStatus($invoice, $payment, $bill, $apiResponse = false, $viaWebHook = false)
     {
         // if success
         if($invoice->getDetail('success') && $payment->status != 1)
@@ -70,10 +72,13 @@ class PaymentHelper
             $payment->status = 1;
             $payment->save();
             $bill->setPaid();
+            if($viaWebHook) {
+                $bill->firePaidEvent();
+            }
 
             // get redirect link
             if($bill->application && $bill->is_redirect) {
-                $redirect = $bill->redirect_url;
+                $redirect = $bill->getRedirectUrl($payment->results['response']);
             } else {
                 $redirect = route('paybillpage', ['id' => $bill->pay_id]);
             }
@@ -92,8 +97,6 @@ class PaymentHelper
         $payment->status = 0;
         $payment->save();
 
-
-
         if ($apiResponse) {
             return [
                 'error'    => $invoice->getDetail('description'),
@@ -101,8 +104,11 @@ class PaymentHelper
             ];
         }
 
+        //redirect if failed
         if($bill->application && $bill->is_redirect) {
-            return redirect($bill->redirect_url);
+            $bill->status = 'failed';
+            $bill->save();
+            return redirect($bill->getRedirectUrl($payment->results['response']));
         } else {
             return redirect()->route('paybillpage', ['id' => $bill->pay_id])->withErrors(['field_name' => $invoice->getDetail('description')]);
         }

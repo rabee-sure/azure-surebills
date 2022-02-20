@@ -60,41 +60,6 @@
                 <input value="{{ old('customer_notes') }}" name="customer_notes" type="text" class="form-control" id="customer_notes" placeholder="{{ __('Special Note') }}">
               </div><!-- form-group -->
             </div><!-- form-row -->
-            
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                  <label for="bullding_no">{{__('bullding_no')}}</label>
-                  <input value="{{ old('bullding_no') }}" name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('bullding_no')}}">
-              </div> 
-              <div class="form-group col-md-6">
-                  <label for="street_name">{{__('street_name')}}</label>
-                  <input value="{{ old('street_name') }}" name="street_name" type="text" class="form-control" id="street_name" placeholder="{{__('street_name')}}">
-              </div>
-              <div class="form-group col-md-6">
-                  <label for="district">{{__('district')}}</label>
-                  <input value="{{ old('district') }}" name="district" type="text" class="form-control" id="district" placeholder="{{__('district')}}">
-              </div>
-              <div class="form-group col-md-6">
-                  <label for="city">{{__('city')}}</label>
-                  <input value="{{ old('city') }}" name="city" type="text" class="form-control" id="city" placeholder="{{__('city')}}">
-              </div>
-              <div class="form-group col-md-6">
-                  <label for="postal_code">{{__('postal_code')}}</label>
-                  <input value="{{ old('postal_code') }}" name="postal_code" type="text" class="form-control" id="postal_code" placeholder="{{__('postal_code')}}">
-              </div>
-              <div class="form-group col-md-6">
-                  <label for="additional_no">{{__('additional_no')}}</label>
-                  <input value="{{ old('additional_no') }}"  name="additional_no" type="text" class="form-control" id="additional_no" placeholder="{{__('additional_no')}}">
-              </div>
-              <div class="form-group col-md-6">
-                  <label for="other_buyer_id">{{__('other_buyer_id')}}</label>
-                  <input value="{{ old('other_buyer_id') }}"  name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}">
-              </div> 
-              <div class="form-group col-md-6">
-                  <label for="vat_registration_number">{{__('vat_registration_number')}}</label>
-                  <input value="{{ old('vat_registration_number') }}"  name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{__('vat_registration_number')}}">
-              </div>
-            </div>
 
             <div class="form-row">
               <div class="form-group col-6 col-md-6">
@@ -117,7 +82,47 @@
               </div><!-- form-group -->
             </div><!-- form-row -->
 
+            @if(Auth::user()->settings->add_tax_invoice)
+            <div class="additional_information_button collapsed" data-toggle="collapse" href="#additional_information" role="button" aria-expanded="true" aria-controls="collapseExample">{{__('Additional Information')}}</div>
+            <div class="collapse" id="additional_information">
+              <div class="form-row mt-3">
+                <div class="form-group col-md-6">
+                    <label for="bullding_no">{{__('bullding_no')}}</label>
+                    <input value="{{ old('bullding_no') }}" name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('bullding_no')}}">
+                </div> 
+                <div class="form-group col-md-6">
+                    <label for="street_name">{{__('street_name')}}</label>
+                    <input value="{{ old('street_name') }}" name="street_name" type="text" class="form-control" id="street_name" placeholder="{{__('street_name')}}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="district">{{__('district')}}</label>
+                    <input value="{{ old('district') }}" name="district" type="text" class="form-control" id="district" placeholder="{{__('district')}}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="city">{{__('city')}}</label>
+                    <input value="{{ old('city') }}" name="city" type="text" class="form-control" id="city" placeholder="{{__('city')}}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="postal_code">{{__('postal_code')}}</label>
+                    <input value="{{ old('postal_code') }}" name="postal_code" type="text" class="form-control" id="postal_code" placeholder="{{__('postal_code')}}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="additional_no">{{__('additional_no')}}</label>
+                    <input value="{{ old('additional_no') }}"  name="additional_no" type="text" class="form-control" id="additional_no" placeholder="{{__('additional_no')}}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="other_buyer_id">{{__('other_buyer_id')}}</label>
+                    <input value="{{ old('other_buyer_id') }}"  name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}">
+                </div> 
+                <div class="form-group col-md-6">
+                    <label for="vat_registration_number">{{__('vat_registration_number')}}</label>
+                    <input value="{{ old('vat_registration_number') }}"  name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{__('vat_registration_number')}}">
+                </div>
+              </div>
+            </div><!-- collapseExample -->
+            @endif
             <hr>
+        
             <h1 class="mb-3">{{ __('Bill items') }}</h1>
             <div class="inner-repeater">
               <div data-repeater-list="items">
@@ -198,7 +203,6 @@
                 </div>
               </div><!-- form-group -->
             </div><!-- form-row -->
-
             <div class="row">
               <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                 <div class="Discount_Values form-row mb-2" style="display: none;">

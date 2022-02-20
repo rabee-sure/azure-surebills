@@ -48,6 +48,7 @@ class ClearBills extends Command
     public function handle()
     {
         if(app()->isLocal()){
+            DB::table('auto_transfer_transfer')->truncate();
             DB::table('bill_tag')->truncate();
             DB::table('transfer_logs')->truncate();
             DB::table('payment_logs')->truncate();

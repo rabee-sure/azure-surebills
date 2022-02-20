@@ -91,6 +91,8 @@ class TransferService
             $perations->complete($transfers, $status, $user_id, $results , $from_sps);
         }elseif($status == 'canceled'){
             $perations->cancel($transfers, $status, $user_id, $results , $from_sps);
+        }elseif($status == 'failed'){
+            $perations->fail($transfers, $status, $user_id, $results , $from_sps);
         }
     }
 

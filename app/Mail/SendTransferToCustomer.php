@@ -33,7 +33,7 @@ class SendTransferToCustomer extends Mailable implements ShouldQueue
     {
         App::setLocale($this->transfer->user->settings->default_lang); 
         return $this->subject(__('An amount of :amount has been transferred to your bank account. Operation number #:number', [
-            'amount' => $this->transfer->net_total,
+            'amount' => $this->transfer->net_amount, 
             'number' => $this->transfer->id,
             ]) )
                 ->view('emails.transfers.transfer_to_customer');

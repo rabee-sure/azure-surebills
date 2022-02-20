@@ -46,6 +46,7 @@
         "pusher/pusher-php-server": "^4.0",
         "rcknr/nova-multiselect-filter": "^1.3",
         "romanzipp/laravel-queue-monitor": "^2.1",
+        "salla/zatca": "^2.0",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-medialibrary": "^9.0.0",
         "spatie/laravel-translatable": "^4.6",

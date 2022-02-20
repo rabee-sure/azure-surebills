@@ -369,7 +369,6 @@ class BillController extends Controller
     public function masterCardWebHookResponse(Request $request)
     {
         if ($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret')) {
-            sleep(5);
             $response = $request->all();
             $orderBody = json_decode(json_encode($response), FALSE);
 
