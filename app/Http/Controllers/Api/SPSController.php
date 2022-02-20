@@ -46,7 +46,7 @@ class SPSController extends Controller
                     'TranferFailed' => 'failed',
                 ];
                 $status = $lookups[$data['TransferStatus']];
-                TransferService::changeTranferStatus($transfer,  $status, null, $data, true);
+                TransferService::changeTranfersStatus([$transfer],  $status, null, $data, true);
             }
         }
 

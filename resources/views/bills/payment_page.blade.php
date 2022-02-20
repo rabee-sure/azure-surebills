@@ -24,9 +24,9 @@
 </head>
 <body>
 
-    <div class="container" @if($bill->user->settings->api_bill_style && $bill->application_id) id="app" @endif >
-        <div class="row align-items-center justify-content-center">
-            <div class="col-12 @if($bill->user->settings->api_bill_style && $bill->application_id) col-md-4 @else col-md-12 @endif mt-4 p-0">
+    <div @if($bill->user->settings->api_bill_style && $bill->application_id) class="container" id="app" @endif>
+        <div @if($bill->user->settings->api_bill_style && $bill->application_id) class="row align-items-center justify-content-center" @endif>
+            <div class="@if($bill->user->settings->api_bill_style && $bill->application_id) col-md-4 mt-4 p-0 @endif">
                 <div class="pay_apple">
 
                     <div class="load_form active">
@@ -101,7 +101,6 @@
             </div><!-- col-12 -->
         </div><!-- row -->
     </div><!-- container -->
-    <br>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 

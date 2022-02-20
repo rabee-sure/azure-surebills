@@ -35,6 +35,16 @@ class SettingsRequest extends FormRequest
             $rules['tax_value'] = ['required_if:add_tax,on', 'between:1,100', 'integer'];
         }
 
+        if(request()->add_tax_invoice == 'on')
+        {
+            $rules['bullding_no'] = ['required_if:add_tax_invoice,on'];
+            $rules['street_name'] = ['required_if:add_tax_invoice,on'];
+            $rules['district'] = ['required_if:add_tax_invoice,on'];
+            $rules['postal_code'] = ['required_if:add_tax_invoice,on'];
+            $rules['additional_no'] = ['required_if:add_tax_invoice,on'];
+            $rules['other_buyer_id'] = ['required_if:add_tax_invoice,on'];
+        }
+
         return $rules;
     }
 
@@ -48,6 +58,7 @@ class SettingsRequest extends FormRequest
     {
         $this->merge([
             'add_tax' => $this->add_tax == 'on' ? true : false,
+            'add_tax_invoice' => $this->add_tax_invoice == 'on' ? true : false,
             'create_send_sms' => $this->create_send_sms == 'on' ? true : false,
             'create_send_email' => $this->create_send_email == 'on' ? true : false,
             'paid_send_sms' => $this->paid_send_sms == 'on' ? true : false,

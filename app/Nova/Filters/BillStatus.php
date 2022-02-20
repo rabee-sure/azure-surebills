@@ -44,10 +44,11 @@ class BillStatus extends MultiselectFilter
             __('Pending') => 'pending',
             __('Paid') => 'paid',
             __('Canceled') => 'canceled',
+            __('Failed') => 'failed',
             __('Expired') => 'expired',
             __('Refunded') => 'refunded',
             __('Refunded Cash') => 'refunded_cash',
-            __('Refunded Bank Transferd') => 'refunded_bank_transfer',
+            __('Refunded Bank Transfer') => 'refunded_bank_transfer',
             __('Paid Cash') => 'paid_cash',
             __('Paid Bank Transfer') => 'paid_bank_transfer',
         ];

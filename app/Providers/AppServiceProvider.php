@@ -3,19 +3,21 @@
 namespace App\Providers;
 
 use App\Models\Application;
+use App\Models\AutoTransfer;
 use App\Models\Transfer;
 use App\Models\User;
 use App\Observers\ApplicationObserver;
 use App\Observers\TransferObserver;
 use App\Observers\UserObserver;
+use App\Policies\AutoTransferPolicy;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Model;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,10 +41,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Model::preventLazyLoading(! app()->isProduction());
+        // Model::preventLazyLoading(! app()->isProduction());
 
         \Spatie\NovaTranslatable\Translatable::defaultLocales(['en', 'ar']);
 
+        AutoTransfer::observe(AutoTransferPolicy::class);
         Transfer::observe(TransferObserver::class);
         Application::observe(ApplicationObserver::class);
         User::observe(UserObserver::class);

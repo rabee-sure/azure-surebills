@@ -12,6 +12,7 @@ use App\Jobs\ExportTransactionsFileJob;
 use App\Jobs\SendAutoTransferMailsJob;
 use App\Jobs\ZipFolderJob;
 use App\Mail\AutoTransferMail;
+use App\Models\AutoTransfer;
 use App\Models\Bill;
 use App\Models\Transaction;
 use App\Models\Transfer;
@@ -20,10 +21,10 @@ use App\Services\TransferService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Valuestore\Valuestore;
-use Illuminate\Support\Facades\File;
 
 class TransferAutomatic extends Command
 {
@@ -118,11 +119,9 @@ class TransferAutomatic extends Command
      * @param  App\Transfer  $transfer
      * @return App\Transfer  $transfer
      */
-    public function createMasterSheet($transfer_ids, $cycleDate)
+    public function createMasterSheet($transfer_ids, $day)
     {
         if(count($transfer_ids)){
-            $day = $cycleDate->format('Y-m-d');
-
             $this->createMerchantsFile($transfer_ids, $day);
             $this->createChannelsFile($transfer_ids, $day);
             $this->zipFolder("automatic_transfers/$day", "master_sheet_$day.zip");
@@ -134,7 +133,9 @@ class TransferAutomatic extends Command
     public function createMerchantsFile($transfer_ids, $day)
     {
         $transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
-                $q->whereIn('transfer_id', $transfer_ids)->whereNotIn('transaction_source', $this->CHANNEL_SOURCES);
+                $q->whereIn('transfer_id', $transfer_ids)
+                    ->whereNotIn('transaction_source', $this->CHANNEL_SOURCES)
+                    ->where('description', 'not like', "%Channel:%");
             })->with('bill.application.channel')->get();
 
         $merchants_file = "automatic_transfers/$day/merchants_transactions.xlsx";
@@ -147,7 +148,12 @@ class TransferAutomatic extends Command
         $channels_file = "automatic_transfers/$day/channels_transactions.xlsx";
 
         $channel_transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
-            $q->whereIn('transfer_id', $transfer_ids)->whereIn('transaction_source', $this->CHANNEL_SOURCES);
+            $q->whereIn('transfer_id', $transfer_ids)
+                ->where(function ($q){
+                    $q->whereIn('transaction_source', $this->CHANNEL_SOURCES)
+                        ->orWhere('description', 'like', "%Channel:%")
+                        ;
+                });
         })->with('bill.application.channel')->get();
         $channels_data = json_decode((TransactionExportResource::collection($channel_transactions))->toJson(), true);
         Excel::store(new TransactionsExport($channels_data), $channels_file , 'public');

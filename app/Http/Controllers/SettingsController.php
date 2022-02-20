@@ -25,7 +25,7 @@ class SettingsController extends Controller
         return redirect()->back();
     }
 
-        /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -45,6 +45,7 @@ class SettingsController extends Controller
         $settings = auth()->user()->settings;
         $settings->add_tax = $request->add_tax;
         $settings->tax_value = $request->tax_value;
+        $settings->add_tax_invoice = $request->add_tax_invoice;
         $settings->default_lang = $request->default_lang;
         $settings->active_lang = $request->active_lang;
         $settings->create_send_sms = $request->create_send_sms;
@@ -57,6 +58,19 @@ class SettingsController extends Controller
         $settings->setTranslation('footer_bill', 'en', $request->footer_bill_en);
         $settings->setTranslation('footer_bill', 'ar', $request->footer_bill_ar);
         $settings->save();
+
+        if($request->add_tax_invoice){
+            auth()->user()->update([
+                'bullding_no' => $request->bullding_no,
+                'street_name' => $request->street_name,
+                'district' => $request->district,
+                'city' => $request->city,
+                'postal_code' => $request->postal_code,
+                'additional_no' => $request->additional_no,
+                'other_buyer_id' => $request->other_buyer_id,
+                'vat_registration_number' => $request->get('vat_registration_number'),
+            ]);
+        }
 
         return redirect('/settings');
     }

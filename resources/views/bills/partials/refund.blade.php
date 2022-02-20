@@ -51,7 +51,7 @@
 </div>
 
 @push('footer-scripts')
-{!! JsValidator::formRequest('App\Http\Requests\RefundRequest', '#form') !!}
+
 <script>
     $("#refund_cancel").click(function(){
         $('#amount_partial_refund').hide();

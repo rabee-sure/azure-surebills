@@ -32,7 +32,7 @@
               <a href="{{ route('statement.index') }}" class="card mb-3">
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">{{ __('Getway Balance') }}</p>
+                  <p class="card-text font-weight-semibold mb-2">{{ __('Electronic payment Gateway Balance') }}</p>
                   <p class="lead text-center">{{ round2($balance) }}</p>
                 </div>
               </a>
@@ -41,7 +41,7 @@
               <a href="{{ route('statement.index') }}" class="card mb-3">
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">{{ __('Pending Balance') }}</p>
+                  <p class="card-text font-weight-semibold mb-2">{{ __('Pending Balance') }}</p>
                   <p class="lead text-center">{{ round2($user->pending_balance) }}</p>
                 </div>
               </a>
@@ -51,7 +51,7 @@
               <a href="{{ route('statement.index') }}" class="card mb-3">
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">{{ __('Paid Cash Balance') }}</p>
+                  <p class="card-text font-weight-semibold mb-2">{{ __('Paid Cash Balance') }}</p>
                   <p class="lead text-center">{{ round2($user->paid_cash_balance) }}</p>
                 </div>
               </a>
@@ -60,7 +60,7 @@
               <a href="{{ route('statement.index') }}" class="card mb-3">
                 <div class="card-body text-center">
                   <div class="statistic_icon balance_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">{{ __('Paid Bank Transfer Balance') }}</p>
+                  <p class="card-text font-weight-semibold mb-2">{{ __('Paid Bank Transfer Balance') }}</p>
                   <p class="lead text-center">{{ round2($user->paid_bank_transfer_balance) }}</p>
                 </div>
               </a>
@@ -70,7 +70,7 @@
               <a href="{{ route('statement.index') }}" class="card mb-3">
                 <div class="card-body text-center">
                   <div class="statistic_icon available_balance_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">{{ __('Total Paid') }}</p>
+                  <p class="card-text font-weight-semibold mb-2">{{ __('Total Paid') }}</p>
                   <p class="lead text-center">{{ $total_paid }}</p>
                 </div>
               </a>
@@ -79,7 +79,7 @@
               <a href="/bills?dont_update_statuses=true" class="card mb-3">
                 <div class="card-body text-center">
                   <div class="statistic_icon pending_balance_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">{{ __('Total Bills') }}</p>
+                  <p class="card-text font-weight-semibold mb-2">{{ __('Total Bills') }}</p>
                   <p class="lead text-center">{{ $total_bills }}</p>
                 </div>
               </a>
@@ -88,7 +88,7 @@
               <a href="/bills?statuses[]=paid&dont_update_statuses=true" class="card mb-3">
                 <div class="card-body text-center">
                   <div class="statistic_icon settlements_icon"></div>
-                  <p class="card-text font-weight-semibold mb-0">{{ __('Total Paid Bills') }}</p>
+                  <p class="card-text font-weight-semibold mb-2">{{ __('Total Paid Bills') }}</p>
                   <p class="lead text-center">{{ $total_paid_bills }}</p>
                 </div>
               </a>

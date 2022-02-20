@@ -27,10 +27,10 @@ class ChannelApplicationRequest extends FormRequest
     public function rules()
     {
         $rules =  [
-            'mada_fixed' => ['required', 'numeric', 'max:1000', 'gte:'.$this->channel->mada_fixed, new Decimal(2,2)],
-            'mada_percentage' => ['required', 'numeric', 'max:100', 'gte:'.$this->channel->mada_percentage, new Decimal(2,2)],
-            'credit_cards_fixed' => ['required', 'numeric', 'max:1000', 'gte:'.$this->channel->credit_cards_fixed, new Decimal(2,2)],
-            'credit_cards_percentage' => ['required', 'numeric', 'max:100', 'gte:'.$this->channel->credit_cards_percentage, new Decimal(2,2)],            
+            'mada_fixed' => ['required', 'numeric', 'max:1000', 'gte:'.$this->channel->mada_fixed, new Decimal(2,5)],
+            'mada_percentage' => ['required', 'numeric', 'max:100', 'gte:'.$this->channel->mada_percentage, new Decimal(2,5)],
+            'credit_cards_fixed' => ['required', 'numeric', 'max:1000', 'gte:'.$this->channel->credit_cards_fixed, new Decimal(2,5)],
+            'credit_cards_percentage' => ['required', 'numeric', 'max:100', 'gte:'.$this->channel->credit_cards_percentage, new Decimal(2,5)],            
 
             'redirect' => ['required', 'url'],
             'webhook_url' => ['required', 'url'],
@@ -45,12 +45,20 @@ class ChannelApplicationRequest extends FormRequest
             }
             case 'POST':
             {
+                //Zain/20-20-22/1 This for prevent user to have many application in the same channel
+                // return array_merge($rules, [
+                //     'email' => [
+                //         'required',
+                //         'email', 
+                //         'exists:users,email', 
+                //         new EmailChannel],
+                // ]);
+
+                //Zain/20-20-22/2 This for allow user to have many application in the same channel
                 return array_merge($rules, [
                     'email' => [
                         'required',
-                        'email', 
-                        'exists:users,email', 
-                        new EmailChannel],
+                        'email'],
                 ]);
             }
             case 'PUT':

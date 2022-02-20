@@ -123,8 +123,9 @@ class TransferController extends Controller
         
         $transfer = TransferService::makeTransfer('pending', $amount, $data);
 
-        if($transfer)
-            $this->sendMails($transfer_emails, $cycleDate, $transfer);
+        // if($transfer)
+            //add listner of transfer file generated
+            // $this->sendMails($transfer_emails, $cycleDate, $transfer);
         
         return redirect()->back();
     }
