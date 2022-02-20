@@ -685,7 +685,14 @@
 	"Discount amount" : "قيمة الخصم",
 	"No." : "الرقم",
 	"Date" : "التاريخ",
-  "Copy payment link" : "نسخ رابط الدفع",
-  "Visit Payment Link" : "زيارة رابط الدفع",
-  "Simplified Tax Invoice" : "فاتورة ضريبية مبسطة"
+	"Copy payment link" : "نسخ رابط الدفع",
+	"Visit Payment Link" : "زيارة رابط الدفع",
+	"Simplified Tax Invoice" : "فاتورة ضريبية مبسطة",
+
+  	"The bullding no field is required when add tax invoice is on." : "رقم المبنى مطلوب في حالة تفعيل الفاتورة الضريبية",
+	"The street name field is required when add tax invoice is on." : "اسم الشارع مطلوب في حالة تفعيل الفاتورة الضريبية",
+	"The district field is required when add tax invoice is on." : "الحي مطلوب في حالة تفعيل الفاتورة الضريبية",
+	"The postal code field is required when add tax invoice is on." : "الرمز البريدي مطلوب في حالة تفعيل الفاتورة الضريبية",
+	"The additional no field is required when add tax invoice is on." : "الرقم الاضافي للعنوان مطلوب في حالة تفعيل الفاتورة الضريبية",
+	"The other buyer id field is required when add tax invoice is on." : "المعرف الاخر مطلوب في حالة تفعيل الفاتورة الضريبية"
 }

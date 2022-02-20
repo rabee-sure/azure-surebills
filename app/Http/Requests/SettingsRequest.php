@@ -106,4 +106,21 @@ class SettingsRequest extends FormRequest
             return 'ar';
         }
     }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+          'bullding_no.required_if' => __('The bullding no field is required when add tax invoice is on.'),
+          'street_name.required_if' => __('The street name field is required when add tax invoice is on.'),
+          'district.required_if' => __('The district field is required when add tax invoice is on.'),
+          'postal_code.required_if' => __('The postal code field is required when add tax invoice is on.'),
+          'additional_no.required_if' => __('The additional no field is required when add tax invoice is on.'),
+          'other_buyer_id.required_if' => __('The other buyer id field is required when add tax invoice is on.'),
+        ];
+    }
 }
