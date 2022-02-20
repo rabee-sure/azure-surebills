@@ -5,9 +5,16 @@ namespace App\Jobs;
 use App\Models\Bill;
 use App\Models\Transaction;
 use App\Models\User;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class MakeTransactionsForSureBills
 {
+    use Dispatchable, SerializesModels;
+
     protected $bill;
 
     protected $log;
@@ -46,7 +53,7 @@ class MakeTransactionsForSureBills
             $fee_trans->reference   = $this->bill->number;
             $fee_trans->description = 'Fee - Bill Number: '.$this->bill->number;
             $fee_trans->transaction_source = 'surebills_fees';
-            $fee_trans->save();
+            $fee_trans->saveIfUnique();
 
             $vat_trans = new Transaction;
             $vat_trans->user_id     = $user->id;
@@ -56,13 +63,7 @@ class MakeTransactionsForSureBills
             $vat_trans->reference   = $this->bill->number;
             $vat_trans->description = 'Vat - Bill Number: '.$this->bill->number;
             $vat_trans->transaction_source = 'surebills_vat';
-            $vat_trans->save();
+            $vat_trans->saveIfUnique();
         }
-    }
-
-    public static function dispatch($bill, $payment_log)
-    {
-        $job = new self($bill, $payment_log);
-        $job->handle();
     }
 }

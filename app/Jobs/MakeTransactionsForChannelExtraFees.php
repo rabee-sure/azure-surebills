@@ -3,10 +3,18 @@
 namespace App\Jobs;
 
 use App\Models\Bill;
+use App\Models\PaymentLog;
 use App\Models\Transaction;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class MakeTransactionsForChannelExtraFees
 {
+    use Dispatchable, SerializesModels;
+
     protected $bill;
 
     protected $log;
@@ -16,7 +24,7 @@ class MakeTransactionsForChannelExtraFees
      *
      * @return void
      */
-    public function __construct(Bill $bill, $payment_log)
+    public function __construct(Bill $bill, PaymentLog $payment_log)
     {
         $this->bill = $bill;
         $this->log = $payment_log;
@@ -47,7 +55,7 @@ class MakeTransactionsForChannelExtraFees
             $fee_trans->reference   = $this->bill->number;
             $fee_trans->description = 'channel extra - Channel: '.$channel->name;
             $fee_trans->transaction_source = 'channel_extra_amount';
-            $fee_trans->save();
+            $fee_trans->saveIfUnique();
 
             $vat_trans = new Transaction;
             $vat_trans->user_id     = $channel->user_id;
@@ -57,7 +65,7 @@ class MakeTransactionsForChannelExtraFees
             $vat_trans->reference   = $this->bill->number;
             $vat_trans->description = 'channel extra Fees - Channel: '.$channel->name;
             $vat_trans->transaction_source = 'channel_extra_amount_vat';
-            $vat_trans->save();
+            $vat_trans->saveIfUnique();
 
             $vat_trans = new Transaction;
             $vat_trans->user_id     = $channel->user_id;
@@ -67,14 +75,8 @@ class MakeTransactionsForChannelExtraFees
             $vat_trans->reference   = $this->bill->number;
             $vat_trans->description = 'channel extra Vat - Channel: '.$channel->name;
             $vat_trans->transaction_source = 'channel_extra_amount_fees';
-            $vat_trans->save();
+            $vat_trans->saveIfUnique();
 
         }
-    }
-
-    public static function dispatch($bill, $payment_log)
-    {
-        $job = new self($bill, $payment_log);
-        $job->handle();
     }
 }

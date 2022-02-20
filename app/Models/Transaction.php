@@ -64,6 +64,24 @@ class Transaction extends Model
     }
 
     /**
+     * Save only if unique.
+     *
+     * @return boolean
+     */
+    public function saveIfUnique()
+    {
+        $oldTransaction = Transaction::where('user_id', $this->user_id)
+            ->where('bill_id', $this->bill_id)
+            ->where('type', $this->type)
+            ->where('amount', $this->amount)
+            ->where('reference', $this->reference)
+            ->where('transaction_source', $this->transaction_source)
+            ->first();
+
+        return $oldTransaction ? false : $this->save();
+    }
+
+    /**
      * Get user.
      *
      * @return Collection

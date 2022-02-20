@@ -3,10 +3,18 @@
 namespace App\Jobs;
 
 use App\Models\Bill;
+use App\Models\PaymentLog;
 use App\Models\Transaction;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class MakeTransactionsForOwner
 {
+    use Dispatchable, SerializesModels;
+
     protected $bill;
 
     protected $log;
@@ -16,7 +24,7 @@ class MakeTransactionsForOwner
      *
      * @return void
      */
-    public function __construct(Bill $bill, $payment_log)
+    public function __construct(Bill $bill, PaymentLog $payment_log)
     {
         $this->bill = $bill;
         $this->log = $payment_log;
@@ -46,7 +54,7 @@ class MakeTransactionsForOwner
             $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
         }
         $transaction->transaction_source = 'bill';
-        $transaction->save();
+        $transaction->saveIfUnique();
 
         //withdrawBillFees
         $transaction = new Transaction;
@@ -57,7 +65,7 @@ class MakeTransactionsForOwner
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'Fee - Transaction Processing';
         $transaction->transaction_source = 'fees';
-        $transaction->save();
+        $transaction->saveIfUnique();
 
         //withdrawBillVat
         $transaction = new Transaction;
@@ -68,12 +76,6 @@ class MakeTransactionsForOwner
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'VAT - Transaction Processing';
         $transaction->transaction_source = 'vat';
-        $transaction->save();
-    }
-
-    public static function dispatch($bill, $payment_log)
-    {
-        $job = new self($bill, $payment_log);
-        $job->handle();
+        $transaction->saveIfUnique();
     }
 }

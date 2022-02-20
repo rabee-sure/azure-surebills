@@ -3,10 +3,18 @@
 namespace App\Jobs;
 
 use App\Models\Bill;
+use App\Models\PaymentLog;
 use App\Models\Transaction;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class MakeTransactionsForChannel
 {
+    use Dispatchable, SerializesModels;
+
     protected $bill;
 
     protected $log;
@@ -16,7 +24,7 @@ class MakeTransactionsForChannel
      *
      * @return void
      */
-    public function __construct(Bill $bill, $payment_log)
+    public function __construct(Bill $bill, PaymentLog $payment_log)
     {
         $this->bill = $bill;
         $this->log = $payment_log;
@@ -38,7 +46,7 @@ class MakeTransactionsForChannel
             $fee_trans->reference   = $this->bill->number;
             $fee_trans->description = 'Fee - Channel: '.$this->bill->application->channel->name;
             $fee_trans->transaction_source = 'channel_fees';
-            $fee_trans->save();
+            $fee_trans->saveIfUnique();
 
             $vat_trans = new Transaction;
             $vat_trans->user_id     = $this->bill->application->channel->user_id;
@@ -48,13 +56,7 @@ class MakeTransactionsForChannel
             $vat_trans->reference   = $this->bill->number;
             $vat_trans->description = 'Vat - Channel: '.$this->bill->application->channel->name;
             $vat_trans->transaction_source = 'channel_vat';
-            $vat_trans->save();
+            $vat_trans->saveIfUnique();
         }
-    }
-
-    public static function dispatch($bill, $payment_log)
-    {
-        $job = new self($bill, $payment_log);
-        $job->handle();
     }
 }
