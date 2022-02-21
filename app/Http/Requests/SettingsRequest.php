@@ -42,7 +42,6 @@ class SettingsRequest extends FormRequest
             $rules['district'] = ['required_if:add_tax_invoice,on'];
             $rules['postal_code'] = ['required_if:add_tax_invoice,on'];
             $rules['additional_no'] = ['required_if:add_tax_invoice,on'];
-            $rules['other_buyer_id'] = ['required_if:add_tax_invoice,on'];
         }
 
         return $rules;
@@ -120,7 +119,6 @@ class SettingsRequest extends FormRequest
           'district.required_if' => __('The district field is required when add tax invoice is on.'),
           'postal_code.required_if' => __('The postal code field is required when add tax invoice is on.'),
           'additional_no.required_if' => __('The additional no field is required when add tax invoice is on.'),
-          'other_buyer_id.required_if' => __('The other buyer id field is required when add tax invoice is on.'),
         ];
     }
 }
