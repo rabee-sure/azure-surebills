@@ -57,7 +57,7 @@ class RemoveDuplicatedTransactions extends Command
                 ->where('settled', 0)
                 ->where('pending_settled', 0)
                 ->where('transaction_source', $this->argument('source'))
-                ->orderBy('created_at', 'asc')
+                ->orderBy('created_at', 'desc')
                 ->first();
 
             $transactionToDelete->delete();
