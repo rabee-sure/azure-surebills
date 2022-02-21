@@ -208,7 +208,12 @@ class BillController extends Controller
             abort(404);
         }
 
-        if ($bill->is_expired && $bill->status != 'paid' && $bill->status != 'canceled') {
+        $billStatus = '';
+        if($bill->status != 'paid' || $bill->status != 'paid_cash' || $bill->status != 'paid_bank_transfer'){
+            $billStatus = 'paid';
+        }
+        
+        if ($bill->is_expired && $billStatus != 'paid' && $bill->status != 'canceled') {
             $bill->status = 'expired';
             $bill->save();
             event(new BillStatusUpdated($bill));
