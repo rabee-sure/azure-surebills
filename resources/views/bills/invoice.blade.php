@@ -255,7 +255,6 @@
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$total}}</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">@if($bill->add_tax) {{$tax_total}} SAR @else 0 @endif</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">@if($bill->add_tax) {{$bill->tax_value}} % @else -@endif</td>
-              <!-- <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">@if($bill->add_discount) {{$discount_total}} SAR @else 0 @endif</td> -->
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$item->total}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$item->quantity}}</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$item->product_price}} SAR</td>
