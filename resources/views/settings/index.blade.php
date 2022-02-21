@@ -59,35 +59,35 @@
                 <div class="row Tax_Invoice_Values">
                   <div class="form-group  col-md-6">
                     <label for="bullding_no">{{__('bullding_no')}}</label>
-                    <input name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('bullding_no')}}"  value="@if(old('bullding_no')){{old('bullding_no')}}@else{{ $user->bullding_no }}@endif">
+                    <input name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('bullding_no')}}"  value="@if($errors->any()){{old('bullding_no')}}@else{{ $user->bullding_no }}@endif">
                   </div> 
                   <div class="form-group  col-md-6">
                     <label for="street_name">{{__('street_name')}}</label>
-                    <input name="street_name" type="text" class="form-control" id="street_name" placeholder="{{__('street_name')}}"  value="@if(old('street_name')){{old('street_name')}}@else{{ $user->street_name }}@endif">
+                    <input name="street_name" type="text" class="form-control" id="street_name" placeholder="{{__('street_name')}}"  value="@if($errors->any()){{old('street_name')}}@else{{ $user->street_name }}@endif">
                   </div>
                   <div class="form-group  col-md-6">
                     <label for="district">{{__('district')}}</label>
-                    <input name="district" type="text" class="form-control" id="district" placeholder="{{__('district')}}"  value="@if(old('district')){{old('district')}}@else{{ $user->district }}@endif">
+                    <input name="district" type="text" class="form-control" id="district" placeholder="{{__('district')}}"  value="@if($errors->any()){{old('district')}}@else{{ $user->district }}@endif">
                   </div>
                   <div class="form-group  col-md-6">
                     <label for="city">{{__('city')}}</label>
-                    <input name="city" type="text" class="form-control" id="city" placeholder="{{__('city')}}"  value="@if(old('city')){{old('city')}}@else{{ $user->city }}@endif">
+                    <input name="city" type="text" class="form-control" id="city" placeholder="{{__('city')}}"  value="@if($errors->any()){{old('city')}}@else{{ $user->city }}@endif">
                   </div>
                   <div class="form-group  col-md-6">
                     <label for="postal_code">{{__('postal_code')}}</label>
-                    <input name="postal_code" type="text" class="form-control" id="postal_code" placeholder="{{__('postal_code')}}"  value="@if(old('postal_code')){{old('postal_code')}}@else{{ $user->postal_code }}@endif">
+                    <input name="postal_code" type="text" class="form-control" id="postal_code" placeholder="{{__('postal_code')}}"  value="@if($errors->any()){{old('postal_code')}}@else{{ $user->postal_code }}@endif">
                   </div>
                   <div class="form-group  col-md-6">
                     <label for="additional_no">{{__('additional_no')}}</label>
-                    <input name="additional_no" type="text" class="form-control" id="additional_no" placeholder="{{__('additional_no')}}"  value="@if(old('additional_no')){{old('additional_no')}}@else{{ $user->additional_no }}@endif">
+                    <input name="additional_no" type="text" class="form-control" id="additional_no" placeholder="{{__('additional_no')}}"  value="@if($errors->any()){{old('additional_no')}}@else{{ $user->additional_no }}@endif">
                   </div>
                   <div class="form-group  col-md-6">
                     <label for="other_buyer_id">{{__('other_buyer_id')}}</label>
-                    <input name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}"  value="@if(old('other_buyer_id')){{old('other_buyer_id')}}@else{{ $user->other_buyer_id }}@endif">
+                    <input name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}"  value="@if($errors->any()){{old('other_buyer_id')}}@else{{ $user->other_buyer_id }}@endif">
                   </div>
                   <div class="form-group col-md-6">
                     <label for="vat_registration_number">{{ __('VAT Registration Number') }} ( {{ __('optional') }} )</label>
-                    <input value="@if(old('vat_registration_number')){{old('vat_registration_number')}}@else{{ $user->vat_registration_number }}@endif" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
+                    <input value="@if($errors->any()){{old('vat_registration_number')}}@else{{ $user->vat_registration_number }}@endif" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
                   </div>
                 </div>
               </div><!-- form-row -->
