@@ -49,8 +49,10 @@ class RemoveDuplicatedTransactions extends Command
             ->having('n', '>', 1)
             ->groupBy('bill_id')
             ->get();
-
+        
+        $i = 0;
         foreach ($transactions as $transaction) {
+            $i++;
             $transactionToDelete = Transaction::where('bill_id', $transaction->bill_id)
                 ->where('settled', 0)
                 ->where('pending_settled', 0)
@@ -59,7 +61,7 @@ class RemoveDuplicatedTransactions extends Command
                 ->first();
 
             $transactionToDelete->delete();
-            var_dump("Done: " . $transactionToDelete->id);
+            var_dump($i . "- Done: " . $transactionToDelete->id);
         }
 
         return true;
