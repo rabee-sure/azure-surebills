@@ -49,7 +49,7 @@
               <h1 class="mb-3">{{ __('Tax Invoice') }}</h1>
               <div class=" form-row mb-2">
                 <div class="form-group col-12">
-                  <label for="inputEmail1">{{ __('Add Tax Invoice') }}</label>
+                  <label for="inputEmail1">{{ __('Activate Tax Invoice') }}</label>
                   <div class="custom-switch custom-switch-primary mb-2">
                     <input name="add_tax_invoice" class="custom-switch-input" id="Tax_Invoice_Values_Checkbox" type="checkbox" @if($user->settings->add_tax_invoice || old('add_tax_invoice') == 'on') checked @endif>
                     <label class="custom-switch-btn" for="Tax_Invoice_Values_Checkbox"></label>
@@ -59,35 +59,35 @@
                 <div class="row Tax_Invoice_Values">
                   <div class="form-group  col-md-6">
                     <label for="bullding_no">{{__('bullding_no')}}</label>
-                    <input name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('bullding_no')}}"  value="{{ $user->bullding_no }}">
+                    <input name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('bullding_no')}}"  value="@if(old('bullding_no')){{old('bullding_no')}}@else{{ $user->bullding_no }}@endif">
                   </div> 
                   <div class="form-group  col-md-6">
                     <label for="street_name">{{__('street_name')}}</label>
-                    <input name="street_name" type="text" class="form-control" id="street_name" placeholder="{{__('street_name')}}"  value="{{ $user->street_name }}">
+                    <input name="street_name" type="text" class="form-control" id="street_name" placeholder="{{__('street_name')}}"  value="@if(old('street_name')){{old('street_name')}}@else{{ $user->street_name }}@endif">
                   </div>
                   <div class="form-group  col-md-6">
                     <label for="district">{{__('district')}}</label>
-                    <input name="district" type="text" class="form-control" id="district" placeholder="{{__('district')}}"  value="{{ $user->district }}">
+                    <input name="district" type="text" class="form-control" id="district" placeholder="{{__('district')}}"  value="@if(old('district')){{old('district')}}@else{{ $user->district }}@endif">
                   </div>
                   <div class="form-group  col-md-6">
                     <label for="city">{{__('city')}}</label>
-                    <input name="city" type="text" class="form-control" id="city" placeholder="{{__('city')}}"  value="{{ $user->city }}">
+                    <input name="city" type="text" class="form-control" id="city" placeholder="{{__('city')}}"  value="@if(old('city')){{old('city')}}@else{{ $user->city }}@endif">
                   </div>
                   <div class="form-group  col-md-6">
                     <label for="postal_code">{{__('postal_code')}}</label>
-                    <input name="postal_code" type="text" class="form-control" id="postal_code" placeholder="{{__('postal_code')}}"  value="{{ $user->postal_code }}">
+                    <input name="postal_code" type="text" class="form-control" id="postal_code" placeholder="{{__('postal_code')}}"  value="@if(old('postal_code')){{old('postal_code')}}@else{{ $user->postal_code }}@endif">
                   </div>
                   <div class="form-group  col-md-6">
                     <label for="additional_no">{{__('additional_no')}}</label>
-                    <input name="additional_no" type="text" class="form-control" id="additional_no" placeholder="{{__('additional_no')}}"  value="{{ $user->additional_no }}">
+                    <input name="additional_no" type="text" class="form-control" id="additional_no" placeholder="{{__('additional_no')}}"  value="@if(old('additional_no')){{old('additional_no')}}@else{{ $user->additional_no }}@endif">
                   </div>
                   <div class="form-group  col-md-6">
                     <label for="other_buyer_id">{{__('other_buyer_id')}}</label>
-                    <input name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}"  value="{{ $user->other_buyer_id }}">
+                    <input name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}"  value="@if(old('other_buyer_id')){{old('other_buyer_id')}}@else{{ $user->other_buyer_id }}@endif">
                   </div>
                   <div class="form-group col-md-6">
                     <label for="vat_registration_number">{{ __('VAT Registration Number') }} ( {{ __('optional') }} )</label>
-                    <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
+                    <input value="@if(old('vat_registration_number')){{old('vat_registration_number')}}@else{{ $user->vat_registration_number }}@endif" name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
                   </div>
                 </div>
               </div><!-- form-row -->
