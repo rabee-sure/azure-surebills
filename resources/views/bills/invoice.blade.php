@@ -214,11 +214,11 @@
                 <br>
                 نسبة الضريبة
               </td>
-              <td style="border: 1px solid #000;font-size: 8pt;padding: 5px;color: #fff;background-color: #666;font-weight: normal;text-align: center;width: 12.5%;">
+              <!-- <td style="border: 1px solid #000;font-size: 8pt;padding: 5px;color: #fff;background-color: #666;font-weight: normal;text-align: center;width: 12.5%;">
                 Discount
                 <br>
                 خصومات
-              </td>
+              </td> -->
               <td style="border: 1px solid #000;font-size: 8pt;padding: 5px;color: #fff;background-color: #666;font-weight: normal;text-align: center;width: 12.5%;">
                 Taxable Amount
                 <br>
@@ -247,24 +247,14 @@
             @endphp
             @foreach($bill->items as $item)
             @php
-
-              if($bill->add_discount && $bill->discount_type == 'percentage'){
-                $discount_total = ($bill->add_discount) ? $bill->discount_value * $item->product_price* $item->quantity / 100 : 0;
-              }elseif($bill->add_discount && $bill->discount_type == 'fixed'){
-                $perc = $bill->sub_total / $bill->discount_value;
-                $discount_total = ($bill->add_discount) ? $perc * $item->product_price* $item->quantity / 100 : 0;
-              }else{
-                $discount_total = 0;
-              }
-              $tax_total = ($bill->add_tax) ? $bill->tax_value * (($item->product_price* $item->quantity)-$discount_total) / 100 : 0;
-              $total = ($item->product_price* $item->quantity) - $discount_total + $tax_total;
+              $tax_total = ($bill->add_tax) ? $bill->tax_value * (($item->product_price* $item->quantity)) / 100 : 0;
+              $total = ($item->product_price* $item->quantity) + $tax_total;
               $index++;
             @endphp
             <tr>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$total}}</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">@if($bill->add_tax) {{$tax_total}} SAR @else 0 @endif</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">@if($bill->add_tax) {{$bill->tax_value}} % @else -@endif</td>
-              <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">@if($bill->add_discount) {{$discount_total}} SAR @else 0 @endif</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$item->total}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$item->quantity}}</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: center;font-weight: normal;font-size: 8pt;width: 12.5%;direction: ltr;">{{$item->product_price}} SAR</td>
