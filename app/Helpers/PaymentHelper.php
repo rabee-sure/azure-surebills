@@ -25,6 +25,7 @@ class PaymentHelper
             );
             $orderBody = json_decode($orderResponse->getBody()->getContents(), false);
             $transaction = $orderBody->transaction[count($orderBody->transaction)-1];
+            Log::emergency(json_encode($transaction));
 
             $orderResponseJson['id'] = $orderBody->id;
             $orderResponseJson['card']['last4Digits'] = substr($orderBody->sourceOfFunds->provided->card->number, -4);
