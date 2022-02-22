@@ -15,12 +15,20 @@ use App\Payment\Facades\Payment;
 use App\Events\BillStatusUpdated;
 use App\Http\Requests\BillRequest;
 use Illuminate\Support\Facades\DB;
+use App\Services\MasterCardService;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\RefundRequest;
 use Illuminate\Validation\ValidationException as ValidationsException;
 
 class BillController extends Controller
 {
+    private $masterCardService;
+
+    public function __construct() 
+    {
+        $this->masterCardService = new MasterCardService();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -287,6 +295,7 @@ class BillController extends Controller
         if ($bill->is_invalid) {
             return view('bills.status', ['bill' => $bill]);
         }
+        dd($payment);
 
         $invoice = (new Invoice)->amount(number_format($bill->total, 2, '.', ''))
             ->detail(['bill_id' => $bill->id])
@@ -295,17 +304,6 @@ class BillController extends Controller
         $invoice = Payment::via($payment->payment_method)->paymentStatus($invoice);
 
         return PaymentHelper::checkPaymentStatus($invoice, $payment, $bill);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     /**
@@ -374,36 +372,7 @@ class BillController extends Controller
 
     public function masterCardWebHookResponse(Request $request)
     {
-        $response = $request->all();
-
-        // handle response
-        if (isset($response['order']) && isset($response['order']['id'])) {
-
-            // get bill
-            $bill = Bill::find($response['order']['id']);
-            if ($bill) {
-                dump($bill);
-                dd($response);
-            }
-        }
-        if ($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret')) {
-            $response = $request->all();
-            $orderBody = json_decode(json_encode($response), FALSE);
-
-            // process payment
-            $bill = Bill::find($orderBody->order->id);
-            if ($bill) {
-                $invoice = new Invoice();
-                $details = $invoice
-                    ->detail(['bill' => $bill->toArray()])
-                    ->getDetails();
-                PaymentHelper::handlePaymentResponse($invoice, $orderBody->order->id, $details, true);
-            } else {
-                return false;
-            }
-        }
-        
-        return false;
+        return $this->masterCardService->handleWebhook($request);
     }
 
     /**
