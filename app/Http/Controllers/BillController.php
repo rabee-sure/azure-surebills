@@ -374,7 +374,18 @@ class BillController extends Controller
 
     public function masterCardWebHookResponse(Request $request)
     {
-        Log::emergency(json_encode($request->all()));
+        $response = $request->all();
+
+        // handle response
+        if (isset($response['order']) && isset($response['order']['id'])) {
+
+            // get bill
+            $bill = Bill::find($response['order']['id']);
+            if ($bill) {
+                dump($bill);
+                dd($response);
+            }
+        }
         if ($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret')) {
             $response = $request->all();
             $orderBody = json_decode(json_encode($response), FALSE);
@@ -390,9 +401,9 @@ class BillController extends Controller
             } else {
                 return false;
             }
-        } else {
-            return false;
         }
+        
+        return false;
     }
 
     /**
