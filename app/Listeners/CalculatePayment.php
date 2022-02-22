@@ -36,10 +36,10 @@ class CalculatePayment
      */
     public function handle(BillPaid $event)
     {
-        $payment_log = $event->bill->success_payment;
+        $bill = $event->bill;
+        $payment_log = $event->payment;
 
-        if($payment_log){
-            $bill = $event->bill;
+        if($bill && $payment_log){
             $percentage = $bill->getPercentage($payment_log);
             $fixed = $bill->getFixed($payment_log);
 

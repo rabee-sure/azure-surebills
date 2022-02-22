@@ -40,12 +40,12 @@ class MasterCardService
 
                     // handle PAYMENT transaction
                     if ($response['transaction']['type'] == "PAYMENT") {
-                        $this->handlePaymentTransaction($response, $bill, $payment);
+                        return $this->handlePaymentTransaction($response, $bill, $payment);
                     }
 
                     // handle REFUND transaction
                     if ($response['transaction']['type'] == "REFUND") {
-                        $this->handleRefundTransaction($response, $bill, $payment);
+                        return $this->handleRefundTransaction($response, $bill, $payment);
                     }
                 }
             }
@@ -59,9 +59,44 @@ class MasterCardService
     */
     private function handlePaymentTransaction($response, $bill, $payment)
     {
-        dump($response['response']['gatewayCode']);
-        dump($response['result']);
-        dd($response['transaction']['type']);
+        // data
+        $card_number = $response['sourceOfFunds']['provided']['card']['number'];
+        $bank_message = $response['response']['acquirerMessage'] ?? null;
+        $bank_transaction_id = $response['transaction']['acquirer']['transactionId'] ?? null;
+        if (isset($response['sourceOfFunds']['provided']['card']['localBrand'])) {
+            $brand = 'MADA';
+        } else {
+            $brand = $response['sourceOfFunds']['provided']['card']['brand'];
+        }
+
+        if ($response['result'] == "SUCCESS" && $response['response']['gatewayCode'] == "APPROVED") {
+            $payment->results = $response;
+            $payment->status = true;
+            $payment->brand = $brand;
+            $payment->card_number = $card_number;
+            $payment->bank_transaction_id = $bank_transaction_id;
+            $payment->bank_message = $bank_message;
+            $payment->save();
+            $bill->setPaid();
+
+            $bill->firePaidEvent($payment);
+        } else {
+            $payment->results = $response;
+            $payment->status = false;
+            $payment->brand = $brand;
+            $payment->card_number = $card_number;
+            $payment->bank_transaction_id = $bank_transaction_id;
+            $payment->bank_message = $bank_message;
+            $payment->save();
+
+            // set failed if coming from the app
+            if($bill->application && $bill->is_redirect) {
+                $bill->status = 'failed';
+                $bill->save();
+            }
+        }
+
+        return true;
     }
 
     /*
@@ -70,9 +105,41 @@ class MasterCardService
     */
     private function handleRefundTransaction($response, $bill, $payment)
     {
-        dump($response['response']['gatewayCode']);
-        dump($response['result']);
-        dd($response['transaction']['type']);
+        // data
+        $card_number = $response['sourceOfFunds']['provided']['card']['number'];
+        $bank_message = $response['response']['acquirerMessage'] ?? null;
+        $bank_transaction_id = $response['transaction']['acquirer']['transactionId'] ?? null;
+        if (isset($response['sourceOfFunds']['provided']['card']['localBrand'])) {
+            $brand = 'MADA';
+        } else {
+            $brand = $response['sourceOfFunds']['provided']['card']['brand'];
+        }
+
+        if ($response['result'] == "SUCCESS" && $response['response']['gatewayCode'] == "APPROVED") {
+            $payment->results = $response;
+            $payment->status = true;
+            $payment->brand = $brand;
+            $payment->card_number = $card_number;
+            $payment->bank_transaction_id = $bank_transaction_id;
+            $payment->bank_message = $bank_message;
+            $payment->save();
+
+            if ($bill->total == $response['transaction']['amount']) {
+                $bill->fireRefundEvent($payment);
+            } else {
+                $bill->fireRefundEvent($payment, $response['transaction']['amount']);
+            }
+        } else {
+            $payment->results = $response;
+            $payment->status = false;
+            $payment->brand = $brand;
+            $payment->card_number = $card_number;
+            $payment->bank_transaction_id = $bank_transaction_id;
+            $payment->bank_message = $bank_message;
+            $payment->save();
+        }
+
+        return true;
     }
 
     /*

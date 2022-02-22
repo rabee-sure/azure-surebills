@@ -37,8 +37,6 @@ class MakeTransactionsForOwner
      */
     public function handle()
     {
-        $logResponse = isset($this->log->results['response']) ? $this->log->results['response'] : [];
-
         $transaction = new Transaction;
         $transaction->user_id     = $this->bill->user_id;
         $transaction->bill_id     = $this->bill->id;
@@ -46,12 +44,13 @@ class MakeTransactionsForOwner
         $transaction->amount      = ($this->bill->total - $this->bill->channel_extra_amount - $this->bill->channel_extra_vat);
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'Bill ' . $this->bill->number . ' - ' . $this->bill->customer_name;
-        if (isset($logResponse['paymentBrand']) && $this->log->payment_method == 'mastercard_applepay') {
-            $transaction->card_brand  = 'APPLEPAY';
-            $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
-        } else if (isset($logResponse['card'])) {
-            $transaction->card_brand  = $logResponse['paymentBrand'];
-            $transaction->card        = 'XXX' . $logResponse['card']['last4Digits'];
+        $transaction->auth_id     = $this->log->bank_transaction_id;
+        if ($this->log->payment_method == 'mastercard_applepay') {
+            $transaction->card_brand  = 'APPLEPAY - ' . $this->log->brand;
+            $transaction->card        = $this->log->card_number;
+        } else {
+            $transaction->card_brand  = $this->log->brand;
+            $transaction->card        = $this->log->card_number;
         }
         $transaction->transaction_source = 'bill';
         $transaction->saveIfUnique();

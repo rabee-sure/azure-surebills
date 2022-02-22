@@ -27,9 +27,9 @@ class CallbackApplication
     public function handle(BillStatusUpdated $event)
     {
         $bill = $event->bill;
+        $payment = $event->payment;
 
         if($bill->application){
-            $log= $bill->last_payment->results['response'];
             WebhookCall::create()
                 ->url($bill->application->webhook_url)
                 ->payload([
@@ -40,10 +40,12 @@ class CallbackApplication
                     'pay_url' => $bill->pay_url,
                     'total' => $bill->total,
                     
-                    'payment_brand' => $log['paymentBrand']??null,
-                    'last_4_digits' => $log['card']['last4Digits']??null,
-                    'code' => $log['result']['code']??null,
-                    'description' => $log['result']['description']??null,
+                    'code' => '',
+                    'payment_brand' => $payment ? $payment->brand : null,
+                    'card_number' => $payment ? $payment->brand : null,
+                    'last_4_digits' => $payment ? substr($payment->brand, -4) : null,
+                    'bank_transaction_id' => $payment ? $payment->bank_transaction_id : null,
+                    'description' => $payment ? $payment->bank_message : null,
 
                 ])
                 ->useSecret($bill->application->webhook_secret)

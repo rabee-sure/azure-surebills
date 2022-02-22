@@ -381,6 +381,10 @@ class Bill extends Model
         if (isset($this->success_payment->results['response']) && isset($this->success_payment->results['response']['paymentBrand'])) {
             $method .= $this->success_payment->results['response']['paymentBrand'];
         }
+        
+        if ($this->success_payment->brand) {
+            $method .= $this->success_payment->brand;
+        }
 
         return $method;
     }
@@ -634,9 +638,9 @@ class Bill extends Model
     }
 
     /**
-     * Mark invoice as paid
+     * Fire paid event
      */
-    public function firePaidEvent()
+    public function firePaidEvent($payment)
     {
         if ($this->paid_event_fired) {
             return false;
@@ -645,8 +649,28 @@ class Bill extends Model
         $this->paid_event_fired = true;
         $this->save();
 
-        event(new BillPaid($this));
-        event(new BillStatusUpdated($this));
+        event(new BillPaid($this, $payment));
+        event(new BillStatusUpdated($this, $payment));
+    }
+
+    /**
+     * Fire refund event
+     */
+    public function fireRefundEvent($payment, $partial_amount = false)
+    {
+        if ($this->refund_event_fired) {
+            return false;
+        }
+
+        $this->refund_event_fired = true;
+        $this->save();
+
+        if ($partial_amount) {
+            event(new BillPartialRefunded($this, $payment, $partial_amount));
+        } else {
+            event(new BillRefunded($this, $payment));
+        }
+        event(new BillStatusUpdated($this, $payment));
     }
 
     /**
@@ -660,13 +684,11 @@ class Bill extends Model
         }
 
         if ($this->success_payment && $this->success_payment->refund($this->total)) {
+            $this->refund_event_fired = false;
             $this->status = 'refunded';
             $this->refunded_at = Carbon::now();
             $this->refund_amount = $this->refund_amount + $this->total;
             $this->save();
-
-            event(new BillRefunded($this));
-            event(new BillStatusUpdated($this));
 
             return true;
         } else {
@@ -693,11 +715,9 @@ class Bill extends Model
 
         if ($this->success_payment && $this->success_payment->refund($amount)) {
 
+            $this->refund_event_fired = false;
             $this->refund_amount = $this->refund_amount + $amount;
             $this->save();
-
-            event(new BillPartialRefunded($this, $amount));
-            event(new BillStatusUpdated($this));
 
             return true;
         } else {
@@ -793,17 +813,13 @@ class Bill extends Model
      */
     public function getPercentage($log, $from_channel = false)
     {
-        $response = $log->results['response'] ?? $this->success_payment->results['response'];
         if (isset($this->application) && isset($this->application->channel)) {
             $object = $from_channel ? $this->application->channel : $this->application;
         } else {
             $object = $this->user;
         }
-        if (isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA') {
-            return $object->mada_percentage;
-        } else {
-            return $object->credit_cards_percentage;
-        }
+        
+        return $log->brand == 'MADA' ? $object->mada_percentage : $object->credit_cards_percentage;
     }
 
     /**
@@ -813,17 +829,13 @@ class Bill extends Model
      */
     public function getFixed($log, $from_channel = false)
     {
-        $response = $log->results['response'] ?? $this->success_payment->results['response'];
         if (isset($this->application) && isset($this->application->channel)) {
             $object = $from_channel ? $this->application->channel : $this->application;
         } else {
             $object = $this->user;
         }
-        if (isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA') {
-            return $object->mada_fixed;
-        } else {
-            return $object->credit_cards_fixed;
-        }
+        
+        return $log->brand == 'MADA' ? $object->mada_fixed : $object->credit_cards_fixed;
     }
 
 

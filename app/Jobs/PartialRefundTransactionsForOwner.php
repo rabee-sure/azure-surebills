@@ -17,6 +17,8 @@ class PartialRefundTransactionsForOwner
 
     protected $bill;
 
+    protected $log;
+
     protected $amount;
 
     /**
@@ -24,9 +26,10 @@ class PartialRefundTransactionsForOwner
      *
      * @return void
      */
-    public function __construct(Bill $bill, $amount)
+    public function __construct(Bill $bill, $log, $amount)
     {
         $this->bill = $bill;
+        $this->log = $log;
         $this->amount = $amount;
     }
 
@@ -53,6 +56,9 @@ class PartialRefundTransactionsForOwner
         $transaction->amount      = $this->amount;
         $transaction->reference   = $this->bill->number;
         $transaction->description = 'PARTIAL REFUND Bill ' . $this->bill->number . ' - ' . $this->bill->customer_name;
+        $transaction->auth_id     = $this->log->bank_transaction_id;
+        $transaction->card_brand  = $this->log->brand;
+        $transaction->card        = $this->log->card_number;
         $transaction->transaction_source = 'refund';
         $transaction->order = $order_max+1;
         $transaction->save();

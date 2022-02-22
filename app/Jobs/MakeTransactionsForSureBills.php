@@ -39,11 +39,7 @@ class MakeTransactionsForSureBills
     {
         $user = User::whereEmail('surebills@sura.com.sa')->first();
 
-        // dd([
-        //     'payment_surebills_fees' => $this->bill->payment_surebills_fees,
-        //     'number' => $this->bill->number,
-        // ]);
-        if(isset($this->bill->payment_surebills_fees) && isset($this->bill->payment_surebills_fees_vat) ){
+        if($user && isset($this->bill->payment_surebills_fees) && isset($this->bill->payment_surebills_fees_vat) ){
 
             $fee_trans = new Transaction;
             $fee_trans->user_id     = $user->id;

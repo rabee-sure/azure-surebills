@@ -34,14 +34,14 @@ class CalculatePartialRefundedPayment
      */
     public function handle(BillPartialRefunded $event)
     {
-        $payment_log = $event->bill->success_payment;
+        $bill = $event->bill;
+        $payment_log = $event->payment;
 
-        if($payment_log){
-            $bill = $event->bill;
+        if($bill && $payment_log){
             $amount = $event->amount;
                         
             //Refund Transactions For Owner.
-            PartialRefundTransactionsForOwner::dispatch($bill, $amount);
+            PartialRefundTransactionsForOwner::dispatch($bill, $payment_log, $amount);
 
             //Refund Transactions For Channel
             PartialRefundTransactionsForChannel::dispatch($bill, $amount);

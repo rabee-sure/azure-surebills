@@ -32,10 +32,10 @@ class CalculateRefundedPayment
      */
     public function handle(BillRefunded $event)
     {
-        $payment_log = $event->bill->success_payment;
+        $bill = $event->bill;
+        $payment_log = $event->payment;
 
-        if($payment_log){
-            $bill = $event->bill;
+        if($bill && $payment_log){
             //Refund Transactions For Owner.
             RefundTransactionsForOwner::dispatch($bill, $payment_log);
 

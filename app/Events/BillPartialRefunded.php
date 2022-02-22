@@ -15,6 +15,7 @@ class BillPartialRefunded
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $bill;
+    public $payment;
     public $amount;
     
     /**
@@ -22,9 +23,10 @@ class BillPartialRefunded
      *
      * @return void
      */
-    public function __construct($bill, $amount)
+    public function __construct($bill, $payment, $amount)
     {
         $this->bill = $bill;
+        $this->payment = $payment;
         $this->amount = $amount;
     }
 

@@ -15,15 +15,17 @@ class BillPaid
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $bill;
+    public $payment;
     
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($bill)
+    public function __construct($bill, $payment)
     {
         $this->bill = $bill;
+        $this->payment = $payment;
     }
 
     /**
