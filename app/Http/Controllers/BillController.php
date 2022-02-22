@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\BillCreated;
-use App\Events\BillStatusUpdated;
-use App\Http\Requests\BillRequest;
-use App\Http\Requests\RefundRequest;
+use Carbon\Carbon;
+use PaymentHelper;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\Customer;
-use App\Models\PaymentLog;
-use App\Payment\Facades\Payment;
 use App\Payment\Invoice;
-use Carbon\Carbon;
+use App\Models\PaymentLog;
+use App\Events\BillCreated;
 use Illuminate\Http\Request;
+use App\Payment\Facades\Payment;
+use App\Events\BillStatusUpdated;
+use App\Http\Requests\BillRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Requests\RefundRequest;
 use Illuminate\Validation\ValidationException as ValidationsException;
-use PaymentHelper;
 
 class BillController extends Controller
 {
@@ -373,6 +374,7 @@ class BillController extends Controller
 
     public function masterCardWebHookResponse(Request $request)
     {
+        Log::emergency(json_encode($request->all()));
         if ($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret')) {
             $response = $request->all();
             $orderBody = json_decode(json_encode($response), FALSE);
