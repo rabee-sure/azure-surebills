@@ -7119,7 +7119,9 @@ i.large-icon {
         background: white;
         height: 100%;
     }
-
+.tooltip {
+  display: none !important;
+}
     main {
         margin: 0 !important;
     }
