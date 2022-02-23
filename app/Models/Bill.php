@@ -710,7 +710,7 @@ class Bill extends Model
             $this->save();
 
             return true;
-        } else {
+        } else if (!$this->success_payment) {
             $this->status = $this->status == 'paid_cash' ? 'refunded_cash' : 'refunded_bank_transfer';
             $this->total = 0;
             $this->refunded_at = Carbon::now();
@@ -739,7 +739,7 @@ class Bill extends Model
             $this->save();
 
             return true;
-        } else {
+        } else if (!$this->success_payment) {
             $this->total = $this->total - $amount;
             $this->refund_amount = $this->refund_amount + $amount;
             $this->save();

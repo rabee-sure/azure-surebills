@@ -39,18 +39,24 @@ class CalculateRefundedPayment
             //Refund Transactions For Owner.
             RefundTransactionsForOwner::dispatch($bill, $payment_log);
 
-            //Refund Transactions For Channel
-            RefundTransactionsForChannel::dispatch($bill, $payment_log);
+            // refund fees
+            if($bill->user->able_refund_with_fees){
+                //Refund Transactions For Channel
+                RefundTransactionsForChannel::dispatch($bill, $payment_log);
 
-            //Refund Transactions For SureBills
-            RefundTransactionsForSureBills::dispatch($bill, $payment_log);
+                //Refund Transactions For SureBills
+                RefundTransactionsForSureBills::dispatch($bill, $payment_log);
+            }
 
-            $bill->payment_fees = null;
-            $bill->payment_fees_vat = null;
-            $bill->payment_channel_fees = null;
-            $bill->payment_channel_fees_vat = null;
-            $bill->payment_surebills_fees = null;
-            $bill->payment_surebills_fees_vat = null;
+            // refund fees
+            if($bill->user->able_refund_with_fees){
+                $bill->payment_fees = null;
+                $bill->payment_fees_vat = null;
+                $bill->payment_channel_fees = null;
+                $bill->payment_channel_fees_vat = null;
+                $bill->payment_surebills_fees = null;
+                $bill->payment_surebills_fees_vat = null;
+            }
             $bill->save();
         }
     }

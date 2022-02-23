@@ -43,11 +43,14 @@ class CalculatePartialRefundedPayment
             //Refund Transactions For Owner.
             PartialRefundTransactionsForOwner::dispatch($bill, $payment_log, $amount);
 
-            //Refund Transactions For Channel
-            PartialRefundTransactionsForChannel::dispatch($bill, $amount);
+            // refund fees
+            if($bill->user->able_refund_with_fees){
+                //Refund Transactions For Channel
+                PartialRefundTransactionsForChannel::dispatch($bill, $amount);
 
-            //Refund Transactions For SureBills
-            PartialRefundTransactionsForSureBills::dispatch($bill, $amount);
+                //Refund Transactions For SureBills
+                PartialRefundTransactionsForSureBills::dispatch($bill, $amount);
+            }
 
             $this->updateBillAmounts($bill, $amount);
         }
@@ -58,14 +61,18 @@ class CalculatePartialRefundedPayment
         $amount_prc = $amount/$bill->total;
 
         $bill->total = $bill->total - $amount;
-        $bill->payment_fees -= $bill->payment_fees * $amount_prc;
-        $bill->payment_fees_vat -= $bill->payment_fees_vat * $amount_prc;
-        
-        $bill->payment_surebills_fees -= $bill->payment_surebills_fees * $amount_prc;
-        $bill->payment_surebills_fees_vat -= $bill->payment_surebills_fees_vat * $amount_prc;
 
-        $bill->payment_channel_fees -= $bill->payment_channel_fees * $amount_prc;
-        $bill->payment_channel_fees_vat -= $bill->payment_channel_fees_vat * $amount_prc;
+        // refund fees
+        if($bill->user->able_refund_with_fees){
+            $bill->payment_fees -= $bill->payment_fees * $amount_prc;
+            $bill->payment_fees_vat -= $bill->payment_fees_vat * $amount_prc;
+            
+            $bill->payment_surebills_fees -= $bill->payment_surebills_fees * $amount_prc;
+            $bill->payment_surebills_fees_vat -= $bill->payment_surebills_fees_vat * $amount_prc;
+
+            $bill->payment_channel_fees -= $bill->payment_channel_fees * $amount_prc;
+            $bill->payment_channel_fees_vat -= $bill->payment_channel_fees_vat * $amount_prc;
+        }
 
         $bill->save();
     }
