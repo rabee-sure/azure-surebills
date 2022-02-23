@@ -71,6 +71,18 @@
             {{ __('Integration') }}
           </a>
         </li>
+        <li>
+          <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
+            <i class="iconsminds-project"></i> 
+            <span class="d-inline-block">{{ __('Products') }}</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}">
+            <i class="iconsminds-clothing-store"></i> 
+            <span class="d-inline-block">{{ __('Product Sections') }}</span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
@@ -86,18 +98,6 @@
         <li>
           <a href="{{ route('products.settings') }}" title="{{ __('Store Settings') }}">
             <i class="iconsminds-clothing-store"></i> <span class="d-inline-block">{{ __('Store Settings') }}</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
-            <i class="iconsminds-project"></i> 
-            <span class="d-inline-block">{{ __('Products') }}</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('products.categories') }}" title="{{ __('Product Sections') }}">
-            <i class="iconsminds-clothing-store"></i> 
-            <span class="d-inline-block">{{ __('Product Sections') }}</span>
           </a>
         </li>
       </ul>

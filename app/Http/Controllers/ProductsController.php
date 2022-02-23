@@ -14,7 +14,17 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         return view('products.index');
-    }    
+    }  
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexCategory(Request $request)
+    {
+        return view('products.index-category');
+    }
 
     /**
      * Display a listing of the resource.
@@ -41,9 +51,9 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $slug)
+    public function createCategory(Request $request)
     {
-        return view('products.store');
+        return view('products.create-category');
     }
 
     /**
@@ -51,9 +61,29 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function categories(Request $request)
+    public function store(Request $request, $slug)
     {
-        return view('products.categories');
+        return view('products.store');
+    }
+
+    public function edit($id, Request $request)
+    {
+        return view('products.edit');
+    }
+
+    public function editCategory($id, Request $request)
+    {
+        return view('products.edit-category');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $slug)
+    {
+        return view('products.update');
     }
 
     /**
