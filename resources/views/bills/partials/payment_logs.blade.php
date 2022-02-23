@@ -15,15 +15,39 @@
                     </thead>
                     <tbody>
                         @foreach($bill->payment_logs as $log)
+                            @php
+                                // brand
+                                if (isset($log->results['response']) && isset($log->results['response']['paymentBrand'])) {
+                                    $brand = $log->results['response']['paymentBrand'];
+                                } else {
+                                    $brand = $log->brand;
+                                }
+
+                                // refund amount
+                                if (isset($log->results['transaction']['amount'])) {
+                                    $refund_amount = $log->results['transaction']['amount'];
+                                } else {
+                                    $refund_amount = $log->refund_amount;
+                                }
+
+                                // total amount
+                                if (isset($log->results['bill']['total'])) {
+                                    $total_amount = $log->results['bill']['total'];
+                                } else if (isset($log->results['transaction']['amount'])) {
+                                    $total_amount = $log->results['transaction']['amount'];
+                                } else {
+                                    $total_amount = '---';
+                                }
+                            @endphp
                             <tr>
                                 <td>
-                                    @if(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MADA')
+                                    @if($brand == 'MADA')
                                         <img src="{{ asset('/images/payments/mada.png') }}" alt="mada" height="25px">
-                                    @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'VISA')
+                                    @elseif($brand == 'VISA')
                                         <img src="{{ asset('/images/payments/visa.png') }}" alt="visa" height="25px">
-                                    @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MASTERCARD')
+                                    @elseif($brand == 'MASTERCARD')
                                         <img src="{{ asset('/images/payments/card.png') }}" alt="mastercard" height="25px">
-                                    @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'APPLEPAY')
+                                    @elseif($brand == 'APPLEPAY')
                                         <img src="{{ asset('/images/payments/pay.png') }}" alt="apple pay" height="25px">
                                     @else
                                         <img src="{{ asset('/images/payments/cardnon.png') }}" alt="apple pay" height="25px">
@@ -40,17 +64,9 @@
                                 {{-- Values --}}
                                 <td>
                                     @if($log->payment_method == 'mastercard_refund')
-                                        @if(isset($log->results['transaction']['amount']))
-                                            {{ $log->results['transaction']['amount']}} {{__('SAR') }}
-                                        @else
-                                            {{ $log->refund_amount}} {{__('SAR') }}
-                                        @endif
+                                        {{ $refund_amount }} {{__('SAR') }}
                                     @else
-                                        @if(isset($log->results['bill']['total']))
-                                            {{ $log->results['bill']['total']}} {{__('SAR') }}
-                                        @else
-                                            ---
-                                        @endif
+                                        {{ $total_amount }} {{__('SAR') }}
                                     @endif
                                 </td>
 

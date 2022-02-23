@@ -160,7 +160,22 @@ class Bill extends Model
         return in_array($this->status, ['paid', 'paid_cash', 'paid_bank_transfer'])
             && $this->user->able_refund
             && $this->total > 0
-            && ($this->paid_at && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')));
+            && ($this->paid_at && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')))
+            && !$this->has_pending_refund;
+    }
+
+    /**
+     * Redirect Url.
+     *
+     * @var string
+     */
+    public function getHasPendingRefundAttribute()
+    {
+        $pending_refund = PaymentLog::where('payment_method', 'mastercard_refund')
+            ->where('webhook_response_received', false)
+            ->count();
+
+        return $pending_refund > 0 ? true : false;
     }
 
     /**
@@ -679,7 +694,11 @@ class Bill extends Model
     public function setRefunded()
     {
         if (!$this->is_able_refund) {
-            session(['refund_error' => __('You can not refund this bill.')]);
+            if ($this->has_pending_refund) {
+                session(['refund_error' => __('There is already a pending refund on your account.')]);
+            } else {
+                session(['refund_error' => __('You can not refund this bill.')]);
+            }
             return false;
         }
 

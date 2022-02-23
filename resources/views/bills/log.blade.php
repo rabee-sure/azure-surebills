@@ -3,6 +3,47 @@
 @section('title', __('Bills'))
 
 @section('content')
+
+
+@php
+  // brand
+  if (isset($log->results['response']) && isset($log->results['response']['paymentBrand'])) {
+      $brand = $log->results['response']['paymentBrand'];
+  } else {
+      $brand = $log->brand;
+  }
+
+  // refund amount
+  if (isset($log->results['transaction']['amount'])) {
+      $refund_amount = $log->results['transaction']['amount'];
+  } else {
+      $refund_amount = $log->refund_amount;
+  }
+
+  // total amount
+  if (isset($log->results['bill']['total'])) {
+      $total_amount = $log->results['bill']['total'];
+  } else if (isset($log->results['transaction']['amount'])) {
+      $total_amount = $log->results['transaction']['amount'];
+  } else {
+      $total_amount = '---';
+  }
+
+  // last 4 digits
+  if (isset($log->results['response']['card'])) {
+    $last4digits = "xxxx-xxxx-xxxx-" . $log->results['response']['card']['last4Digits'];
+  } else {
+    $last4digits = $log->card_number;
+  }
+
+  // bank message
+  if (isset($log->results['description'])) {
+    $bank_message = $log->results['description'];
+  } else {
+    $bank_message = $log->bank_message;
+  }
+@endphp
+
   <div class="row">
     <div class="col-12">
       <h1>{{ __('Bills') }}</h1>
@@ -25,20 +66,20 @@
         <div class="card-body">
           <div class="payment_block">
             <div class="title">
-                  @if(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MADA')
+                  @if($brand == 'MADA')
                     <img src="{{ asset('/images/payments/mada.png') }}" alt="mada">
-                  @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'VISA')
+                  @elseif($brand == 'VISA')
                     <img src="{{ asset('/images/payments/visa.png') }}" alt="visa">
-                  @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'MASTERCARD')
+                  @elseif($brand == 'MASTERCARD')
                     <img src="{{ asset('/images/payments/card.png') }}" alt="mastercard">
-                  @elseif(isset($log->results['response']) && isset($log->results['response']['paymentBrand']) && $log->results['response']['paymentBrand'] == 'APPLEPAY')
+                  @elseif($brand == 'APPLEPAY')
                     <img src="{{ asset('/images/payments/pay.png') }}" alt="apple pay">
                   @endif
               <p>           
                   @if($log->payment_method == 'mastercard_refund')
-                    {{ $log->results['transaction']['amount']}} {{__('SAR') }}
+                    {{ $refund_amount }} {{__('SAR') }}
                   @else
-                    {{ $log->results['bill']['total']}} {{__('SAR') }}
+                    {{ $total_amount }} {{__('SAR') }}
                   @endif
               </p>
               @if($log->payment_method == 'mastercard_refund')
@@ -51,25 +92,37 @@
             </div><!-- title -->
             <div class="desc">{{__('ID') }} : {{ $log->id }}</div>
             <div class="separator mb-5"></div>
-            <div class="table_block mb-5">
-              <div class="name"><div class="glyph-icon iconsminds-dollar"></div> {{__('Payment Details') }}</div>
+            <div class="table_block">
+              <div class="name"><div class="glyph-icon simple-icon-credit-card"></div> {{__('Operation Info') }}</div>
               <div class="table-responsive">
                 <table class="table table-striped table-bordered">
                   <tbody>
-                    @if($log->payment_method != 'mastercard_refund')
-                      <tr>
-                        <td>{{__('Amount') }}</td>
-                            @if($log->payment_method == 'mastercard_refund')
-                              <td>{{ $log->results['transaction']['amount']}} {{__('SAR') }}</td>
-                            @else
-                              <td>{{ $log->results['bill']['total']}} {{__('SAR') }}</td>
-                            @endif
-                      </tr>
-                      <tr>
-                        <td>{{__('Notes') }}</td>
-                        <td>{{$bill->customer_notes}}</td>
-                      </tr>
-                    @endif
+                    <tr>
+                      <td>{{__('Amount') }}</td>
+                      <td>
+                        @if($log->payment_method == 'mastercard_refund')
+                          {{ $refund_amount }} {{__('SAR') }}
+                        @else
+                          {{ $total_amount }} {{__('SAR') }}
+                        @endif
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>{{__('Card Type') }}</td>
+                      <td>{{ $brand }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{__('Card Number') }}</td>
+                      <td>{{ $last4digits }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ __('Bank Transaction ID') }}</td>
+                      <td>{{ $log->bank_transaction_id }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ __('Bank Message') }}</td>
+                      <td>{{ $bank_message }}</td>
+                    </tr>
                     <tr>
                       <td>{{__('Date created') }}</td>
                       <td>{{ $log->created_at}}</td>
@@ -81,42 +134,6 @@
                   </tbody>
                 </table>
               </div><!-- table-responsive -->
-            </div><!-- table_block -->
-            <div class="table_block">
-              @if($log->payment_method != 'mastercard_refund')
-                <div class="name"><div class="glyph-icon simple-icon-credit-card"></div> {{__('Payment Method') }}</div>
-                <div class="table-responsive">
-                  <table class="table table-striped table-bordered">
-                    <tbody>
-                      @if(isset($log->results['response']) && isset($log->results['response']['card']) && isset($log->results['response']['card']['holder']))
-                      <tr >
-                        <td>{{__('Name On Card') }}</td>
-                        <td>{{  $log->results['response']['card']['holder'] }}</td>
-                      </tr>
-                      @endif
-                      @if(isset($log->results['response']))
-                      <tr>
-                        <td>{{__('Card Type') }}</td>
-                        <td>{{ isset($log->results['response']['paymentBrand']) ? $log->results['response']['paymentBrand'] : null }}</td>
-                      </tr>
-                      @endif
-                      @if(isset($log->results['response']))
-                      <tr>
-                        <td>{{__('Card Number') }}</td>
-                        <td>xxxx-xxxx-xxxx-{{ isset($log->results['response']['card']) ? $log->results['response']['card']['last4Digits'] : null }}</td>
-                      </tr>
-
-                      @endif
-                      @if(isset($log->results['description']))
-                      <tr>
-                        <td>{{ __('Message') }}</td>
-                        <td>{{ $log->results['description'] }}</td>
-                      </tr>
-                      @endif
-                    </tbody>
-                  </table>
-                </div><!-- table-responsive -->
-              @endif
             </div><!-- table_block -->
           </div><!-- payment_block -->
         </div>
