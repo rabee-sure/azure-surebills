@@ -108,13 +108,14 @@ class MasterCardService
     private function handleRefundTransaction($response, $bill, $payment)
     {
         // data
-        $card_number = $response['sourceOfFunds']['provided']['card']['number'];
         $bank_message = $response['response']['acquirerMessage'] ?? null;
         $bank_transaction_id = $response['transaction']['acquirer']['transactionId'] ?? null;
         if (isset($response['sourceOfFunds']['provided']['card']['localBrand'])) {
             $brand = 'MADA';
+            $card_number = $response['sourceOfFunds']['provided']['card']['deviceSpecificNumber'];
         } else {
             $brand = $response['sourceOfFunds']['provided']['card']['brand'];
+            $card_number = $response['sourceOfFunds']['provided']['card']['number'];
         }
 
         if ($response['result'] == "SUCCESS" && $response['response']['gatewayCode'] == "APPROVED") {
