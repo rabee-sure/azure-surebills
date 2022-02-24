@@ -21,6 +21,12 @@
            {{ __('Bills') }}
           </a>
         </li>
+        <li class="{{ Request::is('pos*') ? 'active' : '' }}">
+          <a href="/pos/categories" title="{{ __('POS') }}">
+            <i class="iconsminds-testimonal"></i>
+           {{ __('POS') }}
+          </a>
+        </li>
         <li class="{{ Request::is('customers*') ? 'active' : '' }}">
           <a href="{{ route('customers.index') }}" title="{{ __('Customers') }}">
             <i class="iconsminds-mens"></i>

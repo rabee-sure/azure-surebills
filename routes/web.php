@@ -90,6 +90,15 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
 
+    //Zain 24/2/2022 POS Routes
+    Route::get('pos/categories', 'PosController@categories')->name('pos.categories');
+    Route::get('pos/products', 'PosController@products')->name('pos.products');
+    Route::get('pos/discount', 'PosController@discount')->name('pos.discount');
+    Route::get('pos/quantity', 'PosController@quantity')->name('pos.quantity');
+    Route::get('pos/pay', 'PosController@pay')->name('pos.pay');
+    Route::get('pos/bill', 'PosController@bill')->name('pos.bill');
+    Route::get('pos/client', 'PosController@client')->name('pos.client');
+
     Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
     Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
 
