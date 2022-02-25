@@ -171,8 +171,10 @@ class Bill extends Model
      */
     public function getHasPendingRefundAttribute()
     {
-        $pending_refund = PaymentLog::where('payment_method', 'mastercard_refund')
-            ->where('webhook_response_received', false)
+        $pending_refund = PaymentLog::where('payment_logs.payment_method', 'mastercard_refund')
+            ->where('payment_logs.webhook_response_received', false)
+            ->where('bills.user_id', $this->user_id)
+            ->join('bills', 'bills.id', '=', 'payment_logs.bill_id')
             ->count();
 
         return $pending_refund > 0 ? true : false;
