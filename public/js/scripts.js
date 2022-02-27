@@ -252,3 +252,12 @@ $(function() {
       $('#' + $(this).val()).show();
   });
 }).change();
+
+
+$(".openCartPhone button").click(function () {
+  $('#cart_pos').addClass('showCart');
+});
+$("#cart_pos .closeCartSide").click(function () {
+  $('#cart_pos').removeClass('showCart');
+});
+
