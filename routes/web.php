@@ -90,6 +90,15 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
 
+    //Zain 24/2/2022 POS Routes
+    Route::get('pos/categories', 'PosController@categories')->name('pos.categories');
+    Route::get('pos/products', 'PosController@products')->name('pos.products');
+    Route::get('pos/discount', 'PosController@discount')->name('pos.discount');
+    Route::get('pos/quantity', 'PosController@quantity')->name('pos.quantity');
+    Route::get('pos/pay', 'PosController@pay')->name('pos.pay');
+    Route::get('pos/bill', 'PosController@bill')->name('pos.bill');
+    Route::get('pos/client', 'PosController@client')->name('pos.client');
+
     Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
     Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
 
@@ -111,12 +120,17 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('/integration', 'IntegrationController@index')->name('integration');
     Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
 
+    Route::get('categories', 'ProductsController@indexCategory')->name('categories.all');
+    Route::get('categories/{id}/view', 'ProductsController@viewCategory')->name('categories.view');
+    Route::get('categories/{id}/edit', 'ProductsController@editCategory')->name('categories.edit');
+    Route::get('categories/create', 'ProductsController@createCategory')->name('categories.create');
+    Route::get('storecategories/{slug}', 'ProductsController@storeCategory')->name('categories.store');
+
     Route::get('products', 'ProductsController@index')->name('products.all');
     Route::get('products/{id}/view', 'ProductsController@view')->name('products.view');
+    Route::get('products/{id}/edit', 'ProductsController@edit')->name('products.edit');
     Route::get('products/create', 'ProductsController@create')->name('products.create');
     Route::get('store/{slug}', 'ProductsController@store')->name('products.store');
-
-    Route::get('products/categories', 'ProductsController@categories')->name('products.categories');
 
     Route::get('products/settings', 'ProductsController@settings')->name('products.settings');
 

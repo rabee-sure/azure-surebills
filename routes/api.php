@@ -52,6 +52,15 @@ Route::prefix('v1')->group(function () {
 		Route::get('transactions', 'TransactionController@index');
     	Route::get('account/information', 'AccountController@getInformation');
     	Route::post('account/information', 'AccountController@updateInformation');
+
+		//Categories
+		Route::get('categories', 'CategoryController@index');
+		Route::get('top-categories', 'CategoryController@topCategories');
+		Route::get('sub-categories/{parent}', 'CategoryController@subCategories');
+		Route::post('category/store', 'CategoryController@store');
+		Route::post('category/{id}/update', 'CategoryController@update');
+		Route::delete('category/{id}/delete', 'CategoryController@delete');
+
 	});
 
     // Route::post('fandaqah-register', 'UserController@registerFandaqah');
@@ -60,7 +69,6 @@ Route::prefix('v1')->group(function () {
     Route::post('channels/{channel}/sub-account', 'ChannelController@subAccount');
     Route::post('channels/{channel}/transactions', 'ChannelController@transactions');
     Route::put('channels/{channel}/update_sub_account_payment_fees', 'ChannelController@updateSubAccountPaymentFees');
-
 
     Route::get('banks', 'BankController@index');
 
