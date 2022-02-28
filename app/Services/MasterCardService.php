@@ -17,39 +17,52 @@ use App\Jobs\CreateTransferExcelFileJob;
 use App\Exports\TransactionsExportQueued;
 use App\Http\Resources\TransactionExportResource;
 
-class MasterCardService 
+class MasterCardService
 {
     public function handleWebhook($request)
     {
-        if ($this->checkMastercardSignature($request)) {
-
+        if (!$this->checkMastercardSignature($request)) {
+            return false;
         }
-            // handle response
-            $response = $request->all();
-            if (isset($response['order']) 
-                && isset($response['order']['id']) 
-                && isset($response['transaction']) 
-                && isset($response['transaction']['id']) 
-                && isset($response['transaction']['type'])
-            ) {
 
-                // get bill & payment
-                $bill = Bill::find($response['order']['id']);
-                $payment = PaymentLog::find($response['transaction']['id']);
-                if ($bill && $payment) {
+        // handle response
+        $response = $request->all();
+        if (isset($response['order'])
+            && isset($response['order']['id'])
+            && isset($response['transaction'])
+            && isset($response['transaction']['id'])
+            && isset($response['transaction']['type'])
+        ) {
 
-                    // handle PAYMENT transaction
-                    if ($response['transaction']['type'] == "PAYMENT") {
+            // get bill & payment
+            $bill = Bill::find($response['order']['id']);
+            $payment = PaymentLog::find($response['transaction']['id']);
+            if ($bill && $payment) {
+
+                // handle PAYMENT transaction
+                if ($response['transaction']['type'] == "PAYMENT") {
+                    try {
                         return $this->handlePaymentTransaction($response, $bill, $payment);
+                    } catch (Exception $e) {
+                        Log::emergency("payment issue");
+                        Log::emergency($e->getMessage());
+                        Log::emergency(json_encode($e));
                     }
+                }
 
-                    // handle REFUND transaction
-                    if ($response['transaction']['type'] == "REFUND") {
+                // handle REFUND transaction
+                if ($response['transaction']['type'] == "REFUND") {
+                    try {
                         return $this->handleRefundTransaction($response, $bill, $payment);
+                    } catch (Exception $e) {
+                        Log::emergency("refund issue");
+                        Log::emergency($e->getMessage());
+                        Log::emergency(json_encode($e));
                     }
                 }
             }
-        
+        }
+
         return false;
     }
 
@@ -60,13 +73,14 @@ class MasterCardService
     private function handlePaymentTransaction($response, $bill, $payment)
     {
         // data
-        $card_number = $response['sourceOfFunds']['provided']['card']['number'];
         $bank_message = $response['response']['acquirerMessage'] ?? null;
         $bank_transaction_id = $response['transaction']['acquirer']['transactionId'] ?? null;
         if (isset($response['sourceOfFunds']['provided']['card']['localBrand'])) {
             $brand = 'MADA';
+            $card_number = $response['sourceOfFunds']['provided']['card']['deviceSpecificNumber'] ?? null;
         } else {
             $brand = $response['sourceOfFunds']['provided']['card']['brand'];
+            $card_number = $response['sourceOfFunds']['provided']['card']['number'];
         }
 
         if ($response['result'] == "SUCCESS" && $response['response']['gatewayCode'] == "APPROVED") {
@@ -112,7 +126,7 @@ class MasterCardService
         $bank_transaction_id = $response['transaction']['acquirer']['transactionId'] ?? null;
         if (isset($response['sourceOfFunds']['provided']['card']['localBrand'])) {
             $brand = 'MADA';
-            $card_number = $response['sourceOfFunds']['provided']['card']['deviceSpecificNumber'];
+            $card_number = $response['sourceOfFunds']['provided']['card']['deviceSpecificNumber'] ?? null;
         } else {
             $brand = $response['sourceOfFunds']['provided']['card']['brand'];
             $card_number = $response['sourceOfFunds']['provided']['card']['number'];
