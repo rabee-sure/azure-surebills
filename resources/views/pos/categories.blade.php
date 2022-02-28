@@ -9,24 +9,7 @@
           <input class="form-control" type="text" placeholder="ابحث عن منتج">
         </form>
       </div><!-- posCategoriesSearch -->
-      <div class="posLinksBar mb-3">
-        <a href="#" title="تعليق العملية" class="btn-primary d-flex align-items-center justify-content-center flex-column">
-          <div class="icon saveIcon"></div>
-          <span class="d-block mt-2">تعليق العملية</span>
-        </a>
-        <a href="#" title="معلومات العميل" class="btn-primary d-flex align-items-center justify-content-center flex-column">
-          <div class="icon userIcon"></div>
-          <span class="d-block mt-2">معلومات العميل</span>
-        </a>
-        <a href="#" title="خصم" class="btn-primary d-flex align-items-center justify-content-center flex-column">
-          <div class="icon discountIcon"></div>
-          <span class="d-block mt-2">خصم</span>
-        </a>
-        <a href="#" title="طباعة" class="btn-primary d-flex align-items-center justify-content-center flex-column">
-          <div class="icon printIcon"></div>
-          <span class="d-block mt-2">طباعة</span>
-        </a>
-      </div><!-- posLinksBar -->
+      @include('pos.partials.linkBar')
       <div class="posCategoriesPage">
         <a href="#" title="#" class="d-flex align-items-center justify-content-center flex-column">
           <span class="d-flex align-items-center justify-content-center flex-grow-1 text-center">الكل</span>
