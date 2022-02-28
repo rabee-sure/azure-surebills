@@ -9,6 +9,7 @@ use App\Models\PaymentLog;
 use App\Models\Transaction;
 use App\Models\TransferLog;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Services\TransferOperations;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Jobs\UpdateTransferExcelFile;
@@ -43,7 +44,7 @@ class MasterCardService
                 if ($response['transaction']['type'] == "PAYMENT") {
                     try {
                         return $this->handlePaymentTransaction($response, $bill, $payment);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         Log::emergency("payment issue");
                         Log::emergency($e->getMessage());
                         Log::emergency(json_encode($e));
@@ -54,7 +55,7 @@ class MasterCardService
                 if ($response['transaction']['type'] == "REFUND") {
                     try {
                         return $this->handleRefundTransaction($response, $bill, $payment);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         Log::emergency("refund issue");
                         Log::emergency($e->getMessage());
                         Log::emergency(json_encode($e));
