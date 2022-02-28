@@ -21,6 +21,12 @@
            {{ __('Bills') }}
           </a>
         </li>
+        <li class="{{ Request::is('pos*') ? 'active' : '' }}">
+          <a href="/pos/categories" title="{{ __('POS') }}">
+            <i class="iconsminds-testimonal"></i>
+           {{ __('POS') }}
+          </a>
+        </li>
         <li class="{{ Request::is('customers*') ? 'active' : '' }}">
           <a href="{{ route('customers.index') }}" title="{{ __('Customers') }}">
             <i class="iconsminds-mens"></i>
@@ -71,6 +77,18 @@
             {{ __('Integration') }}
           </a>
         </li>
+        <li>
+          <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
+            <i class="iconsminds-project"></i> 
+            <span class="d-inline-block">{{ __('Products') }}</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}">
+            <i class="iconsminds-clothing-store"></i> 
+            <span class="d-inline-block">{{ __('Product Sections') }}</span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
@@ -86,18 +104,6 @@
         <li>
           <a href="{{ route('products.settings') }}" title="{{ __('Store Settings') }}">
             <i class="iconsminds-clothing-store"></i> <span class="d-inline-block">{{ __('Store Settings') }}</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
-            <i class="iconsminds-project"></i> 
-            <span class="d-inline-block">{{ __('Products') }}</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('products.categories') }}" title="{{ __('Product Sections') }}">
-            <i class="iconsminds-clothing-store"></i> 
-            <span class="d-inline-block">{{ __('Product Sections') }}</span>
           </a>
         </li>
       </ul>
