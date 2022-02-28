@@ -82,6 +82,8 @@ Table of Contents
 .icon-clear:before {content: "\e902";}
 .icon-minus:before {content: "\e900";}
 .icon-plus:before {content: "\e901";}
+.icon-user-plus:before {content: "\e905";}
+.icon-plus-circle:before {content: "\e907";}
 
 
 @import url("https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700");
@@ -12425,6 +12427,9 @@ aside#cart_pos {
           small {
             margin: 0 5px 0 0;
             font-size: 12px;
+            [dir="ltr"] & {
+              margin: 0 0 0 5px;
+            } /* ltr */
           } /* small */
         } /* p */
         span {
@@ -12433,6 +12438,9 @@ aside#cart_pos {
           small {
             margin: 0 0 0 5px;
             font-size: 14px;
+            [dir="ltr"] & {
+              margin: 0 5px 0 0;
+            } /* ltr */
           } /* small */
         } /* span */
       } /* button */
@@ -12458,6 +12466,9 @@ aside#cart_pos {
       small {
         margin: 0 5px 0 0;
         font-size: 12px;
+        [dir="ltr"] & {
+          margin: 0 0 0 5px;
+        } /* ltr */
       } /* small */
     } /* p */
     span {
@@ -12466,6 +12477,9 @@ aside#cart_pos {
       small {
         margin: 0 0 0 5px;
         font-size: 14px;
+        [dir="ltr"] & {
+          margin: 0 5px 0 0;
+        } /* ltr */
       } /* small */
     } /* span */
   } /* button */
@@ -12598,3 +12612,304 @@ aside#cart_pos {
     } /* span */
   } /* a */
 } /* posLinksBar */
+
+.posBackBtn {
+  a {
+    background-color: $foreground-color;
+    border-radius: 0.25rem;
+    min-width: 110px;
+    box-shadow: 0 1px 15px rgba(0,0,0,0.04), 0 1px 6px rgba(0,0,0,.04);
+    height: 50px;
+    font-size: 35px;
+    color: $theme-color-1;
+    &::before {
+      [dir="ltr"] & {
+        transform: rotate(180deg);
+      } /* ltr */
+    } /* before */
+  } /* a */
+} /* posBackBtn */
+
+.posUserDetails {
+  .title {
+    font-size: 20px;
+  } /* title */
+  .inputClient {
+    border: 1px solid #e4e4e4;
+    border-radius: .25rem;
+    overflow: hidden;
+    height: 45px;
+    [dir="ltr"] & {
+      direction: rtl;
+    } /* ltr */
+    button {
+      width: 60px;
+      background-color: #F5F5F5;
+      font-size: 25px;
+      border: none;
+      border-right: 1px solid #e4e4e4;
+    } /* button */
+    input {
+      padding: 0 10px;
+      font-size: 16px;
+      color: #000;
+      outline: none;
+      box-shadow: none;
+    } /* input */
+  } /* inputClient */
+  .inputTel {
+    border: 1px solid #e4e4e4;
+    border-radius: .25rem;
+    overflow: hidden;
+    height: 45px;
+    [dir="ltr"] & {
+      direction: rtl;
+    } /* ltr */
+    span {
+      width: 60px;
+      background-color: #F5F5F5;
+      font-size: 15px;
+      border-right: 1px solid #e4e4e4;
+    } /* span */
+    input {
+      padding: 0 10px;
+      font-size: 16px;
+      color: #000;
+      outline: none;
+      box-shadow: none;
+      text-align: left;
+      &::-webkit-input-placeholder {text-align: right;}
+      &:-ms-input-placeholder {text-align: right;}
+      &::placeholder {text-align: right;}
+    } /* input */
+  } /* inputTel */
+  input.inputMail {
+    height: 45px;
+    padding: 0 10px;
+    font-size: 16px;
+    color: #000;
+    text-align: left;
+    border-radius: .25rem;
+    border: 1px solid #e4e4e4;
+    outline: none;
+    box-shadow: none;
+    &::-webkit-input-placeholder {text-align: right;}
+    &:-ms-input-placeholder {text-align: right;}
+    &::placeholder {text-align: right;}
+    [dir="ltr"] & {
+      &::-webkit-input-placeholder {text-align: left;}
+      &:-ms-input-placeholder {text-align: left;}
+      &::placeholder {text-align: left;}
+    } /* ltr */
+  } /* inputMail */
+  .moreInfoArea {
+    .posMoreInfo {
+      input {
+        height: 45px;
+        border-radius: .25rem;
+        padding: 0 10px;
+        font-size: 16px;
+        color: #000;
+        border-color: #e4e4e4;
+      } /* input */
+    } /* posMoreInfo */
+    .showPosInfo {
+      font-size: 15px;
+      color: #777777;
+      &::before {
+        content: "\e907";
+        font-family: "icomoon" !important;
+        font-size: 18px;
+        margin: 0 0 0 5px;
+        position: relative;
+        top: 1px;
+        [dir="ltr"] & {
+          margin: 0 5px 0 0;
+        } /* ltr */
+      } /* before */
+    } /* showPosInfo */
+  } /* moreInfoArea */
+  button.saveBtn {
+    border-radius: .25rem;
+    height: 45px;
+    font-size: 16px;
+  } /* saveBtnssss */
+} /* posUserDetails */
+
+.posProductPage {
+  figure {
+    height: 230px;
+    max-width: 100%;
+    min-width: 310px;
+    border-radius: .25rem;
+    img {
+      object-fit: cover;
+    } /* img */
+  } /* figure */
+  figcaption {
+    span {
+      font-size: 20px;
+    } /* span */
+    p {
+      font-size: 22px;
+      small {
+        margin: 0 0 0 5px;
+        font-size: 14px;
+        line-height: 1;
+        [dir="ltr"] & {
+          margin: 0 5px 0 0;
+        } /* ltr */
+      } /* small */
+    } /* p */
+  } /* figcaption */
+  .qtyItem {
+    input {
+      width: 60px;
+      height: 30px;
+      font-size: 25px;
+      &::-webkit-inner-spin-button {
+        opacity: 0;
+        -webkit-appearance: none;
+      } 
+    } /* input */
+    button {
+      background-color: #CED4DA;
+      width: 30px;
+      height: 30px;
+      border-radius: 0.25rem;
+      font-size: 19px;
+    } /* button */
+  } /* qtyItem */
+  .addItem {
+    height: 45px;
+    min-width: 250px;
+    border-radius: .25rem;
+    font-size: 16px;
+    outline: none !important;
+    box-shadow: none;
+  } /* addItem */
+} /* posProductPage */
+
+.posDiscountPage {
+  .title {
+    font-size: 20px;
+  } /* title */
+  .selectArea {
+    label {
+      input {
+        opacity: 0;
+        z-index: 9;
+        cursor: pointer;
+        &:checked ~ {
+          span {
+            border-color: $theme-color-1;
+            color: $theme-color-1;
+          } /* span */
+        } /* checked */
+      } /* input */
+      span {
+        font-size: 16px;
+        background-color: #fff;
+        border: 2px solid #e4e4e4;
+        min-width: 160px;
+        height: 50px;
+        border-radius: .25rem;
+        @media (max-width: 767.98px) {
+          min-width: 145px;
+        }
+      } /* span */
+    } /* label */
+  } /* selectArea */
+  .discountField {
+    border: 1px solid #e4e4e4;
+    border-radius: .25rem;
+    display: flex;
+    height: 45px;
+    span {
+      width: 60px;
+      background-color: #F5F5F5;
+      font-size: 15px;
+      border-right: 1px solid #e4e4e4;
+      [dir="ltr"] & {
+        border-left: 1px solid #e4e4e4;
+        border-right: none;
+      } /* ltr */
+    } /* span */
+    input {
+      padding: 0 10px;
+      font-size: 16px;
+      color: #000;
+      outline: none;
+      box-shadow: none;
+    } /* input */
+  } /* discountField */
+  .addDiscount {
+    height: 45px;
+    border-radius: .25rem;
+    font-size: 16px;
+    outline: none !important;
+    box-shadow: none;
+  } /* addDiscount */
+} /* posDiscountPage */
+
+.posPayPage {
+  .title {
+    font-size: 20px;
+    small {
+      font-size: 18px;
+    } /* small */
+  } /* title */
+  .desc {
+    font-size: 16px;
+  } /* desc */
+  .selectArea {
+    label {
+      margin: 1rem;
+      input {
+        opacity: 0;
+        z-index: 9;
+        cursor: pointer;
+        &:checked ~ {
+          span {
+            border-color: $theme-color-1;
+            background-color: $theme-color-1;
+            color: #ffffff;
+            svg {
+              path {
+                fill: #ffffff;
+              } /* path */
+            } /* svg */
+          } /* span */
+        } /* checked */
+      } /* input */
+      span {
+        font-size: 16px;
+        background-color: #fff;
+        border: 2px solid #e4e4e4;
+        min-width: 200px;
+        height: 50px;
+        border-radius: 0.25rem;
+        min-height: 100px;
+        @media (max-width: 767.98px) {
+          min-width: 145px;
+        }
+        svg {
+          width: 30px;
+          height: 30px;
+          margin-bottom: 10px;
+          path {
+            fill: #777777;
+          } /* path */
+        } /* svg */
+      } /* span */
+    } /* label */
+  } /* selectArea */
+  .saveBtn {
+    height: 45px;
+    min-width: 250px;
+    border-radius: .25rem;
+    font-size: 16px;
+    outline: none !important;
+    box-shadow: none;
+  } /* saveBtn */
+} /* posPayPage */
