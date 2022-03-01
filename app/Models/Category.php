@@ -26,13 +26,17 @@ class Category extends Model
     	return $query->where('active', true);
     }
 
-    public function subcategory()
-    {
-        return $this->hasMany('\App\Models\Category', 'parent_id');
-    }
-
     public function parent()
     {
-        return $this->belongsTo('\App\Models\Category', 'parent_id');
+       return $this->hasOne('App\Models\Category', 'parent_id','id');
+    }
+    public function childiren()
+    {
+       return $this->hasMany('App\Models\Category', 'parent_id')->with('childiren');
+    }
+
+    public function products()
+    {
+        return $this->hasMany('App\Models\Product', 'category_id');
     }
 }

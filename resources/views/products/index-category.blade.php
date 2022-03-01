@@ -2,6 +2,10 @@
 
 @section('title', __('Categories'))
 
+@section('css_styles')
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+@endsection
+
 @section('content')
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -17,7 +21,7 @@
       <div class="mb-3">
         <h1>{{ __('Categories')}}</h1>
         <div class="top-right-button-container">
-        @include('products.create-category')
+        <a href="{{ route('categories.create')}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Add Category') }}">{{ __('Add Category') }}</a>
       </div>
       <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
         <ol class="breadcrumb pt-0">
@@ -142,5 +146,5 @@
 @endsection
 
 @push('footer-scripts')
-    {!! JsValidator::formRequest('App\Http\Requests\CustomerRequest', '#customers_store') !!}
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 @endpush

@@ -698,5 +698,15 @@
 	"The district field is required when add tax invoice is on." : "الحي مطلوب في حالة تفعيل الفاتورة الضريبية",
 	"The postal code field is required when add tax invoice is on." : "الرمز البريدي مطلوب في حالة تفعيل الفاتورة الضريبية",
 	"The additional no field is required when add tax invoice is on." : "الرقم الاضافي للعنوان مطلوب في حالة تفعيل الفاتورة الضريبية",
-	"The other buyer id field is required when add tax invoice is on." : "المعرف الاخر مطلوب في حالة تفعيل الفاتورة الضريبية"
+	"The other buyer id field is required when add tax invoice is on." : "المعرف الاخر مطلوب في حالة تفعيل الفاتورة الضريبية",
+
+	"Categories" : "الاقسام",
+	"Add Category" : "أضف قسم",
+	"Name En" : "الاسم بالانجليزية",
+	"Name Ar" : "الاسم بالعربية",
+	"Image" : "الصورة",
+	"Sort No." : "ترتيب القسم",
+	"Activate" : "تفعيل",
+	"Parent" : "الاب",
+	"Select parent category" : "أختر القسم الاب"
 }
