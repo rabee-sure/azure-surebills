@@ -7,7 +7,7 @@
       <div class="posBackBtn d-flex align-items-center justify-content-start mb-4">
         <a class="d-flex align-items-center justify-content-center icon-arrow_forward" href="{{ route('pos.products')}}"></a>
       </div><!-- posBackBtn -->
-      <div class="posProductPage d-flex align-items-center justify-content-center flex-column">
+      <div class="posProductPage mb-4 d-flex align-items-center justify-content-center flex-column">
         <figure class="d-block mb-3 overflow-hidden">
           <img src="https://dore-jquery.coloredstrategies.com/img/products/fruitcake-thumb.jpg" alt="" class="w-100 h-100">
         </figure>

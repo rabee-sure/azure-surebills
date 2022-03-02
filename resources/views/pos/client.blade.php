@@ -7,7 +7,7 @@
       <div class="posBackBtn d-flex align-items-center justify-content-start mb-4">
         <a class="d-flex align-items-center justify-content-center icon-arrow_forward" href="{{ route('pos.categories')}}"></a>
       </div><!-- posBackBtn -->
-      <div class="posUserDetails">
+      <div class="posUserDetails mb-4">
         <div class="row justify-content-center">
           <div class="col-12 col-md-5">
             <div class="title text-center font-weight-bold d-block mb-4">معلومات العميل</div>
