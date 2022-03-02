@@ -12,6 +12,13 @@
         </ul>
     </div>
 @endif
+
+<div class="productsTabs d-flex align-items-center justify-content-center justify-content-md-start mb-4">
+  <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('products*') ? 'active' : '' }}">{{ __('Products') }}</a>
+  <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('categories*') ? 'active' : '' }}">{{ __('Product Sections') }}</a>
+</div><!-- productsTabs -->
+
+
   <div class="row">
     <div class="col-12">
       <div class="mb-3">
