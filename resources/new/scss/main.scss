@@ -1,0 +1,100 @@
+// Bootstrap Files
+@import 'plugins/bootstrap/bootstrap.scss';
+
+// Variables
+@import 'helpers/variables';
+
+// Font Icons
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?36iv6v');
+  src:  url('../fonts/icomoon.eot?36iv6v#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?36iv6v') format('truetype'),
+    url('../fonts/icomoon.woff?36iv6v') format('woff'),
+    url('../fonts/icomoon.svg?36iv6v#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-phone:before {content: "\e904";}
+.icon-user-tie:before {content: "\e902";}
+.icon-key:before {content: "\e901";}
+.icon-user-o:before {content: "\e903";}
+.icon-envelope-o:before {content: "\e900";}
+
+body {
+  background-color: #f8f8f8;
+  direction: rtl;
+  font-size: 15px;
+  font-family: "Almarai","Roboto";
+  [dir="ltr"] & {
+    direction: ltr;
+    font-family: "Roboto","Almarai";
+  } /* ltr */
+} /* body */
+
+a {
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  outline: none;
+} /* a */
+
+button {
+  transition: all 0.2s ease-in-out;
+} /* button */
+
+header {
+  height: 60px;
+  z-index: 999;
+  box-shadow: 0 1px 15px rgba(0,0,0,0.04), 0 1px 6px rgba(0,0,0,0.04);
+  .headerRight {
+    flex-basis: 40%;
+  } /* headerRight */
+  .logo {
+    img {
+      max-height: 40px;
+    } /* img */
+  } /* logo */
+  .userList {
+    flex-basis: 40%;
+    button {
+      img {
+        margin: 0 10px 0 0;
+        width: 35px;
+        height: 35px;
+      } /* img */
+    } /* button */
+  } /* userList */
+} /* header */
+
+aside {
+  overflow-y: auto;
+  width: 150px;
+  z-index: 99;
+  box-shadow: 0 0 15px 0 rgba(34,41,47,0.05);
+  padding: 10px;
+  transition: all 0.4s ease-in-out;
+  body.sidebar_hide & {
+    transform: translateX(150px);
+    visibility: hidden;
+  } /* sidebar_hide */
+} /* aside */
+
+main {
+  padding: 15px 165px 15px 15px;
+  transition: all 0.4s ease-in-out;
+  body.sidebar_hide & {
+    padding: 15px;
+  } /* sidebar_hide */
+} /* main */

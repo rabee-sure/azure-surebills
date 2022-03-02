@@ -272,7 +272,7 @@
 
 @push('footer-scripts')
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="{{ asset('js/jquery.repeater.min.js') }}" defer></script>
+  <script src="{{ asset('js/jquery.repeater.min.js') }}"></script>
   <script>
 
   var fewSeconds = 5;

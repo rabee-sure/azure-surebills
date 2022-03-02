@@ -1,13 +1,11 @@
 @auth
 
-@php
+  @php
     $statues = session('status_filters', ['pending', 'paid'])?? [];
     $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
-@endphp
+  @endphp
 
-<div class="menu">
-  <div class="main-menu">
-    <div class="scroll">
+  <aside class="bg-white position-fixed end-0 min-vh-100">
       <ul class="list-unstyled">
         <li class="{{ Request::is('/') ? 'active' : '' }}">
           <a href="/" title="{{ __('Dashboard') }}">
@@ -72,37 +70,6 @@
           </a>
         </li>
       </ul>
-    </div>
-  </div>
+  </aside>
 
-  <div class="sub-menu">
-    <div class="scroll">
-      <ul class="list-unstyled" data-link="store">
-        <li>
-          <a href="{{ route('orders.all') }}" title="{{ __('Orders') }}">
-            <i class="iconsminds-shopping-bag"></i> <span class="d-inline-block">{{ __('Orders') }}</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('products.settings') }}" title="{{ __('Store Settings') }}">
-            <i class="iconsminds-clothing-store"></i> <span class="d-inline-block">{{ __('Store Settings') }}</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
-            <i class="iconsminds-project"></i> 
-            <span class="d-inline-block">{{ __('Products') }}</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('products.categories') }}" title="{{ __('Product Sections') }}">
-            <i class="iconsminds-clothing-store"></i> 
-            <span class="d-inline-block">{{ __('Product Sections') }}</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-</div>
 @endauth

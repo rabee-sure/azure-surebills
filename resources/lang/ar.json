@@ -465,7 +465,7 @@
 	"If you are not a member": "ليس لديك عضوية",
 	"Register a new account2" : "سجل حساب جديد",
 	"Please use this form to register.": "يرجى استخدام هذا النموذج للتسجيل.",
-	"If you are a member, please": "إذا كنت عضوا من فضلك",
+	"If you are a member, please": "إذا كنت عضوا من فضلك قم بـ",
 	"Please use your e-mail to reset your password.": "يرجى استخدام بريدك الإلكتروني لإعادة تعيين كلمة المرور الخاصة بك.",
 	"Balance" : "الرصيد",
 	"Total Paid" : "إجمالي المدفوعات",
@@ -698,5 +698,7 @@
 	"The district field is required when add tax invoice is on." : "الحي مطلوب في حالة تفعيل الفاتورة الضريبية",
 	"The postal code field is required when add tax invoice is on." : "الرمز البريدي مطلوب في حالة تفعيل الفاتورة الضريبية",
 	"The additional no field is required when add tax invoice is on." : "الرقم الاضافي للعنوان مطلوب في حالة تفعيل الفاتورة الضريبية",
-	"The other buyer id field is required when add tax invoice is on." : "المعرف الاخر مطلوب في حالة تفعيل الفاتورة الضريبية"
+	"The other buyer id field is required when add tax invoice is on." : "المعرف الاخر مطلوب في حالة تفعيل الفاتورة الضريبية",
+  "Don't have an account with SureBills ?" : "لا تمتلك حساب لدي شور بيلز ؟",
+  "Register a new account" : "سجل حساب جديد"
 }

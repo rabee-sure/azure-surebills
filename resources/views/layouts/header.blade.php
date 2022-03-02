@@ -1,0 +1,31 @@
+<header class="bg-white position-sticky top-0">
+  <div class="container-fluid h-100 d-flex align-items-center justify-content-between">
+    <div class="headerRight">
+      <div class="sidebarButton btn btn-primary">sdfdsf</div>
+    </div><!-- headerRight -->
+    <div class="logo d-flex align-items-center justify-content-center flex-grow-1">
+      <a href="{{ url('/') }}" title="SureBills">
+        <img src="{{ asset('new/images/logo.webp') }}" alt="SureBills" loading="lazy" width="586px" height="187px" class="mw-100 w-auto h-auto">
+      </a>
+    </div><!-- logo -->
+    <div class="userList position-relative d-flex justify-content-end">
+      <button class="d-flex align-items-center justify-content-end border-0 bg-transparent p-0" type="button" id="UserListItem" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="name">{{ Auth::user()->name }}</span>
+        <img alt="{{ Auth::user()->name }}" src="{{ auth()->user()->gravatar}}" class="d-block rounded-circle" />
+      </button>
+      <div class="dropdown-menu p-0" aria-labelledby="UserListItem">
+        <a class="dropdown-item" href="{{ url('account')}}">{{ __('My Account') }}</a>
+        @if(App::isLocale('en'))
+          <a class="dropdown-item" href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
+        @else
+          <a class="dropdown-item" href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
+        @endif
+        <a class="dropdown-item" href="{{ route('settings') }}" title="English">{{__('Settings')}}</a>
+        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+          @csrf
+        </form>
+      </div><!-- dropdown-menu -->
+    </div><!-- userList -->
+  </div><!-- container -->
+</header><!-- header -->

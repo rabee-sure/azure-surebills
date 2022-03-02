@@ -1,139 +1,153 @@
 @extends('layouts.auth')
+
 @section('title', __('Register') )
+
 @section('content')
-<div class="row h-100">
-  <div class="col-12 col-md-10 mx-auto my-auto">
-    <div id="register_page" class="card auth-card">
-      <div class="position-relative image-side">
-        <div class="changeLang">
-          @if(App::isLocale('en'))
-            <a  href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
-          @else
-            <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
-          @endif
-        </div>
-        <p class="text-black h2">{{ __('Register a new account') }}</p>
-        <p class="black mb-0">
-        {{ __('Please use this form to register.') }}
-        <br>
-        <p>{{ __('If you are a member, please') }} <a href="{{ route('login') }}" title="{{ __('Login') }}" class="black">{{ __('Login') }}</a>.</p>
-        <div class="slide_auth">
-          <div class="glide single">
-            <div class="glide__track" data-glide-el="track">
-              <div class="glide__slides">
-                <div class="glide__slide"><img src="{{ asset('images/login_slide_1.png') }}" alt="login_slide_1"></div>
-                <div class="glide__slide"><img src="{{ asset('images/login_slide_2.png') }}" alt="login_slide_2"></div>
-                <div class="glide__slide"><img src="{{ asset('images/login_slide_3.png') }}" alt="login_slide_3"></div>
-              </div><!-- glide__slides -->
-            </div><!-- glide__track -->
-          </div><!-- glide -->
-        </div><!-- slide_auth -->
-      </div>
-      <div class="form-side">
-        <a href="{{ url('/') }}"><span class="logo-single"></span></a>
-        <h6 class="mb-4">{{ __('Register') }}</h6>
-        <form method="POST" action="{{ route('register') }}" id="register-form">
-          @csrf
-          <div class="row">
-            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <label class="form-group has-float-label mb-4">
-                <input id="business_name_en" type="text" class="form-control @error('business_name_en') is-invalid @enderror" name="business_name_en" value="{{ old('business_name_en') }}" autocomplete="business_name_en" autofocus />
-                <span>{{ __('Business Name') }}</span>
+  <aside class="shadow align-self-stretch">
+    <div class="changeLang d-flex align-items-center justify-content-start mb-3 mb-md-5">
+      @if(App::isLocale('en'))
+        <a href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي" class="d-block">عربي</a>
+      @else
+        <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
+      @endif
+    </div><!-- changeLang -->
+    <div class="title d-block text-body text-center mb-3 fw-bold">{{ __('Register a new account') }}</div>
+    <div class="desc text-center text-body mb-3">
+      {{ __('Please use this form to register.') }}
+      <br>
+      {{ __('If you are a member, please') }} <a href="{{ route('login') }}" title="{{ __('Login') }}">{{ __('Login') }}</a>.
+    </div><!-- desc -->
+    <div class="authSlider">
+      <div class="item d-flex align-items-center justify-content-center">
+        <img data-lazy="{{ asset('new/images/authSlideImg_1.webp') }}" alt="login_slide_1" class="mw-100">
+      </div><!-- item -->
+      <div class="item d-flex align-items-center justify-content-center">
+        <img data-lazy="{{ asset('new/images/authSlideImg_2.webp') }}" alt="login_slide_2" class="mw-100">
+      </div><!-- item -->
+      <div class="item d-flex align-items-center justify-content-center">
+        <img data-lazy="{{ asset('new/images/authSlideImg_3.webp') }}" alt="login_slide_2" class="mw-100">
+      </div><!-- item -->
+    </div><!-- authSlider -->
+  </aside>
+  <article class="flex-grow-1 d-flex align-items-center justify-content-center flex-column align-self-stretch">
+    <div class="topArea w-100 py-4 flex-grow-1 d-flex align-items-center justify-content-center flex-column">
+      <div class="logo d-flex align-items-center justify-content-center mb-3 mb-md-5">
+        <a href="{{ url('/') }}" title="SureBills">
+          <img src="{{ asset('new/images/logo.webp') }}" alt="SureBills" loading="lazy" width="586px" height="187px" class="mw-100 w-auto h-auto">
+        </a>
+      </div><!-- logo -->
+      <h1 class="d-block mb-3 fw-normal text-body">{{ __('Register') }}</h1>
+      <form method="POST" action="{{ route('register') }}" id="register-form" class="registerForm w-100 mx-auto">
+        @csrf
+        <div class="registerFields">
+          <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2">
+            <div class="col">
+              <div class="form_group mb-3">
+                <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('business_name_en') is-invalid @enderror">
+                  <span class="d-flex align-items-center justify-content-center h-100 icon-user-tie"></span>
+                  <input id="business_name_en" type="text" class="bg-white border-0 h-100 flex-grow-1 text-body" name="business_name_en" value="{{ old('business_name_en') }}" autocomplete="business_name_en" placeholder="{{ __('Business Name') }}" autofocus />
+                </div><!-- inputIcon -->
                 @error('business_name_en')
-                  <p class="invalid-feedback" role="alert">{{ $message }}</p>
+                  <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
                 @enderror
-              </label>
-            </div><!-- col-12 -->
-            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <label for="name" class="form-group has-float-label mb-4">
-                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" autocomplete="name" autofocus/>
-                <span>{{ __('Full Name') }}</span>
+              </div><!-- form_group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form_group mb-3">
+                <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('name') is-invalid @enderror">
+                  <span class="d-flex align-items-center justify-content-center h-100 icon-user-o"></span>
+                  <input id="name" type="text" class="bg-white border-0 h-100 flex-grow-1 text-body" name="name" value="{{ old('name') }}" placeholder="{{ __('Full Name') }}" autocomplete="name" autofocus/>
+                </div><!-- inputIcon -->
                 @error('name')
-                  <p class="invalid-feedback" role="alert">{{ $message }}</p>
+                  <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
                 @enderror
-              </label>
-            </div><!-- col-12 -->
-            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <label for="email" class="form-group has-float-label mb-4">
-                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" />
-                <span>{{ __('E-Mail Address') }}</span>
+              </div><!-- form_group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form_group mb-3">
+                <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('email') is-invalid @enderror">
+                  <span class="d-flex align-items-center justify-content-center h-100 icon-envelope-o"></span>
+                  <input id="email" type="email" class="bg-white border-0 h-100 flex-grow-1 text-body" name="email" value="{{ old('email') }}" placeholder="{{ __('E-Mail Address') }}" autocomplete="email" />
+                </div><!-- inputIcon -->
                 @error('email')
-                  <p class="invalid-feedback" role="alert">{{ $message }}</p>
+                  <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
                 @enderror
-              </label>
-            </div><!-- col-12 -->
-            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <div class="phone_reg">
-                <div class="phone_key">+966</div>
-                <label class="form-group has-float-label mb-4">
-                  <input name="mobile" class="form-control _parseArabicNumbers @error('mobile') is-invalid @enderror" name="mobile" id="mobile" type="tel" value="{{ old('mobile') }}" />
-                  <span>{{ __('Mobile Number') }}</span>
-                  @error('mobile')
-                      <p class="invalid-feedback" role="alert">{{ $message }}</p>
-                  @enderror
-                </label>
-              </div><!-- phone_reg -->
-            </div><!-- col-12 -->
-            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <label for="password" class="form-group has-float-label mb-4">
-                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password"/>
-                <span>{{ __('Password') }}</span>
+              </div><!-- form_group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form_group mb-3">
+                <div class="inputIcon inputPhone d-flex align-items-center justify-content-center rounded overflow-hidden border @error('mobile') is-invalid @enderror">
+                  <span class="d-flex align-items-center justify-content-center h-100 icon-phone"></span>
+                  <input name="mobile" class="bg-white border-0 h-100 flex-grow-1 text-body" name="mobile" id="mobile" type="tel" pattern="[0-9]*" maxlength="9" inputmod="numaric" placeholder="{{ __('Mobile Number') }}" value="{{ old('mobile') }}" />
+                  <div class="codeNum d-flex align-items-center justify-content-center h-100 text-body bg-white">+966</div>
+                </div><!-- inputIcon -->
+                @error('mobile')
+                  <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
+                @enderror
+              </div><!-- form_group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form_group mb-3">
+                <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('password') is-invalid @enderror">
+                  <span class="d-flex align-items-center justify-content-center h-100 icon-key"></span>
+                  <input id="password" type="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password" placeholder="{{ __('Password') }}" autocomplete="new-password"/>
+                </div><!-- inputIcon -->
                 @error('password')
-                  <p class="invalid-feedback" role="alert">{{ $message }}</p>
+                  <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
                 @enderror
-              </label>
-            </div><!-- col-12 --> 
-            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <label for="password-confirm" class="form-group has-float-label mb-4">
-                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password" />
-                <span>{{ __('Confirm Password') }}</span>
-              </label>
-            </div><!-- col-12 -->
+              </div><!-- form_group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form_group mb-3">
+                <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('password') is-invalid @enderror">
+                  <span class="d-flex align-items-center justify-content-center h-100 icon-key"></span>
+                  <input id="password-confirm" type="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password_confirmation" placeholder="{{ __('Confirm Password') }}" autocomplete="new-password"/>
+                </div><!-- inputIcon -->
+                @error('password')
+                  <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
+                @enderror
+              </div><!-- form_group -->
+            </div><!-- col -->
           </div><!-- row -->
-          <div class="custom-control custom-checkbox mb-4">
-            <input type="checkbox" class="custom-control-input  @error('terms') is-invalid @enderror" name="terms" value="1" id="customCheckThis">
-            <label class="custom-control-label" for="customCheckThis">
-              {{ __('I agree to') }} 
-            </label>
-              <a id="read_terms" style="line-height: 1.5rem; padding-top: 1px;" href="#" title="{{ __('Terms & Conditions') }}"  data-toggle="modal" data-target="#conditionsModal">{{ __('Terms & Conditions') }}</a>
-            @error('terms')
-              <p class="invalid-feedback" role="alert">{{ $message }}</p>
-            @enderror
-          </div>
-          <div class="d-flex justify-content-end align-items-center">
-            <button class="btn btn-primary btn-lg btn-shadow login_button" type="submit">{{ __('Register') }}</button>
-          </div>
-        </form>
-        <hr>
-        <h5 class="mt-4 mb-0 text-center">لديك حساب في شور بيلز ! <br> <a style="color: #00D595;" class="d-inline-block mt-2" href="{{ route('login') }}" title="سجل دخول"> سجل دخول</a></h5>
-
-        <!-- modal -->
-        <div class="modal fade bd-example-modal-lg" id="conditionsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">{{ __('Terms & Conditions') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              </div>
-              <div class="modal-body">
-                <p>سوف يتم تحويل المبالغ لحساب بنكي باسم منشأتك فقط في حال كنت تستخدم سجل تجاري ، ولحسابك الشخصي المسجل في وثيقة العمل الحر في حال كنت تستخدم وثيقة عمل حر .
-                تأكيد من تحميلك للسجل التجاري او وثيقة العمل الحر لتوثيق حسابك والبدء بإستقبال المدفوعات.
-                يرجى الافصاح إذا كان نشاطك التجاري يتطلب ترخيص من جهة غير وزارة التجارة.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- modal -->
-
-    </div>
-    <div class="copyrights_auth">
-      صُنع بـ <i class="heart"></i> في <i class="ksa"></i>
-    </div><!-- copyrights_auth -->
-  </div>
-</div>
+        </div><!-- registerFields -->
+        <label for="remember" class="checkboxArea d-block mb-3 position-relative">
+          <input type="checkbox" class="w-100 h-100 position-absolute top-0 start-0 @error('terms') is-invalid @enderror" name="terms" value="1" id="customCheckThis">
+          <span class="d-flex align-items-center justify-content-start">
+          {{ __('I agree to') }} <a id="read_terms" href="#" title="{{ __('Terms & Conditions') }}" data-bs-toggle="modal" data-bs-target="#conditionsModal">{{ __('Terms & Conditions') }}</a>
+          </span>
+          @error('terms')
+            <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
+          @enderror
+        </label><!-- checkboxArea -->
+        <div class="d-flex justify-content-end align-items-center">
+          <button class="login_button rounded border-0 fw-bold d-flex align-items-center justify-content-center text-white p-0n" type="submit">{{ __('Register') }}</button>
+        </div><!-- d-flex -->
+      </form>
+    </div><!-- topArea -->
+  </article>
+  <!-- Conditions Modal -->
+  <div class="modal fade" id="conditionsModal" tabindex="-1" aria-labelledby="conditionsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header d-flex align-items-center justify-content-between">
+          <span class="d-block fw-bold text-body">{{ __('Terms & Conditions') }}</span>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div><!-- modal-header -->
+        <div class="modal-body">
+          <p class="d-block m-0">
+            سوف يتم تحويل المبالغ لحساب بنكي باسم منشأتك فقط في حال كنت تستخدم سجل تجاري ، ولحسابك الشخصي المسجل في وثيقة العمل الحر في حال كنت تستخدم وثيقة عمل حر .
+            <br>
+            تأكيد من تحميلك للسجل التجاري او وثيقة العمل الحر لتوثيق حسابك والبدء بإستقبال المدفوعات.
+            <br>
+            يرجى الافصاح إذا كان نشاطك التجاري يتطلب ترخيص من جهة غير وزارة التجارة.
+          </p>
+        </div><!-- modal-body -->
+      </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+  </div><!-- modal -->
+  <!-- Conditions Modal -->
 @endsection
 
 @push('footer-scripts')
-  {!! JsValidator::formRequest('App\Http\Requests\RegisterRequest', '#register-form') !!}
+  {!! JsValidator::formRequest('App\Http\Requests\ForgotPasswordRequest', '#form') !!}
 @endpush
