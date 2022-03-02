@@ -14,14 +14,14 @@
         <img alt="{{ Auth::user()->name }}" src="{{ auth()->user()->gravatar}}" class="d-block rounded-circle" />
       </button>
       <div class="dropdown-menu p-0" aria-labelledby="UserListItem">
-        <a class="dropdown-item" href="{{ url('account')}}">{{ __('My Account') }}</a>
+        <a class="d-flex align-items-center justify-content-start border-bottom" href="{{ url('account')}}">{{ __('My Account') }}</a>
         @if(App::isLocale('en'))
-          <a class="dropdown-item" href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
+          <a class="d-flex align-items-center justify-content-start border-bottom" href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
         @else
-          <a class="dropdown-item" href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
+          <a class="d-flex align-items-center justify-content-start border-bottom" href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
         @endif
-        <a class="dropdown-item" href="{{ route('settings') }}" title="English">{{__('Settings')}}</a>
-        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+        <a class="d-flex align-items-center justify-content-start border-bottom" href="{{ route('settings') }}" title="English">{{__('Settings')}}</a>
+        <a class="d-flex align-items-center justify-content-start border-bottom" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
           @csrf
         </form>
