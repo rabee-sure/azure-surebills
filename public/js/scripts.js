@@ -252,3 +252,49 @@ $(function() {
       $('#' + $(this).val()).show();
   });
 }).change();
+
+
+$(".openCartPhone button").click(function () {
+  $('#cart_pos').addClass('showCart');
+});
+$("#cart_pos .closeCartSide").click(function () {
+  $('#cart_pos').removeClass('showCart');
+});
+
+$('.posMoreInfo').height('0');
+$('.showPosInfo').click(function () {
+  $(".posMoreInfo").animate({
+    height: $(".posMoreInfo").get(0).scrollHeight
+  }, 1000 );
+});
+
+
+// $("input[name='discountItem']").click(function () {
+//   $('#discountPercentage').css('display', ($(this).val() === 'percentage') ? 'd-flex':'none');
+//   $('#discountFixed').css('display', ($(this).val() === 'fixed') ? 'd-flex':'none');
+// });
+$(function(){
+  $("input#percentage").prop('checked',true);
+});
+$("div#discountFixed").hide();
+$('input[name="discountItem"]:radio').change(function () {
+  $('#discountPercentage').toggle(this.id == 'percentage');
+  $('#discountFixed').toggle(this.id == 'fixed');
+});
+
+
+// =============================================
+// convert Arabic number to English in input tel
+// ============================================= 
+function toEnglishNumber2(strNum2) {
+  var ar = '٠١٢٣٤٥٦٧٨٩'.split('');
+  var en = '0123456789'.split('');
+  strNum2 = strNum2.replace(/[٠١٢٣٤٥٦٧٨٩]/g, x => en[ar.indexOf(x)]);
+  strNum2 = strNum2.replace(/[^\d]/g, '');
+  return strNum2;
+}
+$(document).on('keyup', 'input[type="tel"]', function(e) {
+  var val = toEnglishNumber2($(this).val())
+  $(this).val(val)
+  this.dispatchEvent(new Event('input'));
+});
