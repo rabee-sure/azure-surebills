@@ -7,7 +7,7 @@
       <div class="posBackBtn d-flex align-items-center justify-content-start mb-4">
         <a class="d-flex align-items-center justify-content-center icon-arrow_forward" href="{{ route('pos.categories')}}"></a>
       </div><!-- posBackBtn -->
-      <div class="posPayPage d-flex align-items-center justify-content-center flex-column">
+      <div class="posPayPage mb-4 d-flex align-items-center justify-content-center flex-column">
         <div class="title mb-3 font-weight-bold">الدفع ( الإجمالي: <small dir="ltr" class="font-weight-bold">12.32 SAR</small> )</div>
         <div class="desc mb-4">سيتم إرسال رابط الدفع للعميل</div>
         <div class="selectArea mb-4 d-flex align-items-center justify-content-between">

@@ -75,7 +75,15 @@
               <p class="card-text font-weight-semibold mb-0">{{__('Settings')}}</p>
             </div>
           </a>
-        </div>
+        </div><!-- col-12 -->
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="card mb-4">
+            <div class="card-body text-center">
+              <div class="statistic_icon glyph-icon iconsminds-project"></div>
+              <p class="card-text font-weight-semibold mb-0">{{ __('Products') }}</p>
+            </div>
+          </a>
+        </div><!-- col-12 -->
       </div>
     </div>
 
