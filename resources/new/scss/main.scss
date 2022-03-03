@@ -19,6 +19,7 @@
 
 // Pages
 @import "pages/homepage";
+@import "pages/bills";
 
 body {
   background-color: #f8f8f8;
@@ -52,3 +53,27 @@ main {
     padding: 15px;
   } /* sidebar_hide */
 } /* main */
+
+.breadcrump {
+  padding: 10px;
+  margin: -15px -15px 0;
+  background-color: #f3f3f3;
+  a {
+    color: var(--mainColor);
+    &:hover {
+      color: var(--mainColorHover);
+    } /* hover */
+  } /* a */
+  i {
+    font-style: normal;
+    margin: 0 5px;
+  } /* i */
+  span {
+    color: #777;
+  } /* span */
+} /* breadcrump */
+
+.tooltip {
+  font-family: "Almarai","Roboto";
+  font-size: 13px;
+} /* tooltip */

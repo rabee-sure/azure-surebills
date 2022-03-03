@@ -21,8 +21,8 @@ const mix = require('laravel-mix');
     "resources/new/js/auth_script.js",
   ],'public/new/js/auth_main.js').sourceMaps()
   .scripts([
+    "resources/new/js/popper.min.js",
     "resources/new/js/bootstrap/bootstrap.bundle.min.js",
-    "resources/new/js/bopper.min.js",
     "resources/new/js/script.js",
   ],'public/new/js/main.js').sourceMaps()
   // *** New Ui Rabee ***//

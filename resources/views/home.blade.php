@@ -27,10 +27,10 @@
     @endif
 
     <div class="statisticArea">
-      <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4">
+      <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
         <div class="col">
           <a href="{{ route('statement.index') }}" title="{{ __('Electronic payment Gateway Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 border rounded-3 bg-white fw-bold shadow-sm">
-            <div class="icon balance_icon"></div>
+            <div class="icon onlinePayment_icon"></div>
             <p class="d-block mt-3 mb-2 text-center">{{ __('Electronic payment Gateway Balance') }}</p>
             <span class="d-block text-center">{{ round2($balance) }}</span>
           </a>

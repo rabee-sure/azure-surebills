@@ -74,9 +74,6 @@
 
     @stack('footer-scripts')
 
-    <!-- Script -->
-    <script src="{{ asset('new/js/main.js') }}?v={{ config('app.asset_version') }}"></script>
-
     @if(in_array(request()->route()->getName(), ['channels.show', 'integration','mobile_verify', 'home' ]))
       <script src="{{ asset('new/js/app.js') }}?v={{ config('app.asset_version') }}" defer></script>
     @endif
@@ -87,6 +84,9 @@
     </script>
 
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js') }}?v={{ config('app.asset_version')}}"></script>
+
+    <!-- Script -->
+    <script src="{{ asset('new/js/main.js') }}?v={{ config('app.asset_version') }}"></script>
 
     @if (env('APP_ENV') == 'production')
       <!-- Google Tag Manager (noscript) -->

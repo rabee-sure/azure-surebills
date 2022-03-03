@@ -15,7 +15,7 @@
     </div><!-- logo -->
     <div class="userList position-relative d-flex justify-content-end">
       <button class="d-flex align-items-center justify-content-end border-0 bg-transparent p-0" type="button" id="UserListItem" data-bs-toggle="dropdown" aria-expanded="false">
-        <span class="name d-none d-md-block">{{ Auth::user()->name }}</span>
+        <span class="name d-none d-sm-block">{{ Auth::user()->name }}</span>
         <img alt="{{ Auth::user()->name }}" src="{{ auth()->user()->gravatar}}" class="d-block rounded-circle" />
       </button>
       <div class="dropdown-menu p-0" aria-labelledby="UserListItem">
