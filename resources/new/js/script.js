@@ -22,3 +22,10 @@ sidebarToggle.addEventListener('click', () => {
     disableSidebarHide(); 
   }
 });
+
+// =============================================
+// Sidebar Toggle Phone
+// =============================================
+$(".sidebarBtnMobile").click(function () {
+  $("body").toggleClass("sidebarOpen");
+});

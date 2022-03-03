@@ -11,26 +11,27 @@ const mix = require('laravel-mix');
  |
  */
 
+  // *** New Ui Rabee ***//
+  mix.js('resources/new/js/app.js', 'public/new/js').vue()
+  .sass('resources/new/scss/main.scss', 'public/new/css')
+  .sass('resources/new/scss/auth.scss', 'public/new/css')
+  .scripts([
+    "resources/new/js/bootstrap/bootstrap.min.js",
+    "resources/new/js/bopper.min.js",
+    "resources/new/js/auth_script.js",
+  ],'public/new/js/auth_main.js').sourceMaps()
+  .scripts([
+    "resources/new/js/bootstrap/bootstrap.bundle.min.js",
+    "resources/new/js/bopper.min.js",
+    "resources/new/js/script.js",
+  ],'public/new/js/main.js').sourceMaps()
+  // *** New Ui Rabee ***//
+
  
 
 
 
  mix.js('resources/js/app.js', 'public/js').vue()
-
-  // *** New Ui Rabee ***//
-  .sass('resources/new/scss/main.scss', 'public/new/css')
-  .sass('resources/new/scss/auth.scss', 'public/new/css')
-  .scripts([
-    "resources/new/js/bootstrap.min.js",
-    "resources/new/js/bopper.min.js",
-    "resources/new/js/auth_script.js",
-  ],'public/new/js/auth_main.js').sourceMaps()
-  .scripts([
-    "resources/new/js/bootstrap.bundle.min.js",
-    "resources/new/js/bopper.min.js",
-    "resources/new/js/script.js",
-  ],'public/new/js/main.js').sourceMaps()
-  // *** New Ui Rabee ***//
 
     // .scripts([
     //     "public/js/jquery-3.3.1.min.js",

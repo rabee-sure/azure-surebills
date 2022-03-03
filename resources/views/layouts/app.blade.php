@@ -26,7 +26,7 @@
 
     @yield('css_styles')
 
-    <!-- @stack('header-css') -->
+    @stack('header-css')
     
     @if (env('APP_ENV') == 'production')
       <!-- Google Tag Manager -->
@@ -39,7 +39,7 @@
     @endif
 
   </head>
-  <body>
+  <body id="app-container">
 
     @include('layouts.header')
 
@@ -47,7 +47,8 @@
         @include('layouts.sidebar')
     @endif
 
-    <main>
+    <main id="app">
+      dfdsfdsfds
       @yield('content')
     </main><!-- main -->
 
@@ -72,8 +73,38 @@
     <!-- Jquery -->
     <script src="{{ asset('new/js/jquery-3.6.0.min.js') }}"></script>
 
+    @stack('footer-scripts')
+
     <!-- Script -->
-    <script src="{{ asset('new/js/main.js') }}"></script>
+    <script src="{{ asset('new/js/main.js') }}?v={{ config('app.asset_version') }}"></script>
+
+    @if(in_array(request()->route()->getName(), ['channels.show', 'integration','mobile_verify', 'home' ]))
+      <script src="{{ asset('new/js/app.js') }}?v={{ config('app.asset_version') }}" defer></script>
+    @endif
+
+    <script>
+      window._locale = '{{ app()->getLocale() }}';
+      window._translations = {!! cache('translations') !!};
+    </script>
+
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js') }}?v={{ config('app.asset_version')}}"></script>
+
+    @if (env('APP_ENV') == 'production')
+      <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4WN2GW"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+      
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-WRYZ8313H2"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-WRYZ8313H2');
+      </script>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+    @endif
   
   </body>
 </html>

@@ -122,11 +122,11 @@
 
 
 @push('footer-scripts')
-<script src="{{ asset('js/Chart.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
-<script type="text/javascript">
-  Echo.channel('home')
-    .listen('NewMessage', (e) => {
-        console.log(e.message);
-    });
-</script>
+  <script src="{{ asset('js/Chart.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
+  <script type="text/javascript">
+    Echo.channel('home')
+      .listen('NewMessage', (e) => {
+          console.log(e.message);
+      });
+  </script>
 @endpush

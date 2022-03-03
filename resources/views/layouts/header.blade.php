@@ -1,12 +1,12 @@
 <header class="bg-white position-sticky top-0">
   <div class="container-fluid h-100 d-flex align-items-center justify-content-between">
     <div class="headerRight d-flex align-items-center justify-content-start">
-      <div class="sidebarButton d-flex align-items-center justify-content-center flex-column">
-        <span></span>
-        <span></span>
-        <span></span>
-        <!-- <i class="fal fa-stream"></i> -->
-      </div>
+      <div class="sidebarButton d-none d-md-flex align-items-center justify-content-center flex-column">
+        <span></span><span></span><span></span>
+      </div><!-- sidebarButton -->
+      <div class="sidebarBtnMobile d-flex d-md-none align-items-center justify-content-center flex-column">
+        <span></span><span></span><span></span>
+      </div><!-- sidebarBtnMobile -->
     </div><!-- headerRight -->
     <div class="logo d-flex align-items-center justify-content-center flex-grow-1">
       <a href="{{ url('/') }}" title="SureBills">
