@@ -407,10 +407,10 @@
                 this.editForm.email = application.email;
                 this.editForm.redirect = application.redirect;
                 this.editForm.webhook_url = application.webhook_url;
-                this.editForm.mada_fixed = application.mada_fixed;
-                this.editForm.mada_percentage = application.mada_percentage;
-                this.editForm.credit_cards_fixed = application.credit_cards_fixed;
-                this.editForm.credit_cards_percentage = application.credit_cards_percentage;
+                this.editForm.mada_fixed = parseFloat(application.mada_fixed).toFixed(2);
+                this.editForm.mada_percentage = parseFloat(application.mada_percentage).toFixed(2);
+                this.editForm.credit_cards_fixed = parseFloat(application.credit_cards_fixed).toFixed(2);
+                this.editForm.credit_cards_percentage = parseFloat(application.credit_cards_percentage).toFixed(2);
 
                 $('#modal-edit-application').modal('show');
             },

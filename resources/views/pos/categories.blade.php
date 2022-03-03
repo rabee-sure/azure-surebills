@@ -10,7 +10,7 @@
         </form>
       </div><!-- posCategoriesSearch -->
       @include('pos.partials.linkBar')
-      <div class="posCategoriesPage">
+      <div class="posCategoriesPage mb-4">
         <a href="#" title="#" class="d-flex align-items-center justify-content-center flex-column">
           <span class="d-flex align-items-center justify-content-center flex-grow-1 text-center">الكل</span>
         </a>

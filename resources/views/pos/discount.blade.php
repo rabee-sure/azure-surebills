@@ -7,7 +7,7 @@
       <div class="posBackBtn d-flex align-items-center justify-content-start mb-4">
         <a class="d-flex align-items-center justify-content-center icon-arrow_forward" href="{{ route('pos.categories')}}"></a>
       </div><!-- posBackBtn -->
-      <div class="posDiscountPage d-flex align-items-center justify-content-center flex-column">
+      <div class="posDiscountPage mb-4 d-flex align-items-center justify-content-center flex-column">
         <div class="title mb-4 font-weight-bold">اضف خصم</div>
         <div class="row justify-content-center w-100">
           <div class="col-12 col-md-5">
