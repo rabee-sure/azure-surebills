@@ -88,7 +88,7 @@
       <div class="title d-flex align-items-center justify-content-between mb-3">
         <span class="d-block fw-bold">{{__('Latest Bills') }}</span>
         @if($latest->count() > 0)
-          <a href="/bills?dont_update_statuses=true" title="{{__('View all') }}" class="d-flex align-items-center justify-content-center text-white fw-bold rounded-3">{{__('View all') }}</a>
+          <a href="/bills?dont_update_statuses=true" title="{{__('View all') }}" class="d-flex align-items-center justify-content-center border rounded-pill">{{__('View all') }}</a>
         @endif
       </div><!-- title -->
       @if($latest->count() > 0)
@@ -113,16 +113,16 @@
         <div class="no_bills_available">{{ __('No Bill Matched The Given Criteria.') }}</div>
       @endif
     </div><!-- latestBills -->
+  
+    <a href="{{ route('bills.create')}}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Create a bill')}}" class="addNewBillBtn position-fixed rounded-circle d-block shadow"></a>
 
   </section><!-- homepage -->
-  
-  <a href="{{ route('bills.create')}}" data-toggle="tooltip" data-placement="top" title="{{ __('Create a bill')}}" class="add_bill_button">xcvc</a>
 
 @endsection
 
 
 @push('footer-scripts')
-  <script src="{{ asset('js/Chart.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
+  <script src="{{ asset('new/js/chartjs/Chart.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script type="text/javascript">
     Echo.channel('home')
       .listen('NewMessage', (e) => {

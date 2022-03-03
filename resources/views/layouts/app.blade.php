@@ -48,7 +48,6 @@
     @endif
 
     <main id="app">
-      dfdsfdsfds
       @yield('content')
     </main><!-- main -->
 
