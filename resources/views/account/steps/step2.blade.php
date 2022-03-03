@@ -57,7 +57,7 @@
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="business_name_en">{{ __('Business Name') }} (EN)<i class="text-danger">*</i></label>
-                      <input value="@if($errors->any()){{old('business_name_en')}}@else{{$user->business_name_en}}@endif" name="business_name_en" type="text" class="form-control" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)">
+                      <input value="@if($errors->any()){{old('business_name_en')}}@else{{$user->business_name_en}}@endif" name="business_name_en" type="text" class="form-control onlyEng" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)">
                     </div>
                     <div class="form-group col-md-6">
                       <label for="business_name_ar">{{ __('Business Name') }} (AR)<i class="text-danger">*</i></label>
@@ -67,7 +67,7 @@
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="business_address">{{ __('Address') }}<i class="text-danger">*</i></label>
-                      <input value="@if($errors->any()){{old('business_address')}}@else{{$user->business_address}}@endif" name="business_address" type="text" class="form-control" id="business_address" placeholder="{{ __('Address') }}">
+                      <input value="@if($errors->any()){{old('business_address')}}@else{{$user->business_address}}@endif" name="business_address" type="text" class="form-control onlyEng" id="business_address" placeholder="{{ __('Address') }}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for="business_mobile">{{ __('Mobile') }}<i class="text-danger">*</i></label>
