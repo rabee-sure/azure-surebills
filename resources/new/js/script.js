@@ -40,3 +40,12 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 $(document).ready(function() {
   $("body").tooltip({ selector: '[data-bs-toggle="tooltip"]' });
 });
+
+// =============================================
+// Showing Body
+// =============================================
+$("body > *").css({ opacity: 0 });
+setTimeout(function () {
+  $("body").removeClass("show-spinner");
+  $("body > *").animate({ opacity: 1 }, 100);
+}, 300);

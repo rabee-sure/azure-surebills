@@ -39,7 +39,7 @@
     @endif
 
   </head>
-  <body id="app-container">
+  <body id="app-container" class="show-spinner">
 
     @include('layouts.header')
 

@@ -54,9 +54,9 @@
     </div><!-- filterArea -->
 
     @if($bills->count())
-      <div class="billsArea bg-white border shadow-sm rounded-3 overflow-hidden">
+      <div class="billsArea bg-white border shadow-sm rounded-3 overflow-hidden mb-3">
         <div class="table-responsive">
-          <table class="table table-striped table-bordered table-hover text-nowrap">
+          <table class="table table-striped table-hover text-nowrap">
             <thead>
               <tr>
                 <th scope="col">{{__('Name') }}</th>

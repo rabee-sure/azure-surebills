@@ -28250,7 +28250,6 @@ section#homepage .addNewBillBtn:hover {
 /* homepage */
 #billIndexPage {
   /* title */
-  /* rightCol */
   /* filterArea */
   /* billsArea */
 }
@@ -28272,22 +28271,26 @@ section#homepage .addNewBillBtn:hover {
 #billIndexPage .title a:hover {
   background-color: var(--mainColorHover);
 }
-#billIndexPage .rightCol {
+#billIndexPage .filterArea {
+  /* rightCol */
+  /* leftCol */
+}
+#billIndexPage .filterArea .rightCol {
   /* dateInput */
   /* checkboxArea */
 }
-#billIndexPage .rightCol .dateInput {
+#billIndexPage .filterArea .rightCol .dateInput {
   /* input */
   /* after */
 }
-#billIndexPage .rightCol .dateInput input {
+#billIndexPage .filterArea .rightCol .dateInput input {
   height: 40px;
   outline: none;
   padding: 0 48px 0 10px;
   min-width: 230px;
   cursor: pointer;
 }
-#billIndexPage .rightCol .dateInput::after {
+#billIndexPage .filterArea .rightCol .dateInput::after {
   content: "";
   font-family: "Font Awesome 5 Pro";
   position: absolute;
@@ -28303,42 +28306,42 @@ section#homepage .addNewBillBtn:hover {
   background-color: #fff;
   border-radius: 0.3rem;
 }
-#billIndexPage .rightCol .checkboxArea {
+#billIndexPage .filterArea .rightCol .checkboxArea {
   /* label */
 }
-#billIndexPage .rightCol .checkboxArea label {
+#billIndexPage .filterArea .rightCol .checkboxArea label {
   margin: 0 0 0 20px;
   /* sm */
   /* input */
   /* span */
 }
 @media (max-width: 575.98px) {
-  #billIndexPage .rightCol .checkboxArea label {
+  #billIndexPage .filterArea .rightCol .checkboxArea label {
     width: 33.333%;
     margin: 0;
   }
 }
-#billIndexPage .rightCol .checkboxArea label input {
+#billIndexPage .filterArea .rightCol .checkboxArea label input {
   cursor: pointer;
   z-index: 9;
   opacity: 0;
   /* checked */
 }
-#billIndexPage .rightCol .checkboxArea label input:checked ~ {
+#billIndexPage .filterArea .rightCol .checkboxArea label input:checked ~ {
   /* span */
 }
-#billIndexPage .rightCol .checkboxArea label input:checked ~ span {
+#billIndexPage .filterArea .rightCol .checkboxArea label input:checked ~ span {
   /* before */
 }
-#billIndexPage .rightCol .checkboxArea label input:checked ~ span::before {
+#billIndexPage .filterArea .rightCol .checkboxArea label input:checked ~ span::before {
   background-color: var(--mainColor);
   border-color: var(--mainColor);
 }
-#billIndexPage .rightCol .checkboxArea label span {
+#billIndexPage .filterArea .rightCol .checkboxArea label span {
   color: #3a3a3a;
   /* before */
 }
-#billIndexPage .rightCol .checkboxArea label span::before {
+#billIndexPage .filterArea .rightCol .checkboxArea label span::before {
   content: "";
   font-family: "Font Awesome 5 Pro";
   color: #ffffff;
@@ -28354,9 +28357,6 @@ section#homepage .addNewBillBtn:hover {
   align-items: center;
   justify-content: center;
   font-size: 12px;
-}
-#billIndexPage .filterArea {
-  /* leftCol */
 }
 #billIndexPage .filterArea .leftCol {
   /* input */
@@ -28395,6 +28395,7 @@ section#homepage .addNewBillBtn:hover {
   padding: 10px;
   vertical-align: middle;
   color: #3a3a3a;
+  border-color: #dee2e6;
 }
 #billIndexPage .billsArea table td {
   color: #3a3a3a;
@@ -28447,13 +28448,46 @@ body {
   font-size: 15px;
   font-family: "Almarai", "Roboto";
   /* ltr */
+  /* show-spinner */
 }
 [dir=ltr] body {
   direction: ltr;
   font-family: "Roboto", "Almarai";
 }
+body.show-spinner {
+  /* * */
+  /* after */
+}
+body.show-spinner * {
+  opacity: 0;
+}
+body.show-spinner::after {
+  content: " ";
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  border-top-color: rgba(0, 0, 0, 0.3);
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+  left: calc(50% - 15px);
+  top: calc(50% - 15px);
+  position: fixed;
+  z-index: 1;
+}
 
 /* body */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
 a {
   transition: all 0.2s ease-in-out;
   text-decoration: none;
