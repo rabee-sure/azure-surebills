@@ -66,6 +66,9 @@
 
     <!-- Slick Slider -->
     <script src="{{ asset('new/js/slick/slick.min.js') }}"></script>
+    
+    <!-- Laravel Javascript Validation -->
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>
 
     <!-- Script -->
     <script src="{{ asset('new/js/auth_main.js') }}"></script>

@@ -4,34 +4,13 @@
 // Variables
 @import 'helpers/variables';
 
-// Font Icons
-@font-face {
-  font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?36iv6v');
-  src:  url('../fonts/icomoon.eot?36iv6v#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?36iv6v') format('truetype'),
-    url('../fonts/icomoon.woff?36iv6v') format('woff'),
-    url('../fonts/icomoon.svg?36iv6v#icomoon') format('svg');
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
-[class^="icon-"], [class*=" icon-"] {
-  font-family: 'icomoon' !important;
-  speak: never;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.icon-phone:before {content: "\e904";}
-.icon-user-tie:before {content: "\e902";}
-.icon-key:before {content: "\e901";}
-.icon-user-o:before {content: "\e903";}
-.icon-envelope-o:before {content: "\e900";}
+// Fontawesome Icon Files
+@import "plugins/fontawesome/fontawesome.scss";
+@import "plugins/fontawesome/regular.scss";
+@import "plugins/fontawesome/solid.scss";
+@import "plugins/fontawesome/brands.scss";
+@import "plugins/fontawesome/duotone.scss";
+@import "plugins/fontawesome/light.scss";
 
 body {
   direction: rtl;
@@ -127,13 +106,13 @@ main {
         } /* md */
         .form_group {
           .inputIcon {
-            height: 40px;
+            height: 45px;
             span {
-              width: 40px;
+              width: 45px;
               background-color: #fafafa;
               border-left: 1px solid #dee2e6;
-              font-size: 17px;
-              color: #555;
+              font-size: 19px;
+              color: #3a3a3a;
               [dir="ltr"] & {
                 border-right: 1px solid #dee2e6;
                 border-left: none;
@@ -235,9 +214,17 @@ main {
           height: 40px;
           font-size: 14px;
           background-color: var(--mainColor);
+          i {
+            font-size: 25px;
+          } /* i */
           &:hover {
             background-color: var(--mainColorHover);
           } /* hover */
+          &[disabled="disabled"] {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+          } /* disabled="disabled" */
         } /* login_button */
         &.registerForm {
           max-width: 600px;

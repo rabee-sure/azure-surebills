@@ -1,10 +1,8 @@
 <tr>
   <td><a href="{{ route('bills.show', $bill) }}" title="{{ __('Bill')}} {{ $bill->number }} - {{ $bill->customer_name }}">{{ __('Bill')}} {{ $bill->number }} - {{ $bill->customer_name }}</a></td>
-  <td>{{ $bill->total }} {{ __('SAR')}}</td>
-  <td>{{ $bill->created_at }}</td>
-  <td>
-    @include('bills.status_badge', ['status' => $bill->status, 'id' => $bill->id])
-  </td>
+  <td class="text-center">{{ $bill->total }} {{ __('SAR')}}</td>
+  <td class="text-center">{{ $bill->created_at }}</td>
+  <td class="text-center">@include('bills.status_badge', ['status' => $bill->status, 'id' => $bill->id])</td>
 </tr>
 @push('footer-scripts')
 <script type="text/javascript">

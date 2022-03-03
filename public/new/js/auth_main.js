@@ -43,3 +43,22 @@ $(document).on('keyup', 'input[type="tel"]', function(e) {
   $(this).val(val)
   this.dispatchEvent(new Event('input'));
 });
+
+// =============================================
+// Loading Spinner Buttton
+// ============================================= 
+$(document).ready(function() {
+  $('.login_button').on('click', function() {
+    var $this = $(this);
+    var loadingText = '<i class="fad fa-spinner fa-spin"></i>';
+    if ($(this).html() !== loadingText) {
+      $this.data('original-text', $(this).html());
+      $this.html(loadingText);
+    }
+    $(this).attr('disabled', 'disabled');
+    $(this).parents('form').submit();
+    setTimeout(function() {
+      $this.html($this.data('original-text'));
+    }, 5000);
+  });
+});

@@ -39,7 +39,7 @@
         @csrf
         <div class="form_group mb-3">
           <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('password') is-invalid @enderror">
-            <span class="d-flex align-items-center justify-content-center h-100 icon-key"></span>
+            <span class="d-flex align-items-center justify-content-center h-100 fal fa-lock-alt"></span>
             <input id="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password" autocomplete="current-password" type="password" placeholder="{{ __('Password') }}" placeholder="" />
           </div><!-- inputIcon -->
           @error('password')

@@ -37,11 +37,11 @@
         </a>
       </div><!-- logo -->
       <h1 class="d-block mb-3 fw-normal text-body">{{ __('Login') }}</h1>
-      <form method="POST" action="{{ route('login') }}"  id="login-form" class="w-100 mx-auto">
+      <form method="POST" action="{{ route('login') }}" id="login-form" class="w-100 mx-auto">
         @csrf
         <div class="form_group mb-3">
           <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('email') is-invalid @enderror">
-            <span class="d-flex align-items-center justify-content-center h-100 icon-envelope-o"></span>
+            <span class="d-flex align-items-center justify-content-center h-100 fal fa-envelope"></span>
             <input id="email" type="email" class="bg-white border-0 h-100 flex-grow-1 text-body" name="email" inputmode="email" value="{{ old('email') }}" autocomplete="email" placeholder="{{ __('E-Mail Address') }}" autofocus />
           </div><!-- inputIcon -->
           @error('email')
@@ -50,7 +50,7 @@
         </div><!-- form_group -->
         <div class="form_group mb-3">
           <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('password') is-invalid @enderror">
-            <span class="d-flex align-items-center justify-content-center h-100 icon-key"></span>
+            <span class="d-flex align-items-center justify-content-center h-100 fal fa-lock-alt"></span>
             <input id="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password" autocomplete="current-password" type="password" placeholder="{{ __('Password') }}" placeholder="" />
           </div><!-- inputIcon -->
           @error('password')
