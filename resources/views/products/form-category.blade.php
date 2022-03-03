@@ -28,7 +28,7 @@
       <div class="create_bill_page card mb-4">
         
         <div class="card-body" >
-          <form method="POST" action="#" class="repeater" id="settings">
+          <form method="POST" action="#" class="repeater" id="categoryForm">
             @csrf
             <div class="form-row">
               <div class="form-group col-md-6">
@@ -50,17 +50,8 @@
               </div>
               <div class="form-group col-md-6">
                   <label for="inputEmail5">{{__('Parent')}} <span class="requirement">*</span></label>
-                  <select name="parent_id" id="inputEmail5" class="form-control">
-                    <option value="" disabled selected>{{__('Select parent category')}}</option>
-                  </select>
+                  <select id="sel_1" name="parent_id" style="width:16em" multiple></select>
               </div> 
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                  <label for="inputEmail5">{{__('Parent')}} <span class="requirement">*</span></label>
-                  <select id="sel_1" style="width:16em" multiple></select>
-              </div>
             </div>
 
             <div class="form-row">
@@ -88,9 +79,9 @@
             
             <div class="form-row">
               <div class="form-group col-12">
-                <label for="api_bill_style">{{ __('Activate simple style for API bills?') }}</label>
+                <label for="api_bill_style">{{ __('Activate') }}</label>
                 <div class="custom-switch custom-switch-primary mb-2">
-                  <input name="api_bill_style" class="custom-switch-input" id="api_bill_style" type="checkbox">
+                  <input name="active" class="custom-switch-input" id="api_bill_style" type="checkbox">
                   <label class="custom-switch-btn" for="api_bill_style"></label>
                 </div>
               </div><!-- form-group -->
@@ -99,7 +90,7 @@
             <hr>
 
             <div class="d-flex justify-content-start mt-3">
-              <button type="submit" class="btn btn-primary btn-lg login_button"> {{__('Save')}}</button>
+              <button type="button" id="SubmitForm" class="btn btn-primary btn-lg login_button"> {{__('Save')}}</button>
             </div><!-- d-flex  -->
           </form>
         </div>
@@ -116,21 +107,6 @@
   <script type="text/javascript" src="{{ asset('js/select2tree.js') }}"></script>
   <script>
     $("#sel_1").select2();
-    var categoriesTree = [
-      // {id:1, text:"USA", inc:[
-      //     {text:"west", inc:[
-      //       {id:111, text:"California", inc:[
-      //           {id:1111, text:"Los Angeles", inc:[
-      //             {id:11111, text:"Hollywood"}
-      //           ]},
-      //           {id:1112, text:"San Diego"}
-      //       ]},
-      //       {id:112, text:"Oregon"}
-      //     ]}
-      // ]},
-      // {id:2, text:"India"},
-      // {id:3, text:"中国"}
-    ];
 
     $(document).ready(function(){
 
@@ -148,29 +124,23 @@
           type:'GET',
           url:"{{ route('categories.top') }}",
           success:function(categories){
-            console.log(categories.data);
-            $.each(categories.data, function(index, object){
-              console.log(object.childiren.length);
-              setChildren(object);
-            });
-            console.log(categoriesTree);
-            $("#sel_1").select2ToTree({treeData: {dataArr:categoriesTree}, maximumSelectionLength: 1});
+            $("#sel_1").select2ToTree({treeData: {dataArr:categories.data, labelFld: "name", incFld: "childiren"}, maximumSelectionLength: 1});
           }
       });
 
-      function setChildren(category) {
-        element = {id:category.id, text:category.name};
-          if (Array.isArray(category.childiren) && category.childiren.length){
-            console.log('zain');
-            element.inc = [];
-            $.each(category.childiren, function(index, object){
-              console.log(object);
-              subelement = {id:object.id, text:object.name};
-              categoriesTree.push(element);
-              setChildren(object.childiren);
-            });
-          }
-      }
+      //submit from
+      $('#SubmitForm').click(function(){
+        var name_en = $("input[name=name_en]").val();
+        var name_ar = $("input[name=name_ar]").val();
+        var parent_id = $("select[name=parent_id] option:selected").val();
+        var sort_number = $("input[name=sort_number]").val();
+        var active = 0;
+        if($("input[name='active']").prop("checked") == true){
+          active = 1;
+        }
+
+        
+      });
     });
 
   </script>

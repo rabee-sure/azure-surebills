@@ -22,7 +22,7 @@ class CategoryResource extends JsonResource
             'sort_number' => $this->sort_number,
             'active' => $this->active,
             'parent_id' => $this->parent_id,
-            'childiren' => $this->childiren,
+            'childiren' => $this::collection($this->childiren),
         ];
     }
 }
