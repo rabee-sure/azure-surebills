@@ -12359,6 +12359,10 @@ aside#cart_pos {
       } /* billNum */
       .items {
         border-color: #F5F5F5 !important;
+        @media (max-width: 767.98px) {
+          max-height: 58vh;
+          overflow-y: auto;
+        } /* md */
         .item {
           padding: 5px;
           background-color: #f5f5f5;
