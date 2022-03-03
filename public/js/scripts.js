@@ -255,10 +255,10 @@ $(function() {
 
 
 $(".openCartPhone button").click(function () {
-  $('#cart_pos').addClass('showCart');
+  $('body').addClass('showCartPos');
 });
 $("#cart_pos .closeCartSide").click(function () {
-  $('#cart_pos').removeClass('showCart');
+  $('body').removeClass('showCartPos');
 });
 
 $('.posMoreInfo').height('0');

@@ -186,8 +186,8 @@
           </div><!-- item -->
         </div><!-- items -->
       </div><!-- cart_top -->
-      <div class="cart_bottom mt-3 w-100">
-        <div class="total_cart py-2 border-top border-bottom">
+      <div class="cart_bottom w-100">
+        <div class="total_cart py-2 border-bottom">
           <div class="subtotal py-1 d-flex align-items-center justify-content-between">
             <p class="d-block m-0">المجموع الفرعي <small>( 8 منتج )</small></p>
             <span class="d-block" dir="ltr">123 <small>SAR</small></span>
