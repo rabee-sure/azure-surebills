@@ -53,6 +53,41 @@ section#homepage {
       } /* icon */
     } /* a */
   } /* statisticArea */
+  .chart_Block {
+    padding: 15px;
+    .title {
+      span {
+        font-size: 17px;
+        color: #3a3a3a;
+      } /* span */
+      ul {
+        li {
+          margin: 0 10px 0 0;
+          a {
+            font-size: 13px;
+            min-width: 85px;
+            height: 25px;
+            color: #3a3a3a;
+            cursor: pointer;
+            &.active {
+              color: var(--mainColor);
+              border-color: var(--mainColor) !important;
+              background-color: var(--hoverBg);
+              cursor: auto;
+            } /* active */
+          } /* a */
+          &:first-child {
+            margin: 0;
+          } /* first-child */
+        }/* li */
+      } /* ul */
+    } /* title */
+    .tab-pane {
+      canvas#line-chart {
+        top: 0 !important;
+      } /* #line-chart */
+    } /* tab-pane */
+  } /* chart_Block */
   .latestBills {
     padding: 15px;
     .title {
