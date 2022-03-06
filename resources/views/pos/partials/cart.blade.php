@@ -1,6 +1,6 @@
-<div class="col-12 col-md-3">
+<div class="col-12 col-md-5 col-lg-3">
   <aside id="cart_pos" class="card p-2 align-self-stretch">
-    <div class="closeCartSide d-block d-md-none mb-3 icon-close-outline"></div>
+    <div class="closeCartSide d-block d-md-none mb-2 icon-close-outline"></div>
 
     <!-- <div class="cart_empty d-flex align-items-center justify-content-center flex-column flex-grow-1">
       <div class="icon mb-3">
@@ -10,11 +10,13 @@
     </div>cart_empty -->
 
     <div class="cart_has_items d-flex align-items-center justify-content-between flex-column flex-grow-1">
-      <div class="cart_top w-100">
-        <div class="billNum mb-2 d-flex align-items-center justify-content-between">
+      <div class="cartTop">
+        <div class="billNum d-flex align-items-center justify-content-between">
           <span class="d-block">#1223</span>
           <button type="resset" class="d-flex align-items-center justify-content-center border icon-refresh"></button>
         </div><!-- billNum -->
+      </div><!-- cartTop -->
+      <div class="cartCenter w-100 my-2">
         <div class="items border">
           <div class="item d-flex align-items-start justify-content-between align-self-stretch">
             <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
@@ -185,7 +187,7 @@
             </div><!-- priceAndQty -->
           </div><!-- item -->
         </div><!-- items -->
-      </div><!-- cart_top -->
+      </div><!-- cartCenter -->
       <div class="cart_bottom w-100">
         <div class="total_cart py-2 border-bottom">
           <div class="subtotal py-1 d-flex align-items-center justify-content-between">

@@ -3,7 +3,7 @@
 @section('content')
   <div class="row align-self-stretch align-items-start">
     @include('pos.partials.cart')
-    <div class="col-12 col-md-9">
+    <div class="col-12 col-md-7 col-lg-9">
       <div class="posCategoriesSearch mb-3">
         <form action="#">
           <input class="form-control" type="text" placeholder="ابحث عن منتج">
