@@ -2,6 +2,10 @@
 
 @section('title', __('Create a bill'))
 
+@section('css_styles')
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/jquery-ui/jquery-ui.css') }}?v={{ config('app.asset_version') }}">
+@endsection
+
 @section('content')
 
   <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm border-bottom">
@@ -87,7 +91,7 @@
           </div><!-- col -->
         </div><!-- row -->
         @if(Auth::user()->settings->add_tax_invoice)
-          <button type="button" class="additionalInformationBtn border-0 d-flex align-items-center justify-content-start bg-transparent">{{__('Additional Information')}}</button>
+          <button type="button" class="additionalInformationBtn border-0 d-flex align-items-center justify-content-start bg-transparent p-0">{{__('Additional Information')}}</button>
           <div class="additionalInformationArea">
             <div class="pt-3">
               <div class="row">
@@ -292,17 +296,18 @@
 @endsection
 
 @push('footer-scripts')
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="{{ asset('new/js/jquery-ui/jquery-ui.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script src="{{ asset('js/jquery.repeater.min.js') }}"></script>
   <script>
     // Additional Information
     $(".additionalInformationArea").hide();
     $("button.additionalInformationBtn").click(function(){
+      $(this).toggleClass("show");
       $(".additionalInformationArea").slideToggle();
     });
 
-  var fewSeconds = 5;
-  $('#create-bill').click(function() {
+    var fewSeconds = 5;
+    $('#create-bill').click(function() {
       var btn = $(this);
       btn.prop('disabled', true);
       $('#bill_create').submit();
@@ -310,43 +315,41 @@
           btn.prop('disabled', false);
       }, fewSeconds*1000);
       return true;
-
-  });
+    });
 
     $(document).on("change", ".qty1", function() {
-        var name = $(this).attr('name');
-        var res = name.replace("[price]", "");
-        res = res.replace("[quantity]", "");
-        var quantity_st  = 'input[name="'+res+ '[quantity]"]';
-        var total_st  = 'input[name="'+res+ '[total]"]';
-        var price_st  = 'input[name="'+res+ '[price]"]';
-        var quantity = 1;
-
-        if($(quantity_st).val() == ''){
-          $(quantity_st).val(1);
-        }else{
-          quantity = $(quantity_st).val();
-        }
-        var price = $(price_st).val() == '' ? 0 :$(price_st).val();
-        $(total_st).val(price * quantity);
+      var name = $(this).attr('name');
+      var res = name.replace("[price]", "");
+      res = res.replace("[quantity]", "");
+      var quantity_st  = 'input[name="'+res+ '[quantity]"]';
+      var total_st  = 'input[name="'+res+ '[total]"]';
+      var price_st  = 'input[name="'+res+ '[price]"]';
+      var quantity = 1;
+      if($(quantity_st).val() == ''){
+        $(quantity_st).val(1);
+      }else{
+        quantity = $(quantity_st).val();
+      }
+      var price = $(price_st).val() == '' ? 0 :$(price_st).val();
+      $(total_st).val(price * quantity);
     });
 
     $(document).ready(function () {
-        @if(old('add_tax'))
-            $('.Tax_Values').show();
-            $('#Value').val({{old('tax_value')}});
-            $('#Tax_Values_Checkbox').prop('checked', true);
-        @elseif(old('add_tax') === 0)
-            $('.Tax_Values').hide();
-            $('#Tax_Values_Checkbox').prop('checked', false);
-        @elseif(auth()->user()->settings->add_tax)
-            $('.Tax_Values').show();
-            $('#Value').val({{auth()->user()->settings->tax_value}});
-            $('#Tax_Values_Checkbox').prop('checked', true);
-        @else
-            $('.Tax_Values').hide();
-            $('#Tax_Values_Checkbox').prop('checked', false);
-        @endif
+      @if(old('add_tax'))
+        $('.Tax_Values').show();
+        $('#Value').val({{old('tax_value')}});
+        $('#Tax_Values_Checkbox').prop('checked', true);
+      @elseif(old('add_tax') === 0)
+        $('.Tax_Values').hide();
+        $('#Tax_Values_Checkbox').prop('checked', false);
+      @elseif(auth()->user()->settings->add_tax)
+        $('.Tax_Values').show();
+        $('#Value').val({{auth()->user()->settings->tax_value}});
+        $('#Tax_Values_Checkbox').prop('checked', true);
+      @else
+        $('.Tax_Values').hide();
+        $('#Tax_Values_Checkbox').prop('checked', false);
+      @endif
 
       $('.repeater').repeater({
         show: function () {
@@ -356,72 +359,69 @@
 
       $('#Tax_Values_Checkbox').change(function() {
         $('.Tax_Values').toggle();
-      })
+      });
 
       $('#Discount_Values_Checkbox').change(function() {
         $('.Discount_Values').toggle();
-      })
-      @if(old('add_discount'))
-      {{'.change();'}}
-      @endif
+      });
+
+      
 
       var customers = [];
+      
       $( "#customer_name").autocomplete({
-
-          source: function(request, response) {
-              $.ajax({
-              url: "{{route('customers.search_name')}}",
-              data: {
-                // _token: CSRF_TOKEN,
-                search : request.term
-               },
-              dataType: "json",
-              success: function(data){
+        source: function(request, response) {
+          $.ajax({
+            url: "{{route('customers.search_name')}}",
+            data: {
+              // _token: CSRF_TOKEN,
+              search : request.term
+              },
+            dataType: "json",
+            success: function(data){
               customers = data;
-               var resp = $.map(data,function(obj){
-                    return {'value': obj.name, 'label': obj.name, 'id': obj.id};
-               });
-               response(resp);
-              }
+              var resp = $.map(data,function(obj){
+                return {'value': obj.name, 'label': obj.name, 'id': obj.id};
+              });
+              response(resp);
+            }
           });
-      },
-      select: function (event, ui) {
-        var item = customers.find(x => x.id === ui.item.id);
-        $('#customer_name').val(item.name);
-        $('#customer_mobile').val(item.mobile);
-        $('#customer_email').val(item.email);
-        $('#customer_notes').val(item.notes);
-        $('#bullding_no').val(item.bullding_no);
-        $('#street_name').val(item.street_name);
-        $('#district').val(item.district);
-        $('#city').val(item.city);
-        $('#postal_code').val(item.postal_code);
-        $('#additional_no').val(item.additional_no);
-        $('#other_buyer_id').val(item.other_buyer_id);
-        $('#vat_registration_number').val(item.vat_registration_number);        
-       return false;
-      },
-      minLength: 1
-   });
-  });
+        },
+        select: function (event, ui) {
+          var item = customers.find(x => x.id === ui.item.id);
+          $('#customer_name').val(item.name);
+          $('#customer_mobile').val(item.mobile);
+          $('#customer_email').val(item.email);
+          $('#customer_notes').val(item.notes);
+          $('#bullding_no').val(item.bullding_no);
+          $('#street_name').val(item.street_name);
+          $('#district').val(item.district);
+          $('#city').val(item.city);
+          $('#postal_code').val(item.postal_code);
+          $('#additional_no').val(item.additional_no);
+          $('#other_buyer_id').val(item.other_buyer_id);
+          $('#vat_registration_number').val(item.vat_registration_number);        
+          return false;
+        },
+        minLength: 1
+      });
+    });
 
     $('.inner-repeater').on('keypress', '.product_price',function (e) {
-        var key = e.which;
-        if(key == 13)  // the enter key code
-        {
-            $(this).parent().parent().find(".product_quantity").focus();
-            return false;
-        }
+      var key = e.which;
+      if(key == 13) {
+        $(this).parent().parent().find(".product_quantity").focus();
+        return false;
+      }
     });
     $('.inner-repeater').on('keypress', '.product_quantity',function (e) {
-        var key = e.which;
-        if(key == 13)  // the enter key code
-        {
-            $('.add_new_item').click();
-            $('.product_name').last().focus();
-            return false;
-        }
+      var key = e.which;
+      if(key == 13) {
+        $('.add_new_item').click();
+        $('.product_name').last().focus();
+        return false;
+      }
     });
-</script>
-    {!! JsValidator::formRequest('App\Http\Requests\BillRequest', '#bill_create') !!}
+  </script>
+  {!! JsValidator::formRequest('App\Http\Requests\BillRequest', '#bill_create') !!}
 @endpush
