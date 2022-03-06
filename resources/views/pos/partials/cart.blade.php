@@ -30,6 +30,126 @@
           </div><!-- item -->
           <div class="item d-flex align-items-start justify-content-between align-self-stretch">
             <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
+            <div class="itemName flex-grow-1">Detailing Squeeze Bottle, 355 ml, 37720</div>
+            <div class="priceAndQty d-flex align-items-end justify-content-between flex-column align-self-stretch">
+              <div class="price" dir="ltr">123 SAR</div>
+              <div class="qtyItem mt-1 d-flex align-items-center justify-content-end">
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                <input class="quantity bg-transparent p-0 border-0 text-center" min="1" name="quantity" value="1" type="number" readonly>
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></button>
+              </div><!-- qtyItem -->
+            </div><!-- priceAndQty -->
+          </div><!-- item -->
+          <div class="item d-flex align-items-start justify-content-between align-self-stretch">
+            <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
+            <div class="itemName flex-grow-1">Detailing Squeeze Bottle, 355 ml, 37720</div>
+            <div class="priceAndQty d-flex align-items-end justify-content-between flex-column align-self-stretch">
+              <div class="price" dir="ltr">123 SAR</div>
+              <div class="qtyItem mt-1 d-flex align-items-center justify-content-end">
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                <input class="quantity bg-transparent p-0 border-0 text-center" min="1" name="quantity" value="1" type="number" readonly>
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></button>
+              </div><!-- qtyItem -->
+            </div><!-- priceAndQty -->
+          </div><!-- item -->
+          <div class="item d-flex align-items-start justify-content-between align-self-stretch">
+            <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
+            <div class="itemName flex-grow-1">Detailing Squeeze Bottle, 355 ml, 37720</div>
+            <div class="priceAndQty d-flex align-items-end justify-content-between flex-column align-self-stretch">
+              <div class="price" dir="ltr">123 SAR</div>
+              <div class="qtyItem mt-1 d-flex align-items-center justify-content-end">
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                <input class="quantity bg-transparent p-0 border-0 text-center" min="1" name="quantity" value="1" type="number" readonly>
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></button>
+              </div><!-- qtyItem -->
+            </div><!-- priceAndQty -->
+          </div><!-- item -->
+          <div class="item d-flex align-items-start justify-content-between align-self-stretch">
+            <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
+            <div class="itemName flex-grow-1">Detailing Squeeze Bottle, 355 ml, 37720</div>
+            <div class="priceAndQty d-flex align-items-end justify-content-between flex-column align-self-stretch">
+              <div class="price" dir="ltr">123 SAR</div>
+              <div class="qtyItem mt-1 d-flex align-items-center justify-content-end">
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                <input class="quantity bg-transparent p-0 border-0 text-center" min="1" name="quantity" value="1" type="number" readonly>
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></button>
+              </div><!-- qtyItem -->
+            </div><!-- priceAndQty -->
+          </div><!-- item -->
+          <div class="item d-flex align-items-start justify-content-between align-self-stretch">
+            <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
+            <div class="itemName flex-grow-1">Detailing Squeeze Bottle, 355 ml, 37720</div>
+            <div class="priceAndQty d-flex align-items-end justify-content-between flex-column align-self-stretch">
+              <div class="price" dir="ltr">123 SAR</div>
+              <div class="qtyItem mt-1 d-flex align-items-center justify-content-end">
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                <input class="quantity bg-transparent p-0 border-0 text-center" min="1" name="quantity" value="1" type="number" readonly>
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></button>
+              </div><!-- qtyItem -->
+            </div><!-- priceAndQty -->
+          </div><!-- item -->
+          <div class="item d-flex align-items-start justify-content-between align-self-stretch">
+            <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
+            <div class="itemName flex-grow-1">Detailing Squeeze Bottle, 355 ml, 37720</div>
+            <div class="priceAndQty d-flex align-items-end justify-content-between flex-column align-self-stretch">
+              <div class="price" dir="ltr">123 SAR</div>
+              <div class="qtyItem mt-1 d-flex align-items-center justify-content-end">
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                <input class="quantity bg-transparent p-0 border-0 text-center" min="1" name="quantity" value="1" type="number" readonly>
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></button>
+              </div><!-- qtyItem -->
+            </div><!-- priceAndQty -->
+          </div><!-- item -->
+          <div class="item d-flex align-items-start justify-content-between align-self-stretch">
+            <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
+            <div class="itemName flex-grow-1">Detailing Squeeze Bottle, 355 ml, 37720</div>
+            <div class="priceAndQty d-flex align-items-end justify-content-between flex-column align-self-stretch">
+              <div class="price" dir="ltr">123 SAR</div>
+              <div class="qtyItem mt-1 d-flex align-items-center justify-content-end">
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                <input class="quantity bg-transparent p-0 border-0 text-center" min="1" name="quantity" value="1" type="number" readonly>
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></button>
+              </div><!-- qtyItem -->
+            </div><!-- priceAndQty -->
+          </div><!-- item -->
+          <div class="item d-flex align-items-start justify-content-between align-self-stretch">
+            <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
+            <div class="itemName flex-grow-1">Detailing Squeeze Bottle, 355 ml, 37720</div>
+            <div class="priceAndQty d-flex align-items-end justify-content-between flex-column align-self-stretch">
+              <div class="price" dir="ltr">123 SAR</div>
+              <div class="qtyItem mt-1 d-flex align-items-center justify-content-end">
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                <input class="quantity bg-transparent p-0 border-0 text-center" min="1" name="quantity" value="1" type="number" readonly>
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></button>
+              </div><!-- qtyItem -->
+            </div><!-- priceAndQty -->
+          </div><!-- item -->
+          <div class="item d-flex align-items-start justify-content-between align-self-stretch">
+            <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
+            <div class="itemName flex-grow-1">Detailing Squeeze Bottle, 355 ml, 37720</div>
+            <div class="priceAndQty d-flex align-items-end justify-content-between flex-column align-self-stretch">
+              <div class="price" dir="ltr">123 SAR</div>
+              <div class="qtyItem mt-1 d-flex align-items-center justify-content-end">
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                <input class="quantity bg-transparent p-0 border-0 text-center" min="1" name="quantity" value="1" type="number" readonly>
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></button>
+              </div><!-- qtyItem -->
+            </div><!-- priceAndQty -->
+          </div><!-- item -->
+          <div class="item d-flex align-items-start justify-content-between align-self-stretch">
+            <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
+            <div class="itemName flex-grow-1">Detailing Squeeze Bottle, 355 ml, 37720</div>
+            <div class="priceAndQty d-flex align-items-end justify-content-between flex-column align-self-stretch">
+              <div class="price" dir="ltr">123 SAR</div>
+              <div class="qtyItem mt-1 d-flex align-items-center justify-content-end">
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                <input class="quantity bg-transparent p-0 border-0 text-center" min="1" name="quantity" value="1" type="number" readonly>
+                <button class="p-0 border-0 d-flex align-items-center justify-content-center text-white icon-plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"></button>
+              </div><!-- qtyItem -->
+            </div><!-- priceAndQty -->
+          </div><!-- item -->
+          <div class="item d-flex align-items-start justify-content-between align-self-stretch">
+            <button type="button" class="removeItem text-white p-0 d-flex align-items-center justify-content-center rounded border-0 icon-clear"></button>
             <div class="itemName flex-grow-1">Flow Control System, Wall Mount, Action Gap, with Pressure Relief Valve, 1 Each/Case</div>
             <div class="priceAndQty d-flex align-items-end justify-content-between flex-column align-self-stretch">
               <div class="price" dir="ltr">123 SAR</div>
@@ -66,8 +186,8 @@
           </div><!-- item -->
         </div><!-- items -->
       </div><!-- cart_top -->
-      <div class="cart_bottom mt-3 w-100">
-        <div class="total_cart py-2 border-top border-bottom">
+      <div class="cart_bottom w-100">
+        <div class="total_cart py-2 border-bottom">
           <div class="subtotal py-1 d-flex align-items-center justify-content-between">
             <p class="d-block m-0">المجموع الفرعي <small>( 8 منتج )</small></p>
             <span class="d-block" dir="ltr">123 <small>SAR</small></span>

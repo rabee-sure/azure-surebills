@@ -10,7 +10,7 @@
         </form>
       </div><!-- posCategoriesSearch -->
       @include('pos.partials.linkBar')
-      <div class="posProductsPage">
+      <div class="posProductsPage mb-4">
         <a href="{{ route('pos.categories')}}" title="#" class="d-flex align-items-center justify-content-center flex-column backCategory icon-arrow_forward"></a>
         <a href="{{ route('pos.quantity')}}" title="#" class="d-flex align-items-center justify-content-center flex-column overflow-hidden">
           <figure class="m-0 overflow-hidden w-100">

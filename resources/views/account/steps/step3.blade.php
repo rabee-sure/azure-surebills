@@ -46,7 +46,7 @@
                             </div>
                             <div class="form-group col-md-6">
                               <label for="inputEmail9">{{__('Beneficiary Name')}}<i class="text-danger">*</i></label>
-                              <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control" id="inputEmail9" placeholder="{{__('Beneficiary Name')}}">
+                              <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control onlyEng text-uppercase" id="inputEmail9" placeholder="{{__('Beneficiary Name')}}">
                             </div>
                         </div>
 

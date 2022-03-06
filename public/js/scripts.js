@@ -255,10 +255,10 @@ $(function() {
 
 
 $(".openCartPhone button").click(function () {
-  $('#cart_pos').addClass('showCart');
+  $('body').addClass('showCartPos');
 });
 $("#cart_pos .closeCartSide").click(function () {
-  $('#cart_pos').removeClass('showCart');
+  $('body').removeClass('showCartPos');
 });
 
 $('.posMoreInfo').height('0');
@@ -297,4 +297,19 @@ $(document).on('keyup', 'input[type="tel"]', function(e) {
   var val = toEnglishNumber2($(this).val())
   $(this).val(val)
   this.dispatchEvent(new Event('input'));
+});
+
+$(function(){
+  $("input.onlyEng").keypress(function(event){
+      var ew = event.which;
+      if(ew == 32)
+          return true;
+      if(48 <= ew && ew <= 57)
+          return true;
+      if(65 <= ew && ew <= 90)
+          return true;
+      if(97 <= ew && ew <= 122)
+          return true;
+      return false;
+  });
 });

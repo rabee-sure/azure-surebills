@@ -77,12 +77,13 @@ class ChannelApplicationController extends Controller
      */
     public function update(ChannelApplicationRequest $request, Channel $channel, Application $application)
     {
+        $old_webhook_secret = $application->webhook_secret;
         $application->redirect = $request->redirect;
         $application->fail_redirect_url = $request->fail_redirect_url;
         $application->webhook_secret = '';
         if($request->webhook_url){
             $application->webhook_url = $request->webhook_url;
-            $application->webhook_secret = Str::random(20);
+            $application->webhook_secret = $old_webhook_secret;
         }
 
         $application->mada_fixed = $request->mada_fixed;
