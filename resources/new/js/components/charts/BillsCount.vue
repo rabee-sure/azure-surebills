@@ -1,7 +1,7 @@
 <template>
   <div class="chart_Block bg-white border shadow-sm mb-3 rounded-3">
     <div class="title d-flex align-items-center justify-content-center justify-content-md-between flex-column flex-md-row flex-wrap mb-3">
-      <span class="d-block fw-bold mb-2 mb-md-0">{{ __('Total bills') }}</span>
+      <span class="d-block fw-bold mb-2 mb-md-0 text-capitalize">{{ __('Total bills') }}</span>
       <ul class="nav nav-tabs border-0 p-0 d-flex align-items-center justify-content-end" role="tablist">
         <li>
           <a class="d-flex align-items-center justify-content-center border rounded-pill" :class="[type =='monthly' ? 'active' : '']" @click="changeTab('monthly')">{{ __('monthly')}}</a>

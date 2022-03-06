@@ -49,3 +49,19 @@ setTimeout(function () {
   $("body").removeClass("show-spinner");
   $("body > *").animate({ opacity: 1 }, 100);
 }, 300);
+
+// =============================================
+// convert Arabic number to English in input tel
+// ============================================= 
+function toEnglishNumber2(strNum2) {
+  var ar = '٠١٢٣٤٥٦٧٨٩'.split('');
+  var en = '0123456789'.split('');
+  strNum2 = strNum2.replace(/[٠١٢٣٤٥٦٧٨٩]/g, x => en[ar.indexOf(x)]);
+  strNum2 = strNum2.replace(/[^\d]/g, '');
+  return strNum2;
+}
+$(document).on('keyup', 'input[type="tel"]', function(e) {
+  var val = toEnglishNumber2($(this).val())
+  $(this).val(val)
+  this.dispatchEvent(new Event('input'));
+});

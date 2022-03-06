@@ -20,9 +20,12 @@
         input {
           height: 40px;
           outline: none;
-          padding: 0 48px 0 10px;
+          padding: 0 40px 0 10px;
           min-width: 230px;
           cursor: pointer;
+          [dir="ltr"] & {
+            padding: 0 10px 0 40px;
+          } /* ltr */
         } /* input */
         &::after {
           content: "\f073";
@@ -39,11 +42,18 @@
           color: #777;
           background-color: #fff;
           border-radius: 0.3rem;
+          [dir="ltr"] & {
+            right: auto;
+            left: 1px;
+          } /* ltr */
         } /* after */
       } /* dateInput */
       .checkboxArea {
         label {
           margin: 0 0 0 20px;
+          [dir="ltr"] & {
+            margin: 0 20px 0 0;
+          } /* ltr */
           @include media-breakpoint-down(sm) {
             width: 33.333%;
             margin: 0;
@@ -79,6 +89,10 @@
               align-items: center;
               justify-content: center;
               font-size: 12px;
+              [dir="ltr"] & {
+                top: 0;
+                margin: 0 5px 0 0;
+              } /* ltr */
             } /* before */
           } /* span */
         } /* label */
@@ -105,6 +119,10 @@
         color: #777;
         background-color: #fff;
         border-radius: 0.3rem;
+        [dir="ltr"] & {
+          right: 1px;
+          left: auto;
+        } /* ltr */
       } /* after */
     } /* leftCol */
   } /* filterArea */
@@ -154,4 +172,90 @@
       } /* td */
     } /* table */
   } /* billsArea */
+  .no_bills_yet {
+    min-height: 400px;
+    @include media-breakpoint-down(md) {
+      min-height: 200px;
+    } /* md */
+    svg {
+      width: 100px;
+      height: 100px;
+    } /* svg */
+    span {
+      color: #999;
+      font-size: 18px;
+      @include media-breakpoint-down(md) {
+        font-size: 15px;
+      } /* md */
+    } /* span */
+  } /* no_bills_yet */
 } /* billIndexPage */
+
+#billCreatePage {
+  .title {
+    h1 {
+      font-size: 25px;
+      color: #3a3a3a;
+    } /* h1 */
+  } /* title */
+  .alert {
+    ul {
+      list-style: inside;
+      li {
+        margin-bottom: 5px;
+        &:last-child {
+          margin-bottom: 0;
+        } /* last-child */
+      } /* li */
+    } /* ul */
+  } /* alert */
+  .block {
+    padding: 15px;
+    .form-group {
+      input {
+        height: 40px;
+        padding: 0 10px;
+        outline: none;
+        &:focus {
+          background-color: var(--hoverBg) !important;
+          border-color: var(--mainColor) !important;
+        } /* focus */
+        &.is-valid {
+          background-position: 10px  center;
+          border-color: #198754 !important;
+        } /* is-valid */
+        &.is-invalid {
+          background-position: 10px  center;
+          border-color: #dc3545 !important;
+        } /* is-invalid */
+      } /* input */
+    } /* form-group */
+    .phoneInput {
+      direction: ltr;
+      span {
+        left: 1px;
+        top: 1px;
+        height: 38px;
+        min-width: 40px;
+      } /* span */
+      #customer_mobile-error {
+        display: block !important;
+        direction: rtl;
+        width: 100%;
+        height: auto !important;
+        min-width: auto !important;
+      } /* customer_mobile-error */
+      input {
+        padding: 0 10px 0 40px;
+        &.is-valid {
+          background-position: right 10px  center;
+          border-color: #198754 !important;
+        } /* is-valid */
+        &.is-invalid {
+          background-position: right 10px  center;
+          border-color: #dc3545 !important;
+        } /* is-invalid */
+      } /* input */
+    } /* phoneInput */
+  } /* block */
+} /* billCreatePage */

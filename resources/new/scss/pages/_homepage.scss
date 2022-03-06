@@ -65,6 +65,9 @@ section#homepage {
       ul {
         li {
           margin: 0 10px 0 0;
+          [dir="ltr"] & {
+            margin: 0 0 0 10px;
+          } /* ltr */
           a {
             font-size: 13px;
             min-width: 100px;

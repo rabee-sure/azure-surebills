@@ -69,8 +69,14 @@ main {
   padding: 15px 150px 15px 15px;
   transition: all 0.4s ease-in-out;
   min-height: calc(100vh - 105px);
+  [dir="ltr"] & {
+    padding: 15px 15px 15px 150px;
+  } /* ltr */
   @include media-breakpoint-down(md) {
     padding: 15px;
+    [dir="ltr"] & {
+      padding: 15px;
+    } /* ltr */
   } /* md */
   body.sidebar_hide & {
     padding: 15px;
@@ -100,3 +106,66 @@ main {
   font-family: "Almarai","Roboto";
   font-size: 13px;
 } /* tooltip */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+nav {
+  ul.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+    padding: 0;
+    li.page-item {
+      margin: .25rem;
+      a.page-link {
+        border-radius: 100% !important;
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 !important;
+        color: #3a3a3a;
+        font-size: 16px;
+        @include media-breakpoint-down(md) {
+          font-size: 15px;
+          width: 30px;
+          height: 30px;
+        } /* md */
+      } /* a */
+      span.page-link {
+        background-color: #ffffff;
+        border-radius: 100% !important;
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 !important;
+        color: #3a3a3a;
+        font-size: 16px;
+        @include media-breakpoint-down(md) {
+          font-size: 15px;
+          width: 30px;
+          height: 30px;
+        } /* md */
+      } /* span */
+      &.active {
+        span {
+          background-color: #ffffff;
+          color: var(--mainColor);
+          border-color: var(--mainColor);
+        } /* a, span */
+      } /* active */
+    } /* li */
+  } /* pagination */
+} /* nav */

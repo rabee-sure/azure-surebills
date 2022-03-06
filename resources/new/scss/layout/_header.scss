@@ -25,6 +25,9 @@ header {
           body.sidebar_hide & {
             transform: translateX(3px);
             width: 18px;
+            [dir="ltr"] & {
+              transform: translateX(-3px);
+            } /* ltr */
           } /* sidebar_hide */
         } /* nth(2n) */
       } /* span */
@@ -81,13 +84,22 @@ header {
         content: "\f107";
         font-family: "Font Awesome 5 Pro";
         margin: 0 0 0 10px;
+        [dir="ltr"] & {
+          margin: 0 10px 0 0;
+        } /* ltr */
       } /* before */
       img {
         margin: 0 10px 0 0;
+        [dir="ltr"] & {
+          margin: 0 0 0 10px;
+        } /* ltr */
         width: 35px;
         height: 35px;
         @include media-breakpoint-down(sm) {
           margin: 0;
+          [dir="ltr"] & {
+            margin: 0;
+          } /* ltr */
         } /* sm */
       } /* img */
     } /* button */
@@ -101,6 +113,9 @@ header {
         margin: 0 0 0 .5rem;
         width: 16px;
         height: 16px;
+        [dir="ltr"] & {
+          margin: 0 .5rem 0 0;
+        } /* ltr */
       } /* i */
       &:hover {
         color: var(--mainColor);
