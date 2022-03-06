@@ -28032,7 +28032,7 @@ section#homepage .statisticArea {
 }
 section#homepage .statisticArea a {
   min-height: 170px;
-  color: #3a3a3a;
+  color: #8f8f8f;
   padding: 10px;
   /* md */
   /* P */
@@ -28114,7 +28114,7 @@ section#homepage .chart_Block .title {
   /* ul */
 }
 section#homepage .chart_Block .title span {
-  font-size: 17px;
+  font-size: 16px;
   color: #3a3a3a;
 }
 section#homepage .chart_Block .title ul {
@@ -28158,7 +28158,7 @@ section#homepage .latestBills .title {
   /* a */
 }
 section#homepage .latestBills .title span {
-  font-size: 17px;
+  font-size: 16px;
   color: #3a3a3a;
 }
 section#homepage .latestBills .title a {

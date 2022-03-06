@@ -1,10 +1,8 @@
-
-
 section#homepage {
   .statisticArea {
     a {
       min-height: 170px;
-      color: #3a3a3a;
+      color: #8f8f8f;
       padding: 10px;
       @include media-breakpoint-down(md) {
         min-height: 135px;
@@ -61,7 +59,7 @@ section#homepage {
     padding: 15px;
     .title {
       span {
-        font-size: 17px;
+        font-size: 16px;
         color: #3a3a3a;
       } /* span */
       ul {
@@ -96,7 +94,7 @@ section#homepage {
     padding: 15px;
     .title {
       span {
-        font-size: 17px;
+        font-size: 16px;
         color: #3a3a3a;
       } /* span */
       a {
