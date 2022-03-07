@@ -21,12 +21,12 @@
            {{ __('Bills') }}
           </a>
         </li>
-        <li class="{{ Request::is('pos*') ? 'active' : '' }}">
+        <!-- <li class="{{ Request::is('pos*') ? 'active' : '' }}">
           <a href="/pos/categories" title="{{ __('POS') }}">
             <i class="iconsminds-testimonal"></i>
            {{ __('POS') }}
           </a>
-        </li>
+        </li> -->
         <li class="{{ Request::is('customers*') ? 'active' : '' }}">
           <a href="{{ route('customers.index') }}" title="{{ __('Customers') }}">
             <i class="iconsminds-mens"></i>
@@ -77,7 +77,7 @@
             {{ __('Integration') }}
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
             <i class="iconsminds-project"></i> 
             <span class="d-inline-block">{{ __('Products') }}</span>
@@ -88,7 +88,7 @@
             <i class="iconsminds-clothing-store"></i> 
             <span class="d-inline-block">{{ __('Product Sections') }}</span>
           </a>
-        </li>
+        </li> -->
 
         <li>
           <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}">
