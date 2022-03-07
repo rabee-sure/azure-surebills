@@ -431,8 +431,6 @@
         $('#Tax_Values_Checkbox').prop('checked', false);
       @endif
 
-      
-
       var customers = [];
       
       $( "#customer_name").autocomplete({
