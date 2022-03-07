@@ -52,6 +52,10 @@
       <i class="d-flex align-items-center justify-content-center fal fa-store"></i>
       {{ __('Product Sections') }}
     </a>
+    <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}" class="d-flex align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('reports*') ? 'active' : '' }}">
+      <i class="d-flex align-items-center justify-content-center fal fa-file-chart-line"></i>
+      {{ __('Reports') }}
+    </a>
   </aside><!-- aside -->
   
 @endauth

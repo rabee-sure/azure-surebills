@@ -700,5 +700,17 @@
 	"The additional no field is required when add tax invoice is on." : "الرقم الاضافي للعنوان مطلوب في حالة تفعيل الفاتورة الضريبية",
 	"The other buyer id field is required when add tax invoice is on." : "المعرف الاخر مطلوب في حالة تفعيل الفاتورة الضريبية",
   "Don't have an account with SureBills ?" : "لا تمتلك حساب لدي شور بيلز ؟",
-  "Register a new account" : "سجل حساب جديد"
+  "Register a new account" : "سجل حساب جديد",
+	"Reports" : "التقارير",
+	"Request Report" : "أطلب تقرير",
+	"Merchants Outstanding" : "أرصدة التجار",
+	"Merchants" : "التجار",
+	"Emails" : "البريد الالكتروني",
+	"Report type" : "نوع التقرير",
+	"Filter Parameters" : "محددات البحث",
+	"Request date" : "تاريخ الطلب",
+	"Download File" : "تحميل ملف التقرير",
+	"Report Pending" : "قيد الانشاء",
+	"Report Done" : "تم انشاءه"
+	
 }
