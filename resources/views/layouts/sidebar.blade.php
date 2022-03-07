@@ -9,7 +9,7 @@
   <div class="main-menu">
     <div class="scroll">
       <ul class="list-unstyled">
-        <li class="{{ Request::is('/') ? 'active' : '' }}">
+        <li class="{{ Request::is('home') ? 'active' : '' }}">
           <a href="/" title="{{ __('Dashboard') }}">
             <i class="iconsminds-dashboard"></i>
             <span>{{ __('Dashboard') }}</span>
@@ -90,9 +90,9 @@
           </a>
         </li>
 
-        <li>
+        <li class="{{ Request::is('reports*') ? 'active' : '' }}">
           <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}">
-            <i class="iconsminds-clothing-store"></i> 
+            <i class="iconsminds-file-clipboard-file---text"></i> 
             <span class="d-inline-block">{{ __('Reports') }}</span>
           </a>
         </li>

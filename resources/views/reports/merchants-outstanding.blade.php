@@ -2,20 +2,22 @@
 
 @section('title', __('Merchants Outstanding'))
 
-@section('css_styles')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-@endsection
+  @section('css_styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  @endsection
 
 @section('content')
-@if ($errors->any())
+
+  @if ($errors->any())
     <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+      <ul>
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
     </div>
-@endif
+  @endif
+
   <div class="row">
     <div class="col-12">
       <div class="mb-3">
@@ -34,46 +36,58 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-              @if ($errors->any())
-                  <div class="alert alert-danger">
-                      <ul>
-                          @foreach ($errors->all() as $error)
-                              <li>{{ $error }}</li>
-                          @endforeach
-                      </ul>
-                  </div>
-              @endif
-              <form method="post" action="{{route('reports.merchants-outstanding-store')}}" id="merchants_outstanding_store">
-                <div class="modal-body">
-                  @csrf
+
+  <div class="reportsMerchantsPage">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+
+            @if ($errors->any())
+              <div class="alert alert-danger">
+                <ul>
+                  @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                  @endforeach
+                </ul>
+              </div>
+            @endif
+
+            <form method="post" action="{{route('reports.merchants-outstanding-store')}}" id="merchants_outstanding_store">
+              @csrf
+              <div class="row">
+                <div class="col-12 col-md-4">
                   <div class="form-group">
-                      <label for="Name">{{__('Merchants')}}</label>
-                      <select class="form-control" id="merchants" name="merchants[]" multiple="multiple">
-                        <option value="all">ALL</option>
-                        @foreach($merchants as $merchant)
-                        <option value="{{$merchant->id}}">{{$merchant->business_name_en}}</option>
-                        @endforeach
-                      </select>
-                  </div>
-                  <div class="form-group">
-                      <label for="Mobile">{{ __('Date range') }}</label>
-                      <div class="search-sm calendar-sm">
-                        <input class="form-control" id="daterange" name="dates" placeholder="Filter by day" readonly="readonly">
-                      </div><!-- search-sm -->
-                  </div>
-                  <div class="form-group">
-                      <label for="Mobile">{{ __('Emails') }}</label>
-                      <textarea class="form-control" name="emails" id="exampleFormControlTextarea1" rows="3" aria-invalid="false"></textarea>
+                    <label for="Name" class="d-block w-100">{{__('Merchants')}}</label>
+                    <select class="form-control" id="merchants" name="merchants[]" multiple="multiple">
+                      <option value="all">ALL</option>
+                      @foreach($merchants as $merchant)
+                      <option value="{{$merchant->id}}">{{$merchant->business_name_en}}</option>
+                      @endforeach
+                    </select>
                   </div>
                 </div>
-                <div class="form-footer">
-                    <button type="submit" class="btn btn-primary mr-3">{{__('Request')}}</button>
+                <div class="col-12 col-md-4">
+                  <div class="form-group">
+                    <label for="Mobile" class="d-block w-100">{{ __('Date range') }}</label>
+                    <div class="input-group">
+                      <span class="input-group-text input-group-append input-group-addon"><i class="simple-icon-calendar"></i></span>
+                      <input class="form-control" id="daterange" name="dates" placeholder="Filter by day" readonly="readonly">
+                    </div>
+                  </div>
                 </div>
-              </form>
+                <div class="col-12 col-md-4">
+                  <div class="form-group">
+                    <label for="Mobile">{{ __('Emails') }}</label>
+                    <input type="email" name="emails" class="form-control" id="emails" aria-describedby="emailHelp" placeholder="Enter email">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary mr-3">{{__('Request')}}</button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
