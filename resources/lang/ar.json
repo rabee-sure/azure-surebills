@@ -698,5 +698,9 @@
 	"The district field is required when add tax invoice is on." : "الحي مطلوب في حالة تفعيل الفاتورة الضريبية",
 	"The postal code field is required when add tax invoice is on." : "الرمز البريدي مطلوب في حالة تفعيل الفاتورة الضريبية",
 	"The additional no field is required when add tax invoice is on." : "الرقم الاضافي للعنوان مطلوب في حالة تفعيل الفاتورة الضريبية",
-	"The other buyer id field is required when add tax invoice is on." : "المعرف الاخر مطلوب في حالة تفعيل الفاتورة الضريبية"
+	"The other buyer id field is required when add tax invoice is on." : "المعرف الاخر مطلوب في حالة تفعيل الفاتورة الضريبية",
+
+	"Reports" : "التقارير",
+	"Request Report" : "أطلب تقرير",
+	"Merchants Outstanding" : "التجار المتميزون"
 }

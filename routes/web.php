@@ -158,3 +158,8 @@ Route::middleware(config('nova.middleware', []))->group(function () {
         Route::queueMonitor();
     });
 });
+
+//Reports
+Route::get('reports', 'ReportsController@index')->name('reports.index');
+Route::get('reports/merchants-outstanding', 'ReportsController@merchants_outstanding')->name('reports.merchants-outstanding');
+Route::post('reports/merchants-outstanding/store', 'ReportsController@merchants_outstanding_store')->name('reports.merchants-outstanding-store');
