@@ -41,7 +41,8 @@
             </div>
             <div class="form-group col-md-6">
               <label for="inputEmail9">{{__('Beneficiary Name')}} <span class="requirement">*</span></label>
-              <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control onlyEng text-uppercase" id="inputEmail9" placeholder="{{__('Beneficiary Name')}}">
+              <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control onlyEng" id="inputEmail9" placeholder="{{__('Beneficiary Name')}}">
+              <small id="emailHelp" class="form-text text-muted">اكتب اسم صاحب الحساب باللغة الانجليزيه كما هو مسجل في البنك</small>
             </div>
           </div>
 
