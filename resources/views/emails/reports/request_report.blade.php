@@ -215,7 +215,7 @@
   <body>
     <div id="mail_wrapper">
       <div class="mail_content">
-        {{$user->business_name}} requesting a new transfer Amount {{$transfer->amount}} SAR - SureBills Transfers
+        {{$report->name}} requested has been generated successfuly - SureBills Reports
         
       </div>
       <div class="copyrights">

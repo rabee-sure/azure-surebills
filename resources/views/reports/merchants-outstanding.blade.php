@@ -53,14 +53,14 @@
                   <div class="form-group">
                       <label for="Name">{{__('Merchants')}}</label>
                       <select class="form-control" id="merchants" name="merchants[]" multiple="multiple">
-                        <option value="all">ALL</option>
+                        <option value="all">{{__('All')}}</option>
                         @foreach($merchants as $merchant)
                         <option value="{{$merchant->id}}">{{$merchant->business_name_en}}</option>
                         @endforeach
                       </select>
                   </div>
                   <div class="form-group">
-                      <label for="Mobile">{{ __('Date range') }}</label>
+                      <label for="Mobile">{{ __('select date range') }}</label>
                       <div class="search-sm calendar-sm">
                         <input class="form-control" id="daterange" name="dates" placeholder="Filter by day" readonly="readonly">
                       </div><!-- search-sm -->
@@ -89,8 +89,8 @@
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">{{__('Request type')}}</th>
-                  <th scope="col">{{__('Filter')}}</th>
+                  <th scope="col">{{__('Report type')}}</th>
+                  <th scope="col">{{__('Filter Parameters')}}</th>
                   <th scope="col">{{__('Emails')}}</th>
                   <th scope="col">{{__('Status')}}</th>
                   <th scope="col">{{__('Request date')}}</th>
@@ -104,7 +104,7 @@
                     <td>{{$request->name}}</td>
                     <td>{{$request->params}}</td>
                     <td>{{$request->emails}}</td>
-                    <td>{{$request->active}}</td>
+                    <td>@if($request->active == 0) {{__('Report Pending')}} @else {{__('Report Done')}} @endif</td>
                     <td>{{$request->created_at}}</td>
                     <td>
                       <a href="#" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Download File') }}">{{ __('Download File') }}</a>
