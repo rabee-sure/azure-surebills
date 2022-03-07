@@ -84,6 +84,14 @@
             </div>
           </a>
         </div><!-- col-12 -->
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <a href="{{ route('users.index') }}" title="{{ __('Users') }}" class="card mb-4">
+              <div class="card-body text-center">
+                <div class="statistic_icon glyph-icon simple-icon-people"></div>
+                <p class="card-text font-weight-semibold mb-0">{{ __('Users') }}</p>
+              </div>
+            </a>
+          </div><!-- col-12 -->
       </div>
     </div>
 

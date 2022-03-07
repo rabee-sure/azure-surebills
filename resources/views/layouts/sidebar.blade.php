@@ -15,12 +15,14 @@
             <span>{{ __('Dashboard') }}</span>
           </a>
         </li>
+        @can('show bills')
         <li class="{{ Request::is('bills*') ? 'active' : '' }}">
           <a href="/bills?{{$separated}}" title="{{ __('Bills') }}">
             <i class="iconsminds-testimonal"></i>
            {{ __('Bills') }}
           </a>
         </li>
+        @endcan
         <li class="{{ Request::is('pos*') ? 'active' : '' }}">
           <a href="/pos/categories" title="{{ __('POS') }}">
             <i class="iconsminds-testimonal"></i>
@@ -32,7 +34,7 @@
             <i class="iconsminds-mens"></i>
             {{ __('Customers') }}
           </a>
-        </li> 
+        </li>
         <li class="{{ Request::is('statement*') ? 'active' : '' }}">
           <a href="{{ route('statement.index') }}" title="{{ __('Statement') }}">
             <i class="iconsminds-statistic"></i>
@@ -79,13 +81,13 @@
         </li>
         <li>
           <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
-            <i class="iconsminds-project"></i> 
+            <i class="iconsminds-project"></i>
             <span class="d-inline-block">{{ __('Products') }}</span>
           </a>
         </li>
         <li>
           <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}">
-            <i class="iconsminds-clothing-store"></i> 
+            <i class="iconsminds-clothing-store"></i>
             <span class="d-inline-block">{{ __('Product Sections') }}</span>
           </a>
         </li>

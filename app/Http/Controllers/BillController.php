@@ -24,8 +24,10 @@ class BillController extends Controller
 {
     private $masterCardService;
 
-    public function __construct() 
+    public function __construct()
     {
+        $this->middleware('permission:show bills', ['only' => ['index','show']]);
+        $this->middleware('permission:create bills', ['only' => ['create','store']]);
         $this->masterCardService = new MasterCardService();
     }
 
@@ -49,7 +51,7 @@ class BillController extends Controller
             $statuses = in_array('paid', $statuses) ? array_merge($statuses, ['paid_cash', 'paid_bank_transfer']) : $statuses;
             $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
         }
-        
+
         $bills = Bill::where('user_id', auth()->user()->id)
             ->orderBy('created_at', 'desc')
             ->when($statuses, function ($q) use ($statuses) {
@@ -221,7 +223,7 @@ class BillController extends Controller
         if($bill->status != 'paid' || $bill->status != 'paid_cash' || $bill->status != 'paid_bank_transfer'){
             $billStatus = 'paid';
         }
-        
+
         if ($bill->is_expired && $billStatus != 'paid' && $bill->status != 'canceled') {
             $bill->status = 'expired';
             $bill->save();

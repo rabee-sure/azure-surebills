@@ -68,5 +68,9 @@ class Kernel extends HttpKernel
         'mobile.verified' => \App\Http\Middleware\MobileVerified::class,
         'profile.completed' => \App\Http\Middleware\ProfileCompleted::class,
         'User.from.application' => \App\Http\Middleware\UserFromApplication::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+
     ];
 }

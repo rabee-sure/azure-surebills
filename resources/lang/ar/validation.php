@@ -14,7 +14,7 @@ return [
     'values' => [
         'license_type' => [
             "Commercial Record" => "السجل التجاري",
-        ],        
+        ],
         'type' => [
             "partial_refund" => "الاسترداد الجزئي",
         ],
@@ -233,5 +233,6 @@ return [
         "type" => "النوع",
         "amount" => "المبلغ",
         "transfers.*.ReferenceNumber" => "لمعرف التحويل",
+        "permissions" => 'الصلاحيات',
     ],
 ];
