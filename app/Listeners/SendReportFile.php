@@ -45,13 +45,13 @@ class SendReportFile implements ShouldQueue
         {
             $report_merchants = "";
         }
-
+        
         $report_from = $report_filters->from;
         $report_to = $report_filters->to;
 
         $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'.xlsx';
 
-        $data = DB::table('userss')
+        $query = DB::table('users')
             ->join('transactions', 'users.id', '=', 'transactions.user_id')
             ->join('settlements', 'users.id', '=', 'settlements.user_id')
             ->select(DB::raw("users.id AS MID, 
@@ -62,9 +62,23 @@ class SendReportFile implements ShouldQueue
             SUM(settlements.transfer_fees) AS Total_transfer_fees,
             SUM(settlements.net_amount) AS Total_net_transfer,
             (SUM(CASE WHEN transactions.settled = 0 AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END) - SUM(CASE WHEN transactions.settled = 0 AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END)) AS Outstanding_balance"))
-            ->where('users.verified', 1)
-            ->groupBy('users.id')
-            ->get();
+            ->where('users.verified', 1);
+
+        if(!empty($report_merchants)){
+            $query->whereIn('transactions.user_id', $report_merchants);
+        }
+
+        if($report_from != ''){
+            $query->whereDate('transactions.created_at', '>=', $report_from);
+        }
+
+        if($report_to != ''){
+            $query->whereDate('transactions.created_at', '<', $report_to);
+        }
+            
+        $query->groupBy('users.id');
+            
+        $data = $query->get();
 
         if(Excel::store(new ReportExport($data), $file_name , 'public')){
             
@@ -75,9 +89,13 @@ class SendReportFile implements ShouldQueue
             $emails = explode(",", $report_emails);
             if(count($emails)){
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new RequestReportMail($report));
+                    $message = (new RequestReportMail($report))->onQueue(env('EMAILS_QUEUE'));
+                    Mail::to($email)->queue($message);
                 }
             }
+
+            $report->active = 1;
+            $report->save();
         }
     }
 }
