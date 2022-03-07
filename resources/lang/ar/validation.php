@@ -234,5 +234,6 @@ return [
         "amount" => "المبلغ",
         "transfers.*.ReferenceNumber" => "لمعرف التحويل",
         "permissions" => 'الصلاحيات',
+        "confirm_password" => "تأكيد كلمة المرور",
     ],
 ];

@@ -16,7 +16,7 @@
             <a href="{{ url('/') }}">{{ __('Home')}}</a>
           </li>
           <li class="breadcrumb-item">
-            <a href="{{ url('/products') }}">{{ __('Roles')}}</a>
+            <a href="{{ url('/roles') }}">{{ __('Roles')}}</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">{{ __('Edit')}}</li>
         </ol>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary login_button mr-3">{{__('Update')}}</button>
-                    <a href="{{ url('products') }}" class="btn btn-secondary m-0" data-dismiss="modal">{{__('Back')}}</a>
+                    <a href="{{ url('roles') }}" class="btn btn-secondary m-0" data-dismiss="modal">{{__('Back')}}</a>
                 </div>
             </form>
       </div>

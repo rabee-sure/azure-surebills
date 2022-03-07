@@ -14,10 +14,9 @@
 @endif
 
 <div class="productsTabs d-flex align-items-center justify-content-center justify-content-md-start mb-4">
-  <a href="{{ route('roles.index') }}" title="{{ __('Roles') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('roles*') ? 'active' : '' }}">{{ __('Roles') }}</a>
-</div><!-- productsTabs -->
-
-
+    <a href="{{route('users.index')}}" title="{{__('Users')}}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('users*') ? 'active' : '' }}">{{__('Users')}}</a>
+    <a href="{{route('roles.index')}}" title="{{__('Roles')}}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('roles*') ? 'active' : '' }}">{{__('Roles')}}</a>
+</div>
   <div class="row">
     <div class="col-12">
       <div class="mb-3">
@@ -70,7 +69,7 @@
                     <td>{{$user->email}}</td>
                     <td>{{$user->getRoleNames()->first()}}</td>
                     <td>
-                        <a href="{{ route('products.edit', 1)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
+                        <a href="{{ route('users.edit', $user->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
                         <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
                     </td>
                     </tr>

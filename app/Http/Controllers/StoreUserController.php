@@ -16,8 +16,8 @@ class StoreUserController extends Controller
      */
     public function index()
     {
-        $roles = Role::whereNull('user_id')->orWhereIn('user_id', [auth()->user()->id, auth()->user()->store_main_user_id])->get();
-        $users = User::whereIn('store_main_user_id', [auth()->user()->id, auth()->user()->store_main_user_id])->orderBy('created_at', 'DESC')->paginate(10);
+        $roles = Role::whereNull('user_id')->orWhereIn('user_id', auth()->user()->storeUsers(true))->get();
+        $users = User::whereIn('store_main_user_id', auth()->user()->storeUsers(true))->orderBy('created_at', 'DESC')->paginate(10);
         return view('store_users.index', compact('users', 'roles'));
     }
 
@@ -68,9 +68,10 @@ class StoreUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        $roles = Role::whereNull('user_id')->orWhereIn('user_id', auth()->user()->storeUsers(true))->get();
+        return view('store_users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -80,9 +81,17 @@ class StoreUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUserRequest $request, User $user)
     {
-        //
+        $user->fill($request->all());
+        if($request->filled('password'))
+        {
+            $user->password = bcrypt('password');
+        }
+
+        $user->save();
+        $user->assignRole($request->role);
+        return redirect()->route('users.index');
     }
 
     /**

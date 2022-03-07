@@ -12,7 +12,10 @@
         </ul>
     </div>
 @endif
-
+<div class="productsTabs d-flex align-items-center justify-content-center justify-content-md-start mb-4">
+    <a href="{{route('users.index')}}" title="{{__('Users')}}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('users*') ? 'active' : '' }}">{{__('Users')}}</a>
+    <a href="{{route('roles.index')}}" title="{{__('Roles')}}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('roles*') ? 'active' : '' }}">{{__('Roles')}}</a>
+</div>
   <div class="row">
     <div class="col-12">
       <div class="mb-3">
@@ -62,7 +65,7 @@
                                 <td>{{$role->name}}</td>
                                 <td>
                                     @foreach($role->getPermissionNames() as $permission)
-                                        <span class="badge badge-info">{{$permission}}</span>
+                                        <span class="badge badge-info">{{__($permission)}}</span>
                                     @endforeach
                                 </td>
                                 <td>

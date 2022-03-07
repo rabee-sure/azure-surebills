@@ -16,8 +16,8 @@ class CreateSuperAdminUserSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::all();
-        $role = Role::create(['name' => 'super admin']);
+        $users = User::whereNull('store_main_user_id')->get();
+        $role = Role::firstOrNew(['name' => 'super admin'], ['name' => 'super admin']);
 
         foreach($users as $user)
         {

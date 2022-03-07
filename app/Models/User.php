@@ -320,7 +320,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function customers()
     {
-        return $this->hasMany(Customer::class);
+        return $this->hasMany(Customer::class, 'user_id', 'id');
     }
 
     /**
@@ -333,6 +333,15 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Bill::class);
     }
 
+    public function storeUsers($retrieveIdsOnly = false)
+    {
+        $users = $this->whereIn('id', [auth()->user()->id, auth()->user()->store_main_user_id])->orWhere('store_main_user_id', auth()->user()->id)->get();
+        if($retrieveIdsOnly)
+        {
+            return $users->pluck('id')->toArray();
+        }
+        return $users;
+    }
 
     /**
      * Get Transfers.
@@ -355,6 +364,16 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
+     * Get settings.
+     *
+     * @return Collection
+     */
+    public function mainStoreUser()
+    {
+        return $this->belongsTo(User::class, 'store_main_user_id', 'id');
+    }
+
+    /**
      * Get bank.
      *
      * @return Collection
@@ -371,7 +390,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class)->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     /**
@@ -381,7 +400,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function channels()
     {
-        return $this->hasMany(Channel::class)->activate();
+        return $this->hasMany(Channel::class)->orWhereIn('user_id', $this->storeUsers(true))->activate();
     }
 
     /**
@@ -401,7 +420,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function statement()
     {
-        return $this->hasMany(Transaction::class)
+        return Transaction::whereIn('user_id', $this->storeUsers(true))
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC');

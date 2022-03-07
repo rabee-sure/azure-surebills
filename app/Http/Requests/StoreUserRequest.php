@@ -24,10 +24,22 @@ class StoreUserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email,'.auth()->user()->id.',id'],
-            'mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/','unique:users,mobile,'.auth()->user()->id.',id'],
+            'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email'],
+            'mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/','unique:users,mobile'],
+            'password' => ['required', 'min:8'],
+            'confirm_password' =>  ['required', 'same:password'],
         ];
+
+        if($this->_method == 'PATCH')
+        {
+            $rules['password'] = ['nullable', 'min:8'];
+            $rules['confirm_password'] =  ['same:password'];
+            $rules['email'] = ['required', 'string', 'email', 'max:50', 'unique:users,email,'.$this->user->id.',id'];
+            $rules['mobile'] = ['required', 'regex:/(^[5]{1}[0-9]{8}$)/','unique:users,mobile,'.$this->user->id.',id'];
+        }
+
+        return $rules;
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Permission;
 
 class PermissionTableSeeder extends Seeder
@@ -16,7 +17,12 @@ class PermissionTableSeeder extends Seeder
     {
         foreach(config('RolePermissionsMatrix') as $permission)
         {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission], ['name' => $permission]);
         }
+
+        Permission::whereNotIn('name', config('RolePermissionsMatrix'))->delete();
+
+        Artisan::call('db:seed --class=CreateSuperAdminUserSeeder');
+        dd('success');
     }
 }

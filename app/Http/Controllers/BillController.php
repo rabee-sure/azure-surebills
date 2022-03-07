@@ -52,7 +52,7 @@ class BillController extends Controller
             $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
         }
 
-        $bills = Bill::where('user_id', auth()->user()->id)
+        $bills = Bill::whereIn('user_id', auth()->user()->storeUsers(true))
             ->orderBy('created_at', 'desc')
             ->when($statuses, function ($q) use ($statuses) {
                 $q->whereIn('status', $statuses);

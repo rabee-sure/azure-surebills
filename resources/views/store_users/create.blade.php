@@ -12,6 +12,7 @@
             <form method="POST" action="{{ route('users.store') }}" id="user_form">
                 <div class="modal-body">
                         @csrf
+                        @method('post')
                         <div class="form-group">
                             <label for="Name">{{__('Name')}} <span class="requirement">*</span></label>
                             <input name="name" type="text" class="form-control" id="Name" placeholder="{{__('Name')}}">
