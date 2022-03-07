@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="refundModalLabel">{{ __('Are you Sure to Refund Bill ?')}}</h5>
-                <button id="refund_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button id="refund_close" type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -41,7 +41,7 @@
                     <button type="submit" class="btn btn-primary" id="refund_btn" >
                         {{__('Save')}}
                     </button>
-                    <button id="refund_cancel" type="button" class="btn btn-secondary ml-2" data-dismiss="modal">
+                    <button id="refund_cancel" type="button" class="btn btn-secondary ml-2" data-bs-dismiss="modal">
                         {{__('Retreat')}}
                     </button>
                 </div>

@@ -3,90 +3,74 @@
 @section('title', __('Bill No.') . ' ' . $bill->number . ' ' . __('Bills'))
 
 @php
-    $statues = session('status_filters', ['pending', 'paid'])?? [];
-    $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
-    // dd(app()->getLocale());
+  $statues = session('status_filters', ['pending', 'paid'])?? [];
+  $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
+  // dd(app()->getLocale());
 @endphp
 
-@section('content') 
-<div class="row">
-  <div class="col-12">
-    <h1>{{ __('Bill') }}</h1>
-    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-      <ol class="breadcrumb pt-0">
-        <li class="breadcrumb-item">
-          <a href="{{ url('/') }}" title="{{__('Home')}}">{{__('Home')}}</a>
-        </li>
-        <li class="breadcrumb-item">
-          <a href="/bills?{{$separated}}" title="{{__('Bills')}}">{{__('Bills')}}</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">{{__('Bill No.')}} {{ $bill->number }}</li>
-      </ol>
-    </nav>
-    <div class="separator mb-5"></div>
-  </div>
-</div>
+@section('content')
 
-<div id="errors">
-  @if ($errors->any())
+<div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm border-bottom">
+  <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
+  <i>/</i>
+  <a href="/bills" title="{{ __('Bills') }}">{{ __('Bills') }}</a>
+  <i>/</i>
+  <span>{{__('Bill No.')}} {{ $bill->number }}</span>
+</div><!-- breadcrump -->
+
+<section id="billShowPage">
+  <div class="title mb-4">
+    <h1 class="d-block fw-bold m-0">{{ __('Bill') }}</h1>
+  </div><!-- title -->
+
+  <div id="errors">
+    @if ($errors->any())
       <div class="alert alert-danger">
-          <ul>
-              @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-              @endforeach
-          </ul>
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
       </div>
-  @endif
-</div>
- <div class="row">
-  <div class="col-12">
-    <div class="card mb-5">
-      <div class="card-body">
-        <!-- Button trigger modal -->
-        <button class="btn btn-primary mr-2 mb-2 d-inline-block notify-btn rounded-sm copyButton" data-toggle="tooltip" data-placement="top" title="{{ __('Copy payment link') }}" data-from="top" data-align="right">
-          <img src="{{ asset('images/copy.svg') }}" alt="{{ __('Copy Link') }}" style="height: 25px;">
-        </button>
-        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->pay_url}}" data-toggle="tooltip" data-placement="top" target="_blank" title="{{ __('Visit Payment Link') }}">
-          <img src="{{ asset('images/link.svg') }}" alt="{{ __('Open Link') }}" style="height: 25px;">
-        </a>
-        @if($bill->user->settings->add_tax_invoice)
-        <a class="btn btn-primary mr-2 mb-2 d-inline-block rounded-sm" href="{{ $bill->invoice_url}}" data-toggle="tooltip" data-placement="top" target="_blank" title="{{ __('Tax Invoice') }}">
-          <img src="{{ asset('images/qr.svg') }}" alt="{{ __('Tax Invoice') }}" style="height: 25px;">
-        </a>
-        @endif
-        <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
-        <a onclick="window.print(); return false;" class="btn btn-primary mr-2 mb-2 rounded-sm d-inline-block" data-toggle="tooltip" data-placement="top" href="#" title="{{ __('Print') }}">
-          <img src="{{ asset('images/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
-        </a>
-        <!-- <a class="btn btn-primary mr-2 mb-2 d-inline-block" href="#">{{ __('Send Reminder') }}</a> -->
-        @if($bill->is_pending)
-          <button id="cancel_btn" type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="tooltip" data-placement="top" title="{{ __('Cancel Bill') }}">
-            <span class="d-block" data-from="top" data-align="right" data-toggle="modal" data-target="#cancelModal">
-              <img src="{{ asset('images/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
-            </span>
-          </button>
-        @endif 
-        
-        @if($bill->is_able_refund)
-          <button id="refund_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm" data-toggle="tooltip" data-placement="top" title="{{ __('Refund') }}">
-            <span class="d-block" data-from="top" data-align="right">
-              <img src="{{ asset('images/refund.svg') }}" alt="{{ __('Refund Bill') }}" style="height: 25px;">
-            </span>
-          </button>
-        @endif
+    @endif
+  </div><!-- alert -->
 
-        @if($bill->is_able_change_status)
-          <button type="button" class="btn btn-success mr-2 mb-2 d-inline-block rounded-sm" data-toggle="tooltip" data-placement="top" title="{{ __('Change Status') }}" >
-            <span class="d-block" data-from="top" data-align="right" data-toggle="modal" data-target="#changeStatusModal">
-              <img src="{{ asset('images/change_status.svg') }}" alt="{{ __('Change Status') }}" style="height: 25px;">
-            </span>
-            </button>
-        @endif
+  <div class="buttonsArea p-2 d-flex align-items-center justify-content-center bg-white rounded-3 border mb-3 shadow-sm">
+    <button class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none copyButton" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Copy payment link') }}" data-from="top" data-align="right"><i class="fal fa-copy"></i></button>
+    <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
+    
+    <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ $bill->pay_url}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Visit Payment Link') }}"><i class="fal fa-link"></i></a>
 
-      </div>
-    </div>
-  </div>
-</div>
+    @if($bill->user->settings->add_tax_invoice)
+      <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ $bill->invoice_url}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Tax Invoice') }}"><i class="fal fa-qrcode"></i></a>
+    @endif
+    
+    <a onclick="window.print(); return false;" class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" href="#" title="{{ __('Print') }}"><i class="fal fa-print"></i></a>
+
+    <!-- <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="#">{{ __('Send Reminder') }}</a> -->
+    
+    @if($bill->is_pending)
+      <button id="cancel_btn" type="button" class="btn-danger p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Cancel Bill') }}">
+        <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right" data-bs-toggle="modal" data-bs-target="#cancelModal"><i class="fal fa-times-circle"></i></span>
+      </button>
+    @endif
+
+    @if($bill->is_able_refund)
+      <button id="refund_btn" type="button" class="btn-warning p-0 text-white m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Refund') }}">
+        <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right"><i class="fal fa-box-usd"></i></span>
+      </button>
+    @endif
+
+    @if($bill->is_able_change_status)
+      <button type="button" class="btn-info p-0 text-white m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Change Status') }}" >
+        <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right" data-bs-toggle="modal" data-bs-target="#changeStatusModal"><i class="fal fa-repeat"></i></span>
+      </button>
+    @endif
+  </div><!-- buttonsArea -->
+
+</section><!-- billShowPage -->
+ 
+
 <div class="billAndStatus mb-3 invoice @if(count($bill->payment_logs) > 0) billAndStatus_twoCol @else billAndStatus_oneCol @endif">
   <div class="showBill  invoice-contents">
     <div class="about d-flex align-items-center justify-content-center flex-column">

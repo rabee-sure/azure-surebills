@@ -72,7 +72,7 @@
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="due_date" class="d-block mb-1">{{ __('Due Date') }}</label>
-              <input value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="due_date" id="due_date" class="form-control shadow-none bg-white border w-100 rounded-3 text-body datepicker" placeholder="{{ __('Due Date') }}">
+              <input value="{{ Carbon\Carbon::now()->format('d/m/y') }}" name="due_date" id="due_date" class="form-control shadow-none bg-white border w-100 rounded-3 text-body dueDate" placeholder="{{ __('Due Date') }}">
             </div><!-- form-group -->
           </div><!-- col -->
           <div class="col-12 col-md-6 col-lg-4">
@@ -200,30 +200,30 @@
                     <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body product_name" placeholder="{{ __('Name') }}">
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
-                <div class="col-12 col-lg-2">
+                <div class="col-6 col-lg-2">
                   <div class="form-group mb-3">
                     <label for="Price" class="d-block mb-1">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
                     <input type="tel" name="price" min="1" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_price" placeholder="{{ __('Price') }}">
                   </div><!-- form-group -->
-                </div><!-- col-12 -->
-                <div class="col-12 col-lg-2">
+                </div><!-- col-6 -->
+                <div class="col-6 col-lg-2">
                   <div class="form-group mb-3">
                     <label for="Price" class="d-block mb-1">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
                     <input type="tel" name="quantity" min="1" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_quantity" placeholder="{{ __('Quantity') }}">
                   </div><!-- form-group -->
-                </div><!-- col-12 -->
-                <div class="col-12 col-lg-2">
+                </div><!-- col-6 -->
+                <div class="col-6 col-lg-2">
                   <div class="form-group mb-3">
                     <label for="Price" class="d-block mb-1">{{ __('Total') }}</label>
                     <input name="total" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body text-center fw-bold" disabled>
                   </div><!-- form-group -->
-                </div><!-- col-12 -->
-                <div class="col-12 col-lg-1">
+                </div><!-- col-6 -->
+                <div class="col-6 col-lg-1">
                   <div class="form-group mb-3 delete_block">
                     <!-- <label for="Delete" class="d-block">{{ __('Delete') }}</label> -->
                     <input data-repeater-delete type="button" class="deleteBtn w-100 border-0 rounded-3 text-white d-flex align-items-center justify-content-center" value="X"/>
                   </div><!-- form-group -->
-                </div><!-- col-12 -->
+                </div><!-- col-6 -->
               </div><!-- repeaterItem -->
             @endif
           </div><!-- repeaterItems -->
@@ -253,9 +253,9 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="Price" class="d-block mb-1">{{ __('Discount Value') }}</label>
-                    <div class="inputGroup d-flex align-items-center justify-content-start">
-                      <span class="align-items-center justify-content-center" id="fixed">{{ __('SAR') }}</span>
-                      <span class="align-items-center justify-content-center" id="percentage" style="display:none">%</span>
+                    <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
+                      <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="fixed">{{ __('SAR') }}</div>
+                      <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
                       <input type="tel" name="discount_value" class="form-control shadow-none bg-white border w-100 rounded-3" value="{{old('discount_value')}}" id="Discount_Value" aria-describedby="basic-addon2">
                     </div><!-- inputGroup -->
                   </div><!-- form-group -->
@@ -264,25 +264,26 @@
             </div><!-- Discount_Values -->
           </div><!-- col-12 -->
           <div class="col-12 col-lg-6">
-            <label for="Tax_Values_Checkbox" class="checkboxItem position-relative m-0">
+            <label for="Tax_Values_Checkbox" class="checkboxItem position-relative mb-3 mb-md-0">
               <input name="add_tax" class="position-absolute top-0 strat-0 w-100 h-100" id="Tax_Values_Checkbox" type="checkbox">
               <span class="d-flex align-items-center justify-content-start">
                 <i class="d-block rounded-pill position-relative"></i>
                 {{ __('Add Tax') }}
               </span>
             </label>
-
-            <div class="Tax_Values form-row mb-2" style="display: none;">
-              <div class="form-group col-12 col-md-12 col-lg-12 col-xl-12">
-                <label for="Tax">{{ __('Tax Value') }}</label>
-                <div class="input-group">
-                <input type="tel" name="tax_value" class="form-control _parseArabicNumbers" id="Value" value="@if(auth()->user()->settings->add_tax){{auth()->user()->settings->tax_value}}@else{{old('tax_value')}}@endif" aria-describedby="basic-addon3">
-                  <div class="input-group-append">
-                    <span class="input-group-text discount_type_item2" id="percentage">%</span>
-                  </div>
-                </div>
-              </div><!-- form-group -->
-            </div><!-- form-row -->
+            <div class="Tax_Values" style="display: none;">
+              <div class="row py-3">
+                <div class="col-12 col-md-6">
+                  <div class="form-group">
+                    <label for="Tax" class="d-block mb-1">{{ __('Tax Value') }}</label>
+                    <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
+                      <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
+                      <input type="tel" name="tax_value" class="form-control shadow-none bg-white border w-100 rounded-3" id="Value" value="@if(auth()->user()->settings->add_tax){{auth()->user()->settings->tax_value}}@else{{old('tax_value')}}@endif" aria-describedby="basic-addon3">
+                    </div><!-- inputGroup -->
+                  </div><!-- form-group -->
+                </div><!-- col-12 -->
+              </div><!-- row -->
+            </div><!-- Tax_Values -->
           </div><!-- col-12 -->
         </div><!-- row -->
         <hr>
@@ -307,10 +308,10 @@
             </label>
           </div><!-- col-12 -->
         </div><!-- row -->
-              <div class="d-flex justify-content-start mt-5">
-                <button id="create-bill" type="submit" class="btn btn-primary btn-lg login_button"> {{__('Send')}}</button>
-              </div><!-- d-flex  -->
-            </form>
+        <div class="sendBtn d-flex justify-content-start mt-5">
+          <button id="create-bill" type="submit" class="formBtn rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold text-white"> {{__('Send')}}</button>
+        </div><!-- sendBtn  -->
+      </form>
     </div><!-- block -->
   </section><!-- billCreatePage -->
 
@@ -320,7 +321,7 @@
   <script src="{{ asset('new/js/daterangepicker/moment.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script src="{{ asset('new/js/daterangepicker/daterangepicker.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script src="{{ asset('new/js/jquery-ui/jquery-ui.js') }}?v={{ config('app.asset_version') }}" defer></script>
-  <script src="{{ asset('js/jquery.repeater.min.js') }}"></script>
+  <script src="{{ asset('new/js/repeater/jquery.repeater.min.js') }}?v={{ config('app.asset_version') }}"></script>
   <script>
     // Additional Information
     $(".additionalInformationArea").hide();
@@ -331,13 +332,14 @@
 
     // Single Daterangepicker
     $(function() {
-      $('.datepicker').daterangepicker({
+      $('.dueDate').daterangepicker({
         "singleDatePicker": true,
         "autoApply": true,
         "maxSpan": {
           "days": 7
         },
         locale: {
+          format: 'DD/MM/YYYY',
           daysOfWeek: [
             '{{__('Sun')}}',
             '{{__('Mon')}}',
@@ -386,6 +388,19 @@
       $('.Discount_Values').slideToggle();
     });
 
+    $(document).ready(function () {
+      $('#percentage').hide(); 
+      $('#discount_type').change(function(){
+        if($('#discount_type').val() === 'percentage') {
+          $('#percentage').show(); 
+          $('#fixed').hide(); 
+        } else {
+          $('#percentage').hide();
+          $('#fixed').show();  
+        } 
+      });
+    });
+
     var fewSeconds = 5;
     $('#create-bill').click(function() {
       var btn = $(this);
@@ -429,6 +444,10 @@
       @else
         $('.Tax_Values').hide();
         $('#Tax_Values_Checkbox').prop('checked', false);
+      @endif
+
+      @if(old('add_discount'))
+        {{'.change();'}}
       @endif
 
       var customers = [];

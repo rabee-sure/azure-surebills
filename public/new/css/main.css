@@ -28561,12 +28561,14 @@ section#homepage .addNewBillBtn:hover {
   padding: 15px;
   /* form-group */
   /* phoneInput */
+  /* inputGroup */
   /* additionalInformationBtn */
   /* h1 */
   /* title2 */
   /* repeaterItem */
   /* addNewItem */
   /* checkboxItem */
+  /* sendBtn */
 }
 #billCreatePage .block .form-group {
   /* input */
@@ -28587,10 +28589,18 @@ section#homepage .addNewBillBtn:hover {
 #billCreatePage .block .form-group input.is-valid {
   background-position: 10px center;
   border-color: #198754 !important;
+  /* ltr */
+}
+[dir=ltr] #billCreatePage .block .form-group input.is-valid {
+  background-position: right 10px center;
 }
 #billCreatePage .block .form-group input.is-invalid {
   background-position: 10px center;
   border-color: #dc3545 !important;
+  /* ltr */
+}
+[dir=ltr] #billCreatePage .block .form-group input.is-invalid {
+  background-position: right 10px center;
 }
 #billCreatePage .block .form-group select {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg==");
@@ -28599,18 +28609,30 @@ section#homepage .addNewBillBtn:hover {
   background-position: 10px center;
   background-repeat: no-repeat;
   background-size: 20px 20px;
+  /* ltr */
   /* is-valid */
   /* is-invalid */
 }
+[dir=ltr] #billCreatePage .block .form-group select {
+  background-position: right 10px center;
+}
 #billCreatePage .block .form-group select.is-valid {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg=="), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
-  background-position: 10px center, 40px center;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg==");
+  background-position: 10px center;
   border-color: #198754 !important;
+  /* ltr */
+}
+[dir=ltr] #billCreatePage .block .form-group select.is-valid {
+  background-position: right 10px center;
 }
 #billCreatePage .block .form-group select.is-invalid {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg=="), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
-  background-position: 10px center, 40px center;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg==");
+  background-position: 10px center;
   border-color: #dc3545 !important;
+  /* ltr */
+}
+[dir=ltr] #billCreatePage .block .form-group select.is-invalid {
+  background-position: right 10px center;
 }
 #billCreatePage .block .phoneInput {
   direction: ltr;
@@ -28630,6 +28652,10 @@ section#homepage .addNewBillBtn:hover {
   width: 100%;
   height: auto !important;
   min-width: auto !important;
+  /* ltr */
+}
+[dir=ltr] #billCreatePage .block .phoneInput #customer_mobile-error {
+  direction: ltr;
 }
 #billCreatePage .block .phoneInput input {
   padding: 0 10px 0 50px;
@@ -28644,6 +28670,43 @@ section#homepage .addNewBillBtn:hover {
   background-position: right 10px center;
   border-color: #dc3545 !important;
 }
+#billCreatePage .block .inputGroup {
+  /* txt */
+  /* input */
+  /* invalid-feedback */
+}
+#billCreatePage .block .inputGroup .txt {
+  left: 1px;
+  top: 1px;
+  height: 38px;
+  min-width: 50px;
+  display: flex;
+  /* ltr */
+}
+[dir=ltr] #billCreatePage .block .inputGroup .txt {
+  left: auto;
+  right: 1px;
+}
+#billCreatePage .block .inputGroup input {
+  padding: 0 10px 0 50px;
+  /* ltr */
+  /* is-valid */
+  /* is-invalid */
+}
+[dir=ltr] #billCreatePage .block .inputGroup input {
+  padding: 0 50px 0 10px;
+}
+#billCreatePage .block .inputGroup input.is-valid {
+  background-image: none;
+  border-color: #198754 !important;
+}
+#billCreatePage .block .inputGroup input.is-invalid {
+  background-image: none;
+  border-color: #dc3545 !important;
+}
+#billCreatePage .block .inputGroup .invalid-feedback {
+  width: auto;
+}
 #billCreatePage .block .additionalInformationBtn {
   font-size: 16px;
   /* before */
@@ -28655,6 +28718,11 @@ section#homepage .addNewBillBtn:hover {
   top: 1px;
   margin: 0 0 0 7px;
   position: relative;
+  /* ltr */
+}
+[dir=ltr] #billCreatePage .block .additionalInformationBtn::before {
+  margin: 0 7px 0 0;
+  top: 0;
 }
 #billCreatePage .block .additionalInformationBtn.show {
   /* before */
@@ -28693,10 +28761,18 @@ section#homepage .addNewBillBtn:hover {
 #billCreatePage .block .repeaterItem .form-group input.is-valid {
   background-position: 10px center;
   border-color: #198754 !important;
+  /* ltr */
+}
+[dir=ltr] #billCreatePage .block .repeaterItem .form-group input.is-valid {
+  background-position: right 10px center;
 }
 #billCreatePage .block .repeaterItem .form-group input.is-invalid {
   background-position: 10px center;
   border-color: #dc3545 !important;
+  /* ltr */
+}
+[dir=ltr] #billCreatePage .block .repeaterItem .form-group input.is-invalid {
+  background-position: right 10px center;
 }
 #billCreatePage .block .repeaterItem .form-group input:disabled {
   background-color: #e9ecef !important;
@@ -28753,9 +28829,13 @@ section#homepage .addNewBillBtn:hover {
 }
 #billCreatePage .block .checkboxItem input:checked ~ span i::after {
   transform: translateX(-28px);
+  /* ltr */
+}
+[dir=ltr] #billCreatePage .block .checkboxItem input:checked ~ span i::after {
+  transform: translateX(28px);
 }
 #billCreatePage .block .checkboxItem span {
-  font-size: 17px;
+  font-size: 16px;
   color: #3a3a3a;
   /* i */
 }
@@ -28765,7 +28845,11 @@ section#homepage .addNewBillBtn:hover {
   background-color: #d7d7d7;
   margin: 0 0 0 10px;
   transition: all 0.3s ease-in-out;
+  /* ltr */
   /* after */
+}
+[dir=ltr] #billCreatePage .block .checkboxItem span i {
+  margin: 0 10px 0 0;
 }
 #billCreatePage .block .checkboxItem span i::after {
   content: "";
@@ -28777,9 +28861,55 @@ section#homepage .addNewBillBtn:hover {
   right: 4px;
   border-radius: 100%;
   transition: all 0.3s ease-in-out;
+  /* ltr */
+}
+[dir=ltr] #billCreatePage .block .checkboxItem span i::after {
+  right: auto;
+  left: 4px;
+}
+#billCreatePage .block .sendBtn {
+  /* button */
+}
+#billCreatePage .block .sendBtn button {
+  height: 40px;
+  background-color: var(--mainColor);
+  min-width: 150px;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  /* hover */
+  /* disabled="disabled" */
+}
+#billCreatePage .block .sendBtn button:hover {
+  background-color: var(--mainColorHover);
+}
+#billCreatePage .block .sendBtn button[disabled=disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* billCreatePage */
+#billShowPage {
+  /* title */
+  /* buttonsArea */
+}
+#billShowPage .title {
+  /* h1 */
+}
+#billShowPage .title h1, #billShowPage .title .h1 {
+  font-size: 25px;
+  color: #3a3a3a;
+}
+#billShowPage .buttonsArea {
+  /* button */
+}
+#billShowPage .buttonsArea button, #billShowPage .buttonsArea a {
+  width: 50px;
+  height: 50px;
+  font-size: 25px;
+}
+
+/* billShowPage */
 body {
   background-color: #f8f8f8;
   direction: rtl;
@@ -28969,3 +29099,210 @@ nav ul.pagination li.page-item.active span {
 }
 
 /* nav */
+.ui-widget {
+  /* ui-widget-content */
+}
+.ui-widget.ui-widget-content {
+  border-radius: 0.25rem;
+  max-height: 300px;
+  overflow-y: auto;
+  border-color: #dee2e6;
+  /* li */
+}
+.ui-widget.ui-widget-content li {
+  /* ui-menu-item-wrapper */
+}
+.ui-widget.ui-widget-content li .ui-menu-item-wrapper {
+  padding: 5px;
+  font-size: 15px;
+  color: #3a3a3a !important;
+  border: none !important;
+  margin: 0 !important;
+  background-color: #ffffff !important;
+  /* hover */
+}
+.ui-widget.ui-widget-content li .ui-menu-item-wrapper:hover {
+  background-color: var(--mainColor) !important;
+  color: #ffffff !important;
+}
+
+/* ui-widget */
+.daterangepicker {
+  text-align: left;
+  direction: ltr;
+  font-family: "Roboto", "Almarai";
+  border-radius: 0.25rem;
+  overflow: hidden;
+  border-color: #dee2e6;
+  /* rtl */
+  /* ranges */
+  /* .drp-calendar */
+  /* drp-buttons */
+  /* show-calendar */
+}
+[dir=rtl] .daterangepicker {
+  direction: rtl;
+  font-family: "Almarai", "Roboto";
+  text-align: right;
+}
+.daterangepicker .ranges {
+  /* rtl */
+  /* li */
+}
+[dir=rtl] .daterangepicker .ranges {
+  text-align: right;
+  float: right;
+}
+.daterangepicker .ranges li {
+  color: #3a3a3a;
+  text-transform: capitalize;
+  /* active */
+}
+.daterangepicker .ranges li.active {
+  background-color: var(--mainColor);
+  color: #ffffff;
+}
+.daterangepicker .drp-calendar {
+  padding: 5px;
+  max-width: 300px;
+  /* tbale */
+  /* left */
+  /* right */
+}
+.daterangepicker .drp-calendar table {
+  /* thead */
+  /* tbody */
+}
+.daterangepicker .drp-calendar table thead {
+  /* th */
+}
+.daterangepicker .drp-calendar table thead th {
+  /* rtl */
+  /* prev */
+  /* next */
+}
+[dir=rtl] .daterangepicker .drp-calendar table thead th {
+  font-size: 10px;
+  width: 40px;
+}
+.daterangepicker .drp-calendar table thead th.prev {
+  /* span */
+}
+.daterangepicker .drp-calendar table thead th.prev span {
+  /* rtl */
+}
+[dir=rtl] .daterangepicker .drp-calendar table thead th.prev span {
+  transform: rotate(-45deg);
+}
+.daterangepicker .drp-calendar table thead th.next {
+  /* span */
+}
+.daterangepicker .drp-calendar table thead th.next span {
+  /* rtl */
+}
+[dir=rtl] .daterangepicker .drp-calendar table thead th.next span {
+  transform: rotate(135deg);
+}
+.daterangepicker .drp-calendar table tbody {
+  /* td */
+}
+.daterangepicker .drp-calendar table tbody td {
+  /* in-range */
+  /* active */
+}
+.daterangepicker .drp-calendar table tbody td.in-range {
+  background-color: rgba(var(--mainColorRGB), 0.2);
+}
+.daterangepicker .drp-calendar table tbody td.active {
+  background-color: var(--mainColor);
+}
+.daterangepicker .drp-calendar.left {
+  /* rtl */
+}
+[dir=rtl] .daterangepicker .drp-calendar.left {
+  float: right;
+  border-left: 1px solid #dee2e6;
+  border-right: none;
+}
+.daterangepicker .drp-calendar.right {
+  /* rtl */
+}
+[dir=rtl] .daterangepicker .drp-calendar.right {
+  float: right;
+}
+.daterangepicker .drp-buttons {
+  border-top-color: #dee2e6;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  line-height: normal;
+  /* drp-selected */
+  /* button */
+}
+.daterangepicker .drp-buttons span.drp-selected {
+  font-size: 15px;
+  color: #000;
+  flex-grow: 1;
+  padding: 0;
+  text-align: initial;
+}
+.daterangepicker .drp-buttons button {
+  height: 30px;
+  min-width: 70px;
+  border: none;
+  padding: 0 5px;
+  text-transform: capitalize;
+  /* applyBtn */
+  /* cancelBtn */
+}
+.daterangepicker .drp-buttons button.applyBtn {
+  background-color: var(--mainColor);
+  margin: 0 0 0 10px;
+  /* rtl */
+  /* hover */
+}
+[dir=rtl] .daterangepicker .drp-buttons button.applyBtn {
+  margin: 0 10px 0 0;
+}
+.daterangepicker .drp-buttons button.applyBtn:hover {
+  background-color: var(--mainColorHover);
+}
+.daterangepicker .drp-buttons button.cancelBtn {
+  background-color: #f8f9fa;
+  margin: 0;
+  /* hover */
+}
+.daterangepicker .drp-buttons button.cancelBtn:hover {
+  background-color: #f9fafb;
+}
+.daterangepicker.show-calendar {
+  /* ranges */
+  /* drp-buttons */
+}
+.daterangepicker.show-calendar .ranges {
+  margin: 0;
+  min-height: 235px;
+  /* rtl */
+}
+[dir=rtl] .daterangepicker.show-calendar .ranges {
+  border-left: 1px solid #dee2e6;
+  border-right: none;
+}
+.daterangepicker.show-calendar .drp-buttons {
+  display: flex !important;
+}
+
+/* daterangepicker */
+.btn-primary {
+  background-color: var(--mainColor);
+  /* hover */
+  /* focus */
+}
+.btn-primary:hover {
+  background-color: var(--mainColorHover);
+}
+.btn-primary:focus {
+  background-color: var(--mainColorHover);
+}
+
+/* btn-primary */

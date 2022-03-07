@@ -9,7 +9,7 @@ aria-hidden="true">
                 <h5 class="modal-title" id="cancelModalLabel">
                     {{ __('Are you Sure to Cancel Bill ?')}}
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -19,7 +19,7 @@ aria-hidden="true">
                     <button type="submit" class="btn btn-primary">
                         {{__('Confirm Cancel Bill')}}
                     </button>
-                    <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">
+                    <button type="button" class="btn btn-secondary ml-2" data-bs-dismiss="modal">
                         {{__('Cancel')}}
                     </button>
                 </form>
