@@ -10855,6 +10855,7 @@ textarea.form-control-lg {
 :root {
   --mainColor: #00d595;
   --mainColorHover: #00ac78;
+  --mainColorRGB: 0,213,149;
   --hoverBg: rgba(0, 213, 149, 0.03) ;
 }
 

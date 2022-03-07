@@ -10855,6 +10855,7 @@ textarea.form-control-lg {
 :root {
   --mainColor: #00d595;
   --mainColorHover: #00ac78;
+  --mainColorRGB: 0,213,149;
   --hoverBg: rgba(0, 213, 149, 0.03) ;
 }
 
@@ -28388,6 +28389,7 @@ section#homepage .addNewBillBtn:hover {
 #billIndexPage .filterArea .rightCol .checkboxArea label input:checked ~ span::before {
   background-color: var(--mainColor);
   border-color: var(--mainColor);
+  box-shadow: 0 2px 4px 0 rgba(var(--mainColorRGB), 0.4);
 }
 #billIndexPage .filterArea .rightCol .checkboxArea label span {
   color: #3a3a3a;
@@ -28561,6 +28563,10 @@ section#homepage .addNewBillBtn:hover {
   /* phoneInput */
   /* additionalInformationBtn */
   /* h1 */
+  /* title2 */
+  /* repeaterItem */
+  /* addNewItem */
+  /* checkboxItem */
 }
 #billCreatePage .block .form-group {
   /* input */
@@ -28616,7 +28622,7 @@ section#homepage .addNewBillBtn:hover {
   left: 1px;
   top: 1px;
   height: 38px;
-  min-width: 40px;
+  min-width: 50px;
 }
 #billCreatePage .block .phoneInput #customer_mobile-error {
   display: block !important;
@@ -28626,7 +28632,7 @@ section#homepage .addNewBillBtn:hover {
   min-width: auto !important;
 }
 #billCreatePage .block .phoneInput input {
-  padding: 0 10px 0 40px;
+  padding: 0 10px 0 50px;
   /* is-valid */
   /* is-invalid */
 }
@@ -28659,6 +28665,118 @@ section#homepage .addNewBillBtn:hover {
 #billCreatePage .block hr {
   border-color: #dee2e6 !important;
   margin: 1rem auto;
+}
+#billCreatePage .block .title2 {
+  font-size: 20px;
+}
+#billCreatePage .block .repeaterItem {
+  /* form-group */
+  /* first-child */
+}
+#billCreatePage .block .repeaterItem .form-group {
+  /* input */
+  /* deleteBtn */
+}
+#billCreatePage .block .repeaterItem .form-group input {
+  height: 40px;
+  padding: 0 10px;
+  outline: none;
+  /* focus */
+  /* is-valid */
+  /* is-invalid */
+  /* disabled */
+}
+#billCreatePage .block .repeaterItem .form-group input:focus {
+  background-color: var(--hoverBg) !important;
+  border-color: var(--mainColor) !important;
+}
+#billCreatePage .block .repeaterItem .form-group input.is-valid {
+  background-position: 10px center;
+  border-color: #198754 !important;
+}
+#billCreatePage .block .repeaterItem .form-group input.is-invalid {
+  background-position: 10px center;
+  border-color: #dc3545 !important;
+}
+#billCreatePage .block .repeaterItem .form-group input:disabled {
+  background-color: #e9ecef !important;
+  border-color: #ced4da !important;
+  cursor: not-allowed;
+  color: #000;
+}
+#billCreatePage .block .repeaterItem .form-group .deleteBtn {
+  background-color: #dc3545 !important;
+  height: 40px;
+  color: #fff;
+  /* focus */
+}
+#billCreatePage .block .repeaterItem .form-group .deleteBtn:focus {
+  background-color: #dc3545 !important;
+}
+#billCreatePage .block .repeaterItem:first-child {
+  /* delete_block */
+}
+#billCreatePage .block .repeaterItem:first-child .delete_block {
+  display: none;
+}
+#billCreatePage .block .addNewItem {
+  height: 35px;
+  min-width: 100px;
+  background-color: var(--mainColor);
+  transition: all 0.2s ease-in-out;
+  font-size: 15px;
+  /* hover */
+}
+#billCreatePage .block .addNewItem:hover {
+  background-color: var(--mainColorHover);
+}
+#billCreatePage .block .checkboxItem {
+  /* input */
+  /* span */
+}
+#billCreatePage .block .checkboxItem input {
+  opacity: 0;
+  z-index: 99;
+  cursor: pointer;
+  /* checked */
+}
+#billCreatePage .block .checkboxItem input:checked ~ {
+  /* span */
+}
+#billCreatePage .block .checkboxItem input:checked ~ span {
+  /* i */
+}
+#billCreatePage .block .checkboxItem input:checked ~ span i {
+  background-color: var(--mainColor);
+  box-shadow: 0 2px 4px 0 rgba(var(--mainColorRGB), 0.4);
+  /* after */
+}
+#billCreatePage .block .checkboxItem input:checked ~ span i::after {
+  transform: translateX(-28px);
+}
+#billCreatePage .block .checkboxItem span {
+  font-size: 17px;
+  color: #3a3a3a;
+  /* i */
+}
+#billCreatePage .block .checkboxItem span i {
+  height: 25px;
+  width: 53px;
+  background-color: #d7d7d7;
+  margin: 0 0 0 10px;
+  transition: all 0.3s ease-in-out;
+  /* after */
+}
+#billCreatePage .block .checkboxItem span i::after {
+  content: "";
+  width: 17px;
+  height: 17px;
+  background-color: #fff;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  border-radius: 100%;
+  transition: all 0.3s ease-in-out;
 }
 
 /* billCreatePage */
