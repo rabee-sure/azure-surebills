@@ -89,6 +89,13 @@
             <span class="d-inline-block">{{ __('Product Sections') }}</span>
           </a>
         </li>
+
+        <li>
+          <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}">
+            <i class="iconsminds-clothing-store"></i> 
+            <span class="d-inline-block">{{ __('Reports') }}</span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
