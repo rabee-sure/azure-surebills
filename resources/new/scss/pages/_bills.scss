@@ -254,7 +254,7 @@
         left: 1px;
         top: 1px;
         height: 38px;
-        min-width: 40px;
+        min-width: 50px;
       } /* span */
       #customer_mobile-error {
         display: block !important;
@@ -264,7 +264,7 @@
         min-width: auto !important;
       } /* customer_mobile-error */
       input {
-        padding: 0 10px 0 40px;
+        padding: 0 10px 0 50px;
         &.is-valid {
           background-position: right 10px  center;
           border-color: #198754 !important;

@@ -148,9 +148,9 @@
           </div><!-- additionalInformationArea -->
         @endif
         <hr>
+        <div class="title2 fw-bold mb-4">{{ __('Bill items') }}</div>
               
           
-              <h1 class="mb-3">{{ __('Bill items') }}</h1>
               <div class="inner-repeater">
                 <div data-repeater-list="items">
                   @if(old('items'))
