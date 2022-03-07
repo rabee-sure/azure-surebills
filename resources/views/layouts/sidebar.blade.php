@@ -9,7 +9,7 @@
   <div class="main-menu">
     <div class="scroll">
       <ul class="list-unstyled">
-        <li class="{{ Request::is('/') ? 'active' : '' }}">
+        <li class="{{ Request::is('home') ? 'active' : '' }}">
           <a href="/" title="{{ __('Dashboard') }}">
             <i class="iconsminds-dashboard"></i>
             <span>{{ __('Dashboard') }}</span>
@@ -21,12 +21,12 @@
            {{ __('Bills') }}
           </a>
         </li>
-        <li class="{{ Request::is('pos*') ? 'active' : '' }}">
+        <!-- <li class="{{ Request::is('pos*') ? 'active' : '' }}">
           <a href="/pos/categories" title="{{ __('POS') }}">
             <i class="iconsminds-testimonal"></i>
            {{ __('POS') }}
           </a>
-        </li>
+        </li> -->
         <li class="{{ Request::is('customers*') ? 'active' : '' }}">
           <a href="{{ route('customers.index') }}" title="{{ __('Customers') }}">
             <i class="iconsminds-mens"></i>
@@ -77,7 +77,7 @@
             {{ __('Integration') }}
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
             <i class="iconsminds-project"></i> 
             <span class="d-inline-block">{{ __('Products') }}</span>
@@ -88,11 +88,11 @@
             <i class="iconsminds-clothing-store"></i> 
             <span class="d-inline-block">{{ __('Product Sections') }}</span>
           </a>
-        </li>
+        </li> -->
 
-        <li>
+        <li class="{{ Request::is('reports*') ? 'active' : '' }}">
           <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}">
-            <i class="iconsminds-clothing-store"></i> 
+            <i class="iconsminds-file-clipboard-file---text"></i> 
             <span class="d-inline-block">{{ __('Reports') }}</span>
           </a>
         </li>

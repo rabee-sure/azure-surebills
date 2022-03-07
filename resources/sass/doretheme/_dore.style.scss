@@ -12977,3 +12977,81 @@ body {
     overflow: hidden;
   } /* showCartPos */
 } /* body */
+
+.reportsIndexPage {
+  .blocks {
+    .item {
+      span {
+        background-color: #eee;
+        padding: 0 15px;
+        height: 25px;
+        border-radius: 100px;
+        color: #555;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Almarai", "Nunito", sans-serif;
+        font-weight: bold;
+        font-size: 12px;
+      } /* span */
+      .icon {
+        svg {
+          width: 70px;
+          height: 70px;
+        } /* svg */
+      } /* icon */
+      p {
+        font-size: 16px;
+      } /* p */
+    } /* item */
+  } /* blocks */
+} /* reportsIndexPage */
+
+.reportsMerchantsPage {
+  .select2-container {
+    width: 100% !important;
+    .select2-selection {
+      height: 40px;
+      padding: 0;
+      border: 1px solid #d7d7d7;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      ul.select2-selection__rendered {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        margin: 0;
+        li {
+          margin: 5px;
+          height: 28px;
+          border: 1px solid #d7d7d7;
+          border-radius: .25rem;
+          padding: 5px;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          background-color: #fafafa;
+          .select2-selection__choice__display {
+            padding: 0 !important;
+          } /* select2-selection__choice__display */
+          .select2-selection__choice__remove {
+            align-self: stretch;
+            position: inherit;
+            border: none;
+            font-size: 20px;
+            line-height: 1;
+            padding: 0;
+            margin: -4px 0 0 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent !important;
+          } /* select2-selection__choice__remove */
+        } /* li */
+      } /* select2-selection__rendered */
+    } /* select2-selection */
+  } /* select2-container */
+} /* reportsMerchantsPage */
