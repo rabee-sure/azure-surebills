@@ -702,5 +702,14 @@
 
 	"Reports" : "التقارير",
 	"Request Report" : "أطلب تقرير",
-	"Merchants Outstanding" : "التجار المتميزون"
+	"Merchants Outstanding" : "أرصدة التجار",
+	"Merchants" : "التجار",
+	"Emails" : "البريد الالكتروني",
+	"Report type" : "نوع التقرير",
+	"Filter Parameters" : "محددات البحث",
+	"Request date" : "تاريخ الطلب",
+	"Download File" : "تحميل ملف التقرير",
+	"Report Pending" : "قيد الانشاء",
+	"Report Done" : "تم انشاءه"
+	
 }

@@ -103,8 +103,8 @@
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">{{__('Request type')}}</th>
-                  <th scope="col">{{__('Filter')}}</th>
+                  <th scope="col">{{__('Report type')}}</th>
+                  <th scope="col">{{__('Filter Parameters')}}</th>
                   <th scope="col">{{__('Emails')}}</th>
                   <th scope="col">{{__('Status')}}</th>
                   <th scope="col">{{__('Request date')}}</th>
@@ -118,7 +118,7 @@
                     <td>{{$request->name}}</td>
                     <td>{{$request->params}}</td>
                     <td>{{$request->emails}}</td>
-                    <td>{{$request->active}}</td>
+                    <td>@if($request->active == 0) {{__('Report Pending')}} @else {{__('Report Done')}} @endif</td>
                     <td>{{$request->created_at}}</td>
                     <td>
                       <a href="#" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Download File') }}">{{ __('Download File') }}</a>

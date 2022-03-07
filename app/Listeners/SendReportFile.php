@@ -11,9 +11,11 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportExport;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestReportMail;
+use romanzipp\QueueMonitor\Traits\IsMonitored;
 
-class SendReportFile
+class SendReportFile implements ShouldQueue
 {
+    use IsMonitored;
     /**
      * Create the event listener.
      *
@@ -36,9 +38,20 @@ class SendReportFile
 
         $report_emails = $report->emails;
 
+        $report_filters = json_decode($report->params) ;
+
+        $report_merchants = explode(',', str_replace('"',"",$report_filters->merchants));
+        if (in_array("all", $report_merchants))
+        {
+            $report_merchants = "";
+        }
+
+        $report_from = $report_filters->from;
+        $report_to = $report_filters->to;
+
         $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'.xlsx';
 
-        $data = DB::table('users')
+        $data = DB::table('userss')
             ->join('transactions', 'users.id', '=', 'transactions.user_id')
             ->join('settlements', 'users.id', '=', 'settlements.user_id')
             ->select(DB::raw("users.id AS MID, 
@@ -53,7 +66,6 @@ class SendReportFile
             ->groupBy('users.id')
             ->get();
 
-        // Excel::store(new ReportExport($data), $file_name , 'public');
         if(Excel::store(new ReportExport($data), $file_name , 'public')){
             
             $report->addMedia(storage_path('app/public/'.$file_name))
@@ -63,7 +75,7 @@ class SendReportFile
             $emails = explode(",", $report_emails);
             if(count($emails)){
                 foreach ($emails as $email) {
-                    Mail::to($email)->send(new RequestReportMail($event->cycleDate, auth()->user(), $event->transfer));
+                    Mail::to($email)->send(new RequestReportMail($report));
                 }
             }
         }
