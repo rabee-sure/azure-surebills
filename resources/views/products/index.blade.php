@@ -13,19 +13,28 @@
     </div>
 @endif
 
+@canany(['show products', 'show product categories'])
 <div class="productsTabs d-flex align-items-center justify-content-center justify-content-md-start mb-4">
-  <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('products*') ? 'active' : '' }}">{{ __('Products') }}</a>
-  <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('categories*') ? 'active' : '' }}">{{ __('Product Sections') }}</a>
+    @can('show products')
+        <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('products*') ? 'active' : '' }}">{{ __('Products') }}</a>
+    @endcan
+
+    @can('show product categories')
+        <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('categories*') ? 'active' : '' }}">{{ __('Product Sections') }}</a>
+    @endcan
 </div><!-- productsTabs -->
+@endcanany
 
 
   <div class="row">
     <div class="col-12">
       <div class="mb-3">
         <h1>{{ __('Products')}}</h1>
+        @can('create product')
         <div class="top-right-button-container">
         @include('products.create')
       </div>
+      @endcan
       <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
         <ol class="breadcrumb pt-0">
           <li class="breadcrumb-item">
@@ -53,7 +62,9 @@
                 <th scope="col">{{__('Email')}}</th>
                 <th scope="col">{{__('Bills')}}</th>
                 <th scope="col">{{__('Date created')}}</th>
+                @canany(['update product', 'delete product'])
                 <th scope="col">{{__('Actions')}}</th>
+                @endcanany
               </tr>
             </thead>
             <tbody>
@@ -65,70 +76,16 @@
                   <td>email</td>
                   <td>count</td>
                   <td>created_at</td>
+                  @canany(['update product', 'delete product'])
                   <td>
+                    @can('update product')
                     <a href="{{ route('products.edit', 1)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
+                    @endcan
+                    @can('delete product')
                     <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">id</th>
-                  <td>name</td>
-                  <td>mobile</td>
-                  <td>email</td>
-                  <td>count</td>
-                  <td>created_at</td>
-                  <td>
-                    <a href="{{ route('products.edit', 2)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
-                    <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">id</th>
-                  <td>name</td>
-                  <td>mobile</td>
-                  <td>email</td>
-                  <td>count</td>
-                  <td>created_at</td>
-                  <td>
-                    <a href="{{ route('products.edit', 3)}}#" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
-                    <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">id</th>
-                  <td>name</td>
-                  <td>mobile</td>
-                  <td>email</td>
-                  <td>count</td>
-                  <td>created_at</td>
-                  <td>
-                    <a href="{{ route('products.edit', 4)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
-                    <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">id</th>
-                  <td>name</td>
-                  <td>mobile</td>
-                  <td>email</td>
-                  <td>count</td>
-                  <td>created_at</td>
-                  <td>
-                    <a href="{{ route('products.edit', 5)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
-                    <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">id</th>
-                  <td>name</td>
-                  <td>mobile</td>
-                  <td>email</td>
-                  <td>count</td>
-                  <td>created_at</td>
-                  <td>
-                    <a href="{{ route('products.edit', 6)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
-                    <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
-                  </td>
+                    @endcan
+                </td>
+                @endcanany
                 </tr>
               <!-- endforeach -->
 

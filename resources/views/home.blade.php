@@ -7,7 +7,7 @@
         $settings =  Spatie\Valuestore\Valuestore::make(storage_path('app/settings.json'));
         $mobile_number = $settings->get('mobile_number');
     @endphp
-      @if (!$user->verified)
+      @if (!$user->verified && !$user->mainStoreUser)
         @if($user->is_uploaded_documents)
           <div class="alert alert-warning account_not_verified mb-5" role="alert">
             {{ __('Your account is being verified so that you can withdraw the collected amounts. The documentation process may take up to two business days. In the event that the documentation is not completed before :date, please contact us on :mobile', ['mobile' => $mobile_number, 'date' => $user->two_business_days]) }}
@@ -28,6 +28,7 @@
       <div class="row">
         <div class="col-12">
           <div class="homepage_blocks icon-cards-row">
+            @can('show statement')
             <div class="item">
               <a href="{{ route('statement.index') }}" class="card mb-3">
                 <div class="card-body text-center">
@@ -46,7 +47,6 @@
                 </div>
               </a>
             </div>
-            
             <div class="item">
               <a href="{{ route('statement.index') }}" class="card mb-3">
                 <div class="card-body text-center">
@@ -65,7 +65,6 @@
                 </div>
               </a>
             </div>
-
             <div class="item">
               <a href="{{ route('statement.index') }}" class="card mb-3">
                 <div class="card-body text-center">
@@ -75,6 +74,9 @@
                 </div>
               </a>
             </div>
+            @endcan
+
+            @can('show bills')
             <div class="item">
               <a href="/bills?dont_update_statuses=true" class="card mb-3">
                 <div class="card-body text-center">
@@ -93,20 +95,21 @@
                 </div>
               </a>
             </div>
+            @endcan
           </div>
         </div>
 
+        @can('show bills')
         <div class="col-12">
           <bills-paid-amount :user="{{$user}}"></bills-paid-amount>
           <bills-paid-count :user="{{$user}}"></bills-paid-count>
           <bills-count :user="{{$user}}"></bills-count>
         </div>
-        
         <div class="col-xl-12 col-lg-12 mb-4">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title mb-3">{{__('Latest Bills') }}</h5>
-              
+
               @if($latest->count() > 0)
                 <div class="position-absolute card-top-buttons p-0">
                   <a href="/bills?dont_update_statuses=true" title="View all" class="btn btn-primary btn-xs"> {{__('View all') }}</a>
@@ -136,9 +139,12 @@
             </div>
           </div>
         </div>
+        @endcan
       </div>
-  <a href="{{ route('bills.create')}}" data-toggle="tooltip" data-placement="top" title="{{ __('Create a bill')}}" class="add_bill_button"></a>
 
+      @can('create bill')
+  <a href="{{ route('bills.create')}}" data-toggle="tooltip" data-placement="top" title="{{ __('Create a bill')}}" class="add_bill_button"></a>
+      @endcan
 @endsection
 
 

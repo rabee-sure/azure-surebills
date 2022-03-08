@@ -13,7 +13,7 @@ class ApplicationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:show channels');
+        $this->middleware('permission:manage integration settings');
     }
 
     /**

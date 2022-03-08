@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class IntegrationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:manage integration settings');
+    }
+
     /**
      * Display a listing of the resource.
      *

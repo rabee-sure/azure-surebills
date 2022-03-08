@@ -9,6 +9,14 @@ use Spatie\Permission\Models\Role;
 
 class StoreUserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show users', ['only' => ['index', 'show']]);
+        $this->middleware('permission:create user', ['only' => ['create', 'store']]);
+        $this->middleware('permission:update user', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete user', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +24,7 @@ class StoreUserController extends Controller
      */
     public function index()
     {
-        $roles = Role::whereNull('user_id')->orWhereIn('user_id', auth()->user()->storeUsers(true))->get();
+        $roles = Role::whereIn('user_id', auth()->user()->storeUsers(true))->get();
         $users = User::whereIn('store_main_user_id', auth()->user()->storeUsers(true))->orderBy('created_at', 'DESC')->paginate(10);
         return view('store_users.index', compact('users', 'roles'));
     }
@@ -44,6 +52,7 @@ class StoreUserController extends Controller
             'password' => bcrypt($request->password),
             'email' => $request->email,
             'mobile' => $request->mobile,
+            'gender' => $request->gender,
             'store_main_user_id' => auth()->user()->store_main_user_id ?? auth()->user()->id,
         ]);
 
@@ -70,7 +79,7 @@ class StoreUserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::whereNull('user_id')->orWhereIn('user_id', auth()->user()->storeUsers(true))->get();
+        $roles = Role::whereIn('user_id', auth()->user()->storeUsers(true))->get();
         return view('store_users.edit', compact('user', 'roles'));
     }
 
@@ -90,6 +99,7 @@ class StoreUserController extends Controller
         }
 
         $user->save();
+        $user->roles()->detach();
         $user->assignRole($request->role);
         return redirect()->route('users.index');
     }

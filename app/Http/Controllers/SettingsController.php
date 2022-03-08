@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:update settings', ['only' => ['settings', 'postSettings']]);
+    }
+
     /**
      * Show the application dashboard.
      *

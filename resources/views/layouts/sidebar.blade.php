@@ -92,24 +92,32 @@
         @endif
         @endcan
 
+        @can('manage integration settings')
         <li class="{{ Request::is('integration*') ? 'active' : '' }}">
           <a href="{{ route('integration') }}" title="{{ __('Integration') }}">
             <i class="iconsminds-gears"></i>
             {{ __('Integration') }}
           </a>
         </li>
+        @endcan
+
+        @can('show products')
         <li>
           <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
             <i class="iconsminds-project"></i>
             <span class="d-inline-block">{{ __('Products') }}</span>
           </a>
         </li>
+        @endcan
+
+        @can('show product categories')
         <li>
           <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}">
             <i class="iconsminds-clothing-store"></i>
             <span class="d-inline-block">{{ __('Product Sections') }}</span>
           </a>
         </li>
+        @endcan
       </ul>
     </div>
   </div>

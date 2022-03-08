@@ -11,11 +11,10 @@ class ChannelController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:show channels', ['only' => ['index','show']]);
-        $this->middleware('permission:create channel', ['only' => ['create','store']]);
-        $this->middleware('permission:update channel', ['only' => ['edit','update']]);
-        $this->middleware('permission:delete channel', ['only' => ['destroy']]);
+        $this->middleware('permission:show channels');
+        $this->middleware('permission:manage integration settings', ['only' => ['show']]);
     }
+
     /**
      * Display a listing of the resource.
      *

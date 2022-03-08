@@ -205,13 +205,14 @@ class User extends Authenticatable implements HasMedia
      */
     public function getIsCompleteProfileAttribute()
     {
-        return (isset($this->business_name_en) && !empty($this->business_name_en) &&
+        return ((isset($this->business_name_en) && !empty($this->business_name_en) &&
             isset($this->business_address) && !empty($this->business_address) &&
             isset($this->business_address) && !empty($this->business_address) &&
 
             isset($this->bank_id) && !empty($this->bank_id) &&
             isset($this->iban_number) && !empty($this->iban_number) &&
-            isset($this->beneficiary_name) && !empty($this->beneficiary_name));
+            isset($this->beneficiary_name) && !empty($this->beneficiary_name)) ||
+            $this->mainStoreUser);
     }
 
     /**
@@ -290,7 +291,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function applications()
     {
-        return $this->hasMany(Application::class);
+        return $this->hasMany(Application::class)->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     /**

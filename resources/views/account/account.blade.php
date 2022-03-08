@@ -44,6 +44,8 @@
             </div>
           </a>
         </div>
+
+        @can('update business commercial info')
         <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
           <a href="{{ route('business_information') }}" title="{{ __('Business Information') }}" class="card mb-4">
             <div class="card-body text-center">
@@ -52,6 +54,9 @@
             </div>
           </a>
         </div>
+        @endcan
+
+        @can('update bank info')
         <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
           <a href="{{ route('bank_information') }}" title="{{ __('Bank Information') }}" class="card mb-4">
             <div class="card-body text-center">
@@ -60,6 +65,8 @@
             </div>
           </a>
         </div>
+        @endcan
+
         <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
           <a href="{{ route('change_password') }}" title="{{ __('Change Password') }}" class="card mb-4">
             <div class="card-body text-center">
@@ -68,6 +75,8 @@
             </div>
           </a>
         </div>
+
+        @can('update settings')
         <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
           <a href="{{ route('settings') }}" title="{{__('Settings')}}" class="card mb-4">
             <div class="card-body text-center">
@@ -76,6 +85,9 @@
             </div>
           </a>
         </div><!-- col-12 -->
+        @endcan
+
+        @can('show products')
         <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
           <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="card mb-4">
             <div class="card-body text-center">
@@ -84,6 +96,9 @@
             </div>
           </a>
         </div><!-- col-12 -->
+        @endcan
+
+        @can('show users')
         <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
             <a href="{{ route('users.index') }}" title="{{ __('Users') }}" class="card mb-4">
               <div class="card-body text-center">
@@ -92,6 +107,7 @@
               </div>
             </a>
           </div><!-- col-12 -->
+          @endcan
       </div>
     </div>
 

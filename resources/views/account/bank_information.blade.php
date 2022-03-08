@@ -18,7 +18,7 @@
     <div class="card mb-4">
       <div class="card-body">
         <form id="form" method="POST" action="{{ route('bank.information') }}">
-          @csrf 
+          @csrf
           <div class="form-row">
             <div class="form-group col-12">
               <label for="inputEmail5">{{__('Bank')}} <span class="requirement">*</span></label>
@@ -48,16 +48,16 @@
           <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
           <p class="">{{ __('Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility') }}</p>
 
-          
-          @if(auth()->user()->disable_bank_documents)
+
+          @if($user->disable_bank_documents)
             <div class="dropzone">
-              @foreach(auth()->user()->bank_documents as $file)
+              @foreach($user->bank_documents as $file)
                 @include('components.file', ['file' => $file])
               @endforeach
             </div>
           @else
             @include('components.dropzone',[
-              'documents' => auth()->user()->bank_documents->toArray()
+              'documents' => $user->bank_documents->toArray()
             ])
           @endif
 

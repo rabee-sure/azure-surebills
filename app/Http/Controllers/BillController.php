@@ -28,6 +28,10 @@ class BillController extends Controller
     {
         $this->middleware('permission:show bills', ['only' => ['index','show']]);
         $this->middleware('permission:create bills', ['only' => ['create','store']]);
+
+        $this->middleware('permission:change bill status', ['only' => ['changeStatus']]);
+        $this->middleware('permission:refund bill', ['only' => ['refund']]);
+
         $this->masterCardService = new MasterCardService();
     }
 
@@ -196,6 +200,7 @@ class BillController extends Controller
         //     'balance' => auth()->user()->balance,
         //     'if' => $bill->is_able_total_refund,
         // ]);
+        // dd($bill)
         return view('bills.show', ['bill' => $bill]);
     }
 

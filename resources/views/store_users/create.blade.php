@@ -39,8 +39,16 @@
                             <input name="confirm_password" type="password" class="form-control" id="Confirm_Password" placeholder="{{__('Confirm Password')}}">
                         </div>
                         <div class="form-group">
+                            <label>{{ __('Gander')}}</label>
+                            <select name="gender" id="gender" class="form-control">
+                                <option value="0">{{ __('Choose Gender')}}</option>
+                                <option value="1">{{ __('Male')}}</option>
+                                <option value="2">{{ __('female')}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>{{__('Role')}}</label>
-                            <select value="" name="role" class="form-control is-valid" aria-describedby="role-error" aria-invalid="false">
+                            <select name="role" class="form-control is-valid" aria-describedby="role-error" aria-invalid="false">
                                 @foreach($roles as $role)
                                     <option value="{{$role->name}}">{{$role->name}}</option>
                                 @endforeach

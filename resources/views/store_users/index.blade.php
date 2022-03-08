@@ -55,6 +55,7 @@
                     <th scope="col">{{__('Name')}}</th>
                     <th scope="col">{{__('Mobile')}}</th>
                     <th scope="col">{{__('Email')}}</th>
+                    <th scope="col">{{__('Gender')}}</th>
                     <th scope="col">{{__('Role')}}</th>
                     <th scope="col">{{__('Actions')}}</th>
                 </tr>
@@ -67,6 +68,7 @@
                     <td>{{$user->name}}</td>
                     <td>{{$user->mobile}}</td>
                     <td>{{$user->email}}</td>
+                    <td>{{$user->gender == 1 ? __('Male') : __('female')}}</td>
                     <td>{{$user->getRoleNames()->first()}}</td>
                     <td>
                         <a href="{{ route('users.edit', $user->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>

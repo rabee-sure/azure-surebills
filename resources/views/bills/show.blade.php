@@ -8,7 +8,7 @@
     // dd(app()->getLocale());
 @endphp
 
-@section('content') 
+@section('content')
 <div class="row">
   <div class="col-12">
     <h1>{{ __('Bill') }}</h1>
@@ -65,8 +65,9 @@
               <img src="{{ asset('images/cancel.svg') }}" alt="{{ __('Cancel Bill') }}" style="height: 25px;">
             </span>
           </button>
-        @endif 
-        
+        @endif
+
+        @can('refund bill')
         @if($bill->is_able_refund)
           <button id="refund_btn" type="button" class="btn btn-warning mr-2 mb-2 d-inline-block rounded-sm" data-toggle="tooltip" data-placement="top" title="{{ __('Refund') }}">
             <span class="d-block" data-from="top" data-align="right">
@@ -74,7 +75,9 @@
             </span>
           </button>
         @endif
+        @endcan
 
+        @can('change bill status')
         @if($bill->is_able_change_status)
           <button type="button" class="btn btn-success mr-2 mb-2 d-inline-block rounded-sm" data-toggle="tooltip" data-placement="top" title="{{ __('Change Status') }}" >
             <span class="d-block" data-from="top" data-align="right" data-toggle="modal" data-target="#changeStatusModal">
@@ -82,6 +85,7 @@
             </span>
             </button>
         @endif
+        @endcan
 
       </div>
     </div>
@@ -109,7 +113,7 @@
       </div><!-- status -->
     @elseif($bill->status == 'paid')
       <div id="status">
-        <div class="alert alert-success"> 
+        <div class="alert alert-success">
           @if ($bill->depositTransaction)
             {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
           @else
@@ -128,11 +132,11 @@
     @elseif($bill->status == 'canceled')
       <div id="status">
         <div class="alert alert-danger"> {{ __('this bill has been canceled', ['number' => $bill->number ]) }}</div>
-      </div><!-- status -->         
+      </div><!-- status -->
     @elseif($bill->status == 'failed')
       <div id="status">
         <div class="alert alert-danger"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
-      </div><!-- status -->     
+      </div><!-- status -->
     @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
       <div id="status">
         <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
@@ -164,7 +168,7 @@
         <span>{{ $bill->created_at->format('d/m/Y')}}</span>
       </div><!-- d-flex -->
       @endif
-      
+
     </div><!-- bill_info -->
     <div class="table_items">
       <table>
@@ -248,7 +252,7 @@
       </div><!-- d-flex -->
     </div><!-- bill_info -->
     @if($bill->customer_notes)
-      <div class="customer_notes">{{$bill->customer_notes}}</div> 
+      <div class="customer_notes">{{$bill->customer_notes}}</div>
     @endif
     @if($bill->user->settings->add_tax_invoice)
       <div class="qrCode_area">
@@ -269,7 +273,7 @@
 @include('bills.partials.refund',['bill' => $bill])
 @include('bills.partials.change_status',['bill' => $bill])
 
-@endsection 
+@endsection
 
 @push('footer-scripts')
 
@@ -373,7 +377,7 @@
         if(otherDate > billPaidAt){
           $("#errors").append('<div id="limitdays" class="alert alert-danger" role="alert">{{  __('It must not pass more than 14 days on the date of payment of the Bill') }}</div>');
 
-          setTimeout(function() { 
+          setTimeout(function() {
                 $("#limitdays").remove();
           }, 4000);
         }else{

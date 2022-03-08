@@ -66,7 +66,7 @@
           <div class="modal-body">
 
             <!-- Create Application Form -->
-            <form role="form">     
+            <form role="form">
               <!-- Email -->
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Client Email')}}<span class="requirement">*</span></label>
@@ -75,9 +75,9 @@
 
                     <div class="invalid-feedback" v-if="haveError('email')">
                         {{errorMessage('email')}}
-                    </div> 
+                    </div>
                 </div>
-              </div>   
+              </div>
 
               <!-- Redirect URL -->
               <div class="form-group row">
@@ -88,9 +88,9 @@
 
                     <div class="invalid-feedback" v-if="haveError('redirect')">
                         {{errorMessage('redirect')}}
-                    </div> 
+                    </div>
                 </div>
-              </div>              
+              </div>
               <!-- Redirect URL -->
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Webhook URL')}}<span class="requirement">*</span></label>
@@ -99,9 +99,9 @@
 
                     <div class="invalid-feedback" v-if="haveError('webhook_url')">
                         {{errorMessage('webhook_url')}}
-                    </div> 
+                    </div>
                 </div>
-              </div>                         
+              </div>
 
               <!-- Mada Fixed -->
               <div class="form-group row">
@@ -111,9 +111,9 @@
 
                     <div class="invalid-feedback" v-if="haveError('mada_fixed')">
                         {{errorMessage('mada_fixed')}}
-                    </div> 
+                    </div>
                 </div>
-              </div>              
+              </div>
 
               <!-- Mada Percentage -->
               <div class="form-group row">
@@ -123,9 +123,9 @@
 
                     <div class="invalid-feedback" v-if="haveError('mada_percentage')">
                         {{errorMessage('mada_percentage')}}
-                    </div> 
+                    </div>
                 </div>
-              </div>              
+              </div>
 
               <!-- Credit Cards Fixed -->
               <div class="form-group row">
@@ -135,9 +135,9 @@
 
                     <div class="invalid-feedback" v-if="haveError('credit_cards_fixed')">
                         {{errorMessage('credit_cards_fixed')}}
-                    </div> 
+                    </div>
                 </div>
-              </div>              
+              </div>
 
               <!-- Credit Cards Percentage -->
               <div class="form-group row">
@@ -147,9 +147,9 @@
 
                     <div class="invalid-feedback" v-if="haveError('credit_cards_percentage')">
                         {{errorMessage('credit_cards_percentage')}}
-                    </div> 
+                    </div>
                 </div>
-              </div>              
+              </div>
 
             </form>
           </div>
@@ -183,9 +183,9 @@
 
                     <div class="invalid-feedback" v-if="haveError('email', 2)">
                         {{errorMessage('email', 2)}}
-                    </div>  
+                    </div>
                 </div>
-              </div>  
+              </div>
 
               <!-- Redirect URL -->
               <div class="form-group row">
@@ -193,72 +193,72 @@
                 <div class="col-md-8">
                   <input :class="{'is-invalid': haveError('redirect', 2) }"  type="text" class="form-control" name="redirect" @keyup.enter="update" v-model="editForm.redirect">
                   <span class="form-text text-muted">{{ __('Your application\'s authorization callback URL.')}}</span>
-    
+
                     <div class="invalid-feedback" v-if="haveError('redirect', 2)">
                         {{errorMessage('redirect', 2)}}
-                    </div>  
+                    </div>
                 </div>
-              </div>    
+              </div>
 
               <!-- Webhook URL -->
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Webhook URL')}}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input :class="{'is-invalid': haveError('webhook_url', 2) }"  type="text" class="form-control" name="webhook_url" @keyup.enter="update" v-model="editForm.webhook_url">
-    
+
                     <div class="invalid-feedback" v-if="haveError('form', 2)">
                         {{errorMessage('form', 2)}}
-                    </div>  
+                    </div>
                 </div>
-              </div>              
+              </div>
 
               <!-- Mada Fixed -->
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Mada Fixed') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input :class="{'is-invalid': haveError('mada_fixed', 2) }" type="number" class="form-control" name="mada_fixed" @keyup.enter="update" v-model="editForm.mada_fixed" step="0.01">
-    
+
                     <div class="invalid-feedback" v-if="haveError('mada_fixed', 2)">
                         {{errorMessage('mada_fixed', 2)}}
-                    </div>  
+                    </div>
                 </div>
-              </div>              
+              </div>
 
               <!-- Mada Percentage -->
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Mada Percentage') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input :class="{'is-invalid': haveError('mada_percentage', 2) }" type="number" class="form-control" name="mada_percentage" @keyup.enter="update" v-model="editForm.mada_percentage" step="0.01">
-    
+
                     <div class="invalid-feedback" v-if="haveError('mada_percentage', 2)">
                         {{errorMessage('mada_percentage', 2)}}
-                    </div>  
+                    </div>
                 </div>
-              </div>              
+              </div>
 
               <!-- Credit Cards Fixed -->
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Credit Cards Fixed') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input :class="{'is-invalid': haveError('credit_cards_fixed', 2) }" type="number" class="form-control" name="credit_cards_fixed" @keyup.enter="update" v-model="editForm.credit_cards_fixed" step="0.01">
-    
+
                     <div class="invalid-feedback" v-if="haveError('credit_cards_fixed', 2)">
                         {{errorMessage('credit_cards_fixed', 2)}}
-                    </div>  
+                    </div>
                 </div>
-              </div>              
+              </div>
 
               <!-- Credit Cards Percentage -->
               <div class="form-group row">
                 <label class="col-md-4 col-form-label">{{ __('Credit Cards Percentage') }}<span class="requirement">*</span></label>
                 <div class="col-md-8">
                   <input :class="{'is-invalid': haveError('credit_cards_percentage', 2) }"  type="number" class="form-control" name="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage" step="0.01">
-    
+
                     <div class="invalid-feedback" v-if="haveError('credit_cards_percentage', 2)">
                         {{errorMessage('credit_cards_percentage', 2)}}
-                    </div>  
+                    </div>
                 </div>
-              </div>              
+              </div>
             </form>
           </div>
           <!-- Modal Actions -->
@@ -335,7 +335,7 @@
                     mada_fixed: '',
                     mada_percentage: '',
                     credit_cards_fixed: '',
-                    credit_cards_percentage: '', 
+                    credit_cards_percentage: '',
                 }
             };
         },
@@ -481,14 +481,14 @@
                         .then(response => {
                             this.getApplications();
                         })
-            },     
+            },
             haveError(key, type=1) {
                 if(type == 1){
                     return !!this.createForm.errors_obj.find(x => x.key === key)
                 }else{
                     return !!this.editForm.errors_obj.find(x => x.key === key)
                 }
-            },     
+            },
             errorMessage(key, type=1) {
                 if(type == 1){
                     return this.createForm.errors_obj.find(x => x.key === key).value

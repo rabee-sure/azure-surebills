@@ -3,6 +3,8 @@
 return [
     'show bills',
     'create bills',
+    'change bill status',
+    'refund bill',
 
     'show pos',
 
@@ -14,11 +16,31 @@ return [
     'show statement',
 
     'show transfers',
+    'create transfer',
 
     'show channels',
-    'create channel',
-    'update channel',
-    'delete channel',
 
+    'manage integration settings',
+    'create application',
+    'update application',
+    'delete application',
 
+    'show products',
+    'create product',
+    'update product',
+    'delete product',
+
+    'show product categories',
+    'create product category',
+    'update product category',
+    'delete product category',
+
+    'show users',
+    'create user',
+    'update user',
+    'delete user',
+
+    'update business commercial info',
+    'update bank info',
+    'update settings',
 ];

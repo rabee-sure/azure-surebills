@@ -68,6 +68,14 @@
                             <input name="confirm_password" type="password" class="form-control" id="Confirm_Password" placeholder="{{__('Confirm Password')}}">
                         </div>
                         <div class="form-group">
+                            <label>{{ __('Gander')}}</label>
+                            <select name="gender" id="gender" class="form-control">
+                                <option value="0" @if ($user->gender == 0)selected="selected"@endif>{{ __('Choose Gender')}}</option>
+                                <option value="1" @if ($user->gender == 1)selected="selected"@endif>{{ __('Male')}}</option>
+                                <option value="2" @if ($user->gender == 2)selected="selected"@endif>{{ __('female')}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>{{__('Role')}}</label>
                             <select name="role" class="form-control">
                                 @foreach($roles as $role)
