@@ -706,6 +706,8 @@
 	"Merchants" : "التجار",
 	"Emails" : "البريد الالكتروني",
 	"Report type" : "نوع التقرير",
+	"Report Period" : "فترة التقرير",
+	"From :from To :to" : "من :from إلى :to",
 	"Filter Parameters" : "محددات البحث",
 	"Request date" : "تاريخ الطلب",
 	"Download File" : "تحميل ملف التقرير",

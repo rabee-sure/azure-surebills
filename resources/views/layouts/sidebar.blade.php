@@ -90,12 +90,14 @@
           </a>
         </li> -->
 
+        @if(in_array(Auth::user()->email, explode(',', env('NOVA_ALLOWED_ADMINS'))))
         <li class="{{ Request::is('reports*') ? 'active' : '' }}">
           <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}">
             <i class="iconsminds-file-clipboard-file---text"></i> 
             <span class="d-inline-block">{{ __('Reports') }}</span>
           </a>
         </li>
+        @endif
       </ul>
     </div>
   </div>
