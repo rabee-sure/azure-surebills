@@ -51,36 +51,100 @@ class SendReportFile implements ShouldQueue
 
         $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'.xlsx';
 
-        $query = DB::table('users')
-            ->join('transactions', 'users.id', '=', 'transactions.user_id')
-            ->join('settlements', 'users.id', '=', 'settlements.user_id')
-            ->select(DB::raw("users.id AS MID, 
-            users.business_name_en AS Merchant_Name,
-            SUM(CASE WHEN transactions.transaction_source = 'bill' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END) AS Total_amount_in,
-            SUM(CASE WHEN (transactions.transaction_source = 'fees' OR transactions.transaction_source = 'vat') AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) AS Total_fee_with_vat,
-            (SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END) - SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END)) AS Total_refund,
-            SUM(settlements.transfer_fees) AS Total_transfer_fees,
-            SUM(settlements.net_amount) AS Total_net_transfer,
-            (SUM(CASE WHEN transactions.settled = 0 AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END) - SUM(CASE WHEN transactions.settled = 0 AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END)) AS Outstanding_balance"))
-            ->where('users.verified', 1);
+        // $transactionsQuery = DB::table('transactions AS transactions')
+        // ->select(DB::raw("(SELECT user_id, amount AS amount, transaction_source AS transaction_source, type as type, settled as settled)"));
+        // // **************************************
+        // $total_transQuery = DB::table('transactions AS total_trans')
+        // ->select(DB::raw("(SELECT user_id, (SUM(CASE WHEN settled = 0 AND type = 'credit' THEN amount ELSE 0 END) - SUM(CASE WHEN settled = 0 AND type = 'debit' THEN amount ELSE 0 END)) AS balance)"));
+        // if($report_from != ''){
+        //     $transactionsQuery->whereDate('transactions.created_at', '>=', $report_from);
+        // }
+        // if($report_to != ''){
+        //     $transactionsQuery->whereDate('transactions.created_at', '<=', $report_to);
+        // }
+        // $transactionsQuery->groupBy('users.id');
+        // // ********************************************
+        // $to_date_transQuery = DB::table('transactions AS to_date_trans')
+        // ->select(DB::raw("(SELECT user_id, (SUM(CASE WHEN settled = 0 AND type = 'credit' THEN amount ELSE 0 END) - SUM(CASE WHEN settled = 0 AND type = 'debit' THEN amount ELSE 0 END)) AS balance)"));
+        // if($report_to != ''){
+        //     $to_date_transQuery->whereDate('transactions.created_at', '<=', $report_to);
+        // }
+        // $to_date_transQuery->groupBy('users.id');
+        // // ************************************************
+        // $settlementsQuery = DB::table('settlements AS settlements')
+        // ->select(DB::raw("(SELECT user_id, transfer_fees AS transfer_fees, net_amount AS net_amount)"));
+        // if($report_from != ''){
+        //     $settlementsQuery->whereDate('settlements.created_at', '>=', $report_from);
+        // }
+
+        // if($report_to != ''){
+        //     $settlementsQuery->whereDate('settlements.created_at', '<=', $report_to);
+        // }
+
+        // $query = DB::table('users')
+        //     ->leftJoin($transactionsQuery, 'users.id', '=', 'transactions.user_id')
+        //     ->leftJoin($total_transQuery, 'users.id', '=', 'total_trans.user_id')
+        //     ->leftJoin($to_date_transQuery, 'users.id', '=', 'to_date_trans.user_id')
+        //     ->leftJoin($settlementsQuery, 'users.id', '=', 'settlements.user_id')
+        //     ->select(DB::raw("users.id AS MID, 
+        //     users.business_name_en AS Merchant_Name,
+        //     SUM(CASE WHEN transactions.transaction_source = 'bill' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END) AS Total_amount_in, 
+        //     SUM(CASE WHEN (transactions.transaction_source = 'fees' OR transactions.transaction_source = 'vat') AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) AS Total_fee_with_vat, 
+        //     (SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) - SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END)) AS Total_refund,
+        //     SUM(settlements.transfer_fees) AS Total_transfer_fees, 
+        //     SUM(settlements.net_amount) AS Total_net_transfer,
+        //     total_trans.balance AS Outstanding_balance,
+        //     to_date_trans.balance AS Range_balance"))
+        //     ->where('users.verified', 1);
+
+        // if(!empty($report_merchants)){
+        //     $query->whereIn('transactions.user_id', $report_merchants);
+        // }
+            
+        // $query->groupBy('users.id');
+            
+        // $data = $query->get();
+
+        $whereDateBetween = "";
+        $whereDateTo = "";
+
+        if($report_from != '' && $report_to != ''){
+            $whereDateBetween = "WHERE created_at BETWEEN '".$report_from."' AND '".$report_to."'";
+            $whereDateTo = "WHERE created_at <= '".$report_to."'";
+        }
+
+        $whereInMerchants = "";
 
         if(!empty($report_merchants)){
-            $query->whereIn('transactions.user_id', $report_merchants);
+            $whereInMerchants = "AND users.id IN (".implode(',', $report_merchants).")";
         }
 
-        if($report_from != ''){
-            $query->whereDate('transactions.created_at', '>=', $report_from);
-        }
+        $results = DB::select("select 
+            users.id AS MID, 
+            users.business_name_en AS Merchant_Name,
+            SUM(CASE WHEN transactions.transaction_source = 'bill' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END) AS Total_amount_in, 
+            SUM(CASE WHEN (transactions.transaction_source = 'fees' OR transactions.transaction_source = 'vat') AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) AS Total_fee_with_vat, 
+            (SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) - SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END)) AS Total_refund,
+            SUM(settlements.transfer_fees) AS Total_transfer_fees, 
+            SUM(settlements.net_amount) AS Total_net_transfer,
+            total_trans.balance AS Outstanding_balance,
+            to_date_trans.balance AS Range_balance
+        
+        FROM `users` 
+        
+        LEFT JOIN (SELECT user_id, amount AS amount, transaction_source AS transaction_source, type as type, settled as settled FROM `transactions` ".$whereDateBetween.") AS transactions on `users`.`id` = transactions.user_id 
+        
+        LEFT JOIN (SELECT user_id, (SUM(CASE WHEN settled = 0 AND type = 'credit' THEN amount ELSE 0 END) - SUM(CASE WHEN settled = 0 AND type = 'debit' THEN amount ELSE 0 END)) AS balance FROM `transactions` GROUP BY user_id) AS total_trans on `users`.`id` = total_trans.user_id 
+        
+        LEFT JOIN (SELECT user_id, (SUM(CASE WHEN settled = 0 AND type = 'credit' THEN amount ELSE 0 END) - SUM(CASE WHEN settled = 0 AND type = 'debit' THEN amount ELSE 0 END)) AS balance FROM `transactions` ".$whereDateTo." GROUP BY user_id) AS to_date_trans on `users`.`id` = to_date_trans.user_id
+        
+        LEFT JOIN (SELECT user_id, transfer_fees AS transfer_fees, net_amount AS net_amount FROM `settlements` ".$whereDateBetween.") AS settlements on `users`.`id` = `settlements`.`user_id`
+        
+        WHERE `users`.`verified` = 1
+        ".$whereInMerchants."
+        GROUP BY  `users`.`id`");
 
-        if($report_to != ''){
-            $query->whereDate('transactions.created_at', '<', $report_to);
-        }
-            
-        $query->groupBy('users.id');
-            
-        $data = $query->get();
-
-        if(Excel::store(new ReportExport($data), $file_name , 'public')){
+        if(Excel::store(new ReportExport($results), $file_name , 'public')){
             
             $report->addMedia(storage_path('app/public/'.$file_name))
                 ->preservingOriginal()

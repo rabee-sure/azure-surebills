@@ -9,6 +9,7 @@
       <th>Total_transfer_fees</th>
       <th>Total_net_transfer</th>
       <th>Outstanding_balance</th>
+      <th>Range_balance</th>
     </tr>
   </thead>
   <tbody>
@@ -22,6 +23,7 @@
         <td>{{ $raw->Total_transfer_fees }}</td>
         <td>{{ $raw->Total_net_transfer }}</td>
         <td>{{ $raw->Outstanding_balance }}</td>
+        <td>{{ $raw->Range_balance }}</td>
       </tr>
     @endforeach
   </tbody>
