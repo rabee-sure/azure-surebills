@@ -69,7 +69,7 @@
                 </div>
                 <div class="col-12 col-md-4">
                   <div class="form-group">
-                    <label for="Mobile" class="d-block w-100">{{ __('Date range') }}</label>
+                    <label for="Mobile" class="d-block w-100">{{ __('select date range') }}</label>
                     <div class="input-group">
                       <span class="input-group-text input-group-append input-group-addon"><i class="simple-icon-calendar"></i></span>
                       <input class="form-control" id="daterange" name="dates" placeholder="Filter by day" readonly="readonly">
@@ -104,7 +104,7 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">{{__('Report type')}}</th>
-                  <th scope="col">{{__('Filter Parameters')}}</th>
+                  <th scope="col">{{__('Report Period')}}</th>
                   <th scope="col">{{__('Emails')}}</th>
                   <th scope="col">{{__('Status')}}</th>
                   <th scope="col">{{__('Request date')}}</th>
@@ -116,16 +116,20 @@
                   <tr>
                     <th scope="row">{{$request->id}}</th>
                     <td>{{$request->name}}</td>
-                    <td>{{$request->params}}</td>
+                    @php
+                    $paramArr = json_decode($request->params ,true);
+                    @endphp
+                    <td>{{__('From :from To :to', ['from' => $paramArr["from"], 'to' => $paramArr["to"]])}}</td>
                     <td>{{$request->emails}}</td>
                     <td>@if($request->active == 0) {{__('Report Pending')}} @else {{__('Report Done')}} @endif</td>
                     <td>{{$request->created_at}}</td>
                     <td>
-                      <a href="#" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Download File') }}">{{ __('Download File') }}</a>
+                      @if(file_exists(storage_path('app/public/reports/'.$request->name.'/'.$request->name.'_'.$request->id.'.xlsx')))
+                      <a download href="{{Storage::url('reports/'.$request->name.'/'.$request->name.'_'.$request->id.'.xlsx')}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Download File') }}">{{ __('Download File') }}</a>
+                      @endif
                     </td>
                   </tr>
                 @endforeach
-
               </tbody>
             </table>
             @else
@@ -134,7 +138,7 @@
                 <span>{{ __('No Requests in this report type') }}</span>
               </div><!-- no_customers_yet -->
             @endif
-            <!-- produvts pagination links -->
+            {{ $requests->links() }}
           </div>
         </div>
       </div>
