@@ -39,14 +39,14 @@ class StoreUserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = auth()->user()->replicate();
-        $user->name = $request->name;
-        $user->password = bcrypt($request->password);
-        $user->email = $request->email;
-        $user->mobile = $request->mobile;
-        $user->store_main_user_id = auth()->user()->id;
-        $user->created_at = now();
-        $user->save();
+        $user = User::create([
+            'name' => $request->name,
+            'password' => bcrypt($request->password),
+            'email' => $request->email,
+            'mobile' => $request->mobile,
+            'store_main_user_id' => auth()->user()->store_main_user_id ?? auth()->user()->id,
+        ]);
+
         $user->assignRole($request->role);
         return redirect()->route('users.index');
     }
@@ -86,7 +86,7 @@ class StoreUserController extends Controller
         $user->fill($request->all());
         if($request->filled('password'))
         {
-            $user->password = bcrypt('password');
+            $user->password = bcrypt($request->password);
         }
 
         $user->save();
