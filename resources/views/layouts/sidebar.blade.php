@@ -5,7 +5,7 @@
     $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
   @endphp
 
-  <aside class="bg-white position-fixed end-0">
+  <aside class="bg-white position-fixed end-0 d-print-none">
     <a href="/" title="{{ __('Dashboard') }}"  class="d-flex align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('home') ? 'active' : '' }}">
       <i class="d-flex align-items-center justify-content-center fal fa-tachometer-alt-fast"></i>
       <span class="text-center">{{ __('Dashboard') }}</span>

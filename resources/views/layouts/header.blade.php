@@ -1,4 +1,4 @@
-<header class="bg-white position-sticky top-0">
+<header class="bg-white position-sticky top-0 d-print-none">
   <div class="container-fluid h-100 d-flex align-items-center justify-content-between">
     <div class="headerRight d-flex align-items-center justify-content-start">
       <div class="sidebarButton d-none d-md-flex align-items-center justify-content-center flex-column">

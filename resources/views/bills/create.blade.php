@@ -9,7 +9,7 @@
 
 @section('content')
 
-  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm border-bottom">
+  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
     <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
     <i>/</i>
     <a href="/bills" title="{{ __('Bills') }}">{{ __('Bills') }}</a>
@@ -32,7 +32,7 @@
       </div><!-- alert -->
     @endif
 
-    <div class="block bg-white border shadow-sm rounded-3">
+    <div class="block bg-white shadow-sm rounded-3">
       <form method="POST" action="{{ route('bills.store') }}" class="repeater" id="bill_create">
         @csrf
         <div class="row">
@@ -47,7 +47,7 @@
               <label for="customer_mobile" class="d-block mb-1">{{ __('Mobile Number') }} <span class="requirement text-danger">*</span></label>
               <div class="phoneInput overflow-hidden position-relative">
                 <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
-                <input value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body @error('customer_mobile') is-invalid @enderror" id="customer_mobile" inputmode="numeric" placeholder="5XXXXXXXX" maxlength="9">
+                <input value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="5XXXXXXXX"  pattern="[0-9]*" maxlength="9" inputmod="numaric">
               </div><!-- phoneInput -->
               @error('customer_mobile')
                 <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -309,7 +309,7 @@
           </div><!-- col-12 -->
         </div><!-- row -->
         <div class="sendBtn d-flex justify-content-start mt-5">
-          <button id="create-bill" type="submit" class="formBtn rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold text-white"> {{__('Send')}}</button>
+          <button id="create-bill" type="submit" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold"> {{__('Send')}}</button>
         </div><!-- sendBtn  -->
       </form>
     </div><!-- block -->

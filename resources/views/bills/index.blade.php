@@ -8,7 +8,7 @@
 
 @section('content')
 
-  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm border-bottom">
+  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
     <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
     <i>/</i>
     <span>{{ __('Bills')}}</span>
@@ -17,7 +17,7 @@
   <section id="billIndexPage">
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0">{{ __('Bills') }}</h1>
-      <a href="{{ route('bills.create')}}" title="{{ __('Create a bill')}}" class="d-flex align-items-center justify-content-center fw-bold text-white rounded-pill">{{ __('Create a bill')}}</a>
+      <a href="{{ route('bills.create')}}" title="{{ __('Create a bill')}}" class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill">{{ __('Create a bill')}}</a>
     </div><!-- title -->
 
     <div class="filterArea mb-3 d-flex align-items-end justify-content-between flex-wrap">
@@ -58,7 +58,7 @@
     </div><!-- filterArea -->
 
     @if($bills->count())
-      <div class="billsArea bg-white border shadow-sm rounded-3 overflow-hidden mb-3">
+      <div class="billsArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
         <div class="table-responsive">
           <table class="table table-striped table-hover text-nowrap">
             <thead>
@@ -79,8 +79,8 @@
         {{ $bills->appends($_GET)->links() }}
       </div><!-- billsArea -->
     @else
-      <div class="no_bills_yet border d-flex align-items-center justify-content-center flex-column bg-white shadow-sm rounded-3 p-3">
-        <svg xmlns="http://www.w3.org/2000/svg" height="512" viewBox="0 0 480 480" width="512" xmlns:v="https://vecta.io/nano"><path d="M215 164c0 57.897 47.103 105 105 105s105-47.103 105-105S377.897 59 320 59s-105 47.103-105 105zm194 0c0 49.075-39.925 89-89 89s-89-39.925-89-89 39.925-89 89-89 89 39.925 89 89zm-89-54a8 8 0 0 1 8 8v3.376c9.31 3.303 16 12.195 16 22.624a8 8 0 1 1-16 0 8.01 8.01 0 0 0-8-8 8.01 8.01 0 0 0-8 8v3.237c0 3.518 2.256 6.586 5.614 7.636l9.544 2.982C337.232 161.004 344 170.2 344 180.763V184c0 11.52-8.16 21.166-19 23.473V210a8 8 0 1 1-16 0v-4.68c-7.714-3.996-13-12.05-13-21.32a8 8 0 1 1 16 0 8.01 8.01 0 0 0 8 8 8.01 8.01 0 0 0 8-8v-3.237c0-3.518-2.256-6.586-5.614-7.636l-9.544-2.982C302.768 166.996 296 157.8 296 147.237V144c0-10.43 6.69-19.32 16-22.624V118a8 8 0 0 1 8-8zm130 212v102c0 30.88-25.122 56-56 56H86c-30.878 0-56-25.12-56-56V32C30 14.355 44.355 0 62 0h260c17.645 0 32 14.355 32 32a8 8 0 1 1-16 0c0-8.822-7.178-16-16-16H62c-8.822 0-16 7.178-16 16v392c0 22.056 17.944 40 40 40h268.862C344.467 453.828 338 439.658 338 424V299a8 8 0 1 1 16 0v125c0 22.056 17.944 40 40 40s40-17.944 40-40V322c0-8.822-7.178-16-16-16h-34a8 8 0 1 1 0-16h34c17.645 0 32 14.355 32 32zM100 215a8 8 0 0 1 8-8h68a8 8 0 1 1 0 16h-68a8 8 0 0 1-8-8zm0-90a8 8 0 0 1 8-8h68a8 8 0 1 1 0 16h-68a8 8 0 0 1-8-8zm184 180a8 8 0 0 1-8 8H108a8 8 0 1 1 0-16h168a8 8 0 0 1 8 8zm0 84a8 8 0 0 1-8 8H108a8 8 0 1 1 0-16h168a8 8 0 0 1 8 8z" fill="#999"/></svg>
+      <div class="no_bills_yet d-flex align-items-center justify-content-center flex-column bg-white shadow-sm rounded-3 p-3">
+        <i class="fal fa-file-invoice-dollar"></i>
         <span class="d-block text-center mt-3 text-capitalize">{{ __('No Bill Matched The Given Criteria.') }}</span>
       </div><!-- no_bills_yet -->
     @endif

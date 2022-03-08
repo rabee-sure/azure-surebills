@@ -7,11 +7,6 @@
     a {
       min-width: 130px;
       height: 40px;
-      background-color: var(--mainColor);
-      font-size: 13px;
-      &:hover {
-        background-color: var(--mainColorHover);
-      } /* hover */
     } /* a */
   } /* title */
   .filterArea {
@@ -153,37 +148,23 @@
           height: 30px;
           font-size: 12px;
           padding: 0 10px;
-          color: #ffffff;
-          &.badge-info {
-            background-color: #3195a5;
-          } /* badge-info */
-          &.badge-success {
-            background-color: #198754;
-          } /* badge-success */
-          &.badge-danger {
-            background-color: #dc3545;
-          } /* badge-danger */
-          &.badge-light {
-            background-color: #6c757d;
-          } /* badge-light */
-          &.badge-warning {
-            background-color: #b69329;
-          } /* badge-warning */
         } /* badge */
       } /* td */
     } /* table */
   } /* billsArea */
   .no_bills_yet {
     min-height: 400px;
+    color: #999;
     @include media-breakpoint-down(md) {
       min-height: 200px;
     } /* md */
-    svg {
-      width: 100px;
-      height: 100px;
-    } /* svg */
+    i {
+      font-size: 100px;
+      @include media-breakpoint-down(md) {
+        font-size: 70px;
+      } /* md */
+    } /* i */
     span {
-      color: #999;
       font-size: 18px;
       @include media-breakpoint-down(md) {
         font-size: 15px;
@@ -459,13 +440,9 @@
     .sendBtn {
       button {
         height: 40px;
-        background-color: var(--mainColor);
-        min-width: 150px;
+        min-width: 120px;
         font-size: 14px;
         transition: all 0.2s ease-in-out;
-        &:hover {
-          background-color: var(--mainColorHover);
-        } /* hover */
         &[disabled="disabled"] {
           opacity: 0.6;
           cursor: not-allowed;
@@ -490,4 +467,124 @@
       font-size: 25px;
     } /* button */
   } /* buttonsArea */
+  .showBill {
+    @media print {
+      padding: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+    } /* print */
+    .borderTop {
+      border-top: 1px dashed #dee2e6;
+    } /* borderTop */
+    .aboutUser {
+      figure {
+        img {
+          max-height: 50px;
+        } /* img */
+      } /* figure */
+      .taxInvoiceText {
+        font-size: 14px;
+      } /* taxInvoiceText */
+    } /* aboutUser */
+    .tableItems {
+      th, td {
+        font-size: 13px;
+      } /* th */
+    } /* tableItems */
+    .qrCode {
+      img {
+        max-height: 100px;
+      } /* img */
+      span {
+        margin-top: -5px;
+        font-size: 14px;
+      } /* span */
+    } /* qrCode */
+  } /* showBill */
+  .paymentsLog {
+    .titleBlock {
+      font-size: 18px;
+    } /* title */
+    table {
+      td {
+        color: #3a3a3a;
+        font-size: 14px;
+        vertical-align: middle;
+        a {
+          color: #000000;
+          &:hover {
+            color: var(--mainColor);
+          } /* hover */
+        } /* a */
+        .badge {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 30px;
+          font-size: 12px;
+          padding: 0 10px;
+          min-width: 90px;
+        } /* badge */
+      } /* td */
+    } /* table */
+  } /* paymentsLog */
 } /* billShowPage */
+
+.billCancelModal {
+  form {
+    button {
+      padding: 0 15px;
+      height: 40px;
+    } /* button */
+  } /* form */
+} /* billCancelModal */
+
+.statusBillModal {
+  .bill_change_status {
+    label {
+      input {
+        opacity: 0;
+        cursor: pointer;
+        z-index: 99;
+        &:checked ~ {
+          span {
+            &::before {
+              border-color: var(--mainColor);
+              box-shadow: 0 0  0 5px var(--mainColor) inset, 0 2px 4px 0 rgba(var(--mainColorRGB),.4);
+            } /* before */
+          } /* span */
+        } /* checked */
+      } /* input */
+      span {
+        &::before {
+          content: "";
+          border: 1px solid #dee2e6;
+          background-color: #fff;
+          width: 20px;
+          height: 20px;
+          margin: 0 0 0 7px;
+          border-radius: 100%;
+          transition: all 0.2s ease-in-out;
+          [dir="ltr"] & {
+            margin: 0 7px 0 0;
+          } /* ltr */
+        } /* before */
+      } /* span */
+    } /* label */
+  } /* bill_change_status */
+  .modal-footer {
+    button {
+      height: 40px;
+      min-width: 100px;
+      margin: 0 0.5rem 0 0;
+      [dir="ltr"] & {
+        margin: 0 0 0 0.5rem;
+      } /* ltr */
+      &:first-child {
+        margin: 0;
+      } /* first-child */
+    } /* button */
+  } /* modal-footer */
+} /* statusBillModal */

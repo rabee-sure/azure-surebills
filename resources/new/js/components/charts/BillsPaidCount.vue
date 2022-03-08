@@ -1,5 +1,5 @@
 <template>
-  <div class="chart_Block bg-white border shadow-sm mb-3 rounded-3">
+  <div class="chart_Block bg-white shadow-sm mb-3 rounded-3">
     <div class="title d-flex align-items-center justify-content-center justify-content-md-between flex-column flex-md-row flex-wrap mb-3">
       <span class="d-block fw-bold mb-2 mb-md-0 text-capitalize">{{ __('The number of bills paid') }}</span>
       <ul class="nav nav-tabs border-0 p-0 d-flex align-items-center justify-content-end" role="tablist">

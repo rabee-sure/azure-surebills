@@ -4,113 +4,123 @@
 
 @section('content')
 
-  <div class="row">
-    <div class="col-12">
-      <div class="mb-3">
-        <h1>{{ __('Customers')}}</h1>
-        <div class="top-right-button-container">
-      </div>
-      <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-        <ol class="breadcrumb pt-0">
-          <li class="breadcrumb-item">
-            <a href="{{ url('/') }}">{{ __('Home')}}</a>
-          </li>          
-          <li class="breadcrumb-item">
-            <a href="{{ url('/customers') }}">{{ __('Customers')}}</a>
-          </li>
-          <li class="breadcrumb-item active" aria-current="page">{{ __('Edit')}}</li>
-        </ol>
-      </nav>
-      </div>
-    </div>
-    <div class="separator mb-5"></div>
-  </div>
-  <div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            <form method="post" action="{{ route('customers.update', $customer->id) }}" id="customers_store">
-                <div class="modal-body">
-                        @method('PATCH') 
-                        @csrf
-                        <div class="form-group">
-                            <label for="Name">{{__('Name')}}</label>
-                            <input name="name" type="text" class="form-control" id="Name" placeholder="{{__('Name')}}"  value="{{ $customer->name }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="Mobile">{{ __('Mobile') }}</label>
-                            <div class="input-group phone_inputs">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon3">+966</span>
-                              </div>
-                              <input name="mobile" type="tel" class="form-control" id="Mobile" placeholder="{{__('Mobile')}}" value="{{ $customer->mobile }}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="Email">{{__('Email')}}</label>
-                            <input  name="email" type="email" class="form-control" id="Email" placeholder="{{__('Email')}}" value="{{ $customer->email }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="Notes">{{__('Notes')}}</label>
-                            <input name="notes" type="text" class="form-control" id="Notes" placeholder="{{__('Notes')}}" value="{{ $customer->notes }}">
-                        </div>
+  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
+    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
+    <i>/</i>
+    <a href="{{ url('/customers') }}" title="{{ __('Customers') }}">{{ __('Customers')}}</a>
+    <i>/</i>
+    <span>{{ __('Edit')}}</span>
+  </div><!-- breadcrump -->
 
-                        @if(Auth::user()->settings->add_tax_invoice)
-                        <div class="form-group">
-                            <label for="bullding_no">{{__('bullding_no')}}</label>
-                            <input name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('bullding_no')}}"  value="{{ $customer->bullding_no }}">
-                        </div> 
-                        <div class="form-group">
-                            <label for="street_name">{{__('street_name')}}</label>
-                            <input name="street_name" type="text" class="form-control" id="street_name" placeholder="{{__('street_name')}}"  value="{{ $customer->street_name }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="district">{{__('district')}}</label>
-                            <input name="district" type="text" class="form-control" id="district" placeholder="{{__('district')}}"  value="{{ $customer->district }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="city">{{__('city')}}</label>
-                            <input name="city" type="text" class="form-control" id="city" placeholder="{{__('city')}}"  value="{{ $customer->city }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="postal_code">{{__('postal_code')}}</label>
-                            <input name="postal_code" type="text" class="form-control" id="postal_code" placeholder="{{__('postal_code')}}"  value="{{ $customer->postal_code }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="additional_no">{{__('additional_no')}}</label>
-                            <input name="additional_no" type="text" class="form-control" id="additional_no" placeholder="{{__('additional_no')}}"  value="{{ $customer->additional_no }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="other_buyer_id">{{__('other_buyer_id')}}</label>
-                            <input name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}"  value="{{ $customer->other_buyer_id }}">
-                        </div> 
-                        <div class="form-group">
-                            <label for="vat_registration_number">{{__('vat_registration_number')}}</label>
-                            <input name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{__('vat_registration_number')}}"  value="{{ $customer->vat_registration_number }}">
-                        </div>
-                        @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary login_button mr-3">{{__('Update')}}</button>
-                    <a href="{{ url('customers') }}" class="btn btn-secondary m-0" data-dismiss="modal">{{__('Back')}}</a>
-                </div>
-            </form>
+  <section id="customerEditPage">
+
+    <div class="title mb-4">
+      <h1 class="d-block fw-bold m-0">{{ __('Edit')}}</h1>
+    </div><!-- title -->
+
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
       </div>
-    </div>
-  </div>
-  </div>
+    @endif
+
+    <div class="blockArea rounded-3 shadow-sm overflow-hidden bg-white">
+      <form method="post" action="{{ route('customers.update', $customer->id) }}" id="customers_store">
+        @method('PATCH') 
+        @csrf
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2">
+          <div class="col">
+            <div class="form-group mb-3">
+              <label for="Name" class="d-block mb-1">{{__('Name')}}</label>
+              <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}"  value="{{ $customer->name }}">
+            </div><!-- form-group -->
+          </div><!-- col -->
+          <div class="col">
+            <div class="form-group mb-3">
+              <label for="Mobile" class="d-block mb-1">{{ __('Mobile') }}</label>
+              <div class="phoneInput overflow-hidden position-relative">
+                <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
+                <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}" value="{{ $customer->mobile }}" pattern="[0-9]*" maxlength="9" inputmod="numaric">
+              </div><!-- phoneInput -->
+            </div><!-- form-group -->
+          </div><!-- col -->
+          <div class="col">
+            <div class="form-group mb-3">
+              <label for="Email" class="d-block mb-1">{{__('Email')}}</label>
+              <input name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" value="{{ $customer->email }}">
+            </div><!-- form-group -->
+          </div><!-- col -->
+          <div class="col">
+            <div class="form-group mb-3">
+              <label for="Notes" class="d-block mb-1">{{__('Notes')}}</label>
+              <input name="notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Notes" placeholder="{{__('Notes')}}" value="{{ $customer->notes }}">
+            </div><!-- form-group -->
+          </div><!-- col -->
+          @if(Auth::user()->settings->add_tax_invoice)
+            <div class="col">
+              <div class="form-group mb-3">
+                <label for="bullding_no" class="d-block mb-1">{{__('bullding_no')}}</label>
+                <input name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('bullding_no')}}"  value="{{ $customer->bullding_no }}">
+              </div><!-- form-group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form-group mb-3">
+                <label for="street_name" class="d-block mb-1">{{__('street_name')}}</label>
+                <input name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('street_name')}}"  value="{{ $customer->street_name }}">
+              </div><!-- form-group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form-group mb-3">
+                <label for="district" class="d-block mb-1">{{__('district')}}</label>
+                <input name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('district')}}"  value="{{ $customer->district }}">
+              </div><!-- form-group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form-group mb-3">
+                <label for="city" class="d-block mb-1">{{__('city')}}</label>
+                <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('city')}}"  value="{{ $customer->city }}">
+              </div><!-- form-group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form-group mb-3">
+                <label for="postal_code" class="d-block mb-1">{{__('postal_code')}}</label>
+                <input name="postal_code" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('postal_code')}}"  value="{{ $customer->postal_code }}">
+              </div><!-- form-group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form-group mb-3">
+                <label for="additional_no" class="d-block mb-1">{{__('additional_no')}}</label>
+                <input name="additional_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('additional_no')}}"  value="{{ $customer->additional_no }}">
+              </div><!-- form-group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form-group mb-3">
+                <label for="other_buyer_id" class="d-block mb-1">{{__('other_buyer_id')}}</label>
+                <input name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}"  value="{{ $customer->other_buyer_id }}">
+              </div><!-- form-group -->
+            </div><!-- col -->
+            <div class="col">
+              <div class="form-group mb-3">
+                <label for="vat_registration_number" class="d-block mb-1">{{__('vat_registration_number')}}</label>
+                <input name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('vat_registration_number')}}"  value="{{ $customer->vat_registration_number }}">
+              </div><!-- form-group -->
+            </div><!-- col -->
+          @endif
+        </div><!-- row -->
+        <div class="buttonsArea mt-5 d-flex align-items-center justify-content-start">
+          <button type="submit" class="rounded-3 border-0 shadow-none d-flex align-items-center justify-content-center btn-primary fw-bold formBtn">{{__('Update')}}</button>
+          <a href="{{ url('customers') }}" title="{{__('Back')}}" class="rounded-3 border-0 shadow-none d-flex align-items-center fw-bold justify-content-center btn-light m-0">{{__('Back')}}</a>
+        </div><!-- buttonsArea -->
+      </form>
+    </div><!-- blockArea -->
+
+  </section><!-- customerEditPage -->
 @endsection
 
-
 @push('footer-scripts')
-    {!! JsValidator::formRequest('App\Http\Requests\CustomerUpdateRequest', '#customers_store') !!}
+  {!! JsValidator::formRequest('App\Http\Requests\CustomerUpdateRequest', '#customers_store') !!}
 @endpush

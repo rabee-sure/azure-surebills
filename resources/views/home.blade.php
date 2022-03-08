@@ -29,52 +29,52 @@
     <div class="statisticArea">
       <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
         <div class="col">
-          <a href="{{ route('statement.index') }}" title="{{ __('Electronic payment Gateway Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 border rounded-3 bg-white fw-bold shadow-sm">
+          <a href="{{ route('statement.index') }}" title="{{ __('Electronic payment Gateway Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon onlinePayment_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Electronic payment Gateway Balance') }}</p>
-            <span class="d-block text-center">{{ round2($balance) }}</span>
+            <span class="d-block text-center fw-bold">{{ round2($balance) }}</span>
           </a>
         </div><!-- col -->
         <div class="col">
-          <a href="{{ route('statement.index') }}" title="{{ __('Pending Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 border rounded-3 bg-white fw-bold shadow-sm">
+          <a href="{{ route('statement.index') }}" title="{{ __('Pending Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon balance_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Pending Balance') }}</p>
-            <span class="d-block text-center">{{ round2($user->pending_balance) }}</span>
+            <span class="d-block text-center fw-bold">{{ round2($user->pending_balance) }}</span>
           </a>
         </div><!-- col -->
         <div class="col">
-          <a href="{{ route('statement.index') }}" title="{{ __('Paid Cash Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 border rounded-3 bg-white fw-bold shadow-sm">
+          <a href="{{ route('statement.index') }}" title="{{ __('Paid Cash Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon balance_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Paid Cash Balance') }}</p>
-            <span class="d-block text-center">{{ round2($user->paid_cash_balance) }}</span>
+            <span class="d-block text-center fw-bold">{{ round2($user->paid_cash_balance) }}</span>
           </a>
         </div><!-- col -->
         <div class="col">
-          <a href="{{ route('statement.index') }}" title="{{ __('Paid Bank Transfer Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 border rounded-3 bg-white fw-bold shadow-sm">
+          <a href="{{ route('statement.index') }}" title="{{ __('Paid Bank Transfer Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon balance_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Paid Bank Transfer Balance') }}</p>
-            <span class="d-block text-center">{{ round2($user->paid_bank_transfer_balance) }}</span>
+            <span class="d-block text-center fw-bold">{{ round2($user->paid_bank_transfer_balance) }}</span>
           </a>
         </div><!-- col -->
         <div class="col">
-          <a href="{{ route('statement.index') }}" title="{{ __('Total Paid') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 border rounded-3 bg-white fw-bold shadow-sm">
+          <a href="{{ route('statement.index') }}" title="{{ __('Total Paid') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon available_balance_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Total Paid') }}</p>
-            <span class="d-block text-center">{{ $total_paid }}</span>
+            <span class="d-block text-center fw-bold">{{ $total_paid }}</span>
           </a>
         </div><!-- col -->
         <div class="col">
-          <a href="/bills?dont_update_statuses=true" title="{{ __('Total Bills') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 border rounded-3 bg-white fw-bold shadow-sm">
+          <a href="/bills?dont_update_statuses=true" title="{{ __('Total Bills') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon pending_balance_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Total Bills') }}</p>
-            <span class="d-block text-center">{{ $total_bills }}</span>
+            <span class="d-block text-center fw-bold">{{ $total_bills }}</span>
           </a>
         </div><!-- col -->
         <div class="col">
-          <a href="/bills?statuses[]=paid&dont_update_statuses=true" title="{{ __('Total Paid Bills') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 border rounded-3 bg-white fw-bold shadow-sm">
+          <a href="/bills?statuses[]=paid&dont_update_statuses=true" title="{{ __('Total Paid Bills') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon total_bills_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Total Paid Bills') }}</p>
-            <span class="d-block text-center">{{ $total_paid_bills }}</span>
+            <span class="d-block text-center fw-bold">{{ $total_paid_bills }}</span>
           </a>
         </div><!-- col -->
       </div><!-- row -->
@@ -84,7 +84,7 @@
     <bills-paid-count :user="{{$user}}"></bills-paid-count>
     <bills-count :user="{{$user}}"></bills-count>
 
-    <div class="latestBills rounded-3 border bg-white shadow-sm mb-3">
+    <div class="latestBills rounded-3 bg-white shadow-sm mb-3">
       <div class="title d-flex align-items-center justify-content-between mb-3">
         <span class="d-block fw-bold text-capitalize">{{__('Latest Bills') }}</span>
         @if($latest->count() > 0)

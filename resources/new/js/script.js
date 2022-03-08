@@ -84,3 +84,7 @@ $(document).ready(function() {
     }, 5000);
   });
 });
+
+$(document).ready(function() {
+  $('.select2-single').select2();
+});

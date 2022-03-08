@@ -1,28 +1,28 @@
-<table class="table table-striped text-center">
+<table class="table w-100 table-striped table-hover text-nowrap">
   <thead>
     <tr>
-      <th>{{ __('Payment Date') }}</th>
-      <th>{{ __('Description') }}</th>
-      <th>{{ __('Reference') }}</th>
-      <th>{{ __('Receipt') }}</th>
-    @if(count($channels))
-      <th>{{ __('Application') }}</th>
-    @endif
-      <th>{{ __('Card') }}</th>
-      <th>{{ __('Debit') }}</th>
-      <th>{{ __('Credit') }}</th>
-      <th>{{ __('Balance') }}</th>
+      <th class="text-center">{{ __('Payment Date') }}</th>
+      <th class="text-center">{{ __('Description') }}</th>
+      <th class="text-center">{{ __('Reference') }}</th>
+      <th class="text-center">{{ __('Receipt') }}</th>
+      @if(count($channels))
+        <th class="text-center">{{ __('Application') }}</th>
+      @endif
+      <th class="text-center">{{ __('Card') }}</th>
+      <th class="text-center">{{ __('Debit') }}</th>
+      <th class="text-center">{{ __('Credit') }}</th>
+      <th class="text-center">{{ __('Balance') }}</th>
     </tr>
   </thead>
   <tbody>
     @foreach($statement as $transaction)
       <tr>
-        <td>{{ $transaction->created_at }}</td>
-        <td>{{ $transaction->description }}</td>
-        <td>{{ $transaction->reference }}</td>
-        <td>{{  'R: '. $transaction->receipt }}</td>
+        <td class="text-center">{{ $transaction->created_at }}</td>
+        <td class="text-center">{{ $transaction->description }}</td>
+        <td class="text-center">{{ $transaction->reference }}</td>
+        <td class="text-center">{{ $transaction->receipt }}</td>
         @if(count($channels))
-          <td>
+          <td class="text-center">
             @if(isset($transaction->bill->application_id) && isset ($transaction->bill->application->channel_id))
                 
               {{$transaction->bill->application_id}} - {{ $transaction->bill->user->business_name}}
@@ -31,21 +31,10 @@
             @endif
           </td>
         @endif
-        <td>
-{{--           @if ($transaction->card_brand == 'VISA')
-            <img alt="mastercard" src="{{ asset('images/cards/visa.gif') }}" class="mr-1" width="18px"> 
-          @elseif ($transaction->card_brand == 'MASTER')
-            <img alt="mastercard" src="{{ asset('images/cards/mastercard.gif') }}" class="mr-1" width="18px"> 
-          @elseif ($transaction->card_brand == 'MADA')
-            <img alt="mastercard" src="{{ asset('images/cards/mada.gif') }}" class="mr-1" width="18px"> 
-          @elseif ($transaction->card_brand == 'APPLEPAY')
-            <img alt="mastercard" src="{{ asset('images/cards/applepay.gif') }}" class="mr-1" width="18px"> 
-          @endif --}}
-          {{$transaction->card_brand}} - {{ $transaction->card }}
-        </td>
-        <td class="text-danger">{{ $transaction->type == 'debit' ? round($transaction->amount, 2) : '-' }}</td>
-        <td class="text-success">{{ $transaction->type == 'credit' ? round($transaction->amount, 2) : '-' }}</td>
-        <td>{{ round($transaction->balance, 2) }}</td>
+        <td class="text-center">{{ $transaction->card }}</td>
+        <td class="text-danger text-center">{{ $transaction->type == 'debit' ? round2($transaction->amount) : '-' }}</td>
+        <td class="text-success text-center">{{ $transaction->type == 'credit' ? round2($transaction->amount) : '-' }}</td>
+        <td class="text-center">{{ fact_number(round($transaction->balance, 2)) }}</td>
       </tr>
     @endforeach
   </tbody>

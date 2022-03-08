@@ -1,53 +1,38 @@
-<div class="modal fade" id="refundModal" tabindex="-1" role="dialog" aria-labelledby="refundModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="refundModalLabel">{{ __('Are you Sure to Refund Bill ?')}}</h5>
-                <button id="refund_close" type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="form" >
-                @csrf
-                <input type="hidden" id="type" name="type" value="refund">
-
-                <div class="modal-body">
-                    <div class="select_refund">
-                        <label for="ConfirmRefund" class="position-relative d-block">
-                            <input  type="radio" id="ConfirmRefund" name="refund" class="position-absolute w-100 h-100" value="refund" checked>
-                            <div class="txt bg-light border text-body p-2 mb-2 d-flex align-items-center justify-content-start">
-                                <div class="checkmark rounded-circle position-relative d-flex align-items-center justify-content-center"><p class="rounded-circle bg-white m-0 d-block"></p></div>
-                                <span class="d-block">{{__('Total refund')}}</span>
-                            </div><!-- txt -->
-                        </label>
-
-                        <label for="PartialRefund" class="position-relative d-block">
-                            <input type="radio" id="PartialRefund" name="refund" class="position-absolute w-100 h-100" value="partial_refund">
-                            <div class="txt bg-light border text-body p-2 d-flex align-items-center justify-content-start">
-                            <div class="checkmark rounded-circle position-relative d-flex align-items-center justify-content-center"><p class="rounded-circle bg-white m-0 d-block"></p></div>
-                            <span class="d-block">{{__('Partial Refund')}}</span>
-                            </div><!-- txt -->
-                        </label>
-
-                    </div><!-- select_refund -->
-                    <div id="amount_partial_refund" class="form-group row mt-3">
-                        <label for="amount" class="col-sm-2 col-form-label">{{__('Amount')}}</label>
-                        <div class="col-sm-10">
-                        <input type="number" min="1" class="form-control" id="amount" name="amount" placeholder="{{__('Amount')}}">
-                        </div><!-- col-sm-10 -->
-                    </div><!-- form-group -->
-                </div><!-- modal-body -->
-                <div class="modal-footer"> 
-                    <button type="submit" class="btn btn-primary" id="refund_btn" >
-                        {{__('Save')}}
-                    </button>
-                    <button id="refund_cancel" type="button" class="btn btn-secondary ml-2" data-bs-dismiss="modal">
-                        {{__('Retreat')}}
-                    </button>
-                </div>
-            </form>
+<div class="modal fade statusBillModal" id="refundModal" tabindex="-1" role="dialog" aria-labelledby="refundModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content border-0 shadow-sm rounded-3">
+      <div class="modal-header d-flex align-items-center justify-content-between">
+        <h5 class="modal-title" id="refundModalLabel">{{ __('Are you Sure to Refund Bill ?')}}</h5>
+        <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
+      </div>
+      <form method="POST" action="{{ route('bills.refund', ['id'=> $bill->id]) }}" class="repeater" id="form" >
+        @csrf
+        <input type="hidden" id="type" name="type" value="refund">
+        <div class="modal-body">
+          <div class="bill_change_status">
+            <label for="ConfirmRefund" class="d-block mb-3 position-relative">
+              <input  type="radio" id="ConfirmRefund" name="refund" class="position-absolute w-100 h-100" value="refund" checked>
+              <span class="d-flex align-items-center justify-content-start">{{__('Total refund')}}</span>
+            </label>
+            <label for="PartialRefund" class="position-relative d-block">
+              <input type="radio" id="PartialRefund" name="refund" class="position-absolute w-100 h-100" value="partial_refund">
+              <span class="d-flex align-items-center justify-content-start">{{__('Partial Refund')}}</span>
+            </label>
+          </div><!-- select_refund -->
+          <div id="amount_partial_refund" class="form-group row mt-3">
+            <label for="amount" class="col-sm-2 col-form-label">{{__('Amount')}}</label>
+            <div class="col-sm-10">
+              <input type="tel" min="1" class="form-control" id="amount" name="amount" placeholder="{{__('Amount')}}">
+            </div><!-- col-sm-10 -->
+          </div><!-- form-group -->
+        </div><!-- modal-body -->
+        <div class="modal-footer p-2"> 
+          <button type="submit" class="border-0 shadow-none rounded-3 btn-primary" id="refund_btn" >{{__('Save')}}</button>
+          <button id="refund_cancel" type="button" class="border-0 shadow-none rounded-3 btn-light" data-bs-dismiss="modal">{{__('Retreat')}}</button>
         </div>
+      </form>
     </div>
+  </div>
 </div>
 
 @push('footer-scripts')
