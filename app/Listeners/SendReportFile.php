@@ -125,8 +125,8 @@ class SendReportFile implements ShouldQueue
             SUM(CASE WHEN transactions.transaction_source = 'bill' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END) AS Total_amount_in, 
             SUM(CASE WHEN (transactions.transaction_source = 'fees' OR transactions.transaction_source = 'vat') AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) AS Total_fee_with_vat, 
             (SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) - SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END)) AS Total_refund,
-            SUM(settlements.transfer_fees) AS Total_transfer_fees, 
-            SUM(settlements.net_amount) AS Total_net_transfer,
+            settlements.Total_transfer_fees AS Total_transfer_fees, 
+            settlements.Total_net_transfer AS Total_net_transfer,
             total_trans.balance AS Outstanding_balance,
             to_date_trans.balance AS Range_balance
         
@@ -138,7 +138,7 @@ class SendReportFile implements ShouldQueue
         
         LEFT JOIN (SELECT user_id, (SUM(CASE WHEN settled = 0 AND type = 'credit' THEN amount ELSE 0 END) - SUM(CASE WHEN settled = 0 AND type = 'debit' THEN amount ELSE 0 END)) AS balance FROM `transactions` ".$whereDateTo." GROUP BY user_id) AS to_date_trans on `users`.`id` = to_date_trans.user_id
         
-        LEFT JOIN (SELECT user_id, transfer_fees AS transfer_fees, net_amount AS net_amount FROM `settlements` ".$whereDateBetween.") AS settlements on `users`.`id` = `settlements`.`user_id`
+        LEFT JOIN (SELECT user_id, SUM(transfer_fees) AS Total_transfer_fees, SUM(settlements.net_amount) AS Total_net_transfer FROM `settlements` ".$whereDateBetween." GROUP BY user_id) AS settlements on `users`.`id` = `settlements`.`user_id`
         
         WHERE `users`.`verified` = 1
         ".$whereInMerchants."
