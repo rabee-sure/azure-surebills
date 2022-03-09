@@ -44,10 +44,10 @@
     @include('layouts.header')
 
     @if(auth()->user()->is_complete_profile)
-        @include('layouts.sidebar')
+      @include('layouts.sidebar')
     @endif
 
-    <main id="app">
+    <main id="app" @if(!auth()->user()->is_complete_profile) class="isCompleteProfile" @endif>
       @yield('content')
     </main><!-- main -->
 

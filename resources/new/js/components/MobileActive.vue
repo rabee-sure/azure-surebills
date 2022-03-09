@@ -1,38 +1,31 @@
 <template>
   <div class="col-12 col-sm-10 col-md-6 col-lg-4 col-xl-4">
-    <div class="card">
-      <div class="card-body">
-        <div class="verify_phone_page">
-
-            <div class="title">{{ __('verify your phone number') }}</div>
-            <div class="desc">{{ __('we sent You SMS Message Contain Apin Code') }}</div>
-            <div class="desc">+966{{ user.mobile }}</div>
-            <div class="form-group">
-              <input @keyup.enter="sendPinCode" type="tel" class="form-control" v-model="pin" :placeholder="__('PIN')" maxlength="4">
-              <div v-if="error != null" class="invalid-pin">{{__('invalid PIN') }}</div>
-            </div><!-- form-group -->
-            <!-- <b>{{ __('verification code /PIN') }}</b> -->
-            <hr>
-            <div class="didnt_get_pin">
-              {{ __('didn’t Get The PIN') }}
-              <div v-if="timerCount > 0">
-                {{ __('resending PIN in') }} {{ timerCount}}  {{__('Second') }}
-              </div>
-              <div v-else>
-                <a href="" @click.prevent="resendCode" >{{ __('Resend Code')}}</a>
-              </div>
-            </div><!-- didnt_get_pin -->
-            <div class="d-flex justify-content-center">
-              <button type="button" class="btn btn-primary btn-lg text-center w-100"  @click="sendPinCode" :disabled="is_loading">
-                  <span v-if="is_loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <span v-if="is_loading">{{ __('Loading') }} ...</span>
-                  <span v-if="!is_loading">{{ __('Verify') }}</span>
-              </button>
-            </div><!-- d-flex  -->
-
-        </div><!-- verify_phone_page -->
-      </div><!-- card-body -->
-    </div><!-- card -->
+    <div class="verifyPhonePage my-5 rounded-3 overflow-hidden shadow-sm bg-white">
+      <h1 class="d-block text-center text-body mb-3">{{ __('verify your phone number') }}</h1>
+      <h2 class="d-block text-center text-body mb-3">{{ __('we sent You SMS Message Contain Apin Code') }}</h2>
+      <h3 class="d-block text-center text-secondary mb-3">+966{{ user.mobile }}</h3>
+      <div class="form-group mb-3">
+        <input @keyup.enter="sendPinCode" type="tel" class="form-control rounded-3 shadow-none text-body text-center p-0" v-model="pin" :placeholder="__('PIN')" maxlength="4">
+        <div v-if="error != null" class="invalid-pin text-center text-danger mt-1 d-block fs-6">{{__('invalid PIN') }}</div>
+      </div><!-- form-group -->
+      <hr>
+      <h4 class="d-block text-center text-body fs-6 mb-3">{{ __('didn’t Get The PIN') }}</h4>
+      <div class="didnt_get_pin text-center mb-3 fs-6">
+        <div v-if="timerCount > 0">
+          {{ __('resending PIN in') }} {{ timerCount}}  {{__('Second') }}
+        </div>
+        <div v-else>
+          <a href="" @click.prevent="resendCode" >{{ __('Resend Code')}}</a>
+        </div>
+      </div><!-- didnt_get_pin -->
+      <div class="d-flex justify-content-center">
+        <button type="button" class="btn-primary w-100 d-flex align-items-center justify-content-center rounded-3 border-0 shadow-none"  @click="sendPinCode" :disabled="is_loading">
+          <i v-if="is_loading" class="fad fa-spinner fa-spin"></i>
+          <span v-if="is_loading">{{ __('Loading') }} ...</span>
+          <span v-if="!is_loading">{{ __('Verify') }}</span>
+        </button>
+      </div><!-- d-flex  -->
+    </div><!-- verifyPhonePage -->
   </div><!-- col-12 -->
 </template>
 
@@ -98,6 +91,84 @@
 </script>
 
 <style lang="scss">
+.verifyPhonePage {
+  padding: 15px;
+  h1 {
+    font-size: 25px;
+  } /* h1 */
+  h2 {
+    font-size: 16px;
+  } /* h2 */
+  h3 {
+    direction: ltr;
+    font-size: 17px;
+  } /* h3 */
+  .form-group {
+    input {
+      height: 50px;
+      outline: none;
+      font-size: 20px;
+      letter-spacing: 10px;
+      font-weight: bold;
+      &::-webkit-input-placeholder {
+        font-size: 16px;
+        letter-spacing: 0;
+        font-weight: normal;
+      }
+      &:-ms-input-placeholder {
+        font-size: 16px;
+        letter-spacing: 0;
+        font-weight: normal;
+      }
+      &::placeholder {
+        font-size: 16px;
+        letter-spacing: 0;
+        font-weight: normal;
+      }
+      &:focus {
+        background-color: var(--hoverBg) !important;
+        border-color: var(--mainColor) !important;
+      } /* focus */
+      &.is-valid {
+        background-position: 10px  center;
+        border-color: #198754 !important;
+        [dir="ltr"] & {
+          background-position: right 10px  center;
+        } /* ltr */
+      } /* is-valid */
+      &.is-invalid {
+        background-position: 10px  center;
+        border-color: #dc3545 !important;
+        [dir="ltr"] & {
+          background-position: right 10px  center;
+        } /* ltr */
+      } /* is-invalid */
+    } /* input */
+  } /* form-group */
+  a {
+    color: var(--mainColor);
+    &:hover {
+      color: var(--mainColorHover);
+    } /* hover */
+  } /* a */
+  button {
+    height: 45px;
+    outline: none;
+    i {
+      margin: 0 0 0 7px;
+      [dir="ltr"] & {
+        margin: 0 7px 0 0;
+      } /* ltr */
+    } /* i */
+    &[disabled="disabled"] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      pointer-events: none;
+    } /* disabled="disabled" */
+  } /* button */
+} /* verifyPhonePage */
+
+
 .verify_phone_page {
   .title {
     color: #000;

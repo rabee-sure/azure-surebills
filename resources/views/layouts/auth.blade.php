@@ -30,7 +30,7 @@
     @endif
 
   </head>
-  <body>
+  <body class="show-spinner">
 
     <main class="d-flex align-items-center justify-content-center min-vh-100 py-3">
       <div class="container">

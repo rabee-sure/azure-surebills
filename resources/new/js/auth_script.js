@@ -49,3 +49,12 @@ $(document).ready(function() {
     }, 5000);
   });
 });
+
+// =============================================
+// Showing Body
+// =============================================
+$("body > *").css({ opacity: 0 });
+setTimeout(function () {
+  $("body").removeClass("show-spinner");
+  $("body > *").animate({ opacity: 1 }, 100);
+}, 300);

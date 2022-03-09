@@ -1,18 +1,26 @@
 @extends('account.account_complete')
 
-@push('footer-scripts')
-    {!! JsValidator::formRequest('App\Http\Requests\BankInformationRequest', '#form') !!}
-@endpush
-
 @section('steps')
+  <div class="stepsArea d-flex align-items-end justify-content-between position-relative mb-5">
+    <div class="item d-flex align-items-center justify-content-center flex-column done">
+      <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm"><i class="fal fa-check"></i></span>
+      <p class="d-block text-center mb-0 mt-2">{{ __('My Information') }}</p>
+    </div><!-- item -->
+    <div class="item d-flex align-items-center justify-content-center flex-column done">
+      <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm"><i class="fal fa-check"></i></span>
+      <p class="d-block text-center mb-0 mt-2">{{ __('Business Information') }}</p>
+    </div><!-- item -->
+    <div class="item d-flex align-items-center justify-content-center flex-column active">
+      <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm">3</span>
+      <p class="d-block text-center mb-0 mt-2">{{ __('Bank Information') }}</p>
+    </div><!-- item -->
+  </div><!-- stepsArea -->
+
     <div class="col-12">
         <div class="card">
             <div id="smartWizardValidation">
-                <ul class="card-header">
-                    <li><a href="#step-0">1<br /><small>{{ __('My Information') }}</small></a></li>
-                    <li  class="nav-item active"><a href="#step-1">2<br /><small>{{ __('Business Information') }}</small></a></li>
-                    <li class="nav-item active"><a href="#step-2">3<br /><small>{{ __('Bank Information') }}</small></a></li>
-                </ul>
+               
+            
                 <form id="form" role="form" method="POST" action="{{ route('bank.information', ['redirectHome' => true]) }}" class="card-body">
                     @csrf
                     @if ($errors->any())
@@ -68,3 +76,6 @@
     </div>
 @endsection
 
+@push('footer-scripts')
+  {!! JsValidator::formRequest('App\Http\Requests\BankInformationRequest', '#form') !!}
+@endpush

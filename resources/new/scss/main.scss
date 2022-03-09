@@ -23,6 +23,7 @@
 @import "pages/customers";
 @import "pages/statement";
 @import "pages/transfers";
+@import "pages/account";
 
 body {
   background-color: #f8f8f8;
@@ -84,6 +85,9 @@ main {
   body.sidebar_hide & {
     padding: 15px;
   } /* sidebar_hide */
+  &.isCompleteProfile {
+    padding: 15px;
+  } /* isCompleteProfile */
 } /* main */
 
 .breadcrump {
@@ -326,12 +330,12 @@ nav {
 } /* daterangepicker */
 
 .btn-primary {
-  background-color: var(--mainColor);
+  background-color: var(--mainColor) !important;
   &:hover {
-    background-color: var(--mainColorHover);
+    background-color: var(--mainColorHover) !important;
   } /* hover */
   &:focus {
-    background-color: var(--mainColorHover);
+    background-color: var(--mainColorHover) !important;
   } /* focus */
 } /* btn-primary */
 
@@ -475,3 +479,60 @@ span.select2-container {
   body {background-color: #fff !important;}
   .tooltip {display: none !important;}
 } /* print */
+
+.dropzone {
+  min-height: 160px;
+  &.dz-started {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    min-height: auto;
+    @include media-breakpoint-down(md) {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    } /* md */
+    .dz-preview {
+      min-height: auto;
+      figure {
+        width: 80px;
+        height: 70px;
+        img {
+          object-fit: cover;
+        } /* img */
+      } /* figure */
+      figcaption {
+        padding: 0 .25rem 0 0;
+        direction: ltr;
+        [dir="ltr"] & {
+          padding: 0 0 0 .25rem;
+        } /* ltr */
+        .file_name {
+          span {
+            font-size: 14px;
+            line-height: 1.2;
+            word-break: break-all;
+          } /* span */
+          small {
+            margin-top: 5px !important;
+            font-size: 10px !important;
+          } /* small */
+        } /* file_name */
+        .dz-size {
+          font-size: 12px;
+        } /* dz-size */
+      } /* figcaption */
+      .removeImg {
+        right: 0;
+        top: 0;
+        width: 15px;
+        height: 15px;
+        font-size: 10px;
+        cursor: pointer;
+        z-index: 99;
+        [dir="ltr"] & {
+          right: auto;
+          left: 0;
+        } /* ltr */
+      } /* removeImg */
+    } /* .dz-preview */
+  } /* dz-started */
+} /* dropzone */

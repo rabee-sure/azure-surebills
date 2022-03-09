@@ -14,7 +14,12 @@
 
   <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
     <h1 class="d-block fw-bold m-0">{{ __('Transfers') }}</h1>
-    <h2 class="d-block fw-bold m-0">{{ __('Balance') }} : {{  round2(auth()->user()->balance)  }} {{__('SAR')}}</h2>
+    <h2 class="d-flex align-items-end justify-content-end flex-column m-0">
+      @if(!auth()->user()->auto_trnasfer && auth()->user()->verified)
+        @include('transfers.request_transfer')
+      @endif
+      {{ __('Balance') }} : {{  round2(auth()->user()->balance)  }} {{__('SAR')}}
+    </h2>
   </div><!-- title -->
 
   @if ($errors->any())
@@ -26,11 +31,7 @@
       </ul>
     </div><!-- alert -->
   @endif
-
-
-  @if(!auth()->user()->auto_trnasfer && auth()->user()->verified)
-                    @include('transfers.request_transfer')
-                @endif
+  
   <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
     <div class="table-responsive">
       <table class="table table-striped table-hover text-nowrap">
@@ -59,15 +60,15 @@
               <td class="text-center">{{$transfer->created_at}}</td>
               <td class="text-center">
                 @if($transfer->status == 'completed')
-                    <div class="badge badge-pill badge-success bill_status_badge" role="alert">
+                    <div class="badge badge-pill badge-success bill_status_badge d-flex align-items-center justify-content-center" role="alert">
                         {{__('Transfer ' .$transfer->status)}}
                     </div>
                 @elseif($transfer->status == 'pending' || $transfer->status == 'send_to_sps')
-                    <div class="badge badge-pill badge-warning bill_status_badge" role="alert">
+                    <div class="badge badge-pill badge-warning bill_status_badge d-flex align-items-center justify-content-center" role="alert">
                         {{__('Transfer ' .'pending')}}
                     </div>
                 @elseif($transfer->status == 'canceled')
-                  <div class="badge badge-pill badge-danger bill_status_badge" role="alert">
+                  <div class="badge badge-pill badge-danger bill_status_badge d-flex align-items-center justify-content-center" role="alert">
                       {{__('Transfer ' .$transfer->status)}}
                   </div>
                 @endif
@@ -85,5 +86,4 @@
   </div><!-- blockArea -->
 
 </section><!-- transfersIndexPage -->
-
 @endsection

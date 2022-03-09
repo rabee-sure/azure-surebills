@@ -28959,6 +28959,13 @@ section#homepage .addNewBillBtn:hover {
 .billCancelModal form button {
   padding: 0 15px;
   height: 40px;
+  min-width: 100px;
+  /* disabled="disabled" */
+}
+.billCancelModal form button[disabled=disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* billCancelModal */
@@ -29568,13 +29575,19 @@ section#homepage .addNewBillBtn:hover {
   color: #3a3a3a;
 }
 #transfersIndexPage .title h2, #transfersIndexPage .title .h2 {
-  font-size: 20px;
+  /* requestTransferBtn */
+  font-size: 17px;
   color: #3a3a3a;
   /* md */
 }
+#transfersIndexPage .title h2 .requestTransferBtn, #transfersIndexPage .title .h2 .requestTransferBtn {
+  min-width: 130px;
+  height: 40px;
+  font-size: 15px;
+}
 @media (max-width: 767.98px) {
   #transfersIndexPage .title h2, #transfersIndexPage .title .h2 {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 #transfersIndexPage .blockArea {
@@ -29603,13 +29616,424 @@ section#homepage .addNewBillBtn:hover {
   vertical-align: middle;
   padding: 10px;
   /* a */
+  /* badge */
 }
 #transfersIndexPage .blockArea table tbody td a {
   width: 30px;
   height: 30px;
 }
+#transfersIndexPage .blockArea table tbody td .badge {
+  height: 30px;
+  font-size: 12px;
+  padding: 0 10px;
+}
 
 /* transfersIndexPage */
+#transactionsPage {
+  /* blockArea */
+}
+#transactionsPage .blockArea {
+  /* table */
+  /* no_bills_yet */
+}
+#transactionsPage .blockArea table {
+  /* thead */
+  /* tbody */
+}
+#transactionsPage .blockArea table thead {
+  /* th */
+}
+#transactionsPage .blockArea table thead th {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 14px;
+}
+#transactionsPage .blockArea table tbody, #transactionsPage .blockArea table tfoot {
+  /* td */
+}
+#transactionsPage .blockArea table tbody td, #transactionsPage .blockArea table tfoot td {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  /* img */
+}
+#transactionsPage .blockArea table tbody td img, #transactionsPage .blockArea table tfoot td img {
+  margin: 0 0 0 5px;
+  max-height: 20px;
+  /* ltr */
+}
+[dir=ltr] #transactionsPage .blockArea table tbody td img, [dir=ltr] #transactionsPage .blockArea table tfoot td img {
+  margin: 0 5px 0 0;
+}
+#transactionsPage .blockArea .no_bills_yet {
+  min-height: 400px;
+  color: #999;
+  /* md */
+  /* i */
+  /* span */
+}
+@media (max-width: 767.98px) {
+  #transactionsPage .blockArea .no_bills_yet {
+    min-height: 200px;
+  }
+}
+#transactionsPage .blockArea .no_bills_yet i {
+  font-size: 100px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #transactionsPage .blockArea .no_bills_yet i {
+    font-size: 70px;
+  }
+}
+#transactionsPage .blockArea .no_bills_yet span {
+  font-size: 18px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #transactionsPage .blockArea .no_bills_yet span {
+    font-size: 15px;
+  }
+}
+
+/* transactionsPage */
+#accountIndexPage {
+  /* title */
+  /* mainAlert */
+  /* catItem */
+}
+#accountIndexPage .title {
+  /* h1 */
+}
+#accountIndexPage .title h1, #accountIndexPage .title .h1 {
+  font-size: 25px;
+  color: #3a3a3a;
+}
+#accountIndexPage .mainAlert {
+  /* i */
+}
+#accountIndexPage .mainAlert i {
+  margin: 0 0 0 5px;
+  font-size: 20px;
+}
+#accountIndexPage .catItem {
+  padding: 15px;
+  min-height: 170px;
+  color: #3a3a3a;
+  /* md */
+  /* i */
+  /* span */
+}
+@media (max-width: 767.98px) {
+  #accountIndexPage .catItem {
+    min-height: 120px;
+  }
+}
+#accountIndexPage .catItem i {
+  font-size: 50px;
+  color: var(--mainColor);
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #accountIndexPage .catItem i {
+    font-size: 35px;
+  }
+}
+#accountIndexPage .catItem span {
+  font-size: 16px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #accountIndexPage .catItem span {
+    font-size: 13px;
+  }
+}
+
+/* accountIndexPage */
+#accountStepsPage {
+  /* stepsArea */
+  /* form-group */
+  /* phoneInput */
+  /* upoadInput */
+  /* btnsArea */
+  /* blockStep2 */
+}
+#accountStepsPage .stepsArea {
+  /* item */
+}
+#accountStepsPage .stepsArea .item {
+  width: 33.333%;
+  /* span */
+  /* p */
+  /* first-child  */
+  /* last-child  */
+  /* active */
+  /* done */
+}
+#accountStepsPage .stepsArea .item span {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  color: #aaa;
+  /* md */
+  /* after */
+  /* before */
+}
+@media (max-width: 767.98px) {
+  #accountStepsPage .stepsArea .item span {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+  }
+}
+#accountStepsPage .stepsArea .item span::after {
+  content: "";
+  height: 4px;
+  width: 13vw;
+  position: absolute;
+  background-color: #dee2e6;
+  right: 0;
+  z-index: -1;
+  /* ltr */
+  /* md */
+}
+[dir=ltr] #accountStepsPage .stepsArea .item span::after {
+  right: auto;
+  left: 0;
+}
+@media (max-width: 767.98px) {
+  #accountStepsPage .stepsArea .item span::after {
+    width: 21vw;
+  }
+}
+#accountStepsPage .stepsArea .item span::before {
+  content: "";
+  height: 4px;
+  width: 12vw;
+  position: absolute;
+  background-color: #dee2e6;
+  left: 0;
+  z-index: -1;
+  /* ltr */
+  /* md */
+}
+[dir=ltr] #accountStepsPage .stepsArea .item span::before {
+  left: auto;
+  right: 0;
+}
+@media (max-width: 767.98px) {
+  #accountStepsPage .stepsArea .item span::before {
+    width: 21vw;
+  }
+}
+#accountStepsPage .stepsArea .item p {
+  color: #aaa;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #accountStepsPage .stepsArea .item p {
+    font-size: 13px;
+  }
+}
+#accountStepsPage .stepsArea .item:first-child {
+  /* span */
+}
+#accountStepsPage .stepsArea .item:first-child span {
+  /* before */
+}
+#accountStepsPage .stepsArea .item:first-child span::before {
+  display: none;
+}
+#accountStepsPage .stepsArea .item:last-child {
+  /* span */
+}
+#accountStepsPage .stepsArea .item:last-child span {
+  /* after */
+}
+#accountStepsPage .stepsArea .item:last-child span::after {
+  display: none;
+}
+#accountStepsPage .stepsArea .item.active {
+  /* span */
+  /* p */
+}
+#accountStepsPage .stepsArea .item.active span {
+  background-color: #fff !important;
+  border-color: var(--mainColor) !important;
+  color: #000000;
+  /* before */
+}
+#accountStepsPage .stepsArea .item.active span::before {
+  background-color: var(--mainColor);
+}
+#accountStepsPage .stepsArea .item.active p {
+  color: #000000;
+}
+#accountStepsPage .stepsArea .item.done {
+  /* span */
+  /* p */
+}
+#accountStepsPage .stepsArea .item.done span {
+  background-color: var(--mainColor) !important;
+  border-color: var(--mainColor) !important;
+  color: #ffffff;
+  /* after */
+}
+#accountStepsPage .stepsArea .item.done span::after, #accountStepsPage .stepsArea .item.done span::before {
+  background-color: var(--mainColor);
+}
+#accountStepsPage .stepsArea .item.done p {
+  color: var(--mainColor);
+}
+#accountStepsPage .form-group {
+  /* input */
+  /* select */
+}
+#accountStepsPage .form-group input {
+  height: 40px;
+  padding: 0 10px;
+  outline: none;
+  /* focus */
+  /* is-valid */
+  /* is-invalid */
+}
+#accountStepsPage .form-group input:focus {
+  background-color: var(--hoverBg) !important;
+  border-color: var(--mainColor) !important;
+}
+#accountStepsPage .form-group input.is-valid {
+  background-position: 10px center;
+  border-color: #198754 !important;
+  /* ltr */
+}
+[dir=ltr] #accountStepsPage .form-group input.is-valid {
+  background-position: right 10px center;
+}
+#accountStepsPage .form-group input.is-invalid {
+  background-position: 10px center;
+  border-color: #dc3545 !important;
+  /* ltr */
+}
+[dir=ltr] #accountStepsPage .form-group input.is-invalid {
+  background-position: right 10px center;
+}
+#accountStepsPage .form-group select {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg==");
+  height: 40px;
+  padding: 0 10px;
+  background-position: 10px center;
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  /* ltr */
+  /* is-valid */
+  /* is-invalid */
+}
+[dir=ltr] #accountStepsPage .form-group select {
+  background-position: right 10px center;
+}
+#accountStepsPage .form-group select.is-valid {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg==");
+  background-position: 10px center;
+  border-color: #198754 !important;
+  /* ltr */
+}
+[dir=ltr] #accountStepsPage .form-group select.is-valid {
+  background-position: right 10px center;
+}
+#accountStepsPage .form-group select.is-invalid {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg==");
+  background-position: 10px center;
+  border-color: #dc3545 !important;
+  /* ltr */
+}
+[dir=ltr] #accountStepsPage .form-group select.is-invalid {
+  background-position: right 10px center;
+}
+#accountStepsPage .phoneInput {
+  direction: ltr;
+  /* span */
+  /* customer_mobile-error */
+  /* input */
+}
+#accountStepsPage .phoneInput span {
+  left: 1px;
+  top: 1px;
+  height: 38px;
+  min-width: 50px;
+}
+#accountStepsPage .phoneInput #customer_mobile-error {
+  display: block !important;
+  direction: rtl;
+  width: 100%;
+  height: auto !important;
+  min-width: auto !important;
+  /* ltr */
+}
+[dir=ltr] #accountStepsPage .phoneInput #customer_mobile-error {
+  direction: ltr;
+}
+#accountStepsPage .phoneInput input {
+  padding: 0 10px 0 50px;
+  /* is-valid */
+  /* is-invalid */
+}
+#accountStepsPage .phoneInput input.is-valid {
+  background-position: right 10px center;
+  border-color: #198754 !important;
+}
+#accountStepsPage .phoneInput input.is-invalid {
+  background-position: right 10px center;
+  border-color: #dc3545 !important;
+}
+#accountStepsPage .upoadInput {
+  height: 40px;
+  /* input */
+  /* fileName */
+  /* fileBtn */
+}
+#accountStepsPage .upoadInput input {
+  opacity: 0;
+  z-index: 999;
+  cursor: pointer;
+}
+#accountStepsPage .upoadInput .fileName {
+  direction: ltr;
+}
+#accountStepsPage .upoadInput .fileBtn {
+  height: 38px;
+  min-width: 85px;
+  font-size: 13px;
+  background-color: #dee2e6;
+}
+#accountStepsPage .btnsArea {
+  /* button */
+}
+#accountStepsPage .btnsArea button, #accountStepsPage .btnsArea a {
+  height: 40px;
+  min-width: 100px;
+  font-size: 14px;
+}
+#accountStepsPage .blockStep2 {
+  /* label */
+}
+#accountStepsPage .blockStep2 label {
+  /* button */
+}
+#accountStepsPage .blockStep2 label button {
+  width: 15px;
+  height: 15px;
+  margin: 0 5px 0 0;
+  font-size: 9px;
+  /* ltr */
+}
+[dir=ltr] #accountStepsPage .blockStep2 label button {
+  margin: 0 0 0 5px;
+}
+
+/* accountStepsPage */
 body {
   background-color: #f8f8f8;
   direction: rtl;
@@ -29675,6 +30099,7 @@ main {
   /* ltr */
   /* md */
   /* sidebar_hide */
+  /* isCompleteProfile */
 }
 [dir=ltr] main {
   padding: 15px 15px 15px 150px;
@@ -29689,6 +30114,9 @@ main {
   }
 }
 body.sidebar_hide main {
+  padding: 15px;
+}
+main.isCompleteProfile {
   padding: 15px;
 }
 
@@ -29994,15 +30422,15 @@ nav ul.pagination li.page-item.active span {
 
 /* daterangepicker */
 .btn-primary {
-  background-color: var(--mainColor);
+  background-color: var(--mainColor) !important;
   /* hover */
   /* focus */
 }
 .btn-primary:hover {
-  background-color: var(--mainColorHover);
+  background-color: var(--mainColorHover) !important;
 }
 .btn-primary:focus {
-  background-color: var(--mainColorHover);
+  background-color: var(--mainColorHover) !important;
 }
 
 /* btn-primary */
@@ -30188,3 +30616,77 @@ span.select2-container .select2-dropdown ul.select2-results__options li:first-ch
   }
 }
 /* print */
+.dropzone {
+  min-height: 160px;
+  /* dz-started */
+}
+.dropzone.dz-started {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-height: auto;
+  /* md */
+  /* .dz-preview */
+}
+@media (max-width: 767.98px) {
+  .dropzone.dz-started {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+.dropzone.dz-started .dz-preview {
+  min-height: auto;
+  /* figure */
+  /* figcaption */
+  /* removeImg */
+}
+.dropzone.dz-started .dz-preview figure {
+  width: 80px;
+  height: 70px;
+  /* img */
+}
+.dropzone.dz-started .dz-preview figure img {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.dropzone.dz-started .dz-preview figcaption {
+  padding: 0 0.25rem 0 0;
+  direction: ltr;
+  /* ltr */
+  /* file_name */
+  /* dz-size */
+}
+[dir=ltr] .dropzone.dz-started .dz-preview figcaption {
+  padding: 0 0 0 0.25rem;
+}
+.dropzone.dz-started .dz-preview figcaption .file_name {
+  /* span */
+  /* small */
+}
+.dropzone.dz-started .dz-preview figcaption .file_name span {
+  font-size: 14px;
+  line-height: 1.2;
+  word-break: break-all;
+}
+.dropzone.dz-started .dz-preview figcaption .file_name small, .dropzone.dz-started .dz-preview figcaption .file_name .small {
+  margin-top: 5px !important;
+  font-size: 10px !important;
+}
+.dropzone.dz-started .dz-preview figcaption .dz-size {
+  font-size: 12px;
+}
+.dropzone.dz-started .dz-preview .removeImg {
+  right: 0;
+  top: 0;
+  width: 15px;
+  height: 15px;
+  font-size: 10px;
+  cursor: pointer;
+  z-index: 99;
+  /* ltr */
+}
+[dir=ltr] .dropzone.dz-started .dz-preview .removeImg {
+  right: auto;
+  left: 0;
+}
+
+/* dropzone */
