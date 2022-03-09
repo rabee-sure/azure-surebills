@@ -59,6 +59,7 @@
           <img src="{{ asset('images/printer.svg') }}" alt="{{ __('Print') }}" style="height: 25px;">
         </a>
         <!-- <a class="btn btn-primary mr-2 mb-2 d-inline-block" href="#">{{ __('Send Reminder') }}</a> -->
+        @can('cancel bill')
         @if($bill->is_pending)
           <button id="cancel_btn" type="button" class="btn btn-danger mr-2 mb-2 d-inline-block rounded-sm" data-toggle="tooltip" data-placement="top" title="{{ __('Cancel Bill') }}">
             <span class="d-block" data-from="top" data-align="right" data-toggle="modal" data-target="#cancelModal">
@@ -66,6 +67,7 @@
             </span>
           </button>
         @endif
+        @endcan
 
         @can('refund bill')
         @if($bill->is_able_refund)

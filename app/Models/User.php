@@ -12,12 +12,13 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, HasApiTokens, Notifiable, InteractsWithMedia, HasRoles;
+    use HasFactory, HasApiTokens, Notifiable, InteractsWithMedia, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -351,7 +352,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function transfers()
     {
-        return $this->hasMany(Transfer::class);
+        return $this->hasMany(Transfer::class)->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     /**
@@ -361,7 +362,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function settings()
     {
-        return $this->hasOne(Settings::class);
+        return $this->hasOne(Settings::class)->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     /**

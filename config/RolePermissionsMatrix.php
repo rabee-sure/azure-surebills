@@ -5,6 +5,7 @@ return [
     'create bills',
     'change bill status',
     'refund bill',
+    'cancel bill',
 
     'show pos',
 

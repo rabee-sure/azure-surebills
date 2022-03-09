@@ -20,9 +20,11 @@
     <div class="col-12">
       <div class="mb-3">
         <h1>{{ __('Roles')}}</h1>
+        @can('create user')
         <div class="top-right-button-container">
         @include('roles.create')
-      </div>
+        </div>
+        @endcan
       <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
         <ol class="breadcrumb pt-0">
           <li class="breadcrumb-item">
@@ -54,7 +56,9 @@
                         <th scope="col">#</th>
                         <th scope="col">{{__('Name')}}</th>
                         <th scope="col">{{__('Permissions')}}</th>
+                        @canany(['update user', 'delete user'])
                         <th scope="col">{{__('Actions')}}</th>
+                        @endcanany
                     </tr>
                     </thead>
                     <tbody>
@@ -68,11 +72,25 @@
                                         <span class="badge badge-info">{{__($permission)}}</span>
                                     @endforeach
                                 </td>
+                                @canany(['update user', 'delete user'])
                                 <td>
-                                <a href="{{ route('roles.edit', $role->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
+                                @can('update user')
+                                <a href="{{ route('roles.edit', $role->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">
+                                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve" style="width: 15px; height: auto; fill: rgb(255, 255, 255);"><g><g><path d="M476.828,302.249c-10.794,0-19.542,8.748-19.542,19.542v151.125H39.087V54.718h151.125
+                                        c10.794,0,19.542-8.748,19.542-19.542c0-10.794-8.748-19.542-19.542-19.542H19.545c-10.794,0-19.542,8.748-19.542,19.542v457.282
+                                        C0.003,503.252,8.752,512,19.545,512h457.282c10.794,0,19.542-8.748,19.542-19.542V321.791
+                                        C496.37,310.998,487.621,302.249,476.828,302.249z"></path></g></g> <g><g><path d="M506.271,75.426l-69.693-69.7C432.917,2.058,427.947,0,422.762,0c-5.185,0-10.149,2.058-13.816,5.726L178.35,236.321
+                                        c-2.371,2.365-4.084,5.296-4.996,8.514l-27.359,97.059c-1.915,6.807-0.006,14.116,4.996,19.119
+                                        c3.713,3.713,8.703,5.726,13.816,5.726c1.765,0,3.55-0.241,5.296-0.73l97.059-27.359c3.224-0.912,6.156-2.632,8.52-4.996
+                                        l230.589-230.595C513.905,95.43,513.905,83.053,506.271,75.426z M251.658,302.412l-58.58,16.506l16.513-58.567L422.762,47.181
+                                        l42.061,42.061L251.658,302.412z"></path></g></g> <g><g><rect x="208.103" y="235.027" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -134.3583 244.2405)" width="39.084" height="98.556"></rect></g></g> <g></g> <g></g> <g></g> <g></g> <g></g> <g></g> <g></g> <g></g> <g></g> <g></g> <g></g> <g></g> <g></g> <g></g> <g></g></svg>
+                                </a>
+                                @endcan
+                                @can('delete user')
                                 @include('roles.delete', ['role' => $role])
-                                {{-- <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a> --}}
+                                @endcan
                                 </td>
+                                @endcanany
                             </tr>
                         @endforeach
                     <!-- endforeach -->
