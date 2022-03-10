@@ -10,29 +10,34 @@ use App\Http\Requests\CategoryApiRequest;
 
 class CategoryController extends Controller
 {
-    
-    public function index(Request $request){ 
+
+    public function index(Request $request)
+    {
         $categories = Category::withTrashed()->get();
-        return CategoryResource::collection($categories);
+        $categoriesCollection = CategoryResource::collection($categories);
+
+        return $categoriesCollection;
+
     }
 
     public function topCategories(Request $request)
     {
         $categories = Category::active()->where('parent_id', 0)->withTrashed()->get();
+        $categoriesCollection = CategoryResource::collection($categories);
 
-        return CategoryResource::collection($categories);
+        return $categoriesCollection;
+
     }
 
     public function subCategories($parent_id, Request $request)
     {
-        $categories = Category::active()->where('parent_id', $parent_id)->withTrashed()->get();
-
-        return CategoryResource::collection($categories);
+        $category = Category::find($parent_id);
+        return CategoryResource::collection($category->childiren);
     }
     
     public function store(CategoryApiRequest $request){
         
-        $name = json_encode(["en" => $request->name_en,"ar" => $request->name_ar]);
+        $name = ["en" => $request->name_en,"ar" => $request->name_ar];
 
         $parent = ($request->parent_id) ? $request->parent_id : 0;
 
@@ -57,7 +62,7 @@ class CategoryController extends Controller
 
     public function update($id, CategoryApiRequest $request){
         
-        $name = json_encode(["en" => $request->name_en,"ar" => $request->name_ar]);
+        $name = ["en" => $request->name_en,"ar" => $request->name_ar];
 
         $parent = ($request->parent_id) ? $request->parent_id : 0;
 

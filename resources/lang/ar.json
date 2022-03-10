@@ -713,6 +713,14 @@
 	"Download File" : "تحميل ملف التقرير",
 	"Report Pending" : "قيد الانشاء",
 	"Report Done" : "تم انشاءه",
-  "Add a product category" : "اضف قسم منتج"
+  	"Add a product category" : "اضف قسم منتج",
 	
+	"Categories" : "الاقسام",
+	"Name En" : "الاسم بالانجليزية",
+	"Name Ar" : "الاسم بالعربية",
+	"Image" : "الصورة",
+	"Sort No." : "ترتيب القسم",
+	"Activate" : "تفعيل",
+	"Parent" : "الاب",
+	"Select parent category" : "أختر القسم الاب"
 }

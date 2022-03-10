@@ -54,12 +54,27 @@ Route::prefix('v1')->group(function () {
     	Route::post('account/information', 'AccountController@updateInformation');
 
 		//Categories
-		Route::get('categories', 'CategoryController@index');
-		Route::get('top-categories', 'CategoryController@topCategories');
+		Route::get('categories', 'CategoryController@index')->name('categories.index');
+		Route::get('top-categories', 'CategoryController@topCategories')->name('categories.top');
 		Route::get('sub-categories/{parent}', 'CategoryController@subCategories');
 		Route::post('category/store', 'CategoryController@store');
 		Route::post('category/{id}/update', 'CategoryController@update');
 		Route::delete('category/{id}/delete', 'CategoryController@delete');
+
+		//Products
+		Route::get('products', 'ProductsController@index')->name('products.index');
+		Route::get('products/{id}', 'ProductsController@show')->name('products.show');
+		Route::post('products/store', 'ProductsController@store')->name('products.store');
+		Route::post('products/{id}/update', 'ProductsController@update')->name('products.update');
+		Route::delete('products/{id}/delete', 'ProductsController@delete')->name('products.delete');
+
+		//POS
+		Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory');
+		Route::get('getActiveSubCategoryProducts/{category_id}', 'PosController@getActiveSubCategoryProducts');
+		Route::get('getProduct/{product_id}', 'PosController@getProduct');
+		Route::get('searchForProduct/{keyword}', 'PosController@searchForProduct');
+		Route::get('searchForCustomer/{name}', 'PosController@searchForCustomer');
+		Route::post('customerStore', 'PosController@customerStore');
 
 	});
 
