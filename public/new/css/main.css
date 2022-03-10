@@ -29707,7 +29707,6 @@ section#homepage .addNewBillBtn:hover {
   font-size: 20px;
 }
 #accountIndexPage .catItem {
-  padding: 15px;
   min-height: 170px;
   color: #3a3a3a;
   /* md */
@@ -30776,6 +30775,184 @@ section#homepage .addNewBillBtn:hover {
 }
 
 /* invoiceSettingsPage */
+#channelsIndexPage {
+  /* title */
+  /* catItem */
+}
+#channelsIndexPage .title {
+  /* h1 */
+}
+#channelsIndexPage .title h1, #channelsIndexPage .title .h1 {
+  color: #3a3a3a;
+}
+#channelsIndexPage .catItem {
+  min-height: 150px;
+  color: #3a3a3a;
+  /* md */
+  /* i */
+  /* span */
+}
+@media (max-width: 767.98px) {
+  #channelsIndexPage .catItem {
+    min-height: 120px;
+  }
+}
+#channelsIndexPage .catItem i {
+  font-size: 50px;
+  color: var(--mainColor);
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #channelsIndexPage .catItem i {
+    font-size: 35px;
+  }
+}
+#channelsIndexPage .catItem span {
+  font-size: 16px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #channelsIndexPage .catItem span {
+    font-size: 13px;
+  }
+}
+
+/* channelsIndexPage */
+#channelApplicationsPage {
+  /* title */
+  /* notApplicationsYet */
+  /* blockArea */
+}
+#channelApplicationsPage .title {
+  /* h1 */
+  /* a */
+}
+#channelApplicationsPage .title h1, #channelApplicationsPage .title .h1 {
+  color: #3a3a3a;
+}
+#channelApplicationsPage .title a {
+  min-width: 150px;
+  height: 40px;
+  cursor: pointer;
+}
+#channelApplicationsPage .notApplicationsYet {
+  min-height: 400px;
+  color: #999;
+  /* md */
+  /* i */
+  /* span */
+}
+@media (max-width: 767.98px) {
+  #channelApplicationsPage .notApplicationsYet {
+    min-height: 200px;
+  }
+}
+#channelApplicationsPage .notApplicationsYet i {
+  font-size: 100px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #channelApplicationsPage .notApplicationsYet i {
+    font-size: 70px;
+  }
+}
+#channelApplicationsPage .notApplicationsYet span {
+  font-size: 18px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #channelApplicationsPage .notApplicationsYet span {
+    font-size: 15px;
+  }
+}
+#channelApplicationsPage .blockArea {
+  /* table */
+}
+#channelApplicationsPage .blockArea table {
+  /* thead */
+  /* tbody */
+}
+#channelApplicationsPage .blockArea table thead {
+  /* th */
+}
+#channelApplicationsPage .blockArea table thead th {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 14px;
+}
+#channelApplicationsPage .blockArea table tbody {
+  /* td */
+}
+#channelApplicationsPage .blockArea table tbody td {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  /* a */
+}
+#channelApplicationsPage .blockArea table tbody td a, #channelApplicationsPage .blockArea table tbody td button {
+  width: 35px;
+  height: 35px;
+}
+
+/* channelApplicationsPage */
+.applicationModals {
+  /* form-group */
+  /* modal-footer */
+}
+.applicationModals .form-group {
+  /* input */
+}
+.applicationModals .form-group input {
+  height: 40px;
+  padding: 0 10px;
+  outline: none;
+  font-size: 15px;
+  /* focus */
+  /* is-valid */
+  /* is-invalid */
+}
+.applicationModals .form-group input:focus {
+  background-color: var(--hoverBg) !important;
+  border-color: var(--mainColor) !important;
+}
+.applicationModals .form-group input.is-valid {
+  background-position: 10px center;
+  border-color: #198754 !important;
+  /* ltr */
+}
+[dir=ltr] .applicationModals .form-group input.is-valid {
+  background-position: right 10px center;
+}
+.applicationModals .form-group input.is-invalid {
+  background-position: 10px center;
+  border-color: #dc3545 !important;
+  /* ltr */
+}
+[dir=ltr] .applicationModals .form-group input.is-invalid {
+  background-position: right 10px center;
+}
+.applicationModals .modal-footer {
+  /* button */
+}
+.applicationModals .modal-footer button {
+  height: 40px;
+  min-width: 100px;
+  padding: 0 15px;
+  margin: 0 0.5rem 0 0;
+  /* ltr */
+  /* first-child */
+}
+[dir=ltr] .applicationModals .modal-footer button {
+  margin: 0 0 0 0.5rem;
+}
+.applicationModals .modal-footer button:first-child {
+  margin: 0;
+}
+
+/* applicationModals */
 body {
   background-color: #f8f8f8;
   direction: rtl;
@@ -30793,7 +30970,7 @@ body.show-spinner {
   /* after */
 }
 body.show-spinner * {
-  opacity: 0;
+  opacity: 0 !important;
 }
 body.show-spinner::after {
   content: " ";

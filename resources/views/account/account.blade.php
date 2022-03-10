@@ -34,51 +34,51 @@
 
     <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4">
       <div class="col">
-        <a href="{{ route('account_information') }}" title="{{ __('My Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+        <a href="{{ route('account_information') }}" title="{{ __('My Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
           <i class="fal fa-address-card"></i>
           <span class="d-block mt-3 text-center">{{ __('My Information') }}</span>
         </a>
       </div><!-- col -->
       <div class="col">
-        <a href="{{ route('business_information') }}" title="{{ __('Business Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+        <a href="{{ route('business_information') }}" title="{{ __('Business Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
           <i class="fal fa-briefcase"></i>
           <span class="d-block mt-3 text-center">{{ __('Business Information') }}</span>
         </a>
       </div><!-- col -->
       <div class="col">
-        <a href="{{ route('bank_information') }}" title="{{ __('Bank Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+        <a href="{{ route('bank_information') }}" title="{{ __('Bank Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
           <i class="fal fa-landmark"></i>
           <span class="d-block mt-3 text-center">{{ __('Bank Information') }}</span>
         </a>
       </div><!-- col -->
       <div class="col">
-        <a href="{{ route('change_password') }}" title="{{ __('Change Password') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+        <a href="{{ route('change_password') }}" title="{{ __('Change Password') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
           <i class="fal fa-lock-alt"></i>
           <span class="d-block mt-3 text-center">{{ __('Change Password') }}</span>
         </a>
       </div><!-- col -->
       <div class="col">
-        <a href="{{ route('settings') }}" title="{{__('Invoice Settings')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+        <a href="{{ route('settings') }}" title="{{__('Invoice Settings')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
           <i class="fal fa-cogs"></i>
           <span class="d-block mt-3 text-center">{{__('Invoice Settings')}}</span>
         </a>
       </div><!-- col -->
       <div class="col">
-        <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+        <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
           <i class="fal fa-boxes"></i>
           <span class="d-block mt-3 text-center">{{__('Products')}}</span>
         </a>
       </div><!-- col -->
       <div class="col">
-        <a href="{{ route('integration') }}" title="{{ __('Integration') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+        <a href="{{ route('integration') }}" title="{{ __('Integration') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
           <i class="fal fa-network-wired"></i>
           <span class="d-block mt-3 text-center">{{__('Integration')}}</span>
         </a>
       </div><!-- col -->
       @if(count(auth()->user()->channels))
         <div class="col">
-          <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
-            <i class="fal fa-cogs"></i>
+          <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
+            <i class="fal fa-chart-network"></i>
             <span class="d-block mt-3 text-center">{{__('Channels')}}</span>
           </a>
         </div><!-- col -->

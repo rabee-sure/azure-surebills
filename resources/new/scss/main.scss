@@ -25,6 +25,7 @@
 @import "pages/transfers";
 @import "pages/account";
 @import "pages/products";
+@import "pages/channels";
 
 body {
   background-color: #f8f8f8;
@@ -37,7 +38,7 @@ body {
   } /* ltr */
   &.show-spinner {
     * {
-      opacity: 0;
+      opacity: 0 !important;
     } /* * */
     &::after {
       content: " ";

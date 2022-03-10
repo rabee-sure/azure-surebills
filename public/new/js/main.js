@@ -61,8 +61,8 @@ $(document).ready(function() {
 $("body > *").css({ opacity: 0 });
 setTimeout(function () {
   $("body").removeClass("show-spinner");
-  $("body > *").animate({ opacity: 1 }, 100);
-}, 300);
+  $("body > *").animate({ opacity: 1 }, 200);
+}, 400);
 
 // =============================================
 // convert Arabic number to English in input tel
