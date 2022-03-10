@@ -4453,7 +4453,7 @@ $.dore = function (element, options) {
         ignore: [],
         errorElement: "div",
         submitHandler: function () {
-          alert("submitted!");
+          // alert("submitted!");
         },
         errorPlacement: function (error, element) {
           if (element.attr("class").indexOf("custom-control") != -1) {

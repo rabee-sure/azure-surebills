@@ -9,7 +9,7 @@
   <div class="main-menu">
     <div class="scroll">
       <ul class="list-unstyled">
-        <li class="{{ Request::is('/') ? 'active' : '' }}">
+        <li class="{{ Request::is('home') ? 'active' : '' }}">
           <a href="/" title="{{ __('Dashboard') }}">
             <i class="iconsminds-dashboard"></i>
             <span>{{ __('Dashboard') }}</span>
@@ -25,14 +25,12 @@
         </li>
         @endcan
 
-        @can('show pos')
-        <li class="{{ Request::is('pos*') ? 'active' : '' }}">
+        <!-- <li class="{{ Request::is('pos*') ? 'active' : '' }}">
           <a href="/pos/categories" title="{{ __('POS') }}">
             <i class="iconsminds-testimonal"></i>
            {{ __('POS') }}
           </a>
-        </li>
-        @endcan
+        </li> -->
 
         @can('show customers')
         <li class="{{ Request::is('customers*') ? 'active' : '' }}">
@@ -101,23 +99,32 @@
         </li>
         @endcan
 
-        @can('show products')
-        <li>
+        {{-- @can('show products') --}}
+        <!-- <li>
           <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
             <i class="iconsminds-project"></i>
             <span class="d-inline-block">{{ __('Products') }}</span>
           </a>
         </li>
-        @endcan
+        {{-- @endcan --}}
 
-        @can('show product categories')
+        {{-- @can('show product categories') --}}
         <li>
           <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}">
             <i class="iconsminds-clothing-store"></i>
             <span class="d-inline-block">{{ __('Product Sections') }}</span>
           </a>
+          {{-- @endcan --}}
+        </li> -->
+
+        @if(in_array(Auth::user()->email, explode(',', env('NOVA_ALLOWED_ADMINS'))))
+        <li class="{{ Request::is('reports*') ? 'active' : '' }}">
+          <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}">
+            <i class="iconsminds-file-clipboard-file---text"></i>
+            <span class="d-inline-block">{{ __('Reports') }}</span>
+          </a>
         </li>
-        @endcan
+        @endif
       </ul>
     </div>
   </div>
