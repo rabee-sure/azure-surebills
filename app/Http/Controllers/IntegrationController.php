@@ -8,7 +8,7 @@ class IntegrationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:manage integration settings');
+        $this->middleware('permission:show applications');
     }
 
     /**

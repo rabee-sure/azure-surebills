@@ -92,7 +92,7 @@
         @endif
         @endcan
 
-        @can('manage integration settings')
+        @can('show applications')
         <li class="{{ Request::is('integration*') ? 'active' : '' }}">
           <a href="{{ route('integration') }}" title="{{ __('Integration') }}">
             <i class="iconsminds-gears"></i>

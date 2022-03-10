@@ -1,9 +1,9 @@
 <template>
-  <div class="Applications">
+  <div class="Applications" v-if="userPermissions.includes('show applications')">
     <div class="card card-default">
       <div class="card-header">
         <span> {{ __('Applications')}}</span>
-        <a class="btn btn-primary" tabindex="-1" @click="showCreateApplicationForm">
+        <a class="btn btn-primary" tabindex="-1" @click="showCreateApplicationForm" v-if="userPermissions.includes('create application')">
           {{ __('Create New Application')}}
         </a>
       </div>
@@ -24,8 +24,8 @@
                 <th scope="col">{{ __('webhook URL')}}</th>
                 <th scope="col">{{ __('webhook Secret')}}</th>
                 <th scope="col">{{ __('Redirect Url')}}</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col" v-if="userPermissions.includes('update application')"></th>
+                <th scope="col" v-if="userPermissions.includes('delete application')"></th>
               </tr>
             </thead>
             <tbody>
@@ -41,11 +41,11 @@
                 <td style="vertical-align: middle;"><code>{{ application.webhook_secret ? application.webhook_secret : '-' }}</code></td>
                 <td style="vertical-align: middle;">{{ application.redirect }}</td>
                 <!-- Edit Button -->
-                <td style="vertical-align: middle;">
+                <td style="vertical-align: middle;"  v-if="userPermissions.includes('update application')">
                   <a class="action-link" tabindex="-1" @click="edit(application)">{{ __('Edit')}}</a>
                 </td>
                 <!-- Delete Button -->
-                <td style="vertical-align: middle;">
+                <td style="vertical-align: middle;" v-if="userPermissions.includes('delete application')">
                   <a class="action-link text-danger" @click="deletes(application)">{{ __('Delete')}}</a>
                 </td>
               </tr>
@@ -56,7 +56,7 @@
     </div>
 
     <!-- Create Application Modal -->
-    <div class="modal fade" id="modal-create-application" tabindex="-1" role="dialog">
+    <div class="modal fade" id="modal-create-application" tabindex="-1" role="dialog" v-if="userPermissions.includes('create application')">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -163,7 +163,7 @@
     </div>
 
     <!-- Edit Application Modal -->
-    <div class="modal fade" id="modal-edit-application" tabindex="-1" role="dialog">
+    <div class="modal fade" id="modal-edit-application" tabindex="-1" role="dialog" v-if="userPermissions.includes('update application')">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -270,7 +270,7 @@
       </div>
     </div>
 
-     <div class="modal fade" id="modal-delete-application" tabindex="-1" role="dialog">
+     <div class="modal fade" id="modal-delete-application" tabindex="-1" role="dialog" v-if="userPermissions.includes('delete application')">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -310,6 +310,7 @@
         data() {
             return {
                 applications: [],
+                userPermissions: [],
 
                 applicationSecret: null,
 
@@ -359,15 +360,7 @@
              * Prepare the component.
              */
             prepareComponent() {
-                this.getApplications();
-
-                $('#modal-create-application').on('shown.bs.modal', () => {
-                    $('#create-application-name').focus();
-                });
-
-                $('#modal-edit-application').on('shown.bs.modal', () => {
-                    $('#edit-application-name').focus();
-                });
+                this.getUserPermissions();
             },
 
             /**
@@ -380,6 +373,31 @@
                         });
             },
 
+            /**
+             * Get user permissions.
+             */
+            getUserPermissions(){
+                axios.get('/user-permissions')
+                    .then(response => {
+                        this.userPermissions = response.data;
+                        if(this.userPermissions.includes('show applications'))
+                        {
+                            this.getApplications();
+                        }
+                        if(this.userPermissions.includes('create application'))
+                        {
+                            $('#modal-create-application').on('shown.bs.modal', () => {
+                                $('#create-application-name').focus();
+                            });
+                        }
+                        if(this.userPermissions.includes('update application'))
+                        {
+                            $('#modal-edit-application').on('shown.bs.modal', () => {
+                                $('#edit-application-name').focus();
+                            });
+                        }
+                    });
+            },
             /**
              * Show the form for creating new applications.
              */

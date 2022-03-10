@@ -4,10 +4,10 @@ return [
     'show bills',
     'create bills',
     'change bill status',
-    'refund bill',
     'cancel bill',
+    'refund bill',
 
-    'show pos',
+    // 'show pos',
 
     'show customers',
     'create customer',
@@ -21,7 +21,7 @@ return [
 
     'show channels',
 
-    'manage integration settings',
+    'show applications',
     'create application',
     'update application',
     'delete application',

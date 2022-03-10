@@ -12,7 +12,7 @@ class ChannelController extends Controller
     public function __construct()
     {
         $this->middleware('permission:show channels');
-        $this->middleware('permission:manage integration settings', ['only' => ['show']]);
+        $this->middleware('permission:show applications', ['only' => ['show']]);
     }
 
     /**

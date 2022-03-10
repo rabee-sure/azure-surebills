@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\UserPermissionResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -92,15 +93,20 @@ class StoreUserController extends Controller
      */
     public function update(StoreUserRequest $request, User $user)
     {
-        $user->fill($request->all());
         if($request->filled('password'))
         {
             $user->password = bcrypt($request->password);
         }
 
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->mobile = $request->mobile;
+        $user->gender = $request->gender;
         $user->save();
+
         $user->roles()->detach();
         $user->assignRole($request->role);
+
         return redirect()->route('users.index');
     }
 
@@ -114,5 +120,10 @@ class StoreUserController extends Controller
     {
         $user->delete();
         return redirect()->route('users.index');
+    }
+
+    public function getUserPermissions()
+    {
+        return auth()->user()->getAllPermissions()->pluck('name');
     }
 }
