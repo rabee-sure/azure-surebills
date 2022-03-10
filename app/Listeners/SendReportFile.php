@@ -134,11 +134,11 @@ class SendReportFile implements ShouldQueue
         
         LEFT JOIN (SELECT user_id, amount AS amount, transaction_source AS transaction_source, type as type, settled as settled FROM `transactions` ".$whereDateBetween.") AS transactions on `users`.`id` = transactions.user_id 
         
-        LEFT JOIN (SELECT user_id, (SUM(CASE WHEN settled = 0 AND type = 'credit' THEN amount ELSE 0 END) - SUM(CASE WHEN settled = 0 AND type = 'debit' THEN amount ELSE 0 END)) AS balance FROM `transactions` GROUP BY user_id) AS total_trans on `users`.`id` = total_trans.user_id 
+        LEFT JOIN (SELECT user_id, (SUM(CASE WHEN type = 'credit' THEN amount ELSE 0 END) - SUM(CASE WHEN type = 'debit' THEN amount ELSE 0 END)) AS balance FROM `transactions` GROUP BY user_id) AS total_trans on `users`.`id` = total_trans.user_id 
         
-        LEFT JOIN (SELECT user_id, (SUM(CASE WHEN settled = 0 AND type = 'credit' THEN amount ELSE 0 END) - SUM(CASE WHEN settled = 0 AND type = 'debit' THEN amount ELSE 0 END)) AS balance FROM `transactions` ".$whereDateTo." GROUP BY user_id) AS to_date_trans on `users`.`id` = to_date_trans.user_id
+        LEFT JOIN (SELECT user_id, (SUM(CASE WHEN type = 'credit' THEN amount ELSE 0 END) - SUM(CASE WHEN type = 'debit' THEN amount ELSE 0 END)) AS balance FROM `transactions` ".$whereDateTo." GROUP BY user_id) AS to_date_trans on `users`.`id` = to_date_trans.user_id
         
-        LEFT JOIN (SELECT user_id, SUM(transfer_fees) AS Total_transfer_fees, SUM(settlements.net_amount) AS Total_net_transfer FROM `settlements` ".$whereDateBetween." GROUP BY user_id) AS settlements on `users`.`id` = `settlements`.`user_id`
+        LEFT JOIN (SELECT user_id, SUM(transfer_fees) AS Total_transfer_fees, SUM(settlements.net_amount) AS Total_net_transfer FROM `settlements` ".$whereDateBetween." AND settlements.status like 'completed' GROUP BY user_id) AS settlements on `users`.`id` = `settlements`.`user_id`
         
         WHERE `users`.`verified` = 1
         ".$whereInMerchants."
