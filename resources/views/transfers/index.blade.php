@@ -13,7 +13,7 @@
 <section id="transfersIndexPage">
 
   <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
-    <h1 class="d-block fw-bold m-0">{{ __('Transfers') }}</h1>
+    <h1 class="d-block fw-bold m-0 fs-5">{{ __('Transfers') }}</h1>
     <h2 class="d-flex align-items-end justify-content-end flex-column m-0">
       @if(!auth()->user()->auto_trnasfer && auth()->user()->verified)
         @include('transfers.request_transfer')

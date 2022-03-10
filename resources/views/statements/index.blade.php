@@ -19,8 +19,8 @@
   <section id="statementIndexPage">
 
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
-      <h1 class="d-block fw-bold m-0">{{ __('Statement') }}</h1>
-      <h2 class="d-block fw-bold m-0">{{ __('Balance') }} : {{ round2(auth()->user()->balance) }} {{ __('SAR')}}</h2>
+      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Statement') }}</h1>
+      <h2 class="d-block fw-bold m-0 fs-6">{{ __('Balance') }} : {{ round2(auth()->user()->balance) }} {{ __('SAR')}}</h2>
     </div><!-- title -->
 
     <div class="filterArea mb-3 d-flex align-items-end justify-content-between flex-wrap flex-column flex-lg-row">

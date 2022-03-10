@@ -15,7 +15,7 @@
   <section id="customerEditPage">
 
     <div class="title mb-4">
-      <h1 class="d-block fw-bold m-0">{{ __('Edit')}}</h1>
+      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Edit')}}</h1>
     </div><!-- title -->
 
     @if ($errors->any())

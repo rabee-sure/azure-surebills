@@ -5,6 +5,8 @@
 @section('css_styles')
   <link rel="stylesheet" href="{{ asset('new/css/plugins/jquery-ui/jquery-ui.css') }}?v={{ config('app.asset_version') }}">
   <link rel="stylesheet" href="{{ asset('new/css/plugins/daterangepicker/daterangepicker.css') }}?v={{ config('app.asset_version') }}">
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2.min.css') }}?v={{ config('app.asset_version') }}">
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2-bootstrap.min.css') }}?v={{ config('app.asset_version') }}">
 @endsection
 
 @section('content')
@@ -19,7 +21,7 @@
 
   <section id="billCreatePage">
     <div class="title mb-4">
-      <h1 class="d-block fw-bold m-0">{{ __('Create a bill') }}</h1>
+      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Create a bill') }}</h1>
     </div><!-- title -->
 
     @if ($errors->any())
@@ -38,13 +40,13 @@
         <div class="row">
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
-              <label for="customer_name" class="d-block mb-1">{{ __('Customer Name') }} <span class="requirement text-danger">*</span></label>
+              <label for="customer_name" class="d-block mb-2">{{ __('Customer Name') }} <span class="requirement text-danger">*</span></label>
               <input value="{{ old('customer_name') }}" name="customer_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="customer_name" placeholder="{{ __('Customer Name') }} *">
             </div><!-- form-group -->
           </div><!-- col -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
-              <label for="customer_mobile" class="d-block mb-1">{{ __('Mobile Number') }} <span class="requirement text-danger">*</span></label>
+              <label for="customer_mobile" class="d-block mb-2">{{ __('Mobile Number') }} <span class="requirement text-danger">*</span></label>
               <div class="phoneInput overflow-hidden position-relative">
                 <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
                 <input value="{{ old('customer_mobile') }}" name="customer_mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="5XXXXXXXX"  pattern="[0-9]*" maxlength="9" inputmod="numaric">
@@ -56,7 +58,7 @@
           </div><!-- col -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
-              <label for="customer_email" class="d-block mb-1">{{ __('Email') }}</label>
+              <label for="customer_email" class="d-block mb-2">{{ __('Email') }}</label>
               <input value="{{ old('customer_email') }}" name="customer_email" type="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body @error('customer_email') is-invalid @enderror" id="customer_email" inputmode="email" placeholder="{{ __('Email') }}">
               @error('customer_email')
                 <p class="invalid-feedback" role="alert">{{ $message }}</p>
@@ -65,20 +67,20 @@
           </div><!-- col -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
-              <label for="customer_notes" class="d-block mb-1">{{ __('Special Note') }}</label>
+              <label for="customer_notes" class="d-block mb-2">{{ __('Special Note') }}</label>
               <input value="{{ old('customer_notes') }}" name="customer_notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="customer_notes" placeholder="{{ __('Special Note') }}">
             </div><!-- form-group -->
           </div><!-- col -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
-              <label for="due_date" class="d-block mb-1">{{ __('Due Date') }}</label>
+              <label for="due_date" class="d-block mb-2">{{ __('Due Date') }}</label>
               <input value="{{ Carbon\Carbon::now()->format('d/m/y') }}" name="due_date" id="due_date" class="form-control shadow-none bg-white border w-100 rounded-3 text-body dueDate" placeholder="{{ __('Due Date') }}">
             </div><!-- form-group -->
           </div><!-- col -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
-              <label for="expiry_date" class="d-block mb-1">{{ __('Expiry Date') }}</label>
-              <select value="{{ old('expiry_date') }}" name="expiry_date" id="expiry_date" class="form-control shadow-none bg-white border w-100 rounded-3 text-body">
+              <label for="expiry_date" class="d-block mb-2">{{ __('Expiry Date') }}</label>
+              <select value="{{ old('expiry_date') }}" name="expiry_date" id="expiry_date" class="form-control shadow-none bg-white border w-100 rounded-3 text-body select2-single">
                 <option value="1">{{ __('1 Day') }}</option>
                 <option value="2">{{ __('2 Day') }}</option>
                 <option value="3">{{ __('3 Day') }}</option>
@@ -98,49 +100,49 @@
               <div class="row">
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="bullding_no" class="d-block mb-1">{{__('bullding_no')}}</label>
+                    <label for="bullding_no" class="d-block mb-2">{{__('bullding_no')}}</label>
                     <input value="{{ old('bullding_no') }}" name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('bullding_no')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="street_name" class="d-block mb-1">{{__('street_name')}}</label>
+                    <label for="street_name" class="d-block mb-2">{{__('street_name')}}</label>
                     <input value="{{ old('street_name') }}" name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('street_name')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="district" class="d-block mb-1">{{__('district')}}</label>
+                    <label for="district" class="d-block mb-2">{{__('district')}}</label>
                     <input value="{{ old('district') }}" name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('district')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="city" class="d-block mb-1">{{__('city')}}</label>
+                    <label for="city" class="d-block mb-2">{{__('city')}}</label>
                     <input value="{{ old('city') }}" name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('city')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="postal_code" class="d-block mb-1">{{__('postal_code')}}</label>
+                    <label for="postal_code" class="d-block mb-2">{{__('postal_code')}}</label>
                     <input value="{{ old('postal_code') }}" name="postal_code" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('postal_code')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="additional_no" class="d-block mb-1">{{__('additional_no')}}</label>
+                    <label for="additional_no" class="d-block mb-2">{{__('additional_no')}}</label>
                     <input value="{{ old('additional_no') }}"  name="additional_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('additional_no')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="other_buyer_id" class="d-block mb-1">{{__('other_buyer_id')}}</label>
+                    <label for="other_buyer_id" class="d-block mb-2">{{__('other_buyer_id')}}</label>
                     <input value="{{ old('other_buyer_id') }}"  name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="vat_registration_number" class="d-block mb-1">{{__('vat_registration_number')}}</label>
+                    <label for="vat_registration_number" class="d-block mb-2">{{__('vat_registration_number')}}</label>
                     <input value="{{ old('vat_registration_number') }}"  name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('vat_registration_number')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
@@ -162,25 +164,25 @@
                 <div class="repeaterItem row align-items-end" data-repeater-item>
                   <div class="col-12 col-lg-6">
                     <div class="form-group mb-3">
-                      <label for="inputEmail1" class="d-block mb-1">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
+                      <label for="inputEmail1" class="d-block mb-2">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
                       <input name="name" value="{{$item['name']}}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body product_name" placeholder="{{ __('Name') }}">
                     </div><!-- form-group -->
                   </div><!-- col-12 -->
                   <div class="col-12 col-lg-3">
                     <div class="form-group mb-3">
-                      <label for="Price" class="d-block mb-1">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
+                      <label for="Price" class="d-block mb-2">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
                       <input name="price"  value="{{$item['price']}}" min="1" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_price" placeholder="{{ __('Price') }}">
                     </div><!-- form-group -->
                   </div><!-- col-12 -->
                   <div class="col-12 col-lg-3">
                     <div class="form-group mb-3">
-                      <label for="Price" class="d-block mb-1">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
+                      <label for="Price" class="d-block mb-2">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
                       <input type="tel" name="quantity" value="{{$item['quantity']}}" min="1" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_quantity" placeholder="{{ __('Quantity') }}">
                     </div><!-- form-group -->
                   </div><!-- col-12 -->
                   <div class="col-12 col-lg-3">
                     <div class="form-group mb-3">
-                      <label for="Price" class="d-block mb-1">{{ __('Total') }}</label>
+                      <label for="Price" class="d-block mb-2">{{ __('Total') }}</label>
                       <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control shadow-none bg-white border w-100 rounded-3 text-body text-center fw-bold" disabled>
                     </div><!-- form-group -->
                   </div><!-- col-12 -->
@@ -196,25 +198,25 @@
               <div class="repeaterItem row align-items-end" data-repeater-item>
                 <div class="col-12 col-lg-5">
                   <div class="form-group mb-3">
-                    <label for="inputEmail1" class="d-block mb-1">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
+                    <label for="inputEmail1" class="d-block mb-2">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
                     <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body product_name" placeholder="{{ __('Name') }}">
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
                 <div class="col-6 col-lg-2">
                   <div class="form-group mb-3">
-                    <label for="Price" class="d-block mb-1">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
+                    <label for="Price" class="d-block mb-2">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
                     <input type="tel" name="price" min="1" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_price" placeholder="{{ __('Price') }}">
                   </div><!-- form-group -->
                 </div><!-- col-6 -->
                 <div class="col-6 col-lg-2">
                   <div class="form-group mb-3">
-                    <label for="Price" class="d-block mb-1">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
+                    <label for="Price" class="d-block mb-2">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
                     <input type="tel" name="quantity" min="1" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_quantity" placeholder="{{ __('Quantity') }}">
                   </div><!-- form-group -->
                 </div><!-- col-6 -->
                 <div class="col-6 col-lg-2">
                   <div class="form-group mb-3">
-                    <label for="Price" class="d-block mb-1">{{ __('Total') }}</label>
+                    <label for="Price" class="d-block mb-2">{{ __('Total') }}</label>
                     <input name="total" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body text-center fw-bold" disabled>
                   </div><!-- form-group -->
                 </div><!-- col-6 -->
@@ -243,7 +245,7 @@
               <div class="row py-3">
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="type" class="d-block mb-1">{{ __('Discount type') }}</label>
+                    <label for="type" class="d-block mb-2">{{ __('Discount type') }}</label>
                     <select name="discount_type" id="discount_type" class="form-control shadow-none bg-white border w-100 rounded-3">
                       <option value="fixed" @if(old('discount_type') == 'fixed') selected @endif> {{ __('fixed') }}</option>
                       <option value="percentage" @if(old('discount_type') == 'percentage') selected @endif>{{ __('Percentage Discount (%)') }}</option>
@@ -252,7 +254,7 @@
                 </div><!-- col-6 -->
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="Price" class="d-block mb-1">{{ __('Discount Value') }}</label>
+                    <label for="Price" class="d-block mb-2">{{ __('Discount Value') }}</label>
                     <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
                       <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="fixed">{{ __('SAR') }}</div>
                       <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
@@ -275,7 +277,7 @@
               <div class="row py-3">
                 <div class="col-12 col-md-6">
                   <div class="form-group">
-                    <label for="Tax" class="d-block mb-1">{{ __('Tax Value') }}</label>
+                    <label for="Tax" class="d-block mb-2">{{ __('Tax Value') }}</label>
                     <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
                       <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
                       <input type="tel" name="tax_value" class="form-control shadow-none bg-white border w-100 rounded-3" id="Value" value="@if(auth()->user()->settings->add_tax){{auth()->user()->settings->tax_value}}@else{{old('tax_value')}}@endif" aria-describedby="basic-addon3">
@@ -322,6 +324,7 @@
   <script src="{{ asset('new/js/daterangepicker/daterangepicker.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script src="{{ asset('new/js/jquery-ui/jquery-ui.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script src="{{ asset('new/js/repeater/jquery.repeater.min.js') }}?v={{ config('app.asset_version') }}"></script>
+  <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script>
     // Additional Information
     $(".additionalInformationArea").hide();

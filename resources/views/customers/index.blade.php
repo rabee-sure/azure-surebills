@@ -13,7 +13,7 @@
   <section id="customersIndexPage">
 
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
-      <h1 class="d-block fw-bold m-0">{{ __('Customers')}}</h1>
+      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Customers')}}</h1>
       @include('customers.create')
     </div><!-- title -->
 

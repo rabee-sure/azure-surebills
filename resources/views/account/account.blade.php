@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('My Account'))
+@section('title', __('Settings'))
 
 @section('css_styles')
   <link rel="stylesheet" href="{{ asset('css/smart_wizard.min.css') }}">
@@ -11,13 +11,13 @@
   <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
     <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
     <i>/</i>
-    <span>{{ __('My Account') }}</span>
+    <span>{{ __('Settings') }}</span>
   </div><!-- breadcrump -->
 
   <section id="accountIndexPage">
 
     <div class="title mb-4">
-      <h1 class="d-block fw-bold m-0">{{__('My Account')}}</h1>
+      <h1 class="d-block fw-bold m-0 fs-5">{{__('Settings')}}</h1>
     </div><!-- title -->
 
     @if(!auth()->user()->is_uploaded_business_documents)
@@ -58,9 +58,9 @@
         </a>
       </div><!-- col -->
       <div class="col">
-        <a href="{{ route('settings') }}" title="{{__('Settings')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+        <a href="{{ route('settings') }}" title="{{__('Invoice Settings')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
           <i class="fal fa-cogs"></i>
-          <span class="d-block mt-3 text-center">{{__('Settings')}}</span>
+          <span class="d-block mt-3 text-center">{{__('Invoice Settings')}}</span>
         </a>
       </div><!-- col -->
       <div class="col">
@@ -69,6 +69,20 @@
           <span class="d-block mt-3 text-center">{{__('Products')}}</span>
         </a>
       </div><!-- col -->
+      <div class="col">
+        <a href="{{ route('integration') }}" title="{{ __('Integration') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+          <i class="fal fa-network-wired"></i>
+          <span class="d-block mt-3 text-center">{{__('Integration')}}</span>
+        </a>
+      </div><!-- col -->
+      @if(count(auth()->user()->channels))
+        <div class="col">
+          <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+            <i class="fal fa-cogs"></i>
+            <span class="d-block mt-3 text-center">{{__('Channels')}}</span>
+          </a>
+        </div><!-- col -->
+      @endif
     </div><!-- row -->
 
     @yield('steps')

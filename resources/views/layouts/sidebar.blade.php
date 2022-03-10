@@ -30,27 +30,9 @@
       <i class="d-flex align-items-center justify-content-center fal fa-sack-dollar"></i>
       {{ __('Transfers') }}
     </a>
-    <a href="{{ route('account') }}" title="{{ __('My Account') }}" class="d-flex align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('account*') ? 'active' : '' }}">
+    <a href="{{ route('account') }}" title="{{__('Settings')}}" class="d-flex align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('account*') ? 'active' : '' }}">
       <i class="d-flex align-items-center justify-content-center fal fa-user-cog"></i>
-      {{ __('My Account') }}
-    </a>
-    @if(count(auth()->user()->channels))
-      <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}" class="d-flex align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('channels*') ? 'active' : '' }}">
-        <i class="d-flex align-items-center justify-content-center fal fa-cogs"></i>
-        {{ __('Channels') }}
-      </a>
-    @endif
-    <a href="{{ route('integration') }}" title="{{ __('Integration') }}" class="d-flex align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('integration*') ? 'active' : '' }}">
-      <i class="d-flex align-items-center justify-content-center fal fa-network-wired"></i>
-      {{ __('Integration') }}
-    </a>
-    <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="d-flex align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('products*') ? 'active' : '' }}">
-      <i class="fal fa-boxes"></i>
-      {{ __('Products') }}
-    </a>
-    <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}" class="d-flex align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('categories*') ? 'active' : '' }}">
-      <i class="d-flex align-items-center justify-content-center fal fa-store"></i>
-      {{ __('Product Sections') }}
+      {{__('Settings')}}
     </a>
     @if(in_array(Auth::user()->email, explode(',', env('NOVA_ALLOWED_ADMINS'))))
       <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}" class="d-flex align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('reports*') ? 'active' : '' }}">

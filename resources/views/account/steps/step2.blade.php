@@ -1,5 +1,11 @@
 @extends('account.account_complete')
 
+@section('css_styles')
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/daterangepicker/daterangepicker.css') }}?v={{ config('app.asset_version') }}">
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2.min.css') }}?v={{ config('app.asset_version') }}">
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2-bootstrap.min.css') }}?v={{ config('app.asset_version') }}">
+@endsection
+
 @section('steps')
   <div class="stepsArea d-flex align-items-start justify-content-between position-relative mb-5">
     <div class="item d-flex align-items-center justify-content-center flex-column done">
@@ -25,8 +31,8 @@
               {{ __('License type') }} 
               <button class="btn-primary border-0 rounded-circle shadow-none p-0 d-flex align-items-center justify-content-center" type="button" data-bs-toggle="modal" data-bs-target=".license_type_modal"><i class="fas fa-question"></i></button>
             </label>
-            <select id="license_type" name="license_type" class="form-control rounded-3 shadow-none border">
-              {{-- <option value="Commercial Record"@if($errors->any()) @if(old('license_type') == 'Commercial Record') {{selected}} @elseif($user->license_type == 'Commercial Record')selected="selected"@endif>{{ __('Commercial Record') }}</option> --}}
+            <select id="license_type" name="license_type" class="form-control rounded-3 shadow-none border select2-single">
+              <!-- <option value="Commercial Record"@if($errors->any()) @if(old('license_type') == 'Commercial Record') {{selected}} @elseif($user->license_type == 'Commercial Record')selected="selected"@endif>{{ __('Commercial Record') }}</option> -->
               <option value="Commercial Record"
                 @if($errors->any())
                   @if(old('license_type') == 'Commercial Record')
@@ -61,7 +67,7 @@
         <div id="registry_expiry_date" class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="commercial_registry_expiry_date" class="d-block mb-2">{{ __('Commercial Registry Expiry Date') }} <span class="requirement text-danger">*</span></label>
-            <input value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control rounded-3 shadow-none border datepicker" placeholder="{{ __('Commercial Registry Expiry Date') }}">
+            <input type="text" readonly value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control rounded-3 shadow-none border expiryDate" placeholder="{{ __('Commercial Registry Expiry Date') }}">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
@@ -120,11 +126,11 @@
         @if(auth()->user()->logo)
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
-              <div class="custom-file">
-                <img  src="{{ url(auth()->user()->logo)  }}" class="img-thumbnail logo_image" width="100" />
-                <i class="glyph-icon simple-icon-trash delete_logo"></i>
-              </div>
-            </div>
+              <div class="logoImage p-2 border overflow-hidden rounded-3 position-relative d-flex align-items-center justify-content-center">
+                <img src="{{ url(auth()->user()->logo)  }}" alt="logo" class="logo_image mw-100 mh-100" />
+                <i class="fal fa-trash-alt delete_logo position-absolute btn-danger rounded-3 d-flex align-items-center justify-content-center text-white"></i>
+              </div><!-- logoImage -->
+            </div><!-- form-group -->
           </div><!-- col-12 -->
         @endif
         <div class="col-12">
@@ -140,25 +146,26 @@
     </form>
   </div><!-- blockStep2 -->
 
-<div class="modal fade license_type_modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{ __('License type') }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>السجل التجاري يمكن إصدارة من وزارة التجارة من خلال الموقع الاكتروني الخاص بهم من خلال هذا الرابط .. <a href="http://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=2" target="_blank" title="إضغط هنا">إضغط هنا</a></p>
-        <p>وثيقة العمل الحر وهي وثيقة مجانية تصدر من قبل وزارة العمل والتنمية الاجتماعية لممارسة العمل الحر، ولإصدار وثيقة العمل المجانية تقدم بطلب من خلال هذا الرابط .. <a href="https://freelance.sa/" target="_blank" title="أضغط هنا">أضغط هنا</a></p>
+  <div class="modal fade license_type_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content border-0 shadow-sm rounded-3">
+        <div class="modal-header d-flex align-items-center justify-content-between">
+          <h5 class="modal-title">{{ __('License type') }}</h5>
+          <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
+        </div>
+        <div class="modal-body">
+          <p>السجل التجاري يمكن إصدارة من وزارة التجارة من خلال الموقع الاكتروني الخاص بهم من خلال هذا الرابط .. <a href="http://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=2" target="_blank" title="إضغط هنا">إضغط هنا</a></p>
+          <p>وثيقة العمل الحر وهي وثيقة مجانية تصدر من قبل وزارة العمل والتنمية الاجتماعية لممارسة العمل الحر، ولإصدار وثيقة العمل المجانية تقدم بطلب من خلال هذا الرابط .. <a href="https://freelance.sa/" target="_blank" title="أضغط هنا">أضغط هنا</a></p>
+        </div>
       </div>
     </div>
   </div>
-</div>
 @endsection
 
 @push('footer-scripts')
+  <script src="{{ asset('new/js/daterangepicker/moment.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
+  <script src="{{ asset('new/js/daterangepicker/daterangepicker.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
+  <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script type="text/javascript">
     $('#logo').bind('change', function () {
       var filename = $("#logo").val();
@@ -170,6 +177,55 @@
       }
     });
 
+    $('.delete_logo').click(function(){
+      $('input[name="hidden_logo"]').val('');
+      $('.logoImage').remove();
+      $(this).remove();
+    });
+
+    // Single Daterangepicker
+    $(function() {
+      $('.expiryDate').daterangepicker({
+        "singleDatePicker": true,
+        "autoApply": true,
+        "maxSpan": {
+          "days": 7
+        },
+        locale: {
+          format: 'DD/MM/YYYY',
+          daysOfWeek: [
+            '{{__('Sun')}}',
+            '{{__('Mon')}}',
+            '{{__('Tue')}}',
+            '{{__('Wed')}}',
+            '{{__('Thur')}}',
+            '{{__('Fri')}}',
+            '{{__('Sat')}}'
+          ],
+          monthNames: [
+            '{{__('January')}}',
+            '{{__('February')}}',
+            '{{__('March')}}',
+            '{{__('April')}}',
+            '{{__('May')}}',
+            '{{__('June')}}',
+            '{{__('July')}}',
+            '{{__('August')}}',
+            '{{__('September')}}',
+            '{{__('October')}}',
+            '{{__('November')}}',
+            '{{__('December')}}'
+          ],
+          fromLabel: '{{__('from')}}',
+          toLabel: '{{__('to')}}',
+          applyLabel: '{{__('apply')}}',
+          cancelLabel:'{{__('cancel')}}',
+          customRangeLabel: '{{__('custom Range')}}',
+          weekLabel: '{{__('week')}}',
+        },
+      });
+    });
+
     $('#license_type').on('change', function() {
       if(this.value == 'Commercial Record'){
           $('#registry_expiry_date').show();
@@ -178,9 +234,5 @@
       }
     });
   </script>
-@endpush
-
-
-@push('footer-scripts')
-    {!! JsValidator::formRequest('App\Http\Requests\BusinessInformationRequest', '#form') !!}
+  {!! JsValidator::formRequest('App\Http\Requests\BusinessInformationRequest', '#form') !!}
 @endpush

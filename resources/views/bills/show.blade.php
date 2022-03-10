@@ -20,7 +20,7 @@
 
 <section id="billShowPage">
   <div class="title mb-4 d-print-none">
-    <h1 class="d-block fw-bold m-0">{{ __('Bill') }}</h1>
+    <h1 class="d-block fw-bold m-0 fs-5">{{ __('Bill') }}</h1>
   </div><!-- title -->
 
   <div id="errors" class="d-print-none">

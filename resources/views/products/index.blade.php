@@ -3,41 +3,41 @@
 @section('title', __('Products'))
 
 @section('content')
-@if ($errors->any())
+
+  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
+    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
+    <i>/</i>
+    <a href="{{ url('account')}}" title="{{ __('Settings') }}">{{ __('Settings') }}</a>
+    <i>/</i>
+    <span>{{ __('Products') }}</span>
+  </div><!-- breadcrump -->
+
+  @if ($errors->any())
     <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+      <ul>
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div><!-- alert -->
+  @endif
+
+  <section id="accountInformationPage">
+    <div class="title d-flex align-items-center justify-content-between mb-4">
+      <h1 class="d-block fw-bold m-0 fs-5">{{__('Products')}}</h1>
+      @include('products.create')
+    </div><!-- title -->
+    <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3 p-3">
+      dfdf
+    </div><!-- blockArea -->
+  </section><!-- accountInformationPage -->
 
 <div class="productsTabs d-flex align-items-center justify-content-center justify-content-md-start mb-4">
   <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('products*') ? 'active' : '' }}">{{ __('Products') }}</a>
   <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('categories*') ? 'active' : '' }}">{{ __('Product Sections') }}</a>
 </div><!-- productsTabs -->
 
-
-  <div class="row">
-    <div class="col-12">
-      <div class="mb-3">
-        <h1>{{ __('Products')}}</h1>
-        <div class="top-right-button-container">
-        @include('products.create')
-      </div>
-      <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-        <ol class="breadcrumb pt-0">
-          <li class="breadcrumb-item">
-            <a href="{{ url('/') }}">{{ __('Home')}}</a>
-          </li>
-          <li class="breadcrumb-item active" aria-current="page">{{ __('Products')}}</li>
-        </ol>
-      </nav>
-      <div class="separator mt-3 mb-5"></div>
-      </div>
-    </div>
-  </div>
+ 
   <div class="row">
   <div class="col-12">
     <div class="card">

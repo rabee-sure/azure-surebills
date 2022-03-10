@@ -24,6 +24,7 @@
 @import "pages/statement";
 @import "pages/transfers";
 @import "pages/account";
+@import "pages/products";
 
 body {
   background-color: #f8f8f8;
@@ -395,6 +396,7 @@ input[type="email"] {
 
 span.select2 {
   min-width: 200px;
+  max-width: 100% !important;
   @include media-breakpoint-down(md) {
     width: 100% !important;
   } /* md */
@@ -453,20 +455,20 @@ span.select2-container {
         padding: 0 10px;
         border-color: #dee2e6 !important;
         color: #3a3a3a;
-        font-size: 14px;
+        font-size: 15px;
         outline: none;
       } /* input */
     } /* select2-search--dropdown */
     ul.select2-results__options {
       li {
         padding: 5px;
-        font-size: 14px;
+        font-size: 15px;
         color: #3a3a3a;
         &.select2-results__option--highlighted {
           background-color: var(--mainColor);
           color: #ffffff;
         } /* select2-results__option--highlighted */
-        &:first-child {
+        &[aria-disabled="true"] {
           color: #999 !important;
         } /* first-child */
       } /* li */

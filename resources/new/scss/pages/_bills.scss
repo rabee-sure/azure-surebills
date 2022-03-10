@@ -1,7 +1,6 @@
 #billIndexPage {
   .title {
     h1 {
-      font-size: 25px;
       color: #3a3a3a;
     } /* h1 */
     a {
@@ -176,7 +175,6 @@
 #billCreatePage {
   .title {
     h1 {
-      font-size: 25px;
       color: #3a3a3a;
     } /* h1 */
   } /* title */
@@ -198,6 +196,7 @@
         height: 40px;
         padding: 0 10px;
         outline: none;
+        font-size: 15px;
         &:focus {
           background-color: var(--hoverBg) !important;
           border-color: var(--mainColor) !important;
@@ -220,6 +219,7 @@
       select {
         background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg==");
         height: 40px;
+        font-size: 15px;
         padding: 0 10px;
         background-position: 10px center;
         background-repeat: no-repeat;
@@ -408,7 +408,6 @@
         } /* checked */
       } /* input */
       span {
-        font-size: 16px;
         color: #3a3a3a;
         i {
           height: 25px;
@@ -456,7 +455,6 @@
 #billShowPage {
   .title {
     h1 {
-      font-size: 25px;
       color: #3a3a3a;
     } /* h1 */
   } /* title */
