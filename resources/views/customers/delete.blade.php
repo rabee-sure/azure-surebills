@@ -11,9 +11,9 @@
           <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
         </div><!-- closeBtn -->
         @if($customer->bills()->exists())
-          <span class="d-block fw-bold text-center text-body mb-4 fs-5">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</span>
+          <span class="d-block text-center text-body mb-4 fs-5">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</span>
         @else
-          <span class="d-block fw-bold text-center text-body mb-4 fs-5">{{ __('Are You sure Delete this Customer?')}}</span>
+          <span class="d-block text-center text-body mb-4 fs-5">{{ __('Are You sure Delete this Customer?')}}</span>
         @endif
         <form action="{{ route('customers.destroy', $customer->id)}}" method="post" class="w-100">
           @csrf

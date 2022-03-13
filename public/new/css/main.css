@@ -30953,6 +30953,162 @@ section#homepage .addNewBillBtn:hover {
 }
 
 /* applicationModals */
+.modalDeleteApplication {
+  /* btnsArea */
+}
+.modalDeleteApplication .btnsArea {
+  /* button */
+}
+.modalDeleteApplication .btnsArea button {
+  padding: 0 15px;
+  height: 40px;
+  min-width: 100px;
+  /* disabled="disabled" */
+}
+.modalDeleteApplication .btnsArea button[disabled=disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* modalDeleteApplication */
+#integrationIndexPage {
+  /* title */
+  /* notApplicationsYet */
+  /* blockArea */
+}
+#integrationIndexPage .title {
+  /* h1 */
+  /* a */
+}
+#integrationIndexPage .title h1, #integrationIndexPage .title .h1 {
+  color: #3a3a3a;
+}
+#integrationIndexPage .title a {
+  min-width: 150px;
+  height: 40px;
+  cursor: pointer;
+}
+#integrationIndexPage .notApplicationsYet {
+  min-height: 400px;
+  color: #999;
+  /* md */
+  /* i */
+  /* span */
+}
+@media (max-width: 767.98px) {
+  #integrationIndexPage .notApplicationsYet {
+    min-height: 200px;
+  }
+}
+#integrationIndexPage .notApplicationsYet i {
+  font-size: 100px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #integrationIndexPage .notApplicationsYet i {
+    font-size: 70px;
+  }
+}
+#integrationIndexPage .notApplicationsYet span {
+  font-size: 18px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #integrationIndexPage .notApplicationsYet span {
+    font-size: 15px;
+  }
+}
+#integrationIndexPage .blockArea {
+  /* table */
+}
+#integrationIndexPage .blockArea table {
+  /* thead */
+  /* tbody */
+}
+#integrationIndexPage .blockArea table thead {
+  /* th */
+}
+#integrationIndexPage .blockArea table thead th {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+#integrationIndexPage .blockArea table tbody {
+  /* td */
+}
+#integrationIndexPage .blockArea table tbody td {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  word-break: break-all;
+  /* a */
+}
+#integrationIndexPage .blockArea table tbody td a, #integrationIndexPage .blockArea table tbody td button {
+  width: 35px;
+  height: 35px;
+}
+
+/* integrationIndexPage */
+.applicationModals {
+  /* form-group */
+  /* modal-footer */
+}
+.applicationModals .form-group {
+  /* input */
+}
+.applicationModals .form-group input {
+  height: 40px;
+  padding: 0 10px;
+  outline: none;
+  font-size: 15px;
+  /* focus */
+  /* is-valid */
+  /* is-invalid */
+}
+.applicationModals .form-group input:focus {
+  background-color: var(--hoverBg) !important;
+  border-color: var(--mainColor) !important;
+}
+.applicationModals .form-group input.is-valid {
+  background-position: 10px center;
+  border-color: #198754 !important;
+  /* ltr */
+}
+[dir=ltr] .applicationModals .form-group input.is-valid {
+  background-position: right 10px center;
+}
+.applicationModals .form-group input.is-invalid {
+  background-position: 10px center;
+  border-color: #dc3545 !important;
+  /* ltr */
+}
+[dir=ltr] .applicationModals .form-group input.is-invalid {
+  background-position: right 10px center;
+}
+.applicationModals .modal-footer {
+  /* button */
+}
+.applicationModals .modal-footer button {
+  height: 40px;
+  min-width: 100px;
+  padding: 0 15px;
+  margin: 0 0.5rem 0 0;
+  /* ltr */
+  /* first-child */
+}
+[dir=ltr] .applicationModals .modal-footer button {
+  margin: 0 0 0 0.5rem;
+}
+.applicationModals .modal-footer button:first-child {
+  margin: 0;
+}
+
+/* applicationModals */
 body {
   background-color: #f8f8f8;
   direction: rtl;
