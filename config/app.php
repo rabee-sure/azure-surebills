@@ -181,7 +181,7 @@ return [
         App\Providers\TranslationServiceProvider::class,
         Multicaret\Unifonic\UnifonicServiceProvider::class,
         App\Providers\PaymentServiceProvider::class,
-
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ],
 

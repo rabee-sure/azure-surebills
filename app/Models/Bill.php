@@ -283,7 +283,7 @@ class Bill extends Model
 
         $ks = (str_contains($link, '?')) ? "&" : '?';
         return $link . $ks . implode("&", $data);
-    }    
+    }
 
     /**
      * Redirect Url.
@@ -396,7 +396,7 @@ class Bill extends Model
         if (isset($this->success_payment->results['response']) && isset($this->success_payment->results['response']['paymentBrand'])) {
             $method .= $this->success_payment->results['response']['paymentBrand'];
         }
-        
+
         if ($this->success_payment->brand) {
             $method .= $this->success_payment->brand;
         }
@@ -508,7 +508,7 @@ class Bill extends Model
      */
     public function resolveRouteBinding($value, $field = null)
     {
-        return $this->where('id', $value)->where('user_id', auth()->user()->id)->firstOrFail();
+        return $this->where('id', $value)->whereIn('user_id', auth()->user()->storeUsers(true))->firstOrFail();
     }
 
     /**
@@ -837,7 +837,7 @@ class Bill extends Model
         } else {
             $object = $this->user;
         }
-        
+
         return $log->brand == 'MADA' ? $object->mada_percentage : $object->credit_cards_percentage;
     }
 
@@ -853,7 +853,7 @@ class Bill extends Model
         } else {
             $object = $this->user;
         }
-        
+
         return $log->brand == 'MADA' ? $object->mada_fixed : $object->credit_cards_fixed;
     }
 

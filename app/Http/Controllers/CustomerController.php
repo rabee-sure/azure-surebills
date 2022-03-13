@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show customers', ['only' => ['index','show', 'searchByName', 'searchByMobile']]);
+        $this->middleware('permission:create customer', ['only' => ['create','store']]);
+        $this->middleware('permission:update customer', ['only' => ['edit','update']]);
+        $this->middleware('permission:delete customer', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +24,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $customers = auth()->user()->customers()
+        $customers = Customer::whereIn('user_id', auth()->user()->storeUsers(true))
             ->orderBy('id', 'desc')
             ->with('bills')
             ->paginate($request->get('per_page', 10));
@@ -32,7 +40,7 @@ class CustomerController extends Controller
     {
         $search = $request->get('search');
         $result = Customer::where('name', 'LIKE', '%'. $search. '%')
-            ->where('user_id', auth()->user()->id)
+            ->where('user_id', auth()->user()->storeUsers(true))
             ->orderBy('id', 'desc')
             ->get();
         return response()->json($result);
@@ -47,7 +55,7 @@ class CustomerController extends Controller
     {
         $search = $request->get('search');
         $result = Customer::where('mobile', 'LIKE', '%'. $search. '%')
-            ->where('user_id', auth()->user()->id)
+            ->whereIn('user_id', auth()->user()->storeUsers(true))
             ->orderBy('id', 'desc')
             ->get();
         return response()->json($result);

@@ -39,7 +39,7 @@ use PosLifestyle\DateRangeFilter\DateRangeFilter;
 
 class User extends Resource
 {
-    use HasConditionalContainer; 
+    use HasConditionalContainer;
 
     /**
      * The model the resource corresponds to.
@@ -100,7 +100,10 @@ class User extends Resource
                 return round2($this->balance);
             })->readonly(),
 
-            Text::make(__('Business Name'), 'business_name_en')->rules('required', 'max:50'),
+            Text::make(__('Business Name'), function(){
+                return $this->business_name_en ? $this->business_name_en : $this->mainStoreUser->business_name_en;
+            })->rules('required', 'max:50'),
+
             new Panel(__('Bank Information'), $this->bankInformation()),
             Text::make(__('Account Name'), 'name')
                 ->sortable()
@@ -147,7 +150,7 @@ class User extends Resource
                 ->hideFromIndex(),
 
             Boolean::make(__('Able Refund'), 'able_refund')
-                ->hideFromIndex(),            
+                ->hideFromIndex(),
             Boolean::make(__('Vat Inclusive'), 'vat_inclusive')
                 ->hideFromIndex(),
             Boolean::make(__('Able Refund With Fees'), 'able_refund_with_fees')
@@ -159,6 +162,10 @@ class User extends Resource
             new Panel(__('Pricing'), $this->pricingFields()),
 
             new Panel(__('Business Information'), $this->businessInformation()),
+
+            Text::make(__('user type'), function(){
+                return $this->mainStoreUser ? __('employee') : __('owner');
+            })->exceptOnForms(),
 
             Image::make(__('Business logo'), 'logo')
                 ->disk('public')
@@ -266,7 +273,7 @@ class User extends Resource
             ])->displayUsingLabels()->hideFromIndex(),
                       ConditionalContainer::make([Date::make(__('Commercial Registry Expiry Date'), 'commercial_registry_expiry_date')->hideFromIndex() ])
                                 ->if('license_type = Commercial Record'),
-    
+
             Text::make(__('VAT Registration Number'), 'vat_registration_number')->hideFromIndex(),
             Text::make(__('Business Name').' en', 'business_name_en')->hideFromIndex(),
             Text::make(__('Business Name').' ar', 'business_name_ar')->hideFromIndex(),

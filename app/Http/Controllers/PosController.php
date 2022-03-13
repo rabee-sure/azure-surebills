@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class PosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show pos');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +19,8 @@ class PosController extends Controller
     public function categories(Request $request)
     {
         return view('pos.categories');
-    }  
-    
+    }
+
     /**
      * Display a listing of the resource.
      *

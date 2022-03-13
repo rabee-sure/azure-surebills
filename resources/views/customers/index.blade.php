@@ -16,9 +16,11 @@
     <div class="col-12">
       <div class="mb-3">
         <h1>{{ __('Customers')}}</h1>
+        @can('create customer')
         <div class="top-right-button-container">
         @include('customers.create')
       </div>
+      @endcan
       <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
         <ol class="breadcrumb pt-0">
           <li class="breadcrumb-item">
@@ -59,6 +61,7 @@
                   <td>{{ $customer->bills->count() }}</td>
                   <td>{{ $customer->created_at }}</td>
                   <td>
+                    @can('update customer')
                     <a href="{{ route('customers.edit', $customer->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">
                     <!-- {{ __('Edit') }} --><svg version="1.1" id="Capa_1" style="width: 15px;height: auto;fill: #fff;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
@@ -81,7 +84,7 @@
 </g>
 <g>
 	<g>
-		
+
 			<rect x="208.103" y="235.027" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -134.3583 244.2405)" width="39.084" height="98.556"/>
 	</g>
 </g>
@@ -116,7 +119,11 @@
 <g>
 </g>
 </svg></a>
+@endcan
+
+@can('delete customer')
                     @include('customers.delete', ['customer' => $customer])
+                    @endcan
                   </td>
                 </tr>
               @endforeach

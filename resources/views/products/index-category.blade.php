@@ -13,18 +13,27 @@
     </div>
 @endif
 
+@canany(['show products', 'show product categories'])
 <div class="productsTabs d-flex align-items-center justify-content-center justify-content-md-start mb-4">
-  <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('products*') ? 'active' : '' }}">{{ __('Products') }}</a>
-  <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('categories*') ? 'active' : '' }}">{{ __('Product Sections') }}</a>
+    @can('show products')
+        <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('products*') ? 'active' : '' }}">{{ __('Products') }}</a>
+    @endcan
+
+    @can('show product categories')
+        <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('categories*') ? 'active' : '' }}">{{ __('Product Sections') }}</a>
+    @endcan
 </div><!-- productsTabs -->
+@endcanany
 
   <div class="row">
     <div class="col-12">
       <div class="mb-3">
         <h1>{{ __('Product Sections')}}</h1>
+        @can('create product category')
         <div class="top-right-button-container">
         @include('products.create-category')
       </div>
+      @endcan
       <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
         <ol class="breadcrumb pt-0">
           <li class="breadcrumb-item">
@@ -52,7 +61,9 @@
                 <th scope="col">{{__('Email')}}</th>
                 <th scope="col">{{__('Bills')}}</th>
                 <th scope="col">{{__('Date created')}}</th>
+                @canany(['update product category', 'delete product category'])
                 <th scope="col">{{__('Actions')}}</th>
+                @endcanany
               </tr>
             </thead>
             <tbody>
@@ -64,70 +75,16 @@
                   <td>email</td>
                   <td>count</td>
                   <td>created_at</td>
+                  @canany(['update product category', 'delete product category'])
                   <td>
+                    @can('update product category')
                     <a href="{{ route('categories.edit', 1)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
+                    @endcan
+                    @can('delete product category')
                     <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
+                    @endcan
                   </td>
-                </tr>
-                <tr>
-                  <th scope="row">id</th>
-                  <td>name</td>
-                  <td>mobile</td>
-                  <td>email</td>
-                  <td>count</td>
-                  <td>created_at</td>
-                  <td>
-                    <a href="{{ route('categories.edit', 2)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
-                    <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">id</th>
-                  <td>name</td>
-                  <td>mobile</td>
-                  <td>email</td>
-                  <td>count</td>
-                  <td>created_at</td>
-                  <td>
-                    <a href="{{ route('categories.edit', 3)}}#" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
-                    <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">id</th>
-                  <td>name</td>
-                  <td>mobile</td>
-                  <td>email</td>
-                  <td>count</td>
-                  <td>created_at</td>
-                  <td>
-                    <a href="{{ route('categories.edit', 4)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
-                    <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">id</th>
-                  <td>name</td>
-                  <td>mobile</td>
-                  <td>email</td>
-                  <td>count</td>
-                  <td>created_at</td>
-                  <td>
-                    <a href="{{ route('categories.edit', 5)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
-                    <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">id</th>
-                  <td>name</td>
-                  <td>mobile</td>
-                  <td>email</td>
-                  <td>count</td>
-                  <td>created_at</td>
-                  <td>
-                    <a href="{{ route('categories.edit', 6)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>
-                    <a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>
-                  </td>
+                  @endcanany
                 </tr>
               <!-- endforeach -->
 
