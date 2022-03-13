@@ -23,7 +23,6 @@ class CreateSuperAdminUserSeeder extends Seeder
         {
             $permissions = Permission::pluck('id')->all();
             $role->syncPermissions($permissions);
-            dd($user);
             $user->assignRole($role->id);
         }
     }
