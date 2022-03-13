@@ -109,8 +109,8 @@ class SendReportFile implements ShouldQueue
         $whereDateTo = "";
 
         if($report_from != '' && $report_to != ''){
-            $whereDateBetween = "WHERE created_at BETWEEN '".$report_from."' AND '".$report_to."'";
-            $whereDateTo = "WHERE created_at <= '".$report_to." 23:59:00'";
+            $whereDateBetween = "WHERE DATE(created_at) BETWEEN '".$report_from."' AND '".$report_to."'";
+            $whereDateTo = "WHERE DATE(created_at) <= '".$report_to."'";
         }
 
         $whereInMerchants = "";
