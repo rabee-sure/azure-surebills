@@ -16,7 +16,8 @@ use GuzzleHttp\Client;
 */
 
 Route::get('debug-seeder', function(){
-    \Artisan::call('db:seed --class=CreateSuperAdminUserSeeder');
+\Artisan::call('db:seed --class=CreateSuperAdminUserSeeder');
+dd('success');
 });
 
 Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
