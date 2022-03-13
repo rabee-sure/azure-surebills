@@ -20,12 +20,12 @@
       <h1 class="d-block fw-bold m-0 fs-5">{{__('Settings')}}</h1>
     </div><!-- title -->
 
-    @if(!auth()->user()->is_uploaded_business_documents)
+    @if((!auth()->user()->is_uploaded_business_documents && !auth()->user()->store_main_user_id) || (auth()->user()->mainStoreUser && auth()->user()->hasPermissionTo('update business commercial info')))
       <div role="alert" class="alert mainAlert d-flex align-items-center justify-content-start alert-danger mb-4 w-100">
         <i class="fas fa-exclamation-triangle"></i>
         {{ __('No business information sent') }}
       </div><!-- alert -->
-    @elseif(!auth()->user()->is_uploaded_bank_documents)
+    @elseif((!auth()->user()->is_uploaded_bank_documents && !auth()->user()->store_main_user_id) || (auth()->user()->mainStoreUser && auth()->user()->hasPermissionTo('update bank info')))
       <div role="alert" class="alert mainAlert d-flex align-items-center justify-content-start alert-danger mb-4 w-100">
         <i class="fas fa-exclamation-triangle"></i>
         {{ __('Bank account information has not been sent') }}
@@ -81,9 +81,79 @@
             <i class="fal fa-chart-network"></i>
             <span class="d-block mt-3 text-center">{{__('Channels')}}</span>
           </a>
+<<<<<<< HEAD
         </div><!-- col -->
       @endif
     </div><!-- row -->
+=======
+        </div>
+
+        @can('update business commercial info')
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <a href="{{ route('business_information') }}" title="{{ __('Business Information') }}" class="card mb-4">
+            <div class="card-body text-center">
+              <div class="statistic_icon iconsminds-management"></div>
+              <p class="card-text font-weight-semibold mb-0">{{ __('Business Information') }}</p>
+            </div>
+          </a>
+        </div>
+        @endcan
+
+        @can('update bank info')
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <a href="{{ route('bank_information') }}" title="{{ __('Bank Information') }}" class="card mb-4">
+            <div class="card-body text-center">
+              <div class="statistic_icon iconsminds-bank"></div>
+              <p class="card-text font-weight-semibold mb-0">{{ __('Bank Information') }}</p>
+            </div>
+          </a>
+        </div>
+        @endcan
+
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <a href="{{ route('change_password') }}" title="{{ __('Change Password') }}" class="card mb-4">
+            <div class="card-body text-center">
+              <div class="statistic_icon iconsminds-type-pass"></div>
+              <p class="card-text font-weight-semibold mb-0">{{ __('Change Password') }}</p>
+            </div>
+          </a>
+        </div>
+
+        @can('update settings')
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <a href="{{ route('settings') }}" title="{{__('Settings')}}" class="card mb-4">
+            <div class="card-body text-center">
+              <div class="statistic_icon glyph-icon simple-icon-settings"></div>
+              <p class="card-text font-weight-semibold mb-0">{{__('Settings')}}</p>
+            </div>
+          </a>
+        </div><!-- col-12 -->
+        @endcan
+
+        @can('show products')
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="card mb-4">
+            <div class="card-body text-center">
+              <div class="statistic_icon glyph-icon iconsminds-project"></div>
+              <p class="card-text font-weight-semibold mb-0">{{ __('Products') }}</p>
+            </div>
+          </a>
+        </div><!-- col-12 -->
+        @endcan
+
+        @can('show users')
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <a href="{{ route('users.index') }}" title="{{ __('Users') }}" class="card mb-4">
+              <div class="card-body text-center">
+                <div class="statistic_icon glyph-icon simple-icon-people"></div>
+                <p class="card-text font-weight-semibold mb-0">{{ __('Users') }}</p>
+              </div>
+            </a>
+          </div><!-- col-12 -->
+          @endcan
+      </div>
+    </div>
+>>>>>>> dev
 
     @yield('steps')
     

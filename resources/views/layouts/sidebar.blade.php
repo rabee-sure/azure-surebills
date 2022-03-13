@@ -40,6 +40,14 @@
         {{ __('Reports') }}
       </a>
     @endif
+    <a href="{{ route('orders.all') }}" title="{{ __('Orders') }}" class="d-flex align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('orders*') ? 'active' : '' }}">
+      <i class="d-flex align-items-center justify-content-center fal fa-file-chart-line"></i>
+      {{ __('Orders') }}
+    </a>
+    <a href="{{ route('products.settings') }}" title="{{ __('Store Settings') }}" class="d-flex align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('products*') ? 'active' : '' }}">
+      <i class="d-flex align-items-center justify-content-center fal fa-file-chart-line"></i>
+      {{ __('Store Settings') }}
+    </a>
   </aside><!-- aside -->
   
 @endauth

@@ -19,11 +19,11 @@ class ApplicationResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'secret' => $this->secret,
-            'redirect' => $this->redirect, 
-            'fail_redirect_url' => $this->fail_redirect_url, 
-            'webhook_url' => $this->webhook_url, 
-            'webhook_secret' => $this->webhook_secret, 
-            'channel' => $this->channel, 
+            'redirect' => $this->redirect,
+            'fail_redirect_url' => $this->fail_redirect_url,
+            'webhook_url' => $this->webhook_url,
+            'webhook_secret' => $this->webhook_secret,
+            'channel' => $this->channel,
         ];
     }
 }

@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class ChannelController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show channels');
+        $this->middleware('permission:show applications', ['only' => ['show']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +26,7 @@ class ChannelController extends Controller
             ->orderBy('id', 'desc')
             ->paginate($request->get('per_page', 10));
         return view('channels.index',  ['channels' => $channels]);
-    }    
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -59,7 +65,11 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
-        $this->authorize('view', $channel);
+        $channel = $channel->where('id', $channel->id)->whereIn('user_id', auth()->user()->storeUsers(true))->first();
+        if(!$channel)
+        {
+            $this->authorize('view', $channel);
+        }
         return view('channels.show', ['channel' => $channel]);
     }
 

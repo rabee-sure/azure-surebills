@@ -28,13 +28,33 @@
         <div class="form-group mb-3">
           <select name="transaction_type" class="form-control select2-single filter">
             <option selected disabled>
-              @if(request()->transaction_type == 'debit')
+            @if(request()->transaction_type == 'debit')
                 {{ __('Debit') }}
               @elseif(request()->transaction_type == 'credit')
                 {{ __('Credit') }}
               @else
                 {{ __('Transaction Type') }}
-              @endif
+              @case('channel_fees')
+                {{ __('Channel Fees') }}
+              @break
+              @case('channel_vat')
+                {{ __('Channel VAT') }}
+              @break
+              @case('fees')
+                {{ __('Bill Fees') }}
+              @break
+              @case('vat')
+                {{ __('Bill VAT') }}
+              @break
+              @case('transfer')
+                {{ __('Transfer') }}
+              @break
+              @case('refund')
+                {{ __('Refunded') }}
+              @break
+              @default
+              {{ __('Transactions') }}
+            @endswitch
             </option>
             <option value="all">{{ __('All') }}</option>
             <option value="debit">{{ __('Debit') }}</option>
@@ -168,7 +188,7 @@
                   @if(count($channels))
                     <td class="text-center">
                       @if(isset($transaction->bill->application_id) && isset ($transaction->bill->application->channel_id))
-                          
+
                         {{$transaction->bill->application_id}} - {{ $transaction->bill->user->business_name}}
                       @else
                       --
@@ -258,7 +278,7 @@
 
     });
       function oldParams() {
-        var params = ''  
+        var params = ''
         let array1 = [
           'transaction_type',
           'transaction_source',
@@ -288,7 +308,7 @@
       };
 
       $(function() {
-        var lang = "<?php echo app()->getLocale(); ?>"; 
+        var lang = "<?php echo app()->getLocale(); ?>";
         $('input[name="dates"]').daterangepicker({
           opens: lang == 'en' ? 'right' : 'left',
           locale: {
@@ -330,7 +350,7 @@
              '{{__('This Month')}}': [moment().startOf('month'), moment().endOf('month')],
              '{{__('Last Month')}}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
           },
-          startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"), 
+          startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"),
           endDate: getUrlParameter('date_to')?getUrlParameter('date_to'):moment(new Date()).format("MM/DD/YYYY"),
         }, function(start, end, label) {
             var dateParam = '?date_start=' + start.format('MM/DD/YYYY') + '&date_to='+end.format('MM/DD/YYYY')+oldParams();
@@ -339,6 +359,6 @@
         });
       });
 
-      
+
   </script>
 @endpush
