@@ -19,12 +19,12 @@ class CreateSuperAdminUserSeeder extends Seeder
     {
         $users = User::whereNull('store_main_user_id')->get();
         $role = Role::firstOrNew(['name' => 'super admin'], ['name' => 'super admin']);
-
+        dd($role);
         foreach($users as $user)
         {
             try{
                 $permissions = Permission::pluck('id')->all();
-                $role = $role->syncPermissions($permissions);
+                $role->syncPermissions($permissions);
                 $user->assignRole($role);
             }
             catch(Exception $e)
