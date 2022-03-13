@@ -130,13 +130,13 @@ class SendReportFile implements ShouldQueue
             total_trans.balance AS Outstanding_balance,
             to_date_trans.balance AS Range_balance
         
-        FROM `users` 
+        FROM (SELECT id, business_name_en, verified FROM users) AS users 
         
-        LEFT JOIN (SELECT user_id, SUM(CASE WHEN transactions.transaction_source = 'bill' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END) AS Total_amount FROM `transactions` ".$whereDateBetween.") AS Total_amount_in_transactions on `users`.`id` = Total_amount_in_transactions.user_id 
+        LEFT JOIN (SELECT user_id, SUM(CASE WHEN transactions.transaction_source = 'bill' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END) AS Total_amount FROM `transactions` ".$whereDateBetween." GROUP BY user_id) AS Total_amount_in_transactions on `users`.`id` = Total_amount_in_transactions.user_id 
         
-        LEFT JOIN (SELECT user_id, SUM(CASE WHEN (transactions.transaction_source = 'fees' OR transactions.transaction_source = 'vat') AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) AS Total_amount FROM `transactions` ".$whereDateBetween.") AS Total_fee_with_vat_transactions on `users`.`id` = Total_fee_with_vat_transactions.user_id 
+        LEFT JOIN (SELECT user_id, SUM(CASE WHEN (transactions.transaction_source = 'fees' OR transactions.transaction_source = 'vat') AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) AS Total_amount FROM `transactions` ".$whereDateBetween." GROUP BY user_id) AS Total_fee_with_vat_transactions on `users`.`id` = Total_fee_with_vat_transactions.user_id 
         
-        LEFT JOIN (SELECT user_id, (SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) - SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END)) AS Total_amount FROM `transactions` ".$whereDateBetween.") AS Total_refund_transactions on `users`.`id` = Total_refund_transactions.user_id 
+        LEFT JOIN (SELECT user_id, (SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) - SUM(CASE WHEN transactions.transaction_source = 'refund' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END)) AS Total_amount FROM `transactions` ".$whereDateBetween." GROUP BY user_id) AS Total_refund_transactions on `users`.`id` = Total_refund_transactions.user_id 
         
         LEFT JOIN (SELECT user_id, (SUM(CASE WHEN type = 'credit' THEN amount ELSE 0 END) - SUM(CASE WHEN type = 'debit' THEN amount ELSE 0 END)) AS balance FROM `transactions` GROUP BY user_id) AS total_trans on `users`.`id` = total_trans.user_id 
         
