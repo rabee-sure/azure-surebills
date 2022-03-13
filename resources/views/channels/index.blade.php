@@ -21,7 +21,7 @@
       <div class="row icon-cards-row mx-n3">
         @foreach($channels as $channel)
           <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-            <a href="{{ route('channels.show', $channel->id) }}" title="{{ $channel->name }}" class="card mb-4">
+            <a href="{{ auth()->user()->can('show applications') ? route('channels.show', $channel->id) : '#' }}" title="{{ $channel->name }}" class="card mb-4">
               <div class="card-body text-center">
                 <div class="statistic_icon iconsminds-id-card"></div>
                 <p class="card-text font-weight-semibold mb-0">{{ $channel->name }}</p>

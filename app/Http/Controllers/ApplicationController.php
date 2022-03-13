@@ -11,6 +11,11 @@ use function PHPUnit\Framework\isEmpty;
 
 class ApplicationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show applications');
+    }
+
     /**
      * Display a listing of the resource.
      *

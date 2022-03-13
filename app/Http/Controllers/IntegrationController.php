@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class IntegrationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show applications');
+    }
+
     /**
      * Display a listing of the resource.
      *

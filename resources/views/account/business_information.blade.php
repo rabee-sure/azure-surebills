@@ -40,10 +40,10 @@
           <div id="registry_expiry_date" class="form-row" @if($user->license_type != 'Commercial Record')style="display: none;"@endif>
               <div class="form-group col-12 col-md-12">
                 <label>{{ __('Commercial Registry Expiry Date') }}  <span class="requirement">*</span></label>
-                <input 
+                <input
                 @if($user->commercial_registry_expiry_date)
                   value="{{ Carbon\Carbon::parse($user->commercial_registry_expiry_date)->format('m/d/Y') }}"
-                @else 
+                @else
                   value="{{ Carbon\Carbon::now()->format('m/d/Y') }}"
                 @endif name="commercial_registry_expiry_date" class="form-control datepicker" placeholder="{{ __('Commercial Registry Expiry Date') }}">
               </div><!-- form-group -->
@@ -84,7 +84,7 @@
               <label for="inputEmail8">{{ __('Logo') }}</label>
               <div class="custom-file">
                 <input name="logo" type="file" class="custom-file-input" accept="image/png, image/jpeg, image/jpg">
-                <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
+                <input type="hidden" name="hidden_logo" value="{{ $user->logo }}" />
                 <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
                 @if($errors->has('logo'))
                     <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('logo') }}</span>
@@ -93,8 +93,8 @@
             </div>
             <div class="form-group col-md-6">
                 <div class="custom-file">
-                  @if(auth()->user()->logo)
-                      <img src="@if(Storage::disk('public')->has(auth()->user()->logo)) {{url('storage/'.auth()->user()->logo)}} @else {{url(auth()->user()->logo)}} @endif" class="img-thumbnail logo_image" width="100" />
+                  @if($user->logo)
+                      <img src="@if(Storage::disk('public')->has($user->logo)) {{url('storage/'.$user->logo)}} @else {{url($user->logo)}} @endif" class="img-thumbnail logo_image" width="100" />
                       <i class="glyph-icon simple-icon-trash delete_logo"></i>
 
                   @endif
@@ -105,15 +105,15 @@
           <h5 class="mb-2 mt-2">{{ __('Upload the required documents') }}</h5>
           <p class="">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
 
-          @if(auth()->user()->disable_business_documents)
+          @if($user->disable_business_documents)
             <div class="dropzone">
-              @foreach(auth()->user()->business_documents as $file)
+              @foreach($user->business_documents as $file)
                 @include('components.file', ['file' => $file])
               @endforeach
             </div>
           @else
             @include('components.dropzone',[
-              'documents' => auth()->user()->business_documents->toArray()
+              'documents' => $user->business_documents->toArray()
             ])
           @endif
           <button type="submit" class="btn btn-primary d-block mt-2">{{ __('Save') }}</button>

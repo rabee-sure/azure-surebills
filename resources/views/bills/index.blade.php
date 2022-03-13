@@ -7,11 +7,13 @@
     <div class="col-12">
       <div class="mb-2">
         <h1>{{ __('Bills') }}</h1>
+        @can('create bills')
         <div class="top-right-button-container">
           <a href="{{ route('bills.create')}}" class="btn btn-primary btn-md top-right-button mr-1">
             {{ __('Create a bill')}}
           </a>
         </div>
+        @endcan
         <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
           <ol class="breadcrumb pt-0">
             <li class="breadcrumb-item">
@@ -27,7 +29,7 @@
             <div class="search-sm calendar-sm d-inline-block float-md-right align-top">
               <input class="form-control" name="dates" placeholder="Search by day" readonly="readonly">
             </div>
-          </div>  
+          </div>
         </div>
 
         <div class="custom-control custom-checkbox">
@@ -98,7 +100,7 @@
   @endif
     </div>
   </div>
- 
+
 @endsection
 
 @push('footer-scripts')
@@ -108,10 +110,10 @@
   <script type="text/javascript">
 
       function oldParams(type) {
-        var params = ''    
+        var params = ''
         if(getUrlParameter('date_start') && type != 2){
           params += '&date_start='+getUrlParameter('date_start')
-        }        
+        }
         if(getUrlParameter('date_to') && type != 2){
           params += '&date_to='+getUrlParameter('date_to')
         }
@@ -125,7 +127,7 @@
       }
 
       function getParams() {
-          var url = window.location.href; 
+          var url = window.location.href;
           var regex = /([^=&?]+)=([^&#]*)/g, params = {}, parts, key, value;
 
           while((parts = regex.exec(url)) != null) {
@@ -156,7 +158,7 @@
       });
 
 
-      //watch Keword 
+      //watch Keword
       var searchTimer = null,
       minLength = 3,
       searchDelay = 1000;
@@ -172,8 +174,8 @@
         }, searchDelay);
       });
       //focus in search
-      var q = $('#keyword').val();        
-      $('#keyword').focus().val('').val(q);  
+      var q = $('#keyword').val();
+      $('#keyword').focus().val('').val(q);
 
 
       var getUrlParameter = function getUrlParameter(sParam) {
@@ -192,7 +194,7 @@
       };
 
       $(function() {
-        var lang = "<?php echo app()->getLocale(); ?>"; 
+        var lang = "<?php echo app()->getLocale(); ?>";
         $('input[name="dates"]').daterangepicker({
           opens: lang == 'en' ? 'right' : 'left',
           weekStart: 6,
@@ -235,7 +237,7 @@
              '{{__('This Month')}}': [moment().startOf('month'), moment().endOf('month')],
              '{{__('Last Month')}}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
           },
-          startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"), 
+          startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"),
           endDate: getUrlParameter('date_to')?getUrlParameter('date_to'):moment(new Date()).format("MM/DD/YYYY"),
         }, function(start, end, label) {
             var dateParam = '?date_start=' + start.format('MM/DD/YYYY') + '&date_to='+end.format('MM/DD/YYYY')+oldParams(2);

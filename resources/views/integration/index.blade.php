@@ -18,7 +18,7 @@
   </div>
 </div>
 <div class="integration_index_page">
-  
+
   <applications></applications>
 {{--   <passport-authorized-clients></passport-authorized-clients>
   <passport-personal-access-tokens></passport-personal-access-tokens> --}}

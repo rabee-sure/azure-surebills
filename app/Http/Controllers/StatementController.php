@@ -12,6 +12,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class StatementController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show statement');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +26,7 @@ class StatementController extends Controller
     {
         $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
-        
+
         $channel = ($request->has('channel_id') && !in_array($request->channel_id, ['all','undefined']))? Channel::find($request->channel_id) : null;
         $application = ($request->has('application_id') && !in_array($request->application_id, ['all','undefined']))? Application::find($request->application_id) : null;
 
@@ -30,15 +35,16 @@ class StatementController extends Controller
         $applications = ($channel) ? $channel->applications : [];
 
         $all_statement = auth()->user()->getStatement();
+
         $totals = [];
         $totals['debit'] = round2($all_statement->where('type', 'debit')->sum('amount'));
         $totals['credit'] = round2($all_statement->where('type', 'credit')->sum('amount'));
-        $totals['all'] = round2($totals['credit'] - $totals['debit']);        
+        $totals['all'] = round2($totals['credit'] - $totals['debit']);
 
         return view('statements.index', compact('statement', 'date_start', 'date_to', 'channels', 'channel', 'applications', 'application', 'totals'));
     }
 
-    public function export() 
+    public function export()
     {
         return Excel::download(new StatementExport, 'statement.xlsx');
     }

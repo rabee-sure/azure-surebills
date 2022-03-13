@@ -12,11 +12,13 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, HasApiTokens, Notifiable, InteractsWithMedia;
+    use HasFactory, HasApiTokens, Notifiable, InteractsWithMedia, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +26,7 @@ class User extends Authenticatable implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'mobile', 'mobile_sent_at', 'mobile_active_code', 'gender',
+        'name', 'email', 'password', 'mobile', 'mobile_sent_at', 'mobile_active_code', 'gender', 'store_main_user_id',
 
         //business info
         'business_name_en',
@@ -204,13 +206,14 @@ class User extends Authenticatable implements HasMedia
      */
     public function getIsCompleteProfileAttribute()
     {
-        return (isset($this->business_name_en) && !empty($this->business_name_en) &&
+        return ((isset($this->business_name_en) && !empty($this->business_name_en) &&
             isset($this->business_address) && !empty($this->business_address) &&
             isset($this->business_address) && !empty($this->business_address) &&
 
             isset($this->bank_id) && !empty($this->bank_id) &&
             isset($this->iban_number) && !empty($this->iban_number) &&
-            isset($this->beneficiary_name) && !empty($this->beneficiary_name));
+            isset($this->beneficiary_name) && !empty($this->beneficiary_name)) ||
+            $this->mainStoreUser);
     }
 
     /**
@@ -289,7 +292,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function applications()
     {
-        return $this->hasMany(Application::class);
+        return $this->hasMany(Application::class)->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     /**
@@ -319,7 +322,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function customers()
     {
-        return $this->hasMany(Customer::class);
+        return $this->hasMany(Customer::class, 'user_id', 'id');
     }
 
     /**
@@ -332,6 +335,15 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Bill::class);
     }
 
+    public function storeUsers($retrieveIdsOnly = false)
+    {
+        $users = $this->whereIn('id', [auth()->user()->id, auth()->user()->store_main_user_id])->orWhere('store_main_user_id', auth()->user()->id)->get();
+        if($retrieveIdsOnly)
+        {
+            return $users->pluck('id')->toArray();
+        }
+        return $users;
+    }
 
     /**
      * Get Transfers.
@@ -340,7 +352,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function transfers()
     {
-        return $this->hasMany(Transfer::class);
+        return $this->hasMany(Transfer::class)->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     /**
@@ -350,7 +362,17 @@ class User extends Authenticatable implements HasMedia
      */
     public function settings()
     {
-        return $this->hasOne(Settings::class);
+        return $this->hasOne(Settings::class)->orWhereIn('user_id', $this->storeUsers(true));
+    }
+
+    /**
+     * Get settings.
+     *
+     * @return Collection
+     */
+    public function mainStoreUser()
+    {
+        return $this->belongsTo(User::class, 'store_main_user_id', 'id');
     }
 
     /**
@@ -370,7 +392,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class)->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     /**
@@ -380,7 +402,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function channels()
     {
-        return $this->hasMany(Channel::class)->activate();
+        return $this->hasMany(Channel::class)->orWhereIn('user_id', $this->storeUsers(true))->activate();
     }
 
     /**
@@ -400,7 +422,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function statement()
     {
-        return $this->hasMany(Transaction::class)
+        return Transaction::whereIn('user_id', $this->storeUsers(true))
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC');

@@ -22,6 +22,10 @@ use Spatie\Valuestore\Valuestore;
 
 class TransferController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show transfers');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -62,7 +66,7 @@ class TransferController extends Controller
         $totals['debit'] = round2($balance_total->debit_total);
         $totals['credit'] = round2($balance_total->credit_total);
         $totals['all'] = round2($balance_total->credit_total - $balance_total->debit_total);
-          
+
         return view('transfers.transactions', [
             'transfer' => $transfer,
             'transactions' => $transfer->transactions()->paginate($request->per_page),
@@ -93,7 +97,7 @@ class TransferController extends Controller
         $user = auth()->user();
         $cycleDate = Carbon::now()->addHours(3);
 
-        $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d')); 
+        $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d'));
         $settings = Valuestore::make(storage_path('app/settings.json'));
 
         $transfer_minimum = $settings->get('transfer_minimum');
@@ -120,13 +124,13 @@ class TransferController extends Controller
             'iban_number' => $user->iban_number,
             'beneficiary_name' => $user->beneficiary_name,
         ];
-        
+
         $transfer = TransferService::makeTransfer('pending', $amount, $data);
 
         // if($transfer)
             //add listner of transfer file generated
             // $this->sendMails($transfer_emails, $cycleDate, $transfer);
-        
+
         return redirect()->back();
     }
 
@@ -144,7 +148,7 @@ class TransferController extends Controller
         $cycleDate = $cycleDate->addHours(3);
 
         $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d'));
-        
+
         if($amount <= 0 ){
             return response()->json(['error' => __('amount must be greater than 0')], 422);
         }elseif($amount > $user->balance){
@@ -165,7 +169,7 @@ class TransferController extends Controller
                 'iban_number' => $user->iban_number,
                 'beneficiary_name' => $user->beneficiary_name,
             ];
-            
+
             $transfer = TransferService::makeTransfer($status, $amount, $data);
 
             return new TransferResource($transfer);
@@ -184,7 +188,7 @@ class TransferController extends Controller
         $transfers = Transfer::whereIn('id', $request->ids )->with('created_by', 'user.bank')->get();
 
         TransferService::changeTranfersStatus($transfers, $request->status, auth()->user()->id);
-        
+
         return  TransferResource::collection($transfers);
     }
 
@@ -215,7 +219,7 @@ class TransferController extends Controller
                 Mail::to($email)->send(new RequestTransferMail($date, auth()->user(), $transfer));
             }
         }
-    } 
+    }
 
 
     /**
@@ -232,7 +236,7 @@ class TransferController extends Controller
             ->orderBy('receipt', 'ASC')
             ->with(['bill.application'])
             ->paginate(10);
-            
+
 
         $balance = $user->getBalanceBefore($request->cycle_date);
         return (TransactionResource::collection($transactions))
@@ -241,5 +245,5 @@ class TransferController extends Controller
                 'balance' => $balance,
             ]
         ]);
-    }  
+    }
 }

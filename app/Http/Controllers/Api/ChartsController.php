@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Bill;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ChartsController extends Controller
@@ -29,7 +30,9 @@ class ChartsController extends Controller
      */
     public function billsPaidAmount(Request $request)
     {
-        $collection = Bill::where('user_id', $request->user_id)->get();
+        $user = User::find($request->user_id);
+        $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
+        $collection = Bill::whereIn('user_id', $userIds)->get();
         return $this->datasets($collection, 'getSumTotalBetweenDate', [
             'label' => __('The amount of the payments'),
             'backgroundColor' => 'rgba(224, 123, 57, 0.51)',
@@ -45,14 +48,16 @@ class ChartsController extends Controller
      */
     public function billsPaidCount(Request $request)
     {
-        $collection = Bill::where('user_id', $request->user_id)->paid()->get();
+        $user = User::find($request->user_id);
+        $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
+        $collection = Bill::whereIn('user_id', $userIds)->paid()->get();
         return $this->datasets($collection, 'getCountBetweenDate', [
             'label' => __('The number of bills paid'),
             'backgroundColor' => 'rgb(25, 121, 169, 0.51)',
             'borderColor' => 'rgb(25, 121, 169)',
         ]);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -61,7 +66,9 @@ class ChartsController extends Controller
      */
     public function billsCount(Request $request)
     {
-        $collection = Bill::where('user_id', $request->user_id)->get();
+        $user = User::find($request->user_id);
+        $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
+        $collection = Bill::whereIn('user_id', $userIds)->get();
         return $this->datasets($collection, 'getCountBetweenDate', [
             'label' => __('Total bills'),
             'backgroundColor' => 'rgb(255, 99, 132, 0.51)',
@@ -70,31 +77,31 @@ class ChartsController extends Controller
     }
 
     protected function getSumTotalBetweenDate($collection, $from, $to)
-    { 
+    {
         return (string) $collection->whereBetween('paid_at', [
-            $from, 
+            $from,
             $to
         ])->where('status', 'paid')->sum('total');
     }
 
     protected function getCountBetweenDate($collection, $from, $to)
-    { 
+    {
         return (string) $collection->whereBetween('created_at', [
-            $from, 
+            $from,
             $to
         ])->count();
     }
 
     protected function getCountPaidBetweenDate($collection, $from, $to)
-    { 
+    {
         return (string) $collection->whereBetween('paid_at', [
-            $from, 
+            $from,
             $to
         ])->count();
     }
 
     protected function getWeekAndDays($year,$month, $day=1)
-    {   
+    {
         $list= [];
         $first_date = $year."-".$month."-".$day;
         $last_date = date("Y-m-t",strtotime($first_date));
@@ -166,31 +173,31 @@ class ChartsController extends Controller
                         'borderColor' => $data['borderColor'],
                         'data'=> [
                             $this->{$method}($collection,
-                                date('Y-m-d', strtotime('-'.$this->dniw.' days')), 
+                                date('Y-m-d', strtotime('-'.$this->dniw.' days')),
                                 date('Y-m-d', strtotime('+'.(1-$this->dniw).' days'))
                             ),
                             $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(1-$this->dniw).' days')), 
+                                date('Y-m-d', strtotime('+'.(1-$this->dniw).' days')),
                                 date('Y-m-d', strtotime('+'.(2-$this->dniw).' days'))
                             ),
                             $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(2-$this->dniw).' days')), 
+                                date('Y-m-d', strtotime('+'.(2-$this->dniw).' days')),
                                 date('Y-m-d', strtotime('+'.(3-$this->dniw).' days'))
                             ),
                             $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(3-$this->dniw).' days')), 
+                                date('Y-m-d', strtotime('+'.(3-$this->dniw).' days')),
                                 date('Y-m-d', strtotime('+'.(4-$this->dniw).' days'))
                             ),
                             $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(4-$this->dniw).' days')), 
+                                date('Y-m-d', strtotime('+'.(4-$this->dniw).' days')),
                                 date('Y-m-d', strtotime('+'.(5-$this->dniw).' days'))
                             ),
                             $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(5-$this->dniw).' days')), 
+                                date('Y-m-d', strtotime('+'.(5-$this->dniw).' days')),
                                 date('Y-m-d', strtotime('+'.(6-$this->dniw).' days'))
                             ),
                             $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(6-$this->dniw).' days')), 
+                                date('Y-m-d', strtotime('+'.(6-$this->dniw).' days')),
                                 date('Y-m-d', strtotime('+'.(6-$this->dniw).' days'))
                             ),
                         ]
@@ -230,7 +237,7 @@ class ChartsController extends Controller
                 ],
             ],
             'monthly' => [
-                "labels" => [    
+                "labels" => [
                     __('January'),
                     __('February'),
                     __('March'),
@@ -245,7 +252,7 @@ class ChartsController extends Controller
                     __('December'),
                 ],
                 "datasets" => [
-                    [                    
+                    [
                         'label' => $data['label'],
                         'backgroundColor' => $data['backgroundColor'],
                         'borderColor' => $data['borderColor'],
