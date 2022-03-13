@@ -24,8 +24,8 @@ class CreateSuperAdminUserSeeder extends Seeder
         {
             try{
                 $permissions = Permission::pluck('id')->all();
-                $role->syncPermissions($permissions);
-                $user->assignRole($role->id);
+                $role = $role->syncPermissions($permissions);
+                $user->assignRole($role);
             }
             catch(Exception $e)
             {
