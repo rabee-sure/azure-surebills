@@ -53,7 +53,7 @@ class ProductsController extends Controller
      */
     public function createCategory(Request $request)
     {
-        $data['title'] = "Add Category";
+        $data['title'] = "Add a product category";
         return view('products.form-category', $data);
     }
 
@@ -62,10 +62,10 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $slug)
-    {
-        return view('products.store');
-    }
+    // public function store(Request $request, $slug)
+    // {
+    //     return view('products.store');
+    // }
 
     public function edit($id, Request $request)
     {

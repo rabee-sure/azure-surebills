@@ -58,7 +58,7 @@
               <div class="form-group col-md-6">
               <label for="inputEmail8">{{ __('Image') }}</label>
               <div class="custom-file">
-                  <input name="image" type="file" class="custom-file-input" accept="image/png, image/jpeg, image/jpg">
+                  <input name="image" type="file"  id="formFile" class="custom-file-input" accept="image/png, image/jpeg, image/jpg">
                   <input type="hidden" name="hidden_image" value="" />
                   <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
                   @if($errors->has('image'))
@@ -121,25 +121,45 @@
 
       // get categories options
       $.ajax({
-          type:'GET',
-          url:"{{ route('categories.top') }}",
-          success:function(categories){
-            $("#sel_1").select2ToTree({treeData: {dataArr:categories.data, labelFld: "name", incFld: "childiren"}, maximumSelectionLength: 1});
-          }
+        type:'GET',
+        url:"{{ route('categories.top') }}",
+        success:function(categories){
+          $("#sel_1").select2ToTree({treeData: {dataArr:categories.data, labelFld: "name", incFld: "childiren"}, maximumSelectionLength: 1});
+        }
       });
 
       //submit from
       $('#SubmitForm').click(function(){
-        var name_en = $("input[name=name_en]").val();
-        var name_ar = $("input[name=name_ar]").val();
-        var parent_id = $("select[name=parent_id] option:selected").val();
-        var sort_number = $("input[name=sort_number]").val();
-        var active = 0;
+        var formData = new FormData();
+
+        let active = 0;
         if($("input[name='active']").prop("checked") == true){
           active = 1;
         }
-
         
+        formData.append('image', $('#formFile')[0].files[0]);
+        formData.append('name_en', $("input[name=name_en]").val());
+        formData.append('name_ar', $("input[name=name_ar]").val());
+        formData.append('parent_id', $("select[name=parent_id] option:selected").val());
+        formData.append('sort_number', $("input[name=sort_number]").val());
+        formData.append('active', active);
+
+        $.ajax({
+          type:'POST',
+          url:"{{ route('categories.store') }}",
+          data:formData,
+          processData: false,
+          contentType: false, 
+          success:function(response){
+            console.log(response);
+            window.location.replace("{{ route('categories.all') }}");
+          },
+          error: function(error) {
+            console.log(error);
+            alert("error");
+          }
+        });
+
       });
     });
 

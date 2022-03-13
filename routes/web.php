@@ -125,7 +125,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('categories/create', 'ProductsController@createCategory')->name('categories.create');
     Route::get('categories/{id}/edit', 'ProductsController@editCategory')->name('categories.edit');
     Route::get('categories/create', 'ProductsController@createCategory')->name('categories.create');
-    Route::get('storecategories/{slug}', 'ProductsController@storeCategory')->name('categories.store');
+    // Route::get('storecategories/{slug}', 'ProductsController@storeCategory')->name('categories.store');
 
     Route::get('products', 'ProductsController@index')->name('products.all');
     Route::get('products/{id}/view', 'ProductsController@view')->name('products.view');

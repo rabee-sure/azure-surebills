@@ -28,7 +28,7 @@ class Category extends Model
 
     public function parent()
     {
-       return $this->hasOne('App\Models\Category', 'parent_id','id');
+       return $this->belongsTo('App\Models\Category', 'parent_id','id');
     }
     public function childiren()
     {
