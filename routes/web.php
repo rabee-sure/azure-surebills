@@ -16,10 +16,10 @@ use GuzzleHttp\Client;
 */
 
 Route::get('debug-seeder', function(){
-// \Artisan::call('db:seed --class=CreateSuperAdminUserSeeder');
+\Artisan::call('db:seed --class=CreateSuperAdminUserSeeder');
 
-$users = \DB::table('role_has_permissions')->get();
-dd($users);
+// $users = \DB::table('role_has_permissions')->get();
+// dd($users);
 
 });
 
