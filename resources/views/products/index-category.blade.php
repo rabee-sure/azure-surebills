@@ -78,38 +78,36 @@
         type:'GET',
         url:"{{ route('categories.index') }}",
         success:function(categories){
-          console.log(categories.data.length);
+          console.log(categories.data);
           if(categories.data.length > 0){
             $("#table-responsive").append('<table id="catTable" class="table table-striped">');
               $("#catTable").append('<thead id="tblTh">');
                 $("#tblTh").append('<tr id="thTr">');
                   $("#thTr").append('<th scope="col">#</th>');
                   $("#thTr").append('<th scope="col">{{__('Image')}}</th>');
-                  $("#thTr").append('<th scope="col">{{__('Name Ar')}}</th>');
-                  $("#thTr").append('<th scope="col">{{__('Name En')}}</th>');
+                  $("#thTr").append('<th scope="col">{{__('Name')}}</th>');
                   $("#thTr").append('<th scope="col">{{__('Sort No.')}}</th>');
                   $("#thTr").append('<th scope="col">{{__('Parent')}}</th>');
                   $("#thTr").append('<th scope="col">{{__('Status')}}</th>');
                   $("#thTr").append('<th scope="col">{{__('Actions')}}</th>');
-                  $("#tblTh").append('</tr>');
+                $("#tblTh").append('</tr>');
               $("#catTable").append('</thead>');
-              $("#table-responsive").append('<tbody id="tblBody">');
+              $("#catTable").append('<tbody id="tblBody">');
               $.each(categories.data, function( index, category ) {
                 $("#tblBody").append('<tr id="bodyTr'+index+'">');
-                  $("#bodyTr"+index).append('<th scope="row">id</th>');
-                  $("#bodyTr"+index).append('<td>name</td>');
-                  $("#bodyTr"+index).append('<td>mobile</td>');
-                  $("#bodyTr"+index).append('<td>email</td>');
-                  $("#bodyTr"+index).append('<td>count</td>');
-                  $("#bodyTr"+index).append('<td>created_at</td>');
-                  $("#bodyTr"+index).append('<td>created_at</td>');
+                  $("#bodyTr"+index).append('<th scope="row">'+category["id"]+'</th>');
+                  $("#bodyTr"+index).append('<td>'+category["image"]+'</td>');
+                  $("#bodyTr"+index).append('<td>'+category["name"]+'</td>');
+                  $("#bodyTr"+index).append('<td>'+category["sort_number"]+'</td>');
+                  $("#bodyTr"+index).append('<td>'+category["parent"]+'</td>');
+                  $("#bodyTr"+index).append('<td>'+category["active"]+'</td>');
                   $("#bodyTr"+index).append('<td id="tdActions'+index+'">');
                     $("#tdActions"+index).append('<a href="{{ route('categories.edit', 1)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>');
                     $("#tdActions"+index).append('<a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>');
                   $("#bodyTr"+index).append('</td>');
                 $("#tblBody").append('</tr>');
               });
-              $("#table-responsive").append('</tbody>');
+              $("#catTable").append('</tbody>');
             $("#table-responsive").append('</table>');
           }
         }

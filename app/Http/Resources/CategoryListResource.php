@@ -20,7 +20,7 @@ class CategoryListResource extends JsonResource
             'name' => $this->name,
             'image' => $this->image,
             'sort_number' => $this->sort_number,
-            'active' => $this->active,
+            'active' => ($this->active == 1) ? __('Active') : __('Disactive'),
             'parent' => ($this->parent_id != 0) ? $this->parent->name : null,
         ];
     }
