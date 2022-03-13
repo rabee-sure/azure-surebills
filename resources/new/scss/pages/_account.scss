@@ -851,3 +851,40 @@
     } /* button */
   } /* saveBtn */
 } /* invoiceSettingsPage */
+
+#usersIndexPage {
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } /* h1 */
+    .addUserBtn {
+      min-width: 130px;
+      height: 40px;
+    } /* addUserBtn */
+  } /* title */
+  .tabsArea {
+    a {
+      min-width: 130px;
+      height: 40px;
+    } /* a */
+  } /* tabsArea */
+  .no_customers_yet {
+    min-height: 400px;
+    color: #999;
+    @include media-breakpoint-down(md) {
+      min-height: 200px;
+    } /* md */
+    i {
+      font-size: 100px;
+      @include media-breakpoint-down(md) {
+        font-size: 70px;
+      } /* md */
+    } /* i */
+    span {
+      font-size: 18px;
+      @include media-breakpoint-down(md) {
+        font-size: 15px;
+      } /* md */
+    } /* span */
+  } /* no_customers_yet */
+} /* usersIndexPage */

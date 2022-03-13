@@ -1,5 +1,5 @@
 <button type="button" class="addCustomerBtn d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-pill" data-bs-toggle="modal" data-bs-target="#add_customer_Modal">{{ __('Add Customer') }} </button>
-<!-- Modal -->
+
 <div class="modal fade addCustomerModal" id="add_customer_Modal" tabindex="-1" role="dialog" aria-labelledby="add_customer_ModalLabel" aria-hidden="true">
   <form method="POST" action="{{ route('customers.store') }}" id="customers_store" class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content border-0 shadow-sm rounded-3">

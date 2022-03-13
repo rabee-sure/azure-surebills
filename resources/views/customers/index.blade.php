@@ -14,7 +14,9 @@
 
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Customers')}}</h1>
-      @include('customers.create')
+      @can('create customer')
+        @include('customers.create')
+      @endcan
     </div><!-- title -->
 
     @if ($errors->any())
@@ -24,41 +26,11 @@
             <li>{{ $error }}</li>
           @endforeach
         </ul>
-<<<<<<< HEAD
       </div>
     @endif
 
     <div class="customersArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
       @if($customers->count())
-=======
-    </div>
-@endif
-  <div class="row">
-    <div class="col-12">
-      <div class="mb-3">
-        <h1>{{ __('Customers')}}</h1>
-        @can('create customer')
-        <div class="top-right-button-container">
-        @include('customers.create')
-      </div>
-      @endcan
-      <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-        <ol class="breadcrumb pt-0">
-          <li class="breadcrumb-item">
-            <a href="{{ url('/') }}">{{ __('Home')}}</a>
-          </li>
-          <li class="breadcrumb-item active" aria-current="page">{{ __('Customers')}}</li>
-        </ol>
-      </nav>
-      <div class="separator mt-3 mb-5"></div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
->>>>>>> dev
         <div class="table-responsive">
           <table class="table table-striped table-hover text-nowrap">
             <thead>
@@ -107,10 +79,5 @@
 @endsection
 
 @push('footer-scripts')
-<<<<<<< HEAD
   {!! JsValidator::formRequest('App\Http\Requests\CustomerRequest', '#customers_store') !!}
 @endpush
-=======
-    {!! JsValidator::formRequest('App\Http\Requests\CustomerRequest', '#customers_store') !!}
-@endpush
->>>>>>> dev

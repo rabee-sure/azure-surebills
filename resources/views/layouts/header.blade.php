@@ -25,9 +25,9 @@
       </button>
       <div class="dropdown-menu p-0" aria-labelledby="UserListItem">
         @if(auth()->user()->is_complete_profile)
-          <a class="d-flex align-items-center justify-content-start" href="{{ url('account')}}">
-            <i class="fal fa-user d-flex align-items-center justify-content-center"></i>
-            <span>{{ __('My Account') }}</span>
+          <a class="d-flex align-items-center justify-content-start" href="{{ url('account')}}" title="{{ __('Settings') }}">
+            <i class="fal fa-cog d-flex align-items-center justify-content-center"></i>
+            <span>{{ __('Settings') }}</span>
           </a>
         @endif
         @if(App::isLocale('en'))
@@ -39,12 +39,6 @@
           <a class="d-flex align-items-center justify-content-start" href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">
             <i class="fal fa-globe-europe d-flex align-items-center justify-content-center"></i>
             <span>English</span>
-          </a>
-        @endif
-        @if(auth()->user()->is_complete_profile)
-          <a class="d-flex align-items-center justify-content-start" href="{{ route('settings') }}" title="{{__('Settings')}}">
-            <i class="fal fa-cog d-flex align-items-center justify-content-center"></i>
-            <span>{{__('Settings')}}</span>
           </a>
         @endif
         <a class="d-flex align-items-center justify-content-starts" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="{{ __('Logout') }}">

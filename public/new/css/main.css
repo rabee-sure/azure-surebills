@@ -30775,6 +30775,61 @@ section#homepage .addNewBillBtn:hover {
 }
 
 /* invoiceSettingsPage */
+#usersIndexPage {
+  /* title */
+  /* tabsArea */
+  /* no_customers_yet */
+}
+#usersIndexPage .title {
+  /* h1 */
+  /* addUserBtn */
+}
+#usersIndexPage .title h1, #usersIndexPage .title .h1 {
+  color: #3a3a3a;
+}
+#usersIndexPage .title .addUserBtn {
+  min-width: 130px;
+  height: 40px;
+}
+#usersIndexPage .tabsArea {
+  /* a */
+}
+#usersIndexPage .tabsArea a {
+  min-width: 130px;
+  height: 40px;
+}
+#usersIndexPage .no_customers_yet {
+  min-height: 400px;
+  color: #999;
+  /* md */
+  /* i */
+  /* span */
+}
+@media (max-width: 767.98px) {
+  #usersIndexPage .no_customers_yet {
+    min-height: 200px;
+  }
+}
+#usersIndexPage .no_customers_yet i {
+  font-size: 100px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #usersIndexPage .no_customers_yet i {
+    font-size: 70px;
+  }
+}
+#usersIndexPage .no_customers_yet span {
+  font-size: 18px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #usersIndexPage .no_customers_yet span {
+    font-size: 15px;
+  }
+}
+
+/* usersIndexPage */
 #channelsIndexPage {
   /* title */
   /* catItem */

@@ -12,13 +12,8 @@
     "devDependencies": {
         "axios": "^0.21",
         "cross-env": "^7.0",
-<<<<<<< HEAD
-        "cypress": "^6.4.0",
-        "jquery": "^3.6.0",
-=======
         "cypress": "^9.5.1",
         "jquery": "^3.2",
->>>>>>> dev
         "laravel-echo": "^1.9.0",
         "laravel-mix": "^6.0.13",
         "lodash": "^4.17.19",

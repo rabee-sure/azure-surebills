@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-primary btn-md top-right-button mr-1" data-toggle="modal" data-target="#add_customer_Modal">{{ __('Add Role') }} </button>
+<button type="button" class="btn btn-primary btn-md top-right-button mr-1" data-bs-toggle="modal" data-bs-target="#add_customer_Modal">{{ __('Add Role') }} </button>
 <!-- Modal -->
 <div class="modal fade" id="add_customer_Modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
