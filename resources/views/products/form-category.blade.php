@@ -58,24 +58,36 @@
 
             <div class="form-row">
               <div class="form-group col-md-6">
-              <label for="inputEmail8">{{ __('Image') }}</label>
-              <div class="custom-file">
-                  <input name="image" type="file"  id="formFile" class="custom-file-input" accept="image/png, image/jpeg, image/jpg">
-                  <input type="hidden" name="hidden_image" value="" />
-                  <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
-                  @if($errors->has('image'))
-                      <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('image') }}</span>
-                  @endif
-              </div>
+                <label for="inputEmail8">{{ __('Image') }}</label>
+                <div class="custom-file">
+                    <input name="image" type="file"  id="formFile" class="custom-file-input" accept="image/png, image/jpeg, image/jpg">
+                    <input type="hidden" name="hidden_image" value="" />
+                    <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
+                    @if($errors->has('image'))
+                        <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('image') }}</span>
+                    @endif
+                </div>
               </div>
               <div class="form-group col-md-6">
                   <div class="custom-file">
-                  @if(auth()->user()->logo)
-                      <img src="@if(Storage::disk('public')->has(auth()->user()->logo)) {{url('storage/'.auth()->user()->logo)}} @else {{url(auth()->user()->logo)}} @endif" class="img-thumbnail logo_image" width="100" />
+                      <img src="" class="img-thumbnail logo_image" width="100" />
                       <i class="glyph-icon simple-icon-trash delete_logo"></i>
-
-                  @endif
                   </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+              <h5 class="mb-2 mt-2">{{ __('Image') }}</h5>
+              @if(isset($id))
+                @include('components.dropzone',[
+                  'documents' => auth()->user()->business_documents->toArray()
+                ])
+              @else
+                <div class="dropzone">
+                  @include('components.file', ['file' => $file])
+                </div>
+              @endif
               </div>
             </div>
             
@@ -141,7 +153,11 @@
             $("input[name=name_ar]").val(category['name'].ar);
             $("#sel_1 option[value=9]").attr('selected', 'selected');
             $("input[name=sort_number]").val(category['sort_number']);
-            if()
+            if(category['active'] == 1){
+              $("input[name='active']").attr('checked', 'checked');
+            }else{
+              $("input[name='active']").removeAttr('checked', 'checked');
+            }
           }
         });
       }
