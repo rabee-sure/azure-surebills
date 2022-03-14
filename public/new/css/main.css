@@ -29054,16 +29054,17 @@ section#homepage .addNewBillBtn:hover {
   /* td */
 }
 #customersIndexPage .customersArea table th {
-  font-size: 14px;
-  padding: 10px;
-  vertical-align: middle;
+  border: 1px solid #dee2e6;
   color: #3a3a3a;
-  border-color: #dee2e6;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 14px;
 }
 #customersIndexPage .customersArea table td {
+  border: 1px solid #dee2e6;
   color: #3a3a3a;
-  font-size: 15px;
   vertical-align: middle;
+  padding: 10px;
   /* a */
 }
 #customersIndexPage .customersArea table td a, #customersIndexPage .customersArea table td button {
@@ -30807,17 +30808,24 @@ section#homepage .addNewBillBtn:hover {
   /* td */
 }
 #usersIndexPage .blockArea table th {
-  font-size: 14px;
-  padding: 10px;
-  vertical-align: middle;
+  border: 1px solid #dee2e6;
   color: #3a3a3a;
-  border-color: #dee2e6;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 14px;
 }
 #usersIndexPage .blockArea table td {
+  border: 1px solid #dee2e6;
   color: #3a3a3a;
-  font-size: 15px;
   vertical-align: middle;
+  padding: 10px;
+  /* roleTag */
   /* a */
+}
+#usersIndexPage .blockArea table td .roleTag {
+  font-size: 13px;
+  font-weight: normal;
+  padding: 6px 10px;
 }
 #usersIndexPage .blockArea table td a, #usersIndexPage .blockArea table td button {
   width: 35px;
@@ -30868,6 +30876,7 @@ section#homepage .addNewBillBtn:hover {
 #usersEditPage .blockArea {
   /* form-group */
   /* phoneInput */
+  /* checkboxItem */
   /* buttonsArea */
 }
 #usersEditPage .blockArea .form-group {
@@ -30969,6 +30978,70 @@ section#homepage .addNewBillBtn:hover {
 #usersEditPage .blockArea .phoneInput input.is-invalid {
   background-position: right 10px center;
   border-color: #dc3545 !important;
+}
+#usersEditPage .blockArea .checkboxItem {
+  /* input */
+  /* span */
+}
+#usersEditPage .blockArea .checkboxItem input {
+  opacity: 0;
+  z-index: 99;
+  cursor: pointer;
+  /* checked */
+}
+#usersEditPage .blockArea .checkboxItem input:checked ~ {
+  /* span */
+}
+#usersEditPage .blockArea .checkboxItem input:checked ~ span {
+  /* i */
+}
+#usersEditPage .blockArea .checkboxItem input:checked ~ span i {
+  background-color: var(--mainColor);
+  box-shadow: 0 2px 4px 0 rgba(var(--mainColorRGB), 0.4);
+  /* after */
+}
+#usersEditPage .blockArea .checkboxItem input:checked ~ span i::after {
+  transform: translateX(-28px);
+  /* ltr */
+}
+[dir=ltr] #usersEditPage .blockArea .checkboxItem input:checked ~ span i::after {
+  transform: translateX(28px);
+}
+#usersEditPage .blockArea .checkboxItem span {
+  color: #3a3a3a;
+  /* i */
+}
+#usersEditPage .blockArea .checkboxItem span i {
+  height: 25px;
+  width: 53px;
+  background-color: #d7d7d7;
+  margin: 0 0 0 10px;
+  transition: all 0.3s ease-in-out;
+  /* ltr */
+  /* after */
+}
+[dir=ltr] #usersEditPage .blockArea .checkboxItem span i {
+  margin: 0 10px 0 0;
+}
+#usersEditPage .blockArea .checkboxItem span i::after {
+  content: "";
+  width: 17px;
+  height: 17px;
+  background-color: #fff;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  border-radius: 100%;
+  transition: all 0.3s ease-in-out;
+  /* ltr */
+}
+[dir=ltr] #usersEditPage .blockArea .checkboxItem span i::after {
+  right: auto;
+  left: 4px;
+}
+#usersEditPage .blockArea span#permissions\[\]-error {
+  margin: -0.75rem 0 1rem 0;
+  display: block !important;
 }
 #usersEditPage .blockArea .buttonsArea {
   /* button */
@@ -31451,6 +31524,192 @@ section#homepage .addNewBillBtn:hover {
 }
 
 /* applicationModals */
+#reportsIndexPage {
+  /* title */
+  /* catItem */
+}
+#reportsIndexPage .title {
+  /* h1 */
+}
+#reportsIndexPage .title h1, #reportsIndexPage .title .h1 {
+  color: #3a3a3a;
+}
+#reportsIndexPage .catItem {
+  min-height: 170px;
+  color: #3a3a3a;
+  /* md */
+  /* span */
+  /* i */
+  /* p */
+}
+@media (max-width: 767.98px) {
+  #reportsIndexPage .catItem {
+    min-height: 120px;
+  }
+}
+#reportsIndexPage .catItem span {
+  left: 0.5rem;
+  top: 0.5rem;
+  min-width: 80px;
+  height: 25px;
+  /* ltr */
+}
+[dir=ltr] #reportsIndexPage .catItem span {
+  left: auto;
+  right: 0.5rem;
+}
+#reportsIndexPage .catItem i {
+  font-size: 50px;
+  color: var(--mainColor);
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #reportsIndexPage .catItem i {
+    font-size: 35px;
+  }
+}
+#reportsIndexPage .catItem p {
+  font-size: 16px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #reportsIndexPage .catItem p {
+    font-size: 13px;
+  }
+}
+
+/* reportsIndexPage */
+#reportsMerchantsPage {
+  /* title */
+  /* filterArea */
+  /* blockArea */
+}
+#reportsMerchantsPage .title {
+  /* h1 */
+}
+#reportsMerchantsPage .title h1, #reportsMerchantsPage .title .h1 {
+  color: #3a3a3a;
+}
+#reportsMerchantsPage .filterArea {
+  /* dateInput */
+  /* button */
+}
+#reportsMerchantsPage .filterArea .dateInput {
+  /* md */
+  /* input */
+  /* after */
+}
+@media (max-width: 767.98px) {
+  #reportsMerchantsPage .filterArea .dateInput {
+    width: 100%;
+  }
+}
+#reportsMerchantsPage .filterArea .dateInput input {
+  height: 40px;
+  outline: none;
+  padding: 0 40px 0 10px;
+  min-width: 230px;
+  cursor: pointer;
+  /* md */
+  /* ltr */
+}
+@media (max-width: 767.98px) {
+  #reportsMerchantsPage .filterArea .dateInput input {
+    width: 100%;
+  }
+}
+[dir=ltr] #reportsMerchantsPage .filterArea .dateInput input {
+  padding: 0 10px 0 40px;
+}
+#reportsMerchantsPage .filterArea .dateInput::after {
+  content: "";
+  font-family: "Font Awesome 5 Pro";
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  height: 38px;
+  width: 38px;
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  background-color: #fff;
+  border-radius: 0.3rem;
+  /* ltr */
+}
+[dir=ltr] #reportsMerchantsPage .filterArea .dateInput::after {
+  right: auto;
+  left: 1px;
+}
+#reportsMerchantsPage .filterArea button {
+  height: 40px;
+  min-width: 100px;
+}
+#reportsMerchantsPage .blockArea {
+  /* table */
+  /* no_bills_yet */
+}
+#reportsMerchantsPage .blockArea table {
+  /* thead */
+  /* tbody */
+}
+#reportsMerchantsPage .blockArea table thead {
+  /* th */
+}
+#reportsMerchantsPage .blockArea table thead th {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 14px;
+}
+#reportsMerchantsPage .blockArea table tbody {
+  /* td */
+}
+#reportsMerchantsPage .blockArea table tbody td {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  /* a */
+}
+#reportsMerchantsPage .blockArea table tbody td a {
+  width: 35px;
+  height: 35px;
+}
+#reportsMerchantsPage .blockArea .no_bills_yet {
+  min-height: 400px;
+  color: #999;
+  /* md */
+  /* i */
+  /* span */
+}
+@media (max-width: 767.98px) {
+  #reportsMerchantsPage .blockArea .no_bills_yet {
+    min-height: 200px;
+  }
+}
+#reportsMerchantsPage .blockArea .no_bills_yet i {
+  font-size: 100px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #reportsMerchantsPage .blockArea .no_bills_yet i {
+    font-size: 70px;
+  }
+}
+#reportsMerchantsPage .blockArea .no_bills_yet span {
+  font-size: 18px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #reportsMerchantsPage .blockArea .no_bills_yet span {
+    font-size: 15px;
+  }
+}
+
+/* reportsMerchantsPage */
 body {
   background-color: #f8f8f8;
   direction: rtl;
@@ -31935,6 +32194,7 @@ span.select2 {
 }
 span.select2 .selection {
   /* select2-selection--single */
+  /* select2-selection--multiple */
 }
 span.select2 .selection .select2-selection--single {
   height: 40px;
@@ -31978,6 +32238,49 @@ span.select2 .selection .select2-selection--single .select2-selection__arrow::af
 }
 span.select2 .selection .select2-selection--single .select2-selection__arrow b {
   display: none;
+}
+span.select2 .selection .select2-selection--multiple {
+  height: 40px;
+  border-radius: 0.3rem;
+  padding: 0;
+  border-color: #dee2e6;
+  overflow: hidden;
+  position: relative;
+  /* select2-selection__rendered */
+}
+span.select2 .selection .select2-selection--multiple .select2-selection__rendered {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* select2-selection__choice */
+}
+span.select2 .selection .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
+  margin: 5px;
+  padding: 5px;
+  height: 28px;
+  border: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #fafafa;
+  font-size: 12px;
+  color: #000;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  /* select2-selection__choice__remove */
+}
+span.select2 .selection .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove {
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  margin: 0 -5px 0 0;
+  color: #777;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1;
 }
 
 /* select2 */

@@ -43,7 +43,7 @@
         </div>
         <div class="form-group mb-3">
           <label class="d-block mb-2">{{__('Role')}}</label>
-          <select name="role" class="form-control is-valid" aria-describedby="role-error" aria-invalid="false">
+          <select name="role" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" aria-describedby="role-error" aria-invalid="false">
             @foreach($roles as $role)
               <option value="{{$role->name}}">{{$role->name}}</option>
             @endforeach

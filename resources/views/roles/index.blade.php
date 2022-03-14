@@ -58,7 +58,7 @@
                   <td class="text-center">{{$role->name}}</td>
                   <td class="text-center">
                     @foreach($role->getPermissionNames() as $permission)
-                      <span class="badge badge-info">{{__($permission)}}</span>
+                      <span class="roleTag badge badge-info">{{__($permission)}}</span>
                     @endforeach
                   </td>
                   @canany(['update user', 'delete user'])

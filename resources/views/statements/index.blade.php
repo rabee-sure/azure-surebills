@@ -20,41 +20,46 @@
 
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Statement') }}</h1>
-      <h2 class="d-block fw-bold m-0 fs-6">{{ __('Balance') }} : {{ round2(auth()->user()->balance) }} {{ __('SAR')}}</h2>
+      <h2 class="d-block m-0 fs-6">{{ __('Balance') }} : {{ round2(auth()->user()->balance) }} {{ __('SAR')}}</h2>
     </div><!-- title -->
 
     <div class="filterArea mb-3 d-flex align-items-end justify-content-between flex-wrap flex-column flex-lg-row">
       <div class="rightCol d-flex align-items-end justify-content-start flex-wrap flex-grow-1">
         <div class="form-group mb-3">
-          <select name="transaction_type" class="form-control select2-single filter">
+          <select name="transaction_type" class="form-control select2-single filter" @if(request()->transaction_type != 'credit' && request()->transaction_type != 'debit') disabled @endif>
             <option selected disabled>
-            @if(request()->transaction_type == 'debit')
-                {{ __('Debit') }}
-              @elseif(request()->transaction_type == 'credit')
-                {{ __('Credit') }}
-              @else
-                {{ __('Transaction Type') }}
-              @case('channel_fees')
-                {{ __('Channel Fees') }}
-              @break
-              @case('channel_vat')
-                {{ __('Channel VAT') }}
-              @break
-              @case('fees')
-                {{ __('Bill Fees') }}
-              @break
-              @case('vat')
-                {{ __('Bill VAT') }}
-              @break
-              @case('transfer')
-                {{ __('Transfer') }}
-              @break
-              @case('refund')
-                {{ __('Refunded') }}
-              @break
-              @default
-              {{ __('Transactions') }}
-            @endswitch
+              @switch(request()->transaction_source)
+                @case('bill')
+                    {{ __('Bill') }}
+                    @break
+
+                @case('channel_fees')
+                    {{ __('Channel Fees') }}
+                    @break
+
+                @case('channel_vat')
+                    {{ __('Channel VAT') }}
+                    @break
+
+                @case('fees')
+                    {{ __('Bill Fees') }}
+                    @break
+
+                @case('vat')
+                    {{ __('Bill VAT') }}
+                    @break
+
+                @case('transfer')
+                    {{ __('Transfer') }}
+                    @break
+
+                @case('refund')
+                    {{ __('Refunded') }}
+                    @break
+
+                @default
+                    {{ __('Transactions') }}
+              @endswitch
             </option>
             <option value="all">{{ __('All') }}</option>
             <option value="debit">{{ __('Debit') }}</option>
