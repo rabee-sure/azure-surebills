@@ -30,6 +30,8 @@
         <div class="card-body" >
           <form method="POST" action="#" class="repeater" id="categoryForm">
             @csrf
+
+            <input type="hidden" name="category_id" value="{{isset($id) ? $id : null}}">
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>{{ __('Name Ar') }}</label>
@@ -109,7 +111,8 @@
     $("#sel_1").select2();
 
     $(document).ready(function(){
-
+      var category_id = $("input[name=category_id]").val();
+      
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -127,6 +130,21 @@
           $("#sel_1").select2ToTree({treeData: {dataArr:categories.data, labelFld: "name", incFld: "childiren"}, maximumSelectionLength: 1});
         }
       });
+
+      if(category_id){
+        $.ajax({
+          type:'GET',
+          url:"{{ route('categories.show', $id) }}",
+          success:function(category){
+            console.log(category['name'].en);
+            $("input[name=name_en]").val(category['name'].en);
+            $("input[name=name_ar]").val(category['name'].ar);
+            $("#sel_1 option[value=9]").attr('selected', 'selected');
+            $("input[name=sort_number]").val(category['sort_number']);
+            if()
+          }
+        });
+      }
 
       //submit from
       $('#SubmitForm').click(function(){
@@ -151,12 +169,10 @@
           processData: false,
           contentType: false, 
           success:function(response){
-            console.log(response);
             window.location.replace("{{ route('categories.all') }}");
           },
           error: function(error) {
-            console.log(error);
-            alert("error");
+            alert(error);
           }
         });
 

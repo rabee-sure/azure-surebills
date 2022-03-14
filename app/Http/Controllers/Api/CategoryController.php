@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryListResource;
+use App\Http\Resources\CategorySingleResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryApiRequest;
@@ -34,6 +35,12 @@ class CategoryController extends Controller
     {
         $category = Category::find($parent_id);
         return CategoryResource::collection($category->childiren);
+    }
+
+    public function show($category_id, Request $request)
+    {
+        $category = Category::find($category_id);
+        return $category;
     }
     
     public function store(CategoryApiRequest $request){

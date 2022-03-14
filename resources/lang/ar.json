@@ -237,6 +237,7 @@
 	"Bills Per Day": "فواتير في اليوم",
 	"Banks": "البنوك",
 	"Active": "نشط",
+	"Disactive" : "معطل",
 	"Code": "كود",
 	"User": "المستخدم",
 	"Customer": "عميل",
@@ -714,6 +715,7 @@
 	"Report Pending" : "قيد الانشاء",
 	"Report Done" : "تم انشاءه",
   	"Add a product category" : "اضف قسم منتج",
+  	"Update a product category" : "تحديث قسم منتج",
 	
 	"Categories" : "الاقسام",
 	"Name En" : "الاسم بالانجليزية",
@@ -722,5 +724,6 @@
 	"Sort No." : "ترتيب القسم",
 	"Activate" : "تفعيل",
 	"Parent" : "الاب",
-	"Select parent category" : "أختر القسم الاب"
+	"Select parent category" : "أختر القسم الاب",
+	"Main" : "رئيسي"
 }

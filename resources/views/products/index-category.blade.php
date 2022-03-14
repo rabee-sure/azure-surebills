@@ -94,15 +94,16 @@
               $("#catTable").append('</thead>');
               $("#catTable").append('<tbody id="tblBody">');
               $.each(categories.data, function( index, category ) {
+                var imgUrl = "{{Storage::url('categories/')}}";
                 $("#tblBody").append('<tr id="bodyTr'+index+'">');
                   $("#bodyTr"+index).append('<th scope="row">'+category["id"]+'</th>');
-                  $("#bodyTr"+index).append('<td>'+category["image"]+'</td>');
+                  $("#bodyTr"+index).append('<td><img style="width: 100px;" src="'+imgUrl+''+category["image"]+'" ></td>');
                   $("#bodyTr"+index).append('<td>'+category["name"]+'</td>');
                   $("#bodyTr"+index).append('<td>'+category["sort_number"]+'</td>');
                   $("#bodyTr"+index).append('<td>'+category["parent"]+'</td>');
                   $("#bodyTr"+index).append('<td>'+category["active"]+'</td>');
                   $("#bodyTr"+index).append('<td id="tdActions'+index+'">');
-                    $("#tdActions"+index).append('<a href="{{ route('categories.edit', 1)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>');
+                    $("#tdActions"+index).append('<a href="/categories/'+category["id"]+'/edit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>');
                     $("#tdActions"+index).append('<a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>');
                   $("#bodyTr"+index).append('</td>');
                 $("#tblBody").append('</tr>');

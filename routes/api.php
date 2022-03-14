@@ -58,6 +58,7 @@ Route::prefix('v1')->group(function () {
 		Route::get('top-categories', 'CategoryController@topCategories')->name('categories.top');
 		Route::get('sub-categories/{parent}', 'CategoryController@subCategories');
 		Route::post('category/store', 'CategoryController@store')->name('categories.store');
+		Route::get('categories/{id}', 'CategoryController@show')->name('categories.show');
 		Route::post('category/{id}/update', 'CategoryController@update');
 		Route::delete('category/{id}/delete', 'CategoryController@delete');
 

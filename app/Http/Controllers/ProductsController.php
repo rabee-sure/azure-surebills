@@ -74,7 +74,9 @@ class ProductsController extends Controller
 
     public function editCategory($id, Request $request)
     {
-        return view('products.form-category');
+        $data['title'] = "Update a product category";
+        $data['id'] = $id;
+        return view('products.form-category', $data);
     }
 
     /**
@@ -82,10 +84,10 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
-    {
-        return view('products.update');
-    }
+    // public function update(Request $request, $slug)
+    // {
+    //     return view('products.update');
+    // }
 
     /**
      * Display a listing of the resource.
