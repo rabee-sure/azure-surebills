@@ -30778,6 +30778,7 @@ section#homepage .addNewBillBtn:hover {
 #usersIndexPage {
   /* title */
   /* tabsArea */
+  /* blockArea */
   /* no_customers_yet */
 }
 #usersIndexPage .title {
@@ -30797,6 +30798,30 @@ section#homepage .addNewBillBtn:hover {
 #usersIndexPage .tabsArea a {
   min-width: 130px;
   height: 40px;
+}
+#usersIndexPage .blockArea {
+  /* table */
+}
+#usersIndexPage .blockArea table {
+  /* th */
+  /* td */
+}
+#usersIndexPage .blockArea table th {
+  font-size: 14px;
+  padding: 10px;
+  vertical-align: middle;
+  color: #3a3a3a;
+  border-color: #dee2e6;
+}
+#usersIndexPage .blockArea table td {
+  color: #3a3a3a;
+  font-size: 15px;
+  vertical-align: middle;
+  /* a */
+}
+#usersIndexPage .blockArea table td a, #usersIndexPage .blockArea table td button {
+  width: 35px;
+  height: 35px;
 }
 #usersIndexPage .no_customers_yet {
   min-height: 400px;
@@ -30830,6 +30855,268 @@ section#homepage .addNewBillBtn:hover {
 }
 
 /* usersIndexPage */
+#usersEditPage {
+  /* title */
+  /* blockArea */
+}
+#usersEditPage .title {
+  /* h1 */
+}
+#usersEditPage .title h1, #usersEditPage .title .h1 {
+  color: #3a3a3a;
+}
+#usersEditPage .blockArea {
+  /* form-group */
+  /* phoneInput */
+  /* buttonsArea */
+}
+#usersEditPage .blockArea .form-group {
+  /* input */
+  /* select */
+}
+#usersEditPage .blockArea .form-group input {
+  height: 40px;
+  padding: 0 10px;
+  outline: none;
+  /* focus */
+  /* is-valid */
+  /* is-invalid */
+}
+#usersEditPage .blockArea .form-group input:focus {
+  background-color: var(--hoverBg) !important;
+  border-color: var(--mainColor) !important;
+}
+#usersEditPage .blockArea .form-group input.is-valid {
+  background-position: 10px center;
+  border-color: #198754 !important;
+  /* ltr */
+}
+[dir=ltr] #usersEditPage .blockArea .form-group input.is-valid {
+  background-position: right 10px center;
+}
+#usersEditPage .blockArea .form-group input.is-invalid {
+  background-position: 10px center;
+  border-color: #dc3545 !important;
+  /* ltr */
+}
+[dir=ltr] #usersEditPage .blockArea .form-group input.is-invalid {
+  background-position: right 10px center;
+}
+#usersEditPage .blockArea .form-group select {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg==");
+  height: 40px;
+  padding: 0 10px;
+  background-position: 10px center;
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  /* ltr */
+  /* is-valid */
+  /* is-invalid */
+}
+[dir=ltr] #usersEditPage .blockArea .form-group select {
+  background-position: right 10px center;
+}
+#usersEditPage .blockArea .form-group select.is-valid {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg==");
+  background-position: 10px center;
+  border-color: #198754 !important;
+  /* ltr */
+}
+[dir=ltr] #usersEditPage .blockArea .form-group select.is-valid {
+  background-position: right 10px center;
+}
+#usersEditPage .blockArea .form-group select.is-invalid {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTgxLjg0NiAyNS4zODhhNi4wMjQgNi4wMjQgMCAwIDAtOC40NS43NjdMNDggNTYuNjI1bC0yNS4zOTYtMzAuNDdhNS45OTkgNS45OTkgMCAxIDAtOS4yMTEgNy42ODlsMzAuMDAxIDM2LjAwMWE1Ljk5NyA1Ljk5NyAwIDAgMCA5LjIxMiAwbDMwLjAwMS0zNi4wMDJhNi4wMDggNi4wMDggMCAwIDAtLjc2MS04LjQ1NVoiIGZpbGw9IiNhYWFhYWEiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg==");
+  background-position: 10px center;
+  border-color: #dc3545 !important;
+  /* ltr */
+}
+[dir=ltr] #usersEditPage .blockArea .form-group select.is-invalid {
+  background-position: right 10px center;
+}
+#usersEditPage .blockArea .phoneInput {
+  direction: ltr;
+  /* span */
+  /* Mobile-error */
+  /* input */
+}
+#usersEditPage .blockArea .phoneInput span {
+  left: 1px;
+  top: 1px;
+  height: 38px;
+  min-width: 50px;
+}
+#usersEditPage .blockArea .phoneInput #Mobile-error {
+  display: block !important;
+  direction: rtl;
+  width: 100%;
+  height: auto !important;
+  min-width: auto !important;
+  /* ltr */
+}
+[dir=ltr] #usersEditPage .blockArea .phoneInput #Mobile-error {
+  direction: ltr;
+}
+#usersEditPage .blockArea .phoneInput input {
+  padding: 0 10px 0 50px;
+  /* is-valid */
+  /* is-invalid */
+}
+#usersEditPage .blockArea .phoneInput input.is-valid {
+  background-position: right 10px center;
+  border-color: #198754 !important;
+}
+#usersEditPage .blockArea .phoneInput input.is-invalid {
+  background-position: right 10px center;
+  border-color: #dc3545 !important;
+}
+#usersEditPage .blockArea .buttonsArea {
+  /* button */
+}
+#usersEditPage .blockArea .buttonsArea button, #usersEditPage .blockArea .buttonsArea a {
+  height: 40px;
+  min-width: 120px;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  margin: 0 0 0 15px;
+  /* ltr */
+  /* disabled="disabled" */
+  /* last-child */
+}
+[dir=ltr] #usersEditPage .blockArea .buttonsArea button, [dir=ltr] #usersEditPage .blockArea .buttonsArea a {
+  margin: 0 15px 0 0;
+}
+#usersEditPage .blockArea .buttonsArea button[disabled=disabled], #usersEditPage .blockArea .buttonsArea a[disabled=disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+#usersEditPage .blockArea .buttonsArea button:last-child, #usersEditPage .blockArea .buttonsArea a:last-child {
+  margin: 0;
+}
+
+/* usersEditPage */
+.addRoleModal {
+  /* modal-body */
+  /* modal-footer */
+}
+.addRoleModal .modal-body {
+  /* form-group */
+  /* checkboxItem */
+}
+.addRoleModal .modal-body .form-group {
+  /* input */
+}
+.addRoleModal .modal-body .form-group input {
+  height: 40px;
+  padding: 0 10px;
+  outline: none;
+  /* focus */
+  /* is-valid */
+  /* is-invalid */
+}
+.addRoleModal .modal-body .form-group input:focus {
+  background-color: var(--hoverBg) !important;
+  border-color: var(--mainColor) !important;
+}
+.addRoleModal .modal-body .form-group input.is-valid {
+  background-position: 10px center;
+  border-color: #198754 !important;
+  /* ltr */
+}
+[dir=ltr] .addRoleModal .modal-body .form-group input.is-valid {
+  background-position: right 10px center;
+}
+.addRoleModal .modal-body .form-group input.is-invalid {
+  background-position: 10px center;
+  border-color: #dc3545 !important;
+  /* ltr */
+}
+[dir=ltr] .addRoleModal .modal-body .form-group input.is-invalid {
+  background-position: right 10px center;
+}
+.addRoleModal .modal-body .checkboxItem {
+  /* input */
+  /* span */
+}
+.addRoleModal .modal-body .checkboxItem input {
+  opacity: 0;
+  z-index: 99;
+  cursor: pointer;
+  /* checked */
+}
+.addRoleModal .modal-body .checkboxItem input:checked ~ {
+  /* span */
+}
+.addRoleModal .modal-body .checkboxItem input:checked ~ span {
+  /* i */
+}
+.addRoleModal .modal-body .checkboxItem input:checked ~ span i {
+  background-color: var(--mainColor);
+  box-shadow: 0 2px 4px 0 rgba(var(--mainColorRGB), 0.4);
+  /* after */
+}
+.addRoleModal .modal-body .checkboxItem input:checked ~ span i::after {
+  transform: translateX(-28px);
+  /* ltr */
+}
+[dir=ltr] .addRoleModal .modal-body .checkboxItem input:checked ~ span i::after {
+  transform: translateX(28px);
+}
+.addRoleModal .modal-body .checkboxItem span {
+  color: #3a3a3a;
+  /* i */
+}
+.addRoleModal .modal-body .checkboxItem span i {
+  height: 25px;
+  width: 53px;
+  background-color: #d7d7d7;
+  margin: 0 0 0 10px;
+  transition: all 0.3s ease-in-out;
+  /* ltr */
+  /* after */
+}
+[dir=ltr] .addRoleModal .modal-body .checkboxItem span i {
+  margin: 0 10px 0 0;
+}
+.addRoleModal .modal-body .checkboxItem span i::after {
+  content: "";
+  width: 17px;
+  height: 17px;
+  background-color: #fff;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  border-radius: 100%;
+  transition: all 0.3s ease-in-out;
+  /* ltr */
+}
+[dir=ltr] .addRoleModal .modal-body .checkboxItem span i::after {
+  right: auto;
+  left: 4px;
+}
+.addRoleModal .modal-body span#permissions\[\]-error {
+  margin: -0.75rem 0 1rem 0;
+  display: block !important;
+}
+.addRoleModal .modal-footer {
+  /* button */
+}
+.addRoleModal .modal-footer button {
+  height: 40px;
+  min-width: 100px;
+  margin: 0 0.5rem 0 0;
+  /* ltr */
+  /* first-child */
+}
+[dir=ltr] .addRoleModal .modal-footer button {
+  margin: 0 0 0 0.5rem;
+}
+.addRoleModal .modal-footer button:first-child {
+  margin: 0;
+}
+
+/* addRoleModal */
 #channelsIndexPage {
   /* title */
   /* catItem */

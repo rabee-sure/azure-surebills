@@ -35,7 +35,7 @@
           <table class="table table-striped table-hover text-nowrap">
             <thead>
               <tr>
-                <th scope="col">#</th>
+                <th scope="col" class="text-center">#</th>
                 <th scope="col" class="text-center">{{__('Name')}}</th>
                 <th scope="col" class="text-center">{{__('Mobile')}}</th>
                 <th scope="col" class="text-center">{{__('Email')}}</th>
@@ -47,7 +47,7 @@
             <tbody>
               @foreach ($customers as $customer)
                 <tr>
-                  <th scope="row">{{ $customer->id }}</th>
+                  <td class="text-center">{{ $customer->id }}</td>
                   <td class="text-center">{{ $customer->name }}</td>
                   <td class="text-center">{{ $customer->mobile }}</td>
                   <td class="text-center">{{ $customer->email }}</td>
