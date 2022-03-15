@@ -17,6 +17,11 @@ class Customer extends Model
         'vat_registration_number'
     ];
 
+    public function scopeName($query, $name)
+    {
+    	return $query->where('name', 'like', '%'.$name.'%');
+    }
+
     /**
      * Get bills.
      *

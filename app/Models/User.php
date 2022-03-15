@@ -337,11 +337,16 @@ class User extends Authenticatable implements HasMedia
 
     public function storeUsers($retrieveIdsOnly = false)
     {
-        $users = $this->whereIn('id', [auth()->user()->id, auth()->user()->store_main_user_id])->orWhere('store_main_user_id', auth()->user()->id)->get();
-        if($retrieveIdsOnly)
+        $users = [];
+        if(auth()->user())
         {
-            return $users->pluck('id')->toArray();
+            $users = $this->whereIn('id', [auth()->user()->id, auth()->user()->store_main_user_id])->orWhere('store_main_user_id', auth()->user()->id)->get();
+            if($retrieveIdsOnly)
+            {
+                return $users->pluck('id')->toArray();
+            }
         }
+
         return $users;
     }
 

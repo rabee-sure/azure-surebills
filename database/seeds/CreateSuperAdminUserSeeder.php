@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -17,14 +18,14 @@ class CreateSuperAdminUserSeeder extends Seeder
     public function run()
     {
         $users = User::whereNull('store_main_user_id')->get();
-        $role = Role::firstOrNew(['name' => 'super admin'], ['name' => 'super admin']);
+        $role = Role::firstOrCreate(['name' => 'super admin'], ['name' => 'super admin']);
 
         foreach($users as $user)
         {
             $permissions = Permission::pluck('id')->all();
             dd($permissions);
             $role->syncPermissions($permissions);
-            $user->assignRole($role);
+            $user->assignRole($role->id);
         }
     }
 }

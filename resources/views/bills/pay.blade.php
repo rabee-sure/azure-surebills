@@ -136,7 +136,9 @@
             <div class="d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-start justify-content-between flex-column">
                 <span>{{ __('Total amount') }}</span>
+                @if( $bill->add_tax)
                 <small>( {{ __('Exclude added tax') }} )</small>
+                @endif
               </div>
               <span>{{ $bill->sub_total }} {{ __('SAR') }}</span>
             </div><!-- d-flex -->

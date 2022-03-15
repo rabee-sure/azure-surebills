@@ -16,7 +16,7 @@
         "cypress": "^9.5.1",
         "jquery": "^3.2",
         "laravel-echo": "^1.9.0",
-        "laravel-mix": "^6.0.13",
+        "laravel-mix": "^6.0.43",
         "lodash": "^4.17.19",
         "popper.js": "^1.12",
         "postcss": "^8.1.14",
@@ -25,7 +25,7 @@
         "sass": "^1.27.0",
         "sass-loader": "^8.0.0",
         "vue": "^2.6.12",
-        "vue-loader": "^15.9.6",
+        "vue-loader": "^15.9.8",
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
