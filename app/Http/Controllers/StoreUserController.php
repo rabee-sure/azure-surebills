@@ -54,6 +54,9 @@ class StoreUserController extends Controller
             'email' => $request->email,
             'mobile' => $request->mobile,
             'gender' => $request->gender,
+            'gender' => $request->gender,
+            'mobile_verified' => true,
+            'verified' => true,
             'store_main_user_id' => auth()->user()->store_main_user_id ?? auth()->user()->id,
         ]);
 

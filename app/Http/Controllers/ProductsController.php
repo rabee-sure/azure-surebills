@@ -56,7 +56,8 @@ class ProductsController extends Controller
      */
     public function create(Request $request)
     {
-        return view('products.create');
+        $data['title'] = "Add Product";
+        return view('products.form-product', $data);
     }
 
     /**
@@ -66,7 +67,8 @@ class ProductsController extends Controller
      */
     public function createCategory(Request $request)
     {
-        return view('products.create-category');
+        $data['title'] = "Add a product category";
+        return view('products.form-category', $data);
     }
 
     /**
@@ -74,19 +76,23 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $slug)
-    {
-        return view('products.store');
-    }
+    // public function store(Request $request, $slug)
+    // {
+    //     return view('products.store');
+    // }
 
     public function edit($id, Request $request)
     {
-        return view('products.edit');
+        $data['title'] = "Update Product";
+        $data['id'] = $id;
+        return view('products.form-product', $data);
     }
 
     public function editCategory($id, Request $request)
     {
-        return view('products.edit-category');
+        $data['title'] = "Update a product category";
+        $data['id'] = $id;
+        return view('products.form-category', $data);
     }
 
     /**
@@ -94,10 +100,10 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
-    {
-        return view('products.update');
-    }
+    // public function update(Request $request, $slug)
+    // {
+    //     return view('products.update');
+    // }
 
     /**
      * Display a listing of the resource.
