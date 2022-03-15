@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResource extends JsonResource
+class CategoryListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,9 +20,8 @@ class CategoryResource extends JsonResource
             'name' => $this->name,
             'image' => $this->image,
             'sort_number' => $this->sort_number,
-            'active' => $this->active,
-            'parent_id' => $this->parent_id,
-            'childiren' => $this::collection($this->childiren),
+            'active' => ($this->active == 1) ? __('Active') : __('Disactive'),
+            'parent' => ($this->parent_id != 0) ? $this->parent->name : __('Main'),
         ];
     }
 }

@@ -285,6 +285,7 @@
 	"Bills Per Day": "فواتير في اليوم",
 	"Banks": "البنوك",
 	"Active": "نشط",
+	"Disactive" : "معطل",
 	"Code": "كود",
 	"User": "المستخدم",
 	"Customer": "عميل",
@@ -626,6 +627,7 @@
 	"Loading" : "جاري التحقق",
 	"Products" : "المنتجات",
 	"Add Product" : "إضافة منتج",
+	"Update Product" : "تحديث منتج",
 	"Order By" : "ترتيب حسب",
 	"Search" : "بحث",
 	"Displaying" : "عرض",
@@ -766,6 +768,18 @@
   "Invoice Settings" : "اعدادات الفاتورة",
   "Electronic payment record" : "سجل المدفوعات الالكترونية",
   "There are no data" : "لا يوجد بيانات",
-  "electronic payment balance" : "رصيد المدفوعات الالكترونية"
-	
+  "electronic payment balance" : "رصيد المدفوعات الالكترونية",
+  	"Add a product category" : "اضف قسم منتج",
+  	"Update a product category" : "تحديث قسم منتج",
+	"Categories" : "الاقسام",
+	"Name En" : "الاسم بالانجليزية",
+	"Name Ar" : "الاسم بالعربية",
+	"Discription En" : "الوصف بالانجليزية",
+	"Discription Ar" : "الوصف بالعربية",
+	"Image" : "الصورة",
+	"Sort No." : "الترتيب",
+	"Activate" : "تفعيل",
+	"Parent" : "الاب",
+	"Select parent category" : "أختر القسم الاب",
+	"Main" : "رئيسي"
 }

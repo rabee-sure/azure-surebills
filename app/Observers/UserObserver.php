@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Events\UserVerifiedChanged;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class UserObserver
 {
@@ -15,6 +16,12 @@ class UserObserver
      */
     public function created(User $user)
     {
+        $this->letUserSuperAdmin($user);
+    }
+
+    public function saved(User $user)
+    {
+        $this->letUserSuperAdmin($user);
     }
 
     /**
@@ -61,5 +68,14 @@ class UserObserver
     public function forceDeleted(User $user)
     {
         //
+    }
+
+    private function letUserSuperAdmin($user)
+    {
+        if(!$user->store_main_user_id)
+        {
+            $role = Role::where('name', 'super admin')->first();
+            $user->assignRole($role->id);
+        }
     }
 }

@@ -31,7 +31,7 @@
             <li>{{ $error }}</li>
           @endforeach
         </ul>
-      </div>
+      </div><!-- table_items -->
     @endif
   </div><!-- alert -->
 
@@ -172,7 +172,9 @@
             <div class="d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-start justify-content-between flex-column mb-2">
                 <span class="d-block">{{ __('Total amount') }}</span>
-                <small class="d-block text-muted mt-1">( {{ __('Exclude added tax') }} )</small>
+                @if( $bill->add_tax)
+                  <small class="d-block text-muted mt-1">( {{ __('Exclude added tax') }} )</small>
+                @endif
               </div>
               <span class="d-block mb-2">{{ $bill->sub_total }} {{ __('SAR') }}</span>
             </div><!-- d-flex -->
