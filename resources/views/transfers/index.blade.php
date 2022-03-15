@@ -11,7 +11,6 @@
                 @if(!auth()->user()->auto_trnasfer && auth()->user()->verified)
                     @include('transfers.request_transfer')
                 @endif
-
                 <h3>{{ __('Balance') }} : {{  round2(auth()->user()->balance)  }} {{__('SAR')}}</h3>
             </div>
             <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
@@ -25,7 +24,7 @@
             <div class="separator mb-5"></div>
         </div>
     </div>
-    
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -87,7 +86,7 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                            </tbody>    
+                            </tbody>
                         </table>
                     </div>
                 </div>
