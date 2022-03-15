@@ -44,9 +44,9 @@ class BillController extends Controller
             'user_id' => $user->id,
             'mobile' => $request->customer_mobile,
         ],[
-            'name' => $request->customer_name, 
+            'name' => $request->customer_name,
             'email' => $request->customer_email,
-            
+
             'bullding_no' => $request->customer_bullding_no,
             'street_name' => $request->customer_street_name,
             'district' => $request->customer_district,
@@ -126,7 +126,7 @@ class BillController extends Controller
 
         }elseif($user->settings->add_tax){
             $bill->add_tax = $user->settings->add_tax;
-            $bill->tax_value = $user->settings->tax_value;      
+            $bill->tax_value = $user->settings->tax_value;
             $vat = ($sub_total -$discount) * $user->settings->tax_value /100;
         }
 
@@ -156,7 +156,7 @@ class BillController extends Controller
         }
 
         event(new BillCreated($bill));
-        
+
         return new BillApiResource($bill);
     }
 
@@ -194,7 +194,7 @@ class BillController extends Controller
             'user_id' => $user->id,
             'mobile' => $request->customer_mobile,
         ],[
-            'name' => $request->customer_name, 
+            'name' => $request->customer_name,
             'email' => $request->customer_email,
         ]);
 
@@ -265,7 +265,7 @@ class BillController extends Controller
             $bill->tax_value = $request->tax_value;
         }elseif($user->settings->add_tax){
             $bill->add_tax = $user->settings->add_tax;
-            $bill->tax_value = $user->settings->tax_value;      
+            $bill->tax_value = $user->settings->tax_value;
         }
 
         if($request->add_tax){
@@ -280,7 +280,7 @@ class BillController extends Controller
         $bill->sub_total = $sub_total;
         $bill->total = $sub_total - $discount + $vat;
         $bill->save();
-        
+
         event(new BillCreated($bill));
 
         return redirect($bill->pay_url);
@@ -301,8 +301,8 @@ class BillController extends Controller
            return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
-                    'credential' =>[__("can't find this record in database.")] 
-                ] 
+                    'credential' =>[__("can't find this record in database.")]
+                ]
            ], 422);
         }
 
@@ -326,8 +326,8 @@ class BillController extends Controller
            return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
-                    'credential' =>[__('application_id or application_secret is not coreect')] 
-                ] 
+                    'credential' =>[__('application_id or application_secret is not coreect')]
+                ]
            ], 422);
         }
 
@@ -336,8 +336,8 @@ class BillController extends Controller
            return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
-                    'credential' =>[__("can't find this record in database.")] 
-                ] 
+                    'credential' =>[__("can't find this record in database.")]
+                ]
            ], 422);
         }
 
@@ -353,11 +353,11 @@ class BillController extends Controller
            return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
-                    'credential' =>[__("your application not match bill's application")] 
-                ] 
+                    'credential' =>[__("your application not match bill's application")]
+                ]
            ], 422);
         }
-    }    
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -372,8 +372,8 @@ class BillController extends Controller
            return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
-                    'credential' =>[__('application_id or application_secret is not coreect')] 
-                ] 
+                    'credential' =>[__('application_id or application_secret is not coreect')]
+                ]
            ], 422);
         }
 
@@ -383,8 +383,8 @@ class BillController extends Controller
            return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
-                    'credential' =>[__("can't find this record in database.")] 
-                ] 
+                    'credential' =>[__("can't find this record in database.")]
+                ]
            ], 422);
         }
 
@@ -419,7 +419,7 @@ class BillController extends Controller
                 $application->fail_redirect_url = '';
                 $application->secret = Str::random(20);
                 $application->webhook_secret = Str::random(20);
-                $application->save();      
+                $application->save();
             }
         }
         return $application;
@@ -437,9 +437,9 @@ class BillController extends Controller
         $validator = Validator::make($request->all(), [
             'type' => ['required', 'in:partial_refund,total_refund'],
             'amount' => [
-                'nullable', 
-                'required_if:type,partial_refund', 
-                new AmountPartialRefund($id), 
+                'nullable',
+                'required_if:type,partial_refund',
+                new AmountPartialRefund($id),
                 'numeric', 'gt:0', new AmountPartialRefundGTBalance($id)
             ],
         ]);

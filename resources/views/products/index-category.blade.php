@@ -17,18 +17,27 @@
     </div>
 @endif
 
+@canany(['show products', 'show product categories'])
 <div class="productsTabs d-flex align-items-center justify-content-center justify-content-md-start mb-4">
-  <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('products*') ? 'active' : '' }}">{{ __('Products') }}</a>
-  <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('categories*') ? 'active' : '' }}">{{ __('Product Sections') }}</a>
+    @can('show products')
+        <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('products*') ? 'active' : '' }}">{{ __('Products') }}</a>
+    @endcan
+
+    @can('show product categories')
+        <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}" class="d-flex align-items-center justify-content-center shadow-sm {{ Request::is('categories*') ? 'active' : '' }}">{{ __('Product Sections') }}</a>
+    @endcan
 </div><!-- productsTabs -->
+@endcanany
 
   <div class="row">
     <div class="col-12">
       <div class="mb-3">
         <h1>{{ __('Product Sections')}}</h1>
+        @can('create product category')
         <div class="top-right-button-container">
         <a href="{{ route('categories.create')}}" class="btn btn-primary btn-md top-right-button mr-1" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Add a product category') }}">{{ __('Add a product category') }}</a>
       </div>
+      @endcan
       <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
         <ol class="breadcrumb pt-0">
           <li class="breadcrumb-item">
@@ -46,12 +55,7 @@
     <div class="card">
       <div class="card-body">
         <div class="table-responsive" id="table-responsive">
-          <!-- condition of product count -->
-
-          <!-- else -->
-            
-          <!-- endif -->
-          <!-- produvts pagination links -->
+          
         </div>
       </div>
     </div>

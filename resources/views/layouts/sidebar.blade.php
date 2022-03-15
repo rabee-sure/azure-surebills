@@ -15,42 +15,57 @@
             <span>{{ __('Dashboard') }}</span>
           </a>
         </li>
+
+        @can('show bills')
         <li class="{{ Request::is('bills*') ? 'active' : '' }}">
           <a href="/bills?{{$separated}}" title="{{ __('Bills') }}">
             <i class="iconsminds-testimonal"></i>
            {{ __('Bills') }}
           </a>
         </li>
+        @endcan
+
         <!-- <li class="{{ Request::is('pos*') ? 'active' : '' }}">
           <a href="/pos/categories" title="{{ __('POS') }}">
             <i class="iconsminds-testimonal"></i>
            {{ __('POS') }}
           </a>
         </li> -->
+
+        @can('show customers')
         <li class="{{ Request::is('customers*') ? 'active' : '' }}">
           <a href="{{ route('customers.index') }}" title="{{ __('Customers') }}">
             <i class="iconsminds-mens"></i>
             {{ __('Customers') }}
           </a>
-        </li> 
+        </li>
+        @endcan
+
+        @can('show statement')
         <li class="{{ Request::is('statement*') ? 'active' : '' }}">
           <a href="{{ route('statement.index') }}" title="{{ __('Statement') }}">
             <i class="iconsminds-statistic"></i>
             {{ __('Statement') }}
           </a>
         </li>
+        @endcan
+
         {{-- <li>
           <a href="#store" title="Store">
             <i class="iconsminds-shop-2"></i>
             {{ __('Store') }}
           </a>
         </li> --}}
+
+        @can('show transfers')
         <li class="{{ Request::is('transfers*') ? 'active' : '' }}">
           <a href="{{ route('transfers.index') }}" title="{{ __('Transfers') }}">
             <i class="iconsminds-money-bag"></i>
             {{ __('Transfers') }}
           </a>
         </li>
+        @endcan
+
         <li class="{{ Request::is('account*') ? 'active' : '' }}">
           <a href="{{ route('account') }}" title="{{ __('My Account') }}">
             <i class="iconsminds-male-2"></i>
@@ -63,6 +78,8 @@
             {{ __('Pricing') }}
           </a>
         </li>  --}}
+
+        @can('show channels')
         @if(count(auth()->user()->channels))
           <li class="{{ Request::is('channels*') ? 'active' : '' }}">
             <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}">
@@ -71,29 +88,39 @@
             </a>
           </li>
         @endif
+        @endcan
+
+        @can('show applications')
         <li class="{{ Request::is('integration*') ? 'active' : '' }}">
           <a href="{{ route('integration') }}" title="{{ __('Integration') }}">
             <i class="iconsminds-gears"></i>
             {{ __('Integration') }}
           </a>
         </li>
+        @endcan
+
+        {{-- @can('show products') --}}
         <!-- <li>
           <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
-            <i class="iconsminds-project"></i> 
+            <i class="iconsminds-project"></i>
             <span class="d-inline-block">{{ __('Products') }}</span>
           </a>
         </li>
+        {{-- @endcan --}}
+
+        {{-- @can('show product categories') --}}
         <li>
           <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}">
-            <i class="iconsminds-clothing-store"></i> 
+            <i class="iconsminds-clothing-store"></i>
             <span class="d-inline-block">{{ __('Product Sections') }}</span>
           </a>
+          {{-- @endcan --}}
         </li> -->
 
         @if(in_array(Auth::user()->email, explode(',', env('NOVA_ALLOWED_ADMINS'))))
         <li class="{{ Request::is('reports*') ? 'active' : '' }}">
           <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}">
-            <i class="iconsminds-file-clipboard-file---text"></i> 
+            <i class="iconsminds-file-clipboard-file---text"></i>
             <span class="d-inline-block">{{ __('Reports') }}</span>
           </a>
         </li>

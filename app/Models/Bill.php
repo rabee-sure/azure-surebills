@@ -171,8 +171,10 @@ class Bill extends Model
      */
     public function getHasPendingRefundAttribute()
     {
-        $pending_refund = PaymentLog::where('payment_method', 'mastercard_refund')
-            ->where('webhook_response_received', false)
+        $pending_refund = PaymentLog::where('payment_logs.payment_method', 'mastercard_refund')
+            ->where('payment_logs.webhook_response_received', false)
+            ->where('bills.user_id', $this->user_id)
+            ->join('bills', 'bills.id', '=', 'payment_logs.bill_id')
             ->count();
 
         return $pending_refund > 0 ? true : false;
@@ -283,7 +285,7 @@ class Bill extends Model
 
         $ks = (str_contains($link, '?')) ? "&" : '?';
         return $link . $ks . implode("&", $data);
-    }    
+    }
 
     /**
      * Redirect Url.
@@ -396,7 +398,7 @@ class Bill extends Model
         if (isset($this->success_payment->results['response']) && isset($this->success_payment->results['response']['paymentBrand'])) {
             $method .= $this->success_payment->results['response']['paymentBrand'];
         }
-        
+
         if ($this->success_payment->brand) {
             $method .= $this->success_payment->brand;
         }
@@ -508,7 +510,7 @@ class Bill extends Model
      */
     public function resolveRouteBinding($value, $field = null)
     {
-        return $this->where('id', $value)->where('user_id', auth()->user()->id)->firstOrFail();
+        return $this->where('id', $value)->whereIn('user_id', auth()->user()->storeUsers(true))->firstOrFail();
     }
 
     /**
@@ -837,7 +839,7 @@ class Bill extends Model
         } else {
             $object = $this->user;
         }
-        
+
         return $log->brand == 'MADA' ? $object->mada_percentage : $object->credit_cards_percentage;
     }
 
@@ -853,7 +855,7 @@ class Bill extends Model
         } else {
             $object = $this->user;
         }
-        
+
         return $log->brand == 'MADA' ? $object->mada_fixed : $object->credit_cards_fixed;
     }
 

@@ -86,6 +86,7 @@ Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name
 
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
     Route::apiResource('applications', 'ApplicationController');
+    Route::get('user-permissions', 'StoreUserController@getUserPermissions');
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
@@ -138,6 +139,10 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     // Orders
     Route::get('orders', 'OrdersController@index')->name('orders.all');
     Route::get('orders/view', 'OrdersController@view')->name('orders.view');
+
+    // Roles
+    Route::resource('users', 'StoreUserController');
+    Route::resource('roles', 'RolesController');
 });
 
 Route::get('/', 'HomeController@landing');

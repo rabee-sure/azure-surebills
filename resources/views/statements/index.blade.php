@@ -45,23 +45,23 @@
 
                   @case('channel_fees')
                       {{ __('Channel Fees') }}
-                      @break                    
+                      @break
 
                   @case('channel_vat')
                       {{ __('Channel VAT') }}
-                      @break                   
+                      @break
 
                   @case('fees')
                       {{ __('Bill Fees') }}
-                      @break                  
+                      @break
 
                   @case('vat')
                       {{ __('Bill VAT') }}
-                      @break                 
+                      @break
 
                   @case('transfer')
                       {{ __('Transfer') }}
-                      @break 
+                      @break
 
                   @case('refund')
                       {{ __('Refunded') }}
@@ -162,7 +162,7 @@
                   @if(count($channels))
                     <td>
                       @if(isset($transaction->bill->application_id) && isset ($transaction->bill->application->channel_id))
-                          
+
                         {{$transaction->bill->application_id}} - {{ $transaction->bill->user->business_name}}
                       @else
                       --
@@ -171,13 +171,13 @@
                   @endif
                   <td>
                     @if ($transaction->card_brand == 'VISA')
-                      <img alt="mastercard" src="images/cards/visa.gif" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="images/cards/visa.gif" class="mr-1" width="18px">
                     @elseif ($transaction->card_brand == 'MASTER')
-                      <img alt="mastercard" src="images/cards/mastercard.gif" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="images/cards/mastercard.gif" class="mr-1" width="18px">
                     @elseif ($transaction->card_brand == 'MADA')
-                      <img alt="mastercard" src="images/cards/mada.gif" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="images/cards/mada.gif" class="mr-1" width="18px">
                     @elseif ($transaction->card_brand == 'APPLEPAY')
-                      <img alt="mastercard" src="images/cards/applepay.gif" class="mr-1" width="18px"> 
+                      <img alt="mastercard" src="images/cards/applepay.gif" class="mr-1" width="18px">
                     @endif
                     {{ $transaction->card }}
                   </td>
@@ -252,7 +252,7 @@
 
     });
       function oldParams() {
-        var params = ''  
+        var params = ''
         let array1 = [
           'transaction_type',
           'transaction_source',
@@ -282,7 +282,7 @@
       };
 
       $(function() {
-        var lang = "<?php echo app()->getLocale(); ?>"; 
+        var lang = "<?php echo app()->getLocale(); ?>";
         $('input[name="dates"]').daterangepicker({
           opens: lang == 'en' ? 'right' : 'left',
           locale: {
@@ -324,7 +324,7 @@
              '{{__('This Month')}}': [moment().startOf('month'), moment().endOf('month')],
              '{{__('Last Month')}}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
           },
-          startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"), 
+          startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"),
           endDate: getUrlParameter('date_to')?getUrlParameter('date_to'):moment(new Date()).format("MM/DD/YYYY"),
         }, function(start, end, label) {
             var dateParam = '?date_start=' + start.format('MM/DD/YYYY') + '&date_to='+end.format('MM/DD/YYYY')+oldParams();
@@ -333,6 +333,6 @@
         });
       });
 
-      
+
   </script>
 @endpush

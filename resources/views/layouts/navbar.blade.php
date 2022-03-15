@@ -24,7 +24,7 @@
           </a>
         @endif
     @endauth
- 
+
   </div>
 
   <a class="navbar-logo" href="{{ url('/')}}">
@@ -79,8 +79,10 @@
           @else
             <a class="dropdown-item" href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
           @endif
-          <a class="dropdown-item" href="{{ route('settings') }}" title="English">{{__('Settings')}}</a>
 
+          @can('update settings')
+          <a class="dropdown-item" href="{{ route('settings') }}" title="English">{{__('Settings')}}</a>
+        @endcan
           <a class="dropdown-item" href="{{ route('logout') }}"
              onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();">

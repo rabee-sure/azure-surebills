@@ -14,6 +14,12 @@ use App\Rules\ValidateUploadFile;
 
 class AccountController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:update bank info', ['only' => ['bank_information', 'storeBankInformation']]);
+        $this->middleware('permission:update business commercial info', ['only' => ['business_information', 'storeBusinessInformation']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -81,7 +87,15 @@ class AccountController extends Controller
      */
     public function bank_information()
     {
-        return view('account.bank_information', ['user' => auth()->user()]);
+        if(auth()->user()->mainStoreUser)
+        {
+            $bankInfo = auth()->user()->mainStoreUser;
+        }
+        else
+        {
+            $bankInfo = auth()->user();
+        }
+        return view('account.bank_information', ['user' => $bankInfo]);
     }
 
     /**
@@ -91,27 +105,36 @@ class AccountController extends Controller
      */
     public function storeBankInformation(BankInformationRequest $request)
     {
-        auth()->user()->update([
+        if(auth()->user()->mainStoreUser)
+        {
+            $bankInfo = auth()->user()->mainStoreUser;
+        }
+        else
+        {
+            $bankInfo = auth()->user();
+        }
+
+        $bankInfo->update([
             'bank_id' => $request->get('bank_id'),
             'iban_number' => $request->get('iban_number'),
             'beneficiary_name' => $request->get('beneficiary_name'),
         ]);
-        if (!auth()->user()->disable_bank_documents){
-             if (count(auth()->user()->bank_documents) > 0) {
-                foreach (auth()->user()->bank_documents as $media) {
+        if (!$bankInfo->disable_bank_documents){
+             if (count($bankInfo->bank_documents) > 0) {
+                foreach ($bankInfo->bank_documents as $media) {
                     if (!in_array($media->file_name, $request->input('document', []))) {
                         $media->delete();
                     }
                 }
             }
 
-            $media = auth()->user()->bank_documents->pluck('file_name')->toArray();
+            $media = $bankInfo->bank_documents->pluck('file_name')->toArray();
 
             foreach ($request->input('document', []) as $file) {
                 if (count($media) === 0 || !in_array($file, $media)) {
-                    auth()->user()->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('bank_documents');
+                    $bankInfo->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('bank_documents');
                 }
-            }       
+            }
         }
 
 
@@ -129,8 +152,16 @@ class AccountController extends Controller
      */
     public function business_information()
     {
-        // dd(auth()->user()->business_documents->first()->toArray());
-        return view('account.business_information', ['user' => auth()->user()]);
+        if(auth()->user()->mainStoreUser)
+        {
+            $businessInfo = auth()->user()->mainStoreUser;
+        }
+        else
+        {
+            $businessInfo = auth()->user();
+        }
+
+        return view('account.business_information', ['user' => $businessInfo]);
     }
 
     /**
@@ -140,10 +171,19 @@ class AccountController extends Controller
      */
     public function storeBusinessInformation(BusinessInformationRequest $request)
     {
+        if(auth()->user()->mainStoreUser)
+        {
+            $businessInfo = auth()->user()->mainStoreUser;
+        }
+        else
+        {
+            $businessInfo = auth()->user();
+        }
+
         if($request->hasFile('logo')) {
             $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();
             $image = $request->logo->move(public_path('uploads'), $imageName);
-            auth()->user()->update([
+            $businessInfo->update([
                 'logo' => 'uploads/'.$imageName,
             ]);
         }
@@ -151,13 +191,13 @@ class AccountController extends Controller
         {
             if($request->hidden_logo == null)
             {
-                auth()->user()->update([
+                $businessInfo->update([
                     'logo' => null,
                 ]);
             }
         }
 
-        auth()->user()->update([
+        $businessInfo->update([
             'license_type' => $request->get('license_type'),
             'business_name_en' => $request->get('business_name_en'),
             'business_name_ar' => $request->get('business_name_ar'),
@@ -172,25 +212,25 @@ class AccountController extends Controller
             'vat_registration_number' => $request->get('vat_registration_number'),
             'commercial_registry_expiry_date' => Carbon::parse($request->commercial_registry_expiry_date),
         ]);
-        if (!auth()->user()->disable_business_documents){
-            if (count(auth()->user()->business_documents) > 0) {
-                foreach (auth()->user()->business_documents as $media) {
+        if (!$businessInfo->disable_business_documents){
+            if (count($businessInfo->business_documents) > 0) {
+                foreach ($businessInfo->business_documents as $media) {
                     if (!in_array($media->file_name, $request->input('document', []))) {
                         $media->delete();
                     }
                 }
             }
 
-            $media = auth()->user()->business_documents->pluck('file_name')->toArray();
+            $media = $businessInfo->business_documents->pluck('file_name')->toArray();
 
             foreach ($request->input('document', []) as $file) {
                 if (count($media) === 0 || !in_array($file, $media)) {
-                    auth()->user()->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('business_documents');
+                    $businessInfo->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('business_documents');
                 }
             }
         }
 
-        session()->put(auth()->user()->id.'_complete_profile_step_2', true);
+        session()->put($businessInfo->id.'_complete_profile_step_2', true);
 
         return redirect('/account');
     }

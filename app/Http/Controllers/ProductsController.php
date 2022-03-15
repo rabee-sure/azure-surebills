@@ -6,6 +6,19 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show products', ['only' => ['index','show']]);
+        $this->middleware('permission:create product', ['only' => ['create','store']]);
+        $this->middleware('permission:update product', ['only' => ['edit','update']]);
+        $this->middleware('permission:delete product', ['only' => ['destroy']]);
+
+        $this->middleware('permission:show product categories', ['only' => ['indexCategory','viewCategory']]);
+        $this->middleware('permission:create product category', ['only' => ['createCategory','storeCategory']]);
+        $this->middleware('permission:update product category', ['only' => ['editCategory','updateCategory']]);
+        $this->middleware('permission:delete product category', ['only' => ['destroyCategory']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +27,8 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         return view('products.index');
-    }  
-    
+    }
+
     /**
      * Display a listing of the resource.
      *
