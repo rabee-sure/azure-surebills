@@ -85,23 +85,20 @@ $(document).ready(function() {
   });
 });
 
+// =============================================
+// Select2 Plugin
+// ============================================= 
 $(document).ready(function() {
   $('.select2-single').select2();
 });
 
-
-
-$(function(){
-  $("input.onlyEng").keypress(function(event){
-    var ew = event.which;
-    if(ew == 32)
-        return true;
-    if(48 <= ew && ew <= 57)
-        return true;
-    if(65 <= ew && ew <= 90)
-        return true;
-    if(97 <= ew && ew <= 122)
-        return true;
-    return false;
-  });
+// =============================================
+// Only English Characters In Input
+// ============================================= 
+$("input.onlyEng").on("keypress", function(event) {
+  var englishAlphabetAndWhiteSpace = /[A-Za-z ]/g;
+  var key = String.fromCharCode(event.which);  
+  if (event.keyCode == 8 || event.keyCode == 37 || event.keyCode == 39 || englishAlphabetAndWhiteSpace.test(key)) {return true;}
+  return false;
 });
+$('input.onlyEng').on("paste",function(e) {e.preventDefault();});

@@ -28,6 +28,7 @@
 @import "pages/channels";
 @import "pages/integration";
 @import "pages/reports";
+@import "pages/pos";
 
 body {
   background-color: #f8f8f8;
@@ -69,8 +70,9 @@ a {
   outline: none;
 } /* a */
 
-button {
+button, input {
   transition: all 0.2s ease-in-out;
+  outline: none;
 } /* button */
 
 main {
@@ -342,6 +344,13 @@ nav {
     background-color: var(--mainColorHover) !important;
   } /* focus */
 } /* btn-primary */
+
+.border-start {
+  [dir="rtl"] & {
+    border-right: 1px solid #dee2e6 !important;
+    border-left: none !important;
+  } /* rtl */
+} /* border-start */
 
 .text-start {
   [dir="rtl"] & {

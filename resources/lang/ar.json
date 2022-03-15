@@ -763,6 +763,9 @@
 	"Report Pending" : "قيد الانشاء",
 	"Report Done" : "تم انشاءه",
   "Add a product category" : "اضف قسم منتج",
-  "Invoice Settings" : "اعدادات الفاتورة"
+  "Invoice Settings" : "اعدادات الفاتورة",
+  "Electronic payment record" : "سجل المدفوعات الالكترونية",
+  "There are no data" : "لا يوجد بيانات",
+  "electronic payment balance" : "رصيد المدفوعات الالكترونية"
 	
 }

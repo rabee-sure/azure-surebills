@@ -5,7 +5,6 @@ header {
   z-index: 999;
   box-shadow: 0 1px 15px rgba(0,0,0,0.04), 0 1px 6px rgba(0,0,0,0.04);
   .headerRight {
-    flex-basis: 40%;
     .sidebarButton {
       width: 40px;
       height: 40px;
@@ -72,13 +71,7 @@ header {
       } /* hover */
     } /* sidebarBtnMobile */
   } /* headerRight */
-  .logo {
-    img {
-      max-height: 35px;
-    } /* img */
-  } /* logo */
   .userList {
-    flex-basis: 40%;
     button {
       &::before {
         content: "\f107";

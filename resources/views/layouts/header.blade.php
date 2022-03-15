@@ -13,11 +13,6 @@
         <div class="sidebarBtnMobile d-none"></div>
       @endif
     </div><!-- headerRight -->
-    <div class="logo d-flex align-items-center justify-content-center flex-grow-1">
-      <a href="{{ url('/') }}" title="SureBills">
-        <img src="{{ asset('new/images/logo.webp') }}" alt="SureBills" loading="lazy" width="586px" height="187px" class="mw-100 w-auto h-auto">
-      </a>
-    </div><!-- logo -->
     <div class="userList position-relative d-flex justify-content-end">
       <button class="d-flex align-items-center justify-content-end border-0 bg-transparent p-0" type="button" id="UserListItem" data-bs-toggle="dropdown" aria-expanded="false">
         <span class="name d-none d-sm-block">{{ Auth::user()->name }}</span>

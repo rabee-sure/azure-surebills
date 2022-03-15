@@ -29,9 +29,9 @@
     <div class="statisticArea">
       <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
         <div class="col">
-          <a href="{{ route('statement.index') }}" title="{{ __('Electronic payment Gateway Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+          <a href="{{ route('statement.index') }}" title="{{ __('electronic payment balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon onlinePayment_icon"></div>
-            <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Electronic payment Gateway Balance') }}</p>
+            <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('electronic payment balance') }}</p>
             <span class="d-block text-center fw-bold">{{ round2($balance) }}</span>
           </a>
         </div><!-- col -->

@@ -13,13 +13,13 @@
   <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
     <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
     <i>/</i>
-    <span>{{ __('Statement') }}</span>
+    <span>{{ __('Electronic payment record') }}</span>
   </div><!-- breadcrump -->
 
   <section id="statementIndexPage">
 
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
-      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Statement') }}</h1>
+      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Electronic payment record') }}</h1>
       <h2 class="d-block m-0 fs-6">{{ __('Balance') }} : {{ round2(auth()->user()->balance) }} {{ __('SAR')}}</h2>
     </div><!-- title -->
 
@@ -234,7 +234,7 @@
       @else
         <div class="no_bills_yet d-flex align-items-center justify-content-center flex-column">
           <i class="fal fa-file-invoice-dollar"></i>
-          <span class="d-block text-center mt-3 text-capitalize">{{ __('No Bill Matched The Given Criteria.') }}</span>
+          <span class="d-block text-center mt-3 text-capitalize">{{ __('There are no data') }}</span>
         </div><!-- no_bills_yet -->
       @endif
     </div><!-- blockArea -->
