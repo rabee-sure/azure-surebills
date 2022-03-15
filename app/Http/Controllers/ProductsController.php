@@ -43,7 +43,8 @@ class ProductsController extends Controller
      */
     public function create(Request $request)
     {
-        return view('products.create');
+        $data['title'] = "Add Product";
+        return view('products.form-product', $data);
     }
 
     /**
@@ -69,7 +70,9 @@ class ProductsController extends Controller
 
     public function edit($id, Request $request)
     {
-        return view('products.edit');
+        $data['title'] = "Update Product";
+        $data['id'] = $id;
+        return view('products.form-product', $data);
     }
 
     public function editCategory($id, Request $request)

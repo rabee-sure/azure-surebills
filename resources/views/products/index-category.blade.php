@@ -63,6 +63,8 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
   <script>
+    var base_url = "{{url('/')}}";
+    
     $(document).ready(function(){
       $.ajaxSetup({
           headers: {
@@ -104,7 +106,7 @@
                   $("#bodyTr"+index).append('<td>'+category["active"]+'</td>');
                   $("#bodyTr"+index).append('<td id="tdActions'+index+'">');
                     $("#tdActions"+index).append('<a href="/categories/'+category["id"]+'/edit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>');
-                    $("#tdActions"+index).append('<a href="#" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>');
+                    $("#tdActions"+index).append('<a href="javascript:;" onclick="return deleteItem('+category["id"]+')" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>');
                   $("#bodyTr"+index).append('</td>');
                 $("#tblBody").append('</tr>');
               });
@@ -114,5 +116,15 @@
         }
       });
     });
+
+    function deleteItem(id){
+      $.ajax({
+        type:'DELETE',
+        url:base_url+"/api/v1/category/"+id+"/delete",
+        success:function(categories){
+          window.location.replace("{{ route('categories.all') }}");
+        }
+      });
+    }
   </script>
 @endpush

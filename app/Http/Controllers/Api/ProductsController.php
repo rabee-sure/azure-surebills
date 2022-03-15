@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductListResource;
+
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
@@ -13,8 +15,8 @@ class ProductsController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::withTrashed()->get();
-        $productsCollection = ProductResource::collection($products);
+        $products = Product::get();
+        $productsCollection = ProductListResource::collection($products);
 
         return $productsCollection;
 
@@ -62,7 +64,7 @@ class ProductsController extends Controller
         $name = ["en" => $request->name_en,"ar" => $request->name_ar];
         $discription = ["en" => $request->discription_en,"ar" => $request->discription_ar];
 
-        if(count($request->image) > 0){
+        if(isset($request->image) && count($request->image) > 0){
             $images = array();
             foreach($request->image as $image){
                 $file = $image;
@@ -84,8 +86,12 @@ class ProductsController extends Controller
             'category_id' => $request->category_id,
         ]);
         
-        $product->images()->whereIn('id',$request->deletedImages)->delete();
-        $product->images()->createMany($images);
+        if(isset($request->deletedImages) && !empty($request->deletedImages)){
+            $product->images()->whereIn('id',$request->deletedImages)->delete();
+        }
+        if(isset($images) && !empty($images)){
+            $product->images()->createMany($images);
+        }
 
         return $product;
     }

@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $categories = Category::withTrashed()->get();
+        $categories = Category::get();
         $categoriesCollection = CategoryListResource::collection($categories);
 
         return $categoriesCollection;
@@ -24,7 +24,7 @@ class CategoryController extends Controller
 
     public function topCategories(Request $request)
     {
-        $categories = Category::active()->where('parent_id', 0)->withTrashed()->get();
+        $categories = Category::where('parent_id', 0)->withTrashed()->get();
         $categoriesCollection = CategoryResource::collection($categories);
 
         return $categoriesCollection;
@@ -73,13 +73,17 @@ class CategoryController extends Controller
 
         $parent = ($request->parent_id) ? $request->parent_id : 0;
 
+        $category = Category::find($id);
+
         if ($request->hasFile('image')) {
 	        $file = $request->file('image');
 	        $file_name = time().'-'.$file->getClientOriginalName();
 	        $destinationPath = storage_path('/app/public/categories');
 	        $file->move($destinationPath, $file_name);
             $image = $file_name;
-	    }
+	    }else{
+            $image = $category->image;
+        }
 
         $category = Category::find($id);
 

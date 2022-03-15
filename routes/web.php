@@ -131,7 +131,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('products/{id}/view', 'ProductsController@view')->name('products.view');
     Route::get('products/{id}/edit', 'ProductsController@edit')->name('products.edit');
     Route::get('products/create', 'ProductsController@create')->name('products.create');
-    Route::get('store/{slug}', 'ProductsController@store')->name('products.store');
+    // Route::get('store/{slug}', 'ProductsController@store')->name('products.store');
 
     Route::get('products/settings', 'ProductsController@settings')->name('products.settings');
 
