@@ -55,10 +55,18 @@ class StoreUserController extends Controller
             'mobile' => $request->mobile,
             'gender' => $request->gender,
             'gender' => $request->gender,
-            'mobile_verified' => true,
-            'verified' => true,
-            'store_main_user_id' => auth()->user()->store_main_user_id ?? auth()->user()->id,
+            'mobile_verified' => 1,
+            'store_main_user_id' => auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->id : auth()->user()->id,
         ]);
+
+        $user->verified = $user->mainStoreUser ? $user->mainStoreUser->verified : 0;
+        $user->able_refund = $user->mainStoreUser ? $user->mainStoreUser->able_refund : 0;
+        $user->vat_inclusive = $user->mainStoreUser ? $user->mainStoreUser->vat_inclusive : 0;
+        $user->able_refund_with_fees = $user->mainStoreUser ? $user->mainStoreUser->able_refund_with_fees : 0;
+        $user->auto_trnasfer = $user->mainStoreUser ? $user->mainStoreUser->auto_trnasfer : 0;
+        $user->disable_business_documents = $user->mainStoreUser ? $user->mainStoreUser->disable_business_documents : 0;
+        $user->disable_bank_documents = $user->mainStoreUser ? $user->mainStoreUser->disable_bank_documents : 0;
+        $user->save();
 
         $user->assignRole($request->role);
         return redirect()->route('users.index');
