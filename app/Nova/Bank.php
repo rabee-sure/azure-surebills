@@ -19,6 +19,7 @@ class Bank extends Resource
      * @var string
      */
     public static $model = \App\Models\Bank::class;
+    public static $displayInNavigation = false;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

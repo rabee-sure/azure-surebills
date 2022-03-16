@@ -7,7 +7,6 @@ use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
 use App\Nova\Filters\UsersUnverified;
 use App\Nova\Filters\UsersVerified;
-use App\Nova\Filters\UserTypeFilter;
 use App\Nova\Metrics\NewBills;
 use App\Rules\ValidateUploadFile;
 use DigitalCreative\ConditionalContainer\ConditionalContainer;
@@ -38,7 +37,7 @@ use Naif\Toggle\Toggle;
 use Sure\Userstats\Userstats;
 use PosLifestyle\DateRangeFilter\DateRangeFilter;
 
-class User extends Resource
+class VerifiedUser extends Resource
 {
     use HasConditionalContainer;
 
@@ -58,7 +57,7 @@ class User extends Resource
      */
     public static function label()
     {
-        return __('Users');
+        return __('Verified Users');
     }
 
     /**
@@ -68,7 +67,7 @@ class User extends Resource
      */
     public static function singularLabel()
     {
-        return __('User');
+        return __('Verified User');
     }
 
     /**
@@ -218,6 +217,11 @@ class User extends Resource
         ];
     }
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->where([['verified', true], ['store_main_user_id', null]]);
+    }
+
     /**
      * Get the address fields for the resource.
      *
@@ -355,8 +359,6 @@ class User extends Resource
         return [
             new UserBalance,
             new DateRangeFilter(__('Date Range'), 'created_at'),
-            new UsersVerified,
-            new UserTypeFilter,
         ];
     }
 
