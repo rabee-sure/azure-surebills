@@ -36,6 +36,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Titasgailius\SearchRelations\SearchesRelations;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Transfer extends Resource
 {
@@ -121,7 +122,7 @@ class Transfer extends Resource
                 ->rules('required'),
 
             Textarea::make(__('Note'), 'note'),
-            
+
             File::make(__('Attachment'), 'attachment')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])),
 
             Files::make('Excel File', 'transfers_transactions'),
@@ -220,6 +221,7 @@ class Transfer extends Resource
                 ->canRun(function(NovaRequest $request) {
                     return TRUE;
                 }),
+                (new DownloadExcel)->withHeadings()->withName(__('download excel')),
         ];
     }
 
