@@ -853,6 +853,16 @@
 } /* invoiceSettingsPage */
 
 #usersIndexPage {
+  .tabsArea {
+    a, span {
+      min-width: 130px;
+      height: 40px;
+      margin: 0 0 0 15px;
+      [dir="ltr"] & {
+        margin: 0 15px 0 0;
+      } /* ltr */
+    } /* a */
+  } /* tabsArea */
   .title {
     h1 {
       color: #3a3a3a;
@@ -862,12 +872,6 @@
       height: 40px;
     } /* addUserBtn */
   } /* title */
-  .tabsArea {
-    a {
-      min-width: 130px;
-      height: 40px;
-    } /* a */
-  } /* tabsArea */
   .blockArea {
     table {
       th {
@@ -1175,3 +1179,54 @@
     } /* button */
   } /* modal-footer */
 } /* addRoleModal */
+
+#productsIndexPage {
+  .tabsArea {
+    a, span {
+      min-width: 130px;
+      height: 40px;
+      margin: 0 0 0 15px;
+      [dir="ltr"] & {
+        margin: 0 15px 0 0;
+      } /* ltr */
+    } /* a */
+  } /* tabsArea */
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } /* h1 */
+    .addProductBtn {
+      min-width: 130px;
+      height: 40px;
+    } /* addUserBtn */
+  } /* title */
+  .blockArea {
+    table {
+      th {
+        border: 1px solid #dee2e6;
+        color: #3a3a3a;
+        vertical-align: middle;
+        padding: 10px;
+        font-size: 14px;
+      } /* th */
+      td {
+        border: 1px solid #dee2e6;
+        color: #3a3a3a;
+        vertical-align: middle;
+        padding: 10px;
+        a, button {
+          width: 35px;
+          height: 35px;
+        } /* a */
+      } /* td */
+    } /* table */
+  } /* blockArea */
+} /* productsIndexPage */
+
+#productcreatePage {
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } /* h1 */
+  } /* title */
+} /* productcreatePage */

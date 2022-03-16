@@ -9,125 +9,115 @@
 
 @section('content')
 
-@if ($errors->any())
+  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
+    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
+    <i>/</i>
+    <a href="{{ url('account')}}" title="{{ __('Settings') }}">{{ __('Settings') }}</a>
+    <i>/</i>
+    <a href="{{ url('/products')}}" title="{{ __('Products') }}">{{ __('Products') }}</a>
+    <i>/</i>
+    <span>{{ __($title) }}</span>
+  </div><!-- breadcrump -->
+
+  @if ($errors->any())
     <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+      <ul>
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div><!-- alert -->
+  @endif
 
-  <div class="row">
-    <div class="col-12">
-      <h1>{{ __($title) }}</h1>
-      <div class="separator mb-5"></div>
-    </div>
-    <div class="col-12">
-      <div class="create_bill_page card mb-4">
-        
-        <div class="card-body" >
-          <form method="POST" action="#" class="repeater" id="categoryForm">
-            @csrf
-
-            <input type="hidden" name="product_id" value="{{isset($id) ? $id : null}}">
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label>{{ __('Name Ar') }}</label>
-                <input name="name_ar" type="text" class="form-control" id="Name_ar" placeholder="{{__('Name Ar')}}">
-              </div><!-- form-group -->
-              <div class="form-group col-md-6" >
-                <label>{{ __('Name En') }}</label>
-                <input name="name_en" type="text" class="form-control" id="Name_en" placeholder="{{__('Name En')}}">
-              </div><!-- form-group -->
-            </div><!-- form-row -->
-
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label>{{ __('Discription Ar') }}</label>
-                  <textarea class="form-control" name="discription_ar" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div><!-- form-group -->
-                <div class="form-group col-md-6" >
-                  <label>{{ __('Discription En') }}</label>
-                  <textarea class="form-control" name="discription_en" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div><!-- form-group -->
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                  <label for="price">{{ __('Price') }} <span class="requirement">*</span></label>
-                  <div class="input-group phone_inputs">
-                      <input name="price" type="number" class="form-control" id="price" placeholder="{{__('Price')}}">
-                  </div>
+  <section id="productcreatePage">
+    <div class="title mb-4">
+      <h1 class="d-block fw-bold m-0 fs-5">{{ __($title) }}</h1>
+    </div><!-- title -->
+    <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3 p-3">
+      <form method="POST" action="#" id="categoryForm">
+        @csrf
+        <input type="hidden" name="product_id" value="{{isset($id) ? $id : null}}">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="Name_ar" class="d-block mb-2">{{ __('Name Ar') }}</label>
+              <input name="name_ar" type="text" class="form-control" id="Name_ar" placeholder="{{__('Name Ar')}}">
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="Name_en" class="d-block mb-2">{{ __('Name En') }}</label>
+              <input name="name_en" type="text" class="form-control" id="Name_en" placeholder="{{__('Name En')}}">
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="discription_ar" class="d-block mb-2">{{ __('Discription Ar') }}</label>
+              <textarea class="form-control" name="discription_ar" id="discription_ar" rows="3"></textarea>
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="discription_en" class="d-block mb-2">{{ __('Discription En') }}</label>
+              <textarea class="form-control" name="discription_en" id="discription_en" rows="3"></textarea>
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="price" class="d-block mb-2">{{ __('Price') }} <span class="requirement text-danger">*</span></label>
+              <input name="price" type="tel" class="form-control" id="price" placeholder="{{__('Price')}}">
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="sel_1" class="d-block mb-2">{{__('Category')}} <span class="requirement text-danger">*</span></label>
+              <select id="sel_1" name="category_id" multiple></select>
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="sort_number" class="d-block mb-2">{{ __('Sort No.') }} <span class="requirement text-danger">*</span></label>
+              <input name="sort_number" type="tel" class="form-control" id="sort_number" placeholder="{{__('Sort No.')}}">
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="inputEmail8" class="d-block mb-2">{{ __('Image') }}</label>
+              <div class="custom-file">
+                <input name="image[]" type="file"  id="formFile" class="custom-file-input" accept="image/png, image/jpeg, image/jpg" multiple>
+                <input type="hidden" name="hidden_image" value="" />
+                <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
+                @if($errors->has('image'))
+                    <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('image') }}</span>
+                @endif
               </div>
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12">
+            <div class="form-group mb-3">
+              <div class="custom-file" id="products_images"></div>
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12">
+            <div class="form-group mb-3">
+              <label for="api_bill_style" class="checkboxItem position-relative mb-3 mb-md-0">
+                <input name="active" class="position-absolute top-0 strat-0 w-100 h-100" id="api_bill_style" type="checkbox">
+                <span class="d-flex align-items-center justify-content-start">
+                  <i class="d-block rounded-pill position-relative"></i>
+                  {{ __('Activate') }}
+                </span>
+              </label>
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+        </div><!-- row -->
+        <button type="button" id="SubmitForm" class="btn btn-primary btn-lg login_button"> {{__('Save')}}</button>
+      </form>
+    </div><!-- blockArea -->
+  </section><!-- productcreatePage -->
 
-              <div class="form-group col-md-6">
-                  <label for="inputEmail5">{{__('Category')}} <span class="requirement">*</span></label>
-                  <select id="sel_1" name="category_id" style="width:16em" multiple></select>
-              </div> 
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                  <label for="sort_number">{{ __('Sort No.') }} <span class="requirement">*</span></label>
-                  <div class="input-group phone_inputs">
-                      <input name="sort_number" type="number" class="form-control" id="sort_number" placeholder="{{__('Sort No.')}}">
-                  </div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputEmail8">{{ __('Image') }}</label>
-                <div class="custom-file">
-                    <input name="image[]" type="file"  id="formFile" class="custom-file-input" accept="image/png, image/jpeg, image/jpg" multiple>
-                    <input type="hidden" name="hidden_image" value="" />
-                    <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
-                    @if($errors->has('image'))
-                        <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('image') }}</span>
-                    @endif
-                </div>
-              </div>
-              <div class="form-group col-md-6">
-                  <div class="custom-file" id="products_images">
-                      
-                  </div>
-              </div>
-            </div>
-
-            <!-- <div class="form-row">
-              <div class="form-group col-md-6">
-              <h5 class="mb-2 mt-2">{{ __('Image') }}</h5>
-              <div class="dropzone"></div>
-              </div>
-            </div> -->
-            
-            <div class="form-row">
-              <div class="form-group col-12">
-                <label for="api_bill_style">{{ __('Activate') }}</label>
-                <div class="custom-switch custom-switch-primary mb-2">
-                  <input name="active" class="custom-switch-input" id="api_bill_style" type="checkbox">
-                  <label class="custom-switch-btn" for="api_bill_style"></label>
-                </div>
-              </div><!-- form-group -->
-            </div><!-- form-row -->
-            
-            <hr>
-
-            <div class="d-flex justify-content-start mt-3">
-              <button type="button" id="SubmitForm" class="btn btn-primary btn-lg login_button"> {{__('Save')}}</button>
-            </div><!-- d-flex  -->
-          </form>
-        </div>
-       
-      </div>
-    </div>
-  </div>
 @endsection
 
 @push('footer-scripts')
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript" src="{{ asset('js/select2.full.js') }}"></script>
   <script type="text/javascript" src="{{ asset('js/select2totree.js') }}"></script>
   <script type="text/javascript" src="{{ asset('js/select2tree.js') }}"></script>
@@ -142,8 +132,8 @@
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : 390,
-              'X-application-secret' : '8sIFHOEwpIVN2X5Pida1',
+              'X-application-id' : 195,
+              'X-application-secret' : 'aajO9ETFeqfaIiGgJLSp',
               'Accept' : 'application/json'
           }
       });

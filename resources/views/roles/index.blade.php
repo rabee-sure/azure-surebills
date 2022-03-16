@@ -23,15 +23,16 @@
   @endif
 
   <section id="usersIndexPage">
+    <div class="tabsArea d-flex align-items-center justify-content-start flex-wrap mb-4">
+      <a href="{{route('users.index')}}" title="{{__('Users')}}" class="d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-3">{{__('Users')}}</a>
+      <span class="d-flex shadow-none align-items-center justify-content-center border bg-white text-body rounded-3">{{__('Roles')}}</span>
+    </div><!-- tabsArea -->
     <div class="title d-flex align-items-center justify-content-between mb-4">
       <h1 class="d-block fw-bold m-0 fs-5">{{__('Roles')}}</h1>
       @can('create user')
         @include('roles.create')
       @endcan
     </div><!-- title -->
-    <div class="tabsArea d-flex align-items-center justify-content-start flex-wrap mb-3">
-      <a href="{{route('users.index')}}" title="{{__('Users')}}" class="d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-3">{{__('Users')}}</a>
-    </div><!-- tabsArea -->
     @if(count($roles) == 0)
       <div class="no_customers_yet d-flex align-items-center justify-content-center flex-column bg-white shadow-sm rounded-3 overflow-hidden mb-3">
         <i class="fal fa-users"></i>

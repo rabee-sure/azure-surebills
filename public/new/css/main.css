@@ -30768,10 +30768,22 @@ section#homepage .addNewBillBtn:hover {
 
 /* invoiceSettingsPage */
 #usersIndexPage {
-  /* title */
   /* tabsArea */
+  /* title */
   /* blockArea */
   /* no_customers_yet */
+}
+#usersIndexPage .tabsArea {
+  /* a */
+}
+#usersIndexPage .tabsArea a, #usersIndexPage .tabsArea span {
+  min-width: 130px;
+  height: 40px;
+  margin: 0 0 0 15px;
+  /* ltr */
+}
+[dir=ltr] #usersIndexPage .tabsArea a, [dir=ltr] #usersIndexPage .tabsArea span {
+  margin: 0 15px 0 0;
 }
 #usersIndexPage .title {
   /* h1 */
@@ -30781,13 +30793,6 @@ section#homepage .addNewBillBtn:hover {
   color: #3a3a3a;
 }
 #usersIndexPage .title .addUserBtn {
-  min-width: 130px;
-  height: 40px;
-}
-#usersIndexPage .tabsArea {
-  /* a */
-}
-#usersIndexPage .tabsArea a {
   min-width: 130px;
   height: 40px;
 }
@@ -31181,6 +31186,72 @@ section#homepage .addNewBillBtn:hover {
 }
 
 /* addRoleModal */
+#productsIndexPage {
+  /* tabsArea */
+  /* title */
+  /* blockArea */
+}
+#productsIndexPage .tabsArea {
+  /* a */
+}
+#productsIndexPage .tabsArea a, #productsIndexPage .tabsArea span {
+  min-width: 130px;
+  height: 40px;
+  margin: 0 0 0 15px;
+  /* ltr */
+}
+[dir=ltr] #productsIndexPage .tabsArea a, [dir=ltr] #productsIndexPage .tabsArea span {
+  margin: 0 15px 0 0;
+}
+#productsIndexPage .title {
+  /* h1 */
+  /* addUserBtn */
+}
+#productsIndexPage .title h1, #productsIndexPage .title .h1 {
+  color: #3a3a3a;
+}
+#productsIndexPage .title .addProductBtn {
+  min-width: 130px;
+  height: 40px;
+}
+#productsIndexPage .blockArea {
+  /* table */
+}
+#productsIndexPage .blockArea table {
+  /* th */
+  /* td */
+}
+#productsIndexPage .blockArea table th {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 14px;
+}
+#productsIndexPage .blockArea table td {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  /* a */
+}
+#productsIndexPage .blockArea table td a, #productsIndexPage .blockArea table td button {
+  width: 35px;
+  height: 35px;
+}
+
+/* productsIndexPage */
+#productcreatePage {
+  /* title */
+}
+#productcreatePage .title {
+  /* h1 */
+}
+#productcreatePage .title h1, #productcreatePage .title .h1 {
+  color: #3a3a3a;
+}
+
+/* productcreatePage */
 #channelsIndexPage {
   /* title */
   /* catItem */
