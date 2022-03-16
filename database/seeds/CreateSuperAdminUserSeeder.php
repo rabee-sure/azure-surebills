@@ -6,7 +6,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 
 class CreateSuperAdminUserSeeder extends Seeder
 {
@@ -23,7 +23,6 @@ class CreateSuperAdminUserSeeder extends Seeder
         foreach($users as $user)
         {
             $permissions = Permission::pluck('id')->all();
-            dd($permissions);
             $role->syncPermissions($permissions);
             $user->assignRole($role->id);
         }
