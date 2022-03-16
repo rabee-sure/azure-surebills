@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use App\Events\UserVerifiedChanged;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 
 class UserObserver
 {
