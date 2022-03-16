@@ -415,6 +415,13 @@
 	"Activate simple style for API bills?": "تنشيط أسلوب بسيط لفواتير التطبيقات؟",
 
 	"Settings": "الاعدادات",
+    "General Settings": "الاعدادات العامة",
+    "Transfers Logs": "سجل التحويلات",
+    "Verified Users": "مستخدمين (موثقين)",
+    "user name": "اسم المستخدم",
+    "Verified User": "مستخدم (موثق)",
+    "Not Verified Users": "مستخدمين (غير موثقين)",
+    "Not Verified User": "مستخدم (غير موثق)",
 	"Taxs": "الضرائب",
 	"Active Lang": "اللغة المفعلة للفواتير",
 	"Default Lang": "اللغة الافتراضية للفواتير",
@@ -765,7 +772,7 @@
 	"Report Done" : "تم انشاءه",
   	"Add a product category" : "اضف قسم منتج",
   	"Update a product category" : "تحديث قسم منتج",
-	
+
 	"Categories" : "الاقسام",
 	"Name En" : "الاسم بالانجليزية",
 	"Name Ar" : "الاسم بالعربية",
