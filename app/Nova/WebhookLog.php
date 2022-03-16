@@ -23,6 +23,7 @@ class WebhookLog extends Resource
      * @var string
      */
     public static $model = \App\Models\WebhookLog::class;
+    public static $displayInNavigation = false;
 
     /**
      * Get the displayble label of the resource.
@@ -43,7 +44,7 @@ class WebhookLog extends Resource
     {
         return __('WebhookLog');
     }
-    
+
     /**
      * The model the resource corresponds to.
      *

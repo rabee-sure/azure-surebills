@@ -7,7 +7,6 @@ use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
 use App\Nova\Filters\UsersUnverified;
 use App\Nova\Filters\UsersVerified;
-use App\Nova\Filters\UserTypeFilter;
 use App\Nova\Metrics\NewBills;
 use App\Rules\ValidateUploadFile;
 use DigitalCreative\ConditionalContainer\ConditionalContainer;
@@ -38,7 +37,7 @@ use Naif\Toggle\Toggle;
 use Sure\Userstats\Userstats;
 use PosLifestyle\DateRangeFilter\DateRangeFilter;
 
-class User extends Resource
+class NotVerifiedUser extends Resource
 {
     use HasConditionalContainer;
 
@@ -58,7 +57,7 @@ class User extends Resource
      */
     public static function label()
     {
-        return __('Users');
+        return __('Not Verified Users');
     }
 
     /**
@@ -68,7 +67,7 @@ class User extends Resource
      */
     public static function singularLabel()
     {
-        return __('User');
+        return __('Not Verified User');
     }
 
     /**
@@ -218,6 +217,11 @@ class User extends Resource
         ];
     }
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->where([['verified', false], ['store_main_user_id', null]]);
+    }
+
     /**
      * Get the address fields for the resource.
      *
@@ -256,11 +260,6 @@ class User extends Resource
      */
     protected function pricingFields()
     {
-        if($this->store_main_user_id)
-        {
-            return [];
-        }
-
         return [
             Number::make(__('Mada fixed fees'), 'mada_fixed')
                 ->rules('required', 'numeric', 'max:1000')
@@ -288,11 +287,6 @@ class User extends Resource
      */
     protected function businessInformation()
     {
-        if($this->store_main_user_id)
-        {
-            return [];
-        }
-
         return [
             Select::make(__('License Type'), 'license_type')->options([
                 'Commercial Record' => __('Commercial Record'),
@@ -318,11 +312,6 @@ class User extends Resource
      */
     protected function bankInformation()
     {
-        if($this->store_main_user_id)
-        {
-            return [];
-        }
-
         return [
             BelongsTo::make(__('Bank'), 'bank', Bank::class)->hideFromIndex(),
             Text::make(__('Iban Number'), 'iban_number')->hideFromIndex(),
@@ -355,8 +344,6 @@ class User extends Resource
         return [
             new UserBalance,
             new DateRangeFilter(__('Date Range'), 'created_at'),
-            new UsersVerified,
-            new UserTypeFilter,
         ];
     }
 
