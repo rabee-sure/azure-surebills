@@ -94,6 +94,19 @@ class User extends Authenticatable implements HasMedia
         'verified' => 'boolean',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::updated(function(User $user){
+            User::where('store_main_user_id', $user->id)->update(array('verified' => $user->verified, 'able_refund' => $user->able_refund,
+                                                                        'vat_inclusive' => $user->vat_inclusive,
+                                                                        'able_refund_with_fees' => $user->able_refund_with_fees,
+                                                                        'disable_business_documents' => $user->disable_business_documents,
+                                                                        'disable_bank_documents' => $user->disable_bank_documents,
+                                                                        'auto_trnasfer' => $user->able_refund_with_fees));
+        });
+    }
+
     /**
      * Get the user's is Active.
      *
