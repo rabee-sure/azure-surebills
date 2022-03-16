@@ -145,14 +145,14 @@
               </div><!-- form-group -->     
               <div class="form-group mb-3">
                 <label for="credit_cards_fixed" class="d-block mb-2">{{ __('Credit Cards Percentage') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('credit_cards_percentage', 2) }"  type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" id="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage" step="0.01">
+                <input :class="{'is-invalid': haveError('credit_cards_percentage', 2) }"  type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" id="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage" step="0.01">
                 <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_percentage', 2)">{{errorMessage('credit_cards_percentage', 2)}}</div>  
               </div><!-- form-group -->           
             </form>
           </div>
           <div class="modal-footer p-2">
             <button type="button" class="border-0 shadow-none rounded-3 btn-primary" @click="update">{{ __('Save Changes')}}</button>
-            <button type="button" class="border-0 shadow-none rounded-3 btn-light" data-dismiss="modal">{{ __('Close')}}</button>
+            <button type="button" class="border-0 shadow-none rounded-3 btn-light" data-bs-dismiss="modal">{{ __('Close')}}</button>
           </div>
         </div>
       </div>
@@ -181,12 +181,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">{{ __('Application Secret')}}</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
 
           <!-- Modal Actions -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close')}}</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close')}}</button>
           </div>
         </div>
       </div>

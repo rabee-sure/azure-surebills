@@ -486,6 +486,9 @@ span.select2 {
             font-size: 16px;
             font-weight: normal;
             line-height: 1;
+            [dir="ltr"] & {
+              margin: 0 0 0 -5px;
+            } /* ltr */
           } /* select2-selection__choice__remove */
         } /* select2-selection__choice */
       } /* select2-selection__rendered */

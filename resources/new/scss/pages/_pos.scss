@@ -188,6 +188,11 @@
     height: 40px;
     font-size: 20px;
     color: var(--mainColor);
+    i {
+      [dir="ltr"] & {
+        transform: rotate(180deg);
+      } /* ltr */
+    } /* i */
   } /* a */
 } /* posBackBtn */
 
@@ -319,6 +324,11 @@
     &.backCategory {
       font-size: 35px;
       color: var(--mainColor);
+      i {
+        [dir="ltr"] & {
+          transform: rotate(180deg);
+        } /* ltr */
+      } /* i */
     } /* backCategory */
     &:hover {
       color: var(--mainColor);
