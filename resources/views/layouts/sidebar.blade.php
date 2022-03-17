@@ -16,10 +16,10 @@
         {{ __('Bills') }}
       </a>
     @endcan
-    <a href="/pos/categories" title="{{ __('POS') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('pos*') ? 'active' : '' }}">
+    <!-- <a href="/pos/categories" title="{{ __('POS') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('pos*') ? 'active' : '' }}">
       <i class="d-flex align-items-center justify-content-center fal fa-cash-register"></i>
       {{ __('POS') }}
-    </a>
+    </a> -->
     @can('show customers')
       <a href="{{ route('customers.index') }}" title="{{ __('Customers') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('customers*') ? 'active' : '' }}">
         <i class="d-flex align-items-center justify-content-center fal fa-users"></i>
