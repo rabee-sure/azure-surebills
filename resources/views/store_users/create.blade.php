@@ -57,7 +57,3 @@
     </div>
   </form>
 </div>
-
-<script>
-    document.getElementById("user_form").reset();
-</script>
