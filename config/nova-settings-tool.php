@@ -22,7 +22,7 @@ return [
     |
     */
 
-    'sidebar-label' => 'Settings',
+    'sidebar-label' => 'General Settings',
 
     /*
     |--------------------------------------------------------------------------

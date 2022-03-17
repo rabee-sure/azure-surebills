@@ -25,8 +25,8 @@ class MerchantsOutstandingStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'merchants' => ['nullable'],
-            'dates' => ['nullable'],
+            'merchants' => ['required'],
+            'dates' => ['required'],
             'emails' => ['required'],
         ];
     }

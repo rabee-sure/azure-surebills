@@ -6,7 +6,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 
 class CreateSuperAdminUserSeeder extends Seeder
 {
