@@ -1,7 +1,7 @@
 <button type="button" class="addUserBtn d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-pill" data-bs-toggle="modal" data-bs-target="#add_customer_Modal">{{ __('Add User') }} </button>
 
 <div class="modal fade addCustomerModal" id="add_customer_Modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <form method="POST" action="{{ route('users.store') }}" id="user_form" class="modal-dialog modal-dialog-scrollable">
+  <form method="POST" action="{{ route('users.store') }}" id="user_form" class="modal-dialog modal-dialog-scrollable" autocomplete="off">
     <div class="modal-content border-0 shadow-sm rounded-3">
       <div class="modal-header d-flex align-items-center justify-content-between">
         <h5 class="modal-title" id="add_customer_ModalLabel">{{ __('Add User') }}</h5>
