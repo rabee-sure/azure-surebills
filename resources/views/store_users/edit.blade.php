@@ -50,19 +50,19 @@
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="Email" class="d-block mb-2">{{__('Email')}}</label>
-              <input  name="email" type="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" value="{{old('email') ?? $user->email}}">
+              <input  name="email" type="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" value="{{old('email') ?? $user->email}}" autocomplete="off">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="Password" class="d-block mb-2">{{__('Password')}}</label>
-              <input name="password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Password" placeholder="{{__('Password')}}" value="" autocomplete="false">
+              <input name="password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Password" placeholder="{{__('Password')}}" value="" autocomplete="off">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="Confirm Password" class="d-block mb-2">{{__('Confirm Password')}}</label>
-              <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}" value="" autocomplete="false">
+              <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}" value="" autocomplete="off">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
