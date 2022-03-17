@@ -59,5 +59,5 @@
 </div>
 
 <script>
-    document.getElementById("form").reset();
+    document.getElementById("user_form").reset();
 </script>
