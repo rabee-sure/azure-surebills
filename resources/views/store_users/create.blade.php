@@ -1,7 +1,7 @@
 <button type="button" class="addUserBtn d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-pill" data-bs-toggle="modal" data-bs-target="#add_customer_Modal">{{ __('Add User') }} </button>
 
 <div class="modal fade addCustomerModal" id="add_customer_Modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <form method="POST" action="{{ route('users.store') }}" id="user_form" class="modal-dialog modal-dialog-scrollable" autocomplete="off">
+  <form method="POST" action="{{ route('users.store') }}" id="user_form" class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content border-0 shadow-sm rounded-3">
       <div class="modal-header d-flex align-items-center justify-content-between">
         <h5 class="modal-title" id="add_customer_ModalLabel">{{ __('Add User') }}</h5>
@@ -23,15 +23,15 @@
         </div>
         <div class="form-group mb-3">
           <label for="Email" class="d-block mb-2">{{__('Email')}}</label>
-          <input  name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" value="" autocomplete="nope">
+          <input  name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}">
         </div>
         <div class="form-group mb-3">
           <label for="Password" class="d-block mb-2">{{__('Password')}}</label>
-          <input name="password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Password" placeholder="{{__('Password')}}" value="" autocomplete="nope">
+          <input name="password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Password" placeholder="{{__('Password')}}">
         </div>
         <div class="form-group mb-3">
           <label for="Confirm Password" class="d-block mb-2">{{__('Confirm Password')}}</label>
-          <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}" value="" autocomplete="nope">
+          <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}">
         </div>
         <div class="form-group mb-3">
           <label class="d-block mb-2">{{ __('Gander')}}</label>
@@ -57,3 +57,7 @@
     </div>
   </form>
 </div>
+
+<script>
+    document.getElementById("form").reset();
+</script>
