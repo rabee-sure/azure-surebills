@@ -57,15 +57,15 @@
                         </div>
                         <div class="form-group">
                             <label for="Email">{{__('Email')}}</label>
-                            <input  name="email" type="email" class="form-control" id="Email" placeholder="{{__('Email')}}" value="{{$user->email}}">
+                            <input  name="email" type="email" class="form-control" id="Email" placeholder="{{__('Email')}}" value="{{$user->email}}" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="Password">{{__('Password')}}</label>
-                            <input name="password" type="password" class="form-control" id="Password" placeholder="{{__('Password')}}">
+                            <input name="password" type="password" class="form-control" id="Password" placeholder="{{__('Password')}}" value="" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="Confirm Password">{{__('Confirm Password')}}</label>
-                            <input name="confirm_password" type="password" class="form-control" id="Confirm_Password" placeholder="{{__('Confirm Password')}}">
+                            <input name="confirm_password" type="password" class="form-control" id="Confirm_Password" placeholder="{{__('Confirm Password')}}" value="" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label>{{ __('Gander')}}</label>
