@@ -34,7 +34,7 @@
         @csrf
         <div class="form-group mb-3">
           <label for="Name" class="d-block mb-2">{{__('Name')}} <span class="requirement text-danger">*</span></label>
-          <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}" value="{{$role->name}}">
+          <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}" value="{{old('name') ?? $role->name}}">
         </div>
         <div class="form-group mb-3">
           <label for="Permissions" class="d-block mb-2">{{__('Permissions')}} <span class="requirement text-danger">*</span></label>
@@ -43,7 +43,7 @@
               @foreach(config('RolePermissionsMatrix') as $permission)
                 <div class="col-12 col-md-6">
                   <label for="{{$permission}}" class="checkboxItem d-block mb-3 position-relative">
-                    <input type="checkbox" id="{{$permission}}" value="{{$permission}}" class="w-100 h-100 position-absolute" name="permissions[]" @if(in_array($permission, $role->getPermissionNames()->toArray())) {{"checked"}} @endif>
+                    <input type="checkbox" id="{{$permission}}" value="{{$permission}}" class="w-100 h-100 position-absolute" name="permissions[]" @if(in_array($permission, $role->getPermissionNames()->toArray()) || (old('permissions') && in_array($permission, old('permissions')))) {{"checked"}} @endif>
                     <span class="d-flex align-items-center justify-content-start">
                       <i class="d-block rounded-pill position-relative"></i>
                       {{__($permission)}}

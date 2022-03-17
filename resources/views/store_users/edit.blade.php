@@ -35,7 +35,7 @@
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="Name" class="d-block mb-2">{{__('Name')}} <span class="requirement text-danger">*</span></label>
-              <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}" value="{{$user->name}}">
+              <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}" value="{{old('name') ?? $user->name}}">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
@@ -43,14 +43,14 @@
               <label for="Mobile" class="d-block mb-2">{{ __('Mobile') }}</label>
               <div class="phoneInput overflow-hidden position-relative">
                 <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
-                <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}" value="{{$user->mobile}}"  pattern="[0-9]*" maxlength="9" inputmod="numaric">
+                <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}" value="{{old('mobile') ?? $user->mobile}}" pattern="[0-9]*" maxlength="9" inputmod="numaric">
               </div><!-- phoneInput -->
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="Email" class="d-block mb-2">{{__('Email')}}</label>
-              <input  name="email" type="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" value="{{$user->email}}">
+              <input  name="email" type="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" value="{{old('email') ?? $user->email}}">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
@@ -69,9 +69,9 @@
             <div class="form-group">
               <label for="gender" class="d-block mb-2">{{ __('Gander')}}</label>
               <select name="gender" id="gender" class="form-control shadow-none bg-white border w-100 rounded-3 text-body">
-                <option value="0" @if ($user->gender == 0)selected="selected"@endif>{{ __('Choose Gender')}}</option>
-                <option value="1" @if ($user->gender == 1)selected="selected"@endif>{{ __('Male')}}</option>
-                <option value="2" @if ($user->gender == 2)selected="selected"@endif>{{ __('female')}}</option>
+                <option value="0" @if ($user->gender == 0 || old('gender') == 0)selected="selected"@endif>{{ __('Choose Gender')}}</option>
+                <option value="1" @if ($user->gender == 1 || old('gender') == 1)selected="selected"@endif>{{ __('Male')}}</option>
+                <option value="2" @if ($user->gender == 2 || old('gender') == 2)selected="selected"@endif>{{ __('female')}}</option>
               </select>
             </div><!-- form-group -->
           </div><!-- col-12 -->
@@ -80,7 +80,7 @@
               <label for="role" class="d-block mb-2">{{__('Role')}}</label>
               <select name="role" id="role" class="form-control shadow-none bg-white border w-100 rounded-3 text-body">
                 @foreach($roles as $role)
-                  <option value="{{$role->name}}" {{$user->getRoleNames()->first() == $role->name ? 'selected' : ''}}>{{$role->name}}</option>
+                  <option value="{{$role->name}}" {{$user->getRoleNames()->first() == $role->name || old('role') == $role->name ? 'selected' : ''}}>{{$role->name}}</option>
                 @endforeach
               </select>
             </div><!-- form-group -->
@@ -93,5 +93,5 @@
       </form>
     </div><!-- blockArea -->
   </section><!-- usersEditPage -->
-  
+
 @endsection
