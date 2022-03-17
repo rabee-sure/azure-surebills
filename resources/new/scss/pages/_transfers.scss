@@ -1,0 +1,99 @@
+#transfersIndexPage {
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } /* h1 */
+    h2 {
+      .requestTransferBtn {
+        min-width: 130px;
+        height: 40px;
+        font-size: 15px;
+      } /* requestTransferBtn */
+      font-size: 17px;
+      color: #3a3a3a;
+      @include media-breakpoint-down(md) {
+        font-size: 14px;
+      } /* md */
+    } /* h2 */
+  } /* title */
+  .blockArea {
+    table {
+      thead {
+        th {
+          border: 1px solid #dee2e6;
+          color: #3a3a3a;
+          vertical-align: middle;
+          padding: 10px;
+          font-size: 14px;
+        } /* th */
+      } /* thead */
+      tbody {
+        td {
+          border: 1px solid #dee2e6;
+          color: #3a3a3a;
+          vertical-align: middle;
+          padding: 10px;
+          a {
+            width: 30px;
+            height: 30px;
+          } /* a */
+          .badge {
+            height: 30px;
+            font-size: 12px;
+            padding: 0 10px;
+          } /* badge */
+        } /* td */
+      } /* tbody */
+    } /* table */
+  } /* blockArea */
+} /* transfersIndexPage */
+
+#transactionsPage {
+  .blockArea {
+    table {
+      thead {
+        th {
+          border: 1px solid #dee2e6;
+          color: #3a3a3a;
+          vertical-align: middle;
+          padding: 10px;
+          font-size: 14px;
+        } /* th */
+      } /* thead */
+      tbody, tfoot {
+        td {
+          border: 1px solid #dee2e6;
+          color: #3a3a3a;
+          vertical-align: middle;
+          padding: 10px;
+          img {
+            margin: 0 0 0 5px;
+            max-height: 20px;
+            [dir="ltr"] & {
+              margin: 0 5px 0 0;
+            } /* ltr */
+          } /* img */
+        } /* td */
+      } /* tbody */
+    } /* table */
+    .no_bills_yet {
+      min-height: 400px;
+      color: #999;
+      @include media-breakpoint-down(md) {
+        min-height: 200px;
+      } /* md */
+      i {
+        font-size: 100px;
+        @include media-breakpoint-down(md) {
+          font-size: 70px;
+        } /* md */
+      } /* i */
+      span {
+        font-size: 18px;
+        @include media-breakpoint-down(md) {
+          font-size: 15px;
+        } /* md */
+      } /* span */
+    } /* no_bills_yet */
+  } /* blockArea */
+} /* transactionsPage */

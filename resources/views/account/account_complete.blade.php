@@ -7,15 +7,18 @@
 @endsection
 
 @section('content')
-	<div class="row">
 
-      @yield('steps')
+  <section id="accountStepsPage" class="py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8">
+        @yield('steps')
+      </div><!-- col-12 -->
+    </div><!-- row -->
+  </section><!-- accountStepsPage -->
 
-	</div>
 @endsection
 
-  <script src="{{ asset('js/jquery.smartWizard.min.js') }}" defer></script>
-
+<script src="{{ asset('js/jquery.smartWizard.min.js') }}" defer></script>
 
 @push('footer-scripts')
     {!! JsValidator::formRequest('App\Http\Requests\AccountInformationRequest', '#form') !!}

@@ -1,29 +1,17 @@
-<div class="modal fade" 
-id="cancelModal" tabindex="-1" 
-role="dialog" 
-aria-labelledby="cancelModalLabel" 
-aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="cancelModalLabel">
-                    {{ __('Are you Sure to Cancel Bill ?')}}
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-footer">
-                <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
-                    @csrf
-                    <button type="submit" class="btn btn-primary">
-                        {{__('Confirm Cancel Bill')}}
-                    </button>
-                    <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">
-                        {{__('Cancel')}}
-                    </button>
-                </form>
-            </div>
-        </div>
+<div class="modal fade billCancelModal" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content border-0 shadow-sm rounded-3">
+      <div class="modal-body d-flex align-items-center justify-content-center flex-column">
+        <div class="closeBtn d-flex align-items-center justify-content-end mb-3 w-100">
+          <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
+        </div><!-- closeBtn -->
+        <span class="d-block text-center text-body mb-4 fs-5">{{ __('Are you Sure to Cancel Bill ?')}}</span>
+        <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
+          @csrf
+          <button type="submit" class="border-0 shadow-none rounded-3 btn-danger mx-2">{{__('Confirm Cancel Bill')}}</button>
+          <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Cancel')}}</button>
+        </form>
+      </div><!-- modal-body -->
     </div>
+  </div>
 </div>

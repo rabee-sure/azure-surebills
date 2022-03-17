@@ -82,7 +82,7 @@ $.fn.addCommas = function (nStr) {
     };
 
     this.hideSpinner = function () {
-      $(this).removeClass("show-spinner");
+      $(this).removeClass("");
       return this;
     };
 
