@@ -23,7 +23,7 @@
         </div>
         <div class="form-group mb-3">
           <label for="Email" class="d-block mb-2">{{__('Email')}}</label>
-          <input  name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" value>
+          <input  name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" autocomplete="off">
         </div>
         <div class="form-group mb-3">
           <label for="Password" class="d-block mb-2">{{__('Password')}}</label>
