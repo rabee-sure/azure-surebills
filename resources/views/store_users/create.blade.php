@@ -23,15 +23,15 @@
         </div>
         <div class="form-group mb-3">
           <label for="Email" class="d-block mb-2">{{__('Email')}}</label>
-          <input  name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" value="" autocomplete="off">
+          <input  name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" value="" autocomplete="nope">
         </div>
         <div class="form-group mb-3">
           <label for="Password" class="d-block mb-2">{{__('Password')}}</label>
-          <input name="password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Password" placeholder="{{__('Password')}}" value="" autocomplete="off">
+          <input name="password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Password" placeholder="{{__('Password')}}" value="" autocomplete="nope">
         </div>
         <div class="form-group mb-3">
           <label for="Confirm Password" class="d-block mb-2">{{__('Confirm Password')}}</label>
-          <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}" value="" autocomplete="off">
+          <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}" value="" autocomplete="nope">
         </div>
         <div class="form-group mb-3">
           <label class="d-block mb-2">{{ __('Gander')}}</label>
