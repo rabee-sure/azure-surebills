@@ -41,14 +41,14 @@
     @else
       <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
         <div class="table-responsive">
-          <table class="table table-striped table-hover text-nowrap">
+          <table class="table table-striped table-hover">
             <thead>
               <tr>
                 <th scope="col" class="text-center">#</th>
                 <th scope="col" class="text-center">{{__('Name')}}</th>
                 <th scope="col" class="text-center">{{__('Permissions')}}</th>
                 @canany(['update user', 'delete user'])
-                  <th scope="col" class="text-center">{{__('Actions')}}</th>
+                  <th scope="col" class="text-center"></th>
                 @endcanany
               </tr>
             </thead>

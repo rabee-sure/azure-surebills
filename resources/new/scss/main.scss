@@ -451,7 +451,7 @@ span.select2 {
       } /* select2-selection__arrow */
     } /* select2-selection--single */
     .select2-selection--multiple {
-      height: 40px;
+      min-height: 40px;
       border-radius: 0.3rem;
       padding: 0;
       border-color: #dee2e6;
