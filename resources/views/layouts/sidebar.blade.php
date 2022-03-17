@@ -1,150 +1,65 @@
 @auth
 
-@php
+  @php
     $statues = session('status_filters', ['pending', 'paid'])?? [];
     $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
-@endphp
+  @endphp
 
-<div class="menu">
-  <div class="main-menu">
-    <div class="scroll">
-      <ul class="list-unstyled">
-        <li class="{{ Request::is('home') ? 'active' : '' }}">
-          <a href="/" title="{{ __('Dashboard') }}">
-            <i class="iconsminds-dashboard"></i>
-            <span>{{ __('Dashboard') }}</span>
-          </a>
-        </li>
-
-        @can('show bills')
-        <li class="{{ Request::is('bills*') ? 'active' : '' }}">
-          <a href="/bills?{{$separated}}" title="{{ __('Bills') }}">
-            <i class="iconsminds-testimonal"></i>
-           {{ __('Bills') }}
-          </a>
-        </li>
-        @endcan
-
-        <!-- <li class="{{ Request::is('pos*') ? 'active' : '' }}">
-          <a href="/pos/categories" title="{{ __('POS') }}">
-            <i class="iconsminds-testimonal"></i>
-           {{ __('POS') }}
-          </a>
-        </li> -->
-
-        @can('show customers')
-        <li class="{{ Request::is('customers*') ? 'active' : '' }}">
-          <a href="{{ route('customers.index') }}" title="{{ __('Customers') }}">
-            <i class="iconsminds-mens"></i>
-            {{ __('Customers') }}
-          </a>
-        </li>
-        @endcan
-
-        @can('show statement')
-        <li class="{{ Request::is('statement*') ? 'active' : '' }}">
-          <a href="{{ route('statement.index') }}" title="{{ __('Statement') }}">
-            <i class="iconsminds-statistic"></i>
-            {{ __('Statement') }}
-          </a>
-        </li>
-        @endcan
-
-        {{-- <li>
-          <a href="#store" title="Store">
-            <i class="iconsminds-shop-2"></i>
-            {{ __('Store') }}
-          </a>
-        </li> --}}
-
-        @can('show transfers')
-        <li class="{{ Request::is('transfers*') ? 'active' : '' }}">
-          <a href="{{ route('transfers.index') }}" title="{{ __('Transfers') }}">
-            <i class="iconsminds-money-bag"></i>
-            {{ __('Transfers') }}
-          </a>
-        </li>
-        @endcan
-
-        <li class="{{ Request::is('account*') ? 'active' : '' }}">
-          <a href="{{ route('account') }}" title="{{ __('My Account') }}">
-            <i class="iconsminds-male-2"></i>
-            {{ __('My Account') }}
-          </a>
-        </li>
-        {{-- <li class="{{ Request::is('pricing*') ? 'active' : '' }}">
-          <a href="{{ route('pricing') }}" title="{{ __('Pricing') }}">
-            <i class="iconsminds-tag-3"></i>
-            {{ __('Pricing') }}
-          </a>
-        </li>  --}}
-
-        @can('show channels')
-        @if(count(auth()->user()->channels))
-          <li class="{{ Request::is('channels*') ? 'active' : '' }}">
-            <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}">
-              <i class="iconsminds-gears"></i>
-              {{ __('Channels') }}
-            </a>
-          </li>
-        @endif
-        @endcan
-
-        @can('show applications')
-        <li class="{{ Request::is('integration*') ? 'active' : '' }}">
-          <a href="{{ route('integration') }}" title="{{ __('Integration') }}">
-            <i class="iconsminds-gears"></i>
-            {{ __('Integration') }}
-          </a>
-        </li>
-        @endcan
-
-        {{-- @can('show products') --}}
-        <!-- <li>
-          <a href="{{ route('products.all') }}" title="{{ __('Products') }}">
-            <i class="iconsminds-project"></i>
-            <span class="d-inline-block">{{ __('Products') }}</span>
-          </a>
-        </li>
-        {{-- @endcan --}}
-
-        {{-- @can('show product categories') --}}
-        <li>
-          <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}">
-            <i class="iconsminds-clothing-store"></i>
-            <span class="d-inline-block">{{ __('Product Sections') }}</span>
-          </a>
-          {{-- @endcan --}}
-        </li> -->
-
-        @if(in_array(Auth::user()->email, explode(',', env('NOVA_ALLOWED_ADMINS'))))
-        <li class="{{ Request::is('reports*') ? 'active' : '' }}">
-          <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}">
-            <i class="iconsminds-file-clipboard-file---text"></i>
-            <span class="d-inline-block">{{ __('Reports') }}</span>
-          </a>
-        </li>
-        @endif
-      </ul>
-    </div>
-  </div>
-
-  <div class="sub-menu">
-    <div class="scroll">
-      <ul class="list-unstyled" data-link="store">
-        <li>
-          <a href="{{ route('orders.all') }}" title="{{ __('Orders') }}">
-            <i class="iconsminds-shopping-bag"></i> <span class="d-inline-block">{{ __('Orders') }}</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ route('products.settings') }}" title="{{ __('Store Settings') }}">
-            <i class="iconsminds-clothing-store"></i> <span class="d-inline-block">{{ __('Store Settings') }}</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-</div>
+  <aside class="bg-white position-fixed end-0 d-print-none">
+    <a href="/" title="{{ __('Dashboard') }}"  class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('home') ? 'active' : '' }}">
+      <i class="d-flex align-items-center justify-content-center fal fa-tachometer-alt-fast"></i>
+      <span class="text-center">{{ __('Dashboard') }}</span>
+    </a>
+    @can('show bills')
+      <a href="/bills?{{$separated}}" title="{{ __('Bills') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('bills*') ? 'active' : '' }}">
+        <i class="d-flex align-items-center justify-content-center fal fa-file-invoice"></i>
+        {{ __('Bills') }}
+      </a>
+    @endcan
+    <a href="/pos/categories" title="{{ __('POS') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('pos*') ? 'active' : '' }}">
+      <i class="d-flex align-items-center justify-content-center fal fa-cash-register"></i>
+      {{ __('POS') }}
+    </a>
+    @can('show customers')
+      <a href="{{ route('customers.index') }}" title="{{ __('Customers') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('customers*') ? 'active' : '' }}">
+        <i class="d-flex align-items-center justify-content-center fal fa-users"></i>
+        {{ __('Customers') }}
+      </a>
+    @endcan
+    @can('show statement')
+      <a href="{{ route('statement.index') }}" title="{{ __('Electronic payment record') }}" class="d-flex text-center align-items-center justify-content-center text-center flex-column rounded w-100 {{ Request::is('statement*') ? 'active' : '' }}">
+        <i class="d-flex align-items-center justify-content-center fal fa-analytics"></i>
+        {{ __('Electronic payment record') }}
+      </a>
+    @endcan
+    @can('show transfers')
+      <a href="{{ route('transfers.index') }}" title="{{ __('Transfers') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('transfers*') ? 'active' : '' }}">
+        <i class="d-flex align-items-center justify-content-center fal fa-sack-dollar"></i>
+        {{ __('Transfers') }}
+      </a>
+    @endcan
+    <a href="{{ route('account') }}" title="{{__('Settings')}}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('account*') ? 'active' : '' }}">
+      <i class="d-flex align-items-center justify-content-center fal fa-user-cog"></i>
+      {{__('Settings')}}
+    </a>
+    <!-- <a href="{{ route('pricing') }}" title="{{__('Pricing')}}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('pricing*') ? 'active' : '' }}">
+      <i class="d-flex align-items-center justify-content-center fal fa-user-cog"></i>
+      {{__('Pricing')}}
+    </a> -->
+    @if(in_array(Auth::user()->email, explode(',', env('NOVA_ALLOWED_ADMINS'))))
+      <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('reports*') ? 'active' : '' }}">
+        <i class="d-flex align-items-center justify-content-center fal fa-file-chart-line"></i>
+        {{ __('Reports') }}
+      </a>
+    @endif
+    <!-- <a href="{{ route('orders.all') }}" title="{{ __('Orders') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('orders*') ? 'active' : '' }}">
+      <i class="d-flex align-items-center justify-content-center fal fa-file-chart-line"></i>
+      {{ __('Orders') }}
+    </a>
+    <a href="{{ route('products.settings') }}" title="{{ __('Store Settings') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('products*') ? 'active' : '' }}">
+      <i class="d-flex align-items-center justify-content-center fal fa-file-chart-line"></i>
+      {{ __('Store Settings') }}
+    </a> -->
+  </aside><!-- aside -->
+  
 @endauth

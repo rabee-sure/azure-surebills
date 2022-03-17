@@ -1,33 +1,3 @@
-<footer class="page-footer">
-  <div class="footer-content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12 col-sm-6">
-          <p class="mb-0 text-muted">SURE PAY © All rights reserved</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
-
-    @if(in_array(request()->route()->getName(), ['channels.show', 'integration','mobile_verify', 'home' ]))
-      <script src="{{ asset('js/app.js') }}?v={{ config('app.asset_version') }}" defer></script>
-      <script src="{{ asset('js/jbootstrap.js') }}?v={{ config('app.asset_version') }}"></script>
-      <script src="{{ asset('js/all.js') }}?v={{ config('app.asset_version') }}"></script>
-      <script src="{{ asset('js/dore.script.js') }}?v={{ config('app.asset_version') }}"></script>
-    @else
-      <script src="{{ asset('js/app.js') }}?v={{ config('app.asset_version') }}" ></script>
-      <script src="{{ asset('js/jbootstrap.js') }}?v={{ config('app.asset_version') }}"></script>
-      <script src="{{ asset('js/all.js') }}?v={{ config('app.asset_version') }}" defer></script>
-
-      <script src="{{ asset('js/dore.script.js') }}?v={{ config('app.asset_version') }}"></script>
-    @endif
-
-<script>
-    window._locale = '{{ app()->getLocale() }}';
-    window._translations = {!! cache('translations') !!};
-</script>
-<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js') }}?v={{ config('app.asset_version')}}"></script>
-<script src="/js/custom.js"></script>
-
-
+<footer class="d-print-none">
+  <div class="container-fluid text-muted text-center border-top h-100 d-flex align-items-center justify-content-center">SURE PAY © All rights reserved</div>
+</footer><!-- footer -->

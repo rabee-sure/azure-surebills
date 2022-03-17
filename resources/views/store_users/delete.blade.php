@@ -1,80 +1,26 @@
-<div class="d-inline-block" data-toggle="modal" data-target="#delete_customer_Modal_{{$user->id}}"><button type="button" class="btn btn-danger btn-md top-right-button mr-1" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}"><!-- {{ __('Delete') }} --><svg version="1.1" id="Capa_1" style="width: 15px;height: auto;fill: #fff;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-<g>
-   <g>
-       <g>
-           <polygon points="353.574,176.526 313.496,175.056 304.807,412.34 344.885,413.804 			"/>
-           <rect x="235.948" y="175.791" width="40.104" height="237.285"/>
-           <polygon points="207.186,412.334 198.497,175.049 158.419,176.52 167.109,413.804 			"/>
-           <path d="M17.379,76.867v40.104h41.789L92.32,493.706C93.229,504.059,101.899,512,112.292,512h286.74
-               c10.394,0,19.07-7.947,19.972-18.301l33.153-376.728h42.464V76.867H17.379z M380.665,471.896H130.654L99.426,116.971h312.474
-               L380.665,471.896z"/>
-       </g>
-   </g>
-</g>
-<g>
-   <g>
-       <path d="M321.504,0H190.496c-18.428,0-33.42,14.992-33.42,33.42v63.499h40.104V40.104h117.64v56.815h40.104V33.42
-           C354.924,14.992,339.932,0,321.504,0z"/>
-   </g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-</svg></button>
+<button type="button" class="rounded-3 border-0 shadow-none p-0 mx-1 btn-danger d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#delete_customer_Modal_{{$user->id}}">
+  <span class="w-100 h-100 d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Delete') }}"><i class="fal fa-trash-alt"></i></span>
+</button>
+
+<!-- Delete User Modal -->
+<div class="modal fade deleteCustomerModal" id="delete_customer_Modal_{{$user->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content border-0 shadow-sm rounded-3">
+      <div class="modal-body d-flex align-items-center justify-content-center flex-column">
+        <div class="closeBtn d-flex align-items-center justify-content-end mb-3 w-100">
+          <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
+        </div><!-- closeBtn -->
+        <form action="{{ route('users.destroy', $user->id)}}" method="post">
+          @csrf
+          @method('DELETE')
+          <span class="d-block text-center text-body mb-4 fs-5">{{ __('Are You sure Delete this User?')}}</span>
+          <div class="d-flex align-items-center justify-content-center flex-wrap">
+            <button type="submit" class="border-0 shadow-none rounded-3 btn-danger formBtn mx-2">{{__('Delete')}}</button>
+            <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Close')}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
-
-<!-- Modal -->
-<div class="modal fade" id="delete_customer_Modal_{{$user->id}}" tabindex="-1" role="dialog" aria-hidden="true">
-
- <div class="modal-dialog" role="document">
-   <div class="modal-content">
-     <div class="modal-header">
-         <h5 class="modal-title" id="delete_customer_ModalLabel_{{$user->id}}">{{ __('Delete User') }}</h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-         <span aria-hidden="true">&times;</span>
-         </button>
-     </div>
-     <form action="{{ route('users.destroy', $user->id)}}" method="post">
-       <div class="modal-body">
-         @csrf
-         @method('DELETE')
-        <h4 class="text-center m-0">{{ __('Are You sure Delete this User?')}}</h4>
-       </div>
-       <div class="modal-footer">
-           <button type="submit" class="btn btn-danger login_button mr-3">{{__('Delete')}}</button>
-            <button type="button" class="btn btn-secondary m-0" data-dismiss="modal">{{__('Close')}}</button>
-         </div>
-     </form>
-   </div>
- </div>
-</div>
-<!-- Modal -->
-
+<!-- Delete User Modal -->
