@@ -24,7 +24,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        $roles = Role::where('user_id', auth()->user()->storeUsers(true))->orderBy('id','DESC')->paginate(10);
+        $roles = Role::whereIn('user_id', auth()->user()->storeUsers(true))->orderBy('id','DESC')->paginate(10);
         return view('roles.index', compact('roles'));
     }
 
@@ -83,6 +83,7 @@ class RolesController extends Controller
     public function update(RoleRequest $request, Role $role)
     {
         $role->name = $request->name;
+        $role->save();
         $role->syncPermissions($request->permissions);
         return redirect()->route('roles.index');
     }

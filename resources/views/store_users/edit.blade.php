@@ -44,7 +44,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="Name">{{__('Name')}} <span class="requirement">*</span></label>
-                            <input name="name" type="text" class="form-control" id="Name" placeholder="{{__('Name')}}" value="{{$user->name}}">
+                            <input name="name" type="text" class="form-control" id="Name" placeholder="{{__('Name')}}" value="{{old('name') ?? $user->name}}">
                         </div>
                         <div class="form-group">
                             <label for="Mobile">{{ __('Mobile') }}</label>
@@ -52,12 +52,12 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">+966</span>
                               </div>
-                              <input name="mobile" type="tel" class="form-control" id="Mobile" placeholder="{{__('Mobile')}}" value="{{$user->mobile}}">
+                              <input name="mobile" type="tel" class="form-control" id="Mobile" placeholder="{{__('Mobile')}}" value="{{old('mobile') ?? $user->mobile}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="Email">{{__('Email')}}</label>
-                            <input  name="email" type="email" class="form-control" id="Email" placeholder="{{__('Email')}}" value="{{$user->email}}">
+                            <input name="email" type="email" class="form-control" id="Email" placeholder="{{__('Email')}}" value="{{old('email') ?? $user->email}}">
                         </div>
                         <div class="form-group">
                             <label for="Password">{{__('Password')}}</label>
@@ -70,16 +70,16 @@
                         <div class="form-group">
                             <label>{{ __('Gander')}}</label>
                             <select name="gender" id="gender" class="form-control">
-                                <option value="0" @if ($user->gender == 0)selected="selected"@endif>{{ __('Choose Gender')}}</option>
-                                <option value="1" @if ($user->gender == 1)selected="selected"@endif>{{ __('Male')}}</option>
-                                <option value="2" @if ($user->gender == 2)selected="selected"@endif>{{ __('female')}}</option>
+                                <option value="0" @if ($user->gender == 0 || old('gender') == 0)selected="selected"@endif>{{ __('Choose Gender')}}</option>
+                                <option value="1" @if ($user->gender == 1 || old('gender') == 1)selected="selected"@endif>{{ __('Male')}}</option>
+                                <option value="2" @if ($user->gender == 2 || old('gender') == 2)selected="selected"@endif>{{ __('female')}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>{{__('Role')}}</label>
                             <select name="role" class="form-control">
                                 @foreach($roles as $role)
-                                    <option value="{{$role->name}}" {{$user->getRoleNames()->first() == $role->name ? 'selected' : ''}}>{{$role->name}}</option>
+                                    <option value="{{$role->name}}" {{$user->getRoleNames()->first() == $role->name || old('role') == $role->name ? 'selected' : ''}}>{{$role->name}}</option>
                                 @endforeach
                             </select>
                         </div>

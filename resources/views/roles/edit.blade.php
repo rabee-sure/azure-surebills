@@ -44,15 +44,15 @@
                     @csrf
                     <div class="form-group">
                         <label for="Name">{{__('Name')}} <span class="requirement">*</span></label>
-                        <input name="name" type="text" class="form-control" id="Name" placeholder="{{__('Name')}}" value="{{$role->name}}">
+                        <input name="name" type="text" class="form-control" id="Name" placeholder="{{__('Name')}}" value="{{old('name') ?? $role->name}}">
                     </div>
                     <div class="form-group">
                         <label for="Permissions">{{__('Permissions')}} <span class="requirement">*</span></label>
                         @foreach(config('RolePermissionsMatrix') as $permission)
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" id="{{$permission}}" value="{{$permission}}" class="custom-control-input status_checkbox" name="permissions[]" @if(in_array($permission, $role->getPermissionNames()->toArray())) {{"checked"}} @endif>
-                            <label for="{{$permission}}" class="custom-control-label">{{__($permission)}}</label>
-                        </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" id="{{$permission}}" value="{{$permission}}" class="custom-control-input status_checkbox" name="permissions[]" @if(in_array($permission, $role->getPermissionNames()->toArray()) || (old('permissions') && in_array($permission, old('permissions')))) {{"checked"}} @endif>
+                                <label for="{{$permission}}" class="custom-control-label">{{__($permission)}}</label>
+                            </div>
                         @endforeach
                     </div>
                 </div>
