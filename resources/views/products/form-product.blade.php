@@ -2,9 +2,8 @@
 @section('title', __($title))
 
 @section('css_styles')
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}" />
-  <link rel="stylesheet" type="text/css" href="{{ asset('css/select2-bootstrap.min.css') }}" />
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2.min.css') }}?v={{ config('app.asset_version') }}">
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2-bootstrap.min.css') }}?v={{ config('app.asset_version') }}">
 @endsection
 
 @section('content')
@@ -41,61 +40,62 @@
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="Name_ar" class="d-block mb-2">{{ __('Name Ar') }}</label>
-              <input name="name_ar" type="text" class="form-control" id="Name_ar" placeholder="{{__('Name Ar')}}">
+              <input name="name_ar" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name_ar" placeholder="{{__('Name Ar')}}">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="Name_en" class="d-block mb-2">{{ __('Name En') }}</label>
-              <input name="name_en" type="text" class="form-control" id="Name_en" placeholder="{{__('Name En')}}">
+              <input name="name_en" type="text" class="onlyEng form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name_en" placeholder="{{__('Name En')}}">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="discription_ar" class="d-block mb-2">{{ __('Discription Ar') }}</label>
-              <textarea class="form-control" name="discription_ar" id="discription_ar" rows="3"></textarea>
+              <textarea class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="discription_ar" id="discription_ar" rows="3"></textarea>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="discription_en" class="d-block mb-2">{{ __('Discription En') }}</label>
-              <textarea class="form-control" name="discription_en" id="discription_en" rows="3"></textarea>
+              <textarea class="onlyEng form-control shadow-none bg-white border w-100 rounded-3 text-body" name="discription_en " id="discription_en" rows="3"></textarea>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="price" class="d-block mb-2">{{ __('Price') }} <span class="requirement text-danger">*</span></label>
-              <input name="price" type="tel" class="form-control" id="price" placeholder="{{__('Price')}}">
+              <input name="price" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="price" placeholder="{{__('Price')}}">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="sel_1" class="d-block mb-2">{{__('Category')}} <span class="requirement text-danger">*</span></label>
-              <select id="sel_1" name="category_id" multiple></select>
+              <select id="sel_1" name="category_id" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" multiple></select>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="sort_number" class="d-block mb-2">{{ __('Sort No.') }} <span class="requirement text-danger">*</span></label>
-              <input name="sort_number" type="tel" class="form-control" id="sort_number" placeholder="{{__('Sort No.')}}">
+              <input name="sort_number" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="sort_number" placeholder="{{__('Sort No.')}}">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="inputEmail8" class="d-block mb-2">{{ __('Image') }}</label>
-              <div class="custom-file">
-                <input name="image[]" type="file"  id="formFile" class="custom-file-input" accept="image/png, image/jpeg, image/jpg" multiple>
+              <div class="upoadInput border rounded-3 position-relative overflow-hidden d-flex align-items-center justify-content-start">
+                <input name="image[]" type="file"  id="formFile" class="d-block position-absolute top-0 start-0 w-100 h-100" accept="image/png, image/jpeg, image/jpg" multiple>
                 <input type="hidden" name="hidden_image" value="" />
-                <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
-                @if($errors->has('image'))
-                    <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('image') }}</span>
-                @endif
-              </div>
+                <div class="fileName h-100 d-flex align-items-center justify-content-start flex-grow-1 px-2"></div>
+                <div class="fileBtn text-body d-flex align-items-center justify-content-center fw-bold">{{ __('Choose file') }}</div>
+              </div><!-- upoadInput -->
+              @if($errors->has('image'))
+                <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('image') }}</span>
+              @endif
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12">
             <div class="form-group mb-3">
-              <div class="custom-file" id="products_images"></div>
+              <div class="d-flex align-items-center justify-content-start flex-wrap" id="products_images"></div>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12">
@@ -110,7 +110,9 @@
             </div><!-- form-group -->
           </div><!-- col-12 -->
         </div><!-- row -->
-        <button type="button" id="SubmitForm" class="btn btn-primary btn-lg login_button"> {{__('Save')}}</button>
+        <div class="saveBtn d-flex justify-content-start mt-3">
+          <button type="button" id="SubmitForm" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold">{{__('Save')}}</button>
+        </div><!-- saveBtn -->
       </form>
     </div><!-- blockArea -->
   </section><!-- productcreatePage -->
@@ -118,9 +120,9 @@
 @endsection
 
 @push('footer-scripts')
-  <script type="text/javascript" src="{{ asset('js/select2.full.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('js/select2totree.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('js/select2tree.js') }}"></script>
+  <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}"></script>
+  <script src="{{ asset('new/js/select2/select2totree.js') }}?v={{ config('app.asset_version') }}"></script>
+  <script src="{{ asset('new/js/select2/select2tree.js') }}?v={{ config('app.asset_version') }}"></script>
   <script>
     var deletedImages = new Array();
     $("#sel_1").select2();
@@ -173,7 +175,7 @@
             }
             console.log(product["images"]);
             $.each(product["images"], function(imgindex, image){
-              $('#products_images').append('<img id="prodImg_'+image["id"]+'" src="'+imgUrl+''+image["image"]+'" class="img-thumbnail logo_image" width="100" /><i class="glyph-icon simple-icon-trash delete_logo" id="remove_'+image["id"]+'" onclick="deleteImage('+image["id"]+')"></i>');
+              $('#products_images').append('<figure id="prodImg_'+image["id"]+'" class="p-2 border overflow-hidden rounded-3 position-relative align-items-center justify-content-center"><img src="'+imgUrl+''+image["image"]+'" class="mw-100 mh-100"><i class="fal fa-trash-alt position-absolute align-items-center justify-content-center rounded-1 btn-danger delete_logo" id="remove_'+image["id"]+'" onclick="deleteImage('+image["id"]+')"></i></figure>');
             });
           }
         });
@@ -234,5 +236,15 @@
       $("#remove_"+id).hide();
       console.log(deletedImages);
     }
+
+    $('#formFile').bind('change', function () {
+      var filename = $("#formFile").val();
+      if (/^\s*$/.test(filename)) {
+        $(".fileName").text("No file chosen..."); 
+      }
+      else {
+        $(".fileName").text(filename.replace("C:\\fakepath\\", "")); 
+      }
+    });
   </script>
 @endpush

@@ -44,7 +44,7 @@
         <a href="{{ route('categories.create')}}" class="addProductBtn d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-pill" title="{{ __('Add a product category') }}">{{ __('Add a product category') }}</a>
       @endcan
     </div><!-- title -->
-    <div class="blockArea">
+    <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
       <div class="table-responsive" id="table-responsive"></div>
     </div><!-- blockArea -->
   </section><!-- productsIndexPage -->
@@ -76,28 +76,30 @@
             $("#table-responsive").append('<table id="catTable" class="table table-striped">');
               $("#catTable").append('<thead id="tblTh">');
                 $("#tblTh").append('<tr id="thTr">');
-                  $("#thTr").append('<th scope="col">#</th>');
-                  $("#thTr").append('<th scope="col">{{__('Image')}}</th>');
-                  $("#thTr").append('<th scope="col">{{__('Name')}}</th>');
-                  $("#thTr").append('<th scope="col">{{__('Sort No.')}}</th>');
-                  $("#thTr").append('<th scope="col">{{__('Parent')}}</th>');
-                  $("#thTr").append('<th scope="col">{{__('Status')}}</th>');
-                  $("#thTr").append('<th scope="col">{{__('Actions')}}</th>');
+                  $("#thTr").append('<th scope="col" class="text-center">#</th>');
+                  $("#thTr").append('<th scope="col" class="text-center">{{__('Image')}}</th>');
+                  $("#thTr").append('<th scope="col" class="text-center">{{__('Name')}}</th>');
+                  $("#thTr").append('<th scope="col" class="text-center">{{__('Sort No.')}}</th>');
+                  $("#thTr").append('<th scope="col" class="text-center">{{__('Parent')}}</th>');
+                  $("#thTr").append('<th scope="col" class="text-center">{{__('Status')}}</th>');
+                  $("#thTr").append('<th scope="col" class="text-center"></th>');
                 $("#tblTh").append('</tr>');
               $("#catTable").append('</thead>');
               $("#catTable").append('<tbody id="tblBody">');
               $.each(categories.data, function( index, category ) {
                 var imgUrl = "{{Storage::url('categories/')}}";
                 $("#tblBody").append('<tr id="bodyTr'+index+'">');
-                  $("#bodyTr"+index).append('<th scope="row">'+category["id"]+'</th>');
-                  $("#bodyTr"+index).append('<td><img style="width: 100px;" src="'+imgUrl+''+category["image"]+'" ></td>');
-                  $("#bodyTr"+index).append('<td>'+category["name"]+'</td>');
-                  $("#bodyTr"+index).append('<td>'+category["sort_number"]+'</td>');
-                  $("#bodyTr"+index).append('<td>'+category["parent"]+'</td>');
-                  $("#bodyTr"+index).append('<td>'+category["active"]+'</td>');
+                  $("#bodyTr"+index).append('<td class="text-center">'+category["id"]+'</ف>');
+                  $("#bodyTr"+index).append('<td class="text-center"><figure class="rounded-3 overflow-hidden m-0 mx-auto"><img src="'+imgUrl+''+category["image"]+'" class="w-100 h-100"><figure></td>');
+                  $("#bodyTr"+index).append('<td class="text-center">'+category["name"]+'</td>');
+                  $("#bodyTr"+index).append('<td class="text-center">'+category["sort_number"]+'</td>');
+                  $("#bodyTr"+index).append('<td class="text-center">'+category["parent"]+'</td>');
+                  $("#bodyTr"+index).append('<td class="text-center">'+category["active"]+'</td>');
                   $("#bodyTr"+index).append('<td id="tdActions'+index+'">');
-                    $("#tdActions"+index).append('<a href="/categories/'+category["id"]+'/edit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Edit') }}">{{ __('Edit') }}</a>');
-                    $("#tdActions"+index).append('<a href="javascript:;" onclick="return deleteItem('+category["id"]+')" class="btn btn-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ __('Delete') }}">{{ __('Delete') }}</a>');
+                    $("#tdActions"+index).append('<div id="ActionsBtns'+index+'" class="d-flex align-items-center justify-content-center">');
+                      $("#ActionsBtns"+index).append('<a href="/categories/'+category["id"]+'/edit" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>');
+                      $("#ActionsBtns"+index).append('<a href="javascript:;" onclick="return deleteItem('+category["id"]+')" class="rounded-3 border-0 shadow-none p-0 mx-1 btn-danger d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Delete') }}"><i class="fal fa-trash-alt"></i></a>');
+                    $("#tdActions"+index).append('</div>');
                   $("#bodyTr"+index).append('</td>');
                 $("#tblBody").append('</tr>');
               });

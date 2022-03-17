@@ -95,10 +95,10 @@ $(document).ready(function() {
 // =============================================
 // Only English Characters In Input
 // ============================================= 
-$("input.onlyEng").on("keypress", function(event) {
+$(".onlyEng").on("keypress", function(event) {
   var englishAlphabetAndWhiteSpace = /[A-Za-z ]/g;
   var key = String.fromCharCode(event.which);  
   if (event.keyCode == 8 || event.keyCode == 37 || event.keyCode == 39 || englishAlphabetAndWhiteSpace.test(key)) {return true;}
   return false;
 });
-$('input.onlyEng').on("paste",function(e) {e.preventDefault();});
+$('.onlyEng').on("paste",function(e) {e.preventDefault();});
