@@ -88,10 +88,4 @@
 
 @push('footer-scripts')
   {!! JsValidator::formRequest('App\Http\Requests\StoreUserRequest', '#user_form') !!}
-    <script>
-  $(window).on('load', function() {
-    $('#user_form')[0].reset();
-    console.log($('#user_form')[0]);
-   });
-   </script>
 @endpush
