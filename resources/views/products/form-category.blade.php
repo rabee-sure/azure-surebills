@@ -2,115 +2,110 @@
 @section('title', __($title))
 
 @section('css_styles')
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}" />
-  <link rel="stylesheet" type="text/css" href="{{ asset('css/select2-bootstrap.min.css') }}" />
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2.min.css') }}?v={{ config('app.asset_version') }}">
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2-bootstrap.min.css') }}?v={{ config('app.asset_version') }}">
 @endsection
 
 @section('content')
 
-@if ($errors->any())
+  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
+    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
+    <i>/</i>
+    <a href="{{ url('account')}}" title="{{ __('Settings') }}">{{ __('Settings') }}</a>
+    <i>/</i>
+    <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}">{{ __('Product Sections') }}</a>
+    <i>/</i>
+    <span>{{ __($title) }}</span>
+  </div><!-- breadcrump -->
+
+  @if ($errors->any())
     <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+      <ul>
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div><!-- alert -->
+  @endif
 
-  <div class="row">
-    <div class="col-12">
-      <h1>{{ __($title) }}</h1>
-      <div class="separator mb-5"></div>
-    </div>
-    <div class="col-12">
-      <div class="create_bill_page card mb-4">
-        
-        <div class="card-body" >
-          <form method="POST" action="#" class="repeater" id="categoryForm">
-            @csrf
-
-            <input type="hidden" name="category_id" value="{{isset($id) ? $id : null}}">
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label>{{ __('Name Ar') }}</label>
-                <input name="name_ar" type="text" class="form-control" id="Name_ar" placeholder="{{__('Name Ar')}}">
-              </div><!-- form-group -->
-              <div class="form-group col-md-6" >
-                <label>{{ __('Name En') }}</label>
-                <input name="name_en" type="text" class="form-control" id="Name_en" placeholder="{{__('Name En')}}">
-              </div><!-- form-group -->
-            </div><!-- form-row -->
-
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                  <label for="sort_number">{{ __('Sort No.') }} <span class="requirement">*</span></label>
-                  <div class="input-group phone_inputs">
-                      <input name="sort_number" type="number" class="form-control" id="sort_number" placeholder="{{__('Sort No.')}}">
-                  </div>
+  <section id="productcreatePage">
+    <div class="title mb-4">
+      <h1 class="d-block fw-bold m-0 fs-5">{{ __($title) }}</h1>
+    </div><!-- title -->
+    <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3 p-3">
+      <form method="POST" action="#" class="repeater" id="categoryForm">
+        @csrf
+        <input type="hidden" name="category_id" value="{{isset($id) ? $id : null}}">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="Name_ar" class="d-block mb-2">{{ __('Name Ar') }}</label>
+              <input name="name_ar" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name_ar" placeholder="{{__('Name Ar')}}">
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="Name_en" class="d-block mb-2">{{ __('Name En') }}</label>
+              <input name="name_en" type="text" class="onlyEng form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name_en" placeholder="{{__('Name En')}}">
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="sort_number" class="d-block mb-2">{{ __('Sort No.') }} <span class="requirement text-danger">*</span></label>
+              <input name="sort_number" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="sort_number" placeholder="{{__('Sort No.')}}">
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="sel_1" class="d-block mb-2">{{__('Parent')}} <span class="requirement text-danger">*</span></label>
+              <select id="sel_1" name="parent_id" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" multiple></select>
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12 col-md-6">
+            <div class="form-group mb-3">
+              <label for="inputEmail8" class="d-block mb-2">{{ __('Image') }}</label>
+              <div class="upoadInput border rounded-3 position-relative overflow-hidden d-flex align-items-center justify-content-start">
+                <input name="image" type="file" id="formFile" class="d-block position-absolute top-0 start-0 w-100 h-100" accept="image/png, image/jpeg, image/jpg" multiple>
+                <input type="hidden" name="hidden_image" value="" />
+                <div class="fileName h-100 d-flex align-items-center justify-content-start flex-grow-1 px-2"></div>
+                <div class="fileBtn text-body d-flex align-items-center justify-content-center fw-bold">{{ __('Choose file') }}</div>
+              </div><!-- upoadInput -->
+              @if($errors->has('image'))
+                <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('image') }}</span>
+              @endif
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12">
+            <div class="form-group mb-3">
+              <div class="imgthumb p-2 m-0 border overflow-hidden rounded-3 position-relative d-flex align-items-center justify-content-center">
+                <img id="catImg" src="" class="logo_image mw-100 mh-100" />
               </div>
-              <div class="form-group col-md-6">
-                  <label for="inputEmail5">{{__('Parent')}} <span class="requirement">*</span></label>
-                  <select id="sel_1" name="parent_id" style="width:16em" multiple></select>
-              </div> 
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputEmail8">{{ __('Image') }}</label>
-                <div class="custom-file">
-                    <input name="image" type="file"  id="formFile" class="custom-file-input" accept="image/png, image/jpeg, image/jpg">
-                    <input type="hidden" name="hidden_image" value="" />
-                    <label class="custom-file-label" for="inputEmail8">{{ __('Choose file') }}</label>
-                    @if($errors->has('image'))
-                        <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('image') }}</span>
-                    @endif
-                </div>
-              </div>
-              <div class="form-group col-md-6">
-                  <div class="custom-file">
-                      <img id="catImg" src="" class="img-thumbnail logo_image" width="100" />
-                      <i class="glyph-icon simple-icon-trash delete_logo"></i>
-                  </div>
-              </div>
-            </div>
-
-            <!-- <div class="form-row">
-              <div class="form-group col-md-6">
-              <h5 class="mb-2 mt-2">{{ __('Image') }}</h5>
-              <div class="dropzone"></div>
-              </div>
-            </div> -->
-            
-            <div class="form-row">
-              <div class="form-group col-12">
-                <label for="api_bill_style">{{ __('Activate') }}</label>
-                <div class="custom-switch custom-switch-primary mb-2">
-                  <input name="active" class="custom-switch-input" id="api_bill_style" type="checkbox">
-                  <label class="custom-switch-btn" for="api_bill_style"></label>
-                </div>
-              </div><!-- form-group -->
-            </div><!-- form-row -->
-            
-            <hr>
-
-            <div class="d-flex justify-content-start mt-3">
-              <button type="button" id="SubmitForm" class="btn btn-primary btn-lg login_button"> {{__('Save')}}</button>
-            </div><!-- d-flex  -->
-          </form>
-        </div>
-       
-      </div>
-    </div>
-  </div>
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+          <div class="col-12">
+            <div class="form-group mb-3">
+              <label for="api_bill_style" class="checkboxItem position-relative mb-3 mb-md-0">
+                <input name="active" class="position-absolute top-0 strat-0 w-100 h-100" id="api_bill_style" type="checkbox">
+                <span class="d-flex align-items-center justify-content-start">
+                  <i class="d-block rounded-pill position-relative"></i>
+                  {{ __('Activate') }}
+                </span>
+              </label>
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+        </div><!-- row --> 
+        <div class="saveBtn d-flex justify-content-start mt-3">
+          <button type="button" id="SubmitForm" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold">{{__('Save')}}</button>
+        </div><!-- saveBtn -->
+      </form>
+    </div><!-- blockArea -->
+  </section><!-- productcreatePage -->
 @endsection
 
 @push('footer-scripts')
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script type="text/javascript" src="{{ asset('js/select2.full.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('js/select2totree.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('js/select2tree.js') }}"></script>
+  <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}"></script>
+  <script src="{{ asset('new/js/select2/select2totree.js') }}?v={{ config('app.asset_version') }}"></script>
+  <script src="{{ asset('new/js/select2/select2tree.js') }}?v={{ config('app.asset_version') }}"></script>
   <script>
     $("#sel_1").select2();
 
@@ -121,8 +116,8 @@
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : 390,
-              'X-application-secret' : '8sIFHOEwpIVN2X5Pida1',
+              'X-application-id' : 195,
+              'X-application-secret' : 'aajO9ETFeqfaIiGgJLSp',
               'Accept' : 'application/json'
           }
       });
@@ -197,6 +192,16 @@
 
       });
     });
+
+$('#formFile').bind('change', function () {
+  var filename = $("#formFile").val();
+  if (/^\s*$/.test(filename)) {
+    $(".fileName").text("No file chosen..."); 
+  }
+  else {
+    $(".fileName").text(filename.replace("C:\\fakepath\\", "")); 
+  }
+});
 
   </script>
 @endpush

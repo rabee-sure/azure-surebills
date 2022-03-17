@@ -8,7 +8,7 @@ class PosController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:show pos');
+        // $this->middleware('permission:show pos');
     }
 
     /**

@@ -1,17 +1,32 @@
-<div class="dropzone">
-    <div class="dz-message" data-dz-message><span>{{ __('Drop files here to upload') }}</span></div>
-</div>
+<div class="dropzone border rounded-3 bg-light mb-3 p-3 overflow-hidden">
+  <div class="dz-message my-5" data-dz-message>
+    <span class="d-block fs-6 text-body">{{ __('Drop files here to upload') }}</span>
+  </div><!-- dz-message -->
+</div><!-- dropzone -->
 
-<p class="text-danger mt-2 dropzone_error" role="alert" style="display: none;"></p>
+<p class="text-danger mb-3 dropzone_error" role="alert" style="display: none;"></p>
 
 @error('document')
-  <p class="text-danger mt-2" role="alert">{{ $message }}</p>
+  <p class="text-danger mb-3" role="alert">{{ $message }}</p>
 @enderror
 
 
 @push('footer-scripts')
-  <script src="{{ asset('js/dropzone.min.js') }}"></script>
+  <script src="{{ asset('new/js/dropzone/dropzone.min.js') }}?v={{ config('app.asset_version') }}"></script>
   <script type="text/javascript">
+    var previewTemplateDiv = '<div class="dz-preview dz-file-preview border m-0 bg-white rounded-3 text-body shadow-sm overflow-hidden">';
+          previewTemplateDiv += '<div class="d-flex align-items-center justify-content-start align-self-stretch p-1 position-relative">';
+            previewTemplateDiv += '<figure class="m-0 rounded-3 overflow-hidden position-relative flex-shrink-0">';
+              previewTemplateDiv += '<div class="dz-error-mark"><span><i></i></span></div><div class="dz-success-mark"><span><i></i></span></div>';
+              previewTemplateDiv += '<img data-dz-thumbnail class="w-100 h-100" />';
+              previewTemplateDiv += '<i class="simple-icon-doc preview-icon"></i>';
+            previewTemplateDiv += '</figure><figcaption class="flex-grow-1 align-self-stretch d-flex align-items-start justify-content-between flex-column">';
+              previewTemplateDiv += '<div class="file_name d-block text-body"><span class="d-block text-body" data-dz-name></span><small class="d-block text-danger" id="error_message"></small></div>';
+              previewTemplateDiv += '<div class="d-block text-secondary dz-size" data-dz-size />';
+              previewTemplateDiv += '<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>';
+              previewTemplateDiv += '<div class="dz-error-message"><span data-dz-errormessage></span></div>';
+            previewTemplateDiv += '</figcaption><a href="#/" class="removeImg d-flex align-items-center justify-content-center rounded-circle bg-danger text-white position-absolute" data-dz-remove><i class="fal fa-times"></i></a>';
+        previewTemplateDiv += '</div></div>';
     var uploadedDocumentMap = {}
 
     if ($().dropzone && !$(".dropzonex").hasClass("disabled")) {
@@ -103,9 +118,8 @@
             });
         },
         thumbnailWidth: 200,
-        previewTemplate: '<div class="dz-preview dz-file-preview mb-3"><div class="d-flex flex-row "><div class="p-0 w-30 position-relative"><div class="dz-error-mark"><span><i></i></span></div><div class="dz-success-mark"><span><i></i></span></div><div class="preview-container"><img data-dz-thumbnail class="img-thumbnail border-0" /><i class="simple-icon-doc preview-icon" ></i></div></div><div class="pl-3 pt-2 pr-2 pb-1 w-70 dz-details position-relative"><div><span data-dz-name></span> <span id="error_message"></span> </div><div class="text-primary text-extra-small" data-dz-size /><div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div><div class="dz-error-message"><span data-dz-errormessage></span></div></div></div><a href="#/" class="remove" data-dz-remove><i class="glyph-icon simple-icon-trash"></i></a></div>'
+        previewTemplate: previewTemplateDiv
       });
-
     }
 
   </script>

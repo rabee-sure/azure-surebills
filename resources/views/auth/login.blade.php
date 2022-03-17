@@ -1,80 +1,81 @@
 @extends('layouts.auth')
-@section('title', __('Login') )
-@section('content')
 
-<div class="row h-100">
-  <div class="col-12 col-md-10 mx-auto my-auto">
-    <div id="login_page" class="card auth-card">
-      <div class="position-relative image-side">
-        <div class="changeLang">
-          @if(App::isLocale('en'))
-            <a  href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي">عربي</a>
-          @else
-            <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
+@section('title', __('Login') )
+
+@section('content')
+  <aside class="shadow align-self-stretch">
+    <div class="changeLang d-flex align-items-center justify-content-start mb-3 mb-md-5">
+      @if(App::isLocale('en'))
+        <a href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي" class="d-block">عربي</a>
+      @else
+        <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English">English</a>
+      @endif
+    </div><!-- changeLang -->
+    <div class="title d-block text-body text-center mb-3 fw-bold">{{ __('Start Sending Bills') }}</div>
+    <div class="desc text-center text-body mb-3">
+      {{ __('Please use your credentials to login.') }}
+      <br>
+      {{ __('If you are not a member') }} , <a href="{{ route('register') }}" title="{{ __('Register a new account2') }}">{{ __('Register a new account2') }}</a> .
+    </div><!-- desc -->
+    <div class="authSlider">
+      <div class="item d-flex align-items-center justify-content-center">
+        <img data-lazy="{{ asset('new/images/authSlideImg_1.webp') }}" alt="login_slide_1" class="mw-100">
+      </div><!-- item -->
+      <div class="item d-flex align-items-center justify-content-center">
+        <img data-lazy="{{ asset('new/images/authSlideImg_2.webp') }}" alt="login_slide_2" class="mw-100">
+      </div><!-- item -->
+      <div class="item d-flex align-items-center justify-content-center">
+        <img data-lazy="{{ asset('new/images/authSlideImg_3.webp') }}" alt="login_slide_2" class="mw-100">
+      </div><!-- item -->
+    </div><!-- authSlider -->
+  </aside>
+  <article class="flex-grow-1 d-flex align-items-center justify-content-center flex-column align-self-stretch">
+    <div class="topArea w-100 py-4 flex-grow-1 d-flex align-items-center justify-content-center flex-column">
+      <div class="logo d-flex align-items-center justify-content-center mb-3 mb-md-5">
+        <a href="{{ url('/') }}" title="SureBills">
+          <img src="{{ asset('new/images/logo.webp') }}" alt="SureBills" loading="lazy" width="586px" height="187px" class="mw-100 w-auto h-auto">
+        </a>
+      </div><!-- logo -->
+      <h1 class="d-block mb-3 fw-normal text-body">{{ __('Login') }}</h1>
+      <form method="POST" action="{{ route('login') }}" id="login-form" class="w-100 mx-auto">
+        @csrf
+        <div class="form_group mb-3">
+          <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('email') is-invalid @enderror">
+            <span class="d-flex align-items-center justify-content-center h-100 fal fa-envelope"></span>
+            <input id="email" type="email" class="bg-white border-0 h-100 flex-grow-1 text-body" name="email" inputmode="email" value="{{ old('email') }}" autocomplete="email" placeholder="{{ __('E-Mail Address') }}" autofocus />
+          </div><!-- inputIcon -->
+          @error('email')
+            <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
+          @enderror
+        </div><!-- form_group -->
+        <div class="form_group mb-3">
+          <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('password') is-invalid @enderror">
+            <span class="d-flex align-items-center justify-content-center h-100 fal fa-lock-alt"></span>
+            <input id="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password" autocomplete="current-password" type="password" placeholder="{{ __('Password') }}" placeholder="" />
+          </div><!-- inputIcon -->
+          @error('password')
+            <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
+          @enderror
+        </div><!-- form_group -->
+        <label for="remember" class="checkboxArea d-block mb-3 position-relative">
+          <input class="w-100 h-100 position-absolute top-0 start-0" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+          <span class="d-flex align-items-center justify-content-start">{{ __('Remember Me') }}</span>
+        </label><!-- checkboxArea -->
+        <div class="d-flex align-items-center justify-content-between flex-wrap">
+          @if (Route::has('password.request'))
+            <a id="forgot_password" href="{{ route('password.request') }}" title="{{ __('Forgot Your Password?') }}">{{ __('Forgot Your Password?') }}</a>
           @endif
-        </div>
-        <p class=" text-black h2">{{ __('Start Sending Bills') }}</p>
-        <p class="black mb-0">
-          {{ __('Please use your credentials to login.') }}
-          <br>
-          {{ __('If you are not a member') }} , <a href="{{ route('register') }}" title="{{ __('Register a new account2') }}" class="black">{{ __('Register a new account2') }}</a> .
-        </p>
-        <div class="slide_auth">
-          <div class="glide single">
-            <div class="glide__track" data-glide-el="track">
-              <div class="glide__slides">
-                <div class="glide__slide"><img src="{{ asset('images/login_slide_1.png') }}" alt="login_slide_1"></div>
-                <div class="glide__slide"><img src="{{ asset('images/login_slide_2.png') }}" alt="login_slide_2"></div>
-                <div class="glide__slide"><img src="{{ asset('images/login_slide_3.png') }}" alt="login_slide_3"></div>
-              </div><!-- glide__slides -->
-            </div><!-- glide__track -->
-          </div><!-- glide -->
-        </div><!-- slide_auth -->
-      </div>
-      <div class="form-side">
-        <a href="{{ url('/') }}"><span class="logo-single"></span></a>
-        <h6 class="mb-4">{{ __('Login') }}</h6>
-        <form method="POST" action="{{ route('login') }}"  id="login-form">
-          @csrf
-          <label for="email" class="form-group has-float-label mb-4">
-            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" autofocus />
-            <span>{{ __('E-Mail Address') }}</span>
-            @error('email')
-              <p class="invalid-feedback" role="alert">{{ $message }}</p>
-            @enderror
-          </label>
-          <label for="password" class="form-group has-float-label mb-4">
-            <input id="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="current-password" type="password" placeholder="" />
-            <span>{{ __('Password') }}</span>
-            @error('password')
-              <p class="invalid-feedback" role="alert">{{ $message }}</p>
-            @enderror
-          </label>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-              <label class="form-check-label p-0" for="remember">{{ __('Remember Me') }}</label>
-            </div>
-          </div>
-          <div class="d-flex justify-content-between align-items-center">
-            @if (Route::has('password.request'))
-              <a id="forgot_password" href="{{ route('password.request') }}" title="{{ __('Forgot Your Password?') }}">{{ __('Forgot Your Password?') }}</a>
-            @endif
-            <button class="btn btn-primary btn-lg btn-shadow login_button" type="submit">{{ __('Login') }}</button>
-          </div>
-        </form>
-        <hr>
-        <h5 class="mt-4 mb-0 text-center">لا تمتلك حساب لدي شور بيلز ؟ <br> <a style="color: #00D595;" class="d-inline-block mt-2" href="{{ route('register') }}" title="سجل حساب جديد">سجل حساب جديد</a></h5>
-      </div>
-    </div>
-    <div class="copyrights_auth">
-      صُنع بـ <i class="heart"></i> في <i class="ksa"></i>
-    </div><!-- copyrights_auth -->
-  </div>
-</div>
+          <button class="login_button rounded border-0 fw-bold d-flex align-items-center justify-content-center text-white p-0" type="submit">{{ __('Login') }}</button>
+        </div><!-- d-flex -->
+      </form>
+    </div><!-- topArea -->
+    <div class="bottotmArea d-flex align-items-center justify-content-center flex-column border-top w-100">
+      <span class="d-block text-body mb-1">{{ __("Don't have an account with SureBills ?") }}</span>
+      <a href="{{ route('register') }}" title="{{ __('Register a new account') }}" class="d-block">{{ __('Register a new account') }}</a>
+    </div><!-- bottotmArea -->
+  </article>
 @endsection
 
 @push('footer-scripts')
   {!! JsValidator::formRequest('App\Http\Requests\LoginRequest', '#login-form') !!}
 @endpush
-
