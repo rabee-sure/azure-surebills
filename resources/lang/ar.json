@@ -789,5 +789,8 @@
 	"Activate" : "تفعيل",
 	"Parent" : "الاب",
 	"Select parent category" : "أختر القسم الاب",
-	"Main" : "رئيسي"
+	"Main" : "رئيسي",
+	"Merchants required" : "اسماء التجار مطلوبة",
+	"Date Range required" : "فترة التقرير مطلوبة",
+	"Emails required" : "البريد الالكتروني مطلوب"
 }

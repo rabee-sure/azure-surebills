@@ -30,4 +30,18 @@ class MerchantsOutstandingStoreRequest extends FormRequest
             'emails' => ['required'],
         ];
     }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+          'merchants.required' => __('Merchants required'),
+          'dates.required' => __('Date Range required'),
+          'emails.required' => __('Emails required'),
+        ];
+    }
 }
