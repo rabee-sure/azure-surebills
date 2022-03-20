@@ -28,7 +28,7 @@ class BankInformationRequest extends FormRequest
         return [
             'bank_id' => ['required'],
             'iban_number' => ['required', new ValidateIban()],
-            'beneficiary_name' => ['required', 'max:50'],
+            'beneficiary_name' => ['required', 'alpha', 'max:50'],
             'document' => ['nullable', 'array', "max:5"],
             'document.*' => ['required', new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])],
         ];
@@ -46,6 +46,7 @@ class BankInformationRequest extends FormRequest
           'bank_id.required' => __('bank required'),
           'iban_number.required' => __('iban number required'),
           'beneficiary_name.required' => __('beneficiary name required'),
+          'beneficiary_name.alpha' => __('beneficiary name must english'),
         ];
     }
 }

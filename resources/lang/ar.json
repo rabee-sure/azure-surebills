@@ -789,5 +789,8 @@
 	"Activate" : "تفعيل",
 	"Parent" : "الاب",
 	"Select parent category" : "أختر القسم الاب",
-	"Main" : "رئيسي"
+	"Main" : "رئيسي",
+
+	"beneficiary name must english" : "اسم المستفيد يجب ان يكون باللغة الانجليزية" ,
+	"business address must be english" : "العنوان يجب ان يكون باللغة الانجليزية" 
 }
