@@ -789,5 +789,6 @@
 	"Activate" : "تفعيل",
 	"Parent" : "الاب",
 	"Select parent category" : "أختر القسم الاب",
-	"Main" : "رئيسي"
+	"Main" : "رئيسي",
+	"iban number must not conatain any spaces" : "رقم الحساب المصرفي يجب أن لا يحتوي على مسافات"
 }
