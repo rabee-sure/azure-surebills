@@ -9,7 +9,9 @@ use App\Models\Application;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PosUserResource;
 use App\Http\Resources\UserStatResource;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -128,7 +130,7 @@ class UserController extends Controller
         // api_bill_style
         if ($request->api_bill_style) {
             $settings = Settings::updateOrCreate([
-                'user_id' => $user->id, 
+                'user_id' => $user->id,
             ],[
                 'api_bill_style' => true,
             ]);
@@ -161,4 +163,19 @@ class UserController extends Controller
             'webhook_secret' => $application->webhook_secret
         ];
     }
+
+    public function posLogin(Request $request)
+    {
+        $loginData = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (!Auth::attempt($loginData) || !Auth::user()->can('show pos')) {
+            return response()->json(['message' => 'Credentials not match'], 401);
+        }
+
+        return new PosUserResource(Auth::user());
+    }
+
 }

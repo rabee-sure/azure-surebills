@@ -30,7 +30,7 @@
             <div class="form-group mb-3">
               <label for="license_type" class="d-flex align-items-center justify-content-start mb-2">
                 {{ __('License type') }}
-                <button class="btn-primary border-0 rounded-circle shadow-none p-0 d-flex align-items-center justify-content-center" type="button" data-bs-toggle="modal" data-bs-target=".license_type_modal"><i class="fas fa-question"></i></button>
+                <button class="btn-primary border-0 rounded-circle shadow-none p-0 d-flex align-items-center justify-content-center" type="button" data-bs-toggle="modal" data-bs-target=".licenseTypeModal"><i class="fas fa-question"></i></button>
               </label>
               <select id="license_type" name="license_type" class="form-control rounded-3 shadow-none border select2-single">
                 <option value="Commercial Record" @if ($user->license_type == 'Commercial Record')selected="selected"@endif>{{ __('Commercial Record') }}</option>
@@ -142,15 +142,13 @@
     </div><!-- blockArea -->
   </section><!-- businessInformationPage -->
 
-  <div class="modal fade license_type_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade licenseTypeModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">{{ __('License type') }}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+        <div class="modal-header d-flex align-items-center justify-content-between">
+          <span class="d-block fw-bold text-body">{{ __('License type') }}</span>
+          <button type="button" class="btn-close m-0 p-0" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div><!-- modal-header -->
         <div class="modal-body">
           <p>السجل التجاري يمكن إصدارة من وزارة التجارة من خلال الموقع الاكتروني الخاص بهم من خلال هذا الرابط .. <a href="http://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=2" target="_blank" title="إضغط هنا">إضغط هنا</a></p>
           <p>وثيقة العمل الحر وهي وثيقة مجانية تصدر من قبل وزارة العمل والتنمية الاجتماعية لممارسة العمل الحر، ولإصدار وثيقة العمل المجانية تقدم بطلب من خلال هذا الرابط .. <a href="https://freelance.sa/" target="_blank" title="أضغط هنا">أضغط هنا</a></p>

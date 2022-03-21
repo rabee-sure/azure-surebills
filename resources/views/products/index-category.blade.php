@@ -29,7 +29,7 @@
 
   <section id="productsIndexPage">
     @canany(['show products', 'show product categories'])
-      <div class="tabsArea d-flex align-items-center justify-content-start flex-wrap mb-4">
+      <div class="tabsArea d-flex align-items-center justify-content-center justify-content-md-start flex-wrap mb-5 mb-md-4">
         @can('show products')
           <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-3">{{ __('Products') }}</a>
         @endcan

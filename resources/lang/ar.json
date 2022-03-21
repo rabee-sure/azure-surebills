@@ -743,7 +743,7 @@
 	"Total include added tax" : "المجموع شامل ضريبة القيمة المضافة",
 	"Total amount" : "إجمالي المبلغ",
 	"Exclude added tax" : "غير شامل لضريبة القيمة المضافة",
-	"Added tax value" : "مجموع ضريبة القيمة المضافة",
+	"Added tax value (15%)" : "مجموع ضريبة القيمة المضافة (15%)",
 	"Discount amount" : "قيمة الخصم",
 	"No." : "الرقم",
 	"Date" : "التاريخ",
@@ -789,5 +789,6 @@
 	"Activate" : "تفعيل",
 	"Parent" : "الاب",
 	"Select parent category" : "أختر القسم الاب",
-	"Main" : "رئيسي"
+	"Main" : "رئيسي",
+	"iban number must not conatain any spaces" : "رقم الحساب المصرفي يجب أن لا يحتوي على مسافات"
 }
