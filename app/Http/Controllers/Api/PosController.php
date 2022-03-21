@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
-use App\Http\Resources\CategoryProductResource;
+use App\Http\Resources\SubCategoryResource;
+use App\Http\Resources\CategoryPosListResource;
 use App\Models\Category;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
@@ -17,18 +18,26 @@ class PosController extends Controller
 {
     public function getActiveTopCategory(Request $request)
     {
-        $categories = Category::active()->where('parent_id', 0)->get();
-        $categoriesCollection = collect($categories);
+        $categories = Category::active()->where('parent_id', 0)->orderBy('sort_number')->get();
+        $categoriesCollection = CategoryPosListResource::collection($categories);
 
         return $categoriesCollection;
     }
 
-    public function getActiveSubCategoryProducts($category_id, Request $request)
+    public function getActiveSubCategory($category_id, Request $request)
     {
-        $categories = Category::active()->where('parent_id', $category_id)->get();
-        $categoriesCollection = CategoryProductResource::collection($categories);
+        $categories = Category::active()->where('parent_id', $category_id)->orderBy('sort_number')->get();
+        $categoriesCollection = CategoryPosListResource::collection($categories);
 
         return $categoriesCollection;
+    }
+
+    public function getActiveCategoryProducts($category_id, Request $request)
+    {
+        $products = Product::active()->where('category_id', $category_id)->orderBy('sort_number')->get();
+        $productsCollection = ProductResource::collection($products);
+
+        return $productsCollection;
     }
 
     public function getProduct($product_id, Request $request)
