@@ -30,6 +30,9 @@ Route::post('upload', 'MediaController@upload')->name('media.upload');
 Route::post('transfers/{transfer}/upload_attachment', 'MediaController@uploadAttachment');
 
 Route::prefix('v1')->group(function () {
+
+    Route::post('pos-login', 'UserController@posLogin');
+
     Route::get('analytics', 'AnalyticsController@index');
 
     Route::get('charts/bills_paid_amount', 'ChartsController@billsPaidAmount');
@@ -37,7 +40,7 @@ Route::prefix('v1')->group(function () {
 	Route::get('charts/bills_count', 'ChartsController@billsCount');
 
 	Route::get('users/{user}/stats', 'UserController@stats');
-	
+
 	//should send application id and secret
 	Route::group(['middleware' => ['User.from.application']], function () {
 		Route::post('bills/create/wordpress', 'BillController@wordpress');
@@ -46,7 +49,7 @@ Route::prefix('v1')->group(function () {
 		Route::put('bills/{bill}/timeout', 'BillController@timeout');
 		Route::put('bills/{bill}/refund', 'BillController@refund');
 		Route::get('bills/{bill}', 'BillController@show');
-		
+
 		Route::get('transfers/{transfer}/transactions', 'TransferController@transactions');
 
 		Route::get('transactions', 'TransactionController@index');

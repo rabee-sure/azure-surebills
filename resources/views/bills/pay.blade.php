@@ -81,7 +81,7 @@
               <span>{{ $bill->number }}</span>
             </div><!-- d-flex -->
             <div class="d-flex align-items-center justify-content-between">
-              <span>{{ __('Bill created date') }}</span>
+              <span>{{ __('Date') }}</span>
               <span>{{ $bill->created_at->format('d/m/Y')}}</span>
             </div><!-- d-flex -->
             @if($bill->user->vat_registration_number)
@@ -157,7 +157,7 @@
           @endif
           @if( $bill->add_tax)
             <div class="d-flex align-items-center justify-content-between">
-              <span>{{ __('Added tax value') }}</span>
+              <span>{{ __('Added tax value (15%)') }}</span>
               <span>{{ $bill->vat }}  {{ __('SAR') }}</span>
             </div><!-- d-flex -->
           @endif

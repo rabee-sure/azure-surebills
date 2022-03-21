@@ -19,7 +19,7 @@ class ReportsController extends Controller
 
     public function merchants_outstanding(Request $request)
     {
-        $data['merchants'] = User::select('id', 'business_name_en')->get();
+        $data['merchants'] = User::select('id', 'business_name_en', 'business_name_ar')->whereNull('store_main_user_id')->get();
         $data['requests'] = Report::all()->sortByDesc('created_at')->paginate(10);
         return view('reports.merchants-outstanding', $data);
     }
