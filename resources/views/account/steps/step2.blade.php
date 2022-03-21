@@ -32,7 +32,6 @@
               <button class="btn-primary border-0 rounded-circle shadow-none p-0 d-flex align-items-center justify-content-center" type="button" data-bs-toggle="modal" data-bs-target=".license_type_modal"><i class="fas fa-question"></i></button>
             </label>
             <select id="license_type" name="license_type" class="form-control rounded-3 shadow-none border select2-single">
-              <!-- <option value="Commercial Record"@if($errors->any()) @if(old('license_type') == 'Commercial Record') {{selected}} @elseif($user->license_type == 'Commercial Record')selected="selected"@endif>{{ __('Commercial Record') }}</option> -->
               <option value="Commercial Record"
                 @if($errors->any())
                   @if(old('license_type') == 'Commercial Record')

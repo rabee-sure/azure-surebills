@@ -35,6 +35,11 @@
     <div class="filterArea">
       <form method="post" action="{{route('reports.merchants-outstanding-store')}}" id="merchants_outstanding_store">
         @csrf
+
+        @php
+        $business_name = 'business_name_'.Config::get('app.locale');
+        @endphp
+
         <div class="row align-items-end">
           <div class="col-12 col-md-3">
             <div class="form-group mb-3">
@@ -42,7 +47,7 @@
               <select class="form-control select2-single w-100" id="merchants" name="merchants[]" multiple="multiple">
                 <option value="all">ALL</option>
                 @foreach($merchants as $merchant)
-                <option value="{{$merchant->id}}">{{$merchant->business_name_en}}</option>
+                <option value="{{$merchant->id}}">{{$merchant->$business_name}}</option>
                 @endforeach
               </select>
             </div><!-- form-group -->

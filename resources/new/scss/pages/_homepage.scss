@@ -74,6 +74,9 @@ section#homepage {
             height: 30px;
             color: #3a3a3a;
             cursor: pointer;
+            @include media-breakpoint-down(md) {
+              min-width: 90px;
+            } /* md */
             &.active {
               color: var(--mainColor);
               border-color: var(--mainColor) !important;
