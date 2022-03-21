@@ -94,7 +94,7 @@ class UserController extends Controller
                         return $query->where('channel_settled', false);
                     });
             })
-            
+
             ->orderBy('paid_at', 'asc')
             ->get();
     }
