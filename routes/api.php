@@ -73,8 +73,9 @@ Route::prefix('v1')->group(function () {
 		Route::delete('products/{id}/delete', 'ProductsController@delete')->name('products.delete');
 
 		//POS
-		Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory');
-		Route::get('getActiveSubCategoryProducts/{category_id}', 'PosController@getActiveSubCategoryProducts');
+		Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory')->name('pos.active-top-categories');
+		Route::get('getActiveSubCategory/{category_id}', 'PosController@getActiveSubCategory');
+		Route::get('getActiveCategoryProducts/{category_id}', 'PosController@getActiveCategoryProducts');
 		Route::get('getProduct/{product_id}', 'PosController@getProduct');
 		Route::get('searchForProduct/{keyword}', 'PosController@searchForProduct');
 		Route::get('searchForCustomer/{name}', 'PosController@searchForCustomer');
