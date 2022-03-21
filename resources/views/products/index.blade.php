@@ -25,7 +25,7 @@
 
   <section id="productsIndexPage">
     @canany(['show products', 'show product categories'])
-      <div class="tabsArea d-flex align-items-center justify-content-start flex-wrap mb-4">
+      <div class="tabsArea d-flex align-items-center justify-content-center justify-content-md-start flex-wrap mb-5 mb-md-4">
         @can('show products')
           <span class="d-flex shadow-none align-items-center justify-content-center border bg-white text-body rounded-3">{{__('Products')}}</span>
         @endcan
