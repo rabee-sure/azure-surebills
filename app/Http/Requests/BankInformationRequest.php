@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\ValidateUploadFile;
 use App\Rules\ValidateIban;
+use App\Rules\ValidateIbanNotAllowWhiteSpaces;
 
 class BankInformationRequest extends FormRequest
 {
@@ -27,8 +28,8 @@ class BankInformationRequest extends FormRequest
     {
         return [
             'bank_id' => ['required'],
-            'iban_number' => ['required', new ValidateIban()],
             'beneficiary_name' => ['required', 'alpha', 'max:50'],
+            'iban_number' => ['required', new ValidateIban(), new ValidateIbanNotAllowWhiteSpaces()],
             'document' => ['nullable', 'array', "max:5"],
             'document.*' => ['required', new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])],
         ];

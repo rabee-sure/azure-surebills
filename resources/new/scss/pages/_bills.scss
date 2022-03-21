@@ -11,6 +11,9 @@
   .filterArea {
     .rightCol {
       .dateInput {
+        @include media-breakpoint-down(md) {
+          width: 100%;
+        } /* md */
         input {
           height: 40px;
           outline: none;
@@ -20,6 +23,9 @@
           [dir="ltr"] & {
             padding: 0 10px 0 40px;
           } /* ltr */
+          @include media-breakpoint-down(md) {
+            width: 100%;
+          } /* md */
         } /* input */
         &::after {
           content: "\f073";
@@ -94,11 +100,17 @@
       } /* checkboxArea */
     } /* rightCol */
     .leftCol {
+      @include media-breakpoint-down(md) {
+        width: 100%;
+      } /* md */
       input {
         height: 40px;
         outline: none;
         padding: 0 10px;
         min-width: 200px;
+        @include media-breakpoint-down(md) {
+          width: 100%;
+        } /* md */
       } /* input */
       &::after {
         content: "\f002";

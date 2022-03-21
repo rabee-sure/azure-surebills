@@ -30,14 +30,14 @@
 
     <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4">
       <div class="col">
-        <a href="{{ route('account_information') }}" title="{{ __('My Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
+        <a href="{{ route('account_information') }}" title="{{ __('My Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
           <i class="fal fa-address-card"></i>
           <span class="d-block mt-3 text-center">{{ __('My Information') }}</span>
         </a>
       </div><!-- col -->
       @can('update business commercial info')
         <div class="col">
-          <a href="{{ route('business_information') }}" title="{{ __('Business Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
+          <a href="{{ route('business_information') }}" title="{{ __('Business Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
             <i class="fal fa-briefcase"></i>
             <span class="d-block mt-3 text-center">{{ __('Business Information') }}</span>
           </a>
@@ -45,21 +45,21 @@
       @endcan
       @can('update bank info')
         <div class="col">
-          <a href="{{ route('bank_information') }}" title="{{ __('Bank Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
+          <a href="{{ route('bank_information') }}" title="{{ __('Bank Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
             <i class="fal fa-landmark"></i>
             <span class="d-block mt-3 text-center">{{ __('Bank Information') }}</span>
           </a>
         </div><!-- col -->
       @endcan
       <div class="col">
-        <a href="{{ route('change_password') }}" title="{{ __('Change Password') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
+        <a href="{{ route('change_password') }}" title="{{ __('Change Password') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
           <i class="fal fa-lock-alt"></i>
           <span class="d-block mt-3 text-center">{{ __('Change Password') }}</span>
         </a>
       </div><!-- col -->
       @can('update settings')
         <div class="col">
-          <a href="{{ route('settings') }}" title="{{__('Invoice Settings')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
+          <a href="{{ route('settings') }}" title="{{__('Invoice Settings')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
             <i class="fal fa-cogs"></i>
             <span class="d-block mt-3 text-center">{{__('Invoice Settings')}}</span>
           </a>
@@ -67,7 +67,7 @@
       @endcan
       @can('show products')
         <div class="col">
-          <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
+          <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
             <i class="fal fa-boxes"></i>
             <span class="d-block mt-3 text-center">{{__('Products')}}</span>
           </a>
@@ -75,7 +75,7 @@
       @endcan
       @can('show applications')
         <div class="col">
-          <a href="{{ route('integration') }}" title="{{ __('Integration') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
+          <a href="{{ route('integration') }}" title="{{ __('Integration') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
             <i class="fal fa-network-wired"></i>
             <span class="d-block mt-3 text-center">{{__('Integration')}}</span>
           </a>
@@ -84,7 +84,7 @@
       @can('show channels')
         @if(count(auth()->user()->channels))
           <div class="col">
-            <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
+            <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
               <i class="fal fa-chart-network"></i>
               <span class="d-block mt-3 text-center">{{__('Channels')}}</span>
             </a>
@@ -93,7 +93,7 @@
       @endcan
       @can('show users')
         <div class="col">
-          <a href="{{ route('users.index') }}" title="{{ __('Users') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-3">
+          <a href="{{ route('users.index') }}" title="{{ __('Users') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
             <i class="fal fa-users"></i>
             <span class="d-block mt-3 text-center">{{__('Users')}}</span>
           </a>
