@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\ProductImageResource;
+use Illuminate\Support\Facades\Storage;
 
-class ProductResource extends JsonResource
+class ProductImageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,13 +18,9 @@ class ProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'product_id' => $this->product_id,
             'discription' => $this->discription,
-            'price' => $this->price,
-            'sort_number' => $this->sort_number,
-            'active' => $this->active,
-            'category_id' => $this->parent_id,
-            'images' => ProductImageResource::collection($this->images),
+            'image' => url('/').''.Storage::url('products/').''.$this->image,
         ];
     }
 }
