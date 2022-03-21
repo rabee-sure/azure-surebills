@@ -790,5 +790,8 @@
 	"Parent" : "الاب",
 	"Select parent category" : "أختر القسم الاب",
 	"Main" : "رئيسي",
+	"Merchants required" : "اسماء التجار مطلوبة",
+	"Date Range required" : "فترة التقرير مطلوبة",
+	"Emails required" : "البريد الالكتروني مطلوب",
 	"iban number must not conatain any spaces" : "رقم الحساب المصرفي يجب أن لا يحتوي على مسافات"
 }
