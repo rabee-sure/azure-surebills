@@ -28162,7 +28162,13 @@ section#homepage .chart_Block .title ul li a {
   height: 30px;
   color: #3a3a3a;
   cursor: pointer;
+  /* md */
   /* active */
+}
+@media (max-width: 767.98px) {
+  section#homepage .chart_Block .title ul li a {
+    min-width: 90px;
+  }
 }
 section#homepage .chart_Block .title ul li a.active {
   color: var(--mainColor);
@@ -28288,8 +28294,14 @@ section#homepage .addNewBillBtn:hover {
   /* checkboxArea */
 }
 #billIndexPage .filterArea .rightCol .dateInput {
+  /* md */
   /* input */
   /* after */
+}
+@media (max-width: 767.98px) {
+  #billIndexPage .filterArea .rightCol .dateInput {
+    width: 100%;
+  }
 }
 #billIndexPage .filterArea .rightCol .dateInput input {
   height: 40px;
@@ -28298,9 +28310,15 @@ section#homepage .addNewBillBtn:hover {
   min-width: 230px;
   cursor: pointer;
   /* ltr */
+  /* md */
 }
 [dir=ltr] #billIndexPage .filterArea .rightCol .dateInput input {
   padding: 0 10px 0 40px;
+}
+@media (max-width: 767.98px) {
+  #billIndexPage .filterArea .rightCol .dateInput input {
+    width: 100%;
+  }
 }
 #billIndexPage .filterArea .rightCol .dateInput::after {
   content: "";
@@ -28386,14 +28404,26 @@ section#homepage .addNewBillBtn:hover {
   margin: 0 5px 0 0;
 }
 #billIndexPage .filterArea .leftCol {
+  /* md */
   /* input */
   /* after */
+}
+@media (max-width: 767.98px) {
+  #billIndexPage .filterArea .leftCol {
+    width: 100%;
+  }
 }
 #billIndexPage .filterArea .leftCol input {
   height: 40px;
   outline: none;
   padding: 0 10px;
   min-width: 200px;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #billIndexPage .filterArea .leftCol input {
+    width: 100%;
+  }
 }
 #billIndexPage .filterArea .leftCol::after {
   content: "";
@@ -32818,6 +32848,7 @@ nav ul.pagination li.page-item.active span {
   border-radius: 0.25rem;
   overflow: hidden;
   border-color: #dee2e6;
+  width: auto;
   /* rtl */
   /* ranges */
   /* .drp-calendar */
@@ -32830,8 +32861,14 @@ nav ul.pagination li.page-item.active span {
   text-align: right;
 }
 .daterangepicker .ranges {
+  /* md */
   /* rtl */
   /* li */
+}
+@media (max-width: 767.98px) {
+  .daterangepicker .ranges {
+    width: 100%;
+  }
 }
 [dir=rtl] .daterangepicker .ranges {
   text-align: right;
@@ -32849,9 +32886,17 @@ nav ul.pagination li.page-item.active span {
 .daterangepicker .drp-calendar {
   padding: 5px;
   max-width: 300px;
+  /* md */
   /* tbale */
   /* left */
   /* right */
+}
+@media (max-width: 767.98px) {
+  .daterangepicker .drp-calendar {
+    width: 100%;
+    max-width: none;
+    float: none;
+  }
 }
 .daterangepicker .drp-calendar table {
   /* thead */
@@ -33016,20 +33061,20 @@ nav ul.pagination li.page-item.active span {
 
 /* text-end */
 .badge-success {
-  background-color: rgba(25, 135, 84, 0.15);
-  color: #198754;
+  background-color: rgba(40, 199, 111, 0.12);
+  color: #28c76f;
 }
 
 /* badge-success */
 .badge-warning {
-  background-color: rgba(182, 147, 41, 0.15);
-  color: #b69329;
+  background-color: rgba(255, 159, 67, 0.12);
+  color: #ff9f43;
 }
 
 /* badge-warning */
 .badge-danger {
-  background-color: rgba(220, 53, 69, 0.15);
-  color: #dc3545;
+  background-color: rgba(234, 84, 85, 0.12);
+  color: #ea5455;
 }
 
 /* badge-danger */
@@ -33040,8 +33085,8 @@ nav ul.pagination li.page-item.active span {
 
 /* badge-light */
 .badge-info {
-  background-color: rgba(49, 149, 165, 0.15);
-  color: #3195a5;
+  background-color: rgba(0, 207, 232, 0.12);
+  color: #00cfe8;
 }
 
 /* badge-info */

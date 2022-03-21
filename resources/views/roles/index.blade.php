@@ -23,7 +23,7 @@
   @endif
 
   <section id="usersIndexPage">
-    <div class="tabsArea d-flex align-items-center justify-content-start flex-wrap mb-4">
+    <div class="tabsArea d-flex align-items-center justify-content-center justify-content-md-start flex-wrap mb-5 mb-md-4">
       <a href="{{route('users.index')}}" title="{{__('Users')}}" class="d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-3">{{__('Users')}}</a>
       <span class="d-flex shadow-none align-items-center justify-content-center border bg-white text-body rounded-3">{{__('Roles')}}</span>
     </div><!-- tabsArea -->
