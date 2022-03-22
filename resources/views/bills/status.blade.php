@@ -169,7 +169,7 @@
           </div><!-- qrCode_area -->
         @endif
         @if(isset($bill->user->settings->footer_bill))
-          <p class="d-block mb-0">{{ $bill->user->settings->footer_bill }}</p>
+          <p class="d-block mb-0 text-center">{{ $bill->user->settings->footer_bill }}</p>
         @endif
       </div><!-- single_bill_content -->
     </div><!-- all_bill_page -->
