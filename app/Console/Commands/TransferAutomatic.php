@@ -94,6 +94,9 @@ class TransferAutomatic extends Command
                     $this->info("transfer to user ID $user->id amount: $amount");
 
                     $bank = $user->bank;
+                    if (!$user->bank) {
+                        dd($user->id);
+                    }
                     $transfer_fees = $bank->fees + ($bank->fees * 0.15);
                     $data = [
                         'cycle_date' => $cycleDate,
