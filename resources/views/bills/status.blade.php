@@ -77,12 +77,12 @@
               @foreach($bill->items as $item)
               <tr>
                 <td>{!! $item->product_name !!}</td>
-                <td>{{ $item->product_price  }} {{ __('SAR') }}</td>
+                <td>{{ $item->product_price  }}</td>
                 <td>{{ $item->quantity  }}</td>
                 @if( $bill->add_tax)
-                <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }} {{ __('SAR') }}</td>
+                <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
                 @else
-                <td>{{ $item->product_price * $item->quantity }} {{ __('SAR') }}</td>
+                <td>{{ $item->product_price * $item->quantity }}</td>
                 @endif
               </tr>
               @endforeach
@@ -92,36 +92,36 @@
         <div class="bill_info">
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-start justify-content-between flex-column">
-              <span>{{ __('Total amount') }}</span>
+              <span>{{ __('Total amount') }}({{ __('SAR') }})</span>
               @if( $bill->add_tax)
               <small>( {{ __('Exclude added tax') }} )</small>
               @endif
             </div>
             @if( $bill->add_tax || $bill->add_discount || $bill->refund_amount)
-            <span>{{ $bill->sub_total }} {{ __('SAR') }}</span>
+            <span>{{ $bill->sub_total }}</span>
             @endif
           </div><!-- d-flex -->
           @if( $bill->add_discount)
           <div class="d-flex align-items-center justify-content-between">
             <span>{{ __('Discount') }} @if($bill->discount_type == 'percentage') ({{ $bill->discount_value }}%) @else ({{ $bill->discount_value }} {{ __('SAR') }}) @endif</span>
-            <span>{{ $bill->discount }} {{ __('SAR') }}</span>
+            <span>{{ $bill->discount }}</span>
           </div><!-- d-flex -->
           @endif
           @if( $bill->add_tax)
           <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Added tax value (15%)') }}</span>
-            <span>{{ $bill->vat }} {{ __('SAR') }}</span>
+            <span>{{ __('Added tax value (15%)') }}({{ __('SAR') }})</span>
+            <span>{{ $bill->vat }}</span>
           </div><!-- d-flex -->
           @endif
           @if( $bill->refund_amount)
             <div class="d-flex align-items-center justify-content-between">
-              <span>{{ __('Refund Amount') }}</span>
-              <span>{{ $bill->refund_amount }}  {{ __('SAR') }}</span>
+              <span>{{ __('Refund Amount') }} ({{ __('SAR') }})</span>
+              <span>{{ $bill->refund_amount }}</span>
             </div><!-- d-flex -->
           @endif
           <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Total amount') }}</span>
-            <span>{{ $bill->total}} {{ __('SAR') }}</span>
+            <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
+            <span>{{ $bill->total}}</span>
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         @if($bill->status == 'expired')
@@ -159,6 +159,7 @@
             <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
         @endif
+        <div class="text-center">>>>>>>>>>>>>>>>>>>>>>>>{{__('Close bill')}}{{$bill->number}}>>>>>>>>>>>>>>>>>>>>>>>>>></div>
         @if($bill->user->settings->add_tax_invoice)
           <div class="qrCode_area">
             <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
