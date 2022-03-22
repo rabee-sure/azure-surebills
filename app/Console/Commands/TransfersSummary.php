@@ -15,6 +15,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Valuestore\Valuestore;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TransfersSummaryMail;
+use App\Models\AutoTransfer;
 
 class TransfersSummary extends Command
 {
@@ -23,7 +24,7 @@ class TransfersSummary extends Command
      *
      * @var string
      */
-    protected $signature = 'transfers:summary {id?*  : The IDs of the transfers}';
+    protected $signature = 'transfers:summary {auto_transfer_id} {id?*  : The IDs of the transfers}';
 
     /**
      * The console command description.
@@ -66,10 +67,14 @@ class TransfersSummary extends Command
                 $q->whereIn('transfer_id', $transfer_ids)->whereNotIn('transaction_source', $this->CHANNEL_SOURCES);
             })->with('bill.application.channel')->get();
 
-        $this->createMerchantsSummaryFile($transfers, $transactions);
-        $this->createDueAmountsFile($transfers, $transactions);
+        $merchantsSummaryFile = $this->createMerchantsSummaryFile($transfers, $transactions);
+        $dueAmountFile = $this->createDueAmountsFile($transfers, $transactions);
         $this->sendMails($transfers);
-        
+
+        $autoTransfer = AutoTransfer::find($this->argument('auto_transfer_id'));
+        $autoTransfer->due_amount_file = $dueAmountFile;
+        $autoTransfer->merchants_summary_file = $merchantsSummaryFile;
+        $autoTransfer->save();
     }
 
 
@@ -81,7 +86,8 @@ class TransfersSummary extends Command
         $file_name = "summary_transfers/$t_file_n/merchants_summary.xlsx";
 
         Excel::store(new MerchantsSummaryExport($data), $file_name , 'public');
-    } 
+        return $file_name;
+    }
 
 
     public function getMerchantsSummaryData($transfers, $transactions)
@@ -133,7 +139,8 @@ class TransfersSummary extends Command
         $file_name = "summary_transfers/$t_file_n/due_amounts.xlsx";
 
         Excel::store(new DueAmountsExport($data), $file_name , 'public');
-    } 
+        return $file_name;
+    }
 
     public function getDueAmountsData($transfers, $transactions)
     {

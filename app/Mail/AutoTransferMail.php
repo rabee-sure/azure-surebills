@@ -32,7 +32,7 @@ class AutoTransferMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $fileName = "app/public/automatic_transfers/$this->day/master_sheet_$this->day.zip";
+        $fileName = "app/public/automatic_transfers/".date('Y-m-d', strtotime($this->day))."/master_sheet_".date('Y-m-d', strtotime($this->day)).".zip";
 
         return $this->subject("SureBills Master Sheet $this->day")
             ->view('emails.bills.auto_transfer')

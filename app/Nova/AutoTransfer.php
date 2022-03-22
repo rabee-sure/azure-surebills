@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\File;
@@ -79,15 +80,30 @@ class AutoTransfer extends Resource
     {
         return [
             ID::make()->sortable(),
+
             Text::make(__('Day'), 'day'),
-            File::make(__('Zip File'), 'zip_file'),
-            File::make(__('Merchants File'), 'merchants_file'),
-            File::make(__('Channels File'), 'channels_file'),
 
+            Text::make(__('Zip File'), function ($model) {
+                return "<a href='".Storage::disk('public')->url($model->zip_file)."'>{$model->zip_file}</a>";
+            })->asHtml(),
 
+            Text::make(__('Merchants File'), function ($model) {
+                return "<a href='".Storage::disk('public')->url($model->merchants_file)."'>{$model->merchants_file}</a>";
+            })->asHtml(),
+
+            Text::make(__('Channels File'), function ($model) {
+                return "<a href='".Storage::disk('public')->url($model->channels_file)."'>{$model->channels_file}</a>";
+            })->asHtml(),
+
+            Text::make(__('Due Amount File'), function ($model) {
+                return "<a href='".Storage::disk('public')->url($model->due_amount_file)."'>{$model->due_amount_file}</a>";
+            })->asHtml(),
+
+            Text::make(__('Merchants Summary File'), function ($model) {
+                return "<a href='".Storage::disk('public')->url($model->merchants_summary_file)."'>{$model->merchants_summary_file}</a>";
+            })->asHtml(),
 
             BelongsToMany::make(__('Transfers'), 'transfers', Transfer::class),
-
         ];
     }
 
