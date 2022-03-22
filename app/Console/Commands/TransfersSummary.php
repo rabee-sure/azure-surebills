@@ -86,6 +86,7 @@ class TransfersSummary extends Command
         $file_name = "summary_transfers/$t_file_n/merchants_summary.xlsx";
 
         Excel::store(new MerchantsSummaryExport($data), $file_name , 'public');
+
         return $file_name;
     }
 
@@ -139,6 +140,7 @@ class TransfersSummary extends Command
         $file_name = "summary_transfers/$t_file_n/due_amounts.xlsx";
 
         Excel::store(new DueAmountsExport($data), $file_name , 'public');
+
         return $file_name;
     }
 
