@@ -193,6 +193,9 @@
             </a>
           </div><!-- qrCode_area -->
         @endif
+        @if(isset($bill->user->settings->footer_bill))
+          <p class="d-block mb-0">{{ $bill->user->settings->footer_bill }}</p>
+        @endif
         @if($bill->application && $bill->is_redirect)
           <div id="back_btn" class="text-center">
             <a href="{{ $bill->back_url}}" class="btn btn-light">{{__('Back')}}

@@ -232,6 +232,9 @@
             </a>
           </div><!-- qrCode -->
         @endif
+        @if(isset($bill->user->settings->footer_bill))
+          <p class="d-block mb-0">{{ $bill->user->settings->footer_bill }}</p>
+        @endif
       </div><!-- showBill -->
     </div><!-- col-12 -->
     @if(count($bill->payment_logs) > 0)
