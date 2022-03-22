@@ -195,7 +195,7 @@
           </div><!-- qrCode_area -->
         @endif
         @if(isset($bill->user->settings->footer_bill))
-          <p class="d-block mb-0">{{ $bill->user->settings->footer_bill }}</p>
+          <p class="d-block mb-0 mt-2 text-center">{{ $bill->user->settings->footer_bill }}</p>
         @endif
         @if($bill->application && $bill->is_redirect)
           <div id="back_btn" class="text-center">
