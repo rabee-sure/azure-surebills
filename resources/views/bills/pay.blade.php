@@ -42,7 +42,7 @@
           </div><!-- status -->
         @elseif($bill->status == 'paid')
           <div id="status">
-            <div class="alert alert-success"> 
+            <div class="alert alert-success">
               @if ($bill->depositTransaction)
                 {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
               @else
@@ -61,11 +61,11 @@
         @elseif($bill->status == 'canceled')
           <div id="status">
             <div class="alert alert-danger"> {{ __('this bill has been canceled', ['number' => $bill->number ]) }}</div>
-          </div><!-- status -->         
+          </div><!-- status -->
         @elseif($bill->status == 'failed')
           <div id="status">
             <div class="alert alert-danger"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
-          </div><!-- status -->     
+          </div><!-- status -->
         @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
           <div id="status">
             <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
@@ -179,9 +179,8 @@
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         @if($bill->customer_notes)
-          <div class="customer_notes">{{$bill->customer_notes}}</div> 
+          <div class="customer_notes">{{$bill->customer_notes}}</div>
         @endif
-        <div class="text-center">>>>>>>>>>>>>>>>>>>>>>>>{{__('Close bill')}}{{$bill->number}}>>>>>>>>>>>>>>>>>>>>>>>>>></div>
         @if(!$bill->is_expired)
           <div class="payment_area">@include('bills.payment_page')</div>
         @endif
@@ -210,7 +209,7 @@
       </div><!-- single_bill_content -->
     </div><!-- all_bill_page -->
   </div><!-- singlebBillSimple_page -->
-  
+
 @endsection
 
 @push('footer-scripts')

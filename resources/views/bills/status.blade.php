@@ -130,7 +130,7 @@
           </div><!-- status -->
         @elseif($bill->status == 'paid')
           <div id="status">
-            <div class="alert alert-success"> 
+            <div class="alert alert-success">
               @if ($bill->depositTransaction)
                 {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
               @else
@@ -149,17 +149,16 @@
         @elseif($bill->status == 'canceled')
           <div id="status">
             <div class="alert alert-danger"> {{ __('this bill has been canceled', ['number' => $bill->number ]) }}</div>
-          </div><!-- status -->         
+          </div><!-- status -->
         @elseif($bill->status == 'failed')
           <div id="status">
             <div class="alert alert-danger"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
-          </div><!-- status -->     
+          </div><!-- status -->
         @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
           <div id="status">
             <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
         @endif
-        <div class="text-center">>>>>>>>>>>>>>>>>>>>>>>>{{__('Close bill')}}{{$bill->number}}>>>>>>>>>>>>>>>>>>>>>>>>>></div>
         @if($bill->user->settings->add_tax_invoice)
           <div class="qrCode_area">
             <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
