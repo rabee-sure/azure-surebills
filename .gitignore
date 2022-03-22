@@ -26,7 +26,6 @@
 /public/vendor/jsvalidation/js/jsvalidation.js.map
 /public/vendor/jsvalidation/js/jsvalidation.min.js
 /public/vendor/jsvalidation/js/jsvalidation.min.js.map
-/public/uploads
 /public/new/css/auth.css
 /public/new/css/auth.css.map
 /public/new/css/main.css
@@ -35,6 +34,7 @@
 /public/new/js/app.js.map
 /public/new/js/auth_main.js
 /public/new/js/main.js
+/public/uploads
 /storage/*.key
 /storage/tmp
 /storage/framework/laravel-excel
