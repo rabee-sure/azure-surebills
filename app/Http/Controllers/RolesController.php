@@ -46,7 +46,7 @@ class RolesController extends Controller
      */
     public function store(RoleRequest $request)
     {
-        $role = Role::create(['name' => $request->name, 'user_id' => auth()->user()->id]);
+        $role = Role::create(['name' => $request->name, 'user_id' => auth()->user()->store_main_user_id ?? auth()->user()->id]);
         $role->syncPermissions($request->permissions);
         return redirect()->route('roles.index');
     }

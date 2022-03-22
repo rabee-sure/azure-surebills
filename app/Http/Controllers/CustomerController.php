@@ -84,7 +84,7 @@ class CustomerController extends Controller
             'email' => $request->email,
             'mobile' => $request->mobile,
             'notes' => $request->notes,
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user()->store_main_user_id ?? auth()->user()->id,
 
             'bullding_no' => $request->bullding_no,
             'street_name' => $request->street_name,

@@ -95,7 +95,7 @@ class BillController extends Controller
 
             $customer = Customer::updateOrCreate([
                 'mobile' => $request->customer_mobile,
-                'user_id' => $user->id,
+                'user_id' => $user->store_main_user_id ?? $user->id,
             ], [
                 'name' => $request->customer_name,
                 'email' => $request->customer_email,
@@ -110,7 +110,7 @@ class BillController extends Controller
             ]);
 
             $bill = Bill::create([
-                'user_id' => $user->id,
+                'user_id' => $user->store_main_user_id ?? $user->id,
                 'status' => 'pending',
                 'business_name' => $user->business_name,
                 'customer_id' => $customer->id,

@@ -27,7 +27,7 @@ class RequestTransferMail extends Mailable
     public function __construct($date, $user, $transfer)
     {
         $this->date = $date;
-        $this->user = $user;
+        $this->user = $transfer->user;
         $this->transfer = $transfer;
     }
 
