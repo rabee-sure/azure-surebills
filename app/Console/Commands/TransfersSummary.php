@@ -82,10 +82,11 @@ class TransfersSummary extends Command
     {
         $data = $this->getMerchantsSummaryData($transfers, $transactions);
 
-        $t_file_n = implode('_', $transfers->pluck('id')->toArray());
+        $t_file_n = $this->getFileName($transfers);
         $file_name = "summary_transfers/$t_file_n/merchants_summary.xlsx";
 
         Excel::store(new MerchantsSummaryExport($data), $file_name , 'public');
+
         return $file_name;
     }
 
@@ -135,10 +136,11 @@ class TransfersSummary extends Command
     {
         $data = $this->getDueAmountsData($transfers, $transactions);
 
-        $t_file_n = implode('_', $transfers->pluck('id')->toArray());
+        $t_file_n = $this->getFileName($transfers);
         $file_name = "summary_transfers/$t_file_n/due_amounts.xlsx";
 
         Excel::store(new DueAmountsExport($data), $file_name , 'public');
+
         return $file_name;
     }
 
@@ -188,7 +190,7 @@ class TransfersSummary extends Command
         $settings =  Valuestore::make(storage_path('app/settings.json'));
         $transfer_emails = $settings->get('transfer_emails');
         $emails = explode(",", $transfer_emails);
-        $t_file_n = implode('_', $transfers->pluck('id')->toArray());
+        $t_file_n = $this->getFileName($transfers);
         if(count($emails)){
             foreach ($emails as $email) {
                 Mail::to($email)->send(new TransfersSummaryMail($t_file_n));
@@ -200,5 +202,14 @@ class TransfersSummary extends Command
     {
         $application_id = $bills->whereNotNull('application_id')->first()->application_id ?? null;
         return $application_id ? Application::find($application_id)->channel_id ?? '' : '';
+    }
+
+    /**
+     * @param $transfers
+     * @return string
+     */
+    public function getFileName($transfers): string
+    {
+        return 'number of transfers (' . $transfers->count() . ')';
     }
 }
