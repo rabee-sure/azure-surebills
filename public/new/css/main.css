@@ -33187,6 +33187,7 @@ span.select2 .selection .select2-selection--multiple .select2-selection__rendere
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  flex-wrap: wrap;
   /* select2-selection__choice */
 }
 span.select2 .selection .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
@@ -33201,7 +33202,6 @@ span.select2 .selection .select2-selection--multiple .select2-selection__rendere
   font-size: 12px;
   color: #000;
   border-radius: 0.25rem;
-  overflow: hidden;
   /* select2-selection__choice__remove */
 }
 span.select2 .selection .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove {
@@ -33215,6 +33215,7 @@ span.select2 .selection .select2-selection--multiple .select2-selection__rendere
   font-size: 16px;
   font-weight: normal;
   line-height: 1;
+  flex-shrink: 0;
   /* ltr */
 }
 [dir=ltr] span.select2 .selection .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove {
