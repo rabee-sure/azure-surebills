@@ -37,7 +37,7 @@ class BusinessInformationRequest extends FormRequest
             'hidden_logo' => ['nullable'],
             'logo' => ['nullable', new ValidateUploadFile(['png', 'jpg', 'jpeg'])],
             'description' => ['nullable'],
-            'business_address' => ['required', 'alpha', 'max:100'],
+            'business_address' => ['required', 'regex:/^[a-zA-Z ]+$/', 'max:100'],
             'business_mobile' => ['required'],
             'vat_registration_number' => ['nullable'],
             'document' => ['nullable', 'array', "max:5"],
@@ -58,7 +58,7 @@ class BusinessInformationRequest extends FormRequest
           'business_name_en.required' => __('business name required'),
           'business_name_ar.required' => __('business name required'),
           'business_address.required' => __('business address required'),
-          'business_address.alpha' => __('business address must be english'),
+          'business_address.regex' => __('business address must be english'),
           'business_mobile.required' => __('business mobile required'),
           'logo.required_without' => __('Logo required'),
         ];
