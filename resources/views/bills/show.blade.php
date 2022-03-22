@@ -155,12 +155,12 @@
               @foreach($bill->items as $item)
               <tr>
                 <td class="p-1 text-start">{!! $item->product_name !!}</td>
-                <td class="p-1 text-center">{{ $item->product_price  }} {{ __('SAR') }}</td>
+                <td class="p-1 text-center">{{ $item->product_price  }}</td>
                 <td class="p-1 text-center">{{ $item->quantity  }}</td>
                 @if( $bill->add_tax)
-                  <td class="p-1 text-end">{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }} {{ __('SAR') }}</td>
+                  <td class="p-1 text-end">{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
                 @else
-                  <td class="p-1 text-end">{{ $item->product_price * $item->quantity }} {{ __('SAR') }}</td>
+                  <td class="p-1 text-end">{{ $item->product_price * $item->quantity }}</td>
                 @endif
               </tr>
               @endforeach
@@ -171,36 +171,36 @@
           @if( $bill->add_tax || $bill->add_discount)
             <div class="d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-start justify-content-between flex-column mb-2">
-                <span class="d-block">{{ __('Total amount') }}</span>
+                <span class="d-block">{{ __('Total amount') }}({{ __('SAR') }})</span>
                 @if( $bill->add_tax)
                   <small class="d-block text-muted mt-1">( {{ __('Exclude added tax') }} )</small>
                 @endif
               </div>
-              <span class="d-block mb-2">{{ $bill->sub_total }} {{ __('SAR') }}</span>
+              <span class="d-block mb-2">{{ $bill->sub_total }}</span>
             </div><!-- d-flex -->
           @endif
           @if( $bill->add_discount)
             <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Discount amount') }}</span>
-              <span class="d-block mb-2">{{ $bill->discount }} {{ __('SAR') }}</span>
+              <span class="d-block mb-2">{{ __('Discount amount') }}({{ __('SAR') }})</span>
+              <span class="d-block mb-2">{{ $bill->discount }}</span>
             </div><!-- d-flex -->
           @endif
           @if( $bill->user->pay_fees == 'client')
             <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('payment fees') }}</span>
-              <span class="d-block mb-2">{{ $bill->payment_fees }}  {{ __('SAR') }}</span>
+              <span class="d-block mb-2">{{ __('payment fees') }}({{ __('SAR') }})</span>
+              <span class="d-block mb-2">{{ $bill->payment_fees }}</span>
             </div><!-- d-flex -->
           @endif
           @if( $bill->add_tax)
             <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Added tax value (15%)') }}</span>
-              <span class="d-block mb-2">{{ $bill->vat }}  {{ __('SAR') }}</span>
+              <span class="d-block mb-2">{{ __('Added tax value (15%)') }} ({{ __('SAR') }})</span>
+              <span class="d-block mb-2">{{ $bill->vat }}</span>
             </div><!-- d-flex -->
           @endif
           @if( $bill->channel_extra_amount)
             <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{$bill->channel_extra_title}}</span>
-              <span class="d-block mb-2">{{ $bill->channel_extra_amount }} {{ __('SAR') }}</span>
+              <span class="d-block mb-2">{{$bill->channel_extra_title}}({{ __('SAR') }})</span>
+              <span class="d-block mb-2">{{ $bill->channel_extra_amount }}</span>
             </div><!-- d-flex -->
           @endif
           @if( $bill->channel_extra_vat)
@@ -211,18 +211,19 @@
           @endif
           @if( $bill->refund_amount)
             <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Refund Amount') }}</span>
-              <span class="d-block mb-2">{{ $bill->refund_amount }}  {{ __('SAR') }}</span>
+              <span class="d-block mb-2">{{ __('Refund Amount') }}({{ __('SAR') }})</span>
+              <span class="d-block mb-2">{{ $bill->refund_amount }}</span>
             </div><!-- d-flex -->
           @endif
           <div class="d-flex align-items-center justify-content-between">
-            <span class="d-block mb-2">{{ __('Total amount') }}</span>
-            <span class="d-block mb-2">{{ $bill->total}}  {{ __('SAR') }}</span>
+            <span class="d-block mb-2">{{ __('Total amount') }}({{ __('SAR') }})</span>
+            <span class="d-block mb-2">{{ $bill->total}}</span>
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         @if($bill->customer_notes)
           <div class="customer_notes pt-2 mt-2 borderTop">{{$bill->customer_notes}}</div> 
         @endif
+        <div class="text-center">>>>>>>>>>>>>>>>>>>>>>>>{{__('Close bill')}}{{$bill->number}}>>>>>>>>>>>>>>>>>>>>>>>>>></div>
         @if($bill->user->settings->add_tax_invoice)
           <div class="qrCode mt-2 pt-2 borderTop">
             <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
