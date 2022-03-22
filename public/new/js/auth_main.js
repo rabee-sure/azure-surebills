@@ -59,6 +59,7 @@ $(document).ready(function() {
     $(this).parents('form').submit();
     setTimeout(function() {
       $this.html($this.data('original-text'));
+      $this.attr('disabled', false);
     }, 5000);
   });
 });
