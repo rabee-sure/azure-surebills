@@ -105,7 +105,15 @@ class Transfer extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make(__('User'), 'user', User::class)->searchable(),
+
+            BelongsTo::make(__('User ID'), 'user', User::class)->displayUsing(function($user){
+                return $user->id;
+            })->searchable(),
+
+            BelongsTo::make(__('Business Name'), 'user', User::class)->displayUsing(function($user){
+                return $user->business_name_en ? $user->business_name_en : $user->mainStoreUser->business_name_en;
+            })->searchable(),
+
             Number::make(__('Amount'), 'amount')
                 ->min(1)
                 ->step(0.1)
