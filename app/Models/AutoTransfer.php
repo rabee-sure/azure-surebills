@@ -16,6 +16,8 @@ class AutoTransfer extends Model
         'merchants_file',
         'channels_file',
         'tranfer_ids',
+        'due_amount_file',
+        'merchants_summary_file',
     ];
 
     /**
