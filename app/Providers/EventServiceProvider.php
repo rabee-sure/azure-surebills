@@ -22,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         WebhookCallSucceededEvent::class => [
             'App\Listeners\Webhook\SaveWebhookSucceededLog',
-        ],        
+        ],
         WebhookCallFailedEvent::class => [
             'App\Listeners\Webhook\SaveWebhookFailedLog',
         ],
@@ -32,7 +32,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\UserCreated' => [
             'App\Listeners\CreateSettingsForUser',
-        ],             
+        ],
         'App\Events\BillStatusUpdated' => [
             'App\Listeners\CallbackApplication',
         ],
@@ -56,9 +56,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TransferCompleted' => [
             'App\Listeners\SendSubAccountSettledWebhook',
         ],
-        'App\Events\TransferFileGenerated' => [
-            'App\Listeners\SendRequestTransferFile',
-        ],
+//        'App\Events\TransferFileGenerated' => [
+//            'App\Listeners\SendRequestTransferFile',
+//        ],
         'App\Events\GenerateReport' => [
             'App\Listeners\SendReportFile',
         ],
