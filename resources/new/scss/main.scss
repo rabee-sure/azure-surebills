@@ -471,6 +471,7 @@ span.select2 {
         display: flex;
         align-items: center;
         justify-content: flex-start;
+        flex-wrap: wrap;
         .select2-selection__choice {
           margin: 5px;
           padding: 5px;
