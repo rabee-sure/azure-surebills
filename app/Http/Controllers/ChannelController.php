@@ -51,7 +51,7 @@ class ChannelController extends Controller
             'email' => $request->email,
             'mobile' => $request->mobile,
             'notes' => $request->notes,
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user()->store_main_user_id ?? auth()->user()->id,
         ]);
 
         return redirect()->route('channels.index');
