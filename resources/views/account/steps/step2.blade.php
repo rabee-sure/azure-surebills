@@ -21,6 +21,15 @@
       <p class="d-block text-center mb-0 mt-2">{{ __('Bank Information') }}</p>
     </div><!-- item -->
   </div><!-- stepsArea -->
+  @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul class="m-0 p-0">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div><!-- alert -->
+    @endif
   <div class="blockStep2 bg-white rounded-3 shadow-sm p-3">
     <form id="form" method="POST" action="{{ route('business.information') }}" enctype="multipart/form-data" class="m-0">
       @csrf
@@ -66,7 +75,7 @@
         <div id="registry_expiry_date" class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="commercial_registry_expiry_date" class="d-block mb-2">{{ __('Commercial Registry Expiry Date') }} <span class="requirement text-danger">*</span></label>
-            <input type="text" readonly value="{{ Carbon\Carbon::now()->format('m/d/Y') }}" name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control rounded-3 shadow-none border expiryDate" placeholder="{{ __('Commercial Registry Expiry Date') }}">
+            <input value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control shadow-none border rounded-3 expiryDate" placeholder="{{ __('Commercial Registry Expiry Date') }}">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">

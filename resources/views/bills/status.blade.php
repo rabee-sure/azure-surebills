@@ -23,6 +23,9 @@
           @endif
           @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
             <span class="d-block font-weight-bold">{{ $bill->user->business_name }}</span>
+            @if(isset($bill->user->settings->header_bill))
+              <p class="d-block mb-0">{{ $bill->user->settings->header_bill }}</p>
+            @endif
             <p class="d-block mb-0">{{  $bill->user->business_address }}</p>
             <b class="d-block font-weight-normal">{{  $bill->user->business_mobile }}</b>
           @endif
@@ -164,6 +167,9 @@
               <span>{{ __('Tax Invoice') }}</span>
             </a>
           </div><!-- qrCode_area -->
+        @endif
+        @if(isset($bill->user->settings->footer_bill))
+          <p class="d-block mb-0">{{ $bill->user->settings->footer_bill }}</p>
         @endif
       </div><!-- single_bill_content -->
     </div><!-- all_bill_page -->
