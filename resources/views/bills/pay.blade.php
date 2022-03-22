@@ -119,12 +119,12 @@
               @foreach($bill->items as $item)
               <tr>
                 <td>{!! $item->product_name !!}</td>
-                <td>{{ $item->product_price  }} {{ __('SAR') }}</td>
+                <td>{{ $item->product_price  }}</td>
                 <td>{{ $item->quantity  }}</td>
                 @if( $bill->add_tax)
-                <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }} {{ __('SAR') }}</td>
+                <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
                 @else
-                <td>{{ $item->product_price * $item->quantity }} {{ __('SAR') }}</td>
+                <td>{{ $item->product_price * $item->quantity }}</td>
                 @endif
               </tr>
               @endforeach
@@ -135,52 +135,53 @@
           @if( $bill->add_tax || $bill->add_discount)
             <div class="d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-start justify-content-between flex-column">
-                <span>{{ __('Total amount') }}</span>
+                <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
                 @if( $bill->add_tax)
                 <small>( {{ __('Exclude added tax') }} )</small>
                 @endif
               </div>
-              <span>{{ $bill->sub_total }} {{ __('SAR') }}</span>
+              <span>{{ $bill->sub_total }}</span>
             </div><!-- d-flex -->
           @endif
           @if( $bill->add_discount)
           <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Discount amount') }}</span>
-            <span>{{ $bill->discount }} {{ __('SAR') }}</span>
+            <span>{{ __('Discount amount') }} ({{ __('SAR') }})</span>
+            <span>{{ $bill->discount }}</span>
           </div><!-- d-flex -->
           @endif
           @if( $bill->user->pay_fees == 'client')
             <div class="d-flex align-items-center justify-content-between">
-              <span>{{ __('payment fees') }}</span>
-              <span>{{ $bill->payment_fees }}  {{ __('SAR') }}</span>
+              <span>{{ __('payment fees') }} ({{ __('SAR') }})</span>
+              <span>{{ $bill->payment_fees }}</span>
             </div><!-- d-flex -->
           @endif
           @if( $bill->add_tax)
             <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('Added tax value (15%)') }}</span>
-              <span>{{ $bill->vat }}  {{ __('SAR') }}</span>
+              <span>{{ $bill->vat }}</span>
             </div><!-- d-flex -->
           @endif
           @if( $bill->channel_extra_amount)
             <div class="d-flex align-items-center justify-content-between">
-              <span>{{$bill->channel_extra_title}}</span>
-              <span>{{ $bill->channel_extra_amount }} {{ __('SAR') }}</span>
+              <span>{{$bill->channel_extra_title}} ({{ __('SAR') }})</span>
+              <span>{{ $bill->channel_extra_amount }}</span>
             </div><!-- d-flex -->
           @endif
           @if( $bill->channel_extra_vat)
             <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('Vat') }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))</span>
-              <span>{{ $bill->channel_extra_vat }} {{ __('SAR') }}</span>
+              <span>{{ $bill->channel_extra_vat }}</span>
             </div><!-- d-flex -->
           @endif
           <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Total amount') }}</span>
-            <span>{{ $bill->total}}  {{ __('SAR') }}</span>
+            <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
+            <span>{{ $bill->total}}</span>
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         @if($bill->customer_notes)
           <div class="customer_notes">{{$bill->customer_notes}}</div> 
         @endif
+        <div class="text-center">>>>>>>>>>>>>>>>>>>>>>>>{{__('Close bill')}}{{$bill->number}}>>>>>>>>>>>>>>>>>>>>>>>>>></div>
         @if(!$bill->is_expired)
           <div class="payment_area">@include('bills.payment_page')</div>
         @endif
