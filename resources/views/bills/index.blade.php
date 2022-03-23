@@ -17,7 +17,11 @@
   <section id="billIndexPage">
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Bills') }}</h1>
-      <a href="{{ route('bills.create')}}" title="{{ __('Create a bill')}}" class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill border-0 shadow-none">{{ __('Create a bill')}}</a>
+      @can('create bills')
+        @if(count(auth()->user()->channels) == 0)
+            <a href="{{ route('bills.create')}}" title="{{ __('Create a bill')}}" class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill border-0 shadow-none">{{ __('Create a bill')}}</a>
+         @endif
+       @endcan
     </div><!-- title -->
 
     <div class="filterArea mb-3 d-flex align-items-end justify-content-between flex-wrap">
@@ -85,7 +89,7 @@
       </div><!-- no_bills_yet -->
     @endif
   </section><!-- billIndexPage -->
- 
+
 @endsection
 
 @push('footer-scripts')

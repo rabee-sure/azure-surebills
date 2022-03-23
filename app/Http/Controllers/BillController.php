@@ -79,6 +79,10 @@ class BillController extends Controller
      */
     public function create()
     {
+        if(count(auth()->user()->channels) > 0)
+        {
+            abort(403);
+        }
         return view('bills.create');
     }
 
@@ -90,6 +94,11 @@ class BillController extends Controller
      */
     public function store(BillRequest $request)
     {
+        if(count(auth()->user()->channels) > 0)
+        {
+            abort(403);
+        }
+
         $bill = DB::transaction(function () use ($request) {
             $user = auth()->user();
 

@@ -102,7 +102,7 @@
     </div><!-- row -->
 
     @yield('steps')
-    
+
   </section><!-- accountIndexPage -->
 
 @endsection
