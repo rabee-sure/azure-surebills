@@ -94,7 +94,7 @@ class TransferController extends Controller
      */
     public function request(Request $request)
     {
-        $user = auth()->user();
+        $user = auth()->user()->mainStoreUser ?? auth()->user();
         $cycleDate = Carbon::now()->addHours(3);
 
         $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d'));
