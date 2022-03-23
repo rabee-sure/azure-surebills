@@ -19,7 +19,7 @@
             previewTemplateDiv += '<figure class="m-0 rounded-3 overflow-hidden position-relative flex-shrink-0">';
               previewTemplateDiv += '<div class="dz-error-mark"><span><i></i></span></div><div class="dz-success-mark"><span><i></i></span></div>';
               previewTemplateDiv += '<img data-dz-thumbnail class="w-100 h-100" />';
-              previewTemplateDiv += '<i class="simple-icon-doc preview-icon"></i>';
+              previewTemplateDiv += '<i class="fal fa-file-alt border rounded-3 overflow-clip d-flex align-items-center justify-content-center position-absolute top-0 start-0 bg-white fs-1 w-100 h-100 simple-icon-doc preview-icon"></i>';
             previewTemplateDiv += '</figure><figcaption class="flex-grow-1 align-self-stretch d-flex align-items-start justify-content-between flex-column">';
               previewTemplateDiv += '<div class="file_name d-block text-body"><span class="d-block text-body" data-dz-name></span><small class="d-block text-danger" id="error_message"></small></div>';
               previewTemplateDiv += '<div class="d-block text-secondary dz-size" data-dz-size />';

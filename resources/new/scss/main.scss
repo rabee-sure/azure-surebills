@@ -562,6 +562,8 @@ span.select2-container {
         height: 70px;
         img {
           object-fit: cover;
+          z-index: 9;
+          position: relative;
         } /* img */
       } /* figure */
       figcaption {
