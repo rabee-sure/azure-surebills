@@ -103,7 +103,7 @@ class User extends Authenticatable implements HasMedia
                                                                         'able_refund_with_fees' => $user->able_refund_with_fees,
                                                                         'disable_business_documents' => $user->disable_business_documents,
                                                                         'disable_bank_documents' => $user->disable_bank_documents,
-                                                                        'auto_trnasfer' => $user->able_refund_with_fees));
+                                                                        'auto_trnasfer' => $user->auto_trnasfer));
         });
     }
 

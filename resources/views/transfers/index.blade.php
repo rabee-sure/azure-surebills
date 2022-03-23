@@ -31,7 +31,7 @@
       </ul>
     </div><!-- alert -->
   @endif
-  
+
   <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
     <div class="table-responsive">
       <table class="table table-striped table-hover text-nowrap">
@@ -80,7 +80,7 @@
               </td>
             </tr>
           @endforeach
-        </tbody>    
+        </tbody>
       </table>
     </div>
   </div><!-- blockArea -->
