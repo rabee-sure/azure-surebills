@@ -51,6 +51,7 @@ class BillStatus extends MultiselectFilter
             __('Refunded Bank Transfer') => 'refunded_bank_transfer',
             __('Paid Cash') => 'paid_cash',
             __('Paid Bank Transfer') => 'paid_bank_transfer',
+            __('Failed') => 'failed',
         ];
     }
 }
