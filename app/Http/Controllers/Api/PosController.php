@@ -54,9 +54,9 @@ class PosController extends Controller
         return $products;
     }
 
-    public function searchForCustomer($name, Request $request)
+    public function searchForCustomer($mobile, Request $request)
     {
-        $customers = Customer::name($name)->get();
+        $customers = Customer::mobile($mobile)->get();
 
         return $customers;
     }
