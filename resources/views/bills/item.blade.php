@@ -42,6 +42,9 @@
           case "refunded_bank_transfer":
             className = "badge-warning";
             break;
+          case "failed":
+            className = "badge-danger";
+            break;
           default:
             className = "badge-info";
         }
