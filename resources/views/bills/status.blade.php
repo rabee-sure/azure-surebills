@@ -103,7 +103,7 @@
           </div><!-- d-flex -->
           @if( $bill->add_discount)
           <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Discount') }} @if($bill->discount_type == 'percentage') ({{ $bill->discount_value }}%) @else ({{ $bill->discount_value }} {{ __('SAR') }}) @endif</span>
+            <span>{{ __('Discount') }} ({{ __('SAR') }})</span>
             <span>{{ $bill->discount }}</span>
           </div><!-- d-flex -->
           @endif
