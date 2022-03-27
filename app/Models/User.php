@@ -370,7 +370,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function transfers()
     {
-        return $this->hasMany(Transfer::class)->whereIn('user_id', $this->storeUsers(true));
+        return $this->hasMany(Transfer::class)->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     /**
