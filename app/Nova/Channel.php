@@ -164,4 +164,9 @@ class Channel extends Resource
     {
         return !$this->applications()->exists();
     }
+
+    public static function relatableUsers(NovaRequest $request, $query)
+    {
+        return $query->whereNull('store_main_user_id');
+    }
 }

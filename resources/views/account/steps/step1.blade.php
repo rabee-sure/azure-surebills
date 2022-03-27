@@ -51,7 +51,7 @@
       <div class="btnsArea d-flex align-items-center justify-content-center flex-wrap border-top pt-3">
         <button id="previous" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0" type="button">{{__('Previous')}}</button>
         <button id="next" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-3" type="submit">{{__('Next')}}</button>
-        <button id="finish" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0" type="submit">{{__('Finish')}}</button>
+        <!-- <button id="finish" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0" type="submit">{{__('Finish')}}</button> -->
       </div><!-- btnsArea -->
     </form>
   </div><!-- blockStep1 -->
