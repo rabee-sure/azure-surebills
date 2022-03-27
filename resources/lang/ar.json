@@ -615,6 +615,7 @@
 	"business name required" : "الإسم التجاري مطلوب",
 	"business address required" : "العنوان مطلوب",
 	"business mobile required" : "الهاتف مطلوب",
+	"business mobile format invalid" : "صيغة الهاتف غير صحيحة",
 	"per transaction" : "لكل عملية",
 	"Riyal" : "ريال",
 	"My Account" : "حسابي",
