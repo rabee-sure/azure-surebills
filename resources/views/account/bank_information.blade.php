@@ -53,18 +53,18 @@
             <p class="d-block mb-3 text-secondary">{{ __('Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility') }}</p>
             @if(auth()->user()->disable_bank_documents)
               <div class="dropzone">
-                @foreach(auth()->user()->bank_documents as $file)
+                @foreach(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->bank_documents : auth()->user()->bank_documents as $file)
                   @include('components.file', ['file' => $file])
                 @endforeach
               </div>
             @else
               @include('components.dropzone',[
-                'documents' => auth()->user()->bank_documents->toArray()
+                'documents' => auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->bank_documents->toArray() : auth()->user()->bank_documents->toArray()
               ])
             @endif
           </div><!-- col-12 -->
         </div><!-- row -->
-        @if(!auth()->user()->disable_bank_documents) 
+        @if(!auth()->user()->disable_bank_documents)
         <div class="saveBtn d-flex justify-content-start mt-3">
           <button type="submit" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold"> {{__('Save')}}</button>
         </div><!-- saveBtn -->

@@ -80,6 +80,7 @@
               @endforeach
             </tbody>
           </table>
+          {{ $users->links() }}
         </div><!-- table-responsive -->
       </div><!-- blockArea -->
     @endif

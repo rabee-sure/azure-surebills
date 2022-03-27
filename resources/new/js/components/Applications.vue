@@ -1,8 +1,8 @@
 <template>
-  <section id="integrationIndexPage">
+  <section id="integrationIndexPage" v-if="userPermissions.includes('show applications')">
     <div class="title d-flex align-items-center justify-content-between mb-4">
       <h1 class="d-block fw-bold m-0 fs-5">{{__('Integration')}}</h1>
-      <a class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill border-0 shadow-none" tabindex="-1" @click="showCreateApplicationForm"> {{ __('Create New Application')}}</a>
+      <a class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill border-0 shadow-none" tabindex="-1" v-if="userPermissions.includes('create application')" @click="showCreateApplicationForm"> {{ __('Create New Application')}}</a>
     </div><!-- title -->
     <span class="d-bock fs-6 mb-3 text-body"> {{ __('Applications')}}</span>
     <div class="notApplicationsYet d-flex align-items-center justify-content-center flex-column bg-white shadow-sm rounded-3 p-3" v-if="applications.length === 0">
@@ -20,7 +20,7 @@
               <th scope="col" class="text-center bg-transparent">{{ __('webhook URL')}}</th>
               <th scope="col" class="text-center bg-transparent">{{ __('webhook Secret')}}</th>
               <th scope="col" class="text-center bg-transparent">{{ __('Redirect Url')}}</th>
-              <th scope="col" class="text-center bg-transparent"></th>
+              <th scope="col" class="text-center bg-transparent" v-if="userPermissions.includes('update application') || userPermissions.includes('delete application')"></th>
             </tr>
           </thead>
           <tbody>
@@ -31,10 +31,10 @@
               <td class="text-center" dir="ltr">{{ application.webhook_url }}</td>
               <td class="text-center" dir="ltr"><code>{{ application.webhook_secret ? application.webhook_secret : '-' }}</code></td>
               <td class="text-center" dir="ltr">{{ application.redirect }}</td>
-              <td class="text-center">
+              <td class="text-center" v-if="userPermissions.includes('update application') || userPermissions.includes('delete application')">
                 <div class="d-flex align-items-center justify-content-center">
-                  <button type="button" @click="edit(application)" v-if="application.channel == null" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" :title="__('Edit')"><i class="fal fa-edit"></i></button>
-                  <button type="button" @click="deletes(application)" v-if="application.channel == null" class="rounded-3 border-0 shadow-none p-0 mx-1 btn-danger d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" :title="__('Delete')"><i class="fal fa-trash-alt"></i></button>
+                  <button type="button" @click="edit(application)" v-if="application.channel == null && userPermissions.includes('update application')" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" :title="__('Edit')"><i class="fal fa-edit"></i></button>
+                  <button type="button" @click="deletes(application)" v-if="application.channel == null && userPermissions.includes('delete application')" class="rounded-3 border-0 shadow-none p-0 mx-1 btn-danger d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" :title="__('Delete')"><i class="fal fa-trash-alt"></i></button>
                 </div>
               </td>
             </tr>
@@ -44,7 +44,7 @@
     </div><!-- blockArea -->
 
     <!-- Create Application Modal -->
-    <div class="modal fade applicationModals" id="modal-create-application" tabindex="-1" role="dialog">
+    <div class="modal fade applicationModals" id="modal-create-application" tabindex="-1" role="dialog" v-if="userPermissions.includes('create application')">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content border-0 shadow-sm rounded-3">
           <div class="modal-header d-flex align-items-center justify-content-between">
@@ -66,8 +66,8 @@
               <div class="form-group mb-3">
                 <label for="webhook_url" class="d-block mb-2">{{ __('Webhook URL')}} <span class="requirement text-danger">*</span></label>
                 <input :class="{'is-invalid': haveError('webhook_url') }" type="url" inputmode="url" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="webhook_url" id="webhook_url" @keyup.enter="store" v-model="createForm.webhook_url">
-                <div class="invalid-feedback text-danger" v-if="haveError('webhook_url')">{{errorMessage('webhook_url')}}</div>  
-              </div><!-- form-group -->     
+                <div class="invalid-feedback text-danger" v-if="haveError('webhook_url')">{{errorMessage('webhook_url')}}</div>
+              </div><!-- form-group -->
             </form>
           </div>
           <div class="modal-footer p-2">
@@ -79,7 +79,7 @@
     </div>
 
     <!-- Edit Application Modal -->
-    <div class="modal fade applicationModals" id="modal-edit-application" tabindex="-1" role="dialog">
+    <div class="modal fade applicationModals" id="modal-edit-application" tabindex="-1" role="dialog" v-if="userPermissions.includes('update application')">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content border-0 shadow-sm rounded-3">
           <div class="modal-header d-flex align-items-center justify-content-between">
@@ -92,19 +92,19 @@
                 <label for="webhook_url" class="d-block mb-2">{{ __('Name')}} <span class="requirement text-danger">*</span></label>
                 <input id="edit-application-name" :class="{'is-invalid': haveError('name', 2) }" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" @keyup.enter="update" v-model="editForm.name">
                 <span class="form-text text-muted d-block">{{ __('Something your users will recognize and trust.')}}</span>
-                <div class="invalid-feedback text-danger" v-if="haveError('name', 2)">{{errorMessage('name', 2)}}</div>  
-              </div><!-- form-group --> 
+                <div class="invalid-feedback text-danger" v-if="haveError('name', 2)">{{errorMessage('name', 2)}}</div>
+              </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label class="col-md-3 col-form-label">{{ __('Redirect URL')}} <span class="requirement text-danger">*</span></label>
                 <input :class="{'is-invalid': haveError('redirect', 2) }" type="url" inputmode="url" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="redirect" @keyup.enter="update" v-model="editForm.redirect">
                 <span class="form-text text-muted d-block">{{ __('Your application\'s authorization callback URL.')}}</span>
-                <div class="invalid-feedback text-danger" v-if="haveError('redirect', 2)">{{errorMessage('redirect', 2)}}</div>  
-              </div><!-- form-group -->            
+                <div class="invalid-feedback text-danger" v-if="haveError('redirect', 2)">{{errorMessage('redirect', 2)}}</div>
+              </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="webhook_url" class="d-block mb-2">{{ __('Webhook URL')}} <span class="requirement text-danger">*</span></label>
                 <input :class="{'is-invalid': haveError('webhook_url', 2) }" type="url" inputmode="url" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="webhook_url" id="webhook_url" @keyup.enter="update" v-model="editForm.webhook_url">
                 <div class="invalid-feedback text-danger" v-if="haveError('webhook_url', 2)">{{errorMessage('webhook_url', 2)}}</div>
-              </div><!-- form-group -->               
+              </div><!-- form-group -->
             </form>
           </div>
           <!-- Modal Actions -->
@@ -116,7 +116,7 @@
       </div>
     </div>
 
-    <div class="modal fade modalDeleteApplication" id="modal-delete-application" tabindex="-1" role="dialog">
+    <div class="modal fade modalDeleteApplication" id="modal-delete-application" tabindex="-1" role="dialog" v-if="userPermissions.includes('delete application')">
       <div class="modal-dialog">
         <div class="modal-content border-0 shadow-sm rounded-3">
           <div class="modal-body d-flex align-items-center justify-content-center flex-column">
@@ -160,6 +160,7 @@
         data() {
             return {
                 applications: [],
+                userPermissions: [],
 
                 applicationSecret: null,
                 deleteId: null,
@@ -202,15 +203,7 @@
              * Prepare the component.
              */
             prepareComponent() {
-                this.getApplications();
-
-                $('#modal-create-application').on('shown.bs.modal', () => {
-                    $('#create-application-name').focus();
-                });
-
-                $('#modal-edit-application').on('shown.bs.modal', () => {
-                    $('#edit-application-name').focus();
-                });
+                this.getUserPermissions();
             },
 
             /**
@@ -221,6 +214,32 @@
                         .then(response => {
                             this.applications = response.data.data;
                         });
+            },
+
+            /**
+             * Get user permissions.
+             */
+            getUserPermissions(){
+                axios.get('/user-permissions')
+                    .then(response => {
+                        this.userPermissions = response.data;
+                        if(this.userPermissions.includes('show applications'))
+                        {
+                            this.getApplications();
+                        }
+                        if(this.userPermissions.includes('create application'))
+                        {
+                            $('#modal-create-application').on('shown.bs.modal', () => {
+                                $('#create-application-name').focus();
+                            });
+                        }
+                        if(this.userPermissions.includes('update application'))
+                        {
+                            $('#modal-edit-application').on('shown.bs.modal', () => {
+                                $('#edit-application-name').focus();
+                            });
+                        }
+                    });
             },
 
             /**
@@ -320,15 +339,16 @@
               axios.delete('/applications/' + this.deleteId )
                         .then(response => {
                             this.getApplications();
+                            $('#modal-delete-application').modal('hide');
                         });
-            },     
+            },
             haveError(key, type=1) {
                 if(type == 1){
                     return !!this.createForm.errors_obj.find(x => x.key === key)
                 }else{
                     return !!this.editForm.errors_obj.find(x => x.key === key)
                 }
-            },     
+            },
             errorMessage(key, type=1) {
                 if(type == 1){
                     return this.createForm.errors_obj.find(x => x.key === key).value

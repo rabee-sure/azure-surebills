@@ -33,7 +33,7 @@ class ChannelApplicationController extends Controller
     public function store(Channel $channel, ChannelApplicationRequest $request)
     {
         $user = User::where('email', $request->email)->first();
-        
+
         //Zain/20-20-22/1 This for prevent user to have many application in the same channel
         // $application = Application::firstOrNew([
         //     'user_id' => $user->id,

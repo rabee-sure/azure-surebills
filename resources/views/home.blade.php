@@ -75,7 +75,6 @@
             <span class="d-block text-center fw-bold">{{ $total_bills }}</span>
           </a>
         </div><!-- col -->
-        @endcan
 
         <div class="col">
           <a href="/bills?statuses[]=paid&dont_update_statuses=true" title="{{ __('Total Paid Bills') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
@@ -84,6 +83,7 @@
             <span class="d-block text-center fw-bold">{{ $total_paid_bills }}</span>
           </a>
         </div><!-- col -->
+        @endcan
       </div><!-- row -->
     </div><!-- statisticArea -->
     @endcanany

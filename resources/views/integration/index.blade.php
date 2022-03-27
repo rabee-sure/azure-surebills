@@ -12,8 +12,10 @@
     <span>{{__('Integration')}}</span>
   </div><!-- breadcrump -->
 
+  @canany(['show applications', 'create application', 'update application', 'delete application'])
   <applications></applications>
+  @endcanany
   <!-- <passport-authorized-clients></passport-authorized-clients> -->
   <!-- <passport-personal-access-tokens></passport-personal-access-tokens>` -->
-  
+
 @endsection
