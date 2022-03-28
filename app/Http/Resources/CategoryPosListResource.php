@@ -18,6 +18,7 @@ class CategoryPosListResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'type' => 'category',
             'name' => $this->name,
             'image' => url('/').''.Storage::url('categories/').''.$this->image,
             'sort_number' => $this->sort_number,

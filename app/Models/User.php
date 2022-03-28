@@ -325,7 +325,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function channelsApplications()
     {
-        return $this->belongsToMany(Application::class, 'channels', 'user_id', 'id', 'id', 'channel_id');
+        return $this->belongsToMany(Application::class, 'channels', 'user_id', 'id', 'id', 'channel_id')->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     /**
@@ -335,7 +335,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function customers()
     {
-        return $this->hasMany(Customer::class, 'user_id', 'id');
+        return $this->hasMany(Customer::class, 'user_id', 'id')->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     /**
@@ -345,7 +345,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function bills()
     {
-        return $this->hasMany(Bill::class);
+        return $this->hasMany(Bill::class)->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     public function storeUsers($retrieveIdsOnly = false)
@@ -353,7 +353,9 @@ class User extends Authenticatable implements HasMedia
         $users = [];
         if(auth()->user())
         {
-            $users = $this->whereIn('id', [auth()->user()->id, auth()->user()->store_main_user_id])->orWhere('store_main_user_id', auth()->user()->id)->get();
+            $users = $this->whereIn('id', [auth()->user()->id, auth()->user()->store_main_user_id])
+                        ->orWhereIn('store_main_user_id', [auth()->user()->id, auth()->user()->store_main_user_id])
+                        ->get();
             if($retrieveIdsOnly)
             {
                 return $users->pluck('id')->toArray();
@@ -371,6 +373,16 @@ class User extends Authenticatable implements HasMedia
     public function transfers()
     {
         return $this->hasMany(Transfer::class)->orWhereIn('user_id', $this->storeUsers(true));
+    }
+
+    /**
+     * Get Transfers.
+     *
+     * @return Collection
+     */
+    public function novaTransfers()
+    {
+        return $this->hasMany(Transfer::class);
     }
 
     /**
@@ -430,7 +442,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function fromChannel()
     {
-        return $this->belongsTo(Channel::class, 'from_channel_id');
+        return $this->belongsTo(Channel::class, 'from_channel_id')->orWhereIn('user_id', $this->storeUsers(true));
     }
 
     /**

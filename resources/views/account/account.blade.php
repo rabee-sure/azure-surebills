@@ -15,13 +15,12 @@
     <div class="title mb-4">
       <h1 class="d-block fw-bold m-0 fs-5">{{__('Settings')}}</h1>
     </div><!-- title -->
-
-    @if((!auth()->user()->is_uploaded_business_documents && !auth()->user()->store_main_user_id) || (auth()->user()->mainStoreUser && auth()->user()->hasPermissionTo('update business commercial info')))
+    @if((!auth()->user()->is_uploaded_business_documents && !auth()->user()->mainStoreUser) || (auth()->user()->mainStoreUser && !auth()->user()->mainStoreUser->is_uploaded_business_documents && auth()->user()->hasPermissionTo('update business commercial info')))
       <div role="alert" class="alert mainAlert d-flex align-items-center justify-content-start alert-danger mb-4 w-100">
         <i class="fas fa-exclamation-triangle"></i>
         {{ __('No business information sent') }}
       </div><!-- alert -->
-    @elseif((!auth()->user()->is_uploaded_bank_documents && !auth()->user()->store_main_user_id) || (auth()->user()->mainStoreUser && auth()->user()->hasPermissionTo('update bank info')))
+    @elseif((!auth()->user()->is_uploaded_bank_documents && !auth()->user()->mainStoreUser) || (auth()->user()->mainStoreUser && !auth()->user()->mainStoreUser->is_uploaded_bank_documents && auth()->user()->hasPermissionTo('update bank info')))
       <div role="alert" class="alert mainAlert d-flex align-items-center justify-content-start alert-danger mb-4 w-100">
         <i class="fas fa-exclamation-triangle"></i>
         {{ __('Bank account information has not been sent') }}

@@ -184,7 +184,7 @@ class VrificationRequests extends Resource
                     }
                 })->disableDownload(),
 
-            HasMany::make(__('Transfers'), 'transfers', Transfer::class),
+            HasMany::make(__('Transfers'), 'novaTransfers', Transfer::class),
             // HasMany::make('statement'),
             new Panel(__('Documents'), $this->documents()),
 

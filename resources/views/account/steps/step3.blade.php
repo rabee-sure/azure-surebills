@@ -39,7 +39,7 @@
             <select name="bank_id" id="bank_id" class="form-control rounded-3 shadow-none border select2-single">
               <option value="" disabled selected>{{__('Select your Bank')}}</option>
               @foreach(App\Models\Bank::active()->get() as $bank)
-                <option value="{{$bank->id}}" @if ($user->bank_id == $bank->id)selected="selected"@endif>{{$bank->name}}</option>
+                <option value="{{$bank->id}}" @if (old('bank_id') == $bank->id)selected="selected"@endif>{{$bank->name}}</option>
               @endforeach
             </select>
           </div><!-- form-group -->
@@ -47,14 +47,14 @@
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="iban_number" class="d-block mb-2">{{__('IBAN Number')}} <span class="text-danger">*</span></label>
-            <input value="{{ $user->iban_number }}"  name="iban_number" type="text" class="form-control rounded-3 shadow-none border" id="iban_number" placeholder="رقم آيبان مثلاً : SA2720000000000000001212 *">
+            <input value="{{ old('iban_number') }}"  name="iban_number" type="text" class="form-control rounded-3 shadow-none border" id="iban_number" placeholder="رقم آيبان مثلاً : SA2720000000000000001212 *">
             <small id="emailHelp" class="form-text mt-1 d-block text-muted">هذا الحساب سيستخدم لتسوية المدفوعات الواصلة لك عبر أجهزة نقاط البيع</small>
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12">
           <div class="form-group mb-3">
             <label for="beneficiary_name" class="d-block mb-2">{{__('Beneficiary Name')}} <span class="text-danger">*</span></label>
-            <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="beneficiary_name" placeholder="{{__('Beneficiary Name')}}">
+            <input value="{{ old('beneficiary_name') }}" name="beneficiary_name" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="beneficiary_name" placeholder="{{__('Beneficiary Name')}}">
             <small id="emailHelp" class="form-text d-block mt-1 text-muted">اكتب اسم صاحب الحساب باللغة الانجليزيه كما هو مسجل في البنك</small>
           </div><!-- form-group -->
         </div><!-- col-12 -->

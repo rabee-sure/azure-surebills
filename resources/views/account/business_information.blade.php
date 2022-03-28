@@ -47,7 +47,7 @@
           <div class="col-12 col-md-6 col-lg-4" id="registry_expiry_date" @if($user->license_type != 'Commercial Record')style="display: none;"@endif>
             <div class="form-group mb-3">
               <label for="commercial_registry_expiry_date" class="d-block mb-2">{{ __('Commercial Registry Expiry Date') }} <span class="requirement text-danger">*</span></label>
-              <input 
+              <input
                 @if($user->commercial_registry_expiry_date)
                   value="{{ Carbon\Carbon::parse($user->commercial_registry_expiry_date)->format('m/d/Y') }}"
                 @else
@@ -124,13 +124,13 @@
             <p class="d-block mb-3 text-secondary">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
             @if(auth()->user()->disable_business_documents)
               <div class="dropzone">
-                @foreach(auth()->user()->business_documents as $file)
+                @foreach(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->business_documents : auth()->user()->business_documents as $file)
                   @include('components.file', ['file' => $file])
                 @endforeach
               </div>
             @else
               @include('components.dropzone',[
-                'documents' => auth()->user()->business_documents->toArray()
+                'documents' => auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->business_documents->toArray() : auth()->user()->business_documents->toArray()
               ])
             @endif
           </div><!-- col-12 -->
@@ -166,10 +166,10 @@
     $('#logo').bind('change', function () {
       var filename = $("#logo").val();
       if (/^\s*$/.test(filename)) {
-        $(".fileName").text("No file chosen..."); 
+        $(".fileName").text("No file chosen...");
       }
       else {
-        $(".fileName").text(filename.replace("C:\\fakepath\\", "")); 
+        $(".fileName").text(filename.replace("C:\\fakepath\\", ""));
       }
     });
 

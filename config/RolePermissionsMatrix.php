@@ -7,7 +7,7 @@ return [
     'cancel bill',
     'refund bill',
 
-    'show pos',
+    // 'show pos',
 
     'show customers',
     'create customer',
