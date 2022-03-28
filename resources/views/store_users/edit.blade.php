@@ -93,5 +93,14 @@
       </form>
     </div><!-- blockArea -->
   </section><!-- usersEditPage -->
-
 @endsection
+
+@push('footer-scripts')
+<script type="text/javascript">
+    $(window).on('load',function() {
+        setTimeout(function() {
+            $("input[type=password]").val('');
+        }, 100);
+    });
+</script>
+@endpush
