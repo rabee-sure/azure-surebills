@@ -10,7 +10,7 @@
       $mobile_number = $settings->get('mobile_number');
     @endphp
 
-      @if (!$user->verified && !$user->mainStoreUser)
+      @if(!$user->verified && !$user->mainStoreUser)
         @if($user->is_uploaded_documents)
         <div class="alert alert-warning account_not_verified mb-3" role="alert">
           {{ __('Your account is being verified so that you can withdraw the collected amounts. The documentation process may take up to two business days. In the event that the documentation is not completed before :date, please contact us on :mobile', ['mobile' => $mobile_number, 'date' => $user->two_business_days]) }}
@@ -21,13 +21,15 @@
         </div>
       @endif
     @endif
-  
+
     @if (session('status'))
       <div class="alert alert-success" role="alert">{{ session('status') }}</div>
     @endif
 
+    @canany(['show statement', 'show bills'])
     <div class="statisticArea">
       <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+        @can('show statement')
         <div class="col">
           <a href="{{ route('statement.index') }}" title="{{ __('electronic payment balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon onlinePayment_icon"></div>
@@ -63,6 +65,9 @@
             <span class="d-block text-center fw-bold">{{ $total_paid }}</span>
           </a>
         </div><!-- col -->
+        @endcan
+
+        @can('show bills')
         <div class="col">
           <a href="/bills?dont_update_statuses=true" title="{{ __('Total Bills') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon pending_balance_icon"></div>
@@ -70,6 +75,7 @@
             <span class="d-block text-center fw-bold">{{ $total_bills }}</span>
           </a>
         </div><!-- col -->
+
         <div class="col">
           <a href="/bills?statuses[]=paid&dont_update_statuses=true" title="{{ __('Total Paid Bills') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon total_bills_icon"></div>
@@ -77,9 +83,12 @@
             <span class="d-block text-center fw-bold">{{ $total_paid_bills }}</span>
           </a>
         </div><!-- col -->
+        @endcan
       </div><!-- row -->
     </div><!-- statisticArea -->
+    @endcanany
 
+    @can('show bills')
     <bills-paid-amount :user="{{$user}}"></bills-paid-amount>
     <bills-paid-count :user="{{$user}}"></bills-paid-count>
     <bills-count :user="{{$user}}"></bills-count>
@@ -113,14 +122,18 @@
         <div class="no_bills_available text-capitalize">{{ __('No Bill Matched The Given Criteria.') }}</div>
       @endif
     </div><!-- latestBills -->
-  
-    @can('create bill')
-      <a href="{{ route('bills.create')}}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Create a bill')}}" class="addNewBillBtn position-fixed rounded-circle d-block shadow"></a>
+    @endcan
+
+    @can('create bills')
+      @if(count(auth()->user()->channels) == 0)
+        <a href="{{ route('bills.create')}}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Create a bill')}}" class="addNewBillBtn position-fixed rounded-circle d-block shadow"></a>
+      @endif
     @endcan
 
   </section><!-- homepage -->
 @endsection
 
+@can('show bills')
 @push('footer-scripts')
   <script src="{{ asset('new/js/chartjs/Chart.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script type="text/javascript">
@@ -130,3 +143,4 @@
       });
   </script>
 @endpush
+@endcan

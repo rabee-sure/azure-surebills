@@ -48,7 +48,7 @@
                 <th scope="col" class="text-center">{{__('Name')}}</th>
                 <th scope="col" class="text-center">{{__('Permissions')}}</th>
                 @canany(['update user', 'delete user'])
-                  <th scope="col" class="text-center"></th>
+                  <th scope="col" class="text-center">{{__('Actions')}}</th>
                 @endcanany
               </tr>
             </thead>
@@ -83,7 +83,7 @@
       </div><!-- blockArea -->
     @endif
   </section><!-- rolesIndexPage -->
-  
+
 @endsection
 
 @push('footer-scripts')
