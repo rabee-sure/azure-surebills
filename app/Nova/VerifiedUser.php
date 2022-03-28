@@ -192,10 +192,10 @@ class VerifiedUser extends Resource
                 ->hideFromIndex()
                 ->hideWhenUpdating($this->store_main_user_id ? true : false)
                 ->hideFromDetail($this->store_main_user_id ? true : false),
-            Boolean::make(__('Able Refund With Fees'), 'able_refund_with_fees')
-                ->hideFromIndex()
-                ->hideWhenUpdating($this->store_main_user_id ? true : false)
-                ->hideFromDetail($this->store_main_user_id ? true : false),
+            // Boolean::make(__('Able Refund With Fees'), 'able_refund_with_fees')
+            //     ->hideFromIndex()
+            //     ->hideWhenUpdating($this->store_main_user_id ? true : false)
+            //     ->hideFromDetail($this->store_main_user_id ? true : false),
 
             Boolean::make(__('Auto Trnasfer'), 'auto_trnasfer')
                 ->hideFromIndex()
