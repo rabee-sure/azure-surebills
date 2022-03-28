@@ -376,6 +376,16 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
+     * Get Transfers.
+     *
+     * @return Collection
+     */
+    public function novaTransfers()
+    {
+        return $this->hasMany(Transfer::class);
+    }
+
+    /**
      * Get settings.
      *
      * @return Collection
