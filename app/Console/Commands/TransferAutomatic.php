@@ -162,7 +162,7 @@ class TransferAutomatic extends Command
 
         $merchants_file = "automatic_transfers/".$this->today."/merchants_transactions.xlsx";
         $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
-        Excel::store(new TransactionsExport($data), $merchants_file , 'public');
+        Excel::store(new TransactionsExport($data, 'merchants_transactions'), $merchants_file , 'public');
     }
 
     public function createChannelsFile($transfer_ids, $day)
@@ -178,7 +178,7 @@ class TransferAutomatic extends Command
                 });
         })->with('bill.application.channel')->get();
         $channels_data = json_decode((TransactionExportResource::collection($channel_transactions))->toJson(), true);
-        Excel::store(new TransactionsExport($channels_data), $channels_file , 'public');
+        Excel::store(new TransactionsExport($channels_data, 'channels_transactions'), $channels_file , 'public');
     }
 
     public function zipFolder($folder_name , $file_name)

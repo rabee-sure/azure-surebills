@@ -8,16 +8,19 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
+use App\Models\MerchantTransactionTransferReport;
 
 class TransactionsExport implements FromView
 {
     use Exportable;
 
-    protected $transactions;
+    protected $transactions, $reportType;
 
-    public function __construct( $transactions)
+    public function __construct( $transactions, $reportType = null)
     {
         $this->transactions = $transactions;
+        $this->reportType = $reportType;
+        $this->store();
     }
 
     /**
@@ -28,5 +31,19 @@ class TransactionsExport implements FromView
         return view('exports.transactions', [
             'transactions' => $this->transactions
         ]);
+    }
+
+    private function store()
+    {
+        foreach($this->transactions as $transaction)
+        {
+            if($this->reportType)
+            {
+                $transaction['transaction_id'] = $transaction['id'];
+                $transaction['report_type'] = $this->reportType;
+                unset($transaction['id']);
+                MerchantTransactionTransferReport::create($transaction);
+            }
+        }
     }
 }
