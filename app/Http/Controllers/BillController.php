@@ -131,7 +131,7 @@ class BillController extends Controller
                 'expiry_date' => $request->expiry_date,
                 'expiry_hours' => $request->expiry_hours ?? 0,
                 'expiry_minutes' => $request->expiry_minutes ?? 0,
-                'due_date' => Carbon::parse(date('Y-m-d', strtotime($request->due_date))),
+                'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->due_date))),
 
                 'add_discount' => $request->add_discount,
                 'discount_type' => $request->discount_type,
