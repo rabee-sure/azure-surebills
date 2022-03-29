@@ -175,7 +175,7 @@ class User extends Authenticatable implements HasMedia
     public function getActualBalanceAttribute()
     {
         $balance = $this->balance - $this->pending_balance;
-        return $balance;
+        return 5000;//$balance;
     }
 
     /**

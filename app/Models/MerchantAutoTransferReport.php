@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MerchantTransactionTransferReport extends Model
+class MerchantAutoTransferReport extends Model
 {
     use HasFactory;
-    public $table = 'merchant_transaction_transfer_report';
+    public $table = 'merchant_auto_transfer_report';
     protected $fillable = [
         'created_at',
         'description',
@@ -25,7 +25,8 @@ class MerchantTransactionTransferReport extends Model
         'source',
         'bill_application_channel_id',
         'bill_application_channel_name',
-        'report_type'
+        'report_type',
+        'auto_transfer_id',
     ];
 
     public $timestamps = false;

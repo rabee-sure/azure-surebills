@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Valuestore\Valuestore;
 use ZipArchive;
@@ -37,7 +38,7 @@ class TransferAutomatic extends Command
      * @var string
      */
     protected $signature = 'transfer:automatic';
-    private $today;
+    private $today, $uniqId, $folder;
 
     /**
      * The console command description.
@@ -63,6 +64,8 @@ class TransferAutomatic extends Command
     {
         parent::__construct();
         $this->today = date('Y-m-d');
+        $this->uniqId = uniqid();
+        $this->folder = "automatic_transfers/".$this->today."/".$this->uniqId;
     }
 
 
@@ -110,19 +113,21 @@ class TransferAutomatic extends Command
                 }
             }
 
-            $this->createMasterSheet($transfer_ids, $cycleDate);
             if(count($transfer_ids) > 0)
             {
                 $autoTransfer = AutoTransfer::create([
                     'day' => $this->today,
-                    'folder' => "automatic_transfers/".$this->today,
-                    'zip_file' => "automatic_transfers/".$this->today."/master_sheet_".$this->today.".zip",
-                    'merchants_file' => "automatic_transfers/".$this->today."/merchants_transactions.xlsx",
-                    'channels_file' => "automatic_transfers/".$this->today."/channels_transactions.xlsx",
+                    'folder' => $this->folder,
                     'tranfer_ids' => $transfer_ids,
                 ]);
 
+                $this->createMasterSheet($transfer_ids, $cycleDate);
                 $this->call("transfers:summary", ['id' =>  $transfer_ids, 'auto_transfer_id' => $autoTransfer->id]);
+
+                $autoTransfer->zip_file = Storage::disk('public')->exists($this->folder."/master_sheet_".$this->today.".zip") ? $this->folder."/master_sheet_".$this->today.".zip" : null;
+                $autoTransfer->merchants_file = Storage::disk('public')->exists($this->folder."/merchants_transactions.xlsx") ? $this->folder."/merchants_transactions.xlsx" : null;
+                $autoTransfer->channels_file = Storage::disk('public')->exists($this->folder."/channels_transactions.xlsx") ? $this->folder."/channels_transactions.xlsx" : null;
+                $autoTransfer->save();
 
                 foreach($transfer_ids as $transferId)
                 {
@@ -143,10 +148,10 @@ class TransferAutomatic extends Command
      */
     public function createMasterSheet($transfer_ids, $day)
     {
-        if(count($transfer_ids)){
+        if(count($transfer_ids) > 0){
             $this->createMerchantsFile($transfer_ids, $day);
             $this->createChannelsFile($transfer_ids, $day);
-            $this->zipFolder("automatic_transfers/".$this->today, "master_sheet_".$this->today.".zip");
+            $this->zipFolder($this->folder, "master_sheet_".$this->today.".zip");
             $this->sendMails($day);
         }
         return true;
@@ -160,15 +165,14 @@ class TransferAutomatic extends Command
                     ->where('description', 'not like', "%Channel:%");
             })->with('bill.application.channel')->get();
 
-        $merchants_file = "automatic_transfers/".$this->today."/merchants_transactions.xlsx";
+        $merchants_file = $this->folder."/merchants_transactions.xlsx";
         $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
         Excel::store(new TransactionsExport($data, 'merchants_transactions'), $merchants_file , 'public');
     }
 
     public function createChannelsFile($transfer_ids, $day)
     {
-        $channels_file = "automatic_transfers/".$this->today."/channels_transactions.xlsx";
-
+        $channels_file = $this->folder."/channels_transactions.xlsx";
         $channel_transactions = Transaction::whereHas('transfers', function($q) use($transfer_ids){
             $q->whereIn('transfer_id', $transfer_ids)
                 ->where(function ($q){
@@ -177,8 +181,12 @@ class TransferAutomatic extends Command
                         ;
                 });
         })->with('bill.application.channel')->get();
-        $channels_data = json_decode((TransactionExportResource::collection($channel_transactions))->toJson(), true);
-        Excel::store(new TransactionsExport($channels_data, 'channels_transactions'), $channels_file , 'public');
+
+        if(count($channel_transactions) > 0)
+        {
+            $channels_data = json_decode((TransactionExportResource::collection($channel_transactions))->toJson(), true);
+            Excel::store(new TransactionsExport($channels_data, 'channels_transactions'), $channels_file , 'public');
+        }
     }
 
     public function zipFolder($folder_name , $file_name)

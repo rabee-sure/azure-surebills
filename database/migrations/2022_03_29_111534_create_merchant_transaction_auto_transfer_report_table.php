@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMerchantTransactionTransferReportTable extends Migration
+class CreateMerchantTransactionAutoTransferReportTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateMerchantTransactionTransferReportTable extends Migration
      */
     public function up()
     {
-        Schema::create('merchant_transaction_transfer_report', function (Blueprint $table) {
+        Schema::create('merchant_auto_transfer_report', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('auto_transfer_id')->references('id')->on('auto_transfers')->onDelete('cascade')->nullable();
             $table->string('created_at')->nullable();
             $table->longText('description')->nullable();
             $table->string('type')->nullable();
@@ -31,6 +32,7 @@ class CreateMerchantTransactionTransferReportTable extends Migration
             $table->string('bill_application_channel_id')->nullable();
             $table->string('bill_application_channel_name')->nullable();
             $table->string('report_type')->nullable();
+
         });
     }
 
@@ -41,6 +43,6 @@ class CreateMerchantTransactionTransferReportTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('merchant_transaction_transfer_report');
+        Schema::dropIfExists('merchant_auto_transfer_report');
     }
 }

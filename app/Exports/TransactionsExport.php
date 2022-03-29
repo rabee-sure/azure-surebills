@@ -2,13 +2,14 @@
 
 namespace App\Exports;
 
+use App\Models\AutoTransfer;
 use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
-use App\Models\MerchantTransactionTransferReport;
+use App\Models\MerchantAutoTransferReport;
 
 class TransactionsExport implements FromView
 {
@@ -41,8 +42,9 @@ class TransactionsExport implements FromView
             {
                 $transaction['transaction_id'] = $transaction['id'];
                 $transaction['report_type'] = $this->reportType;
+                $transaction['auto_transfer_id'] = AutoTransfer::max('id');
                 unset($transaction['id']);
-                MerchantTransactionTransferReport::create($transaction);
+                MerchantAutoTransferReport::create($transaction);
             }
         }
     }
