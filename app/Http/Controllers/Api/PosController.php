@@ -40,6 +40,14 @@ class PosController extends Controller
         return $productsCollection;
     }
 
+    public function getActiveProducts(Request $request)
+    {
+        $products = Product::active()->orderBy('sort_number')->get();
+        $productsCollection = ProductResource::collection($products);
+
+        return $productsCollection;
+    }
+
     public function getProduct($product_id, Request $request)
     {
         $product = Product::with('images')->find($product_id);

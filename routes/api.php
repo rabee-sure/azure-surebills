@@ -76,6 +76,7 @@ Route::prefix('v1')->group(function () {
 		Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory')->name('pos.active-top-categories');
 		Route::get('getActiveSubCategory/{category_id}', 'PosController@getActiveSubCategory');
 		Route::get('getActiveCategoryProducts/{category_id}', 'PosController@getActiveCategoryProducts');
+		Route::get('getActiveProducts', 'PosController@getActiveProducts');
 		Route::get('getProduct/{product_id}', 'PosController@getProduct');
 		Route::get('searchForProduct/{keyword}', 'PosController@searchForProduct');
 		Route::get('searchForCustomer/{name}', 'PosController@searchForCustomer');
