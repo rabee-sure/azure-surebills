@@ -20,7 +20,7 @@ Route::post('mastercard/handle-payment', 'MasterCardController@handlePyament');
 Route::post('mastercard/{session}/check-payment', 'MasterCardController@checkPayment')->name('mastercard.3ds');
 
 
-Route::get('test', 'TestController@test');
+// Route::get('test', 'TestController@test');
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();

@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $categories = Category::get();
+        $categories = Category::owner($request->user->id)->get();
         $categoriesCollection = CategoryListResource::collection($categories);
 
         return $categoriesCollection;
@@ -24,7 +24,7 @@ class CategoryController extends Controller
 
     public function topCategories(Request $request)
     {
-        $categories = Category::where('parent_id', 0)->withTrashed()->get();
+        $categories = Category::owner($request->user->id)->where('parent_id', 0)->withTrashed()->get();
         $categoriesCollection = CategoryResource::collection($categories);
 
         return $categoriesCollection;
@@ -40,7 +40,11 @@ class CategoryController extends Controller
     public function show($category_id, Request $request)
     {
         $category = Category::find($category_id);
-        return $category;
+        if($category->user_id == $request->user->id){
+            return $category;
+        }else{
+            return response()->json(['authorization' => 'not authorized to show this category'], 403);
+        }
     }
     
     public function store(CategoryApiRequest $request){
@@ -48,6 +52,7 @@ class CategoryController extends Controller
 
         $parent = ($request->parent_id) ? $request->parent_id : 0;
 
+        $image = null;
         if ($request->hasFile('image')) {
 	        $file = $request->file('image');
 	        $file_name = time().'-'.$file->getClientOriginalName();
@@ -62,6 +67,7 @@ class CategoryController extends Controller
             'active' => $request->active,
             'parent_id' => $parent,
             'image' => $image,
+            'user_id' => $request->user->id,
         ]);
         
         return $category;
@@ -75,34 +81,43 @@ class CategoryController extends Controller
 
         $category = Category::find($id);
 
-        if ($request->hasFile('image')) {
-	        $file = $request->file('image');
-	        $file_name = time().'-'.$file->getClientOriginalName();
-	        $destinationPath = storage_path('/app/public/categories');
-	        $file->move($destinationPath, $file_name);
-            $image = $file_name;
-	    }else{
-            $image = $category->image;
+        if($category->user_id == $request->user->id){
+
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $file_name = time().'-'.$file->getClientOriginalName();
+                $destinationPath = storage_path('/app/public/categories');
+                $file->move($destinationPath, $file_name);
+                $image = $file_name;
+            }else{
+                $image = $category->image;
+            }
+    
+            $category = Category::find($id);
+    
+            $category->update([
+                'name' => $name,
+                'sort_number' => $request->sort_number,
+                'active' => $request->active,
+                'parent_id' => $parent,
+                'image' => $image,
+            ]);
+            
+            return $category;
+        }else{
+            return response()->json(['authorization' => 'not authorized to updated this category'], 403);
         }
-
-        $category = Category::find($id);
-
-        $category->update([
-            'name' => $name,
-            'sort_number' => $request->sort_number,
-            'active' => $request->active,
-            'parent_id' => $parent,
-            'image' => $image,
-        ]);
-        
-        return $category;
     }
 
-    public function delete($id){
+    public function delete($id, Request $request){
         $category = Category::findOrFail($id);
 
-        $category->delete();
-
-        return response()->json(['deleted_at' => $category->deleted_at], 200);
+        if($category->user_id == $request->user->id){
+            $category->delete();
+    
+            return response()->json(['deleted_at' => $category->deleted_at], 200);
+        }else{
+            return response()->json(['authorization' => 'not authorized to delete this category'], 403);
+        }
     }
 }

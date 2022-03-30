@@ -57,7 +57,7 @@
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
-              <label for="sel_1" class="d-block mb-2">{{__('Parent')}} <span class="requirement text-danger">*</span></label>
+              <label for="sel_1" class="d-block mb-2">{{__('Parent')}}</label>
               <select id="sel_1" name="parent_id" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" multiple></select>
             </div><!-- form-group -->
           </div><!-- col-12 -->
@@ -103,6 +103,7 @@
 @endsection
 
 @push('footer-scripts')
+  {!! JsValidator::formRequest('App\Http\Requests\CategoryApiRequest', '#categoryForm') !!}
   <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2totree.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2tree.js') }}?v={{ config('app.asset_version') }}"></script>
@@ -116,8 +117,8 @@
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : 195,
-              'X-application-secret' : 'aajO9ETFeqfaIiGgJLSp',
+              'X-application-id' : 1750,
+              'X-application-secret' : '4F5jT8BotLggbwzE7WVs',
               'Accept' : 'application/json'
           }
       });
@@ -136,6 +137,7 @@
           type:'GET',
           url: base_url+"/api/v1/categories/"+category_id,
           success:function(category){
+            console.log(category);
             var imgUrl = "{{Storage::url('categories/')}}";
 
             $("input[name=name_en]").val(category['name'].en);
@@ -176,6 +178,7 @@
           requestUrl = base_url+"/api/v1/category/"+category_id+"/update";
         }
 
+        console.log(requestUrl)
         $.ajax({
           type:'POST',
           url:requestUrl,

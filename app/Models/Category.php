@@ -18,12 +18,18 @@ class Category extends Model
         'image', 
         'sort_number',
         'active',
-        'parent_id'
+        'parent_id',
+        'user_id'
     ];
 
     public function scopeActive($query)
     {
     	return $query->where('active', true);
+    }
+
+    public function scopeOwner($query, $user_id)
+    {
+    	return $query->where('user_id', $user_id);
     }
 
     public function parent()
