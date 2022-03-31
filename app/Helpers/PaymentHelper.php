@@ -105,7 +105,7 @@ class PaymentHelper
         }
 
         //redirect if failed
-        if($bill->application && $bill->is_redirect) {
+        if($bill->application && $bill->user->settings->api_bill_style && $bill->is_redirect) {
             $bill->status = 'failed';
             $bill->save();
             return redirect($bill->getRedirectUrl($payment->results['response']));
