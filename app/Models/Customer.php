@@ -27,6 +27,11 @@ class Customer extends Model
     	return $query->where('mobile', 'like', '%'.$mobile.'%');
     }
 
+    public function scopeOwner($query, $user_id)
+    {
+    	return $query->where('user_id', $user_id);
+    }
+
     /**
      * Get bills.
      *
