@@ -55,8 +55,8 @@
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : 195,
-              'X-application-secret' : 'aajO9ETFeqfaIiGgJLSp',
+              'X-application-id' : 1750,
+              'X-application-secret' : '4F5jT8BotLggbwzE7WVs',
               'Accept' : 'application/json'
           }
       });

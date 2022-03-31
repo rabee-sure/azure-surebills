@@ -50,9 +50,13 @@ class PosController extends Controller
 
     public function getProduct($product_id, Request $request)
     {
-        $product = Product::with('images')->find($product_id);
-        
-        return $product;
+        $product = Product::where('id', $product_id)->get();
+        if($product->isEmpty()){
+            return response()->json(['message' => 'not found'], 404);
+        }else{
+            $productCollection = ProductResource::collection($product);
+            return $productCollection;
+        }
     }
 
     public function searchForProduct($keyword, Request $request)
