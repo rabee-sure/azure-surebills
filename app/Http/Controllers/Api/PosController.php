@@ -18,7 +18,7 @@ class PosController extends Controller
 {
     public function getActiveTopCategory(Request $request)
     {
-        $categories = Category::active()->where('parent_id', 0)->orderBy('sort_number')->get();
+        $categories = Category::active()->owner($request->user->id)->where('parent_id', 0)->orderBy('sort_number')->get();
         $categoriesCollection = CategoryPosListResource::collection($categories);
 
         return $categoriesCollection;
@@ -26,7 +26,7 @@ class PosController extends Controller
 
     public function getActiveSubCategory($category_id, Request $request)
     {
-        $categories = Category::active()->where('parent_id', $category_id)->orderBy('sort_number')->get();
+        $categories = Category::active()->owner($request->user->id)->where('parent_id', $category_id)->orderBy('sort_number')->get();
         $categoriesCollection = CategoryPosListResource::collection($categories);
 
         return $categoriesCollection;
@@ -34,7 +34,7 @@ class PosController extends Controller
 
     public function getActiveCategoryProducts($category_id, Request $request)
     {
-        $products = Product::active()->where('category_id', $category_id)->orderBy('sort_number')->get();
+        $products = Product::active()->owner($request->user->id)->where('category_id', $category_id)->orderBy('sort_number')->get();
         $productsCollection = ProductResource::collection($products);
 
         return $productsCollection;
@@ -42,7 +42,7 @@ class PosController extends Controller
 
     public function getActiveProducts(Request $request)
     {
-        $products = Product::active()->orderBy('sort_number')->get();
+        $products = Product::active()->owner($request->user->id)->orderBy('sort_number')->get();
         $productsCollection = ProductResource::collection($products);
 
         return $productsCollection;
@@ -54,21 +54,25 @@ class PosController extends Controller
         if($product->isEmpty()){
             return response()->json(['message' => 'not found'], 404);
         }else{
-            $productCollection = ProductResource::collection($product);
-            return $productCollection;
+            if($product->user_id == $request->user->id){
+                $productCollection = ProductResource::collection($product);
+                return $productCollection;
+            }else{
+                return response()->json(['authorization' => 'not authorized to show this product'], 403);
+            }
         }
     }
 
     public function searchForProduct($keyword, Request $request)
     {
-        $products = Product::name($keyword)->get();
+        $products = Product::name($keyword)->owner($request->user->id)->get();
 
         return $products;
     }
 
     public function searchForCustomer($mobile, Request $request)
     {
-        $customers = Customer::mobile($mobile)->get();
+        $customers = Customer::mobile($mobile)->owner($request->user->id)->get();
 
         return $customers;
     }
