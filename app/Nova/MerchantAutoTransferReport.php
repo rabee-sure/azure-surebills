@@ -61,11 +61,6 @@ class MerchantAutoTransferReport extends Resource
         ];
     }
 
-    public function title()
-    {
-        return $this->name;
-    }
-
     public static function indexQuery(NovaRequest $request, $query)
     {
         if($request->search)

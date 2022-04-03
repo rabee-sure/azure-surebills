@@ -215,7 +215,7 @@ class TransferAutomatic extends Command
         $emails = explode(",", $transfer_emails);
         if(count($emails)){
             foreach ($emails as $email) {
-                Mail::to($email)->send(new AutoTransferMail($day));
+                // Mail::to($email)->send(new AutoTransferMail($day));
             }
         }
     }

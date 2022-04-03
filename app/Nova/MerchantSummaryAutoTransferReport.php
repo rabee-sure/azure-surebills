@@ -7,7 +7,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class MerchantChannelAutoTransferReport extends Resource
+class MerchantSummaryAutoTransferReport extends Resource
 {
     /**
      * The model the resource corresponds to.
@@ -15,7 +15,7 @@ class MerchantChannelAutoTransferReport extends Resource
      * @var string
      */
 
-    public static $model = \App\Models\MerchantAutoTransferReport::class;
+    public static $model = \App\Models\MerchantSummaryAutoTransferReport::class;
     public static $displayInNavigation = false;
 
     /**
@@ -43,21 +43,23 @@ class MerchantChannelAutoTransferReport extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('created_at'),
-            Text::make('description'),
-            Text::make('type'),
-            Text::make('amount'),
-            Text::make('transaction_id'),
-            Text::make('bill_id'),
-            Text::make('bill_reference_id'),
-            Text::make('bill_number'),
-            Text::make('bill_user_id'),
-            Text::make('bill_business_name'),
-            Text::make('card_brand'),
-            Text::make('card'),
-            Text::make('source'),
-            Text::make('bill_application_channel_id'),
-            Text::make('bill_application_channel_name'),
+            Text::make('client_id'),
+            Text::make('payment_type'),
+            Text::make('no_of_trx'),
+            Text::make('total_amount'),
+            Text::make('total_fees'),
+            Text::make('total_fees_vat'),
+            Text::make('total_fees_variable_rate'),
+            Text::make('total_fees_fixed_rate'),
+            Text::make('sure_variable_rate'),
+            Text::make('sure_fixed_rate'),
+            Text::make('channel_variable_rate'),
+            Text::make('channel_fixed_rate'),
+            Text::make('sure_fees'),
+            Text::make('sure_vat'),
+            Text::make('channel_fees'),
+            Text::make('channels_vat'),
+            Text::make('channel_id'),
         ];
     }
 
@@ -65,7 +67,7 @@ class MerchantChannelAutoTransferReport extends Resource
     {
         if($request->search)
         {
-            return $query->where([['auto_transfer_id', $request->search], ['report_type', 'channels_transactions']]);
+            return $query->where('auto_transfer_id', $request->search);
         }
 
         return $query->where('auto_transfer_id', -1);

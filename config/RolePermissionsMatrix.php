@@ -26,15 +26,15 @@ return [
     'update application',
     'delete application',
 
-    // 'show products',
-    // 'create product',
-    // 'update product',
-    // 'delete product',
+    'show products',
+    'create product',
+    'update product',
+    'delete product',
 
-    // 'show product categories',
-    // 'create product category',
-    // 'update product category',
-    // 'delete product category',
+    'show product categories',
+    'create product category',
+    'update product category',
+    'delete product category',
 
     'show users',
     'create user',
