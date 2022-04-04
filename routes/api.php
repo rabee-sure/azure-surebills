@@ -84,6 +84,10 @@ Route::prefix('v1')->group(function () {
 
 	});
 
+	// Route::group(['middleware' => ['auth:api']], function () {
+		
+    // });
+
     // Route::post('fandaqah-register', 'UserController@registerFandaqah');
     Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
 
