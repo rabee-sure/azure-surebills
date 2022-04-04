@@ -30,7 +30,7 @@ class ChannelApplicationRequest extends FormRequest
             'mada_fixed' => ['required', 'numeric', 'max:1000', 'gte:'.$this->channel->mada_fixed, new Decimal(2,5)],
             'mada_percentage' => ['required', 'numeric', 'max:100', 'gte:'.$this->channel->mada_percentage, new Decimal(2,5)],
             'credit_cards_fixed' => ['required', 'numeric', 'max:1000', 'gte:'.$this->channel->credit_cards_fixed, new Decimal(2,5)],
-            'credit_cards_percentage' => ['required', 'numeric', 'max:100', 'gte:'.$this->channel->credit_cards_percentage, new Decimal(2,5)],            
+            'credit_cards_percentage' => ['required', 'numeric', 'max:100', 'gte:'.$this->channel->credit_cards_percentage, new Decimal(2,5)],
 
             'redirect' => ['required', 'url'],
             'webhook_url' => ['required', 'url'],
@@ -49,8 +49,8 @@ class ChannelApplicationRequest extends FormRequest
                 // return array_merge($rules, [
                 //     'email' => [
                 //         'required',
-                //         'email', 
-                //         'exists:users,email', 
+                //         'email',
+                //         'exists:users,email',
                 //         new EmailChannel],
                 // ]);
 
