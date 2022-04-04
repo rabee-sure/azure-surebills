@@ -59,7 +59,7 @@
               <div class="form-group mb-3">
                 <label for="email" class="d-block mb-2">{{ __('Client Email')}} <span class="requirement text-danger">*</span></label>
                 <input :class="{'is-invalid': haveError('email') }" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="email" id="email" @keyup.enter="store" v-model="createForm.email">
-                <div class="invalid-feedback text-danger" v-if="haveError('email')">{{errorMessage('email')}}</div> 
+                <div class="invalid-feedback text-danger" v-if="haveError('email')">{{errorMessage('email')}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="redirect" class="d-block mb-2">{{ __('Redirect URL')}} <span class="requirement text-danger">*</span></label>
@@ -70,27 +70,27 @@
               <div class="form-group mb-3">
                 <label for="webhook_url" class="d-block mb-2">{{ __('Webhook URL')}} <span class="requirement text-danger">*</span></label>
                 <input  :class="{'is-invalid': haveError('webhook_url') }" type="url" inputmode="url" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="webhook_url" id="webhook_url" @keyup.enter="store" v-model="createForm.webhook_url">
-                <div class="invalid-feedback text-danger" v-if="haveError('webhook_url')">{{errorMessage('webhook_url')}}</div> 
+                <div class="invalid-feedback text-danger" v-if="haveError('webhook_url')">{{errorMessage('webhook_url')}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_fixed" class="d-block mb-2">{{ __('Mada Fixed') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('mada_fixed') }" type="tel" inputmode="numaric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_fixed" id="mada_fixed" @keyup.enter="store" v-model="createForm.mada_fixed" step="0.01">
-                <div class="invalid-feedback text-danger" v-if="haveError('mada_fixed')">{{errorMessage('mada_fixed')}}</div> 
+                <input :class="{'is-invalid': haveError('mada_fixed') }" type="number" inputmode="numaric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_fixed" id="mada_fixed" @keyup.enter="store" v-model="createForm.mada_fixed" step="0.01">
+                <div class="invalid-feedback text-danger" v-if="haveError('mada_fixed')">{{errorMessage('mada_fixed')}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_percentage" class="d-block mb-2">{{ __('Mada Percentage') }}<span class="requirement">*</span></label>
-                <input :class="{'is-invalid': haveError('mada_percentage') }" type="tel" inputmode="numaric" id="mada_percentage" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_percentage" @keyup.enter="store" v-model="createForm.mada_percentage"  step="0.01">
-                <div class="invalid-feedback text-danger" v-if="haveError('mada_percentage')">{{errorMessage('mada_percentage')}}</div> 
+                <input :class="{'is-invalid': haveError('mada_percentage') }" type="number" inputmode="numaric" id="mada_percentage" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_percentage" @keyup.enter="store" v-model="createForm.mada_percentage"  step="0.01">
+                <div class="invalid-feedback text-danger" v-if="haveError('mada_percentage')">{{errorMessage('mada_percentage')}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_fixed" class="d-block mb-2">{{ __('Credit Cards Fixed') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('credit_cards_fixed') }" type="tel" inputmode="numaric" id="credit_cards_fixed" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_fixed" @keyup.enter="store" v-model="createForm.credit_cards_fixed"  step="0.01">
-                <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_fixed')">{{errorMessage('credit_cards_fixed')}}</div> 
+                <input :class="{'is-invalid': haveError('credit_cards_fixed') }" type="number" inputmode="numaric" id="credit_cards_fixed" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_fixed" @keyup.enter="store" v-model="createForm.credit_cards_fixed"  step="0.01">
+                <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_fixed')">{{errorMessage('credit_cards_fixed')}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_percentage" class="d-block mb-2">{{ __('Credit Cards Percentage') }}<span class="requirement">*</span></label>
-                <input :class="{'is-invalid': haveError('credit_cards_percentage') }" type="tel" inputmode="numaric" id="credit_cards_percentage" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" @keyup.enter="store" v-model="createForm.credit_cards_percentage"  step="0.01">
-                <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_percentage')">{{errorMessage('credit_cards_percentage')}}</div> 
+                <input :class="{'is-invalid': haveError('credit_cards_percentage') }" type="number" inputmode="numaric" id="credit_cards_percentage" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" @keyup.enter="store" v-model="createForm.credit_cards_percentage"  step="0.01">
+                <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_percentage')">{{errorMessage('credit_cards_percentage')}}</div>
               </div><!-- form-group -->
             </form>
           </div><!-- modal-body -->
@@ -115,39 +115,39 @@
               <div class="form-group mb-3">
                 <label for="email" class="d-block mb-2">{{ __('Client Email')}} <span class="requirement text-danger">*</span></label>
                 <input :class="{'is-invalid': haveError('email', 2) }" type="email" inputmode="email" id="email" class="form-control shadow-none bg-light border w-100 rounded-3 text-body" name="email" @keyup.enter="update" v-model="editForm.email" disabled>
-                <div class="invalid-feedback" v-if="haveError('email', 2)">{{errorMessage('email', 2)}}</div> 
+                <div class="invalid-feedback" v-if="haveError('email', 2)">{{errorMessage('email', 2)}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="redirect" class="d-block mb-2">{{ __('Redirect URL')}} <span class="requirement text-danger">*</span></label>
-                  <input :class="{'is-invalid': haveError('redirect', 2) }"  type="url" id="redirect" inputmode="url" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="redirect" @keyup.enter="update" v-model="editForm.redirect"> 
+                  <input :class="{'is-invalid': haveError('redirect', 2) }"  type="url" id="redirect" inputmode="url" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="redirect" @keyup.enter="update" v-model="editForm.redirect">
                 <span class="form-text text-muted d-block mt-1">{{ __('Your application\'s authorization callback URL.')}}</span>
                 <div class="invalid-feedback" v-if="haveError('redirect', 2)">{{errorMessage('redirect', 2)}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="webhook_url" class="d-block mb-2">{{ __('Webhook URL')}} <span class="requirement text-danger">*</span></label>
                   <input :class="{'is-invalid': haveError('webhook_url', 2) }" type="url" inputmode="url" id="webhook_url" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="webhook_url" @keyup.enter="update" v-model="editForm.webhook_url">
-                <div class="invalid-feedback" v-if="haveError('webhook_url', 2)">{{errorMessage('webhook_url', 2)}}</div> 
+                <div class="invalid-feedback" v-if="haveError('webhook_url', 2)">{{errorMessage('webhook_url', 2)}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_fixed" class="d-block mb-2">{{ __('Mada Fixed') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('mada_fixed', 2) }" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_fixed" id="mada_fixed" @keyup.enter="update" v-model="editForm.mada_fixed" step="0.01">
-                <div class="invalid-feedback text-danger" v-if="haveError('mada_fixed', 2)">{{errorMessage('mada_fixed', 2)}}</div>  
+                <input :class="{'is-invalid': haveError('mada_fixed', 2) }" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_fixed" id="mada_fixed" @keyup.enter="update" v-model="editForm.mada_fixed" step="0.01">
+                <div class="invalid-feedback text-danger" v-if="haveError('mada_fixed', 2)">{{errorMessage('mada_fixed', 2)}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_percentage" class="d-block mb-2">{{ __('Mada Percentage') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('mada_percentage', 2) }" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_percentage" id="mada_percentage" @keyup.enter="update" v-model="editForm.mada_percentage" step="0.01">
-                <div class="invalid-feedback text-danger" v-if="haveError('mada_percentage', 2)">{{errorMessage('mada_percentage', 2)}}</div>  
-              </div><!-- form-group -->             
+                <input :class="{'is-invalid': haveError('mada_percentage', 2) }" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_percentage" id="mada_percentage" @keyup.enter="update" v-model="editForm.mada_percentage" step="0.01">
+                <div class="invalid-feedback text-danger" v-if="haveError('mada_percentage', 2)">{{errorMessage('mada_percentage', 2)}}</div>
+              </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_fixed" class="d-block mb-2">{{ __('Credit Cards Fixed') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('credit_cards_fixed', 2) }" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_fixed" id="credit_cards_fixed" @keyup.enter="update" v-model="editForm.credit_cards_fixed" step="0.01">
-                <div class="invalid-feedback" v-if="haveError('credit_cards_fixed', 2)">{{errorMessage('credit_cards_fixed', 2)}}</div>  
-              </div><!-- form-group -->     
+                <input :class="{'is-invalid': haveError('credit_cards_fixed', 2) }" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_fixed" id="credit_cards_fixed" @keyup.enter="update" v-model="editForm.credit_cards_fixed" step="0.01">
+                <div class="invalid-feedback" v-if="haveError('credit_cards_fixed', 2)">{{errorMessage('credit_cards_fixed', 2)}}</div>
+              </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_fixed" class="d-block mb-2">{{ __('Credit Cards Percentage') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('credit_cards_percentage', 2) }"  type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" id="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage" step="0.01">
-                <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_percentage', 2)">{{errorMessage('credit_cards_percentage', 2)}}</div>  
-              </div><!-- form-group -->           
+                <input :class="{'is-invalid': haveError('credit_cards_percentage', 2) }"  type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" id="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage" step="0.01">
+                <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_percentage', 2)">{{errorMessage('credit_cards_percentage', 2)}}</div>
+              </div><!-- form-group -->
             </form>
           </div>
           <div class="modal-footer p-2">
@@ -225,7 +225,7 @@
                     mada_fixed: '',
                     mada_percentage: '',
                     credit_cards_fixed: '',
-                    credit_cards_percentage: '', 
+                    credit_cards_percentage: '',
                 }
             };
         },
@@ -371,14 +371,14 @@
                         .then(response => {
                             this.getApplications();
                         })
-            },     
+            },
             haveError(key, type=1) {
                 if(type == 1){
                     return !!this.createForm.errors_obj.find(x => x.key === key)
                 }else{
                     return !!this.editForm.errors_obj.find(x => x.key === key)
                 }
-            },     
+            },
             errorMessage(key, type=1) {
                 if(type == 1){
                     return this.createForm.errors_obj.find(x => x.key === key).value
