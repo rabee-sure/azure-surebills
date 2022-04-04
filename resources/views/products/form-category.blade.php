@@ -117,8 +117,8 @@
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : 1757,
-              'X-application-secret' : 'O1vsjXw4DKRCmNifVxG2',
+              'X-application-id' : {{$posApplication->id}},
+              'X-application-secret' : '{{$posApplication->secret}}',
               'Accept' : 'application/json'
           }
       });

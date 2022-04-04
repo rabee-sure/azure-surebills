@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
 {
@@ -26,7 +27,8 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
-        return view('products.index');
+        $data['posApplication'] = Auth::user()->getApplication('pos');
+        return view('products.index', $data);
     }
 
     /**
@@ -36,7 +38,8 @@ class ProductsController extends Controller
      */
     public function indexCategory(Request $request)
     {
-        return view('products.index-category');
+        $data['posApplication'] = Auth::user()->getApplication('pos');
+        return view('products.index-category', $data);
     }
 
     /**
@@ -46,7 +49,8 @@ class ProductsController extends Controller
      */
     public function view(Request $request, $id)
     {
-        return view('products.view');
+        $data['posApplication'] = Auth::user()->getApplication('pos');
+        return view('products.view', $data);
     }
 
     /**
@@ -57,6 +61,7 @@ class ProductsController extends Controller
     public function create(Request $request)
     {
         $data['title'] = "Add Product";
+        $data['posApplication'] = Auth::user()->getApplication('pos');
         return view('products.form-product', $data);
     }
 
@@ -68,23 +73,15 @@ class ProductsController extends Controller
     public function createCategory(Request $request)
     {
         $data['title'] = "Add a product category";
+        $data['posApplication'] = Auth::user()->getApplication('pos');
         return view('products.form-category', $data);
     }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function store(Request $request, $slug)
-    // {
-    //     return view('products.store');
-    // }
 
     public function edit($id, Request $request)
     {
         $data['title'] = "Update Product";
         $data['id'] = $id;
+        $data['posApplication'] = Auth::user()->getApplication('pos');
         return view('products.form-product', $data);
     }
 
@@ -92,26 +89,7 @@ class ProductsController extends Controller
     {
         $data['title'] = "Update a product category";
         $data['id'] = $id;
+        $data['posApplication'] = Auth::user()->getApplication('pos');
         return view('products.form-category', $data);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function update(Request $request, $slug)
-    // {
-    //     return view('products.update');
-    // }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function settings(Request $request)
-    {
-        return view('products.settings');
     }
 }

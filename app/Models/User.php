@@ -307,6 +307,11 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Application::class)->orWhereIn('user_id', $this->storeUsers(true));
     }
+    
+    public function getApplication($name)
+    {
+        return $this->applications->where('name', $name)->first();
+    }
 
     /**
      * Get last transfer.
