@@ -1,6 +1,7 @@
 <table class="table table-striped text-center">
   <thead>
     <tr>
+      <th>ID</th>
       <th>Name</th>
       <th>Source</th>
       <th>Card Type</th>
@@ -26,6 +27,7 @@
   <tbody>
     @foreach($bills as $bill)
       <tr>
+        <td>{{ $bill['id'] }}</td>
         <td>{{ $bill['name'] }}</td>
         <td>{{ $bill['source'] }}</td>
         <td>{{ $bill['payment_method_type'] }}</td>
