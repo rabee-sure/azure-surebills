@@ -39,9 +39,9 @@
       </tr>
     @endforeach
   </tbody>
-</table> 
+</table>
 
-{{--  
+{{--
 
 
 
@@ -55,12 +55,12 @@ card_last4digits (XXX1111)
 
  --}}
 
- {{-- 
- transaction_id 
+ {{--
+ transaction_id
  bill_id
  bill_reference_id
  bill_number
- source (source of the transaction) 
+ source (source of the transaction)
  --}}
 
     {{--  "bill" => array:46 [
