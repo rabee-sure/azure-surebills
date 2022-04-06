@@ -3,6 +3,8 @@
     <tr>
       <th>ID</th>
       <th>Name</th>
+      <th>MID</th>
+      <th>Merchant Name</th>
       <th>Source</th>
       <th>Card Type</th>
       <th>Total Paid</th>
@@ -15,6 +17,9 @@
       <th>SureBills Fees VAT</th>
       <th>SureBills Fees Percentage</th>
       <th>SureBills Fees Fixed</th>
+      <th>Status</th>
+      <th>Refund Amount</th>
+      <th>Channel Name</th>
       <th>Channel Fees</th>
       <th>Channel Fees VAT</th>
       <th>Channel Fees Percentage</th>
@@ -29,6 +34,8 @@
       <tr>
         <td>{{ $bill['id'] }}</td>
         <td>{{ $bill['name'] }}</td>
+        <td>{{ $bill['user_id'] }}</td>
+        <td>{{ $bill['user']['business_name_en'] ?? $bill['user']['business_name_ar'] }}</td>
         <td>{{ $bill['source'] }}</td>
         <td>{{ $bill['payment_method_type'] }}</td>
         <td>{{ $bill['total'] }}</td>
@@ -41,6 +48,9 @@
         <td>{{ $bill['payment_surebills_fees_vat'] }}</td>
         <td>{{ $bill['pricing']['surebills_fees_percentage'] ?? ''}}</td>
         <td>{{ $bill['pricing']['surebills_fees_fixed'] ?? ''}}</td>
+        <td>{{ $bill['status'] }}</td>
+        <td>{{ $bill['refund_amount'] }}</td>
+        <td>{{ $bill['channel_name'] }}</td>
         <td>{{ $bill['payment_channel_fees'] }}</td>
         <td>{{ $bill['payment_channel_fees_vat'] }}</td>
         <td>{{ $bill['pricing']['channel_fees_percentage'] ?? ''}}</td>
