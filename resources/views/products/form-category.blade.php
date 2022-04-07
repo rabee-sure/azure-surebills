@@ -117,8 +117,6 @@
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : {{$posApplication->id}},
-              'X-application-secret' : '{{$posApplication->secret}}',
               'Accept' : 'application/json'
           }
       });
@@ -133,9 +131,10 @@
       });
 
       if(category_id){
+        var catergory_single_url = "{{ route('categories.show', ':category_id') }}";
         $.ajax({
           type:'GET',
-          url: base_url+"/api/v1/categories/"+category_id,
+          url: catergory_single_url.replace(':category_id', category_id),
           success:function(category){
             console.log(category);
             var imgUrl = "{{Storage::url('categories/')}}";
@@ -175,7 +174,8 @@
 
         requestUrl = "{{ route('categories.store') }}";
         if(category_id){
-          requestUrl = base_url+"/api/v1/category/"+category_id+"/update";
+          var catergory_update_url = "{{ route('categories.update', ':category_id') }}";
+          requestUrl = catergory_update_url.replace(':category_id', category_id);
         }
 
         console.log(requestUrl)
