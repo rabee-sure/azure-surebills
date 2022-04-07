@@ -22,7 +22,7 @@ class ChannelController extends Controller
      */
     public function index(Request $request)
     {
-        $channels = auth()->user()->channels()
+        $channels = Channel::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
             ->orderBy('id', 'desc')
             ->paginate($request->get('per_page', 10));
         return view('channels.index',  ['channels' => $channels]);
@@ -65,7 +65,7 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
-        $channel = $channel->where('id', $channel->id)->whereIn('user_id', auth()->user()->storeUsers(true))->first();
+        $channel = $channel->userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->where('id', $channel->id)->first();
         if(!$channel)
         {
             $this->authorize('view', $channel);

@@ -26,6 +26,10 @@ class WebhookLog extends Model
         'payload'   =>  'array',
     ];
 
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
 
     /**
      * Get user.

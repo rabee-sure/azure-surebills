@@ -19,7 +19,7 @@ class PaymentLogController extends Controller
     public function show(PaymentLog $log)
     {
         $log = $log->whereHas('bill', function($q){
-            $q->whereIn('user_id', auth()->user()->storeUsers(true));
+            $q->userId(auth()->user()->store_main_user_id ?? auth()->user()->id);
         })->where('id', $log->id)->first();
 
         if(!$log)

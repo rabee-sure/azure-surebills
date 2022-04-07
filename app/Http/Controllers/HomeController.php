@@ -30,7 +30,8 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $bills = Bill::whereIn('user_id', $user->storeUsers(true))->orderBy('created_at', 'desc')->get();
+        $user->userId = auth()->user()->store_main_user_id ?? auth()->user()->id;
+        $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->orderBy('created_at', 'desc')->get();
         $latest = $bills->take(3);
 
         $balance = $user->balance;

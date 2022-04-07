@@ -81,7 +81,7 @@
         </div><!-- col -->
       @endcan
       @can('show channels')
-        @if(count(auth()->user()->channels))
+        @if(count(auth()->user()->channels) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels)))
           <div class="col">
             <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
               <i class="fal fa-chart-network"></i>

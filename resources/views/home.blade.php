@@ -125,7 +125,7 @@
     @endcan
 
     @can('create bills')
-      @if(count(auth()->user()->channels) == 0)
+      @if(count(auth()->user()->channels) == 0 || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) == 0))
         <a href="{{ route('bills.create')}}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Create a bill')}}" class="addNewBillBtn position-fixed rounded-circle d-block shadow"></a>
       @endif
     @endcan
