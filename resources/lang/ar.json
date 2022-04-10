@@ -594,6 +594,7 @@
 	"customer mobile required" : "رقم الجوال مطلوب",
 	"customer mobile is not correct" : "رقم الجوال غير صحيح",
 	"item name required" : "اسم المنتج / الخدمة مطلوب",
+	"item category required" : "قسم المنتج / الخدمة مطلوب",
 	"item price required" : "سعر المنتج / الخدمة مطلوب",
 	"item quantity required" : "الكمية مطلوب",
 	"Bank" : "البنك",

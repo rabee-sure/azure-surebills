@@ -6,13 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\SubCategoryResource;
 use App\Http\Resources\CategoryPosListResource;
+use App\Http\Resources\PosOrderApiResource;
+
 use App\Models\Category;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\ProductImage;
+use App\Models\PosOrder;
+use App\Models\PosOrderItem;
+
 use Illuminate\Http\Request;
 use App\Http\Requests\CustomerApiRequest;
+use App\Http\Requests\PosOrderApiRequest;
+
+use App\Events\OrderCreated;
 
 class PosController extends Controller
 {
@@ -97,5 +105,91 @@ class PosController extends Controller
         ]);
 
         return $customer;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function orderStore(PosOrderApiRequest $request)
+    {
+        $user = auth('api')->user();
+        
+        $order = PosOrder::create([
+            'user_id' => $user->id,
+            'business_name' => $user->business_name,
+            
+            'customer_id' => $request->customer_id,
+            'customer_name' => $request->customer_name,
+            'customer_email' => $request->customer_email,
+            'customer_mobile' => $request->customer_mobile,
+            'customer_notes' => $request->customer_notes,
+            'bullding_no' => $request->customer_bullding_no,
+            'street_name' => $request->customer_street_name,
+            'district' => $request->customer_district,
+            'city' => $request->customer_city,
+            'postal_code' => $request->customer_postal_code,
+            'additional_no' => $request->customer_additional_no,
+            'other_buyer_id' => $request->customer_other_buyer_id,
+            'vat_registration_number' => $request->customer_vat_registration_number,
+
+            'add_discount' => $request->add_discount ?? false,
+            'discount_type' => $request->discount_type,
+            'discount_value' => $request->discount_value,
+
+            'add_tax' => $request->add_tax ?? false,
+            'tax_name' => $request->tax_name,
+            'tax_value' => $request->tax_value,
+        ]);
+
+
+        foreach ($request->items as $item) {
+            PosOrderItem::create([
+                'order_id' => $order->id,
+                'product_name' => $item['name'],
+                'product_category' => $item['category'],
+                'product_price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'total' => $item['quantity']*$item['price'],
+            ]);
+        }
+
+        $sub_total = $order->items->sum('total');
+        $discount = 0;
+        $vat = 0;
+        if($request->add_discount){
+            switch ($request->discount_type) {
+                case 'fixed':
+                    $discount = $request->discount_value;
+                    break;
+                case 'percentage':
+                    $discount = $sub_total * $request->discount_value / 100;
+                    break;
+            }
+        }
+
+        if($request->add_tax !== null){
+            $order->add_tax = $request->add_tax;
+            $order->tax_value = $request->tax_value;
+            $vat = ($sub_total -$discount) * $request->tax_value /100;
+
+        }elseif($user->settings->add_tax){
+            $order->add_tax = $user->settings->add_tax;
+            $order->tax_value = $user->settings->tax_value;
+            $vat = ($sub_total -$discount) * $user->settings->tax_value /100;
+        }
+
+        $order->discount = $discount;
+        $order->vat = $vat;
+        $order->number = $order->getNumber();
+        $order->sub_total = $sub_total;
+        $order->total = $sub_total - $discount + $vat;
+        $order->save();
+
+        event(new OrderCreated($order));
+
+        return new PosOrderApiResource($order);
     }
 }
