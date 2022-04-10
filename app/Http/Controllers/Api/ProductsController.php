@@ -11,11 +11,15 @@ use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductApiRequest;
 
+use App\Services\GetAuthUser;
+
 class ProductsController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::owner($request->user->id)->get();
+        $authUser = GetAuthUser::authUser($request);
+        
+        $products = Product::owner($authUser->id)->get();
         $productsCollection = ProductListResource::collection($products);
 
         return $productsCollection;
@@ -24,8 +28,10 @@ class ProductsController extends Controller
 
     public function show($id, Request $request)
     {
+        $authUser = GetAuthUser::authUser($request);
+
         $product = Product::with('images')->find($id);
-        if($product->user_id == $request->user->id){
+        if($product->user_id == $authUser->id){
             return $product;
         }else{
             return response()->json(['authorization' => 'not authorized to show this product'], 403);
@@ -33,6 +39,8 @@ class ProductsController extends Controller
     }
     
     public function store(ProductApiRequest $request){
+        $authUser = GetAuthUser::authUser($request);
+
         $name = ["en" => $request->name_en,"ar" => $request->name_ar];
         $discription = ["en" => $request->discription_en,"ar" => $request->discription_ar];
         
@@ -55,7 +63,7 @@ class ProductsController extends Controller
             'sort_number' => $request->sort_number,
             'active' => $request->active,
             'category_id' => $request->category_id,
-            'user_id' => $request->user->id,
+            'user_id' => $authUser->id,
         ]);
         
         if(!empty($images)){
@@ -66,11 +74,11 @@ class ProductsController extends Controller
     }
 
     public function update($id, ProductApiRequest $request){
-        
+        $authUser = GetAuthUser::authUser($request);
         
         $product = Product::find($id);
         
-        if($product->user_id == $request->user->id){
+        if($product->user_id == $authUser->id){
             $name = ["en" => $request->name_en,"ar" => $request->name_ar];
             $discription = ["en" => $request->discription_en,"ar" => $request->discription_ar];
 
@@ -108,9 +116,11 @@ class ProductsController extends Controller
     }
 
     public function delete($id, Request $request){
+        $authUser = GetAuthUser::authUser($request);
+
         $product = Product::findOrFail($id);
 
-        if($product->user_id == $request->user->id){
+        if($product->user_id == $authUser->id){
             $product->delete();
 
             return response()->json(['deleted_at' => $product->deleted_at], 200);

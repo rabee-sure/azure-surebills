@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -642,5 +643,14 @@ class User extends Authenticatable implements HasMedia
             ->first();
         $balance =  $balance_total->credit_total - $balance_total->debit_total;
         return floorp($balance, 2);
+    }
+
+    public function getAuthUser($token = null)
+    {
+        if($token){
+            return auth('api')->user();
+        }else{
+            return Auth::user();
+        }
     }
 }

@@ -29,7 +29,6 @@ class CategoryApiRequest extends FormRequest
             'name_ar' => ['required'],
             'image' => ['nullable', new ValidateUploadFile(['png', 'jpg', 'jpeg'])],
             'sort_number' => ['required'],
-            'active' => ['required'],
         ];
     }
 }
