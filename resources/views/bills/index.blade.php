@@ -18,7 +18,7 @@
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Bills') }}</h1>
       @can('create bills')
-        @if(count(auth()->user()->channels) == 0)
+        @if(count(auth()->user()->channels) == 0 || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) == 0))
             <a href="{{ route('bills.create')}}" title="{{ __('Create a bill')}}" class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill border-0 shadow-none">{{ __('Create a bill')}}</a>
          @endif
        @endcan

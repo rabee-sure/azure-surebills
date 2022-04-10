@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\Bill;
 use App\Http\Requests\SettingsRequest;
+use App\Models\Settings;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
@@ -37,7 +39,8 @@ class SettingsController extends Controller
      */
     public function settings(Request $request)
     {
-        return view('settings.index', ['user' => auth()->user()]);
+        $user = User::find(auth()->user()->store_main_user_id ?? auth()->user()->id);
+        return view('settings.index', ['user' => $user]);
     }
 
     /**
@@ -47,7 +50,8 @@ class SettingsController extends Controller
      */
     public function postSettings(SettingsRequest $request)
     {
-        $settings = auth()->user()->settings;
+        $settings = Settings::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->first();
+        // auth()->user()->settings;
         $settings->add_tax = $request->add_tax;
         $settings->tax_value = $request->tax_value;
         $settings->add_tax_invoice = $request->add_tax_invoice;

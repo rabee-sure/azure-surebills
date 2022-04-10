@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Application extends Model
 {
     protected $fillable = [
-        'user_id', 
-        'channel_id', 
-        'name', 
-        'secret', 
-        'redirect', 
-        'fail_redirect_url', 
-        'webhook_url', 
+        'user_id',
+        'channel_id',
+        'name',
+        'secret',
+        'redirect',
+        'fail_redirect_url',
+        'webhook_url',
         'webhook_secret',
 
         'channel_id',
@@ -22,6 +22,11 @@ class Application extends Model
         'credit_cards_fixed',
         'credit_cards_percentage',
     ];
+
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
 
     /**
      * Get channel.

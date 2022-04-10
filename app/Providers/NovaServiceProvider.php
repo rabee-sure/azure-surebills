@@ -34,6 +34,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::userTimezone(function (Request $request) {
             return 'Asia/Riyadh';
         });
+
+        Nova::style('admin', asset('css/nova.css'));
+        Nova::style('admin-font-awesome', asset('font-awesome/css/font-awesome.css'));
     }
 
     /**
@@ -70,7 +73,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        return [     
+        return [
             // new NewUsers,
             (new HomeAnalytics)->width('full'),
 
@@ -128,7 +131,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         $this->gate();
 
-        Nova::auth(function ($request) { 
+        Nova::auth(function ($request) {
             return Gate::check('viewNova', [$request->user()]);
            // return in_array($request->user()->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
         });
