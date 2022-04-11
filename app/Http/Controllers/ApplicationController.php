@@ -23,7 +23,7 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        $applications = auth()->user()->applications()->with('channel')->get();
+        $applications = auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->applications()->with('channel')->get() : auth()->user()->applications()->with('channel')->get();
         return ApplicationResource::collection($applications);
     }
 
@@ -36,7 +36,7 @@ class ApplicationController extends Controller
     public function store(ApplicationRequest $request)
     {
         $application = new Application;
-        $application->user_id = auth()->user()->id;
+        $application->user_id = auth()->user()->store_main_user_id ?? auth()->user()->id;
         $application->name = $request->name;
         $application->secret = Str::random(20);
         $application->redirect = $request->redirect;

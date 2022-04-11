@@ -26,7 +26,7 @@ class Transfer extends Model implements HasMedia
         'iban_number',
         'beneficiary_name',
         'filters',
-        
+
         'status',
         'transfer_fees',
         'net_amount',
@@ -41,6 +41,11 @@ class Transfer extends Model implements HasMedia
         'filters' => 'array',
     ];
 
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('transfers_transactions')->singleFile();
@@ -54,7 +59,7 @@ class Transfer extends Model implements HasMedia
      */
     public function getDateFromToAttribute()
     {
-        $to = (isset($this->filters['date']['to'])) ? Carbon::parse($this->filters['date']['to'])->toDateString(): null;        
+        $to = (isset($this->filters['date']['to'])) ? Carbon::parse($this->filters['date']['to'])->toDateString(): null;
         $cycle_date = (isset($this->filters['date']['cycle_date'])) ? Carbon::parse($this->filters['date']['cycle_date'])->toDateString(): '';
         return  $to ?? $cycle_date;
     }
@@ -67,7 +72,7 @@ class Transfer extends Model implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class);
-    }   
+    }
 
     /**
      * Get bank.
@@ -77,7 +82,7 @@ class Transfer extends Model implements HasMedia
     public function bank()
     {
         return $this->belongsTo(Bank::class);
-    }   
+    }
 
 
     /**
@@ -102,7 +107,7 @@ class Transfer extends Model implements HasMedia
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC');
     }
-    
+
     /**
      * Pending
      */

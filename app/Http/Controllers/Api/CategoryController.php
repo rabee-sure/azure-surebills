@@ -7,15 +7,18 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryListResource;
 use App\Http\Resources\CategorySingleResource;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryApiRequest;
+use App\Services\GetAuthUser;
 
 class CategoryController extends Controller
 {
-
     public function index(Request $request)
     {
-        $categories = Category::owner($request->user->id)->get();
+        $authUser = GetAuthUser::authUser($request);
+
+        $categories = Category::owner($authUser->id)->get();
         $categoriesCollection = CategoryListResource::collection($categories);
 
         return $categoriesCollection;
@@ -24,7 +27,9 @@ class CategoryController extends Controller
 
     public function topCategories(Request $request)
     {
-        $categories = Category::owner($request->user->id)->where('parent_id', 0)->withTrashed()->get();
+        $authUser = GetAuthUser::authUser($request);
+
+        $categories = Category::owner($authUser->id)->where('parent_id', 0)->withTrashed()->get();
         $categoriesCollection = CategoryResource::collection($categories);
 
         return $categoriesCollection;
@@ -39,8 +44,10 @@ class CategoryController extends Controller
 
     public function show($category_id, Request $request)
     {
+        $authUser = GetAuthUser::authUser($request);
+
         $category = Category::find($category_id);
-        if($category->user_id == $request->user->id){
+        if($category->user_id == $authUser->id){
             return $category;
         }else{
             return response()->json(['authorization' => 'not authorized to show this category'], 403);
@@ -48,6 +55,8 @@ class CategoryController extends Controller
     }
     
     public function store(CategoryApiRequest $request){
+        $authUser = GetAuthUser::authUser($request);
+
         $name = ["en" => $request->name_en,"ar" => $request->name_ar];
 
         $parent = ($request->parent_id) ? $request->parent_id : 0;
@@ -67,13 +76,14 @@ class CategoryController extends Controller
             'active' => $request->active,
             'parent_id' => $parent,
             'image' => $image,
-            'user_id' => $request->user->id,
+            'user_id' => $authUser->id,
         ]);
         
         return $category;
     }
 
     public function update($id, CategoryApiRequest $request){
+        $authUser = GetAuthUser::authUser($request);
         
         $name = ["en" => $request->name_en,"ar" => $request->name_ar];
 
@@ -81,7 +91,7 @@ class CategoryController extends Controller
 
         $category = Category::find($id);
 
-        if($category->user_id == $request->user->id){
+        if($category->user_id == $authUser->id){
 
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
@@ -110,9 +120,11 @@ class CategoryController extends Controller
     }
 
     public function delete($id, Request $request){
+        $authUser = GetAuthUser::authUser($request);
+        
         $category = Category::findOrFail($id);
 
-        if($category->user_id == $request->user->id){
+        if($category->user_id == $authUser->id){
             $category->delete();
     
             return response()->json(['deleted_at' => $category->deleted_at], 200);

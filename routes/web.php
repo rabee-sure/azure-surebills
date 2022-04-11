@@ -125,16 +125,31 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('categories/{id}/view', 'ProductsController@viewCategory')->name('categories.view');
     Route::get('categories/create', 'ProductsController@createCategory')->name('categories.create');
     Route::get('categories/{id}/edit', 'ProductsController@editCategory')->name('categories.edit');
-    Route::get('categories/create', 'ProductsController@createCategory')->name('categories.create');
-    // Route::get('storecategories/{slug}', 'ProductsController@storeCategory')->name('categories.store');
 
     Route::get('products', 'ProductsController@index')->name('products.all');
     Route::get('products/{id}/view', 'ProductsController@view')->name('products.view');
     Route::get('products/{id}/edit', 'ProductsController@edit')->name('products.edit');
     Route::get('products/create', 'ProductsController@create')->name('products.create');
-    // Route::get('store/{slug}', 'ProductsController@store')->name('products.store');
 
     Route::get('products/settings', 'ProductsController@settings')->name('products.settings');
+
+    Route::prefix('ajax')->group(function () {
+        //Categories
+        Route::get('categories', 'Api\CategoryController@index')->name('categories.index');
+        Route::get('top-categories', 'Api\CategoryController@topCategories')->name('categories.top');
+        Route::get('sub-categories/{parent}', 'Api\CategoryController@subCategories');
+        Route::post('category/store', 'Api\CategoryController@store')->name('categories.store');
+        Route::get('categories/{id}', 'Api\CategoryController@show')->name('categories.show');
+        Route::post('category/{id}/update', 'Api\CategoryController@update')->name('categories.update');
+        Route::delete('category/{id}/delete', 'Api\CategoryController@delete')->name('categories.delete');
+    
+        //Products
+        Route::get('products', 'Api\ProductsController@index')->name('products.index');
+        Route::get('products/{id}', 'Api\ProductsController@show')->name('products.show');
+        Route::post('products/store', 'Api\ProductsController@store')->name('products.store');
+        Route::post('products/{id}/update', 'Api\ProductsController@update')->name('products.update');
+        Route::delete('products/{id}/delete', 'Api\ProductsController@delete')->name('products.delete');
+    });
 
     // Orders
     Route::get('orders', 'OrdersController@index')->name('orders.all');

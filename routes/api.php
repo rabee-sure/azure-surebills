@@ -41,21 +41,7 @@ Route::prefix('v1')->group(function () {
 
 	Route::get('users/{user}/stats', 'UserController@stats');
 
-	//should send application id and secret
-	Route::group(['middleware' => ['User.from.application']], function () {
-		Route::post('bills/create/wordpress', 'BillController@wordpress');
-		Route::post('bills/create', 'BillController@store');
-		Route::put('bills/{bill}/cancel', 'BillController@cancel');
-		Route::put('bills/{bill}/timeout', 'BillController@timeout');
-		Route::put('bills/{bill}/refund', 'BillController@refund');
-		Route::get('bills/{bill}', 'BillController@show');
-
-		Route::get('transfers/{transfer}/transactions', 'TransferController@transactions');
-
-		Route::get('transactions', 'TransactionController@index');
-    	Route::get('account/information', 'AccountController@getInformation');
-    	Route::post('account/information', 'AccountController@updateInformation');
-
+	Route::group(['middleware' => ['Mutli.auth']], function () {
 		//Categories
 		Route::get('categories', 'CategoryController@index')->name('categories.index');
 		Route::get('top-categories', 'CategoryController@topCategories')->name('categories.top');
@@ -71,7 +57,26 @@ Route::prefix('v1')->group(function () {
 		Route::post('products/store', 'ProductsController@store')->name('products.store');
 		Route::post('products/{id}/update', 'ProductsController@update')->name('products.update');
 		Route::delete('products/{id}/delete', 'ProductsController@delete')->name('products.delete');
+	});
+	
+	//should send application id and secret
+	Route::group(['middleware' => ['User.from.application']], function () {
+		Route::post('bills/create/wordpress', 'BillController@wordpress');
+		Route::post('bills/create', 'BillController@store');
+		Route::put('bills/{bill}/cancel', 'BillController@cancel');
+		Route::put('bills/{bill}/timeout', 'BillController@timeout');
+		Route::put('bills/{bill}/refund', 'BillController@refund');
+		Route::get('bills/{bill}', 'BillController@show');
 
+		Route::get('transfers/{transfer}/transactions', 'TransferController@transactions');
+
+		Route::get('transactions', 'TransactionController@index');
+    	Route::get('account/information', 'AccountController@getInformation');
+    	Route::post('account/information', 'AccountController@updateInformation');
+
+	});
+
+	Route::group(['middleware' => ['auth:api']], function () {
 		//POS
 		Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory')->name('pos.active-top-categories');
 		Route::get('getActiveSubCategory/{category_id}', 'PosController@getActiveSubCategory');
@@ -81,12 +86,8 @@ Route::prefix('v1')->group(function () {
 		Route::get('searchForProduct/{keyword}', 'PosController@searchForProduct');
 		Route::get('searchForCustomer/{name}', 'PosController@searchForCustomer');
 		Route::post('customerStore', 'PosController@customerStore');
-
-	});
-
-	// Route::group(['middleware' => ['auth:api']], function () {
-		
-    // });
+		Route::post('orderStore', 'PosController@orderStore');
+  });
 
     // Route::post('fandaqah-register', 'UserController@registerFandaqah');
     Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');

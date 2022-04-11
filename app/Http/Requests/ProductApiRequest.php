@@ -32,7 +32,6 @@ class ProductApiRequest extends FormRequest
             'price' => ['required', 'numeric'],
             'image.*' => [new ValidateUploadFile(['png', 'jpg', 'jpeg'])],
             'sort_number' => ['required'],
-            'active' => ['required'],
             'category_id' => ['required'],
         ];
     }

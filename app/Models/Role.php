@@ -29,6 +29,11 @@ class Role extends Model implements RoleContract
         $this->guarded[] = $this->primaryKey;
     }
 
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
+
     public function getTable()
     {
         return config('permission.table_names.roles', parent::getTable());

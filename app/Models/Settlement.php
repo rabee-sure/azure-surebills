@@ -7,12 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Settlement extends Model
 {
     protected $table = 'settlements';
-    
+
     protected $fillable = [
 		'amount',
 		'user_id',
 	];
 
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
 	/**
      * Get user.
      *
@@ -21,7 +25,7 @@ class Settlement extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }   
+    }
 
     /**
      * Get user.

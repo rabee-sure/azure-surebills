@@ -207,7 +207,7 @@ class User extends Resource
 
             new Panel(__('Business Information'), $this->businessInformation()),
 
-            HasMany::make(__('Transfers'), 'novaTransfers', Transfer::class),
+            HasMany::make(__('Transfers'), 'transfers', Transfer::class),
             // HasMany::make('statement'),
             new Panel(__('Documents'), $this->documents()),
 
@@ -338,10 +338,12 @@ class User extends Resource
      */
     public function cards(Request $request)
     {
-        return [
-            (new Userstats)->onlyOnDetail()->width('full'),
+        if(!$this->store_main_user_id)
+        {
+            return [(new Userstats)->onlyOnDetail()->width('full')];
+        }
 
-        ];
+        return [];
     }
 
     /**

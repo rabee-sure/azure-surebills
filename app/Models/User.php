@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -25,6 +26,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @var array
      */
+    public $userId = null;
     protected $fillable = [
         'name', 'email', 'password', 'mobile', 'mobile_sent_at', 'mobile_active_code', 'gender', 'store_main_user_id',
 
@@ -115,7 +117,16 @@ class User extends Authenticatable implements HasMedia
      */
     public function getBalanceAttribute()
     {
-        $user = $this->transactions()
+        if($this->userId)
+        {
+            $user = Transaction::userId($this->userId);
+        }
+        else
+        {
+            $user = $this->transactions();
+        }
+
+        $user = $user
             ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
             ->first();
         $balance = $user->credit_total - $user->debit_total;
@@ -130,7 +141,16 @@ class User extends Authenticatable implements HasMedia
      */
     public function getPendingBalanceAttribute()
     {
-        $transfer = $this->transfers()
+        if($this->userId)
+        {
+            $transfer = Transfer::userId($this->userId);
+        }
+        else
+        {
+            $transfer = $this->transfers();
+        }
+
+        $transfer = $transfer
             ->select(DB::raw("SUM(CASE WHEN status  = 'pending' THEN amount ELSE 0 END) AS total"))
             ->first();
         return $transfer->total;
@@ -145,7 +165,16 @@ class User extends Authenticatable implements HasMedia
      */
     public function getPaidCashBalanceAttribute()
     {
-        $bills_paid_cash = $this->bills()
+        if($this->userId)
+        {
+            $bills_paid_cash = Bill::userId($this->userId);
+        }
+        else
+        {
+            $bills_paid_cash = $this->bills();
+        }
+
+        $bills_paid_cash = $bills_paid_cash
             ->select(DB::raw("SUM(CASE WHEN status  = 'paid_cash' THEN total ELSE 0 END) AS totals"))
             ->first();
         return $bills_paid_cash->totals;
@@ -160,7 +189,16 @@ class User extends Authenticatable implements HasMedia
      */
     public function getPaidBankTransferBalanceAttribute()
     {
-        $bills_paid_cash = $this->bills()
+        if($this->userId)
+        {
+            $bills_paid_cash = Bill::userId($this->userId);
+        }
+        else
+        {
+            $bills_paid_cash = $this->bills();
+        }
+
+        $bills_paid_cash = $bills_paid_cash
             ->select(DB::raw("SUM(CASE WHEN status  = 'paid_bank_transfer' THEN total ELSE 0 END) AS totals"))
             ->first();
         return $bills_paid_cash->totals;
@@ -305,9 +343,9 @@ class User extends Authenticatable implements HasMedia
      */
     public function applications()
     {
-        return $this->hasMany(Application::class)->orWhereIn('user_id', $this->storeUsers(true));
+        return $this->hasMany(Application::class);
     }
-    
+
     public function getApplication($name)
     {
         return $this->applications->where('name', $name)->first();
@@ -320,7 +358,16 @@ class User extends Authenticatable implements HasMedia
      */
     public function lastTransferTransaction()
     {
-        return $this->transactions()->where('transaction_source', 'transfer')->latest()->first();
+        if($this->userId)
+        {
+            $user = Transaction::userId($this->userId);
+        }
+        else
+        {
+            $user = $this->transactions();
+        }
+
+        return $user->where('transaction_source', 'transfer')->latest()->first();
     }
 
     /**
@@ -330,7 +377,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function channelsApplications()
     {
-        return $this->belongsToMany(Application::class, 'channels', 'user_id', 'id', 'id', 'channel_id')->orWhereIn('user_id', $this->storeUsers(true));
+        return $this->belongsToMany(Application::class, 'channels', 'user_id', 'id', 'id', 'channel_id');
     }
 
     /**
@@ -340,7 +387,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function customers()
     {
-        return $this->hasMany(Customer::class, 'user_id', 'id')->orWhereIn('user_id', $this->storeUsers(true));
+        return $this->hasMany(Customer::class, 'user_id', 'id');
     }
 
     /**
@@ -350,24 +397,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function bills()
     {
-        return $this->hasMany(Bill::class)->orWhereIn('user_id', $this->storeUsers(true));
-    }
-
-    public function storeUsers($retrieveIdsOnly = false)
-    {
-        $users = [];
-        if(auth()->user())
-        {
-            $users = $this->whereIn('id', [auth()->user()->id, auth()->user()->store_main_user_id])
-                        ->orWhereIn('store_main_user_id', [auth()->user()->id, auth()->user()->store_main_user_id])
-                        ->get();
-            if($retrieveIdsOnly)
-            {
-                return $users->pluck('id')->toArray();
-            }
-        }
-
-        return $users;
+        return $this->hasMany(Bill::class);
     }
 
     /**
@@ -376,16 +406,6 @@ class User extends Authenticatable implements HasMedia
      * @return Collection
      */
     public function transfers()
-    {
-        return $this->hasMany(Transfer::class)->orWhereIn('user_id', $this->storeUsers(true));
-    }
-
-    /**
-     * Get Transfers.
-     *
-     * @return Collection
-     */
-    public function novaTransfers()
     {
         return $this->hasMany(Transfer::class);
     }
@@ -397,7 +417,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function settings()
     {
-        return $this->hasOne(Settings::class)->orWhereIn('user_id', $this->storeUsers(true));
+        return $this->hasOne(Settings::class);
     }
 
     /**
@@ -427,7 +447,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function transactions()
     {
-        return $this->hasMany(Transaction::class)->orWhereIn('user_id', $this->storeUsers(true));
+        return $this->hasMany(Transaction::class);
     }
 
     /**
@@ -437,7 +457,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function channels()
     {
-        return $this->hasMany(Channel::class)->orWhereIn('user_id', $this->storeUsers(true))->activate();
+        return $this->hasMany(Channel::class)->activate();
     }
 
     /**
@@ -447,7 +467,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function fromChannel()
     {
-        return $this->belongsTo(Channel::class, 'from_channel_id')->orWhereIn('user_id', $this->storeUsers(true));
+        return $this->belongsTo(Channel::class, 'from_channel_id');
     }
 
     /**
@@ -457,7 +477,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function statement()
     {
-        return Transaction::whereIn('user_id', $this->storeUsers(true))
+        return Transaction::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC');
@@ -608,11 +628,29 @@ class User extends Authenticatable implements HasMedia
      */
     public function getBalanceBefore($date)
     {
-        $balance_total = $this->transactions()
+        if($this->userId)
+        {
+            $user = Transaction::userId($this->userId);
+        }
+        else
+        {
+            $user = $this->transactions();
+        }
+
+        $balance_total = $user
             ->amountByCycleDate($date)
             ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
             ->first();
         $balance =  $balance_total->credit_total - $balance_total->debit_total;
         return floorp($balance, 2);
+    }
+
+    public function getAuthUser($token = null)
+    {
+        if($token){
+            return auth('api')->user();
+        }else{
+            return Auth::user();
+        }
     }
 }

@@ -24,6 +24,11 @@ class PaymentLog extends Model
         'data'   =>  'array',
     ];
 
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
+
     public function getHashIdAttribute()
     {
         $hashids = new Hashids();

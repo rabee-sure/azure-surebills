@@ -24,7 +24,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        $roles = Role::whereIn('user_id', auth()->user()->storeUsers(true))->orderBy('id','DESC')->paginate(10);
+        $roles = Role::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->orderBy('id','DESC')->paginate(10);
         return view('roles.index', compact('roles'));
     }
 

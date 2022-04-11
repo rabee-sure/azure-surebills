@@ -135,8 +135,6 @@
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : {{$posApplication->id}},
-              'X-application-secret' : '{{$posApplication->secret}}',
               'Accept' : 'application/json'
           }
       });
@@ -151,9 +149,10 @@
       });
 
       if(product_id){
+        var product_single_url = "{{ route('products.show', ':product_id') }}";
         $.ajax({
           type:'GET',
-          url: base_url+"/api/v1/products/"+product_id,
+          url: product_single_url.replace(':product_id', product_id),
           success:function(product){
             var imgUrl = "{{Storage::url('products/')}}";
 
@@ -211,7 +210,8 @@
 
         requestUrl = "{{ route('products.store') }}";
         if(product_id){
-          requestUrl = base_url+"/api/v1/products/"+product_id+"/update";
+          var product_update_url = "{{ route('products.update', ':product_id') }}";
+          requestUrl = product_update_url.replace(':product_id', product_id);
         }
 
         $.ajax({

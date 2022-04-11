@@ -28,6 +28,10 @@ class TransferLog extends Model
         'results' => 'array',
     ];
 
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
     /**
      * Get user.
      *
@@ -36,7 +40,7 @@ class TransferLog extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }   
+    }
 
     /**
      * Get bank.
@@ -46,6 +50,6 @@ class TransferLog extends Model
     public function transfer()
     {
         return $this->belongsTo(Transfer::class);
-    }   
+    }
 
 }
