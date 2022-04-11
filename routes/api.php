@@ -86,6 +86,7 @@ Route::prefix('v1')->group(function () {
 		Route::get('searchForProduct/{keyword}', 'PosController@searchForProduct');
 		Route::get('searchForCustomer/{name}', 'PosController@searchForCustomer');
 		Route::post('customerStore', 'PosController@customerStore');
+		Route::post('orderStore', 'PosController@orderStore');
   });
 
     // Route::post('fandaqah-register', 'UserController@registerFandaqah');
