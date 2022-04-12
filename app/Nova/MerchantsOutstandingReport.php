@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Kpolicar\DateRange\DateRange;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -48,18 +49,19 @@ class MerchantsOutstandingReport extends Resource
      */
     public function fields(Request $request)
     {
-        $merchants = $this->merchants();
         return [
             ID::make()->sortable(),
+
+            Hidden::make('type')->default('merchants outstanding'),
 
             Text::make(__('Report Period'), function(){
                 return __('From :from To :to', ['from' => $this->parameters["from"], 'to' => $this->parameters["to"]]);
             })->exceptOnForms(),
 
-            Multiselect::make(__('Merchants'), 'merchants')->options($merchants),
+            Multiselect::make(__('Merchants'), 'merchants')->options(self::merchants())->onlyOnForms()->rules('required'),
             DateRange::make(__('Report Period'), ['from', 'to'])->onlyOnForms(),
 
-            Text::make(__('Emails'), 'emails'),
+            Text::make(__('Emails'), 'emails')->rules('required'),
             Text::make(__('Status'), function(){
                 if($this->active == 0)
                 {
@@ -95,6 +97,11 @@ class MerchantsOutstandingReport extends Resource
     public static function label()
     {
         return 'Merchants Outstanding';
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->where('type', 'merchants outstanding');
     }
 
     public static function authorizedToCreate(Request $request)

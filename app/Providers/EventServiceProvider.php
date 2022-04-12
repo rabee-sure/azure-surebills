@@ -62,6 +62,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\GenerateReport' => [
             'App\Listeners\SendReportFile',
         ],
+        'App\Events\GenerateBillReport' => [
+            'App\Listeners\SendBillReportFile',
+        ],
     ];
 
     /**

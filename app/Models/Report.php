@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\GenerateBillReport;
 use App\Events\GenerateReport;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,20 +17,37 @@ class Report extends Model implements HasMedia
     use InteractsWithMedia;
     use HasFactory;
 
-    protected $fillable = ['name', 'params', 'emails'];
+    protected $fillable = ['name', 'params', 'emails', 'type'];
 
     public static function boot() {
         parent::boot();
         static::creating(function (Report $report) {
-            $report->params = json_encode(['merchants' => implode('","', json_decode($report->merchants, true)), 'from' => $report->from, 'to' => $report->to]);
-            $report->name = 'merchants-outstanding';
+            if($report->type == 'merchants outstanding')
+            {
+                $report->name = 'merchants-outstanding';
+                $report->params = json_encode(['merchants' => implode('","', json_decode($report->merchants, true)), 'from' => $report->from, 'to' => $report->to]);
+
+            }
+            else if($report->type == 'bill')
+            {
+                $report->name = 'bill';
+                $report->params = json_encode(['paid_from' => $report->from, 'paid_to' => $report->to, 'merchants' => implode('","', json_decode($report->merchants, true)), 'channels' => implode('","', json_decode($report->channels, true))]);
+            }
             unset($report->merchants);
+            unset($report->channels);
             unset($report->from);
             unset($report->to);
 
         });
         static::created(function (Report $report) {
-            GenerateReport::dispatch($report->id);
+            if($report->type == 'merchants outstanding')
+            {
+                GenerateReport::dispatch($report->id);
+            }
+            else if($report->type == 'bill')
+            {
+                GenerateBillReport::dispatch($report->id);
+            }
         });
     }
 
