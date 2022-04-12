@@ -65,6 +65,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\GenerateBillReport' => [
             'App\Listeners\SendBillReportFile',
         ],
+        'App\Events\OrderCreated' => [
+            'App\Listeners\CreateOrderBill',
+        ],
     ];
 
     /**
