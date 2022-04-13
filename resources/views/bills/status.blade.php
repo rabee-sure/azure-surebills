@@ -90,6 +90,7 @@
           </table>
         </div><!-- table_items -->
         <div class="bill_info">
+          @if( $bill->add_tax || $bill->add_discount)
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-start justify-content-between flex-column">
               <span>{{ __('Total amount') }}({{ __('SAR') }})</span>
@@ -101,6 +102,7 @@
             <span>{{ $bill->sub_total }}</span>
             @endif
           </div><!-- d-flex -->
+          @endif
           @if( $bill->add_discount)
           <div class="d-flex align-items-center justify-content-between">
             <span>{{ __('Discount') }} ({{ __('SAR') }})</span>
