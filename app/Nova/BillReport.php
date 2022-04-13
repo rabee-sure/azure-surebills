@@ -2,11 +2,11 @@
 
 namespace App\Nova;
 
+use App\Models\Channel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Kpolicar\DateRange\DateRange;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
@@ -14,14 +14,13 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\MultiselectField\Multiselect;
 
-class MerchantsOutstandingReport extends Resource
+class BillReport extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-
     public static $model = \App\Models\Report::class;
     public static $displayInNavigation = false;
 
@@ -38,7 +37,7 @@ class MerchantsOutstandingReport extends Resource
      * @var array
      */
     public static $search = [
-        'auto_transfer_id'
+        'id',
     ];
 
     /**
@@ -50,30 +49,23 @@ class MerchantsOutstandingReport extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            ID::make(__('ID'), 'id')->sortable(),
 
-            Hidden::make('type')->default('merchants outstanding'),
+            Hidden::make('type')->default('bill'),
 
-            Text::make(__('Report Period'), function(){
-                return __('From :from To :to', ['from' => $this->parameters["from"], 'to' => $this->parameters["to"]]);
+            Multiselect::make(__('Merchants'), 'merchants')->options(self::merchants())->onlyOnForms(),
+            Multiselect::make(__('Channels'), 'channels')->options(self::merchantChannels())->onlyOnForms(),
+
+            Text::make(__('Paid Period'), function(){
+                return __('From :from To :to', ['from' => $this->parameters["paid_from"], 'to' => $this->parameters["paid_to"]]);
             })->exceptOnForms(),
 
-            Multiselect::make(__('Merchants'), 'merchants')->options(self::merchants())->onlyOnForms()->rules('required'),
-            DateRange::make(__('Report Period'), ['from', 'to'])->onlyOnForms(),
+            DateRange::make(__('Paid Period'), ['from', 'to'])->onlyOnForms()->rules('required'),
 
             Text::make(__('Emails'), 'emails')->rules('required'),
-            Text::make(__('Status'), function(){
-                if($this->active == 0)
-                {
-                    return __('Report Pending');
-                }
-                else
-                {
-                    return __('Report Done');
-                }
-            }),
 
             Date::make(__('Request date'), 'created_at')->exceptOnForms(),
+
             Text::make(__('Download File'), function(){
                 if(file_exists(storage_path('app/public/reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx')))
                 {
@@ -86,7 +78,7 @@ class MerchantsOutstandingReport extends Resource
     private function merchants()
     {
         $merchantsOptions = [];
-        $merchantes = User::whereNull('store_main_user_id')->get();//->toArray();
+        $merchantes = User::whereNull('store_main_user_id')->get();
         foreach($merchantes as $merchante)
         {
             $merchantsOptions[$merchante->id] = $merchante->name;
@@ -94,16 +86,21 @@ class MerchantsOutstandingReport extends Resource
         return $merchantsOptions;
     }
 
-    public static function label()
+    private function merchantChannels()
     {
-        return 'Merchants Outstanding';
+        $merchantChannelsOptions = [];
+        $channels = Channel::get();
+        foreach($channels as $channel)
+        {
+            $merchantChannelsOptions[$channel->id] = $channel->name;
+        }
+        return $merchantChannelsOptions;
     }
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->where('type', 'merchants outstanding');
+        return $query->where('type', 'bill');
     }
-
     public static function authorizedToCreate(Request $request)
     {
         return true;
@@ -126,7 +123,6 @@ class MerchantsOutstandingReport extends Resource
     {
         return false;
     }
-
     /**
      * Get the cards available for the request.
      *
