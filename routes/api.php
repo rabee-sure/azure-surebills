@@ -43,20 +43,20 @@ Route::prefix('v1')->group(function () {
 
 	Route::group(['middleware' => ['Mutli.auth']], function () {
 		//Categories
-		Route::get('categories', 'CategoryController@index')->name('categories.index');
-		Route::get('top-categories', 'CategoryController@topCategories')->name('categories.top');
+		Route::get('categories', 'CategoryController@index');
+		Route::get('top-categories', 'CategoryController@topCategories');
 		Route::get('sub-categories/{parent}', 'CategoryController@subCategories');
-		Route::post('category/store', 'CategoryController@store')->name('categories.store');
-		Route::get('categories/{id}', 'CategoryController@show')->name('categories.show');
+		Route::post('category/store', 'CategoryController@store');
+		Route::get('categories/{id}', 'CategoryController@show');
 		Route::post('category/{id}/update', 'CategoryController@update');
 		Route::delete('category/{id}/delete', 'CategoryController@delete');
 
 		//Products
-		Route::get('products', 'ProductsController@index')->name('products.index');
-		Route::get('products/{id}', 'ProductsController@show')->name('products.show');
-		Route::post('products/store', 'ProductsController@store')->name('products.store');
-		Route::post('products/{id}/update', 'ProductsController@update')->name('products.update');
-		Route::delete('products/{id}/delete', 'ProductsController@delete')->name('products.delete');
+		Route::get('products', 'ProductsController@index');
+		Route::get('products/{id}', 'ProductsController@show');
+		Route::post('products/store', 'ProductsController@store');
+		Route::post('products/{id}/update', 'ProductsController@update');
+		Route::delete('products/{id}/delete', 'ProductsController@delete');
 	});
 	
 	//should send application id and secret
@@ -78,7 +78,7 @@ Route::prefix('v1')->group(function () {
 
 	Route::group(['middleware' => ['auth:api']], function () {
 		//POS
-		Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory')->name('pos.active-top-categories');
+		Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory');
 		Route::get('getActiveSubCategory/{category_id}', 'PosController@getActiveSubCategory');
 		Route::get('getActiveCategoryProducts/{category_id}', 'PosController@getActiveCategoryProducts');
 		Route::get('getActiveProducts', 'PosController@getActiveProducts');
