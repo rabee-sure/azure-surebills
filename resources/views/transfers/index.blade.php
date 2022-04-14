@@ -15,9 +15,11 @@
   <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
     <h1 class="d-block fw-bold m-0 fs-5">{{ __('Transfers') }}</h1>
     <h2 class="d-flex align-items-end fs-6 justify-content-end flex-column m-0">
-      @if(!auth()->user()->auto_trnasfer && auth()->user()->verified)
+        @can('create transfer')
+        @if(!auth()->user()->auto_trnasfer && auth()->user()->verified)
         @include('transfers.request_transfer')
-      @endif
+        @endif
+        @endcan
       {{ __('Balance') }} : {{  round2(auth()->user()->balance)  }} {{__('SAR')}}
     </h2>
   </div><!-- title -->
@@ -31,7 +33,7 @@
       </ul>
     </div><!-- alert -->
   @endif
-  
+
   <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
     <div class="table-responsive">
       <table class="table table-striped table-hover text-nowrap">
@@ -80,7 +82,7 @@
               </td>
             </tr>
           @endforeach
-        </tbody>    
+        </tbody>
       </table>
     </div>
   </div><!-- blockArea -->

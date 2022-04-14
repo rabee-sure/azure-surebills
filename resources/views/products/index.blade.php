@@ -49,14 +49,12 @@
 
 @push('footer-scripts')
   <script>
-    var base_url = "{{url('/')}}";
     
     $(document).ready(function(){
+      var base_url = "{{url('/')}}";
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : 195,
-              'X-application-secret' : 'aajO9ETFeqfaIiGgJLSp',
               'Accept' : 'application/json'
           }
       });
@@ -106,9 +104,10 @@
     });
 
     function deleteItem(id){
+      var product_delete_url = "{{ route('products.delete', ':id') }}";
       $.ajax({
         type:'DELETE',
-        url:base_url+"/api/v1/products/"+id+"/delete",
+        url:product_delete_url.replace(':id', id),
         success:function(categories){
           window.location.replace("{{ route('products.all') }}");
         }

@@ -25,8 +25,8 @@ class StoreUserController extends Controller
      */
     public function index()
     {
-        $roles = Role::whereIn('user_id', auth()->user()->storeUsers(true))->get();
-        $users = User::whereIn('store_main_user_id', auth()->user()->storeUsers(true))->orderBy('created_at', 'DESC')->paginate(10);
+        $roles = Role::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
+        $users = User::where('id', auth()->user()->store_main_user_id ?? auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
         return view('store_users.index', compact('users', 'roles'));
     }
 
@@ -91,7 +91,7 @@ class StoreUserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::whereIn('user_id', auth()->user()->storeUsers(true))->get();
+        $roles = Role::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         return view('store_users.edit', compact('user', 'roles'));
     }
 

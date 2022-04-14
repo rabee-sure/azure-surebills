@@ -14,7 +14,7 @@ class Channel extends Model
      * @return array
      */
     protected $fillable = [
-        'name', 
+        'name',
         'user_id',
         'activate',
         'mada_fixed',
@@ -26,6 +26,11 @@ class Channel extends Model
         'sub_account_settled_webhook',
         'disable_login_sub_accounts',
     ];
+
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
 
     /**
      * Get applications.
@@ -99,7 +104,7 @@ class Channel extends Model
 
         if(isset($response['paymentBrand']) && $response['paymentBrand'] == 'MADA'){
             return $this->mada_fixed;
-        }else{ 
+        }else{
             return $this->credit_cards_fixed;
         }
     }

@@ -56,7 +56,7 @@ class BillController extends Controller
             $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
         }
 
-        $bills = Bill::whereIn('user_id', auth()->user()->storeUsers(true))
+        $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
             ->orderBy('created_at', 'desc')
             ->when($statuses, function ($q) use ($statuses) {
                 $q->whereIn('status', $statuses);
@@ -69,6 +69,7 @@ class BillController extends Controller
                     ->whereDate('created_at', '<=', Carbon::parse($date_to));
             })
             ->paginate($request->get('per_page', 10));
+
         return view('bills.index', ['bills' => $bills]);
     }
 
@@ -79,6 +80,10 @@ class BillController extends Controller
      */
     public function create()
     {
+        if(count(auth()->user()->channels) > 0 || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) > 0))
+        {
+            abort(403);
+        }
         return view('bills.create');
     }
 
@@ -90,6 +95,11 @@ class BillController extends Controller
      */
     public function store(BillRequest $request)
     {
+        if(count(auth()->user()->channels) > 0 || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) > 0))
+        {
+            abort(403);
+        }
+
         $bill = DB::transaction(function () use ($request) {
             $user = auth()->user();
 
@@ -122,7 +132,7 @@ class BillController extends Controller
                 'expiry_date' => $request->expiry_date,
                 'expiry_hours' => $request->expiry_hours ?? 0,
                 'expiry_minutes' => $request->expiry_minutes ?? 0,
-                'due_date' => Carbon::parse(date('Y-m-d', strtotime($request->due_date))),
+                'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->due_date))),
 
                 'add_discount' => $request->add_discount,
                 'discount_type' => $request->discount_type,

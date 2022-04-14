@@ -54,14 +54,12 @@
   <script src="{{ asset('new/js/jquery-ui/jquery-ui.js') }}?v={{ config('app.asset_version') }}" defer></script>
 
   <script>
-    var base_url = "{{url('/')}}";
     
     $(document).ready(function(){
+      var base_url = "{{url('/')}}";
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : 195,
-              'X-application-secret' : 'aajO9ETFeqfaIiGgJLSp',
               'Accept' : 'application/json'
           }
       });
@@ -111,9 +109,10 @@
     });
 
     function deleteItem(id){
+      var catergory_delete_url = "{{ route('categories.delete', ':id') }}";
       $.ajax({
         type:'DELETE',
-        url:base_url+"/api/v1/category/"+id+"/delete",
+        url:catergory_delete_url.replace(':id', id),
         success:function(categories){
           window.location.replace("{{ route('categories.all') }}");
         }

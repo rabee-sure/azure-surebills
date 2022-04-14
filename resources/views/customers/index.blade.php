@@ -41,7 +41,9 @@
                 <th scope="col" class="text-center">{{__('Email')}}</th>
                 <th scope="col" class="text-center">{{__('Bills')}}</th>
                 <th scope="col" class="text-center">{{__('Date created')}}</th>
+                @canany(['update customer', 'delete customer'])
                 <th scope="col" class="text-center" width="10%">{{__('Actions')}}</th>
+                @endcanany
               </tr>
             </thead>
             <tbody>
@@ -53,12 +55,18 @@
                   <td class="text-center">{{ $customer->email }}</td>
                   <td class="text-center">{{ $customer->bills->count() }}</td>
                   <td class="text-center">{{ $customer->created_at }}</td>
+                  @canany(['update customer', 'delete customer'])
                   <td class="text-center">
                     <div class="d-flex align-items-center justify-content-center">
-                      <a href="{{ route('customers.edit', $customer->id)}}" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>
-                      @include('customers.delete', ['customer' => $customer])
+                        @can('update customer')
+                        <a href="{{ route('customers.edit', $customer->id)}}" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>
+                        @endcan
+                        @can('delete customer')
+                        @include('customers.delete', ['customer' => $customer])
+                        @endcan
                     </div>
                   </td>
+                  @endcanany
                 </tr>
               @endforeach
 

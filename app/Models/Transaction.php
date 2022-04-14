@@ -13,6 +13,10 @@ class Transaction extends Model
 
     const VAT_PERCENTAGE = 15;
 
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
 
     /**
      * generate Receipt for bill.

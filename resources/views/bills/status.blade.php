@@ -90,6 +90,7 @@
           </table>
         </div><!-- table_items -->
         <div class="bill_info">
+          @if( $bill->add_tax || $bill->add_discount)
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-start justify-content-between flex-column">
               <span>{{ __('Total amount') }}({{ __('SAR') }})</span>
@@ -101,9 +102,10 @@
             <span>{{ $bill->sub_total }}</span>
             @endif
           </div><!-- d-flex -->
+          @endif
           @if( $bill->add_discount)
           <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Discount') }} @if($bill->discount_type == 'percentage') ({{ $bill->discount_value }}%) @else ({{ $bill->discount_value }} {{ __('SAR') }}) @endif</span>
+            <span>{{ __('Discount') }} ({{ __('SAR') }})</span>
             <span>{{ $bill->discount }}</span>
           </div><!-- d-flex -->
           @endif
@@ -224,6 +226,12 @@
               $("#back_btn").remove();
               $("#status").empty();
               $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
+              break;
+          case "failed":
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-danger" role="alert">{{ __("this bill is failed") }}</div>');
               break;
           case "canceled":
               $("#payment_method").remove();

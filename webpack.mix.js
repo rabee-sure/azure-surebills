@@ -27,7 +27,7 @@ const mix = require('laravel-mix');
   ],'public/new/js/main.js').sourceMaps()
   // *** New Ui Rabee ***//
 
- 
+
 
 
 

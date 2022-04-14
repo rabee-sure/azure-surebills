@@ -23,10 +23,14 @@ class Settings extends Model
 		'create_send_email',
 		'paid_send_sms',
 		'paid_send_email',
-        'header_bill', 
+        'header_bill',
         'footer_bill'
     ];
-    
+
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
     /**
      * Get user.
      *

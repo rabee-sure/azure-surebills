@@ -193,10 +193,10 @@ class User extends Resource
                 ->hideFromIndex()
                 ->hideWhenUpdating($this->store_main_user_id ? true : false)
                 ->hideFromDetail($this->store_main_user_id ? true : false),
-            Boolean::make(__('Able Refund With Fees'), 'able_refund_with_fees')
-                ->hideFromIndex()
-                ->hideWhenUpdating($this->store_main_user_id ? true : false)
-                ->hideFromDetail($this->store_main_user_id ? true : false),
+            // Boolean::make(__('Able Refund With Fees'), 'able_refund_with_fees')
+            //     ->hideFromIndex()
+            //     ->hideWhenUpdating($this->store_main_user_id ? true : false)
+            //     ->hideFromDetail($this->store_main_user_id ? true : false),
 
             Boolean::make(__('Auto Trnasfer'), 'auto_trnasfer')
                 ->hideFromIndex()
@@ -338,10 +338,12 @@ class User extends Resource
      */
     public function cards(Request $request)
     {
-        return [
-            (new Userstats)->onlyOnDetail()->width('full'),
+        if(!$this->store_main_user_id)
+        {
+            return [(new Userstats)->onlyOnDetail()->width('full')];
+        }
 
-        ];
+        return [];
     }
 
     /**

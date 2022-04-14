@@ -18,12 +18,13 @@ class ProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'type' => 'product',
             'name' => $this->name,
             'discription' => $this->discription,
             'price' => $this->price,
             'sort_number' => $this->sort_number,
             'active' => $this->active,
-            'category_id' => $this->parent_id,
+            'category_id' => $this->category_id,
             'images' => ProductImageResource::collection($this->images),
         ];
     }

@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
 use Spatie\NovaTranslatable\Translatable;
 
 class AutoTransfer extends Resource
@@ -84,23 +85,35 @@ class AutoTransfer extends Resource
             Text::make(__('Day'), 'day'),
 
             Text::make(__('Zip File'), function ($model) {
-                return "<a href='".Storage::disk('public')->url($model->zip_file)."'>{$model->zip_file}</a>";
+                return "<a class='btn btn-success' style='margin:5px' href='".Storage::disk('public')->url($model->zip_file)."'><i class='fa fa-file-archive-o' aria-hidden='true'></i></a>";
             })->asHtml(),
 
             Text::make(__('Merchants File'), function ($model) {
-                return "<a href='".Storage::disk('public')->url($model->merchants_file)."'>{$model->merchants_file}</a>";
+                $html = "<a class='btn btn-success' style='margin:5px' href='".Storage::disk('public')->url($model->merchants_file)."'><i class='fa fa-download' aria-hidden='true'></i></a>";
+                $html .= "<a class='btn btn-primary' style='margin:5px' href='/nova/resources/merchant-auto-transfer-reports?merchant-auto-transfer-reports_search={$this->id}'><i class='fa fa-eye' aria-hidden='true'></i></a>";
+                return $html;
             })->asHtml(),
 
             Text::make(__('Channels File'), function ($model) {
-                return "<a href='".Storage::disk('public')->url($model->channels_file)."'>{$model->channels_file}</a>";
+                $html = null;
+                if($model->channels_file)
+                {
+                    $html = "<a class='btn btn-success' style='margin:5px' href='".Storage::disk('public')->url($model->channels_file)."'><i class='fa fa-download' aria-hidden='true'></i></a>";
+                    $html .= "<a class='btn btn-primary' style='margin:5px' href='/nova/resources/merchant-channel-auto-transfer-reports?merchant-channel-auto-transfer-reports_search={$this->id}'><i class='fa fa-eye' aria-hidden='true'></i></a>";
+                }
+                return $html;
             })->asHtml(),
 
             Text::make(__('Due Amount File'), function ($model) {
-                return "<a href='".Storage::disk('public')->url($model->due_amount_file)."'>{$model->due_amount_file}</a>";
+                $html = "<a class='btn btn-success' style='margin:5px' href='".Storage::disk('public')->url($model->due_amount_file)."'><i class='fa fa-download' aria-hidden='true'></i></a>";
+                $html .= "<a class='btn btn-primary' style='margin:5px' href='/nova/resources/due-amount-auto-transfer-reports?due-amount-auto-transfer-reports_search={$this->id}'><i class='fa fa-eye' aria-hidden='true'></i></a>";
+                return $html;
             })->asHtml(),
 
             Text::make(__('Merchants Summary File'), function ($model) {
-                return "<a href='".Storage::disk('public')->url($model->merchants_summary_file)."'>{$model->merchants_summary_file}</a>";
+                $html = "<a class='btn btn-success' style='margin:5px' href='".Storage::disk('public')->url($model->merchants_summary_file)."'><i class='fa fa-download' aria-hidden='true'></i></a>";
+                $html .= "<a class='btn btn-primary' style='margin:5px' href='/nova/resources/merchant-summary-auto-transfer-reports?merchant-summary-auto-transfer-reports_search={$this->id}'><i class='fa fa-eye' aria-hidden='true'></i></a>";
+                return $html;
             })->asHtml(),
 
             BelongsToMany::make(__('Transfers'), 'transfers', Transfer::class),
