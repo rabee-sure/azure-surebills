@@ -23,10 +23,10 @@ class BillResource extends JsonResource
             'status' => $this->status,
             'payment_method' => $this->payment_method,
             'payment_method_type' => $this->payment_method_details,
-            'user_id' => $this->user_id, 
-            'customer_id' => $this->customer_id, 
-            'business_name' => $this->business_name, 
-            'customer_name' => $this->customer_name, 
+            'user_id' => $this->user_id,
+            'customer_id' => $this->customer_id,
+            'business_name' => $this->business_name,
+            'customer_name' => $this->customer_name,
             'customer_mobile' => $this->customer_mobile,
             'customer_email' => $this->customer_email,
             'customer_notes' => $this->customer_notes,
@@ -69,6 +69,8 @@ class BillResource extends JsonResource
 
             "application_channel_id" => ($this->application) ? $this->application->channel_id : null,
             "application_channel_name" => ($this->application && $this->application->channel_id) ? $this->application->channel->name : null,
+            'user' => $this->user,
+            'refund_amount' => $this->refund_amount,
         ];
 
     }

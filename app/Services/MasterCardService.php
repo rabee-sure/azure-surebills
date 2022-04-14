@@ -107,7 +107,7 @@ class MasterCardService
             $payment->save();
 
             // set failed if coming from the app
-            if($bill->application && $bill->is_redirect) {
+            if($bill->application && $bill->user->settings->api_bill_style && $bill->is_redirect) {
                 $bill->status = 'failed';
                 $bill->save();
             }
