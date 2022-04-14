@@ -74,22 +74,30 @@
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_fixed" class="d-block mb-2">{{ __('Mada Fixed') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('mada_fixed') }" type="tel" inputmode="numaric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_fixed" id="mada_fixed" @keyup.enter="store" v-model="createForm.mada_fixed" step="0.01">
+
+                <input :class="{'is-invalid': haveError('mada_fixed') }" type="number" inputmode="numaric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_fixed" id="mada_fixed" @keyup.enter="store" v-model="createForm.mada_fixed" step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('mada_fixed')">{{errorMessage('mada_fixed')}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_percentage" class="d-block mb-2">{{ __('Mada Percentage') }}<span class="requirement">*</span></label>
-                <input :class="{'is-invalid': haveError('mada_percentage') }" type="tel" inputmode="numaric" id="mada_percentage" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_percentage" @keyup.enter="store" v-model="createForm.mada_percentage"  step="0.01">
+
+                <input :class="{'is-invalid': haveError('mada_percentage') }" type="number" inputmode="numaric" id="mada_percentage" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_percentage" @keyup.enter="store" v-model="createForm.mada_percentage"  step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('mada_percentage')">{{errorMessage('mada_percentage')}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_fixed" class="d-block mb-2">{{ __('Credit Cards Fixed') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('credit_cards_fixed') }" type="tel" inputmode="numaric" id="credit_cards_fixed" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_fixed" @keyup.enter="store" v-model="createForm.credit_cards_fixed"  step="0.01">
+
+                <input :class="{'is-invalid': haveError('credit_cards_fixed') }" type="number" inputmode="numaric" id="credit_cards_fixed" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_fixed" @keyup.enter="store" v-model="createForm.credit_cards_fixed"  step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_fixed')">{{errorMessage('credit_cards_fixed')}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_percentage" class="d-block mb-2">{{ __('Credit Cards Percentage') }}<span class="requirement">*</span></label>
-                <input :class="{'is-invalid': haveError('credit_cards_percentage') }" type="tel" inputmode="numaric" id="credit_cards_percentage" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" @keyup.enter="store" v-model="createForm.credit_cards_percentage"  step="0.01">
+
+                <input :class="{'is-invalid': haveError('credit_cards_percentage') }" type="number" inputmode="numaric" id="credit_cards_percentage" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" @keyup.enter="store" v-model="createForm.credit_cards_percentage"  step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_percentage')">{{errorMessage('credit_cards_percentage')}}</div>
               </div><!-- form-group -->
             </form>
@@ -130,22 +138,30 @@
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_fixed" class="d-block mb-2">{{ __('Mada Fixed') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('mada_fixed', 2) }" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_fixed" id="mada_fixed" @keyup.enter="update" v-model="editForm.mada_fixed" step="0.01">
+
+                <input :class="{'is-invalid': haveError('mada_fixed', 2) }" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_fixed" id="mada_fixed" @keyup.enter="update" v-model="editForm.mada_fixed" step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('mada_fixed', 2)">{{errorMessage('mada_fixed', 2)}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_percentage" class="d-block mb-2">{{ __('Mada Percentage') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('mada_percentage', 2) }" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_percentage" id="mada_percentage" @keyup.enter="update" v-model="editForm.mada_percentage" step="0.01">
+
+                <input :class="{'is-invalid': haveError('mada_percentage', 2) }" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_percentage" id="mada_percentage" @keyup.enter="update" v-model="editForm.mada_percentage" step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('mada_percentage', 2)">{{errorMessage('mada_percentage', 2)}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_fixed" class="d-block mb-2">{{ __('Credit Cards Fixed') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('credit_cards_fixed', 2) }" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_fixed" id="credit_cards_fixed" @keyup.enter="update" v-model="editForm.credit_cards_fixed" step="0.01">
+
+                <input :class="{'is-invalid': haveError('credit_cards_fixed', 2) }" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_fixed" id="credit_cards_fixed" @keyup.enter="update" v-model="editForm.credit_cards_fixed" step="0.01">
+
                 <div class="invalid-feedback" v-if="haveError('credit_cards_fixed', 2)">{{errorMessage('credit_cards_fixed', 2)}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_fixed" class="d-block mb-2">{{ __('Credit Cards Percentage') }} <span class="requirement text-danger">*</span></label>
-                <input :class="{'is-invalid': haveError('credit_cards_percentage', 2) }"  type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" id="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage" step="0.01">
+
+                <input :class="{'is-invalid': haveError('credit_cards_percentage', 2) }"  type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" id="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage" step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_percentage', 2)">{{errorMessage('credit_cards_percentage', 2)}}</div>
               </div><!-- form-group -->
             </form>
