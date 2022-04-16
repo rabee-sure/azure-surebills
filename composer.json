@@ -59,7 +59,8 @@
         "sure/settlements": "*",
         "sure/userstats": "*",
         "timothyasp/nova-badge-field": "^1.0",
-        "titasgailius/search-relations": "^1.0"
+        "titasgailius/search-relations": "^1.0",
+        "beyondcode/reports": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
@@ -131,6 +132,10 @@
         {
             "type": "path",
             "url": "./nova-components/HomeAnalytics"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Reports"
         }
     ]
 }

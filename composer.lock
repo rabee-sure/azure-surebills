@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9220c89a53b7d45a68c338e672743d09",
+    "content-hash": "1e315c78405b4444d7a5faceb1349444",
     "packages": [
         {
             "name": "ampeco/nova-date-range-filter",
@@ -406,6 +406,42 @@
                 "source": "https://github.com/bakerkretzmar/nova-settings-tool/tree/1.1.3"
             },
             "time": "2021-08-05T23:07:13+00:00"
+        },
+        {
+            "name": "beyondcode/reports",
+            "version": "dev-feature/changeReportSectionStyle",
+            "dist": {
+                "type": "path",
+                "url": "./nova-components/Reports",
+                "reference": "ac6102681ae6488439da9c0186bb330e919f6c14"
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Beyondcode\\Reports\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Beyondcode\\Reports\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova tool.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "brick/math",
