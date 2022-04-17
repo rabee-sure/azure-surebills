@@ -92,14 +92,3 @@ $(document).ready(function() {
 $(document).ready(function() {
   $('.select2-single').select2();
 });
-
-// =============================================
-// Only English Characters In Input
-// ============================================= 
-$(".onlyEng").on("keypress", function(event) {
-  var englishAlphabetAndWhiteSpace = /[A-Za-z ]/g;
-  var key = String.fromCharCode(event.which);  
-  if (event.keyCode == 8 || event.keyCode == 37 || event.keyCode == 39 || englishAlphabetAndWhiteSpace.test(key)) {return true;}
-  return false;
-});
-$('.onlyEng').on("paste",function(e) {e.preventDefault();});
