@@ -800,5 +800,11 @@
 	"Date Range required" : "فترة التقرير مطلوبة",
 	"Emails required" : "البريد الالكتروني مطلوب",
 	"iban number must not conatain any spaces" : "رقم الحساب المصرفي يجب أن لا يحتوي على مسافات",
-	"Close bill" : "إغلاق الفاتورة"
+	"Close bill" : "إغلاق الفاتورة",
+	"Are you sure?" : "هل انت متاكد؟",
+	"You will not be able to revert this!" : "لن تستطيع الرجوع في ذلك!",
+	"Yes, delete it!" : "نعم، أحذفه!",
+	"Cancel" : "إلغاء",
+	"Deleted!" : "تم الحذف!",
+	"Your item has been deleted." : "تم حذف بنجاح."
 }
