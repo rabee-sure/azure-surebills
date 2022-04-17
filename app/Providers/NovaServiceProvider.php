@@ -11,6 +11,7 @@ use App\Nova\Metrics\TotalIncome;
 use App\Nova\Metrics\TotalPaid;
 use App\Nova\Metrics\TotalVatOnCommissions;
 use Bakerkretzmar\NovaSettingsTool\SettingsTool;
+use Beyondcode\Reports\Reports;
 use ChrisWare\NovaBreadcrumbs\NovaBreadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -74,6 +75,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
+
             // new NewUsers,
             (new HomeAnalytics)->width('full'),
 
@@ -104,6 +106,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
+            new Reports,
             new Settlements,
             new NovaSidebarIcons,
             new NovaBreadcrumbs,
