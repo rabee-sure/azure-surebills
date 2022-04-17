@@ -42,7 +42,7 @@ class SendBillReportFile implements ShouldQueue
 
         $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'.xlsx';
 
-        $whereCondition = "where (paid_at between '".$report_filters['paid_from']."' and '".$report_filters['paid_to']."')";
+        $whereCondition = "where (paid_at between '".$report_filters['paid_from']."' and '".$report_filters['paid_to']."' and bills.status in ('paid', 'refunded'))";
 
         if($report_filters['merchants'] == '' && $report_filters['channels'] != '')
         {
