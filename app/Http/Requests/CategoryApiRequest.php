@@ -31,4 +31,17 @@ class CategoryApiRequest extends FormRequest
             'sort_number' => ['required'],
         ];
     }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+          'name_en.required' => __('Name En required'),
+          'name_ar.required' => __('Name Ar required'),
+        ];
+    }
 }

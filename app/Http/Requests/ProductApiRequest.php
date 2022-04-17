@@ -35,4 +35,22 @@ class ProductApiRequest extends FormRequest
             'category_id' => ['required'],
         ];
     }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+          'name_en.required' => __('Name En required'),
+          'name_ar.required' => __('Name Ar required'),
+          'discription_en.required' => __('Discription En required'),
+          'discription_ar.required' => __('Discription Ar required'),
+          'price.required' => __('Price required'),
+          'price.numeric' => __('Price must be number'),
+          'category_id.required' => __('Product Category required'),
+        ];
+    }
 }
