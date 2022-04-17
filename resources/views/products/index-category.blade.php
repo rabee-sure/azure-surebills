@@ -52,6 +52,7 @@
 
 @push('footer-scripts')
   <script src="{{ asset('new/js/jquery-ui/jquery-ui.js') }}?v={{ config('app.asset_version') }}" defer></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
     
@@ -110,13 +111,31 @@
 
     function deleteItem(id){
       var catergory_delete_url = "{{ route('categories.delete', ':id') }}";
-      $.ajax({
-        type:'DELETE',
-        url:catergory_delete_url.replace(':id', id),
-        success:function(categories){
-          window.location.replace("{{ route('categories.all') }}");
+      Swal.fire({
+        title: '{{ __("Are you sure?") }}',
+        text: "{{ __('You will not be able to revert this!') }}",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '{{ __("Yes, delete it!") }}',
+        cancelButtonText: '{{ __("Cancel") }}'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type:'DELETE',
+            url:catergory_delete_url.replace(':id', id),
+            success:function(categories){
+              Swal.fire(
+                '{{ __("Deleted!") }}',
+                '{{ __("Your item has been deleted.") }}',
+                'success'
+              )
+              window.location.replace("{{ route('categories.all') }}");
+            }
+          });
         }
-      });
+      })
     }
   </script>
 @endpush
