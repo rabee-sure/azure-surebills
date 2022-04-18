@@ -328,10 +328,16 @@ class NotVerifiedUser extends Resource
      */
     public function cards(Request $request)
     {
-        return [
-            (new Userstats)->onlyOnDetail()->width('full'),
+        if($request->has('resourceId'))
+        {
+            $user = \App\Models\User::find($request->resourceId);
+            if(!$user->store_main_user_id)
+            {
+                return [(new Userstats)->onlyOnDetail()->width('full')];
+            }
+        }
 
-        ];
+        return [];
     }
 
     /**

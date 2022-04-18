@@ -339,9 +339,13 @@ class User extends Resource
      */
     public function cards(Request $request)
     {
-        if(!$this->store_main_user_id)
+        if($request->has('resourceId'))
         {
-            return [(new Userstats)->onlyOnDetail()->width('full')];
+            $user = \App\Models\User::find($request->resourceId);
+            if(!$user->store_main_user_id)
+            {
+                return [(new Userstats)->onlyOnDetail()->width('full')];
+            }
         }
 
         return [];
