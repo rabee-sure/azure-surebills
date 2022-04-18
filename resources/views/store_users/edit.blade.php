@@ -75,6 +75,7 @@
               </select>
             </div><!-- form-group -->
           </div><!-- col-12 -->
+          @if($user->getRoleNames()->first() != 'super admin')
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group">
               <label for="role" class="d-block mb-2">{{__('Role')}}</label>
@@ -86,6 +87,7 @@
             </div><!-- form-group -->
           </div><!-- col-12 -->
         </div><!-- row -->
+        @endif
         <div class="buttonsArea mt-5 d-flex align-items-center justify-content-start">
           <button type="submit" class="rounded-3 border-0 shadow-none d-flex align-items-center justify-content-center btn-primary fw-bold formBtn">{{__('Update')}}</button>
           <a href="{{ url('users') }}" title="{{__('Back')}}" class="rounded-3 border-0 shadow-none d-flex align-items-center fw-bold justify-content-center btn-light m-0">{{__('Back')}}</a>
