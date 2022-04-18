@@ -103,7 +103,7 @@ class User extends Resource
                 ->rules('required', 'max:50'),
 
             Text::make(__('Business Name'), function(){
-                return $this->business_name_en ? $this->business_name_en : $this->mainStoreUser->business_name_en;
+                return $this->mainStoreUser ? $this->mainStoreUser->business_name_en : $this->business_name_en;
             })->rules('required', 'max:50'),
 
             Text::make(__('user type'), function(){
