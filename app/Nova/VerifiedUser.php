@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\UsersExcelDownload;
 use App\Nova\Filters\DateRange;
 use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
@@ -382,9 +383,9 @@ class VerifiedUser extends Resource
     public function actions(Request $request)
     {
         return [
-            (new DownloadExcel)
-                ->only(['id', 'balance_string', 'Business_name', 'bank', 'iban_number', 'name', 'verify_status'])
-                ->withHeadings(['ID', __('Balance'), __('Business Name'), __('Bank'), __('Iban Number'), __('Account Name'), __('Verified')]),
+            (new UsersExcelDownload)->canRun(function (NovaRequest $request) {
+                return true;
+            }),
         ];
     }
 
