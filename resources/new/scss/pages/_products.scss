@@ -202,6 +202,10 @@
       font-size: 13px;
       background-color: #dee2e6;
     } /* fileBtn */
+    span#formFile-error {
+      position: absolute;
+      top: 100%;
+    }
   } /* upoadInput */
   #products_images {
     figure {

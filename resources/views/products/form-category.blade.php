@@ -64,7 +64,7 @@
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="inputEmail8" class="d-block mb-2">{{ __('Image') }}</label>
-              <div class="upoadInput border rounded-3 position-relative overflow-hidden d-flex align-items-center justify-content-start">
+              <div class="upoadInput border rounded-3 position-relative d-flex align-items-center justify-content-start">
                 <input name="image" type="file" id="formFile" class="d-block position-absolute top-0 start-0 w-100 h-100" accept="image/png, image/jpeg, image/jpg" multiple>
                 <input type="hidden" name="hidden_image" value="" />
                 <div class="fileName h-100 d-flex align-items-center justify-content-start flex-grow-1 px-2"></div>

@@ -155,6 +155,13 @@
     "create product category": "انشاء قسم للمنتجات",
     "update product category": "تعديل قسم للمنتجات",
     "delete product category": "حذف قسم للمنتجات",
+	"Name En required" : "الاسم بالانجليزية مطلوب",
+	"Name Ar required" : "الاسم بالعربية مطلوب",
+	"Discription En required" : "الوصف بالانجليزية مطلوب",
+	"Discription Ar required" : "الوصف بالعربية مطلوب",
+	"Price required" : "السعر مطلوب",
+	"Price must be number" : "السعر يجب أن يكون رقم",
+	"Product Category required" : "قسم المنتج مطلوب",
     "change bill status": "تغيير حالة الفاتورة",
     "refund bill": "استرداد المبلغ",
     "update business commercial info": "تحديث معلومات النشاط التجاري",
@@ -800,5 +807,11 @@
 	"Date Range required" : "فترة التقرير مطلوبة",
 	"Emails required" : "البريد الالكتروني مطلوب",
 	"iban number must not conatain any spaces" : "رقم الحساب المصرفي يجب أن لا يحتوي على مسافات",
-	"Close bill" : "إغلاق الفاتورة"
+	"Close bill" : "إغلاق الفاتورة",
+	"Are you sure?" : "هل انت متاكد؟",
+	"You will not be able to revert this!" : "لن تستطيع الرجوع في ذلك!",
+	"Yes, delete it!" : "نعم، أحذفه!",
+	"Cancel" : "إلغاء",
+	"Deleted!" : "تم الحذف!",
+	"Your item has been deleted." : "تم حذف بنجاح."
 }
