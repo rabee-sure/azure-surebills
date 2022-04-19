@@ -754,7 +754,7 @@
 	"Total include added tax" : "المجموع شامل ضريبة القيمة المضافة",
 	"Total amount" : "إجمالي المبلغ",
 	"Exclude added tax" : "غير شامل لضريبة القيمة المضافة",
-	"Added tax value (15%)" : "مجموع ضريبة القيمة المضافة (15%)",
+	"Added tax value (:percentge %)" : "مجموع ضريبة القيمة المضافة (:percentge %)",
 	"Discount amount" : "قيمة الخصم",
 	"No." : "الرقم",
 	"Date" : "التاريخ",
