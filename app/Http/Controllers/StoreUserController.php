@@ -26,7 +26,8 @@ class StoreUserController extends Controller
     public function index()
     {
         $roles = Role::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
-        $users = User::where('id', auth()->user()->store_main_user_id ?? auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
+        $users = User::where('id', auth()->user()->store_main_user_id ?? auth()->user()->id)->orWhere('store_main_user_id', auth()->user()->store_main_user_id ?? auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
+
         return view('store_users.index', compact('users', 'roles'));
     }
 

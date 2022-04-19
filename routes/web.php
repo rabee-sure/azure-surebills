@@ -124,12 +124,16 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('categories', 'ProductsController@indexCategory')->name('categories.all');
     Route::get('categories/{id}/view', 'ProductsController@viewCategory')->name('categories.view');
     Route::get('categories/create', 'ProductsController@createCategory')->name('categories.create');
+    Route::post('categories/create', 'ProductsController@createCategory');
     Route::get('categories/{id}/edit', 'ProductsController@editCategory')->name('categories.edit');
+    Route::post('categories/{id}/edit', 'ProductsController@editCategory');
 
     Route::get('products', 'ProductsController@index')->name('products.all');
     Route::get('products/{id}/view', 'ProductsController@view')->name('products.view');
     Route::get('products/{id}/edit', 'ProductsController@edit')->name('products.edit');
+    Route::post('products/{id}/edit', 'ProductsController@edit');
     Route::get('products/create', 'ProductsController@create')->name('products.create');
+    Route::post('products/create', 'ProductsController@create');
 
     Route::get('products/settings', 'ProductsController@settings')->name('products.settings');
 

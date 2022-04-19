@@ -42,3 +42,8 @@
     background-color: #286090;
     border-color: #204d74;
 }
+
+.card-panel {
+    height: auto !important;
+    min-height: 220px;
+}
