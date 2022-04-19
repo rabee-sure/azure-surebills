@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\UsersExcelDownload;
 use App\Nova\Filters\DateRange;
 use App\Nova\Filters\UserBalance;
 use App\Nova\Filters\UserId;
@@ -103,7 +104,7 @@ class User extends Resource
                 ->rules('required', 'max:50'),
 
             Text::make(__('Business Name'), function(){
-                return $this->business_name_en ? $this->business_name_en : $this->mainStoreUser->business_name_en;
+                return $this->mainStoreUser ? $this->mainStoreUser->business_name_en : $this->business_name_en;
             })->rules('required', 'max:50'),
 
             Text::make(__('user type'), function(){
@@ -338,9 +339,13 @@ class User extends Resource
      */
     public function cards(Request $request)
     {
-        if(!$this->store_main_user_id)
+        if($request->has('resourceId'))
         {
-            return [(new Userstats)->onlyOnDetail()->width('full')];
+            $user = \App\Models\User::find($request->resourceId);
+            if(!$user->store_main_user_id)
+            {
+                return [(new Userstats)->onlyOnDetail()->width('full')];
+            }
         }
 
         return [];
@@ -382,9 +387,9 @@ class User extends Resource
     public function actions(Request $request)
     {
         return [
-            (new DownloadExcel)
-                ->only(['id', 'balance_string', 'Business_name', 'bank', 'iban_number', 'name', 'verify_status'])
-                ->withHeadings(['ID', __('Balance'), __('Business Name'), __('Bank'), __('Iban Number'), __('Account Name'), __('Verified')]),
+            (new UsersExcelDownload)->canRun(function (NovaRequest $request) {
+                return true;
+            }),
         ];
     }
 
