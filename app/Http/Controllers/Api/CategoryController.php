@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryListResource;
+use App\Http\Resources\CategoryOptionsResource;
 use App\Http\Resources\CategorySingleResource;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryApiRequest;
@@ -22,6 +24,17 @@ class CategoryController extends Controller
         $categoriesCollection = CategoryListResource::collection($categories);
 
         return $categoriesCollection;
+
+    }
+
+    public function getAll(Request $request)
+    {
+        $authUser = GetAuthUser::authUser($request);
+
+        $categories = Category::owner($authUser->id)->get();
+        $categoriesCollection = CategoryOptionsResource::collection($categories);
+
+        return response()->json($categoriesCollection, 200);
 
     }
 
@@ -128,6 +141,63 @@ class CategoryController extends Controller
             $category->delete();
     
             return response()->json(['deleted_at' => $category->deleted_at], 200);
+        }else{
+            return response()->json(['authorization' => 'not authorized to delete this category'], 403);
+        }
+    }
+
+    public function deleteDependency($id, Request $request){
+        $authUser = GetAuthUser::authUser($request);
+        
+        $parent = Category::findOrFail($id);
+        
+        if($parent->user_id == $authUser->id){
+            $parent->deleteDependency();
+    
+            return response()->json(['deleted_at' => $parent->deleted_at], 200);
+        }else{
+            return response()->json(['authorization' => 'not authorized to delete this category'], 403);
+        }
+    }
+
+    public function deleteMove(Request $request){
+        $selectedCat = str_replace("'","",$request->selectedId);
+        $selectedId = (int) $selectedCat;
+
+        $authUser = GetAuthUser::authUser($request);
+        
+        $parent = Category::findOrFail($request->deletedId);
+        
+        if($parent->user_id == $authUser->id){
+            $parent->deleteMove($selectedId);
+    
+            return response()->json(['deleted_at' => $parent->deleted_at], 200);
+        }else{
+            return response()->json(['authorization' => 'not authorized to delete this category'], 403);
+        }
+    }
+
+    public function childsCount($id, Request $request)
+    {
+        $authUser = GetAuthUser::authUser($request);
+        
+        $category = Category::findOrFail($id);
+
+        if($category->user_id == $authUser->id){
+            return $category->childiren->count();
+        }else{
+            return response()->json(['authorization' => 'not authorized to delete this category'], 403);
+        }
+    }
+
+    public function productsCount($id, Request $request)
+    {
+        $authUser = GetAuthUser::authUser($request);
+        
+        $category = Category::findOrFail($id);
+
+        if($category->user_id == $authUser->id){
+            return $category->products->count();
         }else{
             return response()->json(['authorization' => 'not authorized to delete this category'], 403);
         }

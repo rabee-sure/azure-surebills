@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\MasterCardService;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\RefundRequest;
+use App\Models\Settings;
 use Illuminate\Validation\ValidationException as ValidationsException;
 
 class BillController extends Controller
@@ -84,7 +85,8 @@ class BillController extends Controller
         {
             abort(403);
         }
-        return view('bills.create');
+        $settings = Settings::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->first();
+        return view('bills.create', compact('settings'));
     }
 
     /**

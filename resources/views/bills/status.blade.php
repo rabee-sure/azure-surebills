@@ -111,7 +111,7 @@
           @endif
           @if( $bill->add_tax)
           <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Added tax value (15%)') }}({{ __('SAR') }})</span>
+            <span>{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }}({{ __('SAR') }})</span>
             <span>{{ $bill->vat }}</span>
           </div><!-- d-flex -->
           @endif

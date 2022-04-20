@@ -140,13 +140,17 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::prefix('ajax')->group(function () {
         //Categories
         Route::get('categories', 'Api\CategoryController@index')->name('categories.index');
+        Route::get('categories/all', 'Api\CategoryController@getAll')->name('categories.get-all');
         Route::get('top-categories', 'Api\CategoryController@topCategories')->name('categories.top');
         Route::get('sub-categories/{parent}', 'Api\CategoryController@subCategories');
         Route::post('category/store', 'Api\CategoryController@store')->name('categories.store');
         Route::get('categories/{id}', 'Api\CategoryController@show')->name('categories.show');
         Route::post('category/{id}/update', 'Api\CategoryController@update')->name('categories.update');
         Route::delete('category/{id}/delete', 'Api\CategoryController@delete')->name('categories.delete');
-
+        Route::delete('category/{id}/delete-dependency', 'Api\CategoryController@deleteDependency')->name('categories.delete-dependency');
+        Route::post('categories/delete-move', 'Api\CategoryController@deleteMove')->name('categories.delete-move');
+        Route::get('category/{id}/childsCount', 'Api\CategoryController@childsCount')->name('categories.childsCount');
+        Route::get('category/{id}/productsCount', 'Api\CategoryController@productsCount')->name('categories.productsCount');
         //Products
         Route::get('products', 'Api\ProductsController@index')->name('products.index');
         Route::get('products/{id}', 'Api\ProductsController@show')->name('products.show');
