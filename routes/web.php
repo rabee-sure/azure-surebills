@@ -151,7 +151,6 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
         Route::post('categories/delete-move', 'Api\CategoryController@deleteMove')->name('categories.delete-move');
         Route::get('category/{id}/childsCount', 'Api\CategoryController@childsCount')->name('categories.childsCount');
         Route::get('category/{id}/productsCount', 'Api\CategoryController@productsCount')->name('categories.productsCount');
-    
         //Products
         Route::get('products', 'Api\ProductsController@index')->name('products.index');
         Route::get('products/{id}', 'Api\ProductsController@show')->name('products.show');
