@@ -1,6 +1,7 @@
 <?php
 
 use App\Application;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Client;
@@ -14,6 +15,13 @@ use GuzzleHttp\Client;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('user-roles', function(){
+
+    $user = User::find(auth()->user()->id);
+    dd($user->getRoleNames());
+
+});
 
 Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
 
@@ -146,7 +154,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
         Route::get('categories/{id}', 'Api\CategoryController@show')->name('categories.show');
         Route::post('category/{id}/update', 'Api\CategoryController@update')->name('categories.update');
         Route::delete('category/{id}/delete', 'Api\CategoryController@delete')->name('categories.delete');
-    
+
         //Products
         Route::get('products', 'Api\ProductsController@index')->name('products.index');
         Route::get('products/{id}', 'Api\ProductsController@show')->name('products.show');
