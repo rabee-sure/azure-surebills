@@ -81,7 +81,7 @@ class BillController extends Controller
      */
     public function create()
     {
-        if(count(auth()->user()->channels) > 0 || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) > 0))
+        if((!auth()->user()->mainStoreUser && count(auth()->user()->channels) > 0) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) > 0))
         {
             abort(403);
         }
@@ -97,7 +97,7 @@ class BillController extends Controller
      */
     public function store(BillRequest $request)
     {
-        if(count(auth()->user()->channels) > 0 || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) > 0))
+        if((!auth()->user()->mainStoreUser && count(auth()->user()->channels) > 0) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) > 0))
         {
             abort(403);
         }
