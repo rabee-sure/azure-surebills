@@ -44,12 +44,17 @@ Route::prefix('v1')->group(function () {
 	Route::group(['middleware' => ['Mutli.auth']], function () {
 		//Categories
 		Route::get('categories', 'CategoryController@index');
+		Route::get('categories/all', 'Api\CategoryController@getAll');
 		Route::get('top-categories', 'CategoryController@topCategories');
 		Route::get('sub-categories/{parent}', 'CategoryController@subCategories');
 		Route::post('category/store', 'CategoryController@store');
 		Route::get('categories/{id}', 'CategoryController@show');
 		Route::post('category/{id}/update', 'CategoryController@update');
 		Route::delete('category/{id}/delete', 'CategoryController@delete');
+		Route::delete('category/{id}/delete-dependency', 'Api\CategoryController@deleteDependency');
+		Route::post('categoriesdelete-move', 'Api\CategoryController@deleteMove');
+		Route::get('category/{id}/childsCount', 'Api\CategoryController@childsCount');
+        Route::get('category/{id}/productsCount', 'Api\CategoryController@productsCount');
 
 		//Products
 		Route::get('products', 'ProductsController@index');

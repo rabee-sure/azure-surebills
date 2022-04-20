@@ -813,5 +813,9 @@
 	"Yes, delete it!" : "نعم، أحذفه!",
 	"Cancel" : "إلغاء",
 	"Deleted!" : "تم الحذف!",
-	"Your item has been deleted." : "تم حذف بنجاح."
+	"Your item has been deleted." : "تم حذف بنجاح.",
+	"This Category Has child and products" : "يحتوي هذا القسم على اقسام اخرى و منتجات",
+	"Complete Delete" : "الحذف الكامل",
+	"Delete and move" : "الحذف و النقل",
+	"Select new category" : "أختر قسم جديد"
 }
