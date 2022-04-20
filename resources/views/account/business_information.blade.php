@@ -49,10 +49,11 @@
               <label for="commercial_registry_expiry_date" class="d-block mb-2">{{ __('Commercial Registry Expiry Date') }} <span class="requirement text-danger">*</span></label>
               <input
                 @if($user->commercial_registry_expiry_date)
-                  value="{{ Carbon\Carbon::parse($user->commercial_registry_expiry_date)->format('m/d/Y') }}"
+                  value="{{ Carbon\Carbon::parse($user->commercial_registry_expiry_date)->format('d/m/Y') }}"
                 @else
-                  value="{{ Carbon\Carbon::now()->format('m/d/Y') }}"
-                @endif name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control rounded-3 shadow-none border expiryDate" placeholder="{{ __('Commercial Registry Expiry Date') }}"
+                  value="{{ Carbon\Carbon::now()->format('d/m/Y') }}"
+                @endif
+                name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control rounded-3 shadow-none border expiryDate" placeholder="{{ __('Commercial Registry Expiry Date') }}"
               >
             </div><!-- form-group -->
           </div><!-- col-12 -->
