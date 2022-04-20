@@ -70,7 +70,7 @@ class StoreUserController extends Controller
         $user->save();
 
         $role = Role::find($request->role);
-        $user->assignRole($role);
+        $user->assignRole($request->role);
         return redirect()->route('users.index');
     }
 
@@ -133,6 +133,10 @@ class StoreUserController extends Controller
      */
     public function destroy(User $user)
     {
+        if($user->getRoleNames()->first() == 'super admin' || $user->id == auth()->user()->id)
+        {
+            abort(403);
+        }
         $user->delete();
         return redirect()->route('users.index');
     }

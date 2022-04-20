@@ -51,23 +51,23 @@
 
                 @case('channel_fees')
                     {{ __('Channel Fees') }}
-                    @break                    
+                    @break
 
                 @case('channel_vat')
                     {{ __('Channel VAT') }}
-                    @break                   
+                    @break
 
                 @case('fees')
                     {{ __('Bill Fees') }}
-                    @break                  
+                    @break
 
                 @case('vat')
                     {{ __('Bill VAT') }}
-                    @break                 
+                    @break
 
                 @case('transfer')
                     {{ __('Transfer') }}
-                    @break 
+                    @break
 
                 @case('refund')
                     {{ __('Refunded') }}
@@ -178,13 +178,13 @@
                   <td class="text-center">
                     <div class="d-flex align-items-center justify-content-center">
                       @if ($transaction->card_brand == 'VISA')
-                        <img alt="mastercard" src="images/cards/visa.gif" width="18px"> 
+                        <img alt="mastercard" src="images/cards/visa.gif" width="18px">
                       @elseif ($transaction->card_brand == 'MASTER')
-                        <img alt="mastercard" src="images/cards/mastercard.gif" width="18px"> 
+                        <img alt="mastercard" src="images/cards/mastercard.gif" width="18px">
                       @elseif ($transaction->card_brand == 'MADA')
-                        <img alt="mastercard" src="images/cards/mada.gif" width="18px"> 
+                        <img alt="mastercard" src="images/cards/mada.gif" width="18px">
                       @elseif ($transaction->card_brand == 'APPLEPAY')
-                        <img alt="mastercard" src="images/cards/applepay.gif" width="18px"> 
+                        <img alt="mastercard" src="images/cards/applepay.gif" width="18px">
                       @endif
                       {{ $transaction->card }}
                     </div>

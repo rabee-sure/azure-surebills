@@ -34,7 +34,9 @@ class TransferController extends Controller
      */
     public function index()
     {
-        $transfers = auth()->user()->transfers()->with('created_by')->get();
+        $user = auth()->user();
+        $user->userId = auth()->user()->store_main_user_id ?? auth()->user()->id;
+        $transfers = Transfer::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->with('created_by')->get();
         return view('transfers.index', ['transfers' => $transfers]);
     }
 
