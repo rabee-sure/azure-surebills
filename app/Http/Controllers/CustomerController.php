@@ -120,7 +120,8 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        return view('customers.edit', ['customer' => $customer]);
+        $user = User::find(auth()->user()->store_main_user_id ?? auth()->user()->id);
+        return view('customers.edit', ['customer' => $customer, 'user' => $user]);
     }
 
     /**
