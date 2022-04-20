@@ -81,7 +81,7 @@
               <label for="role" class="d-block mb-2">{{__('Role')}}</label>
               <select name="role" id="role" class="form-control shadow-none bg-white border w-100 rounded-3 text-body">
                 @foreach($roles as $role)
-                  <option value="{{$role->name}}" {{$user->getRoleNames()->first() == $role->name || old('role') == $role->name ? 'selected' : ''}}>{{$role->name}}</option>
+                  <option value="{{$role->id}}" {{$user->roles->first()->id == $role->id || old('role') == $role->id ? 'selected' : ''}}>{{$role->name}}</option>
                 @endforeach
               </select>
             </div><!-- form-group -->
