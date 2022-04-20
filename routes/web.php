@@ -1,7 +1,6 @@
 <?php
 
 use App\Application;
-use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Client;
@@ -15,13 +14,6 @@ use GuzzleHttp\Client;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('all-roles', function(){
-
-    $roles = Role::get()->toArray();
-    dd($roles);
-
-});
 
 Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
 
