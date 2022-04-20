@@ -145,6 +145,7 @@
           showCancelButton: true,
           confirmButtonText: '{{ __("Complete Delete") }}',
           denyButtonText: `{{ __("Delete and move") }}`,
+          cancelButtonText: '{{ __("Cancel") }}'
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
@@ -180,6 +181,8 @@
               inputOptions: newCategories,
               inputPlaceholder: '{{ __("Main") }}',
               showCancelButton: true,
+              confirmButtonText: '{{ __("Delete and move") }}',
+              cancelButtonText: '{{ __("Cancel") }}'
             }).then(function (result) {
               if (result.isConfirmed) {
                 var catergory_delete_move_url = "{{ route('categories.delete-move') }}";
