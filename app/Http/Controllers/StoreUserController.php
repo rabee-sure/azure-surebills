@@ -69,7 +69,8 @@ class StoreUserController extends Controller
         $user->disable_bank_documents = $user->mainStoreUser ? $user->mainStoreUser->disable_bank_documents : 0;
         $user->save();
 
-        $user->assignRole($request->role);
+        $role = Role::find($request->role);
+        $user->assignRole($role);
         return redirect()->route('users.index');
     }
 
@@ -117,7 +118,9 @@ class StoreUserController extends Controller
         $user->save();
 
         $user->roles()->detach();
-        $user->assignRole($request->role);
+
+        $role = Role::find($request->role);
+        $user->assignRole($role);
 
         return redirect()->route('users.index');
     }
