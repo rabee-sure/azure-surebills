@@ -32,6 +32,7 @@ class StoreUserRequest extends FormRequest
             'gender' => ['required', Rule::in(1,2)],
             'password' => ['required', 'string', 'min:8', new PasswordRule],
             'confirm_password' =>  ['required', 'same:password'],
+            'role' => ['required'],
         ];
 
         if($this->_method == 'PATCH')
