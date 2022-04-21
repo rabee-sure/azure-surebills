@@ -117,10 +117,12 @@ class StoreUserController extends Controller
         $user->gender = $request->gender;
         $user->save();
 
-        $user->roles()->detach();
-
-        $role = Role::find($request->role);
-        $user->assignRole($role);
+        if($request->has('role'))
+        {
+            $user->roles()->detach();
+            $role = Role::find($request->role);
+            $user->assignRole($role);
+        }
 
         return redirect()->route('users.index');
     }
