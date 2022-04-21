@@ -321,7 +321,7 @@
 	"Payment Surebills Fees Vat": "ضريبة SureBills",
 	"Payment Channel Fees": "عمولة القناة",
 	"Payment Channel Fees Vat": "اجمالي ضريبة القناة",
-
+    "Choose Role": "اختر الدور",
 	"Due to client": "المبلغ المستحق للعميل",
 	"Payment Details": "تفاصيل الدفع",
 	"amount must be less than or equal to user balance :balance" : "يجب أن يكون المبلغ أقل من رصيد المستخدم ':balance' أو مساويًا له",

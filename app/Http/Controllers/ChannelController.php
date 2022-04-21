@@ -22,7 +22,7 @@ class ChannelController extends Controller
      */
     public function index(Request $request)
     {
-        $channels = Channel::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
+        $channels = Channel::Activate()->userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
             ->orderBy('id', 'desc')
             ->paginate($request->get('per_page', 10));
         return view('channels.index',  ['channels' => $channels]);
