@@ -546,12 +546,17 @@ span.select2-container {
 } /* print */
 
 .dropzone {
+  border-radius: .3rem;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #dee2e6;
+  overflow: hidden;
   min-height: 160px;
-  &.dz-started {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    min-height: auto;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-height: auto;
     @include media-breakpoint-down(md) {
       grid-template-columns: repeat(1, minmax(0, 1fr));
     } /* md */
@@ -601,5 +606,4 @@ span.select2-container {
         } /* ltr */
       } /* removeImg */
     } /* .dz-preview */
-  } /* dz-started */
 } /* dropzone */
