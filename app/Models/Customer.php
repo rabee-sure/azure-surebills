@@ -17,9 +17,24 @@ class Customer extends Model
         'vat_registration_number'
     ];
 
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
+
     public function scopeName($query, $name)
     {
     	return $query->where('name', 'like', '%'.$name.'%');
+    }
+
+    public function scopeMobile($query, $mobile)
+    {
+    	return $query->where('mobile', 'like', '%'.$mobile.'%');
+    }
+
+    public function scopeOwner($query, $user_id)
+    {
+    	return $query->where('user_id', $user_id);
     }
 
     /**

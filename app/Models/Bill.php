@@ -98,6 +98,11 @@ class Bill extends Model
         'trans_status',
     ];
 
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
+
     /**
      * Pay Id.
      *
@@ -510,7 +515,7 @@ class Bill extends Model
      */
     public function resolveRouteBinding($value, $field = null)
     {
-        return $this->where('id', $value)->whereIn('user_id', auth()->user()->storeUsers(true))->firstOrFail();
+        return $this->where('id', $value)->userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->firstOrFail();
     }
 
     /**

@@ -93,7 +93,7 @@
             </div><!-- form-group -->
           </div><!-- col -->
         </div><!-- row -->
-        @if(Auth::user()->settings->add_tax_invoice)
+        @if($settings->add_tax_invoice)
           <button type="button" class="additionalInformationBtn border-0 d-flex align-items-center justify-content-start bg-transparent p-0">{{__('Additional Information')}}</button>
           <div class="additionalInformationArea">
             <div class="pt-3">
@@ -267,7 +267,7 @@
           </div><!-- col-12 -->
           <div class="col-12 col-lg-6">
             <label for="Tax_Values_Checkbox" class="checkboxItem position-relative mb-3 mb-md-0">
-              <input name="add_tax" class="position-absolute top-0 strat-0 w-100 h-100" id="Tax_Values_Checkbox" type="checkbox">
+              <input name="add_tax" class="position-absolute top-0 strat-0 w-100 h-100" id="Tax_Values_Checkbox" @if($errors->any()) @if(old('add_tax') == true) checked @endif @else @if($settings->add_tax) checked @endif @endif type="checkbox">
               <span class="d-flex align-items-center justify-content-start">
                 <i class="d-block rounded-pill position-relative"></i>
                 {{ __('Add Tax') }}
@@ -280,7 +280,7 @@
                     <label for="Tax" class="d-block mb-2">{{ __('Tax Value') }}</label>
                     <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
                       <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
-                      <input type="tel" name="tax_value" class="form-control shadow-none bg-white border w-100 rounded-3" id="Value" value="@if(auth()->user()->settings->add_tax){{auth()->user()->settings->tax_value}}@else{{old('tax_value')}}@endif" aria-describedby="basic-addon3">
+                      <input type="tel" name="tax_value" class="form-control shadow-none bg-white border w-100 rounded-3" id="Value" value="@if($settings->add_tax){{$settings->tax_value}}@else{{old('tax_value')}}@endif" aria-describedby="basic-addon3">
                     </div><!-- inputGroup -->
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
@@ -293,7 +293,7 @@
         <div class="row">
           <div class="col-12 col-lg-6">
             <label for="send_sms" class="checkboxItem position-relative mb-3 mb-md-0">
-              <input name="send_sms" class="position-absolute top-0 strat-0 w-100 h-100" id="send_sms" type="checkbox" @if(auth()->user()->settings->create_send_sms || old('send_sms')) checked @endif>
+              <input name="send_sms" class="position-absolute top-0 strat-0 w-100 h-100" id="send_sms" type="checkbox" @if($settings->create_send_sms || old('send_sms')) checked @endif>
               <span class="d-flex align-items-center justify-content-start">
                 <i class="d-block rounded-pill position-relative"></i>
                 {{ __('Send SMS') }}
@@ -302,7 +302,7 @@
           </div><!-- col-12 -->
           <div class="col-12 col-lg-6">
             <label for="send_email" class="checkboxItem position-relative m-0">
-              <input name="send_email" class="position-absolute top-0 strat-0 w-100 h-100" id="send_email" type="checkbox" @if(auth()->user()->settings->create_send_email || old('send_email')) checked @endif>
+              <input name="send_email" class="position-absolute top-0 strat-0 w-100 h-100" id="send_email" type="checkbox" @if($settings->create_send_email || old('send_email')) checked @endif>
               <span class="d-flex align-items-center justify-content-start">
                 <i class="d-block rounded-pill position-relative"></i>
                 {{ __('Send Email') }}
@@ -383,27 +383,6 @@
       },
     });
 
-    // Tax & Discount
-    $('#Tax_Values_Checkbox').change(function() {
-      $('.Tax_Values').slideToggle();
-    });
-    $('#Discount_Values_Checkbox').change(function() {
-      $('.Discount_Values').slideToggle();
-    });
-
-    $(document).ready(function () {
-      $('#percentage').hide(); 
-      $('#discount_type').change(function(){
-        if($('#discount_type').val() === 'percentage') {
-          $('#percentage').show(); 
-          $('#fixed').hide(); 
-        } else {
-          $('#percentage').hide();
-          $('#fixed').show();  
-        } 
-      });
-    });
-
     var fewSeconds = 5;
     $('#create-bill').click(function() {
       var btn = $(this);
@@ -433,28 +412,56 @@
     });
 
     $(document).ready(function () {
-      @if(old('add_tax'))
-        $('.Tax_Values').show();
-        $('#Value').val({{old('tax_value')}});
-        $('#Tax_Values_Checkbox').prop('checked', true);
-      @elseif(old('add_tax') === 0)
-        $('.Tax_Values').hide();
-        $('#Tax_Values_Checkbox').prop('checked', false);
-      @elseif(auth()->user()->settings->add_tax)
-        $('.Tax_Values').show();
-        $('#Value').val({{auth()->user()->settings->tax_value}});
-        $('#Tax_Values_Checkbox').prop('checked', true);
-      @else
-        $('.Tax_Values').hide();
-        $('#Tax_Values_Checkbox').prop('checked', false);
-      @endif
+      console.log($('#Discount_Values_Checkbox').prop('checked'));
+      console.log($('#Tax_Values_Checkbox').prop('checked'));
 
-      @if(old('add_discount'))
-        {{'.change();'}}
-      @endif
+
+      if($('#Discount_Values_Checkbox').prop('checked')){
+        $('.Discount_Values').show();
+        if($('#discount_type').val() === 'percentage') {
+          $('#percentage').show();
+          $('#fixed').hide();
+        } else {
+          $('#percentage').hide();
+          $('#fixed').show();
+        }
+      }else{
+        $('.Discount_Values').hide();
+      }
+
+      if($('#Tax_Values_Checkbox').prop('checked')){
+        $('.Tax_Values').show();
+      }else{
+        $('.Discount_Values').hide();
+      }
+
+      // Tax & Discount
+      $('#Discount_Values_Checkbox').change(function() {
+        $('.Discount_Values').slideToggle();
+        if($('#discount_type').val() === 'percentage') {
+          $('#percentage').show();
+          $('#fixed').hide();
+        } else {
+          $('#percentage').hide();
+          $('#fixed').show();
+        }
+      });
+      $('#discount_type').change(function() {
+        if($('#discount_type').val() === 'percentage') {
+          $('#percentage').show();
+          $('#fixed').hide();
+        } else {
+          $('#percentage').hide();
+          $('#fixed').show();
+        }
+      });
+
+      $('#Tax_Values_Checkbox').change(function() {
+        $('.Tax_Values').slideToggle();
+      });
 
       var customers = [];
-      
+
       $( "#customer_name").autocomplete({
         source: function(request, response) {
           $.ajax({
@@ -486,7 +493,7 @@
           $('#postal_code').val(item.postal_code);
           $('#additional_no').val(item.additional_no);
           $('#other_buyer_id').val(item.other_buyer_id);
-          $('#vat_registration_number').val(item.vat_registration_number);        
+          $('#vat_registration_number').val(item.vat_registration_number);
           return false;
         },
         minLength: 1

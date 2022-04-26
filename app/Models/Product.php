@@ -23,12 +23,18 @@ class Product extends Model
         'price', 
         'sort_number',
         'active',
-        'category_id'
+        'category_id',
+        'user_id'
     ];
 
     public function scopeActive($query)
     {
     	return $query->where('active', true);
+    }
+
+    public function scopeOwner($query, $user_id)
+    {
+    	return $query->where('user_id', $user_id);
     }
 
     public function scopeName($query, $keyword)

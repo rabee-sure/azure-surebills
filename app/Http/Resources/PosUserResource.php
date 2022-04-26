@@ -31,6 +31,7 @@ class PosUserResource extends JsonResource
             'diff_in_sec' => $this->getDiff(),
             'language' => \App::getLocale(),
             'token' => $this->createToken('pos-api-token')->accessToken,
+            'settngs' => $this->settings,
         ];
     }
 

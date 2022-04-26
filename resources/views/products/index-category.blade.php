@@ -52,16 +52,15 @@
 
 @push('footer-scripts')
   <script src="{{ asset('new/js/jquery-ui/jquery-ui.js') }}?v={{ config('app.asset_version') }}" defer></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    var base_url = "{{url('/')}}";
     
     $(document).ready(function(){
+      var base_url = "{{url('/')}}";
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : 195,
-              'X-application-secret' : 'aajO9ETFeqfaIiGgJLSp',
               'Accept' : 'application/json'
           }
       });
@@ -111,13 +110,126 @@
     });
 
     function deleteItem(id){
+      var chiledsCount = 0;
+      var productsCount = 0;
+
+      var chileds_count_url = "{{ route('categories.childsCount', ':id') }}";
+      var product_count_url = "{{ route('categories.productsCount', ':id') }}";
+
       $.ajax({
-        type:'DELETE',
-        url:base_url+"/api/v1/category/"+id+"/delete",
+        type:'GET',
+        async: false,
+        url:chileds_count_url.replace(':id', id),
         success:function(categories){
-          window.location.replace("{{ route('categories.all') }}");
+          chiledsCount = categories;
         }
       });
+
+      $.ajax({
+        type:'GET',
+        async: false,
+        url:product_count_url.replace(':id', id),
+        success:function(products){
+          productsCount = products;
+        }
+      });
+
+      var catergory_delete_url = "{{ route('categories.delete', ':id') }}";
+      
+      if(chiledsCount > 0 || productsCount > 0){
+        var catergory_dependancy_delete_url = "{{ route('categories.delete-dependency', ':id') }}";
+
+        Swal.fire({
+          title: '{{ __("This Category Has child and products") }}',
+          showDenyButton: true,
+          showCancelButton: true,
+          confirmButtonText: '{{ __("Complete Delete") }}',
+          denyButtonText: `{{ __("Delete and move") }}`,
+          cancelButtonText: '{{ __("Cancel") }}'
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            $.ajax({
+              type:'DELETE',
+              url:catergory_dependancy_delete_url.replace(':id', id),
+              success:function(categories){
+                Swal.fire(
+                  '{{ __("Deleted!") }}',
+                  '{{ __("Your item has been deleted.") }}',
+                  'success'
+                )
+                window.location.replace("{{ route('categories.all') }}");
+              }
+            });
+          } else if (result.isDenied) {
+            var all_categories_url = "{{ route('categories.get-all') }}";
+            var newCategories = [];
+
+            $.ajax({
+              type:'GET',
+              async: false,
+              url:all_categories_url,
+              success:function(categories){
+                console.log(categories);
+                newCategories = categories;
+              }
+            });
+            
+            Swal.fire({
+              title: '{{ __("Select new category") }}',
+              input: 'select',
+              inputOptions: newCategories,
+              inputPlaceholder: '{{ __("Main") }}',
+              showCancelButton: true,
+              confirmButtonText: '{{ __("Delete and move") }}',
+              cancelButtonText: '{{ __("Cancel") }}'
+            }).then(function (result) {
+              if (result.isConfirmed) {
+                var catergory_delete_move_url = "{{ route('categories.delete-move') }}";
+                $.ajax({
+                  type:'POST',
+                  url:catergory_delete_move_url,
+                  data:{deletedId : id, selectedId: result.value},
+                  success:function(categories){
+                    Swal.fire(
+                      '{{ __("Deleted!") }}',
+                      '{{ __("Your item has been deleted.") }}',
+                      'success'
+                    )
+                    window.location.replace("{{ route('categories.all') }}");
+                  }
+                });
+              }
+            });
+          }
+        })
+      }else{
+        Swal.fire({
+          title: '{{ __("Are you sure?") }}',
+          text: "{{ __('You will not be able to revert this!') }}",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '{{ __("Yes, delete it!") }}',
+          cancelButtonText: '{{ __("Cancel") }}'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              type:'DELETE',
+              url:catergory_delete_url.replace(':id', id),
+              success:function(categories){
+                Swal.fire(
+                  '{{ __("Deleted!") }}',
+                  '{{ __("Your item has been deleted.") }}',
+                  'success'
+                )
+                window.location.replace("{{ route('categories.all') }}");
+              }
+            });
+          }
+        })
+      }
     }
   </script>
 @endpush

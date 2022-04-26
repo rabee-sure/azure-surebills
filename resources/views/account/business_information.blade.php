@@ -47,12 +47,13 @@
           <div class="col-12 col-md-6 col-lg-4" id="registry_expiry_date" @if($user->license_type != 'Commercial Record')style="display: none;"@endif>
             <div class="form-group mb-3">
               <label for="commercial_registry_expiry_date" class="d-block mb-2">{{ __('Commercial Registry Expiry Date') }} <span class="requirement text-danger">*</span></label>
-              <input 
+              <input
                 @if($user->commercial_registry_expiry_date)
-                  value="{{ Carbon\Carbon::parse($user->commercial_registry_expiry_date)->format('m/d/Y') }}"
+                  value="{{ Carbon\Carbon::parse($user->commercial_registry_expiry_date)->format('d/m/Y') }}"
                 @else
-                  value="{{ Carbon\Carbon::now()->format('m/d/Y') }}"
-                @endif name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control rounded-3 shadow-none border expiryDate" placeholder="{{ __('Commercial Registry Expiry Date') }}"
+                  value="{{ Carbon\Carbon::now()->format('d/m/Y') }}"
+                @endif
+                name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control rounded-3 shadow-none border expiryDate" placeholder="{{ __('Commercial Registry Expiry Date') }}"
               >
             </div><!-- form-group -->
           </div><!-- col-12 -->
@@ -109,11 +110,11 @@
               @endif
             </div><!-- form-group -->
           </div><!-- col-12 -->
-          @if(auth()->user()->logo)
+          @if(auth()->user()->logo || (auth()->user()->mainStoreUser && auth()->user()->mainStoreUser->logo))
             <div class="col-12 col-md-6 col-lg-4">
               <div class="form-group mb-3">
                 <div class="logoImage p-2 border overflow-hidden rounded-3 position-relative d-flex align-items-center justify-content-center">
-                  <img src="@if(Storage::disk('public')->has(auth()->user()->logo)) {{url('storage/'.auth()->user()->logo)}} @else {{url(auth()->user()->logo)}} @endif" alt="logo" class="logo_image mw-100 mh-100" />
+                  <img src="@if(Storage::disk('public')->has(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)) {{url('storage/'.auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)}} @else {{url(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)}} @endif" alt="logo" class="logo_image mw-100 mh-100" />
                   <i class="fal fa-trash-alt delete_logo position-absolute btn-danger rounded-3 d-flex align-items-center justify-content-center text-white"></i>
                 </div><!-- logoImage -->
               </div><!-- form-group -->
@@ -124,13 +125,13 @@
             <p class="d-block mb-3 text-secondary">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
             @if(auth()->user()->disable_business_documents)
               <div class="dropzone">
-                @foreach(auth()->user()->business_documents as $file)
+                @foreach(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->business_documents : auth()->user()->business_documents as $file)
                   @include('components.file', ['file' => $file])
                 @endforeach
               </div>
             @else
               @include('components.dropzone',[
-                'documents' => auth()->user()->business_documents->toArray()
+                'documents' => auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->business_documents->toArray() : auth()->user()->business_documents->toArray()
               ])
             @endif
           </div><!-- col-12 -->
@@ -166,10 +167,10 @@
     $('#logo').bind('change', function () {
       var filename = $("#logo").val();
       if (/^\s*$/.test(filename)) {
-        $(".fileName").text("No file chosen..."); 
+        $(".fileName").text("No file chosen...");
       }
       else {
-        $(".fileName").text(filename.replace("C:\\fakepath\\", "")); 
+        $(".fileName").text(filename.replace("C:\\fakepath\\", ""));
       }
     });
 

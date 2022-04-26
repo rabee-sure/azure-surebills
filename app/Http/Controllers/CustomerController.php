@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Http\Requests\CustomerRequest;
 use App\Http\Requests\CustomerUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -24,11 +25,12 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $customers = Customer::whereIn('user_id', auth()->user()->storeUsers(true))
+        $customers = Customer::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
             ->orderBy('id', 'desc')
             ->with('bills')
             ->paginate($request->get('per_page', 10));
-        return view('customers.index',  ['customers' => $customers]);
+        $user = User::find(auth()->user()->store_main_user_id ?? auth()->user()->id);
+        return view('customers.index',  ['customers' => $customers, 'user' => $user]);
     }
 
     /**
@@ -40,7 +42,7 @@ class CustomerController extends Controller
     {
         $search = $request->get('search');
         $result = Customer::where('name', 'LIKE', '%'. $search. '%')
-            ->where('user_id', auth()->user()->storeUsers(true))
+            ->userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
             ->orderBy('id', 'desc')
             ->get();
         return response()->json($result);
@@ -55,7 +57,7 @@ class CustomerController extends Controller
     {
         $search = $request->get('search');
         $result = Customer::where('mobile', 'LIKE', '%'. $search. '%')
-            ->whereIn('user_id', auth()->user()->storeUsers(true))
+            ->userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
             ->orderBy('id', 'desc')
             ->get();
         return response()->json($result);
@@ -118,7 +120,8 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        return view('customers.edit', ['customer' => $customer]);
+        $user = User::find(auth()->user()->store_main_user_id ?? auth()->user()->id);
+        return view('customers.edit', ['customer' => $customer, 'user' => $user]);
     }
 
     /**

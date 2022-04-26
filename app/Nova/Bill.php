@@ -136,6 +136,7 @@ class Bill extends Resource
             'refunded_bank_transfer' =>  __('Refunded Bank Transfer'),
             'paid_cash' =>  __('Paid Cash'),
             'paid_bank_transfer' =>  __('Paid Bank Transfer'),
+            'failed' =>  __('Failed'),
         ];
         return [
 
@@ -157,6 +158,7 @@ class Bill extends Resource
                     'refunded_cash' => '#b69329',
                     'paid_cash' => '#3e884f',
                     'paid_bank_transfer' => '#3e884f',
+                    'failed' => '#c43d4b',
                 ])->displayUsingLabels(),
 
             Text::make(__('Url'), 'pay_url')

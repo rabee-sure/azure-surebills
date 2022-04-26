@@ -27,12 +27,12 @@
         <div class="form-group mb-3">
           <label for="Notes" class="d-block mb-1">{{__('Notes')}}</label>
           <input name="notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Notes" placeholder="{{__('Notes')}}">
-        </div>                        
-        @if(Auth::user()->settings->add_tax_invoice)
+        </div>
+        @if($user->settings->add_tax_invoice)
           <div class="form-group mb-3">
               <label for="bullding_no" class="d-block mb-1">{{__('bullding_no')}}</label>
               <input name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('bullding_no')}}">
-          </div> 
+          </div>
           <div class="form-group mb-3">
               <label for="street_name" class="d-block mb-1">{{__('street_name')}}</label>
               <input name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('street_name')}}">
@@ -56,7 +56,7 @@
           <div class="form-group mb-3">
               <label for="other_buyer_id" class="d-block mb-1">{{__('other_buyer_id')}}</label>
               <input name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}">
-          </div> 
+          </div>
           <div class="form-group mb-3">
               <label for="vat_registration_number" class="d-block mb-1">{{__('vat_registration_number')}}</label>
               <input name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('vat_registration_number')}}">

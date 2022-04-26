@@ -24,6 +24,7 @@ class TransferController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('permission:show bills', ['only' => ['bills']]);
         $this->middleware('permission:show transfers');
     }
     /**
@@ -33,7 +34,9 @@ class TransferController extends Controller
      */
     public function index()
     {
-        $transfers = auth()->user()->transfers()->with('created_by')->get();
+        $user = auth()->user();
+        $user->userId = auth()->user()->store_main_user_id ?? auth()->user()->id;
+        $transfers = Transfer::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->with('created_by')->get();
         return view('transfers.index', ['transfers' => $transfers]);
     }
 
@@ -44,7 +47,7 @@ class TransferController extends Controller
      */
     public function bills(Transfer $transfer, Request $request)
     {
-        $this->authorize('viewBills', $transfer);
+        $this->authorize('show bills', $transfer);
         return view('transfers.bills', [
             'transfer' => $transfer,
             'bills' => $transfer->bills,
@@ -58,7 +61,7 @@ class TransferController extends Controller
      */
     public function transactions(Transfer $transfer, Request $request)
     {
-        $this->authorize('viewTransactions', $transfer);
+        $this->authorize('show transfers', $transfer);
 
         $balance_total = $transfer->transactions()
             ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
@@ -94,7 +97,7 @@ class TransferController extends Controller
      */
     public function request(Request $request)
     {
-        $user = auth()->user();
+        $user = auth()->user()->mainStoreUser ?? auth()->user();
         $cycleDate = Carbon::now()->addHours(3);
 
         $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d'));

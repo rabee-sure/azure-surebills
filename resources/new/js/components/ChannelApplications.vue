@@ -1,8 +1,8 @@
 <template>
-  <section id="channelApplicationsPage">
+  <section id="channelApplicationsPage" v-if="userPermissions.includes('show applications')">
     <div class="title d-flex align-items-center justify-content-between mb-4">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Applications')}}</h1>
-      <a class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill border-0 shadow-none" :title="__('Create New Application')" @click="showCreateApplicationForm">{{ __('Create New Application')}}</a>
+      <a class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill border-0 shadow-none" :title="__('Create New Application')" v-if="userPermissions.includes('create application')" @click="showCreateApplicationForm">{{ __('Create New Application')}}</a>
     </div><!-- title -->
 
     <div class="notApplicationsYet d-flex align-items-center justify-content-center flex-column bg-white shadow-sm rounded-3 p-3" v-if="applications.length === 0">
@@ -22,7 +22,7 @@
               <th scope="col" class="text-center bg-transparent">{{ __('webhook URL')}}</th>
               <th scope="col" class="text-center bg-transparent">{{ __('webhook Secret')}}</th>
               <th scope="col" class="text-center bg-transparent">{{ __('Redirect Url')}}</th>
-              <th scope="col" class="text-center bg-transparent"></th>
+              <th scope="col" class="text-center bg-transparent" v-if="userPermissions.includes('update application') || userPermissions.includes('delete application')"></th>
             </tr>
           </thead>
           <tbody>
@@ -34,10 +34,10 @@
               <td class="text-center" dir="ltr">{{ application.webhook_url }}</td>
               <td class="text-center"><code dir="ltr">{{ application.webhook_secret ? application.webhook_secret : '-' }}</code></td>
               <td class="text-center" dir="ltr">{{ application.redirect }}</td>
-              <td class="text-center">
+              <td class="text-center" v-if="userPermissions.includes('update application') || userPermissions.includes('delete application')">
                 <div class="d-flex align-items-center justify-content-center">
-                  <a href="#" @click="edit(application)" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" :title="__('Edit')"><i class="fal fa-edit"></i></a>
-                  <a href="#" @click="deletes(application)" class="rounded-3 border-0 shadow-none p-0 mx-1 btn-danger d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" :title="__('Delete')"><i class="fal fa-trash-alt"></i></a>
+                  <a href="#" v-if="userPermissions.includes('update application')" @click="edit(application)" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" :title="__('Edit')"><i class="fal fa-edit"></i></a>
+                  <a href="#" v-if="userPermissions.includes('delete application')" @click="deletes(application)" class="rounded-3 border-0 shadow-none p-0 mx-1 btn-danger d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" :title="__('Delete')"><i class="fal fa-trash-alt"></i></a>
                 </div>
               </td>
             </tr>
@@ -47,7 +47,7 @@
     </div><!-- blockArea -->
 
     <!-- Create Application Modal -->
-    <div class="modal fade applicationModals" id="modal-create-application" tabindex="-1" role="dialog">
+    <div class="modal fade applicationModals" id="modal-create-application" tabindex="-1" role="dialog" v-if="userPermissions.includes('create application')">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content border-0 shadow-sm rounded-3">
           <div class="modal-header d-flex align-items-center justify-content-between">
@@ -74,22 +74,30 @@
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_fixed" class="d-block mb-2">{{ __('Mada Fixed') }} <span class="requirement text-danger">*</span></label>
+
                 <input :class="{'is-invalid': haveError('mada_fixed') }" type="number" inputmode="numaric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_fixed" id="mada_fixed" @keyup.enter="store" v-model="createForm.mada_fixed" step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('mada_fixed')">{{errorMessage('mada_fixed')}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_percentage" class="d-block mb-2">{{ __('Mada Percentage') }}<span class="requirement">*</span></label>
+
                 <input :class="{'is-invalid': haveError('mada_percentage') }" type="number" inputmode="numaric" id="mada_percentage" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_percentage" @keyup.enter="store" v-model="createForm.mada_percentage"  step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('mada_percentage')">{{errorMessage('mada_percentage')}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_fixed" class="d-block mb-2">{{ __('Credit Cards Fixed') }} <span class="requirement text-danger">*</span></label>
+
                 <input :class="{'is-invalid': haveError('credit_cards_fixed') }" type="number" inputmode="numaric" id="credit_cards_fixed" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_fixed" @keyup.enter="store" v-model="createForm.credit_cards_fixed"  step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_fixed')">{{errorMessage('credit_cards_fixed')}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_percentage" class="d-block mb-2">{{ __('Credit Cards Percentage') }}<span class="requirement">*</span></label>
+
                 <input :class="{'is-invalid': haveError('credit_cards_percentage') }" type="number" inputmode="numaric" id="credit_cards_percentage" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" @keyup.enter="store" v-model="createForm.credit_cards_percentage"  step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_percentage')">{{errorMessage('credit_cards_percentage')}}</div>
               </div><!-- form-group -->
             </form>
@@ -103,7 +111,7 @@
     </div>
 
     <!-- Edit Application Modal -->
-    <div class="modal fade applicationModals" id="modal-edit-application" tabindex="-1" role="dialog">
+    <div class="modal fade applicationModals" id="modal-edit-application" tabindex="-1" role="dialog" v-if="userPermissions.includes('update application')">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content border-0 shadow-sm rounded-3">
           <div class="modal-header d-flex align-items-center justify-content-between">
@@ -130,22 +138,30 @@
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_fixed" class="d-block mb-2">{{ __('Mada Fixed') }} <span class="requirement text-danger">*</span></label>
+
                 <input :class="{'is-invalid': haveError('mada_fixed', 2) }" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_fixed" id="mada_fixed" @keyup.enter="update" v-model="editForm.mada_fixed" step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('mada_fixed', 2)">{{errorMessage('mada_fixed', 2)}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="mada_percentage" class="d-block mb-2">{{ __('Mada Percentage') }} <span class="requirement text-danger">*</span></label>
+
                 <input :class="{'is-invalid': haveError('mada_percentage', 2) }" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="mada_percentage" id="mada_percentage" @keyup.enter="update" v-model="editForm.mada_percentage" step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('mada_percentage', 2)">{{errorMessage('mada_percentage', 2)}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_fixed" class="d-block mb-2">{{ __('Credit Cards Fixed') }} <span class="requirement text-danger">*</span></label>
+
                 <input :class="{'is-invalid': haveError('credit_cards_fixed', 2) }" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_fixed" id="credit_cards_fixed" @keyup.enter="update" v-model="editForm.credit_cards_fixed" step="0.01">
+
                 <div class="invalid-feedback" v-if="haveError('credit_cards_fixed', 2)">{{errorMessage('credit_cards_fixed', 2)}}</div>
               </div><!-- form-group -->
               <div class="form-group mb-3">
                 <label for="credit_cards_fixed" class="d-block mb-2">{{ __('Credit Cards Percentage') }} <span class="requirement text-danger">*</span></label>
+
                 <input :class="{'is-invalid': haveError('credit_cards_percentage', 2) }"  type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="credit_cards_percentage" id="credit_cards_percentage" @keyup.enter="update" v-model="editForm.credit_cards_percentage" step="0.01">
+
                 <div class="invalid-feedback text-danger" v-if="haveError('credit_cards_percentage', 2)">{{errorMessage('credit_cards_percentage', 2)}}</div>
               </div><!-- form-group -->
             </form>
@@ -158,7 +174,7 @@
       </div>
     </div>
 
-     <div class="modal fade modalDeleteApplication" id="modal-delete-application" tabindex="-1" role="dialog">
+     <div class="modal fade modalDeleteApplication" id="modal-delete-application" tabindex="-1" role="dialog" v-if="userPermissions.includes('delete application')">
       <div class="modal-dialog">
         <div class="modal-content border-0 shadow-sm rounded-3">
           <div class="modal-body d-flex align-items-center justify-content-center flex-column">
@@ -200,6 +216,7 @@
         data() {
             return {
                 applications: [],
+                userPermissions: [],
 
                 applicationSecret: null,
 
@@ -249,15 +266,7 @@
              * Prepare the component.
              */
             prepareComponent() {
-                this.getApplications();
-
-                $('#modal-create-application').on('shown.bs.modal', () => {
-                    $('#create-application-name').focus();
-                });
-
-                $('#modal-edit-application').on('shown.bs.modal', () => {
-                    $('#edit-application-name').focus();
-                });
+                this.getUserPermissions();
             },
 
             /**
@@ -268,6 +277,32 @@
                         .then(response => {
                             this.applications = response.data.data;
                         });
+            },
+
+            /**
+             * Get user permissions.
+             */
+            getUserPermissions(){
+                axios.get('/user-permissions')
+                    .then(response => {
+                        this.userPermissions = response.data;
+                        if(this.userPermissions.includes('show applications'))
+                        {
+                            this.getApplications();
+                        }
+                        if(this.userPermissions.includes('create application'))
+                        {
+                            $('#modal-create-application').on('shown.bs.modal', () => {
+                                $('#create-application-name').focus();
+                            });
+                        }
+                        if(this.userPermissions.includes('update application'))
+                        {
+                            $('#modal-edit-application').on('shown.bs.modal', () => {
+                                $('#edit-application-name').focus();
+                            });
+                        }
+                    });
             },
 
             /**
@@ -370,6 +405,7 @@
               axios.delete('/applications/' + this.deleteId )
                         .then(response => {
                             this.getApplications();
+                            $('#modal-delete-application').modal('hide');
                         })
             },
             haveError(key, type=1) {

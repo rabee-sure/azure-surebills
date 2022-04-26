@@ -11,6 +11,7 @@ use App\Nova\Metrics\TotalIncome;
 use App\Nova\Metrics\TotalPaid;
 use App\Nova\Metrics\TotalVatOnCommissions;
 use Bakerkretzmar\NovaSettingsTool\SettingsTool;
+use Beyondcode\Reports\Reports;
 use ChrisWare\NovaBreadcrumbs\NovaBreadcrumbs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -34,6 +35,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::userTimezone(function (Request $request) {
             return 'Asia/Riyadh';
         });
+
+        Nova::style('admin', asset('css/nova.css'));
+        Nova::style('admin-font-awesome', asset('font-awesome/css/font-awesome.css'));
     }
 
     /**
@@ -70,7 +74,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        return [     
+        return [
+
             // new NewUsers,
             (new HomeAnalytics)->width('full'),
 
@@ -101,6 +106,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
+            new Reports,
             new Settlements,
             new NovaSidebarIcons,
             new NovaBreadcrumbs,
@@ -128,7 +134,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         $this->gate();
 
-        Nova::auth(function ($request) { 
+        Nova::auth(function ($request) {
             return Gate::check('viewNova', [$request->user()]);
            // return in_array($request->user()->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
         });

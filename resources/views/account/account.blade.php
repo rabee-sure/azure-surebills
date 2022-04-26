@@ -15,13 +15,12 @@
     <div class="title mb-4">
       <h1 class="d-block fw-bold m-0 fs-5">{{__('Settings')}}</h1>
     </div><!-- title -->
-
-    @if((!auth()->user()->is_uploaded_business_documents && !auth()->user()->store_main_user_id) || (auth()->user()->mainStoreUser && auth()->user()->hasPermissionTo('update business commercial info')))
+    @if((!auth()->user()->is_uploaded_business_documents && !auth()->user()->mainStoreUser) || (auth()->user()->mainStoreUser && !auth()->user()->mainStoreUser->is_uploaded_business_documents && auth()->user()->hasPermissionTo('update business commercial info')))
       <div role="alert" class="alert mainAlert d-flex align-items-center justify-content-start alert-danger mb-4 w-100">
         <i class="fas fa-exclamation-triangle"></i>
         {{ __('No business information sent') }}
       </div><!-- alert -->
-    @elseif((!auth()->user()->is_uploaded_bank_documents && !auth()->user()->store_main_user_id) || (auth()->user()->mainStoreUser && auth()->user()->hasPermissionTo('update bank info')))
+    @elseif((!auth()->user()->is_uploaded_bank_documents && !auth()->user()->mainStoreUser) || (auth()->user()->mainStoreUser && !auth()->user()->mainStoreUser->is_uploaded_bank_documents && auth()->user()->hasPermissionTo('update bank info')))
       <div role="alert" class="alert mainAlert d-flex align-items-center justify-content-start alert-danger mb-4 w-100">
         <i class="fas fa-exclamation-triangle"></i>
         {{ __('Bank account information has not been sent') }}
@@ -82,7 +81,7 @@
         </div><!-- col -->
       @endcan
       @can('show channels')
-        @if(count(auth()->user()->channels))
+        @if(count(auth()->user()->channels) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels)))
           <div class="col">
             <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
               <i class="fal fa-chart-network"></i>
@@ -102,7 +101,7 @@
     </div><!-- row -->
 
     @yield('steps')
-    
+
   </section><!-- accountIndexPage -->
 
 @endsection

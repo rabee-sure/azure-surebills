@@ -25,8 +25,9 @@ class StoreUserController extends Controller
      */
     public function index()
     {
-        $roles = Role::whereIn('user_id', auth()->user()->storeUsers(true))->get();
-        $users = User::whereIn('store_main_user_id', auth()->user()->storeUsers(true))->orderBy('created_at', 'DESC')->paginate(10);
+        $roles = Role::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
+        $users = User::where('id', auth()->user()->store_main_user_id ?? auth()->user()->id)->orWhere('store_main_user_id', auth()->user()->store_main_user_id ?? auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
+
         return view('store_users.index', compact('users', 'roles'));
     }
 
@@ -68,6 +69,7 @@ class StoreUserController extends Controller
         $user->disable_bank_documents = $user->mainStoreUser ? $user->mainStoreUser->disable_bank_documents : 0;
         $user->save();
 
+        $role = Role::find($request->role);
         $user->assignRole($request->role);
         return redirect()->route('users.index');
     }
@@ -91,7 +93,7 @@ class StoreUserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::whereIn('user_id', auth()->user()->storeUsers(true))->get();
+        $roles = Role::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         return view('store_users.edit', compact('user', 'roles'));
     }
 
@@ -115,8 +117,12 @@ class StoreUserController extends Controller
         $user->gender = $request->gender;
         $user->save();
 
-        $user->roles()->detach();
-        $user->assignRole($request->role);
+        if($request->has('role'))
+        {
+            $user->roles()->detach();
+            $role = Role::find($request->role);
+            $user->assignRole($role);
+        }
 
         return redirect()->route('users.index');
     }
@@ -129,6 +135,10 @@ class StoreUserController extends Controller
      */
     public function destroy(User $user)
     {
+        if($user->getRoleNames()->first() == 'super admin' || $user->id == auth()->user()->id)
+        {
+            abort(403);
+        }
         $user->delete();
         return redirect()->route('users.index');
     }

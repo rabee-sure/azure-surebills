@@ -24,6 +24,8 @@ class StatementController extends Controller
      */
     public function index(Request $request)
     {
+        $user = auth()->user();
+        $user->userId = auth()->user()->store_main_user_id ?? auth()->user()->id;
         $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
 
@@ -31,7 +33,7 @@ class StatementController extends Controller
         $application = ($request->has('application_id') && !in_array($request->application_id, ['all','undefined']))? Application::find($request->application_id) : null;
 
         $statement = auth()->user()->getStatement()->paginate(100);
-        $channels = auth()->user()->channels;
+        $channels = Channel::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         $applications = ($channel) ? $channel->applications : [];
 
         $all_statement = auth()->user()->getStatement();

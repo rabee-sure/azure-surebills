@@ -71,7 +71,9 @@
                           <a href="{{ route('users.edit', $user->id)}}" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>
                         @endcan
                         @can('delete user')
-                          @include('store_users.delete', ['user' => $user])
+                            @if($user->getRoleNames()->first() != 'super admin' && $user->id != auth()->user()->id)
+                            @include('store_users.delete', ['user' => $user])
+                            @endif
                         @endcan
                       </div>
                     </td>
@@ -80,6 +82,7 @@
               @endforeach
             </tbody>
           </table>
+          {{ $users->links() }}
         </div><!-- table-responsive -->
       </div><!-- blockArea -->
     @endif

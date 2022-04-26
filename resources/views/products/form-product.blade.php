@@ -33,7 +33,7 @@
       <h1 class="d-block fw-bold m-0 fs-5">{{ __($title) }}</h1>
     </div><!-- title -->
     <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3 p-3">
-      <form method="POST" action="#" id="categoryForm">
+      <form method="POST" action="#" id="productForm">
         @csrf
         <input type="hidden" name="product_id" value="{{isset($id) ? $id : null}}">
         <div class="row">
@@ -58,7 +58,7 @@
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="discription_en" class="d-block mb-2">{{ __('Discription En') }}</label>
-              <textarea class="onlyEng form-control shadow-none bg-white border w-100 rounded-3 text-body" name="discription_en " id="discription_en" rows="3"></textarea>
+              <textarea class="onlyEng form-control shadow-none bg-white border w-100 rounded-3 text-body" name="discription_en" id="discription_en" rows="3"></textarea>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
@@ -82,7 +82,7 @@
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="inputEmail8" class="d-block mb-2">{{ __('Image') }}</label>
-              <div class="upoadInput border rounded-3 position-relative overflow-hidden d-flex align-items-center justify-content-start">
+              <div class="upoadInput border rounded-3 position-relative d-flex align-items-center justify-content-start">
                 <input name="image[]" type="file"  id="formFile" class="d-block position-absolute top-0 start-0 w-100 h-100" accept="image/png, image/jpeg, image/jpg" multiple>
                 <input type="hidden" name="hidden_image" value="" />
                 <div class="fileName h-100 d-flex align-items-center justify-content-start flex-grow-1 px-2"></div>
@@ -120,6 +120,7 @@
 @endsection
 
 @push('footer-scripts')
+  {!! JsValidator::formRequest('App\Http\Requests\ProductApiRequest', '#productForm') !!}
   <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2totree.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2tree.js') }}?v={{ config('app.asset_version') }}"></script>
@@ -134,8 +135,6 @@
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : 195,
-              'X-application-secret' : 'aajO9ETFeqfaIiGgJLSp',
               'Accept' : 'application/json'
           }
       });
@@ -150,9 +149,10 @@
       });
 
       if(product_id){
+        var product_single_url = "{{ route('products.show', ':product_id') }}";
         $.ajax({
           type:'GET',
-          url: base_url+"/api/v1/products/"+product_id,
+          url: product_single_url.replace(':product_id', product_id),
           success:function(product){
             var imgUrl = "{{Storage::url('products/')}}";
 
@@ -210,7 +210,8 @@
 
         requestUrl = "{{ route('products.store') }}";
         if(product_id){
-          requestUrl = base_url+"/api/v1/products/"+product_id+"/update";
+          var product_update_url = "{{ route('products.update', ':product_id') }}";
+          requestUrl = product_update_url.replace(':product_id', product_id);
         }
 
         $.ajax({

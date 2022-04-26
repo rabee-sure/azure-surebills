@@ -30,7 +30,7 @@
 
     <div class="blockArea rounded-3 shadow-sm overflow-hidden bg-white">
       <form method="post" action="{{ route('customers.update', $customer->id) }}" id="customers_store">
-        @method('PATCH') 
+        @method('PATCH')
         @csrf
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2">
           <div class="col">
@@ -60,7 +60,7 @@
               <input name="notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Notes" placeholder="{{__('Notes')}}" value="{{ $customer->notes }}">
             </div><!-- form-group -->
           </div><!-- col -->
-          @if(Auth::user()->settings->add_tax_invoice)
+          @if($user->settings->add_tax_invoice)
             <div class="col">
               <div class="form-group mb-3">
                 <label for="bullding_no" class="d-block mb-1">{{__('bullding_no')}}</label>

@@ -18,12 +18,19 @@ class ProductResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'discription' => $this->discription,
+            'type' => 'product',
+            'name' => [
+                'en' => $this->getTranslation('name', 'en'),
+                'ar' => $this->getTranslation('name', 'ar'),
+            ],
+            'discription' => [
+                'en' => $this->getTranslation('discription', 'en'),
+                'ar' => $this->getTranslation('discription', 'ar'),
+            ],
             'price' => $this->price,
             'sort_number' => $this->sort_number,
             'active' => $this->active,
-            'category_id' => $this->parent_id,
+            'category_id' => $this->category_id,
             'images' => ProductImageResource::collection($this->images),
         ];
     }

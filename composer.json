@@ -24,6 +24,7 @@
         "inspheric/nova-indicator-field": "^1.43",
         "jenssegers/date": "^4.0",
         "kabbouchi/nova-impersonate": "^1.5",
+        "kpolicar/nova-date-range": "dev-master",
         "laravel-validation-rules/credit-card": "^1.3",
         "laravel/framework": "^8.0",
         "laravel/helpers": "^1.4",
@@ -40,6 +41,7 @@
         "maatwebsite/laravel-nova-excel": "^1.2",
         "multicaret/laravel-unifonic": "^1.0",
         "naif/toggle": "^1.2",
+        "optimistdigital/nova-multiselect-field": "^2.3",
         "pos-lifestyle/laravel-nova-date-range-filter": "^1.3",
         "predis/predis": "^1.1",
         "proengsoft/laravel-jsvalidation": "^4.0",
@@ -57,7 +59,8 @@
         "sure/settlements": "*",
         "sure/userstats": "*",
         "timothyasp/nova-badge-field": "^1.0",
-        "titasgailius/search-relations": "^1.0"
+        "titasgailius/search-relations": "^1.0",
+        "beyondcode/reports": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
@@ -129,6 +132,10 @@
         {
             "type": "path",
             "url": "./nova-components/HomeAnalytics"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Reports"
         }
     ]
 }

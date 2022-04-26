@@ -48,15 +48,14 @@
 @endsection
 
 @push('footer-scripts')
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-    var base_url = "{{url('/')}}";
     
     $(document).ready(function(){
+      var base_url = "{{url('/')}}";
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : 195,
-              'X-application-secret' : 'aajO9ETFeqfaIiGgJLSp',
               'Accept' : 'application/json'
           }
       });
@@ -106,13 +105,32 @@
     });
 
     function deleteItem(id){
-      $.ajax({
-        type:'DELETE',
-        url:base_url+"/api/v1/products/"+id+"/delete",
-        success:function(categories){
-          window.location.replace("{{ route('products.all') }}");
+      var product_delete_url = "{{ route('products.delete', ':id') }}";
+      Swal.fire({
+        title: '{{ __("Are you sure?") }}',
+        text: "{{ __('You will not be able to revert this!') }}",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '{{ __("Yes, delete it!") }}',
+        cancelButtonText: '{{ __("Cancel") }}'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type:'DELETE',
+            url:product_delete_url.replace(':id', id),
+            success:function(){
+              Swal.fire(
+                '{{ __("Deleted!") }}',
+                '{{ __("Your item has been deleted.") }}',
+                'success'
+              )
+              window.location.replace("{{ route('products.all') }}");
+            }
+          });
         }
-      });
+      })
     }
   </script>
 @endpush

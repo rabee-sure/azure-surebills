@@ -604,3 +604,33 @@
     } /* button */
   } /* modal-footer */
 } /* statusBillModal */
+
+#billLogPage {
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } /* h1 */
+  } /* title */
+  .blockArea {
+    figure {
+      img {
+        max-height: 70px;
+        max-width: 100%;
+      } /* img */
+    } /* figure */
+    span.billStatusBadge {
+      min-width: 80px;
+      height: 30px;
+      font-size: 13px;
+    } /* billStatusBadge */
+    .name {
+      font-size: 17px;
+      i {
+        margin: 0 0 0 7px;
+        [dir="ltr"] & {
+          margin: 0 7px 0 0;
+        } /* ltr */
+      } /* i */
+    } /* name */
+  } /* blockArea */
+} /* billLogPage */

@@ -17,11 +17,6 @@ class CustomerApiRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation()
-    {
-        $user = $this->application->user ?? null;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -29,17 +24,18 @@ class CustomerApiRequest extends FormRequest
      */
     public function rules()
     {
+        $user = auth('api')->user();
         return [
 
             'name' => ['required', 'string', 'max:50'],
             'email' => ['nullable','email', 'max:50',
-                Rule::unique('customers')->where(function ($query){
-                    return $query->where('user_id', $this->user->id);
+                Rule::unique('customers')->where(function ($query) use ($user){
+                    return $query->where('user_id', $user->id);
                 })
             ],
             'mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/',
-                Rule::unique('customers')->where(function ($query){
-                    return $query->where('user_id', $this->user->id);
+                Rule::unique('customers')->where(function ($query) use ($user){
+                    return $query->where('user_id', $user->id);
                 })
             ],
             'notes' => ['nullable'],

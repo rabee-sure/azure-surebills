@@ -57,14 +57,14 @@
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
-              <label for="sel_1" class="d-block mb-2">{{__('Parent')}} <span class="requirement text-danger">*</span></label>
+              <label for="sel_1" class="d-block mb-2">{{__('Parent')}}</label>
               <select id="sel_1" name="parent_id" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" multiple></select>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="inputEmail8" class="d-block mb-2">{{ __('Image') }}</label>
-              <div class="upoadInput border rounded-3 position-relative overflow-hidden d-flex align-items-center justify-content-start">
+              <div class="upoadInput border rounded-3 position-relative d-flex align-items-center justify-content-start">
                 <input name="image" type="file" id="formFile" class="d-block position-absolute top-0 start-0 w-100 h-100" accept="image/png, image/jpeg, image/jpg" multiple>
                 <input type="hidden" name="hidden_image" value="" />
                 <div class="fileName h-100 d-flex align-items-center justify-content-start flex-grow-1 px-2"></div>
@@ -103,6 +103,7 @@
 @endsection
 
 @push('footer-scripts')
+  {!! JsValidator::formRequest('App\Http\Requests\CategoryApiRequest', '#categoryForm') !!}
   <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2totree.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2tree.js') }}?v={{ config('app.asset_version') }}"></script>
@@ -116,8 +117,6 @@
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              'X-application-id' : 195,
-              'X-application-secret' : 'aajO9ETFeqfaIiGgJLSp',
               'Accept' : 'application/json'
           }
       });
@@ -132,10 +131,12 @@
       });
 
       if(category_id){
+        var catergory_single_url = "{{ route('categories.show', ':category_id') }}";
         $.ajax({
           type:'GET',
-          url: base_url+"/api/v1/categories/"+category_id,
+          url: catergory_single_url.replace(':category_id', category_id),
           success:function(category){
+            console.log(category);
             var imgUrl = "{{Storage::url('categories/')}}";
 
             $("input[name=name_en]").val(category['name'].en);
@@ -173,9 +174,11 @@
 
         requestUrl = "{{ route('categories.store') }}";
         if(category_id){
-          requestUrl = base_url+"/api/v1/category/"+category_id+"/update";
+          var catergory_update_url = "{{ route('categories.update', ':category_id') }}";
+          requestUrl = catergory_update_url.replace(':category_id', category_id);
         }
 
+        console.log(requestUrl)
         $.ajax({
           type:'POST',
           url:requestUrl,

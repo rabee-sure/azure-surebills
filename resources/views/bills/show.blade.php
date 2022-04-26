@@ -49,23 +49,29 @@
 
     <!-- <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="#">{{ __('Send Reminder') }}</a> -->
 
+    @can('cancel bill')
     @if($bill->is_pending)
       <button id="cancel_btn" type="button" class="btn-danger p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Cancel Bill') }}">
         <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right" data-bs-toggle="modal" data-bs-target="#cancelModal"><i class="fal fa-times-circle"></i></span>
       </button>
     @endif
+    @endcan
 
+    @can('refund bill')
     @if($bill->is_able_refund)
       <button id="refund_btn" type="button" class="btn-warning p-0 text-white m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Refund') }}">
         <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right"><i class="fal fa-box-usd"></i></span>
       </button>
     @endif
+    @endcan
 
+    @can('change bill status')
     @if($bill->is_able_change_status)
       <button type="button" class="btn-info p-0 text-white m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Change Status') }}" >
         <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right" data-bs-toggle="modal" data-bs-target="#changeStatusModal"><i class="fal fa-repeat"></i></span>
       </button>
     @endif
+    @endcan
   </div><!-- buttonsArea -->
 
   <div class="row justify-content-center">
@@ -193,7 +199,7 @@
           @endif
           @if( $bill->add_tax)
             <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Added tax value (15%)') }} ({{ __('SAR') }})</span>
+              <span class="d-block mb-2">{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }} ({{ __('SAR') }})</span>
               <span class="d-block mb-2">{{ $bill->vat }}</span>
             </div><!-- d-flex -->
           @endif
@@ -246,9 +252,23 @@
 
 </section><!-- billShowPage -->
 
+@can('cancel bill')
+@if($bill->is_pending)
 @include('bills.partials.cancel',['bill' => $bill])
+@endif
+@endcan
+
+@can('refund bill')
+@if($bill->is_able_refund)
 @include('bills.partials.refund',['bill' => $bill])
+@endif
+@endcan
+
+@can('change bill status')
+@if($bill->is_able_change_status)
 @include('bills.partials.change_status',['bill' => $bill])
+@endif
+@endcan
 
 @endsection
 
