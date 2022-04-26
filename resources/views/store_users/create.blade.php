@@ -22,19 +22,19 @@
           </div><!-- phoneInput -->
         </div>
         <div class="form-group mb-3">
-          <label for="Email" class="d-block mb-2">{{__('Email')}}</label>
+          <label for="Email" class="d-block mb-2">{{__('Email')}}<span class="requirement text-danger">*</span></label>
           <input name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" autocomplete="off">
         </div>
         <div class="form-group mb-3">
-          <label for="Password" class="d-block mb-2">{{__('Password')}}</label>
+          <label for="Password" class="d-block mb-2">{{__('Password')}}<span class="requirement text-danger">*</span></label>
           <input name="password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Password" placeholder="{{__('Password')}}">
         </div>
         <div class="form-group mb-3">
-          <label for="Confirm Password" class="d-block mb-2">{{__('Confirm Password')}}</label>
+          <label for="Confirm Password" class="d-block mb-2">{{__('Confirm Password')}}<span class="requirement text-danger">*</span></label>
           <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}">
         </div>
         <div class="form-group mb-3">
-          <label class="d-block mb-2">{{ __('Gander')}}</label>
+          <label class="d-block mb-2">{{ __('Gander')}}<span class="requirement text-danger">*</span></label>
           <select name="gender" id="gender" class="form-control shadow-none bg-white border w-100 rounded-3 text-body">
             <option value="0">{{ __('Choose Gender')}}</option>
             <option value="1">{{ __('Male')}}</option>
@@ -42,7 +42,7 @@
           </select>
         </div>
         <div class="form-group mb-3">
-          <label class="d-block mb-2">{{__('Role')}}</label>
+          <label class="d-block mb-2">{{__('Role')}}<span class="requirement text-danger">*</span></label>
           <select name="role" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" aria-describedby="role-error" aria-invalid="false">
             <option value="">{{ __('Choose Role')}}</option>
             @foreach($roles as $role)
