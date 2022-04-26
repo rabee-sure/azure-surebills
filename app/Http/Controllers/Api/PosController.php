@@ -69,7 +69,8 @@ class PosController extends Controller
         }else{
             if($product[0]->user_id == auth('api')->user()->id){
                 $productCollection = ProductResource::collection($product);
-                return $productCollection;
+                $firstItem = $productCollection->first();
+                return $firstItem;
             }else{
                 return response()->json(['authorization' => 'not authorized to show this product'], 403);
             }
