@@ -11,11 +11,11 @@
         @csrf
         @method('post')
         <div class="form-group mb-3">
-          <label for="Name" class="d-block mb-2">{{__('Name')}} <span class="requirement text-danger">*</span></label>
+          <label for="Name" class="d-block mb-2">{{__('Name')}}<span class="requirement text-danger">*</span></label>
           <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}">
         </div>
         <div class="form-group mb-3">
-          <label for="Mobile" class="d-block mb-2">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
+          <label for="Mobile" class="d-block mb-2">{{__('Mobile')}}<span class="requirement text-danger">*</span></label>
           <div class="phoneInput overflow-hidden position-relative">
             <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
             <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}"  pattern="[0-9]*" maxlength="9" inputmod="numaric">
@@ -34,7 +34,7 @@
           <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}">
         </div>
         <div class="form-group mb-3">
-          <label class="d-block mb-2">{{ __('Gander')}}<span class="requirement text-danger">*</span></label>
+          <label class="d-block mb-2">{{__('Gander')}}<span class="requirement text-danger">*</span></label>
           <select name="gender" id="gender" class="form-control shadow-none bg-white border w-100 rounded-3 text-body">
             <option value="0">{{ __('Choose Gender')}}</option>
             <option value="1">{{ __('Male')}}</option>
