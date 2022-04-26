@@ -40,7 +40,7 @@ class PosOrderApiRequest extends FormRequest
         return [
             'customer_id' => ['required'],
             'customer_name' => ['required', 'string', 'max:50'],
-            'customer_email' => ['required', 'string', 'email', 'max:50'],
+            'customer_email' => ['nullable', 'string', 'email', 'max:50'],
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
             'customer_notes' => ['nullable'],
 
