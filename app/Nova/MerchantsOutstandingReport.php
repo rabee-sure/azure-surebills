@@ -85,7 +85,7 @@ class MerchantsOutstandingReport extends Resource
 
     private function merchants()
     {
-        $merchantsOptions = [];
+        $merchantsOptions = ['all' => __('All')];
         $merchantes = User::whereNull('store_main_user_id')->get();//->toArray();
         foreach($merchantes as $merchante)
         {
