@@ -31,7 +31,10 @@ class PosController extends Controller
 {
     public function getActiveTopCategory(Request $request)
     {
-        $categories = Category::active()->owner(auth('api')->user()->id)->where('parent_id', 0)->orderBy('sort_number')->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $categories = Category::active()->owner($owner_id)->where('parent_id', 0)->orderBy('sort_number')->get();
         $categoriesCollection = CategoryPosListResource::collection($categories);
 
         return $categoriesCollection;
@@ -39,7 +42,10 @@ class PosController extends Controller
 
     public function getActiveSubCategory($category_id, Request $request)
     {
-        $categories = Category::active()->owner(auth('api')->user()->id)->where('parent_id', $category_id)->orderBy('sort_number')->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $categories = Category::active()->owner($owner_id)->where('parent_id', $category_id)->orderBy('sort_number')->get();
         $categoriesCollection = CategoryPosListResource::collection($categories);
 
         return $categoriesCollection;
@@ -47,7 +53,10 @@ class PosController extends Controller
 
     public function getActiveCategoryProducts($category_id, Request $request)
     {
-        $products = Product::active()->owner(auth('api')->user()->id)->where('category_id', $category_id)->orderBy('sort_number')->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $products = Product::active()->owner($owner_id)->where('category_id', $category_id)->orderBy('sort_number')->get();
         $productsCollection = ProductResource::collection($products);
 
         return $productsCollection;
@@ -55,7 +64,10 @@ class PosController extends Controller
 
     public function getActiveProducts(Request $request)
     {
-        $products = Product::active()->owner(auth('api')->user()->id)->orderBy('sort_number')->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $products = Product::active()->owner($owner_id)->orderBy('sort_number')->get();
         $productsCollection = ProductResource::collection($products);
 
         return $productsCollection;
@@ -63,11 +75,14 @@ class PosController extends Controller
 
     public function getProduct($product_id, Request $request)
     {
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $product = Product::where('id', $product_id)->get();
         if($product->isEmpty()){
             return response()->json(['message' => 'not found'], 404);
         }else{
-            if($product[0]->user_id == auth('api')->user()->id){
+            if($product[0]->user_id == $owner_id){
                 $productCollection = ProductResource::collection($product);
                 $firstItem = $productCollection->first();
                 return $firstItem;
@@ -79,26 +94,35 @@ class PosController extends Controller
 
     public function searchForProduct($keyword, Request $request)
     {
-        $products = Product::name($keyword)->owner(auth('api')->user()->id)->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+        
+        $products = Product::name($keyword)->owner($owner_id)->get();
 
         return $products;
     }
 
     public function searchForCustomer($mobile, Request $request)
     {
-        $customers = Customer::mobile($mobile)->owner(auth('api')->user()->id)->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $customers = Customer::mobile($mobile)->owner($owner_id)->get();
 
         return $customers;
     }
 
     public function customerStore(CustomerApiRequest $request)
     {
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $customer = Customer::create([
             'name' => $request->name,
             'email' => $request->email,
             'mobile' => $request->mobile,
             'notes' => $request->notes,
-            'user_id' => auth('api')->user()->id,
+            'user_id' => $owner_id,
 
             'bullding_no' => $request->bullding_no,
             'street_name' => $request->street_name,
@@ -121,7 +145,12 @@ class PosController extends Controller
      */
     public function orderStore(PosOrderApiRequest $request)
     {
-        $user = auth('api')->user();
+        $authUser = auth('api')->user();
+        if($authUser->store_main_user_id != null){
+            $user = $authUser->mainStoreUser;
+        }else{
+            $user = $authUser;
+        }
         
         $order = PosOrder::create([
             'user_id' => $user->id,
@@ -195,11 +224,11 @@ class PosController extends Controller
         $order->save();
 
         
-        $bill = DB::transaction(function () use ($order) {
+        $bill = DB::transaction(function () use ($order, $request) {
             $user = User::find($order->user_id);
 
             $bill = Bill::create([
-                'user_id' => $user->store_main_user_id ?? $user->id,
+                'user_id' => $user->id,
                 'status' => 'pending',
                 'business_name' => $order->business_name,
                 'customer_id' => $order->customer_id,
@@ -223,8 +252,8 @@ class PosController extends Controller
                 'tax_name' => $order->add_tax ? $order->tax_name : null,
                 'tax_value' => $order->add_tax ? $order->tax_value : null,
 
-                'send_sms' => false,
-                'send_email' => false,
+                'send_sms' => ($request->walkin_customer == 1) ? false : true,
+                'send_email' => ($request->walkin_customer == 1) ? false : true,
             ]);
 
             foreach ($order->items as $item) {
