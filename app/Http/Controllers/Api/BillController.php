@@ -461,12 +461,14 @@ class BillController extends Controller
 
         if($request->type == 'partial_refund'){
             $bill->setPartialRefunded($request->amount);
-        } else if ($bill->is_able_total_refund && $bill->setRefunded()){
-            return new BillResource($bill);
-        }else {
+        } else if ($bill->is_able_total_refund){
+            if($bill->setRefunded()){
+            }
+        }else{
             return response()->json(['error' => [
                 'refund' => __("Quantity must be less than or equal to the user's balance")
             ]], 400);
         }
+        return new BillResource($bill);
     }
 }
