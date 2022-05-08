@@ -19,7 +19,9 @@ class ProductsController extends Controller
     {
         $authUser = GetAuthUser::authUser($request);
         
-        $products = Product::owner($authUser->id)->get();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $products = Product::owner($owner_id)->get();
         $productsCollection = ProductListResource::collection($products);
 
         return $productsCollection;
@@ -30,8 +32,10 @@ class ProductsController extends Controller
     {
         $authUser = GetAuthUser::authUser($request);
 
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $product = Product::with('images')->find($id);
-        if($product->user_id == $authUser->id){
+        if($product->user_id == $owner_id){
             return $product;
         }else{
             return response()->json(['authorization' => 'not authorized to show this product'], 403);
@@ -40,6 +44,8 @@ class ProductsController extends Controller
     
     public function store(ProductApiRequest $request){
         $authUser = GetAuthUser::authUser($request);
+
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
 
         $name = ["en" => $request->name_en,"ar" => $request->name_ar];
         $discription = ["en" => $request->discription_en,"ar" => $request->discription_ar];
@@ -63,7 +69,7 @@ class ProductsController extends Controller
             'sort_number' => $request->sort_number,
             'active' => $request->active,
             'category_id' => $request->category_id,
-            'user_id' => $authUser->id,
+            'user_id' => $owner_id,
         ]);
         
         if(!empty($images)){
@@ -76,9 +82,11 @@ class ProductsController extends Controller
     public function update($id, ProductApiRequest $request){
         $authUser = GetAuthUser::authUser($request);
         
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $product = Product::find($id);
         
-        if($product->user_id == $authUser->id){
+        if($product->user_id == $owner_id){
             $name = ["en" => $request->name_en,"ar" => $request->name_ar];
             $discription = ["en" => $request->discription_en,"ar" => $request->discription_ar];
 
@@ -118,9 +126,11 @@ class ProductsController extends Controller
     public function delete($id, Request $request){
         $authUser = GetAuthUser::authUser($request);
 
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $product = Product::findOrFail($id);
 
-        if($product->user_id == $authUser->id){
+        if($product->user_id == $owner_id){
             $product->delete();
 
             return response()->json(['deleted_at' => $product->deleted_at], 200);

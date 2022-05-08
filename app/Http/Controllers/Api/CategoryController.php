@@ -19,8 +19,9 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $authUser = GetAuthUser::authUser($request);
-
-        $categories = Category::owner($authUser->id)->get();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+        
+        $categories = Category::owner($owner_id)->get();
         $categoriesCollection = CategoryListResource::collection($categories);
 
         return $categoriesCollection;
@@ -31,7 +32,9 @@ class CategoryController extends Controller
     {
         $authUser = GetAuthUser::authUser($request);
 
-        $categories = Category::owner($authUser->id)->get();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $categories = Category::owner($owner_id)->get();
         $categoriesCollection = CategoryOptionsResource::collection($categories);
 
         return response()->json($categoriesCollection, 200);
@@ -42,7 +45,9 @@ class CategoryController extends Controller
     {
         $authUser = GetAuthUser::authUser($request);
 
-        $categories = Category::owner($authUser->id)->where('parent_id', 0)->withTrashed()->get();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $categories = Category::owner($owner_id)->where('parent_id', 0)->withTrashed()->get();
         $categoriesCollection = CategoryResource::collection($categories);
 
         return $categoriesCollection;
@@ -59,8 +64,10 @@ class CategoryController extends Controller
     {
         $authUser = GetAuthUser::authUser($request);
 
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $category = Category::find($category_id);
-        if($category->user_id == $authUser->id){
+        if($category->user_id == $owner_id){
             return $category;
         }else{
             return response()->json(['authorization' => 'not authorized to show this category'], 403);
@@ -69,6 +76,8 @@ class CategoryController extends Controller
     
     public function store(CategoryApiRequest $request){
         $authUser = GetAuthUser::authUser($request);
+
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
 
         $name = ["en" => $request->name_en,"ar" => $request->name_ar];
 
@@ -89,7 +98,7 @@ class CategoryController extends Controller
             'active' => $request->active,
             'parent_id' => $parent,
             'image' => $image,
-            'user_id' => $authUser->id,
+            'user_id' => $owner_id,
         ]);
         
         return $category;
@@ -98,13 +107,15 @@ class CategoryController extends Controller
     public function update($id, CategoryApiRequest $request){
         $authUser = GetAuthUser::authUser($request);
         
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+        
         $name = ["en" => $request->name_en,"ar" => $request->name_ar];
 
         $parent = ($request->parent_id) ? $request->parent_id : 0;
 
         $category = Category::find($id);
 
-        if($category->user_id == $authUser->id){
+        if($category->user_id == $owner_id){
 
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
@@ -135,9 +146,11 @@ class CategoryController extends Controller
     public function delete($id, Request $request){
         $authUser = GetAuthUser::authUser($request);
         
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $category = Category::findOrFail($id);
 
-        if($category->user_id == $authUser->id){
+        if($category->user_id == $owner_id){
             $category->delete();
     
             return response()->json(['deleted_at' => $category->deleted_at], 200);
@@ -149,9 +162,11 @@ class CategoryController extends Controller
     public function deleteDependency($id, Request $request){
         $authUser = GetAuthUser::authUser($request);
         
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $parent = Category::findOrFail($id);
         
-        if($parent->user_id == $authUser->id){
+        if($parent->user_id == $owner_id){
             $parent->deleteDependency();
     
             return response()->json(['deleted_at' => $parent->deleted_at], 200);
@@ -166,9 +181,11 @@ class CategoryController extends Controller
 
         $authUser = GetAuthUser::authUser($request);
         
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $parent = Category::findOrFail($request->deletedId);
         
-        if($parent->user_id == $authUser->id){
+        if($parent->user_id == $owner_id){
             $parent->deleteMove($selectedId);
     
             return response()->json(['deleted_at' => $parent->deleted_at], 200);
@@ -181,9 +198,11 @@ class CategoryController extends Controller
     {
         $authUser = GetAuthUser::authUser($request);
         
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $category = Category::findOrFail($id);
 
-        if($category->user_id == $authUser->id){
+        if($category->user_id == $owner_id){
             return $category->childiren->count();
         }else{
             return response()->json(['authorization' => 'not authorized to delete this category'], 403);
@@ -194,9 +213,11 @@ class CategoryController extends Controller
     {
         $authUser = GetAuthUser::authUser($request);
         
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $category = Category::findOrFail($id);
 
-        if($category->user_id == $authUser->id){
+        if($category->user_id == $owner_id){
             return $category->products->count();
         }else{
             return response()->json(['authorization' => 'not authorized to delete this category'], 403);
