@@ -57,7 +57,7 @@ function toEnglishNumber2(strNum2) {
   var ar = '٠١٢٣٤٥٦٧٨٩'.split('');
   var en = '0123456789'.split('');
   strNum2 = strNum2.replace(/[٠١٢٣٤٥٦٧٨٩]/g, x => en[ar.indexOf(x)]);
-  strNum2 = strNum2.replace(/[^\d]/g, '');
+  strNum2 = strNum2.replace(/[^\d.]/g, '');
   return strNum2;
 }
 $(document).on('keyup', 'input[type="tel"]', function(e) {
