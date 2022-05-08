@@ -151,24 +151,88 @@ class PosController extends Controller
         }else{
             $user = $authUser;
         }
+
+        $customer_id = $request->customer_id;
+        $customer_name = $request->customer_name;
+        $customer_email = $request->customer_email;
+        $customer_mobile = $request->customer_mobile;
+        $customer_notes = $request->customer_notes;
+        $bullding_no = $request->customer_bullding_no;
+        $street_name = $request->customer_street_name;
+        $district = $request->customer_district;
+        $city = $request->customer_city;
+        $postal_code = $request->customer_postal_code;
+        $additional_no = $request->customer_additional_no;
+        $other_buyer_id = $request->customer_other_buyer_id;
+        $vat_registration_number = $request->customer_vat_registration_number;
+
+        if($request->walkin_customer == 1){
+            $customer = Customer::where('mobile', $request->customer_mobile)->owner($user->id)->first();
+            if($customer){
+                $customer_id = $customer->id;
+                $customer_name = $customer->name;
+                $customer_email = $customer->email;
+                $customer_mobile = $customer->mobile;
+                $customer_notes = $customer->notes;
+                $bullding_no = $customer->bullding_no;
+                $street_name = $customer->street_name;
+                $district = $customer->district;
+                $city = $customer->city;
+                $postal_code = $customer->postal_code;
+                $additional_no = $customer->additional_no;
+                $other_buyer_id = $customer->other_buyer_id;
+                $vat_registration_number = $customer->vat_registration_number;
+            }else{
+                $new_customer = Customer::create([
+                    'name' => $request->customer_name,
+                    'email' => $request->customer_email,
+                    'mobile' => $request->customer_mobile,
+                    'notes' => $request->customer_notes,
+                    'user_id' => $user->id,
+        
+                    'bullding_no' => $request->customer_bullding_no,
+                    'street_name' => $request->customer_street_name,
+                    'district' => $request->customer_district,
+                    'city' => $request->customer_city,
+                    'postal_code' => $request->customer_postal_code,
+                    'additional_no' => $request->customer_additional_no,
+                    'other_buyer_id' => $request->customer_other_buyer_id,
+                    'vat_registration_number' => $request->customer_vat_registration_number,
+                ]); 
+
+                $customer_id = $new_customer->id;
+                $customer_name = $new_customer->name;
+                $customer_email = $new_customer->email;
+                $customer_mobile = $new_customer->mobile;
+                $customer_notes = $new_customer->notes;
+                $bullding_no = $new_customer->bullding_no;
+                $street_name = $new_customer->street_name;
+                $district = $new_customer->district;
+                $city = $new_customer->city;
+                $postal_code = $new_customer->postal_code;
+                $additional_no = $new_customer->additional_no;
+                $other_buyer_id = $new_customer->other_buyer_id;
+                $vat_registration_number = $new_customer->vat_registration_number;
+            }
+        }
         
         $order = PosOrder::create([
             'user_id' => $user->id,
             'business_name' => $user->business_name,
             
-            'customer_id' => $request->customer_id,
-            'customer_name' => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'customer_mobile' => $request->customer_mobile,
-            'customer_notes' => $request->customer_notes,
-            'bullding_no' => $request->customer_bullding_no,
-            'street_name' => $request->customer_street_name,
-            'district' => $request->customer_district,
-            'city' => $request->customer_city,
-            'postal_code' => $request->customer_postal_code,
-            'additional_no' => $request->customer_additional_no,
-            'other_buyer_id' => $request->customer_other_buyer_id,
-            'vat_registration_number' => $request->customer_vat_registration_number,
+            'customer_id' => $customer_id,
+            'customer_name' => $customer_name,
+            'customer_email' => $customer_email,
+            'customer_mobile' => $customer_mobile,
+            'customer_notes' => $customer_notes,
+            'bullding_no' => $bullding_no,
+            'street_name' => $street_name,
+            'district' => $district,
+            'city' => $city,
+            'postal_code' => $postal_code,
+            'additional_no' => $additional_no,
+            'other_buyer_id' => $other_buyer_id,
+            'vat_registration_number' => $vat_registration_number,
 
             'add_discount' => $request->add_discount ?? false,
             'discount_type' => $request->discount_type,
