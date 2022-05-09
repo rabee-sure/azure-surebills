@@ -7,6 +7,7 @@ use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Rules\BillTotalValidation;
+use App\Rules\UniqeBillReference;
 
 class BillApiRequest extends FormRequest
 {
@@ -49,6 +50,7 @@ class BillApiRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
+                new UniqeBillReference
                 // Rule::unique('bills')->where(function ($query) use ($application) {
                 //     return $query->where('user_id', $application->user_id ?? null)->where('status', 'pending');
                 // })
