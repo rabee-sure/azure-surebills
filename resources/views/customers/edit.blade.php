@@ -81,8 +81,8 @@
             </div><!-- col -->
             <div class="col">
               <div class="form-group mb-3">
-                <label for="city" class="d-block mb-1">{{__('city')}}</label>
-                <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('city')}}"  value="{{ $customer->city }}">
+                <label for="city" class="d-block mb-1">{{__('City')}}</label>
+                <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('City')}}"  value="{{ $customer->city }}">
               </div><!-- form-group -->
             </div><!-- col -->
             <div class="col">

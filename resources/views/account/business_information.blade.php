@@ -71,7 +71,7 @@
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
-              <label for="business_address" class="d-block mb-2">{{ __('Address') }} <span class="requirement text-danger">*</span></label>
+              <label for="business_address" class="d-block mb-2">{{ __('City') }} <span class="requirement text-danger">*</span></label>
               <input value="{{ $user->business_address }}" name="business_address" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_address" placeholder="{{ __('Address') }}">
             </div><!-- form-group -->
           </div><!-- col-12 -->

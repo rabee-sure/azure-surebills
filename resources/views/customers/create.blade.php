@@ -42,8 +42,8 @@
               <input name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('district')}}">
           </div>
           <div class="form-group mb-3">
-              <label for="city" class="d-block mb-1">{{__('city')}}</label>
-              <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('city')}}">
+              <label for="city" class="d-block mb-1">{{__('City')}}</label>
+              <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('City')}}">
           </div>
           <div class="form-group mb-3">
               <label for="postal_code" class="d-block mb-1">{{__('postal_code')}}</label>

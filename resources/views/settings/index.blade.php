@@ -93,8 +93,8 @@
                 </div><!-- col-12 -->
                 <div class="col-12 col-md-6">
                   <div class="form-group mb-3">
-                    <label for="city" class="d-block mb-2">{{__('city')}}</label>
-                    <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('city')}}"  value="@if($errors->any()){{old('city')}}@else{{ $user->city }}@endif">
+                    <label for="city" class="d-block mb-2">{{__('City')}}</label>
+                    <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('City')}}"  value="@if($errors->any()){{old('city')}}@else{{ $user->city }}@endif">
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
                 <div class="col-12 col-md-6">
