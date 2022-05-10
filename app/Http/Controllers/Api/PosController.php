@@ -7,6 +7,7 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\SubCategoryResource;
 use App\Http\Resources\CategoryPosListResource;
 use App\Http\Resources\BillApiResource;
+use App\Http\Resources\BillPosApiResource;
 
 use App\Models\Category;
 use App\Http\Resources\ProductResource;
@@ -369,6 +370,6 @@ class PosController extends Controller
 
         event(new BillCreated($bill));
 
-        return new BillApiResource($bill);
+        return new BillPosApiResource($bill);
     }
 }
