@@ -66,6 +66,7 @@ class SettingsController extends Controller
         $settings->setTranslation('header_bill', 'ar', $request->header_bill_ar);
         $settings->setTranslation('footer_bill', 'en', $request->footer_bill_en);
         $settings->setTranslation('footer_bill', 'ar', $request->footer_bill_ar);
+        $settings->display_customer_details = $request->display_customer_details;
         $settings->save();
 
         if($request->add_tax_invoice){

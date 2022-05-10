@@ -100,6 +100,16 @@
             <span>{{ $bill->created_at->format('d/m/Y')}}</span>
           </div><!-- d-flex -->
           @endif
+          @if($bill->user->settings->display_customer_details)
+            <div class="d-flex align-items-center justify-content-between">
+              <span>{{ __('Customer Name') }}</span>
+              <span>{{ $bill->customer->name }}</span>
+            </div><!-- d-flex -->
+            <div class="d-flex align-items-center justify-content-between">
+              <span>{{ __('Mobile Number') }}</span>
+              <span>{{ $bill->customer->mobile }}</span>
+            </div><!-- d-flex -->
+          @endif
         </div><!-- bill_info -->
         <div class="table_items">
           <table>
