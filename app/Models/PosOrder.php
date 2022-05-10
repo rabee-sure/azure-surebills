@@ -36,7 +36,8 @@ class PosOrder extends Model
         'sub_total',
         'vat',
         'discount',
-        'total'
+        'total',
+        'payment_method'
     ];
 
     /**
