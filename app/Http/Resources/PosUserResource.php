@@ -39,6 +39,7 @@ class PosUserResource extends JsonResource
             'language' => \App::getLocale(),
             'token' => $this->createToken('pos-api-token')->accessToken,
             'settngs' => $user->settings,
+            'vat_registration_number' => $this->vat_registration_number,
             'store_main_user_id' => $this->store_main_user_id,
         ];
     }
