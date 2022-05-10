@@ -242,6 +242,7 @@ class PosController extends Controller
             'add_tax' => $request->add_tax ?? false,
             'tax_name' => $request->tax_name,
             'tax_value' => $request->tax_value,
+            'payment_method' => $request->payment_method,
         ]);
 
 
@@ -292,9 +293,27 @@ class PosController extends Controller
         $bill = DB::transaction(function () use ($order, $request) {
             $user = User::find($order->user_id);
 
+            $billStatus = '';
+            switch ($order->payment_method) {
+                case 'posPayOnline':
+                    $billStatus = 'pending';
+                    break;
+    
+                case 'posPayCard':
+                    $billStatus = 'paid';
+                    break;
+
+                case 'posPayCash':
+                    $billStatus = 'paid_cash';
+                    break;
+                
+                default:
+                    break;
+            }
+
             $bill = Bill::create([
                 'user_id' => $user->id,
-                'status' => 'pending',
+                'status' => $billStatus,
                 'business_name' => $order->business_name,
                 'customer_id' => $order->customer_id,
                 'customer_name' => $order->customer_name,
