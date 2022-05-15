@@ -818,5 +818,9 @@
 	"Complete Delete" : "الحذف الكامل",
 	"Delete and move" : "الحذف و النقل",
 	"Select new category" : "أختر قسم جديد",
+	"Merchant Name" : "اسم التاجر",
+	"Phone" : "رقم الجوال",
+	"Total transactions amount per Year" : "حجم العمليات بالسنه",
+	"Merchants Reports" : "تقرير التجار",
 	"Display Customer Details" : "إظهر بيانات العميل"
 }

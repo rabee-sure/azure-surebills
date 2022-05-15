@@ -6,6 +6,11 @@
       </a>
     </div><!-- item -->
     <div class="item">
+      <a :href="'/nova/resources/merchants-reports'">
+        <span>Merchants Reports</span>
+      </a>
+    </div><!-- item -->
+    <div class="item">
       <a :href="'/nova/resources/bill-reports'">
         <span>Bills</span>
       </a>
