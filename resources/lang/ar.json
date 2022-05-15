@@ -17,7 +17,7 @@
 	"bullding_no":"رقم المبني",
     "street_name":"اسم الشارع",
     "district":"الحي",
-    "city":"المدينة",
+    "City":"المدينة",
     "postal_code":"الرمز البريدي",
     "additional_no":"الرقم الاضافي للعنوان",
     "other_buyer_id":"معرف آخر",
@@ -821,5 +821,6 @@
 	"Merchant Name" : "اسم التاجر",
 	"Phone" : "رقم الجوال",
 	"Total transactions amount per Year" : "حجم العمليات بالسنه",
-	"Merchants Reports" : "تقرير التجار"
+	"Merchants Reports" : "تقرير التجار",
+	"Display Customer Details" : "إظهر بيانات العميل"
 }

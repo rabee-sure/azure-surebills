@@ -50,6 +50,23 @@
   </section><!-- productsIndexPage -->
 @endsection
 
+@php
+  $canEdit = false;
+  $canDelete = false;
+@endphp
+
+@can('update product category')
+  @php
+    $canEdit = true;
+  @endphp
+@endcan
+
+@can('delete product category')
+  @php
+    $canDelete = true;
+  @endphp
+@endcan
+
 @push('footer-scripts')
   <script src="{{ asset('new/js/jquery-ui/jquery-ui.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -57,6 +74,8 @@
   <script>
     
     $(document).ready(function(){
+      var canEdit = '{{$canEdit}}';
+      var canDelete = '{{$canDelete}}';
       var base_url = "{{url('/')}}";
       $.ajaxSetup({
           headers: {
@@ -96,8 +115,12 @@
                   $("#bodyTr"+index).append('<td class="text-center">'+category["active"]+'</td>');
                   $("#bodyTr"+index).append('<td id="tdActions'+index+'">');
                     $("#tdActions"+index).append('<div id="ActionsBtns'+index+'" class="d-flex align-items-center justify-content-center">');
-                      $("#ActionsBtns"+index).append('<a href="/categories/'+category["id"]+'/edit" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>');
-                      $("#ActionsBtns"+index).append('<a href="javascript:;" onclick="return deleteItem('+category["id"]+')" class="rounded-3 border-0 shadow-none p-0 mx-1 btn-danger d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Delete') }}"><i class="fal fa-trash-alt"></i></a>');
+                      if(canEdit){
+                        $("#ActionsBtns"+index).append('<a href="/categories/'+category["id"]+'/edit" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>');
+                      }
+                      if(canDelete){
+                        $("#ActionsBtns"+index).append('<a href="javascript:;" onclick="return deleteItem('+category["id"]+')" class="rounded-3 border-0 shadow-none p-0 mx-1 btn-danger d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Delete') }}"><i class="fal fa-trash-alt"></i></a>');
+                    }
                     $("#tdActions"+index).append('</div>');
                   $("#bodyTr"+index).append('</td>');
                 $("#tblBody").append('</tr>');
