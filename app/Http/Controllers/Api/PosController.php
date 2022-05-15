@@ -30,6 +30,19 @@ use App\Events\BillCreated;
 
 class PosController extends Controller
 {
+    public function getAllActiveCategoryAndProducts(Request $request){
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $categories = Category::active()->owner($owner_id)->orderBy('sort_number')->get();
+        $categoriesCollection = CategoryPosListResource::collection($categories);
+
+        $products = Product::active()->owner($owner_id)->orderBy('sort_number')->get();
+        $productsCollection = ProductResource::collection($products);
+
+        return response()->json(array('categories' => $categoriesCollection, 'products' => $productsCollection));
+    }
+
     public function getActiveTopCategory(Request $request)
     {
         $authUser = auth('api')->user();
