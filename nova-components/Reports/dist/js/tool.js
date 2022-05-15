@@ -682,6 +682,14 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "item" }, [
+      _c(
+        "a",
+        { attrs: { href: "/nova/resources/merchants-reports" } },
+        [_c("span", [_vm._v("Merchants Reports")])]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "item" }, [
       _c("a", { attrs: { href: "/nova/resources/bill-reports" } }, [
         _c("span", [_vm._v("Bills")])
       ])
