@@ -817,5 +817,9 @@
 	"This Category Has child and products" : "يحتوي هذا القسم على اقسام اخرى و منتجات",
 	"Complete Delete" : "الحذف الكامل",
 	"Delete and move" : "الحذف و النقل",
-	"Select new category" : "أختر قسم جديد"
+	"Select new category" : "أختر قسم جديد",
+	"Merchant Name" : "اسم التاجر",
+	"Phone" : "رقم الجوال",
+	"Total transactions amount per Year" : "حجم العمليات بالسنه",
+	"Merchants Reports" : "تقرير التجار"
 }
