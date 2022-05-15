@@ -32,7 +32,7 @@ class SettingsRequest extends FormRequest
 
         if(request()->add_tax == 'on')
         {
-            $rules['tax_value'] = ['required_if:add_tax,on', 'between:1,100', 'integer'];
+            $rules['tax_value'] = ['required_if:add_tax,on', 'between:0.1,100'];
         }
 
         if(request()->add_tax_invoice == 'on')
@@ -57,6 +57,7 @@ class SettingsRequest extends FormRequest
         $this->merge([
             'add_tax' => $this->add_tax == 'on' ? true : false,
             'add_tax_invoice' => $this->add_tax_invoice == 'on' ? true : false,
+            'display_customer_details' => $this->display_customer_details == 'on' ? true : false,
             'create_send_sms' => $this->create_send_sms == 'on' ? true : false,
             'create_send_email' => $this->create_send_email == 'on' ? true : false,
             'paid_send_sms' => $this->paid_send_sms == 'on' ? true : false,

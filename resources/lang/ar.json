@@ -17,7 +17,7 @@
 	"bullding_no":"رقم المبني",
     "street_name":"اسم الشارع",
     "district":"الحي",
-    "city":"المدينة",
+    "City":"المدينة",
     "postal_code":"الرمز البريدي",
     "additional_no":"الرقم الاضافي للعنوان",
     "other_buyer_id":"معرف آخر",
@@ -817,5 +817,6 @@
 	"This Category Has child and products" : "يحتوي هذا القسم على اقسام اخرى و منتجات",
 	"Complete Delete" : "الحذف الكامل",
 	"Delete and move" : "الحذف و النقل",
-	"Select new category" : "أختر قسم جديد"
+	"Select new category" : "أختر قسم جديد",
+	"Display Customer Details" : "إظهر بيانات العميل"
 }
