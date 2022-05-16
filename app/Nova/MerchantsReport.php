@@ -56,14 +56,14 @@ class MerchantsReport extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            TEXT::make(__('Merchant Name'), 'name')->exceptOnForms(),
-            TEXT::make(__('Phone'), 'mobile')->exceptOnForms(),
-            TEXT::make(__('Email'), 'email')->exceptOnForms(),
-            TEXT::make(__('Business Name'), 'business_name_en')->exceptOnForms(),
-            TEXT::make(__('Commercial Record'), 'vat_registration_number')->exceptOnForms(),
-            TEXT::make(__('City'), 'city')->exceptOnForms(),
-            TEXT::make(__('Address'), 'business_address')->exceptOnForms(),
-            TEXT::make(__('Total transactions amount per Year'), 'Total_amounts', function () {
+            Text::make(__('Merchant Name'), 'name')->exceptOnForms(),
+            Text::make(__('Phone'), 'mobile')->exceptOnForms(),
+            Text::make(__('Email'), 'email')->exceptOnForms(),
+            Text::make(__('Business Name'), 'business_name_en')->exceptOnForms(),
+            Text::make(__('Commercial Record'), 'vat_registration_number')->exceptOnForms(),
+            Text::make(__('City'), 'city')->exceptOnForms(),
+            Text::make(__('Address'), 'business_address')->exceptOnForms(),
+            Text::make(__('Total transactions amount per Year'), 'Total_amounts', function () {
                 return !is_null($this->Total_amounts) ? number_format($this->Total_amounts, 2, '.', ',') : 0;
             })->sortable()->onlyOnIndex(),
             Text::make(__('View Profile'), function(){
