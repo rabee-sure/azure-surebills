@@ -144,12 +144,12 @@
           @endif
           @if($bill->user->settings->display_customer_details)
             <div class="d-flex align-items-center justify-content-between">
-              <span>{{ __('Customer Name') }}</span>
-              <span>{{ $bill->customer->name }}</span>
+              <span class="d-block mb-2">{{ __('Customer Name') }}</span>
+              <span class="d-block mb-2">{{ $bill->customer->name }}</span>
             </div><!-- d-flex -->
             <div class="d-flex align-items-center justify-content-between">
-              <span>{{ __('Mobile Number') }}</span>
-              <span>{{ $bill->customer->mobile }}</span>
+              <span class="d-block mb-2">{{ __('Mobile Number') }}</span>
+              <span class="d-block mb-2">{{ $bill->customer->mobile }}</span>
             </div><!-- d-flex -->
           @endif
         </div><!-- billInfo -->
