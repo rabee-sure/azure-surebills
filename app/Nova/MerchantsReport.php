@@ -5,7 +5,7 @@ namespace App\Nova;
 use App\Nova\Filters\YearFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\TEXT;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Illuminate\Support\Facades\DB;
 use App\Nova\Actions\MerchantsExcelDownload;
