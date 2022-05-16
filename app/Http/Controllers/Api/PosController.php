@@ -27,6 +27,8 @@ use App\Http\Requests\CustomerApiRequest;
 use App\Http\Requests\PosOrderApiRequest;
 
 use App\Events\BillCreated;
+use PDO;
+use Illuminate\Support\Facades\Storage;
 
 class PosController extends Controller
 {
@@ -40,7 +42,37 @@ class PosController extends Controller
         $products = Product::active()->owner($owner_id)->orderBy('sort_number')->get();
         $productsCollection = ProductResource::collection($products);
 
-        return response()->json(array('categories' => $categoriesCollection, 'products' => $productsCollection));
+        $collectionData = array();
+        foreach($categoriesCollection as $category){
+            $productsArr = $productsCollection->where('category_id', $category->id);
+            $subcategories = $categoriesCollection->where('parent_id', $category->id);
+
+            $collectionData[$category->id]['type'] = "category";
+            $collectionData[$category->id]['name'] = array(
+                'en' => $category->getTranslation('name', 'en'), 
+                'ar' => $category->getTranslation('name', 'ar'), 
+            );
+            $collectionData[$category->id]['image'] = url('/').''.Storage::url('categories/').''.$category->image;
+            $collectionData[$category->id]['sort_number'] = $category->sort_number;
+            $collectionData[$category->id]['active'] = $category->active;
+            $collectionData[$category->id]['parent_id'] = $category->parent_id;
+            $collectionData[$category->id]['created_at'] = $category->created_at;
+            $collectionData[$category->id]['updated_at'] = $category->updated_at;
+            $collectionData[$category->id]['deleted_at'] = $category->deleted_at;
+
+            $collectionData[$category->id]['products'] = [];
+            $collectionData[$category->id]['subcategories'] = [];
+
+            foreach ($productsArr as $productItem) {
+                array_push($collectionData[$category->id]['products'], $productItem);
+            }
+
+            foreach($subcategories as $categoryItem){
+                array_push($collectionData[$category->id]['subcategories'], $categoryItem);
+            }
+        }
+
+        return $collectionData;
     }
 
     public function getActiveTopCategory(Request $request)
