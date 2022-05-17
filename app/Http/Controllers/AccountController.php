@@ -208,6 +208,7 @@ class AccountController extends Controller
             'instagram' => $request->get('instagram'),
             'description' => $request->get('description'),
             'business_address' => $request->get('business_address'),
+            'business_address_details' => $request->get('business_address_details'),
             'business_mobile' => $request->get('business_mobile'),
             'vat_registration_number' => $request->get('vat_registration_number'),
             'commercial_registry_expiry_date' => Carbon::createFromFormat('d/m/Y', $request->commercial_registry_expiry_date)->format('d-m-Y'),
