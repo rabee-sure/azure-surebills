@@ -60,9 +60,11 @@ class MerchantsReport extends Resource
             Text::make(__('Phone'), 'mobile')->exceptOnForms(),
             Text::make(__('Email'), 'email')->exceptOnForms(),
             Text::make(__('Business Name'), 'business_name_en')->exceptOnForms(),
-            Text::make(__('Commercial Record'), 'vat_registration_number')->exceptOnForms(),
-            Text::make(__('City'), 'city')->exceptOnForms(),
-            Text::make(__('Address'), 'business_address')->exceptOnForms(),
+            Text::make(__('Type of license'), 'license_type', function(){
+                return __($this->license_type);
+            })->exceptOnForms(),
+            Text::make(__('City'), 'business_address')->exceptOnForms(),
+            Text::make(__('Address'), 'business_address_details')->exceptOnForms(),
             Text::make(__('Total transactions amount per Year'), 'Total_amounts', function () {
                 return !is_null($this->Total_amounts) ? number_format($this->Total_amounts, 2, '.', ',') : 0;
             })->sortable()->onlyOnIndex(),
