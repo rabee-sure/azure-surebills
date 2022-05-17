@@ -29,7 +29,9 @@ class Product extends Model
 
     public function scopeActive($query)
     {
-    	return $query->where('active', true);
+    	return $query->where('active', true)->whereHas('category', function($q) {
+            $q->where('active', true);
+        });
     }
 
     public function scopeOwner($query, $user_id)
