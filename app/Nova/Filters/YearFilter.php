@@ -4,11 +4,11 @@ namespace App\Nova\Filters;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Laravel\Nova\Filters\DateFilter;
+use Laravel\Nova\Filters\Filter;
 use Illuminate\Support\Facades\DB;
 
 
-class YearFilter extends DateFilter
+class YearFilter extends Filter
 {
     /**
      * Apply the filter to the given query.
@@ -20,8 +20,24 @@ class YearFilter extends DateFilter
      */
     public function apply(Request $request, $query, $value)
     {
-        $value = Carbon::parse($value);
-
         return $query->where(DB::raw('YEAR(transactions.created_at)'), '=', $value);
+    }
+
+    /**
+     * Get the filter's available options.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function options(Request $request)
+    {
+        $firstYear = 2020;
+        $lastYear = date("Y");
+        $yearsOptions = [];
+        
+        for($y = $firstYear; $y <= $lastYear; $y++){
+            $yearsOptions[$y] = $y;
+        }
+        return $yearsOptions;
     }
 }

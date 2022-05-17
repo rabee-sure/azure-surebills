@@ -623,6 +623,7 @@
 	"license type required" : "نوع الترخيص مطلوب",
 	"business name required" : "الإسم التجاري مطلوب",
 	"business address required" : "العنوان مطلوب",
+	"business city required" : "المدينة مطلوبة",
 	"business mobile required" : "الهاتف مطلوب",
 	"business mobile format invalid" : "صيغة الهاتف غير صحيحة",
 	"per transaction" : "لكل عملية",
@@ -802,7 +803,7 @@
 	"Select parent category" : "أختر القسم الاب",
 	"Main" : "رئيسي",
 	"beneficiary name must english" : "اسم المستفيد يجب ان يكون باللغة الانجليزية" ,
-	"business address must be english" : "العنوان يجب ان يكون باللغة الانجليزية" ,
+	"business city must be english" : "الدينة يجب ان تكون باللغة الانجليزية" ,
 	"Merchants required" : "اسماء التجار مطلوبة",
 	"Date Range required" : "فترة التقرير مطلوبة",
 	"Emails required" : "البريد الالكتروني مطلوب",
@@ -820,7 +821,8 @@
 	"Select new category" : "أختر قسم جديد",
 	"Merchant Name" : "اسم التاجر",
 	"Phone" : "رقم الجوال",
-	"Total transactions amount per Year" : "حجم العمليات بالسنه",
+	"Total transactions amount per Year" : "حجم العمليات",
 	"Merchants Reports" : "تقرير التجار",
-	"Display Customer Details" : "إظهر بيانات العميل"
+	"Display Customer Details" : "إظهر بيانات العميل",
+	"Type of license" : "نوع الترخيص"
 }

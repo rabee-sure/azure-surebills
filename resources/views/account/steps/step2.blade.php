@@ -92,8 +92,14 @@
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
-            <label for="business_address" class="d-block mb-2">{{ __('Address') }} <span class="requirement text-danger">*</span></label>
-            <input value="@if($errors->any()){{old('business_address')}}@else{{$user->business_address}}@endif" name="business_address" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_address" placeholder="{{ __('Address') }}">
+            <label for="business_address" class="d-block mb-2">{{ __('City') }} <span class="requirement text-danger">*</span></label>
+            <input value="@if($errors->any()){{old('business_address')}}@else{{$user->business_address}}@endif" name="business_address" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_address" placeholder="{{ __('City') }}">
+          </div><!-- form-group -->
+        </div><!-- col-12 -->
+        <div class="col-12 col-md-6">
+          <div class="form-group mb-3">
+            <label for="business_address_details" class="d-block mb-2">{{ __('Address') }} <span class="requirement text-danger">*</span></label>
+            <input value="@if($errors->any()){{old('business_address_details')}}@else{{$user->business_address_details}}@endif" name="business_address_details" type="text" class="form-control rounded-3 shadow-none border" id="business_address_details" placeholder="{{ __('Address') }}">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
