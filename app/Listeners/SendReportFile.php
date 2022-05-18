@@ -41,14 +41,14 @@ class SendReportFile implements ShouldQueue
         $report_filters = json_decode($report->params) ;
 
         $report_merchants = explode(',', str_replace('"',"",$report_filters->merchants));
-        // dd($report_merchants);
+
         if (in_array("all", $report_merchants))
         {
             $report_merchants = "";
         }
 
         $report_from = $report_filters->from;
-        $report_to = $report_filters->to;
+        $report_to = $report_filters->to ?? $report_filters->from;
 
         $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'.xlsx';
 

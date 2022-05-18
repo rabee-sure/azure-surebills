@@ -25,19 +25,18 @@ class Report extends Model implements HasMedia
             if($report->type == 'merchants outstanding')
             {
                 $report->name = 'merchants-outstanding';
-                $report->params = json_encode(['merchants' => implode('","', json_decode($report->merchants, true)), 'from' => $report->from, 'to' => $report->to]);
-
+                $report->params = json_encode(['merchants' => implode('","', json_decode($report->merchants, true)), 'from' => $report->from, 'to' => $report->to ?? $report->from]);
             }
             else if($report->type == 'bill')
             {
                 $report->name = 'bill';
-                $report->params = json_encode(['paid_from' => $report->from, 'paid_to' => $report->to, 'merchants' => implode('","', json_decode($report->merchants, true)), 'channels' => implode('","', json_decode($report->channels, true))]);
+                $report->params = json_encode(['paid_from' => $report->from, 'paid_to' => $report->to ?? $report->from, 'merchants' => implode('","', json_decode($report->merchants, true)), 'channels' => implode('","', json_decode($report->channels, true))]);
             }
+
             unset($report->merchants);
             unset($report->channels);
             unset($report->from);
             unset($report->to);
-
         });
         static::created(function (Report $report) {
             if($report->type == 'merchants outstanding')
@@ -50,7 +49,6 @@ class Report extends Model implements HasMedia
             }
         });
     }
-
 
     public function registerMediaCollections(): void
     {

@@ -51,7 +51,7 @@
                       <label for="Tax" class="d-block mb-2">{{ __('Tax Value') }} <small class="d-inline-block text-secondary">(%)</small></label>
                       <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
                         <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
-                        <input type="tel" name="tax_value" class="form-control shadow-none bg-white border w-100 rounded-3" id="Value" value="{{ old('tax_value') ?? $user->settings->tax_value }}" aria-describedby="basic-addon3">
+                        <input type="tel" name="tax_value" class="form-control shadow-none bg-white border w-100 rounded-3" min="0" max="100" id="Value" value="{{ old('tax_value') ?? $user->settings->tax_value }}" aria-describedby="basic-addon3">
                       </div><!-- inputGroup -->
                     </div><!-- form-group -->
                   </div><!-- col-12 -->
@@ -93,8 +93,8 @@
                 </div><!-- col-12 -->
                 <div class="col-12 col-md-6">
                   <div class="form-group mb-3">
-                    <label for="city" class="d-block mb-2">{{__('city')}}</label>
-                    <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('city')}}"  value="@if($errors->any()){{old('city')}}@else{{ $user->city }}@endif">
+                    <label for="city" class="d-block mb-2">{{__('City')}}</label>
+                    <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('City')}}"  value="@if($errors->any()){{old('city')}}@else{{ $user->city }}@endif">
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
                 <div class="col-12 col-md-6">
@@ -185,7 +185,7 @@
           <hr>
           <div class="name d-block mb-4 fw-bold fs-6">{{ __('When Bill Created') }} <small class="d-inline-block text-secondary">( {{ __('Default settings') }} )</small></div>
           <div class="row">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
               <label for="create_send_sms" class="checkboxItem position-relative mb-3 mb-md-0">
                 <input name="create_send_sms" class="position-absolute top-0 strat-0 w-100 h-100" id="create_send_sms" type="checkbox" @if($user->settings->create_send_sms || old('create_send_sms') == 'on') checked @endif>
                 <span class="d-flex align-items-center justify-content-start">
@@ -194,12 +194,21 @@
                 </span>
               </label>
             </div><!-- col-12 -->
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
               <label for="create_send_email" class="checkboxItem position-relative mb-3 mb-md-0">
                 <input name="create_send_email" class="position-absolute top-0 strat-0 w-100 h-100" id="create_send_email" type="checkbox" @if($user->settings->create_send_email || old('create_send_email') == 'on') checked @endif>
                 <span class="d-flex align-items-center justify-content-start">
                   <i class="d-block rounded-pill position-relative"></i>
                   {{ __('Send an email to the customer') }}
+                </span>
+              </label>
+            </div><!-- col-12 -->
+            <div class="col-12 col-md-4">
+              <label for="display_customer_details" class="checkboxItem position-relative mb-3 mb-md-0">
+                <input name="display_customer_details" class="position-absolute top-0 strat-0 w-100 h-100" id="display_customer_details" type="checkbox" @if($user->settings->display_customer_details || old('display_customer_details') == 'on') checked @endif>
+                <span class="d-flex align-items-center justify-content-start">
+                  <i class="d-block rounded-pill position-relative"></i>
+                  {{ __('Display Customer Details') }}
                 </span>
               </label>
             </div><!-- col-12 -->

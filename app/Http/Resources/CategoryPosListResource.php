@@ -19,7 +19,10 @@ class CategoryPosListResource extends JsonResource
         return [
             'id' => $this->id,
             'type' => 'category',
-            'name' => $this->name,
+            'name' => [
+                'en' => $this->getTranslation('name', 'en'),
+                'ar' => $this->getTranslation('name', 'ar'),
+            ],
             'image' => url('/').''.Storage::url('categories/').''.$this->image,
             'sort_number' => $this->sort_number,
             'active' => $this->active,

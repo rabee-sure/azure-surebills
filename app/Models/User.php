@@ -41,6 +41,7 @@ class User extends Authenticatable implements HasMedia
         'logo',
         'description',
         'business_address',
+        'business_address_details',
         'business_mobile',
         'vat_registration_number',
         'license_type',

@@ -83,6 +83,7 @@ Route::prefix('v1')->group(function () {
 
 	Route::group(['middleware' => ['auth:api']], function () {
 		//POS
+		Route::get('getAllActiveCategoryAndProducts', 'PosController@getAllActiveCategoryAndProducts');
 		Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory');
 		Route::get('getActiveSubCategory/{category_id}', 'PosController@getActiveSubCategory');
 		Route::get('getActiveCategoryProducts/{category_id}', 'PosController@getActiveCategoryProducts');

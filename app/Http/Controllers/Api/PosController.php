@@ -7,6 +7,7 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\SubCategoryResource;
 use App\Http\Resources\CategoryPosListResource;
 use App\Http\Resources\BillApiResource;
+use App\Http\Resources\BillPosApiResource;
 
 use App\Models\Category;
 use App\Http\Resources\ProductResource;
@@ -26,12 +27,60 @@ use App\Http\Requests\CustomerApiRequest;
 use App\Http\Requests\PosOrderApiRequest;
 
 use App\Events\BillCreated;
+use PDO;
+use Illuminate\Support\Facades\Storage;
 
 class PosController extends Controller
 {
+    public function getAllActiveCategoryAndProducts(Request $request){
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $categories = Category::active()->owner($owner_id)->orderBy('sort_number')->get();
+        $categoriesCollection = CategoryPosListResource::collection($categories);
+
+        $products = Product::active()->owner($owner_id)->orderBy('sort_number')->get();
+        $productsCollection = ProductResource::collection($products);
+
+        $collectionData = array();
+        foreach($categoriesCollection as $category){
+            $productsArr = $productsCollection->where('category_id', $category->id);
+            $subcategories = $categoriesCollection->where('parent_id', $category->id);
+
+            $collectionData[$category->id]['type'] = "category";
+            $collectionData[$category->id]['name'] = array(
+                'en' => $category->getTranslation('name', 'en'), 
+                'ar' => $category->getTranslation('name', 'ar'), 
+            );
+            $collectionData[$category->id]['image'] = url('/').''.Storage::url('categories/').''.$category->image;
+            $collectionData[$category->id]['sort_number'] = $category->sort_number;
+            $collectionData[$category->id]['active'] = $category->active;
+            $collectionData[$category->id]['parent_id'] = $category->parent_id;
+            $collectionData[$category->id]['created_at'] = $category->created_at;
+            $collectionData[$category->id]['updated_at'] = $category->updated_at;
+            $collectionData[$category->id]['deleted_at'] = $category->deleted_at;
+
+            $collectionData[$category->id]['products'] = [];
+            $collectionData[$category->id]['subcategories'] = [];
+
+            foreach ($productsArr as $productItem) {
+                array_push($collectionData[$category->id]['products'], $productItem);
+            }
+
+            foreach($subcategories as $categoryItem){
+                array_push($collectionData[$category->id]['subcategories'], $categoryItem);
+            }
+        }
+
+        return $collectionData;
+    }
+
     public function getActiveTopCategory(Request $request)
     {
-        $categories = Category::active()->owner(auth('api')->user()->id)->where('parent_id', 0)->orderBy('sort_number')->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $categories = Category::active()->owner($owner_id)->where('parent_id', 0)->orderBy('sort_number')->get();
         $categoriesCollection = CategoryPosListResource::collection($categories);
 
         return $categoriesCollection;
@@ -39,7 +88,10 @@ class PosController extends Controller
 
     public function getActiveSubCategory($category_id, Request $request)
     {
-        $categories = Category::active()->owner(auth('api')->user()->id)->where('parent_id', $category_id)->orderBy('sort_number')->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $categories = Category::active()->owner($owner_id)->where('parent_id', $category_id)->orderBy('sort_number')->get();
         $categoriesCollection = CategoryPosListResource::collection($categories);
 
         return $categoriesCollection;
@@ -47,7 +99,10 @@ class PosController extends Controller
 
     public function getActiveCategoryProducts($category_id, Request $request)
     {
-        $products = Product::active()->owner(auth('api')->user()->id)->where('category_id', $category_id)->orderBy('sort_number')->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $products = Product::active()->owner($owner_id)->where('category_id', $category_id)->orderBy('sort_number')->get();
         $productsCollection = ProductResource::collection($products);
 
         return $productsCollection;
@@ -55,7 +110,10 @@ class PosController extends Controller
 
     public function getActiveProducts(Request $request)
     {
-        $products = Product::active()->owner(auth('api')->user()->id)->orderBy('sort_number')->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $products = Product::active()->owner($owner_id)->orderBy('sort_number')->get();
         $productsCollection = ProductResource::collection($products);
 
         return $productsCollection;
@@ -63,11 +121,14 @@ class PosController extends Controller
 
     public function getProduct($product_id, Request $request)
     {
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $product = Product::where('id', $product_id)->get();
         if($product->isEmpty()){
             return response()->json(['message' => 'not found'], 404);
         }else{
-            if($product[0]->user_id == auth('api')->user()->id){
+            if($product[0]->user_id == $owner_id){
                 $productCollection = ProductResource::collection($product);
                 $firstItem = $productCollection->first();
                 return $firstItem;
@@ -79,26 +140,35 @@ class PosController extends Controller
 
     public function searchForProduct($keyword, Request $request)
     {
-        $products = Product::name($keyword)->owner(auth('api')->user()->id)->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+        
+        $products = Product::name($keyword)->owner($owner_id)->get();
 
         return $products;
     }
 
     public function searchForCustomer($mobile, Request $request)
     {
-        $customers = Customer::mobile($mobile)->owner(auth('api')->user()->id)->get();
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $customers = Customer::mobile($mobile)->owner($owner_id)->get();
 
         return $customers;
     }
 
     public function customerStore(CustomerApiRequest $request)
     {
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
         $customer = Customer::create([
             'name' => $request->name,
             'email' => $request->email,
             'mobile' => $request->mobile,
             'notes' => $request->notes,
-            'user_id' => auth('api')->user()->id,
+            'user_id' => $owner_id,
 
             'bullding_no' => $request->bullding_no,
             'street_name' => $request->street_name,
@@ -121,25 +191,94 @@ class PosController extends Controller
      */
     public function orderStore(PosOrderApiRequest $request)
     {
-        $user = auth('api')->user();
+        $authUser = auth('api')->user();
+        if($authUser->store_main_user_id != null){
+            $user = $authUser->mainStoreUser;
+        }else{
+            $user = $authUser;
+        }
+
+        $customer_id = $request->customer_id;
+        $customer_name = $request->customer_name;
+        $customer_email = $request->customer_email;
+        $customer_mobile = $request->customer_mobile;
+        $customer_notes = $request->customer_notes;
+        $bullding_no = $request->customer_bullding_no;
+        $street_name = $request->customer_street_name;
+        $district = $request->customer_district;
+        $city = $request->customer_city;
+        $postal_code = $request->customer_postal_code;
+        $additional_no = $request->customer_additional_no;
+        $other_buyer_id = $request->customer_other_buyer_id;
+        $vat_registration_number = $request->customer_vat_registration_number;
+
+        if($request->walkin_customer == 1){
+            $customer = Customer::where('mobile', $request->customer_mobile)->owner($user->id)->first();
+            if($customer){
+                $customer_id = $customer->id;
+                $customer_name = $customer->name;
+                $customer_email = $customer->email;
+                $customer_mobile = $customer->mobile;
+                $customer_notes = $customer->notes;
+                $bullding_no = $customer->bullding_no;
+                $street_name = $customer->street_name;
+                $district = $customer->district;
+                $city = $customer->city;
+                $postal_code = $customer->postal_code;
+                $additional_no = $customer->additional_no;
+                $other_buyer_id = $customer->other_buyer_id;
+                $vat_registration_number = $customer->vat_registration_number;
+            }else{
+                $new_customer = Customer::create([
+                    'name' => $request->customer_name,
+                    'email' => $request->customer_email,
+                    'mobile' => $request->customer_mobile,
+                    'notes' => $request->customer_notes,
+                    'user_id' => $user->id,
+        
+                    'bullding_no' => $request->customer_bullding_no,
+                    'street_name' => $request->customer_street_name,
+                    'district' => $request->customer_district,
+                    'city' => $request->customer_city,
+                    'postal_code' => $request->customer_postal_code,
+                    'additional_no' => $request->customer_additional_no,
+                    'other_buyer_id' => $request->customer_other_buyer_id,
+                    'vat_registration_number' => $request->customer_vat_registration_number,
+                ]); 
+
+                $customer_id = $new_customer->id;
+                $customer_name = $new_customer->name;
+                $customer_email = $new_customer->email;
+                $customer_mobile = $new_customer->mobile;
+                $customer_notes = $new_customer->notes;
+                $bullding_no = $new_customer->bullding_no;
+                $street_name = $new_customer->street_name;
+                $district = $new_customer->district;
+                $city = $new_customer->city;
+                $postal_code = $new_customer->postal_code;
+                $additional_no = $new_customer->additional_no;
+                $other_buyer_id = $new_customer->other_buyer_id;
+                $vat_registration_number = $new_customer->vat_registration_number;
+            }
+        }
         
         $order = PosOrder::create([
             'user_id' => $user->id,
             'business_name' => $user->business_name,
             
-            'customer_id' => $request->customer_id,
-            'customer_name' => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'customer_mobile' => $request->customer_mobile,
-            'customer_notes' => $request->customer_notes,
-            'bullding_no' => $request->customer_bullding_no,
-            'street_name' => $request->customer_street_name,
-            'district' => $request->customer_district,
-            'city' => $request->customer_city,
-            'postal_code' => $request->customer_postal_code,
-            'additional_no' => $request->customer_additional_no,
-            'other_buyer_id' => $request->customer_other_buyer_id,
-            'vat_registration_number' => $request->customer_vat_registration_number,
+            'customer_id' => $customer_id,
+            'customer_name' => $customer_name,
+            'customer_email' => $customer_email,
+            'customer_mobile' => $customer_mobile,
+            'customer_notes' => $customer_notes,
+            'bullding_no' => $bullding_no,
+            'street_name' => $street_name,
+            'district' => $district,
+            'city' => $city,
+            'postal_code' => $postal_code,
+            'additional_no' => $additional_no,
+            'other_buyer_id' => $other_buyer_id,
+            'vat_registration_number' => $vat_registration_number,
 
             'add_discount' => $request->add_discount ?? false,
             'discount_type' => $request->discount_type,
@@ -148,6 +287,7 @@ class PosController extends Controller
             'add_tax' => $request->add_tax ?? false,
             'tax_name' => $request->tax_name,
             'tax_value' => $request->tax_value,
+            'payment_method' => $request->payment_method,
         ]);
 
 
@@ -195,12 +335,30 @@ class PosController extends Controller
         $order->save();
 
         
-        $bill = DB::transaction(function () use ($order) {
+        $bill = DB::transaction(function () use ($order, $request) {
             $user = User::find($order->user_id);
 
+            $billStatus = '';
+            switch ($order->payment_method) {
+                case 'posPayOnline':
+                    $billStatus = 'pending';
+                    break;
+    
+                case 'posPayCard':
+                    $billStatus = 'paid';
+                    break;
+
+                case 'posPayCash':
+                    $billStatus = 'paid_cash';
+                    break;
+                
+                default:
+                    break;
+            }
+
             $bill = Bill::create([
-                'user_id' => $user->store_main_user_id ?? $user->id,
-                'status' => 'pending',
+                'user_id' => $user->id,
+                'status' => $billStatus,
                 'business_name' => $order->business_name,
                 'customer_id' => $order->customer_id,
                 'customer_name' => $order->customer_name,
@@ -223,8 +381,8 @@ class PosController extends Controller
                 'tax_name' => $order->add_tax ? $order->tax_name : null,
                 'tax_value' => $order->add_tax ? $order->tax_value : null,
 
-                'send_sms' => false,
-                'send_email' => false,
+                'send_sms' => ($request->walkin_customer == 1) ? false : true,
+                'send_email' => ($request->walkin_customer == 1) ? false : true,
             ]);
 
             foreach ($order->items as $item) {
@@ -276,6 +434,6 @@ class PosController extends Controller
 
         event(new BillCreated($bill));
 
-        return new BillApiResource($bill);
+        return new BillPosApiResource($bill);
     }
 }

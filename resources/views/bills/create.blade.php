@@ -118,8 +118,8 @@
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="city" class="d-block mb-2">{{__('city')}}</label>
-                    <input value="{{ old('city') }}" name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('city')}}">
+                    <label for="city" class="d-block mb-2">{{__('City')}}</label>
+                    <input value="{{ old('city') }}" name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('City')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
