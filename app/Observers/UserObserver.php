@@ -3,8 +3,12 @@
 namespace App\Observers;
 
 use App\Events\UserVerifiedChanged;
+use App\Events\AddActionLogEvent;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\SystemAction;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserObserver
 {
@@ -34,6 +38,18 @@ class UserObserver
     {
         if($user->isDirty('verified')){
             UserVerifiedChanged::dispatch($user);
+            
+            event(new AddActionLogEvent(
+                $user->verified ? 'user_approved' : 'user_unapproved', 
+                Auth::id(), 
+                ['message' => [
+                    'username' => $user->name,
+                    'adminname' => Auth::user()->name,
+                    'time' => $user->updated_at
+                ]], 
+                $user->id, 
+                User::class
+            ));
         }
     }
 
