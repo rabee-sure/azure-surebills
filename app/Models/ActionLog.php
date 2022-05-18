@@ -32,7 +32,7 @@ class ActionLog extends Model
     public function createActionLog($action_name, $user_id, array $payloadMessage, $modelClass = null, $modelId = null)
     {
         $action = SystemAction::where('action_name', $action_name)->first();
-        $message = __('actions_logs.'.$action_name, $payloadMessage);
+        $message = __('actions_logs.'.$action_name, $payloadMessage, 'en');
 
         self::create([
             'action_id' => $action->id,
