@@ -65,7 +65,7 @@ class MerchantsReport extends Resource
             })->exceptOnForms(),
             Text::make(__('City'), 'business_address')->exceptOnForms(),
             Text::make(__('Address'), 'business_address_details')->exceptOnForms(),
-            Text::make(__('Total transactions amount per Year'), 'Total_amounts', function () {
+            Text::make(__('Total transactions amount'), 'Total_amounts', function () {
                 return !is_null($this->Total_amounts) ? number_format($this->Total_amounts, 2, '.', ',') : 0;
             })->sortable()->onlyOnIndex(),
             Text::make(__('View Profile'), function(){

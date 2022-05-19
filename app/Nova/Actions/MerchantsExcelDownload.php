@@ -19,7 +19,7 @@ class MerchantsExcelDownload extends DownloadExcel implements WithMapping
 
     public function headings(): array
     {
-        return['ID', __('Merchant Name'), __('Phone'), __('Email'), __('Business Name'), __('Commercial Record'), __('City'), __('Address'), __('Total transactions amount per Year')];
+        return['ID', __('Merchant Name'), __('Phone'), __('Email'), __('Business Name'), __('Commercial Record'), __('City'), __('Address'), __('Total transactions amount')];
     }
 
     public function map($user): array
