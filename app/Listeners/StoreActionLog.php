@@ -27,6 +27,6 @@ class StoreActionLog
      */
     public function handle(AddActionLogEvent $event)
     {
-        ActionLog::createActionLog($event->action_name, $event->user_id, $event->payload['message'], $event->modelClass, $event->modelId);
+        ActionLog::createActionLog($event->action_name, $event->user_id, $event->payload, $event->modelClass, $event->modelId);
     }
 }
