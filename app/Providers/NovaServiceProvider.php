@@ -63,7 +63,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+            // return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+            return in_array($user->email, explode(',', auth()->user()->email));
         });
     }
 
@@ -130,13 +131,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      *
      * @return void
      */
-    protected function authorization()
-    {
-        $this->gate();
+    // protected function authorization()
+    // {
+    //     $this->gate();
 
-        Nova::auth(function ($request) {
-            return Gate::check('viewNova', [$request->user()]);
-           // return in_array($request->user()->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
-        });
-    }
+    //     // Nova::auth(function ($request) {
+    //     //     return Gate::check('viewNova', [$request->user()]);
+    //     //    // return in_array($request->user()->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+    //     // });
+    // }
 }

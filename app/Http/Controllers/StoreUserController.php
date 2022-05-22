@@ -142,9 +142,4 @@ class StoreUserController extends Controller
         $user->delete();
         return redirect()->route('users.index');
     }
-
-    public function getUserPermissions()
-    {
-        return auth()->user()->getAllPermissions()->pluck('name');
-    }
 }

@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\Application;
 use App\Models\Channel;
-use App\Models\User;
+use App\Models\Admin as User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ChannelPolicy
@@ -31,7 +31,8 @@ class ChannelPolicy
      */
     public function view(User $user, Channel $channel)
     {
-        return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        // return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        return $user->id == $channel->user_id || in_array($user->email, explode(',', auth()->user()->email));
     }
 
     /**
@@ -54,7 +55,8 @@ class ChannelPolicy
      */
     public function update(User $user, Channel $channel)
     {
-        return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        // return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        return $user->id == $channel->user_id || in_array($user->email, explode(',', auth()->user()->email));
     }
 
     /**
@@ -66,7 +68,8 @@ class ChannelPolicy
      */
     public function delete(User $user, Channel $channel)
     {
-        return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        // return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        return $user->id == $channel->user_id || in_array($user->email, explode(',', auth()->user()->email));
     }
 
     /**
@@ -78,7 +81,8 @@ class ChannelPolicy
      */
     public function restore(User $user, Channel $channel)
     {
-        return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        // return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        return $user->id == $channel->user_id || in_array($user->email, explode(',', auth()->user()->email));
     }
 
     /**
@@ -90,7 +94,8 @@ class ChannelPolicy
      */
     public function forceDelete(User $user, Channel $channel)
     {
-        return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        // return $user->id == $channel->user_id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        return $user->id == $channel->user_id || in_array($user->email, explode(',', auth()->user()->email));
     }
 
     /**

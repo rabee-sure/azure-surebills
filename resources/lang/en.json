@@ -305,6 +305,15 @@
 "Confirm Cancel Bill": "Confirm Cancel bill",
 "Are you Sure to Cancel Bill ?": "Are you Sure to Cancel bill ?",
 "Bill": "Bill",
-"Bill No.": "Bill No."
+"Bill No.": "Bill No.",
+"show merchants outstanding report": "Show merchants outstanding report",
+"create merchants outstanding report": "Create merchants outstanding report",
+"show merchants report": "Show merchants report",
+"create merchants report": "Create merchants report",
+"show bills report": "Show bills report",
+"create bills report": "Create bills report",
+"show AutoTransfers": "Show AutoTransfers",
+"show actions logs": "Show actions logs",
+"show verification requests": "Show verification requests",
 
 }

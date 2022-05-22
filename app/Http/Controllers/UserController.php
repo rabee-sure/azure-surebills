@@ -107,4 +107,14 @@ class UserController extends Controller
     {
         return new UserResource($user);
     }
+
+    public function getUserPermissions($guard = null)
+    {
+        if($guard)
+        {
+            return auth()->guard($guard)->user()->getAllPermissions()->pluck('name');
+
+        }
+        return auth()->user()->getAllPermissions()->pluck('name');
+    }
 }

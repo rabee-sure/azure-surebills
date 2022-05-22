@@ -103,22 +103,21 @@ class BillReport extends Resource
     }
     public static function authorizedToCreate(Request $request)
     {
-        return true;
+        return auth()->user()->can('create bills report');
     }
-
+    public function authorizedToView(Request $request)
+    {
+        return auth()->user()->can('show bills report');
+    }
     public function authorizedToDelete(Request $request)
     {
         return false;
     }
-
     public function authorizedToUpdate(Request $request)
     {
         return false;
     }
-    public function authorizedToView(Request $request)
-    {
-        return false;
-    }
+
     public static function searchable()
     {
         return false;

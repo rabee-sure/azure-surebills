@@ -86,7 +86,7 @@ Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name
 
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
     Route::apiResource('applications', 'ApplicationController');
-    Route::get('user-permissions', 'StoreUserController@getUserPermissions');
+    Route::get('user-permissions/{guard?}', 'UserController@getUserPermissions');
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');

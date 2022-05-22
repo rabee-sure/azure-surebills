@@ -85,21 +85,18 @@ class MerchantsReport extends Resource
         ->groupBy('transactions.user_id');
     }
 
-    public function authorizedToView(Request $request)
-    {
-        return false;
-    }
-
     public static function authorizedToCreate(Request $request)
     {
-        return false;
+        return auth()->user()->can('create merchants report');
     }
-
+    public function authorizedToView(Request $request)
+    {
+        return auth()->user()->can('show merchants report');
+    }
     public function authorizedToDelete(Request $request)
     {
         return false;
     }
-
     public function authorizedToUpdate(Request $request)
     {
         return false;

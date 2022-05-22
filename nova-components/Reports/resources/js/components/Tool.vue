@@ -1,22 +1,22 @@
 <template>
   <div id="reports">
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show merchants outstanding report')">
       <a :href="'/nova/resources/merchants-outstanding-reports'">
         <span>Merchants Outstanding</span>
       </a>
     </div><!-- item -->
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show merchants report')">
       <a :href="'/nova/resources/merchants-reports'">
         <span>Merchants Reports</span>
       </a>
     </div><!-- item -->
     <div class="item">
-      <a :href="'/nova/resources/bill-reports'">
+      <a :href="'/nova/resources/bill-reports'" v-if="permissions.includes('show bills report')">
         <span>Bills</span>
       </a>
     </div><!-- item -->
     <div class="item">
-      <a :href="'/nova/resources/auto-transfers'">
+      <a :href="'/nova/resources/auto-transfers'" v-if="permissions.includes('show AutoTransfers')">
         <span>AutoTransfers</span>
       </a>
     </div><!-- item -->
@@ -30,9 +30,21 @@ export default {
           title: 'Reports',
         }
     },
+    data: () => ({
+        permissions: [],
+    }),
     mounted() {
-        //
+        this.reportPermission();
     },
+    methods: {
+        reportPermission(){
+          return Nova.request().get('/user-permissions/admins')
+              .then(response => {
+                  console.log(response.data);
+                  this.permissions = response.data
+              })
+        },
+    }
 }
 </script>
 
