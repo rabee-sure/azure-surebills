@@ -68,6 +68,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\OrderCreated' => [
             'App\Listeners\CreateOrderBill',
         ],
+        'App\Events\AddActionLogEvent'::class => [
+            'App\Listeners\StoreActionLog',
+        ],
     ];
 
     /**

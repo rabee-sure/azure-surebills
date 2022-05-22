@@ -2,23 +2,24 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\YearFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Filters\ActionByUserFilter;
+use App\Nova\Filters\ActionTypeFilter;
+use App\Nova\Filters\DateRange;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Illuminate\Support\Facades\DB;
-use App\Nova\Actions\MerchantsExcelDownload;
 
-class MerchantsReport extends Resource
+class ActionLog extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\User::class;
-    public static $displayInNavigation = false;
+    public static $model = \App\Models\ActionLog::class;
 
     /**
      * Get the displayble label of the resource.
@@ -27,7 +28,7 @@ class MerchantsReport extends Resource
      */
     public static function label()
     {
-        return __('Merchants Reports');
+        return __('Actions Logs');
     }
 
     /**
@@ -56,33 +57,11 @@ class MerchantsReport extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make(__('Merchant Name'), 'name')->exceptOnForms(),
-            Text::make(__('Phone'), 'mobile')->exceptOnForms(),
-            Text::make(__('Email'), 'email')->exceptOnForms(),
-            Text::make(__('Business Name'), 'business_name_en')->exceptOnForms(),
-            Text::make(__('Type of license'), 'license_type', function(){
-                return __($this->license_type);
-            })->exceptOnForms(),
-            Text::make(__('City'), 'business_address')->exceptOnForms(),
-            Text::make(__('Address'), 'business_address_details')->exceptOnForms(),
-            Text::make(__('Total transactions amount'), 'Total_amounts', function () {
-                return !is_null($this->Total_amounts) ? floorp($this->Total_amounts,2) : 0;
-            })->sortable()->onlyOnIndex(),
-            Text::make(__('View Profile'), function(){
-                return "<a class='btn btn-success' style='margin:5px' href='/nova/resources/users/".$this->id."'><i class='fa fa-eye' aria-hidden='true'></i></a>";
-            })->asHtml()->onlyOnIndex(),
+            BelongsTo::make('User'),
+            BelongsTo::make('SystemAction'),
+            Text::make('Message', 'message'),
+            DateTime::make('Created at', 'created_at'),
         ];
-    }
-
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        // DB::raw("(SUM(CASE WHEN transactions.type  = 'credit' THEN transactions.amount ELSE 0 END) - SUM(CASE WHEN transactions.type  = 'debit' THEN transactions.amount ELSE 0 END)) AS Total_amounts")
-        return $query
-        ->join('transactions', 'users.id', '=', 'transactions.user_id')
-        ->select('users.*', 'transactions.user_id', DB::raw("SUM(transactions.amount) AS Total_amounts"))
-        ->where([['verified', true], ['store_main_user_id', null]])
-        ->where('transactions.type', 'credit')
-        ->groupBy('transactions.user_id');
     }
 
     public function authorizedToView(Request $request)
@@ -130,7 +109,9 @@ class MerchantsReport extends Resource
     public function filters(Request $request)
     {
         return [
-            new YearFilter
+            new ActionByUserFilter,
+            new ActionTypeFilter,
+            new DateRange,
         ];
     }
 
@@ -153,10 +134,6 @@ class MerchantsReport extends Resource
      */
     public function actions(Request $request)
     {
-        return [
-            (new MerchantsExcelDownload)->canRun(function (NovaRequest $request) {
-                return true;
-            }),
-        ];
+        return [];
     }
 }
