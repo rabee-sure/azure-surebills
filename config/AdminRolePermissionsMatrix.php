@@ -18,6 +18,35 @@ return [
 
     'show bills',
 
+    'show channels',
+    'create channel',
+    'edit channel',
+    'delete channel',
+
+    'show users',
+    'create user',
+    'edit user',
+    'delete user',
+
+    'show system admins',
+    'create system admin',
+    'edit system admin',
+    'delete system admin',
+
+    'show roles',
+    'create role',
+    'edit role',
+    'delete role',
+
     'show transfers',
+
+    'edit general settings',
+
+    'show banks',
+    'create bank',
+    'edit bank',
+    'delete bank',
+
+    'show webhook logs'
 
 ];

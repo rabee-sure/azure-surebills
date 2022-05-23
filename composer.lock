@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62ac9f918fa21ba9c89f7dff7bef1152",
+    "content-hash": "c9841b7c8e71a584e533642eab169d83",
     "packages": [
         {
             "name": "ampeco/nova-date-range-filter",
@@ -2010,6 +2010,52 @@
                 "source": "https://github.com/firebase/php-jwt/tree/v5.5.1"
             },
             "time": "2021-11-08T20:18:51+00:00"
+        },
+        {
+            "name": "fourstacks/nova-checkboxes",
+            "version": "v0.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fourstacks/nova-checkboxes.git",
+                "reference": "73de263bfb500e5ab9159dba120818995f4605dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fourstacks/nova-checkboxes/zipball/73de263bfb500e5ab9159dba120818995f4605dc",
+                "reference": "73de263bfb500e5ab9159dba120818995f4605dc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "laravel/nova": "^1.0",
+                "orchestra/testbench": "3.7.*",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Fourstacks\\NovaCheckboxes\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fourstacks\\NovaCheckboxes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2019-12-17T14:42:38+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",
@@ -7742,6 +7788,53 @@
                 "source": "https://github.com/salla/zatca"
             },
             "time": "2021-12-21T20:11:41+00:00"
+        },
+        {
+            "name": "silvanite/novafieldcheckboxes",
+            "version": "v1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Silvanite/novafieldcheckboxes.git",
+                "reference": "697e50f472b1a205132bc656657e482da1ca0774"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Silvanite/novafieldcheckboxes/zipball/697e50f472b1a205132bc656657e482da1ca0774",
+                "reference": "697e50f472b1a205132bc656657e482da1ca0774",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Silvanite\\NovaFieldCheckboxes\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Silvanite\\NovaFieldCheckboxes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field to display a number of multi-select options using checkboxes.",
+            "keywords": [
+                "checkbox",
+                "checkboxes",
+                "field",
+                "input",
+                "laravel",
+                "multiple choice",
+                "multiselect",
+                "nova"
+            ],
+            "time": "2020-05-17T18:38:55+00:00"
         },
         {
             "name": "simplesoftwareio/simple-qrcode",

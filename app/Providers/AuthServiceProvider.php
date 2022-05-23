@@ -16,6 +16,11 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         'App\Models\Channel' => 'App\Policies\ChannelPolicy',
         'App\Models\ActionLog' => 'App\Policies\ActionLogPolicy',
+        'App\Models\Bank' => 'App\Policies\BankPolicy',
+        'App\Models\WebhookLog' => 'App\Policies\WebhookLogPolicy',
+        'App\Models\User' => 'App\Policies\UserPolicy',
+        'App\Models\Admin' => 'App\Policies\AdminPolicy',
+        'App\Models\Role' => 'App\Policies\RolePolicy',
     ];
 
     /**

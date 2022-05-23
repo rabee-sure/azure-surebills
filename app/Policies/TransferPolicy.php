@@ -20,7 +20,7 @@ class TransferPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('show transfer');
+        return $user->can('show transfers');
     }
 
     /**
@@ -32,7 +32,6 @@ class TransferPolicy
      */
     public function view(User $user, Transfer $transfer)
     {
-        // return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
         return $transfer->user_id == $user->id || in_array($user->email, explode(',', auth()->user()->email));;
     }
 
@@ -45,7 +44,6 @@ class TransferPolicy
      */
     public function viewBills(User $user, Transfer $transfer)
     {
-        // return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
         return $transfer->user_id == $user->id || in_array($user->email, explode(',', auth()->user()->email));;
     }
 
@@ -58,7 +56,6 @@ class TransferPolicy
      */
     public function viewTransactions(User $user, Transfer $transfer)
     {
-        // return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
         return $transfer->user_id == $user->id || in_array($user->email, explode(',', auth()->user()->email));;
     }
 
