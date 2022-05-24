@@ -93,6 +93,7 @@ Route::prefix('v1')->group(function () {
 		Route::get('searchForCustomer/{name}', 'PosController@searchForCustomer');
 		Route::post('customerStore', 'PosController@customerStore');
 		Route::post('orderStore', 'PosController@orderStore');
+		Route::get('getBills', 'PosController@getBills');
   });
 
     // Route::post('fandaqah-register', 'UserController@registerFandaqah');
