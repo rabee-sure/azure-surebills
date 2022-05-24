@@ -44,4 +44,6 @@ return [
     'update business commercial info',
     'update bank info',
     'update settings',
+
+    'show payment record',
 ];

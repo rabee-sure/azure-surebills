@@ -659,4 +659,8 @@ class User extends Authenticatable implements HasMedia
             return Auth::user();
         }
     }
+
+    public function getUserPayments(){
+        
+    }
 }

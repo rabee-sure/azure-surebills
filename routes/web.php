@@ -163,6 +163,9 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('orders', 'OrdersController@index')->name('orders.all');
     Route::get('orders/view', 'OrdersController@view')->name('orders.view');
 
+    //Payment Record Report
+    Route::get('payment_record', 'ReportsController@paymentRecord')->name('reports.paymentRecord');
+
     // Roles
     Route::resource('users', 'StoreUserController');
     Route::resource('roles', 'RolesController');

@@ -6,12 +6,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MerchantsOutstandingStoreRequest;
 use App\Models\Report;
 use App\Models\User;
-use App\Jobs\CreateReportExcelFileJob;
 use App\Events\GenerateReport;
+use Carbon\Carbon;
 
 
 class ReportsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show payment record', ['only' => ['paymentRecord']]);
+    }
+
     public function index(Request $request)
     {
         return view('reports.index');
@@ -48,5 +53,32 @@ class ReportsController extends Controller
         GenerateReport::dispatch($report->id);
         
         return redirect()->route('reports.merchants-outstanding');
+    }
+
+    public function paymentRecord(Request $request)
+    {
+        $data['filters'] = [
+            'transaction_types' => [
+                'all' => 'All',
+                'debit' => 'Debit',
+                'credit' => 'Credit',
+            ],
+            'payment_methods' => [
+                'all' => 'All',
+                'cash' => 'Cash',
+                'online' => 'Online',
+                'payment_machine' => 'Payment Machine', 
+            ],
+            'sources' => [
+                'all' => 'All',
+                'sure_bill' => 'Sure Bill',
+                'pos' => 'POS',
+                'api' => 'API',
+            ]
+        ];
+
+        $data['payments'] = User::payments();
+
+        return view('reports.payment-record', $data);
     }
 }
