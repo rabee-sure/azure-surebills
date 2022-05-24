@@ -23,13 +23,6 @@ class BillApiRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        if ($this->has('customer_mobile')) {
-            $mobile = ltrim($this->customer_mobile, '+966');
-            $mobile = ltrim($mobile, '966');
-            $mobile = (int) $mobile;
-            $this->merge(['customer_mobile'=> $mobile]);
-        }
-
         if (!$this->has('is_redirect')) {
             $this->is_redirect = true;
         }
@@ -57,7 +50,7 @@ class BillApiRequest extends FormRequest
             ],
             'customer_name' => ['required', 'string', 'max:50'],
             'customer_email' => ['required', 'string', 'email', 'max:50'],
-            'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
+            'customer_mobile' => ['required'],
             'customer_notes' => ['nullable'],
 
             'due_date' => ['required', 'date_format:d-m-Y'],
