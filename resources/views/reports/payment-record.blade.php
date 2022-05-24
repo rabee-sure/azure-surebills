@@ -36,7 +36,7 @@
           <select name="payment_method" class="form-control select2-single filter">
             <option @if(!isset(request()->payment_method)) selected @endif disabled> {{ __('Payment Method') }}</option>
             @foreach ($filters['payment_methods'] as $methodKey => $payment_method)
-            <option value="{{$methodKey}}" @if(isset(request()->transaction_type) && request()->payment_method == $methodKey) selected @endif>{{__($payment_method)}}</option>
+            <option value="{{$methodKey}}" @if(isset(request()->payment_method) && request()->payment_method == $methodKey) selected @endif>{{__($payment_method)}}</option>
             @endforeach
           </select>
         </div><!-- form-group -->
@@ -62,46 +62,47 @@
     </div><!-- filterArea -->
 
     <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
-      <!-- if record count -->
-        <div class="table-responsive">
-          <table class="table table-striped table-hover text-nowrap">
-            <thead>
-              <tr>
-                <th class="text-center">{{ __('Date') }}</th>
-                <th class="text-center">{{ __('Transaction Type') }}</th>
-                <th class="text-center">{{ __('Reference') }}</th>
-                <th class="text-center">{{ __('Payment Method') }}</th>
-                <th class="text-center">{{ __('Source') }}</th>
-                <th class="text-center">{{ __('Amount') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- foreach records -->
-                <tr>
-                  <td class="text-center">Date</td>
-                  <td class="text-center">Type</td>
-                  <td class="text-center">Refrence</td>
-                  <td class="text-center">Method</td>
-                  <td class="text-center">Source</td>
-                  <td class="text-center">{{ fact_number(round(300, 2)) }}</td>
-                </tr>
-              <!-- endforeach -->
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="5" class="text-center fw-bold">{{ __('Total')}}</td>
-                <td class="text-center fw-bold">{{ $totals['all'] ?? 0 }}</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-        <!-- pagination links -->
-      <!-- else  -->
-        <div class="no_bills_yet d-flex align-items-center justify-content-center flex-column">
-          <i class="fal fa-file-invoice-dollar"></i>
-          <span class="d-block text-center mt-3 text-capitalize">{{ __('There are no data') }}</span>
-        </div><!-- no_bills_yet -->
-      <!-- endif -->
+      @if ($payments->count() != 0)
+        
+      <div class="table-responsive">
+        <table class="table table-striped table-hover text-nowrap">
+          <thead>
+            <tr>
+              <th class="text-center">{{ __('Date') }}</th>
+              <th class="text-center">{{ __('Transaction Type') }}</th>
+              <th class="text-center">{{ __('Reference') }}</th>
+              <th class="text-center">{{ __('Payment Method') }}</th>
+              <th class="text-center">{{ __('Source') }}</th>
+              <th class="text-center">{{ __('Amount') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($payments as $record)
+            <tr>
+              <td class="text-center">{{$record->created_at}}</td>
+              <td class="text-center">{{$record->type}}</td>
+              <td class="text-center">{{$record->reference}}</td>
+              <td class="text-center">Method</td>
+              <td class="text-center">Source</td>
+              <td class="text-center">{{ fact_number(round($record->amount, 2)) }}</td>
+            </tr>
+            @endforeach
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5" class="text-center fw-bold">{{ __('Total')}}</td>
+              <td class="text-center fw-bold">{{ $totals['all'] ?? 0 }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <!-- pagination links -->
+      @else
+      <div class="no_bills_yet d-flex align-items-center justify-content-center flex-column">
+        <i class="fal fa-file-invoice-dollar"></i>
+        <span class="d-block text-center mt-3 text-capitalize">{{ __('There are no data') }}</span>
+      </div><!-- no_bills_yet -->
+      @endif
     </div><!-- blockArea -->
 
   </section><!-- statementIndexPage -->
@@ -125,13 +126,6 @@
         console.log(paramValue);
         var search_params = url.searchParams;
 
-        if(paramName == 'transaction_type'){
-          search_params.set('transaction_source', 'all');
-        }
-
-        if(paramName == 'channel_id'){
-          search_params.set('application_id', 'all');
-        }
         // new value of "id" is set to "101"
         search_params.set(paramName, paramValue);
 
@@ -151,9 +145,8 @@
         var params = ''
         let array1 = [
           'transaction_type',
-          'transaction_source',
-          'channel_id',
-          'application_id',
+          'payment_method',
+          'source',
         ];
         array1.forEach(i => {
           if(getUrlParameter(i)){

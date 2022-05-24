@@ -8,6 +8,7 @@ use App\Models\Report;
 use App\Models\User;
 use App\Events\GenerateReport;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 
 class ReportsController extends Controller
@@ -77,7 +78,9 @@ class ReportsController extends Controller
             ]
         ];
 
-        $data['payments'] = User::payments();
+        $user = Auth::user()->store_main_user_id ? User::find(Auth::user()->store_main_user_id) : Auth::user();
+
+        $data['payments'] = $user->transactions->whereIn('transaction_source', ['bill', 'refund']);
 
         return view('reports.payment-record', $data);
     }
