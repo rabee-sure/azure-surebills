@@ -3,17 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryResource;
-use App\Http\Resources\SubCategoryResource;
 use App\Http\Resources\CategoryPosListResource;
-use App\Http\Resources\BillApiResource;
 use App\Http\Resources\BillPosApiResource;
+use App\Http\Resources\OrderBillPosApiResource;
 
 use App\Models\Category;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Customer;
-use App\Models\ProductImage;
 use App\Models\PosOrder;
 use App\Models\PosOrderItem;
 use App\Models\Bill;
@@ -27,12 +24,11 @@ use App\Http\Requests\CustomerApiRequest;
 use App\Http\Requests\PosOrderApiRequest;
 
 use App\Events\BillCreated;
-use PDO;
 use Illuminate\Support\Facades\Storage;
 
 class PosController extends Controller
 {
-    public function getAllActiveCategoryAndProducts(Request $request){
+    public function getAllActiveCategoryAndProducts(){
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
 
@@ -75,7 +71,7 @@ class PosController extends Controller
         return $collectionData;
     }
 
-    public function getActiveTopCategory(Request $request)
+    public function getActiveTopCategory()
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -86,7 +82,7 @@ class PosController extends Controller
         return $categoriesCollection;
     }
 
-    public function getActiveSubCategory($category_id, Request $request)
+    public function getActiveSubCategory($category_id)
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -97,7 +93,7 @@ class PosController extends Controller
         return $categoriesCollection;
     }
 
-    public function getActiveCategoryProducts($category_id, Request $request)
+    public function getActiveCategoryProducts($category_id)
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -108,7 +104,7 @@ class PosController extends Controller
         return $productsCollection;
     }
 
-    public function getActiveProducts(Request $request)
+    public function getActiveProducts()
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -119,7 +115,7 @@ class PosController extends Controller
         return $productsCollection;
     }
 
-    public function getProduct($product_id, Request $request)
+    public function getProduct($product_id)
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -138,7 +134,7 @@ class PosController extends Controller
         }
     }
 
-    public function searchForProduct($keyword, Request $request)
+    public function searchForProduct($keyword)
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -148,7 +144,7 @@ class PosController extends Controller
         return $products;
     }
 
-    public function searchForCustomer($mobile, Request $request)
+    public function searchForCustomer($mobile)
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -435,5 +431,16 @@ class PosController extends Controller
         event(new BillCreated($bill));
 
         return new BillPosApiResource($bill);
+    }
+
+    public function getBills(){
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $bills = Bill::userId($owner_id)->orderBy('created_at')->paginate(20);
+
+        $billsCollection = OrderBillPosApiResource::collection($bills);
+
+        return $billsCollection;
     }
 }
