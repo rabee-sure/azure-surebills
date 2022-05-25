@@ -56,7 +56,7 @@ class BillController extends Controller
             'other_buyer_id' => $request->customer_other_buyer_id,
         ]);
 
-        $send_sms = $request->send_sms === null ? $user->settings->create_send_sms : $request->send_sms;
+        $send_sms = 0;
         $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
 
         $bill = Bill::create([
