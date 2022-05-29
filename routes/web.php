@@ -165,6 +165,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 
     //Payment Record Report
     Route::get('payment_record', 'ReportsController@paymentRecord')->name('reports.paymentRecord');
+    Route::get('payment_record/export', 'ReportsController@paymentRecordExport')->name('reports.paymentRecordExport');
 
     // Roles
     Route::resource('users', 'StoreUserController');

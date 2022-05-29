@@ -33,10 +33,10 @@
           </select>
         </div><!-- form-group -->
         <div class="form-group mb-3">
-          <select name="payment_method" class="form-control select2-single filter">
-            <option @if(!isset(request()->payment_method)) selected @endif disabled> {{ __('Payment Method') }}</option>
-            @foreach ($filters['payment_methods'] as $methodKey => $payment_method)
-            <option value="{{$methodKey}}" @if(isset(request()->payment_method) && request()->payment_method == $methodKey) selected @endif>{{__($payment_method)}}</option>
+          <select name="payment_way" class="form-control select2-single filter">
+            <option @if(!isset(request()->payment_way)) selected @endif disabled> {{ __('Payment Method') }}</option>
+            @foreach ($filters['payment_ways'] as $wayKey => $payment_way)
+            <option value="{{$wayKey}}" @if(isset(request()->payment_way) && request()->payment_way == $wayKey) selected @endif>{{__($payment_way)}}</option>
             @endforeach
           </select>
         </div><!-- form-group -->
@@ -57,7 +57,7 @@
           $items = explode("?", request()->fullUrl());
           $query = $items[1]??'';
         @endphp
-        <a href="{{ route('statement.export')}}?{{$query}}" target="_blanck" class="d-flex align-items-center justify-content-center btn-primary rounded-3 border-0 shadow-none mb-3">Excel</a>
+        <a href="{{ route('reports.paymentRecordExport')}}?{{$query}}" target="_blanck" class="d-flex align-items-center justify-content-center btn-primary rounded-3 border-0 shadow-none mb-3">Excel</a>
       </div><!-- leftCol -->
     </div><!-- filterArea -->
 
@@ -80,10 +80,10 @@
             @foreach ($payments as $record)
             <tr>
               <td class="text-center">{{$record->created_at}}</td>
-              <td class="text-center">{{$record->type}}</td>
+              <td class="text-center">{{ __('reports.'.$record->type) }}</td>
               <td class="text-center">{{$record->reference}}</td>
-              <td class="text-center">Method</td>
-              <td class="text-center">Source</td>
+              <td class="text-center">{{ __('reports.'.$record->payment_way) }}</td>
+              <td class="text-center">{{ __('reports.'.$record->source) }}</td>
               <td class="text-center">{{ fact_number(round($record->amount, 2)) }}</td>
             </tr>
             @endforeach
@@ -91,12 +91,12 @@
           <tfoot>
             <tr>
               <td colspan="5" class="text-center fw-bold">{{ __('Total')}}</td>
-              <td class="text-center fw-bold">{{ $totals['all'] ?? 0 }}</td>
+              <td class="text-center fw-bold">{{ $total ?? 0 }}</td>
             </tr>
           </tfoot>
         </table>
       </div>
-      <!-- pagination links -->
+      {{ $payments->appends($_GET)->links() }}
       @else
       <div class="no_bills_yet d-flex align-items-center justify-content-center flex-column">
         <i class="fal fa-file-invoice-dollar"></i>
@@ -145,7 +145,7 @@
         var params = ''
         let array1 = [
           'transaction_type',
-          'payment_method',
+          'payment_way',
           'source',
         ];
         array1.forEach(i => {
