@@ -171,12 +171,8 @@ class BillController extends Controller
         $application = $request->application;
         $user = $application->user ?? null;
 
-        $mobile = ltrim($request->customer_mobile, '+966');
-        $mobile = ltrim($mobile, '966');
-        $mobile = (int) $mobile;
-        $request->merge(['customer_mobile'=> $mobile]);
         $validator = Validator::make($request->all(), [
-            'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
+            'customer_mobile' => ['required'],
             'customer_name' => ['required'],
             'customer_email' => ['required'],
         ]);
