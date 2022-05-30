@@ -354,6 +354,7 @@ class PosController extends Controller
 
             $bill = Bill::create([
                 'user_id' => $user->id,
+                'created_by' => $authUser->id,
                 'status' => $billStatus,
                 'business_name' => $order->business_name,
                 'customer_id' => $order->customer_id,
@@ -379,6 +380,8 @@ class PosController extends Controller
 
                 'send_sms' => ($request->walkin_customer == 1) ? false : true,
                 'send_email' => ($request->walkin_customer == 1) ? false : true,
+
+                'source' => 'pos',
             ]);
 
             foreach ($order->items as $item) {

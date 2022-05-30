@@ -163,6 +163,10 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('orders', 'OrdersController@index')->name('orders.all');
     Route::get('orders/view', 'OrdersController@view')->name('orders.view');
 
+    //Payment Record Report
+    Route::get('payment_record', 'ReportsController@paymentRecord')->name('reports.paymentRecord');
+    Route::get('payment_record/export', 'ReportsController@paymentRecordExport')->name('reports.paymentRecordExport');
+
     // Roles
     Route::resource('users', 'StoreUserController');
     Route::resource('roles', 'RolesController');
