@@ -331,10 +331,11 @@ class PosController extends Controller
         $order->save();
 
         
-        $bill = DB::transaction(function () use ($order, $request) {
+        $bill = DB::transaction(function () use ($order, $request, $authUser) {
             $user = User::find($order->user_id);
 
             $billStatus = '';
+            $payment_way = null;
             switch ($order->payment_method) {
                 case 'posPayOnline':
                     $billStatus = 'pending';
@@ -342,10 +343,12 @@ class PosController extends Controller
     
                 case 'posPayCard':
                     $billStatus = 'paid';
+                    $payment_way = 'payment_machine';
                     break;
 
                 case 'posPayCash':
                     $billStatus = 'paid_cash';
+                    $payment_way = 'cash';
                     break;
                 
                 default:
@@ -382,6 +385,7 @@ class PosController extends Controller
                 'send_email' => ($request->walkin_customer == 1) ? false : true,
 
                 'source' => 'pos',
+                'payment_way' => $payment_way,
             ]);
 
             foreach ($order->items as $item) {
@@ -438,9 +442,8 @@ class PosController extends Controller
 
     public function getBills(){
         $authUser = auth('api')->user();
-        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
 
-        $bills = Bill::userId($owner_id)->orderBy('created_at')->paginate(20);
+        $bills = Bill::createdBy($authUser->id)->source('pos')->orderBy('created_at')->paginate(20);
 
         $billsCollection = OrderBillPosApiResource::collection($bills);
 

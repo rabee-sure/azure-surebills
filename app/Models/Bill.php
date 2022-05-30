@@ -106,6 +106,16 @@ class Bill extends Model
         return $query->where('user_id', $value);
     }
 
+    public function scopeCreatedBy($query, $value)
+    {
+        return $query->where('created_by', $value);
+    }
+
+    public function scopeSource($query, $value)
+    {
+        return $query->where('source', $value);
+    }
+
     /**
      * Pay Id.
      *
