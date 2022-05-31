@@ -449,4 +449,18 @@ class PosController extends Controller
 
         return $billsCollection;
     }
+
+    public function getBill($id){
+        $authUser = auth('api')->user();
+
+        $bill = Bill::where('id', $id)->get();
+
+        if($bill[0]->created_by == $authUser->id){
+            $billCollection = OrderBillPosApiResource::collection($bill);
+            $firstItem = $billCollection->first();
+            return $firstItem;
+        }else{
+            return response()->json(['authorization' => 'not authorized to show this bill'], 403);
+        }
+    }
 }
