@@ -6,7 +6,7 @@ use App\Models\Role;
 
 class RoleObserver
 {
-    private $permissions = null;
+    private static $permissions = null;
     /**
      * Handle the Role "created" event.
      *
@@ -45,28 +45,20 @@ class RoleObserver
 
     public function saving(Role $role)
     {
-        $this->permissions = $role->admin_permissions;
-        unset($role->admin_permissions);
-
-        // unset($role->admin_permissions);
-        // if($role->isDirty('admin_permissions'))
-        // {
-        //     $role->permissions()->sync($role->admin_permissions);
-        //     unset($role->admin_permissions);
-        // }
+        if($role->isDirty('admin_permissions'))
+        {
+            self::$permissions = $role->admin_permissions;
+            unset($role->admin_permissions);
+            $role->name = request()->name;
+        }
     }
-
 
     public function saved(Role $role)
     {
-        dd($this->permissions);
-        $role->permissions()->sync($this->permissions);
-
-        // if($role->isDirty('admin_permissions'))
-        // {
-        //     $role->permissions()->sync($this->$permissions);
-        //     // unset($role->admin_permissions);
-        // }
+        if(self::$permissions)
+        {
+            $role->permissions()->sync(self::$permissions);
+        }
     }
 
     /**

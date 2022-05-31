@@ -2,12 +2,17 @@
 
 namespace App\Nova;
 
+use App\Models\Role;
 use App\Rules\PasswordRule;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Role as NovaRole;
 
 class Admin extends Resource
 {
@@ -23,7 +28,7 @@ class Admin extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -73,7 +78,22 @@ class Admin extends Resource
                 ->creationRules('unique:admins,mobile,NULL,id,deleted_at,NULL')
                 ->updateRules('unique:admins,mobile,'.$this->id.',id,deleted_at,NULL'),
 
+            // Select::make(__('role'), 'role')->options($this->roles())->rules('required'),
+
+            BelongsTo::make(__('role'), 'adminRole', NovaRole::class),
+
         ];
+    }
+
+    private function roles()
+    {
+        $adminRoles = [];
+        $roles = Role::where('guard_name', 'admins')->get();
+        foreach($roles as $role)
+        {
+            $adminRoles[$role->name] = $role->name;
+        }
+        return $adminRoles;
     }
 
     /**

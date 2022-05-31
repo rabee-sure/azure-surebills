@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Anaseqal\NovaSidebarIcons\NovaSidebarIcons;
+use App\Models\Admin;
 use App\Models\Role;
 use App\Nova\Metrics\BillsPerDay;
 use App\Nova\Metrics\NewUsers;
@@ -11,6 +12,7 @@ use App\Nova\Metrics\TotalDue;
 use App\Nova\Metrics\TotalIncome;
 use App\Nova\Metrics\TotalPaid;
 use App\Nova\Metrics\TotalVatOnCommissions;
+use App\Observers\AdminObserver;
 use App\Observers\RoleObserver;
 use Bakerkretzmar\NovaSettingsTool\SettingsTool;
 use Beyondcode\Reports\Reports;
@@ -33,6 +35,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Nova::serving(function () {
+            Role::observe(RoleObserver::class);
+            // Admin::observe(AdminObserver::class);
+        });
 
         Nova::serving(function () {
             Role::observe(RoleObserver::class);

@@ -12,4 +12,20 @@ class Admin extends Authenticatable
 {
     use HasFactory, HasRoles, SoftDeletes;
     protected $fillable = ['name', 'email', 'mobile', 'password'];
+
+    // public function role()
+    // {
+    //     // return $this->belongsTo(Role::class);
+    // }
+
+
+    public function adminRole()
+    {
+        return $this->belongsTo(
+            config('permission.models.role'),
+            config('permission.table_names.role_has_permissions')
+        );
+    }
+
+
 }
