@@ -83,10 +83,10 @@ Route::post('/bills/{id}/refund', 'BillController@refund')->name('bills.refund')
 Route::post('/bills/{id}/change_status', 'BillController@changeStatus')->name('bills.change_status');
 Route::post('/bills/{id}/partial-refund', 'BillController@partialRefund')->name('bills.partial.refund');
 Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
+Route::get('user-permissions/{guard?}', 'UserController@getUserPermissions');
 
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
     Route::apiResource('applications', 'ApplicationController');
-    Route::get('user-permissions/{guard?}', 'UserController@getUserPermissions');
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
@@ -162,6 +162,10 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     // Orders
     Route::get('orders', 'OrdersController@index')->name('orders.all');
     Route::get('orders/view', 'OrdersController@view')->name('orders.view');
+
+    //Payment Record Report
+    Route::get('payment_record', 'ReportsController@paymentRecord')->name('reports.paymentRecord');
+    Route::get('payment_record/export', 'ReportsController@paymentRecordExport')->name('reports.paymentRecordExport');
 
     // Roles
     Route::resource('users', 'StoreUserController');

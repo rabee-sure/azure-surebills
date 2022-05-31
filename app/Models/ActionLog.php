@@ -17,6 +17,7 @@ class ActionLog extends Model
         'model_class',
         'model_id',
         'message',
+        'payload'
     ];
 
     public function systemAction()
@@ -29,10 +30,10 @@ class ActionLog extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function createActionLog($action_name, $user_id, array $payloadMessage, $modelClass = null, $modelId = null)
+    public function createActionLog($action_name, $user_id, array $payload, $modelClass = null, $modelId = null)
     {
         $action = SystemAction::where('action_name', $action_name)->first();
-        $message = __('actions_logs.'.$action_name, $payloadMessage, 'en');
+        $message = __('actions_logs.'.$action_name, $payload['message'], 'en');
 
         self::create([
             'action_id' => $action->id,
@@ -40,6 +41,7 @@ class ActionLog extends Model
             'model_class' => $modelClass,
             'model_id' => $modelId,
             'message' => $message,
+            'payload' => (isset($payload['changes'])) ? json_encode($payload['changes']) : null,
         ]);
     }
 }

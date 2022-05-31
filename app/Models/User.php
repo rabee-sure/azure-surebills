@@ -94,6 +94,11 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'mobile_sent_at' => 'datetime',
         'commercial_registry_expiry_date' => 'datetime',
+        'able_refund' => 'boolean',
+        'vat_inclusive' => 'boolean',
+        'auto_trnasfer' => 'boolean',
+        'disable_business_documents' => 'boolean',
+        'disable_bank_documents' => 'boolean',
         'verified' => 'boolean',
     ];
 
@@ -399,6 +404,10 @@ class User extends Authenticatable implements HasMedia
     public function bills()
     {
         return $this->hasMany(Bill::class);
+    }
+
+    public function billsCreatedByMe(){
+        return $this->hasMany(Bill::class, 'created_by', 'id');
     }
 
     /**

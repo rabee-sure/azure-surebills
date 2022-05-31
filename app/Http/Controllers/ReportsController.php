@@ -6,12 +6,20 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MerchantsOutstandingStoreRequest;
 use App\Models\Report;
 use App\Models\User;
-use App\Jobs\CreateReportExcelFileJob;
 use App\Events\GenerateReport;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PaymentRecordExport;
 
 class ReportsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show payment record', ['only' => ['paymentRecord']]);
+    }
+
     public function index(Request $request)
     {
         return view('reports.index');
@@ -48,5 +56,71 @@ class ReportsController extends Controller
         GenerateReport::dispatch($report->id);
         
         return redirect()->route('reports.merchants-outstanding');
+    }
+
+    public function paymentRecord(Request $request)
+    {
+        $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
+        $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
+        $transaction_type = $request->transaction_type ?? null;
+        $payment_way = $request->payment_way ?? null;
+        $source = $request->source ?? null;
+
+        $data['filters'] = [
+            'transaction_types' => [
+                'all' => 'All',
+                'debit' => 'Debit',
+                'credit' => 'Credit',
+            ],
+            'payment_ways' => [
+                'all' => 'All',
+                'cash' => 'Cash',
+                'online' => 'Online',
+                'payment_machine' => 'Payment Machine', 
+            ],
+            'sources' => [
+                'all' => 'All',
+                'sure_bill' => 'Sure Bill',
+                'pos' => 'POS',
+                'api' => 'API',
+            ]
+        ];
+
+        $user = Auth::user()->store_main_user_id ? User::find(Auth::user()->store_main_user_id) : Auth::user();
+
+        $query = DB::table('transactions')
+        ->join('bills', 'transactions.bill_id', '=', 'bills.id')
+        ->whereIn('transactions.transaction_source', ['bill', 'refund'])
+        ->where('transactions.user_id', $user->id)
+        ->whereDate('transactions.created_at', '>=', Carbon::parse($date_start))
+        ->whereDate('transactions.created_at', '<=', Carbon::parse($date_to));
+
+        if($request->has('transaction_type') && $request->transaction_type != 'all'){
+            $query->where('transactions.type', $request->transaction_type);
+        }
+
+        if($request->has('payment_way') && $request->payment_way != 'all'){
+            $query->where('bills.payment_way', $request->payment_way);
+        }
+
+        if($request->has('source') && $request->source != 'all'){
+            $query->where('bills.source', $request->source);
+        }
+
+        $query = $query->select('transactions.created_at', 'transactions.type', 'transactions.reference', 'transactions.amount', 'bills.payment_way', 'bills.source');
+        
+        $data['payments'] = $query->paginate(100);
+
+        $all_payments = $query;
+        $credit = $all_payments->where('transaction_source', 'bill')->sum('amount');
+        $debit = $all_payments->where('transaction_source', 'refund')->sum('amount');
+        $data['total'] = $credit - $debit;
+
+        return view('reports.payment-record', $data);
+    }
+
+    public function paymentRecordExport(Request $request)
+    {
+        return Excel::download(new PaymentRecordExport, 'payment_records.xlsx');
     }
 }

@@ -38,11 +38,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::serving(function () {
             Role::observe(RoleObserver::class);
-            // Admin::observe(AdminObserver::class);
-        });
-
-        Nova::serving(function () {
-            Role::observe(RoleObserver::class);
+            Admin::observe(AdminObserver::class);
         });
 
         Nova::userTimezone(function (Request $request) {

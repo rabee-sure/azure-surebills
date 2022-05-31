@@ -6,9 +6,13 @@ use App\Models\Application;
 use App\Models\AutoTransfer;
 use App\Models\Transfer;
 use App\Models\User;
+use App\Models\Bill;
+use App\Models\Media;
 use App\Observers\ApplicationObserver;
 use App\Observers\TransferObserver;
 use App\Observers\UserObserver;
+use App\Observers\BillObserver;
+use App\Observers\MediaObserver;
 use App\Policies\AutoTransferPolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -49,6 +53,8 @@ class AppServiceProvider extends ServiceProvider
         Transfer::observe(TransferObserver::class);
         Application::observe(ApplicationObserver::class);
         User::observe(UserObserver::class);
+        Bill::observe(BillObserver::class);
+        Media::observe(MediaObserver::class);
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
 

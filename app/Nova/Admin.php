@@ -12,7 +12,6 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Nova\Role as NovaRole;
 
 class Admin extends Resource
 {
@@ -58,6 +57,7 @@ class Admin extends Resource
      */
     public function fields(Request $request)
     {
+        $roles = $this->roles();
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
@@ -77,23 +77,33 @@ class Admin extends Resource
             Text::make(__('Mobile'), 'mobile')->rules('required', 'regex:/(^[5]{1}[0-9]{8}$)/')
                 ->creationRules('unique:admins,mobile,NULL,id,deleted_at,NULL')
                 ->updateRules('unique:admins,mobile,'.$this->id.',id,deleted_at,NULL'),
+            Text::make(__('roles'), function() use ($roles){
+                return $roles['admin_roles'][$roles['selected_role']];
+            })->exceptOnForms(),
 
-            // Select::make(__('role'), 'role')->options($this->roles())->rules('required'),
-
-            BelongsTo::make(__('role'), 'adminRole', NovaRole::class),
-
+            Select::make(__('role'), 'role')
+                ->options($roles['admin_roles'])
+                ->withMeta(['value' => $roles['selected_role']])
+                ->rules('required')
+                ->onlyOnForms(),
         ];
     }
 
     private function roles()
     {
         $adminRoles = [];
+        $selectRole = null;
         $roles = Role::where('guard_name', 'admins')->get();
         foreach($roles as $role)
         {
-            $adminRoles[$role->name] = $role->name;
+            $adminRoles[$role->id] = $role->name;
+            if(isset($this->id) && $this->roles->first()->id == $role->id)
+            {
+                $selectRole = $role->id;
+            }
         }
-        return $adminRoles;
+
+        return ['admin_roles' => $adminRoles, 'selected_role' => $selectRole];
     }
 
     /**

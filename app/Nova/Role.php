@@ -63,7 +63,8 @@ class Role extends Resource
             Text::make(__('Name'), 'name')
                 ->rules('required', 'string', 'max:50')
                 ->creationRules('unique:roles,name,NULL,id,guard_name,admins')
-                ->updateRules('unique:roles,name,'.$this->id.',id,guard_name,admins'),
+                ->updateRules('unique:roles,name,'.$this->id.',id,guard_name,admins')
+                ,
 
             Hidden::make('guard_name')->default(function ($request) {
                 return 'admins';

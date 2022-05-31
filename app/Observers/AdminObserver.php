@@ -16,6 +16,7 @@ class AdminObserver
 
     public function saved(Admin $admin)
     {
+        $admin->roles()->detach();
         $admin->assignRole(self::$role);
     }
 

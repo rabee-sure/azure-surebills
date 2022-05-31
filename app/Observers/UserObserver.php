@@ -36,6 +36,36 @@ class UserObserver
      */
     public function updated(User $user)
     {
+        $fieldsArr = config('userfields');
+
+        foreach($fieldsArr as $groupKey => $fieldsGroup){
+            if($user->isDirty($fieldsGroup)){
+                foreach($fieldsGroup as $field){
+                    if($user->isDirty($field)){
+                        $fieldsChanges[$field] = [
+                            'old_value' => $user->getOriginal($field),
+                            'new_value' => $user->$field
+                        ];
+                    }
+                }
+                event(new AddActionLogEvent(
+                    'user_update', 
+                    Auth::id(), 
+                    [
+                        'message' => [
+                            'username' => $user->name,
+                            'adminname' => Auth::user()->name,
+                            'fields_group' => $groupKey,
+                            'time' => $user->updated_at,
+                        ],
+                        'changes' => $fieldsChanges,
+                    ], 
+                    $user->id, 
+                    User::class
+                ));
+            }
+        }
+
         if($user->isDirty('verified')){
             UserVerifiedChanged::dispatch($user);
             
