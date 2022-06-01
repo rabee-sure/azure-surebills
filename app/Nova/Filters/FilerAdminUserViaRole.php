@@ -33,7 +33,6 @@ class FilerAdminUserViaRole extends Filter
         return $query->whereHas('roles', function($q) use ($value){
             return $q->where('id', $value);
         });
-        // table('model_has_roles')->where([['role_id', $value], ['model_type', 'App\Models\Admin']]);
     }
 
     /**
