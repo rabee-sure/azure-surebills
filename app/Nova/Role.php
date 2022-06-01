@@ -23,7 +23,7 @@ class Role extends Resource
      * @var string
      */
     public static $model = \App\Models\Role::class;
-
+    public static $displayInNavigation = false;
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
@@ -73,7 +73,8 @@ class Role extends Resource
             Checkboxes::make(__('Permissions'), 'admin_permissions')
                 ->options($this->adminPermissions())
                 ->rules('required')
-                ->columns(3),
+                ->columns(3)
+                ->hideFromIndex(),
         ];
     }
 

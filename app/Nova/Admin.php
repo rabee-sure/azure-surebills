@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Role;
+use App\Nova\Filters\FilerAdminUserViaRole;
 use App\Rules\PasswordRule;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -21,6 +22,7 @@ class Admin extends Resource
      * @var string
      */
     public static $model = \App\Models\Admin::class;
+    public static $displayInNavigation = false;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -40,12 +42,12 @@ class Admin extends Resource
 
     public static function label()
     {
-        return __('system admins');
+        return __('users');
     }
 
     public static function singularLabel()
     {
-        return __('system admin');
+        return __('user');
     }
 
 
@@ -77,8 +79,9 @@ class Admin extends Resource
             Text::make(__('Mobile'), 'mobile')->rules('required', 'regex:/(^[5]{1}[0-9]{8}$)/')
                 ->creationRules('unique:admins,mobile,NULL,id,deleted_at,NULL')
                 ->updateRules('unique:admins,mobile,'.$this->id.',id,deleted_at,NULL'),
+
             Text::make(__('roles'), function() use ($roles){
-                return $roles['admin_roles'][$roles['selected_role']];
+                return $roles['selected_role'] ? $roles['admin_roles'][$roles['selected_role']] : '-';
             })->exceptOnForms(),
 
             Select::make(__('role'), 'role')
@@ -97,7 +100,7 @@ class Admin extends Resource
         foreach($roles as $role)
         {
             $adminRoles[$role->id] = $role->name;
-            if(isset($this->id) && $this->roles->first()->id == $role->id)
+            if(isset($this->id) && isset($this->roles->first()->id) && $this->roles->first()->id == $role->id)
             {
                 $selectRole = $role->id;
             }
@@ -125,7 +128,9 @@ class Admin extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new FilerAdminUserViaRole,
+        ];
     }
 
     /**

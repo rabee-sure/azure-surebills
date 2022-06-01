@@ -26,7 +26,7 @@
                     <span class="sidebar-label">{{ __('Banks') }} </span>
                 </router-link>
             </li>
-            @endcan
+            @endcanany
 
             @can('show webhook logs')
             <li class="sidebar-dropdown">

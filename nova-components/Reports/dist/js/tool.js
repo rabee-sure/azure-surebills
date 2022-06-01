@@ -679,7 +679,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             return Nova.request().get('/user-permissions/admins').then(function (response) {
-                console.log(response.data);
                 _this.permissions = response.data;
             });
         }

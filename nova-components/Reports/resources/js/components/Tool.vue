@@ -40,7 +40,7 @@ export default {
         reportPermission(){
           return Nova.request().get('/user-permissions/admins')
               .then(response => {
-                  this.permissions = response.data
+                  this.permissions = response.data;
               })
         },
     }
