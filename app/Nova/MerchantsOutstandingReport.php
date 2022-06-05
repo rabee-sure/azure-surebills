@@ -86,7 +86,7 @@ class MerchantsOutstandingReport extends Resource
     private function merchants()
     {
         $merchantsOptions = ['all' => __('All')];
-        $merchantes = User::whereNull('store_main_user_id')->get();//->toArray();
+        $merchantes = User::whereNull('store_main_user_id')->get();
         foreach($merchantes as $merchante)
         {
             $merchantsOptions[$merchante->id] = $merchante->name;
@@ -106,19 +106,17 @@ class MerchantsOutstandingReport extends Resource
 
     public static function authorizedToCreate(Request $request)
     {
-        return true;
+        return auth()->user()->can('create merchants outstanding report');
     }
-
+    public function authorizedToView(Request $request)
+    {
+        return auth()->user()->can('show merchants outstanding report');
+    }
     public function authorizedToDelete(Request $request)
     {
         return false;
     }
-
     public function authorizedToUpdate(Request $request)
-    {
-        return false;
-    }
-    public function authorizedToView(Request $request)
     {
         return false;
     }

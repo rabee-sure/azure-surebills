@@ -1,3 +1,4 @@
+@canany(['edit general settings', 'show banks', 'create bank', 'edit bank', 'delete bank', 'show webhook logs'])
 <ul class="sidemenu">
     <li class="sidebar-dropdown mb-2">
         <input type="checkbox" checked>
@@ -5,6 +6,7 @@
             <span class="sidebar-label ml-8">{{ __('Settings') }} </span>
         </a>
         <ul class="dropdown-menu">
+            @can('edit general settings')
             <li class="sidebar-dropdown">
                 <router-link tag="h3" :to="{ name: 'settings-tool' }" class="cursor-pointer flex items-center font-normal dim text-white mb-6 text-base no-underline">
                     <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -13,6 +15,9 @@
                     <span class="sidebar-label">{{ __(config('nova-settings-tool.sidebar-label', 'Settings')) }}</span>
                 </router-link>
             </li>
+            @endcan
+
+            @canany(['show banks', 'create bank', 'edit bank', 'delete bank'])
             <li class="sidebar-dropdown">
                 <router-link :to="{name: 'index', params: {resourceName: 'banks'}}" class="flex items-center font-normal text-white mb-6 text-base no-underline dim">
                     <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -21,6 +26,9 @@
                     <span class="sidebar-label">{{ __('Banks') }} </span>
                 </router-link>
             </li>
+            @endcanany
+
+            @can('show webhook logs')
             <li class="sidebar-dropdown">
                 <router-link :to="{name: 'index', params: {resourceName: 'webhook-logs'}}" class="flex items-center font-normal text-white mb-6 text-base no-underline dim">
                     <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -29,6 +37,8 @@
                     <span class="sidebar-label">{{ __('WebhookLog') }} </span>
                 </router-link>
             </li>
+            @endcan
         </ul>
     </li>
 </ul>
+@endcanany

@@ -336,6 +336,11 @@ class VrificationRequests extends Resource
         ];
     }
 
+    public function authorizedToView(Request $request)
+    {
+        return auth()->user()->can('show verification requests');
+    }
+
     /**
      * authorized To Delete.
      *

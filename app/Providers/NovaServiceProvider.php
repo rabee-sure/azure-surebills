@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Anaseqal\NovaSidebarIcons\NovaSidebarIcons;
+use App\Models\Admin;
+use App\Models\Role;
 use App\Nova\Metrics\BillsPerDay;
 use App\Nova\Metrics\NewUsers;
 use App\Nova\Metrics\TotalCommissions;
@@ -10,6 +12,8 @@ use App\Nova\Metrics\TotalDue;
 use App\Nova\Metrics\TotalIncome;
 use App\Nova\Metrics\TotalPaid;
 use App\Nova\Metrics\TotalVatOnCommissions;
+use App\Observers\AdminObserver;
+use App\Observers\RoleObserver;
 use Bakerkretzmar\NovaSettingsTool\SettingsTool;
 use Beyondcode\Reports\Reports;
 use ChrisWare\NovaBreadcrumbs\NovaBreadcrumbs;
@@ -31,6 +35,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Nova::serving(function () {
+            Role::observe(RoleObserver::class);
+            Admin::observe(AdminObserver::class);
+        });
 
         Nova::userTimezone(function (Request $request) {
             return 'Asia/Riyadh';
@@ -63,7 +72,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+            // return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+            return in_array($user->email, explode(',', auth()->user()->email));
         });
     }
 
@@ -130,13 +140,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      *
      * @return void
      */
-    protected function authorization()
-    {
-        $this->gate();
+    // protected function authorization()
+    // {
+    //     $this->gate();
 
-        Nova::auth(function ($request) {
-            return Gate::check('viewNova', [$request->user()]);
-           // return in_array($request->user()->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
-        });
-    }
+    //     // Nova::auth(function ($request) {
+    //     //     return Gate::check('viewNova', [$request->user()]);
+    //     //    // return in_array($request->user()->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+    //     // });
+    // }
 }

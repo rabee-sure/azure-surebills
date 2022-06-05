@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e315c78405b4444d7a5faceb1349444",
+    "content-hash": "7e2a7dc7c0e5511a6c8eae54d23e5fe5",
     "packages": [
         {
             "name": "ampeco/nova-date-range-filter",
@@ -406,6 +406,49 @@
                 "source": "https://github.com/bakerkretzmar/nova-settings-tool/tree/1.1.3"
             },
             "time": "2021-08-05T23:07:13+00:00"
+        },
+        {
+            "name": "benjacho/belongs-to-many-field",
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Benjacho/belongs-to-many-field-nova.git",
+                "reference": "8b51d077fc0584f9ddabc852698a5d792ecae2da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Benjacho/belongs-to-many-field-nova/zipball/8b51d077fc0584f9ddabc852698a5d792ecae2da",
+                "reference": "8b51d077fc0584f9ddabc852698a5d792ecae2da",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Benjacho\\BelongsToManyField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Benjacho\\BelongsToManyField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "belongsToMany nova representation in field.",
+            "keywords": [
+                "Many to Many Field",
+                "belongsToMany",
+                "laravel",
+                "nova"
+            ],
+            "time": "2021-08-21T16:10:48+00:00"
         },
         {
             "name": "beyondcode/reports",
@@ -2010,6 +2053,52 @@
                 "source": "https://github.com/firebase/php-jwt/tree/v5.5.1"
             },
             "time": "2021-11-08T20:18:51+00:00"
+        },
+        {
+            "name": "fourstacks/nova-checkboxes",
+            "version": "v0.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fourstacks/nova-checkboxes.git",
+                "reference": "73de263bfb500e5ab9159dba120818995f4605dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fourstacks/nova-checkboxes/zipball/73de263bfb500e5ab9159dba120818995f4605dc",
+                "reference": "73de263bfb500e5ab9159dba120818995f4605dc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "laravel/nova": "^1.0",
+                "orchestra/testbench": "3.7.*",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Fourstacks\\NovaCheckboxes\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fourstacks\\NovaCheckboxes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2019-12-17T14:42:38+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",

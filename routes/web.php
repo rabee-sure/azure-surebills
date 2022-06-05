@@ -83,10 +83,10 @@ Route::post('/bills/{id}/refund', 'BillController@refund')->name('bills.refund')
 Route::post('/bills/{id}/change_status', 'BillController@changeStatus')->name('bills.change_status');
 Route::post('/bills/{id}/partial-refund', 'BillController@partialRefund')->name('bills.partial.refund');
 Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
+Route::get('user-permissions/{guard?}', 'UserController@getUserPermissions');
 
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
     Route::apiResource('applications', 'ApplicationController');
-    Route::get('user-permissions', 'StoreUserController@getUserPermissions');
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
