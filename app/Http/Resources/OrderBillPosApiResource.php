@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 use App\Http\Resources\BillPosItemsApiResource;
 
+use App\Models\User;
+
 class OrderBillPosApiResource extends JsonResource
 {
     /**
@@ -23,10 +25,19 @@ class OrderBillPosApiResource extends JsonResource
             'bill_status' => $this->status,
             'reference_id' => $this->reference_id,
             'pay_url' => $this->when($this->is_pending, $this->pay_url),
+            'payment_way' => $this->payment_way,
+            'sub_total' => $this->sub_total,
+            'discount' => $this->discount,
+            'vat' => $this->vat,
             'total' => $this->total,
             'title' => $this->bill_title,
             'created_at' => date('Y-m-d H:i:s', strtotime($this->created_at)),
             'items' => BillPosItemsApiResource::collection($this->items),
+            'customer' => [
+                'name' => $this->customer->name,
+                'mobile' => $this->customer->mobile,
+                'email' => $this->customer->email,
+            ],
         ];
     }
 }

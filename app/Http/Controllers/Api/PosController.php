@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryPosListResource;
 use App\Http\Resources\BillPosApiResource;
+use App\Http\Resources\OrdersBillsPosApiResource;
 use App\Http\Resources\OrderBillPosApiResource;
 
 use App\Models\Category;
@@ -331,10 +332,11 @@ class PosController extends Controller
         $order->save();
 
         
-        $bill = DB::transaction(function () use ($order, $request) {
+        $bill = DB::transaction(function () use ($order, $request, $authUser) {
             $user = User::find($order->user_id);
 
             $billStatus = '';
+            $payment_way = null;
             switch ($order->payment_method) {
                 case 'posPayOnline':
                     $billStatus = 'pending';
@@ -342,10 +344,12 @@ class PosController extends Controller
     
                 case 'posPayCard':
                     $billStatus = 'paid';
+                    $payment_way = 'payment_machine';
                     break;
 
                 case 'posPayCash':
                     $billStatus = 'paid_cash';
+                    $payment_way = 'cash';
                     break;
                 
                 default:
@@ -354,6 +358,7 @@ class PosController extends Controller
 
             $bill = Bill::create([
                 'user_id' => $user->id,
+                'created_by' => $authUser->id,
                 'status' => $billStatus,
                 'business_name' => $order->business_name,
                 'customer_id' => $order->customer_id,
@@ -369,16 +374,19 @@ class PosController extends Controller
                 'expiry_minutes' => $request->expiry_minutes ?? 0,
                 'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $order->created_at))),
 
-                'add_discount' => $order->add_discount  ? "on" : 0,
+                'add_discount' => $order->add_discount ?? false,
                 'discount_type' => $order->add_discount  ? $order->discount_type : false,
                 'discount_value' => $order->add_discount  ? $order->discount_value : null,
 
-                'add_tax' => $order->add_tax ? "on" : false,
+                'add_tax' => $order->add_tax ?? false,
                 'tax_name' => $order->add_tax ? $order->tax_name : null,
                 'tax_value' => $order->add_tax ? $order->tax_value : null,
 
                 'send_sms' => ($request->walkin_customer == 1) ? false : true,
                 'send_email' => ($request->walkin_customer == 1) ? false : true,
+
+                'source' => 'pos',
+                'payment_way' => $payment_way,
             ]);
 
             foreach ($order->items as $item) {
@@ -435,12 +443,25 @@ class PosController extends Controller
 
     public function getBills(){
         $authUser = auth('api')->user();
-        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
 
-        $bills = Bill::userId($owner_id)->orderBy('created_at')->paginate(20);
+        $bills = Bill::createdBy($authUser->id)->source('pos')->orderBy('created_at')->paginate(20);
 
-        $billsCollection = OrderBillPosApiResource::collection($bills);
+        $billsCollection = OrdersBillsPosApiResource::collection($bills);
 
         return $billsCollection;
+    }
+
+    public function getBill($id){
+        $authUser = auth('api')->user();
+
+        $bill = Bill::where('id', $id)->get();
+
+        if($bill[0]->created_by == $authUser->id){
+            $billCollection = OrderBillPosApiResource::collection($bill);
+            $firstItem = $billCollection->first();
+            return $firstItem;
+        }else{
+            return response()->json(['authorization' => 'not authorized to show this bill'], 403);
+        }
     }
 }

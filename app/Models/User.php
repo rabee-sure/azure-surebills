@@ -406,6 +406,10 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Bill::class);
     }
 
+    public function billsCreatedByMe(){
+        return $this->hasMany(Bill::class, 'created_by', 'id');
+    }
+
     /**
      * Get Transfers.
      *

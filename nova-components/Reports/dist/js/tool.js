@@ -652,6 +652,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     metaInfo: function metaInfo() {
@@ -659,8 +664,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             title: 'Reports'
         };
     },
+
+    data: function data() {
+        return {
+            permissions: []
+        };
+    },
     mounted: function mounted() {
-        //
+        this.reportPermission();
+    },
+
+    methods: {
+        reportPermission: function reportPermission() {
+            var _this = this;
+
+            return Nova.request().get('/user-permissions/admins').then(function (response) {
+                _this.permissions = response.data;
+            });
+        }
     }
 });
 
@@ -673,32 +694,40 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "reports" } }, [
+    _vm.permissions.includes("show merchants outstanding report")
+      ? _c("div", { staticClass: "item" }, [
+          _c(
+            "a",
+            {
+              attrs: { href: "/nova/resources/merchants-outstanding-reports" }
+            },
+            [_c("span", [_vm._v("Merchants Outstanding")])]
+          )
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.permissions.includes("show merchants report")
+      ? _c("div", { staticClass: "item" }, [
+          _c("a", { attrs: { href: "/nova/resources/merchants-reports" } }, [
+            _c("span", [_vm._v("Merchants Reports")])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c("div", { staticClass: "item" }, [
-      _c(
-        "a",
-        { attrs: { href: "/nova/resources/merchants-outstanding-reports" } },
-        [_c("span", [_vm._v("Merchants Outstanding")])]
-      )
+      _vm.permissions.includes("show bills report")
+        ? _c("a", { attrs: { href: "/nova/resources/bill-reports" } }, [
+            _c("span", [_vm._v("Bills")])
+          ])
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "item" }, [
-      _c(
-        "a",
-        { attrs: { href: "/nova/resources/merchants-reports" } },
-        [_c("span", [_vm._v("Merchants Reports")])]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "item" }, [
-      _c("a", { attrs: { href: "/nova/resources/bill-reports" } }, [
-        _c("span", [_vm._v("Bills")])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "item" }, [
-      _c("a", { attrs: { href: "/nova/resources/auto-transfers" } }, [
-        _c("span", [_vm._v("AutoTransfers")])
-      ])
+      _vm.permissions.includes("show AutoTransfers")
+        ? _c("a", { attrs: { href: "/nova/resources/auto-transfers" } }, [
+            _c("span", [_vm._v("AutoTransfers")])
+          ])
+        : _vm._e()
     ])
   ])
 }

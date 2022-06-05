@@ -20,7 +20,9 @@ class PermissionTableSeeder extends Seeder
             Permission::firstOrCreate(['name' => $permission], ['name' => $permission]);
         }
 
-        Permission::whereNotIn('name', config('RolePermissionsMatrix'))->delete();
+        Permission::whereNotIn('name', config('RolePermissionsMatrix'))
+            ->where('guard_name', 'web')
+            ->delete();
 
         Artisan::call('db:seed --class=CreateSuperAdminUserSeeder');
         dd('success');

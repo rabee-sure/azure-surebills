@@ -123,6 +123,7 @@ class BillController extends Controller
 
             $bill = Bill::create([
                 'user_id' => $user->store_main_user_id ?? $user->id,
+                'created_by' => $user->id,
                 'status' => 'pending',
                 'business_name' => $user->business_name,
                 'customer_id' => $customer->id,
@@ -146,6 +147,8 @@ class BillController extends Controller
 
                 'send_sms' => $request->send_sms,
                 'send_email' => $request->send_email,
+                
+                'source' => 'sure_bill',
             ]);
 
             foreach ($request->items as $item) {
