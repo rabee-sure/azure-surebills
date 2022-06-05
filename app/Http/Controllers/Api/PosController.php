@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryPosListResource;
 use App\Http\Resources\BillPosApiResource;
+use App\Http\Resources\OrdersBillsPosApiResource;
 use App\Http\Resources\OrderBillPosApiResource;
 
 use App\Models\Category;
@@ -373,11 +374,11 @@ class PosController extends Controller
                 'expiry_minutes' => $request->expiry_minutes ?? 0,
                 'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $order->created_at))),
 
-                'add_discount' => $order->add_discount  ? "on" : 0,
+                'add_discount' => $order->add_discount ?? false,
                 'discount_type' => $order->add_discount  ? $order->discount_type : false,
                 'discount_value' => $order->add_discount  ? $order->discount_value : null,
 
-                'add_tax' => $order->add_tax ? "on" : false,
+                'add_tax' => $order->add_tax ?? false,
                 'tax_name' => $order->add_tax ? $order->tax_name : null,
                 'tax_value' => $order->add_tax ? $order->tax_value : null,
 
@@ -445,8 +446,22 @@ class PosController extends Controller
 
         $bills = Bill::createdBy($authUser->id)->source('pos')->orderBy('created_at')->paginate(20);
 
-        $billsCollection = OrderBillPosApiResource::collection($bills);
+        $billsCollection = OrdersBillsPosApiResource::collection($bills);
 
         return $billsCollection;
+    }
+
+    public function getBill($id){
+        $authUser = auth('api')->user();
+
+        $bill = Bill::where('id', $id)->get();
+
+        if($bill[0]->created_by == $authUser->id){
+            $billCollection = OrderBillPosApiResource::collection($bill);
+            $firstItem = $billCollection->first();
+            return $firstItem;
+        }else{
+            return response()->json(['authorization' => 'not authorized to show this bill'], 403);
+        }
     }
 }
