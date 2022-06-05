@@ -64,7 +64,7 @@ class AdminPolicy
      */
     public function delete(Admin $user, Admin $admin)
     {
-        return $user->can('delete system admin');
+        return $user->can('delete system admin') && auth()->guard('admins')->user()->id != $admin->id;
     }
 
     /**
@@ -76,7 +76,7 @@ class AdminPolicy
      */
     public function restore(Admin $user, Admin $admin)
     {
-        return $user->can('delete system admin');
+        return $user->can('delete system admin') && auth()->guard('admins')->user()->id != $admin->id;
     }
 
     /**
@@ -88,6 +88,6 @@ class AdminPolicy
      */
     public function forceDelete(Admin $user, Admin $admin)
     {
-        return $user->can('delete system admin');
+        return $user->can('delete system admin') && auth()->guard('admins')->user()->id != $admin->id;
     }
 }

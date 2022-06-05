@@ -83,8 +83,11 @@ class Role extends Resource
         $permissions = [];
         foreach(config('AdminRolePermissionsMatrix') as $permission)
         {
-            $permissionId = Permission::where([['name', $permission], ['guard_name', 'admins']])->pluck('id')->first();
-            $permissions[$permissionId] = __($permission);
+            if(!in_array($permission, ['show system admins', 'create system admin', 'edit system admin', 'delete system admin', 'show roles', 'create role', 'edit role', 'delete role']))
+            {
+                $permissionId = Permission::where([['name', $permission], ['guard_name', 'admins']])->pluck('id')->first();
+                $permissions[$permissionId] = __($permission);
+            }
         }
 
         return $permissions;
