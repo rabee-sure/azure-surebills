@@ -29,6 +29,9 @@
         }
         .logo {
           margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .logo img {
           max-width: 100%;
@@ -37,7 +40,6 @@
           max-height: 100px;
         }
         .block_1 {
-          display: block;
           margin: 0 auto 20px;
           padding: 0 0 20px;
           border-bottom: 1px solid #ddd;
@@ -70,27 +72,30 @@
           font-size: 14px;
           text-transform: capitalize;
           margin: 0 auto 30px;
-          background: #d7f3e3;
-          color: #1d643b;
-          border: 1px solid #c7eed8;
-          display: table;
-          max-width: 100%;
-          padding: 15px;
-          border-radius: 4px;
-          box-sizing: border-box;
-          min-width: 50%;
         } /* alert */
         .block_2 {
-          display: flex;
+          display: block;
           margin: 0 auto 20px;
           padding: 0 0 20px;
           border-bottom: 1px solid #ddd;
-          align-items: center;
-          justify-content: space-between;
         }
-        .block_2 span {
+        .billInfoItem {
           display: block;
+          clear: both;
+          margin-bottom: 5px;
+          height: 20px;
+        } /* billInfoItem */
+        .block_2 .billInfoItem span {
+          display: block;
+          float: left;
           font-size: 14px;
+          color: #444444;
+        }
+        .block_2 .billInfoItem p {
+          display: block;
+          float: right;
+          font-size: 14px;
+          margin: 0;
           color: #444444;
         }
         .block_2 span .vat_reg {
@@ -118,6 +123,35 @@
           margin: 0 auto 20px;
           padding: 0 0 20px;
           border-bottom: 1px solid #ddd;
+        }
+        .block_3 table {
+          width: 100%;
+          caption-side: bottom;
+          border-collapse: collapse;
+        }
+        .block_3 table th {
+          text-align: center;
+          padding: 5px;
+          vertical-align: middle;
+          font-size: 13px;
+        }
+        .block_3 table th:first-child {
+          text-align: right;
+        }
+        .block_3 table th:last-child {
+          text-align: left;
+        }
+        .block_3 table td {
+          text-align: center;
+          padding: 5px;
+          vertical-align: middle;
+          font-size: 13px;
+        }
+        .block_3 table td:first-child {
+          text-align: right;
+        }
+        .block_3 table td:last-child {
+          text-align: left;
         }
         .block_3 .details_pay {
           display: flex;
@@ -154,6 +188,25 @@
           border-bottom: 1px solid #ddd;
           text-align: right;
         }
+        .total_area .totalAreaItem {
+          display: block;
+          clear: both;
+          margin-bottom: 5px;
+          height: 20px;
+        }
+        .total_area .totalAreaItem span {
+          display: block;
+          float: left;
+          font-size: 14px;
+          color: #444444;
+        }
+        .total_area .totalAreaItem p {
+          display: block;
+          float: right;
+          font-size: 14px;
+          margin: 0;
+          color: #444444;
+        }
         .total_area p {
           display: block;
           margin: 0 auto 8px;
@@ -176,6 +229,8 @@
         } /* customer_notes */
         .block_4 {
           margin: 0 auto 20px;
+          padding: 0 0 20px;
+          border-bottom: 1px solid #ddd;
         }
         .block_4 .title {
           display: block;
@@ -191,6 +246,30 @@
           margin: 0 auto 6px;
         }
         .block_4 p:last-child {margin: 0;}
+        .pay_button {
+          padding: 10px 0;
+          display: block;
+          text-align: center;
+        }
+        .pay_button a {
+          border-radius: 100px;
+          background: #00d595;
+          padding: 0 30px;
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          color: #fff;
+          font-weight: bold;
+          font-size: 18px;
+          text-decoration: none;
+          max-width: 100%;
+          min-width: 400px;
+          display: table;
+          margin: 0 auto;
+        }
+        .pay_button a:hover {
+          background: #02c288;
+        }
         .copyrights {
           display: block;
           text-align: center;
@@ -220,19 +299,22 @@
             <img src="{{ $bill->user->logo_url }}" alt="logo">
           </div><!-- logo -->
         @endif
-        
         <div class="block_1">
           @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
             <div class="taxInvoiceText">{{ __('Simplified Tax Invoice') }}</div>
           @endif
-          <span> {{ $bill->user->business_name}}</span>
-          @if(isset($bill->user->settings->header_bill))
+          <div class="block1Item">
+            <span> {{ $bill->user->business_name}}</span>
+            @if(isset($bill->user->settings->header_bill))
               <p>{{ $bill->user->settings->header_bill }}</p>
-          @endif
-          <p>{{ $bill->user->business_address }}</p>
+            @endif
+          </div><!-- block1Item -->
+          <div class="block1Item">
+          <span>{{ $bill->user->business_address }}</span>
           <small>{{  $bill->user->business_mobile }}</small>
+          </div><!-- block1Item -->
           @if($bill->application_id && !$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
-            <div class="countdown alert alert-warning d-flex align-items-center justify-content-center" id="new_countdown">
+            <div class="countdown alert alert-warning" id="new_countdown">
               <p class="mb-0">{{ __('the bill will expire in')}}</p>
               <span id="hm_timer"></span>
             </div><!-- countdown -->
@@ -261,38 +343,38 @@
         
         <div class="block_2">
           @if($bill->user->settings->add_tax_invoice)
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="billInfoItem">
               <span>{{ __('Bill No.') }}</span>
-              <span>{{ $bill->number }}</span>
+              <p>{{ $bill->number }}</p>
             </div><!-- d-flex -->
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="billInfoItem">
               <span>{{ __('Date') }}</span>
-              <span>{{ $bill->created_at->format('d/m/Y')}}</span>
+              <p>{{ $bill->created_at->format('d/m/Y')}}</p>
             </div><!-- d-flex -->
             @if($bill->user->vat_registration_number)
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="billInfoItem">
                 <span>{{ __('Organization VAT Registration Number') }}</span>
-                <span>{{ $bill->user->vat_registration_number }}</span>
+                <p>{{ $bill->user->vat_registration_number }}</p>
               </div><!-- d-flex -->
             @endif
           @else
-          <div class="d-flex align-items-center justify-content-between">
+          <div class="billInfoItem">
             <span>{{ __('No.') }}</span>
-            <span>{{ $bill->number }}</span>
+            <p>{{ $bill->number }}</p>
           </div><!-- d-flex -->
-          <div class="d-flex align-items-center justify-content-between">
+          <div class="billInfoItem">
             <span>{{ __('Date') }}</span>
-            <span>{{ $bill->created_at->format('d/m/Y')}}</span>
+            <p>{{ $bill->created_at->format('d/m/Y')}}</p>
           </div><!-- d-flex -->
           @endif
           @if($bill->user->settings->display_customer_details)
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="billInfoItem">
               <span>{{ __('Customer Name') }}</span>
-              <span>{{ $bill->customer->name }}</span>
+              <p>{{ $bill->customer->name }}</p>
             </div><!-- d-flex -->
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="billInfoItem">
               <span>{{ __('Mobile Number') }}</span>
-              <span>{{ $bill->customer->mobile }}</span>
+              <p>{{ $bill->customer->mobile }}</p>
             </div><!-- d-flex -->
           @endif
         </div><!-- block_2 -->
@@ -330,49 +412,49 @@
 
         <div class="total_area">
           @if( $bill->add_tax || $bill->add_discount)
-            <div class="d-flex align-items-center justify-content-between">
-              <div class="d-flex align-items-start justify-content-between flex-column">
+            <div class="totalAreaItem">
+              <div>
                 <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
                 @if( $bill->add_tax)
-                <small>( {{ __('Exclude added tax') }} )</small>
+                  <small>( {{ __('Exclude added tax') }} )</small>
                 @endif
               </div>
-              <span>{{ $bill->sub_total }}</span>
+              <p>{{ $bill->sub_total }}</p>
             </div><!-- d-flex -->
           @endif
           @if( $bill->add_discount)
-          <div class="d-flex align-items-center justify-content-between">
+          <div class="totalAreaItem">
             <span>{{ __('Discount amount') }} ({{ __('SAR') }})</span>
-            <span>{{ $bill->discount }}</span>
+            <p>{{ $bill->discount }}</p>
           </div><!-- d-flex -->
           @endif
           @if( $bill->user->pay_fees == 'client')
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="totalAreaItem">
               <span>{{ __('payment fees') }} ({{ __('SAR') }})</span>
-              <span>{{ $bill->payment_fees }}</span>
+              <p>{{ $bill->payment_fees }}</p>
             </div><!-- d-flex -->
           @endif
           @if( $bill->add_tax)
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="totalAreaItem">
               <span>{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }}</span>
-              <span>{{ $bill->vat }}</span>
+              <p>{{ $bill->vat }}</p>
             </div><!-- d-flex -->
           @endif
           @if( $bill->channel_extra_amount)
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="totalAreaItem">
               <span>{{$bill->channel_extra_title}} ({{ __('SAR') }})</span>
-              <span>{{ $bill->channel_extra_amount }}</span>
+              <p>{{ $bill->channel_extra_amount }}</p>
             </div><!-- d-flex -->
           @endif
           @if( $bill->channel_extra_vat)
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="totalAreaItem">
               <span>{{ __('Vat') }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))</span>
-              <span>{{ $bill->channel_extra_vat }}</span>
+              <p>{{ $bill->channel_extra_vat }}</p>
             </div><!-- d-flex -->
           @endif
-          <div class="d-flex align-items-center justify-content-between">
+          <div class="totalAreaItem">
             <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
-            <span>{{ $bill->total}}</span>
+            <p>{{ $bill->total}}</p>
           </div><!-- d-flex -->
         </div><!-- total_area -->
 
