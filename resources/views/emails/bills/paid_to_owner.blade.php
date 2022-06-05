@@ -29,6 +29,9 @@
         }
         .logo {
           margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .logo img {
           max-width: 100%;
@@ -37,7 +40,6 @@
           max-height: 100px;
         }
         .block_1 {
-          display: block;
           margin: 0 auto 20px;
           padding: 0 0 20px;
           border-bottom: 1px solid #ddd;
@@ -70,27 +72,30 @@
           font-size: 14px;
           text-transform: capitalize;
           margin: 0 auto 30px;
-          background: #d7f3e3;
-          color: #1d643b;
-          border: 1px solid #c7eed8;
-          display: table;
-          max-width: 100%;
-          padding: 15px;
-          border-radius: 4px;
-          box-sizing: border-box;
-          min-width: 50%;
         } /* alert */
         .block_2 {
-          display: flex;
+          display: block;
           margin: 0 auto 20px;
           padding: 0 0 20px;
           border-bottom: 1px solid #ddd;
-          align-items: center;
-          justify-content: space-between;
         }
-        .block_2 span {
+        .billInfoItem {
           display: block;
+          clear: both;
+          margin-bottom: 5px;
+          height: 20px;
+        } /* billInfoItem */
+        .block_2 .billInfoItem span {
+          display: block;
+          float: left;
           font-size: 14px;
+          color: #444444;
+        }
+        .block_2 .billInfoItem p {
+          display: block;
+          float: right;
+          font-size: 14px;
+          margin: 0;
           color: #444444;
         }
         .block_2 span .vat_reg {
@@ -118,6 +123,35 @@
           margin: 0 auto 20px;
           padding: 0 0 20px;
           border-bottom: 1px solid #ddd;
+        }
+        .block_3 table {
+          width: 100%;
+          caption-side: bottom;
+          border-collapse: collapse;
+        }
+        .block_3 table th {
+          text-align: center;
+          padding: 5px;
+          vertical-align: middle;
+          font-size: 13px;
+        }
+        .block_3 table th:first-child {
+          text-align: right;
+        }
+        .block_3 table th:last-child {
+          text-align: left;
+        }
+        .block_3 table td {
+          text-align: center;
+          padding: 5px;
+          vertical-align: middle;
+          font-size: 13px;
+        }
+        .block_3 table td:first-child {
+          text-align: right;
+        }
+        .block_3 table td:last-child {
+          text-align: left;
         }
         .block_3 .details_pay {
           display: flex;
@@ -154,6 +188,25 @@
           border-bottom: 1px solid #ddd;
           text-align: right;
         }
+        .total_area .totalAreaItem {
+          display: block;
+          clear: both;
+          margin-bottom: 5px;
+          height: 20px;
+        }
+        .total_area .totalAreaItem span {
+          display: block;
+          float: left;
+          font-size: 14px;
+          color: #444444;
+        }
+        .total_area .totalAreaItem p {
+          display: block;
+          float: right;
+          font-size: 14px;
+          margin: 0;
+          color: #444444;
+        }
         .total_area p {
           display: block;
           margin: 0 auto 8px;
@@ -176,6 +229,8 @@
         } /* customer_notes */
         .block_4 {
           margin: 0 auto 20px;
+          padding: 0 0 20px;
+          border-bottom: 1px solid #ddd;
         }
         .block_4 .title {
           display: block;
@@ -191,6 +246,30 @@
           margin: 0 auto 6px;
         }
         .block_4 p:last-child {margin: 0;}
+        .pay_button {
+          padding: 10px 0;
+          display: block;
+          text-align: center;
+        }
+        .pay_button a {
+          border-radius: 100px;
+          background: #00d595;
+          padding: 0 30px;
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          color: #fff;
+          font-weight: bold;
+          font-size: 18px;
+          text-decoration: none;
+          max-width: 100%;
+          min-width: 400px;
+          display: table;
+          margin: 0 auto;
+        }
+        .pay_button a:hover {
+          background: #02c288;
+        }
         .copyrights {
           display: block;
           text-align: center;
@@ -221,13 +300,27 @@
           </div><!-- logo -->
         @endif
         <div class="block_1">
-          <span> {{ $bill->user->business_name}}</span>
-          @if(isset($bill->user->settings->header_bill))
-              <p>{{ $bill->user->settings->header_bill }}</p>
+          @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
+            <div class="taxInvoiceText">{{ __('Simplified Tax Invoice') }}</div>
           @endif
-          <p>{{ $bill->user->business_address }}</p>
+          <div class="block1Item">
+            <span> {{ $bill->user->business_name}}</span>
+            @if(isset($bill->user->settings->header_bill))
+              <p>{{ $bill->user->settings->header_bill }}</p>
+            @endif
+          </div><!-- block1Item -->
+          <div class="block1Item">
+          <span>{{ $bill->user->business_address }}</span>
           <small>{{  $bill->user->business_mobile }}</small>
+          </div><!-- block1Item -->
+          @if($bill->application_id && !$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
+            <div class="countdown alert alert-warning" id="new_countdown">
+              <p class="mb-0">{{ __('the bill will expire in')}}</p>
+              <span id="hm_timer"></span>
+            </div><!-- countdown -->
+          @endif
         </div><!-- block_1 -->
+        
         @if($bill->status == 'expired')
           <div class="alert alert-danger" role="alert">
             {{ __('this bill has been expired', ['number' => $bill->number ]) }}
@@ -247,45 +340,140 @@
             {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
           </div>
         @endif
+
         <div class="block_2">
-          <span>
-            {{ __('Due on') }} {{ $bill->dateLocalization()}}
+          @if($bill->user->settings->add_tax_invoice)
+            <div class="billInfoItem">
+              <span>{{ __('Bill No.') }}</span>
+              <p>{{ $bill->number }}</p>
+            </div><!-- d-flex -->
+            <div class="billInfoItem">
+              <span>{{ __('Date') }}</span>
+              <p>{{ $bill->created_at->format('d/m/Y')}}</p>
+            </div><!-- d-flex -->
             @if($bill->user->vat_registration_number)
-              <div class="vat_reg"> {{ __('VAT Registration Number') }} : {{ $bill->user->vat_registration_number }}</div>
+              <div class="billInfoItem">
+                <span>{{ __('Organization VAT Registration Number') }}</span>
+                <p>{{ $bill->user->vat_registration_number }}</p>
+              </div><!-- d-flex -->
             @endif
-          </span>
-          <div>
-            <p>{{ __('Bill No.') }} # : {{ $bill->number}}</p>
-            <small>{{ $bill->created_at->format('Y-m-d') }}</small>
-          </div>
+          @else
+          <div class="billInfoItem">
+            <span>{{ __('No.') }}</span>
+            <p>{{ $bill->number }}</p>
+          </div><!-- d-flex -->
+          <div class="billInfoItem">
+            <span>{{ __('Date') }}</span>
+            <p>{{ $bill->created_at->format('d/m/Y')}}</p>
+          </div><!-- d-flex -->
+          @endif
+          @if($bill->user->settings->display_customer_details)
+            <div class="billInfoItem">
+              <span>{{ __('Customer Name') }}</span>
+              <p>{{ $bill->customer->name }}</p>
+            </div><!-- d-flex -->
+            <div class="billInfoItem">
+              <span>{{ __('Mobile Number') }}</span>
+              <p>{{ $bill->customer->mobile }}</p>
+            </div><!-- d-flex -->
+          @endif
         </div><!-- block_2 -->
+
         <div class="block_3">
-          @foreach($bill->items as $item)
-            <div class="details_pay">
-              <p>{!! $item->product_name !!}</p>
-              <b>X {{ $item->quantity  }}</b>
-              <b>{{ $item->product_price  }} {{ __('SAR') }}</b>
-            </div><!-- details_pay -->
-          @endforeach
+          <table>
+            <thead>
+              <tr>
+                <th>{{ __('Description') }}</th>
+                <th>{{ __('Price') }}</th>
+                <th>{{ __('Quantity') }}</th>
+                @if($bill->add_tax)
+                <th width="35%">{{ __('Total include added tax') }}</th>
+                @else
+                <th width="35%">{{ __('Total') }}</th>
+                @endif
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($bill->items as $item)
+              <tr>
+                <td>{!! $item->product_name !!}</td>
+                <td>{{ $item->product_price  }}</td>
+                <td>{{ $item->quantity  }}</td>
+                @if( $bill->add_tax)
+                <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
+                @else
+                <td>{{ $item->product_price * $item->quantity }}</td>
+                @endif
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
         </div><!-- block_3 -->
+
         <div class="total_area">
-            @if( $bill->add_tax && $bill->add_discount)
-              <p>{{ __('Subtotal') }} : {{ $bill->sub_total }} {{ __('SAR') }}</p>
-            @endif
-            @if( $bill->add_discount)
-              <p>{{ __('Discount') }} : {{ $bill->discount }} {{ __('SAR') }}</p>
-              <p>{{ __('Subtotal - Discount') }} : {{ $bill->sub_total- $bill->discount }} {{ __('SAR') }}</p>
-            @endif
-            @if( $bill->add_tax)
-              <p>{{ __('Tax') }} : {{ $bill->vat }} {{ __('SAR') }}</p>
-            @endif
-            <b>{{ __('Total') }} : {{ $bill->total}} {{ __('SAR') }}</b>
+          @if( $bill->add_tax || $bill->add_discount)
+            <div class="totalAreaItem">
+              <div>
+                <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
+                @if( $bill->add_tax)
+                <small>( {{ __('Exclude added tax') }} )</small>
+                @endif
+              </div>
+              <p>{{ $bill->sub_total }}</p>
+            </div><!-- d-flex -->
+          @endif
+          @if( $bill->add_discount)
+          <div class="totalAreaItem">
+            <span>{{ __('Discount amount') }} ({{ __('SAR') }})</span>
+            <p>{{ $bill->discount }}</p>
+          </div><!-- d-flex -->
+          @endif
+          @if( $bill->user->pay_fees == 'client')
+            <div class="totalAreaItem">
+              <span>{{ __('payment fees') }} ({{ __('SAR') }})</span>
+              <p>{{ $bill->payment_fees }}</p>
+            </div><!-- d-flex -->
+          @endif
+          @if( $bill->add_tax)
+            <div class="totalAreaItem">
+              <span>{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }}</span>
+              <p>{{ $bill->vat }}</p>
+            </div><!-- d-flex -->
+          @endif
+          @if( $bill->channel_extra_amount)
+            <div class="totalAreaItem">
+              <span>{{$bill->channel_extra_title}} ({{ __('SAR') }})</span>
+              <p>{{ $bill->channel_extra_amount }}</p>
+            </div><!-- d-flex -->
+          @endif
+          @if( $bill->channel_extra_vat)
+            <div class="totalAreaItem">
+              <span>{{ __('Vat') }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))</span>
+              <p>{{ $bill->channel_extra_vat }}</p>
+            </div><!-- d-flex -->
+          @endif
+          <div class="totalAreaItem">
+            <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
+            <p>{{ $bill->total}}</p>
+          </div><!-- d-flex -->
         </div><!-- total_area -->
+
         @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
+        
         <div class="block_4">
           <p>{{ $bill->customer_name }}</p>
           <p>+966{{ $bill->customer_mobile }}</p>
           <p>{{ $bill->customer_email }}</p>
+
+          @if($bill->user->settings->add_tax_invoice)
+            <div class="qrCode_area">
+              <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
+                {!! generateQRcode($bill) !!}
+                <!-- <p>تم إنشاء كود الاستجابة السريعة بواسطة حل الفوترة الإلكترونية لدافعي الضرائب وفقاً لمواصفات ZATCA.</p> -->
+                <span>{{ __('Tax Invoice') }}</span>
+              </a>
+            </div><!-- qrCode_area -->
+          @endif
 
           @if(isset($bill->user->settings->footer_bill))
             <p>{{ $bill->user->settings->footer_bill }}</p>
