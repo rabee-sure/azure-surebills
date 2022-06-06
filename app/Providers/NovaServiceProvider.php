@@ -148,7 +148,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 return in_array($request->user()->email, explode(',', $request->user()->email)) && $request->user()->is_active;
             });
 
-           // return in_array($request->user()->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+        //    return in_array($request->user()->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
         });
     }
 }
