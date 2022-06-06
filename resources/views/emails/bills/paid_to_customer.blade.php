@@ -387,9 +387,9 @@
                 <th>{{ __('Price') }}</th>
                 <th>{{ __('Quantity') }}</th>
                 @if($bill->add_tax)
-                <th width="35%">{{ __('Total include added tax') }}</th>
+                <th>{{ __('Total include added tax') }}</th>
                 @else
-                <th width="35%">{{ __('Total') }}</th>
+                <th>{{ __('Total') }}</th>
                 @endif
               </tr>
             </thead>
