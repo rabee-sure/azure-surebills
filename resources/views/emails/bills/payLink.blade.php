@@ -263,7 +263,7 @@
           font-size: 18px;
           text-decoration: none;
           max-width: 100%;
-          min-width: 400px;
+          min-width: 200px;
           display: table;
           margin: 0 auto;
         }
