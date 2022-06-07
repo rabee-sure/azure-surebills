@@ -23,10 +23,10 @@ return [
     'edit channel',
     'delete channel',
 
-    'show users',
-    'create user',
-    'edit user',
-    'delete user',
+    'show merchants',
+    'create merchant',
+    'edit merchant',
+    'delete merchant',
 
     'show system admins',
     'create system admin',

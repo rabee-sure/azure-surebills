@@ -5,59 +5,59 @@
 
 
   <div id="users_statistics">
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show merchants')">
       <a  :href="analytics.users.link">
         <span>{{ __('Users') }}</span>
         <p>{{ analytics.users.count}}</p>
       </a>
     </div><!-- item -->
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show bills')">
       <a :href="analytics.bills.link">
         <span>{{ __('Bills') }}</span>
         <p>{{ analytics.bills.count }}</p>
       </a>
     </div><!-- item -->
 
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show bills')">
       <a :href="analytics.successful_bills.link">
         <span>{{ __('Successful Bills') }}</span>
         <p>{{ analytics.successful_bills.count}}</p>
       </a>
-    </div> 
+    </div>
 
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show bills')">
       <a :href="analytics.refunded_bills.link">
         <span>{{ __('Refunded Bills') }}</span>
         <p>{{ analytics.refunded_bills.count}}</p>
       </a>
     </div><!-- item -->
 
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show bills')">
       <a :href="analytics.total_transactions.link">
         <span>{{ __('Total Transactions') }}</span>
         <p>{{ analytics.total_transactions.count }}</p>
       </a>
     </div><!-- item -->
 
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show bills')">
       <a :href="analytics.surebills_fees.link">
         <span>{{ __('SureBills Fees') }}</span>
         <p>{{ analytics.surebills_fees.count }}</p>
       </a>
     </div><!-- item -->
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show bills')">
       <a :href="analytics.surebills_fees_vat.link">
         <span>{{ __('SureBills Fees Vat') }}</span>
         <p> {{ analytics.surebills_fees_vat.count }}</p>
       </a>
     </div><!-- item -->
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show bills')">
       <a :href="analytics.total_due_merchants.link">
         <span>{{ __('Total due to traders') }}</span>
         <p>{{ analytics.total_due_merchants.count  }}</p>
       </a>
     </div><!-- item -->
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show transfers')">
       <a  :href="analytics.total_transfers_merchants.link">
         <span>{{ __('Total transfers to merchants') }}</span>
         <p>{{ analytics.total_transfers_merchants.count }}</p>
@@ -78,6 +78,7 @@ export default {
     data: () => ({
         validDateRange: true,
         analytics: {},
+        permissions: [],
         form: {
             date_range: [new Date().toISOString().slice(0, 10), new Date().toISOString().slice(0, 10)],
         },
@@ -96,6 +97,13 @@ export default {
               })
               .then(response => {
                   this.analytics = response.data.data
+              })
+        },
+
+        reportPermission(){
+          return Nova.request().get('/user-permissions/admins')
+              .then(response => {
+                  this.permissions = response.data;
               })
         },
     }

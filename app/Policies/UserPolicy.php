@@ -18,7 +18,7 @@ class UserPolicy
      */
     public function viewAny(Admin $admin)
     {
-        return $admin->can('show users');
+        return $admin->can('show merchants');
     }
 
     /**
@@ -30,7 +30,7 @@ class UserPolicy
      */
     public function view(Admin $admin, User $model)
     {
-        return $admin->can('show users');
+        return $admin->can('show merchants');
     }
 
     /**
@@ -41,7 +41,7 @@ class UserPolicy
      */
     public function create(Admin $admin)
     {
-        return $admin->can('create user');
+        return $admin->can('create merchant');
     }
 
     /**
@@ -53,7 +53,7 @@ class UserPolicy
      */
     public function update(Admin $admin, User $model)
     {
-        return $admin->can('edit user');
+        return $admin->can('edit merchant');
     }
 
     /**
@@ -65,7 +65,7 @@ class UserPolicy
      */
     public function delete(Admin $admin, User $model)
     {
-        return $admin->can('delete user');
+        return $admin->can('delete merchant');
     }
 
     /**
@@ -77,7 +77,7 @@ class UserPolicy
      */
     public function restore(Admin $admin, User $model)
     {
-        return $admin->can('delete user');
+        return $admin->can('delete merchant');
     }
 
     /**
@@ -89,6 +89,6 @@ class UserPolicy
      */
     public function forceDelete(Admin $admin, User $model)
     {
-        return $admin->can('delete user');
+        return $admin->can('delete merchant');
     }
 }
