@@ -21,7 +21,7 @@ class UserName extends Filter
      */
     public function name()
     {
-        return  __('User Name');
+        return  __('Merchant Name');
     }
 
     /**
