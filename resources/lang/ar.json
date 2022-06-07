@@ -172,6 +172,7 @@
     "update user": "تعديل مستخدم",
     "delete user": "حذف مستخدم",
     "user type": "نوع المستخدم",
+    "merchant type": "نوع التاجر",
     "owner": "مالك المنشأة",
     "employee": "موظف بالمنشأة",
 	"The total must be greater than 0": "يجب ان تكون مبلغ الفاتورة اكبر من صفر",
@@ -438,6 +439,11 @@
 	"Default Lang": "اللغة الافتراضية للفواتير",
 	"Default Language for Bills": "اللغة الافتراضية للفواتير",
 	"Back": "رجوع",
+    "Verified Merchants": "التجار (موثقين)",
+    "Not Verified Merchants": "التجار (غير موثقين)",
+
+    "Verified Merchant": "التاجر (موثق)",
+    "Not Verified Merchant": "التاجر (غير موثق)",
 
 	"customer email": "ايميل العميل",
 	"customer_email": "ايميل العميل",
@@ -806,6 +812,7 @@
 	"beneficiary name must english" : "اسم المستفيد يجب ان يكون باللغة الانجليزية" ,
 	"business city must be english" : "الدينة يجب ان تكون باللغة الانجليزية" ,
 	"Merchants required" : "اسماء التجار مطلوبة",
+    "Merchant": "التاجر",
 	"Date Range required" : "فترة التقرير مطلوبة",
 	"Emails required" : "البريد الالكتروني مطلوب",
 	"iban number must not conatain any spaces" : "رقم الحساب المصرفي يجب أن لا يحتوي على مسافات",
@@ -864,6 +871,7 @@
 	"POS" : "نقطة البيع",
 	"API" : "التطبيق",
     "users": "المستخدمين",
-    "user": "المستخدم"
+    "user": "المستخدم",
+    "merchant name": "اسم التاجر"
 
 }

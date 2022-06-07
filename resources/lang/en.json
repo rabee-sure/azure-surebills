@@ -74,6 +74,10 @@
 "Transfers Logs": "Transfers Logs",
 "Verified Users": "Verified Users",
 "Verified User": "Verified User",
+"Verified Merchants": "Verified Merchants",
+"Verified Merchant": "Verified Merchant",
+"Not Verified Merchants": "Not Verified Merchants",
+"Not Verified Merchant": "Not Verified Merchant",
 "update business commercial info": "Update business commercial info",
 "update bank info": "Update bank info",
 "update settings": "Update settings",
@@ -337,6 +341,10 @@
 "roles": "Roles",
 "role": "Role",
 "edit user": "Edit user",
-"edit channel": "Edit channel"
+"edit channel": "Edit channel",
+"merchant name": "Merchant name",
+"merchant type": "Merchant type",
+"Merchants": "Merchants",
+"Merchant": "Merchant"
 
 }

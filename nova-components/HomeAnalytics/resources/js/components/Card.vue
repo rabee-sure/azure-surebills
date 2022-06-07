@@ -7,7 +7,7 @@
   <div id="users_statistics">
     <div class="item">
       <a  :href="analytics.users.link">
-        <span>{{ __('Users') }}</span>
+        <span>{{ __('Merchants') }}</span>
         <p>{{ analytics.users.count}}</p>
       </a>
     </div><!-- item -->
@@ -23,7 +23,7 @@
         <span>{{ __('Successful Bills') }}</span>
         <p>{{ analytics.successful_bills.count}}</p>
       </a>
-    </div> 
+    </div>
 
     <div class="item">
       <a :href="analytics.refunded_bills.link">
