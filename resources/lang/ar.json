@@ -848,6 +848,7 @@
     "edit system admin": "تعديل مسؤول النظام",
     "delete system admin": "حذف مسؤول النظام",
     "show roles": "عرض الأدوار",
+    "is_active?": "مفعل ؟",
     "users management": "إدارة المستخدمين",
     "create role": "انشاء دور",
     "edit role": "تعديل دور",
