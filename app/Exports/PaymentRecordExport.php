@@ -4,13 +4,23 @@ namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\Exportable;
 
-class PaymentRecordExport implements FromQuery, WithHeadings
+use App\Models\User;
+
+class PaymentRecordExport implements FromQuery, WithHeadings, WithMapping
 {
     use Exportable;
+
+    public $request;
+    
+    public function __construct($request)
+    {
+        $this->request = $request;
+    }
 
     public function headings(): array
     {
@@ -29,14 +39,31 @@ class PaymentRecordExport implements FromQuery, WithHeadings
     */
     public function query()
     {
-        $user_id = Auth::user()->store_main_user_id ?? Auth::user()->id;
+        $user = Auth::user()->store_main_user_id ? User::find(Auth::user()->store_main_user_id) : Auth::user();
 
-        $query = DB::table('transactions')
-        ->join('bills', 'transactions.bill_id', '=', 'bills.id')
-        ->whereIn('transactions.transaction_source', ['bill', 'refund'])
-        ->where('transactions.user_id', $user_id)
-        ->select('transactions.created_at', 'transactions.type', 'transactions.reference', 'bills.payment_way', 'bills.source', 'transactions.amount')
-        ->orderByDesc('transactions.created_at');;
-        return $query;
+        $query = $user->paymentRecordQuery($this->request);
+
+        $exportedQuery = $query->select(
+            'transactions.created_at', 
+            'transactions.type', 
+            'transactions.reference', 
+            'transactions.amount', 
+            'bills.payment_way', 
+            'bills.source',
+        );
+
+        return $exportedQuery;
+    }
+
+    public function map($payments): array
+    {
+        return [
+            $payments->created_at,
+            __('reports.'.$payments->type),
+            $payments->reference,
+            $payments->payment_way ? __('reports.'.$payments->payment_way) : null,
+            $payments->source ? __('reports.'.$payments->source) : null,
+            fact_number(round($payments->amount, 2)),
+        ];
     }
 }
