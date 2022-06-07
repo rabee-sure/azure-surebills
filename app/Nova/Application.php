@@ -30,7 +30,7 @@ class Application extends Resource
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
-     */    
+     */
     public static function searchable()
     {
         return true;
@@ -83,9 +83,9 @@ class Application extends Resource
         return [
             ID::make()->sortable(),
             Text::make(__('Name'), 'name'),
-            BelongsTo::make(__('User'), 'user', User::class)
+            BelongsTo::make(__('Merchant'), 'user', User::class)
             ->searchable()
-            ->rules('required'),            
+            ->rules('required'),
             BelongsTo::make(__('Channel'), 'channel', Channel::class),
 
             Text::make(__('Redirect Url'), 'redirect')
@@ -171,7 +171,7 @@ class Application extends Resource
     // {
     //     return false;
     // }
-    
+
     public function authorizedToDelete(Request $request)
     {
         return false;
@@ -189,7 +189,7 @@ class Application extends Resource
 
         if ($instance->secret == null) {
             $instance->secret = Str::random(20);
-        }        
+        }
         if ($instance->webhook_secret == null) {
             $instance->webhook_secret = Str::random(20);
         }

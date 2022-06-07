@@ -18,15 +18,16 @@ return [
 
     'show bills',
 
+    'show statements',
+    'create settlement',
+
     'show channels',
     'create channel',
     'edit channel',
     'delete channel',
 
     'show merchants',
-    'create merchant',
     'edit merchant',
-    'delete merchant',
 
     'show system admins',
     'create system admin',

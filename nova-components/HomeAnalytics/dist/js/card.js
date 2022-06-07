@@ -59845,6 +59845,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.handleChangeDate({});
+        this.reportPermission();
     },
 
     methods: {
@@ -59878,161 +59879,191 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("DatePicker", {
-        staticStyle: { width: "100%" },
-        attrs: { size: "large", type: "daterange", placeholder: "Select date" },
-        on: { "on-change": _vm.handleChangeDate },
-        model: {
-          value: _vm.form.date_range,
-          callback: function($$v) {
-            _vm.$set(_vm.form, "date_range", $$v)
-          },
-          expression: "form.date_range"
-        }
-      }),
-      _vm._v(" "),
-      _c(
-        "p",
-        {
-          staticStyle: { color: "red" },
-          attrs: { hidden: _vm.validDateRange }
-        },
-        [_vm._v(_vm._s(_vm.__("invalid date range")))]
-      ),
-      _vm._v(" "),
-      _c("div", { attrs: { id: "users_statistics" } }, [
-        _vm.permissions.includes("show merchants")
-          ? _c("div", { staticClass: "item" }, [
-              _c("a", { attrs: { href: _vm.analytics.users.link } }, [
-                _c("span", [_vm._v(_vm._s(_vm.__("Users")))]),
-                _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.analytics.users.count))])
-              ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.permissions.includes("show bills")
-          ? _c("div", { staticClass: "item" }, [
-              _c("a", { attrs: { href: _vm.analytics.bills.link } }, [
-                _c("span", [_vm._v(_vm._s(_vm.__("Bills")))]),
-                _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.analytics.bills.count))])
-              ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.permissions.includes("show bills")
-          ? _c("div", { staticClass: "item" }, [
-              _c(
-                "a",
-                { attrs: { href: _vm.analytics.successful_bills.link } },
-                [
-                  _c("span", [_vm._v(_vm._s(_vm.__("Successful Bills")))]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(_vm._s(_vm.analytics.successful_bills.count))
+  return _vm.permissions.includes("show merchants") ||
+    _vm.permissions.includes("show bills") ||
+    _vm.permissions.includes("show transfers")
+    ? _c(
+        "div",
+        [
+          _c("DatePicker", {
+            staticStyle: { width: "100%" },
+            attrs: {
+              size: "large",
+              type: "daterange",
+              placeholder: "Select date"
+            },
+            on: { "on-change": _vm.handleChangeDate },
+            model: {
+              value: _vm.form.date_range,
+              callback: function($$v) {
+                _vm.$set(_vm.form, "date_range", $$v)
+              },
+              expression: "form.date_range"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "p",
+            {
+              staticStyle: { color: "red" },
+              attrs: { hidden: _vm.validDateRange }
+            },
+            [_vm._v(_vm._s(_vm.__("invalid date range")))]
+          ),
+          _vm._v(" "),
+          _c("div", { attrs: { id: "users_statistics" } }, [
+            _vm.permissions.includes("show merchants")
+              ? _c("div", { staticClass: "item" }, [
+                  _c("a", { attrs: { href: _vm.analytics.users.link } }, [
+                    _c("span", [_vm._v(_vm._s(_vm.__("Merchants")))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(_vm.analytics.users.count))])
                   ])
-                ]
-              )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.permissions.includes("show bills")
-          ? _c("div", { staticClass: "item" }, [
-              _c("a", { attrs: { href: _vm.analytics.refunded_bills.link } }, [
-                _c("span", [_vm._v(_vm._s(_vm.__("Refunded Bills")))]),
-                _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.analytics.refunded_bills.count))])
-              ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.permissions.includes("show bills")
-          ? _c("div", { staticClass: "item" }, [
-              _c(
-                "a",
-                { attrs: { href: _vm.analytics.total_transactions.link } },
-                [
-                  _c("span", [_vm._v(_vm._s(_vm.__("Total Transactions")))]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(_vm._s(_vm.analytics.total_transactions.count))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.permissions.includes("show bills")
+              ? _c("div", { staticClass: "item" }, [
+                  _c("a", { attrs: { href: _vm.analytics.bills.link } }, [
+                    _c("span", [_vm._v(_vm._s(_vm.__("Bills")))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(_vm.analytics.bills.count))])
                   ])
-                ]
-              )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.permissions.includes("show bills")
-          ? _c("div", { staticClass: "item" }, [
-              _c("a", { attrs: { href: _vm.analytics.surebills_fees.link } }, [
-                _c("span", [_vm._v(_vm._s(_vm.__("SureBills Fees")))]),
-                _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.analytics.surebills_fees.count))])
-              ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.permissions.includes("show bills")
-          ? _c("div", { staticClass: "item" }, [
-              _c(
-                "a",
-                { attrs: { href: _vm.analytics.surebills_fees_vat.link } },
-                [
-                  _c("span", [_vm._v(_vm._s(_vm.__("SureBills Fees Vat")))]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(" " + _vm._s(_vm.analytics.surebills_fees_vat.count))
-                  ])
-                ]
-              )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.permissions.includes("show bills")
-          ? _c("div", { staticClass: "item" }, [
-              _c(
-                "a",
-                { attrs: { href: _vm.analytics.total_due_merchants.link } },
-                [
-                  _c("span", [_vm._v(_vm._s(_vm.__("Total due to traders")))]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(_vm._s(_vm.analytics.total_due_merchants.count))
-                  ])
-                ]
-              )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.permissions.includes("show transfers")
-          ? _c("div", { staticClass: "item" }, [
-              _c(
-                "a",
-                {
-                  attrs: { href: _vm.analytics.total_transfers_merchants.link }
-                },
-                [
-                  _c("span", [
-                    _vm._v(_vm._s(_vm.__("Total transfers to merchants")))
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(
-                      _vm._s(_vm.analytics.total_transfers_merchants.count)
-                    )
-                  ])
-                ]
-              )
-            ])
-          : _vm._e()
-      ])
-    ],
-    1
-  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.permissions.includes("show bills")
+              ? _c("div", { staticClass: "item" }, [
+                  _c(
+                    "a",
+                    { attrs: { href: _vm.analytics.successful_bills.link } },
+                    [
+                      _c("span", [_vm._v(_vm._s(_vm.__("Successful Bills")))]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(_vm._s(_vm.analytics.successful_bills.count))
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.permissions.includes("show bills")
+              ? _c("div", { staticClass: "item" }, [
+                  _c(
+                    "a",
+                    { attrs: { href: _vm.analytics.refunded_bills.link } },
+                    [
+                      _c("span", [_vm._v(_vm._s(_vm.__("Refunded Bills")))]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(_vm._s(_vm.analytics.refunded_bills.count))
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.permissions.includes("show bills")
+              ? _c("div", { staticClass: "item" }, [
+                  _c(
+                    "a",
+                    { attrs: { href: _vm.analytics.total_transactions.link } },
+                    [
+                      _c("span", [
+                        _vm._v(_vm._s(_vm.__("Total Transactions")))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(_vm._s(_vm.analytics.total_transactions.count))
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.permissions.includes("show bills")
+              ? _c("div", { staticClass: "item" }, [
+                  _c(
+                    "a",
+                    { attrs: { href: _vm.analytics.surebills_fees.link } },
+                    [
+                      _c("span", [_vm._v(_vm._s(_vm.__("SureBills Fees")))]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(_vm._s(_vm.analytics.surebills_fees.count))
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.permissions.includes("show bills")
+              ? _c("div", { staticClass: "item" }, [
+                  _c(
+                    "a",
+                    { attrs: { href: _vm.analytics.surebills_fees_vat.link } },
+                    [
+                      _c("span", [
+                        _vm._v(_vm._s(_vm.__("SureBills Fees Vat")))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          " " + _vm._s(_vm.analytics.surebills_fees_vat.count)
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.permissions.includes("show bills")
+              ? _c("div", { staticClass: "item" }, [
+                  _c(
+                    "a",
+                    { attrs: { href: _vm.analytics.total_due_merchants.link } },
+                    [
+                      _c("span", [
+                        _vm._v(_vm._s(_vm.__("Total due to traders")))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(_vm._s(_vm.analytics.total_due_merchants.count))
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.permissions.includes("show transfers")
+              ? _c("div", { staticClass: "item" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: _vm.analytics.total_transfers_merchants.link
+                      }
+                    },
+                    [
+                      _c("span", [
+                        _vm._v(_vm._s(_vm.__("Total transfers to merchants")))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          _vm._s(_vm.analytics.total_transfers_merchants.count)
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              : _vm._e()
+          ])
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

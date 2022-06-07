@@ -1,13 +1,13 @@
 <template>
-<div>
-      <DatePicker  v-model="form.date_range" size="large" type="daterange" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
+<div v-if="permissions.includes('show merchants') || permissions.includes('show bills') || permissions.includes('show transfers')">
+      <DatePicker v-model="form.date_range" size="large" type="daterange" placeholder="Select date" style="width: 100%" @on-change="handleChangeDate"></DatePicker>
       <p :hidden="validDateRange" style="color:red;">{{__("invalid date range")}}</p>
 
 
   <div id="users_statistics">
     <div class="item" v-if="permissions.includes('show merchants')">
       <a  :href="analytics.users.link">
-        <span>{{ __('Users') }}</span>
+        <span>{{ __('Merchants') }}</span>
         <p>{{ analytics.users.count}}</p>
       </a>
     </div><!-- item -->
@@ -85,6 +85,7 @@ export default {
     }),
     mounted() {
       this.handleChangeDate({});
+      this.reportPermission();
     },
     methods: {
         handleChangeDate (date) {
