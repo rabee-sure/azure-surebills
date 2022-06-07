@@ -30,7 +30,7 @@ class BillPolicy
      */
     public function view(User $user, Bill $bill)
     {
-        //
+        return $user->can('show bills');
     }
 
     /**

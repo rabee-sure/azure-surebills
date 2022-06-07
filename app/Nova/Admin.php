@@ -7,6 +7,7 @@ use App\Nova\Filters\FilerAdminUserViaRole;
 use App\Rules\PasswordRule;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
@@ -89,6 +90,8 @@ class Admin extends Resource
                 ->withMeta(['value' => $roles['selected_role']])
                 ->rules('required')
                 ->onlyOnForms(),
+
+            Boolean::make(__('is_active?'), 'is_active'),
         ];
     }
 
