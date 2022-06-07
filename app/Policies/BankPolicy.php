@@ -65,7 +65,7 @@ class BankPolicy
      */
     public function delete(User $user, Bank $bank)
     {
-        return $user->can('delete bank');
+        return $user->can('delete bank') && !$this->users()->exists();
     }
 
     /**
@@ -89,6 +89,6 @@ class BankPolicy
      */
     public function forceDelete(User $user, Bank $bank)
     {
-        return $user->can('delete bank');
+        return $user->can('delete bank') && !$this->users()->exists();
     }
 }
