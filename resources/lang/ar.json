@@ -854,6 +854,7 @@
     "show banks": "عرض البنوك",
     "create bank": "انشاء بنك",
     "edit bank": "تعديل بنك",
+    "edit merchant": "تعديل تاجر",
     "delete bank": "حذف بنك",
     "show webhook logs": "عرض سجلات webhook",
     "system admin": "مسؤول النظام",
