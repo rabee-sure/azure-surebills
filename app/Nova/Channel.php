@@ -162,7 +162,7 @@ class Channel extends Resource
      */
     public function authorizedToDelete(Request $request)
     {
-        return !$this->applications()->exists();
+        return $request->user()->can('delete channel') && !$this->applications()->exists();
     }
 
     public static function relatableUsers(NovaRequest $request, $query)
