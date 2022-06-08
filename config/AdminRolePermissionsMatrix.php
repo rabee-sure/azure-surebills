@@ -5,7 +5,6 @@ return [
     'create merchants outstanding report',
 
     'show merchants report',
-    'create merchants report',
 
     'show bills report',
     'create bills report',
