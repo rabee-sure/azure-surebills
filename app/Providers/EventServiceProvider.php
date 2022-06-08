@@ -30,6 +30,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendBillPayEmail',
             'App\Listeners\SendBillPaySms',
         ],
+        'App\Events\PosSendBill' => [
+            'App\Listeners\PosSendBillPayEmail',
+        ],
         'App\Events\UserCreated' => [
             'App\Listeners\CreateSettingsForUser',
         ],

@@ -25,6 +25,8 @@ use App\Http\Requests\CustomerApiRequest;
 use App\Http\Requests\PosOrderApiRequest;
 
 use App\Events\BillCreated;
+use App\Events\PosSendBill;
+
 use Illuminate\Support\Facades\Storage;
 
 class PosController extends Controller
@@ -460,6 +462,19 @@ class PosController extends Controller
             $billCollection = OrderBillPosApiResource::collection($bill);
             $firstItem = $billCollection->first();
             return $firstItem;
+        }else{
+            return response()->json(['authorization' => 'not authorized to show this bill'], 403);
+        }
+    }
+
+    public function sendBillByEmail($id){
+        $authUser = auth('api')->user();
+
+        $bill = Bill::find($id);
+
+        if($bill->created_by == $authUser->id){
+            event(new PosSendBill($bill));
+            return response()->json(['success' => 'bill sent successfully'], 200);
         }else{
             return response()->json(['authorization' => 'not authorized to show this bill'], 403);
         }
