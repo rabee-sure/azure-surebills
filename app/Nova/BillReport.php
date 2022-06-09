@@ -77,7 +77,7 @@ class BillReport extends Resource
 
     private function merchants()
     {
-        $merchantsOptions = [];
+        $merchantsOptions = [null => __('All')];
         $merchantes = User::whereNull('store_main_user_id')->get();
         foreach($merchantes as $merchante)
         {

@@ -5,7 +5,6 @@ return [
     'create merchants outstanding report',
 
     'show merchants report',
-    'create merchants report',
 
     'show bills report',
     'create bills report',
@@ -18,15 +17,16 @@ return [
 
     'show bills',
 
+    'show statements',
+    'create settlement',
+
     'show channels',
     'create channel',
     'edit channel',
     'delete channel',
 
-    'show users',
-    'create user',
-    'edit user',
-    'delete user',
+    'show merchants',
+    'edit merchant',
 
     'show system admins',
     'create system admin',

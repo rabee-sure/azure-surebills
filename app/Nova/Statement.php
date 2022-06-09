@@ -91,7 +91,7 @@ class Statement extends Resource
                     else
                         return 'NULL';
                 })->exceptOnForms(),
-                
+
             Text::make(__('Description'), 'description'),
             Text::make(__('Reference'), 'reference'),
             Text::make(__('Receipt'), 'receipt', function(){
@@ -104,7 +104,7 @@ class Statement extends Resource
                 'MADA' => 'MADA',
                 'APPLEPAY' => 'APPLEPAY',
             ]),
-            
+
             Indicator::make(__('Type'), 'type')
                 ->labels([
                     'credit' => __('credit'),
@@ -123,7 +123,7 @@ class Statement extends Resource
                 return fact_number(round($this->balance, 2));
             }),
 
-            BelongsTo::make(__('User'), 'user', User::class)->searchable(),
+            BelongsTo::make(__('Merchant'), 'user', User::class)->searchable(),
         ];
     }
 

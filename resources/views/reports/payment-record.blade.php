@@ -82,8 +82,8 @@
               <td class="text-center">{{$record->created_at}}</td>
               <td class="text-center">{{ __('reports.'.$record->type) }}</td>
               <td class="text-center">{{$record->reference}}</td>
-              <td class="text-center">{{ __('reports.'.$record->payment_way) }}</td>
-              <td class="text-center">{{ __('reports.'.$record->source) }}</td>
+              <td class="text-center">{{ $record->payment_way ? __('reports.'.$record->payment_way) : null }}</td>
+              <td class="text-center">{{ $record->source ? __('reports.'.$record->source) : null }}</td>
               <td class="text-center">{{ fact_number(round($record->amount, 2)) }}</td>
             </tr>
             @endforeach

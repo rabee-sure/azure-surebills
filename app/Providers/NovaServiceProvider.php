@@ -72,8 +72,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            // return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
-            return in_array($user->email, explode(',', auth()->user()->email));
+            return $user->is_active;
         });
     }
 
@@ -84,17 +83,24 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        return [
+        $cards = [];
+        $user = auth()->guard('admins')->user();
 
-            // new NewUsers,
-            (new HomeAnalytics)->width('full'),
+        if($user->canany(['show merchants', 'show bills', 'show transfers']))
+        {
+            array_push($cards, (new HomeAnalytics)->width('full'));
+        }
 
-            (new TotalIncome)->width('1/5'),
-            (new TotalCommissions)->width('1/5'),
-            (new TotalVatOnCommissions)->width('1/5'),
-            (new TotalPaid)->width('1/5'),
-            (new TotalDue)->width('1/5'),
-        ];
+        if($user->can('show bills'))
+        {
+            array_push($cards, (new TotalIncome)->width('1/5'));
+            array_push($cards, (new TotalCommissions)->width('1/5'));
+            array_push($cards, (new TotalVatOnCommissions)->width('1/5'));
+            array_push($cards, (new TotalPaid)->width('1/5'));
+            array_push($cards, (new TotalDue)->width('1/5'));
+        }
+
+        return $cards;
     }
 
     /**
@@ -140,13 +146,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      *
      * @return void
      */
-    // protected function authorization()
-    // {
-    //     $this->gate();
+    protected function authorization()
+    {
+        $this->gate();
 
-    //     // Nova::auth(function ($request) {
-    //     //     return Gate::check('viewNova', [$request->user()]);
-    //     //    // return in_array($request->user()->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
-    //     // });
-    // }
+        Nova::auth(function ($request) {
+            return Gate::check('viewNova', function() use ($request){
+                return $request->user()->is_active;
+            });
+        });
+    }
 }

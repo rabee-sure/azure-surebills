@@ -37,7 +37,7 @@ class Customer extends Resource
     {
         return __('Customer');
     }
-    
+
     /**
      * The model the resource corresponds to.
      *
@@ -75,7 +75,7 @@ class Customer extends Resource
             Text::make(__('Name'), 'name')->rules('required'),
             Text::make(__('Email'), 'email'),
             Text::make(__('Mobile'), 'mobile'),
-            BelongsTo::make(__('User'), 'user', User::class),
+            BelongsTo::make(__('Merchant'), 'user', User::class),
             HasMany::make(__('Bills'), 'bills', Bill::class),
         ];
     }
@@ -130,7 +130,7 @@ class Customer extends Resource
     {
         return false;
     }
-    
+
     public function authorizedToDelete(Request $request)
     {
         return false;

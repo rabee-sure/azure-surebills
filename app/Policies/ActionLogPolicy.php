@@ -30,7 +30,7 @@ class ActionLogPolicy
      */
     public function view(User $user, ActionLog $actionLog)
     {
-        //
+        return $user->can('show actions logs');
     }
 
     /**

@@ -60,12 +60,6 @@ class ReportsController extends Controller
 
     public function paymentRecord(Request $request)
     {
-        $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
-        $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
-        $transaction_type = $request->transaction_type ?? null;
-        $payment_way = $request->payment_way ?? null;
-        $source = $request->source ?? null;
-
         $data['filters'] = [
             'transaction_types' => [
                 'all' => 'All',
@@ -88,32 +82,15 @@ class ReportsController extends Controller
 
         $user = Auth::user()->store_main_user_id ? User::find(Auth::user()->store_main_user_id) : Auth::user();
 
-        $query = DB::table('transactions')
-        ->join('bills', 'transactions.bill_id', '=', 'bills.id')
-        ->whereIn('transactions.transaction_source', ['bill', 'refund'])
-        ->where('transactions.user_id', $user->id)
-        ->whereDate('transactions.created_at', '>=', Carbon::parse($date_start))
-        ->whereDate('transactions.created_at', '<=', Carbon::parse($date_to));
+        $query = $user->paymentRecordQuery($request);
 
-        if($request->has('transaction_type') && $request->transaction_type != 'all'){
-            $query->where('transactions.type', $request->transaction_type);
-        }
-
-        if($request->has('payment_way') && $request->payment_way != 'all'){
-            $query->where('bills.payment_way', $request->payment_way);
-        }
-
-        if($request->has('source') && $request->source != 'all'){
-            $query->where('bills.source', $request->source);
-        }
-
-        $query = $query->select('transactions.created_at', 'transactions.type', 'transactions.reference', 'transactions.amount', 'bills.payment_way', 'bills.source');
+        $allQuery = $query->get();
+        $paginatedQuery = $query->paginate(100);
         
-        $data['payments'] = $query->paginate(100);
+        $data['payments'] = $paginatedQuery;
 
-        $all_payments = $query;
-        $credit = $all_payments->where('transaction_source', 'bill')->sum('amount');
-        $debit = $all_payments->where('transaction_source', 'refund')->sum('amount');
+        $credit = $allQuery->where('transaction_source', 'bill')->sum('amount');
+        $debit = $allQuery->where('transaction_source', 'refund')->sum('amount');
         $data['total'] = $credit - $debit;
 
         return view('reports.payment-record', $data);
@@ -121,6 +98,6 @@ class ReportsController extends Controller
 
     public function paymentRecordExport(Request $request)
     {
-        return Excel::download(new PaymentRecordExport, 'payment_records.xlsx');
+        return Excel::download(new PaymentRecordExport($request), 'payment_records.xlsx');
     }
 }

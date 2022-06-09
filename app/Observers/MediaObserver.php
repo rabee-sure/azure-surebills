@@ -19,7 +19,7 @@ class MediaObserver
     {
         $user = User::find($media->model_id);
 
-        if($media->model_type = "App\Models\User"){
+        if($media->model_type == "App\Models\User"){
             switch ($media->collection_name) {
                 case 'business_documents':
                     $type = 'business';
@@ -28,14 +28,14 @@ class MediaObserver
                 case 'bank_documents':
                     $type = 'bank';
                     break;
-                
+
                 default:
                     # code...
                     break;
             }
             event(new AddActionLogEvent(
-                'user_add_decouments', 
-                Auth::id(), 
+                'user_add_decouments',
+                Auth::id(),
                 [
                     'message' => [
                         'username' => $user->name,
@@ -45,8 +45,8 @@ class MediaObserver
                         'time' => $media->created_at,
                     ],
                     'changes' => [],
-                ], 
-                $user->id, 
+                ],
+                $user->id,
                 User::class
             ));
         }
@@ -74,7 +74,7 @@ class MediaObserver
     {
         $user = User::find($media->model_id);
 
-        if($media->model_type = "App\Models\User"){
+        if($media->model_type == "App\Models\User"){
             switch ($media->collection_name) {
                 case 'business_documents':
                     $type = 'business';
@@ -83,14 +83,14 @@ class MediaObserver
                 case 'bank_documents':
                     $type = 'bank';
                     break;
-                
+
                 default:
                     # code...
                     break;
             }
             event(new AddActionLogEvent(
-                'user_delete_decouments', 
-                Auth::id(), 
+                'user_delete_decouments',
+                Auth::id(),
                 [
                     'message' => [
                         'username' => $user->name,
@@ -100,8 +100,8 @@ class MediaObserver
                         'time' => $media->created_at,
                     ],
                     'changes' => [],
-                ], 
-                $user->id, 
+                ],
+                $user->id,
                 User::class
             ));
         }

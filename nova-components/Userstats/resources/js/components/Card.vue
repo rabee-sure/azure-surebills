@@ -1,25 +1,25 @@
 <template>
-  <div id="users_statistics">
-    <div class="item">
+  <div id="users_statistics" v-if="permissions.includes('show statements') || permissions.includes('create settlement') || permissions.includes('show bills')">
+    <div class="item" v-if="permissions.includes('show statements') || permissions.includes('create settlement')">
       <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id">
         <span>{{ __('Balance') }}</span>
         <p v-if="user">{{ user.balance }}</p>
-        <p v-if="user"><a :href="'/nova/settlements/'+user.id+'/create'" target="_blank" style="min-height: 0px;"> {{ __('Create Transfer') }}</a></p>
+        <p v-if="user && permissions.includes('create settlement')"><a :href="'/nova/settlements/'+user.id+'/create'" target="_blank" style="min-height: 0px;"> {{ __('Create Transfer') }}</a></p>
       </a>
     </div><!-- item -->
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show statements')">
       <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id">
         <span>{{ __('Total Paid') }}</span>
         <p v-if="user.stats">{{ user.stats.total_paid }}</p>
       </a>
     </div><!-- item -->
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show bills')">
       <a  :href="'/nova/resources/bills?bills_page=1&bills_filter='+user.stats.filter_user_id">
         <span>{{ __('Total Bills') }}</span>
         <p v-if="user.stats">{{ user.stats.total_bills }}</p>
       </a>
     </div><!-- item -->
-    <div class="item">
+    <div class="item" v-if="permissions.includes('show bills')">
       <a :href="'/nova/resources/bills?bills_page=1&bills_filter='+user.stats.filter_user_id_and_bill_status_paid">
         <span>{{ __('Total Paid Bills') }}</span>
         <p v-if="user.stats">{{ user.stats.total_paid_bills }}</p>
@@ -37,14 +37,24 @@ export default {
         'resourceName',
     ],
     data: () => ({
-        user: {}
+        user: {},
+        permissions: [],
     }),
     mounted() {
-        return Nova.request()
-            .get('/api/v1/users/' + this.resourceId + '/stats')
-            .then(response => {
-                this.user = response.data.data
-            })
+      this.handleChangeDate();
+      this.reportPermission();
+    },
+     methods: {
+       handleChangeDate () {
+        return Nova.request().get('/api/v1/users/' + this.resourceId + '/stats').then(response => {
+          this.user = response.data.data
+        })
+      },
+       reportPermission(){
+         return Nova.request().get('/user-permissions/admins').then(response => {
+           this.permissions = response.data;
+          })
+        },
     },
 }
 </script>

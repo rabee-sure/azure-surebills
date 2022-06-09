@@ -263,7 +263,7 @@
           font-size: 18px;
           text-decoration: none;
           max-width: 100%;
-          min-width: 400px;
+          min-width: 200px;
           display: table;
           margin: 0 auto;
         }
@@ -387,9 +387,9 @@
                 <th>{{ __('Price') }}</th>
                 <th>{{ __('Quantity') }}</th>
                 @if($bill->add_tax)
-                <th width="35%">{{ __('Total include added tax') }}</th>
+                <th>{{ __('Total include added tax') }}</th>
                 @else
-                <th width="35%">{{ __('Total') }}</th>
+                <th>{{ __('Total') }}</th>
                 @endif
               </tr>
             </thead>

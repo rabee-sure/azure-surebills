@@ -11,6 +11,6 @@ use Spatie\Permission\Traits\HasRoles;
 class Admin extends Authenticatable
 {
     use HasFactory, HasRoles, SoftDeletes;
-    protected $fillable = ['name', 'email', 'mobile', 'password'];
+    protected $fillable = ['name', 'email', 'mobile', 'password', 'is_active'];
 
 }
