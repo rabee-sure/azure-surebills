@@ -19,7 +19,7 @@ class MediaObserver
     {
         $user = User::find($media->model_id);
 
-        if($media->model_type = "App\Models\User"){
+        if($media->model_type == "App\Models\User"){
             switch ($media->collection_name) {
                 case 'business_documents':
                     $type = 'business';
@@ -74,7 +74,7 @@ class MediaObserver
     {
         $user = User::find($media->model_id);
 
-        if($media->model_type = "App\Models\User"){
+        if($media->model_type == "App\Models\User"){
             switch ($media->collection_name) {
                 case 'business_documents':
                     $type = 'business';
