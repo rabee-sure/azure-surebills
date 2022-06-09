@@ -171,7 +171,14 @@
     "create user": "انشاء مستخدم",
     "update user": "تعديل مستخدم",
     "delete user": "حذف مستخدم",
+    "show merchants": "عرض التجار",
+    "create merchant": "انشاء تاجر",
+    "update merchant": "تعديل تاجر",
+    "delete merchant": "حذف تاجر",
+    "show statements": "عرض التحويلات",
+    "create settlement": "انشاء تحويل",
     "user type": "نوع المستخدم",
+    "merchant type": "نوع التاجر",
     "owner": "مالك المنشأة",
     "employee": "موظف بالمنشأة",
 	"The total must be greater than 0": "يجب ان تكون مبلغ الفاتورة اكبر من صفر",
@@ -426,6 +433,7 @@
     "General Settings": "الاعدادات العامة",
     "edit general settings": "تعديل الاعدادات العامة",
     "User ID": "معرف المستخدم",
+    "Merchant ID": "معرف التاجر",
     "Transfers Logs": "سجل التحويلات",
     "Verified Users": "مستخدمين (موثقين)",
     "user name": "اسم المستخدم",
@@ -438,6 +446,11 @@
 	"Default Lang": "اللغة الافتراضية للفواتير",
 	"Default Language for Bills": "اللغة الافتراضية للفواتير",
 	"Back": "رجوع",
+    "Verified Merchants": "التجار (موثقين)",
+    "Not Verified Merchants": "التجار (غير موثقين)",
+
+    "Verified Merchant": "التاجر (موثق)",
+    "Not Verified Merchant": "التاجر (غير موثق)",
 
 	"customer email": "ايميل العميل",
 	"customer_email": "ايميل العميل",
@@ -806,6 +819,7 @@
 	"beneficiary name must english" : "اسم المستفيد يجب ان يكون باللغة الانجليزية" ,
 	"business city must be english" : "الدينة يجب ان تكون باللغة الانجليزية" ,
 	"Merchants required" : "اسماء التجار مطلوبة",
+    "Merchant": "التاجر",
 	"Date Range required" : "فترة التقرير مطلوبة",
 	"Emails required" : "البريد الالكتروني مطلوب",
 	"iban number must not conatain any spaces" : "رقم الحساب المصرفي يجب أن لا يحتوي على مسافات",
@@ -827,6 +841,7 @@
 	"Merchants Reports" : "تقرير التجار",
 	"Display Customer Details" : "إظهر بيانات العميل",
 	"Type of license" : "نوع الترخيص",
+
     "show merchants outstanding report": "عرض تقارير أرصدة التجار",
     "create merchants outstanding report": "انشاء تقرير أرصدة التجار",
     "show merchants report": "عرض تقارير التجار",
@@ -839,6 +854,7 @@
     "show banks": "عرض البنوك",
     "create bank": "انشاء بنك",
     "edit bank": "تعديل بنك",
+    "edit merchant": "تعديل تاجر",
     "delete bank": "حذف بنك",
     "show webhook logs": "عرض سجلات webhook",
     "system admin": "مسؤول النظام",
@@ -865,6 +881,7 @@
 	"POS" : "نقطة البيع",
 	"API" : "التطبيق",
     "users": "المستخدمين",
-    "user": "المستخدم"
+    "user": "المستخدم",
+    "merchant name": "اسم التاجر"
 
 }

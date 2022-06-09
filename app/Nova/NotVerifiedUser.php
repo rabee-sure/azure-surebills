@@ -58,7 +58,7 @@ class NotVerifiedUser extends Resource
      */
     public static function label()
     {
-        return __('Not Verified Users');
+        return __('Not Verified Merchants');
     }
 
     /**
@@ -68,7 +68,7 @@ class NotVerifiedUser extends Resource
      */
     public static function singularLabel()
     {
-        return __('Not Verified User');
+        return __('Not Verified Merchant');
     }
 
     /**
@@ -98,7 +98,7 @@ class NotVerifiedUser extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make(__('user name'), 'name')
+            Text::make(__('merchant name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:50'),
 
@@ -106,7 +106,7 @@ class NotVerifiedUser extends Resource
                 return $this->mainStoreUser ? $this->mainStoreUser->business_name_en : $this->business_name_en;
             })->rules('required', 'max:50'),
 
-            Text::make(__('user type'), function(){
+            Text::make(__('merchant type'), function(){
                 return $this->mainStoreUser ? __('employee') : __('owner');
             })->exceptOnForms(),
 

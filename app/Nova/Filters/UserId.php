@@ -21,7 +21,7 @@ class UserId extends Filter
      */
     public function name()
     {
-        return  __('User Id');
+        return  __('Merchant Id');
     }
 
     /**

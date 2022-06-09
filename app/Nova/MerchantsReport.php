@@ -87,11 +87,11 @@ class MerchantsReport extends Resource
 
     public static function authorizedToCreate(Request $request)
     {
-        return auth()->user()->can('create merchants report');
+        return false;
     }
     public function authorizedToView(Request $request)
     {
-        return auth()->user()->can('show merchants report');
+        return $request->user()->can('show merchants');
     }
     public function authorizedToDelete(Request $request)
     {
@@ -101,7 +101,6 @@ class MerchantsReport extends Resource
     {
         return false;
     }
-
     public static function searchable()
     {
         return false;

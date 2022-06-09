@@ -83,17 +83,24 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        return [
+        $cards = [];
+        $user = auth()->guard('admins')->user();
 
-            // new NewUsers,
-            (new HomeAnalytics)->width('full'),
+        if($user->canany(['show merchants', 'show bills', 'show transfers']))
+        {
+            array_push($cards, (new HomeAnalytics)->width('full'));
+        }
 
-            (new TotalIncome)->width('1/5'),
-            (new TotalCommissions)->width('1/5'),
-            (new TotalVatOnCommissions)->width('1/5'),
-            (new TotalPaid)->width('1/5'),
-            (new TotalDue)->width('1/5'),
-        ];
+        if($user->can('show bills'))
+        {
+            array_push($cards, (new TotalIncome)->width('1/5'));
+            array_push($cards, (new TotalCommissions)->width('1/5'));
+            array_push($cards, (new TotalVatOnCommissions)->width('1/5'));
+            array_push($cards, (new TotalPaid)->width('1/5'));
+            array_push($cards, (new TotalDue)->width('1/5'));
+        }
+
+        return $cards;
     }
 
     /**

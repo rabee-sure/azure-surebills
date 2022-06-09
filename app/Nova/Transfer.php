@@ -106,7 +106,7 @@ class Transfer extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make(__('User ID'), 'user_id'),
+            Text::make(__('Merchant ID'), 'user_id'),
 
             BelongsTo::make(__('Business Name'), 'user', User::class)->displayUsing(function($user){
                 return $user->business_name_en ? $user->business_name_en : $user->mainStoreUser->business_name_en;
