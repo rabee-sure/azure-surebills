@@ -17,7 +17,7 @@
             </li>
             @endcan
 
-            @canany(['show banks', 'create bank', 'edit bank', 'delete bank'])
+            @can('show banks')
             <li class="sidebar-dropdown">
                 <router-link :to="{name: 'index', params: {resourceName: 'banks'}}" class="flex items-center font-normal text-white mb-6 text-base no-underline dim">
                     <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -26,7 +26,7 @@
                     <span class="sidebar-label">{{ __('Banks') }} </span>
                 </router-link>
             </li>
-            @endcanany
+            @endcan
 
             @can('show webhook logs')
             <li class="sidebar-dropdown">

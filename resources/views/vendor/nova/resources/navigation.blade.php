@@ -96,12 +96,13 @@
       @endif
     @endforeach
 
-    @if(auth()->guard('admins')->user()->hasRole('super admin'))
+    @canany(['show system admins', 'show roles'])
     <li class="sidebar-dropdown mb-2">
         <input type="checkbox" checked>
         <a href="#" data-toggle="dropdown">
         <span class="sidebar-label ml-8">{{ __('users management') }} </span></a>
         <ul class="dropdown-menu">
+            @can('show roles')
             <li class="sidebar-dropdown">
                 <router-link :to="{name: 'index', params: {resourceName: 'roles'}}" class="flex items-center font-normal text-white mb-6 text-base no-underline dim">
                     <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -110,7 +111,9 @@
                     <span class="sidebar-label">{{ __('roles') }} </span>
                 </router-link>
             </li>
+            @endcan
 
+            @can('show system admins')
             <li class="sidebar-dropdown">
                 <router-link :to="{ name: 'index', params: {resourceName: 'admins'}}" class="flex items-center font-normal text-white mb-6 text-base no-underline dim">
                     <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -119,9 +122,10 @@
                     <span class="sidebar-label">{{ __('users') }} </span>
                 </router-link>
             </li>
+            @endcanany
         </ul>
     </li>
-    @endif
+    @endcanany
 
 
         @canany(['show merchants', 'edit merchant'])
