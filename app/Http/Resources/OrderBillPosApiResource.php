@@ -20,7 +20,7 @@ class OrderBillPosApiResource extends JsonResource
     public function toArray($request)
     {
         if($this->user->settings->add_tax_invoice){
-            $qr_code = generateQRcode($this);
+            $qr_code = generateQRcode($this, true);
         }
 
         return [
