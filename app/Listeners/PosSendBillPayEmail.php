@@ -29,10 +29,10 @@ class PosSendBillPayEmail
     public function handle(PosSendBill $event)
     {
         \App::setLocale($event->bill->user->settings->default_lang); 
-        if(isset($event->bill->customer_email)){
+        if(isset($event->email)){
             $subject = __('You’ve got a new bill of :total SAR', ['total' => $event->bill->total]);
             $message = (new SendBillPayLink($event->bill, $subject))->onQueue(env('EMAILS_QUEUE'));
-            Mail::to($event->bill->customer_email)->queue($message);
+            Mail::to($event->email)->queue($message);
         }
     }
 }

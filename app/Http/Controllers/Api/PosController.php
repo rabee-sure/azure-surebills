@@ -467,13 +467,13 @@ class PosController extends Controller
         }
     }
 
-    public function sendBillByEmail($id){
+    public function sendBillByEmail(Request $request){
         $authUser = auth('api')->user();
 
-        $bill = Bill::find($id);
+        $bill = Bill::find($request->bill_id);
 
         if($bill->created_by == $authUser->id){
-            event(new PosSendBill($bill));
+            event(new PosSendBill($bill, $request->email));
             return response()->json(['success' => 'bill sent successfully'], 200);
         }else{
             return response()->json(['authorization' => 'not authorized to show this bill'], 403);
