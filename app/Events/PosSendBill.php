@@ -15,15 +15,17 @@ class PosSendBill
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $bill;
+    public $email;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($bill)
+    public function __construct($bill, $email)
     {
         $this->bill = $bill;
+        $this->email = $email;
     }
 
     /**
