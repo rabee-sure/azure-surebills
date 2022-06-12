@@ -1,4 +1,4 @@
-@canany(['edit general settings', 'show banks', 'create bank', 'edit bank', 'delete bank', 'show webhook logs'])
+@canany(['edit general settings', 'show banks', 'show webhook logs'])
 <ul class="sidemenu">
     <li class="sidebar-dropdown mb-2">
         <input type="checkbox" checked>

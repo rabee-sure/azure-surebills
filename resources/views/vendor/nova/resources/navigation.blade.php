@@ -128,7 +128,7 @@
     @endcanany
 
 
-        @canany(['show merchants', 'edit merchant'])
+        @can('show merchants')
         <li class="sidebar-dropdown mb-2">
             <input type="checkbox" checked>
             <a href="#" data-toggle="dropdown">
@@ -160,7 +160,7 @@
                 </li>
             </ul>
         </li>
-        @endcanany
+        @endcan
 
         @can('show transfers')
         <li class="sidebar-dropdown mb-2">
