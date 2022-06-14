@@ -36,7 +36,7 @@ class StatementController extends Controller
         $statementQueryAllCredit = clone $statementQuery;
         $statementQueryAllDebit = clone $statementQuery;
 
-        $statement = $statementQuery->paginate(100);
+        $statement = $statementQuery->paginate(10);
         $channels = Channel::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         $applications = ($channel) ? $channel->applications : [];
 
