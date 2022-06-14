@@ -563,7 +563,6 @@ class User extends Authenticatable implements HasMedia
      */
     public function getStatement()
     {
-        return $this->statement();
         $date_start = request()->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = request()->date_to ?? Carbon::today()->format('m/d/Y');
 
@@ -582,16 +581,17 @@ class User extends Authenticatable implements HasMedia
             ->when(isset(request()->transaction_source) && request()->transaction_source != 'all' && request()->transaction_source != 'undefined', function ($q) {
                 $q->whereTransactionSource(request()->transaction_source);
             })
-            ->when($channel, function ($q) use ($channel) {
-                $q->whereHas('bill.application', function ($query) use ($channel) {
-                    $query->where('channel_id', $channel->id);
-                });
-            })
-            ->when($application, function ($q) use ($application) {
-                $q->whereHas('bill', function ($query) use ($application) {
-                    $query->where('application_id', $application->id);
-                });
-            })->with('bill');
+//            ->when($channel, function ($q) use ($channel) {
+//                $q->whereHas('bill.application', function ($query) use ($channel) {
+//                    $query->where('channel_id', $channel->id);
+//                });
+//            })
+//            ->when($application, function ($q) use ($application) {
+//                $q->whereHas('bill', function ($query) use ($application) {
+//                    $query->where('application_id', $application->id);
+//                });
+//            })
+            ->with('bill');
     }
 
     /**
