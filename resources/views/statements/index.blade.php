@@ -195,14 +195,14 @@
                 </tr>
               @endforeach
             </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="@if(count($channels)) 6 @else 5 @endif" class="text-center fw-bold">{{ __('Total')}}</td>
-                <td class="text-danger text-center fw-bold">{{ $totals['debit'] ?? 0 }}</td>
-                <td class="text-success text-center fw-bold">{{ $totals['credit'] ?? 0 }}</td>
-                <td class="text-center fw-bold">{{ $totals['all'] ?? 0 }}</td>
-              </tr>
-            </tfoot>
+{{--            <tfoot>--}}
+{{--              <tr>--}}
+{{--                <td colspan="@if(count($channels)) 6 @else 5 @endif" class="text-center fw-bold">{{ __('Total')}}</td>--}}
+{{--                <td class="text-danger text-center fw-bold">{{ $totals['debit'] ?? 0 }}</td>--}}
+{{--                <td class="text-success text-center fw-bold">{{ $totals['credit'] ?? 0 }}</td>--}}
+{{--                <td class="text-center fw-bold">{{ $totals['all'] ?? 0 }}</td>--}}
+{{--              </tr>--}}
+{{--            </tfoot>--}}
           </table>
         </div>
         {{ $statement->appends($_GET)->links() }}

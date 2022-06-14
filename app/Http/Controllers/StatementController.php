@@ -33,23 +33,22 @@ class StatementController extends Controller
         $application = ($request->has('application_id') && !in_array($request->application_id, ['all','undefined']))? Application::find($request->application_id) : null;
 
         $statementQuery = auth()->user()->getStatement();
-        $statementQueryAllCredit = clone $statementQuery;
-        $statementQueryAllDebit = clone $statementQuery;
 
         $statement = $statementQuery->paginate(10);
         $channels = Channel::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         $applications = ($channel) ? $channel->applications : [];
 
-        $totals = [];
-        $credit = $statementQueryAllCredit->where('type', 'credit')->selectRaw("SUM(amount) AS credit");
-        $debit = $statementQueryAllDebit->where('type', 'debit')->selectRaw("SUM(amount) AS debit");
+//        $totals = [];
+//        $statementQueryAllCredit = clone $statementQuery;
+//        $statementQueryAllDebit = clone $statementQuery;
+//        $credit = $statementQueryAllCredit->where('type', 'credit')->selectRaw("SUM(amount) AS credit");
+//        $debit = $statementQueryAllDebit->where('type', 'debit')->selectRaw("SUM(amount) AS debit");
+//
+//        $totals['credit'] = ($credit->first() != null) ? round2($credit->first()->credit) : 0;
+//        $totals['debit'] = ($debit->first() != null) ? round2($debit->first()->debit) : 0;
+//        $totals['all'] = round2($totals['credit'] - $totals['debit']);
 
-        $totals['credit'] = ($credit->first() != null) ? round2($credit->first()->credit) : 0;
-        $totals['debit'] = ($debit->first() != null) ? round2($debit->first()->debit) : 0;
-
-        $totals['all'] = round2($totals['credit'] - $totals['debit']);
-
-        return view('statements.index', compact('statement', 'date_start', 'date_to', 'channels', 'channel', 'applications', 'application', 'totals'));
+        return view('statements.index', compact('statement', 'date_start', 'date_to', 'channels', 'channel', 'applications', 'application'));
     }
 
     public function export()
