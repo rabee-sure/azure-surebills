@@ -33,16 +33,16 @@ class StatementController extends Controller
         $application = ($request->has('application_id') && !in_array($request->application_id, ['all','undefined']))? Application::find($request->application_id) : null;
 
         $statementQuery = auth()->user()->getStatement();
-        $statementQueryAllCredit = clone $statementQuery;
-        $statementQueryAllDebit = clone $statementQuery;
+//        $statementQueryAllCredit = clone $statementQuery;
+//        $statementQueryAllDebit = clone $statementQuery;
 
         $statement = $statementQuery->paginate(100);
         $channels = Channel::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         $applications = ($channel) ? $channel->applications : [];
 
         $totals = [];
-        $credit = $statementQueryAllCredit->where('type', 'credit')->selectRaw("SUM(amount) AS credit");
-        $debit = $statementQueryAllDebit->where('type', 'debit')->selectRaw("SUM(amount) AS debit");
+//        $credit = $statementQueryAllCredit->where('type', 'credit')->selectRaw("SUM(amount) AS credit");
+//        $debit = $statementQueryAllDebit->where('type', 'debit')->selectRaw("SUM(amount) AS debit");
 
         $totals['credit'] = 0;//($credit->first() != null) ? round2($credit->first()->credit) : 0;
         $totals['debit'] = 0;//($debit->first() != null) ? round2($debit->first()->debit) : 0;
