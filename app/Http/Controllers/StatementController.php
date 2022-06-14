@@ -32,8 +32,8 @@ class StatementController extends Controller
         $channel = ($request->has('channel_id') && !in_array($request->channel_id, ['all','undefined']))? Channel::find($request->channel_id) : null;
         $application = ($request->has('application_id') && !in_array($request->application_id, ['all','undefined']))? Application::find($request->application_id) : null;
 
-        $statementQuery = auth()->user()->getStatement(); 
-        $statementQueryAllCredit = clone $statementQuery; 
+        $statementQuery = auth()->user()->getStatement();
+        $statementQueryAllCredit = clone $statementQuery;
         $statementQueryAllDebit = clone $statementQuery;
 
         $statement = $statementQuery->paginate(100);
@@ -43,11 +43,11 @@ class StatementController extends Controller
         $totals = [];
         $credit = $statementQueryAllCredit->where('type', 'credit')->selectRaw("SUM(amount) AS credit");
         $debit = $statementQueryAllDebit->where('type', 'debit')->selectRaw("SUM(amount) AS debit");
-        
-        $totals['credit'] = ($credit->first() != null) ? round2($credit->first()->credit) : 0; 
-        $totals['debit'] = ($debit->first() != null) ? round2($debit->first()->debit) : 0;
-        
-        $totals['all'] = round2($totals['credit'] - $totals['debit']);
+
+        $totals['credit'] = 0;//($credit->first() != null) ? round2($credit->first()->credit) : 0;
+        $totals['debit'] = 0;//($debit->first() != null) ? round2($debit->first()->debit) : 0;
+
+        $totals['all'] = 5;//round2($totals['credit'] - $totals['debit']);
 
         return view('statements.index', compact('statement', 'date_start', 'date_to', 'channels', 'channel', 'applications', 'application', 'totals'));
     }
