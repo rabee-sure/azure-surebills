@@ -563,6 +563,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function getStatement()
     {
+        return $this->statement();
         $date_start = request()->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = request()->date_to ?? Carbon::today()->format('m/d/Y');
 
