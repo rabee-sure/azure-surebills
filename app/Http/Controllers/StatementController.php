@@ -33,7 +33,6 @@ class StatementController extends Controller
         $application = ($request->has('application_id') && !in_array($request->application_id, ['all','undefined']))? Application::find($request->application_id) : null;
 
         $statementQuery = auth()->user()->getStatement();
-        dump($statementQuery->toSql());
 
         $statement = $statementQuery->paginate(50);
         $channels = Channel::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
