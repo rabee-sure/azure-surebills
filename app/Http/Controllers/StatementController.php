@@ -34,7 +34,7 @@ class StatementController extends Controller
 
         $statementQuery = auth()->user()->getStatement();
 
-        $statement = $statementQuery->paginate(10);
+        $statement = $statementQuery->paginate(50);
         $channels = Channel::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         $applications = ($channel) ? $channel->applications : [];
 
