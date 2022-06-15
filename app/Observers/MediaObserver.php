@@ -34,7 +34,7 @@ class MediaObserver
                     break;
             }
             event(new AddActionLogEvent(
-                'user_add_decouments',
+                'user_add_documents',
                 Auth::id(),
                 [
                     'message' => [
@@ -89,7 +89,7 @@ class MediaObserver
                     break;
             }
             event(new AddActionLogEvent(
-                'user_delete_decouments',
+                'user_delete_documents',
                 Auth::id(),
                 [
                     'message' => [
