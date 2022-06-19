@@ -9,6 +9,8 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Illuminate\Support\Facades\DB;
 use App\Nova\Actions\MerchantsExcelDownload;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class MerchantsReport extends Resource
 {
@@ -54,6 +56,23 @@ class MerchantsReport extends Resource
      */
     public function fields(Request $request)
     {
+        if ($this->viewIs('detail', $request)) {
+            event(new AddActionLogEvent(
+                'view_merchants_report',
+                Auth::id(),
+                [
+                    'message' => [
+                        'name' => $this->name,
+                        'adminname' => Auth::user()->name,
+                        'time' => now(),
+                    ],
+                    'changes' => [],
+                ],
+                $this->id,
+                '\App\Models\User'
+            ));
+        }
+
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make(__('Merchant Name'), 'name')->exceptOnForms(),
@@ -72,6 +91,18 @@ class MerchantsReport extends Resource
                 return "<a class='btn btn-success' style='margin:5px' href='/nova/resources/users/".$this->id."'><i class='fa fa-eye' aria-hidden='true'></i></a>";
             })->asHtml()->onlyOnIndex(),
         ];
+    }
+
+    /**
+     * Determine if this request is a resource detail request.
+     *
+     * @return bool
+     */
+    public function viewIs($view, $request)
+    {
+        $class = '\Laravel\Nova\Http\Requests\\Resource'.ucfirst($view).'Request';
+
+        return $request instanceof $class;
     }
 
     public static function indexQuery(NovaRequest $request, $query)
