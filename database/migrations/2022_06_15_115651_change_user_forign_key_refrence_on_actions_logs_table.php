@@ -13,10 +13,14 @@ class ChangeUserForignKeyRefrenceOnActionsLogsTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::table('actions_logs', function (Blueprint $table) {
             $table->dropForeign('actions_logs_user_id_foreign');
             $table->foreign('user_id')->references('id')->on('admins');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -26,9 +30,13 @@ class ChangeUserForignKeyRefrenceOnActionsLogsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::table('actions_logs', function (Blueprint $table) {
             $table->dropForeign('actions_logs_user_id_foreign');
             $table->foreign('user_id')->references('id')->on('users');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 }
