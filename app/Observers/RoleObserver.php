@@ -3,6 +3,8 @@
 namespace App\Observers;
 
 use App\Models\Role;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class RoleObserver
 {
@@ -15,7 +17,19 @@ class RoleObserver
      */
     public function created(Role $role)
     {
-        //
+        event(new AddActionLogEvent(
+            'create_role',
+            Auth::id(),
+            [
+                'message' => [
+                    'adminname' => Auth::user()->name,
+                    'time' => $role->created_at,
+                ],
+                'changes' => [],
+            ],
+            $role->id,
+            Role::class
+        ));
     }
 
     /**
@@ -36,11 +50,41 @@ class RoleObserver
 
     public function updating(Role $role)
     {
+        $fieldsChanges = [];
+
+        if($role->isDirty('name')){
+            $fieldsChanges['name'] = [
+                'old_value' => $role->getOriginal('name'),
+                'new_value' => $role->name
+            ];
+        }
+
         if($role->isDirty('admin_permissions'))
         {
+            $old_permissions = $role->permissions();
             $role->permissions()->sync($role->admin_permissions);
+            $new_permissions = $role->admin_permissions;
             unset($role->admin_permissions);
+
+            $fieldsChanges['permissions'] = [
+                'old_value' => $old_permissions,
+                'new_value' => $new_permissions
+            ];
         }
+
+        event(new AddActionLogEvent(
+            'update_role', 
+            Auth::id(), 
+            [
+                'message' => [
+                    'adminname' => Auth::user()->name,
+                    'time' => $role->updated_at,
+                ],
+                'changes' => $fieldsChanges,
+            ], 
+            $role->id, 
+            Role::class
+        ));
     }
 
     public function saving(Role $role)
@@ -69,7 +113,19 @@ class RoleObserver
      */
     public function deleted(Role $role)
     {
-        //
+        event(new AddActionLogEvent(
+            'delete_role',
+            Auth::id(),
+            [
+                'message' => [
+                    'adminname' => Auth::user()->name,
+                    'time' => $role->created_at,
+                ],
+                'changes' => [],
+            ],
+            $role->id,
+            Role::class
+        ));
     }
 
     /**

@@ -45,7 +45,7 @@ class ActionByUserFilter extends Filter
      */
     public function options(Request $request)
     {
-        $models = \App\Models\User::all();
+        $models = \App\Models\Admin::all();
         return $models->pluck('id', 'name')->all();
     }
 }
