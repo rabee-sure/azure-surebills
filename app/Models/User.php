@@ -435,6 +435,16 @@ class User extends Authenticatable implements HasMedia
      *
      * @return Collection
      */
+    public function posUserSettings()
+    {
+        return $this->hasMany(PosUserSetting::class);
+    }
+
+    /**
+     * Get settings.
+     *
+     * @return Collection
+     */
     public function mainStoreUser()
     {
         return $this->belongsTo(User::class, 'store_main_user_id', 'id');
