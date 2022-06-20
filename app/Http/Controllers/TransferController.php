@@ -25,7 +25,7 @@ class TransferController extends Controller
     public function __construct()
     {
         $this->middleware('permission:show bills', ['only' => ['bills']]);
-        $this->middleware('permission:show transfers');
+        // $this->middleware('permission:show transfers');
     }
     /**
      * Display a listing of the resource.

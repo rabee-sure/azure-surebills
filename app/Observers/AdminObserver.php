@@ -3,6 +3,8 @@
 namespace App\Observers;
 
 use App\Models\Admin;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class AdminObserver
 {
@@ -31,7 +33,20 @@ class AdminObserver
      */
     public function created(Admin $admin)
     {
-        //
+        event(new AddActionLogEvent(
+            'create_user',
+            Auth::id(),
+            [
+                'message' => [
+                    'username' => $admin->name,
+                    'adminname' => Auth::user()->name,
+                    'time' => $admin->created_at,
+                ],
+                'changes' => [],
+            ],
+            $admin->id,
+            Admin::class
+        ));
     }
 
     /**
@@ -42,7 +57,31 @@ class AdminObserver
      */
     public function updated(Admin $admin)
     {
-        //
+        $fields = config('adminfields');
+
+        $fieldsChanges = [];
+        foreach($fields as $field){
+            if($admin->isDirty($field)){
+                $fieldsChanges[$field] = [
+                    'old_value' => $admin->getOriginal($field),
+                    'new_value' => $admin->$field
+                ];
+            }
+        }
+        event(new AddActionLogEvent(
+            'update_user', 
+            Auth::id(), 
+            [
+                'message' => [
+                    'username' => $admin->name,
+                    'adminname' => Auth::user()->name,
+                    'time' => $admin->updated_at,
+                ],
+                'changes' => $fieldsChanges,
+            ], 
+            $admin->id, 
+            Admin::class
+        ));
     }
 
     /**
@@ -53,7 +92,20 @@ class AdminObserver
      */
     public function deleted(Admin $admin)
     {
-        //
+        event(new AddActionLogEvent(
+            'delete_user',
+            Auth::id(),
+            [
+                'message' => [
+                    'username' => $admin->name,
+                    'adminname' => Auth::user()->name,
+                    'time' => $admin->created_at,
+                ],
+                'changes' => [],
+            ],
+            $admin->id,
+            Admin::class
+        ));
     }
 
     /**
@@ -64,7 +116,20 @@ class AdminObserver
      */
     public function restored(Admin $admin)
     {
-        //
+        event(new AddActionLogEvent(
+            'restore_user',
+            Auth::id(),
+            [
+                'message' => [
+                    'username' => $admin->name,
+                    'adminname' => Auth::user()->name,
+                    'time' => $admin->created_at,
+                ],
+                'changes' => [],
+            ],
+            $admin->id,
+            Admin::class
+        ));
     }
 
     /**
@@ -75,6 +140,19 @@ class AdminObserver
      */
     public function forceDeleted(Admin $admin)
     {
-        //
+        event(new AddActionLogEvent(
+            'force_delete_user',
+            Auth::id(),
+            [
+                'message' => [
+                    'username' => $admin->name,
+                    'adminname' => Auth::user()->name,
+                    'time' => $admin->created_at,
+                ],
+                'changes' => [],
+            ],
+            $admin->id,
+            Admin::class
+        ));
     }
 }

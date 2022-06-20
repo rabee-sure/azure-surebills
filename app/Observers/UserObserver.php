@@ -39,6 +39,7 @@ class UserObserver
         $fieldsArr = config('userfields');
 
         foreach($fieldsArr as $groupKey => $fieldsGroup){
+            $fieldsChanges = [];
             if($user->isDirty($fieldsGroup)){
                 foreach($fieldsGroup as $field){
                     if($user->isDirty($field)){

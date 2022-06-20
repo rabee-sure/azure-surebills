@@ -25,9 +25,9 @@ class ActionLog extends Model
         return $this->belongsTo(SystemAction::class, 'action_id');
     }
 
-    public function user()
+    public function admin()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Admin::class, 'user_id');
     }
 
     public function createActionLog($action_name, $user_id, array $payload, $modelClass = null, $modelId = null)

@@ -7,6 +7,9 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Code;
+use Laravel\Nova\Fields\KeyValue;
+use Laravel\Nova\Panel;
 use App\Nova\Filters\ActionByUserFilter;
 use App\Nova\Filters\ActionTypeFilter;
 use App\Nova\Filters\DateRange;
@@ -57,11 +60,46 @@ class ActionLog extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make('User'),
+            BelongsTo::make('Admin'),
             BelongsTo::make('SystemAction'),
             Text::make('Message', 'message'),
             DateTime::make('Created at', 'created_at'),
+            new Panel(__('Changes'), $this->ChangesFields()),
         ];
+    }
+
+    protected function ChangesFields()
+    {
+        $payload = json_decode($this->payload,true);
+
+        $panelFields = [];
+        
+        $panelFields[] = Text::make('Model', 'model_class');
+        $panelFields[] = Text::make('Model_id', 'model_id');
+
+        if(!empty($payload)){
+            foreach($payload as $fKey => $field){
+
+                $old_value = '';
+                if(is_bool($field['old_value'])){
+                    $old_value = $field['old_value'] ? 'Enable' : 'Disabled';
+                }else{
+                    $old_value = ($field['old_value'] != null) ? $field['old_value'] : 'Empty';
+                }
+
+                $new_value = '';
+                if(is_bool($field['new_value'])){
+                    $new_value = $field['new_value'] ? 'Enable' : 'Disabled';
+                }else{
+                    $new_value = ($field['new_value'] != null) ? $field['new_value'] : 'Empty';
+                }
+
+                $panelFields[] = Text::make($fKey, function () use ($old_value, $new_value) {
+                    return 'changed from <span style="color:red;">'.$old_value.'</span> to <span style="color:green;">'.$new_value.'</span>';
+                })->asHtml()->onlyOnDetail();
+            }
+        }
+        return $panelFields;
     }
 
     public function authorizedToView(Request $request)

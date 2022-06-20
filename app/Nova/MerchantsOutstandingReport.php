@@ -13,6 +13,8 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\MultiselectField\Multiselect;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class MerchantsOutstandingReport extends Resource
 {
@@ -49,6 +51,24 @@ class MerchantsOutstandingReport extends Resource
      */
     public function fields(Request $request)
     {
+        if ($this->viewIs('detail', $request)) {
+            event(new AddActionLogEvent(
+                'view_merchants_outstanding_report',
+                Auth::id(),
+                [
+                    'message' => [
+                        'name' => $this->name,
+                        'adminname' => Auth::user()->name,
+                        'type' => $this->type,
+                        'time' => now(),
+                    ],
+                    'changes' => [],
+                ],
+                $this->id,
+                '\App\Models\Report'
+            ));
+        }
+
         return [
             ID::make()->sortable(),
 
@@ -81,6 +101,18 @@ class MerchantsOutstandingReport extends Resource
                 }
             })->asHtml(),
         ];
+    }
+
+    /**
+     * Determine if this request is a resource detail request.
+     *
+     * @return bool
+     */
+    public function viewIs($view, $request)
+    {
+        $class = '\Laravel\Nova\Http\Requests\\Resource'.ucfirst($view).'Request';
+
+        return $request instanceof $class;
     }
 
     private function merchants()
