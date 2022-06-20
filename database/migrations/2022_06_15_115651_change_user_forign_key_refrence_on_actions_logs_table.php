@@ -14,7 +14,7 @@ class ChangeUserForignKeyRefrenceOnActionsLogsTable extends Migration
     public function up()
     {
         Schema::table('actions_logs', function (Blueprint $table) {
-            $table->dropIndex('actions_logs_user_id_foreign');
+            $table->dropForeign('actions_logs_user_id_foreign');
             $table->foreign('user_id')->references('id')->on('admins');
         });
     }
@@ -27,7 +27,7 @@ class ChangeUserForignKeyRefrenceOnActionsLogsTable extends Migration
     public function down()
     {
         Schema::table('actions_logs', function (Blueprint $table) {
-            $table->dropIndex('actions_logs_user_id_foreign');
+            $table->dropForeign('actions_logs_user_id_foreign');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
