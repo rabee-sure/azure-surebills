@@ -17,6 +17,7 @@ use App\Models\PosOrderItem;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\User;
+use App\Models\PosUserSetting;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException as ValidationsException;
 
@@ -478,5 +479,23 @@ class PosController extends Controller
         }else{
             return response()->json(['authorization' => 'not authorized to show this bill'], 403);
         }
+    }
+
+    public function setUserSetting(Request $request)
+    {
+        $authUser = auth('api')->user();
+
+        foreach($request->settings as $key => $setting){
+            PosUserSetting::updateOrCreate([
+                'user_id' => $authUser->id,
+                'key' => $setting['key']
+            ],
+            [
+                'key' => $setting['key'],
+                'value' => $setting['value'],
+                'enabled' => $setting['enabled'],
+            ]);
+        }
+        return response()->json(['success' => 'setting saved successfully'], 200);
     }
 }
