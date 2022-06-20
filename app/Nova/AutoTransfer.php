@@ -14,6 +14,8 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 use Spatie\NovaTranslatable\Translatable;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class AutoTransfer extends Resource
 {
@@ -79,6 +81,22 @@ class AutoTransfer extends Resource
      */
     public function fields(Request $request)
     {
+        if ($this->viewIs('detail', $request)) {
+            event(new AddActionLogEvent(
+                'view_auto_transfer_report',
+                Auth::id(),
+                [
+                    'message' => [
+                        'adminname' => Auth::user()->name,
+                        'time' => now(),
+                    ],
+                    'changes' => [],
+                ],
+                $this->id,
+                '\App\Models\AutoTransfer'
+            ));
+        }
+
         return [
             ID::make()->sortable(),
 
@@ -118,6 +136,18 @@ class AutoTransfer extends Resource
 
             BelongsToMany::make(__('Transfers'), 'transfers', Transfer::class),
         ];
+    }
+
+    /**
+     * Determine if this request is a resource detail request.
+     *
+     * @return bool
+     */
+    public function viewIs($view, $request)
+    {
+        $class = '\Laravel\Nova\Http\Requests\\Resource'.ucfirst($view).'Request';
+
+        return $request instanceof $class;
     }
 
     /**
@@ -164,34 +194,18 @@ class AutoTransfer extends Resource
         return [];
     }
 
-    /**
-     * authorized To Create.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return boolean
-     */
     public static function authorizedToCreate(Request $request)
     {
         return false;
     }
-
-    /**
-     * authorized To Delete.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return boolean
-     */
+    public function authorizedToView(Request $request)
+    {
+        return auth()->user()->can('show AutoTransfers');
+    }
     public function authorizedToDelete(Request $request)
     {
         return false;
     }
-
-    /**
-     * authorized To Update.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return boolean
-     */
     public function authorizedToUpdate(Request $request)
     {
         return false;

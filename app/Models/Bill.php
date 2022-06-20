@@ -24,6 +24,7 @@ class Bill extends Model
         'status',
         'payment_method',
         'user_id',
+        'created_by',
         'customer_id',
         'business_name',
         'customer_name',
@@ -73,7 +74,9 @@ class Bill extends Model
 
         'channel_extra_amount',
         'channel_extra_title',
-        'channel_extra_vat'
+        'channel_extra_vat',
+        'source',
+        'payment_way'
     ];
 
     /**
@@ -101,6 +104,16 @@ class Bill extends Model
     public function scopeUserId($query, $value)
     {
         return $query->where('user_id', $value);
+    }
+
+    public function scopeCreatedBy($query, $value)
+    {
+        return $query->where('created_by', $value);
+    }
+
+    public function scopeSource($query, $value)
+    {
+        return $query->where('source', $value);
     }
 
     /**

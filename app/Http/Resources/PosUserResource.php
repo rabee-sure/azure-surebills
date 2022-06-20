@@ -41,6 +41,8 @@ class PosUserResource extends JsonResource
             'settngs' => $user->settings,
             'vat_registration_number' => $this->vat_registration_number,
             'store_main_user_id' => $this->store_main_user_id,
+            'business_address' => $this->business_address,
+            'business_mobile' => $this->business_mobile,
         ];
     }
 

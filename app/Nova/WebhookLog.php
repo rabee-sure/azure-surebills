@@ -91,7 +91,7 @@ class WebhookLog extends Resource
             Boolean::make(__('Status'), 'status'),
             BelongsTo::make(__('Bill'), 'bill', Bill::class)->searchable()->rules('required'),
             BelongsTo::make(__('Application'), 'application', Application::class)->searchable()->rules('required'),
-            BelongsTo::make(__('User'), 'user', User::class)->searchable()->rules('required'),
+            BelongsTo::make(__('Merchant'), 'user', User::class)->searchable()->rules('required'),
             Text::make(__('Status Code'), 'status_code'),
             Text::make(__('Error Message'), 'error_message')->hideFromIndex(),
 

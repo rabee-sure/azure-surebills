@@ -3,17 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryResource;
-use App\Http\Resources\SubCategoryResource;
 use App\Http\Resources\CategoryPosListResource;
-use App\Http\Resources\BillApiResource;
 use App\Http\Resources\BillPosApiResource;
+use App\Http\Resources\OrdersBillsPosApiResource;
+use App\Http\Resources\OrderBillPosApiResource;
 
 use App\Models\Category;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Customer;
-use App\Models\ProductImage;
 use App\Models\PosOrder;
 use App\Models\PosOrderItem;
 use App\Models\Bill;
@@ -27,10 +25,56 @@ use App\Http\Requests\CustomerApiRequest;
 use App\Http\Requests\PosOrderApiRequest;
 
 use App\Events\BillCreated;
+use App\Events\PosSendBill;
+
+use Illuminate\Support\Facades\Storage;
 
 class PosController extends Controller
 {
-    public function getActiveTopCategory(Request $request)
+    public function getAllActiveCategoryAndProducts(){
+        $authUser = auth('api')->user();
+        $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
+
+        $categories = Category::active()->owner($owner_id)->orderBy('sort_number')->get();
+        $categoriesCollection = CategoryPosListResource::collection($categories);
+
+        $products = Product::active()->owner($owner_id)->orderBy('sort_number')->get();
+        $productsCollection = ProductResource::collection($products);
+
+        $collectionData = array();
+        foreach($categoriesCollection as $category){
+            $productsArr = $productsCollection->where('category_id', $category->id);
+            $subcategories = $categoriesCollection->where('parent_id', $category->id);
+
+            $collectionData[$category->id]['type'] = "category";
+            $collectionData[$category->id]['name'] = array(
+                'en' => $category->getTranslation('name', 'en'), 
+                'ar' => $category->getTranslation('name', 'ar'), 
+            );
+            $collectionData[$category->id]['image'] = url('/').''.Storage::url('categories/').''.$category->image;
+            $collectionData[$category->id]['sort_number'] = $category->sort_number;
+            $collectionData[$category->id]['active'] = $category->active;
+            $collectionData[$category->id]['parent_id'] = $category->parent_id;
+            $collectionData[$category->id]['created_at'] = $category->created_at;
+            $collectionData[$category->id]['updated_at'] = $category->updated_at;
+            $collectionData[$category->id]['deleted_at'] = $category->deleted_at;
+
+            $collectionData[$category->id]['products'] = [];
+            $collectionData[$category->id]['subcategories'] = [];
+
+            foreach ($productsArr as $productItem) {
+                array_push($collectionData[$category->id]['products'], $productItem);
+            }
+
+            foreach($subcategories as $categoryItem){
+                array_push($collectionData[$category->id]['subcategories'], $categoryItem);
+            }
+        }
+
+        return $collectionData;
+    }
+
+    public function getActiveTopCategory()
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -41,7 +85,7 @@ class PosController extends Controller
         return $categoriesCollection;
     }
 
-    public function getActiveSubCategory($category_id, Request $request)
+    public function getActiveSubCategory($category_id)
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -52,7 +96,7 @@ class PosController extends Controller
         return $categoriesCollection;
     }
 
-    public function getActiveCategoryProducts($category_id, Request $request)
+    public function getActiveCategoryProducts($category_id)
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -63,7 +107,7 @@ class PosController extends Controller
         return $productsCollection;
     }
 
-    public function getActiveProducts(Request $request)
+    public function getActiveProducts()
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -74,7 +118,7 @@ class PosController extends Controller
         return $productsCollection;
     }
 
-    public function getProduct($product_id, Request $request)
+    public function getProduct($product_id)
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -93,7 +137,7 @@ class PosController extends Controller
         }
     }
 
-    public function searchForProduct($keyword, Request $request)
+    public function searchForProduct($keyword)
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -103,7 +147,7 @@ class PosController extends Controller
         return $products;
     }
 
-    public function searchForCustomer($mobile, Request $request)
+    public function searchForCustomer($mobile)
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
@@ -290,10 +334,11 @@ class PosController extends Controller
         $order->save();
 
         
-        $bill = DB::transaction(function () use ($order, $request) {
+        $bill = DB::transaction(function () use ($order, $request, $authUser) {
             $user = User::find($order->user_id);
 
             $billStatus = '';
+            $payment_way = null;
             switch ($order->payment_method) {
                 case 'posPayOnline':
                     $billStatus = 'pending';
@@ -301,10 +346,12 @@ class PosController extends Controller
     
                 case 'posPayCard':
                     $billStatus = 'paid';
+                    $payment_way = 'payment_machine';
                     break;
 
                 case 'posPayCash':
                     $billStatus = 'paid_cash';
+                    $payment_way = 'cash';
                     break;
                 
                 default:
@@ -313,6 +360,7 @@ class PosController extends Controller
 
             $bill = Bill::create([
                 'user_id' => $user->id,
+                'created_by' => $authUser->id,
                 'status' => $billStatus,
                 'business_name' => $order->business_name,
                 'customer_id' => $order->customer_id,
@@ -328,16 +376,19 @@ class PosController extends Controller
                 'expiry_minutes' => $request->expiry_minutes ?? 0,
                 'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $order->created_at))),
 
-                'add_discount' => $order->add_discount  ? "on" : 0,
+                'add_discount' => $order->add_discount ?? false,
                 'discount_type' => $order->add_discount  ? $order->discount_type : false,
                 'discount_value' => $order->add_discount  ? $order->discount_value : null,
 
-                'add_tax' => $order->add_tax ? "on" : false,
+                'add_tax' => $order->add_tax ?? false,
                 'tax_name' => $order->add_tax ? $order->tax_name : null,
                 'tax_value' => $order->add_tax ? $order->tax_value : null,
 
                 'send_sms' => ($request->walkin_customer == 1) ? false : true,
                 'send_email' => ($request->walkin_customer == 1) ? false : true,
+
+                'source' => 'pos',
+                'payment_way' => $payment_way,
             ]);
 
             foreach ($order->items as $item) {
@@ -390,5 +441,42 @@ class PosController extends Controller
         event(new BillCreated($bill));
 
         return new BillPosApiResource($bill);
+    }
+
+    public function getBills(){
+        $authUser = auth('api')->user();
+
+        $bills = Bill::createdBy($authUser->id)->source('pos')->orderBy('created_at')->paginate(20);
+
+        $billsCollection = OrdersBillsPosApiResource::collection($bills);
+
+        return $billsCollection;
+    }
+
+    public function getBill($id){
+        $authUser = auth('api')->user();
+
+        $bill = Bill::where('id', $id)->get();
+
+        if($bill[0]->created_by == $authUser->id){
+            $billCollection = OrderBillPosApiResource::collection($bill);
+            $firstItem = $billCollection->first();
+            return $firstItem;
+        }else{
+            return response()->json(['authorization' => 'not authorized to show this bill'], 403);
+        }
+    }
+
+    public function sendBillByEmail(Request $request){
+        $authUser = auth('api')->user();
+
+        $bill = Bill::find($request->bill_id);
+
+        if($bill->created_by == $authUser->id){
+            event(new PosSendBill($bill, $request->email));
+            return response()->json(['success' => 'bill sent successfully'], 200);
+        }else{
+            return response()->json(['authorization' => 'not authorized to show this bill'], 403);
+        }
     }
 }

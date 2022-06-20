@@ -216,7 +216,7 @@ class Bill extends Resource
 
             Text::make(__('Reference Id'), 'reference_id'),
 
-            BelongsTo::make(__('User'), 'user', User::class),
+            BelongsTo::make(__('Merchant'), 'user', User::class),
 
             // DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
 

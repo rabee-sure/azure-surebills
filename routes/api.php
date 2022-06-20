@@ -32,6 +32,7 @@ Route::post('transfers/{transfer}/upload_attachment', 'MediaController@uploadAtt
 Route::prefix('v1')->group(function () {
 
     Route::post('pos-login', 'UserController@posLogin');
+    Route::get('report-permissions', 'UserController@reportPermission');
 
     Route::get('analytics', 'AnalyticsController@index');
 
@@ -63,7 +64,7 @@ Route::prefix('v1')->group(function () {
 		Route::post('products/{id}/update', 'ProductsController@update');
 		Route::delete('products/{id}/delete', 'ProductsController@delete');
 	});
-	
+
 	//should send application id and secret
 	Route::group(['middleware' => ['User.from.application']], function () {
 		Route::post('bills/create/wordpress', 'BillController@wordpress');
@@ -83,6 +84,7 @@ Route::prefix('v1')->group(function () {
 
 	Route::group(['middleware' => ['auth:api']], function () {
 		//POS
+		Route::get('getAllActiveCategoryAndProducts', 'PosController@getAllActiveCategoryAndProducts');
 		Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory');
 		Route::get('getActiveSubCategory/{category_id}', 'PosController@getActiveSubCategory');
 		Route::get('getActiveCategoryProducts/{category_id}', 'PosController@getActiveCategoryProducts');
@@ -92,6 +94,9 @@ Route::prefix('v1')->group(function () {
 		Route::get('searchForCustomer/{name}', 'PosController@searchForCustomer');
 		Route::post('customerStore', 'PosController@customerStore');
 		Route::post('orderStore', 'PosController@orderStore');
+		Route::get('getBills', 'PosController@getBills');
+		Route::get('getBill/{id}', 'PosController@getBill');
+		Route::post('sendBillByEmail', 'PosController@sendBillByEmail');
   });
 
     // Route::post('fandaqah-register', 'UserController@registerFandaqah');

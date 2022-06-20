@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Anaseqal\NovaSidebarIcons\NovaSidebarIcons;
+use App\Models\Admin;
+use App\Models\Role;
 use App\Nova\Metrics\BillsPerDay;
 use App\Nova\Metrics\NewUsers;
 use App\Nova\Metrics\TotalCommissions;
@@ -10,6 +12,8 @@ use App\Nova\Metrics\TotalDue;
 use App\Nova\Metrics\TotalIncome;
 use App\Nova\Metrics\TotalPaid;
 use App\Nova\Metrics\TotalVatOnCommissions;
+use App\Observers\AdminObserver;
+use App\Observers\RoleObserver;
 use Bakerkretzmar\NovaSettingsTool\SettingsTool;
 use Beyondcode\Reports\Reports;
 use ChrisWare\NovaBreadcrumbs\NovaBreadcrumbs;
@@ -31,6 +35,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Nova::serving(function () {
+            Role::observe(RoleObserver::class);
+            Admin::observe(AdminObserver::class);
+        });
 
         Nova::userTimezone(function (Request $request) {
             return 'Asia/Riyadh';
@@ -63,7 +72,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+            return $user->is_active;
         });
     }
 
@@ -74,17 +83,24 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        return [
+        $cards = [];
+        $user = auth()->guard('admins')->user();
 
-            // new NewUsers,
-            (new HomeAnalytics)->width('full'),
+        if($user->canany(['show merchants', 'show bills', 'show transfers']))
+        {
+            array_push($cards, (new HomeAnalytics)->width('full'));
+        }
 
-            (new TotalIncome)->width('1/5'),
-            (new TotalCommissions)->width('1/5'),
-            (new TotalVatOnCommissions)->width('1/5'),
-            (new TotalPaid)->width('1/5'),
-            (new TotalDue)->width('1/5'),
-        ];
+        if($user->can('show bills'))
+        {
+            array_push($cards, (new TotalIncome)->width('1/5'));
+            array_push($cards, (new TotalCommissions)->width('1/5'));
+            array_push($cards, (new TotalVatOnCommissions)->width('1/5'));
+            array_push($cards, (new TotalPaid)->width('1/5'));
+            array_push($cards, (new TotalDue)->width('1/5'));
+        }
+
+        return $cards;
     }
 
     /**
@@ -135,8 +151,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         $this->gate();
 
         Nova::auth(function ($request) {
-            return Gate::check('viewNova', [$request->user()]);
-           // return in_array($request->user()->email, explode(',', env('NOVA_ALLOWED_ADMINS')));
+            return Gate::check('viewNova', function() use ($request){
+                return $request->user()->is_active;
+            });
         });
     }
 }

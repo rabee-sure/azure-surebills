@@ -41,6 +41,7 @@ class User extends Authenticatable implements HasMedia
         'logo',
         'description',
         'business_address',
+        'business_address_details',
         'business_mobile',
         'vat_registration_number',
         'license_type',
@@ -93,6 +94,11 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'mobile_sent_at' => 'datetime',
         'commercial_registry_expiry_date' => 'datetime',
+        'able_refund' => 'boolean',
+        'vat_inclusive' => 'boolean',
+        'auto_trnasfer' => 'boolean',
+        'disable_business_documents' => 'boolean',
+        'disable_bank_documents' => 'boolean',
         'verified' => 'boolean',
     ];
 
@@ -400,6 +406,10 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Bill::class);
     }
 
+    public function billsCreatedByMe(){
+        return $this->hasMany(Bill::class, 'created_by', 'id');
+    }
+
     /**
      * Get Transfers.
      *
@@ -652,5 +662,35 @@ class User extends Authenticatable implements HasMedia
         }else{
             return Auth::user();
         }
+    }
+    
+    public function paymentRecordQuery($request = null){
+        $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
+        $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
+
+        $query = DB::table('transactions')
+        ->join('bills', 'transactions.bill_id', '=', 'bills.id')
+        ->whereIn('transactions.transaction_source', ['bill', 'refund'])
+        ->where('transactions.user_id', $this->id)
+        ->whereDate('transactions.created_at', '>=', Carbon::parse($date_start))
+        ->whereDate('transactions.created_at', '<=', Carbon::parse($date_to));
+
+        if($request != null){
+            if($request->has('transaction_type') && $request->transaction_type != 'all'){
+                $query->where('transactions.type', $request->transaction_type);
+            }
+    
+            if($request->has('payment_way') && $request->payment_way != 'all'){
+                $query->where('bills.payment_way', $request->payment_way);
+            }
+    
+            if($request->has('source') && $request->source != 'all'){
+                $query->where('bills.source', $request->source);
+            }
+        }
+
+        $query->orderBy('transactions.created_at');
+
+        return $query;
     }
 }
