@@ -16,7 +16,7 @@ class ChangeUserForignKeyRefrenceOnActionsLogsTable extends Migration
         Schema::disableForeignKeyConstraints();
 
         Schema::table('actions_logs', function (Blueprint $table) {
-            $table->dropForeign('actions_logs_user_id_foreign');
+            //$table->dropForeign('actions_logs_user_id_foreign');
             $table->foreign('user_id')->references('id')->on('admins');
         });
 
