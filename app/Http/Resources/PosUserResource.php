@@ -25,7 +25,8 @@ class PosUserResource extends JsonResource
         $pos_settings = [];
 
         foreach($user->posUserSettings as $setting){
-            $pos_settings[$setting->key] = [
+            $pos_settings[] = [
+                'key' => $setting->key,
                 'value' => $setting->value,
                 'enabled' => $setting->enabled,
             ];
