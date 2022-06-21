@@ -496,6 +496,16 @@ class PosController extends Controller
                 'enabled' => $setting['enabled'],
             ]);
         }
-        return response()->json(['success' => 'setting saved successfully'], 200);
+
+        $pos_settings = [];
+
+        foreach($authUser->posUserSettings as $setting){
+            $pos_settings[] = [
+                'key' => $setting->key,
+                'value' => $setting->value,
+                'enabled' => $setting->enabled,
+            ];
+        }
+        return $pos_settings;
     }
 }
