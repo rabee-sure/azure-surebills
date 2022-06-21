@@ -500,12 +500,12 @@ class PosController extends Controller
         $pos_settings = [];
 
         foreach($authUser->posUserSettings as $setting){
-            $pos_settings[] = [
+            $pos_settings[$setting->key] = [
                 'key' => $setting->key,
                 'value' => $setting->value,
                 'enabled' => $setting->enabled,
             ];
         }
-        return $pos_settings;
+        return array($pos_settings);
     }
 }
