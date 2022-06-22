@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Events\UserVerifiedChanged;
+use App\Events\UserUpdated;
 use App\Models\User;
 use App\Models\Role;
 
@@ -32,6 +33,9 @@ class UserObserver
      */
     public function updated(User $user)
     {
+
+        event(new UserUpdated($user));
+
         if($user->isDirty('verified')){
             UserVerifiedChanged::dispatch($user);
         }

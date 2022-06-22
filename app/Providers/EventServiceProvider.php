@@ -19,6 +19,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+            'App\Listeners\SPSSendMerchantData',
         ],
         WebhookCallSucceededEvent::class => [
             'App\Listeners\Webhook\SaveWebhookSucceededLog',
@@ -30,6 +31,12 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendBillPayEmail',
             'App\Listeners\SendBillPaySms',
         ],
+        'App\Events\UserUpdated' => [
+            'App\Listeners\SPSSendMerchantData',
+        ],
+        'App\Events\PosSendBill' => [
+            'App\Listeners\PosSendBillPayEmail',
+        ],
         'App\Events\UserCreated' => [
             'App\Listeners\CreateSettingsForUser',
         ],
@@ -39,7 +46,8 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\BillPaid' => [
             'App\Listeners\CalculatePayment',
             'App\Listeners\SendBillPaidEmailToOwner',
-            'App\Listeners\SendBillPaidEmailToCustomer'
+            'App\Listeners\SendBillPaidEmailToCustomer',
+            'App\Listeners\SPSSendPaidBill',
         ],
         'App\Events\BillRefunded' => [
             'App\Listeners\CalculateRefundedPayment',
