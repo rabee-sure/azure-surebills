@@ -6,466 +6,368 @@
     <meta name="x-apple-disable-message-reformatting">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <style type="text/css">
-      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&display=swap');
-      body {
-        padding: 0;
-        margin: 0;
-      }
       @media screen {
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&display=swap');
-        #mail_wrapper {
-          background: #edf2f8;
-          padding: 10px;
-          font-family: "Nunito";
+        .billMailWrapper {
+          font-family: 'tahoma', 'verdana';
+          width: 500px;
+          max-width: calc(100% - 15px);
+          margin: 15px auto;
         }
-        .mail_content {
-          min-width: 50%;
-          margin: 0 auto;
-          background: #fff;
-          padding: 20px;
-          border-radius: 5px;
-          border: 1px solid #ddd;
+        .billMailWrapper .mailContent {
+          background-color: #fff;
+          border: 2px solid #aaa;
+          border-radius: 10px;
+          color: #000;
+          padding: 15px;
+        }
+        .billMailWrapper .mailContent .clientLogo {
+          text-align: center;
+          margin-bottom: 15px;
+        }
+        .billMailWrapper .mailContent .clientLogo img {
           max-width: 100%;
+          max-height: 50px;
+          width: auto;
+          height: auto;
         }
-        .logo {
-          margin-bottom: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .logo img {
-          max-width: 100%;
-          margin: 0 auto;
-          display: block;
-          max-height: 100px;
-        }
-        .block_1 {
-          margin: 0 auto 20px;
-          padding: 0 0 20px;
-          border-bottom: 1px solid #ddd;
+        .billMailWrapper .mailContent .taxInvoiceText {
           text-align: center;
+          color: #6c757d;
         }
-        .block_1 span {
-          display: block;
-          font-weight: bold;
-          font-size: 18px;
-          text-transform: capitalize;
-          margin: 0 auto 9px;
-        }
-        .block_1 p {
-          display: block;
-          margin: 0 auto 5px;
-          font-size: 13px;
-          line-height: 1.1;
-          color: #444;
-        }
-        .block_1 small {
-          display: block;
-          margin: 0 auto;
-          font-size: 13px;
-          color: #444;
-          font-weight: normal;
-        }
-        .alert {
-          text-align: center;
-          font-weight: bold;
-          font-size: 14px;
-          text-transform: capitalize;
-          margin: 0 auto 30px;
-        } /* alert */
-        .block_2 {
-          display: block;
-          margin: 0 auto 20px;
-          padding: 0 0 20px;
-          border-bottom: 1px solid #ddd;
-        }
-        .billInfoItem {
-          display: block;
-          clear: both;
+        .billMailWrapper .mailContent .clientMail {
           margin-bottom: 5px;
-          height: 20px;
-        } /* billInfoItem */
-        .block_2 .billInfoItem span {
-          display: block;
-          float: left;
-          font-size: 14px;
-          color: #444444;
-        }
-        .block_2 .billInfoItem p {
-          display: block;
-          float: right;
-          font-size: 14px;
-          margin: 0;
-          color: #444444;
-        }
-        .block_2 span .vat_reg {
-          display: block;
-          font-weight: normal;
-          font-size: 14px;
-          color: #444;
-          margin: 5px auto 0;
-        } /* vat_reg */
-        .block_2 p {
-          display: block;
-          font-size: 14px;
-          margin: 0 auto 2px;
-          color: #333;
-          text-align: right;
-        }
-        .block_2 small {
-          display: block;
-          font-size: 14px;
-          margin: 0;
-          color: #333;
-          text-align: right;
-        }
-        .block_3 {
-          margin: 0 auto 20px;
-          padding: 0 0 20px;
-          border-bottom: 1px solid #ddd;
-        }
-        .block_3 table {
-          width: 100%;
-          caption-side: bottom;
-          border-collapse: collapse;
-        }
-        .block_3 table th {
-          text-align: center;
-          padding: 5px;
-          vertical-align: middle;
-          font-size: 13px;
-        }
-        .block_3 table th:first-child {
-          text-align: right;
-        }
-        .block_3 table th:last-child {
-          text-align: left;
-        }
-        .block_3 table td {
-          text-align: center;
-          padding: 5px;
-          vertical-align: middle;
-          font-size: 13px;
-        }
-        .block_3 table td:first-child {
-          text-align: right;
-        }
-        .block_3 table td:last-child {
-          text-align: left;
-        }
-        .block_3 .details_pay {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin: 0 auto 10px;
-          color: #000;
-        }
-        .block_3 .details_pay:last-child {
-          margin: 0;
-        }
-        .block_3 .details_pay p {
-          display: block;
-          margin: 0;
-          min-width: 60%;
-          color: #000;
-          font-size: 14px;
-        }
-        .block_3 .details_pay b {
-          display: block;
-          margin: 0;
-          font-size: 14px;
-          color: #222;
-          font-weight: normal;
-          min-width: 20%;
-          text-align: center;
-        }
-        .block_3 .details_pay b:last-child {
-          text-align: right;
-        }
-        .total_area {
-          margin: 0 auto 20px;
-          padding: 0 0 20px;
-          border-bottom: 1px solid #ddd;
-          text-align: right;
-        }
-        .total_area .totalAreaItem {
-          display: block;
-          clear: both;
-          margin-bottom: 5px;
-          height: 20px;
-        }
-        .total_area .totalAreaItem span {
-          display: block;
-          float: left;
-          font-size: 14px;
-          color: #444444;
-        }
-        .total_area .totalAreaItem p {
-          display: block;
-          float: right;
-          font-size: 14px;
-          margin: 0;
-          color: #444444;
-        }
-        .total_area p {
-          display: block;
-          margin: 0 auto 8px;
-          font-size: 15px;
-          color: #000;
-        }
-        .total_area b {
-          display: block;
-          margin: 0;
-          font-size: 15px;
-          color: #000;
-        }
-        .customer_notes {
-          margin: 0 0 15px;
-          padding: 0 0 15px;
+          color: #000000;
+          font-weight: bold;
           text-align: center;
           font-size: 16px;
-          text-transform: capitalize;
+        }
+        .billMailWrapper .mailContent .clientMail a {
           color: #000000;
-        } /* customer_notes */
-        .block_4 {
-          margin: 0 auto 20px;
-          padding: 0 0 20px;
-          border-bottom: 1px solid #ddd;
-        }
-        .block_4 .title {
-          display: block;
-          font-size: 20px;
-          font-weight: bold;
-          margin: 0 auto 30px;
-          color: #000;
-        }
-        .block_4 p {
-          display: block;
-          font-size: 15px;
-          text-align: center;
-          margin: 0 auto 6px;
-        }
-        .block_4 p:last-child {margin: 0;}
-        .pay_button {
-          padding: 10px 0;
-          display: block;
-          text-align: center;
-        }
-        .pay_button a {
-          border-radius: 100px;
-          background: #00d595;
-          padding: 0 30px;
-          height: 40px;
-          line-height: 40px;
-          text-align: center;
-          color: #fff;
-          font-weight: bold;
-          font-size: 18px;
           text-decoration: none;
-          max-width: 100%;
-          min-width: 200px;
-          display: table;
-          margin: 0 auto;
         }
-        .pay_button a:hover {
-          background: #02c288;
+        .billMailWrapper .mailContent .headerBillText {
+          text-align: center;
         }
-        .copyrights {
+        .billMailWrapper .mailContent .businessAddress {
+          text-align: center; 
+        }
+        .billMailWrapper .mailContent .businessMobile {
+          text-align: center;
+        }
+        .billMailWrapper .mailContent .billWillExpire {
+          background-color: #fff3cd;
+          color: #664d03;
+          margin: 15px 0;
+          text-align: center;
+          padding: 10px;
+          border-radius: 8px;
+        }
+        .billMailWrapper .mailContent .billInfo {
+          border-top: 1px dashed #dee2e6;
+          padding-top: 0.5rem;
+          margin-top: 0.5rem;
+        }
+        .billMailWrapper .mailContent .billInfo .item {
+          display: block;
+          margin-bottom: 0.5rem;
+        }
+        .billMailWrapper .mailContent .billInfo .item p {
+          margin: 0;
+        }
+        .billMailWrapper .mailContent .clearfix {
+          clear: both;
+        }
+        .billMailWrapper .mailContent .blockTable {
+          border-top: 1px dashed #dee2e6;
+          padding-top: 0.5rem;
+          margin-top: 0.5rem;
+        }
+        .billMailWrapper .mailContent .blockTable table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        .billMailWrapper .mailContent .blockTable table th {
+          text-align: center;
+          padding: 0.25rem;
+          font-weight: bold;
+          vertical-align: middle;
+        }
+        .billMailWrapper .mailContent .blockTable table td {
+          text-align: center;
+          padding: 0.25rem;
+          vertical-align: middle;
+        }
+        .billMailWrapper .mailContent .totalArea {
+          border-top: 1px dashed #dee2e6;
+          padding-top: 0.5rem;
+          margin-top: 0.5rem;
+        }
+        .billMailWrapper .mailContent .totalArea .item {
+          display: block;
+          margin-bottom: 0.5rem;
+        }
+        .billMailWrapper .mailContent .totalArea .item.Discount {
+          color: #00d595;
+        }
+        .billMailWrapper .mailContent .totalArea .item.Discount small {
+          color: #00d595;
+        }
+        .billMailWrapper .mailContent .totalArea .item.Total {
+          font-weight: bold;
+          font-size: 14px;
+        }
+        .billMailWrapper .mailContent .totalArea .item span small {
+          color: #6c757d;
+        }
+        .billMailWrapper .mailContent .totalArea .item span .excludeTax {
+          display: block;
+          margin-top: 2px;
+          color: #6c757d;
+          font-size: 11px;
+        }
+        .billMailWrapper .mailContent .totalArea .item p {
+          margin: 0;
+        }
+        .billMailWrapper .mailContent .customerNotes {
+          border-top: 1px dashed #dee2e6;
+          padding-top: 0.5rem;
+          margin-top: 0.5rem;
+        }
+        .billMailWrapper .mailContent .clientInfo {
+          border-top: 1px dashed #dee2e6;
+          padding-top: 0.5rem;
+          margin-top: 0.5rem;
+        }
+        .billMailWrapper .mailContent .clientInfo span {
           display: block;
           text-align: center;
-          font-size: 14px;
-          margin: 20px auto;
-          color: #999;
+        }
+        .billMailWrapper .mailContent .clientInfo span a {
+          color: #000000;
+          text-decoration: none;
+        }
+        .billMailWrapper .mailContent .qrCodeArea {
+          border-top: 1px dashed #dee2e6;
+          padding-top: 0.5rem;
+          margin-top: 0.5rem;
+          text-align: center;
+        }
+        .billMailWrapper .mailContent .qrCodeArea img {
+          max-height: 100px;
+        }
+        .billMailWrapper .mailContent .qrCodeArea span {
+          margin-top: -7px;
+          display: block;
+        }
+        .billMailWrapper .mailContent .footerBillText {
+          text-align: center;
+          margin: 1rem auto;
+        }
+        .billMailWrapper .mailContent .payBtn {
+          display: block;
+          text-align: center;
+          margin-top: 0.5rem;
+          background-color: #00d595;
+          height: 45px;
+          line-height: 45px;
+          font-weight: bold;
+          color: #fff;
+          text-decoration: none;
+          border-radius: 100px;
+        }
+        .billMailWrapper .sureCopyrights {
+          text-align: center;
+          color: #777;
+          margin-top: 10px;
         }
       }
     </style>
-    <!--[if mso]>
-    <style>
-      table { border-collapse: collapse; }
-      .o_col { float: left; }
-    </style>
-    <xml>
-      <o:OfficeDocumentSettings>
-        <o:PixelsPerInch>96</o:PixelsPerInch>
-      </o:OfficeDocumentSettings>
-    </xml>
-    <![endif]-->
   </head>
   <body>
-    <div id="mail_wrapper">
-      <div class="mail_content">
+    <div class="billMailWrapper">
+      <div class="mailContent" @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr" @endif>
+
         @if($bill->user->logo)
-          <div class="logo">
+          <div class="clientLogo">
             <img src="{{ $bill->user->logo_url }}" alt="logo">
-          </div><!-- logo -->
+          </div><!-- clientLogo -->
         @endif
-        <div class="block_1">
-          @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
-            <div class="taxInvoiceText">{{ __('Simplified Tax Invoice') }}</div>
-          @endif
-          <div class="block1Item">
-            <span> {{ $bill->user->business_name}}</span>
-            @if(isset($bill->user->settings->header_bill))
-              <p>{{ $bill->user->settings->header_bill }}</p>
-            @endif
-          </div><!-- block1Item -->
-          <div class="block1Item">
-          <span>{{ $bill->user->business_address }}</span>
-          <small>{{  $bill->user->business_mobile }}</small>
-          </div><!-- block1Item -->
-          @if($bill->application_id && !$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
-            <div class="countdown alert alert-warning" id="new_countdown">
-              <p class="mb-0">{{ __('the bill will expire in')}}</p>
-              <span id="hm_timer"></span>
-            </div><!-- countdown -->
-          @endif
-        </div><!-- block_1 -->
-        <div class="block_2">
+
+        @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
+          <div class="taxInvoiceText">{{ __('Simplified Tax Invoice') }}</div>
+        @endif
+
+        <div class="clientMail">{{ $bill->user->business_name}}</div>
+
+        @if(isset($bill->user->settings->header_bill))
+          <div class="headerBillText">{{ $bill->user->settings->header_bill }}</div>
+        @endif
+
+        <div class="businessAddress">{{ $bill->user->business_address }}</div>
+
+        <div class="businessMobile" dir="ltr">{{  $bill->user->business_mobile }}</div>
+
+        @if($bill->application_id && !$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
+          <div class="billWillExpire">{{ __('the bill will expire in')}}</div>
+        @endif
+
+        <div class="billInfo">
           @if($bill->user->settings->add_tax_invoice)
-            <div class="billInfoItem">
-              <span>{{ __('Bill No.') }}</span>
-              <p>{{ $bill->number }}</p>
-            </div><!-- d-flex -->
-            <div class="billInfoItem">
-              <span>{{ __('Date') }}</span>
-              <p>{{ $bill->created_at->format('d/m/Y')}}</p>
-            </div><!-- d-flex -->
+            <div class="item">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Bill No.') }}</span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->number }}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
+            <div class="item">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Date') }}</span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->created_at->format('d/m/Y')}}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
             @if($bill->user->vat_registration_number)
-              <div class="billInfoItem">
-                <span>{{ __('Organization VAT Registration Number') }}</span>
-                <p>{{ $bill->user->vat_registration_number }}</p>
-              </div><!-- d-flex -->
+              <div class="item">
+                <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Organization VAT Registration Number') }}</span>
+                <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->user->vat_registration_number }}</p>
+              <div class="clearfix"></div>
+              </div><!-- item -->
             @endif
           @else
-          <div class="billInfoItem">
-            <span>{{ __('No.') }}</span>
-            <p>{{ $bill->number }}</p>
-          </div><!-- d-flex -->
-          <div class="billInfoItem">
-            <span>{{ __('Date') }}</span>
-            <p>{{ $bill->created_at->format('d/m/Y')}}</p>
-          </div><!-- d-flex -->
+            <div class="item">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('No.') }}</span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->number }}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
+            <div class="item">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Date') }}</span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->created_at->format('d/m/Y')}}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
           @endif
           @if($bill->user->settings->display_customer_details)
-            <div class="billInfoItem">
-              <span>{{ __('Customer Name') }}</span>
-              <p>{{ $bill->customer->name }}</p>
-            </div><!-- d-flex -->
-            <div class="billInfoItem">
-              <span>{{ __('Mobile Number') }}</span>
-              <p>{{ $bill->customer->mobile }}</p>
-            </div><!-- d-flex -->
+            <div class="item">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Customer Name') }}</span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->customer->name }}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
+            <div class="item">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Mobile Number') }}</span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->customer->mobile }}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
           @endif
-        </div><!-- block_2 -->
+        </div><!-- billInfo -->
 
-        <div class="block_3">
+        <div class="blockTable" @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr" @endif>
           <table>
             <thead>
               <tr>
-                <th>{{ __('Description') }}</th>
+                <th @if(app()->getLocale() == 'ar') style="text-align: right;" @else style="text-align: left;" @endif>{{ __('Description') }}</th>
                 <th>{{ __('Price') }}</th>
                 <th>{{ __('Quantity') }}</th>
                 @if($bill->add_tax)
-                <th>{{ __('Total include added tax') }}</th>
+                  <th width="35%" @if(app()->getLocale() == 'ar') style="text-align: left;" @else style="text-align: right;" @endif>{{ __('Total include added tax') }}</th>
                 @else
-                <th>{{ __('Total') }}</th>
+                  <th width="35%" @if(app()->getLocale() == 'ar') style="text-align: left;" @else style="text-align: right;" @endif>{{ __('Total') }}</th>
                 @endif
               </tr>
             </thead>
             <tbody>
               @foreach($bill->items as $item)
               <tr>
-                <td>{!! $item->product_name !!}</td>
+                <td @if(app()->getLocale() == 'ar') style="text-align: right;" @else style="text-align: left;" @endif>{!! $item->product_name !!}</td>
                 <td>{{ $item->product_price  }}</td>
                 <td>{{ $item->quantity  }}</td>
                 @if( $bill->add_tax)
-                <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
+                  <td @if(app()->getLocale() == 'ar') style="text-align: left;" @else style="text-align: right;" @endif>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
                 @else
-                <td>{{ $item->product_price * $item->quantity }}</td>
+                  <td @if(app()->getLocale() == 'ar') style="text-align: left;" @else style="text-align: right;" @endif>{{ $item->product_price * $item->quantity }}</td>
                 @endif
               </tr>
               @endforeach
             </tbody>
           </table>
-        </div><!-- block_3 -->
+        </div><!-- blockTable -->
         
-        <div class="total_area">
+        <div class="totalArea">
           @if( $bill->add_tax || $bill->add_discount)
-            <div class="totalAreaItem">
-              <div>
-                <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
+            <div class="item">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>
+                {{ __('Total amount') }} 
+                <small>( {{ __('SAR') }} )</small> 
                 @if( $bill->add_tax)
-                <small>( {{ __('Exclude added tax') }} )</small>
+                  <div class="excludeTax">( {{ __('Exclude added tax') }} )</div>
                 @endif
-              </div>
-              <p>{{ $bill->sub_total }}</p>
-            </div><!-- totalAreaItem -->
+              </span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->sub_total }}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
           @endif
           @if( $bill->add_discount)
-          <div class="totalAreaItem">
-            <span>{{ __('Discount amount') }} ({{ __('SAR') }})</span>
-            <p>{{ $bill->discount }}</p>
-          </div><!-- totalAreaItem -->
+            <div class="item Discount">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Discount amount') }} <small>( {{ __('SAR') }} )</small></span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->discount }}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
           @endif
           @if( $bill->user->pay_fees == 'client')
-            <div class="d-flex align-items-center justify-content-between">
-              <span>{{ __('payment fees') }} ({{ __('SAR') }})</span>
-              <p>{{ $bill->payment_fees }}</p>
-            </div><!-- totalAreaItem -->
+            <div class="item">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('payment fees') }} <small>( {{ __('SAR') }} )</small></span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->payment_fees }}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
           @endif
           @if( $bill->add_tax)
-            <div class="totalAreaItem">
-              <span>{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }}</span>
-              <p>{{ $bill->vat }}</p>
-            </div><!-- totalAreaItem -->
+            <div class="item">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Added tax value (:percentge%)', ['percentge'=>$bill->tax_value]) }}</span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->vat }}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
           @endif
           @if( $bill->channel_extra_amount)
-            <div class="totalAreaItem">
-              <span>{{$bill->channel_extra_title}} ({{ __('SAR') }})</span>
-              <p>{{ $bill->channel_extra_amount }}</p>
-            </div><!-- totalAreaItem -->
+            <div class="item">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{$bill->channel_extra_title}} <small>( {{ __('SAR') }} )</small></span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->channel_extra_amount }}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
           @endif
           @if( $bill->channel_extra_vat)
-            <div class="totalAreaItem">
-              <span>{{ __('Vat') }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))</span>
-              <p>{{ $bill->channel_extra_vat }}</p>
-            </div><!-- totalAreaItem -->
+            <div class="item">
+              <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Vat') }} <small>( {{$bill->channel_extra_title}} ( {{ $bill->tax_value }} % ) )</small></span>
+              <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->channel_extra_vat }}</p>
+              <div class="clearfix"></div>
+            </div><!-- item -->
           @endif
-          <div class="totalAreaItem">
-            <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
-            <p>{{ $bill->total}}</p>
-          </div><!-- totalAreaItem -->
-        </div><!-- total_area -->
+          <div class="item Total">
+            <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Total amount') }} <small>( {{ __('SAR') }} )</small></span>
+            <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->total}}</p>
+            <div class="clearfix"></div>
+          </div><!-- item -->
+        </div><!-- totalArea -->
         
-        @if($bill->customer_notes)<div class="customer_notes">{{$bill->customer_notes}}</div> @endif
-        
-        <div class="block_4">
-          <!-- <div class="title">Customer Information</div> -->
-          <p>{{ $bill->customer_name }}</p>
-          <p>+966{{ $bill->customer_mobile }}</p>
-          <p>{{ $bill->customer_email }}</p>
+        @if($bill->customer_notes)<div class="customerNotes">{{$bill->customer_notes}}</div> @endif
 
-          @if($bill->user->settings->add_tax_invoice)
-            <div class="qrCode_area">
-              <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
-                {!! generateQRcode($bill) !!}
-                <!-- <p>تم إنشاء كود الاستجابة السريعة بواسطة حل الفوترة الإلكترونية لدافعي الضرائب وفقاً لمواصفات ZATCA.</p> -->
-                <span>{{ __('Tax Invoice') }}</span>
-              </a>
-            </div><!-- qrCode_area -->
-          @endif
+        <div class="clientInfo">
+          <span>{{ $bill->customer_name }}</span>
+          <span dir="ltr">+966{{ $bill->customer_mobile }}</span>
+          <span dir="ltr">{{ $bill->customer_email }}</span>
+        </div><!-- clientInfo -->
+
+        @if($bill->user->settings->add_tax_invoice)
+          <div class="qrCodeArea">
+            {!! generateQRcode($bill) !!}
+            <span>{{ __('Tax Invoice') }}</span>
+          </div><!-- qrCodeArea -->
+        @endif
           
-          @if(isset($bill->user->settings->footer_bill))
-            <p>{{ $bill->user->settings->footer_bill }}</p>
-          @endif
-        </div><!-- block_4 -->
-        <div class="pay_button">
-          <a href="{{ $bill->pay_url }}" target="_blank" title="PAY">{{ __('Pay') }}</a>
-        </div><!-- pay_button -->
-      </div><!-- mail_content -->
-      <div class="copyrights">
+        @if(isset($bill->user->settings->footer_bill))
+          <div class="footerBillText">{{ $bill->user->settings->footer_bill }}</div>
+        @endif
+
+        <a href="{{ $bill->pay_url }}" target="_blank" title="PAY" class="payBtn">{{ __('Details') }}</a>
+
+      </div><!-- mailContent -->
+      <div class="sureCopyrights">
         © 2020 SureBills. All rights reserved
-      </div><!-- copyrights -->
-    </div><!-- mail_wrapper -->
+      </div><!-- sureCopyrights -->
+    </div><!-- billMailWrapper -->
   </body>
 </html>
