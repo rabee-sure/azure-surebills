@@ -1,0 +1,64 @@
+.billPrint {
+  .borderTop {
+    border-top: 1px dashed #dee2e6;
+  } /* borderTop */
+  .aboutUser {
+    figure {
+      img {
+        max-height: 50px;
+      } /* img */
+    } /* figure */
+    .taxInvoiceText {
+      font-size: 14px;
+    } /* taxInvoiceText */
+  } /* aboutUser */
+  .tableItems {
+    th, td {
+      font-size: 13px;
+    } /* th */
+  } /* tableItems */
+  .qrCode {
+    img {
+      max-height: 100px;
+    } /* img */
+    span {
+      margin-top: -5px;
+      font-size: 14px;
+    } /* span */
+  } /* qrCode */
+} /* billPrint */
+
+
+.billPrintThermal {
+  padding: 3mm;
+  width: 80mm;
+  border: 1px solid black;
+  margin: 0 auto;
+  .borderTop {
+    border-top: 1px dashed #dee2e6;
+  } /* borderTop */
+  .aboutUser {
+    figure {
+      img {
+        max-height: 50px;
+      } /* img */
+    } /* figure */
+    .taxInvoiceText {
+      font-size: 14px;
+    } /* taxInvoiceText */
+  } /* aboutUser */
+  .tableItems {
+    th, td {
+      font-size: 13px;
+    } /* th */
+  } /* tableItems */
+  .qrCode {
+    img {
+      max-height: 100px;
+    } /* img */
+    span {
+      margin-top: -5px;
+      font-size: 14px;
+    } /* span */
+  } /* qrCode */
+} /* billPrintThermal */

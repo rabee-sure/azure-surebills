@@ -255,6 +255,42 @@
     </div><!-- col-12 -->
     @if(count($bill->payment_logs) > 0)
       <div class="col-12 col-md-6 d-print-none">
+        <div class="viewPrintOptions bg-white shadow-sm rounded-3 p-3 mb-3">
+          <div class="row justify-content-center">
+            <div class="col-12 col-md-9">
+              <div class="row">
+                <div class="col-6">
+                  <div class="item d-flex align-items-center justify-content-between rounded-3">
+                    <label for="billA4" class="w-50 m-1 position-relative">
+                      <input type="radio" name="type" id="billA4" value="billA4" class="start-0 top-0 position-absolute w-100 h-100" checked>
+                      <span class="d-flex align-items-center justify-content-center rounded-3">A4</span>
+                    </label>
+                    <label for="billTh" class="w-50 m-1 position-relative">
+                      <input type="radio" name="type" id="billTh" value="billTh" class="start-0 top-0 position-absolute w-100 h-100">
+                      <span class="d-flex align-items-center justify-content-center rounded-3">Thermal</span>
+                    </label>
+                  </div><!-- item -->
+                </div><!-- col-12 -->
+                <div class="col-6">
+                  <div class="item d-flex align-items-center justify-content-between rounded-3">
+                    <label for="billAr" class="w-50 m-1 position-relative">
+                      <input type="radio" name="lang" id="billAr" value="billAr" class="start-0 top-0 position-absolute w-100 h-100" checked>
+                      <span class="d-flex align-items-center justify-content-center rounded-3">عربي</span>
+                    </label>
+                    <label for="billEn" class="w-50 m-1 position-relative">
+                      <input type="radio" name="lang" id="billEn" value="billEn" class="start-0 top-0 position-absolute w-100 h-100">
+                      <span class="d-flex align-items-center justify-content-center rounded-3">English</span>
+                    </label>
+                  </div><!-- item -->
+                </div><!-- col-12 -->
+              </div><!-- row -->
+            </div><!-- col-12 -->
+          </div><!-- row -->
+          <div id="printBillBtn" class="d-flex align-items-center justify-content-center mt-3">
+            <span class="d-flex align-items-center justify-content-center text-center border rounded-3 bg-light text-body">Print Receipt</span>
+          </div><!-- printBillBtn -->
+          <iframe id="ifrPaySlip"  name="ifrPaySlip" scrolling="yes" style="display:none"></iframe>
+        </div><!-- viewPrintOptions -->
         @include('bills.partials.payment_logs')
       </div><!-- col-12 -->
     @endif
@@ -376,6 +412,12 @@
 
   <script>
     $(document).ready(function(){
+
+      var billType = $('input[type=radio][name=type]').val();
+      var billLang = $('input[type=radio][name=lang]').val();
+      var billId = '{{$bill->id}}';
+      var printUrl = "{{ route('bills.bill_print', [':id', ':type', ':lang']) }}";
+
       $("#refund_btn").click(function(){
         console.log('refund');
         var otherDate = '{{\Carbon\Carbon::now()->subDays(14)}}';
@@ -391,6 +433,19 @@
           $('#refundModal').modal('show');
         }
       });
+
+      $('input[type=radio][name=type]').change(function() {
+        billType = this.value;
+      });
+      $('input[type=radio][name=lang]').change(function() {
+        billLang = this.value
+      });
+      $('#printBillBtn').click(function() {
+        var newWin = window.frames[0];
+            newWin.document.write('<body onload="window.print()"><iframe style="position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" src="http://surebills.test/bills/'+billId+'/print?type='+billType+'&lang='+billLang+'"></body>');
+            newWin.document.close();
+      });
+
     });
   </script>
 
