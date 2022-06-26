@@ -17,38 +17,40 @@ class MediaObserver
      */
     public function created(Media $media)
     {
-        $user = User::find($media->model_id);
-
-        if($media->model_type == "App\Models\User"){
-            switch ($media->collection_name) {
-                case 'business_documents':
-                    $type = 'business';
-                    break;
-
-                case 'bank_documents':
-                    $type = 'bank';
-                    break;
-
-                default:
-                    # code...
-                    break;
-            }
-            event(new AddActionLogEvent(
-                'user_add_documents',
-                Auth::id(),
-                [
-                    'message' => [
-                        'username' => $user->name,
-                        'adminname' => Auth::user()->name,
-                        'fields_group' => "documents",
-                        'type' => $type,
-                        'time' => $media->created_at,
+        if(Auth::guard('admins')->check()){
+            $user = User::find($media->model_id);
+    
+            if($media->model_type == "App\Models\User"){
+                switch ($media->collection_name) {
+                    case 'business_documents':
+                        $type = 'business';
+                        break;
+    
+                    case 'bank_documents':
+                        $type = 'bank';
+                        break;
+    
+                    default:
+                        # code...
+                        break;
+                }
+                event(new AddActionLogEvent(
+                    'user_add_documents',
+                    Auth::id(),
+                    [
+                        'message' => [
+                            'username' => $user->name,
+                            'adminname' => Auth::user()->name,
+                            'fields_group' => "documents",
+                            'type' => $type,
+                            'time' => $media->created_at,
+                        ],
+                        'changes' => [],
                     ],
-                    'changes' => [],
-                ],
-                $user->id,
-                User::class
-            ));
+                    $user->id,
+                    User::class
+                ));
+            }
         }
 
     }
@@ -72,38 +74,40 @@ class MediaObserver
      */
     public function deleted(Media $media)
     {
-        $user = User::find($media->model_id);
-
-        if($media->model_type == "App\Models\User"){
-            switch ($media->collection_name) {
-                case 'business_documents':
-                    $type = 'business';
-                    break;
-
-                case 'bank_documents':
-                    $type = 'bank';
-                    break;
-
-                default:
-                    # code...
-                    break;
-            }
-            event(new AddActionLogEvent(
-                'user_delete_documents',
-                Auth::id(),
-                [
-                    'message' => [
-                        'username' => $user->name,
-                        'adminname' => Auth::user()->name,
-                        'fields_group' => "documents",
-                        'type' => $type,
-                        'time' => $media->created_at,
+        if(Auth::guard('admins')->check()){
+            $user = User::find($media->model_id);
+    
+            if($media->model_type == "App\Models\User"){
+                switch ($media->collection_name) {
+                    case 'business_documents':
+                        $type = 'business';
+                        break;
+    
+                    case 'bank_documents':
+                        $type = 'bank';
+                        break;
+    
+                    default:
+                        # code...
+                        break;
+                }
+                event(new AddActionLogEvent(
+                    'user_delete_documents',
+                    Auth::id(),
+                    [
+                        'message' => [
+                            'username' => $user->name,
+                            'adminname' => Auth::user()->name,
+                            'fields_group' => "documents",
+                            'type' => $type,
+                            'time' => $media->created_at,
+                        ],
+                        'changes' => [],
                     ],
-                    'changes' => [],
-                ],
-                $user->id,
-                User::class
-            ));
+                    $user->id,
+                    User::class
+                ));
+            }
         }
     }
 
