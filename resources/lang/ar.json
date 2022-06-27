@@ -882,6 +882,8 @@
 	"API" : "التطبيق",
     "users": "المستخدمين",
     "user": "المستخدم",
-    "merchant name": "اسم التاجر"
+    "merchant name": "اسم التاجر",
+    "You have no departments at the moment": "لا يوجد لديك أقسام حالياً",
+    "You have no products at the moment": "لا يوجد لديك منتجات حالياً"
 
 }
