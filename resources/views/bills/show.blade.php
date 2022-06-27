@@ -274,11 +274,11 @@
                 <div class="col-6">
                   <div class="item d-flex align-items-center justify-content-between rounded-3">
                     <label for="billAr" class="w-50 m-1 position-relative">
-                      <input type="radio" name="lang" id="billAr" value="billAr" class="start-0 top-0 position-absolute w-100 h-100" checked>
+                      <input type="radio" name="lang" id="billAr" value="ar" class="start-0 top-0 position-absolute w-100 h-100" checked>
                       <span class="d-flex align-items-center justify-content-center rounded-3">عربي</span>
                     </label>
                     <label for="billEn" class="w-50 m-1 position-relative">
-                      <input type="radio" name="lang" id="billEn" value="billEn" class="start-0 top-0 position-absolute w-100 h-100">
+                      <input type="radio" name="lang" id="billEn" value="en" class="start-0 top-0 position-absolute w-100 h-100">
                       <span class="d-flex align-items-center justify-content-center rounded-3">English</span>
                     </label>
                   </div><!-- item -->
@@ -416,7 +416,7 @@
       var billType = $('input[type=radio][name=type]').val();
       var billLang = $('input[type=radio][name=lang]').val();
       var billId = '{{$bill->id}}';
-      var printUrl = "{{ route('bills.bill_print', [':id', ':type', ':lang']) }}";
+      var base_url = "{{url('/')}}";
 
       $("#refund_btn").click(function(){
         console.log('refund');
@@ -442,7 +442,7 @@
       });
       $('#printBillBtn').click(function() {
         var newWin = window.frames[0];
-            newWin.document.write('<body onload="window.print()"><iframe style="position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" src="http://surebills.test/bills/'+billId+'/print?type='+billType+'&lang='+billLang+'"></body>');
+            newWin.document.write('<body onload="window.print()"><iframe style="position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" src="'+base_url+'/bills/'+billId+'/print?type='+billType+'&lang='+billLang+'"></body>');
             newWin.document.close();
       });
 
