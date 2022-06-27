@@ -414,14 +414,14 @@ class BillController extends Controller
         $bill = Bill::find($id);
         $type = $request->input('type');
         $lang = $request->input('lang');
-        if($type == 'billA4' && $lang == 'billEn'){
-          return view('bills.print_template.a4_en', compact('bill'));
-        }elseif($type == 'billA4' && $lang == 'billAr'){
-          return view('bills.print_template.a4_ar', compact('bill'));
-        }elseif($type == 'billTh' && $lang == 'billEn'){
-          return view('bills.print_template.th_en', compact('bill'));
-        }elseif($type == 'billTh' && $lang == 'billAr'){
-          return view('bills.print_template.th_ar', compact('bill'));
+        if($type == 'billA4' && $lang == 'en'){
+          return view('bills.print_template.a4_en', compact('bill', 'lang'));
+        }elseif($type == 'billA4' && $lang == 'ar'){
+          return view('bills.print_template.a4_ar', compact('bill', 'lang'));
+        }elseif($type == 'billTh' && $lang == 'en'){
+          return view('bills.print_template.th_en', compact('bill', 'lang'));
+        }elseif($type == 'billTh' && $lang == 'ar'){
+          return view('bills.print_template.th_ar', compact('bill', 'lang'));
         }
     }
 }

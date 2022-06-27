@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr" @endif>
+<html lang="{{ str_replace('_', '-', $lang) }}"  @if($lang == 'ar') dir="rtl" @else dir="ltr" @endif>
   <head>
     <meta charset="utf-8">
     <!-- CSRF Token -->
