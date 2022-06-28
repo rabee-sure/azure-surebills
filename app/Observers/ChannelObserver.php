@@ -16,20 +16,22 @@ class ChannelObserver
      */
     public function created(Channel $channel)
     {
-        event(new AddActionLogEvent(
-            'create_channel',
-            Auth::id(),
-            [
-                'message' => [
-                    'username' => $channel->user->name,
-                    'adminname' => Auth::user()->name,
-                    'time' => $channel->created_at,
+        if(Auth::guard('admins')->check()){
+            event(new AddActionLogEvent(
+                'create_channel',
+                Auth::id(),
+                [
+                    'message' => [
+                        'username' => $channel->user->name,
+                        'adminname' => Auth::user()->name,
+                        'time' => $channel->created_at,
+                    ],
+                    'changes' => [],
                 ],
-                'changes' => [],
-            ],
-            $channel->id,
-            Channel::class
-        ));
+                $channel->id,
+                Channel::class
+            ));
+        }
     }
 
     /**
@@ -40,31 +42,33 @@ class ChannelObserver
      */
     public function updated(Channel $channel)
     {
-        $fields = config('channelfields');
-
-        $fieldsChanges = [];
-        foreach($fields as $field){
-            if($channel->isDirty($field)){
-                $fieldsChanges[$field] = [
-                    'old_value' => $channel->getOriginal($field),
-                    'new_value' => $channel->$field
-                ];
+        if(Auth::guard('admins')->check()){
+            $fields = config('channelfields');
+    
+            $fieldsChanges = [];
+            foreach($fields as $field){
+                if($channel->isDirty($field)){
+                    $fieldsChanges[$field] = [
+                        'old_value' => $channel->getOriginal($field),
+                        'new_value' => $channel->$field
+                    ];
+                }
             }
+            event(new AddActionLogEvent(
+                'update_channel', 
+                Auth::id(), 
+                [
+                    'message' => [
+                        'username' => $channel->user->name,
+                        'adminname' => Auth::user()->name,
+                        'time' => $channel->updated_at,
+                    ],
+                    'changes' => $fieldsChanges,
+                ], 
+                $channel->id, 
+                Channel::class
+            ));
         }
-        event(new AddActionLogEvent(
-            'update_channel', 
-            Auth::id(), 
-            [
-                'message' => [
-                    'username' => $channel->user->name,
-                    'adminname' => Auth::user()->name,
-                    'time' => $channel->updated_at,
-                ],
-                'changes' => $fieldsChanges,
-            ], 
-            $channel->id, 
-            Channel::class
-        ));
     }
 
     /**
@@ -75,20 +79,22 @@ class ChannelObserver
      */
     public function deleted(Channel $channel)
     {
-        event(new AddActionLogEvent(
-            'delete_channel',
-            Auth::id(),
-            [
-                'message' => [
-                    'username' => $channel->user->name,
-                    'adminname' => Auth::user()->name,
-                    'time' => $channel->created_at,
+        if(Auth::guard('admins')->check()){
+            event(new AddActionLogEvent(
+                'delete_channel',
+                Auth::id(),
+                [
+                    'message' => [
+                        'username' => $channel->user->name,
+                        'adminname' => Auth::user()->name,
+                        'time' => $channel->created_at,
+                    ],
+                    'changes' => [],
                 ],
-                'changes' => [],
-            ],
-            $channel->id,
-            Channel::class
-        ));
+                $channel->id,
+                Channel::class
+            ));
+        }
     }
 
     /**
