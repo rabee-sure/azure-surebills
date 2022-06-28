@@ -49,7 +49,7 @@
       <div class="table-responsive" id="table-responsive"></div>
     </div><!-- blockArea -->
 
-    <div class="noCategoriesYet d-flex align-items-center justify-content-center flex-column my-5">
+    <div class="noCategoriesYet d-flex align-items-center justify-content-center flex-column my-5" id="emptyTable">
       <div class="icon"></div>
       <span class="d-block mt-3">{{ __('You have no departments at the moment') }}</span>
     </div><!-- noCategoriesYet -->
@@ -98,6 +98,8 @@
         success:function(categories){
           console.log(categories.data);
           if(categories.data.length > 0){
+            $("#emptyTable").attr('style','display:none !important');
+            $("#table-responsive").show();
             $("#table-responsive").append('<table id="catTable" class="table table-striped">');
               $("#catTable").append('<thead id="tblTh">');
                 $("#tblTh").append('<tr id="thTr">');
@@ -134,6 +136,8 @@
               });
               $("#catTable").append('</tbody>');
             $("#table-responsive").append('</table>');
+          }else{
+            $("#table-responsive").hide();
           }
         }
       });
