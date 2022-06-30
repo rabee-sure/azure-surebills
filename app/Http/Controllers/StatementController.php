@@ -48,7 +48,8 @@ class StatementController extends Controller
         $totals['debit'] = ($debit->first() != null) ? round2($debit->first()->debit) : 0;
         $totals['all'] = round2($totals['credit'] - $totals['debit']);
 
-        return view('statements.index', compact('statement', 'date_start', 'date_to', 'channels', 'channel', 'applications', 'application'));
+        return view('statements.index', compact('statement', 'date_start',
+            'date_to', 'channels', 'channel', 'applications', 'application','totals'));
     }
 
     public function export()
