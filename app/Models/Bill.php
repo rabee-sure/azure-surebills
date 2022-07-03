@@ -11,8 +11,10 @@ use Jenssegers\Date\Date;
 use App\Models\PaymentLog;
 use App\Models\WebhookLog;
 use App\Events\BillRefunded;
+use App\Events\BillOfflineRefunded;
 use App\Events\BillStatusUpdated;
 use App\Events\BillPartialRefunded;
+use App\Events\BillOfflinePartialRefunded;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\BillTransactionConfirmed;
 
@@ -731,11 +733,15 @@ class Bill extends Model
 
             return true;
         } else if (!$this->success_payment) {
+            $total_remain = $this->total;
             $this->status = $this->status == 'paid_cash' ? 'refunded_cash' : 'refunded_bank_transfer';
+            $this->refund_amount = $this->refund_amount + $this->total;
             $this->total = 0;
             $this->refunded_at = Carbon::now();
-            $this->refund_amount = $this->refund_amount + $this->total;
             $this->save();
+            
+            event(new BillOfflineRefunded($this, $total_remain));
+
             return true;
         }
 
@@ -763,6 +769,8 @@ class Bill extends Model
             $this->total = $this->total - $amount;
             $this->refund_amount = $this->refund_amount + $amount;
             $this->save();
+
+            event(new BillOfflinePartialRefunded($this, $amount));
 
             return true;
         }

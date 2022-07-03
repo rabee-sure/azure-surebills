@@ -71,6 +71,7 @@ class ReportsController extends Controller
                 'cash' => 'Cash',
                 'online' => 'Online',
                 'payment_machine' => 'Payment Machine', 
+                'bank_transfer' => 'Bank Transfer', 
             ],
             'sources' => [
                 'all' => 'All',

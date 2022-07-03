@@ -139,6 +139,24 @@ class User extends Authenticatable implements HasMedia
         return floorp($balance, 2);
     }
 
+    // public function getOfflineBalanceAttribute()
+    // {
+    //     if($this->userId)
+    //     {
+    //         $user = OfflineTransaction::userId($this->userId);
+    //     }
+    //     else
+    //     {
+    //         $user = $this->transactions();
+    //     }
+
+    //     $user = $user
+    //         ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
+    //         ->first();
+    //     $balance = $user->credit_total - $user->debit_total;
+    //     return floorp($balance, 2);
+    // }
+
     /**
      * Get the user's is Active.
      *
@@ -678,12 +696,22 @@ class User extends Authenticatable implements HasMedia
         $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
 
-        $query = DB::table('transactions')
-        ->join('bills', 'transactions.bill_id', '=', 'bills.id')
-        ->whereIn('transactions.transaction_source', ['bill', 'refund'])
-        ->where('transactions.user_id', $this->id)
-        ->whereDate('transactions.created_at', '>=', Carbon::parse($date_start))
-        ->whereDate('transactions.created_at', '<=', Carbon::parse($date_to));
+        $query = DB::table('bills')
+        ->leftjoin('transactions', 'bills.id', '=', 'transactions.bill_id')
+        ->leftjoin('offline_transactions', 'bills.id', '=', 'offline_transactions.bill_id')
+        ->whereIn('bills.status', ['paid', 'paid_cash', 'paid_bank_transfer', 'refunded', 'refunded_cash', 'refunded_bank_transfer'])
+        ->where(function($query) use ($date_start, $date_to){
+            $query->whereIn('transactions.transaction_source', ['bill', 'refund'])
+            ->where('transactions.user_id', $this->id)
+            ->whereDate('transactions.created_at', '>=', Carbon::parse($date_start))
+            ->whereDate('transactions.created_at', '<=', Carbon::parse($date_to));
+        })
+        ->orWhere(function($query) use ($date_start, $date_to){
+            $query->whereIn('offline_transactions.transaction_source', ['bill', 'refund'])
+            ->where('offline_transactions.user_id', $this->id)
+            ->whereDate('offline_transactions.created_at', '>=', Carbon::parse($date_start))
+            ->whereDate('offline_transactions.created_at', '<=', Carbon::parse($date_to));
+        });
 
         if($request != null){
             if($request->has('transaction_type') && $request->transaction_type != 'all'){

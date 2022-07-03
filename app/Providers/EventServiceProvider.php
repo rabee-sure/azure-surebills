@@ -38,6 +38,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\BillStatusUpdated' => [
             'App\Listeners\CallbackApplication',
+            'App\Listeners\CalculateOfflinePayment',
         ],
         'App\Events\BillPaid' => [
             'App\Listeners\CalculatePayment',
@@ -49,6 +50,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\BillPartialRefunded' => [
             'App\Listeners\CalculatePartialRefundedPayment',
+        ],
+        'App\Events\BillOfflineRefunded' => [
+            'App\Listeners\CalculateOfflineRefundedPayment',
+        ],
+        'App\Events\BillOfflinePartialRefunded' => [
+            'App\Listeners\CalculateOfflinePartialRefundedPayment',
         ],
         'App\Events\TransferCreated' => [
             'App\Listeners\SendMailTransferMailToCustomer',
