@@ -696,38 +696,66 @@ class User extends Authenticatable implements HasMedia
         $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
 
-        $query = DB::table('bills')
-        ->leftjoin('transactions', 'bills.id', '=', 'transactions.bill_id')
-        ->leftjoin('offline_transactions', 'bills.id', '=', 'offline_transactions.bill_id')
-        ->whereIn('bills.status', ['paid', 'paid_cash', 'paid_bank_transfer', 'refunded', 'refunded_cash', 'refunded_bank_transfer'])
-        ->where(function($query) use ($date_start, $date_to){
-            $query->whereIn('transactions.transaction_source', ['bill', 'refund'])
-            ->where('transactions.user_id', $this->id)
-            ->whereDate('transactions.created_at', '>=', Carbon::parse($date_start))
-            ->whereDate('transactions.created_at', '<=', Carbon::parse($date_to));
-        })
-        ->orWhere(function($query) use ($date_start, $date_to){
-            $query->whereIn('offline_transactions.transaction_source', ['bill', 'refund'])
-            ->where('offline_transactions.user_id', $this->id)
-            ->whereDate('offline_transactions.created_at', '>=', Carbon::parse($date_start))
-            ->whereDate('offline_transactions.created_at', '<=', Carbon::parse($date_to));
-        });
+        $trans_query = DB::table('transactions')
+        ->leftjoin('bills', 'bills.id', '=', 'transactions.bill_id')
+        ->select(DB::raw('
+            transactions.id id,
+            transactions.bill_id bill_id,
+            transactions.description description,
+            transactions.reference reference,
+            transactions.user_id user_id,
+            transactions.type type,
+            transactions.amount amount,
+            transactions.transaction_source transaction_source,
+            transactions.created_at created_at,
+            bills.payment_way payment_way,
+            bills.source source
+        '))
+        ->where('transactions.user_id', $this->id)
+        ->whereIn('transactions.transaction_source', ['bill', 'refund'])
+        ->whereDate('transactions.created_at', '>=', Carbon::parse($date_start))
+        ->whereDate('transactions.created_at', '<=', Carbon::parse($date_to));
 
+        $off_trans_query = DB::table('offline_transactions')
+        ->leftjoin('bills', 'bills.id', '=', 'offline_transactions.bill_id')
+        ->select(DB::raw('
+            offline_transactions.id id,
+            offline_transactions.bill_id bill_id,
+            offline_transactions.description description,
+            offline_transactions.reference reference,
+            offline_transactions.user_id user_id,
+            offline_transactions.type type,
+            offline_transactions.amount amount,
+            offline_transactions.transaction_source transaction_source,
+            offline_transactions.created_at created_at,
+            bills.payment_way payment_way,
+            bills.source source
+        '))
+        ->where('offline_transactions.user_id', $this->id)
+        ->whereIn('offline_transactions.transaction_source', ['bill', 'refund'])
+        ->whereDate('offline_transactions.created_at', '>=', Carbon::parse($date_start))
+        ->whereDate('offline_transactions.created_at', '<=', Carbon::parse($date_to));
+        
         if($request != null){
             if($request->has('transaction_type') && $request->transaction_type != 'all'){
-                $query->where('transactions.type', $request->transaction_type);
+                $trans_query->where('transactions.type', $request->transaction_type);
+                $off_trans_query->where('offline_transactions.type', $request->transaction_type);
             }
     
             if($request->has('payment_way') && $request->payment_way != 'all'){
-                $query->where('bills.payment_way', $request->payment_way);
+                $trans_query->where('bills.payment_way', $request->payment_way);
+                $off_trans_query->where('bills.payment_way', $request->payment_way);
             }
     
             if($request->has('source') && $request->source != 'all'){
-                $query->where('bills.source', $request->source);
+                $trans_query->where('bills.source', $request->source);
+                $off_trans_query->where('bills.source', $request->source);
             }
         }
 
-        $query->orderBy('transactions.created_at');
+        $query = $trans_query->union($off_trans_query);
+
+        $query->orderBy('created_at');
 
         return $query;
     }

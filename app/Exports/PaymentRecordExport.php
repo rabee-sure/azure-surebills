@@ -43,16 +43,7 @@ class PaymentRecordExport implements FromQuery, WithHeadings, WithMapping
 
         $query = $user->paymentRecordQuery($this->request);
 
-        $exportedQuery = $query->select(
-            'transactions.created_at', 
-            'transactions.type', 
-            'transactions.reference', 
-            'transactions.amount', 
-            'bills.payment_way', 
-            'bills.source',
-        );
-
-        return $exportedQuery;
+        return $query;
     }
 
     public function map($payments): array
