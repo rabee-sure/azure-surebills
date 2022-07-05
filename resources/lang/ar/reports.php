@@ -18,6 +18,7 @@ return [
     'cash' => 'نقدي',
     'online' => 'أون لاين',
     'payment_machine' => 'ماكينة دفع',
+    'bank_transfer' => 'تحويل بنكي',
     'sure_bill' => 'شور بيل',
     'pos' => 'نقطة البيع',
     'api' => 'التطبيق',
