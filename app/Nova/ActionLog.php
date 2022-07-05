@@ -59,9 +59,11 @@ class ActionLog extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make('Admin'),
-            BelongsTo::make('SystemAction'),
+            ID::make('ID', 'id')->sortable(),
+            BelongsTo::make('User', 'Admin', 'App\Nova\Admin'),
+            BelongsTo::make('Action', 'SystemAction', 'App\Nova\SystemAction')->display(function () {
+                return __('action_names.'.$this->SystemAction->action_name);
+            }),
             Text::make('Message', 'message'),
             DateTime::make('Created at', 'created_at'),
             new Panel(__('Changes'), $this->ChangesFields()),
@@ -74,8 +76,10 @@ class ActionLog extends Resource
 
         $panelFields = [];
         
-        $panelFields[] = Text::make('Model', 'model_class');
-        $panelFields[] = Text::make('Model_id', 'model_id');
+        $panelFields[] = Text::make('Object', function () {
+            return __('models_class.'.$this->model_class);
+        });
+        $panelFields[] = Text::make('Object ID', 'model_id');
 
         if(!empty($payload)){
             foreach($payload as $fKey => $field){

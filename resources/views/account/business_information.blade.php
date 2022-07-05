@@ -86,7 +86,7 @@
               <label for="business_mobile" class="d-block mb-2">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
               <div class="phoneInput overflow-hidden position-relative">
                 <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
-                <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" inputmode="numeric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="business_mobile" placeholder="{{ __('Mobile') }}" pattern="[0-9]*" maxlength="9">
+                <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" inputmode="numeric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="business_mobile" placeholder="{{ __('Mobile') }}" pattern="[0-9]*">
               </div><!-- phoneInput -->
             </div><!-- form-group -->
           </div><!-- col-12 -->

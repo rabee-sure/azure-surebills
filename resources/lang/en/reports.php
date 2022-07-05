@@ -18,6 +18,7 @@ return [
     'cash' => 'Cash',
     'online' => 'Online',
     'payment_machine' => 'Payment Machine',
+    'bank_transfer' => 'Bank Transfer',
     'sure_bill' => 'Sure Bill',
     'pos' => 'POS',
     'api' => 'API',

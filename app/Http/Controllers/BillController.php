@@ -317,7 +317,7 @@ class BillController extends Controller
         if ($bill->is_invalid) {
             return view('bills.status', ['bill' => $bill]);
         }
-        dd($payment);
+        // dd($payment);
 
         $invoice = (new Invoice)->amount(number_format($bill->total, 2, '.', ''))
             ->detail(['bill_id' => $bill->id])
@@ -407,5 +407,21 @@ class BillController extends Controller
     {
         $bill = Bill::decodeId($id);
         return view('bills.invoice', compact('bill', 'id'));
+    }
+
+    public function billPrint($id, Request $request)
+    {
+        $bill = Bill::find($id);
+        $type = $request->input('type');
+        $lang = $request->input('lang');
+        if($type == 'billA4' && $lang == 'en'){
+          return view('bills.print_template.a4_en', compact('bill', 'lang'));
+        }elseif($type == 'billA4' && $lang == 'ar'){
+          return view('bills.print_template.a4_ar', compact('bill', 'lang'));
+        }elseif($type == 'billTh' && $lang == 'en'){
+          return view('bills.print_template.th_en', compact('bill', 'lang'));
+        }elseif($type == 'billTh' && $lang == 'ar'){
+          return view('bills.print_template.th_ar', compact('bill', 'lang'));
+        }
     }
 }

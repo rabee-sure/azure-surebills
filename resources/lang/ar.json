@@ -175,7 +175,7 @@
     "create merchant": "انشاء تاجر",
     "update merchant": "تعديل تاجر",
     "delete merchant": "حذف تاجر",
-    "show statements": "عرض التحويلات",
+    "show statements": "عرض مختصر كشف حساب التاجر",
     "create settlement": "انشاء تحويل",
     "user type": "نوع المستخدم",
     "merchant type": "نوع التاجر",
@@ -427,7 +427,7 @@
 	"When Bill Paid": "عند سداد فاتورة",
 
 	"Simple Style for API": "أسلوب بسيط لواجهة برمجة التطبيقات",
-	"Activate simple style for API bills?": "تنشيط أسلوب بسيط لفواتير التطبيقات؟",
+	"Activate simple style for API bills?": "إلغاء معلومات المنشأة الإضافية في رابط الدفع وتبسيطه",
 
 	"Settings": "الاعدادات",
     "General Settings": "الاعدادات العامة",
@@ -800,7 +800,7 @@
 	"Report Done" : "تم انشاءه",
   "Add a product category" : "اضف قسم منتج",
   "Invoice Settings" : "اعدادات الفاتورة",
-  "Electronic payment record" : "سجل المدفوعات الالكترونية",
+  "Electronic payment" : "المدفوعات الالكترونية",
   "There are no data" : "لا يوجد بيانات",
   "electronic payment balance" : "رصيد المدفوعات الالكترونية",
   "Add a product category" : "اضف قسم منتج",
@@ -877,11 +877,14 @@
 	"Cash" : "نقدي",
 	"Online" : "اون لاين",
 	"Payment Machine" : "ماكينة الدفع",
+	"Bank Transfer" : "تحويل بنكي",
 	"Sure Bill" : "شور بيل",
 	"POS" : "نقطة البيع",
 	"API" : "التطبيق",
     "users": "المستخدمين",
     "user": "المستخدم",
-    "merchant name": "اسم التاجر"
+    "merchant name": "اسم التاجر",
+    "You have no departments at the moment": "لا يوجد لديك أقسام حالياً",
+    "You have no products at the moment": "لا يوجد لديك منتجات حالياً"
 
 }

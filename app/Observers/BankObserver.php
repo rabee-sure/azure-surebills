@@ -16,19 +16,21 @@ class BankObserver
      */
     public function created(Bank $bank)
     {
-        event(new AddActionLogEvent(
-            'create_bank',
-            Auth::id(),
-            [
-                'message' => [
-                    'adminname' => Auth::user()->name,
-                    'time' => $bank->created_at,
+        if(Auth::guard('admins')->check()){
+            event(new AddActionLogEvent(
+                'create_bank',
+                Auth::id(),
+                [
+                    'message' => [
+                        'adminname' => Auth::user()->name,
+                        'time' => $bank->created_at,
+                    ],
+                    'changes' => [],
                 ],
-                'changes' => [],
-            ],
-            $bank->id,
-            Bank::class
-        ));
+                $bank->id,
+                Bank::class
+            ));
+        }
     }
 
     /**
@@ -39,30 +41,32 @@ class BankObserver
      */
     public function updated(Bank $bank)
     {
-        $fields = config('bankfields');
-
-        $fieldsChanges = [];
-        foreach($fields as $field){
-            if($bank->isDirty($field)){
-                $fieldsChanges[$field] = [
-                    'old_value' => $bank->getOriginal($field),
-                    'new_value' => $bank->$field
-                ];
+        if(Auth::guard('admins')->check()){
+            $fields = config('bankfields');
+    
+            $fieldsChanges = [];
+            foreach($fields as $field){
+                if($bank->isDirty($field)){
+                    $fieldsChanges[$field] = [
+                        'old_value' => $bank->getOriginal($field),
+                        'new_value' => $bank->$field
+                    ];
+                }
             }
+            event(new AddActionLogEvent(
+                'update_bank', 
+                Auth::id(), 
+                [
+                    'message' => [
+                        'adminname' => Auth::user()->name,
+                        'time' => $bank->updated_at,
+                    ],
+                    'changes' => $fieldsChanges,
+                ], 
+                $bank->id, 
+                Bank::class
+            ));
         }
-        event(new AddActionLogEvent(
-            'update_bank', 
-            Auth::id(), 
-            [
-                'message' => [
-                    'adminname' => Auth::user()->name,
-                    'time' => $bank->updated_at,
-                ],
-                'changes' => $fieldsChanges,
-            ], 
-            $bank->id, 
-            Bank::class
-        ));
     }
 
     /**
@@ -73,19 +77,21 @@ class BankObserver
      */
     public function deleted(Bank $bank)
     {
-        event(new AddActionLogEvent(
-            'delete_bank',
-            Auth::id(),
-            [
-                'message' => [
-                    'adminname' => Auth::user()->name,
-                    'time' => $bank->created_at,
+        if(Auth::guard('admins')->check()){
+            event(new AddActionLogEvent(
+                'delete_bank',
+                Auth::id(),
+                [
+                    'message' => [
+                        'adminname' => Auth::user()->name,
+                        'time' => $bank->created_at,
+                    ],
+                    'changes' => [],
                 ],
-                'changes' => [],
-            ],
-            $bank->id,
-            Bank::class
-        ));
+                $bank->id,
+                Bank::class
+            ));
+        }
     }
 
     /**

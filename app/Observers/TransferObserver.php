@@ -22,21 +22,23 @@ class TransferObserver
             TransferCompleted::dispatch($transfer);
         }
 
-        event(new AddActionLogEvent(
-            'create_transfer',
-            Auth::id(),
-            [
-                'message' => [
-                    'username' => $transfer->user->name,
-                    'adminname' => Auth::user()->name,
-                    'amount' => $transfer->net_amount,
-                    'time' => $transfer->created_at,
+        if(Auth::guard('admins')->check()){
+            event(new AddActionLogEvent(
+                'create_transfer',
+                Auth::id(),
+                [
+                    'message' => [
+                        'username' => $transfer->user->name,
+                        'adminname' => Auth::user()->name,
+                        'amount' => $transfer->net_amount,
+                        'time' => $transfer->created_at,
+                    ],
+                    'changes' => [],
                 ],
-                'changes' => [],
-            ],
-            $transfer->id,
-            Transfer::class
-        ));
+                $transfer->id,
+                Transfer::class
+            ));
+        }
     }
 
     /**
