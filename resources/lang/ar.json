@@ -175,7 +175,7 @@
     "create merchant": "انشاء تاجر",
     "update merchant": "تعديل تاجر",
     "delete merchant": "حذف تاجر",
-    "show statements": "عرض التحويلات",
+    "show statements": "عرض مختصر كشف حساب التاجر",
     "create settlement": "انشاء تحويل",
     "user type": "نوع المستخدم",
     "merchant type": "نوع التاجر",
