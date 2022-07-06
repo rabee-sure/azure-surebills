@@ -28,6 +28,7 @@ class AddOldCashBillsOfflineTransactionsSeeder extends Seeder
             $transaction->reference   = $bill->number;
             $transaction->description = 'Bill ' . $bill->number . ' - ' . $bill->customer_name;
             $transaction->transaction_source = 'bill';
+            $transaction->created_at = $bill->created_at;
             $transaction->saveIfUnique();
 
             if($bill->status == 'paid_cash' || $bill->status == 'paid_bank_transfer'){
@@ -43,6 +44,7 @@ class AddOldCashBillsOfflineTransactionsSeeder extends Seeder
                     $transaction->description = 'PARTIAL REFUND Bill ' . $bill->number . ' - ' . $bill->customer_name;
                     $transaction->transaction_source = 'refund';
                     $transaction->order = $order_max+1;
+                    $transaction->created_at = $bill->updated_at;
                     $transaction->save();
                 }
             }elseif($bill->status == 'refunded_cash' || $bill->status == 'refunded_bank_transfer'){
@@ -58,6 +60,7 @@ class AddOldCashBillsOfflineTransactionsSeeder extends Seeder
                 $transaction->description = 'REFUND Bill ' . $bill->number . ' - ' . $bill->customer_name;
                 $transaction->transaction_source = 'refund';
                 $transaction->order = $order_max+1;
+                $transaction->created_at = $bill->updated_at;
                 $transaction->save();
             }
         }
