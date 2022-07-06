@@ -8,8 +8,8 @@
       </a>
 
     </div><!-- item -->
-    <div class="item" v-if="permissions.includes('show statements')">
-      <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id">
+    <div class="item">
+      <a :href="statmentUrl">
         <span>{{ __('Total Paid') }}</span>
         <p v-if="user.stats">{{ user.stats.total_paid }}</p>
       </a>
