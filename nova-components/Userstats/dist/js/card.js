@@ -737,27 +737,15 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm.permissions.includes("show statements")
-          ? _c("div", { staticClass: "item" }, [
-              _c(
-                "a",
-                {
-                  attrs: {
-                    href:
-                      "/nova/resources/statements?statements_page=1&statements_filter=" +
-                      _vm.user.stats.filter_user_id
-                  }
-                },
-                [
-                  _c("span", [_vm._v(_vm._s(_vm.__("Total Paid")))]),
-                  _vm._v(" "),
-                  _vm.user.stats
-                    ? _c("p", [_vm._v(_vm._s(_vm.user.stats.total_paid))])
-                    : _vm._e()
-                ]
-              )
-            ])
-          : _vm._e(),
+        _c("div", { staticClass: "item" }, [
+          _c("a", { attrs: { href: _vm.statmentUrl } }, [
+            _c("span", [_vm._v(_vm._s(_vm.__("Total Paid")))]),
+            _vm._v(" "),
+            _vm.user.stats
+              ? _c("p", [_vm._v(_vm._s(_vm.user.stats.total_paid))])
+              : _vm._e()
+          ])
+        ]),
         _vm._v(" "),
         _vm.permissions.includes("show bills")
           ? _c("div", { staticClass: "item" }, [
