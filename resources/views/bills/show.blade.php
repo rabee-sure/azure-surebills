@@ -253,47 +253,47 @@
         @endif
       </div><!-- showBill -->
     </div><!-- col-12 -->
-    @if(count($bill->payment_logs) > 0)
-      <div class="col-12 col-md-6 d-print-none">
-        <div class="viewPrintOptions bg-white shadow-sm rounded-3 p-3 mb-3">
-          <div class="row justify-content-center">
-            <div class="col-12 col-md-9">
-              <div class="row">
-                <div class="col-6">
-                  <div class="item d-flex align-items-center justify-content-between rounded-3">
-                    <label for="billA4" class="w-50 m-1 position-relative">
-                      <input type="radio" name="type" id="billA4" value="billA4" class="start-0 top-0 position-absolute w-100 h-100" checked>
-                      <span class="d-flex align-items-center justify-content-center rounded-3">A4</span>
-                    </label>
-                    <label for="billTh" class="w-50 m-1 position-relative">
-                      <input type="radio" name="type" id="billTh" value="billTh" class="start-0 top-0 position-absolute w-100 h-100">
-                      <span class="d-flex align-items-center justify-content-center rounded-3">Thermal</span>
-                    </label>
-                  </div><!-- item -->
-                </div><!-- col-12 -->
-                <div class="col-6">
-                  <div class="item d-flex align-items-center justify-content-between rounded-3">
-                    <label for="billAr" class="w-50 m-1 position-relative">
-                      <input type="radio" name="lang" id="billAr" value="ar" class="start-0 top-0 position-absolute w-100 h-100" checked>
-                      <span class="d-flex align-items-center justify-content-center rounded-3">عربي</span>
-                    </label>
-                    <label for="billEn" class="w-50 m-1 position-relative">
-                      <input type="radio" name="lang" id="billEn" value="en" class="start-0 top-0 position-absolute w-100 h-100">
-                      <span class="d-flex align-items-center justify-content-center rounded-3">English</span>
-                    </label>
-                  </div><!-- item -->
-                </div><!-- col-12 -->
-              </div><!-- row -->
-            </div><!-- col-12 -->
-          </div><!-- row -->
-          <div id="printBillBtn" class="d-flex align-items-center justify-content-center mt-3">
-            <span class="d-flex align-items-center justify-content-center text-center border rounded-3 bg-light text-body">Print Receipt</span>
-          </div><!-- printBillBtn -->
-          <iframe id="ifrPaySlip"  name="ifrPaySlip" scrolling="yes" style="display:none"></iframe>
-        </div><!-- viewPrintOptions -->
+    <div class="col-12 col-md-6 d-print-none">
+      <div class="viewPrintOptions bg-white shadow-sm rounded-3 p-3 mb-3">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-9">
+            <div class="row">
+              <div class="col-6">
+                <div class="item d-flex align-items-center justify-content-between rounded-3">
+                  <label for="billA4" class="w-50 m-1 position-relative">
+                    <input type="radio" name="type" id="billA4" value="billA4" class="start-0 top-0 position-absolute w-100 h-100" checked>
+                    <span class="d-flex align-items-center justify-content-center rounded-3">A4</span>
+                  </label>
+                  <label for="billTh" class="w-50 m-1 position-relative">
+                    <input type="radio" name="type" id="billTh" value="billTh" class="start-0 top-0 position-absolute w-100 h-100">
+                    <span class="d-flex align-items-center justify-content-center rounded-3">Thermal</span>
+                  </label>
+                </div><!-- item -->
+              </div><!-- col-12 -->
+              <div class="col-6">
+                <div class="item d-flex align-items-center justify-content-between rounded-3">
+                  <label for="billAr" class="w-50 m-1 position-relative">
+                    <input type="radio" name="lang" id="billAr" value="ar" class="start-0 top-0 position-absolute w-100 h-100" checked>
+                    <span class="d-flex align-items-center justify-content-center rounded-3">عربي</span>
+                  </label>
+                  <label for="billEn" class="w-50 m-1 position-relative">
+                    <input type="radio" name="lang" id="billEn" value="en" class="start-0 top-0 position-absolute w-100 h-100">
+                    <span class="d-flex align-items-center justify-content-center rounded-3">English</span>
+                  </label>
+                </div><!-- item -->
+              </div><!-- col-12 -->
+            </div><!-- row -->
+          </div><!-- col-12 -->
+        </div><!-- row -->
+        <div id="printBillBtn" class="d-flex align-items-center justify-content-center mt-3">
+          <span class="d-flex align-items-center justify-content-center text-center border rounded-3 bg-light text-body">Print Receipt</span>
+        </div><!-- printBillBtn -->
+        <iframe id="ifrPaySlip"  name="ifrPaySlip" scrolling="yes" style="display:none"></iframe>
+      </div><!-- viewPrintOptions -->
+      @if(count($bill->payment_logs) > 0)
         @include('bills.partials.payment_logs')
-      </div><!-- col-12 -->
-    @endif
+      @endif
+    </div><!-- col-12 -->
   </div><!-- row -->
 
 </section><!-- billShowPage -->
