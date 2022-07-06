@@ -1,12 +1,7 @@
 <template>
   <div id="users_statistics" v-if="permissions.includes('show statements') || permissions.includes('create settlement') || permissions.includes('show bills')">
     <div class="item" v-if="permissions.includes('show statements') || permissions.includes('create settlement')">
-      <a v-if="permissions.includes('show statements')" :href="statmentUrl">
-        <span>{{ __('Balance') }}</span>
-        <p v-if="user">{{ user.balance }}</p>
-        <p v-if="user && permissions.includes('create settlement')"><a :href="'/nova/settlements/'+user.id+'/create'" target="_blank" style="min-height: 0px;"> {{ __('Create Transfer') }}</a></p>
-      </a>
-      <a v-if="!permissions.includes('show statements')" :href="'#'">
+      <a :href="statmentUrl">
         <span>{{ __('Balance') }}</span>
         <p v-if="user">{{ user.balance }}</p>
         <p v-if="user && permissions.includes('create settlement')"><a :href="'/nova/settlements/'+user.id+'/create'" target="_blank" style="min-height: 0px;"> {{ __('Create Transfer') }}</a></p>
