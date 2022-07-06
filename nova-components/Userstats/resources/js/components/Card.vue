@@ -1,11 +1,12 @@
 <template>
   <div id="users_statistics" v-if="permissions.includes('show statements') || permissions.includes('create settlement') || permissions.includes('show bills')">
     <div class="item" v-if="permissions.includes('show statements') || permissions.includes('create settlement')">
-      <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id">
+      <a :href="statmentUrl">
         <span>{{ __('Balance') }}</span>
         <p v-if="user">{{ user.balance }}</p>
         <p v-if="user && permissions.includes('create settlement')"><a :href="'/nova/settlements/'+user.id+'/create'" target="_blank" style="min-height: 0px;"> {{ __('Create Transfer') }}</a></p>
       </a>
+
     </div><!-- item -->
     <div class="item" v-if="permissions.includes('show statements')">
       <a :href="'/nova/resources/statements?statements_page=1&statements_filter='+user.stats.filter_user_id">
@@ -39,20 +40,25 @@ export default {
     data: () => ({
         user: {},
         permissions: [],
+        statmentUrl: '#',
     }),
     mounted() {
       this.handleChangeDate();
-      this.reportPermission();
     },
      methods: {
        handleChangeDate () {
         return Nova.request().get('/api/v1/users/' + this.resourceId + '/stats').then(response => {
           this.user = response.data.data
+          this.reportPermission();
         })
       },
        reportPermission(){
          return Nova.request().get('/user-permissions/admins').then(response => {
            this.permissions = response.data;
+           if(this.permissions.includes('show statements'))
+           {
+                this.statmentUrl = '/nova/resources/statements?statements_page=1&statements_filter='+this.user['stats'].filter_user_id;
+           }
           })
         },
     },
