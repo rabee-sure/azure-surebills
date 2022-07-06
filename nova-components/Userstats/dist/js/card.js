@@ -658,18 +658,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['card', 'resource', 'resourceId', 'resourceName'],
   data: function data() {
     return {
       user: {},
-      permissions: []
+      permissions: [],
+      statmentUrl: '#'
     };
   },
   mounted: function mounted() {
     this.handleChangeDate();
-    this.reportPermission();
   },
 
   methods: {
@@ -678,6 +684,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       return Nova.request().get('/api/v1/users/' + this.resourceId + '/stats').then(function (response) {
         _this.user = response.data.data;
+        _this.reportPermission();
       });
     },
     reportPermission: function reportPermission() {
@@ -685,6 +692,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       return Nova.request().get('/user-permissions/admins').then(function (response) {
         _this2.permissions = response.data;
+        if (_this2.permissions.includes('show statements')) {
+          _this2.statmentUrl = '/nova/resources/statements?statements_page=1&statements_filter=' + _this2.user['stats'].filter_user_id;
+        }
       });
     }
   }
@@ -705,40 +715,63 @@ var render = function() {
         _vm.permissions.includes("show statements") ||
         _vm.permissions.includes("create settlement")
           ? _c("div", { staticClass: "item" }, [
-              _c(
-                "a",
-                {
-                  attrs: {
-                    href:
-                      "/nova/resources/statements?statements_page=1&statements_filter=" +
-                      _vm.user.stats.filter_user_id
-                  }
-                },
-                [
-                  _c("span", [_vm._v(_vm._s(_vm.__("Balance")))]),
-                  _vm._v(" "),
-                  _vm.user
-                    ? _c("p", [_vm._v(_vm._s(_vm.user.balance))])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.user && _vm.permissions.includes("create settlement")
-                    ? _c("p", [
-                        _c(
-                          "a",
-                          {
-                            staticStyle: { "min-height": "0px" },
-                            attrs: {
-                              href:
-                                "/nova/settlements/" + _vm.user.id + "/create",
-                              target: "_blank"
-                            }
-                          },
-                          [_vm._v(" " + _vm._s(_vm.__("Create Transfer")))]
-                        )
-                      ])
-                    : _vm._e()
-                ]
-              )
+              _vm.permissions.includes("show statements")
+                ? _c("a", { attrs: { href: _vm.statmentUrl } }, [
+                    _c("span", [_vm._v(_vm._s(_vm.__("Balance")))]),
+                    _vm._v(" "),
+                    _vm.user
+                      ? _c("p", [_vm._v(_vm._s(_vm.user.balance))])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.user && _vm.permissions.includes("create settlement")
+                      ? _c("p", [
+                          _c(
+                            "a",
+                            {
+                              staticStyle: { "min-height": "0px" },
+                              attrs: {
+                                href:
+                                  "/nova/settlements/" +
+                                  _vm.user.id +
+                                  "/create",
+                                target: "_blank"
+                              }
+                            },
+                            [_vm._v(" " + _vm._s(_vm.__("Create Transfer")))]
+                          )
+                        ])
+                      : _vm._e()
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.permissions.includes("show statements")
+                ? _c("a", { attrs: { href: "#" } }, [
+                    _c("span", [_vm._v(_vm._s(_vm.__("Balance")))]),
+                    _vm._v(" "),
+                    _vm.user
+                      ? _c("p", [_vm._v(_vm._s(_vm.user.balance))])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.user && _vm.permissions.includes("create settlement")
+                      ? _c("p", [
+                          _c(
+                            "a",
+                            {
+                              staticStyle: { "min-height": "0px" },
+                              attrs: {
+                                href:
+                                  "/nova/settlements/" +
+                                  _vm.user.id +
+                                  "/create",
+                                target: "_blank"
+                              }
+                            },
+                            [_vm._v(" " + _vm._s(_vm.__("Create Transfer")))]
+                          )
+                        ])
+                      : _vm._e()
+                  ])
+                : _vm._e()
             ])
           : _vm._e(),
         _vm._v(" "),
