@@ -56,6 +56,11 @@
       padding: 10px;
       border-radius: 8px;
     }
+    .billMailWrapper .alert {
+      margin: 10px auto;
+      text-align: center;
+      width: 100%;
+    }
     .billMailWrapper .mailContent .billInfo {
       border-top: 1px dashed #dee2e6;
       padding-top: 0.5rem;
