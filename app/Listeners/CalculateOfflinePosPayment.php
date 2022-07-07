@@ -4,8 +4,9 @@ namespace App\Listeners;
 
 use App\Events\PosBillPaid;
 use App\Jobs\MakeOfflineTransactionsForOwner;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CalculateOfflinePosPayment
+class CalculateOfflinePosPayment implements ShouldQueue
 {
     /**
      * Create the event listener.
