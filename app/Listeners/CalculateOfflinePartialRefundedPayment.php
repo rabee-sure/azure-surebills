@@ -4,8 +4,9 @@ namespace App\Listeners;
 
 use App\Events\BillOfflinePartialRefunded;
 use App\Jobs\OfflinePartialRefundTransactionsForOwner;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CalculateOfflinePartialRefundedPayment
+class CalculateOfflinePartialRefundedPayment implements ShouldQueue
 {
     /**
      * Create the event listener.
