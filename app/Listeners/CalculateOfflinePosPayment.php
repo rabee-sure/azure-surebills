@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\BillStatusUpdated;
+use App\Events\PosBillPaid;
 use App\Jobs\MakeOfflineTransactionsForOwner;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CalculateOfflinePayment implements ShouldQueue
+class CalculateOfflinePosPayment implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -24,11 +24,11 @@ class CalculateOfflinePayment implements ShouldQueue
      * @param  BillPaid  $event
      * @return void
      */
-    public function handle(BillStatusUpdated $event)
+    public function handle(PosBillPaid $event)
     {
         $bill = $event->bill;
 
-        if($bill && ($bill->status == 'paid_cash' || $bill->status == 'paid_bank_transfer')){
+        if($bill && ($bill->status == 'paid_cash' || ($bill->status == 'paid' && $bill->payment_way == 'payment_machine'))){
             
             //make Offline Transactions For Owner.
             MakeOfflineTransactionsForOwner::dispatch($bill);

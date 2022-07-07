@@ -26,6 +26,7 @@ use App\Http\Requests\CustomerApiRequest;
 use App\Http\Requests\PosOrderApiRequest;
 
 use App\Events\BillCreated;
+use App\Events\PosBillPaid;
 use App\Events\PosSendBill;
 
 use Illuminate\Support\Facades\Storage;
@@ -440,6 +441,10 @@ class PosController extends Controller
         });
 
         event(new BillCreated($bill));
+
+        if($bill->status == 'paid' || $bill->status == 'paid_cash'){
+            event(new PosBillPaid($bill));
+        }
 
         return new BillPosApiResource($bill);
     }

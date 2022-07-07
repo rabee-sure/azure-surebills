@@ -49,7 +49,7 @@ class VrificationRequests extends Resource
      */
     public static function label()
     {
-        return __('Users');
+        return __('Merchants');
     }
 
     public static $displayInNavigation = false;
@@ -73,7 +73,7 @@ class VrificationRequests extends Resource
      */
     public static function singularLabel()
     {
-        return __('User');
+        return __('Merchant');
     }
 
     /**
