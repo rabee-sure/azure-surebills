@@ -84,19 +84,8 @@ class ActionLog extends Resource
         if(!empty($payload)){
             foreach($payload as $fKey => $field){
 
-                $old_value = '';
-                if(is_bool($field['old_value'])){
-                    $old_value = $field['old_value'] ? 'Enable' : 'Disabled';
-                }else{
-                    $old_value = ($field['old_value'] != null) ? $field['old_value'] : 'Empty';
-                }
-
-                $new_value = '';
-                if(is_bool($field['new_value'])){
-                    $new_value = $field['new_value'] ? 'Enable' : 'Disabled';
-                }else{
-                    $new_value = ($field['new_value'] != null) ? $field['new_value'] : 'Empty';
-                }
+                $old_value = $this->getValue(substr(strrchr($this->model_class, "\\"), 1), $fKey, $field['old_value']);
+                $new_value = $this->getValue(substr(strrchr($this->model_class, "\\"), 1), $fKey, $field['new_value']);
 
                 $panelFields[] = Text::make($fKey, function () use ($old_value, $new_value) {
                     return 'changed from <span style="color:red;">'.$old_value.'</span> to <span style="color:green;">'.$new_value.'</span>';
@@ -104,6 +93,18 @@ class ActionLog extends Resource
             }
         }
         return $panelFields;
+    }
+
+    public function getValue($model, $field, $value){
+        if(is_bool($value)){
+            $value = $value ? 1 : 0;
+        }
+        $readableValue = config('selectoptions.'.$model.'.'.$field.'.'.$value);
+        if($readableValue != null){
+            $value = $readableValue; 
+        }
+
+        return $value;
     }
 
     public function authorizedToView(Request $request)
