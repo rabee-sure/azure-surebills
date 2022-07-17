@@ -2,10 +2,10 @@ aside {
   overflow-y: auto;
   right: 0;
   width: 135px;
-  z-index: 999;
+  z-index: 9;
   box-shadow: 0 0 15px 0 rgba(34,41,47,0.05);
   padding: 10px;
-  transition: all 0.4s ease-in-out;
+  // transition: all 0.4s ease-in-out;
   max-height: calc(100vh - 60px);
   min-height: calc(100vh - 60px);
   [dir="ltr"] & {
