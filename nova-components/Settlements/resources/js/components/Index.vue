@@ -28,7 +28,7 @@
                         <Button @click="makeAction('send_to_sps')" type="success" long>
                             {{ __('Send To SPS')}}
                         </Button>
-                        
+
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -37,19 +37,19 @@
                   <template slot-scope="{ row }" slot="fromto">
                     <div v-if="row.filter_from">{{ __(row.filter_to) }}</div>
                     <div v-else>{{ __(row.cycle_date) }}</div>
-                      
+
                   </template>
 
-                  <template slot-scope="{ row, index }" slot="confirm">              
+                  <template slot-scope="{ row, index }" slot="confirm">
                     <i-switch v-if="row.status == 'pending' || row.status =='completed'" :disabled="!row.status_is_pending" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id, 'completed')" false-color="#f90" true-color="#13ce66" :ref="'switch' + row.id" />
                   </template>
 
 
-                  <template slot-scope="{ row, index }" slot="sps">              
+                  <template slot-scope="{ row, index }" slot="sps">
                     <i-switch  v-if="row.status == 'pending' || row.status =='send_to_sps'" :disabled="!row.status_is_pending" :loading="switch_loading" v-model="row.status_sps" @on-change="changeStatus($event, row.id, 'send_to_sps')"  :ref="'switch' + row.id" />
                   </template>
 
-                  <template slot-scope="{ row, index }" slot="cancel">              
+                  <template slot-scope="{ row, index }" slot="cancel">
                       <Button :disabled="row.status == 'canceled' || row.status == 'completed' || row.status == 'send_to_sps'" :loading="cancel_loading" @click="cancelTranfer(row.id)"  type="error" icon="ios-close-circle" >{{ __('Cancel')}}</Button>
 
                   </template>
@@ -187,7 +187,7 @@ export default {
     methods: {
         updateSelectedList(selection, row) {
             this.selected_transfers_ids = selection.map(row => row.id);
-        },        
+        },
         makeAction(type) {
             this.$Modal.confirm({
                 title: this.__('Attention'),
@@ -218,8 +218,6 @@ export default {
                   this.$refs['switch'+id].disabled = false
                 }
             });
-            console.log(this.selected_transfers_ids);
-
         },
         getUsers() {
           axios.get('/users/all')
@@ -228,7 +226,7 @@ export default {
             });
         },
         getTransfers(page=1) {
-            Nova.request().get('/transfers/all', {
+            axios.get('/transfers/all', {
                     params: {
                         per_page: 10,
                         page: page,
@@ -253,7 +251,6 @@ export default {
             this.getTransfers(page)
         },
         changeStatus(e, id, status) {
-            console.log('status ' + status);
               this.$Modal.confirm({
                     title: this.__('Attention'),
                     content: this.__('Are you sure you confirm transfer, this action cannot be undone'),
@@ -280,8 +277,8 @@ export default {
                       this.$refs['switch'+id].disabled = false
                     }
                 });
-   
-        },        
+
+        },
         cancelTranfer(id) {
               this.$Modal.confirm({
                     title: this.__('Attention'),
@@ -303,7 +300,7 @@ export default {
                     onCancel: () => {
                     }
                 });
-   
+
         },
         uploadSuccess() {
           this.$Message.success(this.__('Upload Success'));
