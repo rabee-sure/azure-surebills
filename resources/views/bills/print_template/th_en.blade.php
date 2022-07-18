@@ -1,5 +1,15 @@
 @extends('layouts.print')
 
+<style>
+  @media print {
+    @page {
+      size: 80mm 280mm;
+      margin: 0;
+      padding: 0;
+    }
+  }
+</style>
+
 <div class="billPrintThermal">
   <div class="aboutUser d-flex align-items-center justify-content-center flex-column">
     @if($bill->user->logo)
@@ -175,3 +185,9 @@
     <p class="d-block mb-0 mt-2 text-center">{{ $bill->user->settings->footer_bill }}</p>
   @endif
 </div><!-- billPrintThermal -->
+
+<script>
+  window.onload = function() {
+    window.print();
+  }
+</script>
