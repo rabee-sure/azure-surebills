@@ -5,6 +5,7 @@ namespace App\Listeners;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use GuzzleHttp\Client;
 
 class SPSSendMerchantData
 {
@@ -43,6 +44,14 @@ class SPSSendMerchantData
         $data['BeneficiaryIban'] = $user->iban_number;
         $data['BeneficiaryCity'] = $user->city;
         $data['BeneficiaryStreet'] = $user->street_name;
+
         //Send merchant account data to sps api
+        $link = config('sps.base_url').'/'.config('sps.routes.save_merchants');
+        $client = new Client;
+        $response = $client->request('POST', $link, ['body' => json_encode($data)]);
+
+        //Log Api faild response
+
+        return $response;
     }
 }
