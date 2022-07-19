@@ -4,6 +4,6 @@ return [
     'base_url' => env('SPS_BASE_URL'),
     'routes' => [
         'save_merchants' => 'SaveMerchant',
-        'SaveTransaction' => 'SaveTransaction',
+        'Save_transaction' => 'SaveTransaction',
     ]
 ];

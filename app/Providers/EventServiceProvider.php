@@ -48,9 +48,6 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendBillPaidEmailToOwner',
             'App\Listeners\SendBillPaidEmailToCustomer',
         ],
-        'App\Events\TransactionCreated' => [
-            'App\Listeners\SPSSendPaidBill',
-        ],
         'App\Events\BillRefunded' => [
             'App\Listeners\CalculateRefundedPayment',
         ],
