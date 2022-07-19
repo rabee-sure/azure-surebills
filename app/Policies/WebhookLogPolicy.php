@@ -18,7 +18,11 @@ class WebhookLogPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('show webhook logs');
+        if(request()->route('resource') == 'webhook-logs')
+        {
+            return $user->can('show webhook logs');
+        }
+        return true;
     }
 
     /**

@@ -19,7 +19,11 @@ class ChannelPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('show channels');
+        if(request()->route('resource') == 'channels')
+        {
+            return $user->can('show channels');
+        }
+        return true;
     }
 
     /**

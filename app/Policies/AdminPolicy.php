@@ -17,7 +17,11 @@ class AdminPolicy
      */
     public function viewAny(Admin $user)
     {
-        return $user->can('show system admins');
+        if(request()->route('resource') == 'admins')
+        {
+            return $user->can('show system admins');
+        }
+        return true;
     }
 
     /**

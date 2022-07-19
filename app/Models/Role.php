@@ -190,7 +190,7 @@ class Role extends Model implements RoleContract
         if (! $this->getGuardNames()->contains($permission->guard_name)) {
             throw GuardDoesNotMatch::create($permission->guard_name, $this->getGuardNames());
         }
-
+        dd($permission->id);
         return $this->permissions->contains('id', $permission->id);
     }
 }

@@ -99,6 +99,7 @@ export default {
             meta: [],
             users: [],
             user: [],
+            permissions: [],
             select: '',
             transfers: [],
             selected_transfers_ids: [],
@@ -183,8 +184,18 @@ export default {
     mounted() {
         this.getUsers()
         this.getTransfers()
+        this.userPermission();
     },
     methods: {
+       userPermission(){
+         return Nova.request().get('/user-permissions/admins').then(response => {
+           this.permissions = response.data;
+           if(!this.permissions.includes('show transfers'))
+           {
+                window.location.href = '/nova/403';
+           }
+         })
+        },
         updateSelectedList(selection, row) {
             this.selected_transfers_ids = selection.map(row => row.id);
         },

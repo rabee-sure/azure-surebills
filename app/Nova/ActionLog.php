@@ -75,7 +75,7 @@ class ActionLog extends Resource
         $payload = json_decode($this->payload,true);
 
         $panelFields = [];
-        
+
         $panelFields[] = Text::make('Object', function () {
             return __('models_class.'.$this->model_class);
         });
@@ -101,7 +101,7 @@ class ActionLog extends Resource
         }
         $readableValue = config('selectoptions.'.$model.'.'.$field.'.'.$value);
         if($readableValue != null){
-            $value = $readableValue; 
+            $value = $readableValue;
         }
 
         return $value;

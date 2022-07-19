@@ -18,7 +18,11 @@ class BankPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('show banks');
+        if(request()->route('resource') == 'banks')
+        {
+            return $user->can('show banks');
+        }
+        return true;
     }
 
     /**
