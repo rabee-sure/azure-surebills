@@ -18,7 +18,7 @@ class ActionLogPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('show actions logs');
+        return true;
     }
 
     /**

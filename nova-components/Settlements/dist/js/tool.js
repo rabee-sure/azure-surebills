@@ -59970,7 +59970,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -60115,6 +60115,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             meta: [],
             users: [],
             user: [],
+            permissions: [],
             select: '',
             transfers: [],
             selected_transfers_ids: [],
@@ -60186,16 +60187,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         this.getUsers();
         this.getTransfers();
+        this.userPermission();
     },
 
     methods: {
+        userPermission: function userPermission() {
+            var _this = this;
+
+            return Nova.request().get('/user-permissions/admins').then(function (response) {
+                _this.permissions = response.data;
+                if (!_this.permissions.includes('show transfers')) {
+                    window.location.href = '/nova/403';
+                }
+            });
+        },
         updateSelectedList: function updateSelectedList(selection, row) {
             this.selected_transfers_ids = selection.map(function (row) {
                 return row.id;
             });
         },
         makeAction: function makeAction(type) {
-            var _this = this;
+            var _this2 = this;
 
             this.$Modal.confirm({
                 title: this.__('Attention'),
@@ -60203,40 +60215,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 okText: this.__('Ok'),
                 cancelText: this.__('Cancel'),
                 onOk: function onOk() {
-                    _this.switch_loading = true;
+                    _this2.switch_loading = true;
                     Nova.request().put('/transfers/change_status', {
                         status: type,
-                        ids: _this.selected_transfers_ids
+                        ids: _this2.selected_transfers_ids
                     }).then(function (response) {
-                        _this.selected_transfers_ids.forEach(function (id) {
-                            var index = _this.transfers.map(function (x) {
+                        _this2.selected_transfers_ids.forEach(function (id) {
+                            var index = _this2.transfers.map(function (x) {
                                 return x.id;
                             }).indexOf(id);
                             var item = response.data.data.find(function (item) {
                                 return item.id == id;
                             });
-                            _this.$set(_this.transfers, index, item);
+                            _this2.$set(_this2.transfers, index, item);
                         });
-                        _this.switch_loading = false;
+                        _this2.switch_loading = false;
                     }).catch(function (error) {
-                        _this.switch_loading = false;
+                        _this2.switch_loading = false;
                     });
                 },
                 onCancel: function onCancel() {
-                    _this.$refs['switch' + id].value = false;
-                    _this.$refs['switch' + id].disabled = false;
+                    _this2.$refs['switch' + id].value = false;
+                    _this2.$refs['switch' + id].disabled = false;
                 }
             });
         },
         getUsers: function getUsers() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get('/users/all').then(function (response) {
-                _this2.users = response.data.data;
+                _this3.users = response.data.data;
             });
         },
         getTransfers: function getTransfers() {
-            var _this3 = this;
+            var _this4 = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -60246,12 +60258,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     page: page
                 }
             }).then(function (response) {
-                _this3.transfers = response.data.data;
-                _this3.meta = response.data.meta;
+                _this4.transfers = response.data.data;
+                _this4.meta = response.data.meta;
             });
         },
         onChange: function onChange(event) {
-            var _this4 = this;
+            var _this5 = this;
 
             this.user = [];
             if (event.target.value) {
@@ -60259,7 +60271,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return x.id == event.target.value;
                 });
                 axios.get('/users/' + event.target.value + '/transfers').then(function (response) {
-                    _this4.transfers = response.data.data;
+                    _this5.transfers = response.data.data;
                 });
             }
         },
@@ -60267,7 +60279,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getTransfers(page);
         },
         changeStatus: function changeStatus(e, id, status) {
-            var _this5 = this;
+            var _this6 = this;
 
             this.$Modal.confirm({
                 title: this.__('Attention'),
@@ -60275,31 +60287,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 okText: this.__('Ok'),
                 cancelText: this.__('Cancel'),
                 onOk: function onOk() {
-                    _this5.switch_loading = true;
+                    _this6.switch_loading = true;
                     Nova.request().put('/transfers/change_status', {
                         status: status,
                         ids: [id]
                     }).then(function (response) {
-                        var index = _this5.transfers.map(function (x) {
+                        var index = _this6.transfers.map(function (x) {
                             return x.id;
                         }).indexOf(id);
                         var item = response.data.data.find(function (item) {
                             return item.id == id;
                         });
-                        _this5.$set(_this5.transfers, index, item);
-                        _this5.switch_loading = false;
+                        _this6.$set(_this6.transfers, index, item);
+                        _this6.switch_loading = false;
                     }).catch(function (error) {
-                        _this5.switch_loading = false;
+                        _this6.switch_loading = false;
                     });
                 },
                 onCancel: function onCancel() {
-                    _this5.$refs['switch' + id].value = false;
-                    _this5.$refs['switch' + id].disabled = false;
+                    _this6.$refs['switch' + id].value = false;
+                    _this6.$refs['switch' + id].disabled = false;
                 }
             });
         },
         cancelTranfer: function cancelTranfer(id) {
-            var _this6 = this;
+            var _this7 = this;
 
             this.$Modal.confirm({
                 title: this.__('Attention'),
@@ -60307,15 +60319,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 okText: this.__('Ok'),
                 cancelText: this.__('Cancel'),
                 onOk: function onOk() {
-                    _this6.cancel_loading = true;
+                    _this7.cancel_loading = true;
                     Nova.request().put('/transfers/' + id + '/cancel').then(function (response) {
-                        var index = _this6.transfers.map(function (x) {
+                        var index = _this7.transfers.map(function (x) {
                             return x.id;
                         }).indexOf(id);
-                        _this6.$set(_this6.transfers, index, response.data.data);
-                        _this6.cancel_loading = false;
+                        _this7.$set(_this7.transfers, index, response.data.data);
+                        _this7.cancel_loading = false;
                     }).catch(function (error) {
-                        _this6.cancel_loading = false;
+                        _this7.cancel_loading = false;
                     });
                 },
                 onCancel: function onCancel() {}
@@ -60842,7 +60854,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Scoped Styles */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -61010,7 +61022,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             day: null,
             language: 'ar',
             uploadFileActionUrl: '/api/upload?lang=',
-
+            permissions: [],
             transactionsModal: false,
             transactions: [],
             transactions_meta: {},
@@ -61101,9 +61113,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.getUser(this.$route.params.id);
+        this.userPermission();
     },
 
     methods: {
+        userPermission: function userPermission() {
+            var _this = this;
+
+            return Nova.request().get('/user-permissions/admins').then(function (response) {
+                _this.permissions = response.data;
+                if (!_this.permissions.includes('create settlement') || !_this.permissions.includes('show merchants')) {
+                    window.location.href = '/nova/403';
+                }
+            });
+        },
         formatDate: function formatDate(date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
@@ -61116,26 +61139,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return [year, month, day].join('-');
         },
         getUser: function getUser(id) {
-            var _this = this;
+            var _this2 = this;
 
             Nova.request().get('/users/' + id).then(function (response) {
-                _this.user = response.data.data;
-                _this.uploadFileActionUrl += response.data.data.language;
-                _this.language = response.data.data.language;
+                _this2.user = response.data.data;
+                _this2.uploadFileActionUrl += response.data.data.language;
+                _this2.language = response.data.data.language;
             });
             Nova.request().get('/users/' + id + '/transfers', {
                 params: {
                     per_page: 5
                 }
             }).then(function (response) {
-                _this.transfers = response.data.data;
+                _this2.transfers = response.data.data;
             });
         },
         isValidDate: function isValidDate(d) {
             return !isNaN(new Date(d).getTime());
         },
         handleChangeDate: function handleChangeDate(date) {
-            var _this2 = this;
+            var _this3 = this;
 
             var refresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
             var page = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
@@ -61155,9 +61178,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 }).then(function (response) {
 
-                    _this2.transactions = response.data.data;
-                    _this2.transactions_meta = response.data.meta;
-                    _this2.new_transactions = _this2.transactions.map(function (item) {
+                    _this3.transactions = response.data.data;
+                    _this3.transactions_meta = response.data.meta;
+                    _this3.new_transactions = _this3.transactions.map(function (item) {
                         return {
                             'created_at': item.created_at,
                             'description': item.description,
@@ -61167,16 +61190,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             'reference_id': item.reference_id
                         };
                     });
-                    _this2.form.amount = response.data.meta.balance;
-                    if (_this2.transactions.length == 0) {
-                        _this2.$Message.warning({
+                    _this3.form.amount = response.data.meta.balance;
+                    if (_this3.transactions.length == 0) {
+                        _this3.$Message.warning({
                             duration: 3,
                             render: function render(h) {
-                                return h('span', [_this2.language == 'en' ? 'No transaction on this date' : 'لا يوجد معاملات في هذا التاريخ']);
+                                return h('span', [_this3.language == 'en' ? 'No transaction on this date' : 'لا يوجد معاملات في هذا التاريخ']);
                             }
                         });
                     }
-                    _this2.table_loading = false;
+                    _this3.table_loading = false;
                 });
             } else {
                 this.validDateRange = false;
@@ -61200,50 +61223,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         handleSubmit: function handleSubmit(name) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.loading = true;
             this.disableBtn = true;
 
             this.$refs[name].validate(function (valid) {
-                if (valid && _this3.user.bank_id != null) {
+                if (valid && _this4.user.bank_id != null) {
                     Nova.request().post('/transfers', {
-                        user_id: _this3.user.id,
-                        status: _this3.form.status,
-                        amount: _this3.form.amount,
-                        note: _this3.form.note,
-                        attachment: _this3.form.attachment,
-                        cycle_date: _this3.form.cycle_date,
-                        transactions_ids: _this3.transactions.map(function (a) {
+                        user_id: _this4.user.id,
+                        status: _this4.form.status,
+                        amount: _this4.form.amount,
+                        note: _this4.form.note,
+                        attachment: _this4.form.attachment,
+                        cycle_date: _this4.form.cycle_date,
+                        transactions_ids: _this4.transactions.map(function (a) {
                             return a.id;
                         }),
-                        bank_id: _this3.user.bank_id,
-                        iban_number: _this3.user.iban_number,
-                        beneficiary_name: _this3.user.beneficiary_name
+                        bank_id: _this4.user.bank_id,
+                        iban_number: _this4.user.iban_number,
+                        beneficiary_name: _this4.user.beneficiary_name
                     }).then(function (response) {
                         console.log('response.data');
                         console.log(response.data);
-                        _this3.$router.push('/resources/transfers/' + response.data.data.id);
-                        _this3.loading = false;
-                        _this3.transactions = [];
-                        _this3.form.cycle_date = null;
-                        _this3.form.amount = 0;
-                        _this3.form.status = 'completed';
-                        _this3.form.note = null;
-                        _this3.form.attachment = null;
-                        _this3.disableBtn = false;
-                        _this3.$Message.success(_this3.language == 'en' ? 'Success' : 'تم');
+                        _this4.$router.push('/resources/transfers/' + response.data.data.id);
+                        _this4.loading = false;
+                        _this4.transactions = [];
+                        _this4.form.cycle_date = null;
+                        _this4.form.amount = 0;
+                        _this4.form.status = 'completed';
+                        _this4.form.note = null;
+                        _this4.form.attachment = null;
+                        _this4.disableBtn = false;
+                        _this4.$Message.success(_this4.language == 'en' ? 'Success' : 'تم');
                     }).catch(function (error) {
                         console.log(error.response.data);
-                        _this3.$Message.error(error.response.data.error);
-                        _this3.disableBtn = false;
+                        _this4.$Message.error(error.response.data.error);
+                        _this4.disableBtn = false;
                     });
-                } else if (_this3.user.bank_id == null) {
-                    _this3.disableBtn = false;
-                    _this3.$Message.error(_this3.language == 'en' ? 'User Must complete Profile Info' : 'يجب استكمال بيانات هذا العميل');
+                } else if (_this4.user.bank_id == null) {
+                    _this4.disableBtn = false;
+                    _this4.$Message.error(_this4.language == 'en' ? 'User Must complete Profile Info' : 'يجب استكمال بيانات هذا العميل');
                 } else {
-                    _this3.disableBtn = false;
-                    _this3.$Message.error(_this3.language == 'en' ? 'Fail' : 'فشل');
+                    _this4.disableBtn = false;
+                    _this4.$Message.error(_this4.language == 'en' ? 'Fail' : 'فشل');
                 }
             });
         },
@@ -61265,14 +61288,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.handleChangeDate(this.day, false, page);
         },
         changeStatus: function changeStatus(status, id) {
-            var _this4 = this;
+            var _this5 = this;
 
             this.switch_loading = true;
             Nova.request().put('/transfers/change_status', {
                 status: status ? 'completed' : 'pending',
                 ids: id
             }).then(function (response) {
-                _this4.switch_loading = false;
+                _this5.switch_loading = false;
             }).catch(function (error) {
                 this.switch_loading = false;
             });
@@ -61723,9 +61746,9 @@ var render = function() {
                         { key: item.value, attrs: { value: item.value } },
                         [
                           _vm._v(
-                            "\r\n                        " +
+                            "\n                        " +
                               _vm._s(item.label) +
-                              "\r\n                    "
+                              "\n                    "
                           )
                         ]
                       )
@@ -61851,9 +61874,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "   " +
-                          _vm._s(_vm.__("Submit")) +
-                          " \r\n                "
+                        "   " + _vm._s(_vm.__("Submit")) + "\n                "
                       )
                     ]
                   ),

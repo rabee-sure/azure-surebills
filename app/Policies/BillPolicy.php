@@ -18,7 +18,7 @@ class BillPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('show bills');
+        return true;
     }
 
     /**

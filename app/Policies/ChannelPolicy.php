@@ -19,7 +19,7 @@ class ChannelPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('show channels');
+        return true;
     }
 
     /**

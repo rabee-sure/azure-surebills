@@ -22,7 +22,7 @@ class Statement extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Transaction::class;
+    public static $model = \App\Models\Statement::class;
 
 
     public static $displayInNavigation = false;
@@ -190,4 +190,12 @@ class Statement extends Resource
     {
         return false;
     }
+
+
+    public static function authorizable()
+    {
+        return false;
+    }
+
+
 }

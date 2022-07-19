@@ -17,7 +17,7 @@ class AdminPolicy
      */
     public function viewAny(Admin $user)
     {
-        return $user->can('show system admins');
+        return true;
     }
 
     /**

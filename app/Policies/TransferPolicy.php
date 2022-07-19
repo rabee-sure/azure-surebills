@@ -20,7 +20,7 @@ class TransferPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('show transfers');
+        return true;
     }
 
     /**

@@ -18,7 +18,7 @@ class UserPolicy
      */
     public function viewAny(Admin $admin)
     {
-        return $admin->can('show merchants') || $admin->can('show merchants report');
+        return $admin->can('show merchants');
     }
 
     /**
@@ -30,7 +30,7 @@ class UserPolicy
      */
     public function view(Admin $admin, User $model)
     {
-        return $admin->can('show merchants') || $admin->can('show merchants report');
+        return $admin->can('show merchants');
     }
 
     /**

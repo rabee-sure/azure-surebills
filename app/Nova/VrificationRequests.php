@@ -49,7 +49,7 @@ class VrificationRequests extends Resource
      */
     public static function label()
     {
-        return __('Merchants');
+        return __('Verification Requests');
     }
 
     public static $displayInNavigation = false;
