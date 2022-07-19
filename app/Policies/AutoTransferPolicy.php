@@ -20,6 +20,10 @@ class AutoTransferPolicy
      */
     public function viewAny(User $user)
     {
+        if(request()->route('resource') == 'auto-transfers')
+        {
+            return $user->can('show AutoTransfers');
+        }
         return true;
     }
 
@@ -32,8 +36,7 @@ class AutoTransferPolicy
      */
     public function view(User $user, AutoTransfer $auto_tranfer)
     {
-        // return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
-        return in_array($user->email, explode(',', auth()->user()->email));;
+        return $user->can('show AutoTransfers');
     }
 
     /**

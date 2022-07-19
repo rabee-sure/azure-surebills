@@ -18,6 +18,10 @@ class RolePolicy
      */
     public function viewAny(User $user)
     {
+        if(request()->route('resource') == 'roles')
+        {
+            return $user->can('show roles');
+        }
         return true;
     }
 

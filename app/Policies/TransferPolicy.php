@@ -20,6 +20,10 @@ class TransferPolicy
      */
     public function viewAny(User $user)
     {
+        if(request()->route('resource') == 'transfers')
+        {
+            return $user->can('show transfers');
+        }
         return true;
     }
 
@@ -32,7 +36,7 @@ class TransferPolicy
      */
     public function view(User $user, Transfer $transfer)
     {
-        return $transfer->user_id == $user->id || in_array($user->email, explode(',', auth()->user()->email));;
+        return $user->can('show transfers');
     }
 
     /**

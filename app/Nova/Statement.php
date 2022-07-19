@@ -190,12 +190,4 @@ class Statement extends Resource
     {
         return false;
     }
-
-
-    public static function authorizable()
-    {
-        return false;
-    }
-
-
 }

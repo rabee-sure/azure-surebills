@@ -429,10 +429,4 @@ class User extends Resource
     {
         return $query->where('active', true);
     }
-
-    public function authorizedToView(Request $request)
-    {
-        return true;
-    }
-
 }
