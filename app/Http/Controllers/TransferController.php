@@ -84,15 +84,13 @@ class TransferController extends Controller
      */
     public function all(Request $request)
     {
-        if(!auth()->user()->roles->first()->hasPermissionTo('show transfers'))
+        if((auth()->user()->can('show statements') && auth()->user()->can('show merchants')) || auth()->user()->can('show transfers'))
         {
-            return abort(401);
+            $transfers = Transfer::orderBy('id', 'desc')->pending()->with('created_by', 'user')->paginate($request->per_page);
+            return TransferResource::collection($transfers);
         }
 
-        $transfers = Transfer::orderBy('id', 'desc')->pending()->with('created_by', 'user')
-            ->paginate($request->per_page);
-
-        return TransferResource::collection($transfers);
+        return abort(401);
     }
 
     /**

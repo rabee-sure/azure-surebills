@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\User;
-use App\Models\Admin as Admin;
+use App\Models\Statement;
+use App\Models\Admin as User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserPolicy
+class StatementPolicy
 {
     use HandlesAuthorization;
 
@@ -16,11 +16,11 @@ class UserPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(Admin $admin)
+    public function viewAny(User $user)
     {
-        if(request()->route('resource') == 'users')
+        if(request()->route('resource') == 'statements')
         {
-            return $admin->can('show merchants');
+            return $user->can('show statements') && $user->can('show merchants');
         }
         return true;
     }
@@ -29,12 +29,12 @@ class UserPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Statement  $statement
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(Admin $admin, User $model)
+    public function view(User $user, Statement $statement)
     {
-        return $admin->can('show merchants');
+        return $user->can('show statements') && $user->can('show merchants');
     }
 
     /**
@@ -43,56 +43,56 @@ class UserPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(Admin $admin)
+    public function create(User $user)
     {
-        return $admin->can('create merchant');
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Statement  $statement
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(Admin $admin, User $model)
+    public function update(User $user, Statement $statement)
     {
-        return $admin->can('edit merchant');
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Statement  $statement
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(Admin $admin, User $model)
+    public function delete(User $user, Statement $statement)
     {
-        return $admin->can('delete merchant');
+        return false;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Statement  $statement
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(Admin $admin, User $model)
+    public function restore(User $user, Statement $statement)
     {
-        return $admin->can('delete merchant');
+        return false;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Statement  $statement
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(Admin $admin, User $model)
+    public function forceDelete(User $user, Statement $statement)
     {
-        return $admin->can('delete merchant');
+        return false;
     }
 }

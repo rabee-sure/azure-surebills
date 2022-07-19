@@ -87,6 +87,7 @@
 "update user": "Update user",
 "delete user": "Delete user",
 "show statements": "Show statements",
+"require giving permission": "Require giving permission ",
 "create settlement": "Create settlement",
 "edit merchant": "Edit merchant",
 "show merchants": "Show merchants",

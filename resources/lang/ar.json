@@ -176,6 +176,7 @@
     "update merchant": "تعديل تاجر",
     "delete merchant": "حذف تاجر",
     "show statements": "عرض مختصر كشف حساب التاجر",
+    "require giving permission": "يتطلب اعطاء صلاحية ",
     "create settlement": "انشاء تحويل",
     "user type": "نوع المستخدم",
     "merchant type": "نوع التاجر",
