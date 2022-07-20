@@ -169,4 +169,10 @@ class Channel extends Resource
     {
         return $query->whereNull('store_main_user_id');
     }
+
+    public static function availableForNavigation(Request $request)
+    {
+        return $request->user()->can('show channels');
+    }
+
 }
