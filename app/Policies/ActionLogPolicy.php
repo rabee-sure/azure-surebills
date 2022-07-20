@@ -18,11 +18,7 @@ class ActionLogPolicy
      */
     public function viewAny(User $user)
     {
-        if(request()->route('resource') == 'action-logs')
-        {
-            return $user->can('show actions logs');
-        }
-        return true;
+        return $user->can('show actions logs');
     }
 
     /**

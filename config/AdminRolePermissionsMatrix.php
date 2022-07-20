@@ -39,7 +39,6 @@ return [
     'show transfers',
     'show webhook logs',
     'show AutoTransfers',
-    'show verification requests',
     'show actions logs',
 
 ];

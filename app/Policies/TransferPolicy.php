@@ -20,11 +20,7 @@ class TransferPolicy
      */
     public function viewAny(User $user)
     {
-        if(request()->route('resource') == 'transfers')
-        {
-            return $user->can('show transfers');
-        }
-        return true;
+        return $user->can('show transfers');
     }
 
     /**

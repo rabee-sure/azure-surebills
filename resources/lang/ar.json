@@ -171,7 +171,7 @@
     "create user": "انشاء مستخدم",
     "update user": "تعديل مستخدم",
     "delete user": "حذف مستخدم",
-    "show merchants": "عرض التجار",
+    "show merchants": "عرض التجار وطلبات التوثيق",
     "create merchant": "انشاء تاجر",
     "update merchant": "تعديل تاجر",
     "delete merchant": "حذف تاجر",

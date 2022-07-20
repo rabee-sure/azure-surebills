@@ -108,9 +108,7 @@ class Transfer extends Resource
 
             Text::make(__('Merchant ID'), 'user_id'),
 
-            BelongsTo::make(__('Business Name'), 'user', User::class)->displayUsing(function($user){
-                return $user->business_name_en ? $user->business_name_en : $user->mainStoreUser->business_name_en;
-            })->searchable(),
+            BelongsTo::make(__('Business Name'), 'user', User::class)->displayUsing(function($user){return $user->business_name_en ? $user->business_name_en : $user->mainStoreUser->business_name_en;})->searchable(),
 
             Number::make(__('Amount'), 'amount')
                 ->min(1)

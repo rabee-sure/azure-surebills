@@ -20,11 +20,7 @@ class AutoTransferPolicy
      */
     public function viewAny(User $user)
     {
-        if(request()->route('resource') == 'auto-transfers')
-        {
-            return $user->can('show AutoTransfers');
-        }
-        return true;
+        return $user->can('show AutoTransfers');
     }
 
     /**
