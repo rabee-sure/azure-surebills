@@ -18,11 +18,7 @@ class BillPolicy
      */
     public function viewAny(User $user)
     {
-        if(request()->route('resource') == 'bills')
-        {
-            return $user->can('show bills');
-        }
-        return true;
+        return $user->can('show bills');
     }
 
     /**

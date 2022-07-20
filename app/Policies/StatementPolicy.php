@@ -18,11 +18,7 @@ class StatementPolicy
      */
     public function viewAny(User $user)
     {
-        if(request()->route('resource') == 'statements')
-        {
-            return $user->can('show statements') && $user->can('show merchants');
-        }
-        return true;
+        return $user->can('show statements') && $user->can('show merchants');
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'file_fields' => ['logo'],
     'User' => [
         'mobile_verified' => [
             '0' => 'not verified',
