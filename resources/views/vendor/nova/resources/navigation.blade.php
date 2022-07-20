@@ -12,7 +12,7 @@
     </li>
     @endcanany
 
-    @can('show verification requests')
+    @can('show merchants')
     <li class="sidebar-dropdown">
         <router-link :to="{
             name: 'index',

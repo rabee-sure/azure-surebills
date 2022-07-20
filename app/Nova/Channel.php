@@ -75,7 +75,7 @@ class Channel extends Resource
         return [
             ID::make()->sortable(),
             Text::make(__('Name'), 'name')->rules('required'),
-            BelongsTo::make(__('Merchant'), 'user', User::class)->searchable()->rules('required'),
+            $request->user()->can('show merchants') ? BelongsTo::make(__('Merchant'), 'user', User::class)->searchable()->rules('required') : Text::make(__('Merchant'), function(){return $this->user->name;})->exceptOnForms(),
             HasMany::make(__('Applications'), 'applications', Application::class)->rules('required'),
             Boolean::make(__('Active'), 'activate'),
             Number::make(__('Mada fixed fees'), 'mada_fixed')

@@ -276,7 +276,7 @@ class VrificationRequests extends Resource
     protected function bankInformation()
     {
         return [
-            BelongsTo::make(__('Bank'), 'bank', Bank::class),
+            BelongsTo::make(__('Bank'), 'bank', Bank::class)->hideFromIndex(),
             Text::make(__('Iban Number'), 'iban_number'),
             Text::make(__('Beneficiary Name'), 'beneficiary_name')->hideFromIndex(),
         ];
@@ -334,11 +334,6 @@ class VrificationRequests extends Resource
                 ->only(['id', 'balance_string', 'Business_name', 'bank', 'iban_number', 'name', 'verify_status'])
                 ->withHeadings(['ID', __('Balance'), __('Business Name'), __('Bank'), __('Iban Number'), __('Account Name'), __('Verified')]),
         ];
-    }
-
-    public function authorizedToView(Request $request)
-    {
-        return auth()->user()->can('show verification requests');
     }
 
     /**

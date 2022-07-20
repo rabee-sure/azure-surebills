@@ -216,7 +216,7 @@ class Bill extends Resource
 
             Text::make(__('Reference Id'), 'reference_id'),
 
-            BelongsTo::make(__('Merchant'), 'user', User::class),
+            $request->user()->can('show merchants') ? BelongsTo::make(__('Merchant'), 'user', User::class) : Text::make(__('Merchant'), function(){return $this->user->name;}),
 
             // DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
 

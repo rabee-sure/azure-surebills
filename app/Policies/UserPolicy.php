@@ -18,11 +18,7 @@ class UserPolicy
      */
     public function viewAny(Admin $admin)
     {
-        if(request()->route('resource') == 'users')
-        {
-            return $admin->can('show merchants');
-        }
-        return true;
+        return $admin->can('show merchants');
     }
 
     /**
