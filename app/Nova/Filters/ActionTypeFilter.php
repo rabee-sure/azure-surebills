@@ -46,6 +46,13 @@ class ActionTypeFilter extends Filter
     public function options(Request $request)
     {
         $models = \App\Models\SystemAction::all();
-        return $models->pluck('id', 'action_name')->all();
+        $types = $models->pluck('id', 'action_name')->all();
+
+        $options = array();
+        foreach($types as $key => $type){
+            $options[__('action_names.'.$key)] = $type;
+        }
+
+        return $options;
     }
 }
