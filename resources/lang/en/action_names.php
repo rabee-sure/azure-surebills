@@ -42,6 +42,7 @@ return [
     'force_delete_user' => 'Finaly delete user',
     'accept_transfer' => 'Accept transfer',
     'reject_transfer' => 'Reject transfer',
+    'send_to_sps' => 'Send to SPS',
     'update_general_setting' => 'Update general setting',
     'create_bank' => 'Create bank',
     'update_bank' => 'Update bank',

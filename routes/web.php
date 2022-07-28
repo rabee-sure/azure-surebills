@@ -112,10 +112,8 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('transfers/{transfer}/bills', 'TransferController@bills')->name('transfer.bills');
     Route::get('transfers/{transfer}/transactions', 'TransferController@transactions')->name('transfer.transactions');
 
-    Route::post('transfers', 'TransferController@store');
     Route::post('transfers/request', 'TransferController@request')->name('transfers.request');
-    Route::put('transfers/change_status', 'TransferController@changeStatus');
-    Route::put('transfers/{transfer}/cancel', 'TransferController@cancel');
+    
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/terms', 'HomeController@terms');
@@ -193,6 +191,17 @@ Route::middleware(config('nova.middleware', []))->group(function () {
     });
 
     Route::get('transfers/all', 'TransferController@all');
+
+    /**this routes moved from ['auth', 'mobile.verified', 'profile.completed'] middleware 
+     * to config('nova.middleware', []) middleware because it used on nova and nova after apply users and admins features 
+     * nova didn't have any "mobile verified" and "profile completed" middlewares 
+     * so please if any one need to use route in nova
+     * 
+     * we need to ask amr for this middleware security
+     */ 
+    Route::post('transfers', 'TransferController@store');
+    Route::put('transfers/change_status', 'TransferController@changeStatus');
+    Route::put('transfers/{transfer}/cancel', 'TransferController@cancel');
 
     //Reports
     // Route::get('reports', 'ReportsController@index')->name('reports.index');

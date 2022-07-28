@@ -170,7 +170,7 @@ class TransferController extends Controller
                 'user_id' => $user->id,
                 'note' => $request->note,
                 'attachment' => $request->attachment,
-                'created_by_id' => auth()->user()->id,
+                'created_by_id' => null,
                 'bank_id' => $user->bank_id,
                 'iban_number' => $user->iban_number,
                 'beneficiary_name' => $user->beneficiary_name,

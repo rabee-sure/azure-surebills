@@ -21,6 +21,7 @@ return [
     '\App\Models\MerchantAutoTransferReport' => 'Merchant Auto Transfer',
     '\App\Models\MerchantSummaryAutoTransferReport' => 'Merchant Summary Auto Transfer',
     '\App\Models\Transfer' => 'Transfer',
+    'App\Models\Transfer' => 'Transfer',
     'App\Models\Channel' => 'Channel',
     'App\Models\Role' => 'Role',
     'App\Models\Admin' => 'User',

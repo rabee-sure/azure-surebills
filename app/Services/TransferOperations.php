@@ -3,10 +3,13 @@
 namespace App\Services;
 
 use App\Events\TransferCreated;
+use App\Events\AddActionLogEvent;
 use App\Models\Transaction;
 use App\Models\TransferLog;
+use App\Models\Transfer;
 use App\Services\TransferService;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 
 class TransferOperations
 {
@@ -123,6 +126,47 @@ class TransferOperations
             'status' => $status,
             'results' => $results,
         ]);
+
+        if(in_array($status, ['canceled', 'completed', 'send_to_sps'])){
+            $log_type = '';
+    
+            switch ($status) {
+                case 'canceled':
+                    $log_type = 'reject_transfer';
+                    break;
+    
+                case 'completed':
+                    $log_type = 'accept_transfer';
+                    break;
+            
+                case 'send_to_sps':
+                    $log_type = 'send_to_sps';
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+    
+            if(Auth::guard('admins')->check()){
+                event(new AddActionLogEvent(
+                    $log_type,
+                    Auth::id(),
+                    [
+                        'message' => [
+                            'username' => $transfer->user->name,
+                            'adminname' => Auth::user()->name,
+                            'id' => $transfer->id,
+                            'amount' => $transfer->net_amount,
+                            'time' => $transfer->created_at,
+                        ],
+                        'changes' => [],
+                    ],
+                    $transfer->id,
+                    Transfer::class
+                ));
+            }
+        }
     }
 
     /**

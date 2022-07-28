@@ -33,6 +33,7 @@ return [
         'force_delete_user',
         'accept_transfer',
         'reject_transfer',
+        'send_to_sps',
         'update_general_setting',
         'create_bank',
         'update_bank',
