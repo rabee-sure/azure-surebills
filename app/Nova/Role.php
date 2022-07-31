@@ -84,7 +84,7 @@ class Role extends Resource
         foreach(config('AdminRolePermissionsMatrix') as $permission)
         {
             $permissionId = Permission::where([['name', $permission], ['guard_name', 'admins']])->pluck('id')->first();
-            if(in_array($permission, ['show statements', 'create settlement', 'create channel', 'show merchants report']))
+            if(in_array($permission, ['show statements', 'create settlement', 'create channel', 'show merchants report', 'edit channel']))
             {
                 $permissions[$permissionId] = __($permission).' ('.__('require giving permission').__('show merchants').')';
             }
