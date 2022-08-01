@@ -14,7 +14,6 @@ use App\Nova\Filters\ActionByUserFilter;
 use App\Nova\Filters\ActionTypeFilter;
 use App\Nova\Filters\DateRange;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Illuminate\Support\Facades\Storage;
 
 class ActionLog extends Resource
 {
@@ -61,7 +60,7 @@ class ActionLog extends Resource
     {
         return [
             ID::make('ID', 'id')->sortable(),
-            BelongsTo::make('User', 'Admin', 'App\Nova\Admin'),
+            $request->user()->can('show system admins') ? BelongsTo::make('User', 'Admin', 'App\Nova\Admin') : Text::make(__('User'), function(){return $this->Admin->name;}),
             BelongsTo::make('Action', 'SystemAction', 'App\Nova\SystemAction')->display(function () {
                 return __('action_names.'.$this->SystemAction->action_name);
             }),
@@ -100,26 +99,11 @@ class ActionLog extends Resource
         if(is_bool($value)){
             $value = $value ? 1 : 0;
         }
-
-        if(in_array($field, config('ResourcesFields.file_fields'))){
-            if(Storage::disk('public')->exists($value)){
-                $url = url('storage/'.$value);
-            }else{
-                if($value){
-                    $url = url($value);
-                }else{
-                    $url = '/images/no-image.jpg';
-                }
-            }
-            $value = '<img src="'.$url.'" style="width:60px; height:60px;" draggable="false">';
-        }else{
-            $readableValue = config('ResourcesFields.'.$model.'.'.$field.'.'.$value);
-            if($readableValue != null){
-                $value = $readableValue;
-            }
-            $value = ($value != null) ? $value : 'Empty';
+        $readableValue = config('selectoptions.'.$model.'.'.$field.'.'.$value);
+        if($readableValue != null){
+            $value = $readableValue;
         }
-        
+
         return $value;
     }
 

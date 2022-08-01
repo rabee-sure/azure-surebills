@@ -65,7 +65,11 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        return $user->can('delete role');
+        $users = User::whereHas('roles', function($q) use ($role){
+            $q->where([['name', $role->name], ['guard_name', 'admins']]);
+        })->count();
+
+        return $user->can('delete role') && $users == 0;
     }
 
     /**
@@ -89,6 +93,10 @@ class RolePolicy
      */
     public function forceDelete(User $user, Role $role)
     {
-        return $user->can('delete role');
+        $users = User::whereHas('roles', function($q) use ($role){
+            $q->where([['name', $role->name], ['guard_name', 'admins']]);
+        })->count();
+
+        return $user->can('delete role') && $users == 0;
     }
 }
