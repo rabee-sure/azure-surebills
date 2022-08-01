@@ -2,21 +2,11 @@
 
 namespace App\Nova\Actions;
 
-use Carbon\Carbon;
-use App\Exports\BillsExport;
-use Illuminate\Bus\Queueable;
-use Laravel\Nova\Actions\Action;
-use Illuminate\Support\Collection;
-use App\Http\Resources\BillResource;
-use Maatwebsite\Excel\Facades\Excel;
-use Laravel\Nova\Fields\ActionFields;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
-class BillsExcelDownload extends Action
+class BillsExcelDownload extends DownloadExcel implements WithMapping
 {
-
     /**
      * Get the displayable name of the metric.
      *
@@ -27,29 +17,68 @@ class BillsExcelDownload extends Action
         return  __('Download Bills Excel');
     }
 
-    /**
-     * Perform the action on the given models.
-     *
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
-     * @param  \Illuminate\Support\Collection  $models
-     * @return mixed
-     */
-    public function handle(ActionFields $fields, Collection $models)
+    public function headings(): array
     {
-        $file_name = 'bills/'.Carbon::now()->timestamp.'.xlsx';
-        $data = json_decode((BillResource::collection($models->load('application')))->toJson(), true);
-        Excel::store(new BillsExport($data), $file_name);
+        return[
+            'ID', 
+            'Name', 
+            'MID', 
+            'Merchant Name',
+            'Source',
+            'Card Type',
+            'Total Paid',
+            'VAT Percentage',
+            'Total Fees',
+            'Total Fees VAT',
+            'Total Fees Percentage',
+            'Total Fees Fixed',
+            'SureBills Fees',
+            'SureBills Fees VAT',
+            'SureBills Fees Percentage',
+            'SureBills Fees Fixed',
+            'Status',
+            'Refund Amount',
+            'Channel Name',
+            'Channel Fees',
+            'Channel Fees VAT',
+            'Channel Fees Percentage',
+            'Channel Fees Fixed',
+            'Channel Relation',
+            'Total Due',
+            'Paid At',
+        ];
+    }
 
-        $new_file_name = 'public/shared-bills/'.$file_name;
-        Storage::delete( $new_file_name );
-        Storage::copy( $file_name, $new_file_name );
-        $path = storage_path('app/'.$new_file_name);
-        if(\File::exists($path)){
-            return Action::download( Storage::url($new_file_name), $file_name);
-        }
-        else{
-            return Action::danger(404);
-        }
+    public function map($bill): array
+    {
+        return [
+            $bill->id,
+            $bill->name,
+            $bill->user_id,
+            $bill->user->business_name_en ?? $bill->user->business_name_ar,
+            $bill->source,
+            $bill->payment_method_type,
+            $bill->total ?? 0,
+            $bill->pricing->vat_percentage ?? '',
+            $bill->payment_fees ?? 0,
+            $bill->payment_fees_vat ?? 0,
+            $bill->pricing->fees_percentage ?? '',
+            $bill->pricing->fees_fixed?? '',
+            $bill->payment_surebills_fees ?? '',
+            $bill->payment_surebills_fees_vat,
+            $bill->pricing->surebills_fees_percentage ?? '',
+            $bill->pricing->surebills_fees_fixed ?? '',
+            $bill->status,
+            $bill->refund_amount,
+            $bill->channel_name,
+            $bill->payment_channel_fees,
+            $bill->payment_channel_fees_vat,
+            $bill->pricing->channel_fees_percentage ?? '',
+            $bill->pricing->channel_fees_fixed ?? '',
+            $bill->channel_relation,
+            $bill->total_due,
+            $bill->paid_at,
+        ];
     }
 
     /**
