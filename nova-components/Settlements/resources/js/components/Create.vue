@@ -313,10 +313,9 @@ export default {
                     }
                 })
                 .then(response => {
-
                     this.transactions = response.data.data;
                     this.transactions_meta = response.data.meta;
-                    this.new_transactions = this.transactions.map((item) => {
+                    this.new_transactions = response.data.allTransactions.map((item) => {
                         return {
                             'created_at': item.created_at,
                             'description': item.description,

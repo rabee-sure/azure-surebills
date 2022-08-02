@@ -237,16 +237,20 @@ class TransferController extends Controller
             ->orderBy('created_at', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC')
-            ->with(['bill.application'])
-            ->paginate(10);
+            ->with(['bill.application']);
 
+        $allTransactionsQuery = clone $transactions;
+        $paginatedTransactionsQuery = clone $transactions;
+        $paginatedTransactions = $paginatedTransactionsQuery->paginate(10);
+        $allTransactions = $allTransactionsQuery->get();
 
         $balance = $user->getBalanceBefore($request->cycle_date);
-        return (TransactionResource::collection($transactions))
+        return (TransactionResource::collection($paginatedTransactions))
         ->additional([
             'meta' => [
                 'balance' => $balance,
-            ]
+            ],
+            'allTransactions' => TransactionResource::collection($allTransactions)
         ]);
     }
 }
