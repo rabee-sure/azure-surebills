@@ -2,83 +2,51 @@
 
 namespace App\Nova\Actions;
 
+use App\Exports\BillsExport;
+use App\Http\Resources\BillResource;
+use App\Mail\BillsExportedExcelMail;
+use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Fields\ActionFields;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use Maatwebsite\Excel\Facades\Excel;
 
-class BillsExcelDownload extends DownloadExcel implements WithMapping
+class BillsExcelDownload extends Action implements ShouldQueue
 {
-    /**
-     * Get the displayable name of the metric.
-     *
-     * @return string
-     */
-    public function name()
-    {
-        return  __('Download Bills Excel');
-    }
+    use InteractsWithQueue, Queueable;
 
-    public function headings(): array
-    {
-        return[
-            'ID', 
-            'Name', 
-            'MID', 
-            'Merchant Name',
-            'Source',
-            'Card Type',
-            'Total Paid',
-            'VAT Percentage',
-            'Total Fees',
-            'Total Fees VAT',
-            'Total Fees Percentage',
-            'Total Fees Fixed',
-            'SureBills Fees',
-            'SureBills Fees VAT',
-            'SureBills Fees Percentage',
-            'SureBills Fees Fixed',
-            'Status',
-            'Refund Amount',
-            'Channel Name',
-            'Channel Fees',
-            'Channel Fees VAT',
-            'Channel Fees Percentage',
-            'Channel Fees Fixed',
-            'Channel Relation',
-            'Total Due',
-            'Paid At',
-        ];
-    }
+    public static $chunkCount = 1000000;
 
-    public function map($bill): array
+    public function handle(ActionFields $fields, Collection $models)
     {
-        return [
-            $bill->id,
-            $bill->name,
-            $bill->user_id,
-            $bill->user->business_name_en ?? $bill->user->business_name_ar,
-            $bill->source,
-            $bill->payment_method_type,
-            $bill->total ?? 0,
-            $bill->pricing->vat_percentage ?? '',
-            $bill->payment_fees ?? 0,
-            $bill->payment_fees_vat ?? 0,
-            $bill->pricing->fees_percentage ?? '',
-            $bill->pricing->fees_fixed?? '',
-            $bill->payment_surebills_fees ?? '',
-            $bill->payment_surebills_fees_vat,
-            $bill->pricing->surebills_fees_percentage ?? '',
-            $bill->pricing->surebills_fees_fixed ?? '',
-            $bill->status,
-            $bill->refund_amount,
-            $bill->channel_name,
-            $bill->payment_channel_fees,
-            $bill->payment_channel_fees_vat,
-            $bill->pricing->channel_fees_percentage ?? '',
-            $bill->pricing->channel_fees_fixed ?? '',
-            $bill->channel_relation,
-            $bill->total_due,
-            $bill->paid_at,
-        ];
+        $file_name = 'bills/'.Carbon::now()->timestamp.'.xlsx';
+        $data = json_decode((BillResource::collection($models->load('application')))->toJson(), true);
+
+        (new BillsExport($data))
+        ->store($filePath = 'public/shared-bills/'. $file_name)
+        ->chain([
+            $message = (new BillsExportedExcelMail($file_name))->onQueue(env('EMAILS_QUEUE')),
+            Mail::to(Auth::user()->email)->queue($message)
+        ]);
+
+        // $new_file_name = 'public/shared-bills/'.$file_name;
+        // Storage::delete( $new_file_name );
+        // Storage::copy( $file_name, $new_file_name );
+        // $path = storage_path('app/'.$new_file_name);
+        // if(\File::exists($path)){
+        //     return Action::download( Storage::url($new_file_name), $file_name);
+        // }
+        // else{
+        //     return Action::danger(404);
+        // }
+        return Action::message("Exported Bills file will send to your mail!");
     }
 
     /**
