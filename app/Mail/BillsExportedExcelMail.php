@@ -32,8 +32,8 @@ class BillsExportedExcelMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $filePath = "app/public/shared-bills/{$this->file_name}";
-
+        $fileName = $this->file_name;
+        $filePath = "app\public\shared-bills\\".$fileName;
         return $this->subject("New Exported Bills - SureBills")
             ->view('emails.bills.exported_bills', [
                 'file_name' => $this->file_name,
