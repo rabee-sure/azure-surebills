@@ -343,7 +343,7 @@ class Bill extends Resource
     public function actions(Request $request)
     {
         return [
-            (new BillsExcelDownload)->canRun(function (NovaRequest $request) {
+            (new BillsExcelDownload($request))->canRun(function (NovaRequest $request) {
                 return true;
             }),
             // (new DownloadExcel)->withHeadings(),

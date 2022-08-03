@@ -17,24 +17,34 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Facades\Excel;
+use Laravel\Nova\Http\Requests\DecodesFilters;
 
-class BillsExcelDownload extends Action implements ShouldQueue
+class BillsExcelDownload extends Action
 {
-    use InteractsWithQueue, Queueable;
 
-    public static $chunkCount = 1000000;
+    public static $chunkCount = 1;
+    public $request;
 
-    public function handle(ActionFields $fields, Collection $models)
+    public function __construct($request)
     {
-        $file_name = 'bills/'.Carbon::now()->timestamp.'.xlsx';
-        $data = json_decode((BillResource::collection($models->load('application')))->toJson(), true);
+        $this->request = $request;
+    }
 
-        (new BillsExport($data))
-        ->store($filePath = 'public/shared-bills/'. $file_name)
-        ->chain([
-            $message = (new BillsExportedExcelMail($file_name))->onQueue(env('EMAILS_QUEUE')),
-            Mail::to(Auth::user()->email)->queue($message)
-        ]);
+    public function handle(ActionFields $fields, Collection $models = null)
+    {
+        $queryFilters = $this->request->query('filters');
+        $decodedFilters = collect(json_decode(base64_decode($queryFilters), true));
+
+        
+        // $file_name = 'bills/'.Carbon::now()->timestamp.'.xlsx';
+        // $data = json_decode((BillResource::collection($models->load('application')))->toJson(), true);
+
+        // (new BillsExport($data))
+        // ->store($filePath = 'public/shared-bills/'. $file_name)
+        // ->chain([
+        //     $message = (new BillsExportedExcelMail($file_name))->onQueue(env('EMAILS_QUEUE')),
+        //     Mail::to(Auth::user()->email)->queue($message)
+        // ]);
 
         // $new_file_name = 'public/shared-bills/'.$file_name;
         // Storage::delete( $new_file_name );
