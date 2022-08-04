@@ -34,13 +34,14 @@ class StatementController extends Controller
 
         $statementQuery = auth()->user()->getStatement();
 
-        $statement = $statementQuery->paginate(50);
+        
         $channels = Channel::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         $applications = ($channel) ? $channel->applications : [];
 
         $totals = [];
         $statementQueryAllCredit = clone $statementQuery;
         $statementQueryAllDebit = clone $statementQuery;
+        $statement = $statementQuery->paginate(50);
         $credit = $statementQueryAllCredit->where('type', 'credit')->selectRaw("SUM(amount) AS credit");
         $debit = $statementQueryAllDebit->where('type', 'debit')->selectRaw("SUM(amount) AS debit");
 
