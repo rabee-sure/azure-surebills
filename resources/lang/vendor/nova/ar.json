@@ -531,5 +531,11 @@
     "The file was deleted!": "تم حذف الملف!",
     "This file field is read-only.": "حقل الملف لا يقبل التغيير.",
     "No additional information...": "ليس هناك معلومات إضافية...",
-    "add new media" : "إضافة وسائط جديدة"
+    "add new media" : "إضافة وسائط جديدة",
+
+	"Are you sure Export Excel?" : "هل أنت متأكد من إستخراج ملف إكسيل؟",
+	"Exported File will send to your mail" : "الملف المستخرج سيتم إرساله عبر البريد الالكتروني",
+	"Start Exporting" : "إبدأ الاستخراج",
+	"Exporteing" : "جاري الاستخراج",
+	"The exportation prosses started after finished the file will send to your email" : "تم البدأ في عملية الاستخراج وسيتمم ارسالها عبر البريد الالكتروني فور الانتهاء من الملف"
 }

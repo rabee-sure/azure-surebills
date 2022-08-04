@@ -5,10 +5,15 @@ import locale from 'view-design/dist/locale/en-US';
 
 import JsonExcel from "vue-json-excel";
 
+import VueSweetalert2 from 'vue-sweetalert2';
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 
 Nova.booting((Vue, router, store) => {
   Vue.component("downloadExcel", JsonExcel);
   Vue.use(ViewUI, { locale });
+  Vue.use(VueSweetalert2);
   router.addRoutes([
     {
       name: 'settlements',
