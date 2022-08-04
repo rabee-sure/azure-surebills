@@ -627,8 +627,8 @@ class User extends Authenticatable implements HasMedia
                 $q->whereHas('bill', function ($query) use ($application) {
                     $query->where('application_id', $application->id);
                 });
-            })->with('bill')
-            ->get();
+            })
+            ->with(['bill', 'bill.application']);
     }
 
     /**
