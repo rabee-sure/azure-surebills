@@ -30,10 +30,10 @@ class BillsExcelDownload extends Action implements ShouldQueue
         $data = json_decode((BillResource::collection($models->load('application')))->toJson(), true);
 
         (new BillsExport($data))
-        ->store($filePath = 'public/shared-bills/'. $file_name)
+        ->store($filePath = 'shared-bills/'. $file_name)
         ->chain([
             $message = (new BillsExportedExcelMail($file_name))->onQueue(env('EMAILS_QUEUE')),
-            Mail::to(Auth::user()->email)->queue($message)
+            Mail::to('mzain@sure.com.sa')->queue($message)
         ]);
 
         // $new_file_name = 'public/shared-bills/'.$file_name;

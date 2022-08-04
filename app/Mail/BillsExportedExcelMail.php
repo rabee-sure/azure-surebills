@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\File;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Storage;
 use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class BillsExportedExcelMail extends Mailable implements ShouldQueue
@@ -33,12 +34,12 @@ class BillsExportedExcelMail extends Mailable implements ShouldQueue
     public function build()
     {
         $fileName = $this->file_name;
-        $filePath = "app\public\shared-bills\\".$fileName;
+        $filePath = Storage::disk('local')->path(join(DIRECTORY_SEPARATOR, array('shared-bills', $fileName)));
         return $this->subject("New Exported Bills - SureBills")
             ->view('emails.bills.exported_bills', [
                 'file_name' => $this->file_name,
             ])
-            ->attach(storage_path($filePath));
+            ->attach($filePath);
     }
 
 }
