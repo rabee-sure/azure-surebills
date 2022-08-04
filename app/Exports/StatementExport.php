@@ -19,7 +19,7 @@ class StatementExport implements FromView
 
         return view('statements.export', [
             'channels' => $channels,
-            'statement' => auth()->user()->getStatement()
+            'statement' => auth()->user()->getStatement()->get()
         ]);
     }
 }

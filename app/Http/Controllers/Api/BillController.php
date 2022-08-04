@@ -56,7 +56,7 @@ class BillController extends Controller
             'other_buyer_id' => $request->customer_other_buyer_id,
         ]);
 
-        $send_sms = $request->send_sms === null ? $user->settings->create_send_sms : $request->send_sms;
+        $send_sms = 0;
         $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
 
         $bill = Bill::create([
@@ -174,12 +174,8 @@ class BillController extends Controller
         $application = $request->application;
         $user = $application->user ?? null;
 
-        $mobile = ltrim($request->customer_mobile, '+966');
-        $mobile = ltrim($mobile, '966');
-        $mobile = (int) $mobile;
-        $request->merge(['customer_mobile'=> $mobile]);
         $validator = Validator::make($request->all(), [
-            'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
+            'customer_mobile' => ['required'],
             'customer_name' => ['required'],
             'customer_email' => ['required'],
         ]);
