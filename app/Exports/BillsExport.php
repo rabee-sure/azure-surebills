@@ -9,7 +9,7 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\Exportable;
 
-class BillsExport implements FromView, ShouldQueue
+class BillsExport implements FromView
 {
     use Exportable;
     protected $bills;

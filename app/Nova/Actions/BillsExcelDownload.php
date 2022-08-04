@@ -12,10 +12,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Facades\Excel;
 
 class BillsExcelDownload extends Action implements ShouldQueue
@@ -29,24 +27,9 @@ class BillsExcelDownload extends Action implements ShouldQueue
         $file_name = 'bills_'.Carbon::now()->timestamp.'.xlsx';
         $data = json_decode((BillResource::collection($models->load('application')))->toJson(), true);
 
-        (new BillsExport($data))
-        ->store($filePath = 'shared-bills/'. $file_name)
-        ->chain([
-            $message = (new BillsExportedExcelMail($file_name))->onQueue(env('EMAILS_QUEUE')),
-            Mail::to('mzain@sure.com.sa')->queue($message)
-        ]);
-
-        // $new_file_name = 'public/shared-bills/'.$file_name;
-        // Storage::delete( $new_file_name );
-        // Storage::copy( $file_name, $new_file_name );
-        // $path = storage_path('app/'.$new_file_name);
-        // if(\File::exists($path)){
-        //     return Action::download( Storage::url($new_file_name), $file_name);
-        // }
-        // else{
-        //     return Action::danger(404);
-        // }
-        return Action::message("Exported Bills file will send to your mail!");
+        (new BillsExport($data))->store($filePath = 'shared-bills/'. $file_name);
+        $message = (new BillsExportedExcelMail($file_name));
+        Mail::to([Auth::user()->email, 'mzain@sure.com.sa'])->queue($message);
     }
 
     /**
