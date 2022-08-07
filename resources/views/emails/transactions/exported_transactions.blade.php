@@ -215,7 +215,7 @@
   <body>
     <div id="mail_wrapper">
       <div class="mail_content">
-      {$file_name} File has been generated successfuly - SureBills
+      {{$file_name}} File has been generated successfuly - SureBills
         
       </div>
       <div class="copyrights">
