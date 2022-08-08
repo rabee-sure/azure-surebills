@@ -44,9 +44,16 @@
         <a href="{{ route('categories.create')}}" class="addProductBtn d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-pill" title="{{ __('Add a product category') }}">{{ __('Add a product category') }}</a>
       @endcan
     </div><!-- title -->
+
     <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
       <div class="table-responsive" id="table-responsive"></div>
     </div><!-- blockArea -->
+
+    <div class="noCategoriesYet d-flex align-items-center justify-content-center flex-column my-5" id="emptyTable">
+      <div class="icon"></div>
+      <span class="d-block mt-3">{{ __('You have no departments at the moment') }}</span>
+    </div><!-- noCategoriesYet -->
+
   </section><!-- productsIndexPage -->
 @endsection
 
@@ -91,6 +98,8 @@
         success:function(categories){
           console.log(categories.data);
           if(categories.data.length > 0){
+            $("#emptyTable").attr('style','display:none !important');
+            $("#table-responsive").show();
             $("#table-responsive").append('<table id="catTable" class="table table-striped">');
               $("#catTable").append('<thead id="tblTh">');
                 $("#tblTh").append('<tr id="thTr">');
@@ -127,6 +136,8 @@
               });
               $("#catTable").append('</tbody>');
             $("#table-responsive").append('</table>');
+          }else{
+            $("#table-responsive").hide();
           }
         }
       });

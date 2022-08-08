@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class DueAmountAutoTransferReport extends Resource
 {
@@ -42,6 +44,20 @@ class DueAmountAutoTransferReport extends Resource
      */
     public function fields(Request $request)
     {
+        event(new AddActionLogEvent(
+            'view_due_amount_auto_transfer_report',
+            Auth::id(),
+            [
+                'message' => [
+                    'adminname' => Auth::user()->name,
+                    'time' => now(),
+                ],
+                'changes' => [],
+            ],
+            $this->id,
+            '\App\Models\DueAmountAutoTransferReport'
+        ));
+
         return [
             Text::make('merchant_id'),
             Text::make('merchant_name'),

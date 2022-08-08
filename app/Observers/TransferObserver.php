@@ -5,6 +5,8 @@ namespace App\Observers;
 use App\Events\TransferCompleted;
 use App\Models\Transaction;
 use App\Models\Transfer;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class TransferObserver
 {
@@ -18,6 +20,24 @@ class TransferObserver
     {
         if($transfer->status == "completed"){
             TransferCompleted::dispatch($transfer);
+        }
+
+        if(Auth::guard('admins')->check()){
+            event(new AddActionLogEvent(
+                'create_transfer',
+                Auth::id(),
+                [
+                    'message' => [
+                        'username' => $transfer->user->name,
+                        'adminname' => Auth::user()->name,
+                        'amount' => $transfer->net_amount,
+                        'time' => $transfer->created_at,
+                    ],
+                    'changes' => [],
+                ],
+                $transfer->id,
+                Transfer::class
+            ));
         }
     }
 

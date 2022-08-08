@@ -11,6 +11,8 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class Report extends Model implements HasMedia
 {
@@ -42,10 +44,40 @@ class Report extends Model implements HasMedia
             if($report->type == 'merchants outstanding')
             {
                 GenerateReport::dispatch($report->id);
+                event(new AddActionLogEvent(
+                    'create_merchants_outstanding_report',
+                    Auth::id(),
+                    [
+                        'message' => [
+                            'name' => $report->name,
+                            'adminname' => Auth::user()->name,
+                            'type' => $report->type,
+                            'time' => $report->created_at,
+                        ],
+                        'changes' => [],
+                    ],
+                    $report->id,
+                    Report::class
+                ));
             }
             else if($report->type == 'bill')
             {
                 GenerateBillReport::dispatch($report->id);
+                event(new AddActionLogEvent(
+                    'create_bill_report',
+                    Auth::id(),
+                    [
+                        'message' => [
+                            'name' => $report->name,
+                            'adminname' => Auth::user()->name,
+                            'type' => $report->type,
+                            'time' => $report->created_at,
+                        ],
+                        'changes' => [],
+                    ],
+                    $report->id,
+                    Report::class
+                ));
             }
         });
     }

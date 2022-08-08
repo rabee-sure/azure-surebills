@@ -241,7 +241,7 @@
             <input name="api_bill_style" class="position-absolute top-0 strat-0 w-100 h-100" id="api_bill_style" type="checkbox" @if($user->settings->api_bill_style || old('api_bill_style') == 'on') checked @endif>
             <span class="d-flex align-items-center justify-content-start">
               <i class="d-block rounded-pill position-relative"></i>
-              {{ __('Activate simple style for API bills?') }}
+              {{ __('Hide the additional information of the orgianization in the payment URL') }}
             </span>
           </label>
           <div class="saveBtn d-flex justify-content-start mt-5">

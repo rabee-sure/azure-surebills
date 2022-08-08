@@ -15,6 +15,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Models\Channel' => 'App\Policies\ChannelPolicy',
+        'App\Models\ActionLog' => 'App\Policies\ActionLogPolicy',
+        'App\Models\Bank' => 'App\Policies\BankPolicy',
+        'App\Models\WebhookLog' => 'App\Policies\WebhookLogPolicy',
+        'App\Models\User' => 'App\Policies\UserPolicy',
+        'App\Models\Admin' => 'App\Policies\AdminPolicy',
+        'App\Models\Role' => 'App\Policies\RolePolicy',
+        'App\Models\Statement' => 'App\Policies\StatementPolicy',
     ];
 
     /**
@@ -28,14 +35,14 @@ class AuthServiceProvider extends ServiceProvider
 
         Passport::routes();
 
-        Gate::define('viewWebSocketsDashboard', function ($user = null) {
-            return in_array($user->email, [
-                'faisal@toot.im',
-                'eabdelsabour@sure.com.sa',
-                'aghanem@sure.com.sa',
-                'mjarad@sure.com.sa',
-            ]);
-        });
+        // Gate::define('viewWebSocketsDashboard', function ($user = null) {
+        //     return in_array($user->email, [
+        //         'faisal@toot.im',
+        //         'eabdelsabour@sure.com.sa',
+        //         'aghanem@sure.com.sa',
+        //         'mjarad@sure.com.sa',
+        //     ]);
+        // });
 
     }
 }

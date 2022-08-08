@@ -102,7 +102,7 @@ class TransferLog extends Resource
         return [
             ID::make()->sortable(),
             Text::make(__('Type'), 'type'),
-     
+
             Indicator::make(__('Transfer Status'), 'transfer_status')
                 ->labels([
                     'pending' => __('pending transfer'),
@@ -118,7 +118,7 @@ class TransferLog extends Resource
                     'failed' => 'red',
                     'pending' => 'warning',
                 ]),
-            BelongsTo::make(__('User'), 'user', User::class)->searchable(),
+            BelongsTo::make(__('Merchant'), 'user', User::class)->searchable(),
         ];
     }
 

@@ -24,7 +24,7 @@ class TransferController extends Controller
     public function __construct()
     {
         $this->middleware('permission:show bills', ['only' => ['bills']]);
-        $this->middleware('permission:show transfers');
+        // $this->middleware('permission:show transfers');
     }
     /**
      * Display a listing of the resource.
@@ -83,10 +83,13 @@ class TransferController extends Controller
      */
     public function all(Request $request)
     {
-        $transfers = Transfer::orderBy('id', 'desc')->pending()->with('created_by', 'user')
-            ->paginate($request->per_page);
+        if((auth()->user()->can('show statements') && auth()->user()->can('show merchants')) || auth()->user()->can('show transfers'))
+        {
+            $transfers = Transfer::orderBy('id', 'desc')->pending()->with('created_by', 'user')->paginate($request->per_page);
+            return TransferResource::collection($transfers);
+        }
 
-        return TransferResource::collection($transfers);
+        return abort(401);
     }
 
     /**
@@ -166,7 +169,7 @@ class TransferController extends Controller
                 'user_id' => $user->id,
                 'note' => $request->note,
                 'attachment' => $request->attachment,
-                'created_by_id' => auth()->user()->id,
+                'created_by_id' => null,
                 'bank_id' => $user->bank_id,
                 'iban_number' => $user->iban_number,
                 'beneficiary_name' => $user->beneficiary_name,

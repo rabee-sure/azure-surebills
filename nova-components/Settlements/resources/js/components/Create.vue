@@ -65,7 +65,7 @@
             </FormItem>
 
             <FormItem>
-                <Button type="primary" @click="handleSubmit('form')" :disabled="disableBtn">   {{__('Submit')}} 
+                <Button type="primary" @click="handleSubmit('form')" :disabled="disableBtn">   {{__('Submit')}}
                 </Button>
                 <Button style="margin-left: 8px" @click="handleCancel" >{{__('Cancel')}}</Button>
             </FormItem>
@@ -87,7 +87,7 @@
 
                 <template slot-scope="{ row, index }" slot="action">
                     <Row>
-                        <Col span="12">                    
+                        <Col span="12">
                             <i-switch :disabled="row.status_bool" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id)" false-color="#f90" true-color="#13ce66" />
                         </Col>
                         <Col span="12">
@@ -137,7 +137,7 @@ export default {
                 {
                     value: 'send_to_sps',
                     label: this.__('Send To SPS')
-                },                
+                },
                 {
                     value: 'pending',
                     label: this.__('Pending Transfer')
@@ -154,7 +154,7 @@ export default {
             day: null,
             language: 'ar',
             uploadFileActionUrl: '/api/upload?lang=',
-
+            permissions: [],
             transactionsModal: false,
             transactions: [],
             transactions_meta:{},
@@ -259,18 +259,28 @@ export default {
         };
     },
     mounted() {
-        this.getUser(this.$route.params.id)
+        this.getUser(this.$route.params.id);
+        this.userPermission();
     },
     methods: {
+       userPermission(){
+         return Nova.request().get('/user-permissions/admins').then(response => {
+           this.permissions = response.data;
+           if(!this.permissions.includes('create settlement') || !this.permissions.includes('show merchants'))
+           {
+                window.location.href = '/nova/403';
+           }
+         })
+        },
         formatDate(date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
                 year = d.getFullYear();
 
-            if (month.length < 2) 
+            if (month.length < 2)
                 month = '0' + month;
-            if (day.length < 2) 
+            if (day.length < 2)
                 day = '0' + day;
 
             return [year, month, day].join('-');
@@ -431,20 +441,20 @@ export default {
         },
         handleCancel() {
             this.$Message.success(this.language == 'en'? 'Cancel Transfer successfully': 'تم الغاء التحويل بنجاح');
-            this.form.cycle_date = null;     
-            this.form.note = null;     
-            this.form.attachment = null;     
+            this.form.cycle_date = null;
+            this.form.note = null;
+            this.form.attachment = null;
             this.$refs['uploadFiles'].clearFiles();
-            this.refresh();  
+            this.refresh();
         },
         refresh() {
             this.transactions = [];
             this.new_transactions = [];
-            this.form.amount = 0;           
-            this.form.status = 'completed';           
-        },        
+            this.form.amount = 0;
+            this.form.status = 'completed';
+        },
         nextPage(page) {
-            this.handleChangeDate(this.day, false, page)       
+            this.handleChangeDate(this.day, false, page)
         },
         changeStatus(status, id) {
             this.switch_loading = true;
@@ -457,7 +467,7 @@ export default {
             })
             .catch(function (error) {
                 this.switch_loading = false;
-            });   
+            });
         }
     }
 }

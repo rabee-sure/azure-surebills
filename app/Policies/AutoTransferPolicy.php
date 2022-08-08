@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Bill;
 use App\Models\Transfer;
 use App\Models\AutoTransfer;
-use App\Models\User;
+use App\Models\Admin as User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AutoTransferPolicy
@@ -20,7 +20,7 @@ class AutoTransferPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->can('show AutoTransfers');
     }
 
     /**
@@ -32,7 +32,7 @@ class AutoTransferPolicy
      */
     public function view(User $user, AutoTransfer $auto_tranfer)
     {
-        return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
+        return $user->can('show AutoTransfers');
     }
 
     /**
@@ -44,7 +44,8 @@ class AutoTransferPolicy
      */
     public function viewTransfers(User $user, AutoTransfer $auto_tranfer)
     {
-        return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
+        // return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
+        return in_array($user->email, explode(',', auth()->user()->email));;
     }
 
 
@@ -120,7 +121,7 @@ class AutoTransferPolicy
     {
         return false;
     }
-    
+
         /**
      * Determine whether the user can detach a tag from a podcast.
      *
@@ -144,6 +145,6 @@ class AutoTransferPolicy
     public function attachAnyTransfer(User $user, AutoTransfer $auto_tranfer)
     {
         return false;
-    }    
+    }
 
 }

@@ -183,7 +183,7 @@ if (!function_exists('fact_number')) {
 }
 
 if(!function_exists('generateQRcode')){
-    function generateQRcode($bill){
+    function generateQRcode($bill, $src = null){
 
         $displayQRCodeAsBase64 = GenerateQrCode::fromArray([
             new Seller($bill->user->business_name_ar), // seller name        
@@ -194,6 +194,7 @@ if(!function_exists('generateQRcode')){
             // TODO :: Support others tags
         ])->render();
 
-        return '<img src="'.$displayQRCodeAsBase64.'" alt="QR Code" />';
+        $qr = $src ? $displayQRCodeAsBase64 : '<img src="'.$displayQRCodeAsBase64.'" alt="QR Code" />';
+        return $qr;
     }
 }

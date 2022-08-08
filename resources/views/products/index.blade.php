@@ -40,9 +40,16 @@
         <a href="{{ route('products.create')}}" class="addProductBtn d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-pill" title="{{ __('Add Product') }}">{{ __('Add Product') }}</a>
       @endcan
     </div><!-- title -->
+
     <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
       <div class="table-responsive" id="table-responsive"></div>
     </div><!-- blockArea -->
+
+    <div class="noProductsYet d-flex align-items-center justify-content-center flex-column my-5" id="emptyTable">
+      <div class="icon"></div>
+      <span class="d-block mt-2">{{__('You have no products at the moment')}}</span>
+    </div><!-- noProductsYet -->
+
   </section><!-- productsIndexPage -->
 
 @endsection
@@ -87,6 +94,8 @@
         success:function(products){
           console.log(products.data);
           if(products.data.length > 0){
+            $("#emptyTable").attr('style','display:none !important');
+            $("#table-responsive").show();
             $("#table-responsive").append('<table id="prodTable" class="table table-striped table-hover text-nowrap">');
               $("#prodTable").append('<thead id="tblTh">');
                 $("#tblTh").append('<tr id="thTr">');
@@ -123,6 +132,8 @@
               });
               $("#prodTable").append('</tbody>');
             $("#table-responsive").append('</table>');
+          }else{
+            $("#table-responsive").hide();
           }
         }
       });

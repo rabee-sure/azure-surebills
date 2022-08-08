@@ -77,7 +77,7 @@ button, input {
 
 main {
   padding: 15px 150px 15px 15px;
-  transition: all 0.4s ease-in-out;
+  // transition: all 0.4s ease-in-out;
   min-height: calc(100vh - 105px);
   [dir="ltr"] & {
     padding: 15px 15px 15px 150px;

@@ -12,12 +12,15 @@
         "ampeco/nova-date-range-filter": "^0.1.2",
         "anaseqal/nova-sidebar-icons": "^0.0.3",
         "bakerkretzmar/nova-settings-tool": "^1.1",
+        "benjacho/belongs-to-many-field": "^2.0",
+        "beyondcode/reports": "*",
         "chris-ware/nova-breadcrumbs": "^2.0",
         "codebykyle/calculated-field": "^1.1",
         "digital-creative/conditional-container": "^1.3",
         "digital-creative/nova-range-input-filter": "^0.1.5",
         "ebess/advanced-nova-media-library": "^3.2",
         "fideloper/proxy": "^4.2",
+        "fourstacks/nova-checkboxes": "^0.1.7",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "hashids/hashids": "^4.0",
@@ -59,8 +62,7 @@
         "sure/settlements": "*",
         "sure/userstats": "*",
         "timothyasp/nova-badge-field": "^1.0",
-        "titasgailius/search-relations": "^1.0",
-        "beyondcode/reports": "*"
+        "titasgailius/search-relations": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
