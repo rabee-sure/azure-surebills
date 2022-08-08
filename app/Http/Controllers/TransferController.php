@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\TransferCreated;
+use App\Exports\UserAllTransactionsExportQueued;
 use App\Http\Resources\TransactionResource;
 use App\Http\Resources\TransferResource;
+use App\Jobs\SendExportedUserTranasctionsMailsJob;
 use App\Mail\RequestTransferMail;
 use App\Models\Bank;
-use App\Models\Bill;
-use App\Models\Transaction;
 use App\Models\Transfer;
-use App\Models\TransferLog;
 use App\Models\User;
 use App\Services\TransferOperations;
 use App\Services\TransferService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Valuestore\Valuestore;
@@ -243,7 +242,6 @@ class TransferController extends Controller
             ->with(['bill.application'])
             ->paginate(10);
 
-
         $balance = $user->getBalanceBefore($request->cycle_date);
         return (TransactionResource::collection($transactions))
         ->additional([
@@ -251,5 +249,19 @@ class TransferController extends Controller
                 'balance' => $balance,
             ]
         ]);
+    }
+
+    public function userallTransactions(Request $request, User $user)
+    {
+        $file_name = 'user-'.$user->id.'-transactions_'.Carbon::now()->timestamp.'.xlsx';
+
+        //should be moved to special export queue
+        (new UserAllTransactionsExportQueued($user, $request->cycle_date))
+        ->store($filePath = 'exported-transactions/'. $file_name)
+        ->chain([
+            (new SendExportedUserTranasctionsMailsJob($file_name))
+        ]);
+
+        return $file_name;
     }
 }

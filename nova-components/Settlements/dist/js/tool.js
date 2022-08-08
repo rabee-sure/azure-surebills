@@ -61070,7 +61070,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Scoped Styles */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Scoped Styles */\r\n", ""]);
 
 // exports
 
@@ -61083,9 +61083,6 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__table_expand_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__table_expand_vue__);
-//
-//
-//
 //
 //
 //
@@ -61393,19 +61390,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         page: page
                     }
                 }).then(function (response) {
-
                     _this3.transactions = response.data.data;
                     _this3.transactions_meta = response.data.meta;
-                    _this3.new_transactions = _this3.transactions.map(function (item) {
-                        return {
-                            'created_at': item.created_at,
-                            'description': item.description,
-                            'type': item.type,
-                            'amount': item.amount,
-                            'customer_notes': item.customer_notes,
-                            'reference_id': item.reference_id
-                        };
-                    });
+
                     _this3.form.amount = response.data.meta.balance;
                     if (_this3.transactions.length == 0) {
                         _this3.$Message.warning({
@@ -61420,6 +61407,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 this.validDateRange = false;
             }
+        },
+        exportExcel: function exportExcel() {
+            var _this4 = this;
+
+            this.$swal({
+                title: this.__('Are you sure Export Excel?'),
+                text: this.__("Exported File will send to your mail"),
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: this.__('Start Exporting'),
+                cancelButtonText: this.__('Cancel')
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    Nova.request().get('/users/' + _this4.$route.params.id + '/alltransactions', {
+                        params: {
+                            cycle_date: _this4.day,
+                            bills_not_settled: true,
+                            page: 1
+                        }
+                    }).then(function (response) {
+                        _this4.$swal(_this4.__('Exporteing'), _this4.__('The exportation prosses started after finished the file will send to your email'), 'success');
+                    });
+                }
+            });
         },
         handleProgress: function handleProgress() {
             this.disableBtn = true;
@@ -61439,50 +61452,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         handleSubmit: function handleSubmit(name) {
-            var _this4 = this;
+            var _this5 = this;
 
             this.loading = true;
             this.disableBtn = true;
 
             this.$refs[name].validate(function (valid) {
-                if (valid && _this4.user.bank_id != null) {
+                if (valid && _this5.user.bank_id != null) {
                     Nova.request().post('/transfers', {
-                        user_id: _this4.user.id,
-                        status: _this4.form.status,
-                        amount: _this4.form.amount,
-                        note: _this4.form.note,
-                        attachment: _this4.form.attachment,
-                        cycle_date: _this4.form.cycle_date,
-                        transactions_ids: _this4.transactions.map(function (a) {
+                        user_id: _this5.user.id,
+                        status: _this5.form.status,
+                        amount: _this5.form.amount,
+                        note: _this5.form.note,
+                        attachment: _this5.form.attachment,
+                        cycle_date: _this5.form.cycle_date,
+                        transactions_ids: _this5.transactions.map(function (a) {
                             return a.id;
                         }),
-                        bank_id: _this4.user.bank_id,
-                        iban_number: _this4.user.iban_number,
-                        beneficiary_name: _this4.user.beneficiary_name
+                        bank_id: _this5.user.bank_id,
+                        iban_number: _this5.user.iban_number,
+                        beneficiary_name: _this5.user.beneficiary_name
                     }).then(function (response) {
                         console.log('response.data');
                         console.log(response.data);
-                        _this4.$router.push('/resources/transfers/' + response.data.data.id);
-                        _this4.loading = false;
-                        _this4.transactions = [];
-                        _this4.form.cycle_date = null;
-                        _this4.form.amount = 0;
-                        _this4.form.status = 'completed';
-                        _this4.form.note = null;
-                        _this4.form.attachment = null;
-                        _this4.disableBtn = false;
-                        _this4.$Message.success(_this4.language == 'en' ? 'Success' : 'تم');
+                        _this5.$router.push('/resources/transfers/' + response.data.data.id);
+                        _this5.loading = false;
+                        _this5.transactions = [];
+                        _this5.form.cycle_date = null;
+                        _this5.form.amount = 0;
+                        _this5.form.status = 'completed';
+                        _this5.form.note = null;
+                        _this5.form.attachment = null;
+                        _this5.disableBtn = false;
+                        _this5.$Message.success(_this5.language == 'en' ? 'Success' : 'تم');
                     }).catch(function (error) {
                         console.log(error.response.data);
-                        _this4.$Message.error(error.response.data.error);
-                        _this4.disableBtn = false;
+                        _this5.$Message.error(error.response.data.error);
+                        _this5.disableBtn = false;
                     });
-                } else if (_this4.user.bank_id == null) {
-                    _this4.disableBtn = false;
-                    _this4.$Message.error(_this4.language == 'en' ? 'User Must complete Profile Info' : 'يجب استكمال بيانات هذا العميل');
+                } else if (_this5.user.bank_id == null) {
+                    _this5.disableBtn = false;
+                    _this5.$Message.error(_this5.language == 'en' ? 'User Must complete Profile Info' : 'يجب استكمال بيانات هذا العميل');
                 } else {
-                    _this4.disableBtn = false;
-                    _this4.$Message.error(_this4.language == 'en' ? 'Fail' : 'فشل');
+                    _this5.disableBtn = false;
+                    _this5.$Message.error(_this5.language == 'en' ? 'Fail' : 'فشل');
                 }
             });
         },
@@ -61504,14 +61517,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.handleChangeDate(this.day, false, page);
         },
         changeStatus: function changeStatus(status, id) {
-            var _this5 = this;
+            var _this6 = this;
 
             this.switch_loading = true;
             Nova.request().put('/transfers/change_status', {
                 status: status ? 'completed' : 'pending',
                 ids: id
             }).then(function (response) {
-                _this5.switch_loading = false;
+                _this6.switch_loading = false;
             }).catch(function (error) {
                 this.switch_loading = false;
             });
@@ -62284,35 +62297,18 @@ var render = function() {
           }
         },
         [
-          _vm.new_transactions.length
-            ? _c(
-                "download-excel",
-                {
-                  attrs: {
-                    data: _vm.new_transactions,
-                    name:
-                      "Transactions-" +
-                      _vm.user.business_name_en +
-                      "-FROM-" +
-                      _vm.formatDate(_vm.form.cycle_date)
-                  }
-                },
-                [
-                  _c(
-                    "Button",
-                    {
-                      attrs: {
-                        size: _vm.buttonSize,
-                        icon: "ios-download-outline",
-                        type: "primary"
-                      }
-                    },
-                    [_vm._v(_vm._s(_vm.__("Export")))]
-                  )
-                ],
-                1
-              )
-            : _vm._e(),
+          _c(
+            "Button",
+            {
+              attrs: {
+                size: _vm.buttonSize,
+                icon: "ios-download-outline",
+                type: "primary"
+              },
+              on: { click: _vm.exportExcel }
+            },
+            [_vm._v(_vm._s(_vm.__("Export")))]
+          ),
           _vm._v(" "),
           _c("Table", {
             attrs: {
