@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Events\UserVerifiedChanged;
 use App\Events\AddActionLogEvent;
+use App\Events\UserUpdated;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\SystemAction;
@@ -36,6 +37,8 @@ class UserObserver
      */
     public function updated(User $user)
     {
+        event(new UserUpdated($user));
+        
         if(Auth::guard('admins')->check()){
             $fieldsArr = config('userfields');
     
@@ -68,7 +71,6 @@ class UserObserver
                 }
             }
         }
-
         if($user->isDirty('verified')){
             UserVerifiedChanged::dispatch($user);
             
