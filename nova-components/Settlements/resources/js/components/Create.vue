@@ -107,10 +107,7 @@
         :title="__('transactions')"
         v-model="transactionsModal"
         width="760">
-        <download-excel v-if="new_transactions.length" :data="new_transactions"
-            :name="'Transactions-'+user.business_name_en+'-FROM-'+ formatDate(form.cycle_date)">
-            <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
-        </download-excel>
+        <Button :size="buttonSize" icon="ios-download-outline" type="primary" @click="exportExcel">{{ __('Export') }}</Button>
         <Table :loading="table_loading" stripe height="400" :columns="transactionsTable" :data="transactions" :no-data-text="__('No Data')">
             <template slot-scope="{ row }" slot="type">
                 <Button type="success" v-if="row.type == 'credit'" size="small">{{ __(row.type) }}</Button>
@@ -323,19 +320,9 @@ export default {
                     }
                 })
                 .then(response => {
-
                     this.transactions = response.data.data;
                     this.transactions_meta = response.data.meta;
-                    this.new_transactions = this.transactions.map((item) => {
-                        return {
-                            'created_at': item.created_at,
-                            'description': item.description,
-                            'type': item.type,
-                            'amount': item.amount,
-                            'customer_notes': item.customer_notes,
-                            'reference_id': item.reference_id,
-                        }
-                    });
+                    
                     this.form.amount = response.data.meta.balance;
                     if(this.transactions.length == 0){
                         this.$Message.warning({
@@ -354,6 +341,35 @@ export default {
             {
                 this.validDateRange = false;
             }
+        },
+        exportExcel(){
+            this.$swal({
+            title: this.__('Are you sure Export Excel?'),
+            text: this.__("Exported File will send to your mail"),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: this.__('Start Exporting'),
+            cancelButtonText: this.__('Cancel')
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Nova.request().get('/users/'+this.$route.params.id+'/alltransactions', {
+                        params: {
+                            cycle_date: this.day,
+                            bills_not_settled: true,
+                            page: 1,
+                        }
+                    })
+                    .then(response => {
+                        this.$swal(
+                            this.__('Exporteing'),
+                            this.__('The exportation prosses started after finished the file will send to your email'),
+                            'success'
+                        )
+                    });
+                }
+            })
         },
         handleProgress(){
             this.disableBtn=true;

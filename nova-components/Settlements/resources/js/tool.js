@@ -7,6 +7,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 import JsonExcel from "vue-json-excel";
 
+
 // const Swal = require('sweetalert2')
 Nova.booting((Vue, router, store) => {
   Vue.component("downloadExcel", JsonExcel);
