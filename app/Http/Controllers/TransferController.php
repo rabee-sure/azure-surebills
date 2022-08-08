@@ -253,13 +253,14 @@ class TransferController extends Controller
 
     public function userallTransactions(Request $request, User $user)
     {
+        $adminUser = json_decode($request->adminUser, true);
         $file_name = 'user-'.$user->id.'-transactions_'.Carbon::now()->timestamp.'.xlsx';
 
         //should be moved to special export queue
         (new UserAllTransactionsExportQueued($user, $request->cycle_date))
         ->store($filePath = 'exported-transactions/'. $file_name)
         ->chain([
-            (new SendExportedUserTranasctionsMailsJob($file_name))
+            (new SendExportedUserTranasctionsMailsJob($file_name, $adminUser['email']))
         ]);
 
         return $file_name;
