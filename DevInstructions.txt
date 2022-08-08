@@ -1,0 +1,15 @@
+--- Notes For Developers ---
+*To add new permission to a module in Nova admin, put it at :
+    config > AdminRolePermissionsMatrix.php
+then run this command:
+    php artisan db:seed --class=AdminPermissionTableSeeder
+
+*To add new permission to a module in merchant dashboard, put it at :
+    config > RolePermissionsMatrix.php
+then run this command:
+    php artisan db:seed --class=PermissionTableSeeder
+
+*To add new report card in nova admin, put it at :
+    nova-components > Reports > resources > js > components > Tool.vue
+then run this command:
+    npm run dev

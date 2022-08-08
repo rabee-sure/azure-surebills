@@ -6,12 +6,20 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MerchantsOutstandingStoreRequest;
 use App\Models\Report;
 use App\Models\User;
-use App\Jobs\CreateReportExcelFileJob;
 use App\Events\GenerateReport;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PaymentRecordExport;
 
 class ReportsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:show payment record', ['only' => ['paymentRecord']]);
+    }
+
     public function index(Request $request)
     {
         return view('reports.index');
@@ -48,5 +56,49 @@ class ReportsController extends Controller
         GenerateReport::dispatch($report->id);
         
         return redirect()->route('reports.merchants-outstanding');
+    }
+
+    public function paymentRecord(Request $request)
+    {
+        $data['filters'] = [
+            'transaction_types' => [
+                'all' => 'All',
+                'debit' => 'Debit',
+                'credit' => 'Credit',
+            ],
+            'payment_ways' => [
+                'all' => 'All',
+                'cash' => 'Cash',
+                'online' => 'Online',
+                'payment_machine' => 'Payment Machine', 
+                'bank_transfer' => 'Bank Transfer', 
+            ],
+            'sources' => [
+                'all' => 'All',
+                'sure_bill' => 'Sure Bill',
+                'pos' => 'POS',
+                'api' => 'API',
+            ]
+        ];
+
+        $user = Auth::user()->store_main_user_id ? User::find(Auth::user()->store_main_user_id) : Auth::user();
+
+        $query = $user->paymentRecordQuery($request);
+
+        $allQuery = $query->get();
+        $paginatedQuery = $query->paginate(100);
+        
+        $data['payments'] = $paginatedQuery;
+
+        $credit = $allQuery->where('transaction_source', 'bill')->sum('amount');
+        $debit = $allQuery->where('transaction_source', 'refund')->sum('amount');
+        $data['total'] = $credit - $debit;
+
+        return view('reports.payment-record', $data);
+    }
+
+    public function paymentRecordExport(Request $request)
+    {
+        return Excel::download(new PaymentRecordExport($request), 'payment_records.xlsx');
     }
 }

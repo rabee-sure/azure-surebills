@@ -1,0 +1,104 @@
+// Bootstrap Files
+@import 'plugins/bootstrap/bootstrap.scss';
+
+// Variables
+@import 'helpers/variables';
+
+// Fontawesome Icon Files
+@import "plugins/fontawesome/fontawesome.scss";
+@import "plugins/fontawesome/regular.scss";
+@import "plugins/fontawesome/solid.scss";
+@import "plugins/fontawesome/brands.scss";
+@import "plugins/fontawesome/duotone.scss";
+@import "plugins/fontawesome/light.scss";
+
+body {
+  background-color: #ffffff;
+  direction: rtl;
+  font-size: 15px;
+  font-family: "Almarai","Roboto";
+  [dir="ltr"] & {
+    direction: ltr;
+    font-family: "Roboto","Almarai";
+  } /* ltr */
+} /* body */
+
+a {
+  text-decoration: none;
+  outline: none;
+} /* a */
+
+.text-start {
+  [dir="rtl"] & {
+    text-align: right !important;
+  } /* rtl */
+} /* text-start */
+
+.text-end {
+  [dir="rtl"] & {
+    text-align: left !important;
+  } /* rtl */
+} /* text-end */
+
+.billPrint {
+  .borderTop {
+    border-top: 1px dashed #dee2e6;
+  } /* borderTop */
+  .aboutUser {
+    figure {
+      img {
+        max-height: 50px;
+      } /* img */
+    } /* figure */
+    .taxInvoiceText {
+      font-size: 14px;
+    } /* taxInvoiceText */
+  } /* aboutUser */
+  .tableItems {
+    th, td {
+      font-size: 13px;
+    } /* th */
+  } /* tableItems */
+  .qrCode {
+    img {
+      max-height: 100px;
+    } /* img */
+    span {
+      margin-top: -5px;
+      font-size: 14px;
+    } /* span */
+  } /* qrCode */
+} /* billPrint */
+
+
+.billPrintThermal {
+  margin: 0 auto;
+  .borderTop {
+    border-top: 1px dashed #dee2e6;
+  } /* borderTop */
+  .aboutUser {
+    figure {
+      img {
+        max-height: 50px;
+      } /* img */
+    } /* figure */
+    .taxInvoiceText {
+      font-size: 14px;
+    } /* taxInvoiceText */
+  } /* aboutUser */
+  .tableItems {
+    th, td {
+      font-size: 13px;
+    } /* th */
+  } /* tableItems */
+  .qrCode {
+    img {
+      max-height: 100px;
+    } /* img */
+    span {
+      margin-top: -5px;
+      font-size: 14px;
+    } /* span */
+  } /* qrCode */
+} /* billPrintThermal */
+

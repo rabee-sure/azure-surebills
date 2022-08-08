@@ -13,13 +13,13 @@
   <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
     <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
     <i>/</i>
-    <span>{{ __('Electronic payment record') }}</span>
+    <span>{{ __('Electronic payment') }}</span>
   </div><!-- breadcrump -->
 
   <section id="statementIndexPage">
 
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
-      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Electronic payment record') }}</h1>
+      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Electronic payment') }}</h1>
       <h2 class="d-block m-0 fs-6">{{ __('Balance') }} : {{ round2(auth()->user()->balance) }} {{ __('SAR')}}</h2>
     </div><!-- title -->
 

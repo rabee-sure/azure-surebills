@@ -106,11 +106,9 @@ class Transfer extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make(__('User ID'), 'user_id'),
+            Text::make(__('Merchant ID'), 'user_id'),
 
-            BelongsTo::make(__('Business Name'), 'user', User::class)->displayUsing(function($user){
-                return $user->business_name_en ? $user->business_name_en : $user->mainStoreUser->business_name_en;
-            })->searchable(),
+            $request->user()->can('show merchants') ? BelongsTo::make(__('Business Name'), 'user', User::class)->displayUsing(function($user){return $user->business_name_en ? $user->business_name_en : $user->mainStoreUser->business_name_en;})->searchable() : Text::make(__('Business Name'), function(){return $this->user->business_name_en ? $this->user->business_name_en : $this->user->mainStoreUser->business_name_en;}),
 
             Number::make(__('Amount'), 'amount')
                 ->min(1)

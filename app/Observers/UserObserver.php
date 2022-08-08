@@ -3,9 +3,13 @@
 namespace App\Observers;
 
 use App\Events\UserVerifiedChanged;
+use App\Events\AddActionLogEvent;
 use App\Events\UserUpdated;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\SystemAction;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserObserver
 {
@@ -33,11 +37,56 @@ class UserObserver
      */
     public function updated(User $user)
     {
-
         event(new UserUpdated($user));
-
+        
+        if(Auth::guard('admins')->check()){
+            $fieldsArr = config('userfields');
+    
+            foreach($fieldsArr as $groupKey => $fieldsGroup){
+                $fieldsChanges = [];
+                if($user->isDirty($fieldsGroup)){
+                    foreach($fieldsGroup as $field){
+                        if($user->isDirty($field)){
+                            $fieldsChanges[$field] = [
+                                'old_value' => $user->getOriginal($field),
+                                'new_value' => $user->$field
+                            ];
+                        }
+                    }
+                    event(new AddActionLogEvent(
+                        'user_update', 
+                        Auth::id(), 
+                        [
+                            'message' => [
+                                'username' => $user->name,
+                                'adminname' => Auth::user()->name,
+                                'fields_group' => $groupKey,
+                                'time' => $user->updated_at,
+                            ],
+                            'changes' => $fieldsChanges,
+                        ], 
+                        $user->id, 
+                        User::class
+                    ));
+                }
+            }
+        }
         if($user->isDirty('verified')){
             UserVerifiedChanged::dispatch($user);
+            
+            if(Auth::guard('admins')->check()){
+                event(new AddActionLogEvent(
+                    $user->verified ? 'user_approved' : 'user_unapproved', 
+                    Auth::id(), 
+                    ['message' => [
+                        'username' => $user->name,
+                        'adminname' => Auth::user()->name,
+                        'time' => $user->updated_at
+                    ]], 
+                    $user->id, 
+                    User::class
+                ));
+            }
         }
     }
 

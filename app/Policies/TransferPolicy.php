@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Bill;
 use App\Models\Transaction;
 use App\Models\Transfer;
-use App\Models\User;
+use App\Models\Admin as User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TransferPolicy
@@ -20,7 +20,7 @@ class TransferPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->can('show transfers');
     }
 
     /**
@@ -32,7 +32,7 @@ class TransferPolicy
      */
     public function view(User $user, Transfer $transfer)
     {
-        return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
+        return $user->can('show transfers');
     }
 
     /**
@@ -44,7 +44,7 @@ class TransferPolicy
      */
     public function viewBills(User $user, Transfer $transfer)
     {
-        return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
+        return $transfer->user_id == $user->id || in_array($user->email, explode(',', auth()->user()->email));;
     }
 
     /**
@@ -56,7 +56,7 @@ class TransferPolicy
      */
     public function viewTransactions(User $user, Transfer $transfer)
     {
-        return $transfer->user_id == $user->id || in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
+        return $transfer->user_id == $user->id || in_array($user->email, explode(',', auth()->user()->email));;
     }
 
 
@@ -145,7 +145,7 @@ class TransferPolicy
         return false;
     }
 
-    
+
     /**
      * Determine whether the user can attach any tags to the podcast.
      *
@@ -170,7 +170,7 @@ class TransferPolicy
     {
         return false;
     }
-    
+
         /**
      * Determine whether the user can detach a tag from a podcast.
      *
@@ -194,7 +194,7 @@ class TransferPolicy
     public function attachAnyTransaction(User $user, Transfer $transfer)
     {
         return false;
-    }    
+    }
 
     /**
      * Determine whether the user can attach any tags to the podcast.

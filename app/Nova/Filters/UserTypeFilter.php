@@ -16,7 +16,7 @@ class UserTypeFilter extends Filter
 
     public function name()
     {
-        return  __('user type');
+        return  __('merchant type');
     }
     /**
      * Apply the filter to the given query.

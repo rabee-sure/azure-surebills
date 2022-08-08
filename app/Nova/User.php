@@ -59,7 +59,7 @@ class User extends Resource
      */
     public static function label()
     {
-        return __('Users');
+        return __('Merchants');
     }
 
     /**
@@ -69,7 +69,7 @@ class User extends Resource
      */
     public static function singularLabel()
     {
-        return __('User');
+        return __('Merchant');
     }
 
     /**
@@ -99,7 +99,7 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make(__('user name'), 'name')
+            Text::make(__('merchant name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:50'),
 
@@ -107,7 +107,7 @@ class User extends Resource
                 return $this->mainStoreUser ? $this->mainStoreUser->business_name_en : $this->business_name_en;
             })->rules('required', 'max:50'),
 
-            Text::make(__('user type'), function(){
+            Text::make(__('merchant type'), function(){
                 return $this->mainStoreUser ? __('employee') : __('owner');
             })->exceptOnForms(),
 

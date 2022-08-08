@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class MerchantSummaryAutoTransferReport extends Resource
 {
@@ -42,6 +44,20 @@ class MerchantSummaryAutoTransferReport extends Resource
      */
     public function fields(Request $request)
     {
+        event(new AddActionLogEvent(
+            'view_merchant_summary_auto_transfer_report',
+            Auth::id(),
+            [
+                'message' => [
+                    'adminname' => Auth::user()->name,
+                    'time' => now(),
+                ],
+                'changes' => [],
+            ],
+            $this->id,
+            '\App\Models\MerchantSummaryAutoTransferReport'
+        ));
+
         return [
             Text::make('client_id'),
             Text::make('payment_type'),

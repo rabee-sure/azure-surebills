@@ -58,7 +58,7 @@ class VerifiedUser extends Resource
      */
     public static function label()
     {
-        return __('Verified Users');
+        return __('Verified Merchants');
     }
 
     /**
@@ -68,7 +68,7 @@ class VerifiedUser extends Resource
      */
     public static function singularLabel()
     {
-        return __('Verified User');
+        return __('Verified Merchant');
     }
 
     /**
@@ -98,7 +98,7 @@ class VerifiedUser extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make(__('user name'), 'name')
+            Text::make(__('merchant name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:50'),
 
@@ -106,7 +106,7 @@ class VerifiedUser extends Resource
                 return $this->mainStoreUser ? $this->mainStoreUser->business_name_en : $this->business_name_en;
             })->rules('required', 'max:50'),
 
-            Text::make(__('user type'), function(){
+            Text::make(__('merchant type'), function(){
                 return $this->mainStoreUser ? __('employee') : __('owner');
             })->exceptOnForms(),
 
@@ -189,6 +189,7 @@ class VerifiedUser extends Resource
                 ->hideFromIndex()
                 ->hideWhenUpdating($this->store_main_user_id ? true : false)
                 ->hideFromDetail($this->store_main_user_id ? true : false),
+
             Boolean::make(__('Vat Inclusive'), 'vat_inclusive')
                 ->hideFromIndex()
                 ->hideWhenUpdating($this->store_main_user_id ? true : false)

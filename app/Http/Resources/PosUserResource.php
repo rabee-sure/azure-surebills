@@ -22,6 +22,16 @@ class PosUserResource extends JsonResource
             $user = $authUser;
         }
 
+        $pos_settings = [];
+
+        foreach($user->posUserSettings as $setting){
+            $pos_settings[] = [
+                'key' => $setting->key,
+                'value' => $setting->value,
+                'enabled' => $setting->enabled,
+            ];
+        }
+
         return [
             'id' => $this->id,
             'balance' => round($user->balance, 2),
@@ -39,6 +49,7 @@ class PosUserResource extends JsonResource
             'language' => \App::getLocale(),
             'token' => $this->createToken('pos-api-token')->accessToken,
             'settngs' => $user->settings,
+            'pos_settings' => $pos_settings,
             'vat_registration_number' => $this->vat_registration_number,
             'store_main_user_id' => $this->store_main_user_id,
             'business_address' => $this->business_address,
