@@ -153,6 +153,7 @@ export default {
             disableBtn: false,
             day: null,
             language: 'ar',
+            reverseButtons: true,
             uploadFileActionUrl: '/api/upload?lang=',
             permissions: [],
             authAdmin: [],
@@ -351,6 +352,12 @@ export default {
             }
         },
         exportExcel(){
+            if(this.language == 'ar'){
+                this.reverseButtons = true;
+            }else if(this.language == 'en'){
+                this.reverseButtons = false;
+            }
+
             this.$swal({
             title: this.__('Are you sure Export Excel?'),
             text: this.__("Exported File will send to your mail"),
@@ -359,7 +366,8 @@ export default {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: this.__('Start Exporting'),
-            cancelButtonText: this.__('Cancel')
+            cancelButtonText: this.__('Cancel'),
+            reverseButtons: this.reverseButtons
             }).then((result) => {
                 if (result.isConfirmed) {
                     Nova.request().get('/users/'+this.$route.params.id+'/alltransactions', {
@@ -371,11 +379,14 @@ export default {
                         }
                     })
                     .then(response => {
-                        this.$swal(
-                            this.__('Exporteing'),
-                            this.__('The exportation prosses started after finished the file will send to your email'),
-                            'success'
-                        )
+                        this.$swal({
+                            position: 'top-end',
+                            title: this.__('Exporteing'),
+                            text: this.__('The exportation prosses started after finished the file will send to your email'),
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
                     });
                 }
             })

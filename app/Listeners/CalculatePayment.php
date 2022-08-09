@@ -7,6 +7,7 @@ use App\Jobs\MakeTransactionsForChannel;
 use App\Jobs\MakeTransactionsForChannelExtraFees;
 use App\Jobs\MakeTransactionsForOwner;
 use App\Jobs\MakeTransactionsForSureBills;
+use App\Jobs\SendTransactionToSPS;
 use App\Mail\SendBillPaidToCustomer;
 use App\Models\Bill;
 use App\Models\PaymentLog;
@@ -84,6 +85,9 @@ class CalculatePayment
             if($bill->channel_extra_amount){
                 MakeTransactionsForChannelExtraFees::dispatch($bill, $payment_log);
             }
+
+            //Send Transaction to SPS
+            SendTransactionToSPS::dispatch($bill, $payment_log);
         }
     }
 
