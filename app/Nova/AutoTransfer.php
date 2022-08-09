@@ -81,22 +81,6 @@ class AutoTransfer extends Resource
      */
     public function fields(Request $request)
     {
-        if ($this->viewIs('detail', $request)) {
-            event(new AddActionLogEvent(
-                'view_auto_transfer_report',
-                Auth::id(),
-                [
-                    'message' => [
-                        'adminname' => Auth::user()->name,
-                        'time' => now(),
-                    ],
-                    'changes' => [],
-                ],
-                $this->id,
-                '\App\Models\AutoTransfer'
-            ));
-        }
-
         return [
             ID::make()->sortable(),
 

@@ -50,24 +50,6 @@ class BillReport extends Resource
      */
     public function fields(Request $request)
     {
-        if ($this->viewIs('detail', $request)) {
-            event(new AddActionLogEvent(
-                'view_bill_report',
-                Auth::id(),
-                [
-                    'message' => [
-                        'name' => $this->name,
-                        'adminname' => Auth::user()->name,
-                        'type' => $this->type,
-                        'time' => now(),
-                    ],
-                    'changes' => [],
-                ],
-                $this->id,
-                '\App\Models\Report'
-            ));
-        }
-
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
