@@ -116,4 +116,19 @@ class UserController extends Controller
         }
         return abort(401);
     }
+
+    public function getAuthAdminUser($guard = 'web')
+    {
+        if(auth()->guard($guard)->check())
+        {
+            $user = auth()->guard($guard)->user();
+
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ];
+        }
+        return abort(401);
+    }
 }

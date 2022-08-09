@@ -85,6 +85,7 @@ Route::post('/bills/{id}/change_status', 'BillController@changeStatus')->name('b
 Route::post('/bills/{id}/partial-refund', 'BillController@partialRefund')->name('bills.partial.refund');
 Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
 Route::get('user-permissions/{guard?}', 'UserController@getUserPermissions');
+Route::get('current-user-admin/{guard?}', 'UserController@getAuthAdminUser');
 
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
     Route::apiResource('applications', 'ApplicationController');

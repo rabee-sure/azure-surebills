@@ -11,6 +11,7 @@ use App\Nova\Filters\PaidDateRange;
 use App\Nova\Filters\RefundedDateRange;
 use App\Nova\Filters\UserId;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
@@ -343,7 +344,7 @@ class Bill extends Resource
     public function actions(Request $request)
     {
         return [
-            (new BillsExcelDownload)->canRun(function (NovaRequest $request) {
+            (new BillsExcelDownload(Auth::user()->email))->canRun(function (NovaRequest $request) {
                 return true;
             }),
             // (new DownloadExcel)->withHeadings(),

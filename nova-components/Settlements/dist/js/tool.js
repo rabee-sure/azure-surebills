@@ -61070,7 +61070,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Scoped Styles */\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Scoped Styles */\r\n", ""]);
 
 // exports
 
@@ -61236,6 +61236,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             language: 'ar',
             uploadFileActionUrl: '/api/upload?lang=',
             permissions: [],
+            authAdmin: [],
             transactionsModal: false,
             transactions: [],
             transactions_meta: {},
@@ -61327,6 +61328,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         this.getUser(this.$route.params.id);
         this.userPermission();
+        this.getAdmin();
     },
 
     methods: {
@@ -61338,6 +61340,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (!_this.permissions.includes('create settlement') || !_this.permissions.includes('show merchants')) {
                     window.location.href = '/nova/403';
                 }
+            });
+        },
+        getAdmin: function getAdmin() {
+            var _this2 = this;
+
+            return Nova.request().get('/current-user-admin/admins').then(function (response) {
+                _this2.authAdmin = response.data;
+                console.log(_this2.authAdmin);
             });
         },
         formatDate: function formatDate(date) {
@@ -61352,26 +61362,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return [year, month, day].join('-');
         },
         getUser: function getUser(id) {
-            var _this2 = this;
+            var _this3 = this;
 
             Nova.request().get('/users/' + id).then(function (response) {
-                _this2.user = response.data.data;
-                _this2.uploadFileActionUrl += response.data.data.language;
-                _this2.language = response.data.data.language;
+                _this3.user = response.data.data;
+                _this3.uploadFileActionUrl += response.data.data.language;
+                _this3.language = response.data.data.language;
             });
             Nova.request().get('/users/' + id + '/transfers', {
                 params: {
                     per_page: 5
                 }
             }).then(function (response) {
-                _this2.transfers = response.data.data;
+                _this3.transfers = response.data.data;
             });
         },
         isValidDate: function isValidDate(d) {
             return !isNaN(new Date(d).getTime());
         },
         handleChangeDate: function handleChangeDate(date) {
-            var _this3 = this;
+            var _this4 = this;
 
             var refresh = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
             var page = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
@@ -61390,26 +61400,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         page: page
                     }
                 }).then(function (response) {
-                    _this3.transactions = response.data.data;
-                    _this3.transactions_meta = response.data.meta;
+                    _this4.transactions = response.data.data;
+                    _this4.transactions_meta = response.data.meta;
 
-                    _this3.form.amount = response.data.meta.balance;
-                    if (_this3.transactions.length == 0) {
-                        _this3.$Message.warning({
+                    _this4.form.amount = response.data.meta.balance;
+                    if (_this4.transactions.length == 0) {
+                        _this4.$Message.warning({
                             duration: 3,
                             render: function render(h) {
-                                return h('span', [_this3.language == 'en' ? 'No transaction on this date' : 'لا يوجد معاملات في هذا التاريخ']);
+                                return h('span', [_this4.language == 'en' ? 'No transaction on this date' : 'لا يوجد معاملات في هذا التاريخ']);
                             }
                         });
                     }
-                    _this3.table_loading = false;
+                    _this4.table_loading = false;
                 });
             } else {
                 this.validDateRange = false;
             }
         },
         exportExcel: function exportExcel() {
-            var _this4 = this;
+            var _this5 = this;
 
             this.$swal({
                 title: this.__('Are you sure Export Excel?'),
@@ -61422,14 +61432,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 cancelButtonText: this.__('Cancel')
             }).then(function (result) {
                 if (result.isConfirmed) {
-                    Nova.request().get('/users/' + _this4.$route.params.id + '/alltransactions', {
+                    Nova.request().get('/users/' + _this5.$route.params.id + '/alltransactions', {
                         params: {
-                            cycle_date: _this4.day,
+                            cycle_date: _this5.day,
                             bills_not_settled: true,
-                            page: 1
+                            page: 1,
+                            adminUser: _this5.authAdmin
                         }
                     }).then(function (response) {
-                        _this4.$swal(_this4.__('Exporteing'), _this4.__('The exportation prosses started after finished the file will send to your email'), 'success');
+                        _this5.$swal(_this5.__('Exporteing'), _this5.__('The exportation prosses started after finished the file will send to your email'), 'success');
                     });
                 }
             });
@@ -61452,50 +61463,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         handleSubmit: function handleSubmit(name) {
-            var _this5 = this;
+            var _this6 = this;
 
             this.loading = true;
             this.disableBtn = true;
 
             this.$refs[name].validate(function (valid) {
-                if (valid && _this5.user.bank_id != null) {
+                if (valid && _this6.user.bank_id != null) {
                     Nova.request().post('/transfers', {
-                        user_id: _this5.user.id,
-                        status: _this5.form.status,
-                        amount: _this5.form.amount,
-                        note: _this5.form.note,
-                        attachment: _this5.form.attachment,
-                        cycle_date: _this5.form.cycle_date,
-                        transactions_ids: _this5.transactions.map(function (a) {
+                        user_id: _this6.user.id,
+                        status: _this6.form.status,
+                        amount: _this6.form.amount,
+                        note: _this6.form.note,
+                        attachment: _this6.form.attachment,
+                        cycle_date: _this6.form.cycle_date,
+                        transactions_ids: _this6.transactions.map(function (a) {
                             return a.id;
                         }),
-                        bank_id: _this5.user.bank_id,
-                        iban_number: _this5.user.iban_number,
-                        beneficiary_name: _this5.user.beneficiary_name
+                        bank_id: _this6.user.bank_id,
+                        iban_number: _this6.user.iban_number,
+                        beneficiary_name: _this6.user.beneficiary_name
                     }).then(function (response) {
                         console.log('response.data');
                         console.log(response.data);
-                        _this5.$router.push('/resources/transfers/' + response.data.data.id);
-                        _this5.loading = false;
-                        _this5.transactions = [];
-                        _this5.form.cycle_date = null;
-                        _this5.form.amount = 0;
-                        _this5.form.status = 'completed';
-                        _this5.form.note = null;
-                        _this5.form.attachment = null;
-                        _this5.disableBtn = false;
-                        _this5.$Message.success(_this5.language == 'en' ? 'Success' : 'تم');
+                        _this6.$router.push('/resources/transfers/' + response.data.data.id);
+                        _this6.loading = false;
+                        _this6.transactions = [];
+                        _this6.form.cycle_date = null;
+                        _this6.form.amount = 0;
+                        _this6.form.status = 'completed';
+                        _this6.form.note = null;
+                        _this6.form.attachment = null;
+                        _this6.disableBtn = false;
+                        _this6.$Message.success(_this6.language == 'en' ? 'Success' : 'تم');
                     }).catch(function (error) {
                         console.log(error.response.data);
-                        _this5.$Message.error(error.response.data.error);
-                        _this5.disableBtn = false;
+                        _this6.$Message.error(error.response.data.error);
+                        _this6.disableBtn = false;
                     });
-                } else if (_this5.user.bank_id == null) {
-                    _this5.disableBtn = false;
-                    _this5.$Message.error(_this5.language == 'en' ? 'User Must complete Profile Info' : 'يجب استكمال بيانات هذا العميل');
+                } else if (_this6.user.bank_id == null) {
+                    _this6.disableBtn = false;
+                    _this6.$Message.error(_this6.language == 'en' ? 'User Must complete Profile Info' : 'يجب استكمال بيانات هذا العميل');
                 } else {
-                    _this5.disableBtn = false;
-                    _this5.$Message.error(_this5.language == 'en' ? 'Fail' : 'فشل');
+                    _this6.disableBtn = false;
+                    _this6.$Message.error(_this6.language == 'en' ? 'Fail' : 'فشل');
                 }
             });
         },
@@ -61517,14 +61528,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.handleChangeDate(this.day, false, page);
         },
         changeStatus: function changeStatus(status, id) {
-            var _this6 = this;
+            var _this7 = this;
 
             this.switch_loading = true;
             Nova.request().put('/transfers/change_status', {
                 status: status ? 'completed' : 'pending',
                 ids: id
             }).then(function (response) {
-                _this6.switch_loading = false;
+                _this7.switch_loading = false;
             }).catch(function (error) {
                 this.switch_loading = false;
             });
