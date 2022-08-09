@@ -155,6 +155,7 @@ export default {
             language: 'ar',
             uploadFileActionUrl: '/api/upload?lang=',
             permissions: [],
+            authAdmin: [],
             transactionsModal: false,
             transactions: [],
             transactions_meta:{},
@@ -261,6 +262,7 @@ export default {
     mounted() {
         this.getUser(this.$route.params.id);
         this.userPermission();
+        this.getAdmin();
     },
     methods: {
        userPermission(){
@@ -270,6 +272,12 @@ export default {
            {
                 window.location.href = '/nova/403';
            }
+         })
+        },
+        getAdmin(){
+         return Nova.request().get('/current-user-admin/admins').then(response => {
+           this.authAdmin = response.data;
+           console.log(this.authAdmin);
          })
         },
         formatDate(date) {
@@ -359,6 +367,7 @@ export default {
                             cycle_date: this.day,
                             bills_not_settled: true,
                             page: 1,
+                            adminUser : this.authAdmin,
                         }
                     })
                     .then(response => {

@@ -22,6 +22,13 @@ class BillsExcelDownload extends Action implements ShouldQueue
 
     public static $chunkCount = 1000000;
 
+    public $email;
+
+    public function __construct($email)
+    {
+        $this->email = $email;
+    }
+
     public function handle(ActionFields $fields, Collection $models)
     {
         $file_name = 'bills_'.Carbon::now()->timestamp.'.xlsx';
@@ -29,7 +36,7 @@ class BillsExcelDownload extends Action implements ShouldQueue
 
         (new BillsExport($data))->store($filePath = 'shared-bills/'. $file_name);
         $message = (new BillsExportedExcelMail($file_name));
-        Mail::to([Auth::user()->email, 'mzain@sure.com.sa'])->queue($message);
+        Mail::to($this->email)->queue($message);
     }
 
     /**
