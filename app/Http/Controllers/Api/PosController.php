@@ -452,7 +452,7 @@ class PosController extends Controller
     public function getBills(){
         $authUser = auth('api')->user();
 
-        $bills = Bill::createdBy($authUser->id)->source('pos')->orderBy('created_at')->paginate(20);
+        $bills = Bill::createdBy($authUser->id)->source('pos')->orderBy('created_at', 'DESC')->paginate(20);
 
         $billsCollection = OrdersBillsPosApiResource::collection($bills);
 
