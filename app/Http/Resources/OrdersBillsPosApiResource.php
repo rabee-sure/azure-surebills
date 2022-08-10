@@ -17,6 +17,25 @@ class OrdersBillsPosApiResource extends JsonResource
      */
     public function toArray($request)
     {
+        $payment_type = '';
+        switch ($this->payment_way) {
+            case 'online':
+                $payment_type = 'payment_electronical';
+                break;
+            case 'cash':
+                $payment_type = 'cash';
+                break;
+            case 'bank_transfer':
+                $payment_type = 'bank_transfer';
+                break;
+            case 'payment_machine':
+                $payment_type = 'payment_machine';
+                break;
+            
+            default:
+                # code...
+                break;
+        }
         return [
             'bill_id' => $this->id,
             'bill_number' => $this->number,
@@ -26,6 +45,7 @@ class OrdersBillsPosApiResource extends JsonResource
             'total' => $this->total,
             'title' => $this->bill_title,
             'created_at' => date('Y-m-d H:i:s', strtotime($this->created_at)),
+            'payment_type' => $payment_type,
             'items' => BillPosItemsApiResource::collection($this->items),
         ];
     }
