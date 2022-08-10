@@ -99,7 +99,7 @@ class ActionLog extends Resource
         if(is_bool($value)){
             $value = $value ? 1 : 0;
         }
-        $readableValue = config('selectoptions.'.$model.'.'.$field.'.'.$value);
+        $readableValue = config('ResourcesFields.'.$model.'.'.$field.'.'.$value);
         if($readableValue != null){
             $value = $readableValue;
         }

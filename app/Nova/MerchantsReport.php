@@ -56,23 +56,6 @@ class MerchantsReport extends Resource
      */
     public function fields(Request $request)
     {
-        if ($this->viewIs('detail', $request)) {
-            event(new AddActionLogEvent(
-                'view_merchants_report',
-                Auth::id(),
-                [
-                    'message' => [
-                        'name' => $this->name,
-                        'adminname' => Auth::user()->name,
-                        'time' => now(),
-                    ],
-                    'changes' => [],
-                ],
-                $this->id,
-                '\App\Models\User'
-            ));
-        }
-
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make(__('Merchant Name'), 'name')->exceptOnForms(),

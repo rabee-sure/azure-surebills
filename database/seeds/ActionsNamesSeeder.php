@@ -14,6 +14,8 @@ class ActionsNamesSeeder extends Seeder
      */
     public function run()
     {
+        SystemAction::query()->delete();
+        
         foreach(config('actions_names.actions') as $action)
         {
             SystemAction::firstOrCreate(['action_name' => $action], ['action_name' => $action]);

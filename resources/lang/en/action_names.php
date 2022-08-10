@@ -14,7 +14,7 @@ return [
     'user_add' => 'Add new merchant',
     'user_update' => 'Update merchant',
     'user_add_documents' => 'Add documents to merchant',
-    'user_delete_documents' => 'Delelte documents to merchant',
+    'user_delete_documents' => 'Delete documents to merchant',
     'user_delete' => 'Delete merchant account',
     'user_approved' => 'Approve mercahnt account',
     'user_unapproved' => 'Unapprove merchant account',
