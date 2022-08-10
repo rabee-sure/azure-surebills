@@ -4,11 +4,14 @@ namespace App\Observers;
 
 use App\Models\Role;
 use App\Events\AddActionLogEvent;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class RoleObserver
 {
     private static $permissions = null;
+    private static $oldPermissions = null;
+    private static $newPermissions = null;
     /**
      * Handle the Role "created" event.
      *
@@ -52,47 +55,13 @@ class RoleObserver
 
     public function updating(Role $role)
     {
-        if(Auth::guard('admins')->check()){
-            $fieldsChanges = [];
-    
-            if($role->isDirty('name')){
-                $fieldsChanges['name'] = [
-                    'old_value' => $role->getOriginal('name'),
-                    'new_value' => $role->name
-                ];
-            }
-    
-            if($role->isDirty('admin_permissions'))
-            {
-                $old_permissions = $role->permissions();
-                $role->permissions()->sync($role->admin_permissions);
-                $new_permissions = $role->admin_permissions;
-                unset($role->admin_permissions);
-    
-                $fieldsChanges['permissions'] = [
-                    'old_value' => $old_permissions,
-                    'new_value' => $new_permissions
-                ];
-            }
-    
-            event(new AddActionLogEvent(
-                'update_role', 
-                Auth::id(), 
-                [
-                    'message' => [
-                        'adminname' => Auth::user()->name,
-                        'time' => $role->updated_at,
-                    ],
-                    'changes' => $fieldsChanges,
-                ], 
-                $role->id, 
-                Role::class
-            ));
-        }
+        
     }
 
     public function saving(Role $role)
     {
+        self::$oldPermissions = $role->permissions()->pluck('name')->toArray();
+
         if($role->isDirty('admin_permissions'))
         {
             self::$permissions = $role->admin_permissions;
@@ -106,6 +75,45 @@ class RoleObserver
         if(self::$permissions)
         {
             $role->permissions()->sync(self::$permissions);
+        }
+
+        self::$newPermissions = $role->permissions()->pluck('name')->toArray();
+
+        if(request()->has('editMode') && request()->editMode == 'update'){
+            if(Auth::guard('admins')->check()){
+                $fieldsChanges = [];
+        
+                if($role->isDirty('name')){
+                    $fieldsChanges['name'] = [
+                        'old_value' => $role->getOriginal('name'),
+                        'new_value' => $role->name
+                    ];
+                }
+    
+                $old_permissions = self::$oldPermissions;
+                $new_permissions = self::$newPermissions;
+                if(!empty(array_diff($old_permissions,$new_permissions)) || !empty(array_diff($new_permissions,$old_permissions)))
+                {
+                    $fieldsChanges['permissions'] = [
+                        'old_value' => implode('<br>', self::$oldPermissions),
+                        'new_value' => implode('<br>', self::$newPermissions)
+                    ];
+                }
+        
+                event(new AddActionLogEvent(
+                    'update_role', 
+                    Auth::id(), 
+                    [
+                        'message' => [
+                            'adminname' => Auth::user()->name,
+                            'time' => Carbon::now(),
+                        ],
+                        'changes' => $fieldsChanges,
+                    ], 
+                    $role->id, 
+                    Role::class
+                ));
+            }
         }
     }
 
