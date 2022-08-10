@@ -51,24 +51,6 @@ class MerchantsOutstandingReport extends Resource
      */
     public function fields(Request $request)
     {
-        if ($this->viewIs('detail', $request)) {
-            event(new AddActionLogEvent(
-                'view_merchants_outstanding_report',
-                Auth::id(),
-                [
-                    'message' => [
-                        'name' => $this->name,
-                        'adminname' => Auth::user()->name,
-                        'type' => $this->type,
-                        'time' => now(),
-                    ],
-                    'changes' => [],
-                ],
-                $this->id,
-                '\App\Models\Report'
-            ));
-        }
-
         return [
             ID::make()->sortable(),
 

@@ -44,20 +44,6 @@ class MerchantAutoTransferReport extends Resource
      */
     public function fields(Request $request)
     {
-        event(new AddActionLogEvent(
-            'view_merchant_auto_transfer_report',
-            Auth::id(),
-            [
-                'message' => [
-                    'adminname' => Auth::user()->name,
-                    'time' => now(),
-                ],
-                'changes' => [],
-            ],
-            $this->id,
-            '\App\Models\MerchantAutoTransferReport'
-        ));
-
         return [
             Text::make('created_at'),
             Text::make('description'),

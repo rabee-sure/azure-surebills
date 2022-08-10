@@ -44,20 +44,6 @@ class DueAmountAutoTransferReport extends Resource
      */
     public function fields(Request $request)
     {
-        event(new AddActionLogEvent(
-            'view_due_amount_auto_transfer_report',
-            Auth::id(),
-            [
-                'message' => [
-                    'adminname' => Auth::user()->name,
-                    'time' => now(),
-                ],
-                'changes' => [],
-            ],
-            $this->id,
-            '\App\Models\DueAmountAutoTransferReport'
-        ));
-
         return [
             Text::make('merchant_id'),
             Text::make('merchant_name'),
