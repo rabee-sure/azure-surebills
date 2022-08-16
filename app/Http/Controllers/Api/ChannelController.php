@@ -113,7 +113,7 @@ class ChannelController extends Controller
             $user->from_channel_id = $channel->id;
             $user->able_refund = true;
             $user->able_refund_with_fees = false;
-            $user->vat_inclusive = $request->vat_inclusive;
+            $user->vat_inclusive = $request->vat_inclusive ?? 0;
             $user->save();
             event(new UserCreated($user));
         }
