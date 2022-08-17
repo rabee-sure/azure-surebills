@@ -27,10 +27,10 @@
       </a>
     @endcan
     @can('show payment record')
-      {{-- <a href="{{ route('reports.paymentRecord') }}" title="{{ __('Payment Record') }}" class="d-flex text-center align-items-center justify-content-center text-center flex-column rounded w-100 {{ Request::is('payment_record*') ? 'active' : '' }}">
+      <a href="{{ route('reports.paymentRecord') }}" title="{{ __('Payment Record') }}" class="d-flex text-center align-items-center justify-content-center text-center flex-column rounded w-100 {{ Request::is('payment_record*') ? 'active' : '' }}">
         <div class="icon flex-shrink-0 paymentRecordIcon"></div>
         {{ __('Payment Record') }}
-      </a> --}}
+      </a>
     @endcan
     @can('show customers')
       <a href="{{ route('customers.index') }}" title="{{ __('Customers') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('customers*') ? 'active' : '' }}">
