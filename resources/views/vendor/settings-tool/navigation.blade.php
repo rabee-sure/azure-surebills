@@ -1,4 +1,4 @@
-@canany(['edit general settings', 'show banks', 'show webhook logs'])
+@canany(['show banks', 'show webhook logs'])
 <ul class="sidemenu">
     <li class="sidebar-dropdown mb-2">
         <input type="checkbox" checked>
@@ -6,7 +6,7 @@
             <span class="sidebar-label ml-8">{{ __('Settings') }} </span>
         </a>
         <ul class="dropdown-menu">
-            @can('edit general settings')
+            @hasrole('super admin')
             <li class="sidebar-dropdown">
                 <router-link tag="h3" :to="{ name: 'settings-tool' }" class="cursor-pointer flex items-center font-normal dim text-white mb-6 text-base no-underline">
                     <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -15,7 +15,7 @@
                     <span class="sidebar-label">{{ __(config('nova-settings-tool.sidebar-label', 'Settings')) }}</span>
                 </router-link>
             </li>
-            @endcan
+            @endhasrole
 
             @can('show banks')
             <li class="sidebar-dropdown">
