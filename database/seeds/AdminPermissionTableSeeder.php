@@ -24,7 +24,7 @@ class AdminPermissionTableSeeder extends Seeder
             ->where('guard_name', 'admins')
             ->delete();
 
-        Artisan::call('db:seed --class=CreateAdminSuperAdminUserSeeder');
+        // Artisan::call('db:seed --class=CreateAdminSuperAdminUserSeeder');
         dd('success');
     }
 }

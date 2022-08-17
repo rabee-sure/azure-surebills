@@ -97,7 +97,7 @@
     @endforeach
 
     @canany(['show system admins', 'show roles'])
-    {{-- <li class="sidebar-dropdown mb-2">
+    <li class="sidebar-dropdown mb-2">
         <input type="checkbox" checked>
         <a href="#" data-toggle="dropdown">
         <span class="sidebar-label ml-8">{{ __('users management') }} </span></a>
@@ -124,7 +124,7 @@
             </li>
             @endcanany
         </ul>
-    </li> --}}
+    </li>
     @endcanany
 
 
