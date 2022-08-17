@@ -49,7 +49,7 @@ class VrificationRequests extends Resource
      */
     public static function label()
     {
-        return __('Users');
+        return __('Verification Requests');
     }
 
     public static $displayInNavigation = false;
@@ -73,7 +73,7 @@ class VrificationRequests extends Resource
      */
     public static function singularLabel()
     {
-        return __('User');
+        return __('Merchant');
     }
 
     /**
@@ -276,7 +276,7 @@ class VrificationRequests extends Resource
     protected function bankInformation()
     {
         return [
-            BelongsTo::make(__('Bank'), 'bank', Bank::class),
+            BelongsTo::make(__('Bank'), 'bank', Bank::class)->hideFromIndex(),
             Text::make(__('Iban Number'), 'iban_number'),
             Text::make(__('Beneficiary Name'), 'beneficiary_name')->hideFromIndex(),
         ];

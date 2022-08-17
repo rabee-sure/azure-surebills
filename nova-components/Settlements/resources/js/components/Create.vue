@@ -65,7 +65,7 @@
             </FormItem>
 
             <FormItem>
-                <Button type="primary" @click="handleSubmit('form')" :disabled="disableBtn">   {{__('Submit')}} 
+                <Button type="primary" @click="handleSubmit('form')" :disabled="disableBtn">   {{__('Submit')}}
                 </Button>
                 <Button style="margin-left: 8px" @click="handleCancel" >{{__('Cancel')}}</Button>
             </FormItem>
@@ -87,7 +87,7 @@
 
                 <template slot-scope="{ row, index }" slot="action">
                     <Row>
-                        <Col span="12">                    
+                        <Col span="12">
                             <i-switch :disabled="row.status_bool" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id)" false-color="#f90" true-color="#13ce66" />
                         </Col>
                         <Col span="12">
@@ -107,10 +107,7 @@
         :title="__('transactions')"
         v-model="transactionsModal"
         width="760">
-        <download-excel v-if="new_transactions.length" :data="new_transactions" 
-            :name="'Transactions-'+user.business_name_en+'-FROM-'+ formatDate(form.cycle_date)">
-            <Button :size="buttonSize" icon="ios-download-outline" type="primary">{{ __('Export') }}</Button>
-        </download-excel>
+        <Button :size="buttonSize" icon="ios-download-outline" type="primary" @click="exportExcel">{{ __('Export') }}</Button>
         <Table :loading="table_loading" stripe height="400" :columns="transactionsTable" :data="transactions" :no-data-text="__('No Data')">
             <template slot-scope="{ row }" slot="type">
                 <Button type="success" v-if="row.type == 'credit'" size="small">{{ __(row.type) }}</Button>
@@ -140,7 +137,7 @@ export default {
                 {
                     value: 'send_to_sps',
                     label: this.__('Send To SPS')
-                },                
+                },
                 {
                     value: 'pending',
                     label: this.__('Pending Transfer')
@@ -156,8 +153,10 @@ export default {
             disableBtn: false,
             day: null,
             language: 'ar',
+            reverseButtons: true,
             uploadFileActionUrl: '/api/upload?lang=',
-
+            permissions: [],
+            authAdmin: [],
             transactionsModal: false,
             transactions: [],
             transactions_meta:{},
@@ -262,18 +261,35 @@ export default {
         };
     },
     mounted() {
-        this.getUser(this.$route.params.id)
+        this.getUser(this.$route.params.id);
+        this.userPermission();
+        this.getAdmin();
     },
     methods: {
+       userPermission(){
+         return Nova.request().get('/user-permissions/admins').then(response => {
+           this.permissions = response.data;
+           if(!this.permissions.includes('create settlement') || !this.permissions.includes('show merchants'))
+           {
+                window.location.href = '/nova/403';
+           }
+         })
+        },
+        getAdmin(){
+         return Nova.request().get('/current-user-admin/admins').then(response => {
+           this.authAdmin = response.data;
+           console.log(this.authAdmin);
+         })
+        },
         formatDate(date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
                 year = d.getFullYear();
 
-            if (month.length < 2) 
+            if (month.length < 2)
                 month = '0' + month;
-            if (day.length < 2) 
+            if (day.length < 2)
                 day = '0' + day;
 
             return [year, month, day].join('-');
@@ -313,19 +329,9 @@ export default {
                     }
                 })
                 .then(response => {
-
                     this.transactions = response.data.data;
                     this.transactions_meta = response.data.meta;
-                    this.new_transactions = this.transactions.map((item) => {
-                        return {
-                            'created_at': item.created_at,
-                            'description': item.description,
-                            'type': item.type,
-                            'amount': item.amount,
-                            'customer_notes': item.customer_notes,
-                            'reference_id': item.reference_id,
-                        }
-                    });
+                    
                     this.form.amount = response.data.meta.balance;
                     if(this.transactions.length == 0){
                         this.$Message.warning({
@@ -344,6 +350,46 @@ export default {
             {
                 this.validDateRange = false;
             }
+        },
+        exportExcel(){
+            if(this.language == 'ar'){
+                this.reverseButtons = true;
+            }else if(this.language == 'en'){
+                this.reverseButtons = false;
+            }
+
+            this.$swal({
+            title: this.__('Are you sure Export Excel?'),
+            text: this.__("Exported File will send to your mail"),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: this.__('Start Exporting'),
+            cancelButtonText: this.__('Cancel'),
+            reverseButtons: this.reverseButtons
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Nova.request().get('/users/'+this.$route.params.id+'/alltransactions', {
+                        params: {
+                            cycle_date: this.day,
+                            bills_not_settled: true,
+                            page: 1,
+                            adminUser : this.authAdmin,
+                        }
+                    })
+                    .then(response => {
+                        this.$swal({
+                            position: 'top-end',
+                            title: this.__('Exporteing'),
+                            text: this.__('The exportation prosses started after finished the file will send to your email'),
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                    });
+                }
+            })
         },
         handleProgress(){
             this.disableBtn=true;
@@ -415,20 +461,20 @@ export default {
         },
         handleCancel() {
             this.$Message.success(this.language == 'en'? 'Cancel Transfer successfully': 'تم الغاء التحويل بنجاح');
-            this.form.cycle_date = null;     
-            this.form.note = null;     
-            this.form.attachment = null;     
+            this.form.cycle_date = null;
+            this.form.note = null;
+            this.form.attachment = null;
             this.$refs['uploadFiles'].clearFiles();
-            this.refresh();  
+            this.refresh();
         },
         refresh() {
             this.transactions = [];
             this.new_transactions = [];
-            this.form.amount = 0;           
-            this.form.status = 'completed';           
-        },        
+            this.form.amount = 0;
+            this.form.status = 'completed';
+        },
         nextPage(page) {
-            this.handleChangeDate(this.day, false, page)       
+            this.handleChangeDate(this.day, false, page)
         },
         changeStatus(status, id) {
             this.switch_loading = true;
@@ -441,7 +487,7 @@ export default {
             })
             .catch(function (error) {
                 this.switch_loading = false;
-            });   
+            });
         }
     }
 }

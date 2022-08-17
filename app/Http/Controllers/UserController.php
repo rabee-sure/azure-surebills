@@ -107,4 +107,28 @@ class UserController extends Controller
     {
         return new UserResource($user);
     }
+
+    public function getUserPermissions($guard = 'web')
+    {
+        if(auth()->guard($guard)->check())
+        {
+            return auth()->guard($guard)->user()->getAllPermissions()->pluck('name');
+        }
+        return abort(401);
+    }
+
+    public function getAuthAdminUser($guard = 'web')
+    {
+        if(auth()->guard($guard)->check())
+        {
+            $user = auth()->guard($guard)->user();
+
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ];
+        }
+        return abort(401);
+    }
 }

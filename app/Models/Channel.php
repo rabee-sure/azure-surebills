@@ -27,6 +27,11 @@ class Channel extends Model
         'disable_login_sub_accounts',
     ];
 
+    protected $casts = [
+        'activate' => 'boolean',
+        'disable_login_sub_accounts' => 'boolean',
+    ];
+
     public function scopeUserId($query, $value)
     {
         return $query->where('user_id', $value);

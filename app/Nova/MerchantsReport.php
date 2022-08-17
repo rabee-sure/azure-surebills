@@ -9,6 +9,8 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Illuminate\Support\Facades\DB;
 use App\Nova\Actions\MerchantsExcelDownload;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class MerchantsReport extends Resource
 {
@@ -65,13 +67,25 @@ class MerchantsReport extends Resource
             })->exceptOnForms(),
             Text::make(__('City'), 'business_address')->exceptOnForms(),
             Text::make(__('Address'), 'business_address_details')->exceptOnForms(),
-            Text::make(__('Total transactions amount per Year'), 'Total_amounts', function () {
+            Text::make(__('Amount of transactions'), 'Total_amounts', function () {
                 return !is_null($this->Total_amounts) ? floorp($this->Total_amounts,2) : 0;
             })->sortable()->onlyOnIndex(),
             Text::make(__('View Profile'), function(){
                 return "<a class='btn btn-success' style='margin:5px' href='/nova/resources/users/".$this->id."'><i class='fa fa-eye' aria-hidden='true'></i></a>";
             })->asHtml()->onlyOnIndex(),
         ];
+    }
+
+    /**
+     * Determine if this request is a resource detail request.
+     *
+     * @return bool
+     */
+    public function viewIs($view, $request)
+    {
+        $class = '\Laravel\Nova\Http\Requests\\Resource'.ucfirst($view).'Request';
+
+        return $request instanceof $class;
     }
 
     public static function indexQuery(NovaRequest $request, $query)
@@ -85,26 +99,22 @@ class MerchantsReport extends Resource
         ->groupBy('transactions.user_id');
     }
 
-    public function authorizedToView(Request $request)
-    {
-        return false;
-    }
-
     public static function authorizedToCreate(Request $request)
     {
         return false;
     }
-
+    public function authorizedToView(Request $request)
+    {
+        return $request->user()->can('show merchants');
+    }
     public function authorizedToDelete(Request $request)
     {
         return false;
     }
-
     public function authorizedToUpdate(Request $request)
     {
         return false;
     }
-
     public static function searchable()
     {
         return false;

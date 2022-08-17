@@ -61,6 +61,7 @@ class BillController extends Controller
 
         $bill = Bill::create([
             'user_id' => $user->id,
+            'creted_by' => $user->id,
             'status' => 'pending',
             'application_id' => $application->id,
 
@@ -92,6 +93,8 @@ class BillController extends Controller
 
             'bill_redirect_url' => $request->redirect_url,
             'bill_webhook_url' => $request->webhook_url,
+
+            'source' => 'api',
         ]);
 
 
@@ -196,6 +199,7 @@ class BillController extends Controller
 
         $bill = Bill::create([
             'user_id' => $user->id,
+            'created_by' => $user->id,
             'status' => 'pending',
             'application_id' => $application->id,
 
@@ -222,6 +226,8 @@ class BillController extends Controller
             'send_sms' =>  (isset($request->send_sms) && ($request->send_sms == 'on' || $request->send_sms == true) )? true : false,
             'send_email' => (isset($request->send_email) && ($request->send_email == 'on' || $request->send_email == true) )? true : false,
             'reference_id' => $request->reference_id,
+
+            'source' => 'api',
         ]);
 
         if(isset($user->settings->create_send_sms)){

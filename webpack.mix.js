@@ -15,6 +15,7 @@ const mix = require('laravel-mix');
   mix.js('resources/new/js/app.js', 'public/new/js').vue()
   .sass('resources/new/scss/main.scss', 'public/new/css')
   .sass('resources/new/scss/auth.scss', 'public/new/css')
+  .sass('resources/new/scss/print.scss', 'public/new/css')
   .scripts([
     "resources/new/js/bootstrap/bootstrap.min.js",
     "resources/new/js/bopper.min.js",

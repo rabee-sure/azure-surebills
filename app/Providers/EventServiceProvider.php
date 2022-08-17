@@ -19,6 +19,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+            // 'App\Listeners\SPSSendMerchantData',
         ],
         WebhookCallSucceededEvent::class => [
             'App\Listeners\Webhook\SaveWebhookSucceededLog',
@@ -30,22 +31,38 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendBillPayEmail',
             'App\Listeners\SendBillPaySms',
         ],
+        'App\Events\UserUpdated' => [
+            // 'App\Listeners\SPSSendMerchantData',
+        ],
+        'App\Events\PosSendBill' => [
+            'App\Listeners\PosSendBillPayEmail',
+        ],
         'App\Events\UserCreated' => [
             'App\Listeners\CreateSettingsForUser',
         ],
         'App\Events\BillStatusUpdated' => [
             'App\Listeners\CallbackApplication',
+            'App\Listeners\CalculateOfflinePayment',
+        ],
+        'App\Events\PosBillPaid' => [
+            'App\Listeners\CalculateOfflinePosPayment',
         ],
         'App\Events\BillPaid' => [
             'App\Listeners\CalculatePayment',
             'App\Listeners\SendBillPaidEmailToOwner',
-            'App\Listeners\SendBillPaidEmailToCustomer'
+            'App\Listeners\SendBillPaidEmailToCustomer',
         ],
         'App\Events\BillRefunded' => [
             'App\Listeners\CalculateRefundedPayment',
         ],
         'App\Events\BillPartialRefunded' => [
             'App\Listeners\CalculatePartialRefundedPayment',
+        ],
+        'App\Events\BillOfflineRefunded' => [
+            'App\Listeners\CalculateOfflineRefundedPayment',
+        ],
+        'App\Events\BillOfflinePartialRefunded' => [
+            'App\Listeners\CalculateOfflinePartialRefundedPayment',
         ],
         'App\Events\TransferCreated' => [
             'App\Listeners\SendMailTransferMailToCustomer',
@@ -67,6 +84,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\OrderCreated' => [
             'App\Listeners\CreateOrderBill',
+        ],
+        'App\Events\AddActionLogEvent'::class => [
+            'App\Listeners\StoreActionLog',
         ],
     ];
 

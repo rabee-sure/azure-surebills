@@ -28,7 +28,7 @@
                         <Button @click="makeAction('send_to_sps')" type="success" long>
                             {{ __('Send To SPS')}}
                         </Button>
-                        
+
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -37,19 +37,19 @@
                   <template slot-scope="{ row }" slot="fromto">
                     <div v-if="row.filter_from">{{ __(row.filter_to) }}</div>
                     <div v-else>{{ __(row.cycle_date) }}</div>
-                      
+
                   </template>
 
-                  <template slot-scope="{ row, index }" slot="confirm">              
+                  <template slot-scope="{ row, index }" slot="confirm">
                     <i-switch v-if="row.status == 'pending' || row.status =='completed'" :disabled="!row.status_is_pending" :loading="switch_loading" v-model="row.status_bool" @on-change="changeStatus($event, row.id, 'completed')" false-color="#f90" true-color="#13ce66" :ref="'switch' + row.id" />
                   </template>
 
 
-                  <template slot-scope="{ row, index }" slot="sps">              
+                  <template slot-scope="{ row, index }" slot="sps">
                     <i-switch  v-if="row.status == 'pending' || row.status =='send_to_sps'" :disabled="!row.status_is_pending" :loading="switch_loading" v-model="row.status_sps" @on-change="changeStatus($event, row.id, 'send_to_sps')"  :ref="'switch' + row.id" />
                   </template>
 
-                  <template slot-scope="{ row, index }" slot="cancel">              
+                  <template slot-scope="{ row, index }" slot="cancel">
                       <Button :disabled="row.status == 'canceled' || row.status == 'completed' || row.status == 'send_to_sps'" :loading="cancel_loading" @click="cancelTranfer(row.id)"  type="error" icon="ios-close-circle" >{{ __('Cancel')}}</Button>
 
                   </template>
@@ -99,6 +99,7 @@ export default {
             meta: [],
             users: [],
             user: [],
+            permissions: [],
             select: '',
             transfers: [],
             selected_transfers_ids: [],
@@ -183,18 +184,33 @@ export default {
     mounted() {
         this.getUsers()
         this.getTransfers()
+        this.userPermission();
     },
     methods: {
+       userPermission(){
+         return Nova.request().get('/user-permissions/admins').then(response => {
+           this.permissions = response.data;
+           if(!this.permissions.includes('show transfers'))
+           {
+                window.location.href = '/nova/403';
+           }
+         })
+        },
         updateSelectedList(selection, row) {
             this.selected_transfers_ids = selection.map(row => row.id);
-        },        
+        },
         makeAction(type) {
-            this.$Modal.confirm({
-                title: this.__('Attention'),
-                content: this.__('Are you sure you confirm transfer, this action cannot be undone'),
-                okText: this.__('Ok'),
-                cancelText: this.__('Cancel'),
-                onOk: () => {
+            this.$swal({
+            title: this.__('Attention'),
+            text: this.__('Are you sure you confirm transfer, this action cannot be undone'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: this.__('Ok'),
+            cancelButtonText: this.__('Cancel')
+            }).then((result) => {
+                if (result.isConfirmed) {
                     this.switch_loading = true;
                     Nova.request().put('/transfers/change_status', {
                         status: type,
@@ -212,14 +228,11 @@ export default {
                     .catch(error => {
                         this.switch_loading = false;
                     });
-                },
-                onCancel: () => {
-                  this.$refs['switch'+id].value = false
-                  this.$refs['switch'+id].disabled = false
+                }else{
+                    this.$refs['switch'+id].value = false
+                    this.$refs['switch'+id].disabled = false
                 }
             });
-            console.log(this.selected_transfers_ids);
-
         },
         getUsers() {
           axios.get('/users/all')
@@ -228,7 +241,7 @@ export default {
             });
         },
         getTransfers(page=1) {
-            Nova.request().get('/transfers/all', {
+            axios.get('/transfers/all', {
                     params: {
                         per_page: 10,
                         page: page,
@@ -253,57 +266,63 @@ export default {
             this.getTransfers(page)
         },
         changeStatus(e, id, status) {
-            console.log('status ' + status);
-              this.$Modal.confirm({
-                    title: this.__('Attention'),
-                    content: this.__('Are you sure you confirm transfer, this action cannot be undone'),
-                    okText: this.__('Ok'),
-                    cancelText: this.__('Cancel'),
-                    onOk: () => {
-                        this.switch_loading = true;
-                        Nova.request().put('/transfers/change_status', {
-                            status: status,
-                            ids: [id],
-                        })
-                        .then(response => {
-                            var index = this.transfers.map(function(x) {return x.id; }).indexOf(id);
-                            let item = response.data.data.find(item=> item.id == id);
-                            this.$set(this.transfers, index, item)
-                            this.switch_loading = false;
-                        })
-                        .catch(error => {
-                            this.switch_loading = false;
-                        });
-                    },
-                    onCancel: () => {
-                      this.$refs['switch'+id].value = false
-                      this.$refs['switch'+id].disabled = false
-                    }
-                });
-   
-        },        
+            this.$swal({
+            title: this.__('Attention'),
+            text: this.__('Are you sure you confirm transfer, this action cannot be undone'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: this.__('Ok'),
+            cancelButtonText: this.__('Cancel')
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.switch_loading = true;
+                    Nova.request().put('/transfers/change_status', {
+                        status: status,
+                        ids: [id],
+                    })
+                    .then(response => {
+                        var index = this.transfers.map(function(x) {return x.id; }).indexOf(id);
+                        let item = response.data.data.find(item=> item.id == id);
+                        this.$set(this.transfers, index, item)
+                        this.switch_loading = false;
+                    })
+                    .catch(error => {
+                        this.switch_loading = false;
+                    });
+                }else{
+                    this.$refs['switch'+id].value = false
+                    this.$refs['switch'+id].disabled = false
+                }
+            });
+
+        },
         cancelTranfer(id) {
-              this.$Modal.confirm({
-                    title: this.__('Attention'),
-                    content: this.__('Are you sure you will Cancel transfer, this action cannot be undone ?'),
-                    okText: this.__('Ok'),
-                    cancelText: this.__('Cancel'),
-                    onOk: () => {
-                        this.cancel_loading = true;
-                        Nova.request().put('/transfers/'+id+'/cancel')
-                        .then(response => {
-                            var index = this.transfers.map(function(x) {return x.id; }).indexOf(id);
-                            this.$set(this.transfers, index, response.data.data)
-                            this.cancel_loading = false;
-                        })
-                        .catch(error => {
-                            this.cancel_loading = false;
-                        });
-                    },
-                    onCancel: () => {
-                    }
-                });
-   
+            this.$swal({
+            title: this.__('Attention'),
+            text: this.__('Are you sure you will Cancel transfer, this action cannot be undone ?'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: this.__('Ok'),
+            cancelButtonText: this.__('Cancel')
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.cancel_loading = true;
+                    Nova.request().put('/transfers/'+id+'/cancel')
+                    .then(response => {
+                        var index = this.transfers.map(function(x) {return x.id; }).indexOf(id);
+                        this.$set(this.transfers, index, response.data.data)
+                        this.cancel_loading = false;
+                    })
+                    .catch(error => {
+                        this.cancel_loading = false;
+                    });
+                }
+            });
+
         },
         uploadSuccess() {
           this.$Message.success(this.__('Upload Success'));

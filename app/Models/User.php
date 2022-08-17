@@ -94,6 +94,11 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'mobile_sent_at' => 'datetime',
         'commercial_registry_expiry_date' => 'datetime',
+        'able_refund' => 'boolean',
+        'vat_inclusive' => 'boolean',
+        'auto_trnasfer' => 'boolean',
+        'disable_business_documents' => 'boolean',
+        'disable_bank_documents' => 'boolean',
         'verified' => 'boolean',
     ];
 
@@ -133,6 +138,24 @@ class User extends Authenticatable implements HasMedia
         $balance = $user->credit_total - $user->debit_total;
         return floorp($balance, 2);
     }
+
+    // public function getOfflineBalanceAttribute()
+    // {
+    //     if($this->userId)
+    //     {
+    //         $user = OfflineTransaction::userId($this->userId);
+    //     }
+    //     else
+    //     {
+    //         $user = $this->transactions();
+    //     }
+
+    //     $user = $user
+    //         ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
+    //         ->first();
+    //     $balance = $user->credit_total - $user->debit_total;
+    //     return floorp($balance, 2);
+    // }
 
     /**
      * Get the user's is Active.
@@ -401,6 +424,10 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Bill::class);
     }
 
+    public function billsCreatedByMe(){
+        return $this->hasMany(Bill::class, 'created_by', 'id');
+    }
+
     /**
      * Get Transfers.
      *
@@ -419,6 +446,16 @@ class User extends Authenticatable implements HasMedia
     public function settings()
     {
         return $this->hasOne(Settings::class);
+    }
+
+    /**
+     * Get settings.
+     *
+     * @return Collection
+     */
+    public function posUserSettings()
+    {
+        return $this->hasMany(PosUserSetting::class);
     }
 
     /**
@@ -653,5 +690,73 @@ class User extends Authenticatable implements HasMedia
         }else{
             return Auth::user();
         }
+    }
+    
+    public function paymentRecordQuery($request = null){
+        $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
+        $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
+
+        $trans_query = DB::table('transactions')
+        ->leftjoin('bills', 'bills.id', '=', 'transactions.bill_id')
+        ->select(DB::raw('
+            transactions.id id,
+            transactions.bill_id bill_id,
+            transactions.description description,
+            transactions.reference reference,
+            transactions.user_id user_id,
+            transactions.type type,
+            transactions.amount amount,
+            transactions.transaction_source transaction_source,
+            transactions.created_at created_at,
+            bills.payment_way payment_way,
+            bills.source source
+        '))
+        ->where('transactions.user_id', $this->id)
+        ->whereIn('transactions.transaction_source', ['bill', 'refund'])
+        ->whereDate('transactions.created_at', '>=', Carbon::parse($date_start))
+        ->whereDate('transactions.created_at', '<=', Carbon::parse($date_to));
+
+        $off_trans_query = DB::table('offline_transactions')
+        ->leftjoin('bills', 'bills.id', '=', 'offline_transactions.bill_id')
+        ->select(DB::raw('
+            offline_transactions.id id,
+            offline_transactions.bill_id bill_id,
+            offline_transactions.description description,
+            offline_transactions.reference reference,
+            offline_transactions.user_id user_id,
+            offline_transactions.type type,
+            offline_transactions.amount amount,
+            offline_transactions.transaction_source transaction_source,
+            offline_transactions.created_at created_at,
+            bills.payment_way payment_way,
+            bills.source source
+        '))
+        ->where('offline_transactions.user_id', $this->id)
+        ->whereIn('offline_transactions.transaction_source', ['bill', 'refund'])
+        ->whereDate('offline_transactions.created_at', '>=', Carbon::parse($date_start))
+        ->whereDate('offline_transactions.created_at', '<=', Carbon::parse($date_to));
+        
+        if($request != null){
+            if($request->has('transaction_type') && $request->transaction_type != 'all'){
+                $trans_query->where('transactions.type', $request->transaction_type);
+                $off_trans_query->where('offline_transactions.type', $request->transaction_type);
+            }
+    
+            if($request->has('payment_way') && $request->payment_way != 'all'){
+                $trans_query->where('bills.payment_way', $request->payment_way);
+                $off_trans_query->where('bills.payment_way', $request->payment_way);
+            }
+    
+            if($request->has('source') && $request->source != 'all'){
+                $trans_query->where('bills.source', $request->source);
+                $off_trans_query->where('bills.source', $request->source);
+            }
+        }
+
+        $query = $trans_query->union($off_trans_query);
+
+        $query->orderBy('created_at');
+
+        return $query;
     }
 }

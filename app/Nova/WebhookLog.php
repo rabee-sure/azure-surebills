@@ -89,9 +89,11 @@ class WebhookLog extends Resource
         return [
             ID::make()->sortable(),
             Boolean::make(__('Status'), 'status'),
-            BelongsTo::make(__('Bill'), 'bill', Bill::class)->searchable()->rules('required'),
+
+            $request->user()->can('show bills') ? BelongsTo::make(__('Bill'), 'bill', Bill::class)->searchable()->rules('required') : Text::make(__('Bill'), function(){return $this->bill->number;})->exceptOnForms(),
+
             BelongsTo::make(__('Application'), 'application', Application::class)->searchable()->rules('required'),
-            BelongsTo::make(__('User'), 'user', User::class)->searchable()->rules('required'),
+            $request->user()->can('show merchants') ? BelongsTo::make(__('Merchant'), 'user', User::class)->searchable()->rules('required') : Text::make(__('Merchant'), function(){return $this->user->name;})->exceptOnForms(),
             Text::make(__('Status Code'), 'status_code'),
             Text::make(__('Error Message'), 'error_message')->hideFromIndex(),
 

@@ -141,7 +141,7 @@ var content = __webpack_require__(4);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(6)("6d4f9d7b", content, false, {});
+var update = __webpack_require__(6)("64ea96b0", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -658,21 +658,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['card', 'resource', 'resourceId', 'resourceName'],
-    data: function data() {
-        return {
-            user: {}
-        };
-    },
-    mounted: function mounted() {
-        var _this = this;
+  props: ['card', 'resource', 'resourceId', 'resourceName'],
+  data: function data() {
+    return {
+      user: {},
+      permissions: [],
+      statmentUrl: '#'
+    };
+  },
+  mounted: function mounted() {
+    this.handleChangeDate();
+  },
 
-        return Nova.request().get('/api/v1/users/' + this.resourceId + '/stats').then(function (response) {
-            _this.user = response.data.data;
-        });
+  methods: {
+    handleChangeDate: function handleChangeDate() {
+      var _this = this;
+
+      return Nova.request().get('/api/v1/users/' + this.resourceId + '/stats').then(function (response) {
+        _this.user = response.data.data;
+        _this.reportPermission();
+      });
+    },
+    reportPermission: function reportPermission() {
+      var _this2 = this;
+
+      return Nova.request().get('/user-permissions/admins').then(function (response) {
+        _this2.permissions = response.data;
+        if (_this2.permissions.includes('show statements')) {
+          _this2.statmentUrl = '/nova/resources/statements?statements_page=1&statements_filter=' + _this2.user['stats'].filter_user_id;
+        }
+      });
     }
+  }
 });
 
 /***/ }),
@@ -683,101 +703,95 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "users_statistics" } }, [
-    _c("div", { staticClass: "item" }, [
-      _c(
-        "a",
-        {
-          attrs: {
-            href:
-              "/nova/resources/statements?statements_page=1&statements_filter=" +
-              _vm.user.stats.filter_user_id
-          }
-        },
-        [
-          _c("span", [_vm._v(_vm._s(_vm.__("Balance")))]),
-          _vm._v(" "),
-          _vm.user ? _c("p", [_vm._v(_vm._s(_vm.user.balance))]) : _vm._e(),
-          _vm._v(" "),
-          _vm.user
-            ? _c("p", [
-                _c(
-                  "a",
-                  {
-                    staticStyle: { "min-height": "0px" },
-                    attrs: {
-                      href: "/nova/settlements/" + _vm.user.id + "/create",
-                      target: "_blank"
-                    }
-                  },
-                  [_vm._v(" " + _vm._s(_vm.__("Create Transfer")))]
-                )
+  return _vm.permissions.includes("show statements") ||
+    _vm.permissions.includes("create settlement") ||
+    _vm.permissions.includes("show bills")
+    ? _c("div", { attrs: { id: "users_statistics" } }, [
+        _vm.permissions.includes("show statements") ||
+        _vm.permissions.includes("create settlement")
+          ? _c("div", { staticClass: "item" }, [
+              _c("a", { attrs: { href: _vm.statmentUrl } }, [
+                _c("span", [_vm._v(_vm._s(_vm.__("Balance")))]),
+                _vm._v(" "),
+                _vm.user
+                  ? _c("p", [_vm._v(_vm._s(_vm.user.balance))])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.user && _vm.permissions.includes("create settlement")
+                  ? _c("p", [
+                      _c(
+                        "a",
+                        {
+                          staticStyle: { "min-height": "0px" },
+                          attrs: {
+                            href:
+                              "/nova/settlements/" + _vm.user.id + "/create",
+                            target: "_blank"
+                          }
+                        },
+                        [_vm._v(" " + _vm._s(_vm.__("Create Transfer")))]
+                      )
+                    ])
+                  : _vm._e()
               ])
-            : _vm._e()
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "item" }, [
-      _c(
-        "a",
-        {
-          attrs: {
-            href:
-              "/nova/resources/statements?statements_page=1&statements_filter=" +
-              _vm.user.stats.filter_user_id
-          }
-        },
-        [
-          _c("span", [_vm._v(_vm._s(_vm.__("Total Paid")))]),
-          _vm._v(" "),
-          _vm.user.stats
-            ? _c("p", [_vm._v(_vm._s(_vm.user.stats.total_paid))])
-            : _vm._e()
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "item" }, [
-      _c(
-        "a",
-        {
-          attrs: {
-            href:
-              "/nova/resources/bills?bills_page=1&bills_filter=" +
-              _vm.user.stats.filter_user_id
-          }
-        },
-        [
-          _c("span", [_vm._v(_vm._s(_vm.__("Total Bills")))]),
-          _vm._v(" "),
-          _vm.user.stats
-            ? _c("p", [_vm._v(_vm._s(_vm.user.stats.total_bills))])
-            : _vm._e()
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "item" }, [
-      _c(
-        "a",
-        {
-          attrs: {
-            href:
-              "/nova/resources/bills?bills_page=1&bills_filter=" +
-              _vm.user.stats.filter_user_id_and_bill_status_paid
-          }
-        },
-        [
-          _c("span", [_vm._v(_vm._s(_vm.__("Total Paid Bills")))]),
-          _vm._v(" "),
-          _vm.user.stats
-            ? _c("p", [_vm._v(_vm._s(_vm.user.stats.total_paid_bills))])
-            : _vm._e()
-        ]
-      )
-    ])
-  ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "item" }, [
+          _c("a", { attrs: { href: _vm.statmentUrl } }, [
+            _c("span", [_vm._v(_vm._s(_vm.__("Total Paid")))]),
+            _vm._v(" "),
+            _vm.user.stats
+              ? _c("p", [_vm._v(_vm._s(_vm.user.stats.total_paid))])
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _vm.permissions.includes("show bills")
+          ? _c("div", { staticClass: "item" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href:
+                      "/nova/resources/bills?bills_page=1&bills_filter=" +
+                      _vm.user.stats.filter_user_id
+                  }
+                },
+                [
+                  _c("span", [_vm._v(_vm._s(_vm.__("Total Bills")))]),
+                  _vm._v(" "),
+                  _vm.user.stats
+                    ? _c("p", [_vm._v(_vm._s(_vm.user.stats.total_bills))])
+                    : _vm._e()
+                ]
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.permissions.includes("show bills")
+          ? _c("div", { staticClass: "item" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href:
+                      "/nova/resources/bills?bills_page=1&bills_filter=" +
+                      _vm.user.stats.filter_user_id_and_bill_status_paid
+                  }
+                },
+                [
+                  _c("span", [_vm._v(_vm._s(_vm.__("Total Paid Bills")))]),
+                  _vm._v(" "),
+                  _vm.user.stats
+                    ? _c("p", [_vm._v(_vm._s(_vm.user.stats.total_paid_bills))])
+                    : _vm._e()
+                ]
+              )
+            ])
+          : _vm._e()
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

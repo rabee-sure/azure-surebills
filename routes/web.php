@@ -74,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/logs/{log}/', 'PaymentLogController@show')->name('logpage');
 
 // py bill page
+Route::get('/bills/{id}/print', 'BillController@billPrint')->name('bills.bill_print');
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
 Route::get('/bills/{id}/invoice', 'BillController@invoice')->name('invoice');
 Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang');
@@ -83,10 +84,11 @@ Route::post('/bills/{id}/refund', 'BillController@refund')->name('bills.refund')
 Route::post('/bills/{id}/change_status', 'BillController@changeStatus')->name('bills.change_status');
 Route::post('/bills/{id}/partial-refund', 'BillController@partialRefund')->name('bills.partial.refund');
 Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
+Route::get('user-permissions/{guard?}', 'UserController@getUserPermissions');
+Route::get('current-user-admin/{guard?}', 'UserController@getAuthAdminUser');
 
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
     Route::apiResource('applications', 'ApplicationController');
-    Route::get('user-permissions', 'StoreUserController@getUserPermissions');
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
@@ -110,11 +112,9 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('transfers', 'TransferController@index')->name('transfers.index');
     Route::get('transfers/{transfer}/bills', 'TransferController@bills')->name('transfer.bills');
     Route::get('transfers/{transfer}/transactions', 'TransferController@transactions')->name('transfer.transactions');
-    Route::get('transfers/all', 'TransferController@all');
-    Route::post('transfers', 'TransferController@store');
+
     Route::post('transfers/request', 'TransferController@request')->name('transfers.request');
-    Route::put('transfers/change_status', 'TransferController@changeStatus');
-    Route::put('transfers/{transfer}/cancel', 'TransferController@cancel');
+    
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/terms', 'HomeController@terms');
@@ -163,6 +163,10 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('orders', 'OrdersController@index')->name('orders.all');
     Route::get('orders/view', 'OrdersController@view')->name('orders.view');
 
+    //Payment Record Report
+    Route::get('payment_record', 'ReportsController@paymentRecord')->name('reports.paymentRecord');
+    Route::get('payment_record/export', 'ReportsController@paymentRecordExport')->name('reports.paymentRecordExport');
+
     // Roles
     Route::resource('users', 'StoreUserController');
     Route::resource('roles', 'RolesController');
@@ -176,6 +180,7 @@ Route::get('/terms', 'HomeController@terms');
 Route::get('users/all', 'UserController@all')->name('users.all');
 Route::get('users/{user}/transfers', 'UserController@transfers')->name('users.transfers');
 Route::get('users/{user}/transactions', 'TransferController@userTransactions')->name('users.transactions');
+Route::get('users/{user}/alltransactions', 'TransferController@userallTransactions')->name('users.alltransactions');
 Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
 Route::get('users/{user}', 'UserController@show')->name('users.show');
 
@@ -186,6 +191,20 @@ Route::middleware(config('nova.middleware', []))->group(function () {
     Route::prefix('nova/jobs')->group(function () {
         Route::queueMonitor();
     });
+
+    Route::get('transfers/all', 'TransferController@all');
+
+    /**this routes moved from ['auth', 'mobile.verified', 'profile.completed'] middleware 
+     * to config('nova.middleware', []) middleware because it used on nova and nova after apply users and admins features 
+     * nova didn't have any "mobile verified" and "profile completed" middlewares 
+     * so please if any one need to use route in nova
+     * 
+     * we need to ask amr for this middleware security
+     */ 
+    Route::post('transfers', 'TransferController@store');
+    Route::put('transfers/change_status', 'TransferController@changeStatus');
+    Route::put('transfers/{transfer}/cancel', 'TransferController@cancel');
+
     //Reports
     // Route::get('reports', 'ReportsController@index')->name('reports.index');
     // Route::get('reports/merchants-outstanding', 'ReportsController@merchants_outstanding')->name('reports.merchants-outstanding');

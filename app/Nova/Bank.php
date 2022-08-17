@@ -148,6 +148,6 @@ class Bank extends Resource
      */
     public function authorizedToDelete(Request $request)
     {
-        return !$this->users()->exists();
+        return $request->user()->can('delete bank') && !$this->users()->exists();
     }
 }

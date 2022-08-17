@@ -100,7 +100,7 @@ class Transaction extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make(__('User'), 'user', User::class)->searchable(),
+            BelongsTo::make(__('Merchant'), 'user', User::class)->searchable(),
             BelongsTo::make(__('Bill'), 'bill', Bill::class)->searchable(),
 
             Indicator::make(__('Type'), 'type')

@@ -4,11 +4,14 @@ namespace App\Exports;
 
 use App\Transaction;
 use Carbon\Carbon;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\Exportable;
 
 class BillsExport implements FromView
 {
+    use Exportable;
     protected $bills;
 
     public function __construct( $bills)

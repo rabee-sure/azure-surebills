@@ -37,6 +37,7 @@ class CreateOrderBill
 
             $bill = Bill::create([
                 'user_id' => $user->store_main_user_id ?? $user->id,
+                'created_by' => $user->id,
                 'status' => 'pending',
                 'business_name' => $event->order->business_name,
                 'customer_id' => $event->order->customer_id,
@@ -62,6 +63,8 @@ class CreateOrderBill
 
                 'send_sms' => false,
                 'send_email' => false,
+
+                'source' => 'pos',
             ]);
 
             foreach ($event->order->items as $item) {

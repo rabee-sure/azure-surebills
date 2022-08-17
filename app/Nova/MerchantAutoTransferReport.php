@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class MerchantAutoTransferReport extends Resource
 {
@@ -60,6 +62,7 @@ class MerchantAutoTransferReport extends Resource
             Text::make('bill_application_channel_name'),
         ];
     }
+
 
     public static function indexQuery(NovaRequest $request, $query)
     {

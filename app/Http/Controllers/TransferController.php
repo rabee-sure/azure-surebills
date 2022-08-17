@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\TransferCreated;
+use App\Exports\UserAllTransactionsExportQueued;
 use App\Http\Resources\TransactionResource;
 use App\Http\Resources\TransferResource;
+use App\Jobs\SendExportedUserTranasctionsMailsJob;
 use App\Mail\RequestTransferMail;
 use App\Models\Bank;
-use App\Models\Bill;
-use App\Models\Transaction;
 use App\Models\Transfer;
-use App\Models\TransferLog;
 use App\Models\User;
 use App\Services\TransferOperations;
 use App\Services\TransferService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Valuestore\Valuestore;
@@ -25,7 +24,7 @@ class TransferController extends Controller
     public function __construct()
     {
         $this->middleware('permission:show bills', ['only' => ['bills']]);
-        $this->middleware('permission:show transfers');
+        // $this->middleware('permission:show transfers');
     }
     /**
      * Display a listing of the resource.
@@ -84,10 +83,13 @@ class TransferController extends Controller
      */
     public function all(Request $request)
     {
-        $transfers = Transfer::orderBy('id', 'desc')->pending()->with('created_by', 'user')
-            ->paginate($request->per_page);
+        if((auth()->user()->can('show statements') && auth()->user()->can('show merchants')) || auth()->user()->can('show transfers'))
+        {
+            $transfers = Transfer::orderBy('id', 'desc')->pending()->with('created_by', 'user')->paginate($request->per_page);
+            return TransferResource::collection($transfers);
+        }
 
-        return TransferResource::collection($transfers);
+        return abort(401);
     }
 
     /**
@@ -167,7 +169,7 @@ class TransferController extends Controller
                 'user_id' => $user->id,
                 'note' => $request->note,
                 'attachment' => $request->attachment,
-                'created_by_id' => auth()->user()->id,
+                'created_by_id' => null,
                 'bank_id' => $user->bank_id,
                 'iban_number' => $user->iban_number,
                 'beneficiary_name' => $user->beneficiary_name,
@@ -240,7 +242,6 @@ class TransferController extends Controller
             ->with(['bill.application'])
             ->paginate(10);
 
-
         $balance = $user->getBalanceBefore($request->cycle_date);
         return (TransactionResource::collection($transactions))
         ->additional([
@@ -248,5 +249,20 @@ class TransferController extends Controller
                 'balance' => $balance,
             ]
         ]);
+    }
+
+    public function userallTransactions(Request $request, User $user)
+    {
+        $adminUser = json_decode($request->adminUser, true);
+        $file_name = 'user-'.$user->id.'-transactions_'.Carbon::now()->timestamp.'.xlsx';
+
+        //should be moved to special export queue
+        (new UserAllTransactionsExportQueued($user, $request->cycle_date))
+        ->store($filePath = 'exported-transactions/'. $file_name)
+        ->chain([
+            (new SendExportedUserTranasctionsMailsJob($file_name, $adminUser['email']))
+        ]);
+
+        return $file_name;
     }
 }

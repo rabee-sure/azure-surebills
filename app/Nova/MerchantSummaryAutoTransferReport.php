@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class MerchantSummaryAutoTransferReport extends Resource
 {

@@ -13,6 +13,8 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\MultiselectField\Multiselect;
+use App\Events\AddActionLogEvent;
+use Illuminate\Support\Facades\Auth;
 
 class MerchantsOutstandingReport extends Resource
 {
@@ -83,10 +85,22 @@ class MerchantsOutstandingReport extends Resource
         ];
     }
 
+    /**
+     * Determine if this request is a resource detail request.
+     *
+     * @return bool
+     */
+    public function viewIs($view, $request)
+    {
+        $class = '\Laravel\Nova\Http\Requests\\Resource'.ucfirst($view).'Request';
+
+        return $request instanceof $class;
+    }
+
     private function merchants()
     {
         $merchantsOptions = ['all' => __('All')];
-        $merchantes = User::whereNull('store_main_user_id')->get();//->toArray();
+        $merchantes = User::whereNull('store_main_user_id')->get();
         foreach($merchantes as $merchante)
         {
             $merchantsOptions[$merchante->id] = $merchante->name;
@@ -106,19 +120,17 @@ class MerchantsOutstandingReport extends Resource
 
     public static function authorizedToCreate(Request $request)
     {
-        return true;
+        return auth()->user()->can('create merchants outstanding report');
     }
-
+    public function authorizedToView(Request $request)
+    {
+        return auth()->user()->can('show merchants outstanding report');
+    }
     public function authorizedToDelete(Request $request)
     {
         return false;
     }
-
     public function authorizedToUpdate(Request $request)
-    {
-        return false;
-    }
-    public function authorizedToView(Request $request)
     {
         return false;
     }

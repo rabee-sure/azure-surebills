@@ -40,7 +40,7 @@ class Channel extends Resource
     {
         return __('Channel');
     }
-    
+
     /**
      * The model the resource corresponds to.
      *
@@ -75,7 +75,7 @@ class Channel extends Resource
         return [
             ID::make()->sortable(),
             Text::make(__('Name'), 'name')->rules('required'),
-            BelongsTo::make(__('User'), 'user', User::class)->searchable()->rules('required'),
+            $request->user()->can('show merchants') ? BelongsTo::make(__('Merchant'), 'user', User::class)->searchable()->rules('required') : Text::make(__('Merchant'), function(){return $this->user->name;})->exceptOnForms(),
             HasMany::make(__('Applications'), 'applications', Application::class)->rules('required'),
             Boolean::make(__('Active'), 'activate'),
             Number::make(__('Mada fixed fees'), 'mada_fixed')
@@ -162,11 +162,17 @@ class Channel extends Resource
      */
     public function authorizedToDelete(Request $request)
     {
-        return !$this->applications()->exists();
+        return $request->user()->can('delete channel') && !$this->applications()->exists();
     }
 
     public static function relatableUsers(NovaRequest $request, $query)
     {
         return $query->whereNull('store_main_user_id');
     }
+
+    public static function availableForNavigation(Request $request)
+    {
+        return $request->user()->can('show channels');
+    }
+
 }
