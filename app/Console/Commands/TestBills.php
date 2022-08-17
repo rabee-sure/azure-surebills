@@ -58,11 +58,11 @@ class TestBills extends Command
             $bills = $transfer->bills;
             $bill_ids = $bills->pluck('id');
 
-            dd($user->balance);
+            // dd($user->balance);
             $transactions = Transaction::whereIn('bill_id', $bill_ids)
                     ->where('user_id', $user->id)
                     ->count();
-            dd($transactions);
+            // dd($transactions);
 
             $this->testTotoalDue($bill_ids);
             // $this->testBeforTransfer($transfer, $user);
@@ -129,7 +129,7 @@ class TestBills extends Command
         $deposits = $transactions->where('type', 'credit')->sum('amount');
         $withdraws = $transactions->where('type', 'debit')->sum('amount');
         $balance = $deposits - $withdraws;
-        dd($balance);
+        // dd($balance);
     }
 
 

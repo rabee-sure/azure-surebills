@@ -9,6 +9,7 @@ then run this command:
     config > RolePermissionsMatrix.php
 then run this command:
     php artisan db:seed --class=PermissionTableSeeder
+    php artisan db:seed --class=CreateSuperAdminUserSeeder
 
 *To add new report card in nova admin, put it at :
     nova-components > Reports > resources > js > components > Tool.vue
