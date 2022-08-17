@@ -34,8 +34,6 @@ return [
     'edit role',
     'delete role',
 
-    'edit general settings',
-
     'show transfers',
     'show webhook logs',
     'show AutoTransfers',
