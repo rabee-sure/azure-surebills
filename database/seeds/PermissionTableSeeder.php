@@ -24,7 +24,7 @@ class PermissionTableSeeder extends Seeder
             ->where('guard_name', 'web')
             ->delete();
 
-        Artisan::call('db:seed --class=CreateSuperAdminUserSeeder');
+        // Artisan::call('db:seed --class=CreateSuperAdminUserSeeder');
         dd('success');
     }
 }
