@@ -3,6 +3,7 @@
     config > AdminRolePermissionsMatrix.php
 then run this command:
     php artisan db:seed --class=AdminPermissionTableSeeder
+    php artisan db:seed --class=CreateAdminSuperAdminUserSeeder
 
 *To add new permission to a module in merchant dashboard, put it at :
     config > RolePermissionsMatrix.php
