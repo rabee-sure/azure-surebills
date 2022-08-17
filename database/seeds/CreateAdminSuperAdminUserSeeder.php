@@ -30,7 +30,7 @@ class CreateAdminSuperAdminUserSeeder extends Seeder
 
     private function migrateAdminsFromUserTableToAdminsTable()
     {
-        foreach(explode(',', env('NOVA_ALLOWED_ADMINS')) as $adminEmail)
+        foreach(explode(',', "admin@surepay.sa,eabdelsabour@sure.com.sa,RZamzami@surepay.sa,aalghazal@surepay.sa,salrufidi@surepay.sa,faisal@toot.im,basem@basem.ws,malnujadi@sure.com.sa,yalohali@sure.com.sa,mbesada@sure.com.sa,Aalrumayya@sure.com.sa,malamri@sure.com.sa,maldubayan@surepay.sa") as $adminEmail)
         {
             if(!Admin::where('email', $adminEmail)->first())
             {
