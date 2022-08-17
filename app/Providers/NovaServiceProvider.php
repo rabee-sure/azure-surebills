@@ -121,13 +121,20 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [
+        $tools = [
             new Reports,
             new Settlements,
             new NovaSidebarIcons,
             new NovaBreadcrumbs,
-            new SettingsTool,
+
         ];
+
+        if(request()->user()->hasRole('super admin'))
+        {
+            $tools[] = new SettingsTool;
+        }
+
+        return $tools;
     }
 
     /**
