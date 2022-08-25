@@ -99,6 +99,11 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+        'duplicated_transactions' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/duplicated_transactions.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];
