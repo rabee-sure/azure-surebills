@@ -204,13 +204,19 @@ class TransferOperations
         $bankCode   = $transfer->user->bank ? $transfer->user->bank->code : '-';
         $bankNumber = substr($transfer->user->iban_number, -4);
 
-        $transaction = new Transaction;
-        $transaction->user_id     = $transfer->user_id;
-        $transaction->type        = 'debit';
-        $transaction->amount      = $transfer->amount;
-        $transaction->reference   = $transfer->id;
-        $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
-        $transaction->transaction_source = 'transfer';
-        $transaction->save();    
+        //condition added for prevent the duplication of transactions
+        $duplicatedTransaction = Transaction::where('reference', $transfer->id)->where('transaction_source', 'transfer')->count();
+        if($duplicatedTransaction == 0){
+            $transaction = new Transaction;
+            $transaction->user_id     = $transfer->user_id;
+            $transaction->type        = 'debit';
+            $transaction->amount      = $transfer->amount;
+            $transaction->reference   = $transfer->id;
+            $transaction->description = 'Transfer - ' . $bankCode . ' XXXX' . $bankNumber;
+            $transaction->transaction_source = 'transfer';
+            $transaction->save();    
+        }else{
+            \Log::channel('transfer')->info("transactions for this transfer duplicated for transfer number $transfer->id for merchant number $transfer->user_id");
+        }
     }
 }
