@@ -99,6 +99,14 @@ class ChannelController extends Controller
         $user = User::whereEmail($request->email)->first();
         $application = Application::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
         if ($application) {
+            $application->redirect = $request->redirect;
+            $application->fail_redirect_url = $request->fail_redirect_url;
+            $application->webhook_url = $request->webhook_url;
+            $application->mada_fixed = $request->mada_fixed;
+            $application->mada_percentage = $request->mada_percentage;
+            $application->credit_cards_fixed = $request->credit_cards_fixed;
+            $application->credit_cards_percentage = $request->credit_cards_percentage;
+            $application->save();
             return [
                 'account_id'     => $user->id,
                 'client_id'      => $application->id,
@@ -130,7 +138,6 @@ class ChannelController extends Controller
         $application->mada_percentage = $request->mada_percentage;
         $application->credit_cards_fixed = $request->credit_cards_fixed;
         $application->credit_cards_percentage = $request->credit_cards_percentage;
-
         $application->save();
 
         return [
