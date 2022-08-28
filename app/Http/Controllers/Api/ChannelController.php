@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChannelAddApplicationAPiRequest;
 use App\Http\Requests\ChannelApplicationAPiRequest;
 use App\Http\Requests\ChannelUpdateApplicationPaymentFeesApiRequest;
 use App\Http\Resources\ChannelResource;
@@ -33,7 +34,7 @@ class ChannelController extends Controller
         }else{
             return response()->json(['success' => false]);
         }
-    }    
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -50,11 +51,11 @@ class ChannelController extends Controller
            return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
-                    'credential' =>[__('token or channel id is not correct')] 
-                ] 
+                    'credential' =>[__('token or channel id is not correct')]
+                ]
            ], 422);
         }
-        
+
         $all_transactions =  Transaction::when($channel, function($q) use($channel){
             $q->whereHas('bill.application', function ( $query) use($channel){
                 $query->where('channel_id', $channel->id);
@@ -74,7 +75,79 @@ class ChannelController extends Controller
             'total_debit' => round($all_transactions->where('type', 'debit')->sum('amount'), 2),
         ]]);
     }
-    
+
+    /**
+     * Store a new sub account.
+     *
+     * @param  \App\Channel  $channel
+     * @param  \Illuminate\Http\ChannelApplicationAPiRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addApplication(Channel $channel, ChannelAddApplicationAPiRequest $request)
+    {
+        $channel = Channel::where('secret_token', $request->channel_token)->first();
+
+        if(!isset($channel) || $channel->id != $channel->id){
+           return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'credential' =>[__('token or channel id is not correct')]
+                ]
+           ], 422);
+        }
+
+        $user = User::whereEmail($request->email)->first();
+        $application = Application::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
+        if ($application) {
+            $application->redirect = $request->redirect;
+            $application->fail_redirect_url = $request->fail_redirect_url;
+            $application->webhook_url = $request->webhook_url;
+            $application->mada_fixed = $request->mada_fixed;
+            $application->mada_percentage = $request->mada_percentage;
+            $application->credit_cards_fixed = $request->credit_cards_fixed;
+            $application->credit_cards_percentage = $request->credit_cards_percentage;
+            $application->save();
+            return [
+                'account_id'     => $user->id,
+                'client_id'      => $application->id,
+                'secret'         => $application->secret,
+                'webhook_secret' => $application->webhook_secret
+            ];
+        }
+
+        $application = Application::firstOrNew([
+            'user_id' => $user->id,
+            'channel_id' => $channel->id,
+            'name' => $channel->name,
+        ]);
+
+        if($application->secret == null){
+            $application->secret = Str::random(20);
+        }
+        $application->redirect = $request->redirect;
+        $application->fail_redirect_url = $request->fail_redirect_url;
+        $application->webhook_secret = '';
+        if($request->webhook_url){
+            $application->webhook_url = $request->webhook_url;
+            if($application->webhook_secret == null){
+                $application->webhook_secret = Str::random(20);
+            }
+        }
+
+        $application->mada_fixed = $request->mada_fixed;
+        $application->mada_percentage = $request->mada_percentage;
+        $application->credit_cards_fixed = $request->credit_cards_fixed;
+        $application->credit_cards_percentage = $request->credit_cards_percentage;
+        $application->save();
+
+        return [
+            'account_id'     => $user->id,
+            'client_id'      => $application->id,
+            'secret'         => $application->secret,
+            'webhook_secret' => $application->webhook_secret
+        ];
+    }
+
     /**
      * Store a new sub account.
      *
@@ -90,8 +163,8 @@ class ChannelController extends Controller
            return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
-                    'credential' =>[__('token or channel id is not correct')] 
-                ] 
+                    'credential' =>[__('token or channel id is not correct')]
+                ]
            ], 422);
         }
 
@@ -123,7 +196,7 @@ class ChannelController extends Controller
             'channel_id' => $channel->id,
             'name' => $channel->name,
         ]);
-        
+
         if($application->secret == null){
             $application->secret = Str::random(20);
         }
@@ -167,8 +240,8 @@ class ChannelController extends Controller
            return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
-                    'credential' =>[__('token or channel id is not correct')] 
-                ] 
+                    'credential' =>[__('token or channel id is not correct')]
+                ]
            ], 422);
         }
 
