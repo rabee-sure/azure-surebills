@@ -2,18 +2,17 @@
 
 namespace App\Exports;
 
-use App\Http\Resources\BillResource;
-use App\Models\Bill;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Exportable;
-use phpDocumentor\Reflection\Types\Null_;
 
-class BillsExport implements FromView, ShouldQueue
+class BillsDataExport implements FromQuery, WithHeadings, ShouldQueue
 {
     use Exportable;
+
     protected $filter;
 
     public function __construct($filter)
@@ -21,12 +20,26 @@ class BillsExport implements FromView, ShouldQueue
         $this->filter = $filter;
     }
 
-    /**
-    * @return \Illuminate\Support\View
-    */
-    public function view(): View
+    public function headings(): array
     {
-        $billsQuery = new Bill;
+        return [
+            'Bill Number',
+            'Bill Status',
+            'Bill Created at',
+            'Payment Method',
+            'Customer Name',
+            'Customer Mobile',
+            'Customer Email',
+        ];
+    }
+
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function query()
+    {
+        $billsQuery = DB::table('bills')
+        ->select('number', 'status', 'created_at', 'payment_method', 'customer_name', 'customer_mobile', 'customer_email');
 
         if($this->filter['status'] != null){
             $billsQuery = $billsQuery->whereIn('status', $this->filter['status']);
@@ -63,13 +76,7 @@ class BillsExport implements FromView, ShouldQueue
         if($this->filter['user_id'] != null){
             $billsQuery = $billsQuery->where('user_id', $this->filter['user_id']);
         }
-
-        $bills = $billsQuery->paginate(5000);
-
-        $data = json_decode((BillResource::collection($bills->load('application')))->toJson(), true);
-
-        return view('exports.bills', [
-            'bills' => $data
-        ]);
+        
+        return $billsQuery;
     }
 }
