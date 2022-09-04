@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Exports\BillsDataExport;
 use App\Exports\BillsExport;
 use App\Http\Resources\BillResource;
 use App\Jobs\SendExportedBillsMailsJob;
@@ -36,7 +37,7 @@ class BillsExcelDownload extends Action
         $queryFilter = self::rebuildFilter(json_decode(base64_decode($this->filters['filters'])));
 
         $file_name = 'bills_'.Carbon::now()->timestamp.'.xlsx';
-        (new BillsExport($queryFilter))
+        (new BillsDataExport($queryFilter))
         ->store($filePath = 'shared-bills/'. $file_name)
         ->chain([
             (new SendExportedBillsMailsJob($file_name, $this->email))

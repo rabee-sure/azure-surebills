@@ -66,6 +66,8 @@ class BillsExport implements FromView, ShouldQueue
 
         $bills = $billsQuery->paginate(5000);
 
+        dd($bills);
+
         $data = json_decode((BillResource::collection($bills->load('application')))->toJson(), true);
 
         return view('exports.bills', [
