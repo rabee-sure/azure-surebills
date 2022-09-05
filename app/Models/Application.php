@@ -21,6 +21,7 @@ class Application extends Model
         'mada_percentage',
         'credit_cards_fixed',
         'credit_cards_percentage',
+        'blocked',
     ];
 
     public function scopeUserId($query, $value)
