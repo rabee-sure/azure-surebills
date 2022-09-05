@@ -33,6 +33,11 @@ class ChartsController extends Controller
         $user = User::find($request->user_id);
         $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
         $collection = Bill::whereIn('user_id', $userIds)->get();
+
+        $monthly = Bill::whereIn('user_id', $userIds)
+        ->where('status', 'paid')
+        ->select(DB::row());
+
         return $this->datasets($collection, 'getSumTotalBetweenDate', [
             'label' => __('The amount of the payments'),
             'backgroundColor' => 'rgba(224, 123, 57, 0.51)',
