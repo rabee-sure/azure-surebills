@@ -2,7 +2,9 @@
   <section id="integrationIndexPage" v-if="userPermissions.includes('show applications')">
     <div class="title d-flex align-items-center justify-content-between mb-4">
       <h1 class="d-block fw-bold m-0 fs-5">{{__('Integration')}}</h1>
-      <a class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill border-0 shadow-none" tabindex="-1" v-if="userPermissions.includes('create application')" @click="showCreateApplicationForm"> {{ __('Create New Application')}}</a>
+      <div v-if="merchantSettings.includes('allow_create_integration_application')">
+        <a class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill border-0 shadow-none" tabindex="-1" v-if="userPermissions.includes('create application')" @click="showCreateApplicationForm"> {{ __('Create New Application')}}</a>
+      </div>
     </div><!-- title -->
     <span class="d-bock fs-6 mb-3 text-body"> {{ __('Applications')}}</span>
     <div class="notApplicationsYet d-flex align-items-center justify-content-center flex-column bg-white shadow-sm rounded-3 p-3" v-if="applications.length === 0">
@@ -161,6 +163,7 @@
             return {
                 applications: [],
                 userPermissions: [],
+                merchantSettings: [],
 
                 applicationSecret: null,
                 deleteId: null,
@@ -204,6 +207,7 @@
              */
             prepareComponent() {
                 this.getUserPermissions();
+                this.getMerchantSettings();
             },
 
             /**
@@ -240,6 +244,14 @@
                             });
                         }
                     });
+            },
+
+            getMerchantSettings(){
+              axios.get('/merchant-settings')
+              .then(response => {
+                  this.merchantSettings = response.data;
+                  console.log(this.merchantSettings);
+              });
             },
 
             /**

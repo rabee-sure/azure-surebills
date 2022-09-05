@@ -759,4 +759,23 @@ class User extends Authenticatable implements HasMedia
 
         return $query;
     }
+
+    public function merchantSettings(){
+        return $this->hasMany(MerchantSetting::class); 
+    }
+
+    public function setMerchantSettings(){
+        $settings = config('merchant_settings');
+
+        foreach($settings as $key => $setting){
+            $merchantSettings = MerchantSetting::firstOrCreate(
+                ['user_id' => $this->id, 'key' =>  $key],
+                ['key' => $key, 'value' => $setting]
+            );
+        }
+
+        MerchantSetting::whereNotIn('key', array_keys($settings))->where('user_id', $this->id)->delete();
+
+        return $this->merchantSettings;
+    }
 }
