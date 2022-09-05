@@ -31,19 +31,25 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $user->userId = auth()->user()->store_main_user_id ?? auth()->user()->id;
-        $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->orderBy('created_at', 'desc')->get();
-        $latest = $bills->take(3);
+        $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id);
+        $latestQuery = clone $bills;
+        $latest = $latestQuery->orderBy('created_at', 'desc')->take(3)->get();
 
         $balance = $user->balance;
-        $total_paid = $bills->where('status', 'paid')->sum('total');
-        $total_bills = $bills->count();
-        $total_paid_bills = $bills->where('status', 'paid')->count();
+
+        $total_paid_query = clone $bills;
+        $total_paid = $total_paid_query->where('status', 'paid')->sum('total');
+        
+        $total_bills_query = clone $bills;
+        $total_bills = $total_bills_query->count();
+        
+        $total_paid_bills_query = clone $bills;
+        $total_paid_bills = $total_paid_bills_query->where('status', 'paid')->count();
 
         return view('home', [
             'user' =>  $user,
             'balance' =>  $balance ?? 0,
             'latest' =>  $latest,
-            'bills' =>  $bills,
             'total_paid' =>  $total_paid,
             'total_bills' =>  $total_bills,
             'total_paid_bills' =>  $total_paid_bills,
