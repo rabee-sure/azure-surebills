@@ -6,6 +6,8 @@ use App\Models\Bill;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Month;
 
 class ChartsController extends Controller
 {
@@ -32,8 +34,44 @@ class ChartsController extends Controller
     {
         $user = User::find($request->user_id);
         $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
-        $collection = Bill::whereIn('user_id', $userIds)->get();
-        return $this->datasets($collection, 'getSumTotalBetweenDate', [
+
+        switch ($request->mode) {
+            case 'daily':
+                $collection['daily'] = Bill::whereIn('user_id', $userIds)
+                ->where('status', 'paid')
+                ->where(DB::raw("WEEK(paid_at)"), '=', DB::raw('WEEK(now())'))
+                ->select(DB::raw("DAYOFWEEK(paid_at) AS Day, SUM(total) AS Total"))
+                ->groupby('Day')
+                ->orderby('Day')
+                ->pluck('Total', 'Day');
+                break;
+
+            case 'weekly':
+                $collection['weekly'] = Bill::whereIn('user_id', $userIds)
+                ->where('status', 'paid')
+                ->where(DB::raw("MONTH(paid_at)"), '=', DB::raw('MONTH(now())'))
+                ->select(DB::raw("WEEK(paid_at) AS Week, SUM(total) AS Total"))
+                ->groupby('Week')
+                ->orderby('Week')
+                ->pluck('Total', 'Week');
+                break;
+
+            case 'monthly':
+                $collection['monthly'] = Bill::whereIn('user_id', $userIds)
+                ->where('status', 'paid')
+                ->where(DB::raw("Year(paid_at)"), '=', date('Y'))
+                ->select(DB::raw("MONTH(paid_at) AS Month, SUM(total) AS Total"))
+                ->groupby('Month')
+                ->orderby('Month')
+                ->pluck('Total', 'Month');
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+  
+        return $this->datasets($collection, [
             'label' => __('The amount of the payments'),
             'backgroundColor' => 'rgba(224, 123, 57, 0.51)',
             'borderColor' => 'rgb(224, 123, 57)',
@@ -50,8 +88,44 @@ class ChartsController extends Controller
     {
         $user = User::find($request->user_id);
         $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
-        $collection = Bill::whereIn('user_id', $userIds)->paid()->get();
-        return $this->datasets($collection, 'getCountBetweenDate', [
+
+        switch ($request->mode) {
+            case 'daily':
+                $collection['daily'] = Bill::whereIn('user_id', $userIds)
+                ->where('status', 'paid')
+                ->where(DB::raw("WEEK(paid_at)"), '=', DB::raw('WEEK(now())'))
+                ->select(DB::raw("DAYOFWEEK(paid_at) AS Day, COUNT(id) AS BillCounter"))
+                ->groupby('Day')
+                ->orderby('Day')
+                ->pluck('BillCounter', 'Day');
+                break;
+
+            case 'weekly':
+                $collection['weekly'] = Bill::whereIn('user_id', $userIds)
+                ->where('status', 'paid')
+                ->where(DB::raw("MONTH(paid_at)"), '=', DB::raw('MONTH(now())'))
+                ->select(DB::raw("WEEK(paid_at) AS Week, COUNT(id) AS BillCounter"))
+                ->groupby('Week')
+                ->orderby('Week')
+                ->pluck('BillCounter', 'Week');
+                break;
+
+            case 'monthly':
+                $collection['monthly'] = Bill::whereIn('user_id', $userIds)
+                ->where('status', 'paid')
+                ->where(DB::raw("Year(paid_at)"), '=', date('Y'))
+                ->select(DB::raw("MONTH(paid_at) AS Month, COUNT(id) AS BillCounter"))
+                ->groupby('Month')
+                ->orderby('Month')
+                ->pluck('BillCounter', 'Month');
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+        return $this->datasets($collection, [
             'label' => __('The number of bills paid'),
             'backgroundColor' => 'rgb(25, 121, 169, 0.51)',
             'borderColor' => 'rgb(25, 121, 169)',
@@ -68,36 +142,45 @@ class ChartsController extends Controller
     {
         $user = User::find($request->user_id);
         $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
-        $collection = Bill::whereIn('user_id', $userIds)->get();
-        return $this->datasets($collection, 'getCountBetweenDate', [
+
+        switch ($request->mode) {
+            case 'daily':
+                $collection['daily'] = Bill::whereIn('user_id', $userIds)
+                ->where(DB::raw("WEEK(created_at)"), '=', DB::raw('WEEK(now())'))
+                ->select(DB::raw("DAYOFWEEK(created_at) AS Day, COUNT(id) AS BillCounter"))
+                ->groupby('Day')
+                ->orderby('Day')
+                ->pluck('BillCounter', 'Day');
+                break;
+
+            case 'weekly':
+                $collection['weekly'] = Bill::whereIn('user_id', $userIds)
+                ->where(DB::raw("MONTH(created_at)"), '=', DB::raw('MONTH(now())'))
+                ->select(DB::raw("WEEK(created_at) AS Week, COUNT(id) AS BillCounter"))
+                ->groupby('Week')
+                ->orderby('Week')
+                ->pluck('BillCounter', 'Week');
+                break;
+
+            case 'monthly':
+                $collection['monthly'] = Bill::whereIn('user_id', $userIds)
+                ->where(DB::raw("Year(created_at)"), '=', date('Y'))
+                ->select(DB::raw("MONTH(created_at) AS Month, COUNT(id) AS BillCounter"))
+                ->groupby('Month')
+                ->orderby('Month')
+                ->pluck('BillCounter', 'Month');
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+        return $this->datasets($collection, [
             'label' => __('Total bills'),
             'backgroundColor' => 'rgb(255, 99, 132, 0.51)',
             'borderColor' => 'rgb(255, 99, 132)',
         ]);
-    }
-
-    protected function getSumTotalBetweenDate($collection, $from, $to)
-    {
-        return (string) $collection->whereBetween('paid_at', [
-            $from,
-            $to
-        ])->where('status', 'paid')->sum('total');
-    }
-
-    protected function getCountBetweenDate($collection, $from, $to)
-    {
-        return (string) $collection->whereBetween('created_at', [
-            $from,
-            $to
-        ])->count();
-    }
-
-    protected function getCountPaidBetweenDate($collection, $from, $to)
-    {
-        return (string) $collection->whereBetween('paid_at', [
-            $from,
-            $to
-        ])->count();
     }
 
     protected function getWeekAndDays($year,$month, $day=1)
@@ -152,7 +235,7 @@ class ChartsController extends Controller
      * @param  elquent  $collection
      * @return array
      */
-    protected function datasets($collection, $method, $data)
+    protected function datasets($collection, $data)
     {
 
         return [
@@ -172,34 +255,13 @@ class ChartsController extends Controller
                         'backgroundColor' => $data['backgroundColor'],
                         'borderColor' => $data['borderColor'],
                         'data'=> [
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime('-'.$this->dniw.' days')),
-                                date('Y-m-d', strtotime('+'.(1-$this->dniw).' days'))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(1-$this->dniw).' days')),
-                                date('Y-m-d', strtotime('+'.(2-$this->dniw).' days'))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(2-$this->dniw).' days')),
-                                date('Y-m-d', strtotime('+'.(3-$this->dniw).' days'))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(3-$this->dniw).' days')),
-                                date('Y-m-d', strtotime('+'.(4-$this->dniw).' days'))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(4-$this->dniw).' days')),
-                                date('Y-m-d', strtotime('+'.(5-$this->dniw).' days'))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(5-$this->dniw).' days')),
-                                date('Y-m-d', strtotime('+'.(6-$this->dniw).' days'))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime('+'.(6-$this->dniw).' days')),
-                                date('Y-m-d', strtotime('+'.(6-$this->dniw).' days'))
-                            ),
+                            ($collection['daily'][1]) ?? 0,
+                            ($collection['daily'][2]) ?? 0,
+                            ($collection['daily'][3]) ?? 0,
+                            ($collection['daily'][4]) ?? 0,
+                            ($collection['daily'][5]) ?? 0,
+                            ($collection['daily'][6]) ?? 0,
+                            ($collection['daily'][7]) ?? 0,
                         ]
                     ]
                 ],
@@ -212,26 +274,11 @@ class ChartsController extends Controller
                         'backgroundColor' => $data['backgroundColor'],
                         'borderColor' => $data['borderColor'],
                         'data'=> [
-                            $this->{$method}($collection,
-                                $this->weeks[0]['date_between'][0],
-                                $this->weeks[0]['date_between'][1]
-                            ),
-                            $this->{$method}($collection,
-                                $this->weeks[1]['date_between'][0],
-                                $this->weeks[1]['date_between'][1]
-                            ),
-                            $this->{$method}($collection,
-                                $this->weeks[2]['date_between'][0],
-                                $this->weeks[2]['date_between'][1]
-                            ),
-                            $this->{$method}($collection,
-                                $this->weeks[3]['date_between'][0],
-                                $this->weeks[3]['date_between'][1]
-                            ),
-                            $this->{$method}($collection,
-                                $this->weeks[4]['date_between'][0] ?? '',
-                                $this->weeks[4]['date_between'][1] ?? ''
-                            ),
+                            ($collection['weekly'][(int) $this->weeks[0]['number']]) ?? 0,
+                            ($collection['weekly'][(int) $this->weeks[1]['number']]) ?? 0,
+                            ($collection['weekly'][(int) $this->weeks[2]['number']]) ?? 0,
+                            ($collection['weekly'][(int) $this->weeks[3]['number']]) ?? 0,
+                            ($collection['weekly'][(int) $this->weeks[4]['number']]) ?? 0,
                         ]
                     ]
                 ],
@@ -257,54 +304,18 @@ class ChartsController extends Controller
                         'backgroundColor' => $data['backgroundColor'],
                         'borderColor' => $data['borderColor'],
                         'data'=> [
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-1-1'))),
-                                date('Y-m-d', strtotime(date('Y-2-1')))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-2-1'))),
-                                date('Y-m-d', strtotime(date('Y-3-1')))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-3-1'))),
-                                date('Y-m-d', strtotime(date('Y-4-1')))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-4-1'))),
-                                date('Y-m-d', strtotime(date('Y-5-1')))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-5-1'))),
-                                date('Y-m-d', strtotime(date('Y-6-1')))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-6-1'))),
-                                date('Y-m-d', strtotime(date('Y-7-1')))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-7-1'))),
-                                date('Y-m-d', strtotime(date('Y-8-1')))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-8-1'))),
-                                date('Y-m-d', strtotime(date('Y-9-1')))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-9-1'))),
-                                date('Y-m-d', strtotime(date('Y-10-1')))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-10-1'))),
-                                date('Y-m-d', strtotime(date('Y-11-1')))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-11-1'))),
-                                date('Y-m-d', strtotime(date('Y-12-1')))
-                            ),
-                            $this->{$method}($collection,
-                                date('Y-m-d', strtotime(date('Y-12-1'))),
-                                date('Y-m-d', strtotime(date('Y-12-31')))
-                            ),
+                            ($collection['monthly'][1]) ?? 0,
+                            ($collection['monthly'][2]) ?? 0,
+                            ($collection['monthly'][3]) ?? 0,
+                            ($collection['monthly'][4]) ?? 0,
+                            ($collection['monthly'][5]) ?? 0,
+                            ($collection['monthly'][6]) ?? 0,
+                            ($collection['monthly'][7]) ?? 0,
+                            ($collection['monthly'][8]) ?? 0,
+                            ($collection['monthly'][9]) ?? 0,
+                            ($collection['monthly'][10]) ?? 0,
+                            ($collection['monthly'][11]) ?? 0,
+                            ($collection['monthly'][12]) ?? 0,
                         ],
                     ]
                 ],
