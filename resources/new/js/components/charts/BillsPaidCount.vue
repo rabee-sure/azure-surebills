@@ -57,6 +57,7 @@
           params: {
             'user_id': this.user.id,
             'lang': window._locale,
+            'mode' : 'monthly'
           }
         }).then(response => {
                 this.daily = response.data.daily
@@ -74,31 +75,32 @@
           params: {
             'user_id': this.user.id,
             'lang': window._locale,
+            'mode' : type
           }
         }).then(response => {
-                this.daily = response.data.daily
-                this.weekly = response.data.weekly
-                this.monthly = response.data.monthly
-            })
-        this.type = type
-        let ffff = {}
-        switch(type) {
-          case 'daily':
-            ffff.labels = this.daily.labels;
-            ffff.datasets = this.daily.datasets;
-            this.data_c = ffff
-            break;
-          case 'weekly':
-            ffff.labels = this.weekly.labels;
-            ffff.datasets = this.weekly.datasets;
-            this.data_c = ffff
-            break;              
-          case 'monthly':
-            ffff.labels = this.monthly.labels;
-            ffff.datasets = this.monthly.datasets;
-            this.data_c = ffff
-            break;
-        }
+          this.daily = response.data.daily
+          this.weekly = response.data.weekly
+          this.monthly = response.data.monthly
+          this.type = type
+          let ffff = {}
+          switch(type) {
+            case 'daily':
+              ffff.labels = this.daily.labels;
+              ffff.datasets = this.daily.datasets;
+              this.data_c = ffff
+              break;
+            case 'weekly':
+              ffff.labels = this.weekly.labels;
+              ffff.datasets = this.weekly.datasets;
+              this.data_c = ffff
+              break;              
+            case 'monthly':
+              ffff.labels = this.monthly.labels;
+              ffff.datasets = this.monthly.datasets;
+              this.data_c = ffff
+              break;
+          }
+        })
       },
     }
   }
