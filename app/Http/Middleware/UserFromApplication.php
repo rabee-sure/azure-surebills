@@ -26,6 +26,10 @@ class UserFromApplication
             ->whereSecret($application_secret)
             ->first();
 
+        if($application->blocked){
+            return response('Application Blocked! Please cantact adminstrator', 423);
+        }
+
         if (isset($application->user)) {
             $request->setUserResolver(function () use ($application) {
                 return $application->user;

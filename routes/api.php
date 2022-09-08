@@ -103,6 +103,7 @@ Route::prefix('v1')->group(function () {
     // Route::post('fandaqah-register', 'UserController@registerFandaqah');
     Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
 
+    Route::post('channels/{channel}/add-app', 'ChannelController@addApplication');
     Route::post('channels/{channel}/sub-account', 'ChannelController@subAccount');
     Route::post('channels/{channel}/transactions', 'ChannelController@transactions');
     Route::put('channels/{channel}/update_sub_account_payment_fees', 'ChannelController@updateSubAccountPaymentFees');

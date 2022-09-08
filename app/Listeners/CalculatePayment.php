@@ -87,7 +87,7 @@ class CalculatePayment
             }
 
             //Send Transaction to SPS
-            SendTransactionToSPS::dispatch($bill, $payment_log);
+            // SendTransactionToSPS::dispatch($bill, $payment_log);
         }
     }
 
