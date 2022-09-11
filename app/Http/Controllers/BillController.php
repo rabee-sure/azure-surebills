@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\MasterCardService;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\RefundRequest;
+use App\Models\RefundedBill;
 use App\Models\Settings;
 use Illuminate\Validation\ValidationException as ValidationsException;
 
@@ -378,6 +379,16 @@ class BillController extends Controller
     {
 
         $bill = Bill::find($id);
+        
+        $refundedBill = RefundedBill::create([
+            'bill_id' => $bill->id,
+            'user_id' => $bill->user_id,
+            'amount' => $request->amount,
+        ]);
+
+        $refundedBill->number = $refundedBill->getNumber();
+        $refundedBill->save();
+
         if ($request->type == 'partial_refund') {
             $bill->setPartialRefunded($request->amount);
         } else if ($bill->is_able_total_refund) {

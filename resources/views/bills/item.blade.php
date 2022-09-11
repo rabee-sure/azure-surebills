@@ -1,6 +1,6 @@
 <tr>
   <td><a href="{{route('bills.show', $bill)}}" title="{{__('Bill')}} {{ $bill->number }} - {{ $bill->customer_name}}">{{__('Bill')}} {{ $bill->number }} - {{ $bill->customer_name}}</a></td>
-  <td class="text-center">{{ $bill->total}} {{ __('SAR')}}</td>
+  <td class="text-center">{{ $bill->sub_total + $bill->vat - $bill->discount}} {{ __('SAR')}}</td>
   <td class="text-center">{{ $bill->created_at}}</td>
   <td class="text-center">@include('bills.status_badge', ['status' => $bill->status, 'id' => $bill->id])</td>
 </tr>

@@ -908,4 +908,8 @@ class Bill extends Model
     {
         return $this->hasMany(WebhookLog::class, 'bill_id', 'id');
     }
+
+    public function refundedBills(){
+        return $this->hasMany(RefundedBill::class);
+    }
 }

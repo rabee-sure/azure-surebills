@@ -93,6 +93,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
+    Route::resource('refundedbills', 'RefundedBillController');
 
     //Zain 24/2/2022 POS Routes
     Route::get('pos/categories', 'PosController@categories')->name('pos.categories');

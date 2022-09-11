@@ -778,4 +778,8 @@ class User extends Authenticatable implements HasMedia
 
         return $this->merchantSettings;
     }
+
+    public function refundedBills(){
+        return $this->hasMany(RefundedBill::class);
+    }
 }
