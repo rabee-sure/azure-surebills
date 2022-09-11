@@ -85,6 +85,7 @@ Route::post('/bills/{id}/change_status', 'BillController@changeStatus')->name('b
 Route::post('/bills/{id}/partial-refund', 'BillController@partialRefund')->name('bills.partial.refund');
 Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
 Route::get('user-permissions/{guard?}', 'UserController@getUserPermissions');
+Route::get('merchant-settings', 'UserController@getMerchantsettings');
 Route::get('current-user-admin/{guard?}', 'UserController@getAuthAdminUser');
 
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
@@ -92,6 +93,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
+    Route::resource('refundedbills', 'RefundedBillController');
 
     //Zain 24/2/2022 POS Routes
     Route::get('pos/categories', 'PosController@categories')->name('pos.categories');

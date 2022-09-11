@@ -185,7 +185,7 @@
           @endif
           <div class="d-flex align-items-center justify-content-between">
             <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
-            <span>{{ $bill->total}}</span>
+            <span>{{ $bill->sub_total + $bill->vat - $bill->discount}}</span>
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         @if($bill->customer_notes)

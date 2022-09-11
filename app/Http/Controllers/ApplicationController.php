@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Http\Requests\ApplicationRequest;
 use App\Http\Resources\ApplicationResource;
+use App\Models\MerchantSetting;
 use Illuminate\Support\Str;
 
 use function PHPUnit\Framework\isEmpty;
@@ -35,8 +36,13 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
+        $user_id = auth()->user()->store_main_user_id ?? auth()->user()->id;
+        $merchantSettings = MerchantSetting::where('user_id', $user_id)->where('key', 'allow_create_integration_application')->first();
+        if($merchantSettings->value == 0){
+            return response()->json(['message' => 'Application Blocked! Please cantact adminstrator'], 423);
+        }
         $application = new Application;
-        $application->user_id = auth()->user()->store_main_user_id ?? auth()->user()->id;
+        $application->user_id = $user_id;
         $application->name = $request->name;
         $application->secret = Str::random(20);
         $application->redirect = $request->redirect;
