@@ -296,7 +296,7 @@
             </tr>
             <tr>
               <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">اجمالي المبلغ المستحق</td>
-              <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->total}} SAR</td>
+              <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->sub_total + $bill->vat - $bill->discount}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Total Amount Due</td>
             </tr>
           </tbody>

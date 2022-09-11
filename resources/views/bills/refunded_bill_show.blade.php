@@ -1,12 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Bill No.') . ' ' . $bill->number . ' ' . __('Bills'))
-
-@php
-  $statues = session('status_filters', ['pending', 'paid'])?? [];
-  $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
-  // dd(app()->getLocale());
-@endphp
+@section('title', __('Credit Note') . ' ' . $refundedbill->number . ' ' . __('Bills'))
 
 @section('content')
 
