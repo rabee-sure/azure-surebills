@@ -225,12 +225,12 @@
               <span class="d-block mb-2">{{ $bill->channel_extra_vat }} {{ __('SAR') }}</span>
             </div><!-- d-flex -->
           @endif
-          @if( $bill->refund_amount)
+          {{-- @if( $bill->refund_amount)
             <div class="d-flex align-items-center justify-content-between">
               <span class="d-block mb-2">{{ __('Refund Amount') }}({{ __('SAR') }})</span>
               <span class="d-block mb-2">{{ $bill->refund_amount }}</span>
             </div><!-- d-flex -->
-          @endif
+          @endif --}}
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Total amount') }}({{ __('SAR') }})</span>
             <span class="d-block mb-2">{{ $bill->sub_total + $bill->vat - $bill->discount}}</span>
@@ -294,7 +294,6 @@
         @include('bills.partials.payment_logs')
       @endif
 
-      {{$bill->refundedBills}}
       @if(count($bill->refundedBills) > 0)
         @include('bills.partials.refunded_bills')
       @endif

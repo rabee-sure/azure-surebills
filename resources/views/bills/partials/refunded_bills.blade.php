@@ -4,7 +4,6 @@
       <table class="table table-hover text-nowrap">
         <thead>
           <tr>
-            <th scope="col" width="5%" class="text-center border p-2 bg-light fw-normal"></th>
             <th scope="col" class="text-center border p-2 bg-light fw-normal">{{__('Number') }}</th>
             <th scope="col" class="text-center border p-2 bg-light fw-normal">{{__('Date created') }}</th>
             <th scope="col" width="10%" class="text-center border p-2 bg-light fw-normal">{{__('Amount') }}</th>
@@ -13,7 +12,7 @@
         <tbody>
           @foreach($bill->refundedBills as $refundedBill)
             <tr>
-            <td class="text-center p-2 border"><a href="{{route('refundedbills.show', $refundedBill)}}">{{$refundedBill->number}}</a></td>
+            <td class="text-center p-2 border"><a href="{{route('refundedbills.show', $refundedBill->id)}}">{{$refundedBill->number}}</a></td>
             <td class="text-center p-2 border">{{$refundedBill->created_at}}</td>
             <td class="text-center p-2 border">{{$refundedBill->amount}}</td>
           </tr>

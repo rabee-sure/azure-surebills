@@ -44,9 +44,32 @@ class RefundedBillController extends Controller
      * @param  int  $refundedbill
      * @return \Illuminate\Http\Response
      */
-    public function show(RefundedBill $refundedBill)
+    public function show($id)
     {
+        $refundedBill = RefundedBill::find($id);
         return view('bills.refunded_bill_show', ['refundedbill' => $refundedBill]);
+    }
+
+    public function billPrint($id, Request $request)
+    {
+        $refundedBill = RefundedBill::find($id);
+        $type = $request->input('type');
+        $lang = $request->input('lang');
+        if($type == 'billA4' && $lang == 'en'){
+          return view('refunded_bills.print_template.a4_en', compact('refundedBill', 'lang'));
+        }elseif($type == 'billA4' && $lang == 'ar'){
+          return view('refunded_bills.print_template.a4_ar', compact('refundedBill', 'lang'));
+        }elseif($type == 'billTh' && $lang == 'en'){
+          return view('refunded_bills.print_template.th_en', compact('refundedBill', 'lang'));
+        }elseif($type == 'billTh' && $lang == 'ar'){
+          return view('refunded_bills.print_template.th_ar', compact('refundedBill', 'lang'));
+        }
+    }
+
+    public function invoice($id, $lang = null)
+    {
+        $refundedBill = RefundedBill::decodeId($id);
+        return view('refunded_bills.invoice', compact('refundedBill', 'id'));
     }
 
     /**
