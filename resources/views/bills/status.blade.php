@@ -125,12 +125,12 @@
             <span>{{ $bill->vat }}</span>
           </div><!-- d-flex -->
           @endif
-          @if( $bill->refund_amount)
+          {{-- @if( $bill->refund_amount)
             <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('Refund Amount') }} ({{ __('SAR') }})</span>
               <span>{{ $bill->refund_amount }}</span>
             </div><!-- d-flex -->
-          @endif
+          @endif --}}
           <div class="d-flex align-items-center justify-content-between">
             <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
             <span>{{ $bill->sub_total + $bill->vat - $bill->discount}}</span>

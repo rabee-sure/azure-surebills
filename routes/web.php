@@ -75,8 +75,10 @@ Route::get('/logs/{log}/', 'PaymentLogController@show')->name('logpage');
 
 // py bill page
 Route::get('/bills/{id}/print', 'BillController@billPrint')->name('bills.bill_print');
+Route::get('/refundedbills/{id}/print', 'RefundedBillController@billPrint')->name('refundedbills.bill_print');
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
 Route::get('/bills/{id}/invoice', 'BillController@invoice')->name('invoice');
+Route::get('/refundedbills/{id}/invoice', 'RefundedBillController@invoice')->name('refundedinvoice');
 Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang');
 Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::post('/bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
