@@ -383,7 +383,7 @@ class BillController extends Controller
         $refundedBill = RefundedBill::create([
             'bill_id' => $bill->id,
             'user_id' => $bill->user_id,
-            'amount' => $request->amount,
+            'amount' => $request->amount ?? $bill->total,
         ]);
 
         $refundedBill->number = $refundedBill->getNumber();

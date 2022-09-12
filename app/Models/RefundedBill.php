@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Traits\UsesUuid;
+use Hashids\Hashids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 class RefundedBill extends Model
 {
@@ -30,5 +32,24 @@ class RefundedBill extends Model
         $number = self::max('number');
 
         return $number == 0 ? 1000001 : $number + 1;
+    }
+
+    public function getHashedIdAttribute()
+    {
+        $uuid = Uuid::fromString($this->id);
+        $hex = $uuid->getHex();
+        $hashids = new Hashids();
+        return $hashids->encodeHex($hex);
+    }
+
+    static public function decodeId($hashed_id)
+    {
+        $hashids = new Hashids();
+        $hex = $hashids->decodeHex($hashed_id);
+        $id = array_reduce([20, 16, 12, 8], function ($uuid, $offset) {
+            return substr_replace($uuid, '-', $offset, 0);
+        }, str_pad($hex, 32, '0', STR_PAD_LEFT));
+
+        return self::find($id ?? null);
     }
 }
