@@ -119,7 +119,7 @@ class TransferOperations
         \Log::channel('send_to_sps')->info("request body", $postData);
         \Log::channel('send_to_sps')->info("certificate path", ['ssl' => config('guzzle.certification')]);
 
-        $response = $client->request('POST', $url, ['verify' => config('guzzle.certification'),'body'=>json_encode($postData)]);                                            
+        $response = $client->request('POST', $url, ['verify' => false,'body'=>json_encode($postData)]);                                            
         //log $reponse
         \Log::channel('send_to_sps')->info("SPS response", $response->getBody()->getContents());
     }
