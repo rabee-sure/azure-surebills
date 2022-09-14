@@ -10,9 +10,9 @@
           </tr>
         </thead>
         <tbody>
-          @foreach($bill->refundedBills as $refundedBill)
+          @foreach($bill->refundedBills->sortByDesc('created_at') as $refundedBill)
             <tr>
-            <td class="text-center p-2 border"><a href="{{route('refundedbills.show', $refundedBill->id)}}">{{$refundedBill->number}}</a></td>
+            <td class="text-center p-2 border"><a href="{{route('refundedbills.show', $refundedBill->id)}}">CN{{$refundedBill->number}}</a></td>
             <td class="text-center p-2 border">{{$refundedBill->created_at}}</td>
             <td class="text-center p-2 border">{{$refundedBill->amount}}</td>
           </tr>

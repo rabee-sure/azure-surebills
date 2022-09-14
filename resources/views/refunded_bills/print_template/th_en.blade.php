@@ -33,7 +33,7 @@
     </div><!-- d-flex -->
     <div class="d-flex align-items-center justify-content-between">
       <span class="d-block mb-2">{{ __('Credit Note No.', [], $lang) }}</span>
-      <span class="d-block mb-2">{{ $refundedBill->number }}</span>
+      <span class="d-block mb-2">CN{{ $refundedBill->number }}</span>
     </div><!-- d-flex -->
     
     <div class="d-flex align-items-center justify-content-between">
@@ -42,7 +42,7 @@
     </div><!-- d-flex -->
     <div class="d-flex align-items-center justify-content-between">
       <span class="d-block mb-2">{{ __('Invoice Number', [], $lang) }}</span>
-      <span class="d-block mb-2">{{ $refundedBill->bill->number }}</span>
+      <span class="d-block mb-2">DN{{ $refundedBill->bill->number }}</span>
     </div><!-- d-flex -->
 
   <div class="billInfo pt-2 mt-2 borderTop">
