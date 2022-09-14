@@ -52,6 +52,15 @@
           @endif
           <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;direction: ltr;">Date Of Supply :</td>
         </tr>
+        <tr>
+          <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">تاريخ الاستحقاق :</td>
+          @if($bill->status == 'paid')
+          <td style="text-align: center;border-bottom: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->paid_at->format('d/m/Y')}}</td>
+          @else
+          <td style="text-align: center;border-bottom: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->created_at->format('d/m/Y')}}</td>
+          @endif
+          <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;direction: ltr;">Due Date :</td>
+        </tr>
       </table>
       <div class="table_1" style="width: 100%;margin: 0 auto 20px;">
         <table class="table_title" style="width: 100%;margin-bottom: 8px;">
