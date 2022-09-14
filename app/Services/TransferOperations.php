@@ -8,8 +8,10 @@ use App\Models\Transaction;
 use App\Models\TransferLog;
 use App\Models\Transfer;
 use App\Services\TransferService;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TransferOperations
 {
@@ -104,9 +106,19 @@ class TransferOperations
         }
 
         // $response = Http::post('http://10.2.2.45:8087/api/Transfer/Transfer', [
-        $response = Http::post('https://surebill-api.surepay.sa/api/Transfer/Transfer', [
+        // $response = Http::post('https://surebill-api.surepay.sa/api/Transfer/Transfer', [
+        //     'transfers' => $body
+        // ]);
+
+        $client = new Client();
+        $url = 'https://surebill-api.surepay.sa/api/Transfer/Transfer';
+        $postData = [
             'transfers' => $body
-        ]);
+        ];
+
+        $response = $client->request('POST', $url, ['verify' => config('guzzle.certification'),'body'=>json_encode($postData)]);                                            
+        //log $reponse
+        log::send_to_sps('SPS response', $response->getBody()->getContents());
     }
 
     /**
