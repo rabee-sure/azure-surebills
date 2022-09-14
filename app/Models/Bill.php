@@ -796,8 +796,13 @@ class Bill extends Model
     public function getNumber()
     {
         $number = self::max('number');
+        $refundedBillNumber = RefundedBill::max('number');
 
-        return $number == 0 ? 1000001 : $number + 1;
+        if($number > $refundedBillNumber){
+            return $number == 0 ? 1000001 : $number + 1;
+        }else{
+            return $refundedBillNumber == 0 ? 1000001 : $refundedBillNumber + 1;
+        }
     }
 
 

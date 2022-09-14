@@ -44,7 +44,7 @@
   <i>/</i>
   <a href="/bills" title="{{ __('Bills') }}">{{ __('Bills') }}</a>
   <i>/</i>
-  <a href="/bills/{{ $bill->id }}" title="{{__('Bill No.')}} {{ $bill->number }}">{{__('Bill No.')}} {{ $bill->number }}</a>
+  <a href="/bills/{{ $bill->id }}" title="{{__('Bill No.')}} DN{{ $bill->number }}">{{__('Bill No.')}} DN{{ $bill->number }}</a>
   <i>/</i>
   <span>{{ $log->id }}</span>
 </div><!-- breadcrump -->

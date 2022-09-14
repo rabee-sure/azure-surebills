@@ -33,7 +33,7 @@
       <table style="width: 70%;float: left;">
         <tr>
           <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">رقم إشعار الدائن :</td>
-          <td style="text-align: center;border-bottom: 1px solid #000;border-top: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $refundedBill->number ?? $refundedBill->id }}</td>
+          <td style="text-align: center;border-bottom: 1px solid #000;border-top: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">CN{{ $refundedBill->number ?? $refundedBill->id }}</td>
           <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%; direction: ltr;">Credit Note Number :</td>
         </tr>
         <tr>
@@ -43,7 +43,7 @@
         </tr>
         <tr>
           <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">رقم الفاتورة :</td>
-          <td style="text-align: center;border-bottom: 1px solid #000;border-top: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $refundedBill->bill->number ?? $refundedBill->bill->id }}</td>
+          <td style="text-align: center;border-bottom: 1px solid #000;border-top: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">DN{{ $refundedBill->bill->number ?? $refundedBill->bill->id }}</td>
           <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%; direction: ltr;">Invoice Number :</td>
         </tr>
         <tr>
@@ -197,6 +197,16 @@
                 <span style="float: right;">اجمالي المبالغ :</span>
                 <span style="float: left;direction: ltr;">Total Amounts :</span>
               </td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">المبلغ المرتجع</td>
+              <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $refundedBill->amount - (($refundedBill->bill->tax_value * $refundedBill->amount) / 100)}} SAR</td>
+              <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Refunded Amount</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الضريبة المرتجعة</td>
+              <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ ($refundedBill->bill->tax_value * $refundedBill->amount) / 100 }} SAR</td>
+              <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Refunded Tax</td>
             </tr>
             <tr>
               <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">اجمالي المبلغ المرتجع</td>

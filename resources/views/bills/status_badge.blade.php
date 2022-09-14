@@ -20,4 +20,6 @@
         <span id="status-{{$id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Refunded Cash')}}</span>
     @elseif($status == 'refunded_bank_transfer')
         <span id="status-{{$id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Refunded Bank Transfer')}}</span>
+    @elseif($status == 'credit_note')
+        <span id="status-{{$id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Credit Note')}}</span>
     @endif
