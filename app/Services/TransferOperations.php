@@ -11,7 +11,7 @@ use App\Services\TransferService;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+
 
 class TransferOperations
 {
@@ -118,7 +118,7 @@ class TransferOperations
 
         $response = $client->request('POST', $url, ['verify' => config('guzzle.certification'),'body'=>json_encode($postData)]);                                            
         //log $reponse
-        log::send_to_sps('SPS response', $response->getBody()->getContents());
+        \Log::channel('send_to_sps')->info("SPS response", $response->getBody()->getContents());
     }
 
     /**
