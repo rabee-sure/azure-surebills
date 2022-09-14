@@ -110,25 +110,22 @@ class TransferOperations
         //     'transfers' => $body
         // ]);
 
-        $client = new Client();
         $url = 'https://surebill-api.surepay.sa/api/Transfer/Transfer';
-        $postData = [
-            'transfers' => $body
-        ];
 
-        \Log::channel('send_to_sps')->info("request body", $postData);
-        \Log::channel('send_to_sps')->info("certificate path", ['ssl' => config('guzzle.certification')]);
+        \Log::channel('send_to_sps')->info("request body", $body);
 
-        try {
-            //code...
-            $response = $client->request('POST', $url, ['verify' => false,'body'=>$body]);
-            //log $reponse
-            \Log::channel('send_to_sps')->info("SPS response", $response->getBody()->getContents());                                            
-        } catch (\Throwable $th) {
-            //throw $th;
-            //log error
-            \Log::channel('send_to_sps')->info("response error", ['error' => $th]);
-        }
+        $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+            curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($body));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            $server_output = curl_exec($ch);
+            curl_close ($ch);
+
+            \Log::channel('send_to_sps')->info("SPS response", ['response' => $server_output]);
 
     }
 
