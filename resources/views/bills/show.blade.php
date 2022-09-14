@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Bill No.') . ' ' . $bill->number . ' ' . __('Bills'))
+@section('title', __('Bill No.') . ' DN' . $bill->number . ' ' . __('Bills'))
 
 @php
   $statues = session('status_filters', ['pending', 'paid'])?? [];
@@ -15,7 +15,7 @@
   <i>/</i>
   <a href="/bills" title="{{ __('Bills') }}">{{ __('Bills') }}</a>
   <i>/</i>
-  <span>{{__('Bill No.')}} {{ $bill->number }}</span>
+  <span>{{__('Bill No.')}} DN{{ $bill->number }}</span>
 </div><!-- breadcrump -->
 
 <section id="billShowPage">
@@ -95,32 +95,32 @@
         </div><!-- aboutUser -->
         <div id="status">
           @if($bill->status == 'expired')
-            <div class="alert alert-danger"> {{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>
+            <div class="alert alert-danger"> {{ __('this bill has been expired', ['number' => 'DN'.$bill->number ]) }}</div>
           @elseif($bill->status == 'paid')
             <div class="alert alert-success text-center">
               @if ($bill->depositTransaction)
                 {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
               @else
-                {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
+                {{ __('this bill has been successfully', ['number' => 'DN'.$bill->number ]) }}
               @endif
             </div>
           @elseif($bill->status == 'paid_cash')
-            <div class="alert alert-success text-center"> {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}</div>
+            <div class="alert alert-success text-center"> {{ __('this bill has been Paid Cash successfully', ['number' => 'DN'.$bill->number ]) }}</div>
           @elseif($bill->status == 'paid_bank_transfer')
-            <div class="alert alert-success text-center"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}</div>
+            <div class="alert alert-success text-center"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => 'DN'.$bill->number ]) }}</div>
           @elseif($bill->status == 'canceled')
-            <div class="alert alert-danger text-center"> {{ __('this bill has been canceled', ['number' => $bill->number ]) }}</div>
+            <div class="alert alert-danger text-center"> {{ __('this bill has been canceled', ['number' => 'DN'.$bill->number ]) }}</div>
           @elseif($bill->status == 'failed')
-            <div class="alert alert-danger text-center"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
+            <div class="alert alert-danger text-center"> {{ __('this bill has been failed', ['number' => 'DN'.$bill->number ]) }}</div>
           @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
-            <div class="alert alert-warning text-center"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
+            <div class="alert alert-warning text-center"> {{ __('this bill has been refunded', ['number' => 'DN'.$bill->number ]) }}</div>
           @endif
         </div><!-- status -->
         <div class="billInfo pt-2 mt-2 borderTop">
           @if($bill->user->settings->add_tax_invoice)
             <div class="d-flex align-items-center justify-content-between">
               <span class="d-block mb-2">{{ __('Bill No.') }}</span>
-              <span class="d-block mb-2">{{ $bill->number }}</span>
+              <span class="d-block mb-2">DN{{ $bill->number }}</span>
             </div><!-- d-flex -->
             <div class="d-flex align-items-center justify-content-between">
               <span class="d-block mb-2">{{ __('Date') }}</span>
@@ -135,7 +135,7 @@
           @else
             <div class="d-flex align-items-center justify-content-between">
               <span class="d-block mb-2">{{ __('No.') }}</span>
-              <span class="d-block mb-2">{{ $bill->number }}</span>
+              <span class="d-block mb-2">DN{{ $bill->number }}</span>
             </div><!-- d-flex -->
             <div class="d-flex align-items-center justify-content-between">
               <span class="d-block mb-2">{{ __('Date') }}</span>
@@ -406,7 +406,7 @@
             case "expired":
               $("#cancel_btn").remove();
               $("#status").empty();
-              $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
+              $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => 'DN'.$bill->number ]) }}</div>');
               break;
             default:
               $("#cancel_btn").remove();

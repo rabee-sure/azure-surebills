@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Credit Note') . ' ' . $refundedbill->number . ' ' . __('Bills'))
+@section('title', __('Credit Note') . ' CN' . $refundedbill->number . ' ' . __('Bills'))
 
 @section('content')
 
@@ -9,7 +9,7 @@
   <i>/</i>
   <a href="/bills" title="{{ __('Bills') }}">{{ __('Bills') }}</a>
   <i>/</i>
-  <span>{{__('Credit Note No.')}} {{ $refundedbill->number }}</span>
+  <span>{{__('Credit Note No.')}} CN{{ $refundedbill->number }}</span>
 </div><!-- breadcrump -->
 
 <section id="billShowPage">
@@ -54,12 +54,12 @@
           </div><!-- d-flex -->
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Credit Note Number') }}</span>
-            <span class="d-block mb-2">{{ $refundedbill->number }}</span>
+            <span class="d-block mb-2">CN{{ $refundedbill->number }}</span>
           </div><!-- d-flex -->
           
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Invoice Number') }}</span>
-            <span class="d-block mb-2">{{ $refundedbill->bill->number }}</span>
+            <span class="d-block mb-2">DN{{ $refundedbill->bill->number }}</span>
           </div><!-- d-flex -->
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Invoice Date') }}</span>

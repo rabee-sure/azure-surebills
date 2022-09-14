@@ -888,11 +888,13 @@
     "You have no departments at the moment": "لا يوجد لديك أقسام حالياً",
     "You have no products at the moment": "لا يوجد لديك منتجات حالياً",
     "Hide the additional information of the orgianization in the payment URL": "إلغاء معلومات المنشأة الإضافية في رابط الدفع وتبسيطه",
+	"Credit Notes" : "الإشعارات الدائنة",
 	"Credit Note" : "إشعار دائن",
 	"Credit Note No." : "رقم إشعار دائن.",
 	"Credit Note Date" : "تاريخ إشعار الدائن",
 	"Credit Note Number" : "رقم إشعار الدائن",
 	"Invoice Number" : "رقم الفاتورة",
-	"Invoice Date" : "تاريخ الفاتورة"
+	"Invoice Date" : "تاريخ الفاتورة",
+	"You have pending refund under proccess! please try again later" : "لديك عملية استرداد معلقة! برجاء إعادة المحاولة في وقت لاحق."
 
 }

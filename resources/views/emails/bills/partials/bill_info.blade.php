@@ -2,7 +2,7 @@
   @if($bill->user->settings->add_tax_invoice)
     <div class="item">
       <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Bill No.') }}</span>
-      <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->number }}</p>
+      <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>DN{{ $bill->number }}</p>
       <div class="clearfix"></div>
     </div><!-- item -->
     <div class="item">
@@ -20,7 +20,7 @@
   @else
     <div class="item">
       <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('No.') }}</span>
-      <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->number }}</p>
+      <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>DN{{ $bill->number }}</p>
       <div class="clearfix"></div>
     </div><!-- item -->
     <div class="item">

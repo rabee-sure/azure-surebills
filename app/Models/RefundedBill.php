@@ -19,6 +19,11 @@ class RefundedBill extends Model
         'amount',
     ];
 
+    public function scopeUserId($query, $value)
+    {
+        return $query->where('user_id', $value);
+    }
+
     public function bill(){
         return $this->belongsTo(Bill::class);
     }
@@ -30,8 +35,14 @@ class RefundedBill extends Model
     public function getNumber()
     {
         $number = self::max('number');
+        $billNumber = Bill::max('number');
 
-        return $number == 0 ? 1000001 : $number + 1;
+        if($number > $billNumber){
+            return $number == 0 ? 1000001 : $number + 1;
+        }else{
+            return $billNumber == 0 ? 1000001 : $billNumber + 1;
+        }
+
     }
 
     public function getHashedIdAttribute()
