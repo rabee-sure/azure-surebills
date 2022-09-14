@@ -114,7 +114,11 @@ class TransferOperations
 
         \Log::channel('send_to_sps')->info("request body", $body);
 
-        $postData = json_encode($body);
+        $transfers = [
+            'transfers' => $body
+        ];
+
+        $postData = json_encode($transfers);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
