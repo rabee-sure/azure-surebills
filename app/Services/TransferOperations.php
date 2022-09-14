@@ -121,7 +121,7 @@ class TransferOperations
 
         try {
             //code...
-            $response = $client->request('POST', $url, ['verify' => false,'body'=>json_encode($postData)]);
+            $response = $client->request('POST', $url, ['verify' => false,'body'=>json_encode($body)]);
             //log $reponse
             \Log::channel('send_to_sps')->info("SPS response", $response->getBody()->getContents());                                            
         } catch (\Throwable $th) {
