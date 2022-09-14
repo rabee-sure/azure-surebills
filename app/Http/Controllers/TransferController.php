@@ -10,6 +10,7 @@ use App\Mail\RequestTransferMail;
 use App\Models\Bank;
 use App\Models\Transfer;
 use App\Models\User;
+use App\Models\PaymentLog;
 use App\Services\TransferOperations;
 use App\Services\TransferService;
 use Carbon\Carbon;
@@ -100,6 +101,11 @@ class TransferController extends Controller
     public function request(Request $request)
     {
         $user = auth()->user()->mainStoreUser ?? auth()->user();
+
+        if(self::hasPendingRefund($user->id)){
+            return redirect()->back()->withErrors([__('You have pending refund under proccess! please try again later')]);
+        }
+
         $cycleDate = Carbon::now()->addHours(3);
 
         $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d'));
@@ -147,6 +153,11 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
+
+        if(self::hasPendingRefund($request->user_id)){
+            return response()->json(['error' => __('You have pending refund under proccess! please try again later')], 422); 
+        }
+
         $user = User::find($request->user_id);
 
         $cycleDate = new Carbon($request->cycle_date);
@@ -179,6 +190,20 @@ class TransferController extends Controller
 
             return new TransferResource($transfer);
         }
+    }
+    
+    public function hasPendingRefund($user_id){
+        $pending_refund = PaymentLog::where('payment_logs.payment_method', 'mastercard_refund')
+            ->where('payment_logs.webhook_response_received', false)
+            ->where('bills.user_id', $user_id)
+            ->join('bills', 'bills.id', '=', 'payment_logs.bill_id')
+            ->count();
+            
+        if($pending_refund > 0){
+            return true;
+        }
+
+        return false;
     }
 
 
