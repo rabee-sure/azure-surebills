@@ -114,18 +114,20 @@ class TransferOperations
 
         \Log::channel('send_to_sps')->info("request body", $body);
 
-        $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL,$url);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-            curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($body));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            $server_output = curl_exec($ch);
-            curl_close ($ch);
+        $postData = json_encode($body);
 
-            \Log::channel('send_to_sps')->info("SPS response", ['response' => $server_output]);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$postData);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        $server_output = curl_exec($ch);
+        curl_close ($ch);
+
+        \Log::channel('send_to_sps')->info("SPS response", ['response' => $server_output]);
 
     }
 
