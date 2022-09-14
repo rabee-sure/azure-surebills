@@ -119,9 +119,17 @@ class TransferOperations
         \Log::channel('send_to_sps')->info("request body", $postData);
         \Log::channel('send_to_sps')->info("certificate path", ['ssl' => config('guzzle.certification')]);
 
-        $response = $client->request('POST', $url, ['verify' => false,'body'=>json_encode($postData)]);                                            
-        //log $reponse
-        \Log::channel('send_to_sps')->info("SPS response", $response->getBody()->getContents());
+        try {
+            //code...
+            $response = $client->request('POST', $url, ['verify' => false,'body'=>json_encode($postData)]);
+            //log $reponse
+            \Log::channel('send_to_sps')->info("SPS response", $response->getBody()->getContents());                                            
+        } catch (\Throwable $th) {
+            //throw $th;
+            //log error
+            \Log::channel('send_to_sps')->info("response error", ['error' => $th]);
+        }
+
     }
 
     /**
