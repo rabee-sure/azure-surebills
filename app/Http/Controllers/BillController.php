@@ -59,7 +59,6 @@ class BillController extends Controller
         }
 
         $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
-            ->orderBy('created_at', 'desc')
             ->when($statuses, function ($q) use ($statuses) {
                 $q->whereIn('status', $statuses);
             })
@@ -70,10 +69,9 @@ class BillController extends Controller
                 $q->whereDate('created_at', '>=', Carbon::parse($date_start))
                     ->whereDate('created_at', '<=', Carbon::parse($date_to));
             })
-            ->select('id', DB::raw("CONCAT('DN', number) as number"), 'customer_name', 'sub_total', 'vat', 'discount', 'status', 'created_at', DB::raw("'bills' as model"));
+            ->select('id', 'number', 'customer_name', 'sub_total', 'vat', 'discount', 'status', 'created_at', DB::raw("'bills' as model"));
 
         $refundedBills = RefundedBill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
-        ->orderBy('created_at', 'desc')
         ->when($request->keyword, function ($q) use ($request) {
             $q->whereLike(['number'], $request->keyword);
         })
@@ -83,7 +81,7 @@ class BillController extends Controller
         })
         ->select('id', DB::raw("CONCAT('CN', number) as number"), DB::raw("'Credit Note' as customer_name"), 'amount as sub_total', DB::raw("'0' as vat"), DB::raw("'0' as discount"), DB::raw("'credit_note' as status"), 'created_at', DB::raw("'refundedbills' as model"));
 
-        $mergedBills = $bills->union($refundedBills)->paginate($request->get('per_page', 10));
+        $mergedBills = $bills->union($refundedBills)->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
 
         return view('bills.index', ['bills' => $mergedBills]);
     }

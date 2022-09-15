@@ -8,7 +8,7 @@
     <!-- Basic Page Needs -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>{{ __('Bill No.') . ' DN' . $bill->number }} - SureBills</title>
+    <title>{{ __('Bill No.') . ' ' . $bill->number }} - SureBills</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <!-- App Css -->
     <link rel="stylesheet" href="/css/payment_page.css">
@@ -125,7 +125,7 @@
                 $("#new_countdown").remove();
                 $("#payment_area").remove();
                 $("#status").empty();
-                $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => 'DN'.$bill->number ]) }}</div>');
+                $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
               }
             });
             /* New countdown */
@@ -181,7 +181,7 @@
                 case "expired":
                     $("#payment_area").remove();
                     $("#status").empty();
-                    $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => 'DN'.$bill->number ]) }}</div>');
+                    $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
                     break;
                 default:
                     $("#payment_area").remove();

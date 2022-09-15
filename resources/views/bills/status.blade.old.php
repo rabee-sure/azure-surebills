@@ -1,6 +1,6 @@
 @extends('layouts.bill')
 
-@section('title', __('Bill No.') . ' DN' . $bill->number)
+@section('title', __('Bill No.') . ' ' . $bill->number)
 
 @section('content')
 
@@ -43,35 +43,35 @@
       <div id="status">
         @if($bill->status == 'expired')
             <div class="alert alert-danger" role="alert">
-              {{ __('this bill has been expired', ['number' => 'DN'.$bill->number ]) }}
+              {{ __('this bill has been expired', ['number' => $bill->number ]) }}
             </div>
         @elseif($bill->status == 'paid')
             <div class="alert alert-success" role="alert">
               @if ($bill->depositTransaction)
                 {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
               @else
-              {{ __('this bill has been successfully', ['number' => 'DN'.$bill->number ]) }}
+              {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
               @endif
             </div>
         @elseif($bill->status == 'paid_cash')
             <div class="alert alert-success" role="alert">
-              {{ __('this bill has been Paid Cash successfully', ['number' => 'DN'.$bill->number ]) }}
+              {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}
             </div>
         @elseif($bill->status == 'paid_bank_transfer')
             <div class="alert alert-success" role="alert">
-              {{ __('this bill has been Paid Bank Transfer successfully', ['number' => 'DN'.$bill->number ]) }}
+              {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
             </div>
         @elseif($bill->status == 'canceled')
             <div class="alert alert-danger" role="alert">
-              {{ __('this bill has been canceled', ['number' => 'DN'.$bill->number ]) }}
+              {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
             </div>          
           @elseif($bill->status == 'failed')
             <div class="alert alert-danger" role="alert">
-              {{ __('this bill has been failed', ['number' => 'DN'.$bill->number ]) }}
+              {{ __('this bill has been failed', ['number' => $bill->number ]) }}
             </div>
         @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
             <div class="alert alert-warning" role="alert">
-              {{ __('this bill has been refunded', ['number' => 'DN'.$bill->number ]) }}
+              {{ __('this bill has been refunded', ['number' => $bill->number ]) }}
             </div>
         @endif
       </div>
@@ -92,7 +92,7 @@
                   @endif
                 </span>
                 <div>
-                  <p>{{ __('Bill No.') }} #DN{{ $bill->number }}</p>
+                  <p>{{ __('Bill No.') }} #{{ $bill->number }}</p>
                   <b>{{ $bill->created_at->format('Y/m/d')}}</b>
                 </div>
               </div><!-- date_time -->
@@ -225,7 +225,7 @@
             $("#payment_method").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => 'DN'.$bill->number ]) }}</div>');
+            $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
             break;
         default:
             $("#payment_method").remove();

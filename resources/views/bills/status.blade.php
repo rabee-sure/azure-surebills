@@ -1,5 +1,5 @@
 @extends('layouts.bill')
-@section('title', __('Bill No.') . ' DN' . $bill->number)
+@section('title', __('Bill No.') . ' ' . $bill->number)
 @section('content')
 
   <div id="app" class="singlebBillSimple_page d-flex align-items-center justify-content-center flex-column">
@@ -35,7 +35,7 @@
             @if($bill->user->settings->add_tax_invoice)
               <div class="d-flex align-items-center justify-content-between">
                 <span>{{ __('Bill No.') }}</span>
-                <span>DN{{ $bill->number }}</span>
+                <span>{{ $bill->number }}</span>
               </div><!-- d-flex -->
               <div class="d-flex align-items-center justify-content-between">
                 <span>{{ __('Date') }}</span>
@@ -50,7 +50,7 @@
             @else
             <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('No.') }}</span>
-              <span>DN{{ $bill->number }}</span>
+              <span>{{ $bill->number }}</span>
             </div><!-- d-flex -->
             <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('Date') }}</span>
@@ -138,7 +138,7 @@
         </div><!-- bill_info -->
         @if($bill->status == 'expired')
           <div id="status">
-            <div class="alert alert-danger"> {{ __('this bill has been expired', ['number' => 'DN'.$bill->number ]) }}</div>
+            <div class="alert alert-danger"> {{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
         @elseif($bill->status == 'paid')
           <div id="status">
@@ -146,29 +146,29 @@
               @if ($bill->depositTransaction)
                 {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
               @else
-                {{ __('this bill has been successfully', ['number' => 'DN'.$bill->number ]) }}
+                {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
               @endif
             </div>
           </div><!-- status -->
         @elseif($bill->status == 'paid_cash')
           <div id="status">
-            <div class="alert alert-success"> {{ __('this bill has been Paid Cash successfully', ['number' => 'DN'.$bill->number ]) }}</div>
+            <div class="alert alert-success"> {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
         @elseif($bill->status == 'paid_bank_transfer')
           <div id="status">
-            <div class="alert alert-success"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => 'DN'.$bill->number ]) }}</div>
+            <div class="alert alert-success"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
         @elseif($bill->status == 'canceled')
           <div id="status">
-            <div class="alert alert-danger"> {{ __('this bill has been canceled', ['number' => 'DN'.$bill->number ]) }}</div>
+            <div class="alert alert-danger"> {{ __('this bill has been canceled', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
         @elseif($bill->status == 'failed')
           <div id="status">
-            <div class="alert alert-danger"> {{ __('this bill has been failed', ['number' => 'DN'.$bill->number ]) }}</div>
+            <div class="alert alert-danger"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
         @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
           <div id="status">
-            <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => 'DN'.$bill->number ]) }}</div>
+            <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
         @endif
         @if($bill->user->settings->add_tax_invoice)
@@ -253,7 +253,7 @@
               $("#payment_method").remove();
               $("#back_btn").remove();
               $("#status").empty();
-              $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => 'DN'.$bill->number ]) }}</div>');
+              $("#status").append('<div class="alert alert-danger" role="alert">{{  __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
               break;
           default:
               $("#payment_method").remove();

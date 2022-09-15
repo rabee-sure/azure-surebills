@@ -43,7 +43,7 @@
         </tr>
         <tr>
           <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">رقم الفاتورة :</td>
-          <td style="text-align: center;border-bottom: 1px solid #000;border-top: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">DN{{ $refundedBill->bill->number ?? $refundedBill->bill->id }}</td>
+          <td style="text-align: center;border-bottom: 1px solid #000;border-top: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $refundedBill->bill->number ?? $refundedBill->bill->id }}</td>
           <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%; direction: ltr;">Invoice Number :</td>
         </tr>
         <tr>
