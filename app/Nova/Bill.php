@@ -344,12 +344,13 @@ class Bill extends Resource
     public function actions(Request $request)
     {
         return [
-            (new BillsExcelDownload(Auth::user()->email))->canRun(function (NovaRequest $request) {
+            (new BillsExcelDownload(Auth::user()->email, $request->toArray()))->standalone()->canRun(function (NovaRequest $request) {
                 return true;
             }),
             // (new DownloadExcel)->withHeadings(),
         ];
     }
+
 
     /**
      * authorized To Create.
