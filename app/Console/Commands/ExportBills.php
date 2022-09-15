@@ -50,7 +50,7 @@ class ExportBills extends Command
         
         $file_name = 'bills_'.Carbon::now()->timestamp.'.xlsx';
         (new BillsDataExport($queryFilter))
-        ->store($filePath = 'shared-bills/'. $file_name);
+        ->store($filePath = 'shared-bills/'. $file_name, 'local');
     }
 
     protected function rebuildFilter($decodedFilter){
