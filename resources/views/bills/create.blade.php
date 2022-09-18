@@ -100,20 +100,20 @@
               <div class="row">
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="bullding_no" class="d-block mb-2">{{__('bullding_no')}}</label>
-                    <input value="{{ old('bullding_no') }}" name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('bullding_no')}}">
+                    <label for="bullding_no" class="d-block mb-2">{{__('Building Number')}}</label>
+                    <input value="{{ old('bullding_no') }}" name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('Building Number')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="street_name" class="d-block mb-2">{{__('street_name')}}</label>
-                    <input value="{{ old('street_name') }}" name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('street_name')}}">
+                    <label for="street_name" class="d-block mb-2">{{__('Street Name')}}</label>
+                    <input value="{{ old('street_name') }}" name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('Street Name')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="district" class="d-block mb-2">{{__('district')}}</label>
-                    <input value="{{ old('district') }}" name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('district')}}">
+                    <label for="district" class="d-block mb-2">{{__('District')}}</label>
+                    <input value="{{ old('district') }}" name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('District')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
@@ -124,26 +124,26 @@
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="postal_code" class="d-block mb-2">{{__('postal_code')}}</label>
-                    <input value="{{ old('postal_code') }}" name="postal_code" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('postal_code')}}">
+                    <label for="postal_code" class="d-block mb-2">{{__('Postal Code')}}</label>
+                    <input value="{{ old('postal_code') }}" name="postal_code" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('Postal Code')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="additional_no" class="d-block mb-2">{{__('additional_no')}}</label>
-                    <input value="{{ old('additional_no') }}"  name="additional_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('additional_no')}}">
+                    <label for="additional_no" class="d-block mb-2">{{__('Additional Number')}}</label>
+                    <input value="{{ old('additional_no') }}"  name="additional_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('Additional Number')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="other_buyer_id" class="d-block mb-2">{{__('other_buyer_id')}}</label>
-                    <input value="{{ old('other_buyer_id') }}"  name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}">
+                    <label for="other_buyer_id" class="d-block mb-2">{{__('Additional ID')}}</label>
+                    <input value="{{ old('other_buyer_id') }}"  name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('Additional ID')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="vat_registration_number" class="d-block mb-2">{{__('vat_registration_number')}}</label>
-                    <input value="{{ old('vat_registration_number') }}"  name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('vat_registration_number')}}">
+                    <label for="vat_registration_number" class="d-block mb-2">{{__('vat Registration Number (optional)')}}</label>
+                    <input value="{{ old('vat_registration_number') }}"  name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('vat Registration Number (optional)')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
               </div><!-- row -->
