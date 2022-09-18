@@ -390,20 +390,31 @@ class BillController extends Controller
     {
 
         $bill = Bill::find($id);
-        
-        $refundedBill = RefundedBill::create([
-            'bill_id' => $bill->id,
-            'user_id' => $bill->user_id,
-            'amount' => $request->amount ?? $bill->total,
-        ]);
-
-        $refundedBill->number = $refundedBill->getNumber();
-        $refundedBill->save();
 
         if ($request->type == 'partial_refund') {
             $bill->setPartialRefunded($request->amount);
+            
+            $refundedBill = RefundedBill::create([
+                'bill_id' => $bill->id,
+                'user_id' => $bill->user_id,
+                'amount' => $request->amount,
+            ]);
+    
+            $refundedBill->number = $refundedBill->getNumber();
+            $refundedBill->save();
+
         } else if ($bill->is_able_total_refund) {
             if ($bill->setRefunded()) {
+
+                $refundedBill = RefundedBill::create([
+                    'bill_id' => $bill->id,
+                    'user_id' => $bill->user_id,
+                    'amount' => $bill->total,
+                ]);
+        
+                $refundedBill->number = $refundedBill->getNumber();
+                $refundedBill->save();
+
                 return redirect()->back();
             }
         } else {

@@ -13,6 +13,7 @@ use App\Models\Application;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\Customer;
+use App\Models\RefundedBill;
 use App\Rules\AmountPartialRefund;
 use App\Rules\AmountPartialRefundGTBalance;
 use Carbon\Carbon;
@@ -463,8 +464,26 @@ class BillController extends Controller
 
         if($request->type == 'partial_refund'){
             $bill->setPartialRefunded($request->amount);
+
+            $refundedBill = RefundedBill::create([
+                'bill_id' => $bill->id,
+                'user_id' => $bill->user_id,
+                'amount' => $request->amount,
+            ]);
+    
+            $refundedBill->number = $refundedBill->getNumber();
+            $refundedBill->save();
+
         } else if ($bill->is_able_total_refund){
             if($bill->setRefunded()){
+                $refundedBill = RefundedBill::create([
+                    'bill_id' => $bill->id,
+                    'user_id' => $bill->user_id,
+                    'amount' => $bill->total,
+                ]);
+        
+                $refundedBill->number = $refundedBill->getNumber();
+                $refundedBill->save();
             }
         }else{
             return response()->json(['error' => [
