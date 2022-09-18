@@ -1,6 +1,6 @@
 @extends('layouts.bill')
 
-@section('title', __('Bill No.') . ' DN' . $bill->number)
+@section('title', __('Bill No.') . ' ' . $bill->number)
 
 @section('content')
 
@@ -65,7 +65,7 @@
                 @endif
               </span>
               <div>
-                <p>{{ __('Bill No.') }} #DN{{ $bill->number }}</p>
+                <p>{{ __('Bill No.') }} #{{ $bill->number }}</p>
                 <b>{{ $bill->created_at->format('Y/m/d')}}</b>
               </div>
             </div><!-- date_time -->
@@ -176,7 +176,7 @@ $(function(){
     $("#payment_area").remove();
     // $("#back_btn").remove();
     $("#status").empty();
-    $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => 'DN'.$bill->number ]) }}</div>');
+    $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
   }
 });
 /* New countdown */
@@ -209,7 +209,7 @@ $(function(){
             $("#payment_area").remove();
             $("#back_btn").remove();
             $("#status").empty();
-            $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => 'DN'.$bill->number ]) }}</div>');
+            $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
             break;
           default:
             $("#payment_area").remove();

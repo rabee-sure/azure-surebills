@@ -59,7 +59,7 @@
           
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Invoice Number') }}</span>
-            <span class="d-block mb-2">DN{{ $refundedbill->bill->number }}</span>
+            <span class="d-block mb-2">{{ $refundedbill->bill->number }}</span>
           </div><!-- d-flex -->
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Invoice Date') }}</span>
