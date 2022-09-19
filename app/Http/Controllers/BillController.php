@@ -73,7 +73,7 @@ class BillController extends Controller
 
         $refundedBills = RefundedBill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
         ->when($request->keyword, function ($q) use ($request) {
-            $q->whereLike(['number'], $request->keyword);
+            $q->whereLike(['number'], str_replace("CN", "", $request->keyword));
         })
         ->when($date_start, function ($q) use ($date_start, $date_to) {
             $q->whereDate('created_at', '>=', Carbon::parse($date_start))
