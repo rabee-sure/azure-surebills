@@ -54,8 +54,8 @@ class BillController extends Controller
         $statuses = array();
         if($request->statuses){
             $statuses = $request->statuses;
-            $statuses = in_array('paid', $statuses) ? array_merge($statuses, ['paid_cash', 'paid_bank_transfer']) : $statuses;
-            $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
+            $statuses = in_array('paid', $statuses) ? array_merge($statuses, ['paid_cash', 'paid_bank_transfer', 'refunded_cash', 'refunded_bank_transfer', 'refunded']) : $statuses;
+            // $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
         }
 
         $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
