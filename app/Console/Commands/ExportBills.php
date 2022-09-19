@@ -51,42 +51,9 @@ class ExportBills extends Command
         $file_name = 'bills_'.Carbon::now()->timestamp.'.xlsx';
         (new BillsDataExport($queryFilter))
         ->store($filePath = 'shared-bills/'. $file_name, 'local');
-    }
 
-    protected function rebuildFilter($decodedFilter){
-        $FilterdColums = [];
-        foreach($decodedFilter as $filter){
-            switch ($filter->class) {
-                case 'App\Nova\Filters\BillStatus':
-                    $FilterdColums['status'] = $filter->value;
-                    break;
+        $this->info($file_name);
 
-                case 'App\Nova\Filters\BillSource':
-                    $FilterdColums['application_id'] = $filter->value;
-                    break;
-
-                case 'PosLifestyle\DateRangeFilter\DateRangeFilter_created_at':
-                    $FilterdColums['created_at'] = $filter->value;
-                    break;
-
-                case 'PosLifestyle\DateRangeFilter\DateRangeFilter_paid_at':
-                    $FilterdColums['paid_at'] = $filter->value;
-                    break;
-
-                case 'PosLifestyle\DateRangeFilter\DateRangeFilter_refunded_at':
-                    $FilterdColums['refunded_at'] = $filter->value;
-                    break;
-
-                case 'App\Nova\Filters\UserId':
-                    $FilterdColums['user_id'] = $filter->value;
-                    break;
-                
-                default:
-                    # code...
-                    break;
-            }
-        }
-
-        return $FilterdColums;
+        return 0;
     }
 }
