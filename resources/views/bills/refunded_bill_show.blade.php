@@ -40,7 +40,7 @@
             </figure><!-- figure -->
           @endif
           @if($refundedbill->bill->user->settings->add_tax_invoice)
-            <div class="taxInvoiceText text-secondary">{{ __('Simplified Tax Invoice') }}</div>
+            <div class="taxInvoiceText text-secondary">{{ __('Tax credit note') }}</div>
           @endif
           <span class="d-block fw-bold mt-3">{{ $refundedbill->bill->user->business_name }}</span>
           <p class="d-block mb-0">{{  $refundedbill->bill->user->business_address }}</p>
@@ -59,12 +59,22 @@
           
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Invoice Number') }}</span>
-            <span class="d-block mb-2">DN{{ $refundedbill->bill->number }}</span>
+            <span class="d-block mb-2">{{ $refundedbill->bill->number }}</span>
           </div><!-- d-flex -->
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Invoice Date') }}</span>
             <span class="d-block mb-2">{{ $refundedbill->bill->created_at->format('d/m/Y')}}</span>
           </div><!-- d-flex -->
+          @if($refundedbill->bill->user->settings->display_customer_details && $refundedbill->bill->customer_mobile != 555555555)
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="d-block mb-2">{{ __('Customer Name') }}</span>
+              <span class="d-block mb-2">{{ $refundedbill->bill->customer->name }}</span>
+            </div><!-- d-flex -->
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="d-block mb-2">{{ __('Mobile Number') }}</span>
+              <span class="d-block mb-2">{{ $refundedbill->bill->customer->mobile }}</span>
+            </div><!-- d-flex -->
+          @endif
         </div><!-- billInfo -->
         <div class="billInfo pt-2 mt-2 borderTop">
           <div class="d-flex align-items-center justify-content-between">

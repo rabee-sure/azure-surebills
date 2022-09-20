@@ -63,4 +63,14 @@ class RefundedBill extends Model
 
         return self::find($id ?? null);
     }
+
+    public function getNetRefundedAmountAttribute()
+    {
+        return round($this->amount / ((100/100) + ($this->bill->tax_value / 100)), 2);
+    }
+
+    public function getRefundedVatAttribute()
+    {
+        return round($this->net_refunded_amount * ($this->bill->tax_value / 100), 2);
+    }
 }

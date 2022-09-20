@@ -4,7 +4,7 @@
       <table class="table table-hover text-nowrap">
         <thead>
           <tr>
-            <th scope="col" class="text-center border p-2 bg-light fw-normal">{{__('Number') }}</th>
+            <th scope="col" class="text-center border p-2 bg-light fw-normal">{{__('Reference Number') }}</th>
             <th scope="col" class="text-center border p-2 bg-light fw-normal">{{__('Date created') }}</th>
             <th scope="col" width="10%" class="text-center border p-2 bg-light fw-normal">{{__('Amount') }}</th>
           </tr>
