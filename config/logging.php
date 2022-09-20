@@ -109,6 +109,11 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/transfer.log'),
             'level' => 'info',
+        ],
+        'send_to_sps' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/send_to_sps.log'),
+            'level' => 'info',
         ]
 
     ],

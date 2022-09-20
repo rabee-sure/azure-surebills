@@ -21,8 +21,6 @@ use Maatwebsite\Excel\Facades\Excel;
 class BillsExcelDownload extends Action
 {
 
-    public static $chunkCount = 1000000;
-
     public $email;
     public $filters;
 
@@ -35,7 +33,7 @@ class BillsExcelDownload extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $queryFilter = self::rebuildFilter(json_decode(base64_decode($this->filters['filters'])));
-
+        
         $file_name = 'bills_'.Carbon::now()->timestamp.'.xlsx';
         (new BillsDataExport($queryFilter))
         ->store($filePath = 'shared-bills/'. $file_name)
