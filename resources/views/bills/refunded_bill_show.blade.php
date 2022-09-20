@@ -40,7 +40,7 @@
             </figure><!-- figure -->
           @endif
           @if($refundedbill->bill->user->settings->add_tax_invoice)
-            <div class="taxInvoiceText text-secondary">{{ __('Simplified Tax Invoice') }}</div>
+            <div class="taxInvoiceText text-secondary">{{ __('Tax credit note') }}</div>
           @endif
           <span class="d-block fw-bold mt-3">{{ $refundedbill->bill->user->business_name }}</span>
           <p class="d-block mb-0">{{  $refundedbill->bill->user->business_address }}</p>

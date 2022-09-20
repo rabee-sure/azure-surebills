@@ -896,6 +896,8 @@
 	"Invoice Number" : "رقم الفاتورة",
 	"Invoice Date" : "تاريخ الفاتورة",
 	"You have pending refund under proccess! please try again later" : "لديك عملية استرداد معلقة! برجاء إعادة المحاولة في وقت لاحق.",
-	"Reference Number" : "الرقم المرجعي"
+  "Tax credit note" : "اشعار دائن ضريبي"
+  "Reference Number" : "الرقم المرجعي"
+
 
 }
