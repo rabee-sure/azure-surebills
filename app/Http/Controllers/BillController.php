@@ -73,7 +73,7 @@ class BillController extends Controller
 
         $refundedBills = RefundedBill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
         ->when($request->keyword, function ($q) use ($request) {
-            $q->whereLike(['number'], $request->keyword);
+            $q->whereLike(['number'], str_replace("CN", "", $request->keyword));
         })
         ->when($date_start, function ($q) use ($date_start, $date_to) {
             $q->whereDate('created_at', '>=', Carbon::parse($date_start))
@@ -178,6 +178,7 @@ class BillController extends Controller
             $vat = 0;
             $payment_fees = 0;
 
+            // not found in database
             if ($user->pay_fees == "client") {
                 $payment_fees = ($sub_total * ($user->credit_cards_percentage / 100)) + $user->credit_cards_fixed;
             }

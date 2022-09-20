@@ -30,36 +30,36 @@
         </div>
         @if($user->settings->add_tax_invoice)
           <div class="form-group mb-3">
-              <label for="bullding_no" class="d-block mb-1">{{__('bullding_no')}}</label>
-              <input name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('bullding_no')}}">
+              <label for="bullding_no" class="d-block mb-1">{{__('Building Number')}}</label>
+              <input name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('Building Number')}}">
           </div>
           <div class="form-group mb-3">
-              <label for="street_name" class="d-block mb-1">{{__('street_name')}}</label>
-              <input name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('street_name')}}">
+              <label for="street_name" class="d-block mb-1">{{__('Street Name')}}</label>
+              <input name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('Street Name')}}">
           </div>
           <div class="form-group mb-3">
-              <label for="district" class="d-block mb-1">{{__('district')}}</label>
-              <input name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('district')}}">
+              <label for="district" class="d-block mb-1">{{__('District')}}</label>
+              <input name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('District')}}">
           </div>
           <div class="form-group mb-3">
               <label for="city" class="d-block mb-1">{{__('City')}}</label>
               <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('City')}}">
           </div>
           <div class="form-group mb-3">
-              <label for="postal_code" class="d-block mb-1">{{__('postal_code')}}</label>
-              <input name="postal_code" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('postal_code')}}">
+              <label for="postal_code" class="d-block mb-1">{{__('Postal Code')}}</label>
+              <input name="postal_code" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('Postal Code')}}">
           </div>
           <div class="form-group mb-3">
-              <label for="additional_no" class="d-block mb-1">{{__('additional_no')}}</label>
-              <input name="additional_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('additional_no')}}">
+              <label for="additional_no" class="d-block mb-1">{{__('Additional Number')}}</label>
+              <input name="additional_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('Additional Number')}}">
           </div>
           <div class="form-group mb-3">
-              <label for="other_buyer_id" class="d-block mb-1">{{__('other_buyer_id')}}</label>
-              <input name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}">
+              <label for="other_buyer_id" class="d-block mb-1">{{__('Additional ID')}}</label>
+              <input name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('Additional ID')}}">
           </div>
           <div class="form-group mb-3">
-              <label for="vat_registration_number" class="d-block mb-1">{{__('vat_registration_number')}}</label>
-              <input name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('vat_registration_number')}}">
+              <label for="vat_registration_number" class="d-block mb-1">{{__('vat Registration Number (optional)')}}</label>
+              <input name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('vat Registration Number (optional)')}}">
           </div>
         @endif
       </div>

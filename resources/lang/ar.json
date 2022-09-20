@@ -10,17 +10,17 @@
 	"Refunded Bank Transfer": "استردت بتحويل بنكي",
 	"Refunded Cash": "استردت نقدي",
 
-	"vat_registration_number": "رقم التسجيل الضريبي",
+	"vat Registration Number (optional)": "رقم التسجيل الضريبي (إختياري)",
 	"Change Status": "تغيير الحالة",
 	"Are you Sure to Change Status ?": "تغيير حالة السداد",
 
-	"bullding_no":"رقم المبني",
-    "street_name":"اسم الشارع",
-    "district":"الحي",
+	"Building Number":"رقم المبني",
+    "Street Name":"اسم الشارع",
+    "District":"الحي",
     "City":"المدينة",
-    "postal_code":"الرمز البريدي",
-    "additional_no":"الرقم الاضافي للعنوان",
-    "other_buyer_id":"معرف آخر",
+    "Postal Code":"الرمز البريدي",
+    "Additional Number":"الرقم الاضافي للعنوان",
+    "Additional ID":"معرف آخر",
     "Roles": "الأدوار",
     "Permissions": "الصلاحيات",
     "No roles": "لا يوجد أدوار",
@@ -896,6 +896,8 @@
 	"Invoice Number" : "رقم الفاتورة",
 	"Invoice Date" : "تاريخ الفاتورة",
 	"You have pending refund under proccess! please try again later" : "لديك عملية استرداد معلقة! برجاء إعادة المحاولة في وقت لاحق.",
-	"Tax credit note" : "اشعار دائن ضريبي"
+  "Tax credit note" : "اشعار دائن ضريبي"
+  "Reference Number" : "الرقم المرجعي"
+
 
 }
