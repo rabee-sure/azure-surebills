@@ -178,6 +178,7 @@ class BillController extends Controller
             $vat = 0;
             $payment_fees = 0;
 
+            // not found in database
             if ($user->pay_fees == "client") {
                 $payment_fees = ($sub_total * ($user->credit_cards_percentage / 100)) + $user->credit_cards_fixed;
             }
