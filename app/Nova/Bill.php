@@ -351,6 +351,7 @@ class Bill extends Resource
         ];
     }
 
+
     /**
      * authorized To Create.
      *

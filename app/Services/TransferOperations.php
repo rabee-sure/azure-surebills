@@ -8,8 +8,10 @@ use App\Models\Transaction;
 use App\Models\TransferLog;
 use App\Models\Transfer;
 use App\Services\TransferService;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+
 
 class TransferOperations
 {
@@ -104,9 +106,33 @@ class TransferOperations
         }
 
         // $response = Http::post('http://10.2.2.45:8087/api/Transfer/Transfer', [
-        $response = Http::post('https://surebill-api.surepay.sa/api/Transfer/Transfer', [
+        // $response = Http::post('https://surebill-api.surepay.sa/api/Transfer/Transfer', [
+        //     'transfers' => $body
+        // ]);
+
+        $url = 'https://surebill-api.surepay.sa/api/Transfer/Transfer';
+
+        \Log::channel('send_to_sps')->info("request body", $body);
+
+        $transfers = [
             'transfers' => $body
-        ]);
+        ];
+
+        $postData = json_encode($transfers);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$postData);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        $server_output = curl_exec($ch);
+        curl_close ($ch);
+
+        \Log::channel('send_to_sps')->info("SPS response", ['response' => $server_output]);
+
     }
 
     /**
