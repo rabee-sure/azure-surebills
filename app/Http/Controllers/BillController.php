@@ -82,7 +82,7 @@ class BillController extends Controller
             $q->whereDate('created_at', '>=', Carbon::parse($date_start))
                 ->whereDate('created_at', '<=', Carbon::parse($date_to));
         })
-        ->select('id', DB::raw("CONCAT('CN', number) as number"), DB::raw("'Credit Note' as customer_name"), 'amount as sub_total', DB::raw("'0' as vat"), DB::raw("'0' as discount"), 'status', 'method', 'created_at', DB::raw("'refundedbills' as model"));
+        ->select('id', DB::raw("CONCAT('CN', number) as number"), 'customer_name', 'amount as sub_total', DB::raw("'0' as vat"), DB::raw("'0' as discount"), 'status', 'method', 'created_at', DB::raw("'refundedbills' as model"));
 
         $mergedBills = $bills->union($refundedBills)->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
 
@@ -410,6 +410,7 @@ class BillController extends Controller
                 'amount' => $request->amount,
                 'status' => 'cn_refunded',
                 'method' => $method,
+                'customer_name' => $bill->customer_name
             ]);
     
             $refundedBill->number = $refundedBill->getNumber();
@@ -424,6 +425,7 @@ class BillController extends Controller
                     'amount' => $bill->total,
                     'status' => 'cn_refunded',
                     'method' => $method,
+                    'customer_name' => $bill->customer_name
                 ]);
         
                 $refundedBill->number = $refundedBill->getNumber();

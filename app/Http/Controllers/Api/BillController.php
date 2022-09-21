@@ -479,7 +479,7 @@ class BillController extends Controller
                 'amount' => $request->amount,
                 'status' => 'cn_refunded',
                 'method' => $method,
-                
+                'customer_name' => $bill->customer_name
             ]);
     
             $refundedBill->number = $refundedBill->getNumber();
@@ -493,6 +493,7 @@ class BillController extends Controller
                     'amount' => $bill->total,
                     'status' => 'cn_refunded',
                     'method' => $method,
+                    'customer_name' => $bill->customer_name
                 ]);
         
                 $refundedBill->number = $refundedBill->getNumber();
