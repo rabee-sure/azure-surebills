@@ -54,8 +54,8 @@ class BillController extends Controller
         $statuses = array();
         if($request->statuses){
             $statuses = $request->statuses;
-            $statuses = in_array('paid', $statuses) ? array_merge($statuses, ['paid_cash', 'paid_bank_transfer']) : $statuses;
-            $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
+            $statuses = in_array('paid', $statuses) ? array_merge($statuses, ['paid_cash', 'paid_bank_transfer', 'refunded_cash', 'refunded_bank_transfer', 'refunded']) : $statuses;
+            // $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
         }
 
         $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
@@ -69,9 +69,12 @@ class BillController extends Controller
                 $q->whereDate('created_at', '>=', Carbon::parse($date_start))
                     ->whereDate('created_at', '<=', Carbon::parse($date_to));
             })
-            ->select('id', 'number', 'customer_name', 'sub_total', 'vat', 'discount', 'status', 'created_at', DB::raw("'bills' as model"));
+            ->select('id', 'number', 'customer_name', 'sub_total', 'vat', 'discount', 'status', DB::raw("'null' as method"),'created_at', DB::raw("'bills' as model"));
 
         $refundedBills = RefundedBill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
+        ->when($statuses, function ($q) use ($statuses) {
+            $q->whereIn('status', $statuses);
+        })
         ->when($request->keyword, function ($q) use ($request) {
             $q->whereLike(['number'], str_replace("CN", "", $request->keyword));
         })
@@ -79,7 +82,7 @@ class BillController extends Controller
             $q->whereDate('created_at', '>=', Carbon::parse($date_start))
                 ->whereDate('created_at', '<=', Carbon::parse($date_to));
         })
-        ->select('id', DB::raw("CONCAT('CN', number) as number"), DB::raw("'Credit Note' as customer_name"), 'amount as sub_total', DB::raw("'0' as vat"), DB::raw("'0' as discount"), DB::raw("'credit_note' as status"), 'created_at', DB::raw("'refundedbills' as model"));
+        ->select('id', DB::raw("CONCAT('CN', number) as number"), DB::raw("'Credit Note' as customer_name"), 'amount as sub_total', DB::raw("'0' as vat"), DB::raw("'0' as discount"), 'status', 'method', 'created_at', DB::raw("'refundedbills' as model"));
 
         $mergedBills = $bills->union($refundedBills)->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
 
@@ -392,6 +395,8 @@ class BillController extends Controller
 
         $bill = Bill::find($id);
 
+        $method = $bill->getRefundedMethod();
+
         if ($request->type == 'partial_refund') {
             $bill->setPartialRefunded($request->amount);
             
@@ -399,6 +404,8 @@ class BillController extends Controller
                 'bill_id' => $bill->id,
                 'user_id' => $bill->user_id,
                 'amount' => $request->amount,
+                'status' => 'cn_refunded',
+                'method' => $method,
             ]);
     
             $refundedBill->number = $refundedBill->getNumber();
@@ -411,6 +418,8 @@ class BillController extends Controller
                     'bill_id' => $bill->id,
                     'user_id' => $bill->user_id,
                     'amount' => $bill->total,
+                    'status' => 'cn_refunded',
+                    'method' => $method,
                 ]);
         
                 $refundedBill->number = $refundedBill->getNumber();
