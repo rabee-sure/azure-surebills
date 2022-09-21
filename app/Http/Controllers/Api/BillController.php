@@ -449,6 +449,12 @@ class BillController extends Controller
 
         $bill = Bill::find($id);
 
+        if(!$bill->is_able_refund){
+            return response()->json(['error' => [
+                'refund' => __("You can't refund this bill now please try again later")
+            ]], 400);
+        }
+
         $validator->after(function ($validator) use($bill){
             $otherDate = Carbon::now()->subDays(14);
 
@@ -462,6 +468,8 @@ class BillController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
 
+        $method = $bill->getRefundedMethod();
+
         if($request->type == 'partial_refund'){
             $bill->setPartialRefunded($request->amount);
 
@@ -469,6 +477,9 @@ class BillController extends Controller
                 'bill_id' => $bill->id,
                 'user_id' => $bill->user_id,
                 'amount' => $request->amount,
+                'status' => 'cn_refunded',
+                'method' => $method,
+                
             ]);
     
             $refundedBill->number = $refundedBill->getNumber();
@@ -480,6 +491,8 @@ class BillController extends Controller
                     'bill_id' => $bill->id,
                     'user_id' => $bill->user_id,
                     'amount' => $bill->total,
+                    'status' => 'cn_refunded',
+                    'method' => $method,
                 ]);
         
                 $refundedBill->number = $refundedBill->getNumber();
