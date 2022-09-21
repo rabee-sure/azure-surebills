@@ -17,6 +17,8 @@ class RefundedBill extends Model
         'bill_id',
         'user_id',
         'amount',
+        'status',
+        'method',
     ];
 
     public function scopeUserId($query, $value)
