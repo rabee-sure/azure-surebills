@@ -58,8 +58,8 @@
               <input name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('Additional ID')}}">
           </div>
           <div class="form-group mb-3">
-              <label for="vat_registration_number" class="d-block mb-1">{{__('vat Registration Number (optional)')}}</label>
-              <input name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('vat Registration Number (optional)')}}">
+              <label for="vat_registration_number" class="d-block mb-1">{{__('Vat Registration Number (optional)')}}</label>
+              <input name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('Vat Registration Number (optional)')}}">
           </div>
         @endif
       </div>
