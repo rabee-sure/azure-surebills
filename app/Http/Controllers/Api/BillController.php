@@ -449,6 +449,12 @@ class BillController extends Controller
 
         $bill = Bill::find($id);
 
+        if(!$bill->is_able_refund){
+            return response()->json(['error' => [
+                'refund' => __("You can't refund this bill now please try again later")
+            ]], 400);
+        }
+
         $validator->after(function ($validator) use($bill){
             $otherDate = Carbon::now()->subDays(14);
 

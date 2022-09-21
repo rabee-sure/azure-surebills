@@ -181,6 +181,7 @@ class Bill extends Model
             && $this->user->able_refund
             && $this->total > 0
             && ($this->paid_at && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')))
+            && $this->bill_paid
             && !$this->has_pending_refund;
     }
 
@@ -198,6 +199,16 @@ class Bill extends Model
             ->count();
 
         return $pending_refund > 0 ? true : false;
+    }
+
+    public function getBillPaidAttribute()
+    {
+        $bill_paied = PaymentLog::where('payment_method', 'mastercard_pay')
+            ->where('webhook_response_received', true)
+            ->where('bill_id', $this->id)
+            ->count();
+
+        return $bill_paied > 0 ? true : false;
     }
 
     /**
