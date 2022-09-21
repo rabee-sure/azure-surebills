@@ -395,6 +395,10 @@ class BillController extends Controller
 
         $bill = Bill::find($id);
 
+        if(!$bill->is_able_refund){
+            return redirect()->back()->withErrors(['refund' => __("You can't refund this bill now please try again later")]);
+        }
+
         $method = $bill->getRefundedMethod();
 
         if ($request->type == 'partial_refund') {
