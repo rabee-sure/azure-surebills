@@ -46,7 +46,17 @@
           <p class="d-block mb-0">{{  $refundedbill->bill->user->business_address }}</p>
           <b class="d-block fw-normal mb-2">{{  $refundedbill->bill->user->business_mobile }}</b>
         </div><!-- aboutUser -->
-        
+
+        <div id="status">
+          @if($refundedbill->method == 'online')
+            <div class="alert alert-warning text-center"> {{ __('Refunded') }}</div>
+          @elseif($refundedbill->method == 'cash')
+            <div class="alert alert-warning text-center"> {{ __('Refunded Cash') }}</div>
+          @elseif($refundedbill->method == 'bank_transfer')
+            <div class="alert alert-warning text-center"> {{ __('Refunded Bank Transfer') }}</div>
+          @endif
+        </div><!-- status -->
+
         <div class="billInfo pt-2 mt-2 borderTop">
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Credit Note Date') }}</span>
@@ -59,7 +69,7 @@
           
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Invoice Number') }}</span>
-            <span class="d-block mb-2">{{ $refundedbill->bill->number }}</span>
+            <a href="{{route('bills.show', $refundedbill->bill)}}" title="{{__('Bill')}} {{ $refundedbill->bill->number }} - {{ $refundedbill->bill->customer_name}}" target="_blank"><span class="d-block mb-2">{{ $refundedbill->bill->number }}</span></a>
           </div><!-- d-flex -->
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Invoice Date') }}</span>

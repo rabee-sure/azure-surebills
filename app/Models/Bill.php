@@ -917,4 +917,25 @@ class Bill extends Model
     public function refundedBills(){
         return $this->hasMany(RefundedBill::class);
     }
+
+    public function getRefundedMethod(){
+        $method = '';
+        switch ($this->status) {
+            case 'paid':
+                $method = 'online';
+                break;
+            case 'paid_cash':
+                $method = 'cash';
+                break;
+            case 'paid_bank_transfer':
+                $method = 'bank_transfer';
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+        return $method;
+    }
 }

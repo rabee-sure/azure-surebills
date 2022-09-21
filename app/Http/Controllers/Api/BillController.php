@@ -462,6 +462,8 @@ class BillController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
 
+        $method = $bill->getRefundedMethod();
+
         if($request->type == 'partial_refund'){
             $bill->setPartialRefunded($request->amount);
 
@@ -469,6 +471,9 @@ class BillController extends Controller
                 'bill_id' => $bill->id,
                 'user_id' => $bill->user_id,
                 'amount' => $request->amount,
+                'status' => 'cn_refunded',
+                'method' => $method,
+                
             ]);
     
             $refundedBill->number = $refundedBill->getNumber();
@@ -480,6 +485,8 @@ class BillController extends Controller
                     'bill_id' => $bill->id,
                     'user_id' => $bill->user_id,
                     'amount' => $bill->total,
+                    'status' => 'cn_refunded',
+                    'method' => $method,
                 ]);
         
                 $refundedBill->number = $refundedBill->getNumber();

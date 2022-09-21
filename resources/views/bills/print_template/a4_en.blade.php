@@ -28,7 +28,7 @@
   <div id="status" class="my-3">
     @if($bill->status == 'expired')
       <div class="alertMsg text-center fw-bold expired"> {{ __('this bill has been expired', ['number' => $bill->number ], $lang) }}</div>
-    @elseif($bill->status == 'paid')
+    @elseif(in_array($bill->status, ['paid', 'refunded']))
       <div class="alertMsg text-center fw-bold paid">
         @if ($bill->depositTransaction)
           {{ __('Paid', [], $lang) }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
@@ -36,9 +36,9 @@
           {{ __('this bill has been successfully', ['number' => $bill->number ], $lang) }}
         @endif
       </div>
-    @elseif($bill->status == 'paid_cash')
+    @elseif(in_array($bill->status, ['paid_cash', 'refunded_cash']))
       <div class="alertMsg text-center fw-bold paid"> {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ], $lang) }}</div>
-    @elseif($bill->status == 'paid_bank_transfer')
+    @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
       <div class="alertMsg text-center fw-bold paid"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ], $lang) }}</div>
     @elseif($bill->status == 'canceled')
       <div class="alertMsg text-center fw-bold canceled"> {{ __('this bill has been canceled', ['number' => $bill->number ], $lang) }}</div>

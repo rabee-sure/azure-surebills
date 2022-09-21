@@ -22,6 +22,16 @@
     <p class="d-block mb-0">{{  $refundedBill->bill->user->business_address }}</p>
     <b class="d-block fw-normal" dir="ltr">{{  $refundedBill->bill->user->business_mobile }}</b>
   </div><!-- aboutUser -->
+
+  <div id="status" class="my-3">
+    @if($refundedBill->method == 'online')
+      <div class="alertMsg text-center fw-bold refunded"> {{ __('Refunded', [], $lang) }}</div>
+    @elseif($refundedBill->method == 'cash')
+      <div class="alertMsg text-center fw-bold refunded"> {{ __('Refunded Cash', [], $lang) }}</div>
+    @elseif($refundedBill->method == 'bank_transfer')
+      <div class="alertMsg text-center fw-bold refunded"> {{ __('Refunded Bank Transfer', [], $lang) }}</div>
+    @endif
+  </div><!-- status -->
   
   <div class="billInfo pt-2 mt-2 borderTop">
     <div class="d-flex align-items-center justify-content-between">

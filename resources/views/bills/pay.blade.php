@@ -40,7 +40,7 @@
           <div id="status">
             <div class="alert alert-danger"> {{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
-        @elseif($bill->status == 'paid')
+        @elseif(in_array($bill->status, ['paid', 'refunded']))
           <div id="status">
             <div class="alert alert-success">
               @if ($bill->depositTransaction)
@@ -50,11 +50,11 @@
               @endif
             </div>
           </div><!-- status -->
-        @elseif($bill->status == 'paid_cash')
+        @elseif(in_array($bill->status, ['paid_cash', 'refunded_cash']))
           <div id="status">
             <div class="alert alert-success"> {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
-        @elseif($bill->status == 'paid_bank_transfer')
+        @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
           <div id="status">
             <div class="alert alert-success"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
@@ -66,10 +66,10 @@
           <div id="status">
             <div class="alert alert-danger"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
-        @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
+        {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
           <div id="status">
             <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
-          </div><!-- status -->
+          </div><!-- status --> --}}
         @endif
         @if($errors->any())
           <div class="anyErrors alert alert-danger" role="alert">{{ __($errors->first()) }}</div>
