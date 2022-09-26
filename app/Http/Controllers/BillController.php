@@ -417,12 +417,13 @@ class BillController extends Controller
             $refundedBill->save();
 
         } else if ($bill->is_able_total_refund) {
+            $totalRefundAmount = $bill->total;
             if ($bill->setRefunded()) {
 
                 $refundedBill = RefundedBill::create([
                     'bill_id' => $bill->id,
                     'user_id' => $bill->user_id,
-                    'amount' => $bill->total,
+                    'amount' => $totalRefundAmount,
                     'status' => 'cn_refunded',
                     'method' => $method,
                     'customer_name' => $bill->customer_name
