@@ -116,11 +116,11 @@ class Statement extends Resource
                 ]),
 
             Text::make(__('Amount'), 'amount', function () {
-                return round($this->amount, 2);
+                return $this->amount;
             }),
 
             Text::make(__('Balance'), 'balance', function () {
-                return fact_number(round($this->balance, 2));
+                return $this->balance;
             }),
 
             BelongsTo::make(__('Merchant'), 'user', User::class)->searchable(),
