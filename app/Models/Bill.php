@@ -177,12 +177,19 @@ class Bill extends Model
      */
     public function getIsAbleRefundAttribute()
     {
-        return in_array($this->status, ['paid', 'paid_cash', 'paid_bank_transfer'])
-            && $this->user->able_refund
+        $ableToRefund = false;
+        
+        if(in_array($this->status, ['paid', 'paid_cash', 'paid_bank_transfer'])){
+            $ableToRefund = $this->user->able_refund
             && $this->total > 0
             && ($this->paid_at && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')))
-            && $this->bill_paid
             && !$this->has_pending_refund;
+            if($this->status == 'paid'){
+                $ableToRefund = $ableToRefund && $this->bill_paid;
+            }
+
+        }
+        return $ableToRefund;
     }
 
     /**
