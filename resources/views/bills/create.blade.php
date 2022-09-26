@@ -142,8 +142,8 @@
                 </div><!-- col -->
                 <div class="col-12 col-md-6 col-lg-4">
                   <div class="form-group mb-3">
-                    <label for="vat_registration_number" class="d-block mb-2">{{__('Vat Registration Number (optional)')}}</label>
-                    <input value="{{ old('vat_registration_number') }}"  name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('Vat Registration Number (optional)')}}">
+                    <label for="vat_registration_number" class="d-block mb-2">{{__('VAT Registration Number (optional)')}}</label>
+                    <input value="{{ old('vat_registration_number') }}"  name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('VAT Registration Number (optional)')}}">
                   </div><!-- form-group -->
                 </div><!-- col -->
               </div><!-- row -->
