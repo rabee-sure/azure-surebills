@@ -60,6 +60,8 @@ class PaymentLog extends Model
      */
     public function refund($amount)
     {
+        \Log::channel('refunded_transactions')->info("refunded transaction from paymentLog model in refund method", array($this->bill->id, $amount));
+
         if ($amount > $this->bill->total) {
             session(['refund_error' => __('Amount is more than bill paid amount.')]);
             return false;
@@ -98,6 +100,7 @@ class PaymentLog extends Model
         $payment->save();
 
         if (isset($response['response']) && isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] == 'APPROVED') {
+            \Log::channel('refunded_transactions')->info("refunded transaction from mastercard rescponse", array($response['order']['amount']));
             // update refunded amount
             $this->refunded_amount += $amount;
             $this->save();
