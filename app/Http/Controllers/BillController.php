@@ -392,8 +392,9 @@ class BillController extends Controller
      */
     public function refund($id, RefundRequest $request)
     {
-
         $bill = Bill::find($id);
+
+        \Log::channel('refunded_transactions')->info("refunded transaction from BillController at refund method ", array($bill->id, $request->amount));
 
         if(!$bill->is_able_refund){
             return redirect()->back()->withErrors(['refund' => __("You can't refund this bill now please try again later")]);
