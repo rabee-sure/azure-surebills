@@ -28,10 +28,10 @@ class BillController extends Controller
     public function __construct()
     {
         $this->middleware('permission:show bills', ['only' => ['index','show']]);
-        $this->middleware('permission:create bills', ['only' => ['create','store']]);
+        $this->middleware(['permission:create bills', 'verified.user'], ['only' => ['create','store']]);
         $this->middleware('permission:change bill status', ['only' => ['changeStatus']]);
-        $this->middleware('permission:refund bill', ['only' => ['refund']]);
-        $this->middleware('permission:cancel bill', ['only' => ['cancel']]);
+        $this->middleware(['permission:refund bill', 'verified.user'], ['only' => ['refund']]);
+        $this->middleware(['permission:cancel bill', 'verified.user'], ['only' => ['cancel']]);
 
         $this->masterCardService = new MasterCardService();
     }
