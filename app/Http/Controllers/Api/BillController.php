@@ -448,6 +448,12 @@ class BillController extends Controller
         ]);
 
         $bill = Bill::find($id);
+        
+        if($request->amount > $bill->user->balance){
+            return response()->json(['error' => [
+                'refund' => __("Quantity must be less than or equal to the user's balance")
+            ]], 400);
+        }
 
         if(!$bill->is_able_refund){
             return response()->json(['error' => [
@@ -500,11 +506,8 @@ class BillController extends Controller
                 $refundedBill->number = $refundedBill->getNumber();
                 $refundedBill->save();
             }
-        }else{
-            return response()->json(['error' => [
-                'refund' => __("Quantity must be less than or equal to the user's balance")
-            ]], 400);
         }
+
         return new BillResource($bill);
     }
 }
