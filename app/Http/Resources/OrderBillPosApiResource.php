@@ -29,6 +29,7 @@ class OrderBillPosApiResource extends JsonResource
             'bill_status' => $this->status,
             'reference_id' => $this->reference_id,
             'pay_url' => $this->when($this->is_pending, $this->pay_url),
+            'tax_invoice_url' => route('invoice', ['id' => $this->pay_id]),
             'qr_code' => $qr_code ?? null,
             'payment_way' => $this->payment_way,
             'sub_total' => $this->sub_total,
