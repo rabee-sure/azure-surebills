@@ -445,7 +445,6 @@ class BillController extends Controller
 
     public function masterCardWebHookResponse(Request $request)
     {
-        \Log::channel('refunded_transactions')->info("refunded transaction request from webhook", array($request));
         return $this->masterCardService->handleWebhook($request);
     }
 

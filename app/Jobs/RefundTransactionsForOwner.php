@@ -80,6 +80,7 @@ class RefundTransactionsForOwner
             $transaction->save();
         }
 
-
+        $this->log->webhook_response_received = true;
+        $this->log->save();
     }
 }
