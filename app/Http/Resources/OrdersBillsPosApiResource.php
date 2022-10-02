@@ -42,6 +42,7 @@ class OrdersBillsPosApiResource extends JsonResource
             'bill_status' => $this->status,
             'reference_id' => $this->reference_id,
             'pay_url' => $this->when($this->is_pending, $this->pay_url),
+            'tax_invoice_url' => route('invoice', ['id' => $this->pay_id]),
             'total' => $this->total,
             'title' => $this->bill_title,
             'created_at' => date('Y-m-d H:i:s', strtotime($this->created_at)),
