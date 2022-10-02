@@ -394,6 +394,10 @@ class BillController extends Controller
     {
         $bill = Bill::find($id);
 
+        if($request->amount > $bill->user->balance){
+            return redirect()->back()->withErrors(['refund' => __("Quantity must be less than or equal to the user's balance")]);
+        }
+
         \Log::channel('refunded_transactions')->info("refunded transaction from BillController at refund method ", array($bill->id, $request->amount));
 
         if(!$bill->is_able_refund){
@@ -435,8 +439,6 @@ class BillController extends Controller
 
                 return redirect()->back();
             }
-        } else {
-            return redirect()->back()->withErrors(['refund' => __("Quantity must be less than or equal to the user's balance")]);
         }
 
         return redirect()->back()->withErrors(['refund' => session('refund_error')]);
