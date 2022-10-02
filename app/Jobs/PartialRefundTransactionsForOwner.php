@@ -62,6 +62,8 @@ class PartialRefundTransactionsForOwner
         $transaction->transaction_source = 'refund';
         $transaction->order = $order_max+1;
         $transaction->save();
+
+        \Log::channel('refunded_transactions')->info("refunded transaction from job PartialRefundTransactionsForOwner", array($this->bill->id, $this->amount));
         
         if($this->bill->user->able_refund_with_fees){
             //withdrawBillFees
@@ -88,5 +90,8 @@ class PartialRefundTransactionsForOwner
             $transaction->order = $order_max+2;
             $transaction->save();
         }
+
+        $this->log->webhook_response_received = true;
+        $this->log->save();
     }
 }
