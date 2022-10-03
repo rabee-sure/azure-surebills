@@ -91,7 +91,7 @@ class RegisterController extends Controller
         event(new UserCreated($user));
         $user->sendMobileCode();
 
-        if(auth()->user()->source == 'pos')
+        if($user->source == 'pos')
         {
             $user->assignRole('pos super admin');
         }
