@@ -282,6 +282,13 @@ class User extends Authenticatable implements HasMedia
      */
     public function getIsCompleteProfileAttribute()
     {
+        if($this->source == 'pos')
+        {
+            return ((isset($this->business_name_en) && !empty($this->business_name_en) &&
+                isset($this->business_address) && !empty($this->business_address) &&
+                isset($this->business_address) && !empty($this->business_address)));
+        }
+
         return ((isset($this->business_name_en) && !empty($this->business_name_en) &&
             isset($this->business_address) && !empty($this->business_address) &&
             isset($this->business_address) && !empty($this->business_address) &&
@@ -290,13 +297,6 @@ class User extends Authenticatable implements HasMedia
             isset($this->iban_number) && !empty($this->iban_number) &&
             isset($this->beneficiary_name) && !empty($this->beneficiary_name)) ||
             $this->mainStoreUser);
-    }
-
-    public function getIsPosCompleteProfileAttribute()
-    {
-        return ((isset($this->business_name_en) && !empty($this->business_name_en) &&
-            isset($this->business_address) && !empty($this->business_address) &&
-            isset($this->business_address) && !empty($this->business_address)));
     }
 
     /**

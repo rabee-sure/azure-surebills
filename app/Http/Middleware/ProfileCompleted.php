@@ -19,7 +19,7 @@ class ProfileCompleted
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            if((auth()->user()->is_complete_profile && auth()->user()->source == 'sure bills') || (auth()->user()->is_pos_complete_profile && auth()->user()->source == 'pos')){
+            if(auth()->user()->is_complete_profile){
                 return $next($request);
             }else{
                 return redirect('account');
