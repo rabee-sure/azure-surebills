@@ -45,6 +45,8 @@ Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
 Auth::routes();
 Route::get('login-by-secret/{secret}/{secret2}', 'FandaqahOperationsController@loginBySecret');
 
+Route::get('redirect/to/products/via/pos/{uuid}', 'PosController@redirectToProductsViaPos')->name('redirect.to.products.via.pos');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
     Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
@@ -118,7 +120,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('transfers/{transfer}/transactions', 'TransferController@transactions')->name('transfer.transactions');
 
     Route::post('transfers/request', 'TransferController@request')->name('transfers.request');
-    
+
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/terms', 'HomeController@terms');
@@ -198,13 +200,13 @@ Route::middleware(config('nova.middleware', []))->group(function () {
 
     Route::get('transfers/all', 'TransferController@all');
 
-    /**this routes moved from ['auth', 'mobile.verified', 'profile.completed'] middleware 
-     * to config('nova.middleware', []) middleware because it used on nova and nova after apply users and admins features 
-     * nova didn't have any "mobile verified" and "profile completed" middlewares 
+    /**this routes moved from ['auth', 'mobile.verified', 'profile.completed'] middleware
+     * to config('nova.middleware', []) middleware because it used on nova and nova after apply users and admins features
+     * nova didn't have any "mobile verified" and "profile completed" middlewares
      * so please if any one need to use route in nova
-     * 
+     *
      * we need to ask amr for this middleware security
-     */ 
+     */
     Route::post('transfers', 'TransferController@store');
     Route::put('transfers/change_status', 'TransferController@changeStatus');
     Route::put('transfers/{transfer}/cancel', 'TransferController@cancel');

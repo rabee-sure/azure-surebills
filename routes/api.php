@@ -98,6 +98,7 @@ Route::prefix('v1')->group(function () {
 		Route::get('getBill/{id}', 'PosController@getBill');
 		Route::post('sendBillByEmail', 'PosController@sendBillByEmail');
 		Route::post('setPosUserSetting', 'PosController@setUserSetting');
+        Route::post('redirectToBillsProducts', 'PosController@redirectToBillsProducts');
   });
 
     // Route::post('fandaqah-register', 'UserController@registerFandaqah');
