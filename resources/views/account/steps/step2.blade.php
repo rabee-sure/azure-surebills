@@ -167,11 +167,11 @@
       </div><!-- row -->
       <div class="btnsArea d-flex align-items-center justify-content-center flex-wrap border-top pt-3">
         <a id="previous" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" href="/account?previous=1">{{__('Previous')}}</a>
-        {{-- @if(auth()->user()->source == 'sure bills') --}}
+        @if(auth()->user()->source == 'sure bills')
             <button  id="next" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" type="submit">{{__('Next')}}</button>
-        {{-- @else --}}
+        @else
             <button class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" type="submit">{{__('Finish')}}</button>
-        {{-- @endif --}}
+        @endif
       </div><!-- btnsArea -->
     </form>
   </div><!-- blockStep2 -->
