@@ -474,6 +474,7 @@
 	"Bank Transaction ID": "رقم العملية في البنك",
 	"Vat": "ضريبة",
 	"VAT Registration Number": "الرقم الضريبي",
+	"VAT Registration Number is required": "الرقم الضريبي مطلوب.",
 	"Pending": "غير مدفوعة",
 	"Failed": "فشل",
 	"Paid": "مدفوعة",

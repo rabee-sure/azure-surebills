@@ -75,4 +75,11 @@
 @push('footer-scripts')
   <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}" defer></script>
   {!! JsValidator::formRequest('App\Http\Requests\BankInformationRequest', '#form') !!}
+
+    @if(auth()->user()->source == 'pos')
+    <script>
+        window.location.href = '/account?previous=2';
+    </script>
+    @endif
+
 @endpush

@@ -68,7 +68,7 @@ class RegisterController extends Controller
                 new PasswordRule,
                 'confirmed'
             ],
-            'terms' => 'required'
+            'terms' => 'required',
         ]);
     }
 
@@ -80,11 +80,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $source = app('router')->getRoutes()->match(app('request')->create(url()->previous()))->getName() == 'pos.register' ? 'pos' : 'sure bills';
         $user = User::create([
             'business_name_en' => $data['business_name_en'],
             'name'             => $data['name'],
             'email'            => $data['email'],
             'mobile'           => $data['mobile'],
+            'source'           => $source,
             'password'         => Hash::make($data['password']),
             'able_refund_with_fees' => false,
         ]);

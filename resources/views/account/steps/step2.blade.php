@@ -16,10 +16,12 @@
       <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm">2</span>
       <p class="d-block text-center mb-0 mt-2">{{ __('Business Information') }}</p>
     </div><!-- item -->
+    @if(auth()->user()->source == 'sure bills')
     <div class="item d-flex align-items-center justify-content-center flex-column">
       <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm">3</span>
       <p class="d-block text-center mb-0 mt-2">{{ __('Bank Information') }}</p>
     </div><!-- item -->
+    @endif
   </div><!-- stepsArea -->
   @if ($errors->any())
       <div class="alert alert-danger">
@@ -37,7 +39,7 @@
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="license_type" class="d-flex align-items-center justify-content-start mb-2">
-              {{ __('License type') }} 
+              {{ __('License type') }}
               <button class="btn-primary border-0 rounded-circle shadow-none p-0 d-flex align-items-center justify-content-center" type="button" data-bs-toggle="modal" data-bs-target=".license_type_modal"><i class="fas fa-question"></i></button>
             </label>
             <select id="license_type" name="license_type" class="form-control rounded-3 shadow-none border select2-single">
@@ -68,7 +70,13 @@
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
-            <label for="vat_registration_number" class="d-block mb-2">{{ __('VAT Registration Number') }} <small class="d-inline-block text-secondary">( {{ __('optional') }} )</small></label>
+            <label for="vat_registration_number" class="d-block mb-2">{{ __('VAT Registration Number') }}
+                @if(auth()->user()->source == 'sure bills')
+                <small class="d-inline-block text-secondary">( {{ __('optional') }} )</small>
+                @else
+                <span class="requirement text-danger">*</span>
+                @endif
+            </label>
             <input value="@if($errors->any()){{old('vat_registration_number')}}@else{{$user->vat_registration_number}}@endif" name="vat_registration_number" type="text" class="form-control rounded-3 shadow-none border" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
           </div><!-- form-group -->
         </div><!-- col-12 -->
@@ -111,6 +119,7 @@
             </div><!-- phoneInput -->
           </div><!-- form-group -->
         </div><!-- col-12 -->
+        @if(auth()->user()->source == 'sure bills')
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="website" class="d-block mb-2">{{ __('Website') }}</label>
@@ -123,6 +132,7 @@
             <input value="@if($errors->any()){{old('sector')}}@else{{$user->sector}}@endif" name="sector" type="text" class="form-control rounded-3 shadow-none border" id="sector" placeholder="{{ __('Sector') }}">
           </div><!-- form-group -->
         </div><!-- col-12 -->
+        @endif
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="logo" class="d-block mb-2">{{ __('Logo') }}</label>
@@ -147,15 +157,21 @@
             </div><!-- form-group -->
           </div><!-- col-12 -->
         @endif
+        @if(auth()->user()->source == 'sure bills')
         <div class="col-12">
           <span class="d-block fw-bold fs-6 text-body mb-1">{{ __('Upload the required documents') }}</span>
           <p class="d-block mb-3 text-secondary">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
           @include('components.dropzone',['documents' => auth()->user()->business_documents->toArray()])
         </div><!-- col-12 -->
+        @endif
       </div><!-- row -->
       <div class="btnsArea d-flex align-items-center justify-content-center flex-wrap border-top pt-3">
         <a id="previous" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" href="/account?previous=1">{{__('Previous')}}</a>
-        <button  id="next" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" type="submit">{{__('Next')}}</button>
+        {{-- @if(auth()->user()->source == 'sure bills') --}}
+            <button  id="next" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" type="submit">{{__('Next')}}</button>
+        {{-- @else --}}
+            <button class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" type="submit">{{__('Finish')}}</button>
+        {{-- @endif --}}
       </div><!-- btnsArea -->
     </form>
   </div><!-- blockStep2 -->
@@ -184,10 +200,10 @@
     $('#logo').bind('change', function () {
       var filename = $("#logo").val();
       if (/^\s*$/.test(filename)) {
-        $(".fileName").text("No file chosen..."); 
+        $(".fileName").text("No file chosen...");
       }
       else {
-        $(".fileName").text(filename.replace("C:\\fakepath\\", "")); 
+        $(".fileName").text(filename.replace("C:\\fakepath\\", ""));
       }
     });
 

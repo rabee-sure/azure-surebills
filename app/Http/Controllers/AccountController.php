@@ -233,7 +233,14 @@ class AccountController extends Controller
 
         session()->put($businessInfo->id.'_complete_profile_step_2', true);
 
-        return redirect('/account');
+        if(auth()->user()->source == 'sure bills')
+        {
+            return redirect('/account');
+        }
+        else
+        {
+            return redirect('/');
+        }
     }
 
     /**
