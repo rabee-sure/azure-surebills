@@ -238,7 +238,7 @@ class Bill extends Model
     {
         if ($this->status == 'paid') {
             $with_fees = $this->is_able_refund && round($this->due_to_client) <= round($this->user->actual_balance);
-            $without_fees = $this->is_able_refund && $this->sub_total <= $this->user->actual_balance;
+            $without_fees = $this->is_able_refund && $this->total <= $this->user->actual_balance;
 
             return $this->user->able_refund_with_fees ? $with_fees : $without_fees;
         } else {
