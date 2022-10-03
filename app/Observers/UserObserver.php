@@ -23,7 +23,7 @@ class UserObserver
     public function created(User $user)
     {
         $this->letUserSuperAdmin($user);
-        
+
         SetNewMerchantSettings::dispatch($user);
     }
 
@@ -41,10 +41,10 @@ class UserObserver
     public function updated(User $user)
     {
         event(new UserUpdated($user));
-        
+
         if(Auth::guard('admins')->check()){
             $fieldsArr = config('userfields');
-    
+
             foreach($fieldsArr as $groupKey => $fieldsGroup){
                 $fieldsChanges = [];
                 if($user->isDirty($fieldsGroup)){
@@ -57,8 +57,8 @@ class UserObserver
                         }
                     }
                     event(new AddActionLogEvent(
-                        'user_update', 
-                        Auth::id(), 
+                        'user_update',
+                        Auth::id(),
                         [
                             'message' => [
                                 'username' => $user->name,
@@ -67,8 +67,8 @@ class UserObserver
                                 'time' => $user->updated_at,
                             ],
                             'changes' => $fieldsChanges,
-                        ], 
-                        $user->id, 
+                        ],
+                        $user->id,
                         User::class
                     ));
                 }
@@ -76,17 +76,17 @@ class UserObserver
         }
         if($user->isDirty('verified')){
             UserVerifiedChanged::dispatch($user);
-            
+
             if(Auth::guard('admins')->check()){
                 event(new AddActionLogEvent(
-                    $user->verified ? 'user_approved' : 'user_unapproved', 
-                    Auth::id(), 
+                    $user->verified ? 'user_approved' : 'user_unapproved',
+                    Auth::id(),
                     ['message' => [
                         'username' => $user->name,
                         'adminname' => Auth::user()->name,
                         'time' => $user->updated_at
-                    ]], 
-                    $user->id, 
+                    ]],
+                    $user->id,
                     User::class
                 ));
             }
@@ -128,7 +128,7 @@ class UserObserver
 
     private function letUserSuperAdmin($user)
     {
-        if(!$user->store_main_user_id)
+        if(!$user->store_main_user_id && $user->source != 'pos')
         {
             $role = Role::where('name', 'super admin')->first();
             $user->assignRole($role->id);
