@@ -471,7 +471,7 @@ class BillController extends Controller
         $method = $bill->getRefundedMethod();
 
         if($request->type == 'partial_refund'){
-            if($request->amount > $bill->user->balance){
+            if($bill->status == 'paid' && $request->amount > $bill->user->balance){
                 return response()->json(['error' => [
                     'refund' => __("Quantity must be less than or equal to the user's balance")
                 ]], 400);
