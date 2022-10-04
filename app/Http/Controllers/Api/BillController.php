@@ -13,6 +13,7 @@ use App\Models\Application;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\Customer;
+use App\Models\RefundedBill;
 use App\Rules\AmountPartialRefund;
 use App\Rules\AmountPartialRefundGTBalance;
 use Carbon\Carbon;
@@ -448,6 +449,12 @@ class BillController extends Controller
 
         $bill = Bill::find($id);
 
+        if(!$bill->is_able_refund){
+            return response()->json(['error' => [
+                'refund' => __("You can't refund this bill now please try again later")
+            ]], 400);
+        }
+
         $validator->after(function ($validator) use($bill){
             $otherDate = Carbon::now()->subDays(14);
 
@@ -461,16 +468,53 @@ class BillController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
 
+        $method = $bill->getRefundedMethod();
+
         if($request->type == 'partial_refund'){
-            $bill->setPartialRefunded($request->amount);
-        } else if ($bill->is_able_total_refund){
-            if($bill->setRefunded()){
+            if($request->amount > $bill->user->balance){
+                return response()->json(['error' => [
+                    'refund' => __("Quantity must be less than or equal to the user's balance")
+                ]], 400);
             }
-        }else{
-            return response()->json(['error' => [
-                'refund' => __("Quantity must be less than or equal to the user's balance")
-            ]], 400);
+            $bill->setPartialRefunded($request->amount);
+
+            $refundedBill = RefundedBill::create([
+                'bill_id' => $bill->id,
+                'user_id' => $bill->user_id,
+                'amount' => $request->amount,
+                'status' => 'cn_refunded',
+                'method' => $method,
+                'customer_name' => $bill->customer_name
+            ]);
+    
+            $refundedBill->number = $refundedBill->getNumber();
+            $refundedBill->save();
+
+        } else {
+            if ($bill->is_able_total_refund){
+                $totalRefundAmountWithFees = $bill->due_to_client;
+                $totalRefundAmountWithoutFees = $bill->total;
+
+                if($bill->setRefunded()){
+                    $refundedBill = RefundedBill::create([
+                        'bill_id' => $bill->id,
+                        'user_id' => $bill->user_id,
+                        'amount' => $bill->user->able_refund_with_fees ? $totalRefundAmountWithFees : $totalRefundAmountWithoutFees,
+                        'status' => 'cn_refunded',
+                        'method' => $method,
+                        'customer_name' => $bill->customer_name
+                    ]);
+            
+                    $refundedBill->number = $refundedBill->getNumber();
+                    $refundedBill->save();
+                }
+            }else{
+                return response()->json(['error' => [
+                    'refund' => __("Quantity must be less than or equal to the user's balance")
+                ]], 400);
+            }
         }
+
         return new BillResource($bill);
     }
 }

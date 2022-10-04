@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\BillsExportedExcelMail;
+use App\Mail\RefundDuplicationAlertMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,12 +11,11 @@ use Illuminate\Queue\SerializesModels;
 
 use Illuminate\Support\Facades\Mail;
 
-class SendExportedBillsMailsJob implements ShouldQueue
+class SendAlertMailForDuplicationRefund implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $file_name;
-    protected $email;
+    protected $bill_id;
 
 
     /**
@@ -24,10 +23,9 @@ class SendExportedBillsMailsJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($file_name, $email)
+    public function __construct($bill_id)
     {
-        $this->file_name = $file_name;
-        $this->email = $email;
+        $this->bill_id = $bill_id;
     }
     
     /**
@@ -37,7 +35,7 @@ class SendExportedBillsMailsJob implements ShouldQueue
      */
     public function handle()
     {
-        $message = (new BillsExportedExcelMail($this->file_name));
-        Mail::to($this->email)->send($message);
+        $message = (new RefundDuplicationAlertMail($this->bill_id));
+        Mail::to(['mzain@sure.com.sa', 'abmostafa@surepay.sa'])->send($message);
     }
 }

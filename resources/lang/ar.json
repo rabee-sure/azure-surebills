@@ -10,17 +10,17 @@
 	"Refunded Bank Transfer": "استردت بتحويل بنكي",
 	"Refunded Cash": "استردت نقدي",
 
-	"vat_registration_number": "رقم التسجيل الضريبي",
+	"VAT Registration Number (optional)": "رقم التسجيل الضريبي (إختياري)",
 	"Change Status": "تغيير الحالة",
 	"Are you Sure to Change Status ?": "تغيير حالة السداد",
 
-	"bullding_no":"رقم المبني",
-    "street_name":"اسم الشارع",
-    "district":"الحي",
+	"Building Number":"رقم المبني",
+    "Street Name":"اسم الشارع",
+    "District":"الحي",
     "City":"المدينة",
-    "postal_code":"الرمز البريدي",
-    "additional_no":"الرقم الاضافي للعنوان",
-    "other_buyer_id":"معرف آخر",
+    "Postal Code":"الرمز البريدي",
+    "Additional Number":"الرقم الاضافي للعنوان",
+    "Additional ID":"معرف آخر",
     "Roles": "الأدوار",
     "Permissions": "الصلاحيات",
     "No roles": "لا يوجد أدوار",
@@ -48,6 +48,7 @@
 	"cycle date": "التاريخ الدوري",
 	"Cycle Date": "التاريخ الدوري",
 	"Quantity must be less than or equal to the user's balance": "الكميه يجب ان تكون اصغر من  او يساوي رصيد المستخدم",
+	"You can't refund this bill now please try again later" : "لا يمكنك استرداد الفاتورة الان برجاء المحاولة لاحقا!",
 	"Transaction Source": "مصدر العملية",
 	"Bank account information has not been sent": "لم يتم ارسال معلومات الحساب البنكي",
 	"No business information sent": "لم يتم ارسال معلومات النشاط التجاري",
@@ -887,6 +888,17 @@
     "merchant name": "اسم التاجر",
     "You have no departments at the moment": "لا يوجد لديك أقسام حالياً",
     "You have no products at the moment": "لا يوجد لديك منتجات حالياً",
-    "Hide the additional information of the orgianization in the payment URL": "إلغاء معلومات المنشأة الإضافية في رابط الدفع وتبسيطه"
+    "Hide the additional information of the orgianization in the payment URL": "إلغاء معلومات المنشأة الإضافية في رابط الدفع وتبسيطه",
+	"Credit Notes" : "الإشعارات الدائنة",
+	"Credit Note" : "إشعار دائن",
+	"Credit Note No." : "رقم إشعار دائن.",
+	"Credit Note Date" : "تاريخ إشعار الدائن",
+	"Credit Note Number" : "رقم إشعار الدائن",
+	"Invoice Number" : "رقم الفاتورة",
+	"Invoice Date" : "تاريخ الفاتورة",
+	"You have pending refund under proccess! please try again later" : "لديك عملية استرداد معلقة! برجاء إعادة المحاولة في وقت لاحق.",
+  "Tax credit note" : "اشعار دائن ضريبي",
+  "Reference Number" : "الرقم المرجعي"
+
 
 }

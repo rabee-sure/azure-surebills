@@ -125,22 +125,22 @@
             <span>{{ $bill->vat }}</span>
           </div><!-- d-flex -->
           @endif
-          @if( $bill->refund_amount)
+          {{-- @if( $bill->refund_amount)
             <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('Refund Amount') }} ({{ __('SAR') }})</span>
               <span>{{ $bill->refund_amount }}</span>
             </div><!-- d-flex -->
-          @endif
+          @endif --}}
           <div class="d-flex align-items-center justify-content-between">
             <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
-            <span>{{ $bill->total}}</span>
+            <span>{{ $bill->sub_total + $bill->vat - $bill->discount}}</span>
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         @if($bill->status == 'expired')
           <div id="status">
             <div class="alert alert-danger"> {{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
-        @elseif($bill->status == 'paid')
+        @elseif(in_array($bill->status, ['paid', 'refunded']))
           <div id="status">
             <div class="alert alert-success">
               @if ($bill->depositTransaction)
@@ -150,11 +150,11 @@
               @endif
             </div>
           </div><!-- status -->
-        @elseif($bill->status == 'paid_cash')
+        @elseif(in_array($bill->status, ['paid_cash', 'refunded_cash']))
           <div id="status">
             <div class="alert alert-success"> {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
-        @elseif($bill->status == 'paid_bank_transfer')
+        @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
           <div id="status">
             <div class="alert alert-success"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
@@ -166,10 +166,10 @@
           <div id="status">
             <div class="alert alert-danger"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
-        @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
+        {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
           <div id="status">
             <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
-          </div><!-- status -->
+          </div><!-- status --> --}}
         @endif
         @if($bill->user->settings->add_tax_invoice)
           <div class="qrCode_area">

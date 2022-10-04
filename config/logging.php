@@ -114,6 +114,10 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/send_to_sps.log'),
             'level' => 'info',
+        ],'refunded_transactions' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/refunded_transactions.log'),
+            'level' => 'info',
         ]
 
     ],
