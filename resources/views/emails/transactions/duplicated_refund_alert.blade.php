@@ -215,7 +215,7 @@
   <body>
     <div id="mail_wrapper">
       <div class="mail_content">
-      SureBill System found duplicated refund amount in bill {{$bill_id}}
+      SureBill System found duplicated refund transaction amount in bill {{$bill_id}}
         
       </div>
       <div class="copyrights">
@@ -224,3 +224,4 @@
     </div><!-- mail_wrapper -->
   </body>
 </html>
+
