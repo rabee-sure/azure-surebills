@@ -183,6 +183,7 @@ class Bill extends Model
             $ableToRefund = $this->user->able_refund
             && $this->total > 0
             && ($this->paid_at && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')))
+            && $this->has_delayed_refund_transaction
             && !$this->has_pending_refund;
             if($this->status == 'paid'){
                 $ableToRefund = $ableToRefund && $this->bill_paid;
@@ -190,6 +191,11 @@ class Bill extends Model
 
         }
         return $ableToRefund;
+    }
+
+    public function getHasDelayedRefundTransactionAttribute(){
+        $last_refund_transaction = Transaction::where('bill_id', $this->id)->where('transaction_source', 'refund')->orderBy('created_at', 'desc')->first();
+        return $last_refund_transaction->created_at < Carbon::now()->subMinutes(10)->toDateTimeString() ? true : false; 
     }
 
     /**
