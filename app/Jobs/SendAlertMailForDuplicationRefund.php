@@ -36,6 +36,6 @@ class SendAlertMailForDuplicationRefund implements ShouldQueue
     public function handle()
     {
         $message = (new RefundDuplicationAlertMail($this->bill_id));
-        Mail::to(['mzain@sure.com', 'abmostafa@surepay.sa'])->send($message);
+        Mail::to(['mzain@sure.com.sa', 'abmostafa@surepay.sa'])->send($message);
     }
 }
