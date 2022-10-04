@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Services\TransferOperations;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Jobs\UpdateTransferExcelFile;
+use App\Jobs\SendAlertMailForDuplicationRefund;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\CreateTransferExcelFileJob;
 use App\Exports\TransactionsExportQueued;
@@ -143,6 +143,11 @@ class MasterCardService
             $payment->bank_message = $bank_message;
             // $payment->webhook_response_received = true;
             $payment->save();
+
+            $duplicated_refund_transaction = Transaction::where('amount', $response['transaction']['amount'])->where('bill_id', $bill->id)->where('transaction_source', 'refund')->first();
+            if($duplicated_refund_transaction){
+                SendAlertMailForDuplicationRefund::dispatch($duplicated_refund_transaction->bill_id);
+            }
 
             if ($bill->total == $response['transaction']['amount']) {
                 $bill->fireRefundEvent($payment);
