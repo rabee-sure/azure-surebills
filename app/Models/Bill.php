@@ -195,7 +195,11 @@ class Bill extends Model
 
     public function getHasDelayedRefundTransactionAttribute(){
         $last_refund_transaction = Transaction::where('bill_id', $this->id)->where('transaction_source', 'refund')->orderBy('created_at', 'desc')->first();
-        return $last_refund_transaction->created_at < Carbon::now()->subMinutes(10)->toDateTimeString() ? true : false; 
+        if($last_refund_transaction){
+            return $last_refund_transaction->created_at < Carbon::now()->subMinutes(10)->toDateTimeString() ? true : false; 
+        }else{
+            return true;
+        }
     }
 
     /**
