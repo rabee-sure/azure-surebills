@@ -73,7 +73,8 @@ class User extends Authenticatable implements HasMedia
         'city',
         'postal_code',
         'additional_no',
-        'other_buyer_id'
+        'other_buyer_id',
+        'source',
     ];
 
     /**
@@ -281,6 +282,13 @@ class User extends Authenticatable implements HasMedia
      */
     public function getIsCompleteProfileAttribute()
     {
+        if($this->source == 'pos')
+        {
+            return ((isset($this->business_name_en) && !empty($this->business_name_en) &&
+                isset($this->business_address) && !empty($this->business_address) &&
+                isset($this->business_address) && !empty($this->business_address)));
+        }
+
         return ((isset($this->business_name_en) && !empty($this->business_name_en) &&
             isset($this->business_address) && !empty($this->business_address) &&
             isset($this->business_address) && !empty($this->business_address) &&
@@ -691,7 +699,7 @@ class User extends Authenticatable implements HasMedia
             return Auth::user();
         }
     }
-    
+
     public function paymentRecordQuery($request = null){
         $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
@@ -735,18 +743,18 @@ class User extends Authenticatable implements HasMedia
         ->whereIn('offline_transactions.transaction_source', ['bill', 'refund'])
         ->whereDate('offline_transactions.created_at', '>=', Carbon::parse($date_start))
         ->whereDate('offline_transactions.created_at', '<=', Carbon::parse($date_to));
-        
+
         if($request != null){
             if($request->has('transaction_type') && $request->transaction_type != 'all'){
                 $trans_query->where('transactions.type', $request->transaction_type);
                 $off_trans_query->where('offline_transactions.type', $request->transaction_type);
             }
-    
+
             if($request->has('payment_way') && $request->payment_way != 'all'){
                 $trans_query->where('bills.payment_way', $request->payment_way);
                 $off_trans_query->where('bills.payment_way', $request->payment_way);
             }
-    
+
             if($request->has('source') && $request->source != 'all'){
                 $trans_query->where('bills.source', $request->source);
                 $off_trans_query->where('bills.source', $request->source);
@@ -761,7 +769,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     public function merchantSettings(){
-        return $this->hasMany(MerchantSetting::class); 
+        return $this->hasMany(MerchantSetting::class);
     }
 
     public function setMerchantSettings(){
