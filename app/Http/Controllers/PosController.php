@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PosController extends Controller
@@ -75,4 +76,20 @@ class PosController extends Controller
     {
         return view('pos.client');
     }
+
+    public function redirectToProductsViaPos($redirectUuid)
+    {
+        $user = User::where('redirect_uuid', $redirectUuid)->first();
+        if($user)
+        {
+            auth()->logout();
+            auth()->login($user);
+            $user->redirect_uuid = null;
+            $user->save();
+            return redirect(route('products.all'));
+        }
+
+        abort(404, 'Unauthorized');
+    }
+
 }

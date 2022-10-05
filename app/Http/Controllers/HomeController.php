@@ -39,10 +39,10 @@ class HomeController extends Controller
 
         $total_paid_query = clone $bills;
         $total_paid = $total_paid_query->where('status', 'paid')->sum('total');
-        
+
         $total_bills_query = clone $bills;
         $total_bills = $total_bills_query->count();
-        
+
         $total_paid_bills_query = clone $bills;
         $total_paid_bills = $total_paid_bills_query->where('status', 'paid')->count();
 

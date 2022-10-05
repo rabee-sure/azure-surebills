@@ -10,10 +10,12 @@
       <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm">2</span>
       <p class="d-block text-center mb-0 mt-2">{{ __('Business Information') }}</p>
     </div><!-- item -->
+    @if(auth()->user()->source == 'sure bills')
     <div class="item d-flex align-items-center justify-content-center flex-column">
       <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm">3</span>
       <p class="d-block text-center mb-0 mt-2">{{ __('Bank Information') }}</p>
     </div><!-- item -->
+    @endif
   </div><!-- stepsArea -->
   <div class="blockStep1 bg-white rounded-3 shadow-sm p-3">
     <form id="form" method="POST" action="{{ route('account.information') }}" class="m-0">
