@@ -474,6 +474,7 @@
 	"Bank Transaction ID": "رقم العملية في البنك",
 	"Vat": "ضريبة",
 	"VAT Registration Number": "الرقم الضريبي",
+	"VAT Registration Number is required": "الرقم الضريبي مطلوب.",
 	"Pending": "غير مدفوعة",
 	"Failed": "فشل",
 	"Paid": "مدفوعة",
@@ -898,7 +899,8 @@
 	"Invoice Date" : "تاريخ الفاتورة",
 	"You have pending refund under proccess! please try again later" : "لديك عملية استرداد معلقة! برجاء إعادة المحاولة في وقت لاحق.",
   "Tax credit note" : "اشعار دائن ضريبي",
-  "Reference Number" : "الرقم المرجعي"
+  "Reference Number" : "الرقم المرجعي",
+  "Go to store": "الذهاب الى المتجر"
 
 
 }

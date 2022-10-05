@@ -32,6 +32,9 @@
         @can('show product categories')
           <a href="{{ route('categories.all') }}" title="{{ __('Product Sections') }}" class="d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-3">{{ __('Product Sections') }}</a>
         @endcan
+        @if(auth()->user()->source == 'pos')
+            <a href="{{ env('POS_URL') ?? 'https://sandbox-pos.surepay.sa/' }}" title="{{ __('Go to store') }}" class="d-flex btn-secondary mt-3 mt-md-0 border-0 shadow-none align-items-center justify-content-center text-white rounded-3">{{ __('Go to store') }}</a>
+        @endif
       </div><!-- tabsArea -->
     @endcanany
     <div class="title d-flex align-items-center justify-content-between mb-4">
@@ -74,12 +77,12 @@
 @push('footer-scripts')
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-    
+
     $(document).ready(function(){
       var canEdit = '{{$canEdit}}';
       var canDelete = '{{$canDelete}}';
       var base_url = "{{url('/')}}";
-      
+
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),

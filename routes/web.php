@@ -20,6 +20,10 @@ Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->na
 // Route::get('test/bill', 'TestController@bill');
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
+Route::middleware(['guest'])->group(function(){
+    Route::get('pos/register', 'UserController@posRegister')->name('pos.register');
+});
+
 Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
     Route::get('/clients', [
         'uses' => 'ClientController@forUser',

@@ -75,6 +75,8 @@ class User extends Authenticatable implements HasMedia
         'additional_no',
         'other_buyer_id',
         'redirect_uuid',
+        'source',
+
     ];
 
     /**
@@ -282,6 +284,13 @@ class User extends Authenticatable implements HasMedia
      */
     public function getIsCompleteProfileAttribute()
     {
+        if($this->source == 'pos')
+        {
+            return ((isset($this->business_name_en) && !empty($this->business_name_en) &&
+                isset($this->business_address) && !empty($this->business_address) &&
+                isset($this->business_address) && !empty($this->business_address)));
+        }
+
         return ((isset($this->business_name_en) && !empty($this->business_name_en) &&
             isset($this->business_address) && !empty($this->business_address) &&
             isset($this->business_address) && !empty($this->business_address) &&
