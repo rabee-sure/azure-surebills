@@ -49,6 +49,8 @@ Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
 Auth::routes();
 Route::get('login-by-secret/{secret}/{secret2}', 'FandaqahOperationsController@loginBySecret');
 
+Route::get('redirect/to/products/via/pos/{uuid}', 'PosController@redirectToProductsViaPos')->name('redirect.to.products.via.pos');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
     Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');

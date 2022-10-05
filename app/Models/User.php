@@ -74,7 +74,9 @@ class User extends Authenticatable implements HasMedia
         'postal_code',
         'additional_no',
         'other_buyer_id',
+        'redirect_uuid',
         'source',
+
     ];
 
     /**

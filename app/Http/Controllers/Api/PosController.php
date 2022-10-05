@@ -28,7 +28,8 @@ use App\Http\Requests\PosOrderApiRequest;
 use App\Events\BillCreated;
 use App\Events\PosBillPaid;
 use App\Events\PosSendBill;
-
+use App\Http\Requests\PosRedirectToBillsProductsRequest;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class PosController extends Controller
@@ -50,8 +51,8 @@ class PosController extends Controller
 
             $collectionData[$category->id]['type'] = "category";
             $collectionData[$category->id]['name'] = array(
-                'en' => $category->getTranslation('name', 'en'), 
-                'ar' => $category->getTranslation('name', 'ar'), 
+                'en' => $category->getTranslation('name', 'en'),
+                'ar' => $category->getTranslation('name', 'ar'),
             );
             $collectionData[$category->id]['image'] = url('/').''.Storage::url('categories/').''.$category->image;
             $collectionData[$category->id]['sort_number'] = $category->sort_number;
@@ -143,7 +144,7 @@ class PosController extends Controller
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
-        
+
         $products = Product::name($keyword)->owner($owner_id)->get();
 
         return $products;
@@ -236,7 +237,7 @@ class PosController extends Controller
                     'mobile' => $request->customer_mobile,
                     'notes' => $request->customer_notes,
                     'user_id' => $user->id,
-        
+
                     'bullding_no' => $request->customer_bullding_no,
                     'street_name' => $request->customer_street_name,
                     'district' => $request->customer_district,
@@ -245,7 +246,7 @@ class PosController extends Controller
                     'additional_no' => $request->customer_additional_no,
                     'other_buyer_id' => $request->customer_other_buyer_id,
                     'vat_registration_number' => $request->customer_vat_registration_number,
-                ]); 
+                ]);
 
                 $customer_id = $new_customer->id;
                 $customer_name = $new_customer->name;
@@ -262,11 +263,11 @@ class PosController extends Controller
                 $vat_registration_number = $new_customer->vat_registration_number;
             }
         }
-        
+
         $order = PosOrder::create([
             'user_id' => $user->id,
             'business_name' => $user->business_name,
-            
+
             'customer_id' => $customer_id,
             'customer_name' => $customer_name,
             'customer_email' => $customer_email,
@@ -335,7 +336,7 @@ class PosController extends Controller
         $order->total = $sub_total - $discount + $vat;
         $order->save();
 
-        
+
         $bill = DB::transaction(function () use ($order, $request, $authUser) {
             $user = User::find($order->user_id);
 
@@ -345,7 +346,7 @@ class PosController extends Controller
                 case 'posPayOnline':
                     $billStatus = 'pending';
                     break;
-    
+
                 case 'posPayCard':
                     $billStatus = 'paid';
                     $payment_way = 'payment_machine';
@@ -355,7 +356,7 @@ class PosController extends Controller
                     $billStatus = 'paid_cash';
                     $payment_way = 'cash';
                     break;
-                
+
                 default:
                     break;
             }
@@ -512,5 +513,18 @@ class PosController extends Controller
             ];
         }
         return array($pos_settings);
+    }
+
+    public function redirectToBillsProducts(PosRedirectToBillsProductsRequest $request)
+    {
+        $authUser = auth('api')->user();
+        if (Hash::check($request->password, $authUser->password))
+        {
+            $redirectUuid = \Str::uuid();
+            $user = User::where('id', $authUser->id)->update(array('redirect_uuid' => $redirectUuid));
+            return response()->json(['redirect_url' => route('redirect.to.products.via.pos', $redirectUuid)], 200);
+        }
+
+        return response()->json(['authorization' => 'invalid password'], 403);
     }
 }
