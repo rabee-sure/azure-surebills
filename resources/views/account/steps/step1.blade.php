@@ -1,7 +1,7 @@
 @extends('account.account_complete')
 
 @section('steps')
-  <div class="stepsArea d-flex align-items-start justify-content-between position-relative mb-5">
+  <div class="stepsArea d-flex align-items-start justify-content-center position-relative mb-5">
     <div class="item d-flex align-items-center justify-content-center flex-column active">
       <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm">1</span>
       <p class="d-block text-center mb-0 mt-2">{{ __('My Information') }}</p>
