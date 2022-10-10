@@ -21,6 +21,7 @@ class OrderBillPosApiResource extends JsonResource
     {
         if($this->user->settings->add_tax_invoice){
             $qr_code = generateQRcode($this, true);
+            $vatRegistrationNumber = $this->user->vat_registration_number;
         }
 
         return [
@@ -49,6 +50,7 @@ class OrderBillPosApiResource extends JsonResource
                 'mobile' => $this->customer->mobile,
                 'email' => $this->customer->email,
             ],
+            'vat_registration_number' => $vatRegistrationNumber,
         ];
     }
 }
