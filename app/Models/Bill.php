@@ -958,6 +958,15 @@ class Bill extends Model
             case 'paid_bank_transfer':
                 $method = 'bank_transfer';
                 break;
+            case 'refunded':
+                $method = 'online';
+                break;
+            case 'refunded_cash':
+                $method = 'cash';
+                break;
+            case 'refunded_bank_transfer':
+                $method = 'bank_transfer';
+                break;
 
             default:
                 # code...
