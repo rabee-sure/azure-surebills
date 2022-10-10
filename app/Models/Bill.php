@@ -178,7 +178,7 @@ class Bill extends Model
     public function getIsAbleRefundAttribute()
     {
         $ableToRefund = false;
-        
+
         if(in_array($this->status, ['paid', 'paid_cash', 'paid_bank_transfer'])){
             $ableToRefund = $this->user->able_refund
             && $this->total > 0
@@ -196,7 +196,7 @@ class Bill extends Model
     public function getHasDelayedRefundTransactionAttribute(){
         $last_refund_transaction = Transaction::where('bill_id', $this->id)->where('transaction_source', 'refund')->orderBy('created_at', 'desc')->first();
         if($last_refund_transaction){
-            return $last_refund_transaction->created_at < Carbon::now()->subMinutes(10)->toDateTimeString() ? true : false; 
+            return $last_refund_transaction->created_at < Carbon::now()->subMinutes(10)->toDateTimeString() ? true : false;
         }else{
             return true;
         }
@@ -220,7 +220,7 @@ class Bill extends Model
 
     public function getBillPaidAttribute()
     {
-        $bill_paied = PaymentLog::where('payment_method', 'mastercard_pay')
+        $bill_paied = PaymentLog::whereIn('payment_method', ['mastercard_pay','mastercard_applepay'])
             ->where('webhook_response_received', true)
             ->where('bill_id', $this->id)
             ->count();
@@ -767,7 +767,7 @@ class Bill extends Model
             $this->total = 0;
             $this->refunded_at = Carbon::now();
             $this->save();
-            
+
             event(new BillOfflineRefunded($this, $total_remain));
 
             return true;
@@ -958,7 +958,16 @@ class Bill extends Model
             case 'paid_bank_transfer':
                 $method = 'bank_transfer';
                 break;
-            
+            case 'refunded':
+                $method = 'online';
+                break;
+            case 'refunded_cash':
+                $method = 'cash';
+                break;
+            case 'refunded_bank_transfer':
+                $method = 'bank_transfer';
+                break;
+
             default:
                 # code...
                 break;
