@@ -29,6 +29,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(auth()->user()->source == 'pos')
+        {
+            return redirect(route('reports.paymentRecord'));
+        }
+
         $user = auth()->user();
         $user->userId = auth()->user()->store_main_user_id ?? auth()->user()->id;
         $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id);
