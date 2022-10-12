@@ -169,6 +169,10 @@ class MasterCardService
             $payment->is_failure = true;
         }
 
+        if($response['result'] == "ERROR"){
+            $payment->is_failure = true;
+        }
+
         return true;
     }
 
