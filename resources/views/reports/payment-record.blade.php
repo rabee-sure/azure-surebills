@@ -40,14 +40,16 @@
             @endforeach
           </select>
         </div><!-- form-group -->
-        <div class="form-group mb-3">
-          <select name="source" class="form-control select2-single filter">
-            <option @if(!isset(request()->source)) selected @endif disabled> {{ __('Source') }}</option>
-            @foreach ($filters['sources'] as $sourceKey => $source)
-            <option value="{{$sourceKey}}" @if(isset(request()->source) && request()->source == $sourceKey) selected @endif>{{__($source)}}</option>
-            @endforeach
-          </select>
-        </div><!-- form-group -->
+        @if(auth()->user()->source != 'pos')
+            <div class="form-group mb-3">
+            <select name="source" class="form-control select2-single filter">
+                <option @if(!isset(request()->source)) selected @endif disabled> {{ __('Source') }}</option>
+                @foreach ($filters['sources'] as $sourceKey => $source)
+                <option value="{{$sourceKey}}" @if(isset(request()->source) && request()->source == $sourceKey) selected @endif>{{__($source)}}</option>
+                @endforeach
+            </select>
+            </div><!-- form-group -->
+        @endif
         <div class="dateInput position-relative mx-0 mb-3">
           <input class="bg-white border rounded-3 text-body" name="dates" placeholder="Search by day" readonly="readonly">
         </div><!-- dateInput -->
@@ -63,7 +65,7 @@
 
     <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
       @if ($payments->count() != 0)
-        
+
       <div class="table-responsive">
         <table class="table table-striped table-hover text-nowrap">
           <thead>
