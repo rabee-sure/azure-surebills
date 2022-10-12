@@ -26,7 +26,7 @@ class UserFromApplication
             ->whereSecret($application_secret)
             ->first();
 
-        if($application->blocked){
+        if($application != null && $application->blocked){
             return response('Application Blocked! Please cantact adminstrator', 423);
         }
 
