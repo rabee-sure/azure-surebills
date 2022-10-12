@@ -211,6 +211,7 @@ class Bill extends Model
     {
         $pending_refund = PaymentLog::where('payment_logs.payment_method', 'mastercard_refund')
             ->where('payment_logs.webhook_response_received', false)
+            ->where('payment_logs.is_failure', false)
             ->where('bills.user_id', $this->user_id)
             ->join('bills', 'bills.id', '=', 'payment_logs.bill_id')
             ->count();
