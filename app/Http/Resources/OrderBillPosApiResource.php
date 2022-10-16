@@ -24,6 +24,17 @@ class OrderBillPosApiResource extends JsonResource
             $vatRegistrationNumber = $this->user->vat_registration_number;
         }
 
+        $customer = null;
+        if($this->customer->mobile == 555555555){
+            $customer = null;
+        }else{
+            $customer = [
+                'name' => $this->customer->name,
+                'mobile' => $this->customer->mobile,
+                'email' => $this->customer->email,
+            ];
+        }
+
         return [
             'bill_id' => $this->id,
             'bill_number' => $this->number,
@@ -45,12 +56,8 @@ class OrderBillPosApiResource extends JsonResource
             'title' => $this->bill_title,
             'created_at' => date('Y-m-d H:i:s', strtotime($this->created_at)),
             'items' => BillPosItemsApiResource::collection($this->items),
-            'customer' => [
-                'name' => $this->customer->name,
-                'mobile' => $this->customer->mobile,
-                'email' => $this->customer->email,
-            ],
             'vat_registration_number' => $vatRegistrationNumber,
+            'customer' => $customer,
         ];
     }
 }
