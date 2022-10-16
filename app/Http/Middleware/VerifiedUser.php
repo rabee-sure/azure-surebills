@@ -3,10 +3,11 @@
 namespace App\Http\Middleware;
 
 use App\Models\Application;
-use Illuminate\Support\Facades\Auth;
 use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class MultiAuth
+class VerifiedUser
 {
     /**
      * Handle an incoming request.
@@ -23,24 +24,22 @@ class MultiAuth
             $application = Application::whereId($application_id)
             ->whereSecret($application_secret)
             ->first();
-            
-            if (isset($application->user)) {
-                $request->setUserResolver(function () use ($application) {
-                    return $application->user;
-                });
-                $request->merge([
-                    'user' => $application->user,
-                    'application' => $application,
-                ]);
-                return $next($request);
-            }
-            return response('Unauthorized.', 401);
+            $user = isset($application->user) ? $application->user : null;
         }elseif($request->hasHeader('Authorization')){
-            $api = Auth::guard('api')->user();
-            if ($api) {
-                return $next($request);
-            }
-            return response('Unauthorized.', 401);
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = Auth::user();
         }
+
+        if(!$user->verified){
+            if ($request->wantsJson()) {
+                // return JSON-formatted response
+                return response()->json(['authorization' => 'your account not verified please contant your administrator.'], 401);
+            } else {
+                // return HTML response
+                return redirect()->back()->withErrors(['Unauthorized!' => __("your account not verified please contant your administrator.")]);
+            }
+        }
+        return $next($request);
     }
 }

@@ -890,7 +890,8 @@
     "You have no departments at the moment": "لا يوجد لديك أقسام حالياً",
     "You have no products at the moment": "لا يوجد لديك منتجات حالياً",
     "Hide the additional information of the orgianization in the payment URL": "إلغاء معلومات المنشأة الإضافية في رابط الدفع وتبسيطه",
-	"Credit Notes" : "الإشعارات الدائنة",
+    "your account not verified please contant your administrator." : "حسابك غير موثق برجاء مراجعة الادمن",
+  "Credit Notes" : "الإشعارات الدائنة",
 	"Credit Note" : "إشعار دائن",
 	"Credit Note No." : "رقم إشعار دائن.",
 	"Credit Note Date" : "تاريخ إشعار الدائن",
@@ -901,6 +902,5 @@
   "Tax credit note" : "اشعار دائن ضريبي",
   "Reference Number" : "الرقم المرجعي",
   "Go to store": "الذهاب الى المتجر"
-
 
 }
