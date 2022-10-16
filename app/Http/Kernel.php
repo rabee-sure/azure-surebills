@@ -72,6 +72,7 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'Mutli.auth' => \App\Http\Middleware\MultiAuth::class,
+        'verified.user' => \App\Http\Middleware\VerifiedUser::class,
 
     ];
 }
