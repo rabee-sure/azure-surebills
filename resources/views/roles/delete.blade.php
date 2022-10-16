@@ -14,9 +14,9 @@
           @csrf
           @method('DELETE')
           @if(App\Models\User::whereHas('roles', function($q) use ($role){ $q->where('name', $role->name); })->count() > 0)
-            <span class="d-block text-center text-body mb-4 fs-5">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</span>
+            <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</span>
           @else
-            <span class="d-block text-center text-body mb-4 fs-5">{{ __('Are You sure Delete this Role?')}}</span>
+            <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __('Are You sure Delete this Role?')}}</span>
           @endif
           <div class="d-flex align-items-center justify-content-center flex-wrap">
             @if(App\Models\User::whereHas('roles', function($q) use ($role){ $q->where('name', $role->name); })->count() == 0)

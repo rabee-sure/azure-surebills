@@ -1,7 +1,7 @@
 @extends('account.account_complete')
 
 @section('steps')
-  <div class="stepsArea d-flex align-items-start justify-content-between position-relative mb-5">
+  <div class="stepsArea d-flex align-items-start justify-content-center position-relative mb-5">
     <div class="item d-flex align-items-center justify-content-center flex-column active">
       <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm">1</span>
       <p class="d-block text-center mb-0 mt-2">{{ __('My Information') }}</p>
@@ -10,10 +10,12 @@
       <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm">2</span>
       <p class="d-block text-center mb-0 mt-2">{{ __('Business Information') }}</p>
     </div><!-- item -->
+    @if(auth()->user()->source == 'sure bills')
     <div class="item d-flex align-items-center justify-content-center flex-column">
       <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm">3</span>
       <p class="d-block text-center mb-0 mt-2">{{ __('Bank Information') }}</p>
     </div><!-- item -->
+    @endif
   </div><!-- stepsArea -->
   <div class="blockStep1 bg-white rounded-3 shadow-sm p-3">
     <form id="form" method="POST" action="{{ route('account.information') }}" class="m-0">

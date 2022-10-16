@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\MasterCardService;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\RefundRequest;
+use App\Models\RefundedBill;
 use App\Models\Settings;
 use Illuminate\Validation\ValidationException as ValidationsException;
 
@@ -53,12 +54,11 @@ class BillController extends Controller
         $statuses = array();
         if($request->statuses){
             $statuses = $request->statuses;
-            $statuses = in_array('paid', $statuses) ? array_merge($statuses, ['paid_cash', 'paid_bank_transfer']) : $statuses;
-            $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
+            $statuses = in_array('paid', $statuses) ? array_merge($statuses, ['paid_cash', 'paid_bank_transfer', 'refunded_cash', 'refunded_bank_transfer', 'refunded']) : $statuses;
+            // $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
         }
 
         $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
-            ->orderBy('created_at', 'desc')
             ->when($statuses, function ($q) use ($statuses) {
                 $q->whereIn('status', $statuses);
             })
@@ -69,9 +69,24 @@ class BillController extends Controller
                 $q->whereDate('created_at', '>=', Carbon::parse($date_start))
                     ->whereDate('created_at', '<=', Carbon::parse($date_to));
             })
-            ->paginate($request->get('per_page', 10));
+            ->select('id', 'number', 'customer_name', 'sub_total', 'vat', 'discount', 'status', DB::raw("'null' as method"),'created_at', DB::raw("'bills' as model"));
 
-        return view('bills.index', ['bills' => $bills]);
+        $refundedBills = RefundedBill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
+        ->when($statuses, function ($q) use ($statuses) {
+            $q->whereIn('status', $statuses);
+        })
+        ->when($request->keyword, function ($q) use ($request) {
+            $q->whereLike(['customer_name', 'number'], str_replace("CN", "", $request->keyword));
+        })
+        ->when($date_start, function ($q) use ($date_start, $date_to) {
+            $q->whereDate('created_at', '>=', Carbon::parse($date_start))
+                ->whereDate('created_at', '<=', Carbon::parse($date_to));
+        })
+        ->select('id', DB::raw("CONCAT('CN', number) as number"), 'customer_name', 'amount as sub_total', DB::raw("'0' as vat"), DB::raw("'0' as discount"), 'status', 'method', 'created_at', DB::raw("'refundedbills' as model"));
+
+        $mergedBills = $bills->union($refundedBills)->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
+
+        return view('bills.index', ['bills' => $mergedBills]);
     }
 
     /**
@@ -166,6 +181,7 @@ class BillController extends Controller
             $vat = 0;
             $payment_fees = 0;
 
+            // not found in database
             if ($user->pay_fees == "client") {
                 $payment_fees = ($sub_total * ($user->credit_cards_percentage / 100)) + $user->credit_cards_fixed;
             }
@@ -376,16 +392,58 @@ class BillController extends Controller
      */
     public function refund($id, RefundRequest $request)
     {
-
         $bill = Bill::find($id);
+
+        \Log::channel('refunded_transactions')->info("refunded transaction from BillController at refund method ", array($bill->id, $request->amount));
+
+        if(!$bill->is_able_refund){
+            return redirect()->back()->withErrors(['refund' => __("You can't refund this bill now please try again later")]);
+        }
+
+        $method = $bill->getRefundedMethod();
+
         if ($request->type == 'partial_refund') {
-            $bill->setPartialRefunded($request->amount);
-        } else if ($bill->is_able_total_refund) {
-            if ($bill->setRefunded()) {
-                return redirect()->back();
+            if($bill->status == 'paid' && $request->amount > $bill->user->balance){
+                return redirect()->back()->withErrors(['refund' => __("Quantity must be less than or equal to the user's balance")]);
             }
+            $bill->setPartialRefunded($request->amount);
+            
+            $refundedBill = RefundedBill::create([
+                'bill_id' => $bill->id,
+                'user_id' => $bill->user_id,
+                'amount' => $request->amount,
+                'status' => 'cn_refunded',
+                'method' => $method,
+                'customer_name' => $bill->customer_name
+            ]);
+    
+            $refundedBill->number = $refundedBill->getNumber();
+            $refundedBill->save();
+
         } else {
-            return redirect()->back()->withErrors(['refund' => __("Quantity must be less than or equal to the user's balance")]);
+            if ($bill->is_able_total_refund) {
+                $totalRefundAmountWithFees = $bill->due_to_client;
+                $totalRefundAmountWithoutFees = $bill->total;
+                
+                if ($bill->setRefunded()) {
+    
+                    $refundedBill = RefundedBill::create([
+                        'bill_id' => $bill->id,
+                        'user_id' => $bill->user_id,
+                        'amount' => $bill->user->able_refund_with_fees ? $totalRefundAmountWithFees : $totalRefundAmountWithoutFees,
+                        'status' => 'cn_refunded',
+                        'method' => $method,
+                        'customer_name' => $bill->customer_name
+                    ]);
+            
+                    $refundedBill->number = $refundedBill->getNumber();
+                    $refundedBill->save();
+    
+                    return redirect()->back();
+                }
+            }else{
+                return redirect()->back()->withErrors(['refund' => __("Quantity must be less than or equal to the user's balance")]);
+            }
         }
 
         return redirect()->back()->withErrors(['refund' => session('refund_error')]);

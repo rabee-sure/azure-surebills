@@ -20,6 +20,10 @@ Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->na
 // Route::get('test/bill', 'TestController@bill');
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
+Route::middleware(['guest'])->group(function(){
+    Route::get('pos/register', 'UserController@posRegister')->name('pos.register');
+});
+
 Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
     Route::get('/clients', [
         'uses' => 'ClientController@forUser',
@@ -44,6 +48,8 @@ Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
 
 Auth::routes();
 Route::get('login-by-secret/{secret}/{secret2}', 'FandaqahOperationsController@loginBySecret');
+
+Route::get('redirect/to/products/via/pos/{uuid}', 'PosController@redirectToProductsViaPos')->name('redirect.to.products.via.pos');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
@@ -75,8 +81,10 @@ Route::get('/logs/{log}/', 'PaymentLogController@show')->name('logpage');
 
 // py bill page
 Route::get('/bills/{id}/print', 'BillController@billPrint')->name('bills.bill_print');
+Route::get('/refundedbills/{id}/print', 'RefundedBillController@billPrint')->name('refundedbills.bill_print');
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
 Route::get('/bills/{id}/invoice', 'BillController@invoice')->name('invoice');
+Route::get('/refundedbills/{id}/invoice', 'RefundedBillController@invoice')->name('refundedinvoice');
 Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang');
 Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::post('/bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
@@ -93,6 +101,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
+    Route::resource('refundedbills', 'RefundedBillController');
 
     //Zain 24/2/2022 POS Routes
     Route::get('pos/categories', 'PosController@categories')->name('pos.categories');
@@ -115,7 +124,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('transfers/{transfer}/transactions', 'TransferController@transactions')->name('transfer.transactions');
 
     Route::post('transfers/request', 'TransferController@request')->name('transfers.request');
-    
+
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/terms', 'HomeController@terms');
@@ -195,13 +204,13 @@ Route::middleware(config('nova.middleware', []))->group(function () {
 
     Route::get('transfers/all', 'TransferController@all');
 
-    /**this routes moved from ['auth', 'mobile.verified', 'profile.completed'] middleware 
-     * to config('nova.middleware', []) middleware because it used on nova and nova after apply users and admins features 
-     * nova didn't have any "mobile verified" and "profile completed" middlewares 
+    /**this routes moved from ['auth', 'mobile.verified', 'profile.completed'] middleware
+     * to config('nova.middleware', []) middleware because it used on nova and nova after apply users and admins features
+     * nova didn't have any "mobile verified" and "profile completed" middlewares
      * so please if any one need to use route in nova
-     * 
+     *
      * we need to ask amr for this middleware security
-     */ 
+     */
     Route::post('transfers', 'TransferController@store');
     Route::put('transfers/change_status', 'TransferController@changeStatus');
     Route::put('transfers/{transfer}/cancel', 'TransferController@cancel');

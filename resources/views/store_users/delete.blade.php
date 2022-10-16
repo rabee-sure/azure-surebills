@@ -13,7 +13,7 @@
         <form action="{{ route('users.destroy', $user->id)}}" method="post">
           @csrf
           @method('DELETE')
-          <span class="d-block text-center text-body mb-4 fs-5">{{ __('Are You sure Delete this User?')}}</span>
+          <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __('Are You sure Delete this User?')}}</span>
           <div class="d-flex align-items-center justify-content-center flex-wrap">
             <button type="submit" class="border-0 shadow-none rounded-3 btn-danger formBtn mx-2">{{__('Delete')}}</button>
             <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Close')}}</button>

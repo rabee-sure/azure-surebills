@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Services\TransferOperations;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Jobs\UpdateTransferExcelFile;
+use App\Jobs\SendAlertMailForDuplicationRefund;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\CreateTransferExcelFileJob;
 use App\Exports\TransactionsExportQueued;
@@ -54,6 +54,7 @@ class MasterCardService
                 // handle REFUND transaction
                 if ($response['transaction']['type'] == "REFUND") {
                     try {
+                        \Log::channel('refunded_transactions')->info("refunded transaction request from handleWebhook", array($bill->id, $response['transaction']['amount']));
                         return $this->handleRefundTransaction($response, $bill, $payment);
                     } catch (\Exception $e) {
                         Log::emergency("refund issue");
@@ -140,8 +141,13 @@ class MasterCardService
             $payment->card_number = $card_number;
             $payment->bank_transaction_id = $bank_transaction_id;
             $payment->bank_message = $bank_message;
-            $payment->webhook_response_received = true;
+            // $payment->webhook_response_received = true;
             $payment->save();
+
+            $duplicated_refund_transaction = Transaction::where('amount', $response['transaction']['amount'])->where('bill_id', $bill->id)->where('transaction_source', 'refund')->first();
+            if($duplicated_refund_transaction){
+                SendAlertMailForDuplicationRefund::dispatch($duplicated_refund_transaction->bill_id);
+            }
 
             if ($bill->total == $response['transaction']['amount']) {
                 $bill->fireRefundEvent($payment);
@@ -155,8 +161,16 @@ class MasterCardService
             $payment->card_number = $card_number;
             $payment->bank_transaction_id = $bank_transaction_id;
             $payment->bank_message = $bank_message;
-            $payment->webhook_response_received = true;
+            // $payment->webhook_response_received = true;
             $payment->save();
+        }
+
+        if($response['result'] == "FAILURE" && $response['transaction']['type'] == "REFUND"){
+            $payment->is_failure = true;
+        }
+
+        if($response['result'] == "ERROR"){
+            $payment->is_failure = true;
         }
 
         return true;

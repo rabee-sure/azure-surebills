@@ -63,7 +63,7 @@
             <span class="d-flex align-items-center justify-content-start">{{ __('Failed') }}</span>
           </label>
           <label for="refunded" class="mb-2 mb-md-0 position-relative">
-            <input type="checkbox" class="w-100 h-100 position-absolute" id="refunded" value="refunded" @if(in_array('refunded', request()->get('statuses', [])) ) checked @endif>
+            <input type="checkbox" class="w-100 h-100 position-absolute" id="refunded" value="cn_refunded" @if(in_array('cn_refunded', request()->get('statuses', [])) ) checked @endif>
             <span class="d-flex align-items-center justify-content-start">{{ __('Refunded') }}</span>
           </label>
         </div><!-- checkboxArea -->

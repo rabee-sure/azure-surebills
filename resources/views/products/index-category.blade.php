@@ -36,6 +36,9 @@
         @can('show product categories')
           <span class="d-flex shadow-none align-items-center justify-content-center border bg-white text-body rounded-3">{{ __('Product Sections') }}</span>
         @endcan
+        @if(auth()->user()->source == 'pos')
+            <a href="{{ env('POS_URL') ?? 'https://sandbox-pos.surepay.sa/' }}" title="{{ __('Go to store') }}" class="d-flex btn-secondary mt-3 mt-md-0 border-0 shadow-none align-items-center justify-content-center text-white rounded-3">{{ __('Go to store') }}</a>
+        @endif
       </div><!-- tabsArea -->
     @endcanany
     <div class="title d-flex align-items-center justify-content-between mb-4">
@@ -79,7 +82,7 @@
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    
+
     $(document).ready(function(){
       var canEdit = '{{$canEdit}}';
       var canDelete = '{{$canDelete}}';
@@ -169,7 +172,7 @@
       });
 
       var catergory_delete_url = "{{ route('categories.delete', ':id') }}";
-      
+
       if(chiledsCount > 0 || productsCount > 0){
         var catergory_dependancy_delete_url = "{{ route('categories.delete-dependency', ':id') }}";
 
@@ -208,7 +211,7 @@
                 newCategories = categories;
               }
             });
-            
+
             Swal.fire({
               title: '{{ __("Select new category") }}',
               input: 'select',

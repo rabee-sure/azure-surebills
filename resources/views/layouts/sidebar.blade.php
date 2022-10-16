@@ -6,10 +6,12 @@
   @endphp
 
   <aside class="bg-white position-fixed end-0 d-print-none">
+    @if(auth()->user()->source != 'pos')
     <a href="/" title="{{ __('Dashboard') }}"  class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('home') ? 'active' : '' }}">
       <i class="d-flex align-items-center justify-content-center flex-shrink-0 fal fa-tachometer-alt-fast"></i>
       <span class="text-center">{{ __('Dashboard') }}</span>
     </a>
+    @endif
     @can('show bills')
       <a href="/bills?{{$separated}}" title="{{ __('Bills') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('bills*') ? 'active' : '' }}">
         <i class="d-flex align-items-center justify-content-center flex-shrink-0 fal fa-file-invoice"></i>

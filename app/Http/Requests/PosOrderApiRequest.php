@@ -51,7 +51,7 @@ class PosOrderApiRequest extends FormRequest
             'add_tax' => ['nullable'],
             'tax_value' => ['required_if:add_tax,on'],
 
-            'items' => ['required', new BillTotalValidation],
+            'items' => ['required'],
             'items.*.name' => 'required',
             'items.*.category' => 'required',
             'items.*.price' => 'required|numeric',

@@ -75,20 +75,20 @@
               <div class="row mt-3">
                 <div class="col-12 col-md-6">
                   <div class="form-group mb-3">
-                    <label for="bullding_no" class="d-block mb-2">{{__('bullding_no')}}</label>
-                    <input name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('bullding_no')}}"  value="@if($errors->any()){{old('bullding_no')}}@else{{ $user->bullding_no }}@endif">
+                    <label for="bullding_no" class="d-block mb-2">{{__('Building Number')}}</label>
+                    <input name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('Building Number')}}"  value="@if($errors->any()){{old('bullding_no')}}@else{{ $user->bullding_no }}@endif">
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
                 <div class="col-12 col-md-6">
                   <div class="form-group mb-3">
-                    <label for="street_name" class="d-block mb-2">{{__('street_name')}}</label>
-                    <input name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('street_name')}}"  value="@if($errors->any()){{old('street_name')}}@else{{ $user->street_name }}@endif">
+                    <label for="street_name" class="d-block mb-2">{{__('Street Name')}}</label>
+                    <input name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('Street Name')}}"  value="@if($errors->any()){{old('street_name')}}@else{{ $user->street_name }}@endif">
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
                 <div class="col-12 col-md-6">
                   <div class="form-group mb-3">
-                    <label for="district" class="d-block mb-2">{{__('district')}}</label>
-                    <input name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('district')}}"  value="@if($errors->any()){{old('district')}}@else{{ $user->district }}@endif">
+                    <label for="district" class="d-block mb-2">{{__('District')}}</label>
+                    <input name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('District')}}"  value="@if($errors->any()){{old('district')}}@else{{ $user->district }}@endif">
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
                 <div class="col-12 col-md-6">
@@ -99,20 +99,20 @@
                 </div><!-- col-12 -->
                 <div class="col-12 col-md-6">
                   <div class="form-group mb-3">
-                    <label for="postal_code" class="d-block mb-2">{{__('postal_code')}}</label>
-                    <input name="postal_code" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('postal_code')}}"  value="@if($errors->any()){{old('postal_code')}}@else{{ $user->postal_code }}@endif">
+                    <label for="postal_code" class="d-block mb-2">{{__('Postal Code')}}</label>
+                    <input name="postal_code" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('Postal Code')}}"  value="@if($errors->any()){{old('postal_code')}}@else{{ $user->postal_code }}@endif">
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
                 <div class="col-12 col-md-6">
                   <div class="form-group mb-3">
-                    <label for="additional_no" class="d-block mb-2">{{__('additional_no')}}</label>
-                    <input name="additional_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('additional_no')}}"  value="@if($errors->any()){{old('additional_no')}}@else{{ $user->additional_no }}@endif">
+                    <label for="additional_no" class="d-block mb-2">{{__('Additional Number')}}</label>
+                    <input name="additional_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('Additional Number')}}"  value="@if($errors->any()){{old('additional_no')}}@else{{ $user->additional_no }}@endif">
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
                 <div class="col-12 col-md-6">
                   <div class="form-group mb-3">
-                    <label for="other_buyer_id" class="d-block mb-2">{{__('other_buyer_id')}}</label>
-                    <input name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('other_buyer_id')}}"  value="@if($errors->any()){{old('other_buyer_id')}}@else{{ $user->other_buyer_id }}@endif">
+                    <label for="other_buyer_id" class="d-block mb-2">{{__('Additional ID')}}</label>
+                    <input name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('Additional ID')}}"  value="@if($errors->any()){{old('other_buyer_id')}}@else{{ $user->other_buyer_id }}@endif">
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
                 <div class="col-12 col-md-6">

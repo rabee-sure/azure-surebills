@@ -40,7 +40,7 @@ class BusinessInformationRequest extends FormRequest
             'business_address' => ['required', 'regex:/^[a-zA-Z ]+$/', 'max:100'],
             'business_address_details' => ['required', 'max:100'],
             // 'business_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
-            'vat_registration_number' => ['nullable'],
+            'vat_registration_number' => [auth()->user()->source == 'sure bills' ? 'nullable' : 'required'],
             'document' => ['nullable', 'array', "max:5"],
             'document.*' => ['required', new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])],
         ];
@@ -64,6 +64,7 @@ class BusinessInformationRequest extends FormRequest
           'business_mobile.required' => __('business mobile required'),
           'business_mobile.regex' => __('business mobile format invalid'),
           'logo.required_without' => __('Logo required'),
+          'vat_registration_number.required' => __('VAT Registration Number is required'),
         ];
     }
 }

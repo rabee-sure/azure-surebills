@@ -52,6 +52,11 @@
           @endif
           <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;direction: ltr;">Date Of Supply :</td>
         </tr>
+        <tr>
+          <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">تاريخ الاستحقاق :</td>
+          <td style="text-align: center;border-bottom: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->due_date->format('d/m/Y')}}</td>
+          <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;direction: ltr;">Due Date :</td>
+        </tr>
       </table>
       <div class="table_1" style="width: 100%;margin: 0 auto 20px;">
         <table class="table_title" style="width: 100%;margin-bottom: 8px;">
@@ -296,7 +301,7 @@
             </tr>
             <tr>
               <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">اجمالي المبلغ المستحق</td>
-              <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->total}} SAR</td>
+              <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">{{ $bill->sub_total + $bill->vat - $bill->discount}} SAR</td>
               <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Total Amount Due</td>
             </tr>
           </tbody>

@@ -6,7 +6,7 @@
 @endsection
 
 @section('steps')
-  <div class="stepsArea d-flex align-items-start justify-content-between position-relative mb-5">
+  <div class="stepsArea d-flex align-items-start justify-content-center position-relative mb-5">
     <div class="item d-flex align-items-center justify-content-center flex-column done">
       <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm"><i class="fal fa-check"></i></span>
       <p class="d-block text-center mb-0 mt-2">{{ __('My Information') }}</p>
@@ -75,4 +75,11 @@
 @push('footer-scripts')
   <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}" defer></script>
   {!! JsValidator::formRequest('App\Http\Requests\BankInformationRequest', '#form') !!}
+
+    @if(auth()->user()->source == 'pos')
+    <script>
+        window.location.href = '/account?previous=2';
+    </script>
+    @endif
+
 @endpush

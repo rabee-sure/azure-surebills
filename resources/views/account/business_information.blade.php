@@ -40,7 +40,14 @@
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
-              <label for="vat_registration_number" class="d-block mb-2">{{ __('VAT Registration Number') }} <small class="d-inline-block text-secondary">( {{ __('optional') }} )</small></label>
+              <label for="vat_registration_number" class="d-block mb-2">
+                {{ __('VAT Registration Number') }}
+                @if(auth()->user()->source == 'sure bills')
+                <small class="d-inline-block text-secondary">( {{ __('optional') }} )</small>
+                @else
+                <span class="requirement text-danger">*</span>
+                @endif
+            </label>
               <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control rounded-3 shadow-none border" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
             </div>
           </div><!-- col-12 -->
@@ -90,6 +97,7 @@
               </div><!-- phoneInput -->
             </div><!-- form-group -->
           </div><!-- col-12 -->
+          @if(auth()->user()->source == 'sure bills')
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="website" class="d-block mb-2">{{ __('Website') }}</label>
@@ -102,6 +110,7 @@
               <input value="{{ $user->sector }}" name="sector" type="text" class="form-control rounded-3 shadow-none border" id="sector" placeholder="{{ __('Sector') }}">
             </div><!-- form-group -->
           </div><!-- col-12 -->
+          @endif
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="logo" class="d-block mb-2">{{ __('Logo') }}</label>
@@ -126,6 +135,7 @@
               </div><!-- form-group -->
             </div><!-- col-12 -->
           @endif
+          @if(auth()->user()->source == 'sure bills')
           <div class="col-12">
             <span class="d-block fw-bold fs-6 text-body mb-1">{{ __('Upload the required documents') }}</span>
             <p class="d-block mb-3 text-secondary">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
@@ -141,6 +151,7 @@
               ])
             @endif
           </div><!-- col-12 -->
+          @endif
         </div><!-- row -->
         <div class="saveBtn d-flex justify-content-start mt-3">
           <button type="submit" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold"> {{__('Save')}}</button>

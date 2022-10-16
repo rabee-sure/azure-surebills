@@ -177,11 +177,29 @@ class Bill extends Model
      */
     public function getIsAbleRefundAttribute()
     {
-        return in_array($this->status, ['paid', 'paid_cash', 'paid_bank_transfer'])
-            && $this->user->able_refund
+        $ableToRefund = false;
+
+        if(in_array($this->status, ['paid', 'paid_cash', 'paid_bank_transfer'])){
+            $ableToRefund = $this->user->able_refund
             && $this->total > 0
             && ($this->paid_at && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')))
+            && $this->has_delayed_refund_transaction
             && !$this->has_pending_refund;
+            if($this->status == 'paid'){
+                $ableToRefund = $ableToRefund && $this->bill_paid;
+            }
+
+        }
+        return $ableToRefund;
+    }
+
+    public function getHasDelayedRefundTransactionAttribute(){
+        $last_refund_transaction = Transaction::where('bill_id', $this->id)->where('transaction_source', 'refund')->orderBy('created_at', 'desc')->first();
+        if($last_refund_transaction){
+            return $last_refund_transaction->created_at < Carbon::now()->subMinutes(10)->toDateTimeString() ? true : false;
+        }else{
+            return true;
+        }
     }
 
     /**
@@ -193,11 +211,22 @@ class Bill extends Model
     {
         $pending_refund = PaymentLog::where('payment_logs.payment_method', 'mastercard_refund')
             ->where('payment_logs.webhook_response_received', false)
+            ->where('payment_logs.is_failure', false)
             ->where('bills.user_id', $this->user_id)
             ->join('bills', 'bills.id', '=', 'payment_logs.bill_id')
             ->count();
 
         return $pending_refund > 0 ? true : false;
+    }
+
+    public function getBillPaidAttribute()
+    {
+        $bill_paied = PaymentLog::whereIn('payment_method', ['mastercard_pay','mastercard_applepay'])
+            ->where('webhook_response_received', true)
+            ->where('bill_id', $this->id)
+            ->count();
+
+        return $bill_paied > 0 ? true : false;
     }
 
     /**
@@ -220,7 +249,7 @@ class Bill extends Model
     {
         if ($this->status == 'paid') {
             $with_fees = $this->is_able_refund && round($this->due_to_client) <= round($this->user->actual_balance);
-            $without_fees = $this->is_able_refund && $this->sub_total <= $this->user->actual_balance;
+            $without_fees = $this->is_able_refund && $this->total <= $this->user->actual_balance;
 
             return $this->user->able_refund_with_fees ? $with_fees : $without_fees;
         } else {
@@ -739,7 +768,7 @@ class Bill extends Model
             $this->total = 0;
             $this->refunded_at = Carbon::now();
             $this->save();
-            
+
             event(new BillOfflineRefunded($this, $total_remain));
 
             return true;
@@ -796,8 +825,13 @@ class Bill extends Model
     public function getNumber()
     {
         $number = self::max('number');
+        $refundedBillNumber = RefundedBill::max('number');
 
-        return $number == 0 ? 1000001 : $number + 1;
+        if($number > $refundedBillNumber){
+            return $number == 0 ? 1000001 : $number + 1;
+        }else{
+            return $refundedBillNumber == 0 ? 1000001 : $refundedBillNumber + 1;
+        }
     }
 
 
@@ -907,5 +941,39 @@ class Bill extends Model
     public function webhookLogs()
     {
         return $this->hasMany(WebhookLog::class, 'bill_id', 'id');
+    }
+
+    public function refundedBills(){
+        return $this->hasMany(RefundedBill::class);
+    }
+
+    public function getRefundedMethod(){
+        $method = '';
+        switch ($this->status) {
+            case 'paid':
+                $method = 'online';
+                break;
+            case 'paid_cash':
+                $method = 'cash';
+                break;
+            case 'paid_bank_transfer':
+                $method = 'bank_transfer';
+                break;
+            case 'refunded':
+                $method = 'online';
+                break;
+            case 'refunded_cash':
+                $method = 'cash';
+                break;
+            case 'refunded_bank_transfer':
+                $method = 'bank_transfer';
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
+        return $method;
     }
 }
