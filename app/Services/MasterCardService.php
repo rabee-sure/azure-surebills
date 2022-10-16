@@ -167,10 +167,12 @@ class MasterCardService
 
         if($response['result'] == "FAILURE" && $response['transaction']['type'] == "REFUND"){
             $payment->is_failure = true;
+            $payment->save();
         }
 
         if($response['result'] == "ERROR"){
             $payment->is_failure = true;
+            $payment->save();
         }
 
         return true;
