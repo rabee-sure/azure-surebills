@@ -102,6 +102,8 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
     Route::resource('refundedbills', 'RefundedBillController');
+    Route::get('bills/debit_note/create/{bill_id}', 'BillController@createDebitNote')->name('debitNote.create');
+    Route::post('bills/debit_note/store', 'BillController@storeDebitNote')->name('debitNote.store');
 
     //Zain 24/2/2022 POS Routes
     Route::get('pos/categories', 'PosController@categories')->name('pos.categories');

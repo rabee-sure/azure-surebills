@@ -901,6 +901,7 @@
 	"You have pending refund under proccess! please try again later" : "لديك عملية استرداد معلقة! برجاء إعادة المحاولة في وقت لاحق.",
   "Tax credit note" : "اشعار دائن ضريبي",
   "Reference Number" : "الرقم المرجعي",
-  "Go to store": "الذهاب الى المتجر"
+  "Go to store": "الذهاب الى المتجر",
+  "Create Debit Note" : "أنشاء إشعار مدين"
 
 }

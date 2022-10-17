@@ -976,4 +976,9 @@ class Bill extends Model
 
         return $method;
     }
+
+    public function debitNoteBill()
+    {
+        return $this->belongsTo(Bill::class, 'debit_note_bill_id', 'id');
+    }
 }
