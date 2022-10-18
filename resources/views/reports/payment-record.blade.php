@@ -36,7 +36,7 @@
           <select name="payment_way" class="form-control select2-single filter">
             <option @if(!isset(request()->payment_way)) selected @endif disabled> {{ __('Payment Method') }}</option>
             @foreach ($filters['payment_ways'] as $wayKey => $payment_way)
-            @if(auth()->user()->source == 'pos' && !in_array($wayKey, ['cash', 'payment_machine']))
+            @if(auth()->user()->source == 'pos' && !in_array($wayKey, ['all', 'cash', 'payment_machine']))
                 @continue
             @endif
             <option value="{{$wayKey}}" @if(isset(request()->payment_way) && request()->payment_way == $wayKey) selected @endif>{{__($payment_way)}}</option>

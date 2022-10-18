@@ -14,6 +14,18 @@
     <span>{{ __('Bills')}}</span>
   </div><!-- breadcrump -->
 
+  <div id="errors" class="d-print-none">
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div><!-- table_items -->
+    @endif
+  </div><!-- alert -->
+
   <section id="billIndexPage">
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Bills') }}</h1>
