@@ -70,7 +70,7 @@ class BillController extends Controller
                 $q->whereDate('created_at', '>=', Carbon::parse($date_start))
                     ->whereDate('created_at', '<=', Carbon::parse($date_to));
             })
-            ->select('id', 'number', 'customer_name', 'sub_total', 'vat', 'discount', 'status', DB::raw("'null' as method"),'created_at', DB::raw("'bills' as model"));
+            ->select('id', DB::raw("(CASE WHEN debit_note_bill_id IS NULL THEN number ELSE CONCAT('DN', number) END) AS number"), 'customer_name', 'sub_total', 'vat', 'discount', 'status', DB::raw("'null' as method"),'created_at', DB::raw("'bills' as model"));
 
         $refundedBills = RefundedBill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
         ->when($statuses, function ($q) use ($statuses) {
@@ -331,13 +331,8 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
-        // dd([
-        //     'bill_' => $bill->due_to_client,
-        //     'balance' => auth()->user()->balance,
-        //     'if' => $bill->is_able_total_refund,
-        // ]);
-        // dd($bill)
-        return view('bills.show', ['bill' => $bill]);
+        $title = $bill->debit_note_bill_id == null ? __('Bill No.') : __('Debit Note No.');
+        return view('bills.show', ['bill' => $bill, 'title' => $title]);
     }
 
     /**
