@@ -19,15 +19,15 @@ class OrderBillPosApiResource extends JsonResource
      */
     public function toArray($request)
     {
+        $qr_code = null;
+        $vatRegistrationNumber = null;
         if($this->user->settings->add_tax_invoice){
             $qr_code = generateQRcode($this, true);
             $vatRegistrationNumber = $this->user->vat_registration_number;
         }
 
         $customer = null;
-        if($this->customer->mobile == 555555555){
-            $customer = null;
-        }else{
+        if($this->customer->walkin_customer == 0){
             $customer = [
                 'name' => $this->customer->name,
                 'mobile' => $this->customer->mobile,

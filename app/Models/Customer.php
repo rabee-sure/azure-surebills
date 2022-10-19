@@ -22,6 +22,11 @@ class Customer extends Model
         return $query->where('user_id', $value);
     }
 
+    public function scopeWalkinCustomer($query, $value)
+    {
+        return $query->where('walkin_customer', $value);
+    }
+
     public function scopeName($query, $name)
     {
     	return $query->where('name', 'like', '%'.$name.'%');
