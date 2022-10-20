@@ -69,7 +69,7 @@ class BillController extends Controller
                 $q->whereDate('created_at', '>=', Carbon::parse($date_start))
                     ->whereDate('created_at', '<=', Carbon::parse($date_to));
             })
-            ->select('id', 'number', 'customer_name', 'sub_total', 'vat', 'discount', 'status', DB::raw("'null' as method"),'created_at', DB::raw("'bills' as model"));
+            ->select('id', 'number', DB::raw("(CASE WHEN customer_mobile = 555555555 THEN NULL ELSE customer_name END) AS customer_name"), 'sub_total', 'vat', 'discount', 'status', DB::raw("'null' as method"),'created_at', DB::raw("'bills' as model"));
 
         $refundedBills = RefundedBill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
         ->when($statuses, function ($q) use ($statuses) {
