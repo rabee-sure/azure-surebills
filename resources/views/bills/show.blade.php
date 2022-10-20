@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Bill No.') . ' ' . $bill->number . ' ' . __('Bills'))
+@section('title', $title . ' ' . $bill->number . ' ' . __('Bills'))
 
 @php
   $statues = session('status_filters', ['pending', 'paid'])?? [];
@@ -15,12 +15,12 @@
   <i>/</i>
   <a href="/bills" title="{{ __('Bills') }}">{{ __('Bills') }}</a>
   <i>/</i>
-  <span>{{__('Bill No.')}} {{ $bill->number }}</span>
+  <span>{{$title}} {{ $bill->number }}</span>
 </div><!-- breadcrump -->
 
 <section id="billShowPage">
   <div class="title mb-4 d-print-none">
-    <h1 class="d-block fw-bold m-0 fs-5">{{ __('Bill') }}</h1>
+    <h1 class="d-block fw-bold m-0 fs-5">@if($bill->debit_note_bill_id == null) {{__('Bill')}} @else {{__('Debit Note')}} @endif</h1>
   </div><!-- title -->
 
   <div id="errors" class="d-print-none">
@@ -49,6 +49,14 @@
 
     <!-- <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="#">{{ __('Send Reminder') }}</a> -->
 
+    @can('create bills')
+      @if((!auth()->user()->mainStoreUser && count(auth()->user()->channels) == 0) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) == 0))
+        @if($bill->debit_note_bill_id == null)
+          <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ route('debitNote.create', ['bill_id' => $bill->id])}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Create Debit Note') }}"><i class="fal fa-receipt"></i></a>
+        @endif
+      @endif
+    @endcan
+    
     @can('cancel bill')
     @if($bill->is_pending)
       <button id="cancel_btn" type="button" class="btn-danger p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Cancel Bill') }}">
@@ -84,7 +92,7 @@
             </figure><!-- figure -->
           @endif
           @if($bill->user->settings->add_tax_invoice)
-            <div class="taxInvoiceText text-secondary">{{ __('Simplified Tax Invoice') }}</div>
+            <div class="taxInvoiceText text-secondary">@if($bill->debit_note_bill_id == null) {{ __('Simplified Tax Invoice') }} @else {{ __('Tax debit note') }} @endif</div>
           @endif
           <span class="d-block fw-bold mt-3">{{ $bill->user->business_name }}</span>
           @if(isset($bill->user->settings->header_bill))
@@ -117,41 +125,11 @@
           @endif
         </div><!-- status -->
         <div class="billInfo pt-2 mt-2 borderTop">
-          @if($bill->user->settings->add_tax_invoice)
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Bill No.') }}</span>
-              <span class="d-block mb-2">{{ $bill->number }}</span>
-            </div><!-- d-flex -->
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Date') }}</span>
-              <span class="d-block mb-2">{{ $bill->created_at->format('d/m/Y')}}</span>
-            </div><!-- d-flex -->
-            @if($bill->user->vat_registration_number)
-              <div class="d-flex align-items-center justify-content-between">
-                <span class="d-block mb-2">{{ __('Organization VAT Registration Number') }}</span>
-                <span class="d-block mb-2">{{ $bill->user->vat_registration_number }}</span>
-              </div><!-- d-flex -->
-            @endif
+          @if($bill->debit_note_bill_id == null)
+            @include('bills.partials.bill_info',['bill' => $bill])
           @else
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('No.') }}</span>
-              <span class="d-block mb-2">{{ $bill->number }}</span>
-            </div><!-- d-flex -->
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Date') }}</span>
-              <span class="d-block mb-2">{{ $bill->created_at->format('d/m/Y')}}</span>
-            </div><!-- d-flex -->
-          @endif
-          @if($bill->user->settings->display_customer_details && $bill->customer_mobile != 555555555)
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Customer Name') }}</span>
-              <span class="d-block mb-2">{{ $bill->customer->name }}</span>
-            </div><!-- d-flex -->
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Mobile Number') }}</span>
-              <span class="d-block mb-2">{{ $bill->customer->mobile }}</span>
-            </div><!-- d-flex -->
-          @endif
+            @include('bills.partials.debit_note_info',['bill' => $bill])
+          @endif  
         </div><!-- billInfo -->
         <div class="tableItems pt-2 borderTop">
           <table class="w-100">
@@ -294,9 +272,10 @@
         @include('bills.partials.payment_logs')
       @endif
 
-      @if(count($bill->refundedBills) > 0)
-        @include('bills.partials.refunded_bills')
+      @if(count($billNotes) > 0)
+        @include('bills.partials.bill_notes', ['billNotes' => $billNotes])
       @endif
+
     </div><!-- col-12 -->
   </div><!-- row -->
 

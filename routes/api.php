@@ -69,6 +69,7 @@ Route::prefix('v1')->group(function () {
 	Route::group(['middleware' => ['User.from.application']], function () {
 		Route::post('bills/create/wordpress', 'BillController@wordpress')->middleware(['verified.user']);
 		Route::post('bills/create', 'BillController@store')->middleware(['verified.user']);
+		Route::post('bills/{bill}/debitnote/create', 'BillController@storeDebitNote')->middleware(['verified.user']);
 		Route::put('bills/{bill}/cancel', 'BillController@cancel')->middleware(['verified.user']);
 		Route::put('bills/{bill}/timeout', 'BillController@timeout');
 		Route::put('bills/{bill}/refund', 'BillController@refund')->middleware(['verified.user']);

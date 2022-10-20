@@ -23,6 +23,7 @@ class BillApiResource extends JsonResource
             'pay_url' => $this->when($this->is_pending, $this->pay_url),
             'total' => $this->total,
             'title' => $this->bill_title,
+            'debit_note_bill_id' => $this->debit_note_bill_id,
         ];
     }
 }

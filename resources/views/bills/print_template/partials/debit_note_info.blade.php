@@ -1,0 +1,24 @@
+<div class="d-flex align-items-center justify-content-between">
+    <span class="d-block mb-2">{{ __('Debit Note Date', [], $lang) }}</span>
+    <span class="d-block mb-2">{{ $bill->created_at->format('d/m/Y')}}</span>
+</div><!-- d-flex -->
+<div class="d-flex align-items-center justify-content-between">
+    <span class="d-block mb-2">{{ __('Debit Note Number', [], $lang) }}</span>
+    <span class="d-block mb-2">{{ $bill->number }}</span>
+</div><!-- d-flex -->
+
+<div class="d-flex align-items-center justify-content-between">
+    <span class="d-block mb-2">{{ __('Date', [], $lang) }}</span>
+    <span class="d-block mb-2">{{ $bill->mainBill->created_at->format('d/m/Y')}}</span>
+</div><!-- d-flex -->
+
+<div class="d-flex align-items-center justify-content-between">
+    <span class="d-block mb-2">
+        @if($bill->user->settings->add_tax_invoice)
+            {{ __('Bill No.', [], $lang) }}
+        @else
+            {{ __('No.', [], $lang) }}
+        @endif
+    </span>
+<span class="d-block mb-2">{{ $bill->mainBill->number }}</span>
+</div><!-- d-flex -->
