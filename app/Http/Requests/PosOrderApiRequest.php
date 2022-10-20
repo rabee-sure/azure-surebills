@@ -22,11 +22,13 @@ class PosOrderApiRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        if ($this->has('customer_mobile')) {
+        if ($this->walkin_customer == 0 && $this->has('customer_mobile')) {
             $mobile = ltrim($this->customer_mobile, '+966');
             $mobile = ltrim($mobile, '966');
             $mobile = (int) $mobile;
             $this->merge(['customer_mobile'=> $mobile]);
+        }else{
+            $this->merge(['customer_mobile'=> null]);
         }
     }
 
@@ -38,10 +40,10 @@ class PosOrderApiRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer_id' => ['required'],
-            'customer_name' => ['required', 'string', 'max:50'],
+            'customer_id' => ['required_if:walkin_customer,0'],
+            'customer_name' => ['required_if:walkin_customer,0', 'nullable', 'string', 'max:50'],
             'customer_email' => ['nullable', 'string', 'email', 'max:50'],
-            'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
+            'customer_mobile' => ['required_if:walkin_customer,0', 'nullable', 'regex:/(^[5]{1}[0-9]{8}$)/'],
             'customer_notes' => ['nullable'],
 
             'add_discount' => ['nullable'],

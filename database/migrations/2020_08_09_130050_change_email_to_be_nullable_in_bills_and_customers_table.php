@@ -31,6 +31,14 @@ class ChangeEmailToBeNullableInBillsAndCustomersTable extends Migration
      */
     public function down()
     {
+        Schema::table('bills', function($table)
+        {
+            $table->string('customer_email')->change();
+        });
 
+        Schema::table('customers', function($table)
+        {
+            $table->string('email')->change();
+        });
     }
 }

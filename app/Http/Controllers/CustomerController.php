@@ -26,6 +26,7 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $customers = Customer::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
+            ->walkinCustomer(0)
             ->orderBy('id', 'desc')
             ->with('bills')
             ->paginate($request->get('per_page', 10));
