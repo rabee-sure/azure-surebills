@@ -979,11 +979,12 @@ class Bill extends Model
 
     public function mainBill()
     {
-        return $this->belongsTo(Bill::class, 'id', 'debit_note_bill_id');
-    }
-    
-    public function billDebitNotes()
-    {
         return $this->belongsTo(Bill::class, 'debit_note_bill_id', 'id');
     }
+
+    public function billDebitNotes()
+    {
+        return $this->hasMany(Bill::class, 'debit_note_bill_id', 'id');
+    }
+
 }

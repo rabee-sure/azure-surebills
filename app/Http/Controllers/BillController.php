@@ -301,8 +301,8 @@ class BillController extends Controller
                 }
             }
 
-            if ($request->add_tax) {
-                $vat = ($sub_total + $payment_fees - $discount) * $request->tax_value / 100;
+            if ($mainBill->add_tax) {
+                $vat = ($sub_total + $payment_fees - $discount) * $mainBill->tax_value / 100;
             }
 
             $bill->payment_fees = $payment_fees;
@@ -314,7 +314,7 @@ class BillController extends Controller
             if ($bill->total <= 0) {
                 throw ValidationsException::withMessages(['total' => __('The total must be greater than 0')]);
             }
-            $bill->debit_note_bill_id = $bill->id;
+            $bill->debit_note_bill_id = $mainBill->id;
             $bill->save();
             return $bill;
         });
@@ -332,7 +332,16 @@ class BillController extends Controller
     public function show(Bill $bill)
     {
         $title = $bill->debit_note_bill_id == null ? __('Bill No.') : __('Debit Note No.');
-        return view('bills.show', ['bill' => $bill, 'title' => $title]);
+
+        $debitNotes = Bill::where('debit_note_bill_id', $bill->id)
+            ->select('id', DB::raw("CONCAT('DN', number) AS number"), 'sub_total', 'vat', 'discount', 'created_at', DB::raw("'bills' as model"));
+
+        $creditNotes = RefundedBill::where('bill_id', $bill->id)
+        ->select('id', DB::raw("CONCAT('CN', number) as number"), 'amount as sub_total', DB::raw("'0' as vat"), DB::raw("'0' as discount"), 'created_at', DB::raw("'refundedbills' as model"));
+
+        $billNotes = $debitNotes->union($creditNotes)->orderBy('created_at', 'desc')->get();
+        
+        return view('bills.show', ['bill' => $bill, 'title' => $title, 'billNotes' => $billNotes]);
     }
 
     /**
