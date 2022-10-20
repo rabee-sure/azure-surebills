@@ -902,6 +902,13 @@
   "Tax credit note" : "اشعار دائن ضريبي",
   "Reference Number" : "الرقم المرجعي",
   "Go to store": "الذهاب الى المتجر",
+  "Create Debit Note" : "أنشاء إشعار مدين",
+  "Debit Note No." : "رقم إشعار مدين",
+  "Debit Note" : "إشعار مدين",
+  "Tax debit note" : "إشعار مدين ضريبي",
+  "Debit Note Date" : "تاريخ إشعار المدين",
+  "Debit Note Number" : "رقم إشعار المدين",
+  "Bill Notes" : "الاشعارات",
   "Pos users": "مستخدمين POS",
   "Pos user": "مستخدم POS"
 

@@ -18,7 +18,7 @@
       </figure><!-- figure -->
     @endif
     @if($bill->user->settings->add_tax_invoice)
-      <div class="taxInvoiceText text-secondary">{{ __('Simplified Tax Invoice', [], $lang) }}</div>
+      <div class="taxInvoiceText text-secondary">@if($bill->debit_note_bill_id == null) {{ __('Simplified Tax Invoice', [], $lang) }} @else {{ __('Tax debit note', [], $lang) }} @endif</div>
     @endif
     <span class="d-block fw-bold mt-3">{{ $bill->user->business_name }}</span>
     @if(isset($bill->user->settings->header_bill))
@@ -51,40 +51,10 @@
     @endif
   </div><!-- status -->
   <div class="billInfo pt-2 mt-2 borderTop">
-    @if($bill->user->settings->add_tax_invoice)
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Bill No.', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->number }}</span>
-      </div><!-- d-flex -->
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Date', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->created_at->format('d/m/Y')}}</span>
-      </div><!-- d-flex -->
-      @if($bill->user->vat_registration_number)
-        <div class="d-flex align-items-center justify-content-between">
-          <span class="d-block mb-2">{{ __('Organization VAT Registration Number', [], $lang) }}</span>
-          <span class="d-block mb-2">{{ $bill->user->vat_registration_number }}</span>
-        </div><!-- d-flex -->
-      @endif
+    @if($bill->debit_note_bill_id == null)
+      @include('bills.print_template.partials.bill_info',['bill' => $bill, 'lang' => $lang])
     @else
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('No.', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->number }}</span>
-      </div><!-- d-flex -->
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Date', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->created_at->format('d/m/Y')}}</span>
-      </div><!-- d-flex -->
-    @endif
-    @if($bill->user->settings->display_customer_details)
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Customer Name', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->customer->name }}</span>
-      </div><!-- d-flex -->
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Mobile Number', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->customer->mobile }}</span>
-      </div><!-- d-flex -->
+      @include('bills.print_template.partials.debit_note_info',['bill' => $bill, 'lang' => $lang])
     @endif
   </div><!-- billInfo -->
   <div class="tableItems pt-2 borderTop">
