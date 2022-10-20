@@ -221,7 +221,7 @@ class VerifiedUser extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->where([['verified', true], ['store_main_user_id', null]]);
+        return $query->where([['verified', true], ['store_main_user_id', null], ['source', '<>', 'pos']]);
     }
 
     /**

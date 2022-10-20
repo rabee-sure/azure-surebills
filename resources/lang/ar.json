@@ -908,6 +908,8 @@
   "Tax debit note" : "إشعار مدين ضريبي",
   "Debit Note Date" : "تاريخ إشعار المدين",
   "Debit Note Number" : "رقم إشعار المدين",
-  "Bill Notes" : "الاشعارات"
+  "Bill Notes" : "الاشعارات",
+  "Pos users": "مستخدمين POS",
+  "Pos user": "مستخدم POS"
 
 }
