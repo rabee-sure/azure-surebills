@@ -98,7 +98,7 @@
               <div class="d-flex align-items-center justify-content-start flex-wrap" id="products_images"></div>
             </div><!-- form-group -->
           </div><!-- col-12 -->
-          <div class="col-12">
+          <div class="col-6">
             <div class="form-group mb-3">
               <label for="api_bill_style" class="checkboxItem position-relative mb-3 mb-md-0">
                 <input name="active" class="position-absolute top-0 strat-0 w-100 h-100" id="api_bill_style" type="checkbox">
@@ -109,6 +109,75 @@
               </label>
             </div><!-- form-group -->
           </div><!-- col-12 -->
+          <div class="col-6">
+            <div class="form-group mb-3">
+              <label for="customizations" class="checkboxItem position-relative mb-3 mb-md-0">
+                <input name="active" class="position-absolute top-0 strat-0 w-100 h-100" id="customizations" type="checkbox">
+                <span class="d-flex align-items-center justify-content-start">
+                  <i class="d-block rounded-pill position-relative"></i>
+                  {{ __('Customizations') }}
+                </span>
+              </label>
+            </div><!-- form-group -->
+          </div><!-- col-12 -->
+
+
+          <div class="row after-add-more customization_row d-none">
+            <div class="col-3 col-md-3">
+              <div class="form-group mb-3">
+                <label for="customization_name_ar" class="d-block mb-2">{{__('Name Ar')}}</label>
+                <input name="customization_name_ar[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="الاسم {{__('Name Ar')}}">
+              </div><!-- form-group -->
+            </div>
+            <div class="col-3 col-md-3">
+              <div class="form-group mb-3">
+                <label for="customization_name_en" class="d-block mb-2">{{__('Name En')}}</label>
+                <input name="customization_name_en[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Name En')}}">
+              </div><!-- form-group -->
+            </div>
+            <div class="col-3 col-md-3">
+              <div class="form-group mb-3">
+                <label for="customization_price" class="d-block mb-2">{{__('Price')}}</label>
+                <input name="customization_price[]" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
+              </div><!-- form-group -->
+            </div>
+            <div class="col-3 col-md-3">
+              <div class="input-group-btn mt-4">
+                <button class="btn btn-success add-more" type="button">{{__('Add')}}</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="copy d-none">
+            <div class="row customization_row">
+            <div class="col-3 col-md-3">
+                <div class="form-group mb-3">
+                  <label for="Name_ar" class="d-block mb-2">{{__('Name Ar')}}</label>
+                  <input name="customization_name_ar[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="الاسم {{__('Name Ar')}}">
+                </div><!-- form-group -->
+              </div>
+              <div class="col-3 col-md-3">
+                <div class="form-group mb-3">
+                  <label for="Name_ar" class="d-block mb-2">{{__('Name En')}}</label>
+                  <input name="customization_name_en[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Name En')}}">
+                </div><!-- form-group -->
+              </div>
+              <div class="col-3 col-md-3">
+                <div class="form-group mb-3">
+                  <label for="Name_ar" class="d-block mb-2">{{__('Price')}}</label>
+                  <input name="customization_price[]" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
+                </div><!-- form-group -->
+              </div>
+              <div class="col-3 col-md-3">
+                <div class="input-group-btn mt-4">
+                  <button class="btn btn-danger remove" type="button">{{__('Remove')}}</button>
+                </div>
+              </div>
+          </div>
+          </div>
+
+
+
         </div><!-- row -->
         <div class="saveBtn d-flex justify-content-start mt-3">
           <button type="button" id="SubmitForm" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold">{{__('Save')}}</button>
@@ -125,13 +194,52 @@
   <script src="{{ asset('new/js/select2/select2totree.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2tree.js') }}?v={{ config('app.asset_version') }}"></script>
   <script>
+
+
+$(document).ready(function() {
+
+  $(".add-more").click(function(){
+    if($('.customization_row').length == 10)
+    {
+      alert('You reach the max number of customizations');
+    }
+    else{
+      var html = $(".copy").html();
+      $(".after-add-more").after(html);
+    }
+  });
+
+  $("body").on("click",".remove",function(){
+    $(this).parents(".customization_row").remove();
+  });
+
+});
+
+
+    $('#customizations').on('change', function(){
+        if($(this).is(':checked'))
+        {
+            $('.customization_row').removeClass('d-none');
+            $('.customization_row').css('display', 'none');
+            // $('.customization_row').css('display', 'inline');
+            $('.customization_row').slideDown(500);
+            // removeClass('d-none');
+        }
+        else
+        {
+            // $('.customization_row').addClass('d-none');
+            $('.customization_row').slideUp(500);
+
+        }
+    })
+
     var deletedImages = new Array();
     $("#sel_1").select2();
 
     $(document).ready(function(){
       var base_url = "{{url('/')}}";
       var product_id = $("input[name=product_id]").val();
-      
+
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -164,7 +272,7 @@
 
             $('#sel_1').val(product['category_id']);
             $('#sel_1').trigger('change');
-                
+
             $("input[name=price]").val(product['price']);
             $("input[name=sort_number]").val(product['sort_number']);
 
@@ -173,7 +281,7 @@
             }else{
               $("input[name='active']").removeAttr('checked', 'checked');
             }
-            console.log(product["images"]);
+
             $.each(product["images"], function(imgindex, image){
               $('#products_images').append('<figure id="prodImg_'+image["id"]+'" class="p-2 border overflow-hidden rounded-3 position-relative align-items-center justify-content-center"><img src="'+imgUrl+''+image["image"]+'" class="mw-100 mh-100"><i class="fal fa-trash-alt position-absolute align-items-center justify-content-center rounded-1 btn-danger delete_logo" id="remove_'+image["id"]+'" onclick="deleteImage('+image["id"]+')"></i></figure>');
             });
@@ -189,7 +297,7 @@
         if($("input[name='active']").prop("checked") == true){
           active = 1;
         }
-      
+
         var totalfiles = document.getElementById('formFile').files.length;
         for (var index = 0; index < totalfiles; index++) {
           formData.append("image[]", document.getElementById('formFile').files[index]);
@@ -197,6 +305,15 @@
 
         for (var i = 0; i < deletedImages.length; i++) {
           formData.append('deletedImages[]', deletedImages[i]);
+        }
+
+        var textinputs = document.getElementsByName('customization_name_ar[]');
+        for( var i = 0; i < textinputs.length; i++ )
+        {
+          if($(textinputs[i]).is(":visible") && textinputs[i].value)
+          {
+            formData.append('customization_name_ar[]', textinputs[i].value);
+          }
         }
 
         formData.append('name_en', $("input[name=name_en]").val());
@@ -219,7 +336,7 @@
           url:requestUrl,
           data:formData,
           processData: false,
-          contentType: false, 
+          contentType: false,
           success:function(response){
             window.location.replace("{{ route('products.all') }}");
           },
@@ -241,10 +358,10 @@
     $('#formFile').bind('change', function () {
       var filename = $("#formFile").val();
       if (/^\s*$/.test(filename)) {
-        $(".fileName").text("No file chosen..."); 
+        $(".fileName").text("No file chosen...");
       }
       else {
-        $(".fileName").text(filename.replace("C:\\fakepath\\", "")); 
+        $(".fileName").text(filename.replace("C:\\fakepath\\", ""));
       }
     });
   </script>
