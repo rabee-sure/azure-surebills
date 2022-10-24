@@ -111,8 +111,13 @@ class BillController extends Controller
             abort(403);
         }
         $bill = Bill::find($bill_id);
-        $settings = Settings::userId($bill->user_id)->first();
-        return view('bills.debit_notes.create', compact(['settings', 'bill']));
+
+        if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer'])){
+            $settings = Settings::userId($bill->user_id)->first();
+            return view('bills.debit_notes.create', compact(['settings', 'bill']));
+        }else{
+            return redirect()->back()->withErrors(['authorization' => __("You can't create debit note for this bill")]);
+        }
     }
 
     /**
@@ -237,90 +242,95 @@ class BillController extends Controller
 
         $mainBill = Bill::find($request->bill_id);
 
-        $bill = DB::transaction(function () use ($request, $mainBill) {
-            $user = $mainBill->user;
-
-            $bill = Bill::create([
-                'user_id' => $user->store_main_user_id ?? $user->id,
-                'created_by' => $user->id,
-                'status' => 'pending',
-                'business_name' => $user->business_name,
-                'customer_id' => $mainBill->customer_id,
-                'customer_name' => $mainBill->customer_name,
-                'customer_email' => $mainBill->customer_email,
-                'customer_mobile' => $mainBill->customer_mobile,
-                'customer_notes' => $request->customer_notes,
-
-                'expiry_date' => $request->expiry_date,
-                'expiry_hours' => $request->expiry_hours ?? 0,
-                'expiry_minutes' => $request->expiry_minutes ?? 0,
-                'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->due_date))),
-
-                'add_discount' => $request->add_discount,
-                'discount_type' => $request->discount_type,
-                'discount_value' => $request->discount_value,
-
-                'add_tax' => $mainBill->add_tax,
-                'tax_name' => $mainBill->tax_name,
-                'tax_value' => $mainBill->tax_value,
-
-                'send_sms' => $mainBill->send_sms,
-                'send_email' => $mainBill->send_email,
-                
-                'source' => 'sure_bill',
-            ]);
-
-            foreach ($request->items as $item) {
-                BillItem::create([
-                    'bill_id' => $bill->id,
-                    'product_name' => $item['name'],
-                    'product_price' => $item['price'],
-                    'quantity' => $item['quantity'],
-                    'total' => $item['quantity'] * $item['price'],
+        if($mainBill->debit_note_bill_id == null && in_array($mainBill->status, ['paid', 'paid_cash', 'paid_bank_transfer'])){
+            $bill = DB::transaction(function () use ($request, $mainBill) {
+                $user = $mainBill->user;
+    
+                $bill = Bill::create([
+                    'user_id' => $user->store_main_user_id ?? $user->id,
+                    'created_by' => $user->id,
+                    'status' => 'pending',
+                    'business_name' => $user->business_name,
+                    'customer_id' => $mainBill->customer_id,
+                    'customer_name' => $mainBill->customer_name,
+                    'customer_email' => $mainBill->customer_email,
+                    'customer_mobile' => $mainBill->customer_mobile,
+                    'customer_notes' => $request->customer_notes,
+    
+                    'expiry_date' => $request->expiry_date,
+                    'expiry_hours' => $request->expiry_hours ?? 0,
+                    'expiry_minutes' => $request->expiry_minutes ?? 0,
+                    'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->due_date))),
+    
+                    'add_discount' => $request->add_discount,
+                    'discount_type' => $request->discount_type,
+                    'discount_value' => $request->discount_value,
+    
+                    'add_tax' => $mainBill->add_tax,
+                    'tax_name' => $mainBill->tax_name,
+                    'tax_value' => $mainBill->tax_value,
+    
+                    'send_sms' => $mainBill->send_sms,
+                    'send_email' => $mainBill->send_email,
+                    
+                    'source' => 'sure_bill',
                 ]);
-            }
-
-            $sub_total = $bill->items->sum('total');
-            $discount = 0;
-            $vat = 0;
-            $payment_fees = 0;
-
-            // not found in database
-            if ($user->pay_fees == "client") {
-                $payment_fees = ($sub_total * ($user->credit_cards_percentage / 100)) + $user->credit_cards_fixed;
-            }
-
-            if ($request->add_discount) {
-                switch ($request->discount_type) {
-                    case 'fixed':
-                        $discount = $request->discount_value;
-                        break;
-                    case 'percentage':
-                        $discount = ($sub_total + $payment_fees) * $request->discount_value / 100;
-                        break;
+    
+                foreach ($request->items as $item) {
+                    BillItem::create([
+                        'bill_id' => $bill->id,
+                        'product_name' => $item['name'],
+                        'product_price' => $item['price'],
+                        'quantity' => $item['quantity'],
+                        'total' => $item['quantity'] * $item['price'],
+                    ]);
                 }
-            }
+    
+                $sub_total = $bill->items->sum('total');
+                $discount = 0;
+                $vat = 0;
+                $payment_fees = 0;
+    
+                // not found in database
+                if ($user->pay_fees == "client") {
+                    $payment_fees = ($sub_total * ($user->credit_cards_percentage / 100)) + $user->credit_cards_fixed;
+                }
+    
+                if ($request->add_discount) {
+                    switch ($request->discount_type) {
+                        case 'fixed':
+                            $discount = $request->discount_value;
+                            break;
+                        case 'percentage':
+                            $discount = ($sub_total + $payment_fees) * $request->discount_value / 100;
+                            break;
+                    }
+                }
+    
+                if ($mainBill->add_tax) {
+                    $vat = ($sub_total + $payment_fees - $discount) * $mainBill->tax_value / 100;
+                }
+    
+                $bill->payment_fees = $payment_fees;
+                $bill->discount = $discount;
+                $bill->vat = $vat;
+                $bill->number = $bill->getNumber();
+                $bill->sub_total = $sub_total;
+                $bill->total = $sub_total + $payment_fees - $discount + $vat;
+                if ($bill->total <= 0) {
+                    throw ValidationsException::withMessages(['total' => __('The total must be greater than 0')]);
+                }
+                $bill->debit_note_bill_id = $mainBill->id;
+                $bill->save();
+                return $bill;
+            });
+    
+            event(new BillCreated($bill));
+            return redirect()->route('bills.show', $mainBill);
+        }else{
+            abort(403);
+        }
 
-            if ($mainBill->add_tax) {
-                $vat = ($sub_total + $payment_fees - $discount) * $mainBill->tax_value / 100;
-            }
-
-            $bill->payment_fees = $payment_fees;
-            $bill->discount = $discount;
-            $bill->vat = $vat;
-            $bill->number = $bill->getNumber();
-            $bill->sub_total = $sub_total;
-            $bill->total = $sub_total + $payment_fees - $discount + $vat;
-            if ($bill->total <= 0) {
-                throw ValidationsException::withMessages(['total' => __('The total must be greater than 0')]);
-            }
-            $bill->debit_note_bill_id = $mainBill->id;
-            $bill->save();
-            return $bill;
-        });
-
-        event(new BillCreated($bill));
-        return redirect()->route('bills.show', $mainBill);
     }
 
     /**
