@@ -49,9 +49,9 @@
 
     <!-- <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="#">{{ __('Send Reminder') }}</a> -->
 
-    @can('create bills')
+    @can('create debit note')
       @if((!auth()->user()->mainStoreUser && count(auth()->user()->channels) == 0) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) == 0))
-        @if($bill->debit_note_bill_id == null)
+        @if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer']))
           <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ route('debitNote.create', ['bill_id' => $bill->id])}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Create Debit Note') }}"><i class="fal fa-receipt"></i></a>
         @endif
       @endif
@@ -66,7 +66,7 @@
     @endcan
 
     @can('refund bill')
-    @if($bill->is_able_refund)
+    @if($bill->is_able_refund && $bill->debit_note_bill_id == null)
       <button id="refund_btn" type="button" class="btn-warning p-0 text-white m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Refund') }}">
         <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right"><i class="fal fa-box-usd"></i></span>
       </button>

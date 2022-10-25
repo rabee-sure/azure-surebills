@@ -35,8 +35,10 @@
     "show transfers": "عرض التحويلات",
     "show bills": "عرض الفواتير",
     "create bills": "انشاء فاتورة",
+	"create debit note" : "إنشاء إشعار مدين",
     "Add Role": "اضافة دور",
     "Delete Role": "حذف دور",
+	"show payment record" : "عرض سجل المدفوعات",
     "Are You sure Delete this Role?": "هل أنت متأكد من حذف هذا الدور ؟",
     "Add User": "اضافة مستخدم",
 	"Pending Balance": "الرصيد المعلق",
@@ -910,6 +912,8 @@
   "Debit Note Number" : "رقم إشعار المدين",
   "Bill Notes" : "الاشعارات",
   "Pos users": "مستخدمين POS",
-  "Pos user": "مستخدم POS"
+  "Pos user": "مستخدم POS",
+  "You can't create debit note for this bill" : "لايمكن انشاء إشعار مدين لتلك الفاتورة.",
+  "You can't refund this Debit Note" : "لايمكنك استرداد إشعار دائن
 
 }
