@@ -509,6 +509,10 @@ class BillController extends Controller
             return redirect()->back()->withErrors(['refund' => __("You can't refund this bill now please try again later")]);
         }
 
+        if($bill->debit_note_bill_id != null){
+            return redirect()->back()->withErrors(['refund' => __("You can't refund this Debit Note")]);
+        }
+
         $method = $bill->getRefundedMethod();
 
         if ($request->type == 'partial_refund') {
