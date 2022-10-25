@@ -22,3 +22,9 @@
     </span>
 <span class="d-block mb-2">{{ $bill->mainBill->number }}</span>
 </div><!-- d-flex -->
+@if($bill->user->settings->add_tax_invoice && $bill->user->vat_registration_number)
+<div class="d-flex align-items-center justify-content-between">
+    <span class="d-block mb-2">{{ __('Organization VAT Registration Number', [], $lang) }}</span>
+    <span class="d-block mb-2">{{ $bill->user->vat_registration_number }}</span>
+</div><!-- d-flex -->
+@endif
