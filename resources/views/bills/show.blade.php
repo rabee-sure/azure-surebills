@@ -66,7 +66,7 @@
     @endcan
 
     @can('refund bill')
-    @if($bill->is_able_refund)
+    @if($bill->is_able_refund && $bill->debit_note_bill_id == null)
       <button id="refund_btn" type="button" class="btn-warning p-0 text-white m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Refund') }}">
         <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right"><i class="fal fa-box-usd"></i></span>
       </button>

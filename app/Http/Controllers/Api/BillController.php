@@ -585,6 +585,12 @@ class BillController extends Controller
             ]], 400);
         }
 
+        if($bill->debit_note_bill_id != null){
+            return response()->json(['error' => [
+                'refund' => __("You can't refund this Debit Note")
+            ]], 400);
+        }
+
         $validator->after(function ($validator) use($bill){
             $otherDate = Carbon::now()->subDays(14);
 

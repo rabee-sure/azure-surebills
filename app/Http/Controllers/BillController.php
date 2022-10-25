@@ -70,7 +70,7 @@ class BillController extends Controller
                 $q->whereDate('created_at', '>=', Carbon::parse($date_start))
                     ->whereDate('created_at', '<=', Carbon::parse($date_to));
             })
-            ->select('id', DB::raw("(CASE WHEN debit_note_bill_id IS NULL THEN number ELSE CONCAT('DN', number) END) AS number"), 'customer_name', 'sub_total', 'vat', 'discount', 'status', DB::raw("'null' as method"),'created_at', DB::raw("'bills' as model"));
+            ->select('id', DB::raw("(CASE WHEN debit_note_bill_id IS NULL THEN number ELSE CONCAT('DN', number) END) AS number"), 'customer_name', 'sub_total', 'vat', 'discount', 'status', DB::raw("'null' as method"),'created_at', DB::raw("'bills' as model"), 'debit_note_bill_id');
 
         $refundedBills = RefundedBill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
         ->when($statuses, function ($q) use ($statuses) {
@@ -83,7 +83,7 @@ class BillController extends Controller
             $q->whereDate('created_at', '>=', Carbon::parse($date_start))
                 ->whereDate('created_at', '<=', Carbon::parse($date_to));
         })
-        ->select('id', DB::raw("CONCAT('CN', number) as number"), 'customer_name', 'amount as sub_total', DB::raw("'0' as vat"), DB::raw("'0' as discount"), 'status', 'method', 'created_at', DB::raw("'refundedbills' as model"));
+        ->select('id', DB::raw("CONCAT('CN', number) as number"), 'customer_name', 'amount as sub_total', DB::raw("'0' as vat"), DB::raw("'0' as discount"), 'status', 'method', 'created_at', DB::raw("'refundedbills' as model"), DB::raw("'' as debit_note_bill_id"));
 
         $mergedBills = $bills->union($refundedBills)->orderBy('created_at', 'desc')->paginate($request->get('per_page', 10));
 
@@ -517,6 +517,10 @@ class BillController extends Controller
 
         if(!$bill->is_able_refund){
             return redirect()->back()->withErrors(['refund' => __("You can't refund this bill now please try again later")]);
+        }
+
+        if($bill->debit_note_bill_id != null){
+            return redirect()->back()->withErrors(['refund' => __("You can't refund this Debit Note")]);
         }
 
         $method = $bill->getRefundedMethod();
