@@ -49,7 +49,7 @@
 
     <!-- <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="#">{{ __('Send Reminder') }}</a> -->
 
-    @can('create bills')
+    @can('create debit note')
       @if((!auth()->user()->mainStoreUser && count(auth()->user()->channels) == 0) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) == 0))
         @if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer']))
           <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ route('debitNote.create', ['bill_id' => $bill->id])}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Create Debit Note') }}"><i class="fal fa-receipt"></i></a>
