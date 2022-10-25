@@ -909,7 +909,9 @@
   "Debit Note Date" : "تاريخ إشعار المدين",
   "Debit Note Number" : "رقم إشعار المدين",
   "Bill Notes" : "الاشعارات",
-  "Pos users": "تجار POS",
-  "Pos user": "تاجر POS"
+  "Pos users": "مستخدمين POS",
+  "Pos user": "مستخدم POS",
+  "You can't create debit note for this bill" : "لايمكن انشاء إشعار مدين لتلك الفاتورة.",
+  "You can't refund this Debit Note" : "لايمكنك استرداد إشعار دائن
 
 }

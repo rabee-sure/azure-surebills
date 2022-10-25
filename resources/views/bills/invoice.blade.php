@@ -17,8 +17,8 @@
   <body>
     <div class="app" style="padding: 10px;">
       <div class="header" style="margin: 15px auto 20px;text-align: center;">
-        <span style="font-weight: bold;font-size: 20px;color: #000;">فاتورة ضريبية</span>
-        <p style="font-size: 20px;font-weight: bold;margin: 10px auto 0;">Tax Invoice</p>
+        <span style="font-weight: bold;font-size: 20px;color: #000;">@if($bill->debit_note_bill_id == null) فاتورة ضريبية @else إشعار مدين @endif</span>
+        <p style="font-size: 20px;font-weight: bold;margin: 10px auto 0;">@if($bill->debit_note_bill_id == null) Tax Invoice @else Debit Note @endif</p>
       </div><!-- header -->
       <table style="float: right;margin: 0 auto 20px;">
         <tbody>
