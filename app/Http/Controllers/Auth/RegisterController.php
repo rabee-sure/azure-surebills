@@ -95,6 +95,8 @@ class RegisterController extends Controller
 
         if($user->source == 'pos')
         {
+            $user->settings->add_tax_invoice = true;
+            $user->settings->save();
             $user->assignRole('pos super admin');
         }
 
