@@ -911,6 +911,10 @@
   "Bill Notes" : "الاشعارات",
   "Pos users": "مستخدمين POS",
   "Pos user": "مستخدم POS",
-  "Remove": "حذف"
+  "Remove": "حذف",
+  "Customizations": "التخصيصات",
+  "Customization name Ar required": "الاسم عربي مطلوب",
+  "Customization name En required": "الاسم انجليزي مطلوب",
+  "Customization price required": "السعر مطلوب"
 
 }

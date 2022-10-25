@@ -112,7 +112,7 @@
           <div class="col-6">
             <div class="form-group mb-3">
               <label for="customizations" class="checkboxItem position-relative mb-3 mb-md-0">
-                <input name="active" class="position-absolute top-0 strat-0 w-100 h-100" id="customizations" type="checkbox">
+                <input name="enable_customizations" class="position-absolute top-0 strat-0 w-100 h-100" id="customizations" type="checkbox">
                 <span class="d-flex align-items-center justify-content-start">
                   <i class="d-block rounded-pill position-relative"></i>
                   {{ __('Customizations') }}
@@ -120,9 +120,10 @@
               </label>
             </div><!-- form-group -->
           </div><!-- col-12 -->
-
-
           <div class="row after-add-more customization_row d-none">
+            @if(isset($id))
+            <input name="customization_id[]" type="hidden">
+            @endif
             <div class="col-3 col-md-3">
               <div class="form-group mb-3">
                 <label for="customization_name_ar" class="d-block mb-2">{{__('Name Ar')}}</label>
@@ -138,7 +139,7 @@
             <div class="col-3 col-md-3">
               <div class="form-group mb-3">
                 <label for="customization_price" class="d-block mb-2">{{__('Price')}}</label>
-                <input name="customization_price[]" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
+                <input name="customization_price[]" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
               </div><!-- form-group -->
             </div>
             <div class="col-3 col-md-3">
@@ -150,22 +151,28 @@
 
           <div class="copy d-none">
             <div class="row customization_row">
+            @if(isset($id))
+            <input name="customization_id[]" type="hidden">
+            @endif
             <div class="col-3 col-md-3">
                 <div class="form-group mb-3">
                   <label for="Name_ar" class="d-block mb-2">{{__('Name Ar')}}</label>
                   <input name="customization_name_ar[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="الاسم {{__('Name Ar')}}">
+                  <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('customization_name_ar.*') }}</span>
                 </div><!-- form-group -->
               </div>
               <div class="col-3 col-md-3">
                 <div class="form-group mb-3">
                   <label for="Name_ar" class="d-block mb-2">{{__('Name En')}}</label>
                   <input name="customization_name_en[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Name En')}}">
+                  <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('customization_name_en.*') }}</span>
                 </div><!-- form-group -->
               </div>
               <div class="col-3 col-md-3">
                 <div class="form-group mb-3">
                   <label for="Name_ar" class="d-block mb-2">{{__('Price')}}</label>
-                  <input name="customization_price[]" type="number" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
+                  <input name="customization_price[]" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
+                  <span id="inputEmail8-error" class="invalid-feedback" style="display: inline; color:black;">{{ $errors->first('customization_price.*') }}</span>
                 </div><!-- form-group -->
               </div>
               <div class="col-3 col-md-3">
@@ -198,7 +205,7 @@
 
 $(document).ready(function() {
 
-  $(".add-more").click(function(){
+$("body").on("click",".add-more",function(){
     if($('.customization_row').length == 10)
     {
       alert('You reach the max number of customizations');
@@ -221,15 +228,11 @@ $(document).ready(function() {
         {
             $('.customization_row').removeClass('d-none');
             $('.customization_row').css('display', 'none');
-            // $('.customization_row').css('display', 'inline');
             $('.customization_row').slideDown(500);
-            // removeClass('d-none');
         }
         else
         {
-            // $('.customization_row').addClass('d-none');
             $('.customization_row').slideUp(500);
-
         }
     })
 
@@ -281,6 +284,29 @@ $(document).ready(function() {
             }else{
               $("input[name='active']").removeAttr('checked', 'checked');
             }
+            if(product['enable_customizations'] == 1){
+              $("input[name='enable_customizations']").attr('checked', 'checked');
+            }else{
+              $("input[name='enable_customizations']").removeAttr('checked', 'checked');
+            }
+
+            if(product['customizations'].length > 0)
+            {
+                $.each( product['customizations'], function( idx, val ) {
+                    if(idx > 0)
+                    {
+                        $(".add-more").click();
+                    }
+                    setTimeout(function(){
+                        $('[name="customization_id[]"]:eq('+idx+')').val(val['id']);
+                    $('[name="customization_name_ar[]"]:eq('+idx+')').val(val['name']['ar']);
+                    $('[name="customization_name_en[]"]:eq('+idx+')').val(val['name']['en']);
+                    $('[name="customization_price[]"]:eq('+idx+')').val(val['price']);
+
+                    },100)
+                });
+            }
+            $('#customizations').change();
 
             $.each(product["images"], function(imgindex, image){
               $('#products_images').append('<figure id="prodImg_'+image["id"]+'" class="p-2 border overflow-hidden rounded-3 position-relative align-items-center justify-content-center"><img src="'+imgUrl+''+image["image"]+'" class="mw-100 mh-100"><i class="fal fa-trash-alt position-absolute align-items-center justify-content-center rounded-1 btn-danger delete_logo" id="remove_'+image["id"]+'" onclick="deleteImage('+image["id"]+')"></i></figure>');
@@ -307,13 +333,23 @@ $(document).ready(function() {
           formData.append('deletedImages[]', deletedImages[i]);
         }
 
-        var textinputs = document.getElementsByName('customization_name_ar[]');
-        for( var i = 0; i < textinputs.length; i++ )
+        var customizationNameAr = document.getElementsByName('customization_name_ar[]');
+        var customizationNameEn = document.getElementsByName('customization_name_en[]');
+        var customizationNamePrice = document.getElementsByName('customization_price[]');
+        var customizationId = document.getElementsByName('customization_id[]');
+
+        for( var i = 0; i < customizationNameAr.length; i++ )
         {
-          if($(textinputs[i]).is(":visible") && textinputs[i].value)
-          {
-            formData.append('customization_name_ar[]', textinputs[i].value);
-          }
+            if($(customizationNameAr[i]).is(":visible"))
+            {
+                formData.append('customization_name_ar[]', customizationNameAr[i].value);
+                formData.append('customization_name_en[]', customizationNameEn[i].value);
+                formData.append('customization_price[]', customizationNamePrice[i].value);
+                if(customizationId.length > 0)
+                {
+                    formData.append('customization_id[]', customizationId[i].value);
+                }
+            }
         }
 
         formData.append('name_en', $("input[name=name_en]").val());
@@ -324,6 +360,7 @@ $(document).ready(function() {
         formData.append('sort_number', $("input[name=sort_number]").val());
         formData.append('category_id', $("select[name=category_id] option:selected").val());
         formData.append('active', active);
+        formData.append('enable_customizations', $('#customizations').is(':checked') ? 1 : 0);
 
         requestUrl = "{{ route('products.store') }}";
         if(product_id){

@@ -362,5 +362,10 @@
 "Go to store": "Go to store",
 "Pos users": "POS users",
 "Pos user": "POS user",
-"Remove": "Remove"
+"Remove": "Remove",
+"Customizations": "Customizations",
+"Customization name Ar required": "Customization name Ar required",
+"Customization name En required": "Customization name En required",
+"Customization price required": "Customization price required"
+
 }

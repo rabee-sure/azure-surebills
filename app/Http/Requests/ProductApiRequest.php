@@ -24,7 +24,7 @@ class ProductApiRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name_en' => ['required'],
             'name_ar' => ['required'],
             'discription_en' => ['required'],
@@ -33,7 +33,20 @@ class ProductApiRequest extends FormRequest
             'image.*' => [new ValidateUploadFile(['png', 'jpg', 'jpeg'])],
             'sort_number' => ['required'],
             'category_id' => ['required'],
+            // 'enable_customizations' => ['required'],
         ];
+
+        if($this->enable_customizations)
+        {
+            $rules['customization_name_ar'] = ['required', 'array', 'min:1'];
+            $rules['customization_name_ar.*'] = ['required', 'string'];
+            $rules['customization_name_en'] = ['required', 'array', 'min:1'];
+            $rules['customization_name_en.*'] = ['required'];
+            $rules['customization_price'] = ['required', 'array', 'min:1'];
+            $rules['customization_price.*'] = ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'];
+        }
+
+        return $rules;
     }
 
     /**
@@ -51,6 +64,9 @@ class ProductApiRequest extends FormRequest
           'price.required' => __('Price required'),
           'price.numeric' => __('Price must be number'),
           'category_id.required' => __('Product Category required'),
+          'customization_name_ar.required' => __('Customization name Ar required'),
+          'customization_name_en.required' => __('Customization name En required'),
+          'customization_price.required' => __('Customization price required'),
         ];
     }
 }

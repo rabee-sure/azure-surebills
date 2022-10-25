@@ -1,6 +1,8 @@
 <?php
 
 use App\Application;
+use App\Http\Controllers\Api\ProductsController;
+use App\Http\Requests\ProductApiRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Client;
@@ -14,6 +16,32 @@ use GuzzleHttp\Client;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::get('send-product', function(){
+
+    $request =  new ProductApiRequest();
+    $request->replace([
+        'customization_name_ar' => [],
+        'customization_name_en' => [],
+        'customization_price' => [],
+        'name_en' => 'Sara Mccarthy',
+        'name_ar' => 'Aquila Rasmussen',
+        'discription_en' => 'Dolore alias distinc',
+        'discription_ar' => 'Iure dolor nostrud i',
+        'price' => 200,
+        'sort_number' => 1,
+        'category_id' => 3,
+        'active' => 1,
+        'enable_customizations' => 1,
+    ]);
+
+    $storeProduct = new ProductsController();
+    $storeProduct->store($request);
+
+    // dd($request->all());
+
+});
 
 Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
 
