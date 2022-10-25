@@ -64,7 +64,7 @@ class BillController extends Controller
                 $q->whereIn('status', $statuses);
             })
             ->when($request->keyword, function ($q) use ($request) {
-                $q->whereLike(['customer_name', 'number', 'user.name', 'user.business_name_en', 'user.business_name_ar'], $request->keyword);
+                $q->whereLike(['customer_name', 'number', 'user.name', 'user.business_name_en', 'user.business_name_ar'], str_replace("DN", "", $request->keyword));
             })
             ->when($date_start, function ($q) use ($date_start, $date_to) {
                 $q->whereDate('created_at', '>=', Carbon::parse($date_start))
