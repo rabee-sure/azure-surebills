@@ -128,14 +128,39 @@
             <tbody>
               @foreach($bill->items as $item)
               <tr>
-                <td>{!! $item->product_name !!}</td>
-                <td>{{ $item->product_price  }}</td>
-                <td>{{ $item->quantity  }}</td>
+                <td>
+                    {!! $item->product_name !!}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$customization->product_name}}</span>
+                    @endforeach
+                </td>
+                <td>
+                    {{ $item->product_price  }}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$customization->product_price}}</span>
+                    @endforeach
+                </td>
+                <td>
+                    {{ $item->quantity  }}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$item->quantity}}</span>
+                    @endforeach
+                </td>
+                <td>
                 @if( $bill->add_tax)
-                <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
+                {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}
                 @else
-                <td>{{ $item->product_price * $item->quantity }}</td>
+                {{ $item->product_price * $item->quantity }}
                 @endif
+                @foreach($item->customizations as $customization)
+                <br>
+                <span class="text-muted">{{$bill->add_tax ?
+                    ($customization->product_price * $item->quantity) + (($customization->product_price * $item->quantity) * $bill->tax_value / 100) : $customization->product_price * $item->quantity}}</span>
+                @endforeach
+                </td>
               </tr>
               @endforeach
             </tbody>

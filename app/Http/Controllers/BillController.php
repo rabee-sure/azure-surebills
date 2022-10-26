@@ -173,7 +173,7 @@ class BillController extends Controller
 
                 'send_sms' => $request->send_sms,
                 'send_email' => $request->send_email,
-                
+
                 'source' => 'sure_bill',
             ]);
 
@@ -266,7 +266,7 @@ class BillController extends Controller
 
                 'send_sms' => $mainBill->send_sms,
                 'send_email' => $mainBill->send_email,
-                
+
                 'source' => 'sure_bill',
             ]);
 
@@ -340,7 +340,7 @@ class BillController extends Controller
         ->select('id', DB::raw("CONCAT('CN', number) as number"), 'amount as sub_total', DB::raw("'0' as vat"), DB::raw("'0' as discount"), 'created_at', DB::raw("'refundedbills' as model"));
 
         $billNotes = $debitNotes->union($creditNotes)->orderBy('created_at', 'desc')->get();
-        
+
         return view('bills.show', ['bill' => $bill, 'title' => $title, 'billNotes' => $billNotes]);
     }
 
@@ -516,7 +516,7 @@ class BillController extends Controller
                 return redirect()->back()->withErrors(['refund' => __("Quantity must be less than or equal to the user's balance")]);
             }
             $bill->setPartialRefunded($request->amount);
-            
+
             $refundedBill = RefundedBill::create([
                 'bill_id' => $bill->id,
                 'user_id' => $bill->user_id,
@@ -525,7 +525,7 @@ class BillController extends Controller
                 'method' => $method,
                 'customer_name' => $bill->customer_name
             ]);
-    
+
             $refundedBill->number = $refundedBill->getNumber();
             $refundedBill->save();
 
@@ -533,9 +533,9 @@ class BillController extends Controller
             if ($bill->is_able_total_refund) {
                 $totalRefundAmountWithFees = $bill->due_to_client;
                 $totalRefundAmountWithoutFees = $bill->total;
-                
+
                 if ($bill->setRefunded()) {
-    
+
                     $refundedBill = RefundedBill::create([
                         'bill_id' => $bill->id,
                         'user_id' => $bill->user_id,
@@ -544,10 +544,10 @@ class BillController extends Controller
                         'method' => $method,
                         'customer_name' => $bill->customer_name
                     ]);
-            
+
                     $refundedBill->number = $refundedBill->getNumber();
                     $refundedBill->save();
-    
+
                     return redirect()->back();
                 }
             }else{

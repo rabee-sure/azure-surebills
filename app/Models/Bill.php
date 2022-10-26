@@ -625,7 +625,7 @@ class Bill extends Model
      */
     public function items()
     {
-        return $this->hasMany(BillItem::class);
+        return $this->hasMany(BillItem::class)->whereNull('product_parent');
     }
 
     /**

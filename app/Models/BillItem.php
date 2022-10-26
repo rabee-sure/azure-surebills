@@ -12,6 +12,7 @@ class BillItem extends Model
 		'product_price',
 		'quantity',
 		'total',
+        'product_parent',
 	];
 
     /**
@@ -22,5 +23,10 @@ class BillItem extends Model
     public function bill()
     {
     	return $this->belongsTo(Bill::class);
+    }
+
+    public function customizations()
+    {
+        return $this->hasMany(BillItem::class, 'product_parent', 'id');
     }
 }
