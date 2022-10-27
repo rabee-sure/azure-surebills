@@ -41,42 +41,49 @@
             <div class="form-group mb-3">
               <label for="Name_ar" class="d-block mb-2">{{ __('Name Ar') }}</label>
               <input name="name_ar" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name_ar" placeholder="{{__('Name Ar')}}">
+              <span id="name_ar-error" class="invalid-feedback"></span>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="Name_en" class="d-block mb-2">{{ __('Name En') }}</label>
               <input name="name_en" type="text" class="onlyEng form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name_en" placeholder="{{__('Name En')}}">
+              <span id="name_en-error" class="invalid-feedback"></span>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="discription_ar" class="d-block mb-2">{{ __('Discription Ar') }}</label>
               <textarea class="form-control shadow-none bg-white border w-100 rounded-3 text-body" name="discription_ar" id="discription_ar" rows="3"></textarea>
+              <span id="discription_ar-error" class="invalid-feedback"></span>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="discription_en" class="d-block mb-2">{{ __('Discription En') }}</label>
               <textarea class="onlyEng form-control shadow-none bg-white border w-100 rounded-3 text-body" name="discription_en" id="discription_en" rows="3"></textarea>
+              <span id="discription_en-error" class="invalid-feedback"></span>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="price" class="d-block mb-2">{{ __('Price') }} <span class="requirement text-danger">*</span></label>
               <input name="price" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="price" placeholder="{{__('Price')}}">
+              <span id="price-error" class="invalid-feedback"></span>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="sel_1" class="d-block mb-2">{{__('Category')}} <span class="requirement text-danger">*</span></label>
               <select id="sel_1" name="category_id" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" multiple></select>
+              <span id="category_id-error" class="invalid-feedback"></span>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="sort_number" class="d-block mb-2">{{ __('Sort No.') }} <span class="requirement text-danger">*</span></label>
               <input name="sort_number" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="sort_number" placeholder="{{__('Sort No.')}}">
+              <span id="sort_number-error" class="invalid-feedback"></span>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6">
@@ -89,7 +96,9 @@
                 <div class="fileBtn text-body d-flex align-items-center justify-content-center fw-bold">{{ __('Choose file') }}</div>
               </div><!-- upoadInput -->
               @if($errors->has('image'))
-                <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('image') }}</span>
+                <span id="image-error" class="invalid-feedback">{{ $errors->first('image') }}</span>
+              @else
+              <span id="image-error" class="invalid-feedback"></span>
               @endif
             </div><!-- form-group -->
           </div><!-- col-12 -->
@@ -196,7 +205,7 @@
 @endsection
 
 @push('footer-scripts')
-  {!! JsValidator::formRequest('App\Http\Requests\ProductApiRequest', '#productForm') !!}
+  {{-- {!! JsValidator::formRequest('App\Http\Requests\ProductApiRequest', '#productForm') !!} --}}
   <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2totree.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2tree.js') }}?v={{ config('app.asset_version') }}"></script>
@@ -204,6 +213,8 @@
 
 
 $(document).ready(function() {
+
+    $('#productForm').submit(false);
 
 $("body").on("click",".add-more",function(){
     if($('.customization_row').length == 10)
@@ -358,7 +369,7 @@ $("body").on("click",".add-more",function(){
         formData.append('discription_ar', $("textarea[name=discription_ar]").val());
         formData.append('price', $("input[name=price]").val());
         formData.append('sort_number', $("input[name=sort_number]").val());
-        formData.append('category_id', $("select[name=category_id] option:selected").val());
+        formData.append('category_id', $("select[name=category_id] option:selected").val() ?? '');
         formData.append('active', active);
         formData.append('enable_customizations', $('#customizations').is(':checked') ? 1 : 0);
 
@@ -374,11 +385,24 @@ $("body").on("click",".add-more",function(){
           data:formData,
           processData: false,
           contentType: false,
+          beforeSend: function(){
+            $('.invalid-feedback').empty();
+          },
           success:function(response){
             window.location.replace("{{ route('products.all') }}");
           },
           error: function(error) {
-            console.log(error);
+            $.each(error.responseJSON.errors, function(index, value) {
+                    if($('#'+index+'-error').length)
+                    {
+                        $('#'+index+'-error').show();
+                        $('#'+index+'-error').text(value);
+                    }
+                    else if(index.match(/image.*/)) {
+                        $('#image-error').show();
+                        $('#image-error').text(value);
+                    }
+                });
           }
         });
 

@@ -33,10 +33,9 @@ class ProductApiRequest extends FormRequest
             'image.*' => [new ValidateUploadFile(['png', 'jpg', 'jpeg'])],
             'sort_number' => ['required'],
             'category_id' => ['required'],
-            // 'enable_customizations' => ['required'],
         ];
 
-        if($this->enable_customizations)
+        if($this->enable_customizations || $this->request->get('enable_customizations'))
         {
             $rules['customization_name_ar'] = ['required', 'array', 'min:1'];
             $rules['customization_name_ar.*'] = ['required', 'string'];
@@ -64,9 +63,9 @@ class ProductApiRequest extends FormRequest
           'price.required' => __('Price required'),
           'price.numeric' => __('Price must be number'),
           'category_id.required' => __('Product Category required'),
-          'customization_name_ar.required' => __('Customization name Ar required'),
-          'customization_name_en.required' => __('Customization name En required'),
-          'customization_price.required' => __('Customization price required'),
+          'customization_name_ar.*.required' => __('Customization name Ar required'),
+          'customization_name_en.*.required' => __('Customization name En required'),
+          'customization_price.*.required' => __('Customization price required'),
         ];
     }
 }

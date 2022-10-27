@@ -166,7 +166,7 @@
                     {{ $item->quantity  }}
                     @foreach($item->customizations as $customization)
                     <br>
-                    <span class="text-muted">{{$item->quantity}}</span>
+                    <span class="text-muted">{{$customization->quantity}}</span>
                     @endforeach
                 </td>
                 <td class="p-1 text-end">
