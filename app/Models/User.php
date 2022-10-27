@@ -320,7 +320,7 @@ class User extends Authenticatable implements HasMedia
             $mobile = (int) $this->mobile;
             $data = ["Tagname" => "SURE-Pay", "RecepientNumber" => "0" . $mobile, "Message" => $message, "Username" => env('YAMAMAH_USERNAME'), "Password" => env('YAMAMAH_PASSWORD')];
             $payload = json_encode($data);
-            $ch = curl_init('https://api.yamamah.com/SendSMS');
+            $ch = curl_init('http://api.yamamah.com/SendSMS');
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLINFO_HEADER_OUT, true);
             curl_setopt($ch, CURLOPT_POST, true);
