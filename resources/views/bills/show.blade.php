@@ -103,7 +103,7 @@
         </div><!-- aboutUser -->
         <div id="status">
           @if($bill->status == 'expired')
-            <div class="alert alert-danger"> 
+            <div class="alert alert-danger">
               @if($bill->debit_note_bill_id == null)
               {{ __('this bill has been expired', ['number' => $bill->number ]) }}
               @else
@@ -123,7 +123,7 @@
               @endif
             </div>
           @elseif(in_array($bill->status, ['paid_cash', 'refunded_cash']))
-            <div class="alert alert-success text-center"> 
+            <div class="alert alert-success text-center">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}
               @else
@@ -131,7 +131,7 @@
               @endif
             </div>
           @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
-            <div class="alert alert-success text-center"> 
+            <div class="alert alert-success text-center">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
               @else
@@ -139,7 +139,7 @@
               @endif
             </div>
           @elseif($bill->status == 'canceled')
-            <div class="alert alert-danger text-center"> 
+            <div class="alert alert-danger text-center">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
               @else
@@ -147,7 +147,7 @@
               @endif
             </div>
           @elseif($bill->status == 'failed')
-            <div class="alert alert-danger text-center"> 
+            <div class="alert alert-danger text-center">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been failed', ['number' => $bill->number ]) }}
               @else
@@ -181,6 +181,7 @@
             </thead>
             <tbody>
               @foreach($bill->items as $item)
+              @if($item->product_parent) @continue @endif
               <tr>
                 <td class="p-1 text-start">
                     {!! $item->product_name !!}

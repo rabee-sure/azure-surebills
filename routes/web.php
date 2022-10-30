@@ -1,8 +1,6 @@
 <?php
 
 use App\Application;
-use App\Http\Controllers\Api\ProductsController;
-use App\Http\Requests\ProductApiRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Client;
@@ -16,78 +14,6 @@ use GuzzleHttp\Client;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('create-bill', function(){
-
-    $data = [
-        'customer_name' => 'Amr Aly',
-        'customer_email' => 'amr@y.com',
-        'customer_mobile' => '0113531144',
-        'customer_notes' => 'order number 2020',
-        'due_date' => Carbon\Carbon::now()->format('d-m-Y'),
-        'expiry_date' => 0,
-        'expiry_hours' => 24,
-        'expiry_minutes' => 0,
-        'send_email' => true,
-        'send_sms' => true,
-        'add_tax' => true,
-        'tax_value' => false,
-        'add_discount' => null,
-        'discount_type' => 'fixed',
-        'discount_value' => null,
-        'reference_id' => rand(0,100000),
-        'application_id' => 127,
-        'application_secret' => 'h88m3HuTNbLdELMnjouN',
-        'items' => [
-            ['name' => 'vegetarian', 'price' => 105, 'quantity' => 4, 'customizations' => [['name' => 'pepsi', 'price' => 15]]],
-            ['name' => 'classic pepperoni', 'price' => 100, 'quantity' => 2, 'customizations' => []],
-            ['name' => 'chicken supreme', 'price' => 120, 'quantity' => 3, 'customizations' => [['name' => 'extra green chilies', 'price' => 20], ['name' => 'extra pepperoni', 'price' => 25]]],
-        ],
-    ];
-
-    $client = new Client(['base_uri' => 'http://sure-bills.test/', 'verify' => false]);
-    $engine = $client->post('api/v1/bills/create',['form_params' => $data, 'exception' => true, 'http_errors'=>false, "headers" => ['Accept' => 'application/json']]);
-    if ($engine->getStatusCode() == 422)
-    {
-        $errors = json_decode($engine->getBody()->getContents(),true);
-        dd($errors);
-    }
-
-    $payload = json_decode($engine->getBody()->getContents(), true);
-
-    if(isset($payload))
-    {
-        dd($payload);
-    }
-
-
-
-});
-
-Route::get('send-product', function(){
-
-    $request =  new ProductApiRequest();
-    $request->replace([
-        'customization_name_ar' => [],
-        'customization_name_en' => [],
-        'customization_price' => [],
-        'name_en' => 'Sara Mccarthy',
-        'name_ar' => 'Aquila Rasmussen',
-        'discription_en' => 'Dolore alias distinc',
-        'discription_ar' => 'Iure dolor nostrud i',
-        'price' => 200,
-        'sort_number' => 1,
-        'category_id' => 3,
-        'active' => 1,
-        'enable_customizations' => 1,
-    ]);
-
-    $storeProduct = new ProductsController();
-    $storeProduct->store($request);
-
-    // dd($request->all());
-
-});
 
 Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
 
@@ -297,4 +223,3 @@ Route::middleware(config('nova.middleware', []))->group(function () {
     // Route::post('reports/merchants-outstanding/store', 'ReportsController@merchants_outstanding_store')->name('reports.merchants-outstanding-store');
 
 });
-

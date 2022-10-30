@@ -127,6 +127,7 @@
             </thead>
             <tbody>
               @foreach($bill->items as $item)
+              @if($item->product_parent) @continue @endif
               <tr>
                 <td>
                     {!! $item->product_name !!}
