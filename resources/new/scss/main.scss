@@ -219,7 +219,7 @@ nav {
   } /* rtl */
   .ranges {
     @include media-breakpoint-down(md) {
-      width: 100%;
+      display: none !important;
     } /* md */
     [dir="rtl"] & {
       text-align: right;
