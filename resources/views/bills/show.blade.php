@@ -49,9 +49,9 @@
 
     <!-- <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="#">{{ __('Send Reminder') }}</a> -->
 
-    @can('create bills')
+    @can('create debit note')
       @if((!auth()->user()->mainStoreUser && count(auth()->user()->channels) == 0) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) == 0))
-        @if($bill->debit_note_bill_id == null)
+        @if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer']))
           <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ route('debitNote.create', ['bill_id' => $bill->id])}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Create Debit Note') }}"><i class="fal fa-receipt"></i></a>
         @endif
       @endif
@@ -66,7 +66,7 @@
     @endcan
 
     @can('refund bill')
-    @if($bill->is_able_refund)
+    @if($bill->is_able_refund && $bill->debit_note_bill_id == null)
       <button id="refund_btn" type="button" class="btn-warning p-0 text-white m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Refund') }}">
         <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right"><i class="fal fa-box-usd"></i></span>
       </button>
@@ -103,23 +103,57 @@
         </div><!-- aboutUser -->
         <div id="status">
           @if($bill->status == 'expired')
-            <div class="alert alert-danger"> {{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>
+            <div class="alert alert-danger"> 
+              @if($bill->debit_note_bill_id == null)
+              {{ __('this bill has been expired', ['number' => $bill->number ]) }}
+              @else
+              {{ __('this debit note has been expired', ['number' => $bill->number ]) }}
+              @endif
+            </div>
           @elseif(in_array($bill->status, ['paid', 'refunded']))
             <div class="alert alert-success text-center">
               @if ($bill->depositTransaction)
                 {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
               @else
+                @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
+                @else
+                {{ __('this debit note has been successfully', ['number' => $bill->number ]) }}
+                @endif
               @endif
             </div>
           @elseif(in_array($bill->status, ['paid_cash', 'refunded_cash']))
-            <div class="alert alert-success text-center"> {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}</div>
+            <div class="alert alert-success text-center"> 
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been Paid Cash successfully', ['number' => $bill->number ]) }}
+              @endif
+            </div>
           @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
-            <div class="alert alert-success text-center"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}</div>
+            <div class="alert alert-success text-center"> 
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
+              @endif
+            </div>
           @elseif($bill->status == 'canceled')
-            <div class="alert alert-danger text-center"> {{ __('this bill has been canceled', ['number' => $bill->number ]) }}</div>
+            <div class="alert alert-danger text-center"> 
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been canceled', ['number' => $bill->number ]) }}
+              @endif
+            </div>
           @elseif($bill->status == 'failed')
-            <div class="alert alert-danger text-center"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
+            <div class="alert alert-danger text-center"> 
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been failed', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been failed', ['number' => $bill->number ]) }}
+              @endif
+            </div>
           {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
             <div class="alert alert-warning text-center"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div> --}}
           @endif

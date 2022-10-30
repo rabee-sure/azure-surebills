@@ -22,3 +22,9 @@
     </span>
     <a href="{{route('bills.show', $bill->mainBill)}}" title="{{__('Bill')}} {{ $bill->mainBill->number }}" target="_blank"><span class="d-block mb-2">{{ $bill->mainBill->number }}</span></a>
 </div><!-- d-flex -->
+@if($bill->user->settings->add_tax_invoice && $bill->user->vat_registration_number)
+<div class="d-flex align-items-center justify-content-between">
+    <span class="d-block mb-2">{{ __('Organization VAT Registration Number') }}</span>
+    <span class="d-block mb-2">{{ $bill->user->vat_registration_number }}</span>
+</div><!-- d-flex -->
+@endif
