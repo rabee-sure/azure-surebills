@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ProductImageResource;
+use App\Http\Resources\ProductCustomizationResource;
 
 class ProductResource extends JsonResource
 {
@@ -32,6 +33,8 @@ class ProductResource extends JsonResource
             'active' => $this->active,
             'category_id' => $this->category_id,
             'images' => ProductImageResource::collection($this->images),
+            'enable_customizations' => $this->enable_customizations,
+            'customizations' => $this->enable_customizations ? ProductCustomizationResource::collection($this->customizations) : [],
         ];
     }
 }

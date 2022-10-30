@@ -919,6 +919,11 @@
   "Bill Notes" : "الاشعارات",
   "Pos users": "مستخدمين POS",
   "Pos user": "مستخدم POS",
+  "Remove": "حذف",
+  "Customizations": "التخصيصات",
+  "Customization name Ar required": "الاسم عربي مطلوب",
+  "Customization name En required": "الاسم انجليزي مطلوب",
+  "Customization price required": "السعر مطلوب",
   "You can't create debit note for this bill" : "لايمكن انشاء إشعار مدين لتلك الفاتورة.",
   "You can't refund this Debit Note" : "لايمكنك استرداد إشعار دائن"
 

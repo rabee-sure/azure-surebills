@@ -102,13 +102,29 @@ class BillController extends Controller
 
 
         foreach ($request->items as $item) {
-            BillItem::create([
+
+            $billItem = BillItem::create([
                 'bill_id' => $bill->id,
                 'product_name' => $item['name'],
                 'product_price' => $item['price'],
                 'quantity' => $item['quantity'],
                 'total' => $item['quantity']*$item['price'],
             ]);
+
+            if(isset($item['customizations']) && count($item['customizations']) > 0)
+            {
+                foreach($item['customizations'] as $customization)
+                {
+                    BillItem::create([
+                        'bill_id' => $bill->id,
+                        'product_name' => $customization['name'],
+                        'product_price' => $customization['price'],
+                        'quantity' => $item['quantity'],
+                        'total' => $item['quantity']*$customization['price'],
+                        'product_parent' => $billItem->id,
+                    ]);
+                }
+            }
         }
 
         $sub_total = $bill->items->sum('total');
@@ -185,11 +201,11 @@ class BillController extends Controller
                     'authorization' =>[__("can't create debit note bill for other debit note bill")]
                 ]
            ], 422);
-        } 
+        }
 
         $send_sms = 0;
         $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
-        
+
         $bill = Bill::create([
             'user_id' => $user->id,
             'creted_by' => $user->id,
@@ -622,7 +638,7 @@ class BillController extends Controller
                 'method' => $method,
                 'customer_name' => $bill->customer_name
             ]);
-    
+
             $refundedBill->number = $refundedBill->getNumber();
             $refundedBill->save();
 
@@ -640,7 +656,7 @@ class BillController extends Controller
                         'method' => $method,
                         'customer_name' => $bill->customer_name
                     ]);
-            
+
                     $refundedBill->number = $refundedBill->getNumber();
                     $refundedBill->save();
                 }

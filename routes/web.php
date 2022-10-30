@@ -223,4 +223,3 @@ Route::middleware(config('nova.middleware', []))->group(function () {
     // Route::post('reports/merchants-outstanding/store', 'ReportsController@merchants_outstanding_store')->name('reports.merchants-outstanding-store');
 
 });
-

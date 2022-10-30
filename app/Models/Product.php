@@ -17,14 +17,15 @@ class Product extends Model
 
     public $translatable = ['name', 'discription'];
 
-    protected $fillable = [ 
-        'name', 
-        'discription', 
-        'price', 
+    protected $fillable = [
+        'name',
+        'discription',
+        'price',
         'sort_number',
         'active',
         'category_id',
-        'user_id'
+        'user_id',
+        'enable_customizations',
     ];
 
     public function scopeActive($query)
@@ -37,6 +38,11 @@ class Product extends Model
     public function scopeOwner($query, $user_id)
     {
     	return $query->where('user_id', $user_id);
+    }
+
+    public function customizations()
+    {
+        return $this->hasMany(ProductCustomization::class);
     }
 
     public function scopeName($query, $keyword)
