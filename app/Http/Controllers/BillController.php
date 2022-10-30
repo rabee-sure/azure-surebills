@@ -179,7 +179,7 @@ class BillController extends Controller
 
                 'send_sms' => $request->send_sms,
                 'send_email' => $request->send_email,
-                
+
                 'source' => 'sure_bill',
             ]);
 
@@ -246,7 +246,7 @@ class BillController extends Controller
         if($mainBill->debit_note_bill_id == null && in_array($mainBill->status, ['paid', 'paid_cash', 'paid_bank_transfer'])){
             $bill = DB::transaction(function () use ($request, $mainBill) {
                 $user = $mainBill->user;
-    
+
                 $bill = Bill::create([
                     'user_id' => $user->store_main_user_id ?? $user->id,
                     'created_by' => $user->id,
@@ -257,26 +257,26 @@ class BillController extends Controller
                     'customer_email' => $mainBill->customer_email,
                     'customer_mobile' => $mainBill->customer_mobile,
                     'customer_notes' => $request->customer_notes,
-    
+
                     'expiry_date' => $request->expiry_date,
                     'expiry_hours' => $request->expiry_hours ?? 0,
                     'expiry_minutes' => $request->expiry_minutes ?? 0,
                     'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->due_date))),
-    
+
                     'add_discount' => $request->add_discount,
                     'discount_type' => $request->discount_type,
                     'discount_value' => $request->discount_value,
-    
+
                     'add_tax' => $mainBill->add_tax,
                     'tax_name' => $mainBill->tax_name,
                     'tax_value' => $mainBill->tax_value,
-    
+
                     'send_sms' => $mainBill->send_sms,
                     'send_email' => $mainBill->send_email,
-                    
+
                     'source' => 'sure_bill',
                 ]);
-    
+
                 foreach ($request->items as $item) {
                     BillItem::create([
                         'bill_id' => $bill->id,
@@ -286,17 +286,17 @@ class BillController extends Controller
                         'total' => $item['quantity'] * $item['price'],
                     ]);
                 }
-    
+
                 $sub_total = $bill->items->sum('total');
                 $discount = 0;
                 $vat = 0;
                 $payment_fees = 0;
-    
+
                 // not found in database
                 if ($user->pay_fees == "client") {
                     $payment_fees = ($sub_total * ($user->credit_cards_percentage / 100)) + $user->credit_cards_fixed;
                 }
-    
+
                 if ($request->add_discount) {
                     switch ($request->discount_type) {
                         case 'fixed':
@@ -307,11 +307,11 @@ class BillController extends Controller
                             break;
                     }
                 }
-    
+
                 if ($mainBill->add_tax) {
                     $vat = ($sub_total + $payment_fees - $discount) * $mainBill->tax_value / 100;
                 }
-    
+
                 $bill->payment_fees = $payment_fees;
                 $bill->discount = $discount;
                 $bill->vat = $vat;
@@ -325,7 +325,7 @@ class BillController extends Controller
                 $bill->save();
                 return $bill;
             });
-    
+
             event(new BillCreated($bill));
             return redirect()->route('bills.show', $mainBill);
         }else{
@@ -351,7 +351,7 @@ class BillController extends Controller
         ->select('id', DB::raw("CONCAT('CN', number) as number"), 'amount as sub_total', DB::raw("'0' as vat"), DB::raw("'0' as discount"), 'created_at', DB::raw("'refundedbills' as model"));
 
         $billNotes = $debitNotes->union($creditNotes)->orderBy('created_at', 'desc')->get();
-        
+
         return view('bills.show', ['bill' => $bill, 'title' => $title, 'billNotes' => $billNotes]);
     }
 
@@ -531,7 +531,7 @@ class BillController extends Controller
                 return redirect()->back()->withErrors(['refund' => __("Quantity must be less than or equal to the user's balance")]);
             }
             $bill->setPartialRefunded($request->amount);
-            
+
             $refundedBill = RefundedBill::create([
                 'bill_id' => $bill->id,
                 'user_id' => $bill->user_id,
@@ -540,7 +540,7 @@ class BillController extends Controller
                 'method' => $method,
                 'customer_name' => $bill->customer_name
             ]);
-    
+
             $refundedBill->number = $refundedBill->getNumber();
             $refundedBill->save();
 
@@ -548,9 +548,9 @@ class BillController extends Controller
             if ($bill->is_able_total_refund) {
                 $totalRefundAmountWithFees = $bill->due_to_client;
                 $totalRefundAmountWithoutFees = $bill->total;
-                
+
                 if ($bill->setRefunded()) {
-    
+
                     $refundedBill = RefundedBill::create([
                         'bill_id' => $bill->id,
                         'user_id' => $bill->user_id,
@@ -559,10 +559,10 @@ class BillController extends Controller
                         'method' => $method,
                         'customer_name' => $bill->customer_name
                     ]);
-            
+
                     $refundedBill->number = $refundedBill->getNumber();
                     $refundedBill->save();
-    
+
                     return redirect()->back();
                 }
             }else{
