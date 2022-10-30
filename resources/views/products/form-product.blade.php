@@ -137,18 +137,21 @@
               <div class="form-group mb-3">
                 <label for="customization_name_ar" class="d-block mb-2">{{__('Name Ar')}}</label>
                 <input name="customization_name_ar[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="الاسم {{__('Name Ar')}}">
+                <span class="customization_name_ar-error invalid-feedback"></span>
               </div><!-- form-group -->
             </div>
             <div class="col-3 col-md-3">
               <div class="form-group mb-3">
                 <label for="customization_name_en" class="d-block mb-2">{{__('Name En')}}</label>
                 <input name="customization_name_en[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Name En')}}">
+                <span class="customization_name_en-error invalid-feedback"></span>
               </div><!-- form-group -->
             </div>
             <div class="col-3 col-md-3">
               <div class="form-group mb-3">
                 <label for="customization_price" class="d-block mb-2">{{__('Price')}}</label>
                 <input name="customization_price[]" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
+                <span class="customization_price-error invalid-feedback"></span>
               </div><!-- form-group -->
             </div>
             <div class="col-3 col-md-3">
@@ -167,21 +170,21 @@
                 <div class="form-group mb-3">
                   <label for="Name_ar" class="d-block mb-2">{{__('Name Ar')}}</label>
                   <input name="customization_name_ar[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="الاسم {{__('Name Ar')}}">
-                  <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('customization_name_ar.*') }}</span>
+                  <span class="customization_name_ar-error invalid-feedback"></span>
                 </div><!-- form-group -->
               </div>
               <div class="col-3 col-md-3">
                 <div class="form-group mb-3">
                   <label for="Name_ar" class="d-block mb-2">{{__('Name En')}}</label>
                   <input name="customization_name_en[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Name En')}}">
-                  <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('customization_name_en.*') }}</span>
+                  <span class="customization_name_en-error invalid-feedback"></span>
                 </div><!-- form-group -->
               </div>
               <div class="col-3 col-md-3">
                 <div class="form-group mb-3">
                   <label for="Name_ar" class="d-block mb-2">{{__('Price')}}</label>
                   <input name="customization_price[]" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
-                  <span id="inputEmail8-error" class="invalid-feedback" style="display: inline; color:black;">{{ $errors->first('customization_price.*') }}</span>
+                  <span class="customization_price-error invalid-feedback"></span>
                 </div><!-- form-group -->
               </div>
               <div class="col-3 col-md-3">
@@ -310,10 +313,9 @@ $("body").on("click",".add-more",function(){
                     }
                     setTimeout(function(){
                         $('[name="customization_id[]"]:eq('+idx+')').val(val['id']);
-                    $('[name="customization_name_ar[]"]:eq('+idx+')').val(val['name']['ar']);
-                    $('[name="customization_name_en[]"]:eq('+idx+')').val(val['name']['en']);
-                    $('[name="customization_price[]"]:eq('+idx+')').val(val['price']);
-
+                        $('[name="customization_name_ar[]"]:eq('+idx+')').val(val['name']['ar']);
+                        $('[name="customization_name_en[]"]:eq('+idx+')').val(val['name']['en']);
+                        $('[name="customization_price[]"]:eq('+idx+')').val(val['price']);
                     },100)
                 });
             }
@@ -387,6 +389,10 @@ $("body").on("click",".add-more",function(){
           contentType: false,
           beforeSend: function(){
             $('.invalid-feedback').empty();
+            $('form *').prop('disabled', true);
+          },
+          complete:function(){
+            $('form *').prop('disabled', false);
           },
           success:function(response){
             window.location.replace("{{ route('products.all') }}");
@@ -402,6 +408,19 @@ $("body").on("click",".add-more",function(){
                         $('#image-error').show();
                         $('#image-error').text(value);
                     }
+                    else if(index.match(/customization_name_ar.*/)) {
+                        $('.customization_name_ar-error').eq(index.replace(/\D/g, "")).show();
+                        $('.customization_name_ar-error').eq(index.replace(/\D/g, "")).text(value);
+                    }
+                    else if(index.match(/customization_name_en.*/)) {
+                        $('.customization_name_en-error').eq(index.replace(/\D/g, "")).show();
+                        $('.customization_name_en-error').eq(index.replace(/\D/g, "")).text(value);
+                    }
+                    else if(index.match(/customization_price.*/)) {
+                        $('.customization_price-error').eq(index.replace(/\D/g, "")).show();
+                        $('.customization_price-error').eq(index.replace(/\D/g, "")).text(value);
+                    }
+
                 });
           }
         });
