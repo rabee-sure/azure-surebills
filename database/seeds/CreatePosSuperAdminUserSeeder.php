@@ -29,6 +29,7 @@ class CreatePosSuperAdminUserSeeder extends Seeder
 
         foreach($users as $user)
         {
+            $user->roles()->detach();
             $user->assignRole($role->id);
         }
     }
