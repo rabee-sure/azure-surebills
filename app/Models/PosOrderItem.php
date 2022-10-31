@@ -13,6 +13,7 @@ class PosOrderItem extends Model
 		'product_price',
 		'quantity',
 		'total',
+        'product_parent',
 	];
 
     /**
@@ -24,4 +25,10 @@ class PosOrderItem extends Model
     {
     	return $this->belongsTo(PosOrder::class, 'order_id');
     }
+
+    public function customizations()
+    {
+        return $this->hasMany(PosOrderItem::class, 'product_parent', 'id');
+    }
+
 }

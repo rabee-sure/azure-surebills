@@ -85,15 +85,41 @@
             </thead>
             <tbody>
               @foreach($bill->items as $item)
+              @if($item->product_parent) @continue @endif
               <tr>
-                <td>{!! $item->product_name !!}</td>
-                <td>{{ $item->product_price  }}</td>
-                <td>{{ $item->quantity  }}</td>
-                @if( $bill->add_tax)
-                <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
-                @else
-                <td>{{ $item->product_price * $item->quantity }}</td>
-                @endif
+                <td>
+                    {!! $item->product_name !!}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$customization->product_name}}</span>
+                    @endforeach
+                </td>
+                <td>
+                    {{ $item->product_price  }}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$customization->product_price}}</span>
+                    @endforeach
+                </td>
+                <td>
+                    {{ $item->quantity  }}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$customization->quantity}}</span>
+                    @endforeach
+                </td>
+                <td>
+                    @if( $bill->add_tax)
+                    {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}
+                    @else
+                    {{ $item->product_price * $item->quantity }}
+                    @endif
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$bill->add_tax ?
+                        ($customization->product_price * $item->quantity) + (($customization->product_price * $item->quantity) * $bill->tax_value / 100) : $customization->product_price * $item->quantity}}</span>
+                    @endforeach
+                </td>
               </tr>
               @endforeach
             </tbody>
@@ -138,7 +164,7 @@
         </div><!-- bill_info -->
         <div id="status">
           @if($bill->status == 'expired')
-            <div class="alert alert-danger"> 
+            <div class="alert alert-danger">
               @if($bill->debit_note_bill_id == null)
               {{ __('this bill has been expired', ['number' => $bill->number ]) }}
               @else
@@ -158,7 +184,7 @@
               @endif
             </div>
           @elseif(in_array($bill->status, ['paid_cash', 'refunded_cash']))
-            <div class="alert alert-success text-center"> 
+            <div class="alert alert-success text-center">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}
               @else
@@ -166,7 +192,7 @@
               @endif
             </div>
           @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
-            <div class="alert alert-success text-center"> 
+            <div class="alert alert-success text-center">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
               @else
@@ -174,7 +200,7 @@
               @endif
             </div>
           @elseif($bill->status == 'canceled')
-            <div class="alert alert-danger text-center"> 
+            <div class="alert alert-danger text-center">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
               @else
@@ -182,7 +208,7 @@
               @endif
             </div>
           @elseif($bill->status == 'failed')
-            <div class="alert alert-danger text-center"> 
+            <div class="alert alert-danger text-center">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been failed', ['number' => $bill->number ]) }}
               @else
