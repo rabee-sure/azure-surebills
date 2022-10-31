@@ -50,13 +50,13 @@
 
           <div id="status">
           </div>
-          
+
           @if($errors->any())
             <div class="alert alert-danger" role="alert">
               {{ __($errors->first()) }}
             </div>
           @endif
-          
+
             <div class="date_time">
               <span>
                 {{__('Due on')}} {{ $bill->dateLocalization()}}
@@ -90,7 +90,7 @@
                 @endif
                 <p>{{ __('Subtotal - Discount') }}: {{ $bill->sub_total- $bill->discount }}  {{ __('SAR') }}</p>
               @endif
-              
+
               @if( $bill->user->pay_fees == 'client')
                 <p>{{ __('payment fees') }} : {{ $bill->payment_fees }}  {{ __('SAR') }}</p>
               @endif
@@ -105,12 +105,12 @@
               @if( $bill->channel_extra_vat)
                 <p> {{ __('Vat') }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))  : {{ $bill->channel_extra_vat }} {{ __('SAR') }}</p>
               @endif
-              
+
               <b>{{ __('Total') }} : {{ $bill->total}}  {{ __('SAR') }}</b>
             </div><!-- total_bill -->
 
             @if($bill->customer_notes)
-              <div class="customer_notes">{{$bill->customer_notes}}</div> 
+              <div class="customer_notes">{{$bill->customer_notes}}</div>
             @endif
             <div class="customer_information">
               <!-- <div class="name">Customer Information</div> -->
