@@ -25,8 +25,8 @@
           <input  name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}">
         </div>
         <div class="form-group mb-3">
-          <label for="Notes" class="d-block mb-1">{{__('Notes')}}</label>
-          <input name="notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Notes" placeholder="{{__('Notes')}}">
+          <label for="Notes" class="d-block mb-1">{{__('Customer Notes')}}</label>
+          <input name="notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Notes" placeholder="{{__('Customer Notes')}}">
         </div>
         @if($user->settings->add_tax_invoice)
           <div class="form-group mb-3">
