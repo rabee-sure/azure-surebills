@@ -179,7 +179,7 @@ class Bill extends Model
     {
         $ableToRefund = false;
 
-        if(in_array($this->status, ['paid', 'paid_cash', 'paid_bank_transfer'])){
+        if(in_array($this->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine'])){
             $ableToRefund = $this->user->able_refund
             && $this->total > 0
             && ($this->paid_at && $this->paid_at->gt(Carbon::parse('2021-02-04 03:05:33')))
@@ -763,7 +763,13 @@ class Bill extends Model
             return true;
         } else if (!$this->success_payment) {
             $total_remain = $this->total;
-            $this->status = $this->status == 'paid_cash' ? 'refunded_cash' : 'refunded_bank_transfer';
+            if($this->status == 'paid_cash'){
+                $this->status = 'refunded_cash';
+            }elseif($this->status == 'paid_bank_transfer'){
+                $this->status = 'refunded_bank_transfer';
+            }elseif($this->status == 'paid_machine'){
+                $this->status = 'refunded_machine';
+            }
             $this->refund_amount = $this->refund_amount + $this->total;
             $this->total = 0;
             $this->refunded_at = Carbon::now();

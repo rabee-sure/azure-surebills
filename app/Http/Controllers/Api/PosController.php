@@ -28,6 +28,7 @@ use App\Http\Requests\PosOrderApiRequest;
 use App\Events\BillCreated;
 use App\Events\PosBillPaid;
 use App\Events\PosSendBill;
+use App\Http\Requests\PosBillChangeStatus;
 use App\Http\Requests\PosRedirectToBillsProductsRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -330,7 +331,7 @@ class PosController extends Controller
                     break;
 
                 case 'posPayCard':
-                    $billStatus = 'paid';
+                    $billStatus = 'pending';
                     $payment_way = 'payment_machine';
                     break;
 
@@ -440,7 +441,7 @@ class PosController extends Controller
 
         event(new BillCreated($bill));
 
-        if($bill->status == 'paid' || $bill->status == 'paid_cash'){
+        if($bill->status == 'paid' || $bill->status == 'paid_cash' || $bill->status == 'paid_machine'){
             event(new PosBillPaid($bill));
         }
 
@@ -525,7 +526,7 @@ class PosController extends Controller
         return response()->json(['authorization' => 'invalid password'], 403);
     }
 
-    public function billChangeStatus(Request $request){
-        dd($request);
+    public function billChangeStatus(PosBillChangeStatus $request){
+        return response()->json(['success' => 'bill paid successfully'], 200);
     }
 }

@@ -32,7 +32,7 @@ class BillCustomerDataExport implements FromQuery, WithHeadings
         $query = DB::table('bills')
         ->select('number', 'status', 'created_at', 'payment_method', 'customer_name', 'customer_mobile', 'customer_email')
         ->where('user_id', 1654)
-        ->whereIn('status', ['paid','paid_cash','paid_bank_transfer'])
+        ->whereIn('status', ['paid','paid_cash','paid_bank_transfer', 'paid_machine'])
         ->orderByDesc('created_at');
         return $query;
     }
