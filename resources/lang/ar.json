@@ -601,7 +601,7 @@
 	"Send" : "إرسال",
 	"Add" : "اضف",
 	"Close" : "إغلاق",
-	"Notes" : "ملاحظات",
+	"Customer Notes" : "ملاحظات",
 	"Gander" : "الجنس",
 	"Choose ..." : "إختر ...",
 	"Male" : "ذكر",
@@ -907,7 +907,7 @@
 	"Invoice Number" : "رقم الفاتورة",
 	"Invoice Date" : "تاريخ الفاتورة",
 	"You have pending refund under proccess! please try again later" : "لديك عملية استرداد معلقة! برجاء إعادة المحاولة في وقت لاحق.",
-	"Tax credit note" : "اشعار دائن ضريبي",
+  "Tax credit note" : "اشعار دائن ضريبي",
 	"Reference Number" : "الرقم المرجعي",
 	"Go to store": "الذهاب الى المتجر",
 	"Create Debit Note" : "أنشاء إشعار مدين",
@@ -926,5 +926,4 @@
 	"Customization price required": "السعر مطلوب",
 	"You can't create debit note for this bill" : "لايمكن انشاء إشعار مدين لتلك الفاتورة.",
 	"You can't refund this Debit Note" : "لايمكنك استرداد إشعار دائن"
-
 }
