@@ -36,34 +36,7 @@
     @endif
   </div><!-- billInfo -->
   <div class="tableItems pt-2 borderTop">
-    <table class="w-100">
-      <thead>
-        <tr>
-          <th class="p-1 text-start">{{ __('Description', [], $lang) }}</th>
-          <th class="p-1 text-center">{{ __('Price', [], $lang) }}</th>
-          <th class="p-1 text-center">{{ __('Quantity', [], $lang) }}</th>
-          @if($bill->add_tax)
-            <th th width="35%" class="p-1 text-end">{{ __('Total include added tax', [], $lang) }}</th>
-          @else
-            <th width="35%" class="p-1 text-end">{{ __('Total', [], $lang) }}</th>
-          @endif
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($bill->items as $item)
-        <tr>
-          <td class="p-1 text-start">{!! $item->product_name !!}</td>
-          <td class="p-1 text-center">{{ $item->product_price  }}</td>
-          <td class="p-1 text-center">{{ $item->quantity  }}</td>
-          @if( $bill->add_tax)
-            <td class="p-1 text-end">{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
-          @else
-            <td class="p-1 text-end">{{ $item->product_price * $item->quantity }}</td>
-          @endif
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
+    @include('bills.print_template.partials.bill_items', ['bill' => $bill, 'lang' => $lang])
   </div><!-- tableItems -->
   <div class="billInfo pt-2 mt-2 borderTop">
     @if( $bill->add_tax || $bill->add_discount)

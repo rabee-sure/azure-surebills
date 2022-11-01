@@ -1,5 +1,5 @@
 <div class="paymentsLog bg-white shadow-sm rounded-3 p-2 mb-3">
-  <div class="titleBlock mb-3 text-body fw-bold">{{__('Bill Notes')}}</div>
+  <div class="titleBlock mb-3 text-body fw-bold">{{__('Notes')}}</div>
     <div class="table-responsive">
       <table class="table table-hover text-nowrap">
         <thead>

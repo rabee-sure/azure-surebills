@@ -31,16 +31,37 @@
         </tbody>
       </table>
       <table style="width: 70%;float: left;">
+        @if($bill->debit_note_bill_id != null) 
+        <tr>
+          <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">رقم إشعار مدين :</td>
+          <td style="text-align: center;border-bottom: 1px solid #000;border-top: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->number ?? $bill->id }}</td>
+          <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%; direction: ltr;">Debit Note Number :</td>
+        </tr>
+        <tr>
+          <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">تاريخ اصدار الإشعار المدين :</td>
+          <td style="text-align: center;border-bottom: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->created_at->format('d/m/Y')}}</td>
+          <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;direction: ltr;">Debit Note Issue Date :</td>
+
+          <tr>
+            <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">رقم الفاتورة :</td>
+            <td style="text-align: center;border-bottom: 1px solid #000;border-top: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->mainBill->number ?? $bill->mainBill->id }}</td>
+            <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%; direction: ltr;">Invoice Number :</td>
+          </tr>
+          <tr>
+            <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">تاريخ اصدار الفاتورة :</td>
+            <td style="text-align: center;border-bottom: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->mainBill->created_at->format('d/m/Y')}}</td>
+            <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;direction: ltr;">Invoice Issue Date :</td>
+          </tr>
+        </tr>
+        @else
         <tr>
           <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">رقم الفاتورة :</td>
           <td style="text-align: center;border-bottom: 1px solid #000;border-top: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->number ?? $bill->id }}</td>
-          <!-- <td style="text-align: center;border: 2px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->number ?? $bill->id }}</td> -->
           <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%; direction: ltr;">Invoice Number :</td>
         </tr>
         <tr>
           <td style="text-align: right;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">تاريخ اصدار الفاتورة :</td>
           <td style="text-align: center;border-bottom: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->created_at->format('d/m/Y')}}</td>
-          <!-- <td style="text-align: center;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->created_at->format('d/m/Y')}}</td> -->
           <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;direction: ltr;">Invoice Issue Date :</td>
         </tr>
         <tr>
@@ -57,6 +78,7 @@
           <td style="text-align: center;border-bottom: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;">{{ $bill->due_date->format('d/m/Y')}}</td>
           <td style="text-align: left;border: 1px solid #000;padding: 10px;font-size: 8pt;width: 25%;direction: ltr;">Due Date :</td>
         </tr>
+        @endif
       </table>
       <div class="table_1" style="width: 100%;margin: 0 auto 20px;">
         <table class="table_title" style="width: 100%;margin-bottom: 8px;">

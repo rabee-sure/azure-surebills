@@ -201,7 +201,7 @@ class PosController extends Controller
         }
 
         $customer = null;
-        
+
         if($request->walkin_customer == 1){
             $customer = Customer::where('walkin_customer', 1)->owner($user->id)->first();
             if($customer == null){
@@ -259,7 +259,7 @@ class PosController extends Controller
 
 
         foreach ($request->items as $item) {
-            PosOrderItem::create([
+            $posOrderItem = PosOrderItem::create([
                 'order_id' => $order->id,
                 'product_name' => $item['name'],
                 'product_category' => $item['category'],
@@ -267,6 +267,23 @@ class PosController extends Controller
                 'quantity' => $item['quantity'],
                 'total' => $item['quantity']*$item['price'],
             ]);
+
+            if(isset($item['customizations']) && count($item['customizations']) > 0)
+            {
+                foreach($item['customizations'] as $customization)
+                {
+                    PosOrderItem::create([
+                        'order_id' => $order->id,
+                        'product_name' => $customization['name'],
+                        'product_category' => $item['category'],
+                        'product_price' => $customization['price'],
+                        'quantity' => $item['quantity'],
+                        'total' => $item['quantity']*$customization['price'],
+                        'product_parent' => $posOrderItem->id,
+                    ]);
+                }
+            }
+
         }
 
         $sub_total = $order->items->sum('total');
@@ -359,14 +376,29 @@ class PosController extends Controller
                 'payment_way' => $payment_way,
             ]);
 
-            foreach ($order->items as $item) {
-                BillItem::create([
+            foreach ($order->items->whereNull('product_parent') as $item) {
+                $billItem = BillItem::create([
                     'bill_id' => $bill->id,
                     'product_name' => $item->product_name,
                     'product_price' => $item->product_price,
                     'quantity' => $item->quantity,
                     'total' => $item->quantity * $item->product_price,
                 ]);
+
+                if($item->customizations)
+                {
+                    foreach($item->customizations as $customization)
+                    {
+                        BillItem::create([
+                            'bill_id' => $bill->id,
+                            'product_name' => $customization->product_name,
+                            'product_price' => $customization->product_price,
+                            'quantity' => $customization->quantity,
+                            'total' => $item->quantity * $customization->product_price,
+                            'product_parent' => $billItem->id,
+                        ]);
+                    }
+                }
             }
 
             $sub_total = $bill->items->sum('total');
