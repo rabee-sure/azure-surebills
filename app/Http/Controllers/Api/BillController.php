@@ -102,29 +102,13 @@ class BillController extends Controller
 
 
         foreach ($request->items as $item) {
-
-            $billItem = BillItem::create([
+            BillItem::create([
                 'bill_id' => $bill->id,
                 'product_name' => $item['name'],
                 'product_price' => $item['price'],
                 'quantity' => $item['quantity'],
                 'total' => $item['quantity']*$item['price'],
             ]);
-
-            if(isset($item['customizations']) && count($item['customizations']) > 0)
-            {
-                foreach($item['customizations'] as $customization)
-                {
-                    BillItem::create([
-                        'bill_id' => $bill->id,
-                        'product_name' => $customization['name'],
-                        'product_price' => $customization['price'],
-                        'quantity' => $item['quantity'],
-                        'total' => $item['quantity']*$customization['price'],
-                        'product_parent' => $billItem->id,
-                    ]);
-                }
-            }
         }
 
         $sub_total = $bill->items->sum('total');

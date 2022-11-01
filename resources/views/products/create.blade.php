@@ -30,8 +30,8 @@
                             <input  name="email" type="email" class="form-control" id="Email" placeholder="{{__('Email')}}">
                         </div>
                         <div class="form-group">
-                            <label for="Notes">{{__('Notes')}}</label>
-                            <input name="notes" type="text" class="form-control" id="Notes" placeholder="{{__('Notes')}}">
+                            <label for="Notes">{{__('Customer Notes')}}</label>
+                            <input name="notes" type="text" class="form-control" id="Notes" placeholder="{{__('Customer Notes')}}">
                         </div>                        
                 </div>
                 <div class="modal-footer">
