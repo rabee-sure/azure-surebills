@@ -169,7 +169,7 @@
             <div class="col-3 col-md-3">
                 <div class="form-group mb-3">
                   <label for="Name_ar" class="d-block mb-2">{{__('Name Ar')}}</label>
-                  <input name="customization_name_ar[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="الاسم {{__('Name Ar')}}">
+                  <input name="customization_name_ar[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Name Ar')}}">
                   <span class="customization_name_ar-error invalid-feedback"></span>
                 </div><!-- form-group -->
               </div>
@@ -195,8 +195,6 @@
           </div>
           </div>
 
-
-
         </div><!-- row -->
         <div class="saveBtn d-flex justify-content-start mt-3">
           <button type="button" id="SubmitForm" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold">{{__('Save')}}</button>
@@ -220,9 +218,10 @@ $(document).ready(function() {
     $('#productForm').submit(false);
 
 $("body").on("click",".add-more",function(){
-    if($('.customization_row').length == 10)
+
+    if($('.customization_row:visible').length == 10)
     {
-      alert('You reach the max number of customizations');
+      alert('{{__("You reach the max number of customizations")}}');
     }
     else{
       var html = $(".copy").html();
