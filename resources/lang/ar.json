@@ -470,8 +470,11 @@
 	"customer_email": "ايميل العميل",
 
 	"Cancel Bill": "إلغاء الفاتورة",
+	"Cancel Debit Note": "إلغاء الإشعار المدين",
 	"Confirm Cancel Bill": "تأكيد إلغاء الفاتورة",
+	"Confirm Cancel Debit Note": "تأكيد إلغاء الإشعار المدين",
 	"Are you Sure to Cancel Bill ?": "هل انت متأكد من إلغاء الفاتورة ؟",
+	"Are you Sure to Cancel Debit Note ?": "هل انت متأكد من إلغاء الإشعار المدين ؟",
 	"Subtotal": "المجموع الفرعي",
 	"Sub Total": "المجموع",
 	"Total": "المجموع",
@@ -832,7 +835,7 @@
 	"Select parent category" : "أختر القسم الاب",
 	"Main" : "رئيسي",
 	"beneficiary name must english" : "اسم المستفيد يجب ان يكون باللغة الانجليزية" ,
-	"business city must be english" : "الدينة يجب ان تكون باللغة الانجليزية" ,
+	"business city must be english" : "المدينة يجب ان تكون باللغة الانجليزية" ,
 	"Merchants required" : "اسماء التجار مطلوبة",
     "Merchant": "التاجر",
 	"Date Range required" : "فترة التقرير مطلوبة",
@@ -929,5 +932,8 @@
 	"Customization name En required": "الاسم انجليزي مطلوب",
 	"Customization price required": "السعر مطلوب",
 	"You can't create debit note for this bill" : "لايمكن انشاء إشعار مدين لتلك الفاتورة.",
-	"You can't refund this Debit Note" : "لايمكنك استرداد إشعار دائن"
+	"You can't refund this Debit Note" : "لايمكنك استرداد إشعار دائن",
+  "You reach the max number of customizations": "وصلت إلى الحد الأقصى لعدد التخصيصات",
+  "this bill has been successfully" : "هده الفاتورة #:number تم دفعها بنجاح"
+
 }

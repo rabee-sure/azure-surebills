@@ -69,7 +69,7 @@
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="customer_notes" class="d-block mb-2">{{ __('Special Note') }}</label>
-              <input value="{{ old('customer_notes') }}" name="customer_notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="customer_notes" placeholder="{{ __('Special Note') }}">
+              <input value="@if(old('customer_notes')) {{ old('customer_notes') }} @else {{$bill->customer->notes}} @endif" name="customer_notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="customer_notes" placeholder="{{ __('Special Note') }}">
             </div><!-- form-group -->
           </div><!-- col -->
           <div class="col-12 col-md-6 col-lg-4">

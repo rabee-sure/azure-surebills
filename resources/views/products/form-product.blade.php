@@ -150,13 +150,13 @@
             <div class="col-3 col-md-3">
               <div class="form-group mb-3">
                 <label for="customization_price" class="d-block mb-2">{{__('Price')}}</label>
-                <input name="customization_price[]" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
+                <input name="customization_price[]" value="0" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
                 <span class="customization_price-error invalid-feedback"></span>
               </div><!-- form-group -->
             </div>
             <div class="col-3 col-md-3">
               <div class="input-group-btn mt-4">
-                <button class="btn btn-success add-more" type="button">{{__('Add')}}</button>
+                <button class="btn btn-primary border-0 align-items-center justify-content-center fw-bold add-more" type="button">{{__('Add')}}</button>
               </div>
             </div>
           </div>
@@ -169,7 +169,7 @@
             <div class="col-3 col-md-3">
                 <div class="form-group mb-3">
                   <label for="Name_ar" class="d-block mb-2">{{__('Name Ar')}}</label>
-                  <input name="customization_name_ar[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="الاسم {{__('Name Ar')}}">
+                  <input name="customization_name_ar[]" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Name Ar')}}">
                   <span class="customization_name_ar-error invalid-feedback"></span>
                 </div><!-- form-group -->
               </div>
@@ -183,7 +183,7 @@
               <div class="col-3 col-md-3">
                 <div class="form-group mb-3">
                   <label for="Name_ar" class="d-block mb-2">{{__('Price')}}</label>
-                  <input name="customization_price[]" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
+                  <input name="customization_price[]" value="0" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
                   <span class="customization_price-error invalid-feedback"></span>
                 </div><!-- form-group -->
               </div>
@@ -194,8 +194,6 @@
               </div>
           </div>
           </div>
-
-
 
         </div><!-- row -->
         <div class="saveBtn d-flex justify-content-start mt-3">
@@ -212,6 +210,7 @@
   <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2totree.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2tree.js') }}?v={{ config('app.asset_version') }}"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
 
 
@@ -220,9 +219,14 @@ $(document).ready(function() {
     $('#productForm').submit(false);
 
 $("body").on("click",".add-more",function(){
-    if($('.customization_row').length == 10)
+
+    if($('.customization_row:visible').length == 10)
     {
-      alert('You reach the max number of customizations');
+        swal.fire({
+            html: '<br>{{__("You reach the max number of customizations")}}',
+            type: "warning",
+            confirmButtonText: '{{__("Close")}}'
+        });
     }
     else{
       var html = $(".copy").html();
