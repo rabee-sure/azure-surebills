@@ -5,10 +5,10 @@
         <div class="closeBtn d-flex align-items-center justify-content-end mb-3 w-100">
           <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
         </div><!-- closeBtn -->
-        <span class="d-block text-center text-body mb-4 fs-5">{{ __('Are you Sure to Cancel Bill ?')}}</span>
+        <span class="d-block text-center text-body mb-4 fs-5">@if($bill->debit_note_bill_id == null) {{ __('Are you Sure to Cancel Bill ?')}} @else {{ __('Are you Sure to Cancel Debit Note ?')}} @endif</span>
         <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
           @csrf
-          <button type="submit" class="border-0 shadow-none rounded-3 btn-danger mx-2">{{__('Confirm Cancel Bill')}}</button>
+          <button type="submit" class="border-0 shadow-none rounded-3 btn-danger mx-2">@if($bill->debit_note_bill_id == null) {{__('Confirm Cancel Bill')}} @else {{__('Confirm Cancel Debit Note')}} @endif</button>
           <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Cancel')}}</button>
         </form>
       </div><!-- modal-body -->
