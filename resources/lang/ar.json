@@ -466,8 +466,11 @@
 	"customer_email": "ايميل العميل",
 
 	"Cancel Bill": "إلغاء الفاتورة",
+	"Cancel Debit Note": "إلغاء الإشعار المدين",
 	"Confirm Cancel Bill": "تأكيد إلغاء الفاتورة",
+	"Confirm Cancel Debit Note": "تأكيد إلغاء الإشعار المدين",
 	"Are you Sure to Cancel Bill ?": "هل انت متأكد من إلغاء الفاتورة ؟",
+	"Are you Sure to Cancel Debit Note ?": "هل انت متأكد من إلغاء الإشعار المدين ؟",
 	"Subtotal": "المجموع الفرعي",
 	"Sub Total": "المجموع",
 	"Total": "المجموع",
