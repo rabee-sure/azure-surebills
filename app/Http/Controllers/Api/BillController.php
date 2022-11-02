@@ -7,6 +7,7 @@ use App\Events\BillStatusUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\CheckBillApiRequest;
+use App\Http\Requests\DebitNoteRequest;
 use App\Http\Resources\BillApiResource;
 use App\Http\Resources\BillResource;
 use App\Models\Application;
@@ -21,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\Tag;
+use phpDocumentor\Reflection\Types\Null_;
 
 class BillController extends Controller
 {
@@ -149,6 +151,134 @@ class BillController extends Controller
         $bill->sub_total = $sub_total;
         $bill->total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
         $bill->status = 'pending';
+        $bill->save();
+
+        if(isset($request->tags)){
+            $tags = explode(',', $request->tags);
+            foreach($tags as $name){
+                $tag = Tag::firstOrCreate(['name' => $name]);
+                $tag->bills()->attach($bill);
+            }
+        }
+
+        event(new BillCreated($bill));
+
+        return new BillApiResource($bill);
+    }
+
+    public function storeDebitNote($mainBillId, DebitNoteRequest $request){
+        $application = $request->application;
+        $user = $application->user ?? null;
+
+        if($request->application_name){
+            $application = $this->getApplication($application, $request);
+        }
+
+        Bill::where('reference_id', $request->reference_id)->where('user_id', $application->user_id ?? null)->where('status', 'pending')->update(['status' => 'canceled']);
+
+        $mainBill = Bill::find($mainBillId);
+
+        if($mainBill->debit_note_bill_id != Null){
+            return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'authorization' =>[__("can't create debit note bill for other debit note bill")]
+                ]
+           ], 422);
+        }
+
+        $send_sms = 0;
+        $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
+
+        $bill = Bill::create([
+            'user_id' => $user->id,
+            'creted_by' => $user->id,
+            'status' => 'pending',
+            'application_id' => $application->id,
+
+            'business_name' => $user->business_name,
+            'customer_id' => $mainBill->customer_id,
+
+            'customer_name' => $mainBill->customer_name,
+            'customer_email' => $mainBill->customer_email,
+            'customer_mobile' => $mainBill->customer_mobile,
+            'customer_notes' => $mainBill->customer_notes,
+
+            'expiry_date' => $request->expiry_date,
+            'expiry_hours' => $request->expiry_hours,
+            'expiry_minutes' => $request->expiry_minutes,
+            'due_date' => Carbon::parse($request->due_date),
+
+            'add_discount' => $request->add_discount ?? false,
+            'discount_type' => $request->discount_type,
+            'discount_value' => $request->discount_value,
+
+            'add_tax' => $mainBill->add_tax ?? false,
+            'tax_name' => $mainBill->tax_name,
+            'tax_value' => $mainBill->tax_value,
+
+            'send_sms' => $send_sms,
+            'send_email' => $send_email,
+            'reference_id' => $request->reference_id,
+            'is_redirect' => $request->is_redirect,
+
+            'bill_redirect_url' => $request->redirect_url,
+            'bill_webhook_url' => $request->webhook_url,
+
+            'source' => 'api',
+        ]);
+
+        foreach ($request->items as $item) {
+            BillItem::create([
+                'bill_id' => $bill->id,
+                'product_name' => $item['name'],
+                'product_price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'total' => $item['quantity']*$item['price'],
+            ]);
+        }
+
+        $sub_total = $bill->items->sum('total');
+        $discount = 0;
+        $vat = 0;
+        if($request->add_discount){
+            switch ($request->discount_type) {
+                case 'fixed':
+                    $discount = $request->discount_value;
+                    break;
+                case 'percentage':
+                    $discount = $sub_total * $request->discount_value / 100;
+                    break;
+            }
+        }
+
+        if($mainBill->add_tax !== null){
+            $bill->add_tax = $mainBill->add_tax;
+            $bill->tax_value = $mainBill->tax_value;
+            $vat = ($sub_total -$discount) * $mainBill->tax_value /100;
+
+        }elseif($user->settings->add_tax){
+            $bill->add_tax = $user->settings->add_tax;
+            $bill->tax_value = $user->settings->tax_value;
+            $vat = ($sub_total -$discount) * $user->settings->tax_value /100;
+        }
+
+        //check if bill under channel
+        if(isset($bill->application->channel_id)){
+            $bill->channel_extra_amount = $request->channel_extra_amount;
+            $bill->channel_extra_title = $request->channel_extra_title;
+            if($mainBill->add_tax){
+                $bill->channel_extra_vat = $bill->channel_extra_amount * $mainBill->tax_value / 100;
+            }
+        }
+
+        $bill->discount = $discount;
+        $bill->vat = $vat;
+        $bill->number = $bill->getNumber();
+        $bill->sub_total = $sub_total;
+        $bill->total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
+        $bill->status = 'pending';
+        $bill->debit_note_bill_id = $mainBill->id;
         $bill->save();
 
         if(isset($request->tags)){
@@ -455,6 +585,12 @@ class BillController extends Controller
             ]], 400);
         }
 
+        if($bill->debit_note_bill_id != null){
+            return response()->json(['error' => [
+                'refund' => __("You can't refund this Debit Note")
+            ]], 400);
+        }
+
         $validator->after(function ($validator) use($bill){
             $otherDate = Carbon::now()->subDays(14);
 
@@ -471,7 +607,7 @@ class BillController extends Controller
         $method = $bill->getRefundedMethod();
 
         if($request->type == 'partial_refund'){
-            if($request->amount > $bill->user->balance){
+            if($bill->status == 'paid' && $request->amount > $bill->user->balance){
                 return response()->json(['error' => [
                     'refund' => __("Quantity must be less than or equal to the user's balance")
                 ]], 400);
@@ -486,7 +622,7 @@ class BillController extends Controller
                 'method' => $method,
                 'customer_name' => $bill->customer_name
             ]);
-    
+
             $refundedBill->number = $refundedBill->getNumber();
             $refundedBill->save();
 
@@ -504,7 +640,7 @@ class BillController extends Controller
                         'method' => $method,
                         'customer_name' => $bill->customer_name
                     ]);
-            
+
                     $refundedBill->number = $refundedBill->getNumber();
                     $refundedBill->save();
                 }

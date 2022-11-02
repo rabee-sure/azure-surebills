@@ -29,6 +29,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(auth()->user()->source == 'pos')
+        {
+            return redirect(route('reports.paymentRecord'));
+        }
+
         $user = auth()->user();
         $user->userId = auth()->user()->store_main_user_id ?? auth()->user()->id;
         $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id);
@@ -39,10 +44,10 @@ class HomeController extends Controller
 
         $total_paid_query = clone $bills;
         $total_paid = $total_paid_query->where('status', 'paid')->sum('total');
-        
+
         $total_bills_query = clone $bills;
         $total_bills = $total_bills_query->count();
-        
+
         $total_paid_bills_query = clone $bills;
         $total_paid_bills = $total_paid_bills_query->where('status', 'paid')->count();
 

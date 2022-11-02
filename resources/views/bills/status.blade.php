@@ -85,15 +85,41 @@
             </thead>
             <tbody>
               @foreach($bill->items as $item)
+              @if($item->product_parent) @continue @endif
               <tr>
-                <td>{!! $item->product_name !!}</td>
-                <td>{{ $item->product_price  }}</td>
-                <td>{{ $item->quantity  }}</td>
-                @if( $bill->add_tax)
-                <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
-                @else
-                <td>{{ $item->product_price * $item->quantity }}</td>
-                @endif
+                <td>
+                    {!! $item->product_name !!}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$customization->product_name}}</span>
+                    @endforeach
+                </td>
+                <td>
+                    {{ $item->product_price  }}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$customization->product_price}}</span>
+                    @endforeach
+                </td>
+                <td>
+                    {{ $item->quantity  }}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$customization->quantity}}</span>
+                    @endforeach
+                </td>
+                <td>
+                    @if( $bill->add_tax)
+                    {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}
+                    @else
+                    {{ $item->product_price * $item->quantity }}
+                    @endif
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$bill->add_tax ?
+                        ($customization->product_price * $item->quantity) + (($customization->product_price * $item->quantity) * $bill->tax_value / 100) : $customization->product_price * $item->quantity}}</span>
+                    @endforeach
+                </td>
               </tr>
               @endforeach
             </tbody>
@@ -136,41 +162,63 @@
             <span>{{ $bill->sub_total + $bill->vat - $bill->discount}}</span>
           </div><!-- d-flex -->
         </div><!-- bill_info -->
-        @if($bill->status == 'expired')
-          <div id="status">
-            <div class="alert alert-danger"> {{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>
-          </div><!-- status -->
-        @elseif(in_array($bill->status, ['paid', 'refunded']))
-          <div id="status">
-            <div class="alert alert-success">
+        <div id="status">
+          @if($bill->status == 'expired')
+            <div class="alert alert-danger">
+              @if($bill->debit_note_bill_id == null)
+              {{ __('this bill has been expired', ['number' => $bill->number ]) }}
+              @else
+              {{ __('this debit note has been expired', ['number' => $bill->number ]) }}
+              @endif
+            </div>
+          @elseif(in_array($bill->status, ['paid', 'refunded']))
+            <div class="alert alert-success text-center">
               @if ($bill->depositTransaction)
                 {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
               @else
+                @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been successfully', ['number' => $bill->number ]) }}
+                @else
+                {{ __('this debit note has been successfully', ['number' => $bill->number ]) }}
+                @endif
               @endif
             </div>
-          </div><!-- status -->
-        @elseif(in_array($bill->status, ['paid_cash', 'refunded_cash']))
-          <div id="status">
-            <div class="alert alert-success"> {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}</div>
-          </div><!-- status -->
-        @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
-          <div id="status">
-            <div class="alert alert-success"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}</div>
-          </div><!-- status -->
-        @elseif($bill->status == 'canceled')
-          <div id="status">
-            <div class="alert alert-danger"> {{ __('this bill has been canceled', ['number' => $bill->number ]) }}</div>
-          </div><!-- status -->
-        @elseif($bill->status == 'failed')
-          <div id="status">
-            <div class="alert alert-danger"> {{ __('this bill has been failed', ['number' => $bill->number ]) }}</div>
-          </div><!-- status -->
-        {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
-          <div id="status">
-            <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
-          </div><!-- status --> --}}
-        @endif
+          @elseif(in_array($bill->status, ['paid_cash', 'refunded_cash']))
+            <div class="alert alert-success text-center">
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been Paid Cash successfully', ['number' => $bill->number ]) }}
+              @endif
+            </div>
+          @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
+            <div class="alert alert-success text-center">
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
+              @endif
+            </div>
+          @elseif($bill->status == 'canceled')
+            <div class="alert alert-danger text-center">
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been canceled', ['number' => $bill->number ]) }}
+              @endif
+            </div>
+          @elseif($bill->status == 'failed')
+            <div class="alert alert-danger text-center">
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been failed', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been failed', ['number' => $bill->number ]) }}
+              @endif
+            </div>
+          {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
+            <div class="alert alert-warning text-center"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div> --}}
+          @endif
+        </div><!-- status -->
         @if($bill->user->settings->add_tax_invoice)
           <div class="qrCode_area">
             <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">

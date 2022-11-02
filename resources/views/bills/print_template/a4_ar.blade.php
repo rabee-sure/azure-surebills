@@ -16,7 +16,7 @@
       </figure><!-- figure -->
     @endif
     @if($bill->user->settings->add_tax_invoice)
-      <div class="taxInvoiceText text-secondary">{{ __('Simplified Tax Invoice', [], $lang) }}</div>
+      <div class="taxInvoiceText text-secondary">@if($bill->debit_note_bill_id == null) {{ __('Simplified Tax Invoice', [], $lang) }} @else {{ __('Tax debit note', [], $lang) }} @endif</div>
     @endif
     <span class="d-block fw-bold mt-3">{{ $bill->user->business_name }}</span>
     @if(isset($bill->user->settings->header_bill))
@@ -26,94 +26,18 @@
     <b class="d-block fw-normal" dir="ltr">{{  $bill->user->business_mobile }}</b>
   </div><!-- aboutUser -->
   <div id="status" class="my-3">
-    @if($bill->status == 'expired')
-      <div class="alertMsg text-center fw-bold expired"> {{ __('this bill has been expired', ['number' => $bill->number ], $lang) }}</div>
-    @elseif(in_array($bill->status, ['paid', 'refunded']))
-      <div class="alertMsg text-center fw-bold paid">
-        @if ($bill->depositTransaction)
-          {{ __('Paid', [], $lang) }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
-        @else
-          {{ __('this bill has been successfully', ['number' => $bill->number ], $lang) }}
-        @endif
-      </div>
-    @elseif(in_array($bill->status, ['paid_cash', 'refunded_cash']))
-      <div class="alertMsg text-center fw-bold paid"> {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ], $lang) }}</div>
-    @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
-      <div class="alertMsg text-center fw-bold paid"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ], $lang) }}</div>
-    @elseif($bill->status == 'canceled')
-      <div class="alertMsg text-center fw-bold canceled"> {{ __('this bill has been canceled', ['number' => $bill->number ], $lang) }}</div>
-    @elseif($bill->status == 'failed')
-      <div class="alertMsg text-center fw-bold canceled"> {{ __('this bill has been failed', ['number' => $bill->number ], $lang) }}</div>
-    {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
-      <div class="alertMsg text-center fw-bold refunded"> {{ __('this bill has been refunded', ['number' => $bill->number ],$lang) }}</div> --}}
-    @endif
+    @include('bills.print_template.partials.status',['bill' => $bill, 'lang' => $lang])
   </div><!-- status -->
   <div class="billInfo pt-2 mt-2 borderTop">
-    @if($bill->user->settings->add_tax_invoice)
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Bill No.', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->number }}</span>
-      </div><!-- d-flex -->
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Date', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->created_at->format('d/m/Y')}}</span>
-      </div><!-- d-flex -->
-      @if($bill->user->vat_registration_number)
-        <div class="d-flex align-items-center justify-content-between">
-          <span class="d-block mb-2">{{ __('Organization VAT Registration Number', [], $lang) }}</span>
-          <span class="d-block mb-2">{{ $bill->user->vat_registration_number }}</span>
-        </div><!-- d-flex -->
-      @endif
+    @if($bill->debit_note_bill_id == null)
+      @include('bills.print_template.partials.bill_info',['bill' => $bill, 'lang' => $lang])
     @else
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('No.', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->number }}</span>
-      </div><!-- d-flex -->
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Date', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->created_at->format('d/m/Y')}}</span>
-      </div><!-- d-flex -->
+      @include('bills.print_template.partials.debit_note_info',['bill' => $bill, 'lang' => $lang])
     @endif
-    @if($bill->user->settings->display_customer_details)
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Customer Name', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->customer->name }}</span>
-      </div><!-- d-flex -->
-      <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Mobile Number', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $bill->customer->mobile }}</span>
-      </div><!-- d-flex -->
-    @endif
+
   </div><!-- billInfo -->
   <div class="tableItems pt-2 borderTop">
-    <table class="w-100">
-      <thead>
-        <tr>
-          <th class="p-1 text-start">{{ __('Description', [], $lang) }}</th>
-          <th class="p-1 text-center">{{ __('Price', [], $lang) }}</th>
-          <th class="p-1 text-center">{{ __('Quantity', [], $lang) }}</th>
-          @if($bill->add_tax)
-            <th th width="35%" class="p-1 text-end">{{ __('Total include added tax', [], $lang) }}</th>
-          @else
-            <th width="35%" class="p-1 text-end">{{ __('Total', [], $lang) }}</th>
-          @endif
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($bill->items as $item)
-        <tr>
-          <td class="p-1 text-start">{!! $item->product_name !!}</td>
-          <td class="p-1 text-center">{{ $item->product_price  }}</td>
-          <td class="p-1 text-center">{{ $item->quantity  }}</td>
-          @if( $bill->add_tax)
-            <td class="p-1 text-end">{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
-          @else
-            <td class="p-1 text-end">{{ $item->product_price * $item->quantity }}</td>
-          @endif
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
+    @include('bills.print_template.partials.bill_items', ['bill' => $bill, 'lang' => $lang])
   </div><!-- tableItems -->
   <div class="billInfo pt-2 mt-2 borderTop">
     @if( $bill->add_tax || $bill->add_discount)

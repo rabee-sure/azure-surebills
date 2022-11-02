@@ -3,6 +3,7 @@
 return [
     'show bills',
     'create bills',
+    'create debit note',
     'change bill status',
     'cancel bill',
     'refund bill',

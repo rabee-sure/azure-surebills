@@ -28,7 +28,8 @@ use App\Http\Requests\PosOrderApiRequest;
 use App\Events\BillCreated;
 use App\Events\PosBillPaid;
 use App\Events\PosSendBill;
-
+use App\Http\Requests\PosRedirectToBillsProductsRequest;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class PosController extends Controller
@@ -50,8 +51,8 @@ class PosController extends Controller
 
             $collectionData[$category->id]['type'] = "category";
             $collectionData[$category->id]['name'] = array(
-                'en' => $category->getTranslation('name', 'en'), 
-                'ar' => $category->getTranslation('name', 'ar'), 
+                'en' => $category->getTranslation('name', 'en'),
+                'ar' => $category->getTranslation('name', 'ar'),
             );
             $collectionData[$category->id]['image'] = url('/').''.Storage::url('categories/').''.$category->image;
             $collectionData[$category->id]['sort_number'] = $category->sort_number;
@@ -143,7 +144,7 @@ class PosController extends Controller
     {
         $authUser = auth('api')->user();
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
-        
+
         $products = Product::name($keyword)->owner($owner_id)->get();
 
         return $products;
@@ -199,87 +200,52 @@ class PosController extends Controller
             $user = $authUser;
         }
 
-        $customer_id = $request->customer_id;
-        $customer_name = $request->customer_name;
-        $customer_email = $request->customer_email;
-        $customer_mobile = $request->customer_mobile;
-        $customer_notes = $request->customer_notes;
-        $bullding_no = $request->customer_bullding_no;
-        $street_name = $request->customer_street_name;
-        $district = $request->customer_district;
-        $city = $request->customer_city;
-        $postal_code = $request->customer_postal_code;
-        $additional_no = $request->customer_additional_no;
-        $other_buyer_id = $request->customer_other_buyer_id;
-        $vat_registration_number = $request->customer_vat_registration_number;
+        $customer = null;
 
         if($request->walkin_customer == 1){
-            $customer = Customer::where('mobile', $request->customer_mobile)->owner($user->id)->first();
-            if($customer){
-                $customer_id = $customer->id;
-                $customer_name = $customer->name;
-                $customer_email = $customer->email;
-                $customer_mobile = $customer->mobile;
-                $customer_notes = $customer->notes;
-                $bullding_no = $customer->bullding_no;
-                $street_name = $customer->street_name;
-                $district = $customer->district;
-                $city = $customer->city;
-                $postal_code = $customer->postal_code;
-                $additional_no = $customer->additional_no;
-                $other_buyer_id = $customer->other_buyer_id;
-                $vat_registration_number = $customer->vat_registration_number;
-            }else{
-                $new_customer = Customer::create([
-                    'name' => $request->customer_name,
-                    'email' => $request->customer_email,
-                    'mobile' => $request->customer_mobile,
-                    'notes' => $request->customer_notes,
+            $customer = Customer::where('walkin_customer', 1)->owner($user->id)->first();
+            if($customer == null){
+                $customer = Customer::create([
+                    'name' => 'FakeName',
+                    'email' => null,
+                    'mobile' => '555555555',
+                    'notes' => null,
                     'user_id' => $user->id,
-        
-                    'bullding_no' => $request->customer_bullding_no,
-                    'street_name' => $request->customer_street_name,
-                    'district' => $request->customer_district,
-                    'city' => $request->customer_city,
-                    'postal_code' => $request->customer_postal_code,
-                    'additional_no' => $request->customer_additional_no,
-                    'other_buyer_id' => $request->customer_other_buyer_id,
-                    'vat_registration_number' => $request->customer_vat_registration_number,
-                ]); 
 
-                $customer_id = $new_customer->id;
-                $customer_name = $new_customer->name;
-                $customer_email = $new_customer->email;
-                $customer_mobile = $new_customer->mobile;
-                $customer_notes = $new_customer->notes;
-                $bullding_no = $new_customer->bullding_no;
-                $street_name = $new_customer->street_name;
-                $district = $new_customer->district;
-                $city = $new_customer->city;
-                $postal_code = $new_customer->postal_code;
-                $additional_no = $new_customer->additional_no;
-                $other_buyer_id = $new_customer->other_buyer_id;
-                $vat_registration_number = $new_customer->vat_registration_number;
+                    'bullding_no' => null,
+                    'street_name' => null,
+                    'district' => null,
+                    'city' => null,
+                    'postal_code' => null,
+                    'additional_no' => null,
+                    'other_buyer_id' => null,
+                    'vat_registration_number' => null,
+                ]);
+
+                $customer->walkin_customer = 1;
+                $customer->save();
             }
+        }else{
+            $customer = Customer::find($request->customer_id);
         }
-        
+
         $order = PosOrder::create([
             'user_id' => $user->id,
             'business_name' => $user->business_name,
-            
-            'customer_id' => $customer_id,
-            'customer_name' => $customer_name,
-            'customer_email' => $customer_email,
-            'customer_mobile' => $customer_mobile,
-            'customer_notes' => $customer_notes,
-            'bullding_no' => $bullding_no,
-            'street_name' => $street_name,
-            'district' => $district,
-            'city' => $city,
-            'postal_code' => $postal_code,
-            'additional_no' => $additional_no,
-            'other_buyer_id' => $other_buyer_id,
-            'vat_registration_number' => $vat_registration_number,
+
+            'customer_id' => $customer->id,
+            'customer_name' => $request->walkin_customer == 1 ? null : $customer->name,
+            'customer_email' => $request->walkin_customer == 1 ? null : $customer->email,
+            'customer_mobile' => $request->walkin_customer == 1 ? null : $customer->mobile,
+            'customer_notes' => $request->walkin_customer == 1 ? null : $customer->notes,
+            'bullding_no' => $request->walkin_customer == 1 ? null : $customer->bullding_no,
+            'street_name' => $request->walkin_customer == 1 ? null : $customer->street_name,
+            'district' => $request->walkin_customer == 1 ? null : $customer->district,
+            'city' => $request->walkin_customer == 1 ? null : $customer->city,
+            'postal_code' => $request->walkin_customer == 1 ? null : $customer->postal_code,
+            'additional_no' => $request->walkin_customer == 1 ? null : $customer->additional_no,
+            'other_buyer_id' => $request->walkin_customer == 1 ? null : $customer->other_buyer_id,
+            'vat_registration_number' => $request->walkin_customer == 1 ? null : $customer->vat_registration_number,
 
             'add_discount' => $request->add_discount ?? false,
             'discount_type' => $request->discount_type,
@@ -293,7 +259,7 @@ class PosController extends Controller
 
 
         foreach ($request->items as $item) {
-            PosOrderItem::create([
+            $posOrderItem = PosOrderItem::create([
                 'order_id' => $order->id,
                 'product_name' => $item['name'],
                 'product_category' => $item['category'],
@@ -301,6 +267,23 @@ class PosController extends Controller
                 'quantity' => $item['quantity'],
                 'total' => $item['quantity']*$item['price'],
             ]);
+
+            if(isset($item['customizations']) && count($item['customizations']) > 0)
+            {
+                foreach($item['customizations'] as $customization)
+                {
+                    PosOrderItem::create([
+                        'order_id' => $order->id,
+                        'product_name' => $customization['name'],
+                        'product_category' => $item['category'],
+                        'product_price' => $customization['price'],
+                        'quantity' => $item['quantity'],
+                        'total' => $item['quantity']*$customization['price'],
+                        'product_parent' => $posOrderItem->id,
+                    ]);
+                }
+            }
+
         }
 
         $sub_total = $order->items->sum('total');
@@ -335,7 +318,7 @@ class PosController extends Controller
         $order->total = $sub_total - $discount + $vat;
         $order->save();
 
-        
+
         $bill = DB::transaction(function () use ($order, $request, $authUser) {
             $user = User::find($order->user_id);
 
@@ -345,7 +328,7 @@ class PosController extends Controller
                 case 'posPayOnline':
                     $billStatus = 'pending';
                     break;
-    
+
                 case 'posPayCard':
                     $billStatus = 'paid';
                     $payment_way = 'payment_machine';
@@ -355,7 +338,7 @@ class PosController extends Controller
                     $billStatus = 'paid_cash';
                     $payment_way = 'cash';
                     break;
-                
+
                 default:
                     break;
             }
@@ -393,14 +376,29 @@ class PosController extends Controller
                 'payment_way' => $payment_way,
             ]);
 
-            foreach ($order->items as $item) {
-                BillItem::create([
+            foreach ($order->items->whereNull('product_parent') as $item) {
+                $billItem = BillItem::create([
                     'bill_id' => $bill->id,
                     'product_name' => $item->product_name,
                     'product_price' => $item->product_price,
                     'quantity' => $item->quantity,
                     'total' => $item->quantity * $item->product_price,
                 ]);
+
+                if($item->customizations)
+                {
+                    foreach($item->customizations as $customization)
+                    {
+                        BillItem::create([
+                            'bill_id' => $bill->id,
+                            'product_name' => $customization->product_name,
+                            'product_price' => $customization->product_price,
+                            'quantity' => $customization->quantity,
+                            'total' => $item->quantity * $customization->product_price,
+                            'product_parent' => $billItem->id,
+                        ]);
+                    }
+                }
             }
 
             $sub_total = $bill->items->sum('total');
@@ -512,5 +510,18 @@ class PosController extends Controller
             ];
         }
         return array($pos_settings);
+    }
+
+    public function redirectToBillsProducts(PosRedirectToBillsProductsRequest $request)
+    {
+        $authUser = auth('api')->user();
+        if (Hash::check($request->password, $authUser->password))
+        {
+            $redirectUuid = \Str::uuid();
+            $user = User::where('id', $authUser->id)->update(array('redirect_uuid' => $redirectUuid));
+            return response()->json(['redirect_url' => route('redirect.to.products.via.pos', $redirectUuid)], 200);
+        }
+
+        return response()->json(['authorization' => 'invalid password'], 403);
     }
 }

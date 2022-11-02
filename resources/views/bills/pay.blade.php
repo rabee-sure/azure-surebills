@@ -100,7 +100,7 @@
             <span>{{ $bill->created_at->format('d/m/Y')}}</span>
           </div><!-- d-flex -->
           @endif
-          @if($bill->user->settings->display_customer_details && $bill->customer_mobile != 555555555)
+          @if($bill->user->settings->display_customer_details && $bill->customer->walkin_customer == 0)
             <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('Customer Name') }}</span>
               <span>{{ $bill->customer->name }}</span>
@@ -127,15 +127,41 @@
             </thead>
             <tbody>
               @foreach($bill->items as $item)
+              @if($item->product_parent) @continue @endif
               <tr>
-                <td>{!! $item->product_name !!}</td>
-                <td>{{ $item->product_price  }}</td>
-                <td>{{ $item->quantity  }}</td>
+                <td>
+                    {!! $item->product_name !!}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$customization->product_name}}</span>
+                    @endforeach
+                </td>
+                <td>
+                    {{ $item->product_price  }}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$customization->product_price}}</span>
+                    @endforeach
+                </td>
+                <td>
+                    {{ $item->quantity  }}
+                    @foreach($item->customizations as $customization)
+                    <br>
+                    <span class="text-muted">{{$customization->quantity}}</span>
+                    @endforeach
+                </td>
+                <td>
                 @if( $bill->add_tax)
-                <td>{{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}</td>
+                {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}
                 @else
-                <td>{{ $item->product_price * $item->quantity }}</td>
+                {{ $item->product_price * $item->quantity }}
                 @endif
+                @foreach($item->customizations as $customization)
+                <br>
+                <span class="text-muted">{{$bill->add_tax ?
+                    ($customization->product_price * $item->quantity) + (($customization->product_price * $item->quantity) * $bill->tax_value / 100) : $customization->product_price * $item->quantity}}</span>
+                @endforeach
+                </td>
               </tr>
               @endforeach
             </tbody>

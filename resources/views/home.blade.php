@@ -10,7 +10,7 @@
       $mobile_number = $settings->get('mobile_number');
     @endphp
 
-      @if(!$user->verified && !$user->mainStoreUser)
+      @if(!$user->verified && !$user->mainStoreUser && $user->source == 'sure bills')
         @if($user->is_uploaded_documents)
         <div class="alert alert-warning account_not_verified mb-3" role="alert">
           {{ __('Your account is being verified so that you can withdraw the collected amounts. The documentation process may take up to two business days. In the event that the documentation is not completed before :date, please contact us on :mobile', ['mobile' => $mobile_number, 'date' => $user->two_business_days]) }}

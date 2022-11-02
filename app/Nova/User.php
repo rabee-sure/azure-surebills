@@ -312,6 +312,11 @@ class User extends Resource
         ];
     }
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->where('source', '<>', 'pos');
+    }
+
     /**
      * Get the address fields for the resource.
      *

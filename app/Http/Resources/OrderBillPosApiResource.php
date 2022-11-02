@@ -19,8 +19,20 @@ class OrderBillPosApiResource extends JsonResource
      */
     public function toArray($request)
     {
+        $qr_code = null;
+        $vatRegistrationNumber = null;
         if($this->user->settings->add_tax_invoice){
             $qr_code = generateQRcode($this, true);
+            $vatRegistrationNumber = $this->user->vat_registration_number;
+        }
+
+        $customer = null;
+        if($this->customer->walkin_customer == 0){
+            $customer = [
+                'name' => $this->customer->name,
+                'mobile' => $this->customer->mobile,
+                'email' => $this->customer->email,
+            ];
         }
 
         return [
@@ -44,11 +56,8 @@ class OrderBillPosApiResource extends JsonResource
             'title' => $this->bill_title,
             'created_at' => date('Y-m-d H:i:s', strtotime($this->created_at)),
             'items' => BillPosItemsApiResource::collection($this->items),
-            'customer' => [
-                'name' => $this->customer->name,
-                'mobile' => $this->customer->mobile,
-                'email' => $this->customer->email,
-            ],
+            'vat_registration_number' => $vatRegistrationNumber,
+            'customer' => $customer,
         ];
     }
 }
