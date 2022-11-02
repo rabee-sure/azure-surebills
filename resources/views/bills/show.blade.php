@@ -59,7 +59,7 @@
 
     @can('cancel bill')
     @if($bill->is_pending)
-      <button id="cancel_btn" type="button" class="btn-danger p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Cancel Bill') }}">
+      <button id="cancel_btn" type="button" class="btn-danger p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="@if($bill->debit_note_bill_id == null) {{ __('Cancel Bill') }} @else {{ __('Cancel Debit Note') }} @endif">
         <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right"><i class="fal fa-times-circle"></i></span>
       </button>
     @endif

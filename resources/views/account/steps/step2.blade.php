@@ -25,7 +25,7 @@
   </div><!-- stepsArea -->
   @if ($errors->any())
       <div class="alert alert-danger">
-        <ul class="m-0 p-0">
+        <ul class="m-0 p-0 d-flex flex-column gap-1">
           @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
           @endforeach
