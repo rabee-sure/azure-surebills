@@ -3,12 +3,15 @@
 	"Electronic payment Gateway Balance": "رصيد بوابة الدفع الالكتروني",
 	"Paid Cash Balance": "رصيد الدفع النقدي",
 	"Paid Bank Transfer Balance": "رصيد التحويل البنكي",
+	"Paid Machine Balance" : "رصيد الدفع بمكينة الدفع",
 
 	"Paid Bank Transfer": "مدفوعة تحويل بنكي",
 	"Paid Cash": "مدفوعة نقدي",
+	"Paid Machine" : "مدفوعة بمكينة الدفع",
 
 	"Refunded Bank Transfer": "استردت بتحويل بنكي",
 	"Refunded Cash": "استردت نقدي",
+	"Refunded Machine" : "استردت بمكينة الدفع",
 
 	"VAT Registration Number (optional)": "رقم التسجيل الضريبي (إختياري)",
 	"Change Status": "تغيير الحالة",
@@ -390,6 +393,7 @@
 	"this bill has been refunded" : "تم رد الفاتورة #:number",
 	"this debit note has been successfully" : "تم دفع الاشعار المدين #:number بنجاح",
 	"this bill has been Paid Cash successfully" : "تم دفع الفاتورة #:number نقدي بنجاح",
+	"this bill has been Paid Machine successfully" : "تم دفع الفاتورة #:number بمكينة الدفع بنجاح",
 	"this debit note has been Paid Cash successfully" : "تم دفع الاشعار المدين #:number نقدي بنجاح",
 	"this bill has been Paid Bank Transfer successfully" : "تم دفع الفاتورة #:number بتحويل بنكي بنجاح",
 	"this debit note has been Paid Bank Transfer successfully" : "تم دفع الاشعار المدين #:number بتحويل بنكي بنجاح",

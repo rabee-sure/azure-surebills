@@ -39,6 +39,10 @@ class BillObserver
                     $bill->payment_way = 'bank_transfer';
                     break;
                 
+                case 'paid_machine':
+                    $bill->payment_way = 'payment_machine';
+                    break;
+                
                 default:
                     # code...
                     break;

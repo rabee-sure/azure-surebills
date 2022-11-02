@@ -135,8 +135,10 @@ class Bill extends Resource
             'refunded' =>  __('Refunded'),
             'refunded_cash' =>  __('Refunded Cash'),
             'refunded_bank_transfer' =>  __('Refunded Bank Transfer'),
+            'refunded_machine' =>  __('Refunded Machine'),
             'paid_cash' =>  __('Paid Cash'),
             'paid_bank_transfer' =>  __('Paid Bank Transfer'),
+            'paid_machine' =>  __('Paid Machine'),
             'failed' =>  __('Failed'),
         ];
         return [
@@ -159,6 +161,8 @@ class Bill extends Resource
                     'refunded_cash' => '#b69329',
                     'paid_cash' => '#3e884f',
                     'paid_bank_transfer' => '#3e884f',
+                    'paid_machine' => '#3e884f',
+                    'refunded_machine' => '#b69329',
                     'failed' => '#c43d4b',
                 ])->displayUsingLabels(),
 

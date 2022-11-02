@@ -51,7 +51,7 @@
 
     @can('create debit note')
       @if((!auth()->user()->mainStoreUser && count(auth()->user()->channels) == 0) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) == 0))
-        @if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer']))
+        @if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine']))
           <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ route('debitNote.create', ['bill_id' => $bill->id])}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Create Debit Note') }}"><i class="fal fa-receipt"></i></a>
         @endif
       @endif
@@ -136,6 +136,14 @@
                 {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
               @else
                 {{ __('this debit note has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
+              @endif
+            </div>
+          @elseif(in_array($bill->status, ['paid_machine', 'refunded_machine']))
+            <div class="alert alert-success text-center">
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been Paid Machine successfully', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been Paid Machine successfully', ['number' => $bill->number ]) }}
               @endif
             </div>
           @elseif($bill->status == 'canceled')

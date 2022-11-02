@@ -30,7 +30,7 @@ class UniqeBillReference implements Rule
     {
         $application = Application::find(request()->application_id);
 
-        $bill = Bill::where('reference_id', $value)->where('user_id', $application->user_id ?? null)->whereIn('status', ['paid', 'paid_cash', 'paid_bank_transfer'])->first();
+        $bill = Bill::where('reference_id', $value)->where('user_id', $application->user_id ?? null)->whereIn('status', ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine'])->first();
         if($bill){
             return false;
         }else{
