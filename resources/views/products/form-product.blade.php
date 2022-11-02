@@ -156,7 +156,7 @@
             </div>
             <div class="col-3 col-md-3">
               <div class="input-group-btn mt-4">
-                <button class="btn btn-success add-more" type="button">{{__('Add')}}</button>
+                <button class="btn btn-primary border-0 align-items-center justify-content-center fw-bold add-more" type="button">{{__('Add')}}</button>
               </div>
             </div>
           </div>
@@ -223,7 +223,7 @@ $("body").on("click",".add-more",function(){
     if($('.customization_row:visible').length == 10)
     {
         swal.fire({
-            text: '{{__("You reach the max number of customizations")}}',
+            html: '<br>{{__("You reach the max number of customizations")}}',
             type: "warning",
             confirmButtonText: '{{__("Close")}}'
         });
