@@ -150,7 +150,7 @@
             <div class="col-3 col-md-3">
               <div class="form-group mb-3">
                 <label for="customization_price" class="d-block mb-2">{{__('Price')}}</label>
-                <input name="customization_price[]" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
+                <input name="customization_price[]" value="0" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
                 <span class="customization_price-error invalid-feedback"></span>
               </div><!-- form-group -->
             </div>
@@ -183,7 +183,7 @@
               <div class="col-3 col-md-3">
                 <div class="form-group mb-3">
                   <label for="Name_ar" class="d-block mb-2">{{__('Price')}}</label>
-                  <input name="customization_price[]" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
+                  <input name="customization_price[]" value="0" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" placeholder="{{__('Price')}}">
                   <span class="customization_price-error invalid-feedback"></span>
                 </div><!-- form-group -->
               </div>
@@ -210,6 +210,7 @@
   <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2totree.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/select2/select2tree.js') }}?v={{ config('app.asset_version') }}"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
 
 
@@ -221,7 +222,11 @@ $("body").on("click",".add-more",function(){
 
     if($('.customization_row:visible').length == 10)
     {
-      alert('{{__("You reach the max number of customizations")}}');
+        swal.fire({
+            text: '{{__("You reach the max number of customizations")}}',
+            type: "warning",
+            confirmButtonText: '{{__("Close")}}'
+        });
     }
     else{
       var html = $(".copy").html();
