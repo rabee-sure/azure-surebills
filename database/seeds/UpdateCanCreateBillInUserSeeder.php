@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UpdateCanCreateBillInUserSeeder extends Seeder
 {
@@ -13,6 +14,6 @@ class UpdateCanCreateBillInUserSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('users')->where('verified', 1)->update(['can_create_bill' => 1]);
     }
 }

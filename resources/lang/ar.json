@@ -930,6 +930,7 @@
 	"You can't create debit note for this bill" : "لايمكن انشاء إشعار مدين لتلك الفاتورة.",
 	"You can't refund this Debit Note" : "لايمكنك استرداد إشعار دائن",
   "You reach the max number of customizations": "وصلت إلى الحد الأقصى لعدد التخصيصات",
-  "this bill has been successfully" : "هده الفاتورة #:number تم دفعها بنجاح"
+  "this bill has been successfully" : "هده الفاتورة #:number تم دفعها بنجاح",
+  "Can Create Bill?" : "يمكن إنشاء فاتورة؟"
 
 }
