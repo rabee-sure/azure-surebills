@@ -247,6 +247,7 @@ class User extends Resource
             Boolean::make(__('Disable Bank Documents'), 'disable_bank_documents')->hideFromIndex(),
 
             Boolean::make(__('Verified'), 'verified')->hideFromIndex(),
+            Boolean::make(__('Can Create Bill?'), 'can_create_bill')->hideFromIndex(),
         ]);
     }
 
