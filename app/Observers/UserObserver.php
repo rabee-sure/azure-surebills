@@ -32,6 +32,14 @@ class UserObserver
         $this->letUserSuperAdmin($user);
     }
 
+    public function updating(User $user){
+        if($user->isDirty('verified')){
+            if($user->verified){
+                $user->can_create_bill = 1;
+            }
+        }
+    }
+
     /**
      * Handle the User "updated" event.
      *

@@ -31,15 +31,15 @@ class VerifiedUser
             $user = Auth::user();
         }
 
-        if(!$user->verified){
-            if ($request->wantsJson()) {
-                // return JSON-formatted response
-                return response()->json(['authorization' => 'your account not verified please contant your administrator.'], 401);
-            } else {
-                // return HTML response
-                return redirect()->back()->withErrors(['Unauthorized!' => __("your account not verified please contant your administrator.")]);
-            }
+        if($user && ($user->verified || $user->can_create_bill)){
+            return $next($request);
         }
-        return $next($request);
+        if ($request->wantsJson()) {
+            // return JSON-formatted response
+            return response()->json(['authorization' => 'your account not verified and cannot create bill please contant your administrator.'], 401);
+        } else {
+            // return HTML response
+            return redirect()->back()->withErrors(['Unauthorized!' => __("your account not verified and cannot create bill please contant your administrator.")]);
+        }
     }
 }
