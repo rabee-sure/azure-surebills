@@ -530,6 +530,7 @@ class PosController extends Controller
     }
 
     public function billChangeStatus(PosBillChangeStatus $request){
+        dd('zain');
         // change bill status
         $bill = Bill::find($request->bill_id);
 
