@@ -31,6 +31,9 @@
           case "paid_bank_transfer":
             className = " badge-success";
             break;
+          case "paid_machine":
+            className = " badge-success";
+            break;
           case "canceled":
             className = "badge-danger";
             break;          
@@ -44,6 +47,9 @@
             className = "badge-warning";
             break;
           case "refunded_bank_transfer":
+            className = "badge-warning";
+            break;
+          case "refunded_machine":
             className = "badge-warning";
             break;
           case "failed":

@@ -26,9 +26,13 @@ use App\Http\Requests\CustomerApiRequest;
 use App\Http\Requests\PosOrderApiRequest;
 
 use App\Events\BillCreated;
+use App\Events\BillStatusUpdated;
 use App\Events\PosBillPaid;
 use App\Events\PosSendBill;
+use App\Http\Requests\PosBillChangeStatus;
 use App\Http\Requests\PosRedirectToBillsProductsRequest;
+use App\Models\OfflinePaymentLog;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -330,7 +334,7 @@ class PosController extends Controller
                     break;
 
                 case 'posPayCard':
-                    $billStatus = 'paid';
+                    $billStatus = 'pending';
                     $payment_way = 'payment_machine';
                     break;
 
@@ -440,7 +444,7 @@ class PosController extends Controller
 
         event(new BillCreated($bill));
 
-        if($bill->status == 'paid' || $bill->status == 'paid_cash'){
+        if($bill->status == 'paid_cash'){
             event(new PosBillPaid($bill));
         }
 
@@ -523,5 +527,59 @@ class PosController extends Controller
         }
 
         return response()->json(['authorization' => 'invalid password'], 403);
+    }
+
+    public function billChangeStatus(PosBillChangeStatus $request){
+        // change bill status
+        $bill = Bill::find($request->bill_id);
+
+        $status = 'pending';
+        $payment_method = null;
+        
+        switch ($request->sps_response['TX_RSLT']) {
+            case '0':
+                $status = 'paid_machine';
+                $payment_method = 'payment_machine';
+                break;
+            case '1':
+                $status = 'failed';
+                break;
+            case '2':
+                $status = 'pending';
+                break;
+            case '3':
+                $status = 'canceled';
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+        if ($bill->status == 'pending') {
+            $bill->status = $status;
+            $bill->paid_at = Carbon::now();
+            $bill->save();
+        }
+
+        // add offline payment log
+        $offlinePayment = OfflinePaymentLog::create([
+            'tx_rslt'        => $request->sps_response['TX_RSLT'],
+            'results'        => $request->sps_response,
+            'bill_id'        => $request->bill_id,
+            'payment_method' => $payment_method,
+            'tid'            => $request->sps_response['TID'],
+            'bank'           => $request->sps_response['BANK_ID'],
+            'amount'         => $request->sps_response['AMOUNT'],
+        ]);
+
+        //add offline transaction
+        if($request->sps_response['TX_RSLT'] == 0){
+            event(new PosBillPaid($bill));
+            return response()->json(['success' => 'bill paid successfully'], 200);
+        }else{
+            return response()->json(['Failed' => 'SPS response TX_RSLT : '.$request->sps_response['TX_RSLT']], 423);
+        }
+
     }
 }

@@ -28,7 +28,7 @@ class CalculateOfflinePayment implements ShouldQueue
     {
         $bill = $event->bill;
 
-        if($bill && ($bill->status == 'paid_cash' || $bill->status == 'paid_bank_transfer')){
+        if($bill && ($bill->status == 'paid_cash' || $bill->status == 'paid_bank_transfer' || $bill->status == 'paid_machine')){
             
             //make Offline Transactions For Owner.
             MakeOfflineTransactionsForOwner::dispatch($bill);
