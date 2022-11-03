@@ -26,6 +26,10 @@ class PosBillChangeStatus extends FormRequest
         return [
             'bill_id' => ['required'],
             'sps_response' => ['required'],
+            'sps_response.TX_RSLT' => ['required'],
+            'sps_response.TID' => ['required'],
+            'sps_response.BANK_ID' => ['required'],
+            'sps_response.AMOUNT' => ['required'],
         ];
     }
 }
