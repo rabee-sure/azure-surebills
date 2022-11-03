@@ -56,7 +56,7 @@ class BillController extends Controller
         $statuses = array();
         if($request->statuses){
             $statuses = $request->statuses;
-            $statuses = in_array('paid', $statuses) ? array_merge($statuses, ['paid_cash', 'paid_bank_transfer', 'refunded_cash', 'refunded_bank_transfer', 'refunded']) : $statuses;
+            $statuses = in_array('paid', $statuses) ? array_merge($statuses, ['paid_cash', 'paid_bank_transfer', 'paid_machine', 'refunded_cash', 'refunded_bank_transfer', 'refunded', 'refunded_machine']) : $statuses;
             // $statuses = in_array('refunded', $statuses) ? array_merge($statuses, ['refunded_cash', 'refunded_bank_transfer']) : $statuses;
         }
 
@@ -113,7 +113,7 @@ class BillController extends Controller
         }
         $bill = Bill::find($bill_id);
 
-        if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer'])){
+        if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine'])){
             $settings = Settings::userId($bill->user_id)->first();
             return view('bills.debit_notes.create', compact(['settings', 'bill']));
         }else{
@@ -243,7 +243,7 @@ class BillController extends Controller
 
         $mainBill = Bill::find($request->bill_id);
 
-        if($mainBill->debit_note_bill_id == null && in_array($mainBill->status, ['paid', 'paid_cash', 'paid_bank_transfer'])){
+        if($mainBill->debit_note_bill_id == null && in_array($mainBill->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine'])){
             $bill = DB::transaction(function () use ($request, $mainBill) {
                 $user = $mainBill->user;
 
@@ -376,7 +376,7 @@ class BillController extends Controller
         }
 
         $billStatus = '';
-        if($bill->status != 'paid' || $bill->status != 'paid_cash' || $bill->status != 'paid_bank_transfer'){
+        if($bill->status != 'paid' || $bill->status != 'paid_cash' || $bill->status != 'paid_bank_transfer' || $bill->status != 'paid_machine'){
             $billStatus = 'paid';
         }
 

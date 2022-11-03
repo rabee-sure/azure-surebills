@@ -199,6 +199,14 @@
                 {{ __('this debit note has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
               @endif
             </div>
+          @elseif(in_array($bill->status, ['paid_machine', 'refunded_machine']))
+            <div class="alert alert-success text-center">
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been Paid Machine successfully', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been Paid Machine successfully', ['number' => $bill->number ]) }}
+              @endif
+            </div>
           @elseif($bill->status == 'canceled')
             <div class="alert alert-danger text-center">
               @if($bill->debit_note_bill_id == null)
@@ -267,6 +275,12 @@
               $("#status").empty();
               $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
               break;
+          case "paid_machine":
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
+              break;
           case "refunded":
               $("#payment_method").remove();
               $("#back_btn").remove();
@@ -280,6 +294,12 @@
               $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
               break;
           case "refunded_bank_transfer":
+              $("#payment_method").remove();
+              $("#back_btn").remove();
+              $("#status").empty();
+              $("#status").append('<div class="alert alert-warning" role="alert">{{ __("this bill is refunded successfully") }}</div>');
+              break;
+          case "refunded_machine":
               $("#payment_method").remove();
               $("#back_btn").remove();
               $("#status").empty();

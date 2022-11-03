@@ -34,6 +34,14 @@
         {{ __('this debit note has been Paid Bank Transfer successfully', ['number' => $bill->number ], $lang) }}
         @endif
     </div>
+@elseif(in_array($bill->status, ['paid_machine', 'refunded_machine']))
+    <div class="alertMsg text-center fw-bold paid">
+        @if($bill->debit_note_bill_id == null)
+        {{ __('this bill has been Paid Machine successfully', ['number' => $bill->number ], $lang) }}
+        @else
+        {{ __('this debit note has been Paid Machine successfully', ['number' => $bill->number ], $lang) }}
+        @endif
+    </div>
 @elseif($bill->status == 'canceled')
     <div class="alertMsg text-center fw-bold canceled"> 
         @if($bill->debit_note_bill_id == null)
