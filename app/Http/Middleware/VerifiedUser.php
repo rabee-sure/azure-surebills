@@ -31,9 +31,21 @@ class VerifiedUser
             $user = Auth::user();
         }
 
-        if($user && ($user->verified || $user->can_create_bill)){
-            return $next($request);
+        if(!$user){
+            return $this->error($request);
         }
+
+        if(config('app.env') == 'production'){
+            if($user && ($user->verified || $user->can_create_bill)){
+                return $next($request);
+            }
+            return $this->error($request);
+        }
+
+        return $next($request);
+    }
+
+    private function error($request){
         if ($request->wantsJson()) {
             // return JSON-formatted response
             return response()->json(['authorization' => 'your account not verified and cannot create bill please contant your administrator.'], 401);
@@ -43,3 +55,4 @@ class VerifiedUser
         }
     }
 }
+
