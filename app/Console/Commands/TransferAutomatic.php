@@ -40,6 +40,14 @@ class TransferAutomatic extends Command
     protected $signature = 'transfer:automatic';
     private $today, $uniqId, $folder;
 
+    private array $working_days = [
+        'sun' => 0,
+        'mon' => 1,
+        'tue' => 2,
+        'wed' => 3,
+        'thr' => 4,
+    ];
+
     /**
      * The console command description.
      *
@@ -78,12 +86,19 @@ class TransferAutomatic extends Command
     {
         $settings =  Valuestore::make(storage_path('app/settings.json'));
         $transfer_automatic = $settings->get('transfer_automatic');
-        $transfer_day = $settings->get('transfer_day');
+        $transfer_days = [];
+
+        $transfer_days = collect($this->working_days)->map(function($number, $day) use ($settings){
+            if($settings->get($day)){
+                return $number;
+            }
+        })->filter(fn($day) => $day !== null)->toArray();
+        
         $transfer_minimum = $settings->get('transfer_minimum');
         $transfer_emails = $settings->get('transfer_emails');
 
         $cycleDate = Carbon::now()->startOfDay();
-        if($transfer_automatic && $cycleDate->dayOfWeek == $transfer_day ){
+        if($transfer_automatic && in_array($cycleDate->dayOfWeek, array_values($transfer_days)) ){
             $users = User::where('verified', true)->where('auto_trnasfer', true)->with('bank')->get();
 
             $filtered_users = $users->filter(function($user) use($transfer_minimum){
