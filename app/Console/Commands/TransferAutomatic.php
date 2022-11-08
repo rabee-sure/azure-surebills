@@ -40,6 +40,14 @@ class TransferAutomatic extends Command
     protected $signature = 'transfer:automatic';
     private $today, $uniqId, $folder;
 
+    private array $working_days = [
+        'sun' => 0,
+        'mon' => 1,
+        'tue' => 2,
+        'wed' => 3,
+        'thr' => 4,
+    ];
+
     /**
      * The console command description.
      *
@@ -79,27 +87,18 @@ class TransferAutomatic extends Command
         $settings =  Valuestore::make(storage_path('app/settings.json'));
         $transfer_automatic = $settings->get('transfer_automatic');
         $transfer_days = [];
-        if($settings->get('sun')){
-            array_push($transfer_days, 0);
-        }
-        if($settings->get('mon')){
-            array_push($transfer_days, 1);
-        }
-        if($settings->get('tue')){
-            array_push($transfer_days, 2);
-        }
-        if($settings->get('wed')){
-            array_push($transfer_days, 3);
-        }
-        if($settings->get('thr')){
-            array_push($transfer_days, 4);
-        }
 
+        $transfer_days = collect($this->working_days)->map(function($number, $day) use ($settings){
+            if($settings->get($day)){
+                return $number;
+            }
+        })->filter(fn($day) => $day !== null)->toArray();
+        
         $transfer_minimum = $settings->get('transfer_minimum');
         $transfer_emails = $settings->get('transfer_emails');
 
         $cycleDate = Carbon::now()->startOfDay();
-        if($transfer_automatic && in_array($cycleDate->dayOfWeek, $transfer_days) ){
+        if($transfer_automatic && in_array($cycleDate->dayOfWeek, array_values($transfer_days)) ){
             $users = User::where('verified', true)->where('auto_trnasfer', true)->with('bank')->get();
 
             $filtered_users = $users->filter(function($user) use($transfer_minimum){
