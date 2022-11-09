@@ -63,6 +63,7 @@ class AccountController extends Controller
      */
     public function storeAccountInformation(AccountInformationRequest $request)
     {
+        $oldUser = auth()->user(); 
         auth()->user()->update([
             'name'=> $request->name,
             'email'=> $request->email,
@@ -76,6 +77,7 @@ class AccountController extends Controller
             'additional_no' => $request->additional_no,
             'other_buyer_id' => $request->other_buyer_id,
         ]);
+        $updatedUser = auth()->user();
         session()->put(auth()->user()->id.'_complete_profile_step_1', true);
         return redirect('/account');
     }
@@ -105,6 +107,7 @@ class AccountController extends Controller
      */
     public function storeBankInformation(BankInformationRequest $request)
     {
+        dd('bank information');
         if(auth()->user()->mainStoreUser)
         {
             $bankInfo = auth()->user()->mainStoreUser;
@@ -171,6 +174,7 @@ class AccountController extends Controller
      */
     public function storeBusinessInformation(BusinessInformationRequest $request)
     {
+        dd('Bussiness information');
         if(auth()->user()->mainStoreUser)
         {
             $businessInfo = auth()->user()->mainStoreUser;
