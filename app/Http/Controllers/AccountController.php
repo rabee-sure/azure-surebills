@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserUpdateNotification;
 use App\Http\Requests\AccountInformationRequest;
 use App\Http\Requests\BankInformationRequest;
 use App\Http\Requests\BusinessInformationRequest;
@@ -63,7 +64,13 @@ class AccountController extends Controller
      */
     public function storeAccountInformation(AccountInformationRequest $request)
     {
-        $oldUser = auth()->user(); 
+        $fields = config('accountfields.account_information');
+        $user = auth()->user();
+        $oldData = [];
+        foreach($fields as $field){
+            $oldData[$field] = $user->$field;
+        }
+
         auth()->user()->update([
             'name'=> $request->name,
             'email'=> $request->email,
@@ -77,7 +84,16 @@ class AccountController extends Controller
             'additional_no' => $request->additional_no,
             'other_buyer_id' => $request->other_buyer_id,
         ]);
-        $updatedUser = auth()->user();
+        $updatedData = [];
+        $user = auth()->user();
+        $updatedData = [];
+        foreach($fields as $field){
+            $updatedData[$field] = $user->$field;
+        }
+
+        //fire event send notification email for updated user's data
+        event(new UserUpdateNotification($oldData, $updatedData, $user->id));
+
         session()->put(auth()->user()->id.'_complete_profile_step_1', true);
         return redirect('/account');
     }
@@ -107,7 +123,6 @@ class AccountController extends Controller
      */
     public function storeBankInformation(BankInformationRequest $request)
     {
-        dd('bank information');
         if(auth()->user()->mainStoreUser)
         {
             $bankInfo = auth()->user()->mainStoreUser;
@@ -115,6 +130,13 @@ class AccountController extends Controller
         else
         {
             $bankInfo = auth()->user();
+        }
+
+        $fields = config('accountfields.bank_information');
+        $user = auth()->user();
+        $oldData = [];
+        foreach($fields as $field){
+            $oldData[$field] = $user->$field;
         }
 
         $bankInfo->update([
@@ -139,6 +161,16 @@ class AccountController extends Controller
                 }
             }
         }
+
+        $updatedData = [];
+        $user = auth()->user();
+        $updatedData = [];
+        foreach($fields as $field){
+            $updatedData[$field] = $user->$field;
+        }
+
+        //fire event send notification email for updated user's data
+        event(new UserUpdateNotification($oldData, $updatedData, $user->id));
 
 
         if ($request->redirectHome) {
@@ -174,7 +206,6 @@ class AccountController extends Controller
      */
     public function storeBusinessInformation(BusinessInformationRequest $request)
     {
-        dd('Bussiness information');
         if(auth()->user()->mainStoreUser)
         {
             $businessInfo = auth()->user()->mainStoreUser;
@@ -182,6 +213,13 @@ class AccountController extends Controller
         else
         {
             $businessInfo = auth()->user();
+        }
+
+        $fields = config('accountfields.business_information');
+        $user = auth()->user();
+        $oldData = [];
+        foreach($fields as $field){
+            $oldData[$field] = $user->$field;
         }
 
         if($request->hasFile('logo')) {
@@ -234,6 +272,16 @@ class AccountController extends Controller
                 }
             }
         }
+
+        $updatedData = [];
+        $user = auth()->user();
+        $updatedData = [];
+        foreach($fields as $field){
+            $updatedData[$field] = $user->$field;
+        }
+
+        //fire event send notification email for updated user's data
+        event(new UserUpdateNotification($oldData, $updatedData, $user->id));
 
         session()->put($businessInfo->id.'_complete_profile_step_2', true);
 
