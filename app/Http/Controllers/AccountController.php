@@ -66,7 +66,7 @@ class AccountController extends Controller
         auth()->user()->update([
             'name'=> $request->name,
             'email'=> $request->email,
-            'gender'=> $request->gender,
+            // 'gender'=> $request->gender,
 
             'bullding_no' => $request->bullding_no,
             'street_name' => $request->street_name,
