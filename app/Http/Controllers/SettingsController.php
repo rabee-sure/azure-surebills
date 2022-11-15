@@ -98,7 +98,7 @@ class SettingsController extends Controller
         }
 
         //fire event send notification email for updated user's data
-        event(new UserUpdateNotification($oldData, $updatedData, $user->id));
+        event(new UserUpdateNotification($oldData, $updatedData, $user->id, 'Tax Invoice Information'));
 
         return redirect('/settings');
     }

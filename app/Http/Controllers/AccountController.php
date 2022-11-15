@@ -92,7 +92,7 @@ class AccountController extends Controller
         }
 
         //fire event send notification email for updated user's data
-        event(new UserUpdateNotification($oldData, $updatedData, $user->id));
+        event(new UserUpdateNotification($oldData, $updatedData, $user->id, 'Account Information'));
 
         session()->put(auth()->user()->id.'_complete_profile_step_1', true);
         return redirect('/account');
@@ -138,6 +138,7 @@ class AccountController extends Controller
         foreach($fields as $field){
             $oldData[$field] = $user->$field;
         }
+        $oldData['documents'] = $user->bank_documents->pluck('file_name')->toArray();
 
         $bankInfo->update([
             'bank_id' => $request->get('bank_id'),
@@ -168,9 +169,10 @@ class AccountController extends Controller
         foreach($fields as $field){
             $updatedData[$field] = $user->$field;
         }
+        $updatedData['documents'] = $request->input('document', []);
 
         //fire event send notification email for updated user's data
-        event(new UserUpdateNotification($oldData, $updatedData, $user->id));
+        event(new UserUpdateNotification($oldData, $updatedData, $user->id, 'Bank Information'));
 
 
         if ($request->redirectHome) {
@@ -221,6 +223,7 @@ class AccountController extends Controller
         foreach($fields as $field){
             $oldData[$field] = $user->$field;
         }
+        $oldData['documents'] = $user->business_documents->pluck('file_name')->toArray();
 
         if($request->hasFile('logo')) {
             $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();
@@ -279,9 +282,10 @@ class AccountController extends Controller
         foreach($fields as $field){
             $updatedData[$field] = $user->$field;
         }
+        $updatedData['documents'] = $request->input('document', []);
 
         //fire event send notification email for updated user's data
-        event(new UserUpdateNotification($oldData, $updatedData, $user->id));
+        event(new UserUpdateNotification($oldData, $updatedData, $user->id, 'Business Information'));
 
         session()->put($businessInfo->id.'_complete_profile_step_2', true);
 

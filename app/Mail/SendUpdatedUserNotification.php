@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use romanzipp\QueueMonitor\Traits\IsMonitored;
 
-class SendUpdatedUserNotification extends Mailable implements ShouldQueue
+class SendUpdatedUserNotification extends Mailable
 {
     use Queueable, SerializesModels, IsMonitored;
 
@@ -30,8 +30,7 @@ class SendUpdatedUserNotification extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        dd($this->data);
-        return $this->subject('User Updated Notification '.$this->data['user'])
+        return $this->subject('User '.$this->data['user'].' update his '.$this->data['mode'])
                 ->view('emails.notifications.user_updated_notification');
     }
 }

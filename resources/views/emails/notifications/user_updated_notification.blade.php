@@ -215,9 +215,30 @@
   <body>
     <div id="mail_wrapper">
       <div class="mail_content">
-      User {{$data['user']}} update the following:
-      {{$data['changes']}}
-        
+        @if(!empty($data['changes']) || !empty($data['documents']))
+        <h3>User {{$data['user']}} update his {{$data['mode']}} as the following:</h3>
+          @if(!empty($data['changes']))
+            <ol>
+              @foreach ($data['changes'] as $line)
+                <li>{{$line}}</li>
+              @endforeach
+            </ol>
+          @endif
+          @if(!empty($data['documents']))
+            <h5>Old Documents</h5>
+            <ol>
+            @foreach ($data['documents']['old'] as $oldDoc)
+              <li>{{$oldDoc}}</li>
+            @endforeach
+            </ol>
+            <h5>Updated Documents</h5>
+            <ol>
+            @foreach ($data['documents']['updated'] as $updatedDoc)
+              <li>{{$updatedDoc}}</li>
+            @endforeach
+            </ol>
+          @endif
+        @endif
       </div>
       <div class="copyrights">
         © 2020 SureBills. All rights reserved

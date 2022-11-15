@@ -14,17 +14,19 @@ class UserUpdateNotification
     public $oldData;
     public $updatedData;
     public $user_id;
+    public $mode;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($oldData, $updatedData, $user_id)
+    public function __construct($oldData, $updatedData, $user_id, $mode)
     {
         $this->oldData = $oldData;
         $this->updatedData = $updatedData;
         $this->user_id = $user_id;
+        $this->mode = $mode;
     }
 
     /**
