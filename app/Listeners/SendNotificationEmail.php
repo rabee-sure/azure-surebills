@@ -4,7 +4,9 @@ namespace App\Listeners;
 
 use App\Events\UserUpdateNotification;
 use App\Mail\SendUpdatedUserNotification;
+use App\Models\Admin;
 use App\Models\Bank;
+use App\Models\Role;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
@@ -51,7 +53,10 @@ class SendNotificationEmail implements ShouldQueue
         }
 
         if(!empty($data['changes']) || (isset($data['documents']) && !empty($data['documents']))){
-            Mail::to('mzain@sure.com.sa')->send(new SendUpdatedUserNotification($data));
+            $emails = Admin::permission('receive updated merchant notificaion')->pluck('email')->toArray();
+            if(!empty($emails)){
+                Mail::to($emails)->send(new SendUpdatedUserNotification($data));
+            }
         }
 
     }
