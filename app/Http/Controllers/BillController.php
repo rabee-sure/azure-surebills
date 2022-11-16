@@ -13,12 +13,14 @@ use App\Events\BillCreated;
 use Illuminate\Http\Request;
 use App\Payment\Facades\Payment;
 use App\Events\BillStatusUpdated;
+use App\Events\RequestMerchantBillsExport;
 use App\Http\Requests\BillRequest;
 use App\Http\Requests\DebitNoteRequest;
 use Illuminate\Support\Facades\DB;
 use App\Services\MasterCardService;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\RefundRequest;
+use App\Jobs\ExportMerchantBills;
 use App\Models\RefundedBill;
 use App\Models\Settings;
 use Illuminate\Validation\ValidationException as ValidationsException;
@@ -605,5 +607,27 @@ class BillController extends Controller
         }elseif($type == 'billTh' && $lang == 'ar'){
           return view('bills.print_template.th_ar', compact('bill', 'lang'));
         }
+    }
+
+    public function export(Request $request){
+        $filter['user_id'] = auth()->user()->store_main_user_id ?? auth()->user()->id;
+        $filter['date_start'] = $request->date_start ?? null;
+        $filter['date_to'] = $request->date_to ?? null;
+
+        if (!$request->dont_update_statuses) {
+            session(['status_filters' => $request->statuses]);
+        }
+
+        $filter['statuses'] = array();
+        if($request->statuses){
+            $filter['statuses'] = $request->statuses;
+            $filter['statuses'] = in_array('paid', $filter['statuses']) ? array_merge($filter['statuses'], ['paid_cash', 'paid_bank_transfer', 'paid_machine', 'refunded_cash', 'refunded_bank_transfer', 'refunded', 'refunded_machine']) : $filter['statuses'];
+        }
+
+        // dispatch job
+        ExportMerchantBills::dispatch($filter, auth()->user()->email);
+
+        //redirect to index with alert
+        return redirect()->back()->withErrors(['alert' => __("You export request will be send to your mail just be ready")]);
     }
 }
