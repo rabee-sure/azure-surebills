@@ -65,7 +65,7 @@
               <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}" value="" autocomplete="off">
             </div><!-- form-group -->
           </div><!-- col-12 -->
-          <div class="col-12 col-md-6 col-lg-4">
+          {{-- <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group">
               <label for="gender" class="d-block mb-2">{{ __('Gander')}}<span class="requirement text-danger">*</span></label>
               <select name="gender" id="gender" class="form-control shadow-none bg-white border w-100 rounded-3 text-body">
@@ -74,7 +74,7 @@
                 <option value="2" @if ($user->gender == 2 || old('gender') == 2)selected="selected"@endif>{{ __('female')}}</option>
               </select>
             </div><!-- form-group -->
-          </div><!-- col-12 -->
+          </div><!-- col-12 --> --}}
           @if($user->getRoleNames()->first() != 'super admin')
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group">
