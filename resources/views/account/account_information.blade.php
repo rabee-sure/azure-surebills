@@ -46,7 +46,7 @@
               </div><!-- phoneInput -->
             </div><!-- form-group -->
           </div><!-- col-12 -->
-          <div class="col-12 col-md-6">
+          {{-- <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="gender" class="d-block mb-2">{{ __('Gander')}}</label>
               <select name="gender" id="gender" class="form-control shadow-none bg-white border w-100 rounded-3 text-body select2-single">
@@ -55,7 +55,7 @@
                 <option value="2" @if ($user->gender == 2)selected="selected"@endif>{{ __('female')}}</option>
               </select>
             </div><!-- form-group -->
-          </div><!-- col-12 -->
+          </div><!-- col-12 --> --}}
         </div><!-- row -->
         <div class="saveBtn d-flex justify-content-start mt-3">
           <button type="submit" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold"> {{__('Save')}}</button>

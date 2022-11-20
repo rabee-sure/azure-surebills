@@ -909,6 +909,8 @@
   "Can Create Bill?" : "يمكن إنشاء فاتورة؟",
   "Transfer Transactions" : "عمليات التحويل",
   "Export Transfer Bills" : "تصدير فواتير التحويل",
-  "You export request will be send to your mail just be ready" : "طلبك قيد التنفيذ، سيتم إرسال الملف على بريدك الالكتروني بمجرد الانتهاء من تجهيزه!"
+  "You export request will be send to your mail just be ready" : "طلبك قيد التنفيذ، سيتم إرسال الملف على بريدك الالكتروني بمجرد الانتهاء من تجهيزه!",
+  "receive updated merchant notificaion" : "إستلام اشعار بتحديث التاجر"
+
 
 }

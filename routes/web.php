@@ -101,6 +101,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
+    Route::get('export/bills', 'BillController@export')->name('export.bills');
     Route::resource('refundedbills', 'RefundedBillController');
     Route::get('bills/debit_note/create/{bill_id}', 'BillController@createDebitNote')->name('debitNote.create');
     Route::post('bills/debit_note/store', 'BillController@storeDebitNote')->name('debitNote.store');

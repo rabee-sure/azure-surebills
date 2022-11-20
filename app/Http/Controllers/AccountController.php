@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserUpdateNotification;
 use App\Http\Requests\AccountInformationRequest;
 use App\Http\Requests\BankInformationRequest;
 use App\Http\Requests\BusinessInformationRequest;
@@ -63,10 +64,17 @@ class AccountController extends Controller
      */
     public function storeAccountInformation(AccountInformationRequest $request)
     {
+        $fields = config('accountfields.account_information');
+        $user = auth()->user();
+        $oldData = [];
+        foreach($fields as $field){
+            $oldData[$field] = $user->$field;
+        }
+
         auth()->user()->update([
             'name'=> $request->name,
             'email'=> $request->email,
-            'gender'=> $request->gender,
+            // 'gender'=> $request->gender,
 
             'bullding_no' => $request->bullding_no,
             'street_name' => $request->street_name,
@@ -76,6 +84,16 @@ class AccountController extends Controller
             'additional_no' => $request->additional_no,
             'other_buyer_id' => $request->other_buyer_id,
         ]);
+        $updatedData = [];
+        $user = auth()->user();
+        $updatedData = [];
+        foreach($fields as $field){
+            $updatedData[$field] = $user->$field;
+        }
+
+        //fire event send notification email for updated user's data
+        event(new UserUpdateNotification($oldData, $updatedData, $user->id, 'Account Information'));
+
         session()->put(auth()->user()->id.'_complete_profile_step_1', true);
         return redirect('/account');
     }
@@ -114,6 +132,14 @@ class AccountController extends Controller
             $bankInfo = auth()->user();
         }
 
+        $fields = config('accountfields.bank_information');
+        $user = auth()->user();
+        $oldData = [];
+        foreach($fields as $field){
+            $oldData[$field] = $user->$field;
+        }
+        $oldData['documents'] = $user->bank_documents->pluck('file_name')->toArray();
+
         $bankInfo->update([
             'bank_id' => $request->get('bank_id'),
             'iban_number' => $request->get('iban_number'),
@@ -136,6 +162,17 @@ class AccountController extends Controller
                 }
             }
         }
+
+        $updatedData = [];
+        $user = auth()->user();
+        $updatedData = [];
+        foreach($fields as $field){
+            $updatedData[$field] = $user->$field;
+        }
+        $updatedData['documents'] = $request->input('document', []);
+
+        //fire event send notification email for updated user's data
+        event(new UserUpdateNotification($oldData, $updatedData, $user->id, 'Bank Information'));
 
 
         if ($request->redirectHome) {
@@ -179,6 +216,14 @@ class AccountController extends Controller
         {
             $businessInfo = auth()->user();
         }
+
+        $fields = config('accountfields.business_information');
+        $user = auth()->user();
+        $oldData = [];
+        foreach($fields as $field){
+            $oldData[$field] = $user->$field;
+        }
+        $oldData['documents'] = $user->business_documents->pluck('file_name')->toArray();
 
         if($request->hasFile('logo')) {
             $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();
@@ -230,6 +275,17 @@ class AccountController extends Controller
                 }
             }
         }
+
+        $updatedData = [];
+        $user = auth()->user();
+        $updatedData = [];
+        foreach($fields as $field){
+            $updatedData[$field] = $user->$field;
+        }
+        $updatedData['documents'] = $request->input('document', []);
+
+        //fire event send notification email for updated user's data
+        event(new UserUpdateNotification($oldData, $updatedData, $user->id, 'Business Information'));
 
         session()->put($businessInfo->id.'_complete_profile_step_2', true);
 
