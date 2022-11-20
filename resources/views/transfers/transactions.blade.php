@@ -10,7 +10,23 @@
     <a href="{{ url('/transfers')}}" title="{{ __('Transfers') }}">{{ __('Transfers') }}</a>
   </div><!-- breadcrump -->
 
+  <div id="errors" class="d-print-none">
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div><!-- table_items -->
+    @endif
+  </div><!-- alert -->
+
   <section id="transactionsPage">
+    <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
+      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Transfer Transactions') }}</h1>
+      <a href="{{ route('transfer.export_bills', ['transfer' => $transfer])}}" title="{{ __('Export Transfer Bills')}}" class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill border-0 shadow-none" style="padding: 12px;">{{ __('Export Transfer Bills')}}</a>
+    </div><!-- title -->
 
     <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
       @if($transactions->count())
