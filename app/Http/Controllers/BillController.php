@@ -610,9 +610,14 @@ class BillController extends Controller
     }
 
     public function export(Request $request){
+
         $filter['user_id'] = auth()->user()->store_main_user_id ?? auth()->user()->id;
         $filter['date_start'] = $request->date_start ?? null;
         $filter['date_to'] = $request->date_to ?? null;
+
+        if(monthsCounter($filter['date_start'], $filter['date_to']) > config('exportationLimit.merchant_bills_exportation')){
+            return redirect()->back()->withErrors(['alert' => __("Your exportation request period must be equal or less than :number months", ['number' => config('exportationLimit.merchant_bills_exportation')])]);
+        }
 
         if (!$request->dont_update_statuses) {
             session(['status_filters' => $request->statuses]);

@@ -27,8 +27,6 @@ class ProductApiRequest extends FormRequest
         $rules = [
             'name_en' => ['required'],
             'name_ar' => ['required'],
-            'discription_en' => ['required'],
-            'discription_ar' => ['required'],
             'price' => ['required', 'numeric'],
             'image.*' => [new ValidateUploadFile(['png', 'jpg', 'jpeg'])],
             'sort_number' => ['required'],
@@ -58,8 +56,6 @@ class ProductApiRequest extends FormRequest
         return [
           'name_en.required' => __('Name En required'),
           'name_ar.required' => __('Name Ar required'),
-          'discription_en.required' => __('Discription En required'),
-          'discription_ar.required' => __('Discription Ar required'),
           'price.required' => __('Price required'),
           'price.numeric' => __('Price must be number'),
           'category_id.required' => __('Product Category required'),
