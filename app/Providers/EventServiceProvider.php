@@ -88,6 +88,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\AddActionLogEvent'::class => [
             'App\Listeners\StoreActionLog',
         ],
+        'App\Events\UserUpdateNotification' => [
+            'App\Listeners\SendNotificationEmail',
+        ],
     ];
 
     /**

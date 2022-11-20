@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserUpdateNotification;
 use App\Models\Application;
 use App\Models\Bill;
 use App\Http\Requests\SettingsRequest;
@@ -69,6 +70,13 @@ class SettingsController extends Controller
         $settings->display_customer_details = $request->display_customer_details;
         $settings->save();
 
+        $fields = config('accountfields.tax_invoice_information');
+        $user = auth()->user();
+        $oldData = [];
+        foreach($fields as $field){
+            $oldData[$field] = $user->$field;
+        }
+
         if($request->add_tax_invoice){
             auth()->user()->update([
                 'bullding_no' => $request->bullding_no,
@@ -81,6 +89,16 @@ class SettingsController extends Controller
                 'vat_registration_number' => $request->get('vat_registration_number'),
             ]);
         }
+
+        $updatedData = [];
+        $user = auth()->user();
+        $updatedData = [];
+        foreach($fields as $field){
+            $updatedData[$field] = $user->$field;
+        }
+
+        //fire event send notification email for updated user's data
+        event(new UserUpdateNotification($oldData, $updatedData, $user->id, 'Tax Invoice Information'));
 
         return redirect('/settings');
     }
