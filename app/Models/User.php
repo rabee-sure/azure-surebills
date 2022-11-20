@@ -28,7 +28,7 @@ class User extends Authenticatable implements HasMedia
      */
     public $userId = null;
     protected $fillable = [
-        'name', 'email', 'password', 'mobile', 'mobile_sent_at', 'mobile_active_code', 'gender', 'store_main_user_id',
+        'name', 'email', 'password', 'mobile', 'mobile_sent_at', 'mobile_active_code', 'store_main_user_id',
 
         //business info
         'business_name_en',

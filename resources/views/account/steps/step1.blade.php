@@ -39,7 +39,7 @@
             <input name="mobile" type="tel" class="form-control" id="inputEmail3" placeholder="+966 {{ __('Mobile Number')}}" disabled="" value="+966 {{ $user->mobile }}" dir="ltr">
           </div><!-- form-group -->
         </div><!-- col-12 -->
-        <div class="col-12 col-md-6">
+        {{-- <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="inputEmail2" class="d-block mb-2">{{ __('Gander')}}</label>
             <select name="gender" id="inputEmail4" class="form-control">
@@ -48,7 +48,7 @@
               <option value="2" @if ($user->gender == 2)selected="selected"@endif>{{ __('female')}}</option>
             </select>
           </div><!-- form-group -->
-        </div><!-- col-12 -->
+        </div><!-- col-12 --> --}}
       </div><!-- row -->
       <div class="btnsArea d-flex align-items-center justify-content-center flex-wrap border-top pt-3">
         <button id="previous" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0" type="button">{{__('Previous')}}</button>

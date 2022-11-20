@@ -101,6 +101,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::apiResource('channels.applications', 'ChannelApplicationController');
     Route::resource('channels', 'ChannelController');
     Route::resource('bills', 'BillController');
+    Route::get('export/bills', 'BillController@export')->name('export.bills');
     Route::resource('refundedbills', 'RefundedBillController');
     Route::get('bills/debit_note/create/{bill_id}', 'BillController@createDebitNote')->name('debitNote.create');
     Route::post('bills/debit_note/store', 'BillController@storeDebitNote')->name('debitNote.store');
@@ -124,6 +125,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::get('transfers', 'TransferController@index')->name('transfers.index');
     Route::get('transfers/{transfer}/bills', 'TransferController@bills')->name('transfer.bills');
     Route::get('transfers/{transfer}/transactions', 'TransferController@transactions')->name('transfer.transactions');
+    Route::get('transfers/{transfer}/bills/export', 'TransferController@exportTransferBills')->name('transfer.export_bills');
 
     Route::post('transfers/request', 'TransferController@request')->name('transfers.request');
 

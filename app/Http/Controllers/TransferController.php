@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\UserAllTransactionsExportQueued;
 use App\Http\Resources\TransactionResource;
 use App\Http\Resources\TransferResource;
+use App\Jobs\ExportTransferBills;
 use App\Jobs\SendExportedUserTranasctionsMailsJob;
 use App\Mail\RequestTransferMail;
 use App\Models\Bank;
@@ -290,5 +291,21 @@ class TransferController extends Controller
         ]);
 
         return $file_name;
+    }
+
+    public function exportTransferBills(Transfer $transfer){
+        if(!$transfer){
+            abort(404);
+        }
+        $user_id = auth()->user()->store_main_user_id ?? auth()->user()->id;
+        if($transfer->user_id != $user_id){
+            abort(403);
+        }
+
+        // dispatch job
+        ExportTransferBills::dispatch($transfer, auth()->user()->email);
+
+        //redirect to index with alert
+        return redirect()->back()->withErrors(['alert' => __("You export request will be send to your mail just be ready")]);
     }
 }
