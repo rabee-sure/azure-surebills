@@ -216,7 +216,7 @@
     <div id="mail_wrapper">
       <div class="mail_content">
         @if(!empty($data['changes']) || !empty($data['documents']))
-        <h3>User {{$data['user']}} update his {{$data['mode']}} as the following:</h3>
+          <h3>User {{$data['user']}} update his {{$data['mode']}} as the following:</h3>
           @if(!empty($data['changes']))
             <ol>
               @foreach ($data['changes'] as $line)
@@ -238,6 +238,7 @@
             @endforeach
             </ol>
           @endif
+          <a href="{{ url('/')}}/nova/resources/users/{{$data['user']}}">visit merchant account</a>
         @endif
       </div>
       <div class="copyrights">

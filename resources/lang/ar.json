@@ -911,7 +911,8 @@
   "Export Transfer Bills" : "تصدير فواتير التحويل",
   "You export request will be send to your mail just be ready" : "طلبك قيد التنفيذ، سيتم إرسال الملف على بريدك الالكتروني بمجرد الانتهاء من تجهيزه!",
   "receive updated merchant notificaion" : "إستلام اشعار بتحديث التاجر",
-  "Your exportation request period must be equal or less than :number months" : "فترة طلب التصدير يجب ان لا تتجاوز ال :number شهور"
+  "Your exportation request period must be equal or less than :number months" : "فترة طلب التصدير يجب ان لا تتجاوز ال :number شهور",
+  "Export bills" : "تصدير الفواتير"
 
 
 }

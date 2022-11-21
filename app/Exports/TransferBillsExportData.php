@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Bill;
 use App\Models\RefundedBill;
+use App\Models\Transaction;
 use App\Models\Transfer;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -27,32 +28,28 @@ class TransferBillsExportData implements FromQuery, WithHeadings, WithMapping, S
     public function headings(): array
     {
         return [
-            'Bill name',
-            'Value',
-            'Creation Date',
-            'Status',
+            'Created at',
+            'Description',
+            'Reference',
+            'Receipt',
+            'Card',
+            'Debit',
+            'Credit',
+            'Balance'
         ];
     }
 
-    public function map($bill): array
+    public function map($transaction): array
     {
-        $bill_name = '';
-        if($bill->model == 'bills' && $bill->debit_note_bill_id == null){
-            $bill_name .= 'Bill';
-        } 
-        $bill_name .= $bill->number;
-        if($bill->customer_name != null){
-            $bill_name .= '-';  
-        } 
-        $bill_name .= $bill->customer_name;
-
-        $bill_value = $bill->sub_total + $bill->vat - $bill->discount .' SAR';
-
         return [
-            $bill_name,
-            $bill_value,
-            $bill->created_at,
-            $bill->status,
+            $transaction->created_at,
+            $transaction->description,
+            $transaction->reference,
+            $transaction->receipt,
+            $transaction->card.' '.$transaction->card_brand,
+            $transaction->debit,
+            $transaction->credit,
+            $transaction->balance,
         ];
     }
 
@@ -61,12 +58,12 @@ class TransferBillsExportData implements FromQuery, WithHeadings, WithMapping, S
     */
     public function query()
     {
-        $bills_ids = $this->transfer->transactions->unique('bill_id')->pluck('bill_id')->toArray();
+        $transactions = Transaction::select('id', 'created_at', 'description', 'reference', 'receipt', 'card', 'card_brand', DB::raw("(CASE WHEN type = 'credit' THEN amount ELSE 0 END) AS credit"), DB::raw("(CASE WHEN type = 'debit' THEN amount ELSE 0 END) AS debit"), 'balance')
+                        ->join('transaction_transfer', 'transactions.id', 'transaction_transfer.transaction_id')
+                        ->where('transaction_transfer.transfer_id', $this->transfer->id)
+                        ->orderBy('transactions.created_at');
 
-        $bills = Bill::whereIn('id', $bills_ids)
-        ->select('id', DB::raw("(CASE WHEN debit_note_bill_id IS NULL THEN number ELSE CONCAT('DN', number) END) AS number"), 'customer_name', 'sub_total', 'vat', 'discount', 'status', DB::raw("'null' as method"),'created_at', DB::raw("'bills' as model"), 'debit_note_bill_id');
-
-        return $bills;
+        return $transactions;
     }
 
 }
