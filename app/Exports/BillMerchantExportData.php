@@ -45,7 +45,7 @@ class BillMerchantExportData implements FromQuery, WithHeadings, WithMapping, Sh
         } 
         $bill_name .= $bill->customer_name;
 
-        $bill_value = $bill->sub_total + $bill->vat - $bill->discount .' SAR';
+        $bill_value = $bill->sub_total + $bill->vat - $bill->discount;
 
         return [
             $bill_name,
