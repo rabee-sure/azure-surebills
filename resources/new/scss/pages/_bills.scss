@@ -103,34 +103,44 @@
       @include media-breakpoint-down(md) {
         width: 100%;
       } /* md */
-      input {
+      a.excelBtn {
         height: 40px;
-        outline: none;
-        padding: 0 10px;
-        min-width: 200px;
-        @include media-breakpoint-down(md) {
-          width: 100%;
-        } /* md */
-      } /* input */
-      &::after {
-        content: "\f002";
-        font-family: "Font Awesome 5 Pro";
-        position: absolute;
-        left: 1px;
-        top: 1px;
-        height: 38px;
-        width: 38px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #777;
-        background-color: #fff;
-        border-radius: 0.3rem;
-        [dir="ltr"] & {
-          right: 1px;
-          left: auto;
-        } /* ltr */
-      } /* after */
+        width: 40px;
+        svg {
+          max-width: 100%;
+          max-height: 100%;
+        } /* svg */
+      } /* a */
+      .searchField {
+        input {
+          height: 40px;
+          outline: none;
+          padding: 0 10px;
+          min-width: 200px;
+          @include media-breakpoint-down(md) {
+            width: 100%;
+          } /* md */
+        } /* input */
+        &::after {
+          content: "\f002";
+          font-family: "Font Awesome 5 Pro";
+          position: absolute;
+          left: 1px;
+          top: 1px;
+          height: 38px;
+          width: 38px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #777;
+          background-color: #fff;
+          border-radius: 0.3rem;
+          [dir="ltr"] & {
+            right: 1px;
+            left: auto;
+          } /* ltr */
+        } /* after */
+      } /* searchField */
     } /* leftCol */
   } /* filterArea */
   .billsArea {
