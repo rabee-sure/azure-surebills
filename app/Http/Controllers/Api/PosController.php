@@ -529,7 +529,8 @@ class PosController extends Controller
         return response()->json(['authorization' => 'invalid password'], 403);
     }
 
-    public function billChangeStatus(PosBillChangeStatus $request){
+    public function billChangeStatus(Request $request){
+        dd($request->sps_response);
         // change bill status
         $bill = Bill::find($request->bill_id);
 
