@@ -28,14 +28,14 @@ class TransferBillsExportData implements FromQuery, WithHeadings, WithMapping, S
     public function headings(): array
     {
         return [
-            'Created at',
-            'Description',
-            'Reference',
-            'Receipt',
-            'Card',
-            'Debit',
-            'Credit',
-            'Balance'
+            __('Payment Date'),
+            __('Description'),
+            __('Reference'),
+            __('Receipt'),
+            __('Card'),
+            __('Debit'),
+            __('Credit'),
+            __('Balance')
         ];
     }
 
