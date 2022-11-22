@@ -26,10 +26,10 @@ class BillMerchantExportData implements FromQuery, WithHeadings, WithMapping, Sh
     public function headings(): array
     {
         return [
-            'Bill name',
-            'Value',
-            'Creation Date',
-            'Status',
+            __('Bill name'),
+            __('Values'),
+            __('Creation Date'),
+            __('Status'),
         ];
     }
 
@@ -37,7 +37,7 @@ class BillMerchantExportData implements FromQuery, WithHeadings, WithMapping, Sh
     {
         $bill_name = '';
         if($bill->model == 'bills' && $bill->debit_note_bill_id == null){
-            $bill_name .= 'Bill';
+            $bill_name .= __('Bill');
         } 
         $bill_name .= $bill->number;
         if($bill->customer_name != null){
@@ -51,7 +51,7 @@ class BillMerchantExportData implements FromQuery, WithHeadings, WithMapping, Sh
             $bill_name,
             $bill_value,
             $bill->created_at,
-            $bill->status,
+            self::getStatus($bill->status, $bill->method),
         ];
     }
 
@@ -88,6 +88,46 @@ class BillMerchantExportData implements FromQuery, WithHeadings, WithMapping, Sh
         $mergedBills = $bills->union($refundedBills)->orderBy('created_at', 'desc');
         
         return $mergedBills;
+    }
+
+    public function getStatus($status, $method){
+        $bill_status = '';
+        if($status == 'pending'){
+            $bill_status =  __('Pending');
+        }elseif($status == 'paid'){
+            $bill_status = __('Paid');
+        }elseif($status == 'canceled'){
+            $bill_status =  __('Canceled');
+        }elseif($status == 'expired'){
+            $bill_status =  __('Expired');
+        }elseif($status == 'refunded'){
+            $bill_status = __('Paid');
+        }elseif($status == 'failed'){
+            $bill_status = __('Failed');
+        }elseif($status == 'paid_cash'){
+            $bill_status = __('Paid Cash');
+        }elseif($status == 'paid_bank_transfer'){
+            $bill_status = __('Paid Bank Transfer');
+        }elseif($status == 'paid_machine'){
+            $bill_status = __('Paid Machine');
+        }elseif($status == 'refunded_cash'){
+            $bill_status = __('Paid Cash');
+        }elseif($status == 'refunded_bank_transfer'){
+            $bill_status = __('Paid Bank Transfer');
+        }elseif($status == 'refunded_machine'){
+            $bill_status = __('Paid Machine');
+        }elseif($status == 'cn_refunded'){
+            if($method == 'online'){
+                $bill_status = __('Refunded');
+            }elseif($method == 'cash'){
+                $bill_status = __('Refunded Cash');
+            }elseif($method == 'bank_transfer'){
+                $bill_status = __('Refunded Bank Transfer');
+            }elseif($method == 'payment_machine'){
+                $bill_status = __('Refunded Machine');
+            }
+        }
+        return $bill_status;
     }
 
 }
