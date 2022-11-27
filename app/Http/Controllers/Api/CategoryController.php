@@ -47,7 +47,7 @@ class CategoryController extends Controller
 
         $owner_id = ($authUser->store_main_user_id != null) ? $authUser->store_main_user_id : $authUser->id;
 
-        $categories = Category::owner($owner_id)->where('parent_id', 0)->withTrashed()->get();
+        $categories = Category::owner($owner_id)->where('parent_id', 0)->get();
         $categoriesCollection = CategoryResource::collection($categories);
 
         return $categoriesCollection;

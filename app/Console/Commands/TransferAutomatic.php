@@ -93,6 +93,7 @@ class TransferAutomatic extends Command
                 return $number;
             }
         })->filter(fn($day) => $day !== null)->toArray();
+        
         $transfer_minimum = $settings->get('transfer_minimum');
         $transfer_emails = $settings->get('transfer_emails');
 

@@ -95,6 +95,7 @@ Route::prefix('v1')->group(function () {
 		Route::get('searchForCustomer/{name}', 'PosController@searchForCustomer');
 		Route::post('customerStore', 'PosController@customerStore');
 		Route::post('orderStore', 'PosController@orderStore');
+		Route::post('billChangeStatus', 'PosController@billChangeStatus')->middleware('valid_signture');
 		Route::get('getBills', 'PosController@getBills');
 		Route::get('getBill/{id}', 'PosController@getBill');
 		Route::post('sendBillByEmail', 'PosController@sendBillByEmail');

@@ -58,6 +58,10 @@
           <div id="status">
             <div class="alert alert-success"> {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}</div>
           </div><!-- status -->
+        @elseif(in_array($bill->status, ['paid_machine', 'refunded_machine']))
+          <div id="status">
+            <div class="alert alert-success"> {{ __('this bill has been Paid Machine successfully', ['number' => $bill->number ]) }}</div>
+          </div><!-- status -->
         @elseif($bill->status == 'canceled')
           <div id="status">
             <div class="alert alert-danger"> {{ __('this bill has been canceled', ['number' => $bill->number ]) }}</div>

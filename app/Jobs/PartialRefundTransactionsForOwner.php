@@ -48,6 +48,7 @@ class PartialRefundTransactionsForOwner
 
         $order_max = Transaction::where('bill_id', $this->bill->id)->max('order');
 
+        $dash = $this->bill->customer_name ? '-' : '';
 
         $transaction = new Transaction;
         $transaction->user_id     = $this->bill->user_id;
@@ -55,7 +56,7 @@ class PartialRefundTransactionsForOwner
         $transaction->type        = 'debit';
         $transaction->amount      = $this->amount;
         $transaction->reference   = $this->bill->number;
-        $transaction->description = 'PARTIAL REFUND Bill ' . $this->bill->number . ' - ' . $this->bill->customer_name;
+        $transaction->description = 'PARTIAL REFUND Bill ' . $this->bill->number .' '.$dash.' '. $this->bill->customer_name;
         $transaction->auth_id     = $this->log->bank_transaction_id;
         $transaction->card_brand  = $this->log->brand;
         $transaction->card        = $this->log->card_number;

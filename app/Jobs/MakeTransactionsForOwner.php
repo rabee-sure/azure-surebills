@@ -38,6 +38,7 @@ class MakeTransactionsForOwner
     public function handle()
     {
         $prefix = $this->bill->debit_note_bill_id ? 'DN' : 'Bill';
+        $dash = $this->bill->customer_name ? '-' : '';
 
         $transaction = new Transaction;
         $transaction->user_id     = $this->bill->user_id;
@@ -45,7 +46,7 @@ class MakeTransactionsForOwner
         $transaction->type        = 'credit';
         $transaction->amount      = ($this->bill->total - $this->bill->channel_extra_amount - $this->bill->channel_extra_vat);
         $transaction->reference   = $this->bill->number;
-        $transaction->description = $prefix.''.$this->bill->number . ' - ' . $this->bill->customer_name;
+        $transaction->description = $prefix.''.$this->bill->number .' '.$dash.' '. $this->bill->customer_name;
         $transaction->auth_id     = $this->log->bank_transaction_id;
         if ($this->log->payment_method == 'mastercard_applepay') {
             $transaction->card_brand  = 'APPLEPAY - ' . $this->log->brand;

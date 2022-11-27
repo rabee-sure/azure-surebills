@@ -28,7 +28,7 @@ class User extends Authenticatable implements HasMedia
      */
     public $userId = null;
     protected $fillable = [
-        'name', 'email', 'password', 'mobile', 'mobile_sent_at', 'mobile_active_code', 'gender', 'store_main_user_id',
+        'name', 'email', 'password', 'mobile', 'mobile_sent_at', 'mobile_active_code', 'store_main_user_id',
 
         //business info
         'business_name_en',
@@ -218,17 +218,34 @@ class User extends Authenticatable implements HasMedia
     {
         if($this->userId)
         {
-            $bills_paid_cash = Bill::userId($this->userId);
+            $bills_paid_bank_transfer = Bill::userId($this->userId);
         }
         else
         {
-            $bills_paid_cash = $this->bills();
+            $bills_paid_bank_transfer = $this->bills();
         }
 
-        $bills_paid_cash = $bills_paid_cash
+        $bills_paid_bank_transfer = $bills_paid_bank_transfer
             ->select(DB::raw("SUM(CASE WHEN status  = 'paid_bank_transfer' THEN total ELSE 0 END) AS totals"))
             ->first();
-        return $bills_paid_cash->totals;
+        return $bills_paid_bank_transfer->totals;
+    }
+
+    public function getPaidMachineBalanceAttribute()
+    {
+        if($this->userId)
+        {
+            $bills_paid_mahine = Bill::userId($this->userId);
+        }
+        else
+        {
+            $bills_paid_mahine = $this->bills();
+        }
+
+        $bills_paid_mahine = $bills_paid_mahine
+            ->select(DB::raw("SUM(CASE WHEN status  = 'paid_machine' THEN total ELSE 0 END) AS totals"))
+            ->first();
+        return $bills_paid_mahine->totals;
     }
 
     /**

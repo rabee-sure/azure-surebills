@@ -59,6 +59,13 @@
           </a>
         </div><!-- col -->
         <div class="col">
+          <a href="#" title="{{ __('Paid Machine Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
+            <div class="icon balance_icon"></div>
+            <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Paid Machine Balance') }}</p>
+            <span class="d-block text-center fw-bold">{{ round2($user->paid_machine_balance) }}</span>
+          </a>
+        </div><!-- col -->
+        <div class="col">
           <a href="#" title="{{ __('Total Paid') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon available_balance_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Total Paid') }}</p>

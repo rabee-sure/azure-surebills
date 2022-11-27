@@ -16,13 +16,16 @@
         <span id="status-{{$id}}"  class="badge badge-pill badge-success bill_status_badge">{{ __('Paid Cash')}}</span>
     @elseif($status == 'paid_bank_transfer')
         <span id="status-{{$id}}"  class="badge badge-pill badge-success bill_status_badge">{{ __('Paid Bank Transfer')}}</span>
-
+    @elseif($status == 'paid_machine')
+        <span id="status-{{$id}}"  class="badge badge-pill badge-success bill_status_badge">{{ __('Paid Machine')}}</span>
     @elseif($status == 'refunded_cash')
         {{-- <span id="status-{{$id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Refunded Cash')}}</span> --}}
         <span id="status-{{$id}}"  class="badge badge-pill badge-success bill_status_badge">{{ __('Paid Cash')}}</span>
     @elseif($status == 'refunded_bank_transfer')
         {{-- <span id="status-{{$id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Refunded Bank Transfer')}}</span> --}}
         <span id="status-{{$id}}"  class="badge badge-pill badge-success bill_status_badge">{{ __('Paid Bank Transfer')}}</span>
+    @elseif($status == 'refunded_machine')
+        <span id="status-{{$id}}"  class="badge badge-pill badge-success bill_status_badge">{{ __('Paid Machine')}}</span>
     @elseif($status == 'cn_refunded')
         {{-- <span id="status-{{$id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Credit Note')}}</span> --}}
         @if($method == 'online')
@@ -31,5 +34,7 @@
           <span id="status-{{$id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Refunded Cash')}}</span>
         @elseif($method == 'bank_transfer')
           <span id="status-{{$id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Refunded Bank Transfer')}}</span>
+        @elseif($method == 'payment_machine')
+          <span id="status-{{$id}}"  class="badge badge-pill badge-warning bill_status_badge">{{ __('Refunded Machine')}}</span>
         @endif
     @endif

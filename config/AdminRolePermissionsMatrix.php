@@ -39,4 +39,6 @@ return [
     'show AutoTransfers',
     'show actions logs',
 
+    'receive updated merchant notificaion',
+
 ];
