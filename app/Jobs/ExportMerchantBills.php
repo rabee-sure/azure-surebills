@@ -20,6 +20,7 @@ class ExportMerchantBills implements ShouldQueue
 
     public $filter;
     public $email;
+    public $queue;
 
     /**
      * Create a new job instance.
@@ -30,6 +31,7 @@ class ExportMerchantBills implements ShouldQueue
     {
         $this->filter = $filter;
         $this->email = $email;
+        $this->queue = config('queue.working_queues.export_queue');
     }
 
     /**
@@ -41,9 +43,9 @@ class ExportMerchantBills implements ShouldQueue
     {
         $file_name = 'bills_'.Carbon::now()->timestamp.'.xlsx';
         return (new BillMerchantExportData($this->filter))
-        ->store($filePath = 'merchant-bills/'. $file_name)
+        ->store($filePath = 'merchant-bills/'. $file_name)->allOnQueue($this->queue)
         ->chain([
-            (new SendExportedMerchantBillsMailsJob($file_name, $this->email))
+            (new SendExportedMerchantBillsMailsJob($file_name, $this->email))->onQueue($this->queue)
         ]);
         
     }

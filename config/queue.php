@@ -86,4 +86,11 @@ return [
         'table' => 'failed_jobs',
     ],
 
+    'working_queues' => [
+        'sqs_queue' => env('SQS_QUEUE'),
+        'webhook_queue' => env('WEBHOOK_QUEUE'),
+        'email_queue' => env('EMAILS_QUEUE'),
+        'sms_queue' => env('SMS_QUEUE'),
+        'export_queue' => env('EXPORT_QUEUE'),
+    ],
 ];
