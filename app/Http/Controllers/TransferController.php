@@ -306,6 +306,6 @@ class TransferController extends Controller
         ExportTransferBills::dispatch($transfer, auth()->user()->email);
 
         //redirect to index with alert
-        return redirect()->back()->withErrors(['alert' => __("You export request will be send to your mail just be ready")]);
+        return redirect()->back()->with(['success' => __("You export request will be send to your mail just be ready")]);
     }
 }

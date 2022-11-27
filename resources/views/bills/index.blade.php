@@ -26,6 +26,12 @@
     @endif
   </div><!-- alert -->
 
+  @if(session()->has('success'))
+      <div class="alert alert-success">
+          {{ session()->get('success') }}
+      </div>
+  @endif
+
   <section id="billIndexPage">
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Bills') }}</h1>
