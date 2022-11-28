@@ -118,7 +118,12 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/refunded_transactions.log'),
             'level' => 'info',
-        ]
+        ],
+        'export_queue' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/export_queue.log'),
+            'level' => 'info',
+        ],
 
     ],
 
