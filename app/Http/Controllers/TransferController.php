@@ -303,7 +303,8 @@ class TransferController extends Controller
         }
 
         // dispatch job
-        ExportTransferBills::dispatch($transfer, auth()->user()->email);
+        // ExportTransferBills::dispatch($transfer, auth()->user()->email);
+        ExportTransferBills::dispatch($transfer, 'abmostafa@surepay.sa');
 
         //redirect to index with alert
         return redirect()->back()->with(['success' => __("You export request will be send to your mail just be ready")]);
