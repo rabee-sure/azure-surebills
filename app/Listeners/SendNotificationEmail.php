@@ -53,8 +53,7 @@ class SendNotificationEmail implements ShouldQueue
         }
 
         if(!empty($data['changes']) || (isset($data['documents']) && !empty($data['documents']))){
-            // $emails = Admin::permission('receive updated merchant notificaion')->pluck('email')->toArray();
-            $emails = ["mzain@sure.com.sa", "mmagdy500@gmail.com"];
+            $emails = Admin::permission('receive updated merchant notificaion')->pluck('email')->toArray();
             if(count($emails)){
                 foreach ($emails as $email) {
                     Mail::to($email)->send(new SendUpdatedUserNotification($data));

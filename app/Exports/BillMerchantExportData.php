@@ -25,7 +25,6 @@ class BillMerchantExportData implements FromQuery, WithHeadings, WithMapping, Sh
 
     public function headings(): array
     {
-        \Log::channel('export_queue')->info("start headings function in BillMerchantExportData Exports");
         return [
             __('Bill name'),
             __('Values'),
@@ -36,7 +35,6 @@ class BillMerchantExportData implements FromQuery, WithHeadings, WithMapping, Sh
 
     public function map($bill): array
     {
-        \Log::channel('export_queue')->info("start map function in BillMerchantExportData Exports");
         $bill_name = '';
         if($bill->model == 'bills' && $bill->debit_note_bill_id == null){
             $bill_name .= __('Bill');
@@ -49,7 +47,6 @@ class BillMerchantExportData implements FromQuery, WithHeadings, WithMapping, Sh
 
         $bill_value = $bill->sub_total + $bill->vat - $bill->discount;
 
-        \Log::channel('export_queue')->info("end map function in BillMerchantExportData Exports");
         return [
             $bill_name,
             $bill_value,
@@ -63,7 +60,6 @@ class BillMerchantExportData implements FromQuery, WithHeadings, WithMapping, Sh
     */
     public function query()
     {
-        \Log::channel('export_queue')->info("start query function in BillMerchantExportData Exports");
         $user_id = $this->filter['user_id'];
         $statuses = $this->filter['statuses'];
         $date_start = $this->filter['date_start'];
@@ -91,12 +87,10 @@ class BillMerchantExportData implements FromQuery, WithHeadings, WithMapping, Sh
 
         $mergedBills = $bills->union($refundedBills)->orderBy('created_at', 'desc');
 
-        \Log::channel('export_queue')->info("end query function in BillMerchantExportData Exports");
         return $mergedBills;
     }
 
     public function getStatus($status, $method){
-        \Log::channel('export_queue')->info("start getStatus function in BillMerchantExportData Exports");
         $bill_status = '';
         if($status == 'pending'){
             $bill_status =  __('Pending');
@@ -133,7 +127,6 @@ class BillMerchantExportData implements FromQuery, WithHeadings, WithMapping, Sh
                 $bill_status = __('Refunded Machine');
             }
         }
-        \Log::channel('export_queue')->info("end getStatus function in BillMerchantExportData Exports");
         return $bill_status;
     }
 

@@ -41,13 +41,11 @@ class ExportMerchantBills implements ShouldQueue
      */
     public function handle()
     {
-        \Log::channel('export_queue')->info("start handle function in ExportMerchantBills job");
         $file_name = 'bills_'.Carbon::now()->timestamp.'.xlsx';
         return (new BillMerchantExportData($this->filter))
         ->store($filePath = 'merchant-bills/'. $file_name)->allOnQueue($this->queue)
         ->chain([
             (new SendExportedMerchantBillsMailsJob($file_name, $this->email))->onQueue($this->queue)
         ]);
-        \Log::channel('export_queue')->info("end handle function in ExportMerchantBills job");
     }
 }

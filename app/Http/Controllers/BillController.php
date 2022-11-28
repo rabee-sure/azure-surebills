@@ -611,7 +611,6 @@ class BillController extends Controller
 
     public function export(Request $request){
 
-        \Log::channel('export_queue')->info("start export function in BillController");
         $filter['user_id'] = auth()->user()->store_main_user_id ?? auth()->user()->id;
         $filter['date_start'] = $request->date_start ?? null;
         $filter['date_to'] = $request->date_to ?? null;
@@ -632,9 +631,8 @@ class BillController extends Controller
 
         // dispatch job
         // ExportMerchantBills::dispatch($filter, auth()->user()->email);
-        ExportMerchantBills::dispatch($filter, 'abmostafa@surepay.sa');
+        ExportMerchantBills::dispatch($filter, 'abmostafa@sure.com.sa');
 
-        \Log::channel('export_queue')->info("end export function in BillController");
         //redirect to index with alert
         return redirect()->back()->with(['success' => __("You export request will be send to your mail just be ready")]);
     }
