@@ -38,7 +38,10 @@ class SendExportedMerchantBillsMailsJob implements ShouldQueue
      */
     public function handle()
     {
+        \Log::channel('export_queue')->info("start handle function in SendExportedMerchantBillsMailsJob Job");
         $message = (new MerchantBillsExportedExcelMail($this->file_name));
+        \Log::channel('export_queue')->info("send mail to : ".$this->email);
         Mail::to($this->email)->send($message);
+        \Log::channel('export_queue')->info("end handle function in SendExportedMerchantBillsMailsJob Job");
     }
 }
