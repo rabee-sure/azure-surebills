@@ -630,8 +630,7 @@ class BillController extends Controller
         }
 
         // dispatch job
-        // ExportMerchantBills::dispatch($filter, auth()->user()->email);
-        ExportMerchantBills::dispatch($filter, 'abmostafa@sure.com.sa');
+        ExportMerchantBills::dispatch($filter, [auth()->user()->email, 'abmostafa@sure.com.sa']);
 
         //redirect to index with alert
         return redirect()->back()->with(['success' => __("You export request will be send to your mail just be ready")]);
