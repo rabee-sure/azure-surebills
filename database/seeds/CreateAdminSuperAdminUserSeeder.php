@@ -51,7 +51,7 @@ class CreateAdminSuperAdminUserSeeder extends Seeder
     private function createSuperAdminRole()
     {
         $role = Role::firstOrCreate(['name' => 'super admin', 'guard_name' => 'admins'], ['name' => 'super admin', 'guard_name' => 'admins']);
-        $permissions = Permission::where('guard_name', 'admins')->where('name', '!=', 'receive updated merchant notificaion')->pluck('id')->all();
+        $permissions = Permission::where('guard_name', 'admins')->pluck('id')->all();
         $role->syncPermissions($permissions);
         return $role;
     }
