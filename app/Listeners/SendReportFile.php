@@ -26,6 +26,11 @@ class SendReportFile implements ShouldQueue
         //
     }
 
+    public function viaQueue()
+    {
+        return config('queue.working_queues.export_queue');
+    }
+
     /**
      * Handle the event.
      *
@@ -169,4 +174,5 @@ class SendReportFile implements ShouldQueue
             $report->save();
         }
     }
+    
 }
