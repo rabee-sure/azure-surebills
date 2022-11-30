@@ -16,6 +16,8 @@ use romanzipp\QueueMonitor\Traits\IsMonitored;
 class SendReportFile implements ShouldQueue
 {
     use IsMonitored;
+
+    private $queue;
     /**
      * Create the event listener.
      *
@@ -23,12 +25,12 @@ class SendReportFile implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        $this->queue = config('queue.working_queues.export_queue');
     }
 
     public function viaQueue()
     {
-        return config('queue.working_queues.export_queue');
+        return $this->queue;
     }
 
     /**
@@ -165,7 +167,7 @@ class SendReportFile implements ShouldQueue
             $emails = explode(",", $report_emails);
             if(count($emails)){
                 foreach ($emails as $email) {
-                    $message = (new RequestReportMail($report))->onQueue(env('EMAILS_QUEUE'));
+                    $message = (new RequestReportMail($report))->onQueue($this->queue);
                     Mail::to($email)->queue($message);
                 }
             }
