@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use romanzipp\QueueMonitor\Traits\IsMonitored;
 
-class RequestReportMail extends Mailable
+class RequestReportMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels, IsMonitored;
 
