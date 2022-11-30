@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportExport;
+use App\Jobs\SendMerchantOutstandingRepotEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestReportMail;
 use romanzipp\QueueMonitor\Traits\IsMonitored;
@@ -17,7 +18,6 @@ class SendReportFile implements ShouldQueue
 {
     use IsMonitored;
 
-    private $queue;
     /**
      * Create the event listener.
      *
@@ -25,12 +25,12 @@ class SendReportFile implements ShouldQueue
      */
     public function __construct()
     {
-        $this->queue = config('queue.working_queues.export_queue');
+        
     }
 
     public function viaQueue()
     {
-        return $this->queue;
+        return config('queue.working_queues.export_queue');
     }
 
     /**
@@ -164,13 +164,7 @@ class SendReportFile implements ShouldQueue
                 ->preservingOriginal()
                 ->toMediaCollection('reports_file');
 
-            $emails = explode(",", $report_emails);
-            if(count($emails)){
-                foreach ($emails as $email) {
-                    $message = (new RequestReportMail($report))->onQueue($this->queue);
-                    Mail::to($email)->queue($message);
-                }
-            }
+            SendMerchantOutstandingRepotEmail::dispatch($report,$report_emails);
 
             $report->active = 1;
             $report->save();
