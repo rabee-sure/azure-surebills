@@ -100,7 +100,8 @@ function onBuyClicked(event) {
     }).then(response => response.json()).then(data => {
       if (data.error && data.error != '') {
         alert(`Could not make payment: ${data.error}`);
-        location.reload();
+        console.log(data.error);
+        // location.reload();
         response.complete('fail');
       } else {
         response.complete('success');
@@ -110,7 +111,8 @@ function onBuyClicked(event) {
   }).catch(function(err) {
     if (err) {
       alert(`Could not make payment: ${err}`);
-      location.reload();
+      console.log(err);
+      // location.reload();
       response.complete('fail');
     }
   });
