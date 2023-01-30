@@ -63,15 +63,15 @@ function onBuyClicked(event) {
 
   let options = {
     requestShipping: false,
-    requestPayerEmail: false,
-    requestPayerPhone: false,
-    requestPayerName: false,
-    shippingType: 'pickup'
+    // requestPayerEmail: false,
+    // requestPayerPhone: false,
+    // requestPayerName: false,
+    // shippingType: 'pickup'
   };
 
   // Initialization
-  // let request = new PaymentRequest(supportedInstruments, details, options);
-  let request = new PaymentRequest(supportedInstruments, details);
+  let request = new PaymentRequest(supportedInstruments, details, options);
+  // let request = new PaymentRequest(supportedInstruments, details);
 
   request.addEventListener('merchantvalidation', e => {
     let headers = new Headers({
