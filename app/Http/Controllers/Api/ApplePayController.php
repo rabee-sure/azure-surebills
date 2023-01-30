@@ -17,9 +17,9 @@ class ApplePayController extends Controller
         $ch = curl_init();
         $data = '{"merchantIdentifier": "'.config('payment.drivers.mastercard_applepay.applepay_merchant_id').'", "domainName":"'.config('payment.drivers.mastercard_applepay.domain').'", "displayName":"SureBills"}';
         curl_setopt($ch, CURLOPT_URL, $request->validationURL);
-        curl_setopt($ch, CURLOPT_SSLCERT, base_path('app/Payment/Drivers/MasterCardApplePay/apple_pay.cer'));
-        curl_setopt($ch, CURLOPT_SSLKEY, base_path('app/Payment/Drivers/MasterCardApplePay/apple_pay.key'));
-        curl_setopt($ch, CURLOPT_SSLKEYPASSWD, config('payment.drivers.mastercard_applepay.passwd'));
+        curl_setopt($ch, CURLOPT_SSLCERT, base_path('app/Payment/Drivers/MasterCardApplePay/merchant_id.cer'));
+        curl_setopt($ch, CURLOPT_SSLKEY, base_path('app/Payment/Drivers/MasterCardApplePay/ApplePayMiD.key.pem'));
+//        curl_setopt($ch, CURLOPT_SSLKEYPASSWD, config('payment.drivers.mastercard_applepay.passwd'));
         //curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
         //curl_setopt($ch, CURLOPT_SSLVERSION, 'CURL_SSLVERSION_TLSv1_2');
         //curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, 'rsa_aes_128_gcm_sha_256,ecdhe_rsa_aes_128_gcm_sha_256');
