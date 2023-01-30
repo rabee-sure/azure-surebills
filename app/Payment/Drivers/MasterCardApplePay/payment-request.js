@@ -74,51 +74,46 @@ function onBuyClicked(event) {
       body: JSON.stringify({validationURL: e.validationURL})
     }).then(res => {
       if (res.status === 200) {
-        alert('then success');
         var resJson = res.json();
         return resJson;
       } else {
-        alert('then failed');
         throw 'Merchant validation error.';
       }
     }).then((merchantSession) => {
-      alert('merchent session');
       e.complete(merchantSession);
-    });
-  });
+      let response;
 
-  let response;
-
-  request.show().then(result => {
-    alert('show then success');
-    response = result;
-    loading();
-    let headers = new Headers({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      request.show().then(result => {
+        response = result;
+        loading();
+        let headers = new Headers({
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        });
+        fetch('/api/applepay/check-payment/', {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
+        }).then(response => response.json()).then(data => {
+          if (data.error && data.error != '') {
+            alert(`Could not make payment data: ${data.error}`);
+            console.log(data);
+            location.reload();
+            response.complete('fail');
+          } else {
+            response.complete('success');
+            window.location = data.redirect;
+          }
+        });
+      }).catch(function(err) {
+        if (err) {
+          alert(`Could not make payment err: ${err}`);
+          console.log(err);
+          location.reload();
+          response.complete('fail');
+        }
+      });
     });
-    fetch('/api/applepay/check-payment/', {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
-    }).then(response => response.json()).then(data => {
-      if (data.error && data.error != '') {
-        alert(`Could not make payment data: ${data.error}`);
-        console.log(data);
-        location.reload();
-        response.complete('fail');
-      } else {
-        response.complete('success');
-        window.location = data.redirect;
-      }
-    });
-  }).catch(function(err) {
-    if (err) {
-      alert(`Could not make payment err: ${err}`);
-      console.log(err);
-      location.reload();
-      response.complete('fail');
-    }
   });
 }
 
