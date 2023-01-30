@@ -57,7 +57,7 @@ function onBuyClicked(event) {
     requestPayerEmail: false,
     requestPayerPhone: false,
     requestPayerName: false,
-    shippingType: 'pickup'
+    shippingType: 'storePickup'
   };
 
   // Initialization
@@ -86,14 +86,7 @@ function onBuyClicked(event) {
 
   let response;
 
-  const updatedDetails = {
-    total: {
-      label: "<?php echo __('Total'); ?>",
-      amount: {currency: 'SAR', value: parseFloat("<?php echo $bill->total; ?>").toFixed(2)}
-    }
-  };
-
-  request.show(updatedDetails).then(result => {
+  request.show().then(result => {
     response = result;
     loading();
     let headers = new Headers({
