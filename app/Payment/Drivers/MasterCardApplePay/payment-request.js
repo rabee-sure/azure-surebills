@@ -61,67 +61,64 @@ function onBuyClicked(event) {
   };
 
   // Initialization
-try {
-    let request = new PaymentRequest(supportedInstruments, details, options);
+  // let request = new PaymentRequest(supportedInstruments, details, options);
+  let request = new PaymentRequest(supportedInstruments, details);
 
-    request.addEventListener('merchantvalidation', e => {
-        let headers = new Headers({
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        });
-        fetch('/api/applepay/validate/', {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify({validationURL: e.validationURL})
-        }).then(res => {
-            if (res.status === 200) {
-                var resJson = res.json();
-                return resJson;
-            } else {
-                throw 'Merchant validation error.';
-            }
-        }).then((merchantSession) => {
-            e.complete(merchantSession);
-        });
+  request.addEventListener('merchantvalidation', e => {
+    let headers = new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     });
-
-    let response;
-
-    request.show().then(result => {
-        response = result;
-        loading();
-        let headers = new Headers({
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        });
-        fetch('/api/applepay/check-payment/', {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
-        }).then(response => response.json()).then(data => {
-            if (data.error && data.error != '') {
-                alert(`Could not make payment data: ${data.error}`);
-                console.log(data);
-                location.reload();
-                response.complete('fail');
-            } else {
-                response.complete('success');
-                window.location = data.redirect;
-            }
-        });
-    }).catch(function (err) {
-        console.log(err);
-        // if (err) {
-        //   alert(`Could not make payment err: ${err}`);
-        //   console.log(err);
-        //   console.error("Uh oh, something bad happened", err.message);
-        //   // location.reload();
-        //   response.complete('fail');
-        // }
+    fetch('/api/applepay/validate/', {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({validationURL: e.validationURL})
+    }).then(res => {
+      if (res.status === 200) {
+        var resJson = res.json();
+        return resJson;
+      } else {
+        throw 'Merchant validation error.';
+      }
+    }).then((merchantSession) => {
+      e.complete(merchantSession);
     });
-} catch (e) {
-    console.log('other error:' + e);
-}
+  });
+
+  let response;
+
+  request.show().then(result => {
+    response = result;
+    loading();
+    let headers = new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    });
+    fetch('/api/applepay/check-payment/', {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
+    }).then(response => response.json()).then(data => {
+      if (data.error && data.error != '') {
+        alert(`Could not make payment data: ${data.error}`);
+        console.log(data);
+        location.reload();
+        response.complete('fail');
+      } else {
+        response.complete('success');
+        window.location = data.redirect;
+      }
+    });
+  }).catch(function(err) {
+      console.log(err);
+    // if (err) {
+    //   alert(`Could not make payment err: ${err}`);
+    //   console.log(err);
+    //   console.error("Uh oh, something bad happened", err.message);
+    //   // location.reload();
+    //   response.complete('fail');
+    // }
+  });
 }
 
 // Assuming an anchor is the target for the event listener.
