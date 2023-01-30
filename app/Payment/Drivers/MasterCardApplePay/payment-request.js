@@ -112,7 +112,8 @@ function onBuyClicked(event) {
     if (err) {
       alert(`Could not make payment err: ${err}`);
       console.log(err);
-      location.reload();
+      console.error("Uh oh, something bad happened", err.message);
+      // location.reload();
       response.complete('fail');
     }
   });
