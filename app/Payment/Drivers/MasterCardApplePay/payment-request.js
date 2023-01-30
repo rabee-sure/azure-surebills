@@ -100,7 +100,7 @@ function onBuyClicked(event) {
     }).then(response => response.json()).then(data => {
       if (data.error && data.error != '') {
         alert(`Could not make payment: ${data.error}`);
-        console.log(data.error);
+        console.log(data);
         // location.reload();
         response.complete('fail');
       } else {
