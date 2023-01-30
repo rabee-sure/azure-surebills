@@ -35,7 +35,7 @@ function onBuyClicked(event) {
         ],
         version: 3,
         countryCode: 'SA',
-        merchantIdentifier: "<?php echo env('MASTERCARD_APPLEPAY_MERCHANT_ID'); ?>",
+        merchantIdentifier: "<?php echo env('MASTERCARD_APPLEPAY_MERCHANT_ID'); ?>a",
         merchantCapabilities: ['supports3DS']
       }
     }
@@ -68,7 +68,7 @@ function onBuyClicked(event) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     });
-    fetch('/api/applepay/validate/', {
+    fetch('/api/applepay/validate/a', {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({validationURL: e.validationURL})
