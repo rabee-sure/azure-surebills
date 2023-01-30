@@ -101,7 +101,7 @@ function onBuyClicked(event) {
       if (data.error && data.error != '') {
         alert(`Could not make payment data: ${data.error}`);
         console.log(data);
-        // location.reload();
+        location.reload();
         response.complete('fail');
       } else {
         response.complete('success');
@@ -112,7 +112,7 @@ function onBuyClicked(event) {
     if (err) {
       alert(`Could not make payment err: ${err}`);
       console.log(err);
-      // location.reload();
+      location.reload();
       response.complete('fail');
     }
   });
