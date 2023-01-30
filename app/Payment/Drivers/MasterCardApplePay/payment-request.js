@@ -49,8 +49,17 @@ function onBuyClicked(event) {
     total: {
       label: "<?php echo __('Total'); ?>",
       amount: {currency: 'SAR', value: parseFloat("<?php echo $bill->total; ?>").toFixed(2)}
-    }
+    },
+      shippingOptions: [
+          {
+              id: 'standard',
+              label: 'Standard shipping',
+              amount: {currency: 'SAR', value: '0.00'},
+              selected: true
+          }
+      ]
   };
+  console.log(details);
 
   let options = {
     requestShipping: false,
