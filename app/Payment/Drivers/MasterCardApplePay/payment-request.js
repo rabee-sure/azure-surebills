@@ -56,7 +56,8 @@ function onBuyClicked(event) {
     requestShipping: false,
     requestPayerEmail: false,
     requestPayerPhone: false,
-    requestPayerName: false
+    requestPayerName: false,
+    shippingType: 'delivery'
   };
 
   // Initialization
