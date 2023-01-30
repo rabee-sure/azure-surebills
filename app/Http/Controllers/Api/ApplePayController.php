@@ -17,7 +17,7 @@ class ApplePayController extends Controller
         $ch = curl_init();
         $data = '{"merchantIdentifier": "'.config('payment.drivers.mastercard_applepay.applepay_merchant_id').'", "domainName":"'.config('payment.drivers.mastercard_applepay.domain').'", "displayName":"SureBills"}';
         curl_setopt($ch, CURLOPT_URL, $request->validationURL);
-        curl_setopt($ch, CURLOPT_SSLCERT, base_path('app/Payment/Drivers/MasterCardApplePay/apple_pay.pem'));
+        curl_setopt($ch, CURLOPT_SSLCERT, base_path('app/Payment/Drivers/MasterCardApplePay/applepay.crt.pem'));
         curl_setopt($ch, CURLOPT_SSLKEY, base_path('app/Payment/Drivers/MasterCardApplePay/applepay.key.pem'));
 //        curl_setopt($ch, CURLOPT_SSLKEYPASSWD, config('payment.drivers.mastercard_applepay.passwd'));
         //curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
