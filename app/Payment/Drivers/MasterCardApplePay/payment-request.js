@@ -49,29 +49,19 @@ function onBuyClicked(event) {
     total: {
       label: "<?php echo __('Total'); ?>",
       amount: {currency: 'SAR', value: parseFloat("<?php echo $bill->total; ?>").toFixed(2)}
-    },
-      shippingOptions: [
-          {
-              id: 'standard',
-              label: 'Standard shipping',
-              amount: {currency: 'SAR', value: '0.00'},
-              selected: true
-          }
-      ]
+    }
   };
-  console.log(details);
 
   let options = {
     requestShipping: false,
-    // requestPayerEmail: false,
-    // requestPayerPhone: false,
-    // requestPayerName: false,
-    // shippingType: 'pickup'
+    requestPayerEmail: false,
+    requestPayerPhone: false,
+    requestPayerName: false,
+    shippingType: 'pickup'
   };
 
   // Initialization
   let request = new PaymentRequest(supportedInstruments, details, options);
-  // let request = new PaymentRequest(supportedInstruments, details);
 
   request.addEventListener('merchantvalidation', e => {
     let headers = new Headers({
@@ -96,38 +86,44 @@ function onBuyClicked(event) {
 
   let response;
 
-  request.show().then(result => {
-    response = result;
-    loading();
-    let headers = new Headers({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+    request.show().then((instrumentResponse) => {
+        console.log(instrumentResponse);
+    })
+    .catch((err) => {
+        console.log(err);
     });
-    fetch('/api/applepay/check-payment/', {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
-    }).then(response => response.json()).then(data => {
-      if (data.error && data.error != '') {
-        alert(`Could not make payment data: ${data.error}`);
-        console.log(data);
-        location.reload();
-        response.complete('fail');
-      } else {
-        response.complete('success');
-        window.location = data.redirect;
-      }
-    });
-  }).catch(function(err) {
-      console.log(err);
-    // if (err) {
-    //   alert(`Could not make payment err: ${err}`);
-    //   console.log(err);
-    //   console.error("Uh oh, something bad happened", err.message);
-    //   // location.reload();
-    //   response.complete('fail');
-    // }
-  });
+  // request.show().then(result => {
+  //   response = result;
+  //   loading();
+  //   let headers = new Headers({
+  //     'Accept': 'application/json',
+  //     'Content-Type': 'application/json'
+  //   });
+  //   fetch('/api/applepay/check-payment/', {
+  //     method: 'POST',
+  //     headers: headers,
+  //     body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
+  //   }).then(response => response.json()).then(data => {
+  //     if (data.error && data.error != '') {
+  //       alert(`Could not make payment data: ${data.error}`);
+  //       console.log(data);
+  //       location.reload();
+  //       response.complete('fail');
+  //     } else {
+  //       response.complete('success');
+  //       window.location = data.redirect;
+  //     }
+  //   });
+  // }).catch(function(err) {
+  //     console.log(err);
+  //   // if (err) {
+  //   //   alert(`Could not make payment err: ${err}`);
+  //   //   console.log(err);
+  //   //   console.error("Uh oh, something bad happened", err.message);
+  //   //   // location.reload();
+  //   //   response.complete('fail');
+  //   // }
+  // });
 }
 
 // Assuming an anchor is the target for the event listener.
