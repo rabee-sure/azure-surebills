@@ -118,7 +118,7 @@ function onBuyClicked(event) {
   }).catch(function(err) {
     if (err) {
       alert(`Could not make payment err: ${err}`);
-      location.reload();
+      // location.reload();
       response.complete('fail');
     }
   });
