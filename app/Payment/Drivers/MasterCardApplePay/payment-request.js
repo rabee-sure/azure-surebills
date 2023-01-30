@@ -116,13 +116,14 @@ function onBuyClicked(event) {
       }
     });
   }).catch(function(err) {
-    if (err) {
-      alert(`Could not make payment err: ${err}`);
       console.log(err);
-      console.error("Uh oh, something bad happened", err.message);
-      // location.reload();
-      response.complete('fail');
-    }
+    // if (err) {
+    //   alert(`Could not make payment err: ${err}`);
+    //   console.log(err);
+    //   console.error("Uh oh, something bad happened", err.message);
+    //   // location.reload();
+    //   response.complete('fail');
+    // }
   });
 }
 
