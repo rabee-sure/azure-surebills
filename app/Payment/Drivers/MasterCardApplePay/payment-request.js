@@ -86,44 +86,42 @@ function onBuyClicked(event) {
 
   let response;
 
-    request.show().then((instrumentResponse) => {
-        console.log(instrumentResponse);
-    })
-    .catch((err) => {
-        console.log(err);
+  const updatedDetails = {
+    total: {
+      label: "<?php echo __('Total'); ?>",
+      amount: {currency: 'SAR', value: parseFloat("<?php echo $bill->total; ?>").toFixed(2)}
+    }
+  };
+
+  request.show(updatedDetails).then(result => {
+    response = result;
+    loading();
+    let headers = new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     });
-  // request.show().then(result => {
-  //   response = result;
-  //   loading();
-  //   let headers = new Headers({
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/json'
-  //   });
-  //   fetch('/api/applepay/check-payment/', {
-  //     method: 'POST',
-  //     headers: headers,
-  //     body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
-  //   }).then(response => response.json()).then(data => {
-  //     if (data.error && data.error != '') {
-  //       alert(`Could not make payment data: ${data.error}`);
-  //       console.log(data);
-  //       location.reload();
-  //       response.complete('fail');
-  //     } else {
-  //       response.complete('success');
-  //       window.location = data.redirect;
-  //     }
-  //   });
-  // }).catch(function(err) {
-  //     console.log(err);
-  //   // if (err) {
-  //   //   alert(`Could not make payment err: ${err}`);
-  //   //   console.log(err);
-  //   //   console.error("Uh oh, something bad happened", err.message);
-  //   //   // location.reload();
-  //   //   response.complete('fail');
-  //   // }
-  // });
+    fetch('/api/applepay/check-payment/', {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
+    }).then(response => response.json()).then(data => {
+      if (data.error && data.error != '') {
+        alert(`Could not make payment data: ${data.error}`);
+        console.log(data);
+        location.reload();
+        response.complete('fail');
+      } else {
+        response.complete('success');
+        window.location = data.redirect;
+      }
+    });
+  }).catch(function(err) {
+    if (err) {
+      alert(`Could not make payment err: ${err}`);
+      location.reload();
+      response.complete('fail');
+    }
+  });
 }
 
 // Assuming an anchor is the target for the event listener.
