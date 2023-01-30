@@ -99,7 +99,7 @@ function onBuyClicked(event) {
       body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
     }).then(response => response.json()).then(data => {
       if (data.error && data.error != '') {
-        alert(`Could not make payment: ${data.error}`);
+        alert(`Could not make payment data: ${data.error}`);
         console.log(data);
         // location.reload();
         response.complete('fail');
@@ -110,7 +110,7 @@ function onBuyClicked(event) {
     });
   }).catch(function(err) {
     if (err) {
-      alert(`Could not make payment: ${err}`);
+      alert(`Could not make payment err: ${err}`);
       console.log(err);
       // location.reload();
       response.complete('fail');
