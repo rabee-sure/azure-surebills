@@ -74,12 +74,15 @@ function onBuyClicked(event) {
       body: JSON.stringify({validationURL: e.validationURL})
     }).then(res => {
       if (res.status === 200) {
+        alert('then success');
         var resJson = res.json();
         return resJson;
       } else {
+        alert('then failed');
         throw 'Merchant validation error.';
       }
     }).then((merchantSession) => {
+      alert('merchent session');
       e.complete(merchantSession);
     });
   });
@@ -87,6 +90,7 @@ function onBuyClicked(event) {
   let response;
 
   request.show().then(result => {
+    alert('show then success');
     response = result;
     loading();
     let headers = new Headers({
