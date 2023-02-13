@@ -58,6 +58,7 @@ class RecreateAutoTransferReport extends Command
      */
     public function handle()
     {
+        ini_set('memory_limit','2048M');
         $autoTransfer = AutoTransfer::find($this->argument('auto_transfer_id'));
         $transfer_ids = $autoTransfer->tranfer_ids;
         $cycleDate = Carbon::now()->startOfDay();
