@@ -84,6 +84,7 @@ class TransferAutomatic extends Command
      */
     public function handle()
     {
+        ini_set('memory_limit','3072M');
         $settings =  Valuestore::make(storage_path('app/settings.json'));
         $transfer_automatic = $settings->get('transfer_automatic');
         $transfer_days = [];
