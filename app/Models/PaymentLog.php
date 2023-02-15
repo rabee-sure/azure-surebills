@@ -95,6 +95,7 @@ class PaymentLog extends Model
             ]
         );
         $response = json_decode($response->getBody()->getContents(), true);
+        \Log::channel('refunded_transactions')->info("Refund API rescponse", $response);
         $payment->results = $response;
         $payment->refunded_amount = $amount;
         $payment->save();
