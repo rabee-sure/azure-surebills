@@ -76,6 +76,7 @@ class User extends Authenticatable implements HasMedia
         'other_buyer_id',
         'redirect_uuid',
         'source',
+        'sent_sms_response',
 
     ];
 
@@ -346,7 +347,9 @@ class User extends Authenticatable implements HasMedia
             $result = curl_exec($ch);
             curl_close($ch);
             $response = json_decode($result, true);
-
+            $this->sent_sms_response = $response;
+            $this->save();
+            // sent_sms_response
             // $mobile = (int) $this->mobile;
             // $mobile = (int) '966'.$mobile;
             // UnifonicFacade::send($mobile, $message);
