@@ -47,7 +47,7 @@ class SendSMSCode extends Command
         }
         else{
             if (app()->environment('production')) {
-                $mobile = $this->option('mobile');
+                $mobile = (int) $this->option('mobile');
                 $message = $this->option('code');
 
                 $data = ["Tagname" => "SURE-Pay", "RecepientNumber" => "0" . $mobile, "Message" => $message, "Username" => config('yamamah.username'), "Password" => config('yamamah.password')];
