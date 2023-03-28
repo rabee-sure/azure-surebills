@@ -70,7 +70,7 @@ class CalculateTransferAmount extends Command
         $this->line('Total credit after period = '.$after_period_balance_obj->credit_total);
         $this->line('Total debit after period = '.$after_period_balance_obj->debit_total);
         $after_period_balance = $after_period_balance_obj->credit_total - $after_period_balance_obj->debit_total;
-        $this->line('Balance after period = '.$current_balance_from_query);
+        $this->line('Balance after period = '.$after_period_balance);
 
         $new_transfer_amount = $current_balance - $after_period_balance;
         $this->line('New transfer amount = '.$new_transfer_amount);
