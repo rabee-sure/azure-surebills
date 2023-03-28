@@ -66,7 +66,7 @@ class CalculateTransferAmount extends Command
         }
 
         $this->info('- Calculate transfer amount');
-        $after_period_balance_obj = Transaction::where('user_id', $this->argument('user_id'))->where('transaction_source', '!=', "transfer")->whereDate('created_at', '>', $this->argument('period_start'))->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))->first();
+        $after_period_balance_obj = Transaction::where('user_id', $this->argument('user_id'))->where('transaction_source', '!=', "transfer")->whereDate('created_at', '>', $this->argument('period_end'))->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))->first();
         $this->line('Total credit after period = '.$after_period_balance_obj->credit_total);
         $this->line('Total debit after period = '.$after_period_balance_obj->debit_total);
         $after_period_balance = $after_period_balance_obj->credit_total - $after_period_balance_obj->debit_total;
