@@ -43,22 +43,32 @@ class UpdateTransactionAmountAndUpdateUserBalance extends Command
         $new_amount = $this->argument('new_amount');
 
         $target_transaction = Transaction::findOrFail($transaction_id);
-
         $created_at = date('Y-m-d H:i:s', strtotime($target_transaction->created_at));
-        
         $old_amount = $target_transaction->amount;
-        $diff = $new_amount - $old_amount;
-
+        
         $transactions_after_target_transaction = Transaction::where('created_at', '>', $created_at)->where('user_id', $user_id)->get();
         
+        $diff = $new_amount - $old_amount;
         $target_transaction->amount = $new_amount;
-        $target_transaction->balance += $diff;
-        $target_transaction->save();
+        
+        if($target_transaction->type == 'credit'){
+            $target_transaction->balance += $diff;
+            $target_transaction->save();
 
+            foreach($transactions_after_target_transaction as $transaction){
+                $transaction->balance += $diff;
+                $transaction->save();
+            }
+        }
 
-        foreach($transactions_after_target_transaction as $transaction){
-            $transaction->balance += $diff;
-            $transaction->save();
+        if($target_transaction->type == 'debit'){
+            $target_transaction->balance -= $diff;
+            $target_transaction->save();
+
+            foreach($transactions_after_target_transaction as $transaction){
+                $transaction->balance -= $diff;
+                $transaction->save();
+            }
         }
     }
 }
