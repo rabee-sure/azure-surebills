@@ -38,6 +38,8 @@ class UpdateTransactionAmountAndUpdateUserBalance extends Command
      */
     public function handle()
     {
+        ini_set('memory_limit','3072M');
+        
         $user_id = $this->argument('user_id');
         $transaction_id = $this->argument('transaction_id');
         $new_amount = $this->argument('new_amount');
