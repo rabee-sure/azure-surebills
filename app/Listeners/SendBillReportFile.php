@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\GenerateBillReport;
 use App\Exports\ReportBillExport;
+use App\Exports\ReportBillExportFromView;
 use App\Models\Report;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -40,7 +41,7 @@ class SendBillReportFile implements ShouldQueue
 
         $report_filters = json_decode($report->params, true) ;
 
-        $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'.xlsx';
+        $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'_old.xlsx';
 
         $whereCondition = "where (date(paid_at) >= '".$report_filters['paid_from']."' and date(paid_at) <= ('".$report_filters['paid_to']."') and bills.status in ('paid', 'refunded'))";
 
@@ -92,7 +93,7 @@ class SendBillReportFile implements ShouldQueue
         group by bills.id
         order by paid_at;");
 
-        if(Excel::store(new ReportBillExport($results), $file_name , 'public')){
+        if(Excel::store(new ReportBillExportFromView($results), $file_name , 'public')){
 
             $report->addMedia(storage_path('app/public/'.$file_name))
                 ->preservingOriginal()

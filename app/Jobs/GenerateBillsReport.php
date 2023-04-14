@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class GenerateBillsReport implements ShouldQueue
 {
@@ -40,6 +41,7 @@ class GenerateBillsReport implements ShouldQueue
      */
     public function handle()
     {
+        Log::info('generate bill report job dispatch');
         $file_name = 'reports/'.$this->report_name.'/'.$this->report_name.'_'.$this->report_id.'.xlsx';
         return (new ReportBillExport($this->filter))
         ->store($filePath = 'public/'.$file_name)->allOnQueue($this->queue)

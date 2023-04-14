@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class ActiveReportJob implements ShouldQueue
@@ -35,9 +35,11 @@ class ActiveReportJob implements ShouldQueue
      */
     public function handle()
     {
+        Log::info('active report');
         $report = Report::findOrFail($this->report_id);
 
         $report->active = 1;
         $report->save();
+        Log::info('report activated');
     }
 }
