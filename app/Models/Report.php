@@ -70,7 +70,7 @@ class Report extends Model implements HasMedia
 
                 GenerateBillsReport::dispatch($report_filters, $report_emails, $report->name, $report->id);
                 
-                GenerateBillReport::dispatch($report->id);
+                // GenerateBillReport::dispatch($report->id);
                 
                 event(new AddActionLogEvent(
                     'create_bill_report',

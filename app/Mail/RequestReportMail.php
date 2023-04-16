@@ -35,15 +35,7 @@ class RequestReportMail extends Mailable implements ShouldQueue
     public function build()
     {
         Log::info('build email with attached file');
-        // $reportFileName = "app/public/reports/{$this->report->name}/{$this->report->name}_{$this->report->id}.xlsx";
-
-        if (Storage::exists("public/reports/{$this->report->name}/{$this->report->name}_{$this->report->id}.xlsx")) {
-            $reportFileName = "app/public/reports/{$this->report->name}/{$this->report->name}_{$this->report->id}.xlsx";
-        }
-
-        if (Storage::exists("public/reports/{$this->report->name}/{$this->report->name}_{$this->report->id}_old.xlsx")) {
-            $reportFileName = "app/public/reports/{$this->report->name}/{$this->report->name}_{$this->report->id}_old.xlsx";
-        }
+        $reportFileName = "app/public/reports/{$this->report->name}/{$this->report->name}_{$this->report->id}.xlsx";
         
         return $this->subject( $this->report->name ." Report - SureBills Reports")
             ->view('emails.reports.request_report', [
