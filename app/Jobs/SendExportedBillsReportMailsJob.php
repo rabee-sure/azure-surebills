@@ -38,11 +38,9 @@ class SendExportedBillsReportMailsJob implements ShouldQueue
      */
     public function handle()
     {
-        Log::info('send email of report job dipatch');
         $report = Report::findOrFail($this->report_id);
 
         $message = (new RequestReportMail($report));
         Mail::to($this->email)->send($message);
-        Log::info('mail sent');
     }
 }

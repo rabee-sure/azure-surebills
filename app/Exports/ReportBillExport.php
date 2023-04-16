@@ -55,10 +55,8 @@ class ReportBillExport implements FromQuery, WithHeadings, ShouldQueue, WithCust
     */
     public function query()
     {
-        Log::info('export bill report query start');
         $report_filters = $this->filter;
-        Log::info('export bills filters ', $this->filter);
-
+        
         $query = DB::table('bills')
         ->leftJoin('users', 'bills.user_id', '=', 'users.id')
         ->leftJoin('payment_logs', function($join)
@@ -115,11 +113,6 @@ class ReportBillExport implements FromQuery, WithHeadings, ShouldQueue, WithCust
 
         $query->groupBy('bills.id')->orderBy('paid_at');
 
-
-        $sql = $query->toSql();
-        $bindings = $query->getBindings();
-        Log::info('export bill report query sql '.vsprintf(str_replace('?', '%s', $sql), $bindings));
-
         return $query;
     }
 
@@ -164,8 +157,6 @@ class ReportBillExport implements FromQuery, WithHeadings, ShouldQueue, WithCust
         $countQuery = "select count(*) as aggregate from ({$query->toSql()}) c";
 
         $count = collect(DB::select($countQuery, $query->getBindings()))->pluck('aggregate')->first();
-
-        Log::info('export bill report query count '.$count);
 
         return $count;
     }

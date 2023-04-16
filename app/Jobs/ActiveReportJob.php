@@ -35,11 +35,9 @@ class ActiveReportJob implements ShouldQueue
      */
     public function handle()
     {
-        Log::info('active report');
         $report = Report::findOrFail($this->report_id);
 
         $report->active = 1;
         $report->save();
-        Log::info('report activated');
     }
 }

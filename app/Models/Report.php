@@ -64,7 +64,6 @@ class Report extends Model implements HasMedia
             }
             else if($report->type == 'bill')
             {
-                Log::info('Bill export created');
                 $report_emails = explode(",", $report->emails);
                 $report_filters = json_decode($report->params, true) ;
 
