@@ -12,7 +12,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Events\AddActionLogEvent;
+use App\Jobs\GenerateBillsReport;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class Report extends Model implements HasMedia
 {
@@ -62,7 +64,13 @@ class Report extends Model implements HasMedia
             }
             else if($report->type == 'bill')
             {
-                GenerateBillReport::dispatch($report->id);
+                $report_emails = explode(",", $report->emails);
+                $report_filters = json_decode($report->params, true) ;
+
+                GenerateBillsReport::dispatch($report_filters, $report_emails, $report->name, $report->id);
+                
+                // GenerateBillReport::dispatch($report->id);
+                
                 event(new AddActionLogEvent(
                     'create_bill_report',
                     Auth::id(),

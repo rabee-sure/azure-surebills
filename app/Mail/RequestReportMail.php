@@ -7,6 +7,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\File;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class RequestReportMail extends Mailable implements ShouldQueue
@@ -33,7 +35,7 @@ class RequestReportMail extends Mailable implements ShouldQueue
     public function build()
     {
         $reportFileName = "app/public/reports/{$this->report->name}/{$this->report->name}_{$this->report->id}.xlsx";
-
+        
         return $this->subject( $this->report->name ." Report - SureBills Reports")
             ->view('emails.reports.request_report', [
                 'report' => $this->report,
