@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Events\TransferCreated;
 use App\Events\AddActionLogEvent;
+use App\Jobs\SendCompletedTransferEmailToMerchant;
 use App\Models\Transaction;
 use App\Models\TransferLog;
 use App\Models\Transfer;
@@ -36,7 +37,7 @@ class TransferOperations
 
                 // $transfer->transactions()->update(['settled' => true]);
 
-                event(new TransferCreated($transfer));
+                SendCompletedTransferEmailToMerchant::dispatch($transfer);
             }
         }
 
