@@ -81,10 +81,13 @@ class ManualTransfer extends Command
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         $server_output = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close ($ch);
 
+        \Log::channel('send_to_sps')->info("SPS response - Manual Command", ['code' => $httpcode]);
         \Log::channel('send_to_sps')->info("SPS response - Manual Command", ['response' => $server_output]);
 
+        $this->info("SPS Response code: {$httpcode}");
         $this->info("SPS Response: {$server_output}");
     }
 }
