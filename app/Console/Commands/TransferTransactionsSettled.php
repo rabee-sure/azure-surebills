@@ -42,7 +42,7 @@ class TransferTransactionsSettled extends Command
     {
         ini_set('memory_limit','4096M');
 
-        $user_id = $this->argument('user_id');
+        $user_id = explode(",", $this->argument('user_id'));
 
         // get user completed transfers
         $completed_transfers = DB::table('settlements')->whereIn('user_id', $user_id)->where('status', 'completed')->select('id')->get()->pluck('id')->toArray();
