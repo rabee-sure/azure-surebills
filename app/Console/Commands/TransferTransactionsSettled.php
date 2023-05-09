@@ -40,6 +40,8 @@ class TransferTransactionsSettled extends Command
      */
     public function handle()
     {
+        ini_set('memory_limit','4096M');
+
         $user_id = $this->argument('user_id');
 
         // get user completed transfers
