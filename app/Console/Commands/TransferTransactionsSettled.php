@@ -43,21 +43,21 @@ class TransferTransactionsSettled extends Command
         $user_id = $this->argument('user_id');
 
         // get user completed transfers
-        $completed_transfers = DB::table('settlements')->where('user_id', $user_id)->where('status', 'completed')->select('id')->get()->pluck('id')->toArray();
+        $completed_transfers = DB::table('settlements')->whereIn('user_id', $user_id)->where('status', 'completed')->select('id')->get()->pluck('id')->toArray();
 
         if(!empty($completed_transfers)){
             $completed_transfers_transactions = DB::table('transaction_transfer')->whereIn('transfer_id', $completed_transfers)->select('transaction_id')->get()->pluck('transaction_id')->toArray();
         }
 
         // get user pending transfers
-        $pending_transfers = DB::table('settlements')->where('user_id', $user_id)->where('status', 'pending')->orWhere('status', 'send_to_sps')->select('id')->get()->pluck('id')->toArray();
+        $pending_transfers = DB::table('settlements')->whereIn('user_id', $user_id)->where('status', 'pending')->orWhere('status', 'send_to_sps')->select('id')->get()->pluck('id')->toArray();
 
         if(!empty($pending_transfers)){
             $pending_transfers_transactions = DB::table('transaction_transfer')->whereIn('transfer_id', $pending_transfers)->select('transaction_id')->get()->pluck('transaction_id')->toArray();
         }
 
         // Unsettled all user transactions
-        Transaction::where('user_id', $user_id)->update(['pending_settled' => false, 'settled' => false]);
+        Transaction::whereIn('user_id', $user_id)->update(['pending_settled' => false, 'settled' => false]);
 
         if(!empty($completed_transfers_transactions)){
             // Settled completed transfer transactions
