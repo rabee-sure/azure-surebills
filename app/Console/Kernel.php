@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('expire:bill')->everyMinute();
         $schedule->command('delete:uncompleted')->daily();
         $schedule->command('transfer:automatic')->daily();
+        $schedule->command('merchants:transfer_balance')->dailyAt('03:00');
     }
 
     /**
