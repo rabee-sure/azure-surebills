@@ -5,17 +5,13 @@ namespace App\Jobs;
 use App\Exports\VerifiedMerchantExportData;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Carbon\Carbon;
 
-class ExportVerifiedMerchantsJob implements ShouldQueue
+class ExportVerifiedMerchantsJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    public $queue;
+    use Dispatchable, SerializesModels;
 
     /**
      * Create a new job instance.
@@ -24,7 +20,7 @@ class ExportVerifiedMerchantsJob implements ShouldQueue
      */
     public function __construct()
     {
-        $this->queue = config('queue.working_queues.export_queue');
+        //
     }
 
     /**
@@ -35,6 +31,6 @@ class ExportVerifiedMerchantsJob implements ShouldQueue
     public function handle()
     {
         $file_name = 'verified_merchants.xlsx';
-        return (new VerifiedMerchantExportData())->store($filePath = 'verified-merchants/'. $file_name)->allOnQueue($this->queue);
+        return (new VerifiedMerchantExportData())->store($filePath = 'verified-merchants/'. $file_name);
     }
 }

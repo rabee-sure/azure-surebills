@@ -2,21 +2,15 @@
 
 namespace App\Exports;
 
-use App\Models\Bill;
-use App\Models\RefundedBill;
 use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class VerifiedMerchantExportData implements FromQuery, WithHeadings, WithMapping, ShouldQueue, WithEvents
+class VerifiedMerchantExportData implements FromQuery, WithHeadings, WithMapping, WithEvents
 {
     use Exportable;
 
