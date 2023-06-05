@@ -3,9 +3,7 @@
 namespace App\Nova\Filters;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Laravel\Nova\Filters\Filter;
-use Illuminate\Support\Facades\DB;
 
 
 class YearFilter extends Filter
@@ -20,7 +18,7 @@ class YearFilter extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where(DB::raw('YEAR(transactions.created_at)'), '=', $value);
+        return $query;
     }
 
     /**
