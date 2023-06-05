@@ -812,4 +812,16 @@ class User extends Authenticatable implements HasMedia
     public function refundedBills(){
         return $this->hasMany(RefundedBill::class);
     }
+
+    public function taxInvoiceRequest(){
+        return $this->hasMany(TaxInvoiceRequest::class);
+    }
+
+    public function hasPendingTaxInvoiceRequest(){
+        $pendingRequests = $this->taxInvoiceRequest()->whereIn('status', ['pending'])->count();
+        if($pendingRequests > 0){
+            return true;
+        }
+        return false;
+    }
 }

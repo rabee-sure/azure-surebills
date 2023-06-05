@@ -4,6 +4,8 @@ use App\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Client;
+use Illuminate\Contracts\Cache\Store;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,6 +60,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('settings', 'SettingsController@settings')->name('settings');
     Route::post('settings', 'SettingsController@postSettings')->name('post.settings');
+
+    Route::get('tax_invoice_request', 'TaxInvoiceRequestController@store')->name('tax_invoice.request');
 
     Route::get('account', 'AccountController@account')->name('account');
     Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
@@ -200,7 +204,6 @@ Route::get('users/{user}', 'UserController@show')->name('users.show');
 
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
 
-
 Route::middleware(config('nova.middleware', []))->group(function () {
     Route::prefix('nova/jobs')->group(function () {
         Route::queueMonitor();
@@ -218,6 +221,8 @@ Route::middleware(config('nova.middleware', []))->group(function () {
     Route::post('transfers', 'TransferController@store');
     Route::put('transfers/change_status', 'TransferController@changeStatus');
     Route::put('transfers/{transfer}/cancel', 'TransferController@cancel');
+
+    Route::post('request_change_status', 'TaxInvoiceRequestController@changeStatus')->name('tax_invoice.change_status');
 
     //Reports
     // Route::get('reports', 'ReportsController@index')->name('reports.index');

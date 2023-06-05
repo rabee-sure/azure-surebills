@@ -45,5 +45,6 @@ return [
     'create_bank' => ':adminname أنشئ بنك في :time',
     'update_bank' => ':adminname حدث بنك في :time',
     'delete_bank' => ':adminname حذف بنك في :time',
+    'update_tax_invoice_request' => ':adminname حدث طلب فاتورة ضريبة في :time',
 
 ];

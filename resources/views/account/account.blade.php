@@ -29,6 +29,22 @@
         @endif
     @endif
 
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div><!-- alert -->
+    @endif
+
+    @if(session()->has('message'))
+        <div class="alert alert-success">
+            {{ session()->get('message') }}
+        </div>
+    @endif
+
     <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4">
       <div class="col">
         <a href="{{ route('account_information') }}" title="{{ __('My Information') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
@@ -66,6 +82,16 @@
           </a>
         </div><!-- col -->
       @endcan
+
+      @can('update settings')
+        <div class="col">
+          <a href="{{ route('tax_invoice.request') }}" title="{{__('Tax invoice request')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
+            <i class="fal fa-envelope"></i>
+            <span class="d-block mt-3 text-center">{{__('Tax invoice request')}}</span>
+          </a>
+        </div><!-- col -->
+      @endcan
+
       @can('show products')
         <div class="col">
           <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">

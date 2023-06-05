@@ -30,5 +30,6 @@ return [
         'create_bank',
         'update_bank',
         'delete_bank',
+        'update_tax_invoice_request',
     ],
 ];

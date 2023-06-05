@@ -26,4 +26,5 @@ return [
     'App\Models\Role' => 'Role',
     'App\Models\Admin' => 'User',
     'App\Models\Bank' => 'Bank',
+    'App\Models\TaxInvoiceRequest' => 'Tax Invoice Request',
 ];

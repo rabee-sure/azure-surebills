@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendTaxInvoiceRequestMailJob;
 use App\Models\TaxInvoiceRequest;
 use Illuminate\Http\Request;
 
 class TaxInvoiceRequestController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:update settings', ['only' => ['store']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +41,20 @@ class TaxInvoiceRequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = auth()->user()->mainStoreUser ?? auth()->user();
+
+        if($user->hasPendingTaxInvoiceRequest()){
+            return redirect()->back()->withErrors([__('You have pending Request! please wait.')]);
+        }
+
+        $taxInvoiceRequest = TaxInvoiceRequest::create([
+            "user_id" => $user->id,
+            "status" => "pending"
+        ]);
+
+        SendTaxInvoiceRequestMailJob::dispatch($user);
+
+        return redirect()->back()->with('message', __('Your request has been sent succefully'));
     }
 
     /**

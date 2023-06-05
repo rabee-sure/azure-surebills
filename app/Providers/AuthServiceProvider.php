@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Channel' => 'App\Policies\ChannelPolicy',
         'App\Models\ActionLog' => 'App\Policies\ActionLogPolicy',
         'App\Models\Bank' => 'App\Policies\BankPolicy',
+        'App\Models\TaxInvoiceRequest' => 'App\Policies\TaxInvoiceRequestPolicy',
         'App\Models\WebhookLog' => 'App\Policies\WebhookLogPolicy',
         'App\Models\User' => 'App\Policies\UserPolicy',
         'App\Models\Admin' => 'App\Policies\AdminPolicy',

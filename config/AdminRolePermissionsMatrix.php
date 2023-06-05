@@ -41,4 +41,6 @@ return [
 
     'receive updated merchant notificaion',
 
+    'receive tax invoice request',
+
 ];

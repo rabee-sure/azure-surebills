@@ -113,8 +113,7 @@ class Channel extends Resource
      * Get the cards available for the request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return arr
-     ay
+     * @return array
      */
     public function cards(Request $request)
     {
