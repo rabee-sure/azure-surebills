@@ -116,8 +116,12 @@ class PaymentLog extends Model
         // error message
         if (isset($response['error']) && isset($response['error']['explanation'])) {
             session(['refund_error' => $response['error']['explanation']]);
+            $payment->is_failure = true;
+            $payment->save();
         } else if (isset($response['response']) && isset($response['response']['gatewayCode'])) {
             session(['refund_error' => $response['response']['gatewayCode']]);
+            $payment->is_failure = true;
+            $payment->save();
         }
 
         return false;
