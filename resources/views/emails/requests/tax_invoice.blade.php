@@ -204,7 +204,7 @@
   <body>
     <div id="mail_wrapper">
       <div class="mail_content">
-        {{$user->business_name}} request a new tax invoice
+        {{$user->business_name_en}} request a new tax invoice
         User ID : {{$user->id}}
         User Email : {{$user->email}}
         
