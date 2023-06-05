@@ -98,6 +98,14 @@ return [
             'help' => 'Plz Use a Comma as a Separator',
 
         ],
+        [
+            'key' => 'tax_invoice_requests_emails',
+            'type' => 'textarea',
+            'label' => 'Tax Invoice Requests emails',
+            'panel' => 'Tax Invoice Requests',
+            'help' => 'Plz Use a Comma as a Separator',
+
+        ],
 
 
     ],

@@ -10,6 +10,7 @@ use App\Models\Bill;
 use App\Models\Media;
 use App\Models\Channel;
 use App\Models\Bank;
+use App\Models\TaxInvoiceRequest;
 use App\Observers\ApplicationObserver;
 use App\Observers\TransferObserver;
 use App\Observers\UserObserver;
@@ -17,6 +18,7 @@ use App\Observers\BillObserver;
 use App\Observers\MediaObserver;
 use App\Observers\ChannelObserver;
 use App\Observers\BankObserver;
+use App\Observers\TaxInvoiceRequestObserver;
 use App\Policies\AutoTransferPolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -61,6 +63,7 @@ class AppServiceProvider extends ServiceProvider
         Media::observe(MediaObserver::class);
         Channel::observe(ChannelObserver::class);
         Bank::observe(BankObserver::class);
+        TaxInvoiceRequest::observe(TaxInvoiceRequestObserver::class);
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
 

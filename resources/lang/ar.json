@@ -915,7 +915,18 @@
   "Bill name" : "أسم الفاتورة",
   "Creation Date" : "تاريخ الإنشاء",
   "Transfer Amount" : "مبلغ التحويل",
-  "Transfer Amount Due" : "مبلغ التحويل المستحق"
+  "Transfer Amount Due" : "مبلغ التحويل المستحق",
+  "Tax invoice request" : "طلب فاتورة ضريبية",
+  "Tax Invoice Requests" : "طلبات الفواتير الضريبية",
+  "You have pending Request! please wait." : "لديك طلب معلق! برجاء الانتظار.",
+  "Your request has been sent succefully" : "تم إرسال طلبك بنجاح",
+  "Request status" : "حالة الطلب",
+  "Sent" : "إرسال",
+  "Pending request" : "طلب معلق",
+  "pending" : "معلق",
+  "sent" : "تم الارسال",
+  "Sent At" : "أرسلت في",
+  "receive tax invoice request" : "إستلام طلبات الفواتير الضريبة"
 
 
 }
