@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Illuminate\Support\Facades\DB;
 use App\Nova\Actions\MerchantsExcelDownload;
-use App\Events\AddActionLogEvent;
 use Illuminate\Support\Facades\Auth;
 
 class MerchantsReport extends Resource
@@ -67,9 +65,6 @@ class MerchantsReport extends Resource
             })->exceptOnForms(),
             Text::make(__('City'), 'business_address')->exceptOnForms(),
             Text::make(__('Address'), 'business_address_details')->exceptOnForms(),
-            Text::make(__('Amount of transactions'), 'Total_amounts', function () {
-                return !is_null($this->Total_amounts) ? floorp($this->Total_amounts,2) : 0;
-            })->sortable()->onlyOnIndex(),
             Text::make(__('View Profile'), function(){
                 return "<a class='btn btn-success' style='margin:5px' href='/nova/resources/users/".$this->id."'><i class='fa fa-eye' aria-hidden='true'></i></a>";
             })->asHtml()->onlyOnIndex(),
@@ -86,17 +81,6 @@ class MerchantsReport extends Resource
         $class = '\Laravel\Nova\Http\Requests\\Resource'.ucfirst($view).'Request';
 
         return $request instanceof $class;
-    }
-
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        // DB::raw("(SUM(CASE WHEN transactions.type  = 'credit' THEN transactions.amount ELSE 0 END) - SUM(CASE WHEN transactions.type  = 'debit' THEN transactions.amount ELSE 0 END)) AS Total_amounts")
-        return $query
-        ->join('transactions', 'users.id', '=', 'transactions.user_id')
-        ->select('users.*', 'transactions.user_id', DB::raw("SUM(transactions.amount) AS Total_amounts"))
-        ->where([['verified', true], ['store_main_user_id', null]])
-        ->where('transactions.type', 'credit')
-        ->groupBy('transactions.user_id');
     }
 
     public static function authorizedToCreate(Request $request)
@@ -164,7 +148,7 @@ class MerchantsReport extends Resource
     public function actions(Request $request)
     {
         return [
-            (new MerchantsExcelDownload)->canRun(function (NovaRequest $request) {
+            (new MerchantsExcelDownload(Auth::user()->email, $request->toArray()))->standalone()->canRun(function (NovaRequest $request) {
                 return true;
             }),
         ];
