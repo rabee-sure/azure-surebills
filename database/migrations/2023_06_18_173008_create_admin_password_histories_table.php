@@ -15,6 +15,9 @@ class CreateAdminPasswordHistoriesTable extends Migration
     {
         Schema::create('admin_password_histories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('admin_id');
+            $table->foreign('admin_id')->on('admins')->references('id');
+            $table->string('password');
             $table->timestamps();
         });
     }

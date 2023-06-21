@@ -72,7 +72,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return $user->is_active;
+            return $user->is_active && !$user->password_block;
         });
     }
 
@@ -159,7 +159,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::auth(function ($request) {
             return Gate::check('viewNova', function() use ($request){
-                return $request->user()->is_active;
+                return $request->user()->is_active && !$request->user()->password_block;
             });
         });
     }

@@ -91,6 +91,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserUpdateNotification' => [
             'App\Listeners\SendNotificationEmail',
         ],
+        'Illuminate\Auth\Events\PasswordReset' => [
+            'App\Listeners\AfterResetPassword',
+        ],
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
+        ],
     ];
 
     /**

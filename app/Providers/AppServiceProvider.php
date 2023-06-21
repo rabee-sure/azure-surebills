@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\Nova\NovaResetPasswordController;
 use App\Models\Application;
 use App\Models\AutoTransfer;
 use App\Models\Transfer;
@@ -28,6 +29,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Nova\Http\Controllers\ResetPasswordController;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+        $this->app->bind(ResetPasswordController::class, NovaResetPasswordController::class);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Laravel\Nova\Http\Controllers;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -22,7 +23,9 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers, ValidatesRequests;
+    use AuthenticatesUsers, ValidatesRequests, ThrottlesLogins;
+
+    protected $decayMinutes = 5; // Default is 1
 
     /**
      * Create a new controller instance.

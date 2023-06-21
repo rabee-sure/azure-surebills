@@ -926,7 +926,17 @@
   "pending" : "معلق",
   "sent" : "تم الارسال",
   "Sent At" : "أرسلت في",
-  "receive tax invoice request" : "إستلام طلبات الفواتير الضريبة"
-
-
+  "receive tax invoice request" : "إستلام طلبات الفواتير الضريبة",
+  "password_block" : "كلمة مرور غير مفعله",
+  "Admin ID" : "معرف المستخدم",
+  "Admin name" : "اسم المستخدم",
+  "Admin email" : "بريد المستخدم الالكتروني",
+  "Admin mobile" : "جوال المستخدم",
+  "Admin role" : "دور المستخدم",
+  "Last login date" : "تاريخ اخر تسجيل دخول",
+  "Password block Status" : "حالة تفعيل كلمة المرور",
+  "Blocked" : "غير مفعل",
+  "Unblocked" : "مفعل",
+  "Unactive" : "غير مفعل",
+  "Exported Inactive Admins report has been generated successfuly - SureBills" : "تم تصدير تقرير المستخدمين الغير مفعلين - شور بيلز"
 }

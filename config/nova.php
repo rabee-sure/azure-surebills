@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'guard' => 'admins', //env('NOVA_GUARD', null),
+    'guard' => env('NOVA_GUARD', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -146,4 +146,11 @@ return [
 
     'currency' => 'USD',
 
+
+    /**
+     * Inactive admin setting
+     */
+    'send_to_mail' => 'mzain@sure.com.sa',
+    'inactive_period_day' => 90,
+    'change_password_period_day' => 90
 ];

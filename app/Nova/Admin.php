@@ -71,11 +71,7 @@ class Admin extends Resource
                 ->creationRules('unique:admins,email,NULL,id,deleted_at,NULL')
                 ->updateRules('unique:admins,email,'.$this->id.',id,deleted_at,NULL'),
 
-            Password::make(__('Password'), 'password')
-                ->rules('string', 'min:8', new PasswordRule)
-                ->creationRules('required')
-                ->updateRules('nullable')
-                ->onlyOnForms(),
+            
 
             Text::make(__('Mobile'), 'mobile')->rules('required', 'regex:/(^[5]{1}[0-9]{8}$)/')
                 ->creationRules('unique:admins,mobile,NULL,id,deleted_at,NULL')
@@ -92,6 +88,7 @@ class Admin extends Resource
                 ->onlyOnForms(),
 
             Boolean::make(__('is_active?'), 'is_active'),
+            Boolean::make(__('password_block?'), 'password_block')->exceptOnForms(),
         ];
     }
 
