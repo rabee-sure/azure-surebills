@@ -13,6 +13,7 @@ use Illuminate\Mail\Message;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
+use CarlosCGO\Google2fa\Models\User2fa;
 
 class Admin extends Authenticatable
 {
@@ -27,6 +28,14 @@ class Admin extends Authenticatable
     private function generateTempPassword(){
         $tempPassword = Hash::make(Str::random(15));
         return $tempPassword;
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function user2fa()
+    {
+        return $this->hasOne(User2fa::class, 'user_id');
     }
 
     public static function boot()

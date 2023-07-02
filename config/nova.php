@@ -103,6 +103,7 @@ return [
         DispatchServingNovaEvent::class,
         BootTools::class,
         Authorize::class,
+        \CarlosCGO\Google2fa\Http\Middleware\Google2fa::class,
     ],
 
     /*
