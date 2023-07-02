@@ -45,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(TelescopeServiceProvider::class);
         }
         $this->app->bind(ResetPasswordController::class, NovaResetPasswordController::class);
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'nova');
     }
 
     /**
