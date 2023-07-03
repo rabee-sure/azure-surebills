@@ -40,8 +40,10 @@ class ReportInactiveAdmin extends Command
     public function handle()
     {
         $email = config('nova.send_to_mail');
-        $days = config('nova.inactive_period_day');
-        $date = date('Y-m-d', strtotime('-'.$days.' days'));
-        ExportInactiveAdmins::dispatch($email, $date);
+        if($email){
+            $days = config('nova.inactive_period_day');
+            $date = date('Y-m-d', strtotime('-'.$days.' days'));
+            ExportInactiveAdmins::dispatch($email, $date);
+        }
     }
 }

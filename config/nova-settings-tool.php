@@ -106,6 +106,14 @@ return [
             'help' => 'Plz Use a Comma as a Separator',
 
         ],
+        [
+            'key' => 'inactive_users_report_emails',
+            'type' => 'textarea',
+            'label' => 'Inactive Users Report emails',
+            'panel' => 'Inactive Users Report',
+            'help' => 'Plz Use a Comma as a Separator',
+
+        ],
 
 
     ],

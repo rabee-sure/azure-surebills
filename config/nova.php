@@ -5,6 +5,9 @@ use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Http\Middleware\Authorize;
 use Laravel\Nova\Http\Middleware\BootTools;
 use Laravel\Nova\Http\Middleware\DispatchServingNovaEvent;
+use Spatie\Valuestore\Valuestore;
+
+$settings =  Valuestore::make(storage_path('app/settings.json'));
 
 return [
 
@@ -151,7 +154,7 @@ return [
     /**
      * Inactive admin setting
      */
-    'send_to_mail' => 'mzain@sure.com.sa',
+    'send_to_mail' => $settings->get('inactive_users_report_emails'),
     'inactive_period_day' => 90,
     'change_password_period_day' => 90
 ];
