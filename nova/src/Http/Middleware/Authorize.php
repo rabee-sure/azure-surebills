@@ -21,7 +21,7 @@ class Authorize
             Auth::guard(config('nova.guard'))->logout();
 
             $request->session()->invalidate();
-            return redirect('/nova/password/reset');
+            return redirect('/nova/password/change_password');
         }
         return Nova::check($request) ? $next($request) : abort(403);
     }

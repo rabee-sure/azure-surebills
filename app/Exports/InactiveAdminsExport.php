@@ -41,7 +41,7 @@ class InactiveAdminsExport implements FromQuery, WithHeadings, WithMapping, Shou
             $admin->name,
             $admin->email,
             $admin->mobile,
-            $admin->role,
+            $admin->roles()->first()->name,
             $admin->last_login_at,
             $admin->is_active ? __('Active') : __('Unactive'),
             $admin->password_block ? __('Blocked') : __('Unblocked'),
@@ -53,7 +53,7 @@ class InactiveAdminsExport implements FromQuery, WithHeadings, WithMapping, Shou
     */
     public function query()
     {
-        $inactiveAdmins = Admin::whereDate('last_login_at', '<=', $this->date);
+        $inactiveAdmins = Admin::whereDate('last_login_at', '<=', $this->date)->orWhereNull('last_login_at');
 
         return $inactiveAdmins;
     }

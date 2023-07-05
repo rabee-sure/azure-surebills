@@ -867,6 +867,16 @@
       "HEAD"
     ]
   },
+  "nova.password.change_password": {
+    "name": "nova.password.change_password",
+    "domain": null,
+    "action": "Laravel\\Nova\\Http\\Controllers\\ForgotPasswordController@showChangePasswordRequestForm",
+    "uri": "nova/password/change_password",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
   "nova.password.email": {
     "name": "nova.password.email",
     "domain": null,

@@ -53,6 +53,11 @@ class ForgotPasswordController extends Controller
         return view('nova::auth.passwords.email');
     }
 
+    public function showChangePasswordRequestForm()
+    {
+        return view('nova::auth.passwords.change_password');
+    }
+
     /**
      * Get the broker to be used during password reset.
      *
