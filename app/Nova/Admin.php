@@ -69,7 +69,8 @@ class Admin extends Resource
             Text::make(__('Email'), 'email')
                 ->rules('required', 'string', 'email', 'max:50')
                 ->creationRules('unique:admins,email,NULL,id,deleted_at,NULL')
-                ->updateRules('unique:admins,email,'.$this->id.',id,deleted_at,NULL'),
+                ->updateRules('unique:admins,email,'.$this->id.',id,deleted_at,NULL')
+                ->hideWhenUpdating(),
 
             
 
