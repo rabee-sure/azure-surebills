@@ -55,7 +55,6 @@ class GenerateMerchantOutstandingReport extends Command
             "users.business_name_en AS Business_Name",
             DB::raw('SUM(bills.total) AS Totals')
         )
-        ->where('users.verified', 1)
         ->groupBy('users.id')
         ->get()->toArray();
         $this->info(count($results));
