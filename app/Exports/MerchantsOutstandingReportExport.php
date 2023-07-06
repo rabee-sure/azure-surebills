@@ -23,7 +23,8 @@ class MerchantsOutstandingReportExport implements FromArray, WithHeadings
             'MID',
             'Merchant Name',
             'Business Name',
-            'Total Bills',
+            'Total Amounts',
+            'Bills Count',
         ];
     }
 
