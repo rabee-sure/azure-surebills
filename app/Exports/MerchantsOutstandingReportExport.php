@@ -20,6 +20,7 @@ class MerchantsOutstandingReportExport implements FromArray, WithHeadings
     public function headings(): array
     {
         return [
+            'MID',
             'Merchant Name',
             'Business Name',
             'Total Bills',
