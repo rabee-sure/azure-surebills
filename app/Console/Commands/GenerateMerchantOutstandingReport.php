@@ -53,7 +53,8 @@ class GenerateMerchantOutstandingReport extends Command
             "users.id AS MID",
             "users.name AS Merchant_Name",
             "users.business_name_en AS Business_Name",
-            DB::raw('SUM(bills.total) AS Totals')
+            DB::raw('SUM(bills.total) AS Total_Amounts'),
+            DB::raw('COUNT(bills.id) AS Bills_Count')
         )
         ->groupBy('users.id')
         ->get()->toArray();
