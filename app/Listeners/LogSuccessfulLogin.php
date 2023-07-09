@@ -28,7 +28,7 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
-        if(Auth::guard('admins')->check()){
+        if(Auth::guard('admins')->check() && !Auth::guard('web')->check()){
             $event->user->last_login_at = Carbon::now()->toDateTimeString();
             $event->user->save();
         }
