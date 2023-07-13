@@ -50,7 +50,7 @@ class UserObserver
     {
         event(new UserUpdated($user));
 
-        if(Auth::guard('admins')->check()){
+        if(Auth::guard('admins')->check() && !Auth::guard('web')->check()){
             $fieldsArr = config('userfields');
 
             foreach($fieldsArr as $groupKey => $fieldsGroup){
