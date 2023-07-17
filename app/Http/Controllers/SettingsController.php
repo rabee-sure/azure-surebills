@@ -55,7 +55,8 @@ class SettingsController extends Controller
         // auth()->user()->settings;
         $settings->add_tax = $request->add_tax;
         $settings->tax_value = $request->tax_value;
-        $settings->add_tax_invoice = $request->add_tax_invoice;
+        // $settings->add_tax_invoice = $request->add_tax_invoice;
+        $settings->add_tax_invoice = false;
         $settings->default_lang = $request->default_lang;
         $settings->active_lang = $request->active_lang;
         $settings->create_send_sms = $request->create_send_sms;

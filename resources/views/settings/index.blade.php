@@ -64,7 +64,7 @@
           <div class="row">
             <div class="col-12">
               <label for="Tax_Invoice_Values_Checkbox" class="checkboxItem position-relative mb-3 mb-md-0">
-                <input name="add_tax_invoice" class="position-absolute top-0 strat-0 w-100 h-100" id="Tax_Invoice_Values_Checkbox" type="checkbox" @if($user->settings->add_tax_invoice || old('add_tax_invoice') == 'on') checked @endif>
+                {{-- <input name="add_tax_invoice" class="position-absolute top-0 strat-0 w-100 h-100" id="Tax_Invoice_Values_Checkbox" type="checkbox" @if($user->settings->add_tax_invoice || old('add_tax_invoice') == 'on') checked @endif> --}}
                 <span class="d-flex align-items-center justify-content-start">
                   <i class="d-block rounded-pill position-relative"></i>
                   {{ __('Activate Tax Invoice') }}
