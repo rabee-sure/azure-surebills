@@ -15,6 +15,12 @@
         {{ __('Welcome Back!') }}
     @endcomponent
 
+    @if (session('status'))
+    <div class="text-danger text-center font-semibold my-3">
+        {{ __(session('status')) }}
+    </div>
+    @endif
+
     @if ($errors->any())
     <p class="text-center font-semibold text-danger my-3">
         @if ($errors->has('email'))

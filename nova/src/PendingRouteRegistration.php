@@ -57,6 +57,7 @@ class PendingRouteRegistration
             ->prefix(Nova::path())
             ->group(function () {
                 Route::get('/password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('nova.password.request');
+                Route::get('/password/change_password', 'ForgotPasswordController@showChangePasswordRequestForm')->name('nova.password.change_password');
                 Route::post('/password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('nova.password.email');
                 Route::get('/password/reset/{token}', 'ResetPasswordController@showResetForm')->name('nova.password.reset');
                 Route::post('/password/reset', 'ResetPasswordController@reset');

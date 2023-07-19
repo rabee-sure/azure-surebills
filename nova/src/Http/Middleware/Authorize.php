@@ -2,6 +2,7 @@
 
 namespace Laravel\Nova\Http\Middleware;
 
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Nova;
 
 class Authorize
@@ -15,6 +16,20 @@ class Authorize
      */
     public function handle($request, $next)
     {
+        if (Auth::user()->password_block)
+        {
+            Auth::guard(config('nova.guard'))->logout();
+
+            $request->session()->invalidate();
+            return redirect('/nova/password/change_password');
+        }
+        if (!Auth::user()->is_active)
+        {
+            Auth::guard(config('nova.guard'))->logout();
+
+            $request->session()->invalidate();
+            return redirect('/nova/login')->with('status', 'Your account inactive, please go back to your manager!');
+        }
         return Nova::check($request) ? $next($request) : abort(403);
     }
 }

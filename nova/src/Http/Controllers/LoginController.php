@@ -3,7 +3,9 @@
 namespace Laravel\Nova\Http\Controllers;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +24,9 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers, ValidatesRequests;
+    use AuthenticatesUsers, ValidatesRequests, ThrottlesLogins;
+
+    protected $decayMinutes = 6; // Default is 1
 
     /**
      * Create a new controller instance.
@@ -66,7 +70,22 @@ class LoginController extends Controller
      */
     public function redirectPath()
     {
-        return Nova::path();
+        return url('/nova');
+    }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        if ($response = $this->authenticated($request, $this->guard()->user())) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+                    ? new JsonResponse([], 204)
+                    : redirect($this->redirectPath());
     }
 
     /**

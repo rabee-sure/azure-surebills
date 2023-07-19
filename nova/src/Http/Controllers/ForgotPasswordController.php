@@ -38,7 +38,7 @@ class ForgotPasswordController extends Controller
             return (new MailMessage)
                 ->subject(__('Reset Password Notification'))
                 ->line(__('You are receiving this email because we received a password reset request for your account.'))
-                ->action(__('Reset Password'), url(config('nova.url').route('nova.password.reset', $token, false)))
+                ->action(__('Reset Password'), url('/nova/password/reset/'.$token))
                 ->line(__('If you did not request a password reset, no further action is required.'));
         });
     }
@@ -51,6 +51,11 @@ class ForgotPasswordController extends Controller
     public function showLinkRequestForm()
     {
         return view('nova::auth.passwords.email');
+    }
+
+    public function showChangePasswordRequestForm()
+    {
+        return view('nova::auth.passwords.change_password');
     }
 
     /**

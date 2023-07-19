@@ -28,6 +28,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('delete:uncompleted')->daily();
         $schedule->command('transfer:automatic')->daily();
         $schedule->command('merchants:transfer_balance')->dailyAt('03:00');
+        $schedule->command('admin:report_inactive')->quarterly();
+        $schedule->command('admin:block_password')->quarterly();
     }
 
     /**
