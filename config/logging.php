@@ -126,6 +126,11 @@ return [
             'path' => storage_path('logs/transactions_setteled.log'),
             'level' => 'info',
         ],
+        'bills_transactions_fix' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/bills_transactions_fix.log'),
+            'level' => 'info',
+        ],
 
     ],
 
