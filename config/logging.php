@@ -131,6 +131,16 @@ return [
             'path' => storage_path('logs/bills_transactions_fix.log'),
             'level' => 'info',
         ],
+        'paid_bills_transactions_fixed' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/paid_bills_transactions_fixed.log'),
+            'level' => 'info',
+        ],
+        'paid_bills_transactions_not_fixed' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/paid_bills_transactions_not_fixed.log'),
+            'level' => 'info',
+        ],
 
     ],
 
