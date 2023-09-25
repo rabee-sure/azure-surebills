@@ -25,10 +25,10 @@ class Transaction extends Model
      */
     public function generateReceipt()
     {
-        $lastReceipt = self::where('type', $this->type)->orderBy('receipt', 'desc')->first();
+        $lastReceipt = self::where('type', $this->type)->max('receipt');
 
         if ($lastReceipt)
-            return $lastReceipt->receipt + 1;
+            return $lastReceipt + 1;
 
         if ($this->type == 'credit')
             return 100000000001;
