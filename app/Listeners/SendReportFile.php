@@ -41,20 +41,25 @@ class SendReportFile implements ShouldQueue
         $report_emails = $report->emails;
         $report_filters = json_decode($report->params) ;
         $report_merchants = explode(',', str_replace('"',"",$report_filters->merchants));
+        
         if (in_array("all", $report_merchants))
         {
             $report_merchants = "";
         }
+        
         $report_from = $report_filters->from;
         $report_to = $report_filters->to ?? $report_filters->from;
         $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'.xlsx';
         $whereDateBetween = "";
         $whereDateTo = "";
+        
         if($report_from != '' && $report_to != ''){
             $whereDateBetween = " BETWEEN '".$report_from."' AND '".$report_to."'";
             $whereDateTo = " DATE(created_at) <= '".$report_to."'";
         }
+        
         $whereInMerchants = "";
+        
         if(!empty($report_merchants)){
             $whereInMerchants = "AND users.id IN (".implode(',', $report_merchants).")";
         }
@@ -66,8 +71,8 @@ class SendReportFile implements ShouldQueue
   COALESCE(SUM(settlements.net_amount), 0) AS Total_net_transfer,
   total_trans.balance AS Outstanding_balance,
   to_date_trans.balance AS Range_balance
-FROM users LEFT JOIN transactions ON users.id = transactions.user_id AND transactions.created_at ". $whereDateBetween ."
-LEFT JOIN settlements ON users.id = settlements.user_id AND settlements.updated_at " . $whereDateBetween . " AND settlements.status = 'completed'
+FROM users LEFT JOIN transactions ON users.id = transactions.user_id AND Date(transactions.created_at) ". $whereDateBetween ."
+LEFT JOIN settlements ON users.id = settlements.user_id AND Date(settlements.updated_at) " . $whereDateBetween . " AND settlements.status = 'completed'
 LEFT JOIN ( SELECT user_id, (SUM( CASE WHEN type = 'credit' THEN amount ELSE 0 END) - SUM(CASE WHEN type = 'debit' THEN amount ELSE 0 END)) AS balance FROM
     transactions GROUP BY user_id) AS total_trans ON users.id = total_trans.user_id
 LEFT JOIN ( SELECT user_id, ( SUM( CASE WHEN type = 'credit' THEN amount ELSE 0 END ) - SUM( CASE WHEN type = 'debit' THEN amount ELSE 0 END)) AS balance
