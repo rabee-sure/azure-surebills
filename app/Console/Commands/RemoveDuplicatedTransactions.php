@@ -61,7 +61,7 @@ class RemoveDuplicatedTransactions extends Command
                 ->first();
 
             $transactionToDelete->delete();
-            var_dump($i . "- Done: " . $transactionToDelete->id);
+            $this->info($i . "- Done: " . $transactionToDelete->id);
         }
 
         return true;

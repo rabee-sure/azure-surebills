@@ -70,10 +70,9 @@ class InsertMissingTransactionsForPaidBills extends Command
                         ->whereIn('payment_method', ['mastercard_pay', 'hyperpay_applepay', 'mastercard_applepay', 'stc_pay'])
                         ->where('webhook_response_received', 1)
                         ->where('is_failure', 0)
-                        ->where(function($query){
-                            $query->where('results', 'like', '%"result":"SUCCESS"%')
-                            ->orWhere('results', 'like', '%"result": "SUCCESS"%');
-                        })
+                        ->whereJsonContains('results->transaction->type', 'PAYMENT')
+                        ->whereJsonContains('results->result', 'SUCCESS')
+                        ->whereJsonContains('results->response->gatewayCode', 'APPROVED')
                         ->orderBy('created_at', 'Desc')
                         ->first();
 
