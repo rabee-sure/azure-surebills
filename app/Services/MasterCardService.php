@@ -62,10 +62,35 @@ class MasterCardService
                         Log::emergency(json_encode($e));
                     }
                 }
+            }else{
+                if(!app()->environment('production')){
+                    $this->forwardWebhook($request);
+                }
             }
         }
 
         return false;
+    }
+
+    private function forwardWebhook($request){
+        $forward_webhooks = config("mastercard.forward_webhooks");
+
+        if($forward_webhooks != null && $forward_webhooks != "") {
+            $forward_webhooks = explode(',', env('MASTERCARD_FORWARD_WEBHOOKS'));
+            foreach($forward_webhooks as $webhook){
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL,$webhook);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $request->header());
+                curl_setopt($ch, CURLOPT_POSTFIELDS,$request->all());
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                $server_output = curl_exec($ch);
+                $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close ($ch);
+            }
+        }
     }
 
     /*
