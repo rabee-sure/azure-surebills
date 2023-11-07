@@ -22,12 +22,20 @@ class MasterCardService
 {
     public function handleWebhook($request)
     {
+        $received_webhooks = config("mastercard.received_webhook");
+
         if (!$this->checkMastercardSignature($request)) {
+            if($received_webhooks){
+                \Log::channel('mastercard_webhook_forward')->info("check Mastercard Signature false", array("request_header" => $request->header()));
+            }
             return false;
         }
 
         // handle response
         $response = $request->all();
+        if($received_webhooks){
+            \Log::channel('mastercard_webhook_forward')->info("sent response", array("response" => $response));
+        }
         if (isset($response['order'])
             && isset($response['order']['id'])
             && isset($response['transaction'])
@@ -39,7 +47,9 @@ class MasterCardService
             $bill = Bill::find($response['order']['id']);
             $payment = PaymentLog::find($response['transaction']['id']);
             if ($bill && $payment) {
-
+                if($received_webhooks){
+                    \Log::channel('mastercard_webhook_forward')->info("bill and payment log founded", array("bill" => $bill, "payment" => $payment));
+                }
                 // handle PAYMENT transaction
                 if ($response['transaction']['type'] == "PAYMENT") {
                     try {
@@ -64,6 +74,7 @@ class MasterCardService
                 }
             }else{
                 if(!app()->environment('production')){
+                    \Log::channel('mastercard_webhook_forward')->info("bill not found in this system");
                     $this->forwardWebhook($request);
                 }
             }
@@ -76,6 +87,7 @@ class MasterCardService
         $forward_webhooks = config("mastercard.forward_webhooks");
 
         if($forward_webhooks != null && $forward_webhooks != "") {
+            \Log::channel('mastercard_webhook_forward')->info("mastercard webhook forward", array("request" => $request, "forward_webhooks" => $forward_webhooks));
             $forward_webhooks = explode(',', env('MASTERCARD_FORWARD_WEBHOOKS'));
             foreach($forward_webhooks as $webhook){
                 $ch = curl_init();
@@ -89,6 +101,8 @@ class MasterCardService
                 $server_output = curl_exec($ch);
                 $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 curl_close ($ch);
+
+                \Log::channel('mastercard_webhook_forward')->info("mastercard webhook forward response", array("server_output" => $server_output, "httpcode" => $httpcode));
             }
         }
     }

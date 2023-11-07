@@ -141,6 +141,11 @@ return [
             'path' => storage_path('logs/paid_bills_transactions_not_fixed.log'),
             'level' => 'info',
         ],
+        'mastercard_webhook_forward' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/mastercard_webhook_forward.log'),
+            'level' => 'info',
+        ],
 
     ],
 
