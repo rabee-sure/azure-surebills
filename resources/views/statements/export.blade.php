@@ -23,12 +23,13 @@
         <td class="text-center">{{ $transaction->receipt }}</td>
         @if(count($channels))
           <td class="text-center">
-            @if(isset($transaction->bill->application_id) && isset ($transaction->bill->application->channel_id))
+            <!-- @if(isset($transaction->bill->application_id) && isset ($transaction->bill->application->channel_id))
                 
               {{$transaction->bill->application_id}} - {{ $transaction->bill->user->business_name}}
             @else
             --
-            @endif
+            @endif -->
+            --
           </td>
         @endif
         <td class="text-center">{{ $transaction->card }}</td>
