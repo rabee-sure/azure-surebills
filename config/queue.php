@@ -49,6 +49,29 @@ return [
             'block_for' => 0,
         ],
 
+        'rabbitmq' => [
+            'driver' => 'rabbitmq',
+            'host' => env('RABBITMQ_HOST', '127.0.0.1'),
+            'port' => env('RABBITMQ_PORT', 5672),
+            'user' => env('RABBITMQ_USER', 'guest'),
+            'password' => env('RABBITMQ_PASSWORD', 'guest'),
+            'vhost' => env('RABBITMQ_VHOST', '/'),
+            'queue' => env('RABBITMQ_ROUTE_KEY', 'test'),
+            'options' => [
+                'exchange' => [
+                    'auto_delete' => env('RABBITMQ_EXCHANGE_AUTODELETE', false),
+                ],
+                'queue' => [
+                    'auto_delete' => env('RABBITMQ_QUEUE_AUTODELETE', false),
+                    'prioritize_delayed' =>  false,
+                    'queue_max_priority' => 10,
+                    'reroute_failed' => true,
+                    'failed_exchange' => 'failed-exchange',
+                    'failed_routing_key' => 'application-x.%s',
+                ],
+            ],
+        ],
+
         'sqs' => [
             'driver' => 'sqs',
             'key' => env('AWS_ACCESS_KEY_ID'),
