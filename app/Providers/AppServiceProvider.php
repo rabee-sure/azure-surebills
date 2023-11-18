@@ -55,6 +55,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if(config('app.env') === 'production') {
+            \URL::forceScheme('https');
+        }
+        
         // Model::preventLazyLoading(! app()->isProduction());
 
         \Spatie\NovaTranslatable\Translatable::defaultLocales(['en', 'ar']);
