@@ -85,7 +85,7 @@ class MerchantBillsTransactionsFix extends Command
                                 $requiredTransactions = array_merge(self::PAYMENT_TRANSACTIONS, self::REFUND_TRANSACTIONS);
                             }
                             
-                            if($bill->application_id != null){
+                            if($bill->application_id != null && $bill->application->channel_id != null){
                                 $requiredTransactions = array_merge($requiredTransactions, self::CHANNEL_TRANSACTIONS);
                             }
 
