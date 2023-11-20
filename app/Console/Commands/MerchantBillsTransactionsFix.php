@@ -70,7 +70,8 @@ class MerchantBillsTransactionsFix extends Command
             if($billsCount > 0){
                 $chunked_bills = array_chunk($merchantBills, 100);
                 foreach($chunked_bills as $key => $bills){
-                    foreach($bills as $bill_id){
+                    foreach($bills as $bkey => $bill_id){
+                        $this->info('Round '.($bkey+1)*($key+1));
                         $bill = Bill::find($bill_id);
 
                         if(!$bill){
@@ -103,8 +104,8 @@ class MerchantBillsTransactionsFix extends Command
                                 }
                                 
                                 $this->info('bill ('.$bill_id.') is '.$bill->status.' and have not the below transactions');
-                                foreach($missingTransactions as $key => $transaction){
-                                    $this->line($key.'-'.$transaction);
+                                foreach($missingTransactions as $tkey => $transaction){
+                                    $this->line($tkey.'-'.$transaction);
                                 }
 
                                 if($this->confirm('Do you want to insert missing transactoins for bill ('.$bill_id.')?')){
