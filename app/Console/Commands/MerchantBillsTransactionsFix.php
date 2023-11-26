@@ -2,11 +2,18 @@
 
 namespace App\Console\Commands;
 
+use App\Exports\MissingTransactionsSummaryExport;
+use App\Mail\MissingTransactionsSummaryMail;
 use App\Models\Bill;
 use App\Models\PaymentLog;
 use App\Models\Transaction;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MerchantBillsTransactionsFix extends Command
 {
@@ -15,18 +22,20 @@ class MerchantBillsTransactionsFix extends Command
      *
      * @var string
      */
-    protected $signature = 'merchants:bills-transactions-fix {user_id} {--from=} {--to=}';
+    protected $signature = 'merchants:bills-transactions-fix {--user_id=} {--from=} {--to=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command for get merchant paid and refunded bills and review transactions and insert missing types of transactions';
+    protected $description = 'Command for get paid and refunded bills and review transactions and insert missing types of transactions. you can get bills for merchant or in period optional';
 
     const PAYMENT_TRANSACTIONS = ['bill', 'fees', 'vat', 'surebills_fees', 'surebills_vat'];
     const CHANNEL_TRANSACTIONS = ['channel_fees', 'channel_vat'];
     const REFUND_TRANSACTIONS = ['refund'];
+
+    private $inserted_transactions_summary = [];
     
     /**
      * Create a new command instance.
@@ -45,26 +54,15 @@ class MerchantBillsTransactionsFix extends Command
      */
     public function handle()
     {
-        $user_id = $this->argument('user_id');
-
+        $user_id = $this->option('user_id');
         $from = $this->option('from');
         $to = $this->option('to');
-        
-        $merchantBills = Bill::whereIn('status', ['paid', 'refunded'])->where('user_id', $user_id);
 
-        if($from != null){
-            $merchantBills = $merchantBills->whereDate('created_at', '>=', $from);
-        }
-
-        if($to != null){
-            $merchantBills = $merchantBills->whereDate('created_at', '<=', $to);
-        }
-
-        $merchantBills = $merchantBills->orderBy('created_at')->pluck('id')->toArray();
+        $merchantBills = $this->getBills($user_id, $from, $to);
 
         $billsCount = count($merchantBills);
         
-        $this->info($billsCount.' bills found for merchant '.$user_id);
+        $this->info($billsCount.' bills found');
 
         if($this->confirm('Do you wish to review this bills ?')){
             if($billsCount > 0){
@@ -75,7 +73,9 @@ class MerchantBillsTransactionsFix extends Command
                         $bill = Bill::find($bill_id);
 
                         if(!$bill){
-                            $this->error('Bill ('.$bill_id.') Not found');
+                            $error = 'Bill ('.$bill_id.') Not found';
+                            $this->error($error);
+                            Log::channel('bills_missing_transactions_fixing_summary')->error($error);
                             continue;
                         }
 
@@ -93,7 +93,7 @@ class MerchantBillsTransactionsFix extends Command
                             $paymentLog = $this->checkBillPaymentLog($bill_id, $bill->status);
 
                             if($paymentLog){
-                                $currentTransactions = $this->getBillTransaction($bill_id);
+                                $currentTransactions = $this->getBillTransactionsSources($bill_id);
                                 
                     
                                 $missingTransactions = array_diff($requiredTransactions, $currentTransactions);
@@ -108,27 +108,75 @@ class MerchantBillsTransactionsFix extends Command
                                     $this->line($tkey.'-'.$transaction);
                                 }
 
-                                if($this->confirm('Do you want to insert missing transactoins for bill ('.$bill_id.')?')){
-                                    $this->insertMissingTransactions($missingTransactions, $bill, $paymentLog);
-                                    
-                                    $billTransactions = Transaction::where('bill_id', $bill_id)->get();
+                                $this->insertMissingTransactions($missingTransactions, $bill, $paymentLog);
+                                
+                                $billTransactions = Transaction::where('bill_id', $bill_id)->get();
 
-                                    $this->info($billTransactions);
-                                }
+                                $this->info($billTransactions);
                             }else{
-                                $this->info('Bill ('.$bill_id.') have not success payment logs');
+                                $error = 'Bill ('.$bill_id.') have not success payment logs';
+                                $this->info($error);
+                                Log::channel('bills_missing_transactions_fixing_summary')->error($error);
                             }
                         }else{
-                            $this->info('Bill ('.$bill_id.') is '.$bill->status);
+                            $error = 'Bill ('.$bill_id.') is '.$bill->status;
+                            $this->info($error);
+                            Log::channel('bills_missing_transactions_fixing_summary')->error($error);
                         }
                     }
                 }
-                
-                $this->info("All Bills review and fixing succeefully!");
+                $this->info("All Bills review and fixing succeefully. Wait transactions Summary exportation!");
+                if(!empty($this->inserted_transactions_summary)){
+                    $this->exportTransactionsSummary();
+                    $this->info("Exportation File ready to download on email.");
+                }
             }else{
                 $this->info("Thank You no changes for any bill");
             }
         }
+    }
+    
+    private function getBills($user_id = null, $from = null, $to = null){
+        $merchantBills = DB::table('bills')
+        ->leftJoin('transactions', 'bills.id', '=', 'transactions.bill_id')
+        ->leftJoin('applications', 'bills.application_id', '=', 'applications.id')
+        ->leftJoin('channels', 'applications.channel_id', '=', 'channels.id');
+        
+        $merchantBills = $merchantBills->select('bills.id as bid', DB::raw('count(transactions.bill_id) as trans'));
+        
+        $merchantBills = $merchantBills->whereIn('bills.status', ['paid', 'refunded']);
+
+        if($user_id != null){
+            $merchantBills = $merchantBills->where('bills.user_id', $user_id);
+        }
+
+        if($from != null){
+            $merchantBills = $merchantBills->whereDate('bills.created_at', '>=', $from);
+        }
+
+        if($to != null){
+            $merchantBills = $merchantBills->whereDate('bills.created_at', '<=', $to);
+        }
+
+        $merchantBillsBasic = clone $merchantBills;
+        $merchantBillsBasic = $merchantBillsBasic->whereNull('applications.channel_id');
+        $merchantBillsBasic = $merchantBillsBasic->groupBy('bid');
+        $merchantBillsBasic = $merchantBillsBasic->having('trans', '<', 5);
+        $merchantBillsBasic = $merchantBillsBasic->orderBy('trans');
+        $merchantBillsBasic = $merchantBillsBasic->get()->toArray();
+        
+        
+        $merchantBillsChannel = clone $merchantBills;
+        $merchantBillsChannel = $merchantBillsChannel->whereNotNull('applications.channel_id');
+        $merchantBillsChannel = $merchantBillsChannel->groupBy('bid');
+        $merchantBillsChannel = $merchantBillsChannel->having('trans', '<', 7);
+        $merchantBillsChannel = $merchantBillsChannel->orderBy('trans');
+        $merchantBillsChannel = $merchantBillsChannel->get()->toArray();
+        
+        $merchantBillsArr = array_merge($merchantBillsBasic, $merchantBillsChannel);
+        $merchantBillsArrIds = array_column($merchantBillsArr,'bid');
+        
+        return $merchantBillsArrIds;
     }
 
     private function checkBillPaymentLog($bill_id, $bill_status){
@@ -147,7 +195,7 @@ class MerchantBillsTransactionsFix extends Command
         return $paymentLog ?? false;
     }
 
-    private function getBillTransaction($bill_id){
+    private function getBillTransactionsSources($bill_id){
         $transactions_sources = Transaction::where('bill_id', $bill_id)->pluck('transaction_source')->toArray();
 
         return $transactions_sources;
@@ -180,6 +228,7 @@ class MerchantBillsTransactionsFix extends Command
                     $transaction->transaction_source = 'bill';
                     $transaction->saveIfUnique();
 
+                    $this->pushTransaction($transaction);
                     $this->line('bill transaction inserted');
                     break;
 
@@ -195,6 +244,7 @@ class MerchantBillsTransactionsFix extends Command
                     $transaction->transaction_source = 'fees';
                     $transaction->saveIfUnique();
 
+                    $this->pushTransaction($transaction);
                     $this->line('fees transaction inserted');
                     break;
 
@@ -210,6 +260,7 @@ class MerchantBillsTransactionsFix extends Command
                     $transaction->transaction_source = 'vat';
                     $transaction->saveIfUnique();
 
+                    $this->pushTransaction($transaction);
                     $this->line('vat transaction inserted');
                     break;
                     
@@ -225,10 +276,13 @@ class MerchantBillsTransactionsFix extends Command
                         $fee_trans->transaction_source = 'surebills_fees';
                         $fee_trans->saveIfUnique();
 
+                        $this->pushTransaction($fee_trans);
                         $this->line('surebills_fees transaction inserted');
                     }
                     else{
-                        $this->error('surebill user not found or bill payment surebills fees not calculated');
+                        $error = 'surebills_fees transaction not inserted! surebill user (surebills@sura.com.sa) not found or bill ('.$bill->id.') payment surebills fees not calculated';
+                        $this->error($error);
+                        Log::channel('bills_missing_transactions_fixing_summary')->error($error);
                     }
                     break;
 
@@ -244,9 +298,12 @@ class MerchantBillsTransactionsFix extends Command
                         $vat_trans->transaction_source = 'surebills_vat';
                         $vat_trans->saveIfUnique();
 
+                        $this->pushTransaction($vat_trans);
                         $this->line('surebills_vat transaction inserted');
                     }else{
-                        $this->error('surebill user not found or bill payment surebills fees vat not calculated');
+                        $error = 'surebills_vat transaction not inserted! surebill user (surebills@sura.com.sa) not found or bill ('.$bill->id.') payment surebills fees vat not calculated';
+                        $this->error($error);
+                        Log::channel('bills_missing_transactions_fixing_summary')->error($error);
                     }
                     break;
 
@@ -262,9 +319,12 @@ class MerchantBillsTransactionsFix extends Command
                         $fee_trans->transaction_source = 'channel_fees';
                         $fee_trans->saveIfUnique();
 
+                        $this->pushTransaction($fee_trans);
                         $this->line('channel_fees transaction inserted');
                     }else{
-                        $this->error('this bill application not found or application does not have channel');
+                        $error = 'channel_fees transaction not inserted! this bill ('.$bill->id.') application not found or application does not have channel';
+                        $this->error($error);
+                        Log::channel('bills_missing_transactions_fixing_summary')->error($error);
                     }
                     break;
                     
@@ -280,10 +340,13 @@ class MerchantBillsTransactionsFix extends Command
                         $vat_trans->transaction_source = 'channel_vat';
                         $vat_trans->saveIfUnique();
 
+                        $this->pushTransaction($vat_trans);
                         $this->line('channel_vat transaction inserted');
                     }
                     else{
-                        $this->error('this bill application not found or application does not have channel');
+                        $error = 'channel_vat transaction not inserted! this bill ('.$bill->id.') application not found or application does not have channel';
+                        $this->error($error);
+                        Log::channel('bills_missing_transactions_fixing_summary')->error($error);
                     }
                     break;
 
@@ -304,6 +367,7 @@ class MerchantBillsTransactionsFix extends Command
                     $transaction->order = $order_max+1;
                     $transaction->save();
 
+                    $this->pushTransaction($transaction);
                     $this->line('refund transaction inserted');
                     break;
                 
@@ -313,5 +377,31 @@ class MerchantBillsTransactionsFix extends Command
             }
         }
         $this->info('All missing transactions inserted');
+    }
+
+    private function pushTransaction($transaction){
+        $this->inserted_transactions_summary[] = [
+            $transaction->id,
+            $transaction->bill_id,
+            $transaction->type,
+            $transaction->transaction_source,
+            $transaction->amount,
+            $transaction->user_id,
+        ];
+
+        return true;
+    }
+
+    private function exportTransactionsSummary(){
+        $file_name = 'fixing_commands_files/Missing_Transactions_Summary.xlsx';
+        if(Excel::store(new MissingTransactionsSummaryExport($this->inserted_transactions_summary), $file_name , 'public')){
+            $emails = ['mzain@sure.com.sa'];
+            if(count($emails)){
+                foreach ($emails as $email) {
+                    $message = (new MissingTransactionsSummaryMail($file_name))->onQueue(env('EMAILS_QUEUE'));
+                    Mail::to($email)->queue($message);
+                }
+            }
+        }
     }
 }
