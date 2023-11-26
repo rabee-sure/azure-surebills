@@ -69,7 +69,7 @@ class MerchantBillsTransactionsFix extends Command
                 $chunked_bills = array_chunk($merchantBills, 100);
                 foreach($chunked_bills as $key => $bills){
                     foreach($bills as $bkey => $bill_id){
-                        $this->info('Round '.($bkey+1)*($key+1));
+                        $this->info('Round '.($bkey+1)*($key+1).':'.$bill_id);
                         $bill = Bill::find($bill_id);
 
                         if(!$bill){
