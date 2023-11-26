@@ -145,6 +145,11 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/bills_missing_transactions_fixing_summary.log'),
             'level' => 'info',
+         ],
+        'mastercard_webhook_forward' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/mastercard_webhook_forward.log'),
+            'level' => 'info',
         ],
 
     ],

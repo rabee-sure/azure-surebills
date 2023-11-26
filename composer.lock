@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1629273c64edd7e66ebc818f6415e728",
+    "content-hash": "9d351efb9b6b90ee883affe500477ecb",
     "packages": [
         {
             "name": "ampeco/nova-date-range-filter",
@@ -452,11 +452,11 @@
         },
         {
             "name": "beyondcode/reports",
-            "version": "dev-SAMA/password-requirments",
+            "version": "dev-feat/add-rabbit-mq-to-production",
             "dist": {
                 "type": "path",
                 "url": "./nova-components/Reports",
-                "reference": "ac6102681ae6488439da9c0186bb330e919f6c14"
+                "reference": "3e69cf0991c3191f5d4ce2012fa62485b44fd9d3"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -3480,7 +3480,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova",
-                "reference": "bb8203ae95b04489c731b074bff8d95b472fbacb"
+                "reference": "1fa3ce79bdd1bf56f693587685c86b262376955e"
             },
             "require": {
                 "brick/money": "^0.5.0",
@@ -6329,6 +6329,87 @@
             "time": "2021-10-09T13:32:17+00:00"
         },
         {
+            "name": "php-amqplib/php-amqplib",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-amqplib/php-amqplib.git",
+                "reference": "fb84e99589de0904a25861451b0552f806284ee5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-amqplib/php-amqplib/zipball/fb84e99589de0904a25861451b0552f806284ee5",
+                "reference": "fb84e99589de0904a25861451b0552f806284ee5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-sockets": "*",
+                "php": "^7.2||^8.0",
+                "phpseclib/phpseclib": "^2.0|^3.0"
+            },
+            "conflict": {
+                "php": "7.4.0 - 7.4.1"
+            },
+            "replace": {
+                "videlalvaro/php-amqplib": "self.version"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "nategood/httpful": "^0.2.20",
+                "phpunit/phpunit": "^7.5|^9.5",
+                "squizlabs/php_codesniffer": "^3.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpAmqpLib\\": "PhpAmqpLib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Alvaro Videla",
+                    "role": "Original Maintainer"
+                },
+                {
+                    "name": "Raúl Araya",
+                    "email": "nubeiro@gmail.com",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Luke Bakken",
+                    "email": "luke@bakken.io",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Ramūnas Dronga",
+                    "email": "github@ramuno.lt",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Formerly videlalvaro/php-amqplib.  This library is a pure PHP implementation of the AMQP protocol. It's been tested against RabbitMQ.",
+            "homepage": "https://github.com/php-amqplib/php-amqplib/",
+            "keywords": [
+                "message",
+                "queue",
+                "rabbitmq"
+            ],
+            "support": {
+                "issues": "https://github.com/php-amqplib/php-amqplib/issues",
+                "source": "https://github.com/php-amqplib/php-amqplib/tree/v3.6.0"
+            },
+            "time": "2023-10-22T15:02:02+00:00"
+        },
+        {
             "name": "php-http/message-factory",
             "version": "v1.0.2",
             "source": {
@@ -9028,11 +9109,11 @@
         },
         {
             "name": "sure/home-analytics",
-            "version": "dev-SAMA/password-requirments",
+            "version": "dev-feat/add-rabbit-mq-to-production",
             "dist": {
                 "type": "path",
                 "url": "./nova-components/HomeAnalytics",
-                "reference": "ae84ed7ab80a4de307232f10bb7e902f0b446a54"
+                "reference": "0eac73aa796f84fab556bf98e4a370938768585a"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -9064,11 +9145,11 @@
         },
         {
             "name": "sure/settlements",
-            "version": "dev-SAMA/password-requirments",
+            "version": "dev-feat/add-rabbit-mq-to-production",
             "dist": {
                 "type": "path",
                 "url": "./nova-components/Settlements",
-                "reference": "115f833c5c5bc9b3a1e6ebf1b6fafce36d7e34d1"
+                "reference": "5b050ecf51fd196798b28b1f6b2af167cf84e440"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -9100,11 +9181,11 @@
         },
         {
             "name": "sure/userstats",
-            "version": "dev-SAMA/password-requirments",
+            "version": "dev-feat/add-rabbit-mq-to-production",
             "dist": {
                 "type": "path",
                 "url": "./nova-components/Userstats",
-                "reference": "6217032eea113698f438aa2a3f4454e9c805a9f4"
+                "reference": "29755d58fd092a406ed7bad7ee48d87270835509"
             },
             "require": {
                 "php": ">=7.1.0"
@@ -11798,6 +11879,69 @@
                 "source": "https://github.com/TitasGailius/nova-search-relations/tree/1.0.6"
             },
             "time": "2020-10-09T09:25:10+00:00"
+        },
+        {
+            "name": "vladimir-yuldashev/laravel-queue-rabbitmq",
+            "version": "v11.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vyuldashev/laravel-queue-rabbitmq.git",
+                "reference": "a5649faabfd224365b7c363f5e449777316d8627"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vyuldashev/laravel-queue-rabbitmq/zipball/a5649faabfd224365b7c363f5e449777316d8627",
+                "reference": "a5649faabfd224365b7c363f5e449777316d8627",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/queue": "^8.0",
+                "php": "^7.3|^8.0",
+                "php-amqplib/php-amqplib": "^2.12|^3.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.17",
+                "laravel/horizon": "^5.0",
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.3"
+            },
+            "suggest": {
+                "ext-pcntl": "Required to use all features of the queue consumer."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "11.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "VladimirYuldashev\\LaravelQueueRabbitMQ\\LaravelQueueRabbitMQServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "VladimirYuldashev\\LaravelQueueRabbitMQ\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vladimir Yuldashev",
+                    "email": "misterio92@gmail.com"
+                }
+            ],
+            "description": "RabbitMQ driver for Laravel Queue. Supports Laravel Horizon.",
+            "support": {
+                "issues": "https://github.com/vyuldashev/laravel-queue-rabbitmq/issues",
+                "source": "https://github.com/vyuldashev/laravel-queue-rabbitmq/tree/v11.3.0"
+            },
+            "time": "2021-07-06T00:05:52+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -14593,5 +14737,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
