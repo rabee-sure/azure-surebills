@@ -79,27 +79,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pricing', 'PricingController@index')->name('pricing');
     Route::put('pricing', 'PricingController@update')->name('update_price');
     Route::get('pricing/details', 'PricingController@details')->name('details');
+
+
+    Route::get('/logs/{log}/', 'PaymentLogController@show')->name('logpage');
+
+    Route::get('/bills/{id}/print', 'BillController@billPrint')->name('bills.bill_print');
+    Route::get('/refundedbills/{id}/print', 'RefundedBillController@billPrint')->name('refundedbills.bill_print');
+    Route::post('/bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
+    Route::post('/bills/{id}/refund', 'BillController@refund')->name('bills.refund');
+    Route::post('/bills/{id}/change_status', 'BillController@changeStatus')->name('bills.change_status');
+    Route::post('/bills/{id}/partial-refund', 'BillController@partialRefund')->name('bills.partial.refund');
+    Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
+    Route::get('merchant-settings', 'UserController@getMerchantsettings');
+    Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
 });
-
-Route::get('/logs/{log}/', 'PaymentLogController@show')->name('logpage');
-
-// py bill page
-Route::get('/bills/{id}/print', 'BillController@billPrint')->name('bills.bill_print');
-Route::get('/refundedbills/{id}/print', 'RefundedBillController@billPrint')->name('refundedbills.bill_print');
-Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
-Route::get('/bills/{id}/invoice', 'BillController@invoice')->name('invoice');
-Route::get('/refundedbills/{id}/invoice', 'RefundedBillController@invoice')->name('refundedinvoice');
-Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang');
-Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
-Route::post('/bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
-Route::post('/bills/{id}/refund', 'BillController@refund')->name('bills.refund');
-Route::post('/bills/{id}/change_status', 'BillController@changeStatus')->name('bills.change_status');
-Route::post('/bills/{id}/partial-refund', 'BillController@partialRefund')->name('bills.partial.refund');
-Route::get('/bills/{hash}/handle-payment', 'BillController@handlePayment')->name('bills.handle');
-Route::get('user-permissions/{guard?}', 'UserController@getUserPermissions');
-Route::get('merchant-settings', 'UserController@getMerchantsettings');
-Route::get('current-user-admin/{guard?}', 'UserController@getAuthAdminUser');
-
 Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(function () {
     Route::apiResource('applications', 'ApplicationController');
     Route::apiResource('channels.applications', 'ChannelApplicationController');
@@ -190,19 +183,19 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::resource('roles', 'RolesController');
 });
 
+Route::get('user-permissions/{guard?}', 'UserController@getUserPermissions');
+Route::get('current-user-admin/{guard?}', 'UserController@getAuthAdminUser');
+Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
+Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
+Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang');
+Route::get('/refundedbills/{id}/invoice', 'RefundedBillController@invoice')->name('refundedinvoice');
+Route::get('/bills/{id}/invoice', 'BillController@invoice')->name('invoice');
+
+
 Route::get('/', 'HomeController@landing');
 Route::get('/contact', 'HomeController@contact');
 Route::get('/privacy', 'HomeController@privacy');
 Route::get('/terms', 'HomeController@terms');
-
-Route::get('users/all', 'UserController@all')->name('users.all');
-Route::get('users/{user}/transfers', 'UserController@transfers')->name('users.transfers');
-Route::get('users/{user}/transactions', 'TransferController@userTransactions')->name('users.transactions');
-Route::get('users/{user}/alltransactions', 'TransferController@userallTransactions')->name('users.alltransactions');
-Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
-Route::get('users/{user}', 'UserController@show')->name('users.show');
-
-Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
 
 Route::middleware(config('nova.middleware', []))->group(function () {
     Route::prefix('nova/jobs')->group(function () {
