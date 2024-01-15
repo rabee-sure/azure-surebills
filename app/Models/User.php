@@ -725,7 +725,9 @@ class User extends Authenticatable implements HasMedia
     public function paymentRecordQuery($request = null){
         $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
         $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
-
+        if(Carbon::parse($date_to)->diffInDays($date_start) > 30){
+            return false;
+        }
         $trans_query = DB::table('transactions')
         ->leftjoin('bills', 'bills.id', '=', 'transactions.bill_id')
         ->select(DB::raw('

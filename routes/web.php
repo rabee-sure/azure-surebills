@@ -125,7 +125,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
     Route::resource('customers', 'CustomerController');
 
     Route::get('statement', 'StatementController@index')->name('statement.index');
-    Route::get('statement/export', 'StatementController@export')->name('statement.export');
+    Route::get('statement/export', 'StatementController@export')->name('statement.export')->middleware('throttle:1,5');
     Route::get('transfers', 'TransferController@index')->name('transfers.index');
     Route::get('transfers/{transfer}/bills', 'TransferController@bills')->name('transfer.bills');
     Route::get('transfers/{transfer}/transactions', 'TransferController@transactions')->name('transfer.transactions');
@@ -183,7 +183,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 
     //Payment Record Report
     Route::get('payment_record', 'ReportsController@paymentRecord')->name('reports.paymentRecord');
-    Route::get('payment_record/export', 'ReportsController@paymentRecordExport')->name('reports.paymentRecordExport');
+    Route::get('payment_record/export', 'ReportsController@paymentRecordExport')->name('reports.paymentRecordExport')->middleware('throttle:1,5');
 
     // Roles
     Route::resource('users', 'StoreUserController');

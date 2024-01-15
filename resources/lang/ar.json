@@ -938,6 +938,7 @@
   "Blocked" : "غير مفعل",
   "Unblocked" : "مفعل",
   "Unactive" : "غير مفعل",
+  "You cant export more than one month excel" : "لا يمكن الاستعلام او تصدير اكسيل اكثر من شهر ",
   "Exported Inactive Admins report has been generated successfuly - SureBills" : "تم تصدير تقرير المستخدمين الغير مفعلين - شور بيلز",
   "Your account locked you must change password!" : "تم تعليق حسابك يجب عليك تغير كلمة المرور الخاصة بك",
   "Your account inactive, please go back to your manager!" : "حسابك معطل، برجاء الرجوع لمديرك!"
