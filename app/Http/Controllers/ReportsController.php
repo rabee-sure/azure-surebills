@@ -37,7 +37,7 @@ class ReportsController extends Controller
         $dateRange = explode(' - ', $request->dates);
         $from = date('Y-m-d', strtotime($dateRange[0]));
         $to = date('Y-m-d', strtotime($dateRange[1]));
-        
+
         $paramsArr = array();
         $paramsArr['merchants'] = implode('","', $request->merchants);
         $paramsArr['from'] = $from;
@@ -54,7 +54,7 @@ class ReportsController extends Controller
         ]);
 
         GenerateReport::dispatch($report->id);
-        
+
         return redirect()->route('reports.merchants-outstanding');
     }
 
@@ -70,8 +70,8 @@ class ReportsController extends Controller
                 'all' => 'All',
                 'cash' => 'Cash',
                 'online' => 'Online',
-                'payment_machine' => 'Payment Machine', 
-                'bank_transfer' => 'Bank Transfer', 
+                'payment_machine' => 'Payment Machine',
+                'bank_transfer' => 'Bank Transfer',
             ],
             'sources' => [
                 'all' => 'All',
@@ -84,10 +84,15 @@ class ReportsController extends Controller
         $user = Auth::user()->store_main_user_id ? User::find(Auth::user()->store_main_user_id) : Auth::user();
 
         $query = $user->paymentRecordQuery($request);
-
+        if (!$query){
+            return redirect(route('reports.paymentRecord', [
+                'date_start' => $request->date_start,
+                'date_to' => Carbon::parse($request->date_start)->addDays(30)->format('m/d/Y')
+            ]))->with('message', __('You cant export more than one month excel'));
+        }
         $allQuery = $query->get();
         $paginatedQuery = $query->paginate(100);
-        
+
         $data['payments'] = $paginatedQuery;
 
         $credit = $allQuery->where('transaction_source', 'bill')->sum('amount');

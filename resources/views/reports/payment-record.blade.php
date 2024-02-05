@@ -18,6 +18,12 @@
 
   <section id="statementIndexPage">
 
+      @if(!empty(session('message')))
+          <div class="alert alert-danger">
+              {{ session('message') }}
+          </div>
+      @endif
+
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Payment Record') }}</h1>
     </div><!-- title -->
