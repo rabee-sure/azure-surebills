@@ -20,25 +20,18 @@ Route::post('mastercard/handle-payment', 'MasterCardController@handlePyament');
 Route::post('mastercard/{session}/check-payment', 'MasterCardController@checkPayment')->name('mastercard.3ds');
 
 
-// Route::get('test', 'TestController@test');
-
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-// Route::get('test', 'TestController@test')->name('test');
 Route::post('upload', 'MediaController@upload')->name('media.upload');
 Route::post('transfers/{transfer}/upload_attachment', 'MediaController@uploadAttachment');
 
 Route::prefix('v1')->group(function () {
 
     Route::post('pos-login', 'UserController@posLogin');
-    Route::get('report-permissions', 'UserController@reportPermission');
 
-    Route::get('analytics', 'AnalyticsController@index');
-
-    Route::get('charts/bills_paid_amount', 'ChartsController@billsPaidAmount');
-	Route::get('charts/bills_paid_count', 'ChartsController@billsPaidCount');
-	Route::get('charts/bills_count', 'ChartsController@billsCount');
+//    Route::get('analytics', 'AnalyticsController@index');
+//
+//    Route::get('charts/bills_paid_amount', 'ChartsController@billsPaidAmount');
+//	Route::get('charts/bills_paid_count', 'ChartsController@billsPaidCount');
+//	Route::get('charts/bills_count', 'ChartsController@billsCount');
 
 	Route::get('users/{user}/stats', 'UserController@stats');
 
@@ -111,11 +104,11 @@ Route::prefix('v1')->group(function () {
     Route::post('channels/{channel}/transactions', 'ChannelController@transactions');
     Route::put('channels/{channel}/update_sub_account_payment_fees', 'ChannelController@updateSubAccountPaymentFees');
 
-    Route::get('banks', 'BankController@index');
+//    Route::get('banks', 'BankController@index');
 
-	Route::prefix('sps')->group(function () {
-		Route::post('transfer_statement', 'SPSController@transferStatement');
-	});
+//	Route::prefix('sps')->group(function () {
+//		Route::post('transfer_statement', 'SPSController@transferStatement');
+//	});
 
 
 });
