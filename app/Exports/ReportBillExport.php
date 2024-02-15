@@ -75,7 +75,7 @@ class ReportBillExport implements FromQuery, WithHeadings, ShouldQueue, WithCust
             "bills.paid_at",
             "bills.status",
             "channels.name as Channel_Name",
-            "bills.total",
+            "bills.fixed_total",
             "payment_logs.brand as Card_type",
             DB::raw("JSON_EXTRACT(bills.pricing, '$.vat_percentage') as vat_percentage"),
             "bills.payment_fees as Total_Fees",
