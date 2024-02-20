@@ -72,7 +72,7 @@ class AddFixedTotalToBillsBatch extends Command
                             continue;
                         }
                         
-                        $bill->fixed_total = $bill->sub_total + $bill->payment_fees - $bill->discount + $bill->vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
+                        $bill->fixed_total = $bill->sub_total - $bill->discount + $bill->vat;
                         $bill->save();
 
                         $this->line('Bill '.$bill_id.' fixed total: '.$bill->fixed_total.' added succefully');
