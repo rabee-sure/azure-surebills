@@ -33,12 +33,12 @@
 
     <div class="mb-6 {{ $errors->has('email') ? ' has-error' : '' }}">
         <label class="block font-bold mb-2" for="email">{{ __('Email Address') }}</label>
-        <input class="form-control form-input form-input-bordered w-full" id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
+        <input class="form-control form-input form-input-bordered w-full" id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="off">
     </div>
 
     <div class="mb-6 {{ $errors->has('password') ? ' has-error' : '' }}">
         <label class="block font-bold mb-2" for="password">{{ __('Password') }}</label>
-        <input class="form-control form-input form-input-bordered w-full" id="password" type="password" name="password" required>
+        <input class="form-control form-input form-input-bordered w-full" id="password" type="text" name="password" required autocomplete="off">
     </div>
 
     <div class="flex mb-6">
@@ -61,4 +61,32 @@
         {{ __('Login') }}
     </button>
 </form>
+
+<style>
+    @font-face{
+  font-family: text-security-disc;
+  src: url("https://raw.githubusercontent.com/noppa/text-security/master/dist/text-security-disc.woff");
+}
+#password {
+    -webkit-text-security: disc;
+    font-family: text-security-disc;
+    letter-spacing: .2rem;
+}
+#password::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-family: "Almarai", "Roboto";
+    letter-spacing: 0;
+}
+#password::-moz-placeholder { /* Firefox 19+ */
+  font-family: "Almarai", "Roboto";
+    letter-spacing: 0;
+}
+#password:-ms-input-placeholder { /* IE 10+ */
+  font-family: "Almarai", "Roboto";
+    letter-spacing: 0;
+}
+#password-moz-placeholder { /* Firefox 18- */
+  font-family: "Almarai", "Roboto";
+    letter-spacing: 0;
+}
+  </style>
 @endsection
