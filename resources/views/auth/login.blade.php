@@ -42,7 +42,7 @@
         <div class="form_group mb-3">
           <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('email') is-invalid @enderror">
             <span class="d-flex align-items-center justify-content-center h-100 fal fa-envelope"></span>
-            <input id="email" type="email" class="bg-white border-0 h-100 flex-grow-1 text-body" name="email" inputmode="email" value="{{ old('email') }}" autocomplete="email" placeholder="{{ __('E-Mail Address') }}" autofocus />
+            <input id="email" type="email" class="bg-white border-0 h-100 flex-grow-1 text-body" name="email" inputmode="email" value="{{ old('email') }}" autocomplete="off" placeholder="{{ __('E-Mail Address') }}" autofocus />
           </div><!-- inputIcon -->
           @error('email')
             <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
@@ -51,7 +51,7 @@
         <div class="form_group mb-3">
           <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('password') is-invalid @enderror">
             <span class="d-flex align-items-center justify-content-center h-100 fal fa-lock-alt"></span>
-            <input id="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password" autocomplete="current-password" type="password" placeholder="{{ __('Password') }}" placeholder="" />
+            <input id="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password" autocomplete="off" type="text" placeholder="{{ __('Password') }}" placeholder="" />
           </div><!-- inputIcon -->
           @error('password')
             <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
@@ -74,6 +74,34 @@
       <a href="{{ route('register') }}" title="{{ __('Register a new account') }}" class="d-block">{{ __('Register a new account') }}</a>
     </div><!-- bottotmArea -->
   </article>
+
+  <style>
+    @font-face{
+  font-family: text-security-disc;
+  src: url("https://raw.githubusercontent.com/noppa/text-security/master/dist/text-security-disc.woff");
+}
+#password {
+    -webkit-text-security: disc;
+    font-family: text-security-disc;
+    letter-spacing: .2rem;
+}
+#password::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-family: "Almarai", "Roboto";
+    letter-spacing: 0;
+}
+#password::-moz-placeholder { /* Firefox 19+ */
+  font-family: "Almarai", "Roboto";
+    letter-spacing: 0;
+}
+#password:-ms-input-placeholder { /* IE 10+ */
+  font-family: "Almarai", "Roboto";
+    letter-spacing: 0;
+}
+#password-moz-placeholder { /* Firefox 18- */
+  font-family: "Almarai", "Roboto";
+    letter-spacing: 0;
+}
+  </style>
 @endsection
 
 @push('footer-scripts')
