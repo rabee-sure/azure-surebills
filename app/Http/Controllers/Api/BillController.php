@@ -150,6 +150,7 @@ class BillController extends Controller
         $bill->number = $bill->getNumber();
         $bill->sub_total = $sub_total;
         $bill->total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
+        $bill->fixed_total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
         $bill->status = 'pending';
         $bill->save();
 
@@ -277,6 +278,7 @@ class BillController extends Controller
         $bill->number = $bill->getNumber();
         $bill->sub_total = $sub_total;
         $bill->total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
+        $bill->fixed_total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
         $bill->status = 'pending';
         $bill->debit_note_bill_id = $mainBill->id;
         $bill->save();
@@ -412,6 +414,7 @@ class BillController extends Controller
         $bill->number = $bill->getNumber();
         $bill->sub_total = $sub_total;
         $bill->total = $sub_total - $discount + $vat;
+        $bill->fixed_total = $sub_total - $discount + $vat;
         $bill->save();
 
         event(new BillCreated($bill));

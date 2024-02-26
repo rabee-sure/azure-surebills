@@ -226,6 +226,7 @@ class BillController extends Controller
             $bill->number = $bill->getNumber();
             $bill->sub_total = $sub_total;
             $bill->total = $sub_total + $payment_fees - $discount + $vat;
+            $bill->fixed_total = $sub_total + $payment_fees - $discount + $vat;
             if ($bill->total <= 0) {
                 throw ValidationsException::withMessages(['total' => __('The total must be greater than 0')]);
             }
@@ -320,6 +321,7 @@ class BillController extends Controller
                 $bill->number = $bill->getNumber();
                 $bill->sub_total = $sub_total;
                 $bill->total = $sub_total + $payment_fees - $discount + $vat;
+                $bill->fixed_total = $sub_total + $payment_fees - $discount + $vat;
                 if ($bill->total <= 0) {
                     throw ValidationsException::withMessages(['total' => __('The total must be greater than 0')]);
                 }
