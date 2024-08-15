@@ -231,3 +231,4 @@ Route::middleware(config('nova.middleware', []))->group(function () {
 
 });
 
+Route::get('/docs/{page?}', 'DocumentationController@index');
