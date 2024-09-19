@@ -30,7 +30,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('merchants:transfer_balance')->dailyAt('03:00');
         $schedule->command('bills:check_paid_bills_missing_transactions')->dailyAt('03:00');
         $schedule->command('admin:report_inactive')->quarterly();
-        $schedule->command('admin:block_password')->quarterly();
+        $schedule->command('admin:block_password')->dailyAt('03:00');
+        $schedule->command('merchants:block_password')->dailyAt('03:00');
     }
 
     /**

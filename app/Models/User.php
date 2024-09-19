@@ -824,4 +824,9 @@ class User extends Authenticatable implements HasMedia
         }
         return false;
     }
+
+    public function passwordsHistory()
+    {
+        return $this->hasMany(UserPasswordHistory::class);
+    }
 }

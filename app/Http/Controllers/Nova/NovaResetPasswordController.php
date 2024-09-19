@@ -61,7 +61,7 @@ class NovaResetPasswordController extends ResetPasswordController
                 ->mixedCase()
                 ->numbers()
                 ->symbols(),
-                new CheckPasswordHistory($this->email)
+                new CheckPasswordHistory($this->email, 'admin')
             ],
         ];
     }
