@@ -152,6 +152,13 @@ return [
             'level' => 'info',
         ],
 
+        'master_card' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/master_card.log'),
+            'level' => 'info',
+        ],
+
+
     ],
 
 ];
