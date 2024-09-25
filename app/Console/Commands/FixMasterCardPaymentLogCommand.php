@@ -8,9 +8,11 @@ use App\Services\MasterCardService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client;
 
 class FixMasterCardPaymentLogCommand extends Command
 {
+    private $client, $url, $headers ;
     /**
      * The name and signature of the console command.
      *
@@ -32,6 +34,13 @@ class FixMasterCardPaymentLogCommand extends Command
      */
     public function __construct()
     {
+        $this->client = new Client();
+        $this->url = config('payment.drivers.mastercard_iframe.api_base_url') . '/order/';
+        $this->headers = [
+            'Authorization' => 'Basic ' . base64_encode(config('payment.drivers.mastercard_iframe.operator_username') . ':' . config('payment.drivers.mastercard_iframe.operator_password')),
+            'Content-Type' => 'application/json',
+        ];
+
         parent::__construct();
     }
 
@@ -77,20 +86,9 @@ class FixMasterCardPaymentLogCommand extends Command
 
     private function getBillStatusFromMasterCard($billId)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, config('payment.drivers.mastercard_iframe.api_base_url') . '/order/' . $billId);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: Basic " . base64_encode(config('payment.drivers.mastercard_iframe.operator_username') . ':' . config('payment.drivers.mastercard_iframe.operator_password')),
-            "Content-Type: application/json"
-        ]);
-
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        if ($httpCode >= 200 && $httpCode < 300) {
-            return json_decode($response, true);
+        $response = $this->client->get($this->url.$billId, ['headers' => $this->headers]);
+        if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+            return json_decode($response->getBody(), true);
         }
 
         return false;
