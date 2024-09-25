@@ -47,6 +47,10 @@ class MasterCardService
             $bill = Bill::find($response['order']['id']);
             $payment = PaymentLog::find($response['transaction']['id']);
             if ($bill && $payment) {
+                if(Carbon::parse($bill->paid_at)->format('Y-m-d') >= '2024-09-19' && Carbon::parse($bill->paid_at)->format('Y-m-d') <= '2024-09-23')
+                {
+                    return true;
+                }
                 if($received_webhooks){
                     \Log::channel('mastercard_webhook_forward')->info("bill and payment log founded", array("bill" => $bill, "payment" => $payment));
                 }
@@ -111,7 +115,7 @@ class MasterCardService
     * handle PAYMENT transaction
     *
     */
-    private function handlePaymentTransaction($response, $bill, $payment)
+    public function handlePaymentTransaction($response, $bill, $payment)
     {
         // data
         $bank_message = $response['response']['acquirerMessage'] ?? null;
@@ -123,7 +127,7 @@ class MasterCardService
             $brand = $response['sourceOfFunds']['provided']['card']['brand'];
             $card_number = $response['sourceOfFunds']['provided']['card']['number'];
         }
-
+        
         if ($response['result'] == "SUCCESS" && $response['response']['gatewayCode'] == "APPROVED") {
             $payment->results = $response;
             $payment->status = true;
@@ -134,7 +138,7 @@ class MasterCardService
             $payment->webhook_response_received = true;
             $payment->save();
             $bill->setPaid();
-
+            
             $bill->firePaidEvent($payment);
         } else {
             $payment->results = $response;
@@ -160,7 +164,7 @@ class MasterCardService
     * handle REFUND transaction
     *
     */
-    private function handleRefundTransaction($response, $bill, $payment)
+    public function handleRefundTransaction($response, $bill, $payment)
     {
         // data
         $bank_message = $response['response']['acquirerMessage'] ?? null;
