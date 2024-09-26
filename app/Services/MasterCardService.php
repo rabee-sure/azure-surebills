@@ -47,7 +47,7 @@ class MasterCardService
             $bill = Bill::find($response['order']['id']);
             $payment = PaymentLog::find($response['transaction']['id']);
             if ($bill && $payment) {
-                if(Carbon::parse($bill->paid_at)->format('Y-m-d') >= '2024-09-19' && Carbon::parse($bill->paid_at)->format('Y-m-d') <= '2024-09-23')
+                if(Carbon::parse($bill->paid_at)->format('Y-m-d') >= '2024-09-18' && Carbon::parse($bill->paid_at)->format('Y-m-d') <= '2024-09-23')
                 {
                     return true;
                 }
