@@ -12,7 +12,7 @@ use GuzzleHttp\Client;
 
 class FixMasterCardPaymentLogCommand extends Command
 {
-    private $client, $url, $headers ;
+    private $client, $url, $headers;
     /**
      * The name and signature of the console command.
      *
@@ -53,7 +53,7 @@ class FixMasterCardPaymentLogCommand extends Command
     {
         $masterCardService = new MasterCardService;
         Bill::whereDoesntHave('transactions')
-            ->whereDate('paid_at', '>=', '2024-09-19')
+            ->whereDate('paid_at', '>=', '2024-09-18')
             ->whereDate('paid_at', '<=', '2024-09-23')
             ->whereIn('status', ['paid', 'refunded'])
             ->chunk(10, function ($bills) use ($masterCardService) {
@@ -61,14 +61,25 @@ class FixMasterCardPaymentLogCommand extends Command
                     Log::channel('master_card')->error('DB bill = ' . $bill->id);
                     $masterCardResponse = $this->getBillStatusFromMasterCard($bill->id);
                     if ($masterCardResponse) {
-                        $masterCardResponse = $masterCardResponse['transaction'][0];
-                        if (isset($masterCardResponse['order']) && isset($masterCardResponse['order']['id']) && isset($masterCardResponse['transaction']) && isset($masterCardResponse['transaction']['id']) && isset($masterCardResponse['transaction']['type'])) {
-                            Log::channel('master_card')->error('master card order id = ' . $masterCardResponse['order']['id']);
-                            $payment = PaymentLog::find($masterCardResponse['transaction']['id']);
-                            if ($masterCardResponse['transaction']['type'] == "PAYMENT") {
-                                $masterCardService->handlePaymentTransaction($masterCardResponse, $bill, $payment);
-                            } else if ($masterCardResponse['transaction']['type'] == "REFUND") {
-                                $masterCardService->handleRefundTransaction($masterCardResponse, $bill, $payment);
+                        $masterCardResponseTransactions = $masterCardResponse['transaction'];
+                        $filteredMasterCardResponseTransaction = array_filter($masterCardResponseTransactions, function ($transaction) use ($bill){
+                            if($bill->status == 'paid')
+                            {
+                                return $transaction['transaction']['type'] === 'PAYMENT';
+                            }
+                            else if($bill->status == 'refunded')
+                            {
+                                return $transaction['transaction']['type'] === 'REFUND';
+                            }
+                        });
+                        $filteredMasterCardResponseTransaction = reset($filteredMasterCardResponseTransaction);
+                        if (isset($filteredMasterCardResponseTransaction['order']) && isset($filteredMasterCardResponseTransaction['order']['id']) && isset($filteredMasterCardResponseTransaction['transaction']) && isset($filteredMasterCardResponseTransaction['transaction']['id']) && isset($filteredMasterCardResponseTransaction['transaction']['type'])) {
+                            Log::channel('master_card')->error('master card order id = ' . $filteredMasterCardResponseTransaction['order']['id']);
+                            $payment = PaymentLog::find($filteredMasterCardResponseTransaction['transaction']['id']);
+                            if ($filteredMasterCardResponseTransaction['transaction']['type'] == "PAYMENT") {
+                                $masterCardService->handlePaymentTransaction($filteredMasterCardResponseTransaction, $bill, $payment);
+                            } else if ($filteredMasterCardResponseTransaction['transaction']['type'] == "REFUND") {
+                                $masterCardService->handleRefundTransaction($filteredMasterCardResponseTransaction, $bill, $payment);
                             } else {
                                 Log::channel('master_card')->error('Faild to handle = ' . $bill->id);
                             }
@@ -86,7 +97,7 @@ class FixMasterCardPaymentLogCommand extends Command
 
     private function getBillStatusFromMasterCard($billId)
     {
-        $response = $this->client->get($this->url.$billId, ['headers' => $this->headers]);
+        $response = $this->client->get($this->url . $billId, ['headers' => $this->headers]);
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
             return json_decode($response->getBody(), true);
         }
