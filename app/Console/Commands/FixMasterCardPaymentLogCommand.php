@@ -65,11 +65,11 @@ class FixMasterCardPaymentLogCommand extends Command
                         $filteredMasterCardResponseTransaction = array_filter($masterCardResponseTransactions, function ($transaction) use ($bill){
                             if($bill->status == 'paid')
                             {
-                                return $transaction['transaction']['type'] === 'PAYMENT';
+                                return $transaction['transaction']['type'] === 'PAYMENT' && $transaction['result'] == 'SUCCESS';;
                             }
                             else if($bill->status == 'refunded')
                             {
-                                return $transaction['transaction']['type'] === 'REFUND';
+                                return $transaction['transaction']['type'] === 'REFUND' && $transaction['result'] == 'SUCCESS';;
                             }
                         });
                         $filteredMasterCardResponseTransaction = reset($filteredMasterCardResponseTransaction);
