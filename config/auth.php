@@ -128,7 +128,4 @@ return [
 
     'password_timeout' => 10800,
 
-    // Password Expiration values
-    'change_password_period_day' => env('MERCHANT_CHANGE_PASSWORD_PERIOD', 90),
-
 ];

@@ -3,23 +3,20 @@
 namespace App\Rules;
 
 use App\Models\Admin;
-use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 
 class CheckPasswordHistory implements Rule
 {
     private $email;
-    private $model;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($email, $model)
+    public function __construct($email)
     {
         $this->email = $email;
-        $this->model = $model;
     }
 
     /**
@@ -32,11 +29,7 @@ class CheckPasswordHistory implements Rule
     public function passes($attribute, $value)
     {
         $passworHistory = true;
-        if($this->model == 'admin'){
-            $user = Admin::where('email', $this->email)->first();
-        }elseif($this->model == 'user'){
-            $user = User::where('email', $this->email)->first();
-        }
+        $user = Admin::where('email', $this->email)->first();
         $lastPasswords = $user->passwordsHistory()->take(10)->orderBy('created_at', 'Desc')->pluck('password')->toArray();
         foreach($lastPasswords as $hashedPassword){
             if(Hash::check($value, $hashedPassword)) {
@@ -54,6 +47,6 @@ class CheckPasswordHistory implements Rule
      */
     public function message()
     {
-        return __('This password used before for you');
+        return 'This password used before for you';
     }
 }
