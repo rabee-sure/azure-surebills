@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Models\AdminPasswordHistory;
-use App\Models\UserPasswordHistory;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,15 +30,12 @@ class AfterResetPassword
     public function handle(PasswordReset $event)
     {
         $className = class_basename(get_class($event->user));
-        $event->user->last_change_password_at = Carbon::now()->toDateTimeString();
-        $event->user->password_block = false;
-        $event->user->save();
-        
         if($className == 'Admin'){
+            $event->user->last_change_password_at = Carbon::now()->toDateTimeString();
+            $event->user->password_block = false;
+            $event->user->save();
+    
             $password = new AdminPasswordHistory(['password' => ($event->user->password)]);
-            $event->user->passwordsHistory()->save($password);
-        }elseif($className == 'User'){
-            $password = new UserPasswordHistory(['password' => ($event->user->password)]);
             $event->user->passwordsHistory()->save($password);
         }
     }

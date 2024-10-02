@@ -156,5 +156,5 @@ return [
      */
     'send_to_mail' => $settings->get('inactive_users_report_emails'),
     'inactive_period_day' => 90,
-    'change_password_period_day' => env('ADMIN_CHANGE_PASSWORD_PERIOD', 90),
+    'change_password_period_day' => 90
 ];

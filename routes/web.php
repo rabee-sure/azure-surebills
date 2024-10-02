@@ -1,7 +1,6 @@
 <?php
 
 use App\Application;
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Client;
@@ -50,7 +49,6 @@ Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
 });
 
 Auth::routes();
-Route::get('password/change', [ForgotPasswordController::class, 'showChangePasswordRequestForm'])->name('merchant.change_password');
 Route::get('login-by-secret/{secret}/{secret2}', 'FandaqahOperationsController@loginBySecret');
 
 Route::get('redirect/to/products/via/pos/{uuid}', 'PosController@redirectToProductsViaPos')->name('redirect.to.products.via.pos');
