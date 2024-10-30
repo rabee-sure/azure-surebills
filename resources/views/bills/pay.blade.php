@@ -107,11 +107,11 @@
           @if($bill->user->settings->display_customer_details && $bill->customer->walkin_customer == 0)
             <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('Customer Name') }}</span>
-              <span>{{ $bill->customer->name }}</span>
+              <span>{{ $bill->customer_name }}</span>
             </div><!-- d-flex -->
             <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('Mobile Number') }}</span>
-              <span>{{ $bill->customer->mobile }}</span>
+              <span>{{ $bill->customer_mobile }}</span>
             </div><!-- d-flex -->
           @endif
         </div><!-- bill_info -->

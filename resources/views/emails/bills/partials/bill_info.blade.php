@@ -32,12 +32,12 @@
   @if($bill->user->settings->display_customer_details)
     <div class="item">
       <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Customer Name') }}</span>
-      <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->customer->name }}</p>
+      <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->customer_name }}</p>
       <div class="clearfix"></div>
     </div><!-- item -->
     <div class="item">
       <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>{{ __('Mobile Number') }}</span>
-      <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->customer->mobile }}</p>
+      <p @if(app()->getLocale() == 'ar') style="float: left;" @else style="float: right;" @endif>{{ $bill->customer_mobile }}</p>
       <div class="clearfix"></div>
     </div><!-- item -->
   @endif
