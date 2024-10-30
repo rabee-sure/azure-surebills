@@ -95,7 +95,7 @@
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">الاسم :</td>
-                      <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->customer->name}}</td>
+                      <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $bill->customer_name}}</td>
                       <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Name :</td>
                     </tr>
                     <tr>
