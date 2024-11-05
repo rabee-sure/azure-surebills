@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Jobs\CreateTransferExcelFileJob;
 use App\Exports\TransactionsExportQueued;
 use App\Http\Resources\TransactionExportResource;
+use GuzzleHttp\Client;
 
 class MasterCardService
 {
@@ -229,6 +230,23 @@ class MasterCardService
     {
         if ($request->header('X-Notification-Secret') == config('payment.drivers.mastercard_iframe.X-Notification-Secret')) {
             return true;
+        }
+
+        return false;
+    }
+
+    public function getBillStatusFromMasterCard($billId)
+    {
+        $client = new Client();
+        $url = config('payment.drivers.mastercard_iframe.api_base_url') . '/order/';
+        $headers = [
+            'Authorization' => 'Basic ' . base64_encode(config('payment.drivers.mastercard_iframe.operator_username') . ':' . config('payment.drivers.mastercard_iframe.operator_password')),
+            'Content-Type' => 'application/json',
+        ];
+
+        $response = $client->get($url . $billId, ['headers' => $headers]);
+        if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+            return json_decode($response->getBody(), true);
         }
 
         return false;
