@@ -78,7 +78,7 @@ class HomeController extends Controller
      */
     public function privacy()
     {
-        return view('landing/privacy');
+        return view('landing/privacy_policy');
     }
 
     /**
