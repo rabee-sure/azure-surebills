@@ -61,7 +61,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="footer_menu">
               <span><a href="{{ url('/') }}" title="شور بيلز">شور بيلز</a></span>
               <span><a href="{{ url('/') }}#start_work" title="انضم لتجارنا">انضم لتجارنا</a></span>
-              <span><a href="{{ url('/') }}/privacy" title="الخصوصية">الخصوصية</a></span>
+              <span><a href="{{ url('/') }}/privacy" title="سياسة الخصوصية">سياسة الخصوصية</a></span>
               <span><a href="{{ url('/') }}#how_work" title="كيف نعمل">كيف نعمل</a></span>
               <span><a href="{{ url('/') }}/contact" title="اتصل بنا">اتصل بنا</a></span>
               <span><a href="{{ url('/') }}/terms" title="الشروط والاحكام">الشروط والاحكام</a></span>
