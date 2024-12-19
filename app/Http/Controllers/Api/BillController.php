@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\Tag;
+use App\Payment\Invoice;
 use phpDocumentor\Reflection\Types\Null_;
 
 class BillController extends Controller
@@ -655,5 +656,64 @@ class BillController extends Controller
         }
 
         return new BillResource($bill);
+    }
+
+    public function paymentForm(Request $request){
+        $validator = Validator::make($request->all(), [
+            'application_id' => ['required'],
+            'application_secret' => ['required'],
+            'bill_id' => ['required'],
+            'lang' => ['required', 'in:en,ar'],
+        ]);
+
+        $id = $request->bill_id;
+        $lang = $request->lang;
+
+        $bill = Bill::find($id);
+
+        if ($lang && in_array($lang, ['en', 'ar'])) {
+            \App::setLocale($lang);
+        } else {
+            \App::setLocale($bill->user->settings->default_lang);
+        }
+
+        if (!$bill) {
+            return response()->json(['error' => [
+                'bill' => __('Bill not found')
+            ]], 400);
+        }
+
+        $billStatus = '';
+        if($bill->status != 'paid' || $bill->status != 'paid_cash' || $bill->status != 'paid_bank_transfer' || $bill->status != 'paid_machine'){
+            $billStatus = 'paid';
+        }
+
+        if ($bill->is_expired && $billStatus != 'paid' && $bill->status != 'canceled') {
+            $bill->status = 'expired';
+            $bill->save();
+            event(new BillStatusUpdated($bill));
+        }
+
+        if ($bill->is_invalid) {
+            return view('bills.status', ['bill' => $bill]);
+        }
+
+        $invoice = (new Invoice)->amount(number_format($bill->total, 2, '.', ''));
+        $invoice->detail(['bill' => $bill->toArray()])
+            ->detail(['hash' => $bill->pay_id]);
+
+        $countdown = $bill->created_at
+            ->addDays($bill->expiry_date)
+            ->addMinutes($bill->expiry_minutes)
+            ->addHours($bill->expiry_hours)
+            ->format('m/d/Y H:i:s');
+
+        if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
+            return response()->json(['view' => view('bills.pay', compact('bill', 'id', 'countdown'))->render()]);
+ 
+        }
+
+        return response()->json(['view' => view('bills.payment_page', compact('bill', 'id', 'countdown'))->render()]);
+ 
     }
 }

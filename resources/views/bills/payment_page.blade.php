@@ -80,7 +80,7 @@
                                 </div><!-- inputs --> 
                             </div>
                             <div class="p-2">
-                                @if($errors->any())
+                                @if(isset($errors) && $errors->any())
                                     <div class="alert alert-danger" role="alert" id="errors">
                                         <ul>
                                             <li>{{ __($errors->first()) }}</li>

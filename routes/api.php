@@ -73,6 +73,7 @@ Route::prefix('v1')->group(function () {
 		Route::put('bills/{bill}/cancel', 'BillController@cancel')->middleware(['verified.user']);
 		Route::put('bills/{bill}/timeout', 'BillController@timeout');
 		Route::put('bills/{bill}/refund', 'BillController@refund')->middleware(['verified.user']);
+		Route::post('bills/payment_form', 'BillController@paymentForm')->middleware(['verified.user']);
 		Route::get('bills/{bill}', 'BillController@show');
 
 		Route::get('transfers/{transfer}/transactions', 'TransferController@transactions');
@@ -80,6 +81,7 @@ Route::prefix('v1')->group(function () {
 		Route::get('transactions', 'TransactionController@index');
     	Route::get('account/information', 'AccountController@getInformation');
     	Route::post('account/information', 'AccountController@updateInformation');
+
 
 	});
 
