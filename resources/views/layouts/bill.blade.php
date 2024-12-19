@@ -9,7 +9,7 @@
     <title>@yield('title') - Sure Bills</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
-    <link rel="stylesheet" href="/css/bill_details.css" />
+    <link rel="stylesheet" href="{{asset('css/bill_details.css')}}" />
     @stack('styles')
   </head>
   <body>
