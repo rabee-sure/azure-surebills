@@ -695,7 +695,7 @@ class BillController extends Controller
         }
 
         if ($bill->is_invalid) {
-            return view('bills.status', ['bill' => $bill]);
+            return response()->json(['view' => view('bills.status', compact('bill'))->render()]);
         }
 
         $invoice = (new Invoice)->amount(number_format($bill->total, 2, '.', ''));
