@@ -40,7 +40,7 @@ PaymentSession.configure({
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     });
-                    fetch('/api/mastercard/handle-payment/', {
+                    fetch('<?php echo rtrim(config("app.url"), "/") ?>/api/mastercard/handle-payment/', {
                         method: 'POST',
                         headers: headers,
                         body: JSON.stringify({
