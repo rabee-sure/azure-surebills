@@ -75,7 +75,7 @@
             <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
           </div><!-- status --> --}}
         @endif
-        @if($errors->any())
+        @if(isset($errors) && $errors->any())
           <div class="anyErrors alert alert-danger" role="alert">{{ __($errors->first()) }}</div>
         @endif
         <div class="bill_info">

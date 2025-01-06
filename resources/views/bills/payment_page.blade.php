@@ -11,7 +11,7 @@
     <title>{{ __('Bill No.') . ' ' . $bill->number }} - SureBills</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <!-- App Css -->
-    <link rel="stylesheet" href="/css/payment_page.css">
+    <link rel="stylesheet" href="{{asset('css/payment_page.css')}}">
     <!-- Arabic Font -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <!-- Englesh Font -->
@@ -80,7 +80,7 @@
                                 </div><!-- inputs --> 
                             </div>
                             <div class="p-2">
-                                @if($errors->any())
+                                @if(isset($errors) && $errors->any())
                                     <div class="alert alert-danger" role="alert" id="errors">
                                         <ul>
                                             <li>{{ __($errors->first()) }}</li>
