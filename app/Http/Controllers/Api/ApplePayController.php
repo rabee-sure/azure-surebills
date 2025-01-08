@@ -29,6 +29,9 @@ class ApplePayController extends Controller
         if(curl_exec($ch) === false)
         {
             echo json_encode('{"curlError":"' . curl_error($ch) . '"}');
+            \Log::error('apple pay error: '.curl_error($ch));
+            \Log::error('apple pay error: '.$request->validationURL);
+            \Log::error('apple pay error: '.$data);
         }
 
         // close cURL resource, and free up system resources
