@@ -71,7 +71,7 @@ function onBuyClicked(event) {
     fetch('<?php echo rtrim(config("app.url"), "/") ?>/api/applepay/validate/', {
       method: 'POST',
       headers: headers,
-      body: JSON.stringify({validationURL: e.validationURL})
+      body: JSON.stringify({validationURL: e.validationURL, domain: window.location.hostname})
     }).then(res => {
       if (res.status === 200) {
         var resJson = res.json();
