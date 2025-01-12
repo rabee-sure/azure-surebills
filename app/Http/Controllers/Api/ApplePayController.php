@@ -15,8 +15,7 @@ class ApplePayController extends Controller
     public function validateMerchant(Request $request)
     {
         $ch = curl_init();
-        $data = '{"merchantIdentifier": "'.config('payment.drivers.mastercard_applepay.applepay_merchant_id').'", "domainName":"'.$request->domain.'", "displayName":"SureBills"}';
-        // $data = '{"merchantIdentifier": "'.config('payment.drivers.mastercard_applepay.applepay_merchant_id').'", "domainName":"'.config('payment.drivers.mastercard_applepay.domain').'", "displayName":"SureBills"}';
+        $data = '{"merchantIdentifier": "'.config('payment.drivers.mastercard_applepay.applepay_merchant_id').'", "domainName":"'.config('payment.drivers.mastercard_applepay.domain').'", "displayName":"SureBills"}';
         curl_setopt($ch, CURLOPT_URL, $request->validationURL);
         curl_setopt($ch, CURLOPT_SSLCERT, base_path('app/Payment/Drivers/MasterCardApplePay/applepay.crt.pem'));
         curl_setopt($ch, CURLOPT_SSLKEY, base_path('app/Payment/Drivers/MasterCardApplePay/applepay.key.pem'));
