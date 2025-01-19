@@ -708,12 +708,14 @@ class BillController extends Controller
             ->addHours($bill->expiry_hours)
             ->format('m/d/Y H:i:s');
 
+        $sureEasyRendrer = true;
+
         if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
-            return response()->json(['view' => view('bills.pay', compact('bill', 'id', 'countdown'))->render()]);
+            return response()->json(['view' => view('bills.pay', compact('bill', 'id', 'countdown', 'sureEasyRendrer'))->render()]);
  
         }
 
-        return response()->json(['view' => view('bills.payment_page', compact('bill', 'id', 'countdown'))->render()]);
+        return response()->json(['view' => view('bills.payment_page', compact('bill', 'id', 'countdown', 'sureEasyRendrer'))->render()]);
  
     }
 }
