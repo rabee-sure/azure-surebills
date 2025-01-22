@@ -110,8 +110,8 @@ class BillApiRequest extends FormRequest
         $this->merge([
             'add_discount' => $this->add_discount == 'on' ? true : (($this->add_discount == 'off') ? false : null),
             'add_tax' => $this->add_tax == 'on' ? true : (($this->add_tax == 'off') ? false : null),
-            'send_sms' => $this->send_sms == 'on' ? true : (($this->send_sms == 'off') ? false : null),
-            'send_email' => $this->send_email == 'on' ? true : (($this->send_email == 'off') ? false : null),
+            'send_sms' => (in_array($this->send_sms, ['on', 1, true])) ? true : (((in_array($this->send_sms, ['off', 0, false]))) ? false : null),
+            'send_email' => (in_array($this->send_email, ['on', 1, true])) ? true : (((in_array($this->send_email, ['off', 0, false]))) ? false : null),
         ]);
     }
 }
