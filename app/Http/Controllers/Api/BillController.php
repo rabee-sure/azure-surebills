@@ -61,7 +61,7 @@ class BillController extends Controller
         ]);
 
         $send_sms = 0;
-        $send_email = $request->send_email === null ? $user->settings->create_send_email : $request->send_email;
+        $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
 
         $bill = Bill::create([
             'user_id' => $user->id,
