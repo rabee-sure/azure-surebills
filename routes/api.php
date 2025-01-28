@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ZatcaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,8 @@ Route::post('upload', 'MediaController@upload')->name('media.upload');
 Route::post('transfers/{transfer}/upload_attachment', 'MediaController@uploadAttachment');
 
 Route::prefix('v1')->group(function () {
+	Route::post('onbording', [ZatcaController::class, 'onboarding'])->middleware(['zatca.api'])->name('onbording');
+	Route::post('sent-invoice-to-zatca', [ZatcaController::class, 'sendInvoiveToZatca'])->middleware(['zatca.api'])->name('sent-invoice-to-zatca');
 
     Route::post('pos-login', 'UserController@posLogin');
     Route::get('report-permissions', 'UserController@reportPermission');

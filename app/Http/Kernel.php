@@ -74,6 +74,7 @@ class Kernel extends HttpKernel
         'Mutli.auth' => \App\Http\Middleware\MultiAuth::class,
         'verified.user' => \App\Http\Middleware\VerifiedUser::class,
         'valid_signture' => \App\Http\Middleware\EnsureSigntureIsValid::class,
+        'zatca.api' => \App\Http\Middleware\ZatcaApi::class,
 
     ];
 }
