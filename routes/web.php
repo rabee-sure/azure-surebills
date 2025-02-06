@@ -17,6 +17,14 @@ use Illuminate\Contracts\Cache\Store;
 |
 */
 
+Route::domain(config('payment.invoice_subdomain'))->group(function (){
+    
+    Route::get('.well-known/{file}', 'BillSubdomainController@verifyOwnershipForApplePay')->name('verify.applepay.ownership');
+    Route::get('/bills/{id}/pay', 'BillController@pay')->name('bill.invoice.subdomain');
+    Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('bill.invoice.lang.subdomain');
+
+});
+
 Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
 
 // Route::get('test/bill', 'TestController@bill');
@@ -86,10 +94,10 @@ Route::get('/logs/{log}/', 'PaymentLogController@show')->name('logpage');
 // py bill page
 Route::get('/bills/{id}/print', 'BillController@billPrint')->name('bills.bill_print');
 Route::get('/refundedbills/{id}/print', 'RefundedBillController@billPrint')->name('refundedbills.bill_print');
-Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage');
+Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage')->middleware('redirect.to.subdomain');
 Route::get('/bills/{id}/invoice', 'BillController@invoice')->name('invoice');
 Route::get('/refundedbills/{id}/invoice', 'RefundedBillController@invoice')->name('refundedinvoice');
-Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang');
+Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang')->middleware('redirect.to.subdomain');
 Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::post('/bills/{id}/cancel', 'BillController@cancel')->name('bills.cancel');
 Route::post('/bills/{id}/refund', 'BillController@refund')->name('bills.refund');

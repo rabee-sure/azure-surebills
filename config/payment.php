@@ -10,6 +10,8 @@ return [
     |
     */
     'default' => 'hyperpay_iframe',
+    'invoice_subdomain' => env('INVOICE_SUBDOMAIN'),
+    'invoice_subdomain_url' => env('INVOICE_SUBDOMAIN_URL'),
 
     /*
     |--------------------------------------------------------------------------

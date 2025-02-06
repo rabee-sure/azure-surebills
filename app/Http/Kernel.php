@@ -38,12 +38,14 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\LanguageMiddleware::class,
+            \App\Http\Middleware\RedirectToMainDomainMiddleware::class,
         ],
 
         'api' => [
             'throttle:600,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\localization::class,
+
         ],
     ];
 
@@ -75,6 +77,8 @@ class Kernel extends HttpKernel
         'verified.user' => \App\Http\Middleware\VerifiedUser::class,
         'valid_signture' => \App\Http\Middleware\EnsureSigntureIsValid::class,
         'zatca.api' => \App\Http\Middleware\ZatcaApi::class,
+        'redirect.to.subdomain' => \App\Http\Middleware\RedirectToSubDomainMiddleware::class,
+        'redirect.route.to.main.domain' => \App\Http\Middleware\RedirectRouteToMainDomainMiddleware::class,
 
     ];
 }
