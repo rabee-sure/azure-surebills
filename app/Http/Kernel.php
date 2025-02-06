@@ -38,7 +38,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\LanguageMiddleware::class,
-            \App\Http\Middleware\RedirectToMainDomainMiddleware::class,
+            // \App\Http\Middleware\RedirectToMainDomainMiddleware::class,
         ],
 
         'api' => [
@@ -78,7 +78,6 @@ class Kernel extends HttpKernel
         'valid_signture' => \App\Http\Middleware\EnsureSigntureIsValid::class,
         'zatca.api' => \App\Http\Middleware\ZatcaApi::class,
         'redirect.to.subdomain' => \App\Http\Middleware\RedirectToSubDomainMiddleware::class,
-        'redirect.route.to.main.domain' => \App\Http\Middleware\RedirectRouteToMainDomainMiddleware::class,
 
     ];
 }

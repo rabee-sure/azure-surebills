@@ -17,20 +17,20 @@ class RedirectToMainDomainMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // $excludeRouteNames = [
-        //     'mastercard.applepay.validate', 
-        //     'mastercard.3ds', 
-        //     'mastercard.applepay.check.payment', 
-        //     'mastercard.handle.payment', 
-        //     'verify.applepay.ownership', 
-        //     'bill.invoice.subdomain', 
-        //     'bill.invoice.lang.subdomain', 
-        //     'applepay.validate', 
-        // ];
-        // if($request->getHost() == config('payment.invoice_subdomain') && !in_array(Route::currentRouteName(), $excludeRouteNames))
-        // {
-        //     return redirect()->to(config('app.url'));
-        // }
+        $excludeRouteNames = [
+            'mastercard.applepay.validate', 
+            'mastercard.3ds', 
+            'mastercard.applepay.check.payment', 
+            'mastercard.handle.payment', 
+            'verify.applepay.ownership', 
+            'bill.invoice.subdomain', 
+            'bill.invoice.lang.subdomain', 
+            'applepay.validate', 
+        ];
+        if($request->getHost() == config('payment.invoice_subdomain') && !in_array(Route::currentRouteName(), $excludeRouteNames))
+        {
+            return redirect()->to(config('app.url'));
+        }
 
         return $next($request);
     }
