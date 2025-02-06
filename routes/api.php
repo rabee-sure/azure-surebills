@@ -15,11 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('applepay/validate', 'ApplePayController@validateMerchant');
-Route::post('applepay/check-payment', 'ApplePayController@checkPayment');
-Route::post('mastercard/handle-payment', 'MasterCardController@handlePyament');
+Route::post('applepay/validate', 'ApplePayController@validateMerchant')->name('mastercard.applepay.validate');
+Route::post('applepay/check-payment', 'ApplePayController@checkPayment')->name('mastercard.applepay.check.payment');
+Route::post('mastercard/handle-payment', 'MasterCardController@handlePyament')->name('mastercard.handle.payment');
 Route::post('mastercard/{session}/check-payment', 'MasterCardController@checkPayment')->name('mastercard.3ds');
-
 
 // Route::get('test', 'TestController@test');
 

@@ -44,6 +44,7 @@ class Kernel extends HttpKernel
             'throttle:600,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\localization::class,
+
         ],
     ];
 
@@ -75,6 +76,7 @@ class Kernel extends HttpKernel
         'verified.user' => \App\Http\Middleware\VerifiedUser::class,
         'valid_signture' => \App\Http\Middleware\EnsureSigntureIsValid::class,
         'zatca.api' => \App\Http\Middleware\ZatcaApi::class,
+        'redirect.to.subdomain' => \App\Http\Middleware\RedirectToSubDomainMiddleware::class,
 
     ];
 }

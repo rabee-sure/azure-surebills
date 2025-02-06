@@ -68,7 +68,7 @@ function onBuyClicked(event) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     });
-    fetch('<?php echo rtrim(config("app.url"), "/") ?>/api/applepay/validate/', {
+    fetch('<?php echo rtrim(config("payment.invoice_subdomain_url"), "/") ?>/api/applepay/validate/', {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({validationURL: e.validationURL})
@@ -100,7 +100,7 @@ function onBuyClicked(event) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     });
-    fetch('<?php echo rtrim(config("app.url"), "/") ?>/api/applepay/check-payment/', {
+    fetch('<?php echo rtrim(config("payment.invoice_subdomain_url"), "/") ?>/api/applepay/check-payment/', {
       method: 'POST',
       headers: headers,
       body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
