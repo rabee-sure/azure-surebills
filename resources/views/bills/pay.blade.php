@@ -4,7 +4,7 @@
 
   <div class="loading"></div>
 
-  <div class="singlebBillSimple_page d-flex align-items-center justify-content-center flex-column">
+  <div class="singlebBillSimple_page d-flex align-items-center justify-content-center flex-column riyal-symbol-font">
     <div class="all_bill_page">
       <div class="change_lang d-flex align-items-center justify-content-end w-100 mb-1">
         @if($bill->user->settings->active_lang == 'all')
