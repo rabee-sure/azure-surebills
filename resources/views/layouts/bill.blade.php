@@ -11,8 +11,20 @@
 
     <link rel="stylesheet" href="{{asset('css/bill_details.css')}}" />
     @stack('styles')
+    <style>
+      @font-face {
+        font-family: "A Jannat LT" !important;
+        src: url("{{asset('fonts/AJannatLT-Bold/AJannatLT-Bold_1.ttf')}}") format("truetype") !important;
+        font-weight: normal !important;
+        font-style: normal !important;
+      }
+     
+      .riyal-symbol-font {
+        font-family: "A Jannat LT", sans-serif !important;
+      }
+    </style>
   </head>
-  <body>
+  <body class="riyal-symbol-font">
 
     @yield('content')
     <script src="{{ asset('js/jbootstrap.js') }}"></script>
