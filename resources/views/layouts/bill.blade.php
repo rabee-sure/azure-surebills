@@ -8,10 +8,9 @@
 
     <title>@yield('title') - Sure Bills</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link href="{{route('bill.font', 'AJannatLT-Bold/AJannatLT-Bold_1.ttf')}}" rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('css/bill_details.css')}}" />
-    <link href="{{route('bill.font', 'AJannatLT-Bold_1.ttf')}}" rel="stylesheet">
-
     @stack('styles')
   </head>
   <body>
