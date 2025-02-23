@@ -10,6 +10,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
     <link rel="stylesheet" href="{{asset('css/bill_details.css')}}" />
+    
+    <style>
+    .rtl {
+      direction: rtl !important;
+    }
+    
+    @font-face {
+      font-family: "A Jannat LT";
+      src: url("{{rtrim(config('payment.invoice_subdomain_url'), '/')}}/fonts/AJannatLT-Bold/AJannatLT-Bold_1.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+    }
+    
+    .riyal-symbol-font {
+      font-family: "A Jannat LT", sans-serif;
+    }
+    </style>
+
     @stack('styles')
   </head>
   <body>
