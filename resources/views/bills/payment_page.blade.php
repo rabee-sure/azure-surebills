@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <!-- App Css -->
     <link rel="stylesheet" href="{{asset('css/payment_page.css')}}">
+    <link href="{{asset('fonts/fonts/AJannatLT-Bold/AJannatLT-Bold_1.ttf')}}" rel="stylesheet">
     <!-- Arabic Font -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <!-- Englesh Font -->
