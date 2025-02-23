@@ -68,9 +68,17 @@
           @endif
         </figure>
         @if($log->payment_method == 'mastercard_refund')
-          <div class="refundAmount d-block fw-bold mb-3">{{ $refund_amount }} {{__('SAR') }}</div>
+          <div class="refundAmount d-block fw-bold mb-3">
+            <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+              {{ $refund_amount }} <span class="riyal-symbol-font">$</span>
+            </div><!-- d-flex -->
+          </div>
         @else
-          <div class="refundAmount d-block fw-bold mb-3">{{ $total_amount }} {{__('SAR') }}</div>
+          <div class="refundAmount d-block fw-bold mb-3">
+            <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+              {{ $total_amount }} <span class="riyal-symbol-font">$</span>
+            </div><!-- d-flex -->
+          </div>
         @endif
         @if($log->payment_method == 'mastercard_refund')
           <span class="billStatusBadge badge badge-pill badge-warning d-flex align-items-center justify-content-center fw-bold px-2 mb-3">{{ __('Refund') }}</span>
@@ -88,9 +96,13 @@
                 <td>{{__('Amount') }}</td>
                 <td>
                   @if($log->payment_method == 'mastercard_refund')
-                    {{ $refund_amount }} {{__('SAR') }}
+                    <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if(app()->getLocale() == 'ar') justify-content-start @else justify-content-end @endif">
+                      {{ $refund_amount }} <span class="riyal-symbol-font">$</span>
+                    </div><!-- d-flex -->
                   @else
-                    {{ $total_amount }} {{__('SAR') }}
+                    <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if(app()->getLocale() == 'ar') justify-content-start @else justify-content-end @endif">
+                      {{ $total_amount }} <span class="riyal-symbol-font">$</span>
+                    </div><!-- d-flex -->
                   @endif
                 </td>
               </tr>

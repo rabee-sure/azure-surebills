@@ -88,8 +88,10 @@
         </div><!-- billInfo -->
         <div class="billInfo pt-2 mt-2 borderTop">
           <div class="d-flex align-items-center justify-content-between">
-            <span class="d-block mb-2">{{ __('Refund Amount') }}({{ __('SAR') }})</span>
-            <span class="d-block mb-2">{{ $refundedbill->amount }}</span>
+            <span class="d-block mb-2">{{ __('Refund Amount') }} </span>
+            <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+              {{ $refundedbill->amount }} <span class="riyal-symbol-font">$</span>
+            </div><!-- d-flex -->
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         @if($refundedbill->bill->user->settings->add_tax_invoice)
@@ -137,7 +139,7 @@
           </div><!-- col-12 -->
         </div><!-- row -->
         <div id="printBillBtn" class="d-flex align-items-center justify-content-center mt-3">
-          <span class="d-flex align-items-center justify-content-center text-center border rounded-3 bg-light text-body">Print Receipt</span>
+          <span class="d-flex align-items-center justify-content-center text-center border rounded-3 bg-light text-body gap-2">Print Receipt</span>
         </div><!-- printBillBtn -->
         <iframe id="ifrPaySlip"  name="ifrPaySlip" scrolling="yes" style="display:none"></iframe>
       </div><!-- viewPrintOptions -->

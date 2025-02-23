@@ -56,9 +56,13 @@
             </td>
             <td class="text-center p-2 border">
               @if($log->payment_method == 'mastercard_refund')
-                {{ $refund_amount }} {{__('SAR') }}
+                <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                  {{ $refund_amount }} <span class="riyal-symbol-font">$</span>
+                </div><!-- d-flex -->
               @else
-                {{ $total_amount }} {{__('SAR') }}
+                <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                  {{ $total_amount }} <span class="riyal-symbol-font">$</span>
+                </div><!-- d-flex -->
               @endif
             </td>
             <td class="text-center p-2 border">{{$log->created_at}}</td>
