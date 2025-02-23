@@ -17,6 +17,13 @@ use Illuminate\Contracts\Cache\Store;
 |
 */
 
+Route::middleware(['cors'])->group(function () {
+    Route::get('/fonts/{font}', function ($font) {
+        return response()->file(public_path('fonts/' . $font));
+    });
+});
+
+
 Route::domain(config('payment.invoice_subdomain'))->group(function (){
     
     Route::get('.well-known/{file}', 'BillSubdomainController@verifyOwnershipForApplePay')->name('verify.applepay.ownership');

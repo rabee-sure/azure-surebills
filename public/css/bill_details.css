@@ -12222,10 +12222,10 @@ a.logo_bills {
 
 @font-face {
   font-family: "A Jannat LT";
-  src: url("AJannatLT-Bold_1.ttf") format("truetype");
+  src: url("../../fonts/AJannatLT-Bold/AJannatLT-Bold_1.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 .riyal-symbol-font {
-  font-family: "A Jannat LT", sans-serif !important;
+  font-family: "A Jannat LT", sans-serif;
 }

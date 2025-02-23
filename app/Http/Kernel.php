@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\CorsMiddleware::class,
     ];
 
     /**
@@ -77,6 +78,8 @@ class Kernel extends HttpKernel
         'valid_signture' => \App\Http\Middleware\EnsureSigntureIsValid::class,
         'zatca.api' => \App\Http\Middleware\ZatcaApi::class,
         'redirect.to.subdomain' => \App\Http\Middleware\RedirectToSubDomainMiddleware::class,
+        'cors' => \App\Http\Middleware\CorsMiddleware::class,
+
 
     ];
 }
