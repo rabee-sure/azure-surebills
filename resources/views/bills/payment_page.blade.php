@@ -12,6 +12,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <!-- App Css -->
     <link rel="stylesheet" href="{{asset('css/payment_page.css')}}">
+    <style>
+        .rtl {
+          direction: rtl !important;
+        }
+        
+        @font-face {
+          font-family: "A Jannat LT";
+          src: url("{{rtrim(config('payment.invoice_subdomain_url'), '/')}}/fonts/AJannatLT-Bold/AJannatLT-Bold_1.ttf") format("truetype");
+          font-weight: normal;
+          font-style: normal;
+        }
+        
+        .riyal-symbol-font {
+          font-family: "A Jannat LT", sans-serif;
+        }
+    </style>
+    
     <!-- Arabic Font -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <!-- Englesh Font -->
