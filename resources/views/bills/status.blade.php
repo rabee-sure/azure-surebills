@@ -95,7 +95,9 @@
                     @endforeach
                 </td>
                 <td>
-                    {{ $item->product_price  }}
+                    <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                      {{ $item->product_price  }}  <span class="riyal-symbol-font">$</span>
+                    </div><!-- d-flex -->
                     @foreach($item->customizations as $customization)
                     <br>
                     <span class="text-muted">{{$customization->product_price}}</span>
@@ -110,9 +112,13 @@
                 </td>
                 <td>
                     @if( $bill->add_tax)
-                    {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}
+                      <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if(app()->getLocale() == 'ar') justify-content-end @else justify-content-start @endif">
+                        {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}  <span class="riyal-symbol-font">$</span>
+                      </div><!-- d-flex -->
                     @else
-                    {{ $item->product_price * $item->quantity }}
+                      <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if(app()->getLocale() == 'ar') justify-content-end @else justify-content-start @endif">
+                        {{ $item->product_price * $item->quantity }}  <span class="riyal-symbol-font">$</span>
+                      </div><!-- d-flex -->
                     @endif
                     @foreach($item->customizations as $customization)
                     <br>
@@ -129,37 +135,47 @@
           @if( $bill->add_tax || $bill->add_discount)
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-start justify-content-between flex-column">
-              <span>{{ __('Total amount') }}({{ __('SAR') }})</span>
+              <span>{{ __('Total amount') }}</span>
               @if( $bill->add_tax)
               <small>( {{ __('Exclude added tax') }} )</small>
               @endif
             </div>
             @if( $bill->add_tax || $bill->add_discount || $bill->refund_amount)
-            <span>{{ $bill->sub_total }}</span>
+              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                {{ $bill->sub_total }} <span class="riyal-symbol-font">$</span>
+              </div><!-- d-flex -->
             @endif
           </div><!-- d-flex -->
           @endif
           @if( $bill->add_discount)
           <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Discount') }} ({{ __('SAR') }})</span>
-            <span>{{ $bill->discount }}</span>
+            <span>{{ __('Discount') }}</span>
+            <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+              {{ $bill->discount }}  <span class="riyal-symbol-font">$</span>
+            </div><!-- d-flex -->
           </div><!-- d-flex -->
           @endif
           @if( $bill->add_tax)
           <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }}({{ __('SAR') }})</span>
-            <span>{{ $bill->vat }}</span>
+            <span>{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }}</span>
+            <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+              {{ $bill->vat }}  <span class="riyal-symbol-font">$</span>
+            </div><!-- d-flex -->
           </div><!-- d-flex -->
           @endif
           {{-- @if( $bill->refund_amount)
             <div class="d-flex align-items-center justify-content-between">
-              <span>{{ __('Refund Amount') }} ({{ __('SAR') }})</span>
-              <span>{{ $bill->refund_amount }}</span>
+              <span>{{ __('Refund Amount') }}</span>
+              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                {{ $bill->refund_amount }}  <span class="riyal-symbol-font">$</span>
+              </div><!-- d-flex -->
             </div><!-- d-flex -->
           @endif --}}
           <div class="d-flex align-items-center justify-content-between">
-            <span>{{ __('Total amount') }} ({{ __('SAR') }})</span>
-            <span>{{ $bill->sub_total + $bill->vat - $bill->discount}}</span>
+            <span>{{ __('Total amount') }}</span>
+            <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+              {{ $bill->sub_total + $bill->vat - $bill->discount}}  <span class="riyal-symbol-font">$</span>
+            </div><!-- d-flex -->
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         <div id="status">
@@ -237,7 +253,7 @@
           </div><!-- qrCode_area -->
         @endif
         @if(isset($bill->user->settings->footer_bill))
-          <p class="d-block mb-0 text-center">{{ $bill->user->settings->footer_bill }}</p>
+          <p class="d-block mb-0 mt-3 text-center">{{ $bill->user->settings->footer_bill }}</p>
         @endif
       </div><!-- single_bill_content -->
     </div><!-- all_bill_page -->

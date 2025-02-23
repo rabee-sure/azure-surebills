@@ -776,3 +776,18 @@ a.logo_bills {
     } /* single_bill_content */
   } /* all_bill_page */
 } /* singlebBillSimple_page */
+
+.rtl {
+  direction: rtl !important;
+}
+
+@font-face {
+  font-family: "A Jannat LT";
+  src: url("../../fonts/AJannatLT-Bold/AJannatLT-Bold_1.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.riyal-symbol-font {
+  font-family: "A Jannat LT", sans-serif;
+}

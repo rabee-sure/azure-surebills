@@ -17,12 +17,15 @@
       font-weight: normal;
       font-style: normal;
     }
-   
+    .rtl {
+      direction: rtl !important;
+    }
+
     .riyal-symbol-font {
-      font-family: "A Jannat LT", sans-serif;
+      font-family: "A Jannat LT", sans-serif !important;
     }
   </style>
-  <body class="riyal-symbol-font">
+  <body>
     @yield('content')
   </body>
 </html>

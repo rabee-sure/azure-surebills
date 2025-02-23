@@ -42,53 +42,85 @@
     @if( $bill->add_tax || $bill->add_discount)
       <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-start justify-content-between flex-column mb-2">
-          <span class="d-block">{{ __('Total amount', [], $lang) }}({{ __('SAR', [], $lang) }})</span>
+          <span class="d-block">{{ __('Total amount', [], $lang) }}</span>
           @if( $bill->add_tax)
             <small class="d-block text-muted mt-1">( {{ __('Exclude added tax', [], $lang) }} )</small>
           @endif
         </div>
-        <span class="d-block mb-2">{{ $bill->sub_total }}</span>
+        <span class="d-block mb-2">
+          <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+            {{ $bill->sub_total }} <span class="riyal-symbol-font">$</span>
+          </div><!-- d-flex -->
+        </span>
       </div><!-- d-flex -->
     @endif
     @if( $bill->add_discount)
       <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Discount amount', [], $lang) }}({{ __('SAR', [], $lang) }})</span>
-        <span class="d-block mb-2">{{ $bill->discount }}</span>
+        <span class="d-block mb-2">{{ __('Discount amount', [], $lang) }}</span>
+        <span class="d-block mb-2">
+          <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+            {{ $bill->discount }} <span class="riyal-symbol-font">$</span>
+          </div><!-- d-flex -->
+        </span>
       </div><!-- d-flex -->
     @endif
     @if( $bill->user->pay_fees == 'client')
       <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('payment fees', [], $lang) }}({{ __('SAR', [], $lang) }})</span>
-        <span class="d-block mb-2">{{ $bill->payment_fees }}</span>
+        <span class="d-block mb-2">{{ __('payment fees', [], $lang) }}</span>
+        <span class="d-block mb-2">
+          <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+            {{ $bill->payment_fees }} <span class="riyal-symbol-font">$</span>
+          </div><!-- d-flex -->
+        </span>
       </div><!-- d-flex -->
     @endif
     @if( $bill->add_tax)
       <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value], $lang) }} ({{ __('SAR', [], $lang) }})</span>
-        <span class="d-block mb-2">{{ $bill->vat }}</span>
+        <span class="d-block mb-2">{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value], $lang) }}</span>
+        <span class="d-block mb-2">
+          <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+            {{ $bill->vat }} <span class="riyal-symbol-font">$</span>
+          </div><!-- d-flex -->
+        </span>
       </div><!-- d-flex -->
     @endif
     @if( $bill->channel_extra_amount)
       <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{$bill->channel_extra_title}}({{ __('SAR', [], $lang) }})</span>
-        <span class="d-block mb-2">{{ $bill->channel_extra_amount }}</span>
+        <span class="d-block mb-2">{{$bill->channel_extra_title}}</span>
+        <span class="d-block mb-2">
+          <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+            {{ $bill->channel_extra_amount }} <span class="riyal-symbol-font">$</span>
+          </div><!-- d-flex -->
+        </span>
       </div><!-- d-flex -->
     @endif
     @if( $bill->channel_extra_vat)
       <div class="d-flex align-items-center justify-content-between">
         <span class="d-block mb-2">{{ __('Vat', [], $lang) }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))</span>
-        <span class="d-block mb-2">{{ $bill->channel_extra_vat }} {{ __('SAR', [], $lang) }}</span>
+        <span class="d-block mb-2">
+          <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+          {{ $bill->channel_extra_vat }} <span class="riyal-symbol-font">$</span>
+          </div><!-- d-flex -->  
+        </span>
       </div><!-- d-flex -->
     @endif
     {{-- @if( $bill->refund_amount)
       <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Refund Amount', [], $lang) }}({{ __('SAR', [], $lang) }})</span>
-        <span class="d-block mb-2">{{ $bill->refund_amount }}</span>
+        <span class="d-block mb-2">{{ __('Refund Amount', [], $lang) }}</span>
+        <span class="d-block mb-2">
+          <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+            {{ $bill->refund_amount }} <span class="riyal-symbol-font">$</span>
+          </div><!-- d-flex -->
+        </span>
       </div><!-- d-flex -->
     @endif --}}
     <div class="d-flex align-items-center justify-content-between">
-      <span class="d-block mb-2">{{ __('Total amount', [], $lang) }}({{ __('SAR', [], $lang) }})</span>
-      <span class="d-block mb-2">{{ $bill->sub_total + $bill->vat - $bill->discount}}</span>
+      <span class="d-block mb-2">{{ __('Total amount', [], $lang) }}</span>
+      <span class="d-block mb-2">
+        <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+          {{ $bill->sub_total + $bill->vat - $bill->discount}}  <span class="riyal-symbol-font">$</span>
+        </div><!-- d-flex -->
+      </span>
     </div><!-- d-flex -->
   </div><!-- bill_info -->
   @if($bill->customer_notes)

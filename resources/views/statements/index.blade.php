@@ -20,7 +20,12 @@
 
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Electronic payment') }}</h1>
-      <h2 class="d-block m-0 fs-6">{{ __('Balance') }} : {{ round2(auth()->user()->balance) }} {{ __('SAR')}}</h2>
+      <h2 class="d-flex align-items-center justify-content-end gap-1 m-0 fs-6">
+        {{ __('Balance') }} : 
+        <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+          {{ round2(auth()->user()->balance) }}  <span class="riyal-symbol-font">$</span>
+        </div><!-- d-flex -->
+      </h2>
     </div><!-- title -->
 
     <div class="filterArea mb-3 d-flex align-items-end justify-content-between flex-wrap flex-column flex-lg-row">
@@ -190,18 +195,42 @@
                       {{ $transaction->card }}
                     </div>
                   </td>
-                  <td class="text-danger text-center">{{ $transaction->type == 'debit' ? round2($transaction->amount) : '-' }}</td>
-                  <td class="text-success text-center">{{ $transaction->type == 'credit' ? round2($transaction->amount) : '-' }}</td>
-                  <td class="text-center">{{ fact_number(round($transaction->balance, 2)) }}</td>
+                  <td class="text-danger text-center">
+                    <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                      {{ $transaction->type == 'debit' ? round2($transaction->amount) : '0' }}  <span class="riyal-symbol-font">$</span>
+                    </div><!-- d-flex -->
+                  </td>
+                  <td class="text-success text-center">
+                    <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                      {{ $transaction->type == 'credit' ? round2($transaction->amount) : '0' }}  <span class="riyal-symbol-font">$</span>
+                    </div><!-- d-flex -->
+                  </td>
+                  <td class="text-center">
+                    <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                      {{ fact_number(round($transaction->balance, 2)) }}  <span class="riyal-symbol-font">$</span>
+                    </div><!-- d-flex -->
+                  </td>
                 </tr>
               @endforeach
             </tbody>
             <tfoot>
               <tr>
                 <td colspan="@if(count($channels)) 6 @else 5 @endif" class="text-center fw-bold">{{ __('Total')}}</td>
-                <td class="text-danger text-center fw-bold">{{ $totals['debit'] ?? 0 }}</td>
-                <td class="text-success text-center fw-bold">{{ $totals['credit'] ?? 0 }}</td>
-                <td class="text-center fw-bold">{{ $totals['all'] ?? 0 }}</td>
+                <td class="text-danger text-center fw-bold">
+                  <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                    {{ $totals['debit'] ?? 0 }}  <span class="riyal-symbol-font">$</span>
+                  </div><!-- d-flex -->
+                </td>
+                <td class="text-success text-center fw-bold">
+                  <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                    {{ $totals['credit'] ?? 0 }}  <span class="riyal-symbol-font">$</span>
+                  </div><!-- d-flex -->
+                </td>
+                <td class="text-center fw-bold">
+                  <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                    {{ $totals['all'] ?? 0 }}  <span class="riyal-symbol-font">$</span>
+                  </div><!-- d-flex -->
+                </td>
               </tr>
             </tfoot>
           </table>

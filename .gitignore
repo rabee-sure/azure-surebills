@@ -5,8 +5,6 @@
 /public/css/app.css
 /public/css/app.css.map
 /public/css/auth.css
-/public/css/bill_details.css
-/public/css/bill_details.css.map
 /public/css/dore.dark.green.min.css
 /public/css/dore.dark.green.min.css.map
 /public/css/dore.light.green.min.css
@@ -26,10 +24,6 @@
 /public/vendor/jsvalidation/js/jsvalidation.js.map
 /public/vendor/jsvalidation/js/jsvalidation.min.js
 /public/vendor/jsvalidation/js/jsvalidation.min.js.map
-/public/new/css/auth.css
-/public/new/css/auth.css.map
-/public/new/css/main.css
-/public/new/css/main.css.map
 /public/new/js/app.js
 /public/new/js/app.js.map
 /public/new/js/auth_main.js

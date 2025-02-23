@@ -14,13 +14,18 @@
 
   <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
     <h1 class="d-block fw-bold m-0 fs-5">{{ __('Transfers') }}</h1>
-    <h2 class="d-flex align-items-end fs-6 justify-content-end flex-column m-0">
+    <h2 class="d-flex align-items-end fs-6 justify-content-end flex-column m-0 gap-1">
         @can('create transfer')
         @if(!auth()->user()->auto_trnasfer && auth()->user()->verified)
         @include('transfers.request_transfer')
         @endif
         @endcan
-      {{ __('Balance') }} : {{  round2(auth()->user()->balance)  }} {{__('SAR')}}
+        <div class="d-flex align-items-center justify-content-end gap-1">
+          {{ __('Balance') }} :  
+          <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+            {{  round2(auth()->user()->balance)  }}  <span class="riyal-symbol-font">$</span>
+          </div><!-- d-flex -->
+        </div>
     </h2>
   </div><!-- title -->
 
@@ -54,9 +59,21 @@
           @foreach($transfers as $transfer)
             <tr>
               <td class="text-center">{{$transfer->id}}</td>
-              <td class="text-center">{{$transfer->amount}}</td>
-              <td class="text-center">{{$transfer->transfer_fees}}</td>
-              <td class="text-center">{{$transfer->net_amount}}</td>
+              <td class="text-center">
+                <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                  {{$transfer->amount}}  <span class="riyal-symbol-font">$</span>
+                </div><!-- d-flex -->
+              </td>
+              <td class="text-center">
+                <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                  {{$transfer->transfer_fees}}  <span class="riyal-symbol-font">$</span>
+                </div><!-- d-flex -->
+              </td>
+              <td class="text-center">
+                <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                  {{$transfer->net_amount}}  <span class="riyal-symbol-font">$</span>
+                </div><!-- d-flex -->
+              </td>
               <td class="text-center">{{$transfer->note}}</td>
               <td class="text-center">{{$transfer->date_from_to}}</td>
               <td class="text-center">{{$transfer->created_at}}</td>
