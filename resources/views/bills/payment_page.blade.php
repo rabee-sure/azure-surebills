@@ -62,7 +62,7 @@
                             @endif
                         </div><!-- title -->
                         <span class="d-block font-weight-bold text-dark p-3 text-center border-right border-left">
-                            {{ $bill->total }} {{ __('SAR') }}
+                            {{ $bill->total }} <span class="riyal-symbol-font">$</span>
                             @if(!$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
                                 <div class="countdown" id="new_countdown">
                                     <p>{{ __('the bill will expire in')}}</p>
