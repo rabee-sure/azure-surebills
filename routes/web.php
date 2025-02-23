@@ -17,18 +17,14 @@ use Illuminate\Contracts\Cache\Store;
 |
 */
 
-Route::middleware(['cors'])->group(function () {
-    Route::get('/fonts/{font}', function ($font) {
-        return response()->file(public_path('fonts/' . $font));
-    });
-});
-
-
 Route::domain(config('payment.invoice_subdomain'))->group(function (){
     
     Route::get('.well-known/{file}', 'BillSubdomainController@verifyOwnershipForApplePay')->name('verify.applepay.ownership');
     Route::get('/bills/{id}/pay', 'BillController@pay')->name('bill.invoice.subdomain');
     Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('bill.invoice.lang.subdomain');
+    Route::get('/fonts/{font}', function($font){
+        return response()->file(public_path('fonts/' . $font));
+    })->name('bill.font');
 
 });
 
