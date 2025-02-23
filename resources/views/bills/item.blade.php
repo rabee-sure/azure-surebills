@@ -4,7 +4,11 @@
       @if($bill->model == 'bills' && $bill->debit_note_bill_id == null){{__('Bill')}}@endif {{ $bill->number }} @if($bill->customer_name != null) - @endif {{ $bill->customer_name}}
     </a>
   </td>
-  <td class="text-center riyal-symbol-font">{{ $bill->sub_total + $bill->vat - $bill->discount}} {{ __('SAR')}}</td>
+  <td class="text-center">
+    <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl">
+      {{ $bill->sub_total + $bill->vat - $bill->discount}}  <span class="riyal-symbol-font">$</span>
+    </div>
+  </td>
   <td class="text-center">{{ $bill->created_at}}</td>
   <td class="text-center">@include('bills.status_badge', ['status' => $bill->status, 'method' => $bill->method,'id' => $bill->id])</td>
 </tr>

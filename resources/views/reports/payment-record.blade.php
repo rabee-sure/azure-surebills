@@ -89,14 +89,22 @@
               <td class="text-center">{{$record->reference}}</td>
               <td class="text-center">{{ $record->payment_way ? __('reports.'.$record->payment_way) : null }}</td>
               <td class="text-center">{{ $record->source ? __('reports.'.$record->source) : null }}</td>
-              <td class="text-center">{{ fact_number(round($record->amount, 2)) }}</td>
+              <td class="text-center">
+                <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                  {{ fact_number(round($record->amount, 2)) }}  <span class="riyal-symbol-font">$</span>
+                </div><!-- d-flex -->
+              </td>
             </tr>
             @endforeach
           </tbody>
           <tfoot>
             <tr>
               <td colspan="5" class="text-center fw-bold">{{ __('Total')}}</td>
-              <td class="text-center fw-bold">{{ $total ?? 0 }}</td>
+              <td class="text-center fw-bold">
+                <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                  {{ $total ?? 0 }}  <span class="riyal-symbol-font">$</span>
+                </div><!-- d-flex -->
+              </td>
             </tr>
           </tfoot>
         </table>

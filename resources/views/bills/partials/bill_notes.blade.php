@@ -14,7 +14,11 @@
             <tr>
             <td class="text-center p-2 border"><a href="@if($note->model == 'bills'){{route('bills.show', $note)}}@elseif ($note->model == 'refundedbills'){{route('refundedbills.show', $note->id)}} @endif">{{$note->number}}</a></td>
             <td class="text-center p-2 border">{{$note->created_at}}</td>
-            <td class="text-center p-2 border">{{$note->sub_total + $note->vat - $note->discount}}</td>
+            <td class="text-center p-2 border">
+              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                {{$note->sub_total + $note->vat - $note->discount}}  <span class="riyal-symbol-font">$</span>
+              </div><!-- d-flex -->
+            </td>
           </tr>
         @endforeach
       </tbody>

@@ -4,7 +4,11 @@
       {{ __('Bill')}} {{ $bill->number }} @if($bill->customer_name != null) - @endif {{ $bill->customer_name }}
     </a>
   </td>
-  <td class="text-center">{{ $bill->total }} {{ __('SAR')}}</td>
+  <td class="text-center">
+    <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl">
+      {{ $bill->total }}  <span class="riyal-symbol-font">$</span>
+    </div>
+  </td>
   <td class="text-center">{{ $bill->created_at }}</td>
   <td class="text-center">@include('bills.status_badge', ['status' => $bill->status, 'id' => $bill->id])</td>
 </tr>

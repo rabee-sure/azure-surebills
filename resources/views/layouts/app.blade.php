@@ -21,18 +21,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-      @font-face {
-        font-family: "A Jannat LT";
-        src: url("{{asset('fonts/AJannatLT-Bold/AJannatLT-Bold_1.ttf')}}") format("truetype");
-        font-weight: normal;
-        font-style: normal;
-      }
-     
-      .riyal-symbol-font {
-        font-family: "A Jannat LT", sans-serif;
-      }
-    </style>
 
     @yield('css_styles')
 
@@ -51,7 +39,7 @@
     @endif
 
   </head>
-  <body id="app-container" class="show-spinner riyal-symbol-font">
+  <body id="app-container" class="show-spinner">
 
     @include('layouts.header')
 

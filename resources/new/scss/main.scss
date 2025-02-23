@@ -607,3 +607,18 @@ span.select2-container {
       } /* removeImg */
     } /* .dz-preview */
 } /* dropzone */
+
+.rtl {
+  direction: rtl !important;
+}
+
+@font-face {
+  font-family: "A Jannat LT";
+  src: url("../../fonts/AJannatLT-Bold/AJannatLT-Bold_1.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.riyal-symbol-font {
+  font-family: "A Jannat LT", sans-serif;
+}
