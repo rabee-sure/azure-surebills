@@ -23,11 +23,13 @@
             @endforeach
         </td>
         <td class="p-1 text-center">
-            {{ $item->product_price  }}
-            @foreach($item->customizations as $customization)
-            <br>
-            <span class="text-muted">{{$customization->product_price}}</span>
-            @endforeach
+          <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+            {{ $item->product_price  }} <span class="riyal-symbol-font">$</span>
+          </div><!-- d-flex -->
+          @foreach($item->customizations as $customization)
+          <br>
+          <span class="text-muted">{{$customization->product_price}}</span>
+          @endforeach
         </td>
         <td class="p-1 text-center">
             {{ $item->quantity  }}
@@ -37,11 +39,15 @@
             @endforeach
         </td>
         <td class="p-1 text-end">
-            @if( $bill->add_tax)
-            {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}
-            @else
-            {{ $item->product_price * $item->quantity }}
-            @endif
+          @if( $bill->add_tax)
+            <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if($lang == 'ar') justify-content-end @else justify-content-start @endif">
+              {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}  <span class="riyal-symbol-font">$</span>
+            </div><!-- d-flex -->
+          @else
+            <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if($lang == 'ar') justify-content-end @else justify-content-start @endif">
+              {{ $item->product_price * $item->quantity }}  <span class="riyal-symbol-font">$</span>
+            </div><!-- d-flex -->
+          @endif
             @foreach($item->customizations as $customization)
             <br>
             <span class="text-muted">{{$bill->add_tax ?
