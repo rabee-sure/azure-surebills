@@ -26,6 +26,12 @@
     .riyal-symbol-font {
       font-family: "A Jannat LT", sans-serif;
     }
+    .gap-1 {
+        gap: .25rem !important;
+      }
+      .fw-bold {
+        font-weight: bold !important;
+      }
     </style>
 
     @stack('styles')
