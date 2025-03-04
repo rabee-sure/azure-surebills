@@ -104,6 +104,7 @@ class Transfer extends Model implements HasMedia
     {
         return $this->belongsToMany(Transaction::class)
             ->orderBy('created_at', 'ASC')
+            ->orderBy('transaction_source', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC');
     }

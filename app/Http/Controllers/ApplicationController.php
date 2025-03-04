@@ -65,6 +65,7 @@ class ApplicationController extends Controller
      */
     public function update(ApplicationRequest $request, Application $application)
     {
+        $this->authorize('updateMerchantApplication', $application);
         $application->name = $request->name;
         $application->redirect = $request->redirect;
         $application->fail_redirect_url = $request->fail_redirect_url;
@@ -85,6 +86,7 @@ class ApplicationController extends Controller
      */
     public function destroy(Application $application)
     {
+        $this->authorize('deleteMerchantApplication', $application);
         return $application->delete();
     }
 }

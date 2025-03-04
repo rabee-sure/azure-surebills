@@ -69,9 +69,7 @@ class AutoTransfer extends Resource
      *
      * @var array
      */
-    public static $search = [
-        'id', 'name'
-    ];
+    public static $search = [];
 
     /**
      * Get the fields displayed by the resource.

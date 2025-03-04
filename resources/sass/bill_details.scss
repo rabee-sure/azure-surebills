@@ -707,9 +707,15 @@ a.logo_bills {
             font-size: 13px;
             &:first-child {
               text-align: right;
+              [dir="ltr"] & {
+                text-align: left;
+              } /* ltr */
             } /* first-child */
             &:last-child {
               text-align: left;
+              [dir="ltr"] & {
+                text-align: right;
+              } /* ltr */
             } /* last-child */
           } /* th */
           td {
@@ -719,9 +725,15 @@ a.logo_bills {
             font-size: 13px;
             &:first-child {
               text-align: right;
+              [dir="ltr"] & {
+                text-align: left;
+              } /* ltr */
             } /* first-child */
             &:last-child {
               text-align: left;
+              [dir="ltr"] & {
+                text-align: right;
+              } /* ltr */
             } /* last-child */
           } /* td */
         } /* table */
@@ -748,6 +760,53 @@ a.logo_bills {
         margin-top: 10px;
         max-width: 466px;
       } /* payment_area */
+      .card {
+        .card-header {
+          .payments-icons {
+            img {
+              max-height: 15px;
+            } // img
+          } // payments-icons
+        } // card-header
+        .card-body {
+          #payment-form {
+            .form-group {
+              input {
+                min-height: 40px;
+              } // input
+              select {
+                min-height: 40px;
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23777777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='icon icon-tabler icons-tabler-outline icon-tabler-chevron-down'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M6 9l6 6l6 -6' /%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: left .5rem center;
+                background-size: 18px 18px;
+                [dir="ltr"] & {
+                  background-position: right .5rem center;
+                } // ltr
+              } // select
+            } // form-group
+            .bottom-columns {
+              display: grid;
+              gap: .75rem;
+              grid-template-columns: repeat(3, minmax(0, 1fr));
+              @include media-breakpoint-down(md) {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+              } // md
+            } // bottom-columns
+            button[type="submit"] {
+              min-height: 40px;
+              background-color: #28c76f;
+              box-shadow: 0 0.125rem 0.25rem rgba(165, 163, 174, 0.3);
+              font-size: 15px;
+              transition: .3s;
+              &:hover {
+                background-color: #24b364;
+              } // hover
+            } // button
+          } // payment-form
+        } // card-body
+      } // card
       .qrCode_area {
         border-top: 1px dashed #ddd;
         padding-top: 10px;

@@ -312,6 +312,12 @@
 "this bill is canceled": "This bill is canceled",
 "this bill is expired": "This bill is expired",
 "cvv": "CVV",
+"security code": "Security code",
+"Bill is required":"Bill is required",
+"Invalid bill": "Invalid bill",
+"Invalid card number": "Invalid card number",
+"You can't create a new bill, please contact us on :mobile": "You can't create a new bill, please contact us on :mobile",
+"Invalid security code": "Invalid security code",
 "expiration month": "Expiration month",
 "expiration year": "Expiration year",
 "name on card": "Cardholder name",
@@ -368,5 +374,6 @@
 "Pos users": "POS merchants",
 "Pos user": "POS merchant",
 "You reach the max number of customizations": "You reach the max number of customizations",
-"privacy_policy": "Privacy policy"
+"privacy_policy": "Privacy policy",
+"Print Receipt": "Print Receipt"
 }

@@ -88,20 +88,20 @@
               @if($item->product_parent) @continue @endif
               <tr>
                 <td>
-                    {!! $item->product_name !!}
+                    {{ $item->product_name }}
                     @foreach($item->customizations as $customization)
                     <br>
                     <span class="text-muted">{{$customization->product_name}}</span>
                     @endforeach
                 </td>
                 <td>
-                    <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                      {{ $item->product_price  }}  <span class="riyal-symbol-font">$</span>
-                    </div><!-- d-flex -->
-                    @foreach($item->customizations as $customization)
-                    <br>
-                    <span class="text-muted">{{$customization->product_price}}</span>
-                    @endforeach
+                  <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                    {{ $item->product_price  }}  <span class="riyal-symbol-font">$</span>
+                  </div><!-- d-flex -->
+                  @foreach($item->customizations as $customization)
+                  <br>
+                  <span class="text-muted">{{$customization->product_price}}</span>
+                  @endforeach
                 </td>
                 <td>
                     {{ $item->quantity  }}
@@ -111,7 +111,7 @@
                     @endforeach
                 </td>
                 <td>
-                    @if( $bill->add_tax)
+                @if( $bill->add_tax)
                       <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if(app()->getLocale() == 'ar') justify-content-end @else justify-content-start @endif">
                         {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}  <span class="riyal-symbol-font">$</span>
                       </div><!-- d-flex -->
@@ -132,7 +132,7 @@
           </table>
         </div><!-- table_items -->
         <div class="bill_info">
-          @if( $bill->add_tax || $bill->add_discount)
+        @if( $bill->add_tax || $bill->add_discount)
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-start justify-content-between flex-column">
               <span>{{ __('Total amount') }}</span>
@@ -241,6 +241,14 @@
             </div>
           {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
             <div class="alert alert-warning text-center"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div> --}}
+          @elseif($bill->status == 'rejected')
+            <div class="alert alert-danger text-center">
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been rejected', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been rejected', ['number' => $bill->number ]) }}
+              @endif
+            </div>
           @endif
         </div><!-- status -->
         @if($bill->user->settings->add_tax_invoice)

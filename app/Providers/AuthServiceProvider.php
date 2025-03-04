@@ -21,8 +21,10 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\WebhookLog' => 'App\Policies\WebhookLogPolicy',
         'App\Models\User' => 'App\Policies\UserPolicy',
         'App\Models\Admin' => 'App\Policies\AdminPolicy',
+        'App\Models\Customer' => 'App\Policies\CustomerPolicy',
         'App\Models\Role' => 'App\Policies\RolePolicy',
         'App\Models\Statement' => 'App\Policies\StatementPolicy',
+        'App\Models\Application' => 'App\Policies\ApplicationPolicy',
     ];
 
     /**

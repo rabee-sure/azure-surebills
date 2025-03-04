@@ -64,6 +64,8 @@ class TransferController extends Controller
     {
         $this->authorize('show transfers', $transfer);
 
+        $this->authorize('transactions', $transfer);
+
         $balance_total = $transfer->transactions()
             ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
             ->first();
@@ -156,7 +158,7 @@ class TransferController extends Controller
     {
 
         if(self::hasPendingRefund($request->user_id)){
-            return response()->json(['error' => __('You have pending refund under proccess! please try again later')], 422); 
+            return response()->json(['error' => __('You have pending refund under proccess! please try again later')], 422);
         }
 
         $user = User::find($request->user_id);
@@ -192,7 +194,7 @@ class TransferController extends Controller
             return new TransferResource($transfer);
         }
     }
-    
+
     public function hasPendingRefund($user_id){
         $pending_refund = PaymentLog::where('payment_logs.payment_method', 'mastercard_refund')
             ->where('payment_logs.webhook_response_received', false)
@@ -200,7 +202,7 @@ class TransferController extends Controller
             ->where('bills.user_id', $user_id)
             ->join('bills', 'bills.id', '=', 'payment_logs.bill_id')
             ->count();
-            
+
         if($pending_refund > 0){
             return true;
         }
@@ -264,6 +266,7 @@ class TransferController extends Controller
         $transactions = $user->transactions()
             ->amountByCycleDate($request->cycle_date)
             ->orderBy('created_at', 'ASC')
+            ->orderBy('transaction_source', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC')
             ->with(['bill.application'])
@@ -303,7 +306,7 @@ class TransferController extends Controller
         }
 
         // dispatch job
-        ExportTransferBills::dispatch($transfer, [auth()->user()->email, 'abmostafa@sure.com.sa']);
+        ExportTransferBills::dispatch($transfer, [auth()->user()->email]);
 
         //redirect to index with alert
         return redirect()->back()->with(['success' => __("You export request will be send to your mail just be ready")]);

@@ -74,6 +74,10 @@
             <input type="checkbox" class="w-100 h-100 position-absolute" id="refunded" value="cn_refunded" @if(in_array('cn_refunded', request()->get('statuses', [])) ) checked @endif>
             <span class="d-flex align-items-center justify-content-start">{{ __('Refunded') }}</span>
           </label>
+          <label for="refunded" class="mb-2 mb-md-0 position-relative">
+            <input type="checkbox" class="w-100 h-100 position-absolute" id="rejected" value="rejected" @if(in_array('rejected', request()->get('statuses', [])) ) checked @endif>
+            <span class="d-flex align-items-center justify-content-start">{{ __('Rejected') }}</span>
+          </label>
         </div><!-- checkboxArea -->
       </div><!-- rightCol -->
       <div class="leftCol d-flex align-items-end justify-content-between align-self-stretch flex-column">

@@ -7,7 +7,12 @@
         <div class="col-12">
             <h1>{{ __('Transfers') }}</h1>
             <div class="top-right-button-container">
-                <h3>{{ __('Amount') }} : {{ round($transfer->amount, 2) }} {{__('SAR')}}</h3>
+              <h3 class="d-flex align-items-center justify-content-end gap-1 m-0 fs-6">
+                {{ __('Amount') }} : 
+                <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                {{ round($transfer->amount, 2) }}  <span class="riyal-symbol-font">$</span>
+                </div><!-- d-flex -->
+              </h3>
             </div>
             <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
                 <ol class="breadcrumb pt-0">

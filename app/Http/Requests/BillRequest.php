@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Customer;
+use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Rules\BillTotalValidation;
@@ -46,7 +47,7 @@ class BillRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'customer_name' => ['required', 'string', 'max:50'],
+            'customer_name' => ['required', 'string', 'max:50', 'regex:/^[\p{L}\s]+$/u'],
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
             'customer_notes' => ['nullable'],
             'due_date' => ['required'],
@@ -68,7 +69,9 @@ class BillRequest extends FormRequest
 
         if(request()->send_email == 'on')
         {
-            $rules['customer_email'] = ['required_if:send_email,on', 'email', 'max:50'];
+            $rules['customer_email'] = ['required_if:send_email,on', new EmailFormat, 'max:50'];
+        }else{
+            $rules['customer_email'] = [new EmailFormat, 'max:50'];
         }
 
         return $rules;

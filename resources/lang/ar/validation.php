@@ -236,5 +236,13 @@ return [
         "permissions" => 'الصلاحيات',
         "confirm_password" => "تأكيد كلمة المرور",
         "role" => "الدور",
+        "exp_month" => "شهر انتهاء الصلاحية",
+        "exp_year" =>"سنة انتهاء الصلاحية",
+        "cvv" => "رمز الأمان (CVV)",
+        "card_number" => "رقم البطاقة",
+        'card_expiration_month' => 'شهر انتهاء الصلاحية',
+        'card_expiration_year' => 'سنة انتهاء الصلاحية',
+        'card_cvv' => 'رمز الأمان (CVV)',
+
     ],
 ];

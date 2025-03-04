@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
-use App\Models\Application;
-use Illuminate\Http\Request;
+use App\Models\RefundedBill;
+use App\Models\Transaction;
 
 class HomeController extends Controller
 {
@@ -42,8 +42,11 @@ class HomeController extends Controller
 
         $balance = $user->balance;
 
-        $total_paid_query = clone $bills;
-        $total_paid = $total_paid_query->where('status', 'paid')->sum('total');
+        $total_paid_query = Transaction::whereNotNull('bill_id')->where('user_id', auth()->user()->id)->whereHas('bill', function($q){
+            $q->where('payment_way', 'online');
+        });
+
+        $total_paid = $total_paid_query->where('type', 'credit')->sum('amount') - $total_paid_query->where('type', 'debit')->sum('amount');
 
         $total_bills_query = clone $bills;
         $total_bills = $total_bills_query->count();

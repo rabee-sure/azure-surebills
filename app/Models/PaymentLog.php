@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Bill;
+use App\Services\CyberSourceService;
 use Hashids\Hashids;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ class PaymentLog extends Model
         'results',
         'status',
         'data',
+        'provider_name',
     ];
 
     protected $casts = [
@@ -75,6 +77,12 @@ class PaymentLog extends Model
             'data'           => [],
             'status'         => 0,
         ]);
+
+        // Remove cybersource switch date from refund after 14 days from 2025-02-28
+        if($this->bill->paid_at >= config('cybersource.switch_date') && config('payment.default_payment_gateway') == 'cybersource'){
+            $cyberSourceService = new CyberSourceService;
+            return $cyberSourceService->processRefund($this->bill, $payment, $amount);
+        }
 
         // api link
         $link = config('payment.drivers.mastercard.base_url').'/api/rest/version/58/merchant/'.config('payment.drivers.mastercard.merchant_id').'/order/'.$this->bill->id.'/transaction/'.$payment->id;

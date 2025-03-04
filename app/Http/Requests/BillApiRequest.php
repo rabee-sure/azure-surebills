@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Application;
 use App\Models\Customer;
+use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Rules\BillTotalValidation;
@@ -48,8 +49,8 @@ class BillApiRequest extends FormRequest
                 //     return $query->where('user_id', $application->user_id ?? null)->where('status', 'pending');
                 // })
             ],
-            'customer_name' => ['required', 'string', 'max:50'],
-            'customer_email' => ['required', 'string', 'email', 'max:50'],
+            'customer_name' => ['required', 'string', 'max:50', 'regex:/^[\p{L}\s]+$/u'],
+            'customer_email' => ['required', 'string', new EmailFormat, 'max:50'],
             'customer_mobile' => ['required'],
             'customer_notes' => ['nullable'],
 

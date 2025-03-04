@@ -63,7 +63,7 @@ class VrificationRequests extends Resource
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->vrificationRequest();
+        return $query->vrificationRequest()->where('source', '<>', 'pos');
     }
 
     /**
@@ -141,16 +141,6 @@ class VrificationRequests extends Resource
                 ->displayUsingLabels()
                 ->sortable()
                 ->onlyOnForms(),
-
-            Select::make(__('Gender'), 'gender')
-                ->options([
-                    '0' => '-',
-                    '1' => __('Male'),
-                    '2' => __('Female'),
-                ])
-                ->displayUsingLabels()
-                ->sortable()
-                ->hideFromIndex(),
 
             new Panel(__('Pricing'), $this->pricingFields()),
 
@@ -262,7 +252,7 @@ class VrificationRequests extends Resource
             Text::make(__('Business Name').' en', 'business_name_en')->hideFromIndex(),
             Text::make(__('Business Name').' ar', 'business_name_ar')->hideFromIndex(),
             Text::make(__('Sector'), 'sector')->hideFromIndex(),
-            Textarea::make(__('Business Address'), 'business_address')->hideFromIndex(),
+            Text::make(__('City'), 'business_address')->hideFromIndex(),
             Text::make(__('Mobile'), 'business_mobile')->hideFromIndex(),
             Text::make(__('Website'), 'website')->hideFromIndex(),
         ];

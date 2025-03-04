@@ -96,7 +96,7 @@
           @endif
           <span class="d-block fw-bold mt-3">{{ $bill->user->business_name }}</span>
           @if(isset($bill->user->settings->header_bill))
-            <p class="d-block mb-0">{{ $bill->user->settings->header_bill }}</p>
+            <p class="d-block mb-0 text-break">{{ $bill->user->settings->header_bill }}</p>
           @endif
           <p class="d-block mb-0">{{  $bill->user->business_address }}</p>
           <b class="d-block fw-normal mb-2">{{  $bill->user->business_mobile }}</b>
@@ -164,6 +164,14 @@
             </div>
           {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
             <div class="alert alert-warning text-center"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div> --}}
+          @elseif($bill->status == 'rejected')
+            <div class="alert alert-danger text-center">
+              @if($bill->debit_note_bill_id == null)
+                {{ __('this bill has been rejected', ['number' => $bill->number ]) }}
+              @else
+                {{ __('this debit note has been rejected', ['number' => $bill->number ]) }}
+              @endif
+            </div>
           @endif
         </div><!-- status -->
         <div class="billInfo pt-2 mt-2 borderTop">
@@ -192,7 +200,7 @@
               @if($item->product_parent) @continue @endif
               <tr>
                 <td class="p-1 text-start">
-                    {!! $item->product_name !!}
+                    {{ $item->product_name }}
                     @foreach($item->customizations as $customization)
                     <br>
                     <span class="text-muted">{{$customization->product_name}}</span>
@@ -202,10 +210,10 @@
                   <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
                     {{ $item->product_price  }}  <span class="riyal-symbol-font">$</span>
                   </div><!-- d-flex -->
-                    @foreach($item->customizations as $customization)
-                    <br>
-                    <span class="text-muted">{{$customization->product_price}}</span>
-                    @endforeach
+                  @foreach($item->customizations as $customization)
+                  <br>
+                  <span class="text-muted">{{$customization->product_price}}</span>
+                  @endforeach
                 </td>
                 <td class="p-1 text-center">
                     {{ $item->quantity  }}
@@ -304,7 +312,7 @@
           </div><!-- d-flex -->
         </div><!-- bill_info -->
         @if($bill->customer_notes)
-          <div class="customer_notes pt-2 mt-2 borderTop">{{$bill->customer_notes}}</div>
+          <div class="customer_notes pt-2 mt-2 borderTop text-break">{{$bill->customer_notes}}</div>
         @endif
         @if($bill->user->settings->add_tax_invoice)
           <div class="qrCode mt-2 pt-2 borderTop">
@@ -316,7 +324,7 @@
           </div><!-- qrCode -->
         @endif
         @if(isset($bill->user->settings->footer_bill))
-          <p class="d-block mb-0 mt-2 text-center">{{ $bill->user->settings->footer_bill }}</p>
+          <p class="d-block mb-0 mt-2 text-center text-break">{{ $bill->user->settings->footer_bill }}</p>
         @endif
       </div><!-- showBill -->
     </div><!-- col-12 -->
@@ -353,7 +361,7 @@
           </div><!-- col-12 -->
         </div><!-- row -->
         <div id="printBillBtn" class="d-flex align-items-center justify-content-center mt-3">
-          <span class="d-flex align-items-center justify-content-center text-center border rounded-3 bg-light text-body gap-2">Print Receipt</span>
+          <span class="d-flex align-items-center justify-content-center text-center gap-2 border rounded-3 bg-light text-body">{{ __('Print Receipt') }}</span>
         </div><!-- printBillBtn -->
         <iframe id="ifrPaySlip"  name="ifrPaySlip" scrolling="yes" style="display:none"></iframe>
       </div><!-- viewPrintOptions -->

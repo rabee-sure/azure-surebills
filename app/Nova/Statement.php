@@ -61,6 +61,7 @@ class Statement extends Resource
      */
     public static $orderBy = [
         'created_at' => 'ASC',
+        'transaction_source' => 'ASC',
         'order' => 'ASC',
         'receipt' => 'ASC',
     ];

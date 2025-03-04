@@ -257,7 +257,7 @@
                   <div class="form-group">
                     <label for="Price" class="d-block mb-2">{{ __('Discount Value') }}</label>
                     <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
-                      <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="fixed">{{ __('SAR') }}</div>
+                      <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="fixed"><span class="riyal-symbol-font">$</span></div>
                       <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
                       <input type="tel" name="discount_value" class="form-control shadow-none bg-white border w-100 rounded-3" value="{{old('discount_value')}}" id="Discount_Value" aria-describedby="basic-addon2">
                     </div><!-- inputGroup -->

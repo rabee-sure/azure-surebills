@@ -13,7 +13,7 @@
   if (isset($log->results['transaction']['amount'])) {
       $refund_amount = $log->results['transaction']['amount'];
   } else {
-      $refund_amount = $log->refund_amount;
+      $refund_amount = $log->refunded_amount;
   }
 
   // total amount
@@ -21,8 +21,10 @@
       $total_amount = $log->results['bill']['total'];
   } else if (isset($log->results['transaction']['amount'])) {
       $total_amount = $log->results['transaction']['amount'];
+  } else if(isset($log->results['orderInformation']['amountDetails']['totalAmount'])) {
+      $total_amount = $log->results['orderInformation']['amountDetails']['totalAmount'];
   } else {
-      $total_amount = '---';
+      $total_amount = $log->bill->total;
   }
 
   // last 4 digits
@@ -96,11 +98,11 @@
                 <td>{{__('Amount') }}</td>
                 <td>
                   @if($log->payment_method == 'mastercard_refund')
-                    <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if(app()->getLocale() == 'ar') justify-content-start @else justify-content-end @endif">
+                  <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if(app()->getLocale() == 'ar') justify-content-start @else justify-content-end @endif">
                       {{ $refund_amount }} <span class="riyal-symbol-font">$</span>
                     </div><!-- d-flex -->
                   @else
-                    <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if(app()->getLocale() == 'ar') justify-content-start @else justify-content-end @endif">
+                  <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if(app()->getLocale() == 'ar') justify-content-start @else justify-content-end @endif">
                       {{ $total_amount }} <span class="riyal-symbol-font">$</span>
                     </div><!-- d-flex -->
                   @endif

@@ -95,7 +95,7 @@ class ReportBillExport implements FromQuery, WithHeadings, ShouldQueue, WithCust
         )
         ->whereDate('paid_at', '>=', $report_filters['paid_from'])
         ->whereDate('paid_at', '<=', $report_filters['paid_to'])
-        ->whereIn('bills.status', ['paid', 'refunded']);
+        ->whereIn('bills.status', ['paid', 'refunded', 'rejected']);
 
         if($report_filters['merchants'] == '' && $report_filters['channels'] != '')
         {
@@ -136,7 +136,7 @@ class ReportBillExport implements FromQuery, WithHeadings, ShouldQueue, WithCust
         )
         ->whereDate('paid_at', '>=', $report_filters['paid_from'])
         ->whereDate('paid_at', '<=', $report_filters['paid_to'])
-        ->whereIn('bills.status', ['paid', 'refunded']);
+        ->whereIn('bills.status', ['paid', 'refunded', 'rejected']);
 
         if($report_filters['merchants'] == '' && $report_filters['channels'] != '')
         {

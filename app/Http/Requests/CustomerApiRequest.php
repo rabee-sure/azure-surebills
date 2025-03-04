@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,8 +28,8 @@ class CustomerApiRequest extends FormRequest
         $user = auth('api')->user();
         return [
 
-            'name' => ['required', 'string', 'max:50'],
-            'email' => ['nullable','email', 'max:50',
+            'name' => ['required', 'string', 'max:50', 'regex:/^[\p{L}\s]+$/u'],
+            'email' => ['nullable',new EmailFormat, 'max:50',
                 Rule::unique('customers')->where(function ($query) use ($user){
                     return $query->where('user_id', $user->id);
                 })

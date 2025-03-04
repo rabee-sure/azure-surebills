@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $transactionCheckerInterval = config('cybersource.transaction_checker_command_interval');
         $schedule->command('expire:bill')->everyMinute();
         $schedule->command('delete:uncompleted')->daily();
         $schedule->command('transfer:automatic')->daily();
@@ -31,6 +32,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('bills:check_paid_bills_missing_transactions')->dailyAt('03:00');
         $schedule->command('admin:report_inactive')->quarterly();
         $schedule->command('admin:block_password')->quarterly();
+        if($transactionCheckerInterval && config('cybersource.transaction_checker_active')){
+            $schedule->command('cybersource:get-transaction-details')->cron($transactionCheckerInterval);
+        }
     }
 
     /**

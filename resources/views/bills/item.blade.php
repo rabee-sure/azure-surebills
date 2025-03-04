@@ -59,6 +59,9 @@
           case "failed":
             className = "badge-danger";
             break;
+          case "rejected":
+            className = "badge-danger";
+            break;
           default:
             className = "badge-info";
         }

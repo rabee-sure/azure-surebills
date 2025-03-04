@@ -70,6 +70,7 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
+        $this->authorize('updateMerchantRole', $role);
         return view('roles.edit', compact('role'));
     }
 
@@ -82,6 +83,7 @@ class RolesController extends Controller
      */
     public function update(RoleRequest $request, Role $role)
     {
+        $this->authorize('updateMerchantRole', $role);
         $role->name = $request->name;
         $role->save();
         $role->syncPermissions($request->permissions);
@@ -96,6 +98,7 @@ class RolesController extends Controller
      */
     public function destroy(Role $role)
     {
+        $this->authorize('deleteMerchantRole', $role);
         $role->delete();
         return redirect()->route('roles.index');
     }

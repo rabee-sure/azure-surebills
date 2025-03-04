@@ -54,6 +54,7 @@ class BillStatus extends MultiselectFilter
             __('Paid Machine') => 'paid_machine',
             __('Refunded Machine') => 'refunded_machine',
             __('Failed') => 'failed',
+            __('Rejected') => 'rejected',
         ];
     }
 }

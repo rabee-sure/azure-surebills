@@ -48,10 +48,10 @@ class VerifiedUser
     private function error($request){
         if ($request->wantsJson()) {
             // return JSON-formatted response
-            return response()->json(['authorization' => 'your account not verified and cannot create bill please contant your administrator.'], 401);
+            return response()->json(['authorization' => trans("You can't create a new bill, please contact us on :mobile", ['mobile' => config('app.customer_support_phone')])], 401);
         } else {
             // return HTML response
-            return redirect()->back()->withErrors(['Unauthorized!' => __("your account not verified and cannot create bill please contant your administrator.")]);
+            return redirect()->back()->withErrors(['Unauthorized!' => trans("You can't create a new bill, please contact us on :mobile", ['mobile' => config('app.customer_support_phone')])]);
         }
     }
 }

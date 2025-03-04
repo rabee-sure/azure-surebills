@@ -35,7 +35,7 @@
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="Name" class="d-block mb-2">{{__('Name')}}<span class="requirement text-danger">*</span></label>
-              <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}" value="{{old('name') ?? $user->name}}">
+              <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}" value="{{old('name') ?? $user->name}}" autocomplete="off">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
@@ -43,7 +43,7 @@
               <label for="Mobile" class="d-block mb-2">{{ __('Mobile') }}<span class="requirement text-danger">*</span></label>
               <div class="phoneInput overflow-hidden position-relative">
                 <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
-                <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}" value="{{old('mobile') ?? $user->mobile}}" pattern="[0-9]*" maxlength="9" inputmod="numaric">
+                <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}" value="{{old('mobile') ?? $user->mobile}}" pattern="[0-9]*" maxlength="9" inputmod="numaric" autocomplete="off">
               </div><!-- phoneInput -->
             </div><!-- form-group -->
           </div><!-- col-12 -->
@@ -81,7 +81,7 @@
               <label for="role" class="d-block mb-2">{{__('Role')}}<span class="requirement text-danger">*</span></label>
               <select name="role" id="role" class="form-control shadow-none bg-white border w-100 rounded-3 text-body">
                 @foreach($roles as $role)
-                  <option value="{{$role->id}}" {{$user->roles->first()->id == $role->id || old('role') == $role->id ? 'selected' : ''}}>{{$role->name}}</option>
+                      <option value="{{$role->id}}" {{ optional($user->roles->first())->id == $role->id || old('role') == $role->id ? 'selected' : ''}}>{{$role->name}}</option>
                 @endforeach
               </select>
             </div><!-- form-group -->

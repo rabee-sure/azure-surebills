@@ -17,7 +17,7 @@
       @if($item->product_parent) @continue @endif
       <tr>
         <td @if(app()->getLocale() == 'ar') style="text-align: right;" @else style="text-align: left;" @endif>
-            {!! $item->product_name !!}
+            {{ $item->product_name }}
             @foreach($item->customizations as $customization)
             <br>
             <span style="color: gray;" >{{$customization->product_name}}</span>

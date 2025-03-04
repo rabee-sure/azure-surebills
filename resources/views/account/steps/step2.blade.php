@@ -77,37 +77,37 @@
                 <span class="requirement text-danger">*</span>
                 @endif
             </label>
-            <input value="@if($errors->any()){{old('vat_registration_number')}}@else{{$user->vat_registration_number}}@endif" name="vat_registration_number" type="text" class="form-control rounded-3 shadow-none border" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
+            <input value="@if($errors->any()){{old('vat_registration_number')}}@else{{$user->vat_registration_number}}@endif" name="vat_registration_number" type="text" class="form-control rounded-3 shadow-none border" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}" autocomplete="off">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div id="registry_expiry_date" class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="commercial_registry_expiry_date" class="d-block mb-2">{{ __('Commercial Registry Expiry Date') }} <span class="requirement text-danger">*</span></label>
-            <input value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control shadow-none border rounded-3 expiryDate" placeholder="{{ __('Commercial Registry Expiry Date') }}">
+            <input value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control shadow-none border rounded-3 expiryDate" placeholder="{{ __('Commercial Registry Expiry Date') }}" autocomplete="off">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="business_name_en" class="d-block mb-2">{{ __('Business Name') }} <small class="d-inline-block text-secondary">( EN )</small> <span class="requirement text-danger">*</span></label>
-            <input value="@if($errors->any()){{old('business_name_en')}}@else{{$user->business_name_en}}@endif" name="business_name_en" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)">
+            <input value="@if($errors->any()){{old('business_name_en')}}@else{{$user->business_name_en}}@endif" name="business_name_en" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)" autocomplete="off">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="business_name_ar" class="d-block mb-2">{{ __('Business Name') }} <small class="d-inline-block text-secondary">( AR )</small> <span class="requirement text-danger">*</span></label>
-            <input value="@if($errors->any()){{old('business_name_ar')}}@else{{$user->business_name_ar}}@endif" name="business_name_ar" type="text" class="form-control rounded-3 shadow-none border" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)">
+            <input value="@if($errors->any()){{old('business_name_ar')}}@else{{$user->business_name_ar}}@endif" name="business_name_ar" type="text" class="form-control rounded-3 shadow-none border" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)" autocomplete="off">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="business_address" class="d-block mb-2">{{ __('City') }} <span class="requirement text-danger">*</span></label>
-            <input value="@if($errors->any()){{old('business_address')}}@else{{$user->business_address}}@endif" name="business_address" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_address" placeholder="{{ __('City') }}">
+            <input value="@if($errors->any()){{old('business_address')}}@else{{$user->business_address}}@endif" name="business_address" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_address" placeholder="{{ __('City') }}" autocomplete="off">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="business_address_details" class="d-block mb-2">{{ __('Address') }} <span class="requirement text-danger">*</span></label>
-            <input value="@if($errors->any()){{old('business_address_details')}}@else{{$user->business_address_details}}@endif" name="business_address_details" type="text" class="form-control rounded-3 shadow-none border" id="business_address_details" placeholder="{{ __('Address') }}">
+            <input value="@if($errors->any()){{old('business_address_details')}}@else{{$user->business_address_details}}@endif" name="business_address_details" type="text" class="form-control rounded-3 shadow-none border" id="business_address_details" placeholder="{{ __('Address') }}" autocomplete="off">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
@@ -115,7 +115,7 @@
             <label for="business_mobile" class="d-block mb-2">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
             <div class="phoneInput overflow-hidden position-relative">
               <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
-              <input value="@if($errors->any()){{old('business_mobile')}}@else{{$user->business_mobile}}@endif" name="business_mobile" type="tel" inputmode="numeric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="business_mobile" placeholder="5XXXXXXXX" pattern="[0-9]*" maxlength="9">
+              <input value="@if($errors->any()){{old('business_mobile')}}@else{{$user->business_mobile}}@endif" name="business_mobile" type="tel" inputmode="numeric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="business_mobile" placeholder="5XXXXXXXX" pattern="[0-9]*" maxlength="9" autocomplete="off">
             </div><!-- phoneInput -->
           </div><!-- form-group -->
         </div><!-- col-12 -->
@@ -123,13 +123,13 @@
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="website" class="d-block mb-2">{{ __('Website') }}</label>
-            <input value="@if($errors->any()){{old('website')}}@else{{$user->website}}@endif" name="website"  type="url" inputmode="url" class="form-control rounded-3 shadow-none border" id="website" placeholder="{{ __('Website') }}">
+            <input value="@if($errors->any()){{old('website')}}@else{{$user->website}}@endif" name="website"  type="url" inputmode="url" class="form-control rounded-3 shadow-none border" id="website" placeholder="{{ __('Website') }}" autocomplete="off">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="sector" class="d-block mb-2">{{ __('Sector') }}</label>
-            <input value="@if($errors->any()){{old('sector')}}@else{{$user->sector}}@endif" name="sector" type="text" class="form-control rounded-3 shadow-none border" id="sector" placeholder="{{ __('Sector') }}">
+            <input value="@if($errors->any()){{old('sector')}}@else{{$user->sector}}@endif" name="sector" type="text" class="form-control rounded-3 shadow-none border" id="sector" placeholder="{{ __('Sector') }}" autocomplete="off">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         @endif
@@ -137,7 +137,7 @@
           <div class="form-group mb-3">
             <label for="logo" class="d-block mb-2">{{ __('Logo') }}</label>
             <div class="upoadInput border rounded-3 position-relative overflow-hidden d-flex align-items-center justify-content-start">
-              <input name="logo" type="file" id="logo" class="d-block position-absolute top-0 start-0 w-100 h-100" accept="image/png, image/jpeg, image/jpg">
+              <input name="logo" type="file" id="logo" class="d-block position-absolute top-0 start-0 w-100 h-100" accept="image/png, image/jpeg, image/jpg" autocomplete="off">
               <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
               <div class="fileName h-100 d-flex align-items-center justify-content-start flex-grow-1 px-2"></div>
               <div class="fileBtn text-body d-flex align-items-center justify-content-center fw-bold">{{ __('Choose file') }}</div>
@@ -165,12 +165,12 @@
         </div><!-- col-12 -->
         @endif
       </div><!-- row -->
-      <div class="btnsArea d-flex align-items-center justify-content-center flex-wrap border-top pt-3">
-        <a id="previous" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" href="/account?previous=1">{{__('Previous')}}</a>
+      <div class="btnsArea d-flex align-items-center justify-content-between gap-3 flex-wrap border-top pt-3">
+        <a id="previous" class="d-flex align-items-center justify-content-center btn-light rounded-3 shadow-none fw-bold border-0 px-5" href="/account?previous=1">{{__('Previous')}}</a>
         @if(auth()->user()->source == 'sure bills')
-            <button  id="next" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" type="submit">{{__('Next')}}</button>
+            <button  id="next" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 px-5" type="submit">{{__('Next')}}</button>
         @else
-            <button class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" type="submit">{{__('Finish')}}</button>
+            <button class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 px-5" type="submit">{{__('Finish')}}</button>
         @endif
       </div><!-- btnsArea -->
     </form>

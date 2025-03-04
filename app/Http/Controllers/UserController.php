@@ -119,8 +119,11 @@ class UserController extends Controller
 
     public function getMerchantsettings()
     {
-        $settings = auth()->user()->merchantSettings->where('value',1)->pluck('key');
-        return $settings;
+        if (auth()->check()){
+            $settings = auth()->user()->merchantSettings->where('value',1)->pluck('key');
+            return $settings;
+        }
+        return abort(401);
     }
 
     public function getAuthAdminUser($guard = 'web')

@@ -156,6 +156,9 @@ return [
     'attributes' => [
         "translations_name_en" => "Name en",
         "translations_name_ar" => "Name ar",
+        'card_expiration_month' => 'Expiration month',
+        'card_expiration_year' => 'Expiration Year',
+        'card_cvv' => 'CVV',
 
     ],
 

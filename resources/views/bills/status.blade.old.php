@@ -64,7 +64,7 @@
         @elseif($bill->status == 'canceled')
             <div class="alert alert-danger" role="alert">
               {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
-            </div>          
+            </div>
           @elseif($bill->status == 'failed')
             <div class="alert alert-danger" role="alert">
               {{ __('this bill has been failed', ['number' => $bill->number ]) }}
@@ -76,7 +76,7 @@
         @endif
       </div>
 
-                      
+
           @if($errors->any())
             <div class="alert alert-danger" role="alert">
               {{ __($errors->first()) }}
@@ -99,7 +99,7 @@
               <div class="shopping_cart">
                 @foreach($bill->items as $item)
                   <div class="details_pay">
-                    <p>{!! $item->product_name !!}</p>
+                    <p>{{ $item->product_name }}</p>
                     <b>X {{ $item->quantity  }}</b>
                     <b>{{ $item->product_price  }} {{ __('SAR') }}</b>
                   </div><!-- details_pay -->
@@ -141,7 +141,7 @@
                 <b>{{ $bill->total}}  {{ __('SAR') }}</b>
               </div>
             @endif
-            
+
             @if($bill->application && $bill->status != 'paid')
               <div id="back_btn" class="text-center">
                 <a href="{{ $bill->back_url}}" class="btn btn-light">{{__('Back')}}

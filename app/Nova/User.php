@@ -176,16 +176,6 @@ class User extends Resource
                 ->hideWhenUpdating($this->store_main_user_id ? true : false)
                 ->hideFromDetail($this->store_main_user_id ? true : false),
 
-            Select::make(__('Gender'), 'gender')
-                ->options([
-                    '0' => '-',
-                    '1' => __('Male'),
-                    '2' => __('Female'),
-                ])
-                ->displayUsingLabels()
-                ->sortable()
-                ->hideFromIndex(),
-
             Boolean::make(__('Able Refund'), 'able_refund')
                 ->hideFromIndex()
                 ->hideWhenUpdating($this->store_main_user_id ? true : false)
@@ -307,7 +297,7 @@ class User extends Resource
             Text::make(__('Business Name').' en', 'business_name_en')->hideFromIndex(),
             Text::make(__('Business Name').' ar', 'business_name_ar')->hideFromIndex(),
             Text::make(__('Sector'), 'sector')->hideFromIndex(),
-            Textarea::make(__('Business Address'), 'business_address')->hideFromIndex(),
+            Text::make(__('City'), 'business_address')->hideFromIndex(),
             Text::make(__('Mobile'), 'business_mobile')->hideFromIndex(),
             Text::make(__('Website'), 'website')->hideFromIndex(),
         ];

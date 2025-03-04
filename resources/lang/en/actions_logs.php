@@ -45,5 +45,6 @@ return [
     'create_bank' => ':adminname create bank at :time',
     'update_bank' => ':adminname update bank at :time',
     'delete_bank' => ':adminname delete bank at :time',
+    'user_login' => ':username logged in at :time',
     'update_tax_invoice_request' => ':adminname update tax invoice request at :time',
 ];

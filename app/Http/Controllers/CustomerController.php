@@ -121,6 +121,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
+        $this->authorize('update', $customer);
         $user = User::find(auth()->user()->store_main_user_id ?? auth()->user()->id);
         return view('customers.edit', ['customer' => $customer, 'user' => $user]);
     }
@@ -134,6 +135,7 @@ class CustomerController extends Controller
      */
     public function update(CustomerUpdateRequest $request, Customer $customer)
     {
+        $this->authorize('update', $customer);
         $customer->name = $request->name;
         $customer->email = $request->email;
         $customer->mobile = $request->mobile;
@@ -159,6 +161,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
+        $this->authorize('update', $customer);
         $customer->delete();
         return redirect()->route('customers.index');
     }

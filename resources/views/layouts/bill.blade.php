@@ -33,7 +33,6 @@
         font-weight: bold !important;
       }
     </style>
-
     @stack('styles')
   </head>
   <body>

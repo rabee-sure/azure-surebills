@@ -11,55 +11,55 @@
         @csrf
         <div class="form-group mb-3">
           <label for="Name" class="d-block mb-1">{{__('Name')}} <span class="requirement text-danger">*</span></label>
-          <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}">
+          <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}" autocomplete="off">
         </div>
         <div class="form-group mb-3">
           <label for="Mobile" class="d-block mb-1">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
           <div class="phoneInput overflow-hidden position-relative">
             <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
-            <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}"  pattern="[0-9]*" maxlength="9" inputmod="numaric">
+            <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}"  pattern="[0-9]*" maxlength="9" inputmod="numaric" autocomplete="off">
           </div><!-- phoneInput -->
         </div>
         <div class="form-group mb-3">
           <label for="Email" class="d-block mb-1">{{__('Email')}}</label>
-          <input  name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}">
+          <input  name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" autocomplete="off">
         </div>
         <div class="form-group mb-3">
           <label for="Notes" class="d-block mb-1">{{__('Customer Notes')}}</label>
-          <input name="notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Notes" placeholder="{{__('Customer Notes')}}">
+          <input name="notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Notes" placeholder="{{__('Customer Notes')}}" autocomplete="off">
         </div>
         @if($user->settings->add_tax_invoice)
           <div class="form-group mb-3">
               <label for="bullding_no" class="d-block mb-1">{{__('Building Number')}}</label>
-              <input name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('Building Number')}}">
+              <input name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('Building Number')}}" autocomplete="off">
           </div>
           <div class="form-group mb-3">
               <label for="street_name" class="d-block mb-1">{{__('Street Name')}}</label>
-              <input name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('Street Name')}}">
+              <input name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('Street Name')}}" autocomplete="off">
           </div>
           <div class="form-group mb-3">
               <label for="district" class="d-block mb-1">{{__('District')}}</label>
-              <input name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('District')}}">
+              <input name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('District')}}" autocomplete="off">
           </div>
           <div class="form-group mb-3">
               <label for="city" class="d-block mb-1">{{__('City')}}</label>
-              <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('City')}}">
+              <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('City')}}" autocomplete="off">
           </div>
           <div class="form-group mb-3">
               <label for="postal_code" class="d-block mb-1">{{__('Postal Code')}}</label>
-              <input name="postal_code" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('Postal Code')}}">
+              <input name="postal_code" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('Postal Code')}}" autocomplete="off">
           </div>
           <div class="form-group mb-3">
               <label for="additional_no" class="d-block mb-1">{{__('Additional Number')}}</label>
-              <input name="additional_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('Additional Number')}}">
+              <input name="additional_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('Additional Number')}}" autocomplete="off">
           </div>
           <div class="form-group mb-3">
               <label for="other_buyer_id" class="d-block mb-1">{{__('Additional ID')}}</label>
-              <input name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('Additional ID')}}">
+              <input name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('Additional ID')}}" autocomplete="off">
           </div>
           <div class="form-group mb-3">
               <label for="vat_registration_number" class="d-block mb-1">{{__('VAT Registration Number (optional)')}}</label>
-              <input name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('VAT Registration Number (optional)')}}">
+              <input name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('VAT Registration Number (optional)')}}" autocomplete="off">
           </div>
         @endif
       </div>

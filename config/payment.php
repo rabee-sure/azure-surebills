@@ -1,5 +1,11 @@
 <?php
 return [
+
+    'default_payment_gateway' => env('DEFAULT_PAYMENT_GATEWAY', 'cybersource'),
+    'bill_form_signature_secret_key' => env('BILL_FORM_SIGNATURE_SECRET_KEY', '22e33eab07cadb3c13fe4256ff4f2245679c006b5e03d1072e8ac784a75df8de'),
+    'invoice_subdomain' => env('INVOICE_SUBDOMAIN'),
+    'invoice_subdomain_url' => env('INVOICE_SUBDOMAIN_URL'),
+    
     /*
     |--------------------------------------------------------------------------
     | Default Driver
@@ -26,20 +32,20 @@ return [
     'drivers' => [
         'hyperpay' => [
             /* normal api */
-            'access_token'     => env('HYPERPAY_TOKEN', 'OGFjOWE0Y2I2Y2ZiMjdkYzAxNmQzNDFkOWJhZTQ0YzF8dHhRazdHZVpSWg=='),
-            'entity_id'        => env('HYPERPAY_ENTITY_ID', '8ac9a4cb6cfb27dc016d3422a55644f7'),
+            'access_token'     => env('HYPERPAY_TOKEN'),
+            'entity_id'        => env('HYPERPAY_ENTITY_ID'),
             'api_purchase_url' => env('HYPERPAY_API_URL', 'https://test.oppwa.com/v1/payments'),
         ],
         'hyperpay_iframe' => [
             /* normal api */
-            'access_token' => env('HYPERPAY_TOKEN', 'OGFjOWE0Y2I2Y2ZiMjdkYzAxNmQzNDFkOWJhZTQ0YzF8dHhRazdHZVpSWg=='),
-            'entity_id'    => env('HYPERPAY_ENTITY_ID', '8ac9a4cb6cfb27dc016d3422a55644f7'),
+            'access_token' => env('HYPERPAY_TOKEN'),
+            'entity_id'    => env('HYPERPAY_ENTITY_ID'),
             'api_base_url' => env('HYPERPAY_BASE_URL', 'https://test.oppwa.com/v1'),
         ],
         'hyperpay_applepay' => [
             /* normal api */
-            'access_token' => env('HYPERPAY_APPLEPAY_TOKEN', 'OGFjOWE0Y2I2Y2ZiMjdkYzAxNmQzNDFkOWJhZTQ0YzF8dHhRazdHZVpSWg=='),
-            'entity_id'    => env('HYPERPAY_APPLEPAY_ENTITY_ID', '8ac9a4cb6cfb27dc016d3422a55644f7'),
+            'access_token' => env('HYPERPAY_APPLEPAY_TOKEN'),
+            'entity_id'    => env('HYPERPAY_APPLEPAY_ENTITY_ID'),
             'api_base_url' => env('HYPERPAY_APPLEPAY_BASE_URL', 'https://test.oppwa.com/v1'),
         ],
         'mastercard' => [
@@ -66,7 +72,11 @@ return [
             'api_base_url'         => env('MASTERCARD_APPLEPAY_COMPLETE_PAYMENT'),
             'operator_username'    => env('MASTERCARD_OPERATOR_USERNAME'),
             'operator_password'    => env('MASTERCARD_OPERATOR_PASSWORD'),
-        ],        
+        ],
+        'cybersource_applepay' => [
+            'applepay_merchant_id' => env('CYBERSOURCE_APPLEPAY_MERCHANT_ID'),
+            'domain'               => env('CYBERSOURCE_APPLEPAY_DOMAIN'),
+        ],
         'stcpay' => [
             'merchant_id'          => env('MASTERCARD_APPLEPAY_MASTERCARD_MERCHANT_ID'),
         ],

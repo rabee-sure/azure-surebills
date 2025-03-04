@@ -14,7 +14,7 @@ use Spatie\WebhookServer\Events\WebhookCallSucceededEvent;
 class SaveWebhookSucceededLog implements ShouldQueue
 {
     use IsMonitored;
-    
+
     /**
      * Create the event listener.
      *
@@ -42,7 +42,12 @@ class SaveWebhookSucceededLog implements ShouldQueue
         $log->application_id = $bill->application_id??null;
         $log->error_message = $event->errorMessage ?? '';
         $log->status_code = $event->response? $event->response->getStatusCode():0;
-        $log->response = $event->response? json_decode($event->response->getBody(), true): [];
+        $log->response = [];
+        try {
+            $log->response =  json_decode($event->response->getBody(), true);
+        } catch (\Throwable $exception) {
+            $log->response = [];
+        }
         $log->payload = $event->payload;
         $log->save();
 

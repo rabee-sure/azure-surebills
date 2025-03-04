@@ -54,7 +54,7 @@
         <div class="form_group mb-3">
           <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('email') is-invalid @enderror">
             <span class="d-flex align-items-center justify-content-center h-100 fal fa-envelope"></span>
-            <input id="email" type="email" class="bg-white border-0 h-100 flex-grow-1 text-body" name="email" inputmode="email" value="{{ old('email') }}" autocomplete="email" placeholder="{{ __('E-Mail Address') }}" autofocus />
+            <input id="email" type="email" class="bg-white border-0 h-100 flex-grow-1 text-body" name="email" inputmode="email" value="{{ old('email') }}" autocomplete="off" placeholder="{{ __('E-Mail Address') }}" autofocus />
           </div><!-- inputIcon -->
           @error('email')
             <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>

@@ -30,7 +30,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Http\Controllers\ResetPasswordController;
-
+use App\Http\Controllers\Nova\NovaLoginController;
+use Laravel\Nova\Http\Controllers\LoginController;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -44,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+        $this->app->bind(LoginController::class, NovaLoginController::class);
         $this->app->bind(ResetPasswordController::class, NovaResetPasswordController::class);
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'nova');
     }
@@ -58,7 +60,7 @@ class AppServiceProvider extends ServiceProvider
         if(config('app.env') === 'production') {
             \URL::forceScheme('https');
         }
-        
+
         // Model::preventLazyLoading(! app()->isProduction());
 
         \Spatie\NovaTranslatable\Translatable::defaultLocales(['en', 'ar']);

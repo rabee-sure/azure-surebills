@@ -6,6 +6,7 @@ use Salla\ZATCA\Tags\InvoiceTaxAmount;
 use Salla\ZATCA\Tags\InvoiceTotalAmount;
 use Salla\ZATCA\Tags\Seller;
 use Salla\ZATCA\Tags\TaxNumber;
+use Illuminate\Support\Str; 
 
 if (!function_exists('getMastercardError')) {
     function getMastercardError($response)
@@ -159,7 +160,8 @@ if (!function_exists('round2')) {
     function round2($number)
     {
         $resualt = round($number, 2);
-        return $resualt > 0 ? $resualt:0;
+        return $resualt;
+        // return $resualt > 0 ? $resualt:0;
     }
 }
 
@@ -213,5 +215,13 @@ if(!function_exists('monthsCounter')){
         $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
 
        return $diff;
+    }
+}
+
+if(!function_exists('generateSecureOTP')){
+    function generateSecureOTP() {
+        $randomBytes = random_bytes(2); // 2 bytes = 16 bits, enough for 0-9999
+        $randomNumber = unpack('n', $randomBytes)[1] % 10000;
+        return Str::padLeft($randomNumber, 4, '0');
     }
 }

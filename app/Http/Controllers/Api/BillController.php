@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\BillCreated;
 use App\Events\BillStatusUpdated;
+use App\Helpers\BillSignatureHelper;
+use App\Helpers\CybersourceMicroformHandlerHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\CheckBillApiRequest;
@@ -69,7 +71,7 @@ class BillController extends Controller
             'status' => 'pending',
             'application_id' => $application->id,
 
-            'business_name' => $user->business_name,
+            'business_name' => $user->store_main_user_id ? $user->mainStoreUser->business_name : $user->business_name,
             'customer_id' => $customer->id,
 
             'customer_name' => $request->customer_name,
@@ -189,6 +191,15 @@ class BillController extends Controller
            ], 422);
         }
 
+        if(!in_array($mainBill->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine'])){
+            return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'authorization' =>[__("can't create debit note bill for not paid bill")]
+                ]
+           ], 422);
+        }
+
         $send_sms = 0;
         $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
 
@@ -198,7 +209,7 @@ class BillController extends Controller
             'status' => 'pending',
             'application_id' => $application->id,
 
-            'business_name' => $user->business_name,
+            'business_name' => $mainBill->business_name,
             'customer_id' => $mainBill->customer_id,
 
             'customer_name' => $mainBill->customer_name,
@@ -478,6 +489,15 @@ class BillController extends Controller
            ], 422);
         }
 
+        if($bill->status != 'pending'){
+           return response()->json([
+                "message" => "The given data was invalid.",
+                'errors' => [
+                    'credential' =>[__("can't cancel this bill")]
+                ]
+           ], 422);
+        }
+
         if(isset($application) && $application->user_id == $bill->user_id){
             if($bill->status != 'canceled' && $bill->status != 'paid'){
                 $bill->status = 'canceled';
@@ -664,8 +684,10 @@ class BillController extends Controller
             'application_secret' => ['required'],
             'bill_id' => ['required'],
             'lang' => ['required', 'in:en,ar'],
+            'host' => ['required'],
         ]);
 
+        $host = $request->host;
         $id = $request->bill_id;
         $lang = $request->lang;
 
@@ -708,14 +730,25 @@ class BillController extends Controller
             ->addHours($bill->expiry_hours)
             ->format('m/d/Y H:i:s');
 
+        $years = [];
         $sureEasyRendrer = true;
-
-        if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
-            return response()->json(['view' => view('bills.pay', compact('bill', 'id', 'countdown', 'sureEasyRendrer'))->render()]);
- 
+        $microformSessionToken = $billSignature = $payTime = null;
+        if(config('payment.default_payment_gateway') == 'cybersource')
+        {
+            $years = range(date('Y'), date('Y') + 10);
+            // $microformSessionToken = CybersourceMicroformHandlerHelper::retrieveMicroformToken($request->host);
+            $payTime = now()->unix();
+            $billSignature = BillSignatureHelper::generateSignature($bill, $payTime);
+            $payForm = 'bills.cybersource_pay_form';
         }
-
-        return response()->json(['view' => view('bills.payment_page', compact('bill', 'id', 'countdown', 'sureEasyRendrer'))->render()]);
- 
+        else
+        {
+            $payForm = 'bills.mastercard_pay_form';
+        }
+        if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
+            return response()->json(['view' => view('bills.pay', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'))->render()]);
+        }
+        
+        return response()->json(['view' => view('bills.payment_page', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'))->render()]); 
     }
 }

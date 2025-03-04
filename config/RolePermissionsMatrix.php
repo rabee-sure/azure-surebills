@@ -8,7 +8,7 @@ return [
     'cancel bill',
     'refund bill',
 
-    'show pos',
+    // 'show pos',
 
     'show customers',
     'create customer',
@@ -26,16 +26,6 @@ return [
     'create application',
     'update application',
     'delete application',
-
-    'show products',
-    'create product',
-    'update product',
-    'delete product',
-
-    'show product categories',
-    'create product category',
-    'update product category',
-    'delete product category',
 
     'show users',
     'create user',

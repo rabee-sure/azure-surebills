@@ -91,4 +91,13 @@ class BillPolicy
     {
         //
     }
+
+    public function checkPermission($user, Bill $bill)
+    {
+        $mainUserID = $user->store_main_user_id == null ? $user->id : $user->store_main_user_id;
+        if (($bill->user_id == $mainUserID) or in_array($bill->user_id, $user->users->pluck('id')->toArray())) {
+            return true;
+        }
+        return false;
+    }
 }

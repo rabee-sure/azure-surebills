@@ -17,7 +17,7 @@ class ReportsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:show payment record', ['only' => ['paymentRecord']]);
+        $this->middleware('permission:show payment record', ['only' => ['paymentRecord', 'paymentRecordExport']]);
     }
 
     public function index(Request $request)
@@ -37,7 +37,7 @@ class ReportsController extends Controller
         $dateRange = explode(' - ', $request->dates);
         $from = date('Y-m-d', strtotime($dateRange[0]));
         $to = date('Y-m-d', strtotime($dateRange[1]));
-        
+
         $paramsArr = array();
         $paramsArr['merchants'] = implode('","', $request->merchants);
         $paramsArr['from'] = $from;
@@ -54,7 +54,7 @@ class ReportsController extends Controller
         ]);
 
         GenerateReport::dispatch($report->id);
-        
+
         return redirect()->route('reports.merchants-outstanding');
     }
 
@@ -70,13 +70,12 @@ class ReportsController extends Controller
                 'all' => 'All',
                 'cash' => 'Cash',
                 'online' => 'Online',
-                'payment_machine' => 'Payment Machine', 
-                'bank_transfer' => 'Bank Transfer', 
+                // 'payment_machine' => 'Payment Machine',
+                'bank_transfer' => 'Bank Transfer',
             ],
             'sources' => [
                 'all' => 'All',
                 'sure_bill' => 'Sure Bill',
-                'pos' => 'POS',
                 'api' => 'API',
             ]
         ];
@@ -87,11 +86,11 @@ class ReportsController extends Controller
 
         $allQuery = $query->get();
         $paginatedQuery = $query->paginate(100);
-        
+
         $data['payments'] = $paginatedQuery;
 
-        $credit = $allQuery->where('transaction_source', 'bill')->sum('amount');
-        $debit = $allQuery->where('transaction_source', 'refund')->sum('amount');
+        $credit = $allQuery->whereIn('transaction_source', ['bill', 'refund'])->where('type', 'credit')->sum('amount');
+        $debit = $allQuery->whereIn('transaction_source', ['bill', 'refund'])->where('type', 'debit')->sum('amount');
         $data['total'] = $credit - $debit;
 
         return view('reports.payment-record', $data);

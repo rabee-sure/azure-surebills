@@ -47,5 +47,6 @@ return [
     'create_bank' => 'Create bank',
     'update_bank' => 'Update bank',
     'delete_bank' => 'Delete bank',
+    'user_login' => 'User login',
     'update_tax_invoice_request' => 'Update tax invoice request',
 ];

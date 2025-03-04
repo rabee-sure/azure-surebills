@@ -61,7 +61,10 @@ class TransferBillsExportData implements FromQuery, WithHeadings, WithMapping, S
         $transactions = Transaction::select('id', 'created_at', 'description', 'reference', 'receipt', 'card', 'card_brand', DB::raw("(CASE WHEN type = 'credit' THEN amount ELSE 0 END) AS credit"), DB::raw("(CASE WHEN type = 'debit' THEN amount ELSE 0 END) AS debit"), 'balance')
                         ->join('transaction_transfer', 'transactions.id', 'transaction_transfer.transaction_id')
                         ->where('transaction_transfer.transfer_id', $this->transfer->id)
-                        ->orderBy('transactions.created_at');
+                        ->orderBy('created_at')
+                        ->orderBy('transaction_source', 'ASC')
+                        ->orderBy('order')
+                        ->orderBy('receipt');
 
         return $transactions;
     }

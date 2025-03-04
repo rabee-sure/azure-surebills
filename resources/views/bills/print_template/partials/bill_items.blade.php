@@ -16,20 +16,20 @@
       @if($item->product_parent) @continue @endif
       <tr>
         <td class="p-1 text-start">
-            {!! $item->product_name !!}
+            {{ $item->product_name }}
             @foreach($item->customizations as $customization)
             <br>
             <span class="text-muted">{{$customization->product_name}}</span>
             @endforeach
         </td>
         <td class="p-1 text-center">
-          <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-            {{ $item->product_price  }} <span class="riyal-symbol-font">$</span>
-          </div><!-- d-flex -->
-          @foreach($item->customizations as $customization)
-          <br>
-          <span class="text-muted">{{$customization->product_price}}</span>
-          @endforeach
+            <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+              {{ $item->product_price  }} <span class="riyal-symbol-font">$</span>
+            </div><!-- d-flex -->
+            @foreach($item->customizations as $customization)
+            <br>
+            <span class="text-muted">{{$customization->product_price}}</span>
+            @endforeach
         </td>
         <td class="p-1 text-center">
             {{ $item->quantity  }}
@@ -39,7 +39,7 @@
             @endforeach
         </td>
         <td class="p-1 text-end">
-          @if( $bill->add_tax)
+        @if( $bill->add_tax)
             <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if($lang == 'ar') justify-content-end @else justify-content-start @endif">
               {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}  <span class="riyal-symbol-font">$</span>
             </div><!-- d-flex -->

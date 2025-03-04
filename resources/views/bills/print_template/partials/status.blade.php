@@ -60,4 +60,12 @@
     </div>
 {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
     <div class="alertMsg text-center fw-bold refunded"> {{ __('this bill has been refunded', ['number' => $bill->number ],$lang) }}</div> --}}
+@elseif($bill->status == 'rejected')
+    <div class="alertMsg text-center fw-bold canceled"> 
+        @if($bill->debit_note_bill_id == null)
+        {{ __('this bill has been rejected', ['number' => $bill->number ], $lang) }}
+        @else
+        {{ __('this debit note has been rejected', ['number' => $bill->number ], $lang) }}
+        @endif
+    </div>
 @endif

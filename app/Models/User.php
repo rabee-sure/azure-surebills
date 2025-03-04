@@ -327,7 +327,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function sendMobileCode()
     {
-        $mobile_active_code = str_pad(rand(0, pow(10, 4) - 1), 4, '0', STR_PAD_LEFT);
+        $mobile_active_code = generateSecureOTP();
         $this->mobile_sent_at = Carbon::now();
         $this->mobile_active_code = !app()->environment('production') ? '0000' : $mobile_active_code;
         $this->save();
@@ -364,8 +364,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function getGravatarAttribute()
     {
-        $hash = md5(strtolower(trim($this->attributes['email'])));
-        return "https://www.gravatar.com/avatar/$hash";
+        return url('images/avatar.jpg');
     }
 
     /**
@@ -498,6 +497,11 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(User::class, 'store_main_user_id', 'id');
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class, 'store_main_user_id', 'id');
+    }
+
     /**
      * Get bank.
      *
@@ -547,6 +551,7 @@ class User extends Authenticatable implements HasMedia
     {
         return Transaction::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
             ->orderBy('created_at', 'ASC')
+            ->orderBy('transaction_source', 'ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('receipt', 'ASC');
     }

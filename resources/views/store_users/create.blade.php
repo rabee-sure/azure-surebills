@@ -12,13 +12,13 @@
         @method('post')
         <div class="form-group mb-3">
           <label for="Name" class="d-block mb-2">{{__('Name')}}<span class="requirement text-danger">*</span></label>
-          <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}">
+          <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}" autocomplete="off">
         </div>
         <div class="form-group mb-3">
           <label for="Mobile" class="d-block mb-2">{{__('Mobile')}}<span class="requirement text-danger">*</span></label>
           <div class="phoneInput overflow-hidden position-relative">
             <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
-            <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}"  pattern="[0-9]*" maxlength="9" inputmod="numaric">
+            <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}"  pattern="[0-9]*" maxlength="9" inputmod="numaric" autocomplete="off">
           </div><!-- phoneInput -->
         </div>
         <div class="form-group mb-3">
@@ -27,11 +27,11 @@
         </div>
         <div class="form-group mb-3">
           <label for="Password" class="d-block mb-2">{{__('Password')}}<span class="requirement text-danger">*</span></label>
-          <input name="password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Password" placeholder="{{__('Password')}}">
+          <input name="password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Password" placeholder="{{__('Password')}}" autocomplete="off">
         </div>
         <div class="form-group mb-3">
           <label for="Confirm Password" class="d-block mb-2">{{__('Confirm Password')}}<span class="requirement text-danger">*</span></label>
-          <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}">
+          <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}" autocomplete="off">
         </div>
         {{-- <div class="form-group mb-3">
           <label class="d-block mb-2">{{__('Gander')}}<span class="requirement text-danger">*</span></label>

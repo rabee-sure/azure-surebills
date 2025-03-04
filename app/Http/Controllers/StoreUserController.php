@@ -7,6 +7,7 @@ use App\Http\Resources\UserPermissionResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 class StoreUserController extends Controller
 {
@@ -49,28 +50,29 @@ class StoreUserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'password' => bcrypt($request->password),
-            'email' => $request->email,
-            'mobile' => $request->mobile,
-            'gender' => $request->gender,
-            'gender' => $request->gender,
-            'mobile_verified' => 1,
-            'store_main_user_id' => auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->id : auth()->user()->id,
-        ]);
+        DB::transaction(function () use ($request) {
+            $user = User::create([
+                'name' => $request->name,
+                'last_name' => $request->last_name,
+                'password' => bcrypt($request->password),
+                'email' => $request->email,
+                'mobile' => $request->mobile,
+                'mobile_verified' => 1,
+                'store_main_user_id' => auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->id : auth()->user()->id,
+            ]);
 
-        $user->verified = $user->mainStoreUser ? $user->mainStoreUser->verified : 0;
-        $user->able_refund = $user->mainStoreUser ? $user->mainStoreUser->able_refund : 0;
-        $user->vat_inclusive = $user->mainStoreUser ? $user->mainStoreUser->vat_inclusive : 0;
-        $user->able_refund_with_fees = $user->mainStoreUser ? $user->mainStoreUser->able_refund_with_fees : 0;
-        $user->auto_trnasfer = $user->mainStoreUser ? $user->mainStoreUser->auto_trnasfer : 0;
-        $user->disable_business_documents = $user->mainStoreUser ? $user->mainStoreUser->disable_business_documents : 0;
-        $user->disable_bank_documents = $user->mainStoreUser ? $user->mainStoreUser->disable_bank_documents : 0;
-        $user->save();
+            $user->verified = $user->mainStoreUser ? $user->mainStoreUser->verified : 0;
+            $user->able_refund = $user->mainStoreUser ? $user->mainStoreUser->able_refund : 0;
+            $user->vat_inclusive = $user->mainStoreUser ? $user->mainStoreUser->vat_inclusive : 0;
+            $user->able_refund_with_fees = $user->mainStoreUser ? $user->mainStoreUser->able_refund_with_fees : 0;
+            $user->auto_trnasfer = $user->mainStoreUser ? $user->mainStoreUser->auto_trnasfer : 0;
+            $user->disable_business_documents = $user->mainStoreUser ? $user->mainStoreUser->disable_business_documents : 0;
+            $user->disable_bank_documents = $user->mainStoreUser ? $user->mainStoreUser->disable_bank_documents : 0;
+            $user->save();
 
-        $role = Role::find($request->role);
-        $user->assignRole($request->role);
+            $role = Role::find($request->role);
+            $user->assignRole($role);
+        });
         return redirect()->route('users.index');
     }
 
@@ -93,6 +95,7 @@ class StoreUserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('checkPermission', $user);
         $roles = Role::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         return view('store_users.edit', compact('user', 'roles'));
     }
@@ -106,23 +109,28 @@ class StoreUserController extends Controller
      */
     public function update(StoreUserRequest $request, User $user)
     {
-        if($request->filled('password'))
-        {
-            $user->password = bcrypt($request->password);
-        }
+        $this->authorize('checkPermission', $user);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->mobile = $request->mobile;
-        $user->gender = $request->gender;
-        $user->save();
+        DB::transaction(function () use ($request, $user) {
+            if($request->filled('password'))
+            {
+                $user->password = bcrypt($request->password);
+            }
 
-        if($request->has('role'))
-        {
-            $user->roles()->detach();
-            $role = Role::find($request->role);
-            $user->assignRole($role);
-        }
+            $user->name = $request->name;
+            $user->last_name = $request->last_name;
+            $user->email = $request->email;
+            $user->mobile = $request->mobile;
+            $user->gender = $request->gender;
+            $user->save();
+
+            if($request->has('role'))
+            {
+                $user->roles()->detach();
+                $role = Role::find($request->role);
+                $user->assignRole($role);
+            }
+        });
 
         return redirect()->route('users.index');
     }
@@ -135,10 +143,7 @@ class StoreUserController extends Controller
      */
     public function destroy(User $user)
     {
-        if($user->getRoleNames()->first() == 'super admin' || $user->id == auth()->user()->id)
-        {
-            abort(403);
-        }
+        $this->authorize('checkPermission', $user);
         $user->delete();
         return redirect()->route('users.index');
     }

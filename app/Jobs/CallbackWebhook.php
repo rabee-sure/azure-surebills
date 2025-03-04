@@ -39,7 +39,7 @@ class CallbackWebhook implements ShouldQueue
             'verify' => false
         ]);
 
-        if (!$this->bill->webhook_url) {
+        if (!$this->bill->webhook_url or !filter_var($this->bill->webhook_url, FILTER_VALIDATE_URL) or !isset(parse_url($this->bill->webhook_url)['host'])) {
             return true;
         }
 

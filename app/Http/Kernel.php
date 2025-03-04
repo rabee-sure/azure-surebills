@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\LanguageMiddleware::class,
+            \App\Http\Middleware\RedirectToMainDomainMiddleware::class,
         ],
 
         'api' => [
@@ -75,8 +76,8 @@ class Kernel extends HttpKernel
         'Mutli.auth' => \App\Http\Middleware\MultiAuth::class,
         'verified.user' => \App\Http\Middleware\VerifiedUser::class,
         'valid_signture' => \App\Http\Middleware\EnsureSigntureIsValid::class,
-        'zatca.api' => \App\Http\Middleware\ZatcaApi::class,
+        'validate.referer' => \App\Http\Middleware\ValidateReferer::class,
         'redirect.to.subdomain' => \App\Http\Middleware\RedirectToSubDomainMiddleware::class,
-
+        'zatca.api' => \App\Http\Middleware\ZatcaApi::class,
     ];
 }

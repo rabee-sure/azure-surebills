@@ -74,6 +74,10 @@
           <div id="status">
             <div class="alert alert-warning"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div>
           </div><!-- status --> --}}
+        @elseif($bill->status == 'rejected')
+          <div id="status">
+            <div class="alert alert-danger"> {{ __('this bill has been rejected', ['number' => $bill->number ]) }}</div>
+          </div>
         @endif
         @if(isset($errors) && $errors->any())
           <div class="anyErrors alert alert-danger" role="alert">{{ __($errors->first()) }}</div>
@@ -133,21 +137,21 @@
               @foreach($bill->items as $item)
               @if($item->product_parent) @continue @endif
               <tr>
-                <td class="text-start">
-                    {!! $item->product_name !!}
+                <td>
+                    {{ $item->product_name }}
                     @foreach($item->customizations as $customization)
                     <br>
                     <span class="text-muted">{{$customization->product_name}}</span>
                     @endforeach
                 </td>
                 <td>
-                    <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                      {{ $item->product_price  }}  <span class="riyal-symbol-font">$</span>
-                    </div><!-- d-flex -->
-                    @foreach($item->customizations as $customization)
-                    <br>
-                    <span class="text-muted">{{$customization->product_price}}</span>
-                    @endforeach
+                  <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                    {{ $item->product_price  }}  <span class="riyal-symbol-font">$</span>
+                  </div><!-- d-flex -->
+                  @foreach($item->customizations as $customization)
+                  <br>
+                  <span class="text-muted">{{$customization->product_price}}</span>
+                  @endforeach
                 </td>
                 <td>
                     {{ $item->quantity  }}
@@ -179,7 +183,7 @@
         </div><!-- table_items -->
         <div class="bill_info">
           @if( $bill->add_tax || $bill->add_discount)
-            <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-start justify-content-between flex-column">
                 <span>{{ __('Total amount') }}</span>
                 @if( $bill->add_tax)
@@ -200,7 +204,7 @@
           </div><!-- d-flex -->
           @endif
           @if( $bill->user->pay_fees == 'client')
-            <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('payment fees') }}</span>
               <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
                 {{ $bill->payment_fees }}  <span class="riyal-symbol-font">$</span>
@@ -208,7 +212,7 @@
             </div><!-- d-flex -->
           @endif
           @if( $bill->add_tax)
-            <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center justify-content-between">
               <span>{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }}</span>
               <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
                 {{ $bill->vat }}  <span class="riyal-symbol-font">$</span>
@@ -216,7 +220,7 @@
             </div><!-- d-flex -->
           @endif
           @if( $bill->channel_extra_amount)
-            <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center justify-content-between">
               <span>{{$bill->channel_extra_title}}</span>
               <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
                 {{ $bill->channel_extra_amount }}  <span class="riyal-symbol-font">$</span>

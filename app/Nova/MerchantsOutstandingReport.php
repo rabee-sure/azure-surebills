@@ -39,9 +39,7 @@ class MerchantsOutstandingReport extends Resource
      *
      * @var array
      */
-    public static $search = [
-        'auto_transfer_id'
-    ];
+    public static $search = [];
 
     /**
      * Get the fields displayed by the resource.

@@ -29,7 +29,6 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email,NULL,id,deleted_at,NULL'],
             'mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/','unique:users,mobile,NULL,id,deleted_at,NULL'],
-            // 'gender' => ['required', Rule::in(1,2)],
             'password' => ['required', 'string', 'min:8', new PasswordRule],
             'confirm_password' =>  ['required', 'same:password'],
         ];

@@ -7,15 +7,7 @@ use App\Jobs\MakeTransactionsForChannel;
 use App\Jobs\MakeTransactionsForChannelExtraFees;
 use App\Jobs\MakeTransactionsForOwner;
 use App\Jobs\MakeTransactionsForSureBills;
-use App\Jobs\SendTransactionToSPS;
-use App\Mail\SendBillPaidToCustomer;
-use App\Models\Bill;
-use App\Models\PaymentLog;
 use App\Models\Transaction;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class CalculatePayment
 {

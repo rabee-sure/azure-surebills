@@ -208,4 +208,11 @@ class TransferPolicy
         return true;
     }
 
+    public function transactions($user, Transfer $transfer){
+        $mainUserID = $user->store_main_user_id == null ? $user->id : $user->store_main_user_id;
+        if (($transfer->user_id == $mainUserID) or in_array($transfer->user_id, $user->users->pluck('id')->toArray())) {
+            return true;
+        }
+        return false;
+    }
 }

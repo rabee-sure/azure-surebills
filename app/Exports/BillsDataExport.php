@@ -134,6 +134,9 @@ class BillsDataExport implements FromQuery, WithHeadings, WithMapping, ShouldQue
             $billssQuery = $billssQuery->whereIn('bills.status', $this->filter['status']);
         }
 
+        if(!empty($this->filter['ids'])){
+            $billssQuery = $billssQuery->whereIn('bills.id', $this->filter['ids']);
+        }
 
         if($this->filter['application_id'] == 1){
             $billssQuery = $billssQuery->whereNotNull('bills.application_id');

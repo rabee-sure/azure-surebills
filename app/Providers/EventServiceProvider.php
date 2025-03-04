@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Listeners\PreventEmailBeforeDate;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\Event;
 use Spatie\WebhookServer\Events\WebhookCallFailedEvent;
 use Spatie\WebhookServer\Events\WebhookCallSucceededEvent;
@@ -58,6 +60,15 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\BillPartialRefunded' => [
             'App\Listeners\CalculatePartialRefundedPayment',
         ],
+        'App\Events\BillPaidReversed' => [
+            'App\Listeners\CalculateReversedPayment',
+        ],
+        'App\Events\BillRefundedReversed' => [
+            'App\Listeners\CalculateReversedRefundedPayment',
+        ],
+        'App\Events\BillPartialRefundedReversed' => [
+            'App\Listeners\CalculateReversedPartialRefundedPayment',
+        ],
         'App\Events\BillOfflineRefunded' => [
             'App\Listeners\CalculateOfflineRefundedPayment',
         ],
@@ -97,6 +108,9 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogSuccessfulLogin',
         ],
+        MessageSending::class => [
+            'App\Listeners\PreventEmailBeforeDate',
+        ],    
     ];
 
     /**

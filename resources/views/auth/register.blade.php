@@ -45,7 +45,7 @@
               <div class="form_group mb-3">
                 <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('business_name_en') is-invalid @enderror">
                   <span class="d-flex align-items-center justify-content-center h-100 fal fa-user-tie"></span>
-                  <input id="business_name_en" type="text" class="bg-white border-0 h-100 flex-grow-1 text-body" name="business_name_en" value="{{ old('business_name_en') }}" autocomplete="business_name_en" placeholder="{{ __('Business Name') }}" autofocus />
+                  <input id="business_name_en" type="text" class="bg-white border-0 h-100 flex-grow-1 text-body" name="business_name_en" value="{{ old('business_name_en') }}" placeholder="{{ __('Business Name') }}" autocomplete="off" autofocus />
                 </div><!-- inputIcon -->
                 @error('business_name_en')
                   <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
@@ -56,7 +56,7 @@
               <div class="form_group mb-3">
                 <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('name') is-invalid @enderror">
                   <span class="d-flex align-items-center justify-content-center h-100 fal fa-user"></span>
-                  <input id="name" type="text" class="bg-white border-0 h-100 flex-grow-1 text-body" name="name" value="{{ old('name') }}" placeholder="{{ __('Full Name') }}" autocomplete="name" autofocus/>
+                  <input id="name" type="text" class="bg-white border-0 h-100 flex-grow-1 text-body" name="name" value="{{ old('name') }}" placeholder="{{ __('Full Name') }}" autocomplete="off" autofocus/>
                 </div><!-- inputIcon -->
                 @error('name')
                   <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
@@ -67,7 +67,7 @@
               <div class="form_group mb-3">
                 <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('email') is-invalid @enderror">
                   <span class="d-flex align-items-center justify-content-center h-100 fal fa-envelope"></span>
-                  <input id="email" type="email" inputmode="email" class="bg-white border-0 h-100 flex-grow-1 text-body" name="email" value="{{ old('email') }}" placeholder="{{ __('E-Mail Address') }}" autocomplete="email" />
+                  <input id="email" type="email" inputmode="email" class="bg-white border-0 h-100 flex-grow-1 text-body" name="email" value="{{ old('email') }}" placeholder="{{ __('E-Mail Address') }}" autocomplete="off" />
                 </div><!-- inputIcon -->
                 @error('email')
                   <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
@@ -78,7 +78,7 @@
               <div class="form_group mb-3">
                 <div class="inputIcon inputPhone d-flex align-items-center justify-content-center rounded overflow-hidden border @error('mobile') is-invalid @enderror">
                   <span class="d-flex align-items-center justify-content-center h-100 fal fa-phone"></span>
-                  <input name="mobile" class="bg-white border-0 h-100 flex-grow-1 text-body" name="mobile" id="mobile" type="tel" pattern="[0-9]*" maxlength="9" inputmod="numaric" placeholder="{{ __('Mobile Number') }}" value="{{ old('mobile') }}" />
+                  <input name="mobile" class="bg-white border-0 h-100 flex-grow-1 text-body" name="mobile" id="mobile" type="tel" pattern="[0-9]*" maxlength="9" inputmod="numaric" placeholder="{{ __('Mobile Number') }}" value="{{ old('mobile') }}" autocomplete="off" />
                   <div class="codeNum d-flex align-items-center justify-content-center h-100 text-body bg-white">+966</div>
                 </div><!-- inputIcon -->
                 @error('mobile')
@@ -90,7 +90,7 @@
               <div class="form_group mb-3">
                 <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('password') is-invalid @enderror">
                   <span class="d-flex align-items-center justify-content-center h-100 fal fa-lock-alt"></span>
-                  <input id="password" type="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password" placeholder="{{ __('Password') }}" autocomplete="new-password"/>
+                  <input id="password" type="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password" placeholder="{{ __('Password') }}" autocomplete="off" />
                 </div><!-- inputIcon -->
                 @error('password')
                   <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
@@ -101,7 +101,7 @@
               <div class="form_group mb-3">
                 <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('password') is-invalid @enderror">
                   <span class="d-flex align-items-center justify-content-center h-100 fal fa-lock-alt"></span>
-                  <input id="password-confirm" type="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password_confirmation" placeholder="{{ __('Confirm Password') }}" autocomplete="new-password"/>
+                  <input id="password-confirm" type="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password_confirmation" placeholder="{{ __('Confirm Password') }}" autocomplete="off" />
                 </div><!-- inputIcon -->
                 @error('password')
                   <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>

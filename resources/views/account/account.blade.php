@@ -92,14 +92,14 @@
         </div><!-- col -->
       @endcan
 
-      @can('show products')
+      {{-- @can('show products')
         <div class="col">
           <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
             <i class="fal fa-boxes"></i>
             <span class="d-block mt-3 text-center">{{__('Products')}}</span>
           </a>
         </div><!-- col -->
-      @endcan
+      @endcan --}}
       @can('show applications')
         <div class="col">
           <a href="{{ route('integration') }}" title="{{ __('Integration') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">

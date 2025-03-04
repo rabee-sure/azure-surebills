@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use PaymentHelper;
+use App\Helpers\PaymentHelper;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\Customer;
@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use App\Payment\Facades\Payment;
 use App\Events\BillStatusUpdated;
 use App\Events\RequestMerchantBillsExport;
+use App\Helpers\BillSignatureHelper;
+use App\Helpers\CybersourceMicroformHandlerHelper;
 use App\Http\Requests\BillRequest;
 use App\Http\Requests\DebitNoteRequest;
 use Illuminate\Support\Facades\DB;
@@ -67,7 +69,9 @@ class BillController extends Controller
                 $q->whereIn('status', $statuses);
             })
             ->when($request->keyword, function ($q) use ($request) {
-                $q->whereLike(['customer_name', 'number', 'user.name', 'user.business_name_en', 'user.business_name_ar'], str_replace("DN", "", $request->keyword));
+                foreach (explode( ' - ',trim(str_replace(["DN", __('Bill')], "", $request->keyword))) as $item){
+                    $q = $q->whereLike(['customer_name', 'number', 'user.name', 'user.business_name_en', 'user.business_name_ar'], '%'. trim($item) . '%');
+                }
             })
             ->when($date_start, function ($q) use ($date_start, $date_to) {
                 $q->whereDate('created_at', '>=', Carbon::parse($date_start))
@@ -80,7 +84,9 @@ class BillController extends Controller
             $q->whereIn('status', $statuses);
         })
         ->when($request->keyword, function ($q) use ($request) {
-            $q->whereLike(['customer_name', 'number'], str_replace("CN", "", $request->keyword));
+            foreach (explode( ' - ',trim(str_replace(["CN", __('Bill')], "", $request->keyword))) as $item){
+                $q = $q->whereLike(['customer_name', 'number'], '%'. trim($item) . '%');
+            }
         })
         ->when($date_start, function ($q) use ($date_start, $date_to) {
             $q->whereDate('created_at', '>=', Carbon::parse($date_start))
@@ -114,7 +120,7 @@ class BillController extends Controller
             abort(403);
         }
         $bill = Bill::find($bill_id);
-
+        $this->authorize('checkPermission', $bill);
         if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine'])){
             $settings = Settings::userId($bill->user_id)->first();
             return view('bills.debit_notes.create', compact(['settings', 'bill']));
@@ -159,7 +165,7 @@ class BillController extends Controller
                 'user_id' => $user->store_main_user_id ?? $user->id,
                 'created_by' => $user->id,
                 'status' => 'pending',
-                'business_name' => $user->business_name,
+                'business_name' => $user->store_main_user_id ? $user->mainStoreUser->business_name : $user->business_name,
                 'customer_id' => $customer->id,
                 'customer_name' => $request->customer_name,
                 'customer_email' => $request->customer_email,
@@ -245,6 +251,7 @@ class BillController extends Controller
         }
 
         $mainBill = Bill::find($request->bill_id);
+        $this->authorize('checkPermission', $mainBill);
 
         if($mainBill->debit_note_bill_id == null && in_array($mainBill->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine'])){
             $bill = DB::transaction(function () use ($request, $mainBill) {
@@ -254,7 +261,7 @@ class BillController extends Controller
                     'user_id' => $user->store_main_user_id ?? $user->id,
                     'created_by' => $user->id,
                     'status' => 'pending',
-                    'business_name' => $user->business_name,
+                    'business_name' => $mainBill->business_name,
                     'customer_id' => $mainBill->customer_id,
                     'customer_name' => $mainBill->customer_name,
                     'customer_email' => $mainBill->customer_email,
@@ -346,6 +353,7 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
+        $this->authorize('checkPermission', $bill);
         $title = $bill->debit_note_bill_id == null ? __('Bill No.') : __('Debit Note No.');
 
         $debitNotes = Bill::where('debit_note_bill_id', $bill->id)
@@ -371,6 +379,7 @@ class BillController extends Controller
 
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
+            session()->put('user-lang', $lang);
         } else {
             \App::setLocale($bill->user->settings->default_lang);
         }
@@ -404,11 +413,25 @@ class BillController extends Controller
             ->addHours($bill->expiry_hours)
             ->format('m/d/Y H:i:s');
 
+        $years = [];
+        $microformSessionToken = $billSignature = $payTime = null;
+        if(config('payment.default_payment_gateway') == 'cybersource')
+        {
+            $years = range(date('Y'), date('Y') + 10);
+            // $microformSessionToken = CybersourceMicroformHandlerHelper::retrieveMicroformToken();
+            $payTime = now()->unix();
+            $billSignature = BillSignatureHelper::generateSignature($bill, $payTime);
+            $payForm = 'bills.cybersource_pay_form';
+        }
+        else
+        {
+            $payForm = 'bills.mastercard_pay_form';
+        }
         if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
-            return view('bills.pay', compact('bill', 'id', 'countdown'));
+            return view('bills.pay', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'));
         }
 
-        return view('bills.payment_page', compact('bill', 'id', 'countdown'));
+        return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'));
     }
 
     /**
@@ -477,6 +500,11 @@ class BillController extends Controller
     public function cancel($id, Request $request)
     {
         $bill = Bill::find($id);
+        $this->authorize('checkPermission', $bill);
+
+        if($bill->status != 'pending'){
+            return redirect()->back()->with('error', __('You cannot cancel this bill'));
+        }
 
         if ($bill->status != 'paid') {
             $bill->status = 'canceled';
@@ -497,6 +525,7 @@ class BillController extends Controller
     public function changeStatus($id, Request $request)
     {
         $bill = Bill::find($id);
+        $this->authorize('checkPermission', $bill);
 
         if ($bill->status == 'pending') {
             $bill->status = $request->status;
@@ -517,6 +546,7 @@ class BillController extends Controller
     public function refund($id, RefundRequest $request)
     {
         $bill = Bill::find($id);
+        $this->authorize('checkPermission', $bill);
 
         \Log::channel('refunded_transactions')->info("refunded transaction from BillController at refund method ", array($bill->id, $request->amount));
 
@@ -592,12 +622,16 @@ class BillController extends Controller
     public function invoice($id, $lang = null)
     {
         $bill = Bill::decodeId($id);
+        $this->authorize('checkPermission', $bill);
+
         return view('bills.invoice', compact('bill', 'id'));
     }
 
     public function billPrint($id, Request $request)
     {
         $bill = Bill::find($id);
+        $this->authorize('checkPermission', $bill);
+
         $type = $request->input('type');
         $lang = $request->input('lang');
         if($type == 'billA4' && $lang == 'en'){
@@ -632,7 +666,7 @@ class BillController extends Controller
         }
 
         // dispatch job
-        ExportMerchantBills::dispatch($filter, [auth()->user()->email, 'abmostafa@sure.com.sa']);
+        ExportMerchantBills::dispatch($filter, [auth()->user()->email]);
 
         //redirect to index with alert
         return redirect()->back()->with(['success' => __("You export request will be send to your mail just be ready")]);

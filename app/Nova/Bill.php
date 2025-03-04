@@ -140,6 +140,7 @@ class Bill extends Resource
             'paid_bank_transfer' =>  __('Paid Bank Transfer'),
             'paid_machine' =>  __('Paid Machine'),
             'failed' =>  __('Failed'),
+            'rejected' =>  __('Rejected'),
         ];
         return [
 
@@ -164,6 +165,7 @@ class Bill extends Resource
                     'paid_machine' => '#3e884f',
                     'refunded_machine' => '#b69329',
                     'failed' => '#c43d4b',
+                    'rejected' => '#c43d4b',
                 ])->displayUsingLabels(),
 
             Text::make(__('Url'), 'pay_url')
@@ -348,10 +350,8 @@ class Bill extends Resource
     public function actions(Request $request)
     {
         return [
-            (new BillsExcelDownload(Auth::user()->email, $request->toArray()))->standalone()->canRun(function (NovaRequest $request) {
-                return true;
+            (new BillsExcelDownload(Auth::user()->email, $request->toArray()))->canRun(function (NovaRequest $request) {                return true;
             }),
-            // (new DownloadExcel)->withHeadings(),
         ];
     }
 

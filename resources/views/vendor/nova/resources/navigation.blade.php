@@ -120,7 +120,7 @@
       @endif
     @endforeach
 
-    @can('show merchants')
+    {{-- @can('show merchants')
     <li class="sidebar-dropdown">
         <router-link :to="{ name: 'index', params: {resourceName: 'pos-users'}}" class="flex items-center font-normal text-white mb-6 text-base no-underline dim">
             <svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -129,7 +129,7 @@
             <span class="sidebar-label">{{ __('Pos users') }} </span>
         </router-link>
     </li>
-    @endcan
+    @endcan --}}
 
 
     @canany(['show system admins', 'show roles'])

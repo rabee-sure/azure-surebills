@@ -21,15 +21,15 @@
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="password" class="d-block mb-2">{{ __('Current Password') }} <span class="requirement">*</span></label>
-              <input id="password" type="password" name="current_password" autocomplete="current-password" class="form-control rounded-3 shadow-none border" placeholder="{{ __('Current Password') }}">
+              <input id="password" type="password" name="current_password" autocomplete="off" class="form-control rounded-3 shadow-none border" placeholder="{{ __('Current Password') }}">
             </div>
             <div class="form-group mb-3">
               <label for="_confirmation" class="d-block mb-2">{{ __('New Password') }} <span class="requirement">*</span></label>
-              <input id="new_password" type="password" class="form-control rounded-3 shadow-none border" name="new_password" autocomplete="current-password" placeholder="{{ __('New Password') }}">
+              <input id="new_password" type="password" class="form-control rounded-3 shadow-none border" name="new_password" autocomplete="off" placeholder="{{ __('New Password') }}">
             </div>
             <div class="form-group mb-3">
               <label for="new_password_confirmation" class="d-block mb-2">{{ __('Re-type New Password') }} <span class="requirement">*</span></label>
-              <input id="new_password_confirmation" type="password" class="form-control rounded-3 shadow-none border" name="new_password_confirmation" autocomplete="current-password" placeholder="{{__('Re-type New Password') }}">
+              <input id="new_password_confirmation" type="password" class="form-control rounded-3 shadow-none border" name="new_password_confirmation" autocomplete="off" placeholder="{{__('Re-type New Password') }}">
             </div>
           </div><!-- col-12 -->
         </div><!-- row -->

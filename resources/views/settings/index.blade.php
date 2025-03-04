@@ -34,7 +34,7 @@
       <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3 p-3">
         <form method="POST" action="{{ route('post.settings') }}" class="repeater" id="settings">
           @csrf
-          <div class="name d-block mb-4 fw-bold fs-6">{{ __('Taxs') }}</div>
+          <div class="name d-block mb-4 fw-bold fs-6">{{ __('Taxes') }}</div>
           <div class="row">
             <div class="col-12 col-md-6">
               <label for="Tax_Values_Checkbox" class="checkboxItem position-relative mb-3 mb-md-0">

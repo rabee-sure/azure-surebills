@@ -48,7 +48,7 @@
                 <th scope="col" class="text-center">{{__('Name')}}</th>
                 <th scope="col" class="text-center">{{__('Mobile')}}</th>
                 <th scope="col" class="text-center">{{__('Email')}}</th>
-                <th scope="col" class="text-center">{{__('Gender')}}</th>
+                {{-- <th scope="col" class="text-center">{{__('Gender')}}</th> --}}
                 <th scope="col" class="text-center">{{__('Role')}}</th>
                 @canany(['update user', 'delete user'])
                   <th scope="col" class="text-center" width="10%">{{__('Actions')}}</th>
@@ -62,7 +62,7 @@
                   <td class="text-center">{{$user->name}}</td>
                   <td class="text-center">{{$user->mobile}}</td>
                   <td class="text-center">{{$user->email}}</td>
-                  <td class="text-center">{{$user->gender == 1 ? __('Male') : __('female')}}</td>
+                  {{-- <td class="text-center">{{$user->gender == 1 ? __('Male') : __('female')}}</td> --}}
                   <td class="text-center">{{$user->getRoleNames()->first()}}</td>
                   @canany(['update user', 'delete user'])
                     <td class="text-center">

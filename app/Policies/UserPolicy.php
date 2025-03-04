@@ -91,4 +91,13 @@ class UserPolicy
     {
         return $admin->can('delete merchant');
     }
+
+    public function checkPermission(User $user, User $model)
+    {
+        $mainUser = $user->store_main_user_id == null ? $user : $user->mainStoreUser;
+        if (($model->id == $mainUser->id) or in_array($model->id, $mainUser->users->pluck('id')->toArray()) or ($model->store_main_user_id == $user->store_main_user_id)) {
+            return true;
+        }
+        return false;
+    }
 }

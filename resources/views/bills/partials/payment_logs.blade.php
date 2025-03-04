@@ -8,6 +8,7 @@
             <th scope="col" class="text-center border p-2 bg-light fw-normal">{{__('ID') }}</th>
             <th scope="col" class="text-center border p-2 bg-light fw-normal">{{__('Values') }}</th>
             <th scope="col" class="text-center border p-2 bg-light fw-normal">{{__('Date created') }}</th>
+            <th scope="col" width="10%" class="text-center border p-2 bg-light fw-normal">{{__('Type') }}</th>
             <th scope="col" width="10%" class="text-center border p-2 bg-light fw-normal">{{__('Status') }}</th>
           </tr>
         </thead>
@@ -25,7 +26,7 @@
               if (isset($log->results['transaction']['amount'])) {
                   $refund_amount = $log->results['transaction']['amount'];
               } else {
-                  $refund_amount = $log->refund_amount;
+                  $refund_amount = $log->refunded_amount;
               }
 
               // total amount
@@ -33,8 +34,10 @@
                   $total_amount = $log->results['bill']['total'];
               } else if (isset($log->results['transaction']['amount'])) {
                   $total_amount = $log->results['transaction']['amount'];
+              } else if(isset($log->results['orderInformation']['amountDetails']['totalAmount'])) {
+                  $total_amount = $log->results['orderInformation']['amountDetails']['totalAmount'];
               } else {
-                  $total_amount = '---';
+                  $total_amount = $bill->total;
               }
             @endphp
             <tr>
@@ -69,8 +72,13 @@
             <td class="text-center p-2 border">
               @if($log->payment_method == 'mastercard_refund')
                 <span class="badge badge-pill badge-warning bill_status_badge">{{ __('Refund') }}</span>
-              @elseif($log->status == true)
-                <span class="badge badge-pill badge-success bill_status_badge">{{ __('Paid') }}</span> 
+              @elseif($log->payment_method != 'mastercard_refund')
+                <span class="badge badge-pill badge-success bill_status_badge">{{ __('Paid') }}</span>
+              @endif
+            </td>
+            <td class="text-center p-2 border">
+              @if($log->status == true)
+                <span class="badge badge-pill badge-success bill_status_badge">{{ __('Successfull') }}</span>
               @else
                 <span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span>
               @endif

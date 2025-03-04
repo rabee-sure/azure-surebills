@@ -43,6 +43,7 @@ return [
     'send_to_sps' => ':adminname ارسل التحويل رقم :id الى SPS بمبلغ :amount لحساب :username في :time',
     'update_general_setting' => ':adminname حدث :fields_group في :time',
     'create_bank' => ':adminname أنشئ بنك في :time',
+    'user_login' => ' تم عمل تسجيل دخول بواسطه :username في وقت :time',
     'update_bank' => ':adminname حدث بنك في :time',
     'delete_bank' => ':adminname حذف بنك في :time',
     'update_tax_invoice_request' => ':adminname حدث طلب فاتورة ضريبة في :time',

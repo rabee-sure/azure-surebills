@@ -12,6 +12,8 @@
       <span id="status-{{$id}}"  class="badge badge-pill badge-success bill_status_badge">{{ __('Paid')}}</span>
     @elseif($status == 'failed')
       <span id="status-{{$id}}"  class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed')}}</span>
+    @elseif($status == 'rejected')
+      <span id="status-{{$id}}"  class="badge badge-pill badge-danger bill_status_badge">{{ __('Rejected')}}</span>
     @elseif($status == 'paid_cash')
         <span id="status-{{$id}}"  class="badge badge-pill badge-success bill_status_badge">{{ __('Paid Cash')}}</span>
     @elseif($status == 'paid_bank_transfer')

@@ -27,7 +27,6 @@ class AccountInformationRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email,'.auth()->user()->id.',id' ],
-            // 'gender' => ['required'],
         ];
     }
 }

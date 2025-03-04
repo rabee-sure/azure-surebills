@@ -24,19 +24,19 @@
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="inputEmail1" class="d-block mb-2">{{ __('Full Name')}} <div class="text-danger d-inline-block">*</div></label>
-            <input name="name" type="text" class="form-control rounded-3 shadow-none border" id="inputEmail1" placeholder="{{ __('Full Name')}}" value="{{ $user->name }}">
+            <input name="name" type="text" class="form-control rounded-3 shadow-none border" id="inputEmail1" placeholder="{{ __('Full Name')}}" value="{{ $user->name }}" autocomplete="off">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="inputEmail2" class="d-block mb-2">{{ __('Email')}} <div class="text-danger d-inline-block">*</div></label>
-            <input name="email" type="email" class="form-control rounded-3 shadow-none border" id="inputEmail2" placeholder="{{ __('Email')}}" value="{{ $user->email }}" >
+            <input name="email" type="email" class="form-control rounded-3 shadow-none border" id="inputEmail2" placeholder="{{ __('Email')}}" value="{{ $user->email }}" autocomplete="off">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="inputEmail2" class="d-block mb-2">{{ __('Mobile Number')}}</label>
-            <input name="mobile" type="tel" class="form-control" id="inputEmail3" placeholder="+966 {{ __('Mobile Number')}}" disabled="" value="+966 {{ $user->mobile }}" dir="ltr">
+            <input name="mobile" type="tel" class="form-control" id="inputEmail3" placeholder="+966 {{ __('Mobile Number')}}" disabled="" value="+966 {{ $user->mobile }}" dir="ltr" autocomplete="off">
           </div><!-- form-group -->
         </div><!-- col-12 -->
         {{-- <div class="col-12 col-md-6">
@@ -50,9 +50,9 @@
           </div><!-- form-group -->
         </div><!-- col-12 --> --}}
       </div><!-- row -->
-      <div class="btnsArea d-flex align-items-center justify-content-center flex-wrap border-top pt-3">
-        <button id="previous" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0" type="button">{{__('Previous')}}</button>
-        <button id="next" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-3" type="submit">{{__('Next')}}</button>
+      <div class="btnsArea d-flex align-items-center justify-content-end gap-3 flex-wrap border-top pt-3">
+        <!-- <button id="previous" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0" type="button">{{__('Previous')}}</button> -->
+        <button id="next" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 px-5" type="submit">{{__('Next')}}</button>
         <!-- <button id="finish" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0" type="submit">{{__('Finish')}}</button> -->
       </div><!-- btnsArea -->
     </form>

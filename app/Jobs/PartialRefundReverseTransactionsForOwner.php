@@ -1,0 +1,98 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Models\Bill;
+use App\Models\PaymentLog;
+use App\Models\Transaction;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
+class PartialRefundReverseTransactionsForOwner 
+{
+    use Dispatchable, SerializesModels;
+
+    protected $bill;
+
+    protected $log;
+
+    protected $amount;
+
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
+    public function __construct(Bill $bill, $log, $amount)
+    {
+        $this->bill = $bill;
+        $this->log = $log;
+        $this->amount = $amount;
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        $percentage = $this->bill->pricing['fees_percentage'];
+        $fixed = $this->bill->pricing['fees_fixed'];
+
+        $payment_fees = $this->amount * ($percentage / 100);
+        $payment_fees_vat = $payment_fees * ($this->bill->pricing['vat_percentage'] / 100);
+
+        $order_max = Transaction::where('bill_id', $this->bill->id)->max('order');
+
+        $dash = $this->bill->customer_name ? '-' : '';
+
+        $transaction = new Transaction;
+        $transaction->user_id     = $this->bill->user_id;
+        $transaction->bill_id     = $this->bill->id;
+        $transaction->type        = 'credit';
+        $transaction->amount      = $this->amount;
+        $transaction->reference   = $this->bill->number;
+        $transaction->description = 'PARTIAL REFUND Bill ' . $this->bill->number .' '.$dash.' '. $this->bill->customer_name.' - reverse transaction for failed refund';
+        $transaction->auth_id     = $this->log->bank_transaction_id;
+        $transaction->card_brand  = $this->log->brand;
+        $transaction->card        = $this->log->card_number;
+        $transaction->transaction_source = 'refund';
+        $transaction->order = $order_max+1;
+        $transaction->save();
+
+        \Log::channel('refunded_transactions')->info("refunded transaction from job PartialRefundReverseTransactionsForOwner", array($this->bill->id, $this->amount));
+        
+        if($this->bill->user->able_refund_with_fees){
+            //withdrawBillFees
+            $transaction = new Transaction;
+            $transaction->user_id     = $this->bill->user_id;
+            $transaction->bill_id     = $this->bill->id;
+            $transaction->type        = 'debit';
+            $transaction->amount      = $payment_fees;
+            $transaction->reference   = $this->bill->number;
+            $transaction->description = 'PARTIAL REFUND Fee Reverse Transaction For Failed Refund';
+            $transaction->transaction_source = 'refund';
+            $transaction->order = $order_max+2;
+            $transaction->save();
+
+            //withdrawBillVat
+            $transaction = new Transaction;
+            $transaction->user_id     = $this->bill->user_id;
+            $transaction->bill_id     = $this->bill->id;
+            $transaction->type        = 'debit';
+            $transaction->amount      = $payment_fees_vat;
+            $transaction->reference   = $this->bill->number;
+            $transaction->description = 'PARTIAL REFUND VAT Reverse Transaction For Failed Refund';
+            $transaction->transaction_source = 'refund';
+            $transaction->order = $order_max+2;
+            $transaction->save();
+        }
+
+        $this->log->webhook_response_received = true;
+        $this->log->save();
+    }
+}

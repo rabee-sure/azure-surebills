@@ -28,6 +28,8 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'customer_support_phone' => env('CUSTOMER_SUPPORT_PHONE_NUMBER', '8001110102'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

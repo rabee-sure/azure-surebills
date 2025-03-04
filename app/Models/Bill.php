@@ -17,10 +17,11 @@ use App\Events\BillPartialRefunded;
 use App\Events\BillOfflinePartialRefunded;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\BillTransactionConfirmed;
+use Laravel\Sanctum\HasApiTokens;
 
 class Bill extends Model
 {
-    use UsesUuid;
+    use UsesUuid, HasApiTokens;
 
     protected $fillable = [
         'status',
@@ -178,7 +179,6 @@ class Bill extends Model
     public function getIsAbleRefundAttribute()
     {
         $ableToRefund = false;
-
         if(in_array($this->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine'])){
             $ableToRefund = $this->user->able_refund
             && $this->total > 0
@@ -190,6 +190,7 @@ class Bill extends Model
             }
 
         }
+        
         return $ableToRefund;
     }
 
@@ -285,7 +286,7 @@ class Bill extends Model
      */
     public function getPayUrlAttribute()
     {
-        return route('paybillpagelang', ['id' => $this->pay_id, 'lang' => app()->getLocale()]);
+        return route('bill.invoice.lang.subdomain', ['id' => $this->pay_id, 'lang' => app()->getLocale()]);
     }
 
     /**

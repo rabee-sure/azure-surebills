@@ -39,6 +39,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::serving(function () {
             Role::observe(RoleObserver::class);
             Admin::observe(AdminObserver::class);
+            Nova::script('media-lib-images-field', asset('js/media-lib-images-field.js?v='.time()));
         });
 
         Nova::userTimezone(function (Request $request) {
@@ -129,7 +130,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         ];
 
-        if(request()->user()->hasRole('super admin'))
+        if(request()->user()->canAny(['show banks', 'show webhook logs']))
         {
             $tools[] = new SettingsTool;
         }

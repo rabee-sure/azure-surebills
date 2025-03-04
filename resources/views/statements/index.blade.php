@@ -83,15 +83,15 @@
               @endswitch
             </option>
             <option value="all">{{ __('All') }}</option>
+            <option value="bill">{{ __('Bill') }}</option>
+            @if(count($channels))
+              <option value="channel_fees">{{ __('Channel Fees') }}</option>
+              <option value="channel_vat">{{ __('Channel VAT') }}</option>
+            @endif
+            <option value="fees">{{ __('Bill Fees') }}</option>
+            <option value="vat">{{ __('Bill VAT') }}</option>
             @if(request()->transaction_type == 'credit')
-              <option value="bill">{{ __('Bill') }}</option>
-              @if(count($channels))
-                <option value="channel_fees">{{ __('Channel Fees') }}</option>
-                <option value="channel_vat">{{ __('Channel VAT') }}</option>
-              @endif
             @elseif(request()->transaction_type == 'debit')
-              <option value="fees">{{ __('Bill Fees') }}</option>
-              <option value="vat">{{ __('Bill VAT') }}</option>
               <option value="transfer">{{ __('Transfer') }}</option>
             @endif
             <option value="refund">{{ __('Refunded') }}</option>

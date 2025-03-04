@@ -48,7 +48,7 @@
                 <span class="requirement text-danger">*</span>
                 @endif
             </label>
-              <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control rounded-3 shadow-none border" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}">
+              <input value="{{ $user->vat_registration_number }}" name="vat_registration_number" type="text" class="form-control rounded-3 shadow-none border" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}" autocomplete="off">
             </div>
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4" id="registry_expiry_date" @if($user->license_type != 'Commercial Record')style="display: none;"@endif>
@@ -60,32 +60,36 @@
                 @else
                   value="{{ Carbon\Carbon::now()->format('d/m/Y') }}"
                 @endif
-                name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control rounded-3 shadow-none border expiryDate" placeholder="{{ __('Commercial Registry Expiry Date') }}"
+                name="commercial_registry_expiry_date"
+                id="commercial_registry_expiry_date"
+                class="form-control rounded-3 shadow-none border expiryDate"
+                placeholder="{{ __('Commercial Registry Expiry Date') }}"
+                autocomplete="off"
               >
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="business_name_en" class="d-block mb-2">{{ __('Business Name') }} <small class="d-inline-block text-secondary">( EN )</small> <span class="requirement text-danger">*</span></label>
-              <input value="{{ $user->business_name_en }}" name="business_name_en" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)">
+              <input value="{{ $user->business_name_en }}" name="business_name_en" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)" autocomplete="off">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="business_name_ar" class="d-block mb-2">{{ __('Business Name') }} <small class="d-inline-block text-secondary">( AR )</small> <span class="requirement text-danger">*</span></label>
-              <input value="{{ $user->business_name_ar }}" name="business_name_ar" type="text" class="form-control rounded-3 shadow-none border" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)">
+              <input value="{{ $user->business_name_ar }}" name="business_name_ar" type="text" class="form-control rounded-3 shadow-none border" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)" autocomplete="off">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="business_address" class="d-block mb-2">{{ __('City') }} <span class="requirement text-danger">*</span></label>
-              <input value="{{ $user->business_address }}" name="business_address" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_address" placeholder="{{ __('City') }}">
+              <input value="{{ $user->business_address }}" name="business_address" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_address" placeholder="{{ __('City') }}" autocomplete="off">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="business_address_details" class="d-block mb-2">{{ __('Address') }} <span class="requirement text-danger">*</span></label>
-              <input value="{{ $user->business_address_details }}" name="business_address_details" type="text" class="form-control rounded-3 shadow-none border" id="business_address_details" placeholder="{{ __('Address') }}">
+              <input value="{{ $user->business_address_details }}" name="business_address_details" type="text" class="form-control rounded-3 shadow-none border" id="business_address_details" placeholder="{{ __('Address') }}" autocomplete="off">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
@@ -93,7 +97,7 @@
               <label for="business_mobile" class="d-block mb-2">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
               <div class="phoneInput overflow-hidden position-relative">
                 <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
-                <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" inputmode="numeric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="business_mobile" placeholder="{{ __('Mobile') }}" pattern="[0-9]*">
+                <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" inputmode="numeric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="business_mobile" placeholder="{{ __('Mobile') }}" pattern="[0-9]*" autocomplete="off">
               </div><!-- phoneInput -->
             </div><!-- form-group -->
           </div><!-- col-12 -->
@@ -101,13 +105,13 @@
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="website" class="d-block mb-2">{{ __('Website') }}</label>
-              <input value="{{ $user->website }}" name="website"  type="url" inputmode="url" class="form-control rounded-3 shadow-none border" id="website" placeholder="{{ __('Website') }}">
+              <input value="{{ $user->website }}" name="website"  type="url" inputmode="url" class="form-control rounded-3 shadow-none border" id="website" placeholder="{{ __('Website') }}" autocomplete="off">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="sector" class="d-block mb-2">{{ __('Sector') }}</label>
-              <input value="{{ $user->sector }}" name="sector" type="text" class="form-control rounded-3 shadow-none border" id="sector" placeholder="{{ __('Sector') }}">
+              <input value="{{ $user->sector }}" name="sector" type="text" class="form-control rounded-3 shadow-none border" id="sector" placeholder="{{ __('Sector') }}" autocomplete="off">
             </div><!-- form-group -->
           </div><!-- col-12 -->
           @endif

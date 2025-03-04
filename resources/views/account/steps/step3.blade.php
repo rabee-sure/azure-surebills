@@ -54,7 +54,7 @@
         <div class="col-12">
           <div class="form-group mb-3">
             <label for="beneficiary_name" class="d-block mb-2">{{__('Beneficiary Name')}} <span class="text-danger">*</span></label>
-            <input value="{{ old('beneficiary_name') }}" name="beneficiary_name" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="beneficiary_name" placeholder="{{__('Beneficiary Name')}}">
+            <input value="{{ old('beneficiary_name') }}" name="beneficiary_name" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="beneficiary_name" placeholder="{{__('Beneficiary Name')}}" autocomplete="off">
             <small id="emailHelp" class="form-text d-block mt-1 text-muted">اكتب اسم صاحب الحساب باللغة الانجليزيه كما هو مسجل في البنك</small>
           </div><!-- form-group -->
         </div><!-- col-12 -->
@@ -64,9 +64,9 @@
           @include('components.dropzone',['documents' => auth()->user()->bank_documents->toArray()])
         </div><!-- col-12 -->
       </div><!-- row -->
-      <div class="btnsArea d-flex align-items-center justify-content-center flex-wrap border-top pt-3">
-        <a  id="previous" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" href="/account?previous=2">{{__('Previous')}}</a>
-        <button class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 mx-2" type="submit">{{__('Finish')}}</button>
+      <div class="btnsArea d-flex align-items-center justify-content-between gap-3 flex-wrap border-top pt-3">
+        <a  id="previous" class="d-flex align-items-center justify-content-center btn-light rounded-3 shadow-none fw-bold border-0 px-5" href="/account?previous=2">{{__('Previous')}}</a>
+        <button class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 px-5" type="submit">{{__('Finish')}}</button>
       </div><!-- btnsArea -->
     </form>
   </div><!-- blockStep3 -->

@@ -138,7 +138,7 @@ class UserObserver
     {
         if(!$user->store_main_user_id && $user->source != 'pos')
         {
-            $role = Role::where('name', 'super admin')->first();
+            $role = Role::where([['name', 'super admin'], ['guard_name', 'web']])->first();
             $user->assignRole($role->id);
         }
     }

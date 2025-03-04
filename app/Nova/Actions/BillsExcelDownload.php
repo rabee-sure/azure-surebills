@@ -33,14 +33,17 @@ class BillsExcelDownload extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $queryFilter = self::rebuildFilter(json_decode(base64_decode($this->filters['filters'])));
-        
+        $ids = $models->pluck('id')->toArray();
+        if (!empty($ids)){
+            $queryFilter['ids'] = $ids;
+        }
         $file_name = 'bills_'.Carbon::now()->timestamp.'.xlsx';
         (new BillsDataExport($queryFilter))
         ->store($filePath = 'shared-bills/'. $file_name)
         ->chain([
             (new SendExportedBillsMailsJob($file_name, $this->email))
         ]);
-        
+
         return Action::message('Exported file will send to your email after finished!');
     }
 
@@ -71,7 +74,7 @@ class BillsExcelDownload extends Action
                 case 'App\Nova\Filters\UserId':
                     $FilterdColums['user_id'] = $filter->value;
                     break;
-                
+
                 default:
                     # code...
                     break;
