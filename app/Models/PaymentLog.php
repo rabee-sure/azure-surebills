@@ -78,60 +78,72 @@ class PaymentLog extends Model
             'status'         => 0,
         ]);
 
-        // Remove cybersource switch date from refund after 14 days from 2025-02-28
-        if($this->bill->paid_at >= config('cybersource.switch_date') && config('payment.default_payment_gateway') == 'cybersource'){
-            $cyberSourceService = new CyberSourceService;
-            return $cyberSourceService->processRefund($this->bill, $payment, $amount);
-        }
 
-        // api link
-        $link = config('payment.drivers.mastercard.base_url').'/api/rest/version/58/merchant/'.config('payment.drivers.mastercard.merchant_id').'/order/'.$this->bill->id.'/transaction/'.$payment->id;
-        $client = new Client(['http_errors' => false]);
-        $response = $client->put($link,
-            [
-                'json' => [
-                    'apiOperation' => 'REFUND',
-                    'transaction' => [
-                        'amount'   => number_format($amount, 2, '.', ''),
-                        'currency' => 'SAR'
+        // check for bill paymentLog
+        $billPaymentLog = PaymentLog::where('bill_id', $this->bill->id)
+        ->whereIn('payment_method', ['mastercard_pay', 'hyperpay_applepay', 'mastercard_applepay', 'stc_pay'])
+        ->where('webhook_response_received', 1)
+        ->where('is_failure', 0)
+        ->orderBy('created_at', 'Desc')
+        ->first();
+
+        if($billPaymentLog != null){
+            if($billPaymentLog->provider_name == 'cybersource'){
+                $cyberSourceService = new CyberSourceService;
+                return $cyberSourceService->processRefund($this->bill, $payment, $amount);
+            }elseif($billPaymentLog->provider_name == 'mastercard'){
+                // api link
+                $link = config('payment.drivers.mastercard.base_url').'/api/rest/version/58/merchant/'.config('payment.drivers.mastercard.merchant_id').'/order/'.$this->bill->id.'/transaction/'.$payment->id;
+                $client = new Client(['http_errors' => false]);
+                $response = $client->put($link,
+                    [
+                        'json' => [
+                            'apiOperation' => 'REFUND',
+                            'transaction' => [
+                                'amount'   => number_format($amount, 2, '.', ''),
+                                'currency' => 'SAR'
+                            ]
+                        ],
+                        'auth' => [
+                            config('payment.drivers.mastercard.operator_username'),
+                            config('payment.drivers.mastercard.operator_password')
+                        ],
                     ]
-                ],
-                'auth' => [
-                    config('payment.drivers.mastercard.operator_username'),
-                    config('payment.drivers.mastercard.operator_password')
-                ],
-            ]
-        );
-        $response = json_decode($response->getBody()->getContents(), true);
-        \Log::channel('refunded_transactions')->info("Refund API rescponse", $response);
-        $payment->results = $response;
-        $payment->refunded_amount = $amount;
-        $payment->save();
+                );
+                $response = json_decode($response->getBody()->getContents(), true);
+                \Log::channel('refunded_transactions')->info("Refund API rescponse", $response);
+                $payment->results = $response;
+                $payment->refunded_amount = $amount;
+                $payment->save();
 
-        if (isset($response['response']) && isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] == 'APPROVED') {
-            \Log::channel('refunded_transactions')->info("refunded transaction from mastercard rescponse", array(
-                "bill_id" => $this->bill->id, 
-                "total_refunded_amount" => $response['order']['totalRefundedAmount'],
-                "transaction_amount" => $response['transaction']['amount']
-            ));
-            // update refunded amount
-            $this->refunded_amount += $amount;
-            $this->save();
+                if (isset($response['response']) && isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] == 'APPROVED') {
+                    \Log::channel('refunded_transactions')->info("refunded transaction from mastercard rescponse", array(
+                        "bill_id" => $this->bill->id, 
+                        "total_refunded_amount" => $response['order']['totalRefundedAmount'],
+                        "transaction_amount" => $response['transaction']['amount']
+                    ));
+                    // update refunded amount
+                    $this->refunded_amount += $amount;
+                    $this->save();
 
-            return true;
+                    return true;
+                }
+
+                // error message
+                if (isset($response['error']) && isset($response['error']['explanation'])) {
+                    session(['refund_error' => $response['error']['explanation']]);
+                    $payment->is_failure = true;
+                    $payment->save();
+                } else if (isset($response['response']) && isset($response['response']['gatewayCode'])) {
+                    session(['refund_error' => $response['response']['gatewayCode']]);
+                    $payment->is_failure = true;
+                    $payment->save();
+                }
+
+                return false;
+            }
+        } else {
+            return false;
         }
-
-        // error message
-        if (isset($response['error']) && isset($response['error']['explanation'])) {
-            session(['refund_error' => $response['error']['explanation']]);
-            $payment->is_failure = true;
-            $payment->save();
-        } else if (isset($response['response']) && isset($response['response']['gatewayCode'])) {
-            session(['refund_error' => $response['response']['gatewayCode']]);
-            $payment->is_failure = true;
-            $payment->save();
-        }
-
-        return false;
     }
 }
