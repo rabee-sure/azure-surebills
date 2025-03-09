@@ -34,42 +34,60 @@
           <a href="#" title="{{ __('electronic payment balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon onlinePayment_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('electronic payment balance') }}</p>
-            <span class="d-block text-center fw-bold">{{ round2($balance) }}</span>
+            <span class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl text-center">
+              {{ round2($balance) }}
+              <span class="riyal-symbol-font">$</span>
+            </span>
           </a>
         </div><!-- col -->
         <div class="col">
           <a href="#" title="{{ __('Pending Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon balance_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Pending Balance') }}</p>
-            <span class="d-block text-center fw-bold">{{ round2($user->pending_balance) }}</span>
+            <span class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl text-center">
+              {{ round2($user->pending_balance) }}
+              <span class="riyal-symbol-font">$</span>
+            </span>
           </a>
         </div><!-- col -->
         <div class="col">
           <a href="#" title="{{ __('Paid Cash Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon balance_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Paid Cash Balance') }}</p>
-            <span class="d-block text-center fw-bold">{{ round2($user->paid_cash_balance) }}</span>
+            <span class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl text-center">
+              {{ round2($user->paid_cash_balance) }}
+              <span class="riyal-symbol-font">$</span>
+            </span>
           </a>
         </div><!-- col -->
         <div class="col">
           <a href="#" title="{{ __('Paid Bank Transfer Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon balance_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Paid Bank Transfer Balance') }}</p>
-            <span class="d-block text-center fw-bold">{{ round2($user->paid_bank_transfer_balance) }}</span>
+            <span class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl text-center">
+              {{ round2($user->paid_bank_transfer_balance) }}
+              <span class="riyal-symbol-font">$</span>
+            </span>
           </a>
         </div><!-- col -->
         <div class="col">
           <a href="#" title="{{ __('Paid Machine Balance') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon balance_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Paid Machine Balance') }}</p>
-            <span class="d-block text-center fw-bold">{{ round2($user->paid_machine_balance) }}</span>
+            <span class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl text-center">
+              {{ round2($user->paid_machine_balance) }}
+              <span class="riyal-symbol-font">$</span>
+            </span>
           </a>
         </div><!-- col -->
         <div class="col">
           <a href="#" title="{{ __('Total Paid') }}" class="d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm">
             <div class="icon available_balance_icon"></div>
             <p class="d-block mt-3 mb-2 text-center text-capitalize">{{ __('Total Paid') }}</p>
-            <span class="d-block text-center fw-bold">{{ $total_paid }}</span>
+            <span class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl text-center">
+              {{ $total_paid }}
+              <span class="riyal-symbol-font">$</span>
+            </span>
           </a>
         </div><!-- col -->
         @endcan
