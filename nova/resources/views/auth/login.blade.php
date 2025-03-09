@@ -5,7 +5,7 @@
 @include('nova::auth.partials.header')
 
 <form
-    class="bg-white shadow rounded-lg p-8 max-w-login mx-auto"
+    class="bg-white shadow rounded-lg p-8 max-w-login mx-auto nova-login-area"
     method="POST"
     action="{{ route('nova.login') }}"
 >
@@ -31,25 +31,25 @@
         </p>
     @endif
 
-    <div class="mb-6 {{ $errors->has('email') ? ' has-error' : '' }}">
+    <div class="form-group mb-6 {{ $errors->has('email') ? ' has-error' : '' }}">
         <label class="block font-bold mb-2" for="email">{{ __('Email Address') }}</label>
         <input class="form-control form-input form-input-bordered w-full" id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="off">
     </div>
 
-    <div class="mb-6 {{ $errors->has('password') ? ' has-error' : '' }}">
+    <div class="form-group mb-6 {{ $errors->has('password') ? ' has-error' : '' }}">
         <label class="block font-bold mb-2" for="password">{{ __('Password') }}</label>
         <input class="form-control form-input form-input-bordered w-full" id="password" type="text" name="password" required autocomplete="off">
     </div>
 
-    <div class="flex mb-6">
-        <label class="flex items-center block text-xl font-bold">
+    <div class="flex justify-between items-center mb-6 bottom-area">
+        <label class="flex items-center gap-1 block text-xl font-bold">
             <input class="" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
             <span class="text-base ml-2">{{ __('Remember Me') }}</span>
         </label>
 
 
         @if (\Laravel\Nova\Nova::resetsPasswords())
-        <div class="ml-auto">
+        <div class="m-0">
             <a class="text-primary dim font-bold no-underline" href="{{ route('nova.password.request') }}">
                 {{ __('Forgot Your Password?') }}
             </a>
@@ -57,7 +57,7 @@
         @endif
     </div>
 
-    <button class="w-full btn btn-default btn-primary hover:bg-primary-dark" type="submit">
+    <button type="submit">
         {{ __('Login') }}
     </button>
 </form>
