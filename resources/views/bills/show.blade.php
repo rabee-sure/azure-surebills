@@ -96,7 +96,7 @@
           @endif
           <span class="d-block fw-bold mt-3">{{ $bill->user->business_name }}</span>
           @if(isset($bill->user->settings->header_bill))
-            <p class="d-block mb-0 text-break">{{ $bill->user->settings->header_bill }}</p>
+            <p class="d-block mb-0 text-center text-break">{{ $bill->user->settings->header_bill }}</p>
           @endif
           <p class="d-block mb-0">{{  $bill->user->business_address }}</p>
           <b class="d-block fw-normal mb-2">{{  $bill->user->business_mobile }}</b>
