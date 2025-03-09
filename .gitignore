@@ -36,6 +36,8 @@
 /app/Http/Controllers/Api/TestController.php
 /app/Payment/Drivers/MasterCardApplePay/ApplePay.crt.pem
 /app/Payment/Drivers/MasterCardApplePay/ApplePay.key.pem
+/app/Payment/Drivers/MasterCardApplePay/applePay.crt.pem
+/app/Payment/Drivers/MasterCardApplePay/applePay.key.pem
 .env
 .env.backup
 .phpunit.result.cache
