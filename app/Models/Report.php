@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Events\AddActionLogEvent;
 use App\Jobs\GenerateBillsReport;
+use App\Jobs\GenerateMerchantOutstandingReport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -45,7 +46,8 @@ class Report extends Model implements HasMedia
         static::created(function (Report $report) {
             if($report->type == 'merchants outstanding')
             {
-                GenerateReport::dispatch($report->id);
+                // GenerateReport::dispatch($report);
+                GenerateMerchantOutstandingReport::dispatch($report);
                 event(new AddActionLogEvent(
                     'create_merchants_outstanding_report',
                     Auth::id(),

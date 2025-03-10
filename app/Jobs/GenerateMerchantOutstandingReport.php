@@ -2,22 +2,20 @@
 
 namespace App\Jobs;
 
-use App\Exports\ReportBillExport;
+use App\Exports\ReportExport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class GenerateMerchantOutstandingReport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $filter;
-    public $emails;
-    public $report_name;
-    public $report_id;
+    public $report;
     public $queue;
 
     /**
@@ -25,12 +23,9 @@ class GenerateMerchantOutstandingReport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($filter, $emails, $report_name, $report_id)
+    public function __construct($report)
     {
-        $this->filter = $filter;
-        $this->emails = $emails;
-        $this->report_name = $report_name;
-        $this->report_id = $report_id;
+        $this->report = $report;
         $this->queue = config('queue.working_queues.export_queue');
     }
 
@@ -41,11 +36,9 @@ class GenerateMerchantOutstandingReport implements ShouldQueue
      */
     public function handle()
     {
-        $report = Report::findOrFail($this->report_id);
+        $report_emails = $this->report->emails;
 
-        $report_emails = $report->emails;
-
-        $report_filters = json_decode($report->params) ;
+        $report_filters = json_decode($this->report->params) ;
 
         $report_merchants = explode(',', str_replace('"',"",$report_filters->merchants));
 
@@ -57,7 +50,7 @@ class GenerateMerchantOutstandingReport implements ShouldQueue
         $report_from = $report_filters->from;
         $report_to = $report_filters->to ?? $report_filters->from;
 
-        $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'.xlsx';
+        $file_name = 'reports/'.$this->report->name.'/'.$this->report->name.'_'.$this->report->id.'.xlsx';
 
         // $transactionsQuery = DB::table('transactions AS transactions')
         // ->select(DB::raw("(SELECT user_id, amount AS amount, transaction_source AS transaction_source, type as type, settled as settled)"));
@@ -168,14 +161,14 @@ class GenerateMerchantOutstandingReport implements ShouldQueue
 
         if(Excel::store(new ReportExport($results), $file_name , 'public')){
 
-            $report->addMedia(storage_path('app/public/'.$file_name))
+            $this->report->addMedia(storage_path('app/public/'.$file_name))
                 ->preservingOriginal()
                 ->toMediaCollection('reports_file');
 
-            SendMerchantOutstandingRepotEmail::dispatch($report,$report_emails);
+            SendMerchantOutstandingRepotEmail::dispatch($this->report,$report_emails);
 
-            $report->active = 1;
-            $report->save();
+            $this->report->active = 1;
+            $this->report->save();
         }
     }
 }
