@@ -1,48 +1,47 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Jobs;
 
-use App\Events\GenerateReport;
-use App\Models\Report;
+use App\Exports\ReportBillExport;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ReportExport;
-use App\Jobs\SendMerchantOutstandingRepotEmail;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\RequestReportMail;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
-class SendReportFile implements ShouldQueue
+class GenerateMerchantOutstandingReport implements ShouldQueue
 {
-    use IsMonitored;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public $filter;
+    public $emails;
+    public $report_name;
+    public $report_id;
     public $queue;
 
     /**
-     * Create the event listener.
+     * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($filter, $emails, $report_name, $report_id)
     {
+        $this->filter = $filter;
+        $this->emails = $emails;
+        $this->report_name = $report_name;
+        $this->report_id = $report_id;
         $this->queue = config('queue.working_queues.export_queue');
     }
 
-    // public function viaQueue()
-    // {
-    //     return config('queue.working_queues.export_queue');
-    // }
-
     /**
-     * Handle the event.
+     * Execute the job.
      *
-     * @param  \App\Events\GenerateReport  $event
      * @return void
      */
-    public function handle(GenerateReport $event)
+    public function handle()
     {
-        $report = Report::findOrFail($event->report);
+        $report = Report::findOrFail($this->report_id);
 
         $report_emails = $report->emails;
 
@@ -179,5 +178,4 @@ class SendReportFile implements ShouldQueue
             $report->save();
         }
     }
-    
 }

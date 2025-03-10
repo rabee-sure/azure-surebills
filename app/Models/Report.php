@@ -45,8 +45,7 @@ class Report extends Model implements HasMedia
         static::created(function (Report $report) {
             if($report->type == 'merchants outstanding')
             {
-                // GenerateReport::dispatch($report->id);
-                event(new GenerateReport($report->id));
+                GenerateReport::dispatch($report->id);
                 event(new AddActionLogEvent(
                     'create_merchants_outstanding_report',
                     Auth::id(),
