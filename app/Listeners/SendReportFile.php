@@ -12,21 +12,11 @@ use App\Exports\ReportExport;
 use App\Jobs\SendMerchantOutstandingRepotEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestReportMail;
-use Illuminate\Bus\Queueable;
 use romanzipp\QueueMonitor\Traits\IsMonitored;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Foundation\Events\Dispatchable;
 
 class SendReportFile implements ShouldQueue
 {
     use IsMonitored;
-    
-    /**
-     * The queue to be used for processing the report export.
-     *
-     * @var string
-     */
-    public $queue = 'SureBillsProduction_export';
 
     /**
      * Create the event listener.
@@ -35,7 +25,12 @@ class SendReportFile implements ShouldQueue
      */
     public function __construct()
     {
-        // $this->queue = config('queue.working_queues.export_queue');
+        
+    }
+
+    public function viaQueue()
+    {
+        return config('queue.working_queues.export_queue');
     }
 
     /**
