@@ -18,16 +18,6 @@ class SendReportFile implements ShouldQueue
 {
     use IsMonitored;
 
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        
-    }
-
     public function viaQueue()
     {
         return config('queue.working_queues.export_queue');
@@ -41,6 +31,7 @@ class SendReportFile implements ShouldQueue
      */
     public function handle(GenerateReport $event)
     {
+        \Log::error('there is event SendReportFile');
         $report = Report::findOrFail($event->report);
 
         $report_emails = $report->emails;
