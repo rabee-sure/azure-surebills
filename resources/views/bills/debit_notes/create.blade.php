@@ -163,31 +163,31 @@
             @if(old('items'))
               @foreach( old('items') as $item)
                 <div class="repeaterItem row align-items-end" data-repeater-item>
-                  <div class="col-12 col-lg-6">
+                  <div class="col-12 col-lg-5">
                     <div class="form-group mb-3">
                       <label for="inputEmail1" class="d-block mb-2">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
                       <input name="name" value="{{$item['name']}}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body product_name" placeholder="{{ __('Name') }}">
                     </div><!-- form-group -->
                   </div><!-- col-12 -->
-                  <div class="col-12 col-lg-3">
+                  <div class="col-6 col-lg-2">
                     <div class="form-group mb-3">
                       <label for="Price" class="d-block mb-2">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
                       <input name="price"  value="{{$item['price']}}" min="1" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_price" placeholder="{{ __('Price') }}">
                     </div><!-- form-group -->
                   </div><!-- col-12 -->
-                  <div class="col-12 col-lg-3">
+                  <div class="col-6 col-lg-2">
                     <div class="form-group mb-3">
                       <label for="Price" class="d-block mb-2">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
                       <input type="tel" name="quantity" value="{{$item['quantity']}}" min="1" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_quantity" placeholder="{{ __('Quantity') }}">
                     </div><!-- form-group -->
                   </div><!-- col-12 -->
-                  <div class="col-12 col-lg-3">
+                  <div class="col-6 col-lg-2">
                     <div class="form-group mb-3">
                       <label for="Price" class="d-block mb-2">{{ __('Total') }}</label>
                       <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control shadow-none bg-white border w-100 rounded-3 text-body text-center fw-bold" disabled>
                     </div><!-- form-group -->
                   </div><!-- col-12 -->
-                  <div class="col-12 col-lg-1">
+                  <div class="col-6 col-lg-1">
                     <div class="form-group mb-3">
                       <!-- <label for="Delete" class="d-block">{{ __('Delete') }}</label> -->
                       <input data-repeater-delete type="button" class="deleteBtn w-100 border-0 rounded-3 text-white d-flex align-items-center justify-content-center" value="X"/>
@@ -382,6 +382,7 @@
       show: function () {
         $(this).slideDown();
       },
+      isFirstItemUndeletable: true
     });
 
     var fewSeconds = 5;

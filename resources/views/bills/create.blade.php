@@ -280,7 +280,7 @@
                     <label for="Tax" class="d-block mb-2">{{ __('Tax Value') }}</label>
                     <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
                       <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
-                      <input type="tel" name="tax_value" class="form-control shadow-none bg-white border w-100 rounded-3" id="Value" value="@if($settings->add_tax){{$settings->tax_value}}@else{{old('tax_value')}}@endif" aria-describedby="basic-addon3">
+                      <input type="tel" name="tax_value" class="form-control shadow-none bg-white border w-100 rounded-3 text-start" id="Value" value="@if($settings->add_tax){{$settings->tax_value}}@else{{old('tax_value')}}@endif" aria-describedby="basic-addon3">
                     </div><!-- inputGroup -->
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
