@@ -1,52 +1,44 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Jobs;
 
-use App\Events\GenerateReport;
-use App\Models\Report;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportExport;
-use App\Jobs\SendMerchantOutstandingRepotEmail;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\RequestReportMail;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
-class SendReportFile implements ShouldQueue
+class GenerateMerchantOutstandingReport implements ShouldQueue
 {
-    use IsMonitored;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public $report;
     public $queue;
 
     /**
-     * Create the event listener.
+     * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($report)
     {
+        $this->report = $report;
         $this->queue = config('queue.working_queues.export_queue');
     }
 
-    // public function viaQueue()
-    // {
-    //     return config('queue.working_queues.export_queue');
-    // }
-
     /**
-     * Handle the event.
+     * Execute the job.
      *
-     * @param  \App\Events\GenerateReport  $event
      * @return void
      */
-    public function handle(GenerateReport $event)
+    public function handle()
     {
-        $report = Report::findOrFail($event->report);
+        $report_emails = $this->report->emails;
 
-        $report_emails = $report->emails;
-
-        $report_filters = json_decode($report->params) ;
+        $report_filters = json_decode($this->report->params) ;
 
         $report_merchants = explode(',', str_replace('"',"",$report_filters->merchants));
 
@@ -58,7 +50,7 @@ class SendReportFile implements ShouldQueue
         $report_from = $report_filters->from;
         $report_to = $report_filters->to ?? $report_filters->from;
 
-        $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'.xlsx';
+        $file_name = 'reports/'.$this->report->name.'/'.$this->report->name.'_'.$this->report->id.'.xlsx';
 
         // $transactionsQuery = DB::table('transactions AS transactions')
         // ->select(DB::raw("(SELECT user_id, amount AS amount, transaction_source AS transaction_source, type as type, settled as settled)"));
@@ -169,15 +161,14 @@ class SendReportFile implements ShouldQueue
 
         if(Excel::store(new ReportExport($results), $file_name , 'public')){
 
-            $report->addMedia(storage_path('app/public/'.$file_name))
+            $this->report->addMedia(storage_path('app/public/'.$file_name))
                 ->preservingOriginal()
                 ->toMediaCollection('reports_file');
 
-            SendMerchantOutstandingRepotEmail::dispatch($report,$report_emails);
+            SendMerchantOutstandingRepotEmail::dispatch($this->report,$report_emails);
 
-            $report->active = 1;
-            $report->save();
+            $this->report->active = 1;
+            $this->report->save();
         }
     }
-    
 }
