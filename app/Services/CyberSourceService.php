@@ -12,6 +12,7 @@ use App\Jobs\CybersourceGetTransactionDetailJob;
 use App\Models\Bill;
 use App\Models\PaymentLog;
 use CyberSource\Api\CaptureApi;
+use CyberSource\Api\PayerAuthenticationApi;
 use CyberSource\Api\PaymentsApi;
 use CyberSource\Api\RefundApi;
 use CyberSource\Api\TransactionDetailsApi;
@@ -21,6 +22,7 @@ use CyberSource\Authentication\Core\MerchantConfiguration;
 use CyberSource\Configuration;
 use CyberSource\Model\CapturePaymentRequest;
 use CyberSource\Model\CreatePaymentRequest;
+use CyberSource\Model\PayerAuthSetupRequest;
 use CyberSource\Model\PtsV2PaymentsCapturesPost201Response;
 use CyberSource\Model\Ptsv2paymentsidrefundsClientReferenceInformation;
 use CyberSource\Model\Ptsv2paymentsOrderInformation;
@@ -37,9 +39,26 @@ use CyberSource\Model\TssV2TransactionsGet200Response;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use CyberSource\Api\MicroformIntegrationApi;
+use CyberSource\Model\CheckPayerAuthEnrollmentRequest;
 use CyberSource\Model\GenerateCaptureContextRequest;
 use CyberSource\Model\Ptsv2paymentsPaymentInformationTokenizedCard;
 use CyberSource\Model\Ptsv2paymentsTokenInformation;
+use CyberSource\Model\Riskv1authenticationresultsConsumerAuthenticationInformation;
+use CyberSource\Model\Riskv1authenticationresultsOrderInformation;
+use CyberSource\Model\Riskv1authenticationresultsOrderInformationAmountDetails;
+use CyberSource\Model\Riskv1authenticationresultsPaymentInformation;
+use CyberSource\Model\Riskv1authenticationresultsPaymentInformationCard;
+use CyberSource\Model\Riskv1authenticationsBuyerInformation;
+use CyberSource\Model\Riskv1authenticationsetupsClientReferenceInformation;
+use CyberSource\Model\Riskv1authenticationsetupsPaymentInformation;
+use CyberSource\Model\Riskv1authenticationsetupsPaymentInformationCard;
+use CyberSource\Model\Riskv1authenticationsOrderInformation;
+use CyberSource\Model\Riskv1authenticationsOrderInformationAmountDetails;
+use CyberSource\Model\Riskv1authenticationsOrderInformationBillTo;
+use CyberSource\Model\Riskv1authenticationsPaymentInformation;
+use CyberSource\Model\Riskv1decisionsClientReferenceInformationPartner;
+use CyberSource\Model\Riskv1decisionsConsumerAuthenticationInformation;
+use CyberSource\Model\ValidateRequest;
 
 class CyberSourceService extends PaymentAbstract
 
@@ -81,6 +100,120 @@ class CyberSourceService extends PaymentAbstract
         } catch (ApiException $e) {
             Log::error(json_encode($e->getResponseBody()));
             return false;
+        }
+    }
+
+    public function payerAuthSetup(){
+        $api_instance = new PayerAuthenticationApi($this->apiClient);
+        $payerAuthSetupRequest = new PayerAuthSetupRequest([
+            'clientReferenceInformation' => new Riskv1authenticationsetupsClientReferenceInformation([
+                'code' => 'cybs_test',
+                'partner' => new Riskv1decisionsClientReferenceInformationPartner([
+                    'developerId' => '7891234',
+                    'solutionId' => '89012345'
+                ])
+            ]),
+            'paymentInformation' => new Riskv1authenticationsetupsPaymentInformation([
+                'card' => new Riskv1authenticationsetupsPaymentInformationCard([
+                    'type' => '001',
+                    'number' => '4111111111111111',
+                    'expirationMonth' => '12',
+                    'expirationYear' => '2025'
+                ])
+            ])
+        ]); // \CyberSource\Model\PayerAuthSetupRequest | 
+        
+        try {
+            $result = $api_instance->payerAuthSetup($payerAuthSetupRequest);
+            print_r($result);
+        } catch (Exception $e) {
+            echo 'Exception when calling PayerAuthenticationApi->payerAuthSetup: ', $e->getMessage(), PHP_EOL;
+        }
+    }
+
+    public function checkPayerAuthEnrollment(){
+        $api_instance = new PayerAuthenticationApi();
+        $checkPayerAuthEnrollmentRequest = new CheckPayerAuthEnrollmentRequest(
+            [
+                'clientReferenceInformation' => new Riskv1authenticationsetupsClientReferenceInformation([
+                    'code' => '3DSHarness_PAEnrollRestAPI',
+                ]),
+                'orderInformation' => new Riskv1authenticationsOrderInformation([
+                    'amountDetails' => new Riskv1authenticationsOrderInformationAmountDetails([
+                        'cuurrency' => 'SAR',
+                        'totalAmount' => '100.00'
+                    ]),
+                    'billTo' => new Riskv1authenticationsOrderInformationBillTo([
+                        'address1' => '901 metro center blvd',
+                        'address2' => 'metro 3',
+                        'administrativeArea' => 'CA',
+                        'country' => 'SA',
+                        'locality' => 'Reyadah',
+                        'firstName' => 'John',
+                        'lastName' => 'Doe',
+                        'phoneNumber' => '18007097779',
+                        'postalCode' => '94404',
+                        'email' => 'email@email.com'
+                    ])
+                ]),
+                'paymentInformation' => new Riskv1authenticationsPaymentInformation([
+                    'card' => new Riskv1authenticationsetupsPaymentInformationCard([
+                        'number' => '4111111111111111',
+                        'type' => '001',
+                        'expirationMonth' => '12',
+                        'expirationYear' => '2025'
+                    ])
+                ]),
+                'buyerInformation' => new Riskv1authenticationsBuyerInformation([
+                    'mobilePhone' => '1245789632'
+                ]),
+                'consumerAuthenticationInformation' => new Riskv1decisionsConsumerAuthenticationInformation([
+                    'referenceId' => 'c44224db-0dda-40aa-9536-ac1595fd2e8d',
+                    'transactionMode' => 'S',
+                    'returnUrl' => 'https://wv730hw7033250:3002/restapi/cardinalDirect/StepUp/Response'
+                ]),
+            ]
+        ); // \CyberSource\Model\CheckPayerAuthEnrollmentRequest | 
+
+        try {
+            $result = $api_instance->checkPayerAuthEnrollment($checkPayerAuthEnrollmentRequest);
+            print_r($result);
+        } catch (Exception $e) {
+            echo 'Exception when calling PayerAuthenticationApi->checkPayerAuthEnrollment: ', $e->getMessage(), PHP_EOL;
+        }
+    }
+
+    public function validateAuthenticationResults(){
+        $api_instance = new PayerAuthenticationApi();
+        $validateRequest = new ValidateRequest([
+            'clientReferenceInformation' => new Riskv1authenticationsetupsClientReferenceInformation([
+                'code' => '3DSHarness_PaValidateRestAPI'
+            ]),
+            'orderInformation' => new Riskv1authenticationresultsOrderInformation([
+                'amountDetails' => new Riskv1authenticationresultsOrderInformationAmountDetails([
+                    'currency' => 'SAR',
+                    'totalAmount' => '100.00'
+                ]),
+            ]),
+            'paymentInformation' => new Riskv1authenticationresultsPaymentInformation([
+                'card' => new Riskv1authenticationresultsPaymentInformationCard([
+                    'number' => '4111111111111111',
+                    'type' => '001',
+                    'expirationMonth' => '12',
+                    'expirationYear' => '2025'
+                ])
+            ]),
+            'consumerAuthenticationInformation' => new Riskv1authenticationresultsConsumerAuthenticationInformation([
+                'authenticationTransactionId' => '1xRSpLPEoTNsinp8XUK0'
+            ])
+
+        ]); // \CyberSource\Model\ValidateRequest | 
+
+        try {
+            $result = $api_instance->validateAuthenticationResults($validateRequest);
+            print_r($result);
+        } catch (Exception $e) {
+            echo 'Exception when calling PayerAuthenticationApi->validateAuthenticationResults: ', $e->getMessage(), PHP_EOL;
         }
     }
 

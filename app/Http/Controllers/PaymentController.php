@@ -42,6 +42,7 @@ class PaymentController extends Controller
      */
     public function processPayment(CyperSourceProcessPaymentRequest $request)
     {
+        dd($request->all());
         $bill = Bill::find($request->billId);
         if (!$bill || $bill->is_invalid) {
             abort(404);
@@ -51,6 +52,17 @@ class PaymentController extends Controller
             if (!BillSignatureHelper::validateSignature($bill, $request->header('X-Pay-Time'), $request->header('X-Bill-Signature'))) {
                 return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
             }
+
+            // Payer Authentication Setup Service
+            
+
+            // Device Data Collection iframe
+
+            // Payer Authentication Check Enrollment Service
+            
+            // Step Up IFrame
+            
+            // Payer Authentication Validation Service
 
             $response = $this->cyberSourceService->processPayment($bill, ['transit_token' => $request->header('X-Pay-Token'), 'number' => $request->card_number, 'expiration_month' => $request->card_expiration_month, 'expiration_year' => $request->card_expiration_year, 'cvv' => $request->card_cvv]);
             if ($response) {

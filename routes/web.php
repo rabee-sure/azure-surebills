@@ -223,6 +223,7 @@ Route::get('current-user-admin/{guard?}', 'UserController@getAuthAdminUser');
 Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang')->middleware('redirect.to.subdomain');
 Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage')->middleware('redirect.to.subdomain');
+Route::get('/payment-waiting', 'BillController@paymentWaiting')->name('payment.waiting');
 
 Route::middleware(['auth'])->group(function () {
   Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
