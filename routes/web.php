@@ -18,6 +18,31 @@ use Illuminate\Contracts\Cache\Store;
 |
 */
 
+// Payer Setup
+Route::get('authentication-setups', function(){
+  
+  $cybersourceService = new \App\Services\CyberSourceService();
+  return $cybersourceService->payerAuthSetup();
+
+});
+
+// Enrollement
+Route::get('authentications', function(){
+  
+  $cybersourceService = new \App\Services\CyberSourceService();
+  return $cybersourceService->checkPayerAuthEnrollment();
+
+});
+
+// Validation check
+Route::get('authentication-results', function(){
+  
+  $cybersourceService = new \App\Services\CyberSourceService();
+  return $cybersourceService->validateAuthenticationResults();
+
+});
+
+
 Route::domain(config('payment.invoice_subdomain'))->group(function (){
     
   Route::get('.well-known/{file}', 'BillSubdomainController@verifyOwnershipForApplePay')->name('verify.applepay.ownership');
