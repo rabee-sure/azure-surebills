@@ -1,0 +1,7 @@
+﻿Date	Time	Severity	PID	TID	Function	Message
+23-03-2025	14:20:10.687	 INFO	 31004	 29208	DllMain	"DLL_PROCESS_ATTACH Wed Oct 30 00:28:57 2024 11.3.2440.1"
+23-03-2025	14:20:10.712	 INFO	 31004	 29112	LateInitialization	"Intialization..."
+23-03-2025	14:20:10.732	 INFO	 31004	 29112	LateInitialization	"Exe = C:\Users\aabdelaty\AppData\Local\Programs\Git\usr\bin\bash.exe"
+23-03-2025	14:20:10.742	 INFO	 31004	 29112	LateInitialization	"IsExplorer = 0"
+23-03-2025	14:20:10.743	 INFO	 31004	 29112	Edlp::Path::InitializeExcludedPathPatterns	"Windows drive = C:"
+23-03-2025	14:20:10.746	 INFO	 31004	 29112	LateInitialization	"Intialization finished"
