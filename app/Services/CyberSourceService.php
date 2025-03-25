@@ -48,6 +48,7 @@ use CyberSource\Model\Riskv1authenticationresultsOrderInformation;
 use CyberSource\Model\Riskv1authenticationresultsOrderInformationAmountDetails;
 use CyberSource\Model\Riskv1authenticationresultsPaymentInformation;
 use CyberSource\Model\Riskv1authenticationresultsPaymentInformationCard;
+use CyberSource\Model\RiskV1AuthenticationResultsPost201Response;
 use CyberSource\Model\Riskv1authenticationsBuyerInformation;
 use CyberSource\Model\Riskv1authenticationsetupsClientReferenceInformation;
 use CyberSource\Model\Riskv1authenticationsetupsPaymentInformation;
@@ -59,6 +60,8 @@ use CyberSource\Model\Riskv1authenticationsPaymentInformation;
 use CyberSource\Model\Riskv1decisionsClientReferenceInformationPartner;
 use CyberSource\Model\Riskv1decisionsConsumerAuthenticationInformation;
 use CyberSource\Model\Riskv1authenticationsDeviceInformation;
+use CyberSource\Model\RiskV1AuthenticationSetupsPost201Response;
+use CyberSource\Model\RiskV1AuthenticationsPost201Response;
 use CyberSource\Model\ValidateRequest;
 
 class CyberSourceService extends PaymentAbstract
@@ -104,101 +107,6 @@ class CyberSourceService extends PaymentAbstract
         }
     }
 
-    public function payerAuthSetup(){
-        $api_instance = new PayerAuthenticationApi($this->apiClient);
-        $payerAuthSetupRequest = new PayerAuthSetupRequest([
-            'paymentInformation' => new Riskv1authenticationsetupsPaymentInformation([
-                'card' => new Riskv1authenticationsetupsPaymentInformationCard([
-                    'type' => '001',
-                    'number' => '4000000000002503',
-                    'expirationMonth' => '12',
-                    'expirationYear' => '2025'
-                ])
-            ])
-        ]); // \CyberSource\Model\PayerAuthSetupRequest | 
-        
-        try {
-            $result = $api_instance->payerAuthSetup($payerAuthSetupRequest);
-            print_r($result);
-        } catch (Exception $e) {
-            echo 'Exception when calling PayerAuthenticationApi->payerAuthSetup: ', $e->getMessage(), PHP_EOL;
-        }
-    }
-
-    public function checkPayerAuthEnrollment(){
-        $api_instance = new PayerAuthenticationApi($this->apiClient);
-        $checkPayerAuthEnrollmentRequest = new CheckPayerAuthEnrollmentRequest(
-            [
-                // 'clientReferenceInformation' => new Riskv1authenticationsetupsClientReferenceInformation([
-                //     'code' => '3DSHarness_PAEnrollRestAPI',
-                // ]),
-                'orderInformation' => new Riskv1authenticationsOrderInformation([
-                    'amountDetails' => new Riskv1authenticationsOrderInformationAmountDetails([
-                        'currency' => 'SAR',
-                        'totalAmount' => '100.00'
-                    ]),
-                ]),
-                'paymentInformation' => new Riskv1authenticationsPaymentInformation([
-                    'card' => new Riskv1authenticationsetupsPaymentInformationCard([
-                        'number' => '4000000000002503',
-                        'type' => '001',
-                        'expirationMonth' => '12',
-                        'expirationYear' => '2025'
-                    ])
-                ]),
-                'deviceInformation' => new Riskv1authenticationsDeviceInformation([
-                    "ipAddress" => "139.130.4.5",
-                    "httpAcceptContent" => "test",
-                    "httpBrowserLanguage" => "en_us",
-                    "httpBrowserJavaEnabled" => "N",
-                    "httpBrowserJavaScriptEnabled" => "Y",
-                    "httpBrowserColorDepth" => "24",
-                    "httpBrowserScreenHeight" => "100000",
-                    "httpBrowserScreenWidth" => "100000",
-                    "httpBrowserTimeDifference" => "300",
-                    "userAgentBrowserValue" => "GxKnLy8TFDUFxJP1t"
-                ]),
-
-                // 'consumerAuthenticationInformation' => new Riskv1decisionsConsumerAuthenticationInformation([
-                //     'referenceId' => 'c44224db-0dda-40aa-9536-ac1595fd2e8d',
-                //     'transactionMode' => 'S',
-                //     'returnUrl' => 'https://wv730hw7033250:3002/restapi/cardinalDirect/StepUp/Response'
-                // ]),
-            ]
-        ); // \CyberSource\Model\CheckPayerAuthEnrollmentRequest |
-
-        try {
-            $result = $api_instance->checkPayerAuthEnrollment($checkPayerAuthEnrollmentRequest);
-            print_r($result);
-        } catch (Exception $e) {
-            echo 'Exception when calling PayerAuthenticationApi->checkPayerAuthEnrollment: ', $e->getMessage(), PHP_EOL;
-        }
-    }
-
-    public function validateAuthenticationResults(){
-        $api_instance = new PayerAuthenticationApi($this->apiClient);
-        $validateRequest = new ValidateRequest([
-            'paymentInformation' => new Riskv1authenticationresultsPaymentInformation([
-                'card' => new Riskv1authenticationresultsPaymentInformationCard([
-                    'type' => '001',
-                ])
-            ]),
-            'consumerAuthenticationInformation' => new Riskv1authenticationresultsConsumerAuthenticationInformation([
-                'authenticationTransactionId' => 'PzWpXHhtbMlcMQnjUlH0'
-            ])
-
-        ]); // \CyberSource\Model\ValidateRequest | 
-
-        // dd($validateRequest);
-
-        try {
-            $result = $api_instance->validateAuthenticationResults($validateRequest);
-            print_r($result);
-        } catch (Exception $e) {
-            echo 'Exception when calling PayerAuthenticationApi->validateAuthenticationResults: ', $e->getMessage(), PHP_EOL;
-        }
-    }
-
     /**
      * Processes a payment using the CyberSource payment gateway.
      *
@@ -216,6 +124,91 @@ class CyberSourceService extends PaymentAbstract
         }
 
         return false;
+    }
+
+    public function payerAuthSetup($cardData){
+        $api_instance = new PayerAuthenticationApi($this->apiClient);
+        $payerAuthSetupRequest = new PayerAuthSetupRequest([
+            'paymentInformation' => new Riskv1authenticationsetupsPaymentInformation([
+                'card' => new Riskv1authenticationsetupsPaymentInformationCard([
+                    // 'type' => '001',
+                    'number' => $cardData['card_number'],
+                    'expirationMonth' => $cardData['card_expiry_month'],
+                    'expirationYear' => $cardData['card_expiry_year'],
+                ])
+            ])
+        ]); // \CyberSource\Model\PayerAuthSetupRequest | 
+        
+        try {
+            $result = $api_instance->payerAuthSetup($payerAuthSetupRequest);
+            $resultModel = new RiskV1AuthenticationSetupsPost201Response(json_decode($result[0], true));
+            $responseBody = json_decode($resultModel, true);
+            return $responseBody;
+        } catch (Exception $e) {
+            echo 'Exception when calling PayerAuthenticationApi->payerAuthSetup: ', $e->getMessage(), PHP_EOL;
+        } finally {
+            $this->logResult('cybersource-payer-auth-setup-logs', $responseBody);
+        }
+    }
+
+    public function checkPayerAuthEnrollment($billAmount, $cardData, $payerSetupRefranceId){
+        $api_instance = new PayerAuthenticationApi($this->apiClient);
+        $checkPayerAuthEnrollmentRequest = new CheckPayerAuthEnrollmentRequest(
+            [
+                'orderInformation' => new Riskv1authenticationsOrderInformation([
+                    'amountDetails' => new Riskv1authenticationsOrderInformationAmountDetails([
+                        'currency' => 'SAR',
+                        'totalAmount' => $billAmount,
+                    ]),
+                ]),
+                'paymentInformation' => new Riskv1authenticationsPaymentInformation([
+                    'card' => new Riskv1authenticationsetupsPaymentInformationCard([
+                        'number' => $cardData['card_number'],
+                        // 'type' => '001',
+                        'expirationMonth' => $cardData['card_expiry_month'],
+                        'expirationYear' => $cardData['card_expiry_year'],
+                    ])
+                ]),
+                'consumerAuthenticationInformation' => new Riskv1decisionsConsumerAuthenticationInformation([
+                    'acsWindowSize' => '02',
+                    'referenceId' => $payerSetupRefranceId,
+                    'transactionMode' => 'S',
+                    'returnUrl' => 'https://wv730hw7033250:3002/restapi/cardinalDirect/StepUp/Response'
+                ])
+            ]
+        ); // \CyberSource\Model\CheckPayerAuthEnrollmentRequest |
+
+        try {
+            $result = $api_instance->checkPayerAuthEnrollment($checkPayerAuthEnrollmentRequest);
+            $resultModel = new RiskV1AuthenticationsPost201Response(json_decode($result[0], true));
+            $responseBody = json_decode($resultModel, true);
+            return $responseBody;
+        } catch (Exception $e) {
+            echo 'Exception when calling PayerAuthenticationApi->checkPayerAuthEnrollment: ', $e->getMessage(), PHP_EOL;
+        } finally {
+            $this->logResult('cybersource-payer-auth-check-enrollment-logs', $responseBody);
+        }
+    }
+
+    public function validateAuthenticationResults($authenticationTransactionId){
+        $api_instance = new PayerAuthenticationApi($this->apiClient);
+        $validateRequest = new ValidateRequest([
+            'consumerAuthenticationInformation' => new Riskv1authenticationresultsConsumerAuthenticationInformation([
+                'authenticationTransactionId' => $authenticationTransactionId,
+            ])
+
+        ]); // \CyberSource\Model\ValidateRequest | 
+
+        try {
+            $result = $api_instance->validateAuthenticationResults($validateRequest);
+            $resultModel = new RiskV1AuthenticationResultsPost201Response(json_decode($result[0], true));
+            $responseBody = json_decode($resultModel, true);
+            return $responseBody;
+        } catch (Exception $e) {
+            echo 'Exception when calling PayerAuthenticationApi->validateAuthenticationResults: ', $e->getMessage(), PHP_EOL;
+        } finally {
+            $this->logResult('cybersource-payer-auth-validate-authentication-logs', $responseBody);
+        }
     }
 
     /**

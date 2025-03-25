@@ -34,15 +34,7 @@ class PaymentController extends Controller
         ]);
     }
 
-    /**
-     * Process a payment using the CyberSource service.
-     *
-     * @param CyperSourceProcessPaymentRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function processPayment(CyperSourceProcessPaymentRequest $request)
-    {
-        dd($request->all());
+    public function payerAuthSetup(Request $request){
         $bill = Bill::find($request->billId);
         if (!$bill || $bill->is_invalid) {
             abort(404);
@@ -53,16 +45,97 @@ class PaymentController extends Controller
                 return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
             }
 
-            // Payer Authentication Setup Service
-            
+            $cardData = [
+                'card_number' => $request->card_number,
+                'card_expiry_month' => $request->card_expiration_month,
+                'card_expiry_year' => $request->card_expiration_year,
+            ];
+            $response = $this->cyberSourceService->payerAuthSetup($cardData);
+            if ($response['status'] == 'COMPLETED') {
+                return response()->json(['payerAuthSetupRes' => $response, 'status' => 'success'], 200);
+            }
 
-            // Device Data Collection iframe
+            return response()->json(['errors' => ['message' => [trans('Payer Auth Setup Faild')]]], 400);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['errors' => ['message' => [trans('Payer Auth Setup Faild')]]], 400);
+        }
+    }
 
-            // Payer Authentication Check Enrollment Service
-            
-            // Step Up IFrame
-            
-            // Payer Authentication Validation Service
+    public function checkPayerAuthEnrollment(Request $request){
+        $bill = Bill::find($request->billId);
+        if (!$bill || $bill->is_invalid) {
+            abort(404);
+        }
+       
+        try {
+            if (!BillSignatureHelper::validateSignature($bill, $request->header('X-Pay-Time'), $request->header('X-Bill-Signature'))) {
+                return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
+            }
+
+            $cardData = [
+                'card_number' => $request->card_number,
+                'card_expiry_month' => $request->card_expiration_month,
+                'card_expiry_year' => $request->card_expiration_year,
+            ];
+            $response = $this->cyberSourceService->checkPayerAuthEnrollment($bill->fixed_total, $cardData, $request->payerAuthReferenceId);
+            if ($response['status'] != "AUTHENTICATION_FAILED") {
+                return response()->json(['payerAuthCheckEnrollmentRes' => $response, 'status' => 'success'], 200);
+            }
+
+            return response()->json(['errors' => ['message' => [trans('Payer Auth Check Enrollment Faild')]]], 400);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['errors' => ['message' => [trans('Payer Auth Check Enrollment Faild')]]], 400);
+        }
+    }
+
+    public function validateAuthenticationResults(Request $request){
+        $bill = Bill::find($request->billId);
+        if (!$bill || $bill->is_invalid) {
+            abort(404);
+        }
+       
+        try {
+            if (!BillSignatureHelper::validateSignature($bill, $request->header('X-Pay-Time'), $request->header('X-Bill-Signature'))) {
+                return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
+            }
+
+            $cardData = [
+                'card_number' => $request->card_number,
+                'card_expiry_month' => $request->card_expiration_month,
+                'card_expiry_year' => $request->card_expiration_year,
+            ];
+            $authenticationTransactionId = $request->authenticationTransactionId;
+            $response = $this->cyberSourceService->validateAuthenticationResults($authenticationTransactionId);
+            if ($response['status'] == "AUTHENTICATION_SUCCESSFUL") {
+                return response()->json(['payerAuthValidationRes' => $response, 'status' => 'success'], 200);
+            }
+
+            return response()->json(['errors' => ['message' => [trans('Payer Auth Validation Faild')]]], 400);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['errors' => ['message' => [trans('Payer Auth Validation Faild')]]], 400);
+        }
+    }
+
+    /**
+     * Process a payment using the CyberSource service.
+     *
+     * @param CyperSourceProcessPaymentRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function processPayment(CyperSourceProcessPaymentRequest $request)
+    {
+        $bill = Bill::find($request->billId);
+        if (!$bill || $bill->is_invalid) {
+            abort(404);
+        }
+       
+        try {
+            if (!BillSignatureHelper::validateSignature($bill, $request->header('X-Pay-Time'), $request->header('X-Bill-Signature'))) {
+                return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
+            }
 
             $response = $this->cyberSourceService->processPayment($bill, ['transit_token' => $request->header('X-Pay-Token'), 'number' => $request->card_number, 'expiration_month' => $request->card_expiration_month, 'expiration_year' => $request->card_expiration_year, 'cvv' => $request->card_cvv]);
             if ($response) {

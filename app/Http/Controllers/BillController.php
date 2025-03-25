@@ -434,16 +434,6 @@ class BillController extends Controller
         return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'));
     }
 
-    public function paymentWaiting(Request $request){
-        $jwt = $request->jwt;
-        if($request->challange){
-            $iframe = 'bills.cybersource.challange_iframe';
-        }else{
-            $iframe = 'bills.cybersource.data_collection_iframe';
-        }
-        return view('bills.payment_waiting', compact( 'iframe', 'jwt'));
-    }
-
     /**
      * Display the payment page for a specified resource.
      *

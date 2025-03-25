@@ -4,8 +4,6 @@ use App\Application;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use GuzzleHttp\Client;
-use Illuminate\Contracts\Cache\Store;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,31 +15,6 @@ use Illuminate\Contracts\Cache\Store;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Payer Setup
-Route::get('authentication-setups', function(){
-  
-  $cybersourceService = new \App\Services\CyberSourceService();
-  return $cybersourceService->payerAuthSetup();
-
-});
-
-// Enrollement
-Route::get('authentications', function(){
-  
-  $cybersourceService = new \App\Services\CyberSourceService();
-  return $cybersourceService->checkPayerAuthEnrollment();
-
-});
-
-// Validation check
-Route::get('authentication-results', function(){
-  
-  $cybersourceService = new \App\Services\CyberSourceService();
-  return $cybersourceService->validateAuthenticationResults();
-
-});
-
 
 Route::domain(config('payment.invoice_subdomain'))->group(function (){
     
@@ -248,7 +221,6 @@ Route::get('current-user-admin/{guard?}', 'UserController@getAuthAdminUser');
 Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('paybillpagelang')->middleware('redirect.to.subdomain');
 Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage')->middleware('redirect.to.subdomain');
-Route::get('/payment-waiting', 'BillController@paymentWaiting')->name('payment.waiting');
 
 Route::middleware(['auth'])->group(function () {
   Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
