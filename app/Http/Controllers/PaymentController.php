@@ -137,12 +137,30 @@ class PaymentController extends Controller
                 return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
             }
 
-            $response = $this->cyberSourceService->processPayment($bill, ['transit_token' => $request->header('X-Pay-Token'), 'number' => $request->card_number, 'expiration_month' => $request->card_expiration_month, 'expiration_year' => $request->card_expiration_year, 'cvv' => $request->card_cvv]);
+            $cardDetails = [
+                'transit_token' => $request->header('X-Pay-Token'), 
+                'number' => $request->card_number, 
+                'expiration_month' => $request->card_expiration_month, 
+                'expiration_year' => $request->card_expiration_year, 
+                'cvv' => $request->card_cvv
+            ];
+
+            $payerAuthDetails = [
+                'payerAuthReferenceId' => $request->payerAuthReferenceId,
+                'authenticationTransactionId' => $request->authenticationTransactionId,
+                'authenticationResult' => $request->authenticationResult,
+                'authenticationStatusMsg' => $request->authenticationStatusMsg,
+                'cavv' => $request->cavv,
+                'xid' => $request->xid,
+                'eciRaw' => $request->eciRaw,
+            ];
+
+            $response = $this->cyberSourceService->processPayment($bill, $cardDetails, $payerAuthDetails);
             if ($response) {
                 if ($bill->application && $bill->application->redirect) {
                     $redirectTo = $bill->redirect_url;
                 } else {
-                    $redirectTo = url()->to(rtrim(config('app.url'), "/").'/bills/'. $bill->id);
+                    $redirectTo = $bill->pay_url;
                 }
 
                 return response()->json(['redirect_to' => $redirectTo, 'status' => 'success'], 200);

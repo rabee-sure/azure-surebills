@@ -14,9 +14,9 @@ abstract class PaymentAbstract
         $this->providerName = $providerName;
     }
 
-    abstract public function processPayment($bill, $cardDetails);
+    abstract public function processPayment($bill, $cardDetails, $payerAuthDetails);
     abstract public function processRefund($transactionId, $amount, $code);
-    abstract protected function preparePaymentPayload($bill, $cardDetails);
+    abstract protected function preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
     
     protected function createPaymentLog($billId, $paymentMethod){
         return PaymentLog::create([

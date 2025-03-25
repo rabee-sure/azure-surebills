@@ -36,6 +36,7 @@ use CyberSource\Model\PtsV2PaymentsPost201Response;
 use CyberSource\Model\PtsV2PaymentsRefundPost201Response;
 use CyberSource\Model\RefundPaymentRequest;
 use CyberSource\Model\TssV2TransactionsGet200Response;
+use CyberSource\Model\Ptsv2paymentsConsumerAuthenticationInformation;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use CyberSource\Api\MicroformIntegrationApi;
@@ -115,9 +116,9 @@ class CyberSourceService extends PaymentAbstract
      * @return array The response from the CyberSource payment API.
      * @throws Exception If the payment fails.
      */
-    public function processPayment($bill, $cardDetails)
+    public function processPayment($bill, $cardDetails, $payerAuthDetails)
     {
-        $payload = $this->preparePaymentPayload($bill, $cardDetails);
+        $payload = $this->preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
             return $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload);
@@ -374,7 +375,7 @@ class CyberSourceService extends PaymentAbstract
         return false;
     }
 
-    protected function preparePaymentPayload($bill, $cardDetails, $payloadType = null)
+    protected function preparePaymentPayload($bill, $cardDetails, $payerAuthDetails, $payloadType = null)
     {
         $processingInformation = $transientTokenJwt = null;
         $paymentInfo = new PtsV2PaymentsPaymentInformation();
@@ -416,12 +417,20 @@ class CyberSourceService extends PaymentAbstract
             ]
         );
 
+        $consumerAuthenticationInformation = new Ptsv2paymentsConsumerAuthenticationInformation([
+            'authenticationTransactionId' => $payerAuthDetails['authenticationTransactionId'],
+            'cavv' => $payerAuthDetails['cavv'],
+            'xid' => $payerAuthDetails['xid'],
+            'eciRaw' => $payerAuthDetails['eciRaw'],
+        ]);
+
         $paymentRequest = new CreatePaymentRequest([
             'clientReferenceInformation' => new Ptsv2paymentsidrefundsClientReferenceInformation(['code' => $bill->id]),
             'orderInformation' => $orderInfo,
             'processingInformation' => $processingInformation,
             'tokenInformation' => $transientTokenJwt,
             'paymentInformation' => $paymentInfo,
+            'consumerAuthenticationInformation' => $consumerAuthenticationInformation,
         ]);
 
         return [

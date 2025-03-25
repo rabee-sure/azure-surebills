@@ -128,6 +128,11 @@ function validateAuthentication(extraHeaders = {}, extraBody = {}) {
         if (data.payerAuthValidationRes) {
             console.log(data.payerAuthValidationRes);
             if(data.payerAuthValidationRes.status == "AUTHENTICATION_SUCCESSFUL"){
+                extraBody.authenticationResult = data.payerAuthValidationRes.consumerAuthenticationInformation.authenticationResult;
+                extraBody.authenticationStatusMsg = data.payerAuthValidationRes.consumerAuthenticationInformation.authenticationStatusMsg;
+                extraBody.cavv = data.payerAuthValidationRes.consumerAuthenticationInformation.cavv;
+                extraBody.xid = data.payerAuthValidationRes.consumerAuthenticationInformation.xid;
+                extraBody.eciRaw = data.payerAuthValidationRes.consumerAuthenticationInformation.eciRaw;
                 completePaymentProcess({}, extraBody);
             }
         }
