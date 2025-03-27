@@ -15,4 +15,13 @@ class BillSubdomainController extends Controller
         
         abort(404);
     }
+
+    public function cybersourceReturn(Request $request){
+        
+        \Log::error('I am here');
+        \Log::error($request->all());
+        \Log::error('transaction id = ' . session()->get('transaction_id'));
+        
+    }
+
 }
