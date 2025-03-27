@@ -175,8 +175,7 @@ class CyberSourceService extends PaymentAbstract
                     'acsWindowSize' => '05',
                     'referenceId' => $payerSetupRefranceId,
                     'transactionMode' => 'S',
-                    'returnUrl' => route('validate-auth-result')
-                    // 'https://wv730hw7033250:3002/restapi/cardinalDirect/StepUp/Response'
+                    'returnUrl' => 'https://wv730hw7033250:3002/restapi/cardinalDirect/StepUp/Response'
                 ])
             ]
         ); // \CyberSource\Model\CheckPayerAuthEnrollmentRequest |
@@ -185,7 +184,7 @@ class CyberSourceService extends PaymentAbstract
             $result = $api_instance->checkPayerAuthEnrollment($checkPayerAuthEnrollmentRequest);
             $resultModel = new RiskV1AuthenticationsPost201Response(json_decode($result[0], true));
             $responseBody = json_decode($resultModel, true);
-            session()->put('transaction_id', $responseBody['consumerAuthenticationInformation']['authenticationTransactionId']);
+            // session()->put('transaction_id', $responseBody['consumerAuthenticationInformation']['authenticationTransactionId']);
             return $responseBody;
         } catch (Exception $e) {
             echo 'Exception when calling PayerAuthenticationApi->checkPayerAuthEnrollment: ', $e->getMessage(), PHP_EOL;
