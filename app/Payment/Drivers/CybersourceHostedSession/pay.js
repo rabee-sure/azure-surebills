@@ -79,9 +79,11 @@ function checkEnrollment(extraHeaders = {}, extraBody = {}) {
             // console.log(data.payerAuthCheckEnrollmentRes);
             if(data.payerAuthCheckEnrollmentRes.status == "PENDING_AUTHENTICATION"){
                 loaded();
-                console.log('access token '+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
+                // console.log('access token '+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
                 // BuildStepUpIFrame(data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
-                window.location.href = "https://sure-bills.test/iframe-2/"+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
+                // console.log('<?php echo rtrim(env("APP_URL"), "/") ?>');
+                console.log('<?php echo rtrim(env("APP_URL"), "/") ?>/iframe-2/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
+                window.location.href = '<?php echo rtrim(env("APP_URL"), "/") ?>/iframe-2/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
             }
             // setTimeout(function() {
             //     loading();
