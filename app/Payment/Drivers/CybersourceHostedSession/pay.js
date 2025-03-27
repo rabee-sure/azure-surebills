@@ -80,17 +80,17 @@ function checkEnrollment(extraHeaders = {}, extraBody = {}) {
             if(data.payerAuthCheckEnrollmentRes.status == "PENDING_AUTHENTICATION"){
                 loaded();
                 // console.log('access token '+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
-                // BuildStepUpIFrame(data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
+                BuildStepUpIFrame(data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
                 // console.log('<?php echo rtrim(env("APP_URL"), "/") ?>');
-                console.log('<?php echo rtrim(env("APP_URL"), "/") ?>/iframe-2/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
-                window.location.href = '<?php echo rtrim(env("APP_URL"), "/") ?>/iframe-2/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
+                // console.log('<?php echo rtrim(env("APP_URL"), "/") ?>/iframe-2/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
+                // window.location.href = '<?php echo rtrim(env("APP_URL"), "/") ?>/iframe-2/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
             }
-            // setTimeout(function() {
-            //     loading();
-            //     // emptyIFrame();
-            //     extraBody.authenticationTransactionId = data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.authenticationTransactionId;
-            //     validateAuthentication({}, extraBody);
-            // }, 20000);
+            setTimeout(function() {
+                loading();
+                emptyIFrame();
+                extraBody.authenticationTransactionId = data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.authenticationTransactionId;
+                validateAuthentication({}, extraBody);
+            }, 30000);
         }
     }).catch(error => {
         if (error.errors) {
