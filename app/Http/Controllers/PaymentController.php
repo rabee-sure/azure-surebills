@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\CyberSourceService;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\BillSignatureHelper;
+use Illuminate\Support\Facades\Cache;
 
 class PaymentController extends Controller
 {
@@ -49,7 +50,11 @@ class PaymentController extends Controller
                 'card_number' => $request->card_number,
                 'card_expiry_month' => $request->card_expiration_month,
                 'card_expiry_year' => $request->card_expiration_year,
+                'cvv' => $request->card_cvv,
             ];
+
+            Cache::put('card_data', $cardData, 60); // Store for 60 minutes
+
             $response = $this->cyberSourceService->payerAuthSetup($cardData);
             if ($response['status'] == 'COMPLETED') {
                 return response()->json(['payerAuthSetupRes' => $response, 'status' => 'success'], 200);
@@ -60,6 +65,11 @@ class PaymentController extends Controller
             Log::error($e->getMessage());
             return response()->json(['errors' => ['message' => [trans('Payer Auth Setup Faild')]]], 400);
         }
+    }
+
+    public function testSession()
+    {
+        dd(Cache::get('card_data'));
     }
 
     public function checkPayerAuthEnrollment(Request $request){

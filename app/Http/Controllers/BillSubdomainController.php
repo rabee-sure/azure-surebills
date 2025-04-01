@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Cache;
 
 class BillSubdomainController extends Controller
 {
@@ -21,6 +21,11 @@ class BillSubdomainController extends Controller
         
         $data = json_encode($request->all());
         \Log::build(['driver' => 'single', 'path' => storage_path('logs/return-enrollement-log' . '.log'), 'level' => 'debug'])->error($data);
+        $card = json_encode(Cache::get('card_data'));
+        \Log::build(['driver' => 'single', 'path' => storage_path('logs/return-enrollement-log' . '.log'), 'level' => 'debug'])->error($card);
+
+
+        // dd(session()->get('card_data'));
 
         // dd('cookie = '. Cookie::get('transaction_id'), 'session = '.session()->get('transaction_id'));
         

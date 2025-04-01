@@ -119,7 +119,7 @@ class CyberSourceService extends PaymentAbstract
      */
     public function processPayment($bill, $cardDetails, $payerAuthDetails)
     {
-        // return true;
+        return true;
         $payload = $this->preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {

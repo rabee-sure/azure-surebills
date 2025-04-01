@@ -20,8 +20,7 @@ use App\Http\Controllers\BillSubdomainController;
  * Routes for test must remove on production
  */
 
- Route::any('validate/payer/auth', [BillSubdomainController::class, 'cybersourceReturn'])->name('validate-auth-result');
-
+Route::any('validate/payer/auth', [BillSubdomainController::class, 'cybersourceReturn'])->name('validate-auth-result');
 
 // Payer Setup
 Route::post('payer-auth-setup', [PaymentController::class, 'payerAuthSetup'])->name('cybersource.payerAuth.setup');
@@ -34,6 +33,7 @@ Route::post('payer-auth-validation-results', [PaymentController::class, 'validat
 
 // Payment
 Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('process.payment');
+Route::get('/testSession', [PaymentController::class, 'testSession'])->name('testSession');
 
 // Route::post('reverse-transaction-simulation', function(Request $request){
 // 	// dd($request->header('secret-key'), $request->transaction_id);
