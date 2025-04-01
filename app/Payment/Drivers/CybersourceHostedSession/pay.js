@@ -57,6 +57,7 @@ function BuildDeviceDataCollectionIFrame(accessToken) {
     window.addEventListener("message", function (event) {
         if (event.origin === actionUrl) {
             // console.log(event.data);
+            // alert('here');
         }
     }, false);
 }
@@ -82,12 +83,12 @@ function checkEnrollment(extraHeaders = {}, extraBody = {}) {
                 BuildStepUpIFrame(data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
                 // window.location.href = '<?php echo rtrim(env("APP_URL"), "/") ?>/iframe-2/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
             }
-            setTimeout(function() {
-                loading();
-                emptyIFrame();
-                extraBody.authenticationTransactionId = data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.authenticationTransactionId;
-                validateAuthentication({}, extraBody);
-            }, 30000);
+            // setTimeout(function() {
+            //     loading();
+            //     emptyIFrame();
+            //     extraBody.authenticationTransactionId = data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.authenticationTransactionId;
+            //     validateAuthentication({}, extraBody);
+            // }, 30000);
         }
     }).catch(error => {
         if (error.errors) {

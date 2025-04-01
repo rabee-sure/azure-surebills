@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\ZatcaController;
 use App\Services\CyberSourceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\BillSubdomainController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 /**
  * Routes for test must remove on production
  */
+
+ Route::any('validate/payer/auth', [BillSubdomainController::class, 'cybersourceReturn'])->name('validate-auth-result');
+
 
 // Payer Setup
 Route::post('payer-auth-setup', [PaymentController::class, 'payerAuthSetup'])->name('cybersource.payerAuth.setup');

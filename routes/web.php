@@ -1,6 +1,7 @@
 <?php
 
 use App\Application;
+use App\Http\Controllers\CyberSourceController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::post('setup-enrollement', [CyberSourceController::class, 'setupEnrollement'])->name('setup-enrollement');
+
 Route::get('iframe-1', function(){
 
   return view('cyber.iframe-1', ['token' => 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkM2Y1NDdkYy1lOWUzLTQ3MzYtOTAxZC02YjY3ZDk0NjU1NWEiLCJpYXQiOjE3NDMwNzEzMDEsImlzcyI6IjVkZDgzYmYwMGU0MjNkMTQ5OGRjYmFjYSIsImV4cCI6MTc0MzA3NDkwMSwiT3JnVW5pdElkIjoiNjczZGFlZTMyOWYwYjc0MzM4NGQ5MjAzIiwiUGF5bG9hZCI6eyJBQ1NVcmwiOiJodHRwczovLzBtZXJjaGFudGFjc3N0YWcuY2FyZGluYWxjb21tZXJjZS5jb20vTWVyY2hhbnRBQ1NXZWIvY3JlcS5qc3AiLCJQYXlsb2FkIjoiZXlKdFpYTnpZV2RsVkhsd1pTSTZJa05TWlhFaUxDSnRaWE56WVdkbFZtVnljMmx2YmlJNklqSXVNaTR3SWl3aWRHaHlaV1ZFVTFObGNuWmxjbFJ5WVc1elNVUWlPaUptTXpGaE5qWXdNUzFrTldObUxUUXlOamt0T0RJM09DMWxPREl6WXpNMU5UZzRaV1FpTENKaFkzTlVjbUZ1YzBsRUlqb2laRGt4WlRrd1ltVXRNVGxqTnkwME5qazFMVGc1WVdFdE56TXdPREZqTW1VeVlqQXhJaXdpWTJoaGJHeGxibWRsVjJsdVpHOTNVMmw2WlNJNklqQXlJbjAiLCJUcmFuc2FjdGlvbklkIjoiU3hVSnVmZjFVRWNuemNvZDBGRTAifSwiT2JqZWN0aWZ5UGF5bG9hZCI6dHJ1ZSwiUmV0dXJuVXJsIjoiaHR0cHM6Ly93djczMGh3NzAzMzI1MDozMDAyL3Jlc3RhcGkvY2FyZGluYWxEaXJlY3QvU3RlcFVwL1Jlc3BvbnNlIn0.Ei9cuzo0iiE-VyEwUuIQsiRAUyqjwJFNlYvJTNE7xrY']);
@@ -29,8 +33,7 @@ Route::get('iframe-2/{token}', function($token){
 
 })->name('ifreame_2');
 
-
-Route::any('validate/payer/auth','BillSubdomainController@cybersourceReturn')->name('validate-auth-result');
+// Route::any('validate/payer/auth2','BillSubdomainController@cybersourceReturn2')->name('validate-auth-result-2');
 
 Route::domain(config('payment.invoice_subdomain'))->group(function (){
     

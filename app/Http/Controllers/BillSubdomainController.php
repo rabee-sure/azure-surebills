@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class BillSubdomainController extends Controller
 {
@@ -18,10 +19,17 @@ class BillSubdomainController extends Controller
 
     public function cybersourceReturn(Request $request){
         
-        \Log::error('I am here');
-        \Log::error($request->all());
-        \Log::error('transaction id = ' . session()->get('transaction_id'));
+        $data = json_encode($request->all());
+        \Log::build(['driver' => 'single', 'path' => storage_path('logs/return-enrollement-log' . '.log'), 'level' => 'debug'])->error($data);
+
+        // dd('cookie = '. Cookie::get('transaction_id'), 'session = '.session()->get('transaction_id'));
         
+    }
+
+    public function cybersourceReturn2(Request $request){
+
+        // dd('cookie = '. Cookie::get('transaction_id'), 'session = '.session()->get('transaction_id'));
+
     }
 
 }
