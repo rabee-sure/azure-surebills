@@ -10,12 +10,12 @@
 <body>
     <iframe id='cardinal_collection_iframe' name='collectionIframe' height='10' width='10' style='display: none;'></iframe>
     <form id='cardinal_collection_form' method='POST' target='collectionIframe' action="{{config('cybersource.device_data_collection_action_url')}}">
-        <input id='cardinal_collection_form_input' type='hidden' name='JWT' value="{{session('setup_access_token')}}">
+        <input id='cardinal_collection_form_input' type='hidden' name='JWT' value="{{$setupAccessToken}}">
     </form>
 </body>
 
-
 <script>
+    var actionUrl = "<?php echo config('cybersource.device_data_collection_action_url'); ?>"
     var cardinalCollectionForm = document.querySelector('#cardinal_collection_form');
     if (cardinalCollectionForm) // form exists 
         cardinalCollectionForm.submit();

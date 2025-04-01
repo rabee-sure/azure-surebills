@@ -41,6 +41,11 @@ Route::domain(config('payment.invoice_subdomain'))->group(function (){
   Route::get('/bills/{id}/pay', 'BillController@pay')->name('bill.invoice.subdomain');
   Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('bill.invoice.lang.subdomain');
 
+  Route::get('device_data_collect_information/{setupAccessToken}', function($setupAccessToken){
+    return view('cyber.otp_form', ['setupAccessToken' => $setupAccessToken]);
+  })->name('device_data_collect_information');
+
+
   // Route::any('validate/payer/auth','BillSubdomainController@cybersourceReturn')->name('validate-auth-result');
   
 
@@ -374,7 +379,7 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 });
 
 Route::get('/', 'HomeController@landing');
-Route::get('/contact', 'HomeController@contact');
+Route::get('/contact', 'HomeController@contact')->name('contact');
 Route::get('/privacy', 'HomeController@privacy');
 Route::get('/terms', 'HomeController@terms');
 

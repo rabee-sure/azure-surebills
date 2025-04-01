@@ -24,6 +24,8 @@ class BillSubdomainController extends Controller
         $card = json_encode(Cache::get('card_data'));
         \Log::build(['driver' => 'single', 'path' => storage_path('logs/return-enrollement-log' . '.log'), 'level' => 'debug'])->error($card);
 
+        return redirect()->route('contact');
+ 
 
         // dd(session()->get('card_data'));
 

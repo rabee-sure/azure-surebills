@@ -80,7 +80,14 @@ function checkEnrollment(extraHeaders = {}, extraBody = {}) {
             // console.log(data.payerAuthCheckEnrollmentRes);
             if(data.payerAuthCheckEnrollmentRes.status == "PENDING_AUTHENTICATION"){
                 loaded();
-                BuildStepUpIFrame(data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
+
+                window.location.href = '<?php echo rtrim(env("INVOICE_SUBDOMAIN_URL"), "/") ?>/device_data_collect_information/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
+
+
+
+                // BuildStepUpIFrame(data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
+                // console.log(data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
+                // window.location.href = '<?php echo rtrim(env("APP_URL"), "/") ?>/device_data_collect_information/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
                 // window.location.href = '<?php echo rtrim(env("APP_URL"), "/") ?>/iframe-2/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
             }
             // setTimeout(function() {
