@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\ZatcaController;
 use App\Services\CyberSourceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BillSubdomainController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
