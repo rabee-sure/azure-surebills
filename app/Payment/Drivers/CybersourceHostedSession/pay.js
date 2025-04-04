@@ -18,8 +18,6 @@ function completePayment(extraHeaders = {}, extraBody = {}) {
 
 function payerAuthSteps(extraHeaders = {}, extraBody = {}){
     // Call the payerAuthSetup function
-    // console.log("payerAuthSteps");
-
     fetch("<?php echo route('cybersource.payerAuth.setup') ?>", {
         method: "POST",
         headers: requestHeader(extraHeaders),
@@ -31,7 +29,6 @@ function payerAuthSteps(extraHeaders = {}, extraBody = {}){
         return response.json();
     }).then(data => { // Equivalent to success
         if (data.payerAuthSetupRes) {
-            // console.log(data.payerAuthSetupRes);
             BuildDeviceDataCollectionIFrame(data.payerAuthSetupRes.consumerAuthenticationInformation.accessToken);
             setTimeout(function() {
                 extraBody.payerAuthReferenceId = data.payerAuthSetupRes.consumerAuthenticationInformation.referenceId;
@@ -57,16 +54,13 @@ function BuildDeviceDataCollectionIFrame(accessToken) {
 
     window.addEventListener("message", function (event) {
         if (event.origin === actionUrl) {
-            // console.log(event.data);
-            // alert('here');
+            // 
         }
     }, false);
 }
 
 function checkEnrollment(extraHeaders = {}, extraBody = {}) {
     // Call the checkEnrollment function
-    // console.log("checkEnrollment");
-
     fetch("<?php echo route('cybersource.payerAuth.enrollment.check') ?>", {
         method: "POST",
         headers: requestHeader(extraHeaders),
@@ -78,18 +72,10 @@ function checkEnrollment(extraHeaders = {}, extraBody = {}) {
         return response.json();
     }).then(data => { // Equivalent to success
         if (data.payerAuthCheckEnrollmentRes) {
-            // console.log(data.payerAuthCheckEnrollmentRes);
             if(data.payerAuthCheckEnrollmentRes.status == "PENDING_AUTHENTICATION"){
                 loaded();
-
-                window.location.href = '<?php echo rtrim(env("INVOICE_SUBDOMAIN_URL"), "/") ?>/device_data_collect_information/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
-
-
-
+                window.location.href = '<?php echo rtrim(env("INVOICE_SUBDOMAIN_URL"), "/") ?>/payment/otp/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
                 // BuildStepUpIFrame(data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
-                // console.log(data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
-                // window.location.href = '<?php echo rtrim(env("APP_URL"), "/") ?>/device_data_collect_information/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
-                // window.location.href = '<?php echo rtrim(env("APP_URL"), "/") ?>/iframe-2/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
             }
             // setTimeout(function() {
             //     loading();
@@ -123,8 +109,6 @@ function emptyIFrame() {
 
 function validateAuthentication(extraHeaders = {}, extraBody = {}) {
     // Call the validateAuthentication function
-    // console.log("validateAuthentication");
-
     fetch("<?php echo route('cybersource.payerAuth.validation.results') ?>", {
         method: "POST",
         headers: requestHeader(extraHeaders),
@@ -135,16 +119,13 @@ function validateAuthentication(extraHeaders = {}, extraBody = {}) {
         }
         return response.json();
     }).then(data => { // Equivalent to success
-        // // console.log(data);
         if (data.payerAuthValidationRes) {
             if(data.payerAuthValidationRes.status == "AUTHENTICATION_SUCCESSFUL"){
-                // console.log(data.payerAuthValidationRes.consumerAuthenticationInformation);
                 extraBody.authenticationResult = data.payerAuthValidationRes.consumerAuthenticationInformation.authenticationResult;
                 extraBody.authenticationStatusMsg = data.payerAuthValidationRes.consumerAuthenticationInformation.authenticationStatusMsg;
                 extraBody.cavv = data.payerAuthValidationRes.consumerAuthenticationInformation.cavv;
                 extraBody.xid = data.payerAuthValidationRes.consumerAuthenticationInformation.xid;
                 extraBody.eciRaw = data.payerAuthValidationRes.consumerAuthenticationInformation.eciRaw;
-                // console.log(extraBody);
                 completePaymentProcess({}, extraBody);
             }
         }
@@ -159,8 +140,6 @@ function validateAuthentication(extraHeaders = {}, extraBody = {}) {
 
 function completePaymentProcess(extraHeaders = {}, extraBody = {}) {
     // Call the completePaymentProcess function
-    // console.log("completePaymentProcess");
-
     // Complete the payment process
     fetch("<?php echo route('process.payment') ?>", {
         method: "POST",

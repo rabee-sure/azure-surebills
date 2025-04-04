@@ -60,7 +60,6 @@
 
     window.addEventListener("message", function(event) {
         if (event.data.redirect) {
-            console.log('heree = ' + event.data.redirect);
             window.location.href = event.data.redirect; // Redirect the whole page
         }
     });
