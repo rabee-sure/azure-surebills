@@ -64,7 +64,6 @@ use CyberSource\Model\Riskv1authenticationsDeviceInformation;
 use CyberSource\Model\RiskV1AuthenticationSetupsPost201Response;
 use CyberSource\Model\RiskV1AuthenticationsPost201Response;
 use CyberSource\Model\ValidateRequest;
-use Illuminate\Support\Facades\Cookie;
 
 class CyberSourceService extends PaymentAbstract
 
@@ -119,7 +118,7 @@ class CyberSourceService extends PaymentAbstract
      */
     public function processPayment($bill, $cardDetails, $payerAuthDetails)
     {
-        return true;
+        // return true;
         $payload = $this->preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
@@ -154,7 +153,7 @@ class CyberSourceService extends PaymentAbstract
         }
     }
 
-    public function checkPayerAuthEnrollment($billAmount, $cardData, $payerSetupRefranceId){
+    public function checkPayerAuthEnrollment($billId, $billAmount, $cardData, $payerSetupRefranceId){
         $api_instance = new PayerAuthenticationApi($this->apiClient);
         $checkPayerAuthEnrollmentRequest = new CheckPayerAuthEnrollmentRequest(
             [
@@ -176,7 +175,9 @@ class CyberSourceService extends PaymentAbstract
                     'acsWindowSize' => '05',
                     'referenceId' => $payerSetupRefranceId,
                     'transactionMode' => 'S',
-                    'returnUrl' => route('validate-auth-result'),
+                    'returnUrl' => route('cybersource.callback.after.enrollement', ['billId' => $billId]),
+                    //route('validate-auth-result'),
+                    // 'returnUrl' => route('validate-auth-result')->with('bill_id', $billId),
                     //'https://wv730hw7033250:3002/restapi/cardinalDirect/StepUp/Response'
                 ])
             ]
@@ -186,13 +187,6 @@ class CyberSourceService extends PaymentAbstract
             $result = $api_instance->checkPayerAuthEnrollment($checkPayerAuthEnrollmentRequest);
             $resultModel = new RiskV1AuthenticationsPost201Response(json_decode($result[0], true));
             $responseBody = json_decode($resultModel, true);
-            // \Log::error('transaction_id = ' . $responseBody['consumerAuthenticationInformation']['authenticationTransactionId']);
-
-            // $this->validateAuthenticationResults($responseBody['consumerAuthenticationInformation']['authenticationTransactionId']);
-
-            // Cookie::queue('transaction_id', $responseBody['consumerAuthenticationInformation']['authenticationTransactionId'], 60);
-            // session()->put('transaction_id', $responseBody['consumerAuthenticationInformation']['authenticationTransactionId']);
-            // \Log::error('transaction_id session = ' . session()->get('transaction_id'));
             return $responseBody;
         } catch (Exception $e) {
             echo 'Exception when calling PayerAuthenticationApi->checkPayerAuthEnrollment: ', $e->getMessage(), PHP_EOL;
@@ -403,7 +397,7 @@ class CyberSourceService extends PaymentAbstract
                 'expirationYear' => $cardDetails['expiration_year'],
                 'securityCode' => $cardDetails['cvv'],
             ]);
-            // $paymentInfo->setCard($paymentInfoCard);
+            $paymentInfo->setCard($paymentInfoCard);
         }
 
         $amountDetails = new Ptsv2paymentsOrderInformationAmountDetails([
@@ -428,7 +422,7 @@ class CyberSourceService extends PaymentAbstract
         );
 
         $consumerAuthenticationInformation = new Ptsv2paymentsConsumerAuthenticationInformation([
-            'authenticationTransactionId' => $payerAuthDetails['authenticationTransactionId'],
+            // 'authenticationTransactionId' => $payerAuthDetails['authenticationTransactionId'],
             'cavv' => $payerAuthDetails['cavv'],
             'xid' => $payerAuthDetails['xid'],
             'eciRaw' => $payerAuthDetails['eciRaw'],

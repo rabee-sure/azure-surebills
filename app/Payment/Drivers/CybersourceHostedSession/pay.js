@@ -41,8 +41,9 @@ function payerAuthSteps(extraHeaders = {}, extraBody = {}){
     }).catch(error => {
         if (error.errors) {
             displayValidationErrors(error.errors);
+            loaded();
         }
-    });
+    })
 }
 
 function BuildDeviceDataCollectionIFrame(accessToken) {
@@ -101,6 +102,8 @@ function checkEnrollment(extraHeaders = {}, extraBody = {}) {
         if (error.errors) {
             displayValidationErrors(error.errors);
         }
+    }).finally(() => { // Equivalent to complete
+        loaded();
     });
 }
 
@@ -149,6 +152,8 @@ function validateAuthentication(extraHeaders = {}, extraBody = {}) {
         if (error.errors) {
             displayValidationErrors(error.errors);
         }
+    }).finally(() => { // Equivalent to complete
+        loaded();
     });
 }
 

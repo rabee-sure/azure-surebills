@@ -20,11 +20,19 @@
     if (cardinalCollectionForm) // form exists 
         cardinalCollectionForm.submit();
 
+
+
     window.addEventListener("message", function(event) {
-        if (event.origin === actionUrl) {
-            // console.log(event.data);
+        if (event.data.redirect) {
+            window.location.href = event.data.redirect; // Redirect the whole page
         }
-    }, false);
+    });        
+
+    // window.addEventListener("message", function(event) {
+    //     if (event.origin === actionUrl) {
+    //         // console.log(event.data);
+    //     }
+    // }, false);
 </script>
 
 

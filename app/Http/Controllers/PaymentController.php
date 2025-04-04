@@ -12,6 +12,8 @@ use App\Services\CyberSourceService;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\BillSignatureHelper;
 use Illuminate\Support\Facades\Cache;
+use Exception;
+use Illuminate\Support\Facades\Crypt;
 
 class PaymentController extends Controller
 {
@@ -52,8 +54,8 @@ class PaymentController extends Controller
                 'card_expiry_year' => $request->card_expiration_year,
                 'cvv' => $request->card_cvv,
             ];
-
-            Cache::put('card_data', $cardData, 60); // Store for 60 minutes
+            
+            Cache::put('card_data_'.$bill->id, Crypt::encrypt($cardData), now()->addMinutes(10));
 
             $response = $this->cyberSourceService->payerAuthSetup($cardData);
             if ($response['status'] == 'COMPLETED') {
@@ -65,11 +67,6 @@ class PaymentController extends Controller
             Log::error($e->getMessage());
             return response()->json(['errors' => ['message' => [trans('Payer Auth Setup Faild')]]], 400);
         }
-    }
-
-    public function testSession()
-    {
-        dd(Cache::get('card_data'));
     }
 
     public function checkPayerAuthEnrollment(Request $request){
@@ -88,7 +85,7 @@ class PaymentController extends Controller
                 'card_expiry_month' => $request->card_expiration_month,
                 'card_expiry_year' => $request->card_expiration_year,
             ];
-            $response = $this->cyberSourceService->checkPayerAuthEnrollment($bill->fixed_total, $cardData, $request->payerAuthReferenceId);
+            $response = $this->cyberSourceService->checkPayerAuthEnrollment($bill->id, $bill->fixed_total, $cardData, $request->payerAuthReferenceId);
             if ($response['status'] != "AUTHENTICATION_FAILED") {
                 return response()->json(['payerAuthCheckEnrollmentRes' => $response, 'status' => 'success'], 200);
             }
@@ -126,6 +123,51 @@ class PaymentController extends Controller
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['errors' => ['message' => [trans('Payer Auth Validation Faild')]]], 400);
+        }
+    }
+
+    public function callbackAfterEnrollement(Request $request, $billId){
+
+        try{
+            $validateAuthenticationResponse = $this->cyberSourceService->validateAuthenticationResults($request->TransactionId);
+            $bill = Bill::find($billId);
+            if(!$bill)
+            {
+                throw new Exception('Bill not found');
+            }
+
+            $cachedCardDetail = Cache::get('card_data_'.$billId);
+            if (!$cachedCardDetail) {
+                throw new Exception('Card data not found');
+            }            
+
+            Log::error($cachedCardDetail);
+            $cachedCardDetail = Crypt::decrypt($cachedCardDetail);
+            Log::error($cachedCardDetail);
+
+            $cardDetails = [
+                'number' => $cachedCardDetail['card_number'],
+                'expiration_month' => $cachedCardDetail['card_expiry_month'],
+                'expiration_year' => $cachedCardDetail['card_expiry_year'],
+                'cvv' => $cachedCardDetail['cvv'],
+            ];
+    
+            $payerAuthDetails = [
+                'authenticationResult' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationResult'],
+                'authenticationStatusMsg' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationStatusMsg'],
+                'cavv' => $validateAuthenticationResponse['consumerAuthenticationInformation']['cavv'],
+                'xid' => $validateAuthenticationResponse['consumerAuthenticationInformation']['xid'],
+                'eciRaw' => $validateAuthenticationResponse['consumerAuthenticationInformation']['eciRaw'],
+            ];
+    
+            $this->cyberSourceService->processPayment($bill, $cardDetails, $payerAuthDetails);
+    
+        } catch(Exception $e) {
+            Log::error($e->getMessage());
+        } finally {
+            Cache::forget('card_data_'.$billId);
+            $returnUrl = $bill->pay_url;
+            return response("<script>window.parent.postMessage({ redirect: '" . $returnUrl . "' }, '*');</script>");    
         }
     }
 
