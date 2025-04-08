@@ -75,9 +75,12 @@ class MerchantsOutstandingReport extends Resource
 
             Date::make(__('Request date'), 'created_at')->exceptOnForms(),
             Text::make(__('Download File'), function(){
-                if(file_exists(storage_path('app/public/reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx')))
+                if(file_exists(storage_path('app/reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx')))
                 {
-                    return "<a class='btn btn-success' style='margin:5px' href='".Storage::url('reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx')."'><i class='fa fa-download' aria-hidden='true'></i></a>";
+                    return "<a class='btn btn-success' style='margin:5px' href='". url('file/admins/' . 'reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx') ."'><i class='fa fa-download' aria-hidden='true'></i></a>";
+                }elseif(file_exists(storage_path('app/public/reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx')))
+                {
+                    return "<a class='btn btn-success' style='margin:5px' href='". url('file/admins/' . 'public/reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx') ."'><i class='fa fa-download' aria-hidden='true'></i></a>";
                 }
             })->asHtml(),
         ];

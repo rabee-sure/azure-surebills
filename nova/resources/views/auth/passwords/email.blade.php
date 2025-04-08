@@ -16,12 +16,21 @@
     @endcomponent
 
     @if (session('status'))
-    <div class="text-success text-center font-semibold my-3">
-        {{ session('status') }}
+    <div class="text-info text-center font-semibold my-3">
+        {{-- {{ session('status') }} --}}
+        {{__("If this email is associated with an account, you will receive a password reset link.")}}
     </div>
     @endif
 
-    @include('nova::auth.partials.errors')
+    {{-- @include('nova::auth.partials.errors') --}}
+
+    @if ($errors->any())
+        @if ($errors->has('email'))
+            <div class="text-info text-center font-semibold my-3">
+                {{__("If this email is associated with an account, you will receive a password reset link.")}}
+            </div>
+        @endif
+    @endif
 
     <div class="form-group mb-6 {{ $errors->has('email') ? ' has-error' : '' }}">
         <label class="block font-bold mb-2" for="email">{{ __('Email Address') }}</label>

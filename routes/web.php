@@ -1,6 +1,7 @@
 <?php
 
 use App\Application;
+use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -352,6 +353,8 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
   Route::resource('users', 'StoreUserController');
   Route::resource('roles', 'RolesController');
 });
+
+Route::get('file/{guard}/{file}', [MediaController::class, 'getFile'])->where('file', '.*');
 
 Route::get('/', 'HomeController@landing');
 Route::get('/contact', 'HomeController@contact');
