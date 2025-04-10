@@ -398,15 +398,6 @@ class CyberSourceService extends PaymentAbstract
                 'securityCode' => $cardDetails['cvv'],
             ]);
 
-            Log::build(['driver' => 'single', 'path' => storage_path('logs/card-test-logs.log'), 'level' => 'debug'])->error(json_encode(
-                [
-                    'number' => $cardDetails['number'],
-                    'expirationMonth' => $cardDetails['expiration_month'],
-                    'expirationYear' => $cardDetails['expiration_year'],
-                    'securityCode' => $cardDetails['cvv'],
-                ]
-            ));
-
             $paymentInfo->setCard($paymentInfoCard);
         }
 

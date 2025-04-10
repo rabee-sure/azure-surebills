@@ -56,8 +56,6 @@ class PaymentController extends Controller
                 'cvv' => $request->card_cvv,
             ];
 
-            Log::build(['driver' => 'single', 'path' => storage_path('logs/card-test-logs.log'), 'level' => 'debug'])->error(json_encode($cardData));
-
             Cache::put('card_data_' . $bill->id, Crypt::encrypt($cardData), now()->addMinutes(10));
 
             $response = $this->cyberSourceService->payerAuthSetup($cardData);
@@ -158,8 +156,6 @@ class PaymentController extends Controller
                 'cvv' => $cachedCardDetail['cvv'],
             ];
             
-            Log::build(['driver' => 'single', 'path' => storage_path('logs/card-test-logs.log'), 'level' => 'debug'])->error(json_encode($cardDetails));
-
             $payerAuthDetails = [
                 'authenticationResult' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationResult'],
                 'authenticationStatusMsg' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationStatusMsg'],
