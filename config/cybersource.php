@@ -12,6 +12,9 @@ return [
     
     'microform_enabled' => env('CYBERSOURCE_MICROFORM_ENABLED', false),
     
+    'device_data_collection_action_url' => env('CYBERSOURCE_DEVICE_DATA_COLLECTION_ACTION_URL', null),
+    'payer_auth_setup_url' => env('CYBERSOURCE_PAYER_AUTH_SETUP_URL', null),
+
     'allowed_card_networks' => ['AMEX', 'CARNET', 'CARTESBANCAIRES', 'CUP', 'DINERSCLUB', 'DISCOVER', 'EFTPOS', 'ELO', 'JCB', 'JCREW', 'MADA', 'MAESTRO', 'MASTERCARD', 'MEEZA', 'VISA'],
     
     'api_url' => [

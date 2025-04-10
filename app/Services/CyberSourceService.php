@@ -118,6 +118,7 @@ class CyberSourceService extends PaymentAbstract
      */
     public function processPayment($bill, $cardDetails, $payerAuthDetails)
     {
+        // return true;
         $payload = $this->preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
@@ -132,7 +133,7 @@ class CyberSourceService extends PaymentAbstract
         $payerAuthSetupRequest = new PayerAuthSetupRequest([
             'paymentInformation' => new Riskv1authenticationsetupsPaymentInformation([
                 'card' => new Riskv1authenticationsetupsPaymentInformationCard([
-                    // 'type' => '001',
+                    // 'type' => '006',
                     'number' => $cardData['card_number'],
                     'expirationMonth' => $cardData['card_expiry_month'],
                     'expirationYear' => $cardData['card_expiry_year'],
@@ -152,7 +153,7 @@ class CyberSourceService extends PaymentAbstract
         }
     }
 
-    public function checkPayerAuthEnrollment($billAmount, $cardData, $payerSetupRefranceId){
+    public function checkPayerAuthEnrollment($billId, $billAmount, $cardData, $payerSetupRefranceId){
         $api_instance = new PayerAuthenticationApi($this->apiClient);
         $checkPayerAuthEnrollmentRequest = new CheckPayerAuthEnrollmentRequest(
             [
@@ -165,16 +166,19 @@ class CyberSourceService extends PaymentAbstract
                 'paymentInformation' => new Riskv1authenticationsPaymentInformation([
                     'card' => new Riskv1authenticationsetupsPaymentInformationCard([
                         'number' => $cardData['card_number'],
-                        // 'type' => '001',
+                        // 'type' => '006',
                         'expirationMonth' => $cardData['card_expiry_month'],
                         'expirationYear' => $cardData['card_expiry_year'],
                     ])
                 ]),
                 'consumerAuthenticationInformation' => new Riskv1decisionsConsumerAuthenticationInformation([
-                    'acsWindowSize' => '02',
+                    'acsWindowSize' => '05',
                     'referenceId' => $payerSetupRefranceId,
                     'transactionMode' => 'S',
-                    'returnUrl' => 'https://wv730hw7033250:3002/restapi/cardinalDirect/StepUp/Response'
+                    'returnUrl' => route('cybersource.callback.after.enrollement', ['billId' => $billId]),
+                    //route('validate-auth-result'),
+                    // 'returnUrl' => route('validate-auth-result')->with('bill_id', $billId),
+                    //'https://wv730hw7033250:3002/restapi/cardinalDirect/StepUp/Response'
                 ])
             ]
         ); // \CyberSource\Model\CheckPayerAuthEnrollmentRequest |
@@ -393,6 +397,7 @@ class CyberSourceService extends PaymentAbstract
                 'expirationYear' => $cardDetails['expiration_year'],
                 'securityCode' => $cardDetails['cvv'],
             ]);
+
             $paymentInfo->setCard($paymentInfoCard);
         }
 
@@ -418,7 +423,7 @@ class CyberSourceService extends PaymentAbstract
         );
 
         $consumerAuthenticationInformation = new Ptsv2paymentsConsumerAuthenticationInformation([
-            'authenticationTransactionId' => $payerAuthDetails['authenticationTransactionId'],
+            // 'authenticationTransactionId' => $payerAuthDetails['authenticationTransactionId'],
             'cavv' => $payerAuthDetails['cavv'],
             'xid' => $payerAuthDetails['xid'],
             'eciRaw' => $payerAuthDetails['eciRaw'],

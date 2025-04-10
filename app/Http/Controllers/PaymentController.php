@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\DB;
 use App\Services\CyberSourceService;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\BillSignatureHelper;
+use Illuminate\Support\Facades\Cache;
+use Exception;
+use Illuminate\Support\Facades\Crypt;
 
 class PaymentController extends Controller
 {
@@ -34,12 +37,13 @@ class PaymentController extends Controller
         ]);
     }
 
-    public function payerAuthSetup(Request $request){
+    public function payerAuthSetup(Request $request)
+    {
         $bill = Bill::find($request->billId);
         if (!$bill || $bill->is_invalid) {
             abort(404);
         }
-       
+
         try {
             if (!BillSignatureHelper::validateSignature($bill, $request->header('X-Pay-Time'), $request->header('X-Bill-Signature'))) {
                 return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
@@ -49,7 +53,11 @@ class PaymentController extends Controller
                 'card_number' => $request->card_number,
                 'card_expiry_month' => $request->card_expiration_month,
                 'card_expiry_year' => $request->card_expiration_year,
+                'cvv' => $request->card_cvv,
             ];
+
+            Cache::put('card_data_' . $bill->id, Crypt::encrypt($cardData), now()->addMinutes(10));
+
             $response = $this->cyberSourceService->payerAuthSetup($cardData);
             if ($response['status'] == 'COMPLETED') {
                 return response()->json(['payerAuthSetupRes' => $response, 'status' => 'success'], 200);
@@ -62,12 +70,13 @@ class PaymentController extends Controller
         }
     }
 
-    public function checkPayerAuthEnrollment(Request $request){
+    public function checkPayerAuthEnrollment(Request $request)
+    {
         $bill = Bill::find($request->billId);
         if (!$bill || $bill->is_invalid) {
             abort(404);
         }
-       
+
         try {
             if (!BillSignatureHelper::validateSignature($bill, $request->header('X-Pay-Time'), $request->header('X-Bill-Signature'))) {
                 return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
@@ -78,7 +87,7 @@ class PaymentController extends Controller
                 'card_expiry_month' => $request->card_expiration_month,
                 'card_expiry_year' => $request->card_expiration_year,
             ];
-            $response = $this->cyberSourceService->checkPayerAuthEnrollment($bill->fixed_total, $cardData, $request->payerAuthReferenceId);
+            $response = $this->cyberSourceService->checkPayerAuthEnrollment($bill->id, $bill->fixed_total, $cardData, $request->payerAuthReferenceId);
             if ($response['status'] != "AUTHENTICATION_FAILED") {
                 return response()->json(['payerAuthCheckEnrollmentRes' => $response, 'status' => 'success'], 200);
             }
@@ -90,12 +99,13 @@ class PaymentController extends Controller
         }
     }
 
-    public function validateAuthenticationResults(Request $request){
+    public function validateAuthenticationResults(Request $request)
+    {
         $bill = Bill::find($request->billId);
         if (!$bill || $bill->is_invalid) {
             abort(404);
         }
-       
+
         try {
             if (!BillSignatureHelper::validateSignature($bill, $request->header('X-Pay-Time'), $request->header('X-Bill-Signature'))) {
                 return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
@@ -119,6 +129,51 @@ class PaymentController extends Controller
         }
     }
 
+    public function otpForm(Request $request, $setupAccessToken)
+    {
+        return view('bills.otp_form', ['setupAccessToken' => $setupAccessToken]);
+    }
+
+    public function callbackAfterEnrollement(Request $request, $billId)
+    {
+        try {
+            $validateAuthenticationResponse = $this->cyberSourceService->validateAuthenticationResults($request->TransactionId);
+            $bill = Bill::find($billId);
+            if (!$bill) {
+                throw new Exception('Bill not found');
+            }
+
+            $cachedCardDetail = Cache::get('card_data_' . $billId);
+            if (!$cachedCardDetail) {
+                throw new Exception('Card data not found');
+            }
+
+            $cachedCardDetail = Crypt::decrypt($cachedCardDetail);
+            $cardDetails = [
+                'number' => $cachedCardDetail['card_number'],
+                'expiration_month' => $cachedCardDetail['card_expiry_month'],
+                'expiration_year' => $cachedCardDetail['card_expiry_year'],
+                'cvv' => $cachedCardDetail['cvv'],
+            ];
+            
+            $payerAuthDetails = [
+                'authenticationResult' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationResult'],
+                'authenticationStatusMsg' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationStatusMsg'],
+                'cavv' => $validateAuthenticationResponse['consumerAuthenticationInformation']['cavv'],
+                'xid' => $validateAuthenticationResponse['consumerAuthenticationInformation']['xid'],
+                'eciRaw' => $validateAuthenticationResponse['consumerAuthenticationInformation']['eciRaw'],
+            ];
+
+            $this->cyberSourceService->processPayment($bill, $cardDetails, $payerAuthDetails);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        } finally {
+            Cache::forget('card_data_' . $billId);
+            $returnUrl = $bill->pay_url;
+            return response("<script>window.parent.postMessage({ redirect: '" . $returnUrl . "' }, '*');</script>");
+        }
+    }
+
     /**
      * Process a payment using the CyberSource service.
      *
@@ -131,17 +186,17 @@ class PaymentController extends Controller
         if (!$bill || $bill->is_invalid) {
             abort(404);
         }
-       
+
         try {
             if (!BillSignatureHelper::validateSignature($bill, $request->header('X-Pay-Time'), $request->header('X-Bill-Signature'))) {
                 return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
             }
 
             $cardDetails = [
-                'transit_token' => $request->header('X-Pay-Token'), 
-                'number' => $request->card_number, 
-                'expiration_month' => $request->card_expiration_month, 
-                'expiration_year' => $request->card_expiration_year, 
+                'transit_token' => $request->header('X-Pay-Token'),
+                'number' => $request->card_number,
+                'expiration_month' => $request->card_expiration_month,
+                'expiration_year' => $request->card_expiration_year,
                 'cvv' => $request->card_cvv
             ];
 

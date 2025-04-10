@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
  * Routes for test must remove on production
  */
 
+Route::any('callback-after-enrollement/{billId}', [PaymentController::class, 'callbackAfterEnrollement'])->name('cybersource.callback.after.enrollement');
+
 // Payer Setup
 Route::post('payer-auth-setup', [PaymentController::class, 'payerAuthSetup'])->name('cybersource.payerAuth.setup');
 
