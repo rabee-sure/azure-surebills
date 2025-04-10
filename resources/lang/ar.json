@@ -962,5 +962,6 @@
   "You cannot cancel this bill" : "لا يمكنك إلغاء هذه الفاتورة",
   "this bill has been rejected" : "تم رفض هذه الفاتورة",
   "this debit note has been rejected" : "تم رفض هذا الإشعار المدين",
-  "Successfull" : "تم بنجاح"
+  "Successfull" : "تم بنجاح",
+  "If this email is associated with an account, you will receive a password reset link." : "إذا كان هذا البريد الإلكتروني مرتبط بحساب، فسوف تتلقى رابط إعادة تعيين كلمة المرور."
 }
