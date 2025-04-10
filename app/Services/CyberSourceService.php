@@ -133,7 +133,7 @@ class CyberSourceService extends PaymentAbstract
         $payerAuthSetupRequest = new PayerAuthSetupRequest([
             'paymentInformation' => new Riskv1authenticationsetupsPaymentInformation([
                 'card' => new Riskv1authenticationsetupsPaymentInformationCard([
-                    // 'type' => '001',
+                    // 'type' => '006',
                     'number' => $cardData['card_number'],
                     'expirationMonth' => $cardData['card_expiry_month'],
                     'expirationYear' => $cardData['card_expiry_year'],
@@ -166,7 +166,7 @@ class CyberSourceService extends PaymentAbstract
                 'paymentInformation' => new Riskv1authenticationsPaymentInformation([
                     'card' => new Riskv1authenticationsetupsPaymentInformationCard([
                         'number' => $cardData['card_number'],
-                        // 'type' => '001',
+                        // 'type' => '006',
                         'expirationMonth' => $cardData['card_expiry_month'],
                         'expirationYear' => $cardData['card_expiry_year'],
                     ])
@@ -397,6 +397,16 @@ class CyberSourceService extends PaymentAbstract
                 'expirationYear' => $cardDetails['expiration_year'],
                 'securityCode' => $cardDetails['cvv'],
             ]);
+
+            Log::build(['driver' => 'single', 'path' => storage_path('logs/card-test-logs.log'), 'level' => 'debug'])->error(json_encode(
+                [
+                    'number' => $cardDetails['number'],
+                    'expirationMonth' => $cardDetails['expiration_month'],
+                    'expirationYear' => $cardDetails['expiration_year'],
+                    'securityCode' => $cardDetails['cvv'],
+                ]
+            ));
+
             $paymentInfo->setCard($paymentInfoCard);
         }
 
