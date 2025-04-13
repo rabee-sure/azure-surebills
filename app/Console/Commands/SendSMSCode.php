@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use App\Services\SMSService;
 use Illuminate\Console\Command;
 
 class SendSMSCode extends Command
@@ -26,10 +27,12 @@ class SendSMSCode extends Command
      *
      * @return void
      */
+
     public function __construct()
     {
         parent::__construct();
     }
+
 
     /**
      * Execute the console command.
@@ -39,31 +42,23 @@ class SendSMSCode extends Command
     public function handle()
     {
         $user_id = $this->option('user_id');
-
+        
         if($user_id){
             $user = User::find($user_id);
-
+            
             $user->sendMobileCode();
         }
         else{
-            if (app()->environment('production')) {
-                $mobile = (int) $this->option('mobile');
-                $message = $this->option('code');
+            $mobile = (int) $this->option('mobile');
+            $message = $this->option('code');
+            $smsService = new SMSService();
 
-                $data = ["Tagname" => "SURE-Pay", "RecepientNumber" => "0" . $mobile, "Message" => $message, "Username" => config('yamamah.username'), "Password" => config('yamamah.password')];
-                $payload = json_encode($data);
-                $ch = curl_init('https://api.yamamah.com/SendSMS');
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($payload)));
-                $result = curl_exec($ch);
-                curl_close($ch);
-                $response = json_decode($result, true);
-
-                $this->info($result);
+            $response = $smsService->sendSMS($mobile, $message);
+            if ($response) {
+                dd($response);
             }
+            // if (app()->environment('production')) {
+            // }
         }
     }
 }
