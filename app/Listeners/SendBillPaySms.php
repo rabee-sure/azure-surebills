@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\BillCreated;
+use App\Services\SMSService;
 use Multicaret\Unifonic\UnifonicFacade;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -42,21 +43,10 @@ class SendBillPaySms implements ShouldQueue
             if(app()->environment('production'))
             {
                 $mobile = (int) $event->bill->customer_mobile;
-                $data = ["Tagname" => "SURE-Pay", "RecepientNumber" => "0".$mobile, "Message" => $message, "Username" => config('yamamah.username'), "Password" => config('yamamah.password')];
-                $payload = json_encode($data);
-                $ch = curl_init('https://api.yamamah.com/SendSMS');
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($payload)));
-                $result = curl_exec($ch);
-                curl_close($ch);
-                $response = json_decode($result, true);
+                
+                $smsService = new SMSService();
 
-                // $mobile = (int) $event->bill->customer_mobile;
-                // $mobile = (int) '966'.$mobile;
-                // UnifonicFacade::send($mobile, $message);
+                $response = $smsService->sendSMS($mobile, $message);
             }
         }
     }

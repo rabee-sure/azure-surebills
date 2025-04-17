@@ -10,9 +10,9 @@ class SMSService
     public function __construct()
     {
         if(config('sms.provider') == 'yamamah'){
-            $smsService = new YamamahService();
+            $this->smsService = new YamamahService();
         }elseif(config('sms.provider') == 'sure_connect'){
-            $smsService = new SureConnectService();
+            $this->smsService = new SureConnectService();
         }
     }
 

@@ -20,17 +20,13 @@ class SureConnectService extends SMSAbstract
         $result = Http::withHeaders([
             'email' => config('sure_connect.email'),
             'apiKey' => config('sure_connect.apiKey'),
-        ])->post('https://api.sureconnects.com/api/Message/SendMessage', [
+        ])->post('https://api.sureconnects.com/api/Message/SendOTPMessage', [
             'sender' => config('sure_connect.sender'),
             'message' => $message,
-            'messageInfos' => [
-                [
-                    'distination' => '"' . $mobile . '",',
-                    'customMessage' => $message
-                ]
-            ],
-            'filterRepeatedNumbers' => false,
-            'requestDeliveryReport' => false
+            'MessageTypeId' => 3,
+            'messageInfo' => [
+                'distination' => $mobile,
+            ]
         ]);
         
         $response = json_decode($result, true);

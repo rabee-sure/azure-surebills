@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\ResetPassword;
 use App\Models\Transaction;
+use App\Services\SMSService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -336,23 +337,12 @@ class User extends Authenticatable implements HasMedia
             $message .= PHP_EOL;
 
             $mobile = (int) $this->mobile;
-            $data = ["Tagname" => "SURE-Pay", "RecepientNumber" => "0" . $mobile, "Message" => $message, "Username" => config('yamamah.username'), "Password" => config('yamamah.password')];
-            $payload = json_encode($data);
-            $ch = curl_init('https://api.yamamah.com/SendSMS');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($payload)));
-            $result = curl_exec($ch);
-            curl_close($ch);
-            $response = json_decode($result, true);
+            
+            $smsService = new SMSService();
+            $response = $smsService->sendSMS($mobile, $message);
+            
             $this->sent_sms_response = $response;
             $this->save();
-            // sent_sms_response
-            // $mobile = (int) $this->mobile;
-            // $mobile = (int) '966'.$mobile;
-            // UnifonicFacade::send($mobile, $message);
         }
     }
 
