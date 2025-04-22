@@ -118,11 +118,16 @@ class CyberSourceService extends PaymentAbstract
      */
     public function processPayment($bill, $cardDetails, $payerAuthDetails)
     {
-        // return true;
         $payload = $this->preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
-            return $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload);
+            $initiatePaymentAuthResponseDecode = json_decode($initiatePaymentAuthResponse, true);
+            if($initiatePaymentAuthResponseDecode['status'] === 'AUTHORIZED')
+            {
+                $bill->status = 'paid';
+                $bill->save();
+                return true;
+            }
         }
 
         return false;
@@ -373,7 +378,7 @@ class CyberSourceService extends PaymentAbstract
         $payload = $this->preparePaymentPayload($bill, $applePayToken, 'apple_pay');
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
-            return $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload, 'mastercard_applepay');
+            $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload, 'mastercard_applepay');
         }
 
         return false;
@@ -381,13 +386,18 @@ class CyberSourceService extends PaymentAbstract
 
     protected function preparePaymentPayload($bill, $cardDetails, $payerAuthDetails, $payloadType = null)
     {
-        $processingInformation = $transientTokenJwt = null;
+        $transientTokenJwt = null;
+        $processingInformation = new Ptsv2paymentsProcessingInformation();
+        $processingInformation->setCapture(true);
+        $processingInformation->setActionList(['DECISION_SKIP']);
+
         $paymentInfo = new PtsV2PaymentsPaymentInformation();
         if ($payloadType == 'apple_pay') {
             $this->logResult('fix-apple-pay', json_encode($cardDetails));
             $fluidData = new Ptsv2paymentsPaymentInformationFluidData(['value' => base64_encode(json_encode($cardDetails)), 'descriptor' => 'RklEPUNPTU1PTi5BUFBMRS5JTkFQUC5QQVlNRU5U', 'encoding' => 'Base64']);
             $paymentInfo->setFluidData($fluidData);
-            $processingInformation = new Ptsv2paymentsProcessingInformation(['paymentSolution' => '001']);
+            // $processingInformation = new Ptsv2paymentsProcessingInformation(['paymentSolution' => '001']);
+            $processingInformation->setPaymentSolution('001');
         } else if (isset($cardDetails['transit_token'])) {
             $transientTokenJwt = new Ptsv2paymentsTokenInformation(['transientTokenJwt' => $cardDetails['transit_token']]);
         } else {
@@ -429,14 +439,19 @@ class CyberSourceService extends PaymentAbstract
             'eciRaw' => $payerAuthDetails['eciRaw'],
         ]);
 
-        $paymentRequest = new CreatePaymentRequest([
-            'clientReferenceInformation' => new Ptsv2paymentsidrefundsClientReferenceInformation(['code' => $bill->id]),
+
+        $paymentRequestPayload = [
+            'clientReferenceInformation' => new Ptsv2paymentsidrefundsClientReferenceInformation(['code' => $bill->id.'_'.uniqid()]),
             'orderInformation' => $orderInfo,
             'processingInformation' => $processingInformation,
             'tokenInformation' => $transientTokenJwt,
             'paymentInformation' => $paymentInfo,
             'consumerAuthenticationInformation' => $consumerAuthenticationInformation,
-        ]);
+        ];
+
+        $paymentRequest = new CreatePaymentRequest($paymentRequestPayload);
+
+        $this->logResult('test-payment-payload', $paymentRequest);
 
         return [
             'paymentRequest' => $paymentRequest,
