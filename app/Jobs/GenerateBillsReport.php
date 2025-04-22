@@ -43,7 +43,7 @@ class GenerateBillsReport implements ShouldQueue
     {
         $file_name = 'reports/'.$this->report_name.'/'.$this->report_name.'_'.$this->report_id.'.xlsx';
         return (new ReportBillExport($this->filter))
-        ->store($filePath = 'public/'.$file_name)->allOnQueue($this->queue)
+        ->store($filePath = $file_name)->allOnQueue($this->queue)
         ->chain([
             (new SendExportedBillsReportMailsJob($this->emails, $this->report_id))->onQueue($this->queue),
             (new ActiveReportJob($this->report_id))->onQueue($this->queue)

@@ -20,12 +20,14 @@ class Admin extends Authenticatable
     use HasFactory, HasRoles, SoftDeletes, Notifiable;
     protected $fillable = ['name', 'email', 'mobile', 'password', 'is_active'];
 
+    protected $hidden = ['password', 'remember_token'];
+
     public function passwordsHistory()
     {
         return $this->hasMany(AdminPasswordHistory::class);
     }
 
-    private function generateTempPassword(){
+    private static function generateTempPassword(){
         $tempPassword = Hash::make(Str::random(15));
         return $tempPassword;
     }

@@ -23,7 +23,11 @@ class UserController extends Controller
      */
     public function stats(User $user)
     {
-        return new UserStatResource($user);
+        if (Auth::user()->can('show system admins')) {
+            return new UserStatResource($user);
+        }
+
+        abort(403);
     }
 
     /**

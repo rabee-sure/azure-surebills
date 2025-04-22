@@ -64,4 +64,16 @@ class MediaController extends Controller
             return response()->json(['data' => $name]);
         }
     }
+
+    public function getFile($guard ,$fileName)
+    {
+        if(auth()->guard($guard)->check())
+        {
+            if (Storage::disk('local')->exists($fileName)){
+                return Storage::disk('local')->download($fileName);
+            }
+            abort(404);
+        }
+        return abort(401);
+    }
 }
