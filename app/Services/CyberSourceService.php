@@ -121,13 +121,14 @@ class CyberSourceService extends PaymentAbstract
         $payload = $this->preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
-            $initiatePaymentAuthResponseDecode = json_decode($initiatePaymentAuthResponse, true);
-            if($initiatePaymentAuthResponseDecode['status'] === 'AUTHORIZED')
-            {
-                $bill->status = 'paid';
-                $bill->save();
-                return true;
-            }
+            return $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload);
+            // $initiatePaymentAuthResponseDecode = json_decode($initiatePaymentAuthResponse, true);
+            // if($initiatePaymentAuthResponseDecode['status'] === 'AUTHORIZED')
+            // {
+            //     $bill->status = 'paid';
+            //     $bill->save();
+            //     return true;
+            // }
         }
 
         return false;
@@ -146,6 +147,7 @@ class CyberSourceService extends PaymentAbstract
             ])
         ]); // \CyberSource\Model\PayerAuthSetupRequest | 
         
+        $responseBody = null;
         try {
             $result = $api_instance->payerAuthSetup($payerAuthSetupRequest);
             $resultModel = new RiskV1AuthenticationSetupsPost201Response(json_decode($result[0], true));
@@ -155,6 +157,7 @@ class CyberSourceService extends PaymentAbstract
             echo 'Exception when calling PayerAuthenticationApi->payerAuthSetup: ', $e->getMessage(), PHP_EOL;
         } finally {
             $this->logResult('cybersource-payer-auth-setup-logs', $responseBody);
+            $this->logResult('cybersource-payer-auth-setup-logs', $payerAuthSetupRequest);
         }
     }
 
@@ -187,7 +190,7 @@ class CyberSourceService extends PaymentAbstract
                 ])
             ]
         ); // \CyberSource\Model\CheckPayerAuthEnrollmentRequest |
-
+        $responseBody = null;
         try {
             $result = $api_instance->checkPayerAuthEnrollment($checkPayerAuthEnrollmentRequest);
             $resultModel = new RiskV1AuthenticationsPost201Response(json_decode($result[0], true));
@@ -208,7 +211,7 @@ class CyberSourceService extends PaymentAbstract
             ])
 
         ]); // \CyberSource\Model\ValidateRequest | 
-
+        $responseBody = null;
         try {
             $result = $api_instance->validateAuthenticationResults($validateRequest);
             $resultModel = new RiskV1AuthenticationResultsPost201Response(json_decode($result[0], true));
@@ -388,7 +391,7 @@ class CyberSourceService extends PaymentAbstract
     {
         $transientTokenJwt = null;
         $processingInformation = new Ptsv2paymentsProcessingInformation([
-            'capture' => true,
+            // 'capture' => true,
             'actionList' => ['DECISION_SKIP'],
             'commerceIndicator' => isset($payerAuthDetails['consumerAuthenticationInformation_indicator']) ? $payerAuthDetails['consumerAuthenticationInformation_indicator'] : null,
         ]);
