@@ -439,13 +439,13 @@ class CyberSourceService extends PaymentAbstract
 
         $consumerAuthenticationInformation = new Ptsv2paymentsConsumerAuthenticationInformation([
             // 'authenticationTransactionId' => $payerAuthDetails['authenticationTransactionId'],
-            'cavv' => $payerAuthDetails['consumerAuthenticationInformation_cavv'],
+            'cavv' => isset($payerAuthDetails['consumerAuthenticationInformation_cavv']) ? $payerAuthDetails['consumerAuthenticationInformation_cavv'] : null,
             'AVV' => isset($payerAuthDetails['consumerAuthenticationInformation_AVV']) ? $payerAuthDetails['consumerAuthenticationInformation_AVV'] : null,
-            'xid' => $payerAuthDetails['consumerAuthenticationInformation_xid'],
-            'eciRaw' => $payerAuthDetails['consumerAuthenticationInformation_eciRaw'],
-            'paSpecificationVersion' => $payerAuthDetails['consumerAuthenticationInformation_specificationVersion'],
-            'directoryServerTransactionId' => $payerAuthDetails['consumerAuthenticationInformation_directoryServerTransactionId'],
-            'ucafCollectionIndicator' => $payerAuthDetails['consumerAuthenticationInformation_ucafCollectionIndicator'], // This Key In Mastercard Only, this is called "UCAF Collection Indicator"
+            'xid' => isset($payerAuthDetails['consumerAuthenticationInformation_xid']) ? $payerAuthDetails['consumerAuthenticationInformation_xid'] : null,
+            'eciRaw' => isset($payerAuthDetails['consumerAuthenticationInformation_eciRaw']) ? $payerAuthDetails['consumerAuthenticationInformation_eciRaw'] : null,
+            'paSpecificationVersion' => isset($payerAuthDetails['consumerAuthenticationInformation_specificationVersion']) ? $payerAuthDetails['consumerAuthenticationInformation_specificationVersion'] : null,
+            'directoryServerTransactionId' => isset($payerAuthDetails['consumerAuthenticationInformation_directoryServerTransactionId']) ? $payerAuthDetails['consumerAuthenticationInformation_directoryServerTransactionId'] : null,
+            'ucafCollectionIndicator' => isset($payerAuthDetails['consumerAuthenticationInformation_ucafCollectionIndicator']) ? $payerAuthDetails['consumerAuthenticationInformation_ucafCollectionIndicator'] : null, // This Key In Mastercard Only, this is called "UCAF Collection Indicator"
         ]);
 
 
