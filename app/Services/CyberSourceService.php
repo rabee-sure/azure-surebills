@@ -440,7 +440,7 @@ class CyberSourceService extends PaymentAbstract
         $consumerAuthenticationInformation = new Ptsv2paymentsConsumerAuthenticationInformation([
             // 'authenticationTransactionId' => $payerAuthDetails['authenticationTransactionId'],
             'cavv' => $payerAuthDetails['consumerAuthenticationInformation_cavv'],
-            'AVV' => $payerAuthDetails['consumerAuthenticationInformation_AVV'],
+            'AVV' => $payerAuthDetails['consumerAuthenticationInformation_AVV'] ?? null,
             'xid' => $payerAuthDetails['consumerAuthenticationInformation_xid'],
             'eciRaw' => $payerAuthDetails['consumerAuthenticationInformation_eciRaw'],
             'paSpecificationVersion' => $payerAuthDetails['consumerAuthenticationInformation_specificationVersion'],
