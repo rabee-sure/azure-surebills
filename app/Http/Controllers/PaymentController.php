@@ -159,9 +159,13 @@ class PaymentController extends Controller
             $payerAuthDetails = [
                 'authenticationResult' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationResult'],
                 'authenticationStatusMsg' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationStatusMsg'],
-                'cavv' => $validateAuthenticationResponse['consumerAuthenticationInformation']['cavv'],
-                'xid' => $validateAuthenticationResponse['consumerAuthenticationInformation']['xid'],
-                'eciRaw' => $validateAuthenticationResponse['consumerAuthenticationInformation']['eciRaw'],
+                'consumerAuthenticationInformation_cavv' => $validateAuthenticationResponse['consumerAuthenticationInformation']['cavv'] ?? null,
+                'consumerAuthenticationInformation_xid' => $validateAuthenticationResponse['consumerAuthenticationInformation']['xid'],
+                'consumerAuthenticationInformation_eciRaw' => $validateAuthenticationResponse['consumerAuthenticationInformation']['eciRaw'],
+                'consumerAuthenticationInformation_indicator' => $validateAuthenticationResponse['consumerAuthenticationInformation']['indicator'],
+                'consumerAuthenticationInformation_specificationVersion' => $validateAuthenticationResponse['consumerAuthenticationInformation']['specificationVersion'],
+                'consumerAuthenticationInformation_directoryServerTransactionId' => $validateAuthenticationResponse['consumerAuthenticationInformation']['directoryServerTransactionId'],
+                'consumerAuthenticationInformation_ucafCollectionIndicator' => $validateAuthenticationResponse['consumerAuthenticationInformation']['ucafCollectionIndicator'] ?? null, // This Key In Mastercard Only, this is called "UCAF Collection Indicator"
             ];
 
             $this->cyberSourceService->processPayment($bill, $cardDetails, $payerAuthDetails);
@@ -205,9 +209,13 @@ class PaymentController extends Controller
                 'authenticationTransactionId' => $request->authenticationTransactionId,
                 'authenticationResult' => $request->authenticationResult,
                 'authenticationStatusMsg' => $request->authenticationStatusMsg,
-                'cavv' => $request->cavv,
-                'xid' => $request->xid,
-                'eciRaw' => $request->eciRaw,
+                'consumerAuthenticationInformation_cavv' => $request->cavv ?? null,
+                'consumerAuthenticationInformation_xid' => $request->xid,
+                'consumerAuthenticationInformation_eciRaw' => $request->eciRaw,
+                'consumerAuthenticationInformation_indicator' => $request->indicator,
+                'consumerAuthenticationInformation_specificationVersion' => $request->specificationVersion,
+                'consumerAuthenticationInformation_directoryServerTransactionId' => $request->directoryServerTransactionId,
+                'consumerAuthenticationInformation_ucafCollectionIndicator' => $request->ucafCollectionIndicator ?? null, // This Key In Mastercard Only, this is called "UCAF Collection Indicator"
             ];
 
             $response = $this->cyberSourceService->processPayment($bill, $cardDetails, $payerAuthDetails);

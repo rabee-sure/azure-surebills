@@ -387,9 +387,14 @@ class CyberSourceService extends PaymentAbstract
     protected function preparePaymentPayload($bill, $cardDetails, $payerAuthDetails, $payloadType = null)
     {
         $transientTokenJwt = null;
-        $processingInformation = new Ptsv2paymentsProcessingInformation();
-        $processingInformation->setCapture(true);
-        $processingInformation->setActionList(['DECISION_SKIP']);
+        $processingInformation = new Ptsv2paymentsProcessingInformation([
+            'capture' => true,
+            'actionList' => ['DECISION_SKIP'],
+            'commerceIndicator' => $payerAuthDetails['consumerAuthenticationInformation_indicator'],
+        ]);
+
+        // $processingInformation->setCapture(true);
+        // $processingInformation->setActionList(['DECISION_SKIP']);
 
         $paymentInfo = new PtsV2PaymentsPaymentInformation();
         if ($payloadType == 'apple_pay') {
@@ -434,9 +439,13 @@ class CyberSourceService extends PaymentAbstract
 
         $consumerAuthenticationInformation = new Ptsv2paymentsConsumerAuthenticationInformation([
             // 'authenticationTransactionId' => $payerAuthDetails['authenticationTransactionId'],
-            'cavv' => $payerAuthDetails['cavv'],
-            'xid' => $payerAuthDetails['xid'],
-            'eciRaw' => $payerAuthDetails['eciRaw'],
+            'cavv' => $payerAuthDetails['consumerAuthenticationInformation_cavv'],
+            'AVV' => $payerAuthDetails['consumerAuthenticationInformation_AVV'],
+            'xid' => $payerAuthDetails['consumerAuthenticationInformation_xid'],
+            'eciRaw' => $payerAuthDetails['consumerAuthenticationInformation_eciRaw'],
+            'paSpecificationVersion' => $payerAuthDetails['consumerAuthenticationInformation_specificationVersion'],
+            'directoryServerTransactionId' => $payerAuthDetails['consumerAuthenticationInformation_directoryServerTransactionId'],
+            'ucafCollectionIndicator' => $payerAuthDetails['consumerAuthenticationInformation_ucafCollectionIndicator'], // This Key In Mastercard Only, this is called "UCAF Collection Indicator"
         ]);
 
 
