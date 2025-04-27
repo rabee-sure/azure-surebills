@@ -390,7 +390,7 @@ class CyberSourceService extends PaymentAbstract
         $processingInformation = new Ptsv2paymentsProcessingInformation([
             'capture' => true,
             'actionList' => ['DECISION_SKIP'],
-            'commerceIndicator' => $payerAuthDetails['consumerAuthenticationInformation_indicator'],
+            'commerceIndicator' => isset($payerAuthDetails['consumerAuthenticationInformation_indicator']) ? $payerAuthDetails['consumerAuthenticationInformation_indicator'] : null,
         ]);
 
         // $processingInformation->setCapture(true);
