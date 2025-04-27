@@ -157,15 +157,16 @@ class PaymentController extends Controller
             ];
             
             $payerAuthDetails = [
-                'authenticationResult' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationResult'],
-                'authenticationStatusMsg' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationStatusMsg'],
+                'authenticationResult' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationResult'] ?? null,
+                'authenticationStatusMsg' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationStatusMsg'] ?? null,
                 'consumerAuthenticationInformation_cavv' => $validateAuthenticationResponse['consumerAuthenticationInformation']['cavv'] ?? null,
-                'consumerAuthenticationInformation_xid' => $validateAuthenticationResponse['consumerAuthenticationInformation']['xid'],
-                'consumerAuthenticationInformation_eciRaw' => $validateAuthenticationResponse['consumerAuthenticationInformation']['eciRaw'],
-                'consumerAuthenticationInformation_indicator' => $validateAuthenticationResponse['consumerAuthenticationInformation']['indicator'],
-                'consumerAuthenticationInformation_specificationVersion' => $validateAuthenticationResponse['consumerAuthenticationInformation']['specificationVersion'],
-                'consumerAuthenticationInformation_directoryServerTransactionId' => $validateAuthenticationResponse['consumerAuthenticationInformation']['directoryServerTransactionId'],
+                'consumerAuthenticationInformation_xid' => $validateAuthenticationResponse['consumerAuthenticationInformation']['xid'] ?? null,
+                'consumerAuthenticationInformation_eciRaw' => $validateAuthenticationResponse['consumerAuthenticationInformation']['eciRaw'] ?? null,
+                'consumerAuthenticationInformation_indicator' => $validateAuthenticationResponse['consumerAuthenticationInformation']['indicator'] ?? null,
+                'consumerAuthenticationInformation_specificationVersion' => $validateAuthenticationResponse['consumerAuthenticationInformation']['specificationVersion'] ?? null,
+                'consumerAuthenticationInformation_directoryServerTransactionId' => $validateAuthenticationResponse['consumerAuthenticationInformation']['directoryServerTransactionId'] ?? null,
                 'consumerAuthenticationInformation_ucafCollectionIndicator' => $validateAuthenticationResponse['consumerAuthenticationInformation']['ucafCollectionIndicator'] ?? null, // This Key In Mastercard Only, this is called "UCAF Collection Indicator"
+                'consumerAuthenticationInformation_ucafAuthenticationData' => $validateAuthenticationResponse['consumerAuthenticationInformation']['ucafAuthenticationData'] ?? null, // This Key In Mastercard Only, this is called "UCAF Authenticator Data"
             ];
 
             $this->cyberSourceService->processPayment($bill, $cardDetails, $payerAuthDetails);
@@ -216,6 +217,7 @@ class PaymentController extends Controller
                 'consumerAuthenticationInformation_specificationVersion' => $request->specificationVersion,
                 'consumerAuthenticationInformation_directoryServerTransactionId' => $request->directoryServerTransactionId,
                 'consumerAuthenticationInformation_ucafCollectionIndicator' => $request->ucafCollectionIndicator ?? null, // This Key In Mastercard Only, this is called "UCAF Collection Indicator"
+                'consumerAuthenticationInformation_ucafAuthenticationData' => $request->ucafAuthenticationData ?? null, // This Key In Mastercard Only, this is called "UCAF Authenticator Data"                
             ];
 
             $response = $this->cyberSourceService->processPayment($bill, $cardDetails, $payerAuthDetails);

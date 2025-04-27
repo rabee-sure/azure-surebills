@@ -393,9 +393,6 @@ class CyberSourceService extends PaymentAbstract
             'commerceIndicator' => isset($payerAuthDetails['consumerAuthenticationInformation_indicator']) ? $payerAuthDetails['consumerAuthenticationInformation_indicator'] : null,
         ]);
 
-        // $processingInformation->setCapture(true);
-        // $processingInformation->setActionList(['DECISION_SKIP']);
-
         $paymentInfo = new PtsV2PaymentsPaymentInformation();
         if ($payloadType == 'apple_pay') {
             $this->logResult('fix-apple-pay', json_encode($cardDetails));
@@ -438,16 +435,14 @@ class CyberSourceService extends PaymentAbstract
         );
 
         $consumerAuthenticationInformation = new Ptsv2paymentsConsumerAuthenticationInformation([
-            // 'authenticationTransactionId' => $payerAuthDetails['authenticationTransactionId'],
             'cavv' => isset($payerAuthDetails['consumerAuthenticationInformation_cavv']) ? $payerAuthDetails['consumerAuthenticationInformation_cavv'] : null,
-            'AVV' => isset($payerAuthDetails['consumerAuthenticationInformation_AVV']) ? $payerAuthDetails['consumerAuthenticationInformation_AVV'] : null,
             'xid' => isset($payerAuthDetails['consumerAuthenticationInformation_xid']) ? $payerAuthDetails['consumerAuthenticationInformation_xid'] : null,
             'eciRaw' => isset($payerAuthDetails['consumerAuthenticationInformation_eciRaw']) ? $payerAuthDetails['consumerAuthenticationInformation_eciRaw'] : null,
             'paSpecificationVersion' => isset($payerAuthDetails['consumerAuthenticationInformation_specificationVersion']) ? $payerAuthDetails['consumerAuthenticationInformation_specificationVersion'] : null,
             'directoryServerTransactionId' => isset($payerAuthDetails['consumerAuthenticationInformation_directoryServerTransactionId']) ? $payerAuthDetails['consumerAuthenticationInformation_directoryServerTransactionId'] : null,
             'ucafCollectionIndicator' => isset($payerAuthDetails['consumerAuthenticationInformation_ucafCollectionIndicator']) ? $payerAuthDetails['consumerAuthenticationInformation_ucafCollectionIndicator'] : null, // This Key In Mastercard Only, this is called "UCAF Collection Indicator"
+            'ucafAuthenticationData' => isset($payerAuthDetails['consumerAuthenticationInformation_ucafAuthenticationData']) ? $payerAuthDetails['consumerAuthenticationInformation_ucafAuthenticationData'] : null, // This Key In Mastercard Only, this is called "UCAF Authenticator Data"
         ]);
-
 
         $paymentRequestPayload = [
             'clientReferenceInformation' => new Ptsv2paymentsidrefundsClientReferenceInformation(['code' => $bill->id.'_'.uniqid()]),
