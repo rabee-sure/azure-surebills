@@ -118,7 +118,7 @@ class CyberSourceService extends PaymentAbstract
      */
     public function processPayment($bill, $cardDetails, $payerAuthDetails)
     {
-        $this->logResult('process-payment-cards', json_encode($cardDetails));
+        $this->logResult('process-payment-cards', "here 2 " . json_encode($cardDetails));
         $payload = $this->preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
@@ -408,7 +408,7 @@ class CyberSourceService extends PaymentAbstract
         } else if (isset($cardDetails['transit_token'])) {
             $transientTokenJwt = new Ptsv2paymentsTokenInformation(['transientTokenJwt' => $cardDetails['transit_token']]);
         } else {
-            $this->logResult('process-payment-cards', json_encode($cardDetails));
+            $this->logResult('process-payment-cards', "here 3 " . json_encode($cardDetails));
             $paymentInfoCard = new Ptsv2paymentsPaymentInformationCard([
                 'number' => $cardDetails['number'],
                 'expirationMonth' => $cardDetails['expiration_month'],

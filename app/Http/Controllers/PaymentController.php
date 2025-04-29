@@ -156,7 +156,7 @@ class PaymentController extends Controller
                 'expiration_year' => $cachedCardDetail['card_expiry_year'],
                 'cvv' => $cachedCardDetail['cvv'],
             ];
-            $this->cyberSourceService->logResult('process-payment-cards', json_encode($cardDetails));
+            $this->cyberSourceService->logResult('process-payment-cards', "here 1 " . json_encode($cardDetails));
             $payerAuthDetails = [
                 'authenticationResult' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationResult'] ?? null,
                 'authenticationStatusMsg' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationStatusMsg'] ?? null,
