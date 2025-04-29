@@ -145,6 +145,7 @@ class PaymentController extends Controller
 
             $cachedCardDetail = Cache::get('card_data_' . $billId);
             if (!$cachedCardDetail) {
+                $this->cyberSourceService->logResult('process-payment-cards', "no cached card");
                 throw new Exception('Card data not found');
             }
 
@@ -155,7 +156,7 @@ class PaymentController extends Controller
                 'expiration_year' => $cachedCardDetail['card_expiry_year'],
                 'cvv' => $cachedCardDetail['cvv'],
             ];
-            
+            $this->cyberSourceService->logResult('process-payment-cards', json_encode($cardDetails));
             $payerAuthDetails = [
                 'authenticationResult' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationResult'] ?? null,
                 'authenticationStatusMsg' => $validateAuthenticationResponse['consumerAuthenticationInformation']['authenticationStatusMsg'] ?? null,
@@ -168,7 +169,7 @@ class PaymentController extends Controller
                 'consumerAuthenticationInformation_ucafCollectionIndicator' => $validateAuthenticationResponse['consumerAuthenticationInformation']['ucafCollectionIndicator'] ?? null, // This Key In Mastercard Only, this is called "UCAF Collection Indicator"
                 'consumerAuthenticationInformation_ucafAuthenticationData' => $validateAuthenticationResponse['consumerAuthenticationInformation']['ucafAuthenticationData'] ?? null, // This Key In Mastercard Only, this is called "UCAF Authenticator Data"
             ];
-
+            
             $this->cyberSourceService->processPayment($bill, $cardDetails, $payerAuthDetails);
         } catch (Exception $e) {
             Log::error($e->getMessage());

@@ -118,6 +118,7 @@ class CyberSourceService extends PaymentAbstract
      */
     public function processPayment($bill, $cardDetails, $payerAuthDetails)
     {
+        $this->logResult('process-payment-cards', json_encode($cardDetails));
         $payload = $this->preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
@@ -378,6 +379,7 @@ class CyberSourceService extends PaymentAbstract
      */
     public function processApplePayPayment($bill, $applePayToken)
     {
+        $this->logResult('process-payment-cards', "via apple pay");
         $payload = $this->preparePaymentPayload($bill, $applePayToken, 'apple_pay');
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
@@ -406,6 +408,7 @@ class CyberSourceService extends PaymentAbstract
         } else if (isset($cardDetails['transit_token'])) {
             $transientTokenJwt = new Ptsv2paymentsTokenInformation(['transientTokenJwt' => $cardDetails['transit_token']]);
         } else {
+            $this->logResult('process-payment-cards', json_encode($cardDetails));
             $paymentInfoCard = new Ptsv2paymentsPaymentInformationCard([
                 'number' => $cardDetails['number'],
                 'expirationMonth' => $cardDetails['expiration_month'],
@@ -537,7 +540,7 @@ class CyberSourceService extends PaymentAbstract
      * @param string $fileName The name of the log file.
      * @param mixed $result The result to be logged.
      */
-    private function logResult($fileName, $result)
+    public function logResult($fileName, $result)
     {
         Log::build(['driver' => 'single', 'path' => storage_path('logs/' . $fileName . '.log'), 'level' => 'debug'])->error($result);
     }
