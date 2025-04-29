@@ -542,6 +542,6 @@ class CyberSourceService extends PaymentAbstract
      */
     public function logResult($fileName, $result)
     {
-        Log::build(['driver' => 'single', 'path' => storage_path('logs/' . $fileName . '.log'), 'level' => 'debug'])->error($result);
+        Log::build(['driver' => 'single', 'path' => storage_path('logs/' . $fileName . '.log'), 'level' => 'error'])->error($result);
     }
 }
