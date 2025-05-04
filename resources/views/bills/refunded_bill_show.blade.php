@@ -43,8 +43,11 @@
             <div class="taxInvoiceText text-secondary">{{ __('Tax credit note') }}</div>
           @endif
           <span class="d-block fw-bold mt-3">{{ $refundedbill->bill->user->business_name }}</span>
-          <p class="d-block mb-0">{{  $refundedbill->bill->user->business_address }}</p>
-          <b class="d-block fw-normal mb-2">{{  $refundedbill->bill->user->business_mobile }}</b>
+          @if(isset($refundedbill->bill->user->settings->header_bill))
+            <p class="d-block mb-0">{{ $refundedbill->bill->user->settings->header_bill }}</p>
+          @endif
+          <p class="d-block mb-0">{{  $refundedbill->bill->business_city }}</p>
+          <b class="d-block fw-normal mb-2">{{  $refundedbill->bill->business_mobile }}</b>
         </div><!-- aboutUser -->
 
         <div id="status">
@@ -102,6 +105,9 @@
               <span class="d-block text-body">{{ __('Tax Invoice') }}</span>
             </a>
           </div><!-- qrCode -->
+        @endif
+        @if(isset($refundedbill->bill->user->settings->footer_bill))
+          <p class="d-block mb-0 mt-2 text-center">{{ $refundedbill->bill->user->settings->footer_bill }}</p>
         @endif
         
       </div><!-- showBill -->

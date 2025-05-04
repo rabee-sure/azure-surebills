@@ -46,8 +46,8 @@ class RequestStatus extends Filter
     public function options(Request $request)
     {
         return [
-            "pending" => "pending",
-            "sent" => "sent",
+            __("pending") => "pending",
+            __("sent") => "sent",
         ];
     }
 }
