@@ -512,7 +512,7 @@
                 $("#limitdays").remove();
           }, 4000);
         }else if(userVerified == 0){
-          $("#errors").append('<div id="limitdays" class="alert alert-danger" role="alert">{{  __('your account not verified please contant your administrator.') }}</div>');
+          $("#errors").append('<div id="limitdays" class="alert alert-danger" role="alert">{{  __('your account not verified please contact your administrator.') }}</div>');
 
           setTimeout(function() {
                 $("#limitdays").remove();
@@ -524,7 +524,7 @@
 
       $("#cancel_btn").click(function(){
         if(userVerified == 0){
-          $("#errors").append('<div id="limitdays" class="alert alert-danger" role="alert">{{  __('your account not verified please contant your administrator.') }}</div>');
+          $("#errors").append('<div id="limitdays" class="alert alert-danger" role="alert">{{  __('your account not verified please contact your administrator.') }}</div>');
 
           setTimeout(function() {
                 $("#limitdays").remove();

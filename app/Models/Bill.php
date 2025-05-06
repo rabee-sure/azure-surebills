@@ -286,7 +286,7 @@ class Bill extends Model
      */
     public function getPayUrlAttribute()
     {
-        return route('bill.invoice.lang.subdomain', ['id' => $this->pay_id, 'lang' => app()->getLocale()]);
+        return route('paybillpagelang', ['id' => $this->pay_id, 'lang' => $this->user->settings->default_lang]);
     }
 
     /**

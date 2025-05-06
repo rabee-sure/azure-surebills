@@ -876,7 +876,7 @@
     "You have no departments at the moment": "لا يوجد لديك أقسام حالياً",
     "You have no products at the moment": "لا يوجد لديك منتجات حالياً",
     "Hide the additional information of the orgianization in the payment URL": "إلغاء معلومات المنشأة الإضافية في رابط الدفع وتبسيطه",
-    "your account not verified please contant your administrator." : "حسابك غير موثق برجاء مراجعة مدير النظام",
+    "your account not verified please contact your administrator." : "حسابك غير موثق برجاء مراجعة مدير النظام",
   	"Credit Notes" : "الإشعارات الدائنة",
 	"Credit Note" : "إشعار دائن",
 	"Credit Note No." : "رقم إشعار دائن.",
@@ -894,7 +894,7 @@
 	"Tax debit note" : "إشعار مدين ضريبي",
 	"Debit Note Date" : "تاريخ إشعار المدين",
 	"Debit Note Number" : "رقم إشعار المدين",
-	"Bill Notes" : "الاشعارات",
+	"Bill Notes" : "إشعارات الفاتورة",
 	"Pos users": "مستخدمين POS",
 	"Pos user": "مستخدم POS",
 	"Remove": "حذف",
@@ -964,5 +964,7 @@
   "this debit note has been rejected" : "تم رفض هذا الإشعار المدين",
   "Successfull" : "تم بنجاح",
   "If this email is associated with an account, you will receive a password reset link." : "إذا كان هذا البريد الإلكتروني مرتبط بحساب، فسوف تتلقى رابط إعادة تعيين كلمة المرور.",
-  "Payment is Failed": "فشل الدفع"
+  "Payment is Failed": "فشل الدفع",
+  "This account will be used to settle payments received through point-of-sale devices" : "هذا الحساب سيستخدم لتسوية المدفوعات الواصلة لك عبر أجهزة نقاط البيع",
+  "Write the name of the account holder in English as registered with the bank" : "اكتب اسم صاحب الحساب باللغة الانجليزيه كما هو مسجل في البنك"
 }
