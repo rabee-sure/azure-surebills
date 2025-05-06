@@ -123,14 +123,14 @@ class CyberSourceService extends PaymentAbstract
         $payload = $this->preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
-            return $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload);
-            // $initiatePaymentAuthResponseDecode = json_decode($initiatePaymentAuthResponse, true);
-            // if($initiatePaymentAuthResponseDecode['status'] === 'AUTHORIZED')
-            // {
-            //     $bill->status = 'paid';
-            //     $bill->save();
-            //     return true;
-            // }
+            // return $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload);
+            $initiatePaymentAuthResponseDecode = json_decode($initiatePaymentAuthResponse, true);
+            if($initiatePaymentAuthResponseDecode['status'] === 'AUTHORIZED')
+            {
+                $bill->status = 'paid';
+                $bill->save();
+                return true;
+            }
         }
 
         return false;
@@ -394,7 +394,7 @@ class CyberSourceService extends PaymentAbstract
     {
         $transientTokenJwt = null;
         $processingInformation = new Ptsv2paymentsProcessingInformation([
-            // 'capture' => true,
+            'capture' => true,
             'actionList' => ['DECISION_SKIP'],
             'commerceIndicator' => isset($payerAuthDetails['consumerAuthenticationInformation_indicator']) ? $payerAuthDetails['consumerAuthenticationInformation_indicator'] : null,
         ]);
