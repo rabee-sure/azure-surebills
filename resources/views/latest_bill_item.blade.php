@@ -1,12 +1,12 @@
 <tr>
   <td>
-    <a href="{{ route('bills.show', $bill) }}" title="{{ __('Bill')}} {{ $bill->number }} - {{ $bill->customer_name }}">
-      {{ __('Bill')}} {{ $bill->number }} @if($bill->customer_name != null) - @endif {{ $bill->customer_name }}
+    <a href="@if(get_class($bill) == 'App\Models\Bill'){{route('bills.show', $bill)}} @elseif (get_class($bill) == 'App\Models\RefundedBill'){{route('refundedbills.show', $bill->id)}} @endif" title="@if(get_class($bill) == 'App\Models\Bill' && $bill->debit_note_bill_id == null){{__('Bill')}} @elseif(get_class($bill) == 'App\Models\Bill' && $bill->debit_note_bill_id) {{__('DN')}} @elseif (get_class($bill) == 'App\Models\RefundedBill') {{__('CN')}} @endif {{ $bill->number }} - {{ $bill->customer_name}}">
+    @if(get_class($bill) == 'App\Models\Bill' && $bill->debit_note_bill_id == null){{__('Bill')}} @elseif(get_class($bill) == 'App\Models\Bill' && $bill->debit_note_bill_id) {{__('DN')}} @elseif (get_class($bill) == 'App\Models\RefundedBill') {{__('CN')}} @endif {{ $bill->number }} @if($bill->customer_name != null) - @endif {{ $bill->customer_name}}
     </a>
   </td>
   <td class="text-center">
     <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl">
-      {{ $bill->total }}  <span class="riyal-symbol-font">$</span>
+      {{ $bill->fixed_total }}  <span class="riyal-symbol-font">$</span>
     </div>
   </td>
   <td class="text-center">{{ $bill->created_at }}</td>

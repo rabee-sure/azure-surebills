@@ -9,6 +9,7 @@ use App\Helpers\CybersourceMicroformHandlerHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\CheckBillApiRequest;
+use App\Http\Requests\DebitNoteApiRequest;
 use App\Http\Requests\DebitNoteRequest;
 use App\Http\Resources\BillApiResource;
 use App\Http\Resources\BillResource;
@@ -170,9 +171,13 @@ class BillController extends Controller
         return new BillApiResource($bill);
     }
 
-    public function storeDebitNote($mainBillId, DebitNoteRequest $request){
+    public function storeDebitNote($mainBillId, DebitNoteApiRequest $request){
         $application = $request->application;
-        $user = $application->user ?? null;
+        if($application->user){
+            $user = $application->user->store_main_user_id ? $application->user->mainStoreUser : $application->user;
+        }else{
+            $user = null;
+        }
 
         if($request->application_name){
             $application = $this->getApplication($application, $request);
