@@ -38,14 +38,14 @@
             <div class="form-group mb-3">
               <label for="iban_number" class="d-block mb-2">{{__('IBAN Number')}} <span class="text-danger">*</span></label>
               <input value="{{ $user->iban_number }}"  name="iban_number" type="text" class="form-control rounded-3 shadow-none border" id="iban_number" placeholder="رقم آيبان مثلاً : SA2720000000000000001212 *" autocomplete="off" @if(auth()->user()->disable_bank_documents) disabled @endif>
-              <small id="emailHelp" class="form-text mt-1 d-block text-muted">هذا الحساب سيستخدم لتسوية المدفوعات الواصلة لك عبر أجهزة نقاط البيع</small>
+              <small id="emailHelp" class="form-text mt-1 d-block text-muted">{{__('This account will be used to settle payments received through point-of-sale devices')}}</small>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12">
             <div class="form-group mb-3">
               <label for="beneficiary_name" class="d-block mb-2">{{__('Beneficiary Name')}} <span class="text-danger">*</span></label>
               <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="beneficiary_name" placeholder="{{__('Beneficiary Name')}}" autocomplete="off" @if(auth()->user()->disable_bank_documents) disabled @endif>
-              <small id="emailHelp" class="form-text d-block mt-1 text-muted">اكتب اسم صاحب الحساب باللغة الانجليزيه كما هو مسجل في البنك</small>
+              <small id="emailHelp" class="form-text d-block mt-1 text-muted">{{__('Write the name of the account holder in English as registered with the bank')}}</small>
             </div><!-- form-group -->
           </div><!-- col-12 -->
           <div class="col-12">

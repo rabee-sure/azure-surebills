@@ -16,6 +16,10 @@
         </div><!-- inputs -->
     </div>
     <div class="p-2">
+        @if(request()->has('error'))
+            <div class="alert alert-danger" role="alert" id="errors">{{trans('Payment is Failed')}}</div>
+        @endif
+
         @if(isset($errors) && $errors->any())
         <div class="alert alert-danger" role="alert" id="errors">
             <ul>

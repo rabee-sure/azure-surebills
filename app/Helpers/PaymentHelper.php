@@ -110,7 +110,7 @@ class PaymentHelper
             $bill->save();
             return redirect($bill->getRedirectUrl($payment->results['response']));
         } else {
-            return redirect()->route('paybillpage', ['id' => $bill->pay_id])->withErrors(['field_name' => $invoice->getDetail('description')]);
+            return redirect()->route('paybillpage', ['id' => $bill->pay_id, 'error' => $invoice->getDetail('description')])->withErrors(['field_name' => $invoice->getDetail('description')]);
         }
 
     }

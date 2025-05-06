@@ -375,5 +375,6 @@
 "Pos user": "POS merchant",
 "You reach the max number of customizations": "You reach the max number of customizations",
 "privacy_policy": "Privacy policy",
-"Print Receipt": "Print Receipt"
+"Print Receipt": "Print Receipt",
+"Payment is Failed": "Payment is Failed"
 }
