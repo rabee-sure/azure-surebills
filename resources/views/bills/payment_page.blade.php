@@ -100,6 +100,7 @@
         @endif
         @include($payForm)
       </div>
+      <div id="payerAuthIFrames"></div>
     </div><!-- pay_apple -->
   </div><!-- payment-api-page -->
 
@@ -141,9 +142,9 @@
 
     <script>
         function loading() {
-            $('#errors').css('display', 'none');
-            $("#errors ul").html('');
-            $(".load_form").addClass('active');
+          $('#errors').css('display', 'none');
+          $("#errors ul").html('');
+          $(".load_form").addClass('active');
         }
         function loaded() {
             $(".load_form").removeClass('active');

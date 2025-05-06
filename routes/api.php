@@ -20,6 +20,18 @@ use Illuminate\Support\Facades\Route;
  * Routes for test must remove on production
  */
 
+Route::any('callback-after-enrollement/{billId}', [PaymentController::class, 'callbackAfterEnrollement'])->name('cybersource.callback.after.enrollement');
+
+// Payer Setup
+Route::post('payer-auth-setup', [PaymentController::class, 'payerAuthSetup'])->name('cybersource.payerAuth.setup');
+
+// Enrollement
+Route::post('payer-auth-enrollment', [PaymentController::class, 'checkPayerAuthEnrollment'])->name('cybersource.payerAuth.enrollment.check');
+
+// Validation check
+Route::post('payer-auth-validation-results', [PaymentController::class, 'validateAuthenticationResults'])->name('cybersource.payerAuth.validation.results');
+
+// Payment
 Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('process.payment');
 
 // Route::post('reverse-transaction-simulation', function(Request $request){

@@ -5,8 +5,6 @@ use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use GuzzleHttp\Client;
-use Illuminate\Contracts\Cache\Store;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,171 +17,22 @@ use Illuminate\Contracts\Cache\Store;
 |
 */
 
+
 Route::domain(config('payment.invoice_subdomain'))->group(function (){
     
   Route::get('.well-known/{file}', 'BillSubdomainController@verifyOwnershipForApplePay')->name('verify.applepay.ownership');
   Route::get('/bills/{id}/pay', 'BillController@pay')->name('bill.invoice.subdomain');
   Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('bill.invoice.lang.subdomain');
-
+  Route::get('payment/otp/{setupAccessToken}', [PaymentController::class, 'otpForm'])->name('payment.otp.form');
+  
 });
 
-// Route::get('delete-subscripe-all-products', function () {
-//   $cyberSourceWebhookService = new App\Services\CyberSourceWebhookService;
-//   $subscribedProducts = $cyberSourceWebhookService->getWebhookSubscriptionsByOrg(config('cybersource.merchant_id'), '', '')[0] ?? [];
-//   foreach ($subscribedProducts as $subscribedProduct) {
-//     $cyberSourceWebhookService->deleteWebhookSubscription($subscribedProduct['webhookId']);
-//   }
-// });
-
-// Route::get('subscripe-all-products', function () {
-
-//   $productsList = [
-//     [
-//       "productId" => "transactionSearch",
-//       "eventTypes" => []
-//     ],
-//     [
-//       "productId" => "fraudManagementEssentials",
-//       "eventTypes" => [
-//         "risk.profile.decision.review",
-//         "risk.profile.decision.reject",
-//         "risk.profile.decision.monitor",
-//         "risk.casemanagement.addnote",
-//         "risk.casemanagement.decision.accept",
-//         "risk.casemanagement.decision.reject",
-//         "risk.profile.decision.review.5m",
-//         "risk.profile.decision.reject.5m",
-//         "risk.profile.decision.monitor.5m",
-//         "risk.profile.decision.review.5m",
-//         "risk.profile.decision.reject.5m",
-//         "risk.profile.decision.monitor.5m"
-//       ]
-//     ],
-//     [
-//       "productId" => "secureAcceptance",
-//       "eventTypes" => [
-//         "sa.order.confirmation"
-//       ]
-//     ],
-//     [
-//       "productId" => "accountUpdater",
-//       "eventTypes" => [
-//         "aura.batch.status.update",
-//         "aura.batch.status.update"
-//       ]
-//     ],
-//     [
-//       "productId" => "paymentOrchestration",
-//       "eventTypes" => []
-//     ],
-//     [
-//       "productId" => "recurringBilling",
-//       "eventTypes" => [
-//         "rbs.subscriptions.charge.pre-notified",
-//         "rbs.subscriptions.charge.created",
-//         "rbs.subscriptions.charge.failed",
-//         "rbs.subscriptions.charge.pre-notified",
-//         "rbs.subscriptions.charge.created",
-//         "rbs.subscriptions.charge.failed"
-//       ]
-//     ],
-//     [
-//       "productId" => "virtualTerminal",
-//       "eventTypes" => [
-//         "vt.order.receipt",
-//         "vt.followon.receipt",
-//         "vt.transactions.receipt",
-//         "vt.order.receipt",
-//         "vt.followon.receipt",
-//         "vt.order.receipt",
-//         "vt.followon.receipt"
-//       ]
-//     ],
-//     [
-//       "productId" => "payByLink",
-//       "eventTypes" => []
-//     ],
-//     [
-//       "productId" => "customerInvoicing",
-//       "eventTypes" => [
-//         "invoicing.merchant.invoice.send",
-//         "invoicing.merchant.invoice.paid",
-//         "invoicing.merchant.invoice.partial-paid",
-//         "invoicing.merchant.invoice.cancel",
-//         "invoicing.customer.invoice.send",
-//         "invoicing.customer.invoice.cancel",
-//         "invoicing.customer.invoice.reminder",
-//         "invoicing.customer.invoice.overdue-reminder",
-//         "invoicing.customer.invoice.paid",
-//         "invoicing.customer.invoice.partial-payment",
-//         "invoicing.customer.invoice.partial-resend"
-//       ]
-//     ],
-//     [
-//       "productId" => "reporting",
-//       "eventTypes" => []
-//     ],
-//     [
-//       "productId" => "unifiedCheckout",
-//       "eventTypes" => []
-//     ],
-//     [
-//       "productId" => "tax",
-//       "eventTypes" => []
-//     ],
-//     [
-//       "productId" => "payerAuthentication",
-//       "eventTypes" => []
-//     ],
-//     [
-//       "productId" => "cardProcessing",
-//       "eventTypes" => [
-//         "payments.payments.accept",
-//         "payments.payments.review",
-//         "payments.payments.reject",
-//         "payments.payments.partial.approval",
-//         "payments.reversals.accept",
-//         "payments.reversals.reject",
-//         "payments.captures.accept",
-//         "payments.captures.review",
-//         "payments.captures.reject",
-//         "payments.refunds.accept",
-//         "payments.refunds.reject",
-//         "payments.refunds.partial.approval",
-//         "payments.credits.accept",
-//         "payments.credits.review",
-//         "payments.credits.reject",
-//         "payments.credits.partial.approval",
-//         "payments.voids.accept",
-//         "payments.voids.reject"
-//       ]
-//     ],
-//     [
-//       "productId" => "tokenManagement",
-//       "eventTypes" => [
-//         "tms.token.created",
-//         "tms.token.updated",
-//         "tms.token.pan_updated",
-//         "tms.networktoken.updated",
-//         "tms.networktoken.provisioned"
-//       ]
-//     ]
-//   ];
-
-//   $cyberSourceWebhookService = new App\Services\CyberSourceWebhookService;
-//   // $productsList = $cyberSourceWebhookService->findProductsToSubscribe()[0] ?? [];
-
-//   foreach ($productsList as $productList) {
-//     $cyberSourceWebhookService->createWebhookSubscription($productList['productId'], $productList['eventTypes']);
-//   }
-// });
 
 // Payments Routes
 Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
 Route::post('payment-webhook', [PaymentController::class, 'handleWebhook'])->name('payment.webhook');
 Route::any('health-check', [PaymentController::class, 'healthCheck'])->name('health.check');
 
-// Route::get('test/bill', 'TestController@bill');
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
 // Route::middleware(['guest'])->group(function () {

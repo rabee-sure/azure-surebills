@@ -12,6 +12,7 @@ use App\Jobs\CybersourceGetTransactionDetailJob;
 use App\Models\Bill;
 use App\Models\PaymentLog;
 use CyberSource\Api\CaptureApi;
+use CyberSource\Api\PayerAuthenticationApi;
 use CyberSource\Api\PaymentsApi;
 use CyberSource\Api\RefundApi;
 use CyberSource\Api\TransactionDetailsApi;
@@ -21,6 +22,7 @@ use CyberSource\Authentication\Core\MerchantConfiguration;
 use CyberSource\Configuration;
 use CyberSource\Model\CapturePaymentRequest;
 use CyberSource\Model\CreatePaymentRequest;
+use CyberSource\Model\PayerAuthSetupRequest;
 use CyberSource\Model\PtsV2PaymentsCapturesPost201Response;
 use CyberSource\Model\Ptsv2paymentsidrefundsClientReferenceInformation;
 use CyberSource\Model\Ptsv2paymentsOrderInformation;
@@ -34,12 +36,34 @@ use CyberSource\Model\PtsV2PaymentsPost201Response;
 use CyberSource\Model\PtsV2PaymentsRefundPost201Response;
 use CyberSource\Model\RefundPaymentRequest;
 use CyberSource\Model\TssV2TransactionsGet200Response;
+use CyberSource\Model\Ptsv2paymentsConsumerAuthenticationInformation;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use CyberSource\Api\MicroformIntegrationApi;
+use CyberSource\Model\CheckPayerAuthEnrollmentRequest;
 use CyberSource\Model\GenerateCaptureContextRequest;
 use CyberSource\Model\Ptsv2paymentsPaymentInformationTokenizedCard;
 use CyberSource\Model\Ptsv2paymentsTokenInformation;
+use CyberSource\Model\Riskv1authenticationresultsConsumerAuthenticationInformation;
+use CyberSource\Model\Riskv1authenticationresultsOrderInformation;
+use CyberSource\Model\Riskv1authenticationresultsOrderInformationAmountDetails;
+use CyberSource\Model\Riskv1authenticationresultsPaymentInformation;
+use CyberSource\Model\Riskv1authenticationresultsPaymentInformationCard;
+use CyberSource\Model\RiskV1AuthenticationResultsPost201Response;
+use CyberSource\Model\Riskv1authenticationsBuyerInformation;
+use CyberSource\Model\Riskv1authenticationsetupsClientReferenceInformation;
+use CyberSource\Model\Riskv1authenticationsetupsPaymentInformation;
+use CyberSource\Model\Riskv1authenticationsetupsPaymentInformationCard;
+use CyberSource\Model\Riskv1authenticationsOrderInformation;
+use CyberSource\Model\Riskv1authenticationsOrderInformationAmountDetails;
+use CyberSource\Model\Riskv1authenticationsOrderInformationBillTo;
+use CyberSource\Model\Riskv1authenticationsPaymentInformation;
+use CyberSource\Model\Riskv1decisionsClientReferenceInformationPartner;
+use CyberSource\Model\Riskv1decisionsConsumerAuthenticationInformation;
+use CyberSource\Model\Riskv1authenticationsDeviceInformation;
+use CyberSource\Model\RiskV1AuthenticationSetupsPost201Response;
+use CyberSource\Model\RiskV1AuthenticationsPost201Response;
+use CyberSource\Model\ValidateRequest;
 
 class CyberSourceService extends PaymentAbstract
 
@@ -92,15 +116,114 @@ class CyberSourceService extends PaymentAbstract
      * @return array The response from the CyberSource payment API.
      * @throws Exception If the payment fails.
      */
-    public function processPayment($bill, $cardDetails)
+    public function processPayment($bill, $cardDetails, $payerAuthDetails)
     {
-        $payload = $this->preparePaymentPayload($bill, $cardDetails);
+        $this->logResult('process-payment-cards', "here 2");
+        $this->logResult('process-payment-cards', json_encode($cardDetails));
+        $payload = $this->preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
             return $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload);
+            // $initiatePaymentAuthResponseDecode = json_decode($initiatePaymentAuthResponse, true);
+            // if($initiatePaymentAuthResponseDecode['status'] === 'AUTHORIZED')
+            // {
+            //     $bill->status = 'paid';
+            //     $bill->save();
+            //     return true;
+            // }
         }
 
         return false;
+    }
+
+    public function payerAuthSetup($cardData){
+        $api_instance = new PayerAuthenticationApi($this->apiClient);
+        $payerAuthSetupRequest = new PayerAuthSetupRequest([
+            'paymentInformation' => new Riskv1authenticationsetupsPaymentInformation([
+                'card' => new Riskv1authenticationsetupsPaymentInformationCard([
+                    // 'type' => '006',
+                    'number' => $cardData['card_number'],
+                    'expirationMonth' => $cardData['card_expiry_month'],
+                    'expirationYear' => $cardData['card_expiry_year'],
+                ])
+            ])
+        ]); // \CyberSource\Model\PayerAuthSetupRequest | 
+        
+        $responseBody = null;
+        try {
+            $result = $api_instance->payerAuthSetup($payerAuthSetupRequest);
+            $resultModel = new RiskV1AuthenticationSetupsPost201Response(json_decode($result[0], true));
+            $responseBody = json_decode($resultModel, true);
+            return $responseBody;
+        } catch (Exception $e) {
+            echo 'Exception when calling PayerAuthenticationApi->payerAuthSetup: ', $e->getMessage(), PHP_EOL;
+        } finally {
+            $this->logResult('cybersource-payer-auth-setup-logs', $responseBody);
+            $this->logResult('cybersource-payer-auth-setup-logs', $payerAuthSetupRequest);
+        }
+    }
+
+    public function checkPayerAuthEnrollment($billId, $billAmount, $cardData, $payerSetupRefranceId){
+        $api_instance = new PayerAuthenticationApi($this->apiClient);
+        $checkPayerAuthEnrollmentRequest = new CheckPayerAuthEnrollmentRequest(
+            [
+                'orderInformation' => new Riskv1authenticationsOrderInformation([
+                    'amountDetails' => new Riskv1authenticationsOrderInformationAmountDetails([
+                        'currency' => 'SAR',
+                        'totalAmount' => $billAmount,
+                    ]),
+                ]),
+                'paymentInformation' => new Riskv1authenticationsPaymentInformation([
+                    'card' => new Riskv1authenticationsetupsPaymentInformationCard([
+                        'number' => $cardData['card_number'],
+                        // 'type' => '006',
+                        'expirationMonth' => $cardData['card_expiry_month'],
+                        'expirationYear' => $cardData['card_expiry_year'],
+                    ])
+                ]),
+                'consumerAuthenticationInformation' => new Riskv1decisionsConsumerAuthenticationInformation([
+                    'acsWindowSize' => '05',
+                    'referenceId' => $payerSetupRefranceId,
+                    'transactionMode' => 'S',
+                    'returnUrl' => route('cybersource.callback.after.enrollement', ['billId' => $billId]),
+                    //route('validate-auth-result'),
+                    // 'returnUrl' => route('validate-auth-result')->with('bill_id', $billId),
+                    //'https://wv730hw7033250:3002/restapi/cardinalDirect/StepUp/Response'
+                ])
+            ]
+        ); // \CyberSource\Model\CheckPayerAuthEnrollmentRequest |
+        $responseBody = null;
+        try {
+            $result = $api_instance->checkPayerAuthEnrollment($checkPayerAuthEnrollmentRequest);
+            $resultModel = new RiskV1AuthenticationsPost201Response(json_decode($result[0], true));
+            $responseBody = json_decode($resultModel, true);
+            return $responseBody;
+        } catch (Exception $e) {
+            echo 'Exception when calling PayerAuthenticationApi->checkPayerAuthEnrollment: ', $e->getMessage(), PHP_EOL;
+        } finally {
+            $this->logResult('cybersource-payer-auth-check-enrollment-logs', $responseBody);
+        }
+    }
+
+    public function validateAuthenticationResults($authenticationTransactionId){
+        $api_instance = new PayerAuthenticationApi($this->apiClient);
+        $validateRequest = new ValidateRequest([
+            'consumerAuthenticationInformation' => new Riskv1authenticationresultsConsumerAuthenticationInformation([
+                'authenticationTransactionId' => $authenticationTransactionId,
+            ])
+
+        ]); // \CyberSource\Model\ValidateRequest | 
+        $responseBody = null;
+        try {
+            $result = $api_instance->validateAuthenticationResults($validateRequest);
+            $resultModel = new RiskV1AuthenticationResultsPost201Response(json_decode($result[0], true));
+            $responseBody = json_decode($resultModel, true);
+            return $responseBody;
+        } catch (Exception $e) {
+            echo 'Exception when calling PayerAuthenticationApi->validateAuthenticationResults: ', $e->getMessage(), PHP_EOL;
+        } finally {
+            $this->logResult('cybersource-payer-auth-validate-authentication-logs', $responseBody);
+        }
     }
 
     /**
@@ -257,33 +380,44 @@ class CyberSourceService extends PaymentAbstract
      */
     public function processApplePayPayment($bill, $applePayToken)
     {
+        $this->logResult('process-payment-cards', "via apple pay");
         $payload = $this->preparePaymentPayload($bill, $applePayToken, 'apple_pay');
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
-            return $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload, 'mastercard_applepay');
+            $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload, 'mastercard_applepay');
         }
 
         return false;
     }
 
-    protected function preparePaymentPayload($bill, $cardDetails, $payloadType = null)
+    protected function preparePaymentPayload($bill, $cardDetails, $payerAuthDetails, $payloadType = null)
     {
-        $processingInformation = $transientTokenJwt = null;
+        $transientTokenJwt = null;
+        $processingInformation = new Ptsv2paymentsProcessingInformation([
+            // 'capture' => true,
+            'actionList' => ['DECISION_SKIP'],
+            'commerceIndicator' => isset($payerAuthDetails['consumerAuthenticationInformation_indicator']) ? $payerAuthDetails['consumerAuthenticationInformation_indicator'] : null,
+        ]);
+
         $paymentInfo = new PtsV2PaymentsPaymentInformation();
         if ($payloadType == 'apple_pay') {
             $this->logResult('fix-apple-pay', json_encode($cardDetails));
             $fluidData = new Ptsv2paymentsPaymentInformationFluidData(['value' => base64_encode(json_encode($cardDetails)), 'descriptor' => 'RklEPUNPTU1PTi5BUFBMRS5JTkFQUC5QQVlNRU5U', 'encoding' => 'Base64']);
             $paymentInfo->setFluidData($fluidData);
-            $processingInformation = new Ptsv2paymentsProcessingInformation(['paymentSolution' => '001']);
+            // $processingInformation = new Ptsv2paymentsProcessingInformation(['paymentSolution' => '001']);
+            $processingInformation->setPaymentSolution('001');
         } else if (isset($cardDetails['transit_token'])) {
             $transientTokenJwt = new Ptsv2paymentsTokenInformation(['transientTokenJwt' => $cardDetails['transit_token']]);
         } else {
+            $this->logResult('process-payment-cards', "here 3");
+            $this->logResult('process-payment-cards', json_encode($cardDetails));
             $paymentInfoCard = new Ptsv2paymentsPaymentInformationCard([
                 'number' => $cardDetails['number'],
                 'expirationMonth' => $cardDetails['expiration_month'],
                 'expirationYear' => $cardDetails['expiration_year'],
                 'securityCode' => $cardDetails['cvv'],
             ]);
+
             $paymentInfo->setCard($paymentInfoCard);
         }
 
@@ -308,13 +442,28 @@ class CyberSourceService extends PaymentAbstract
             ]
         );
 
-        $paymentRequest = new CreatePaymentRequest([
-            'clientReferenceInformation' => new Ptsv2paymentsidrefundsClientReferenceInformation(['code' => $bill->id]),
+        $consumerAuthenticationInformation = new Ptsv2paymentsConsumerAuthenticationInformation([
+            'cavv' => isset($payerAuthDetails['consumerAuthenticationInformation_cavv']) ? $payerAuthDetails['consumerAuthenticationInformation_cavv'] : null,
+            'xid' => isset($payerAuthDetails['consumerAuthenticationInformation_xid']) ? $payerAuthDetails['consumerAuthenticationInformation_xid'] : null,
+            'eciRaw' => isset($payerAuthDetails['consumerAuthenticationInformation_eciRaw']) ? $payerAuthDetails['consumerAuthenticationInformation_eciRaw'] : null,
+            'paSpecificationVersion' => isset($payerAuthDetails['consumerAuthenticationInformation_specificationVersion']) ? $payerAuthDetails['consumerAuthenticationInformation_specificationVersion'] : null,
+            'directoryServerTransactionId' => isset($payerAuthDetails['consumerAuthenticationInformation_directoryServerTransactionId']) ? $payerAuthDetails['consumerAuthenticationInformation_directoryServerTransactionId'] : null,
+            'ucafCollectionIndicator' => isset($payerAuthDetails['consumerAuthenticationInformation_ucafCollectionIndicator']) ? $payerAuthDetails['consumerAuthenticationInformation_ucafCollectionIndicator'] : null, // This Key In Mastercard Only, this is called "UCAF Collection Indicator"
+            'ucafAuthenticationData' => isset($payerAuthDetails['consumerAuthenticationInformation_ucafAuthenticationData']) ? $payerAuthDetails['consumerAuthenticationInformation_ucafAuthenticationData'] : null, // This Key In Mastercard Only, this is called "UCAF Authenticator Data"
+        ]);
+
+        $paymentRequestPayload = [
+            'clientReferenceInformation' => new Ptsv2paymentsidrefundsClientReferenceInformation(['code' => $bill->id.'_'.uniqid()]),
             'orderInformation' => $orderInfo,
             'processingInformation' => $processingInformation,
             'tokenInformation' => $transientTokenJwt,
             'paymentInformation' => $paymentInfo,
-        ]);
+            'consumerAuthenticationInformation' => $consumerAuthenticationInformation,
+        ];
+
+        $paymentRequest = new CreatePaymentRequest($paymentRequestPayload);
+
+        $this->logResult('test-payment-payload', $paymentRequest);
 
         return [
             'paymentRequest' => $paymentRequest,
@@ -393,8 +542,8 @@ class CyberSourceService extends PaymentAbstract
      * @param string $fileName The name of the log file.
      * @param mixed $result The result to be logged.
      */
-    private function logResult($fileName, $result)
+    public function logResult($fileName, $result)
     {
-        Log::build(['driver' => 'single', 'path' => storage_path('logs/' . $fileName . '.log'), 'level' => 'debug'])->error($result);
+        Log::build(['driver' => 'single', 'path' => storage_path('logs/' . $fileName . '.log'), 'level' => 'error'])->error($result);
     }
 }

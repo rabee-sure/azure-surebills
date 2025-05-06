@@ -53,6 +53,7 @@ class CybersourceApplePayController extends Controller
      */
     public function checkPayment(CybersourcePayViaApplePayRequest $request)
     {
+        $this->cybersourceService->logResult('process-payment-cards', "here check payment in apple pay");
         $bill = Bill::find($request->billId);
         if($bill && $bill->status == 'pending')
         {
