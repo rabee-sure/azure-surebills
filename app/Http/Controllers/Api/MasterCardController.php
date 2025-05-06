@@ -147,7 +147,7 @@ class MasterCardController extends Controller
 
         // 3DS Failure
         if ($request->result != 'SUCCESS' || $request->response_gatewayRecommendation != 'PROCEED') {
-            return redirect()->route('paybillpage', ['id' => $bill->pay_id])->withErrors(['field_name' => '3DS Check Failure']);
+            return redirect()->route('paybillpage', ['id' => $bill->pay_id, 'error' => '3DS Check Failure'])->withErrors(['field_name' => '3DS Check Failure']);
         }
 
         // make the payment
@@ -178,7 +178,7 @@ class MasterCardController extends Controller
         $response = json_decode($response->getBody()->getContents(), true);
 
         if (isset($response['result']) && $response['result'] == 'ERROR') {
-            return redirect()->route('paybillpage', ['id' => $bill->pay_id])->withErrors(['field_name' => $invoice->getDetail('description')]);
+            return redirect()->route('paybillpage', ['id' => $bill->pay_id, 'error' => $invoice->getDetail('description')])->withErrors(['field_name' => $invoice->getDetail('description')]);
         }
 
         PaymentHelper::handlePaymentResponse($invoice, $bill->id, $invoice->getDetails());
