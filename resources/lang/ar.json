@@ -964,6 +964,7 @@
   "this debit note has been rejected" : "تم رفض هذا الإشعار المدين",
   "Successfull" : "تم بنجاح",
   "If this email is associated with an account, you will receive a password reset link." : "إذا كان هذا البريد الإلكتروني مرتبط بحساب، فسوف تتلقى رابط إعادة تعيين كلمة المرور.",
+  "Payment is Failed": "فشل الدفع",
   "This account will be used to settle payments received through point-of-sale devices" : "هذا الحساب سيستخدم لتسوية المدفوعات الواصلة لك عبر أجهزة نقاط البيع",
   "Write the name of the account holder in English as registered with the bank" : "اكتب اسم صاحب الحساب باللغة الانجليزيه كما هو مسجل في البنك"
 }
