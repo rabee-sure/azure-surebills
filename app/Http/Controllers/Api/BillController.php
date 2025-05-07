@@ -40,6 +40,11 @@ class BillController extends Controller
     {
         $application = $request->application;
         $user = $application->user ?? null;
+        
+        if($user && $user->store_main_user_id)
+        {
+            $user = $user->mainStoreUser;
+        }
 
         if($request->application_name){
             $application = $this->getApplication($application, $request);
