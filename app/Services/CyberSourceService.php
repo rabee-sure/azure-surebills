@@ -122,18 +122,36 @@ class CyberSourceService extends PaymentAbstract
         $this->logResult('process-payment-cards', json_encode($cardDetails));
         $payload = $this->preparePaymentPayload($bill, $cardDetails, $payerAuthDetails);
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
+        
+        $paymentLogStatus = false;
+        
         if ($initiatePaymentAuthResponse) {
             // return $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload);
             $initiatePaymentAuthResponseDecode = json_decode($initiatePaymentAuthResponse, true);
+            $paymentLogResult = $initiatePaymentAuthResponseDecode;
+            $paymentLog = $this->createPaymentLog($bill->id, 'mastercard_pay');
+
             if($initiatePaymentAuthResponseDecode['status'] === 'AUTHORIZED')
             {
-                $bill->status = 'paid';
-                $bill->save();
-                return true;
+              $paymentLogStatus = true;
+            }
+            
+            $paymentLogResult['bank_message'] = null;
+            if (isset($paymentLogResult['errorInformation']['message'])) {
+                $paymentLogResult['bank_message'] = $paymentLogResult['errorInformation']['message'];
+            } elseif (isset($paymentLogResult['message'])) {
+                $paymentLogResult['bank_message'] = $paymentLogResult['message'];
+            }
+
+            $this->updateBillStatus($bill, $paymentLogStatus, 'payment');
+            $this->updatePaymentLog($paymentLog, $paymentLogResult, $paymentLogStatus);
+
+            if ($paymentLogStatus) {
+                CybersourceGetTransactionDetailJob::dispatch($paymentLogResult['id'])->delay(now()->addSeconds(10));
             }
         }
-
-        return false;
+          
+        return $paymentLogStatus;
     }
 
     public function payerAuthSetup($cardData){
@@ -453,7 +471,7 @@ class CyberSourceService extends PaymentAbstract
         ]);
 
         $paymentRequestPayload = [
-            'clientReferenceInformation' => new Ptsv2paymentsidrefundsClientReferenceInformation(['code' => $bill->id.'_'.uniqid()]),
+            'clientReferenceInformation' => new Ptsv2paymentsidrefundsClientReferenceInformation(['code' => $bill->id]),
             'orderInformation' => $orderInfo,
             'processingInformation' => $processingInformation,
             'tokenInformation' => $transientTokenJwt,
@@ -491,10 +509,13 @@ class CyberSourceService extends PaymentAbstract
     {
         $res = new CybersourceTransactionDetailsResource($transactionDetails, true);
         $structureResponse = $res->toArray(request());
-
+        
         if ($structureResponse['status']) {
-            $bill = Bill::where('id', $structureResponse['bill_id'])->first();
-            $payment = PaymentLog::where('bank_transaction_id', $transactionDetails['id'])->first();
+            $bill = Bill::find($structureResponse['bill_id']);
+            $payment = PaymentLog::where('bank_transaction_id', $transactionDetails['id'])
+                ->where('payment_method', 'mastercard_pay')
+                ->where('status', true)
+                ->first();
 
             $this->completeCycle($structureResponse, $transactionDetails, $bill, $payment);
         } else {
