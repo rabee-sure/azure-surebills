@@ -39,7 +39,7 @@ class BusinessInformationRequest extends FormRequest
             'description' => ['nullable'],
             'business_address' => ['required', 'regex:/^[a-zA-Z ]+$/', 'max:100'],
             'business_address_details' => ['required', 'max:100'],
-            // 'business_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
+            'business_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
             'vat_registration_number' => [auth()->user()->source == 'sure bills' ? 'nullable' : 'required'],
             'document' => ['nullable', 'array', "max:5"],
             'document.*' => ['required', new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])],
