@@ -64,6 +64,8 @@ let options = {
 let request = new PaymentRequest(supportedInstruments, details, options);
 
 request.addEventListener('merchantvalidation', e => {
+  console.log(e.validationURL)
+  console.log(host)
   let headers = new Headers({
     'Accept': 'application/json',
     'Content-Type': 'application/json'
@@ -73,13 +75,20 @@ request.addEventListener('merchantvalidation', e => {
     headers: headers,
     body: JSON.stringify({validationURL: e.validationURL, host: host})
   }).then(res => {
+    console.log(res.status);
+    console.log('here 1');
     if (res.status === 200) {
       var resJson = res.json();
+      console.log(resJson);
+      console.log('here 2');
       return resJson;
     } else {
+      console.log('here 4');
       throw 'Merchant validation error.';
     }
   }).then((merchantSession) => {
+    console.log(merchantSession);
+    console.log('here 3');
     e.complete(merchantSession);
   });
 });
@@ -95,13 +104,12 @@ const updatedDetails = {
 
 request.show(updatedDetails).then(result => {
   response = result;
-  console.log(response);
   loading();
   let headers = new Headers({
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   });
-  fetch('<?php echo rtrim(config("payment.invoice_subdomain_url"), "/") ?>/api/cybersource/applepay/check-payment', {
+  fetch('<?php echo rtrim(config("payment.invoice_subdomain_url"), "/") ?>/api/cybersource/applepay/check-payment/', {
     method: 'POST',
     headers: headers,
     body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
@@ -109,10 +117,10 @@ request.show(updatedDetails).then(result => {
     if (data.error && data.error != '') {
       // alert(`test Could not make payment data: ${data.error}`);
       // console.log(data);
-      location.reload();
-      // response.complete('fail');
+      // location.reload();
+      response.complete('fail');
     } else {
-      // response.complete('success');
+      response.complete('success');
       window.location = data.redirect;
     }
   });
@@ -120,8 +128,8 @@ request.show(updatedDetails).then(result => {
  
   if (err) {
     // alert(`I Could not make payment err: ${err}`);
-    location.reload();
-    // response.complete('fail');
+    // location.reload();
+    response.complete('fail');
   }
 });
 }
