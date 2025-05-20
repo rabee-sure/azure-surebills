@@ -109,10 +109,10 @@ request.show(updatedDetails).then(result => {
     if (data.error && data.error != '') {
       // alert(`test Could not make payment data: ${data.error}`);
       // console.log(data);
-      // location.reload();
-      response.complete('fail');
+      location.reload();
+      // response.complete('fail');
     } else {
-      response.complete('success');
+      // response.complete('success');
       window.location = data.redirect;
     }
   });
@@ -120,8 +120,8 @@ request.show(updatedDetails).then(result => {
  
   if (err) {
     // alert(`I Could not make payment err: ${err}`);
-    // location.reload();
-    response.complete('fail');
+    location.reload();
+    // response.complete('fail');
   }
 });
 }
