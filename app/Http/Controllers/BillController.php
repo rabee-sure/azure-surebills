@@ -145,21 +145,46 @@ class BillController extends Controller
         $bill = DB::transaction(function () use ($request) {
             $user = auth()->user();
 
-            $customer = Customer::updateOrCreate([
-                'mobile' => $request->customer_mobile,
-                'user_id' => $user->store_main_user_id ?? $user->id,
-            ], [
-                'name' => $request->customer_name,
-                'email' => $request->customer_email,
-                'bullding_no' => $request->bullding_no,
-                'street_name' => $request->street_name,
-                'district' => $request->district,
-                'city' => $request->city,
-                'postal_code' => $request->postal_code,
-                'additional_no' => $request->additional_no,
-                'other_buyer_id' => $request->other_buyer_id,
-                'vat_registration_number' => $request->vat_registration_number,
-            ]);
+            // Find the customer by mobile or email
+            $customer = Customer::where('user_id', $user->store_main_user_id ?? $user->id)
+            ->where(function($query) use ($request) {
+                $query->where('mobile', $request->customer_mobile)
+                    ->orWhere('email', $request->customer_email);
+            })
+            ->first();
+
+            if ($customer) {
+                // Update the existing customer
+                $customer->update([
+                    'name' => $request->customer_name,
+                    'mobile' => $request->customer_mobile,
+                    'email' => $request->customer_email,
+                    'bullding_no' => $request->bullding_no,
+                    'street_name' => $request->street_name,
+                    'district' => $request->district,
+                    'city' => $request->city,
+                    'postal_code' => $request->postal_code,
+                    'additional_no' => $request->additional_no,
+                    'other_buyer_id' => $request->other_buyer_id,
+                    'vat_registration_number' => $request->vat_registration_number,
+                ]);
+            } else {
+                // Create a new customer
+                $customer = Customer::create([
+                    'name' => $request->customer_name,
+                    'mobile' => $request->customer_mobile,
+                    'email' => $request->customer_email,
+                    'bullding_no' => $request->bullding_no,
+                    'street_name' => $request->street_name,
+                    'district' => $request->district,
+                    'city' => $request->city,
+                    'postal_code' => $request->postal_code,
+                    'additional_no' => $request->additional_no,
+                    'other_buyer_id' => $request->other_buyer_id,
+                    'vat_registration_number' => $request->vat_registration_number,
+                    'user_id' => $user->store_main_user_id ?? $user->id
+                ]);
+            }
 
             $bill = Bill::create([
                 'user_id' => $user->store_main_user_id ?? $user->id,
