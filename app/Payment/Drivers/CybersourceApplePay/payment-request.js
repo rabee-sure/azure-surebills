@@ -34,7 +34,7 @@ let supportedInstruments = [
         'mada', 'masterCard', 'visa'
       ],
       version: 3,
-      countryCode: 'EG',
+      countryCode: 'SA',
       merchantIdentifier: "<?php echo env('CYBERSOURCE_APPLEPAY_MERCHANT_ID'); ?>",
       merchantCapabilities: ['supports3DS']
     }
@@ -64,8 +64,6 @@ let options = {
 let request = new PaymentRequest(supportedInstruments, details, options);
 
 request.addEventListener('merchantvalidation', e => {
-  console.log(e.validationURL)
-  console.log(host)
   let headers = new Headers({
     'Accept': 'application/json',
     'Content-Type': 'application/json'
@@ -75,20 +73,13 @@ request.addEventListener('merchantvalidation', e => {
     headers: headers,
     body: JSON.stringify({validationURL: e.validationURL, host: host})
   }).then(res => {
-    console.log(res.status);
-    console.log('here 1');
     if (res.status === 200) {
       var resJson = res.json();
-      console.log(resJson);
-      console.log('here 2');
       return resJson;
     } else {
-      console.log('here 4');
       throw 'Merchant validation error.';
     }
   }).then((merchantSession) => {
-    console.log(merchantSession);
-    console.log('here 3');
     e.complete(merchantSession);
   });
 });
