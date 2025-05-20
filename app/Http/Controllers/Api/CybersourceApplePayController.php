@@ -53,19 +53,21 @@ class CybersourceApplePayController extends Controller
      */
     public function checkPayment(CybersourcePayViaApplePayRequest $request)
     {
-        $this->cybersourceService->logResult('process-payment-cards', "here check payment in apple pay");
-        $bill = Bill::find($request->billId);
-        if($bill && $bill->status == 'pending')
-        {
-            $response = $this->cybersourceService->processApplePayPayment($bill, $request->paymentToken);
-            if($response == false)
-            {
-                return response()->json(['status' => 'fail'], 400);    
-            }
+        // $this->cybersourceService->logResult('process-payment-cards', "here check payment in apple pay");
+        $this->cybersourceService->logResult('process-payment-cards', $request->paymentToken);
+        dd('Here');
+        // $bill = Bill::find($request->billId);
+        // if($bill && $bill->status == 'pending')
+        // {
+        //     $response = $this->cybersourceService->processApplePayPayment($bill, $request->paymentToken);
+        //     if($response == false)
+        //     {
+        //         return response()->json(['status' => 'fail'], 400);    
+        //     }
             
-            return response()->json(['status' => 'success'], 200);    
-        }
+        //     return response()->json(['status' => 'success'], 200);    
+        // }
 
-        return response()->json(['status' => 'fail'], 400);    
+        // return response()->json(['status' => 'fail'], 400);    
     }
 }
