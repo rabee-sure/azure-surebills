@@ -88,6 +88,8 @@
               <option value="channel_fees">{{ __('Channel Fees') }}</option>
               <option value="channel_vat">{{ __('Channel VAT') }}</option>
             @endif
+            <option value="surebills_fees">{{ __('Surebills Fees') }}</option>
+            <option value="surebills_vat">{{ __('Surebills VAT') }}</option>
             <option value="fees">{{ __('Bill Fees') }}</option>
             <option value="vat">{{ __('Bill VAT') }}</option>
             @if(request()->transaction_type == 'credit')
