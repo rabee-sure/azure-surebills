@@ -52,21 +52,46 @@ class BillController extends Controller
 
         Bill::where('reference_id', $request->reference_id)->where('user_id', $application->user_id ?? null)->where('status', 'pending')->update(['status' => 'canceled']);
 
-        $customer = Customer::updateOrCreate([
-            'user_id' => $user->id,
-            'mobile' => $request->customer_mobile,
-        ],[
-            'name' => $request->customer_name,
-            'email' => $request->customer_email,
+        // Find the customer by mobile or email
+        $customer = Customer::where('user_id', $user->id)
+                    ->where(function($query) use ($request) {
+                        $query->where('mobile', $request->customer_mobile)
+                              ->orWhere('email', $request->customer_email);
+                    })
+                    ->first();
 
-            'bullding_no' => $request->customer_bullding_no,
-            'street_name' => $request->customer_street_name,
-            'district' => $request->customer_district,
-            'city' => $request->customer_city,
-            'postal_code' => $request->customer_postal_code,
-            'additional_no' => $request->customer_additional_no,
-            'other_buyer_id' => $request->customer_other_buyer_id,
+        if ($customer) {
+            // Update the existing customer
+            $customer->update([
+                'name' => $request->customer_name,
+                'mobile' => $request->customer_mobile,
+                'email' => $request->customer_email,
+                'bullding_no' => $request->customer_bullding_no,
+                'street_name' => $request->customer_street_name,
+                'district' => $request->customer_district,
+                'city' => $request->customer_city,
+                'postal_code' => $request->customer_postal_code,
+                'additional_no' => $request->customer_additional_no,
+                'other_buyer_id' => $request->customer_other_buyer_id,
+                'vat_registration_number' => $request->customer_vat_registration_number,
         ]);
+        } else {
+            // Create a new customer
+            $customer = Customer::create([
+                'name' => $request->customer_name,
+                'mobile' => $request->customer_mobile,
+                'email' => $request->customer_email,
+                'bullding_no' => $request->customer_bullding_no,
+                'street_name' => $request->customer_street_name,
+                'district' => $request->customer_district,
+                'city' => $request->customer_city,
+                'postal_code' => $request->customer_postal_code,
+                'additional_no' => $request->customer_additional_no,
+                'other_buyer_id' => $request->customer_other_buyer_id,
+                'vat_registration_number' => $request->customer_vat_registration_number,
+                'user_id' => $user->id
+            ]);
+        }
        
         $send_sms = $request->send_sms ?? 0;
         $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
@@ -344,13 +369,46 @@ class BillController extends Controller
             ->where('status', 'pending')
             ->update(['status' => 'canceled']);
 
-        $customer = Customer::updateOrCreate([
-            'user_id' => $user->id,
-            'mobile' => $request->customer_mobile,
-        ],[
-            'name' => $request->customer_name,
-            'email' => $request->customer_email,
+        // Find the customer by mobile or email
+        $customer = Customer::where('user_id', $user->id)
+                    ->where(function($query) use ($request) {
+                        $query->where('mobile', $request->customer_mobile)
+                              ->orWhere('email', $request->customer_email);
+                    })
+                    ->first();
+
+        if ($customer) {
+            // Update the existing customer
+            $customer->update([
+                'name' => $request->customer_name,
+                'mobile' => $request->customer_mobile,
+                'email' => $request->customer_email,
+                'bullding_no' => $request->customer_bullding_no,
+                'street_name' => $request->customer_street_name,
+                'district' => $request->customer_district,
+                'city' => $request->customer_city,
+                'postal_code' => $request->customer_postal_code,
+                'additional_no' => $request->customer_additional_no,
+                'other_buyer_id' => $request->customer_other_buyer_id,
+                'vat_registration_number' => $request->customer_vat_registration_number,
         ]);
+        } else {
+            // Create a new customer
+            $customer = Customer::create([
+                'name' => $request->customer_name,
+                'mobile' => $request->customer_mobile,
+                'email' => $request->customer_email,
+                'bullding_no' => $request->customer_bullding_no,
+                'street_name' => $request->customer_street_name,
+                'district' => $request->customer_district,
+                'city' => $request->customer_city,
+                'postal_code' => $request->customer_postal_code,
+                'additional_no' => $request->customer_additional_no,
+                'other_buyer_id' => $request->customer_other_buyer_id,
+                'vat_registration_number' => $request->customer_vat_registration_number,
+                'user_id' => $user->id
+            ]);
+        }
 
         $bill = Bill::create([
             'user_id' => $user->id,
