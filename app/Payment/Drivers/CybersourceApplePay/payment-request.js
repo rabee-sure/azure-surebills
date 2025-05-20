@@ -95,12 +95,13 @@ const updatedDetails = {
 
 request.show(updatedDetails).then(result => {
   response = result;
+  console.log(response);
   loading();
   let headers = new Headers({
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   });
-  fetch('<?php echo rtrim(config("payment.invoice_subdomain_url"), "/") ?>/api/cybersource/applepay/check-payment/', {
+  fetch('<?php echo rtrim(config("payment.invoice_subdomain_url"), "/") ?>/api/cybersource/applepay/check-payment', {
     method: 'POST',
     headers: headers,
     body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
