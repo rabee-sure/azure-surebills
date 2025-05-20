@@ -53,9 +53,10 @@ class CybersourceApplePayController extends Controller
      * @param CybersourcePayViaApplePayRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function checkPayment(CybersourcePayViaApplePayRequest $request)
+    public function checkPayment(Request $request)
     {
         // $this->cybersourceService->logResult('process-payment-cards', "here check payment in apple pay");
+        $this->cybersourceService->logResult('process-payment-cards', json_encode($request->all()));
         $this->cybersourceService->logResult('process-payment-cards', $request->paymentToken);
         return response()->json(['status' => 'success'], 200);
         // dd('Here');
