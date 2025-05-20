@@ -62,6 +62,14 @@
                     {{ __('Channel VAT') }}
                     @break
 
+                @case('surebills_fees')
+                    {{ __('Surebills Fees') }}
+                    @break
+
+                @case('surebills_vat')
+                    {{ __('Surebills VAT') }}
+                    @break
+
                 @case('fees')
                     {{ __('Bill Fees') }}
                     @break
