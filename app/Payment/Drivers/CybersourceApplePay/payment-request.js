@@ -63,6 +63,9 @@ let options = {
 // Initialization
 let request = new PaymentRequest(supportedInstruments, details, options);
 
+let extraHeaders = {};
+let extraBody = {};
+
 request.addEventListener('merchantvalidation', e => {
   let headers = new Headers({
     'Accept': 'application/json',
@@ -96,14 +99,14 @@ const updatedDetails = {
 request.show(updatedDetails).then(result => {
   response = result;
   loading();
-  let headers = new Headers({
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  });
+
+  extraBody.paymentToken = response.details.token.paymentData;
+  extraBody.applePay = true;
+
   fetch("<?php echo route('cybersource.payerAuth.setup') ?>", {
     method: 'POST',
-    headers: headers,
-    body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData, applePay: true})
+    headers: requestHeader(extraHeaders),
+    body: requestPayload(extraBody)
   }).then(
     response => response.json()
   ).then(
@@ -119,7 +122,6 @@ request.show(updatedDetails).then(result => {
         BuildDeviceDataCollectionIFrame(data.payerAuthSetupRes.consumerAuthenticationInformation.accessToken);
         setTimeout(function() {
           extraBody.payerAuthReferenceId = data.payerAuthSetupRes.consumerAuthenticationInformation.referenceId;
-          extraBody.applePay = true;
           checkEnrollment({}, extraBody);
         }, 10000);
       }
@@ -190,4 +192,14 @@ function checkEnrollment(extraHeaders = {}, extraBody = {}) {
     response.complete('success');
     loaded();
   });
+
+  function requestHeader(extraHeaders = {}) {
+      let headers = { "Content-Type": "application/json", "X-Pay-Time": "<?php echo $payTime ?>", "X-Bill-Signature": "<?php echo $billSignature ?>" };
+      return { ...headers, ...extraHeaders };
+  }
+
+  function requestPayload(extraBody = {}) {
+      let body = { "billId": "<?php echo $bill->id ?>" }
+      return JSON.stringify({ ...body, ...extraBody });
+  }
 }
