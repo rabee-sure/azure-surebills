@@ -65,6 +65,7 @@ class PaymentController extends Controller
 
             Cache::put('card_data_' . $bill->id, Crypt::encrypt($cardData), now()->addMinutes(10));
 
+            dd($cardData);
             $response = $this->cyberSourceService->payerAuthSetup($cardData, $applePay);
             if ($response['status'] == 'COMPLETED') {
                 return response()->json(['payerAuthSetupRes' => $response, 'status' => 'success'], 200);
