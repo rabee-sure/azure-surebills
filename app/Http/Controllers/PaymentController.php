@@ -39,6 +39,8 @@ class PaymentController extends Controller
 
     public function payerAuthSetup(Request $request)
     {
+        $applePay = false;
+
         $bill = Bill::find($request->billId);
         if (!$bill || $bill->is_invalid) {
             abort(404);
@@ -49,16 +51,21 @@ class PaymentController extends Controller
                 return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
             }
 
-            $cardData = [
-                'card_number' => $request->card_number,
-                'card_expiry_month' => $request->card_expiration_month,
-                'card_expiry_year' => $request->card_expiration_year,
-                'cvv' => $request->card_cvv,
-            ];
+            if($request->applePay){
+                $applePay = true;
+                $cardData = $request->paymentToken;
+            }else{
+                $cardData = [
+                    'card_number' => $request->card_number,
+                    'card_expiry_month' => $request->card_expiration_month,
+                    'card_expiry_year' => $request->card_expiration_year,
+                    'cvv' => $request->card_cvv,
+                ];
+            }
 
             Cache::put('card_data_' . $bill->id, Crypt::encrypt($cardData), now()->addMinutes(10));
 
-            $response = $this->cyberSourceService->payerAuthSetup($cardData);
+            $response = $this->cyberSourceService->payerAuthSetup($cardData, $applePay);
             if ($response['status'] == 'COMPLETED') {
                 return response()->json(['payerAuthSetupRes' => $response, 'status' => 'success'], 200);
             }
@@ -72,6 +79,7 @@ class PaymentController extends Controller
 
     public function checkPayerAuthEnrollment(Request $request)
     {
+        $applePay = false;
         $bill = Bill::find($request->billId);
         if (!$bill || $bill->is_invalid) {
             abort(404);
@@ -82,12 +90,18 @@ class PaymentController extends Controller
                 return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
             }
 
-            $cardData = [
-                'card_number' => $request->card_number,
-                'card_expiry_month' => $request->card_expiration_month,
-                'card_expiry_year' => $request->card_expiration_year,
-            ];
-            $response = $this->cyberSourceService->checkPayerAuthEnrollment($bill->id, $bill->fixed_total, $cardData, $request->payerAuthReferenceId);
+            if($request->applePay){
+                $applePay = true;
+                $cardData = $request->paymentToken;
+            }else{
+                $cardData = [
+                    'card_number' => $request->card_number,
+                    'card_expiry_month' => $request->card_expiration_month,
+                    'card_expiry_year' => $request->card_expiration_year,
+                ];
+            }
+
+            $response = $this->cyberSourceService->checkPayerAuthEnrollment($bill->id, $bill->fixed_total, $cardData, $request->payerAuthReferenceId, $applePay);
             if ($response['status'] != "AUTHENTICATION_FAILED") {
                 return response()->json(['payerAuthCheckEnrollmentRes' => $response, 'status' => 'success'], 200);
             }
@@ -134,7 +148,7 @@ class PaymentController extends Controller
         return view('bills.otp_form', ['setupAccessToken' => $setupAccessToken]);
     }
 
-    public function callbackAfterEnrollement(Request $request, $billId)
+    public function callbackAfterEnrollement(Request $request, $billId, $applePay = false)
     {
         try {
             $validateAuthenticationResponse = $this->cyberSourceService->validateAuthenticationResults($request->TransactionId);
@@ -150,12 +164,18 @@ class PaymentController extends Controller
             }
 
             $cachedCardDetail = Crypt::decrypt($cachedCardDetail);
-            $cardDetails = [
-                'number' => $cachedCardDetail['card_number'],
-                'expiration_month' => $cachedCardDetail['card_expiry_month'],
-                'expiration_year' => $cachedCardDetail['card_expiry_year'],
-                'cvv' => $cachedCardDetail['cvv'],
-            ];
+            
+            if($applePay){
+                $cardDetails = $request->paymentToken;
+            }else{
+                $cardDetails = [
+                    'number' => $cachedCardDetail['card_number'],
+                    'expiration_month' => $cachedCardDetail['card_expiry_month'],
+                    'expiration_year' => $cachedCardDetail['card_expiry_year'],
+                    'cvv' => $cachedCardDetail['cvv'],
+                ];
+            }
+            
             $this->cyberSourceService->logResult('process-payment-cards', "here 1");
             $this->cyberSourceService->logResult('process-payment-cards', json_encode($cardDetails));
             $payerAuthDetails = [
@@ -171,7 +191,7 @@ class PaymentController extends Controller
                 'consumerAuthenticationInformation_ucafAuthenticationData' => $validateAuthenticationResponse['consumerAuthenticationInformation']['ucafAuthenticationData'] ?? null, // This Key In Mastercard Only, this is called "UCAF Authenticator Data"
             ];
             
-            $this->cyberSourceService->processPayment($bill, $cardDetails, $payerAuthDetails);
+            $this->cyberSourceService->processPayment($bill, $cardDetails, $payerAuthDetails, $applePay);
         } catch (Exception $e) {
             Log::error($e->getMessage());
         } finally {
@@ -273,6 +293,28 @@ class PaymentController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function validateApplePayMerchant(Request $request)
+    {
+        $ch = curl_init();
+        $data = '{"merchantIdentifier": "' . config('payment.drivers.cybersource_applepay.applepay_merchant_id') . '", "domainName":"'.$request->host.'", "displayName":"SureBills"}';
+        curl_setopt($ch, CURLOPT_URL, $request->validationURL);
+        curl_setopt($ch, CURLOPT_SSLCERT, base_path('app/Payment/Drivers/CybersourceApplePay/applepay.crt.pem'));
+        curl_setopt($ch, CURLOPT_SSLKEY, base_path('app/Payment/Drivers/CybersourceApplePay/applepay.key.pem'));    
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+        if (curl_exec($ch) === false) {
+            echo json_encode('{"curlError":"' . curl_error($ch) . '"}');
+            Log::error('apple pay error: '.curl_error($ch));
+            Log::error('apple pay error: '.$request->validationURL);
+            Log::error('apple pay error: '.$data);
+        }
+
+
+        // close cURL resource, and free up system resources
+        curl_close($ch);
     }
 
     public function handleWebhook(Request $request)

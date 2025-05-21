@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\BillSignatureHelper;
 use App\Models\Bill;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CybersourcePayViaApplePayRequest;
 use App\Services\CyberSourceService;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 
 class CybersourceApplePayController extends Controller
@@ -55,17 +58,47 @@ class CybersourceApplePayController extends Controller
     {
         $this->cybersourceService->logResult('process-payment-cards', "here check payment in apple pay");
         $bill = Bill::find($request->billId);
+        if (!$bill || $bill->is_invalid) {
+            abort(404);
+        }
+        
         if($bill && $bill->status == 'pending')
         {
-            $response = $this->cybersourceService->processApplePayPayment($bill, $request->paymentToken);
-            if($response == false)
-            {
-                return response()->json(['status' => 'fail'], 400);    
-            }
+            $response = $this->payerAuthSetup($request, $bill);
+            return $response;
             
-            return response()->json(['status' => 'success'], 200);    
+            // $response = $this->cybersourceService->processApplePayPayment($bill, $request->paymentToken);
+            // if($response == false)
+            // {
+            //     return response()->json(['status' => 'fail'], 400);    
+            // }
+            
+            // return response()->json(['status' => 'success'], 200);    
         }
 
         return response()->json(['status' => 'fail'], 400);    
+    }
+
+    private function payerAuthSetup($request, $bill)
+    {
+        try {
+            if (!BillSignatureHelper::validateSignature($bill, $request->header('X-Pay-Time'), $request->header('X-Bill-Signature'))) {
+                return response()->json(['errors' => ['message' => [trans('Payment Faild')]]], 400);
+            }
+
+            $cardData = $request->paymentToken;
+
+            Cache::put('card_data_' . $bill->id, Crypt::encrypt($cardData), now()->addMinutes(10));
+
+            $response = $this->cybersourceService->payerAuthSetup($cardData, true);
+            if ($response['status'] == 'COMPLETED') {
+                return response()->json(['payerAuthSetupRes' => $response, 'status' => 'success'], 200);
+            }
+
+            return response()->json(['errors' => ['message' => [trans('Payer Auth Setup Faild')]]], 400);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['errors' => ['message' => [trans('Payer Auth Setup Faild')]]], 400);
+        }
     }
 }

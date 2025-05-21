@@ -20,20 +20,6 @@ use Illuminate\Support\Facades\Route;
  * Routes for test must remove on production
  */
 
-Route::any('callback-after-enrollement/{billId}', [PaymentController::class, 'callbackAfterEnrollement'])->name('cybersource.callback.after.enrollement');
-
-// Payer Setup
-Route::post('payer-auth-setup', [PaymentController::class, 'payerAuthSetup'])->name('cybersource.payerAuth.setup');
-
-// Enrollement
-Route::post('payer-auth-enrollment', [PaymentController::class, 'checkPayerAuthEnrollment'])->name('cybersource.payerAuth.enrollment.check');
-
-// Validation check
-Route::post('payer-auth-validation-results', [PaymentController::class, 'validateAuthenticationResults'])->name('cybersource.payerAuth.validation.results');
-
-// Payment
-Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('process.payment');
-
 // Route::post('reverse-transaction-simulation', function(Request $request){
 // 	// dd($request->header('secret-key'), $request->transaction_id);
 // 	if($request->header('secret-key') != "c8080539-ce2b-471e-8c18-d5a073ee6471"){
@@ -61,8 +47,30 @@ Route::post('applepay/check-payment', 'ApplePayController@checkPayment')->name('
 Route::post('mastercard/handle-payment', 'MasterCardController@handlePyament')->name('mastercard.handle.payment');
 Route::post('mastercard/{session}/check-payment', 'MasterCardController@checkPayment')->name('mastercard.3ds');
 
-Route::post('cybersource/applepay/validate', 'CybersourceApplePayController@validateMerchant')->name('applepay.validate');
-Route::post('cybersource/applepay/check-payment', 'CybersourceApplePayController@checkPayment')->name('applepay.check-payment');
+/**
+ * Cybersource Routes
+ */
+
+// Apple Pay
+Route::post('cybersource/applepay/validate', 'PaymentController@validateApplePayMerchant')->name('applepay.validate');
+// Route::post('cybersource/applepay/check-payment', 'CybersourceApplePayController@checkPayment')->name('applepay.check-payment');
+
+// Payer Setup
+Route::post('payer-auth-setup', [PaymentController::class, 'payerAuthSetup'])->name('cybersource.payerAuth.setup');
+
+// Enrollement
+Route::post('payer-auth-enrollment', [PaymentController::class, 'checkPayerAuthEnrollment'])->name('cybersource.payerAuth.enrollment.check');
+
+// Callback after enrollement
+Route::any('callback-after-enrollement/{billId}/{applePay?}', [PaymentController::class, 'callbackAfterEnrollement'])->name('cybersource.callback.after.enrollement');
+
+// Validation check
+Route::post('payer-auth-validation-results', [PaymentController::class, 'validateAuthenticationResults'])->name('cybersource.payerAuth.validation.results');
+
+// Payment
+Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('process.payment');
+
+// End Cybersource Routes
 
 Route::post('upload', 'MediaController@upload')->name('media.upload');
 Route::post('transfers/{transfer}/upload_attachment', 'MediaController@uploadAttachment');

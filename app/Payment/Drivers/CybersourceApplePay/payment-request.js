@@ -68,7 +68,7 @@ request.addEventListener('merchantvalidation', e => {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   });
-  fetch('<?php echo rtrim(config("payment.invoice_subdomain_url"), "/") ?>/api/cybersource/applepay/validate/', {
+  fetch("<?php echo route('applepay.validate') ?>", {
     method: 'POST',
     headers: headers,
     body: JSON.stringify({validationURL: e.validationURL, host: host})
@@ -100,33 +100,94 @@ request.show(updatedDetails).then(result => {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   });
-  fetch('<?php echo rtrim(config("payment.invoice_subdomain_url"), "/") ?>/api/cybersource/applepay/check-payment/', {
+  fetch("<?php echo route('cybersource.payerAuth.setup') ?>", {
     method: 'POST',
     headers: headers,
-    body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
-  }).then(response => response.json()).then(data => {
+    body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData, applePay: true})
+  }).then(
+    response => response.json()
+  ).then(
+    data => {
     if (data.error && data.error != '') {
       // alert(`test Could not make payment data: ${data.error}`);
       // console.log(data);
       // location.reload();
       response.complete('fail');
     } else {
-      response.complete('success');
-      window.location = data.redirect;
+      // window.location = data.redirect;
+      if (data.payerAuthSetupRes) {
+        BuildDeviceDataCollectionIFrame(data.payerAuthSetupRes.consumerAuthenticationInformation.accessToken);
+        setTimeout(function() {
+          extraBody.payerAuthReferenceId = data.payerAuthSetupRes.consumerAuthenticationInformation.referenceId;
+          extraBody.applePay = true;
+          checkEnrollment({}, extraBody);
+        }, 10000);
+      }
     }
   });
 }).catch(function(err) {
  
-  if (err) {
-    // alert(`I Could not make payment err: ${err}`);
-    // location.reload();
-    response.complete('fail');
-  }
-});
+    if (err) {
+      // alert(`I Could not make payment err: ${err}`);
+      // location.reload();
+      response.complete('fail');
+    }
+  });
 }
 
 // Assuming an anchor is the target for the event listener.
 window.addEventListener('DOMContentLoaded', function() {
-let button = document.querySelector('#payment');
-button.addEventListener('click', onBuyClicked);
+  let button = document.querySelector('#payment');
+  button.addEventListener('click', onBuyClicked);
 });
+
+function BuildDeviceDataCollectionIFrame(accessToken) {
+  let actionUrl = "<?php echo config('cybersource.device_data_collection_action_url'); ?>"
+  let iframe = "<iframe id='cardinal_collection_iframe' name='collectionIframe' height='10' width='10' style='display: none;'></iframe> <form id='cardinal_collection_form' method='POST' target='collectionIframe' action='"+actionUrl+"'> <input id='cardinal_collection_form_input' type='hidden' name='JWT' value='"+accessToken+"'> </form>";
+  $("#payerAuthIFrames").html(iframe);
+
+  var cardinalCollectionForm = document.querySelector('#cardinal_collection_form');
+      if (cardinalCollectionForm) // form exists 
+          cardinalCollectionForm.submit();
+
+  window.addEventListener("message", function (event) {
+      if (event.origin === actionUrl) {
+          // 
+      }
+  }, false);
+}
+
+function checkEnrollment(extraHeaders = {}, extraBody = {}) {
+  // Call the checkEnrollment function
+  fetch("<?php echo route('cybersource.payerAuth.enrollment.check') ?>", {
+      method: "POST",
+      headers: requestHeader(extraHeaders),
+      body: requestPayload(extraBody)
+  }).then(response => {
+      if (!response.ok) {
+          return response.json().then(err => { throw err; });
+      }
+      return response.json();
+  }).then(data => { // Equivalent to success
+      if (data.payerAuthCheckEnrollmentRes) {
+          if(data.payerAuthCheckEnrollmentRes.status == "PENDING_AUTHENTICATION"){
+              loaded();
+              window.location.href = '<?php echo rtrim(env("INVOICE_SUBDOMAIN_URL"), "/") ?>/payment/otp/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
+              // BuildStepUpIFrame(data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
+          }
+          // setTimeout(function() {
+          //     loading();
+          //     emptyIFrame();
+          //     extraBody.authenticationTransactionId = data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.authenticationTransactionId;
+          //     validateAuthentication({}, extraBody);
+          // }, 30000);
+      }
+  }).catch(error => {
+      if (error.errors) {
+          displayValidationErrors(error.errors);
+      }
+  }).finally(() => { // Equivalent to complete
+    response.complete('success');
+    loaded();
+  });
+}

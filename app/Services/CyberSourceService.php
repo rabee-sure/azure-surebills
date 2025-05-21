@@ -116,7 +116,7 @@ class CyberSourceService extends PaymentAbstract
      * @return array The response from the CyberSource payment API.
      * @throws Exception If the payment fails.
      */
-    public function processPayment($bill, $cardDetails, $payerAuthDetails)
+    public function processPayment($bill, $cardDetails, $payerAuthDetails, $applePay = false)
     {
         $this->logResult('process-payment-cards', "here 2");
         $this->logResult('process-payment-cards', json_encode($cardDetails));
@@ -129,7 +129,8 @@ class CyberSourceService extends PaymentAbstract
             // return $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload);
             $initiatePaymentAuthResponseDecode = json_decode($initiatePaymentAuthResponse, true);
             $paymentLogResult = $initiatePaymentAuthResponseDecode;
-            $paymentLog = $this->createPaymentLog($bill->id, 'mastercard_pay');
+            $paymentMethod = $applePay ? 'mastercard_applepay' : 'mastercard_pay';
+            $paymentLog = $this->createPaymentLog($bill->id, $paymentMethod);
 
             if($initiatePaymentAuthResponseDecode['status'] === 'AUTHORIZED')
             {
@@ -154,17 +155,30 @@ class CyberSourceService extends PaymentAbstract
         return $paymentLogStatus;
     }
 
-    public function payerAuthSetup($cardData){
+    public function payerAuthSetup($cardData, $applePay = false){
         $api_instance = new PayerAuthenticationApi($this->apiClient);
-        $payerAuthSetupRequest = new PayerAuthSetupRequest([
-            'paymentInformation' => new Riskv1authenticationsetupsPaymentInformation([
+        
+        if($applePay){
+            $data = [
+                'fluidData' => new Ptsv2paymentsPaymentInformationFluidData([
+                    'value' => base64_encode(json_encode($cardData)), 
+                    'descriptor' => 'RklEPUNPTU1PTi5BUFBMRS5JTkFQUC5QQVlNRU5U', 
+                    'encoding' => 'Base64'
+                ])
+            ];
+        }else{
+            $data = [
                 'card' => new Riskv1authenticationsetupsPaymentInformationCard([
                     // 'type' => '006',
                     'number' => $cardData['card_number'],
                     'expirationMonth' => $cardData['card_expiry_month'],
                     'expirationYear' => $cardData['card_expiry_year'],
                 ])
-            ])
+            ];
+        }
+        
+        $payerAuthSetupRequest = new PayerAuthSetupRequest([
+            'paymentInformation' => new Riskv1authenticationsetupsPaymentInformation($data)
         ]); // \CyberSource\Model\PayerAuthSetupRequest | 
         
         $responseBody = null;
@@ -181,8 +195,28 @@ class CyberSourceService extends PaymentAbstract
         }
     }
 
-    public function checkPayerAuthEnrollment($billId, $billAmount, $cardData, $payerSetupRefranceId){
+    public function checkPayerAuthEnrollment($billId, $billAmount, $cardData, $payerSetupRefranceId, $applePay = false){
         $api_instance = new PayerAuthenticationApi($this->apiClient);
+
+        if($applePay){
+            $data = [
+                'fluidData' => new Ptsv2paymentsPaymentInformationFluidData([
+                    'value' => base64_encode(json_encode($cardData)), 
+                    'descriptor' => 'RklEPUNPTU1PTi5BUFBMRS5JTkFQUC5QQVlNRU5U', 
+                    'encoding' => 'Base64'
+                ])
+            ];
+        }else{
+            $data = [
+                'card' => new Riskv1authenticationsetupsPaymentInformationCard([
+                    // 'type' => '006',
+                    'number' => $cardData['card_number'],
+                    'expirationMonth' => $cardData['card_expiry_month'],
+                    'expirationYear' => $cardData['card_expiry_year'],
+                ])
+            ];
+        }
+        
         $checkPayerAuthEnrollmentRequest = new CheckPayerAuthEnrollmentRequest(
             [
                 'orderInformation' => new Riskv1authenticationsOrderInformation([
@@ -191,19 +225,12 @@ class CyberSourceService extends PaymentAbstract
                         'totalAmount' => $billAmount,
                     ]),
                 ]),
-                'paymentInformation' => new Riskv1authenticationsPaymentInformation([
-                    'card' => new Riskv1authenticationsetupsPaymentInformationCard([
-                        'number' => $cardData['card_number'],
-                        // 'type' => '006',
-                        'expirationMonth' => $cardData['card_expiry_month'],
-                        'expirationYear' => $cardData['card_expiry_year'],
-                    ])
-                ]),
+                'paymentInformation' => new Riskv1authenticationsPaymentInformation($data),
                 'consumerAuthenticationInformation' => new Riskv1decisionsConsumerAuthenticationInformation([
                     'acsWindowSize' => '05',
                     'referenceId' => $payerSetupRefranceId,
                     'transactionMode' => 'S',
-                    'returnUrl' => route('cybersource.callback.after.enrollement', ['billId' => $billId]),
+                    'returnUrl' => route('cybersource.callback.after.enrollement', ['billId' => $billId, 'applePay' => $applePay]),
                     //route('validate-auth-result'),
                     // 'returnUrl' => route('validate-auth-result')->with('bill_id', $billId),
                     //'https://wv730hw7033250:3002/restapi/cardinalDirect/StepUp/Response'
