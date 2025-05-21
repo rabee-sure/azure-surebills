@@ -100,21 +100,13 @@ request.show(updatedDetails).then(result => {
   response = result;
   loading();
 
-  // extraBody.paymentToken = response.details.token.paymentData;
-  // extraBody.applePay = true;
+  extraBody.paymentToken = response.details.token.paymentData;
+  extraBody.applePay = true;
 
-  let headers = new Headers({
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  });
-
-  // fetch("<?php echo route('cybersource.payerAuth.setup') ?>", {
-  fetch('<?php echo rtrim(config("payment.invoice_subdomain_url"), "/") ?>/api/cybersource/applepay/check-payment/', {
+  fetch("<?php echo route('cybersource.payerAuth.setup') ?>", {
     method: 'POST',
-    // headers: requestHeader(extraHeaders),
-    // body: requestPayload(extraBody)
-    headers: headers,
-    body: JSON.stringify({billId: '<?php echo $bill->id; ?>', paymentToken: response.details.token.paymentData})
+    headers: requestHeader(extraHeaders),
+    body: requestPayload(extraBody)
   }).then(
     response => response.json()
   ).then(
@@ -125,15 +117,13 @@ request.show(updatedDetails).then(result => {
       // location.reload();
       response.complete('fail');
     } else {
-      response.complete('success');
-      window.location = data.redirect;
-      // if (data.payerAuthSetupRes) {
-      //   BuildDeviceDataCollectionIFrame(data.payerAuthSetupRes.consumerAuthenticationInformation.accessToken);
-      //   setTimeout(function() {
-      //     extraBody.payerAuthReferenceId = data.payerAuthSetupRes.consumerAuthenticationInformation.referenceId;
-      //     checkEnrollment({}, extraBody);
-      //   }, 10000);
-      // }
+      if (data.payerAuthSetupRes) {
+        BuildDeviceDataCollectionIFrame(data.payerAuthSetupRes.consumerAuthenticationInformation.accessToken);
+        setTimeout(function() {
+          extraBody.payerAuthReferenceId = data.payerAuthSetupRes.consumerAuthenticationInformation.referenceId;
+          checkEnrollment({}, extraBody);
+        }, 10000);
+      }
     }
   });
 }).catch(function(err) {
@@ -184,14 +174,7 @@ function checkEnrollment(extraHeaders = {}, extraBody = {}) {
           if(data.payerAuthCheckEnrollmentRes.status == "PENDING_AUTHENTICATION"){
               loaded();
               window.location.href = '<?php echo rtrim(env("INVOICE_SUBDOMAIN_URL"), "/") ?>/payment/otp/'+data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken;
-              // BuildStepUpIFrame(data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.accessToken);
           }
-          // setTimeout(function() {
-          //     loading();
-          //     emptyIFrame();
-          //     extraBody.authenticationTransactionId = data.payerAuthCheckEnrollmentRes.consumerAuthenticationInformation.authenticationTransactionId;
-          //     validateAuthentication({}, extraBody);
-          // }, 30000);
       }
   }).catch(error => {
       if (error.errors) {
