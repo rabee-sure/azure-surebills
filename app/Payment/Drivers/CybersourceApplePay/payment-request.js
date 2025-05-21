@@ -128,7 +128,7 @@ request.show(updatedDetails).then(result => {
 }).catch(function(err) {
  
     if (err) {
-      // alert(`I Could not make payment err: ${err}`);
+      alert(`I Could not make payment err: ${err}`);
       // location.reload();
       response.complete('fail');
     }
