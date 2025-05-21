@@ -53,7 +53,7 @@ Route::post('mastercard/{session}/check-payment', 'MasterCardController@checkPay
 
 // Apple Pay
 Route::post('cybersource/applepay/validate', [PaymentController::class, 'validateApplePayMerchant'])->name('applepay.validate');
-// Route::post('cybersource/applepay/check-payment', 'CybersourceApplePayController@checkPayment')->name('applepay.check-payment');
+Route::post('cybersource/applepay/check-payment', 'CybersourceApplePayController@checkPayment')->name('applepay.check-payment');
 
 // Payer Setup
 Route::post('payer-auth-setup', [PaymentController::class, 'payerAuthSetup'])->name('cybersource.payerAuth.setup');

@@ -495,6 +495,7 @@ class CyberSourceService extends PaymentAbstract
             'directoryServerTransactionId' => isset($payerAuthDetails['consumerAuthenticationInformation_directoryServerTransactionId']) ? $payerAuthDetails['consumerAuthenticationInformation_directoryServerTransactionId'] : null,
             'ucafCollectionIndicator' => isset($payerAuthDetails['consumerAuthenticationInformation_ucafCollectionIndicator']) ? $payerAuthDetails['consumerAuthenticationInformation_ucafCollectionIndicator'] : null, // This Key In Mastercard Only, this is called "UCAF Collection Indicator"
             'ucafAuthenticationData' => isset($payerAuthDetails['consumerAuthenticationInformation_ucafAuthenticationData']) ? $payerAuthDetails['consumerAuthenticationInformation_ucafAuthenticationData'] : null, // This Key In Mastercard Only, this is called "UCAF Authenticator Data"
+            'authenticationIndicator'=> ($payloadType == 'apple_pay') ? '2' : null
         ]);
 
         $paymentRequestPayload = [
