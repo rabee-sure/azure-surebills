@@ -426,13 +426,35 @@ class CyberSourceService extends PaymentAbstract
     public function processApplePayPayment($bill, $applePayToken)
     {
         $this->logResult('process-payment-cards', "via apple pay");
-        $payload = $this->preparePaymentPayload($bill, $applePayToken, 'apple_pay');
+        $payload = $this->preparePaymentPayload($bill, $applePayToken, [], 'apple_pay');
         $initiatePaymentAuthResponse = $this->initiatePaymentAuth($bill, $payload);
         if ($initiatePaymentAuthResponse) {
-            $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload, 'mastercard_applepay');
+            // $this->capturePayment($initiatePaymentAuthResponse, $bill, $payload, 'mastercard_applepay');
+            $initiatePaymentAuthResponseDecode = json_decode($initiatePaymentAuthResponse, true);
+            $paymentLogResult = $initiatePaymentAuthResponseDecode;
+            $paymentLog = $this->createPaymentLog($bill->id, 'mastercard_applepay');
+
+            if($initiatePaymentAuthResponseDecode['status'] === 'AUTHORIZED')
+            {
+              $paymentLogStatus = true;
+            }
+            
+            $paymentLogResult['bank_message'] = null;
+            if (isset($paymentLogResult['errorInformation']['message'])) {
+                $paymentLogResult['bank_message'] = $paymentLogResult['errorInformation']['message'];
+            } elseif (isset($paymentLogResult['message'])) {
+                $paymentLogResult['bank_message'] = $paymentLogResult['message'];
+            }
+
+            $this->updateBillStatus($bill, $paymentLogStatus, 'payment');
+            $this->updatePaymentLog($paymentLog, $paymentLogResult, $paymentLogStatus);
+
+            if ($paymentLogStatus) {
+                CybersourceGetTransactionDetailJob::dispatch($paymentLogResult['id'])->delay(now()->addSeconds(10));
+            }
         }
 
-        return false;
+        return $paymentLogStatus;
     }
 
     protected function preparePaymentPayload($bill, $cardDetails, $payerAuthDetails, $payloadType = null)
