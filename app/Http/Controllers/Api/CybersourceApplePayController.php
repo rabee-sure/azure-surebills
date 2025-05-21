@@ -28,6 +28,7 @@ class CybersourceApplePayController extends Controller
      */
     public function validateMerchant(Request $request)
     {
+        dd($request);
         $ch = curl_init();
         $data = '{"merchantIdentifier": "' . config('payment.drivers.cybersource_applepay.applepay_merchant_id') . '", "domainName":"'.$request->host.'", "displayName":"SureBills"}';
         curl_setopt($ch, CURLOPT_URL, $request->validationURL);
