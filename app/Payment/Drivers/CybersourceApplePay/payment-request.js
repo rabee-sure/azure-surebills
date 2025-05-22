@@ -100,8 +100,12 @@ request.show(updatedDetails).then(result => {
   response = result;
   loading();
 
-  extraBody.paymentToken = response.details.token.paymentData;
+  var paymentDataString = JSON.stringify(response.details.token.paymentData);
+  var paymentDataBase64 = btoa(paymentDataString);
+
+  extraBody.paymentToken = paymentDataBase64;
   extraBody.applePay = true;
+
 
   fetch("<?php echo route('cybersource.payerAuth.setup') ?>", {
     method: 'POST',
