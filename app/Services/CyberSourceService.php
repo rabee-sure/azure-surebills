@@ -62,6 +62,7 @@ use CyberSource\Model\Riskv1decisionsClientReferenceInformationPartner;
 use CyberSource\Model\Riskv1decisionsConsumerAuthenticationInformation;
 use CyberSource\Model\Riskv1authenticationsDeviceInformation;
 use CyberSource\Model\RiskV1AuthenticationSetupsPost201Response;
+use CyberSource\Model\Riskv1authenticationsetupsProcessingInformation;
 use CyberSource\Model\RiskV1AuthenticationsPost201Response;
 use CyberSource\Model\ValidateRequest;
 
@@ -160,26 +161,30 @@ class CyberSourceService extends PaymentAbstract
         
         if($applePay){
             $data = [
-                'fluidData' => new Ptsv2paymentsPaymentInformationFluidData([
-                    'value' => base64_encode(json_encode($cardData)), 
-                    'descriptor' => 'RklEPUNPTU1PTi5BUFBMRS5JTkFQUC5QQVlNRU5U', 
-                    'encoding' => 'Base64'
+                'paymentInformation' => new Riskv1authenticationsetupsPaymentInformation([
+                    'fluidData' => new Ptsv2paymentsPaymentInformationFluidData([
+                        'value' => base64_encode(json_encode($cardData)), 
+                        'descriptor' => 'RklEPUNPTU1PTi5BUFBMRS5JTkFQUC5QQVlNRU5U', 
+                        'encoding' => 'Base64'
+                    ]),
+                ]),
+                'processingInformation' => new Riskv1authenticationsetupsProcessingInformation([
+                    'paymentSolution' => '001'
                 ])
             ];
         }else{
             $data = [
-                'card' => new Riskv1authenticationsetupsPaymentInformationCard([
-                    // 'type' => '006',
-                    'number' => $cardData['card_number'],
-                    'expirationMonth' => $cardData['card_expiry_month'],
-                    'expirationYear' => $cardData['card_expiry_year'],
-                ])
+                'paymentInformation' => new Riskv1authenticationsetupsPaymentInformation([
+                    'card' => new Riskv1authenticationsetupsPaymentInformationCard([
+                        'number' => $cardData['card_number'],
+                        'expirationMonth' => $cardData['card_expiry_month'],
+                        'expirationYear' => $cardData['card_expiry_year'],
+                    ])
+                ]),
             ];
         }
         
-        $payerAuthSetupRequest = new PayerAuthSetupRequest([
-            'paymentInformation' => new Riskv1authenticationsetupsPaymentInformation($data)
-        ]); // \CyberSource\Model\PayerAuthSetupRequest | 
+        $payerAuthSetupRequest = new PayerAuthSetupRequest($data); // \CyberSource\Model\PayerAuthSetupRequest | 
         
         $responseBody = null;
         try {
@@ -198,45 +203,43 @@ class CyberSourceService extends PaymentAbstract
     public function checkPayerAuthEnrollment($billId, $billAmount, $cardData, $payerSetupRefranceId, $applePay = false){
         $api_instance = new PayerAuthenticationApi($this->apiClient);
 
+        $data = [
+            'orderInformation' => new Riskv1authenticationsOrderInformation([
+                'amountDetails' => new Riskv1authenticationsOrderInformationAmountDetails([
+                    'currency' => 'SAR',
+                    'totalAmount' => $billAmount,
+                ]),
+            ]),
+            'consumerAuthenticationInformation' => new Riskv1decisionsConsumerAuthenticationInformation([
+                'acsWindowSize' => '05',
+                'referenceId' => $payerSetupRefranceId,
+                'transactionMode' => 'S',
+                'returnUrl' => route('cybersource.callback.after.enrollement', ['billId' => $billId, 'applePay' => $applePay]),
+            ])
+        ];
+        
         if($applePay){
-            $data = [
+            $data['paymentInformation'] = new Riskv1authenticationsetupsPaymentInformation([
                 'fluidData' => new Ptsv2paymentsPaymentInformationFluidData([
                     'value' => base64_encode(json_encode($cardData)), 
                     'descriptor' => 'RklEPUNPTU1PTi5BUFBMRS5JTkFQUC5QQVlNRU5U', 
                     'encoding' => 'Base64'
-                ])
-            ];
+                ]),
+            ]);
+            $data['processingInformation'] = new Riskv1authenticationsetupsProcessingInformation([
+                'paymentSolution' => '001'
+            ]);
         }else{
-            $data = [
+            $data['paymentInformation'] = new Riskv1authenticationsetupsPaymentInformation([
                 'card' => new Riskv1authenticationsetupsPaymentInformationCard([
-                    // 'type' => '006',
                     'number' => $cardData['card_number'],
                     'expirationMonth' => $cardData['card_expiry_month'],
                     'expirationYear' => $cardData['card_expiry_year'],
                 ])
-            ];
+            ]);
         }
         
-        $checkPayerAuthEnrollmentRequest = new CheckPayerAuthEnrollmentRequest(
-            [
-                'orderInformation' => new Riskv1authenticationsOrderInformation([
-                    'amountDetails' => new Riskv1authenticationsOrderInformationAmountDetails([
-                        'currency' => 'SAR',
-                        'totalAmount' => $billAmount,
-                    ]),
-                ]),
-                'paymentInformation' => new Riskv1authenticationsPaymentInformation($data),
-                'consumerAuthenticationInformation' => new Riskv1decisionsConsumerAuthenticationInformation([
-                    'acsWindowSize' => '05',
-                    'referenceId' => $payerSetupRefranceId,
-                    'transactionMode' => 'S',
-                    'returnUrl' => route('cybersource.callback.after.enrollement', ['billId' => $billId, 'applePay' => $applePay]),
-                    //route('validate-auth-result'),
-                    // 'returnUrl' => route('validate-auth-result')->with('bill_id', $billId),
-                    //'https://wv730hw7033250:3002/restapi/cardinalDirect/StepUp/Response'
-                ])
-            ]
-        ); // \CyberSource\Model\CheckPayerAuthEnrollmentRequest |
+        $checkPayerAuthEnrollmentRequest = new CheckPayerAuthEnrollmentRequest($data); // \CyberSource\Model\CheckPayerAuthEnrollmentRequest |
         $responseBody = null;
         try {
             $result = $api_instance->checkPayerAuthEnrollment($checkPayerAuthEnrollmentRequest);
