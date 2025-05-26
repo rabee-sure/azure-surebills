@@ -95,7 +95,7 @@ class StoreUserController extends Controller
      */
     public function edit(User $user)
     {
-        $this->authorize('checkPermission', $user);
+        $this->authorize('updateMerchantUser', $user);
         $roles = Role::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         return view('store_users.edit', compact('user', 'roles'));
     }
@@ -109,7 +109,7 @@ class StoreUserController extends Controller
      */
     public function update(StoreUserRequest $request, User $user)
     {
-        $this->authorize('checkPermission', $user);
+        $this->authorize('updateMerchantUser', $user);
 
         DB::transaction(function () use ($request, $user) {
             if($request->filled('password'))
@@ -143,7 +143,7 @@ class StoreUserController extends Controller
      */
     public function destroy(User $user)
     {
-        $this->authorize('checkPermission', $user);
+        $this->authorize('deleteMerchantUser', $user);
         $user->delete();
         return redirect()->route('users.index');
     }

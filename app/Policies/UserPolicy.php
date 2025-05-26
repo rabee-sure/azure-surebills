@@ -95,9 +95,44 @@ class UserPolicy
     public function checkPermission(User $user, User $model)
     {
         $mainUser = $user->store_main_user_id == null ? $user : $user->mainStoreUser;
-        if (($model->id == $mainUser->id) or in_array($model->id, $mainUser->users->pluck('id')->toArray()) or ($model->store_main_user_id == $user->store_main_user_id and !empty($model->store_main_user_id))) {
+        if (($model->id == $mainUser->id) || in_array($model->id, $mainUser->users->pluck('id')->toArray()) || ($model->store_main_user_id == $user->store_main_user_id && !empty($model->store_main_user_id))) {
             return true;
         }
+        return false;
+    }
+
+    public function updateMerchantUser(User $user, User $model)
+    {
+
+        if($user->can('update user')){
+            if($user->store_main_user_id){
+                if($model->id == $user->id || $model->store_main_user_id == $user->store_main_user_id){
+                    return true;
+                }
+            }else{
+                if($model->store_main_user_id == $user->id){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    public function deleteMerchantUser(User $user, User $model)
+    {
+        if($user->can('delete user')){
+            if($user->store_main_user_id){
+                if($model->id != $user->id && $model->store_main_user_id == $user->store_main_user_id){
+                    return true;
+                }
+            }else{
+                if($model->store_main_user_id == $user->id){
+                    return true;
+                }
+            }
+        }
+        
         return false;
     }
 }

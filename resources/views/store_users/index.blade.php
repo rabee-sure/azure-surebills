@@ -67,13 +67,11 @@
                   @canany(['update user', 'delete user'])
                     <td class="text-center">
                       <div class="d-flex align-items-center justify-content-center">
-                        @can('update user')
-                          <a href="{{ route('users.edit', $user->id)}}" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>
+                        @can('updateMerchantUser', $user)
+                        <a href="{{ route('users.edit', $user->id)}}" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>
                         @endcan
-                        @can('delete user')
-                            @if($user->getRoleNames()->first() != 'super admin' && $user->id != auth()->user()->id)
-                            @include('store_users.delete', ['user' => $user])
-                            @endif
+                        @can('deleteMerchantUser', $user)
+                          @include('store_users.delete', ['user' => $user])
                         @endcan
                       </div>
                     </td>
