@@ -34,7 +34,7 @@ let supportedInstruments = [
         'mada', 'masterCard', 'visa'
       ],
       version: 3,
-      countryCode: 'EG',
+      countryCode: 'SA',
       merchantIdentifier: "<?php echo env('CYBERSOURCE_APPLEPAY_MERCHANT_ID'); ?>",
       merchantCapabilities: ['supports3DS']
     }
