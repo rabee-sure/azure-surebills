@@ -88,6 +88,9 @@ class AdminPolicy
      */
     public function forceDelete(Admin $user, Admin $admin)
     {
+        if($admin->actionLogs->count() > 0){
+            return false;
+        }
         return $user->can('delete system admin') && auth()->guard('admins')->user()->id != $admin->id;
     }
 }
