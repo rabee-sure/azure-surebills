@@ -31,6 +31,7 @@ return [
     'create user',
     'update user',
     'delete user',
+    'restore user',
 
     'update business commercial info',
     'update bank info',

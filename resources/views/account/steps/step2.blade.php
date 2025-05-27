@@ -263,6 +263,14 @@
           $('#registry_expiry_date').hide();
       }
     });
+
+    window.addEventListener('load', function() {
+      if($('#license_type').val() == 'Commercial Record'){
+        $('#registry_expiry_date').show();
+      }else{
+        $('#registry_expiry_date').hide();  
+      }
+    });
   </script>
   {!! JsValidator::formRequest('App\Http\Requests\BusinessInformationRequest', '#form') !!}
 @endpush

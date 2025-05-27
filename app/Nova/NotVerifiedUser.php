@@ -188,7 +188,7 @@ class NotVerifiedUser extends Resource
             //     ->hideWhenUpdating($this->store_main_user_id ? true : false)
             //     ->hideFromDetail($this->store_main_user_id ? true : false),
 
-            Boolean::make(__('Auto Trnasfer'), 'auto_trnasfer')
+            Boolean::make(__('Auto Transfer'), 'auto_trnasfer')
                 ->hideFromIndex()
                 ->hideWhenUpdating($this->store_main_user_id ? true : false)
                 ->hideFromDetail($this->store_main_user_id ? true : false),
