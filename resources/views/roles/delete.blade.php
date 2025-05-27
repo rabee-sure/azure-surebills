@@ -13,15 +13,16 @@
         <form action="{{ route('roles.destroy', $role->id)}}" method="post">
           @csrf
           @method('DELETE')
-          @if(App\Models\User::whereHas('roles', function($q) use ($role){ $q->where('name', $role->name); })->count() > 0)
-            <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</span>
-          @else
+          @can('deleteMerchantRole', $role)
             <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __('Are You sure Delete this Role?')}}</span>
-          @endif
+          @endcan
+          @cannot('deleteMerchantRole', $role)
+            <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</span>
+          @endcannot
           <div class="d-flex align-items-center justify-content-center flex-wrap">
-            @if(App\Models\User::whereHas('roles', function($q) use ($role){ $q->where('name', $role->name); })->count() == 0)
+            @can('deleteMerchantRole', $role)
               <button type="submit" class="border-0 shadow-none rounded-3 btn-danger formBtn mx-2">{{__('Delete')}}</button>
-            @endif
+            @endcan
             <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Close')}}</button>
           </div>
         </form>
