@@ -135,4 +135,20 @@ class UserPolicy
         
         return false;
     }
+
+    public function restoreMerchantUser(User $user, User $model)
+    {
+        if($user->can('restore user')){
+            if($user->store_main_user_id){
+                if($model->id != $user->id && $model->store_main_user_id == $user->store_main_user_id){
+                    return true;
+                }
+            }else{
+                if($model->store_main_user_id == $user->id){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

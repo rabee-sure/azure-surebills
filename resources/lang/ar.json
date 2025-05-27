@@ -968,5 +968,9 @@
   "This account will be used to settle payments received through point-of-sale devices" : "هذا الحساب سيستخدم لتسوية المدفوعات الواصلة لك عبر أجهزة نقاط البيع",
   "Write the name of the account holder in English as registered with the bank" : "اكتب اسم صاحب الحساب باللغة الانجليزيه كما هو مسجل في البنك",
   "Surebills Fees": "عمولة شور بيلز",
-  "Surebills VAT": "ضريبة شور بيلز"
+  "Surebills VAT": "ضريبة شور بيلز",
+  "Are You sure Suspend this User?": "هل أنت متأكد من حظر هذا المستخدم ؟",
+  "Suspend": "حظر",
+  "Are You sure Restore this User?": "هل أنت متأكد من إستعادة هذا المستخدم ؟",
+  "Restore": "إستعادة"
 }
