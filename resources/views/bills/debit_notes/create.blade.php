@@ -268,7 +268,7 @@
           </div><!-- col-12 -->
           <div class="col-12 col-lg-6">
             <label for="Tax_Values_Checkbox" class="checkboxItem position-relative mb-3 mb-md-0">
-              <input name="add_tax" class="position-absolute top-0 strat-0 w-100 h-100" id="Tax_Values_Checkbox" @if($errors->any()) @if(old('add_tax') == true) checked @endif @else @if($settings->add_tax) checked @endif @endif type="checkbox">
+              <input name="add_tax" class="position-absolute top-0 strat-0 w-100 h-100" id="Tax_Values_Checkbox" @if($errors->any()) @if(old('add_tax') == true) checked @endif @else @if($bill->add_tax) checked @endif @endif type="checkbox">
               <span class="d-flex align-items-center justify-content-start">
                 <i class="d-block rounded-pill position-relative"></i>
                 {{ __('Add Tax') }}
@@ -281,7 +281,7 @@
                     <label for="Tax" class="d-block mb-2">{{ __('Tax Value') }}</label>
                     <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
                       <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
-                      <input type="tel" name="tax_value" class="form-control shadow-none bg-white border w-100 rounded-3" id="Value" value="@if($settings->add_tax){{$settings->tax_value}}@else{{old('tax_value')}}@endif" aria-describedby="basic-addon3" readonly>
+                      <input type="tel" name="tax_value" class="form-control shadow-none bg-white border w-100 rounded-3" id="Value" value="@if($bill->add_tax){{$bill->tax_value}}@else{{old('tax_value')}}@endif" aria-describedby="basic-addon3" readonly>
                     </div><!-- inputGroup -->
                   </div><!-- form-group -->
                 </div><!-- col-12 -->
@@ -294,7 +294,7 @@
         <div class="row">
           <div class="col-12 col-lg-6">
             <label for="send_sms" class="checkboxItem position-relative mb-3 mb-md-0">
-              <input name="send_sms" class="position-absolute top-0 strat-0 w-100 h-100" id="send_sms" type="checkbox" @if($settings->create_send_sms || old('send_sms')) checked @endif>
+              <input name="send_sms" class="position-absolute top-0 strat-0 w-100 h-100" id="send_sms" type="checkbox" @if($bill->send_sms || old('send_sms')) checked @endif>
               <span class="d-flex align-items-center justify-content-start">
                 <i class="d-block rounded-pill position-relative"></i>
                 {{ __('Send SMS') }}
@@ -303,7 +303,7 @@
           </div><!-- col-12 -->
           <div class="col-12 col-lg-6">
             <label for="send_email" class="checkboxItem position-relative m-0">
-              <input name="send_email" class="position-absolute top-0 strat-0 w-100 h-100" id="send_email" type="checkbox" @if($settings->create_send_email || old('send_email')) checked @endif>
+              <input name="send_email" class="position-absolute top-0 strat-0 w-100 h-100" id="send_email" type="checkbox" @if($bill->send_email || old('send_email')) checked @endif>
               <span class="d-flex align-items-center justify-content-start">
                 <i class="d-block rounded-pill position-relative"></i>
                 {{ __('Send Email') }}

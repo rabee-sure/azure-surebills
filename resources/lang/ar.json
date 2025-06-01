@@ -972,5 +972,6 @@
   "Are You sure Suspend this User?": "هل أنت متأكد من حظر هذا المستخدم ؟",
   "Suspend": "حظر",
   "Are You sure Restore this User?": "هل أنت متأكد من إستعادة هذا المستخدم ؟",
-  "Restore": "إستعادة"
+  "Restore": "إستعادة",
+  "Requested By": "طلب بواسطة"
 }
