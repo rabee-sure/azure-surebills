@@ -94,8 +94,9 @@ class StoreUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($user_id)
     {
+        $user = User::withTrashed()->findOrFail($user_id);
         $this->authorize('updateMerchantUser', $user);
         $roles = Role::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         return view('store_users.edit', compact('user', 'roles'));
@@ -108,8 +109,9 @@ class StoreUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreUserRequest $request, User $user)
+    public function update(StoreUserRequest $request, $user_id)
     {
+        $user = User::withTrashed()->findOrFail($user_id);
         $this->authorize('updateMerchantUser', $user);
 
         DB::transaction(function () use ($request, $user) {

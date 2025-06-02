@@ -11,6 +11,7 @@ use App\Models\Transfer;
 use App\Models\TransferLog;
 use App\Services\TransferOperations;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -68,7 +69,13 @@ class TransferService
             if($status == 'completed'){
                 $perations->complete([$transfer], $status, auth()->user()->id);
             }elseif($status == 'pending'){
-                $perations->pending([$transfer], $status, auth()->user()->id ?? null);
+                $user_id = null;
+                if(auth()->user()->id){
+                    if (Auth::guard('admins')->check()) {
+                        $user_id = auth()->user()->id;
+                    }
+                }
+                $perations->pending([$transfer], $status, $user_id);
             }elseif($status == 'send_to_sps'){
                 $perations->sendToSps([$transfer], $status, auth()->user()->id);
             }
