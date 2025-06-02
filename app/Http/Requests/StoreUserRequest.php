@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use App\Rules\PasswordRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -36,10 +37,11 @@ class StoreUserRequest extends FormRequest
 
         if($this->_method == 'PATCH')
         {
+            $user = User::withTrashed()->find($this->user);
             $rules['password'] = ['nullable', 'string', 'min:8', new PasswordRule];
             $rules['confirm_password'] =  ['same:password'];
-            $rules['email'] = ['required', 'string', 'email', 'max:50', 'unique:users,email,'.$this->user->id.',id,deleted_at,NULL'];
-            $rules['mobile'] = ['required', 'regex:/(^[5]{1}[0-9]{8}$)/', 'unique:users,mobile,'.$this->user->id.',id,deleted_at,NULL'];
+            $rules['email'] = ['required', 'string', 'email', 'max:50', 'unique:users,email,'.$user->id.',id'];
+            $rules['mobile'] = ['required', 'regex:/(^[5]{1}[0-9]{8}$)/', 'unique:users,mobile,'.$user->id.',id'];
         }
 
         return $rules;
