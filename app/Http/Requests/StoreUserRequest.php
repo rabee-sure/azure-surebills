@@ -31,6 +31,7 @@ class StoreUserRequest extends FormRequest
             'mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/','unique:users,mobile,NULL,id'],
             'password' => ['required', 'string', 'min:8', new PasswordRule],
             'confirm_password' =>  ['required', 'same:password'],
+            'role' => ['required'],
         ];
 
         if($this->_method == 'PATCH')
@@ -39,10 +40,6 @@ class StoreUserRequest extends FormRequest
             $rules['confirm_password'] =  ['same:password'];
             $rules['email'] = ['required', 'string', 'email', 'max:50', 'unique:users,email,'.$this->user->id.',id,deleted_at,NULL'];
             $rules['mobile'] = ['required', 'regex:/(^[5]{1}[0-9]{8}$)/', 'unique:users,mobile,'.$this->user->id.',id,deleted_at,NULL'];
-        }
-        else
-        {
-            $rules['role'] = ['required'];
         }
 
         return $rules;
