@@ -40,6 +40,11 @@ class BillTotalValidation implements Rule
             else if(request()->discount_type == 'percentage')
                 $this->total -= ($this->total * request()->discount_value) / 100;
         }
+
+        if(request()->has('add_tax') && request()->add_tax == true)
+        {
+            $this->total += ($this->total * request()->tax_value) / 100;
+        }
         return !($this->total < 2 || $this->total > self::MAX_TOTAL_AMOUNT);
     }
 
