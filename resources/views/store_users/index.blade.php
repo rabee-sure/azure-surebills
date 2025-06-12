@@ -64,7 +64,7 @@
                   <td class="text-center">{{$user->email}}</td>
                   {{-- <td class="text-center">{{$user->gender == 1 ? __('Male') : __('female')}}</td> --}}
                   <td class="text-center">{{$user->getRoleNames()->first()}}</td>
-                  @canany(['update user', 'delete user'])
+                  @canany(['update user', 'delete user', 'restore user'])
                     <td class="text-center">
                       <div class="d-flex align-items-center justify-content-center">
                         @can('updateMerchantUser', $user)
@@ -75,7 +75,7 @@
                             @include('store_users.delete', ['user' => $user])
                           @endcan
                         @else
-                          @can('deleteMerchantUser', $user)
+                          @can('restoreMerchantUser', $user)
                             @include('store_users.restore', ['user' => $user])
                           @endcan
                         @endif

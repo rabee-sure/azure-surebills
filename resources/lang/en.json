@@ -85,7 +85,7 @@
 "show users": "Show users",
 "create user": "Create user",
 "update user": "Update user",
-"delete user": "Delete user",
+"delete user": "Suspend user",
 "show statements": "Show statements",
 "require giving permission": "Require giving permission ",
 "create settlement": "Create settlement",
@@ -376,5 +376,6 @@
 "You reach the max number of customizations": "You reach the max number of customizations",
 "privacy_policy": "Privacy policy",
 "Print Receipt": "Print Receipt",
-"Payment is Failed": "Payment is Failed"
+"Payment is Failed": "Payment is Failed",
+"restore user": "Restore User"
 }
