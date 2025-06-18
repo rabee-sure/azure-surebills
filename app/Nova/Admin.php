@@ -39,6 +39,8 @@ class Admin extends Resource
      */
     public static $search = [
         'id',
+        'name',
+        'email',
     ];
 
     public static function label()

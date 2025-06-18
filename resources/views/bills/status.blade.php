@@ -24,11 +24,11 @@
                 @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
                   <div class="taxInvoiceText">{{ __('Simplified Tax Invoice') }}</div>
                 @endif
+                @if(isset($bill->user->settings->header_bill))
+                  <p class="d-block mb-0 text-break text-center">{{ $bill->user->settings->header_bill }}</p>
+                @endif
                 @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
                   <span class="d-block font-weight-bold">{{ $bill->user->business_name }}</span>
-                  @if(isset($bill->user->settings->header_bill))
-                    <p class="d-block mb-0 text-break text-center">{{ $bill->user->settings->header_bill }}</p>
-                  @endif
                   <p class="d-block mb-0">{{  $bill->user->business_address }}</p>
                   <b class="d-block font-weight-normal">{{  $bill->user->business_mobile }}</b>
                 @endif

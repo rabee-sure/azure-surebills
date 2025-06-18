@@ -64,17 +64,21 @@
                   <td class="text-center">{{$user->email}}</td>
                   {{-- <td class="text-center">{{$user->gender == 1 ? __('Male') : __('female')}}</td> --}}
                   <td class="text-center">{{$user->getRoleNames()->first()}}</td>
-                  @canany(['update user', 'delete user'])
+                  @canany(['update user', 'delete user', 'restore user'])
                     <td class="text-center">
                       <div class="d-flex align-items-center justify-content-center">
-                        @can('update user')
-                          <a href="{{ route('users.edit', $user->id)}}" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>
+                        @can('updateMerchantUser', $user)
+                        <a href="{{ route('users.edit', $user->id)}}" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>
                         @endcan
-                        @can('delete user')
-                            @if($user->getRoleNames()->first() != 'super admin' && $user->id != auth()->user()->id)
+                        @if ($user->deleted_at == null)  
+                          @can('deleteMerchantUser', $user)
                             @include('store_users.delete', ['user' => $user])
-                            @endif
-                        @endcan
+                          @endcan
+                        @else
+                          @can('restoreMerchantUser', $user)
+                            @include('store_users.restore', ['user' => $user])
+                          @endcan
+                        @endif
                       </div>
                     </td>
                   @endcanany

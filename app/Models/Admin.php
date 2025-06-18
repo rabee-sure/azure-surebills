@@ -40,6 +40,10 @@ class Admin extends Authenticatable
         return $this->hasOne(User2fa::class, 'user_id');
     }
 
+    public function actionLogs(){
+        return $this->hasMany(ActionLog::class, 'user_id');
+    }
+
     public static function boot()
     {
         parent::boot();

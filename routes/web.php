@@ -3,6 +3,7 @@
 use App\Application;
 use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\StoreUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -200,6 +201,8 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 
   // Roles
   Route::resource('users', 'StoreUserController');
+  Route::post('/users/{user}/restore', [StoreUserController::class, 'restore'])->name('users.restore');
+
   Route::resource('roles', 'RolesController');
 });
 

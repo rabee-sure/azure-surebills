@@ -17,6 +17,7 @@ class StoreUserController extends Controller
         $this->middleware('permission:create user', ['only' => ['create', 'store']]);
         $this->middleware('permission:update user', ['only' => ['edit', 'update']]);
         $this->middleware('permission:delete user', ['only' => ['destroy']]);
+        $this->middleware('permission:restore user', ['only' => ['restore']]);
     }
 
     /**
@@ -27,7 +28,7 @@ class StoreUserController extends Controller
     public function index()
     {
         $roles = Role::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
-        $users = User::where('id', auth()->user()->store_main_user_id ?? auth()->user()->id)->orWhere('store_main_user_id', auth()->user()->store_main_user_id ?? auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
+        $users = User::withTrashed()->where('id', auth()->user()->store_main_user_id ?? auth()->user()->id)->orWhere('store_main_user_id', auth()->user()->store_main_user_id ?? auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
 
         return view('store_users.index', compact('users', 'roles'));
     }
@@ -93,9 +94,10 @@ class StoreUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($user_id)
     {
-        $this->authorize('checkPermission', $user);
+        $user = User::withTrashed()->findOrFail($user_id);
+        $this->authorize('updateMerchantUser', $user);
         $roles = Role::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
         return view('store_users.edit', compact('user', 'roles'));
     }
@@ -107,9 +109,10 @@ class StoreUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreUserRequest $request, User $user)
+    public function update(StoreUserRequest $request, $user_id)
     {
-        $this->authorize('checkPermission', $user);
+        $user = User::withTrashed()->findOrFail($user_id);
+        $this->authorize('updateMerchantUser', $user);
 
         DB::transaction(function () use ($request, $user) {
             if($request->filled('password'))
@@ -143,8 +146,16 @@ class StoreUserController extends Controller
      */
     public function destroy(User $user)
     {
-        $this->authorize('checkPermission', $user);
+        $this->authorize('deleteMerchantUser', $user);
         $user->delete();
+        return redirect()->route('users.index');
+    }
+
+    public function restore($id)
+    {
+        $user = User::onlyTrashed()->find($id);
+        $this->authorize('restoreMerchantUser', $user);
+        $user->restore();
         return redirect()->route('users.index');
     }
 }

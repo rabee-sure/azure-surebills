@@ -118,12 +118,22 @@ class TransferLog extends Resource
                     'failed' => 'red',
                     'pending' => 'warning',
                 ]),
-            BelongsTo::make(__('Merchant'), 'user', User::class)->searchable(),
+            DateTime::make(__('Created At'), 'created_at')->exceptOnForms(),
+            BelongsTo::make(__('Created By'), 'admin', Admin::class)->searchable(),
+            Text::make(__('Requested By'))->displayUsing(function ($value, $resource) {
+                if($resource->type == 'create transfer'){
+                    if ($resource->transfer->note == 'automatic transfer') {
+                        return "Automatic Transfer";
+                    }
+                    return $resource->transfer->user->name;
+                }
+                return null;
+            }),
         ];
     }
 
     public static $searchRelations = [
-        'user' => ['name'],
+        'admin' => ['name'],
     ];
 
     /**

@@ -111,10 +111,11 @@ class RolePolicy
 
     public function deleteMerchantRole(User $user, Role $role)
     {
+        
         $users = User::whereHas('roles', function($q) use ($role){
-            $q->where([['name', $role->name], ['guard_name', 'web']]);
+            $q->where([['id', $role->id], ['guard_name', 'web']]);
         })->count();
 
-        return $user->can('delete role') && $users == 0;
+        return $user->can('delete user') && $users == 0;
     }
 }
