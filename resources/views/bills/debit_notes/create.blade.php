@@ -268,7 +268,7 @@
           </div><!-- col-12 -->
           <div class="col-12 col-lg-6">
             <label for="Tax_Values_Checkbox" class="checkboxItem position-relative mb-3 mb-md-0">
-              <input name="add_tax" class="position-absolute top-0 strat-0 w-100 h-100" id="Tax_Values_Checkbox" @if($errors->any()) @if(old('add_tax') == true) checked @endif @else @if($bill->add_tax) checked @endif @endif type="checkbox" disabled>
+              <input name="add_tax" class="position-absolute top-0 strat-0 w-100 h-100" id="Tax_Values_Checkbox" @if($errors->any()) @if(old('add_tax') == true) checked @endif @else @if($bill->add_tax) checked @endif @endif type="checkbox" onclick="return false;">
               <span class="d-flex align-items-center justify-content-start">
                 <i class="d-block rounded-pill position-relative"></i>
                 {{ __('Add Tax') }}

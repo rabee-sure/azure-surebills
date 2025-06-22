@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Models\Bill;
 use Illuminate\Contracts\Validation\Rule;
 
 class BillTotalValidation implements Rule
@@ -41,10 +42,24 @@ class BillTotalValidation implements Rule
                 $this->total -= ($this->total * request()->discount_value) / 100;
         }
 
-        if(request()->has('add_tax') && request()->add_tax == true)
-        {
-            $this->total += ($this->total * request()->tax_value) / 100;
+        $addTax = false;
+        $taxValue = null;
+
+        if(request()->bill != null){
+            $mainBill = Bill::find(request()->bill);
+            $addTax = $mainBill->add_tax;
+            $taxValue = $mainBill->tax_value;
+        }else{
+            if(request()->has('add_tax') && (request()->add_tax == true || request()->add_tax != null))
+            {
+                $addTax = true;
+                $taxValue = request()->tax_value;
+            }
         }
+        
+        if($addTax)
+            $this->total += ($this->total * $taxValue) / 100;
+
         return !($this->total < 2 || $this->total > self::MAX_TOTAL_AMOUNT);
     }
 

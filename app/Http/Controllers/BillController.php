@@ -50,8 +50,8 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {
-        $date_start = $request->date_start ?? null;
-        $date_to = $request->date_to ?? null;
+        $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');
+        $date_to = $request->date_to ?? Carbon::today()->format('m/d/Y');
 
         if (!$request->dont_update_statuses) {
             session(['status_filters' => $request->statuses]);
