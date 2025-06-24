@@ -24,11 +24,24 @@
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Create a bill') }}</h1>
     </div><!-- title -->
 
+
     @if ($errors->any())
-      <div class="alert alert-danger">
-        <ul class="m-0 p-0">
+      <div class="alert alert-danger p-2">
+        <ul class="m-0 p-0 d-flex flex-column gap-2">
           @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
+            <li class="d-flex align-items-center justify-content-start gap-2 flex-wrap">
+                @if ($error == 'less_than')
+                <div class="d-flex align-items-center justify-content-start gap-1">
+                    {{ __('Invoice total is less than') }}<div class="d-flex align-items-center gap-1 m-0 {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}}">2 <span class="riyal-symbol-font">$</span></div>
+                </div>
+                @elseif ($error == 'more_than')
+                <div class="d-flex align-items-center justify-content-start gap-1">
+                    {{ __('Invoice total is more than') }}<div class="d-flex align-items-center gap-1 m-0 {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}}">{{config('bill.max_total_amount')}} <span class="riyal-symbol-font">$</span></div>
+                </div>
+                @else
+                   {{ $error }}
+                @endif
+            </li>
           @endforeach
         </ul>
       </div><!-- alert -->

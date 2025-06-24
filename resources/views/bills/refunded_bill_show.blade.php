@@ -29,7 +29,7 @@
     @endif
   </div><!-- alert -->
 
-  
+
   <div class="row justify-content-center">
     <div class="col-12 col-md-6">
       <div class="showBill mb-3 bg-white shadow-sm rounded-3 p-2">
@@ -69,7 +69,7 @@
             <span class="d-block mb-2">{{ __('Credit Note Number') }}</span>
             <span class="d-block mb-2">CN{{ $refundedbill->number }}</span>
           </div><!-- d-flex -->
-          
+
           <div class="d-flex align-items-center justify-content-between">
             <span class="d-block mb-2">{{ __('Invoice Number') }}</span>
             <a href="{{route('bills.show', $refundedbill->bill)}}" title="{{__('Bill')}} {{ $refundedbill->bill->number }} - {{ $refundedbill->bill->customer_name}}" target="_blank"><span class="d-block mb-2">{{ $refundedbill->bill->number }}</span></a>
@@ -109,7 +109,7 @@
         @if(isset($refundedbill->bill->user->settings->footer_bill))
           <p class="d-block mb-0 mt-2 text-center">{{ $refundedbill->bill->user->settings->footer_bill }}</p>
         @endif
-        
+
       </div><!-- showBill -->
     </div><!-- col-12 -->
     <div class="col-12 col-md-6 d-print-none">
@@ -145,7 +145,7 @@
           </div><!-- col-12 -->
         </div><!-- row -->
         <div id="printBillBtn" class="d-flex align-items-center justify-content-center mt-3">
-          <span class="d-flex align-items-center justify-content-center text-center border rounded-3 bg-light text-body gap-2">Print Receipt</span>
+          <span class="d-flex align-items-center justify-content-center text-center border rounded-3 bg-light text-body gap-2">{{ __('Print Receipt') }}</span>
         </div><!-- printBillBtn -->
         <iframe id="ifrPaySlip"  name="ifrPaySlip" scrolling="yes" style="display:none"></iframe>
       </div><!-- viewPrintOptions -->

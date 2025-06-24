@@ -56,7 +56,7 @@ class BillTotalValidation implements Rule
                 $taxValue = request()->tax_value;
             }
         }
-        
+
         if($addTax)
             $this->total += ($this->total * $taxValue) / 100;
 
@@ -72,8 +72,8 @@ class BillTotalValidation implements Rule
     {
 
         if($this->total < 2)
-            return __('Invoice total is less than 2 SAR');
+            return 'less_than';
         else if($this->total > self::MAX_TOTAL_AMOUNT)
-            return __("Invoice total is more than :amount SAR", ['amount' => self::MAX_TOTAL_AMOUNT]);
+            return 'more_than';
     }
 }
