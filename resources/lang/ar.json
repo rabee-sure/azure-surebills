@@ -974,5 +974,6 @@
   "Are You sure Restore this User?": "هل أنت متأكد من إستعادة هذا المستخدم ؟",
   "Restore": "إستعادة",
   "Requested By": "طلب بواسطة",
-  "restore user": "إستعادة المستخدم"
+  "restore user": "إستعادة المستخدم",
+  "Waiting": "في الإنتظار"
 }

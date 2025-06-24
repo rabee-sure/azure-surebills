@@ -26,9 +26,9 @@ class CybersourceTransactionDetailsResource extends JsonResource
         $amount = null;
         $status = $this->fromCapture;
 
-        if($transactionDetails['applicationInformation']['applications'][1]['returnCode'] == 1260000){
+        if(isset($transactionDetails['applicationInformation']['applications'][1]['returnCode']) && $transactionDetails['applicationInformation']['applications'][1]['returnCode'] == 1260000){
             $transactionType = 'payment';
-        }elseif($transactionDetails['applicationInformation']['applications'][0]['returnCode'] == 1030000){
+        }elseif(isset($transactionDetails['applicationInformation']['applications'][0]['returnCode']) && $transactionDetails['applicationInformation']['applications'][0]['returnCode'] == 1030000){
             $transactionType = 'refund';
             $amount = $transactionDetails['orderInformation']['amountDetails']['totalAmount'];
         }

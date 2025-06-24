@@ -512,8 +512,13 @@ class CyberSourceService extends PaymentAbstract
         
         if ($structureResponse['status']) {
             $bill = Bill::find($structureResponse['bill_id']);
+            if(($structureResponse['type'] == 'payment')){
+                $paymentLogPaymentMethod = 'mastercard_pay';
+            }elseif(($structureResponse['type'] == 'refund')){
+                $paymentLogPaymentMethod = 'mastercard_refund';
+            }
             $payment = PaymentLog::where('bank_transaction_id', $transactionDetails['id'])
-                ->where('payment_method', 'mastercard_pay')
+                ->where('payment_method', $paymentLogPaymentMethod)
                 ->where('status', true)
                 ->first();
 
