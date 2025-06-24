@@ -974,5 +974,8 @@
   "Are You sure Restore this User?": "هل أنت متأكد من إستعادة هذا المستخدم ؟",
   "Restore": "إستعادة",
   "Requested By": "طلب بواسطة",
-  "restore user": "إستعادة المستخدم"
+  "restore user": "إستعادة المستخدم",
+  "For Example IBAN Number": "رقم آيبان مثلاً",
+  "Invoice total is less than": "قيمة الفاتورة الاجمالية اقل من",
+  "Invoice total is more than": "قيمة الفاتورة الاجمالية اكبر من"
 }
