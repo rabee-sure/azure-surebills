@@ -47,7 +47,7 @@
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="iban_number" class="d-block mb-2">{{__('IBAN Number')}} <span class="text-danger">*</span></label>
-            <input value="{{ old('iban_number') }}"  name="iban_number" type="text" class="form-control rounded-3 shadow-none border" id="iban_number" placeholder="رقم آيبان مثلاً : SA2720000000000000001212 *">
+            <input value="{{ old('iban_number') }}"  name="iban_number" type="text" class="form-control rounded-3 shadow-none border" id="iban_number" placeholder="{{__('For Example IBAN Number')}} : SA2720000000000000001212 *">
             <small id="emailHelp" class="form-text mt-1 d-block text-muted">{{__('This account will be used to settle payments received through point-of-sale devices')}}</small>
           </div><!-- form-group -->
         </div><!-- col-12 -->
