@@ -77,10 +77,14 @@
               @endif
             </td>
             <td class="text-center p-2 border">
-              @if($log->status == true)
-                <span class="badge badge-pill badge-success bill_status_badge">{{ __('Successfull') }}</span>
+              @if($log->webhook_response_received == true)
+                @if($log->status == true)
+                  <span class="badge badge-pill badge-success bill_status_badge">{{ __('Successfull') }}</span>
+                @else
+                  <span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span>
+                @endif
               @else
-                <span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span>
+                <span class="badge badge-pill badge-warning bill_status_badge">{{ __('Waiting') }}</span>
               @endif
             </td>
           </tr>
