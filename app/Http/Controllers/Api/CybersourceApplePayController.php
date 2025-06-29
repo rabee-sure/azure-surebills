@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\BillSignatureHelper;
 use App\Models\Bill;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CybersourcePayViaApplePayRequest;
 use App\Services\CyberSourceService;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 
 class CybersourceApplePayController extends Controller
@@ -55,8 +58,12 @@ class CybersourceApplePayController extends Controller
     {
         $this->cybersourceService->logResult('process-payment-cards', "here check payment in apple pay");
         $bill = Bill::find($request->billId);
+        
         if($bill && $bill->status == 'pending')
         {
+            // $response = $this->payerAuthSetup($request, $bill);
+            // return $response;
+            
             $response = $this->cybersourceService->processApplePayPayment($bill, $request->paymentToken);
             if($response == false)
             {
