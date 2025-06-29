@@ -20,8 +20,14 @@ class ApplicationPolicy
 
     public function deleteMerchantApplication(User $user, Application $application)
     {
-        $mainUserID = $user->store_main_user_id == null ? $user->id : $user->store_main_user_id;
-        $authrization  = ($application->user_id == $mainUserID) ? true : false;
+        if($user->can('delete application')){
+            $mainUserID = $user->store_main_user_id == null ? $user->id : $user->store_main_user_id;
+            if($application->channel_id){
+                $authrization  = ($application->channel->user_id == $mainUserID) ? true : false;
+            }else{
+                $authrization  = ($application->user_id == $mainUserID) ? true : false;
+            }
+        }
         return $authrization;
     }
 }
