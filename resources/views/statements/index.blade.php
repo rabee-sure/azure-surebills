@@ -127,7 +127,7 @@
             <select name="application_id" class="form-control select2-single filter" @if(count($applications) == 0) disabled @endif>
               <option selected disabled>
                 @if(isset($application))
-                  {{$application->id}} - {{ $application->user->business_name}}
+                  {{$application->id}} - {{ $application->user->store_main_user_id ? $application->user->mainStoreUser->business_name : $application->user->business_name}}
                 @else
                   {{ __('Applications') }}
                 @endif
@@ -135,7 +135,7 @@
               <option value="all">{{ __('All') }}</option>
               @if($applications)
                 @foreach($applications as $application)
-                  <option value="{{$application->id}}">{{$application->id}} - {{ $application->user->business_name }}</option>
+                  <option value="{{$application->id}}">{{$application->id}} - {{ $application->user->store_main_user_id ? $application->user->mainStoreUser->business_name : $application->user->business_name }}</option>
                 @endforeach
               @endif
             </select>

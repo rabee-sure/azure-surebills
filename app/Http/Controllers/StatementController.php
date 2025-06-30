@@ -36,7 +36,13 @@ class StatementController extends Controller
 
         
         $channels = Channel::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->get();
-        $applications = ($channel) ? $channel->applications : [];
+        $applications = ($channel)
+            ? $channel->applications()
+                ->with(['user' => function ($query) {
+                    $query->withTrashed();
+                }])
+                ->get()
+            : [];
 
         $totals = [];
         $statementQueryAllCredit = clone $statementQuery;
