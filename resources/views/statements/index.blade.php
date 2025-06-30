@@ -21,7 +21,7 @@
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Electronic payment') }}</h1>
       <h2 class="d-flex align-items-center justify-content-end gap-1 m-0 fs-6">
-        {{ __('Balance') }} : 
+        {{ __('Balance') }} :
         <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
           {{ round2(auth()->user()->balance) }}  <span class="riyal-symbol-font">$</span>
         </div><!-- d-flex -->
@@ -195,7 +195,7 @@
                     <div class="d-flex align-items-center justify-content-center">
                       @if ($transaction->card_brand == 'VISA')
                         <img alt="mastercard" src="images/cards/visa.gif" width="18px">
-                      @elseif ($transaction->card_brand == 'MASTER')
+                      @elseif ($transaction->card_brand == 'MASTERCARD' || $transaction->card_brand == 'MASTER')
                         <img alt="mastercard" src="images/cards/mastercard.gif" width="18px">
                       @elseif ($transaction->card_brand == 'MADA')
                         <img alt="mastercard" src="images/cards/mada.gif" width="18px">
