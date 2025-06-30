@@ -978,5 +978,6 @@
   "Waiting": "في الإنتظار",
   "For Example IBAN Number": "رقم آيبان مثلاً",
   "Invoice total is less than": "قيمة الفاتورة الاجمالية اقل من",
-  "Invoice total is more than": "قيمة الفاتورة الاجمالية اكبر من"
+  "Invoice total is more than": "قيمة الفاتورة الاجمالية اكبر من",
+  "Your balance is not allowed to transfer. The minimum transfer balance is": "رصيدك لا يسمح بعملية تحويل اقل رصيد للتحويل هو"
 }

@@ -118,7 +118,8 @@ class TransferController extends Controller
         $transfer_emails = $settings->get('transfer_emails');
 
         if ($transfer_minimum > $amount) {
-            return redirect()->back()->withErrors([__('Your balance is not allowed to transfer. The minimum transfer balance is :minimum', ['minimum'=>$transfer_minimum])]);
+            return redirect()->back()->withErrors(['transfer_minimum' => $transfer_minimum]);
+            // return redirect()->back()->withErrors([__('Your balance is not allowed to transfer. The minimum transfer balance is :minimum', ['minimum'=>$transfer_minimum])]);
         }
 
         if ($user->transfers->where('status', 'pending')->count()||$user->transfers->where('status', 'send_to_sps')->count()) {
