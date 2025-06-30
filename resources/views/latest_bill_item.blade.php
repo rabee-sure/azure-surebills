@@ -1,7 +1,7 @@
 <tr>
   <td>
-    <a href="@if(get_class($bill) == 'App\Models\Bill'){{route('bills.show', $bill)}} @elseif (get_class($bill) == 'App\Models\RefundedBill'){{route('refundedbills.show', $bill->id)}} @endif" title="@if(get_class($bill) == 'App\Models\Bill' && $bill->debit_note_bill_id == null){{__('Bill')}} @elseif(get_class($bill) == 'App\Models\Bill' && $bill->debit_note_bill_id) {{__('DN')}} @elseif (get_class($bill) == 'App\Models\RefundedBill') {{__('CN')}} @endif {{ $bill->number }} - {{ $bill->customer_name}}">
-    @if(get_class($bill) == 'App\Models\Bill' && $bill->debit_note_bill_id == null){{__('Bill')}} @elseif(get_class($bill) == 'App\Models\Bill' && $bill->debit_note_bill_id) {{__('DN')}} @elseif (get_class($bill) == 'App\Models\RefundedBill') {{__('CN')}} @endif {{ $bill->number }} @if($bill->customer_name != null) - @endif {{ $bill->customer_name}}
+    <a href="@if(in_array($bill->type, ['bill', 'debit_note'])){{route('bills.show', $bill)}} @elseif ($bill->type == 'credit_note'){{route('refundedbills.show', $bill->id)}} @endif" title="@if($bill->type == 'bill'){{__('Bill')}} @elseif($bill->type == 'debit_note') {{__('DN')}} @elseif ($bill->type == 'credit_note') {{__('CN')}} @endif {{ $bill->number }} - {{ $bill->customer_name}}">
+    @if($bill->type == 'bill'){{__('Bill')}} @elseif($bill->type == 'debit_note') {{__('DN')}} @elseif ($bill->type == 'credit_note') {{__('CN')}} @endif {{ $bill->number }} @if($bill->customer_name != null) - @endif {{ $bill->customer_name}}
     </a>
   </td>
   <td class="text-center">
@@ -10,7 +10,7 @@
     </div>
   </td>
   <td class="text-center">{{ $bill->created_at }}</td>
-  <td class="text-center">@include('bills.status_badge', ['status' => $bill->status, 'id' => $bill->id])</td>
+  <td class="text-center">@include('bills.status_badge', ['status' => $bill->status, 'id' => $bill->id, 'method' => $bill->method])</td>
 </tr>
 @push('footer-scripts')
 <script type="text/javascript">
