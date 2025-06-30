@@ -21,7 +21,7 @@
         @endif
         @endcan
         <div class="d-flex align-items-center justify-content-end gap-1">
-          {{ __('Balance') }} :  
+          {{ __('Balance') }} :
           <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
             {{  round2(auth()->user()->balance)  }}  <span class="riyal-symbol-font">$</span>
           </div><!-- d-flex -->
@@ -31,9 +31,17 @@
 
   @if ($errors->any())
     <div class="alert alert-danger">
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
+      <ul class="m-0 p-0">
+        @foreach ($errors->all() as $key => $error)
+          @if($key == 'transfer_minimum')
+          <li>
+            <div class="d-flex align-items-center justify-content-start gap-1">
+                {{ __('Your balance is not allowed to transfer. The minimum transfer balance is') }} <div class="d-flex align-items-center gap-1 m-0 {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}}">{{ $error }} <span class="riyal-symbol-font">$</span></div>
+            </div>
+          </li>
+          @else
+            <li>{{ $error }}</li>
+          @endif
         @endforeach
       </ul>
     </div><!-- alert -->

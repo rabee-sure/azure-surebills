@@ -63,7 +63,7 @@
             <img src="{{ asset('/images/payments/mada.png') }}" alt="mada">
           @elseif($brand == 'VISA')
             <img src="{{ asset('/images/payments/visa.png') }}" alt="visa">
-          @elseif($brand == 'MASTERCARD')
+          @elseif($brand == 'MASTERCARD' || $brand == 'MASTER')
             <img src="{{ asset('/images/payments/card.png') }}" alt="mastercard">
           @elseif($brand == 'APPLEPAY')
             <img src="{{ asset('/images/payments/pay.png') }}" alt="apple pay">
