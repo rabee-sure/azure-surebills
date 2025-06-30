@@ -42,6 +42,9 @@ class StoreUserRequest extends FormRequest
             $rules['confirm_password'] =  ['same:password'];
             $rules['email'] = ['required', 'string', 'email', 'max:50', 'unique:users,email,'.$user->id.',id'];
             $rules['mobile'] = ['required', 'regex:/(^[5]{1}[0-9]{8}$)/', 'unique:users,mobile,'.$user->id.',id'];
+            if($user->store_main_user_id == null){
+                $rules['role'] = [];
+            }
         }
 
         return $rules;

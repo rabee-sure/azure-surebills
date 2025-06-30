@@ -110,7 +110,7 @@ class UserPolicy
                     return true;
                 }
             }else{
-                if($model->store_main_user_id == $user->id){
+                if($model->store_main_user_id == $user->id || $model->id == $user->id){
                     return true;
                 }
             }

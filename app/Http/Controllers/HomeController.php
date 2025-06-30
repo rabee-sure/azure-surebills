@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bill;
 use App\Models\RefundedBill;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -37,7 +38,34 @@ class HomeController extends Controller
         $user = auth()->user();
         $user->userId = auth()->user()->store_main_user_id ?? auth()->user()->id;
         $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id);
+        
+        // Create union query with refunded bills
         $latestQuery = clone $bills;
+        $latestQuery = $latestQuery->select([
+            'id',
+            'number',
+            'customer_name',
+            'fixed_total',
+            'status',
+            'payment_way as method',
+            'created_at',
+            'user_id',
+            DB::raw("CASE WHEN debit_note_bill_id IS NULL THEN 'bill' ELSE 'debit_note' END as type")
+        ])->union(
+            RefundedBill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
+            ->select([
+                'id',
+                'number',
+                'customer_name',
+                'amount as fixed_total',
+                'status',
+                'method',
+                'created_at',
+                'user_id',
+                DB::raw("'credit_note' as type")
+            ])
+        );
+        
         $latest = $latestQuery->orderBy('created_at', 'desc')->take(3)->get();
 
         $balance = $user->balance;

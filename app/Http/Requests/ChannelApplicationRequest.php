@@ -58,7 +58,8 @@ class ChannelApplicationRequest extends FormRequest
                 return array_merge($rules, [
                     'email' => [
                         'required',
-                        'email'],
+                        'email',
+                    'exists:users,email',],
                 ]);
             }
             case 'PUT':
