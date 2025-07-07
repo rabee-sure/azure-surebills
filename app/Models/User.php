@@ -378,6 +378,11 @@ class User extends Authenticatable implements HasMedia
         return (isset($this->business_name_ar) && app()->getLocale() == 'ar') ? $this->business_name_ar : $this->business_name_en;
     }
 
+    public function getBankNameAttribute()
+    {
+        return $this->bank->name;
+    }
+
     /**
      * Get the user's is Active.
      *
@@ -828,5 +833,16 @@ class User extends Authenticatable implements HasMedia
             return true;
         }
         return false;
+    }
+
+    /**
+     * Determine if the user can be impersonated.
+     *
+     * @param  null|\Illuminate\Contracts\Auth\Authenticatable  $impersonator
+     * @return bool
+     */
+    public function canBeImpersonated($impersonator = null)
+    {
+        return !$this->trashed();
     }
 }
