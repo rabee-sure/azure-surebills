@@ -31,6 +31,7 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -86,6 +87,15 @@ class VerifiedUser extends Resource
     public static $search = [
         'id', 'name', 'email', 'mobile', 'business_name_en', 'business_name_ar'
     ];
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (! $request instanceof ActionRequest) {
+            return $query->withTrashed()->where('source', '<>', 'pos')->where([['verified', true], ['store_main_user_id', null], ['source', '<>', 'pos']]);
+        }
+
+        return $query;
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -207,11 +217,6 @@ class VerifiedUser extends Resource
             ]),
 
         ];
-    }
-
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        return $query->where([['verified', true], ['store_main_user_id', null], ['source', '<>', 'pos']]);
     }
 
     /**

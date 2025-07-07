@@ -32,6 +32,7 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -87,6 +88,31 @@ class User extends Resource
     public static $search = [
         'id', 'name', 'email', 'mobile', 'business_name_en', 'business_name_ar'
     ];
+
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (! $request instanceof ActionRequest) {
+            return $query->withTrashed()->where('source', '<>', 'pos');
+        }
+
+        return $query;
+    }
+
+    /**
+     * Build a "detail" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function detailQuery(NovaRequest $request, $query)
+    {
+        if (method_exists($query, 'withTrashed')) {
+            return $query->withTrashed();
+        }
+        return $query;
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -164,6 +190,12 @@ class User extends Resource
 
                 return ($this->mobile_verified) ? $this->mobile . $yes : $this->mobile . $no ;
             })->asHtml()->onlyOnDetail(),
+
+            Text::make(__('Active'), 'deleted_at')->displayUsing(function(){
+                $active = '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#039e00"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>';
+                $suspended = '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#9e0000"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-ban"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M5.7 5.7l12.6 12.6" /></svg>';
+                return ($this->deleted_at) ?  $suspended : $active ;
+            })->asHtml()->hideWhenUpdating(),
 
             Select::make(__('Mobile Verified'), 'mobile_verified')
                 ->options([
@@ -303,11 +335,6 @@ class User extends Resource
         ];
     }
 
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        return $query->where('source', '<>', 'pos');
-    }
-
     /**
      * Get the address fields for the resource.
      *
@@ -337,7 +364,7 @@ class User extends Resource
     {
         if($request->has('resourceId'))
         {
-            $user = \App\Models\User::find($request->resourceId);
+            $user = \App\Models\User::withTrashed()->find($request->resourceId);
             if(!$user->store_main_user_id)
             {
                 return [(new Userstats)->onlyOnDetail()->width('full')];
