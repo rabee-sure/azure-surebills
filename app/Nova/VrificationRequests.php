@@ -63,7 +63,7 @@ class VrificationRequests extends Resource
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->vrificationRequest()->where('source', '<>', 'pos');
+        return $query->vrificationRequest()->withTrashed()->where('source', '<>', 'pos');
     }
 
     /**
