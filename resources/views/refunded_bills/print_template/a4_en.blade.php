@@ -22,7 +22,7 @@
     <p class="d-block mb-0">{{  $refundedBill->bill->user->business_address }}</p>
     <b class="d-block fw-normal" dir="ltr">{{  $refundedBill->bill->user->business_mobile }}</b>
   </div><!-- aboutUser -->
-  
+
   <div id="status" class="my-3">
     @if($refundedBill->method == 'online')
       <div class="alertMsg text-center fw-bold refunded"> {{ __('Refunded', [], $lang) }}</div>
@@ -32,46 +32,48 @@
       <div class="alertMsg text-center fw-bold refunded"> {{ __('Refunded Bank Transfer', [], $lang) }}</div>
     @endif
   </div><!-- status -->
-  
-  <div class="billInfo pt-2 mt-2 borderTop">
+
+  <div class="billInfo pt-2 mt-2 d-flex flex-column gap-2 borderTop">
     <div class="d-flex align-items-center justify-content-between">
-      <span class="d-block mb-2">{{ __('Credit Note Date', [], $lang) }}</span>
-      <span class="d-block mb-2">{{ $refundedBill->created_at->format('d/m/Y')}}</span>
+      <span class="d-block">{{ __('Credit Note Date', [], $lang) }}</span>
+      <span class="d-block">{{ $refundedBill->created_at->format('d/m/Y')}}</span>
     </div><!-- d-flex -->
     <div class="d-flex align-items-center justify-content-between">
-      <span class="d-block mb-2">{{ __('Credit Note No.', [], $lang) }}</span>
-      <span class="d-block mb-2">CN{{ $refundedBill->number }}</span>
-    </div><!-- d-flex -->
-    
-    <div class="d-flex align-items-center justify-content-between">
-      <span class="d-block mb-2">{{ __('Invoice Date', [], $lang) }}</span>
-      <span class="d-block mb-2">{{ $refundedBill->bill->created_at->format('d/m/Y')}}</span>
+      <span class="d-block">{{ __('Credit Note No.', [], $lang) }}</span>
+      <span class="d-block">CN{{ $refundedBill->number }}</span>
     </div><!-- d-flex -->
     <div class="d-flex align-items-center justify-content-between">
-      <span class="d-block mb-2">{{ __('Invoice Number', [], $lang) }}</span>
-      <span class="d-block mb-2">{{ $refundedBill->bill->number }}</span>
+      <span class="d-block">{{ __('Invoice Date', [], $lang) }}</span>
+      <span class="d-block">{{ $refundedBill->bill->created_at->format('d/m/Y')}}</span>
+    </div><!-- d-flex -->
+    <div class="d-flex align-items-center justify-content-between">
+      <span class="d-block">{{ __('Invoice Number', [], $lang) }}</span>
+      <span class="d-block">{{ $refundedBill->bill->number }}</span>
     </div><!-- d-flex -->
     @if($refundedBill->bill->user->settings->display_customer_details && $refundedBill->bill->customer_mobile != 555555555)
       <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Customer Name', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $refundedBill->bill->customer_name }}</span>
+        <span class="d-block">{{ __('Customer Name', [], $lang) }}</span>
+        <span class="d-block">{{ $refundedBill->bill->customer_name }}</span>
       </div><!-- d-flex -->
       <div class="d-flex align-items-center justify-content-between">
-        <span class="d-block mb-2">{{ __('Mobile Number', [], $lang) }}</span>
-        <span class="d-block mb-2">{{ $refundedBill->bill->customer_mobile }}</span>
+        <span class="d-block">{{ __('Mobile Number', [], $lang) }}</span>
+        <span class="d-block">{{ $refundedBill->bill->customer_mobile }}</span>
       </div><!-- d-flex -->
     @endif
   </div><!-- billInfo -->
-  
+
   <div class="billInfo pt-2 mt-2 borderTop">
-    
     <div class="d-flex align-items-center justify-content-between">
-      <span class="d-block mb-2">{{ __('Refund Amount', [], $lang) }}({{ __('SAR', [], $lang) }})</span>
-      <span class="d-block mb-2">{{ $refundedBill->amount }}</span>
+      <span class="d-block fw-bold">{{ __('Refund Amount', [], $lang) }}</span>
+      <span class="d-block">
+        <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+            {{ $refundedBill->amount }}  <span class="riyal-symbol-font">$</span>
+        </div><!-- d-flex -->
+      </span>
     </div><!-- d-flex -->
-    
   </div><!-- bill_info -->
- 
+
+
   @if($refundedBill->bill->user->settings->add_tax_invoice)
     <div class="qrCode mt-2 pt-2 borderTop">
       <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $refundedBill->bill->pay_id])}}">
@@ -80,7 +82,6 @@
       </a>
     </div><!-- qrCode -->
   @endif
-  
 </div><!-- showBill -->
 
 <script>
