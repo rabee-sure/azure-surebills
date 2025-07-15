@@ -45,33 +45,41 @@
           </ul>
         </div><!-- alert -->
       @endif
-      <form method="POST" action="{{ route('password.update') }}" id="form">
+      <form method="POST" action="{{ route('password.update') }}" id="form" class="w-100 mx-auto">
         @csrf
         <input type="hidden" name="token" value="{{ $token }}">
-        <label for="email"  class="form-group has-float-label mb-4">
-          <input  id="email" type="email" class="form-control @error('email') is-invalid @enderror" inputmode="email" value="{{ $email ?? old('email') }}" autofocus disabled="" />
-          <span>{{ __('E-Mail Address') }}</span>
-          <input type="hidden" name="email"  value="{{ $email ?? old('email') }}">
-        </label>
-        @error('email')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-        @enderror
-        <label for="password" class="form-group has-float-label mb-4">
-          <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password"/>
-          <span>{{ __('Password') }}</span>
-        </label>
-        @error('password')
-          <p class="invalid-feedback" role="alert">{{ $message }}</p>
-        @enderror
-        <label for="password-confirm" class="form-group has-float-label mb-4">
-          <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password" />
-          <span>{{ __('Confirm Password') }}</span>
-        </label>
-        <div class="d-flex justify-content-end align-items-center">
-          <button class="btn btn-primary btn-lg btn-shadow login_button" type="submit">{{ __('Reset Password') }}</button>
-        </div>
+
+        <div class="form_group mb-3">
+          <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('email') is-invalid @enderror">
+            <span class="d-flex align-items-center justify-content-center h-100 fal fa-envelope"></span>
+            <input id="email" type="email" class=" border-0 h-100 flex-grow-1 text-body" name="email" inputmode="email" autocomplete="off" value="{{ $email ?? old('email') }}" autofocus disabled="" />
+          </div><!-- inputIcon -->
+          @error('email')
+            <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
+          @enderror
+        </div><!-- form_group -->
+
+
+        <div class="form_group mb-3">
+          <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('password') is-invalid @enderror">
+            <span class="d-flex align-items-center justify-content-center h-100 fal fa-lock-alt"></span>
+            <input id="password" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password" autocomplete="off" type="password" placeholder="{{ __('Password') }}" />
+          </div><!-- inputIcon -->
+          @error('password')
+            <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
+          @enderror
+        </div><!-- form_group -->
+
+
+        <div class="form_group mb-3">
+          <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('password') is-invalid @enderror">
+            <span class="d-flex align-items-center justify-content-center h-100 fal fa-lock-alt"></span>
+            <input id="password-confirm" class="bg-white border-0 h-100 flex-grow-1 text-body" name="password_confirmation" autocomplete="off" type="password" placeholder="{{ __('Confirm Password') }}" />
+          </div><!-- inputIcon -->
+        </div><!-- form_group -->
+
+          <button class="login_button rounded border-0 fw-bold d-flex align-items-center justify-content-center text-white p-0 w-100" type="submit">{{ __('Reset Password') }}</button>
+
       </form>
     </div><!-- topArea -->
   </article>
