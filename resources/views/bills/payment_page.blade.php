@@ -89,8 +89,6 @@
                         <div class="pay_button border-right border-left bg-light p-2 border-top" id="applepay_button">
                             <button id="payment" class="d-block mx-auto" lang="<?php echo App::getLocale() ?>" style="-webkit-appearance: -apple-pay-button; -apple-pay-button-type: buy; width: 230px; height: 40px; cursor: pointer; border-radius: 5px;"></button>
                         </div><!-- pay_button -->
-                        @if (!isset($sureEasyRendrer))  
-                        @endif
                         <div class="pay_form border-right border-left border-bottom border-top rounded-bottom">
                             <div class="d-flex align-items-start justify-content-start  border-bottom">
                                 <div class="icons p-3 d-flex align-items-center justify-content-between flex-column h-100 align-self-center">
@@ -185,6 +183,13 @@
         $(window).on("load",function(){
             loaded();
         });
+
+        {{--  MasterCard Hosted Session --}}
+        <?php require app_path('Payment/Drivers/MasterCardHostedSession/pay.js'); ?>
+
+        {{-- APPLE PAY VIA MASTERCARD --}}
+        <?php require app_path('Payment/Drivers/MasterCardApplePay/payment-request.js'); ?>
+        {{-- APPLE PAY VIA MASTERCARD --}}
 
         @if(config('payment.default_payment_gateway') != 'cybersource')
             {{--  MasterCard Hosted Session --}}
