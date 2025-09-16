@@ -94,7 +94,7 @@
 
               file.previewElement.addEventListener("click", function(click) {
                 var preview_file = files.find(x => x.id == this.getAttribute("id")) ;
-                window.open('/storage/'+preview_file.id+'/'+preview_file.file_name, '_blank');
+                // window.open('/storage/'+preview_file.id+'/'+preview_file.file_name, '_blank');
               });
               $('.dropzone')[0].dropzone.options.maxFiles = 5-files.length;
             }
