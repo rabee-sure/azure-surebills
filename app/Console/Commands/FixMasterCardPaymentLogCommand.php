@@ -18,7 +18,7 @@ class FixMasterCardPaymentLogCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'fix:mastercard-payment-log';
+    protected $signature = 'fix:mastercard-payment-log {start_date} {end_date}';
 
     /**
      * The console command description.
@@ -51,10 +51,12 @@ class FixMasterCardPaymentLogCommand extends Command
      */
     public function handle()
     {
+        $start_date = $this->argument('start_date');
+        $end_date = $this->argument('end_date');
         $masterCardService = new MasterCardService;
         Bill::whereDoesntHave('transactions')
-            ->whereDate('paid_at', '>=', '2024-09-18')
-            ->whereDate('paid_at', '<=', '2024-09-23')
+            ->whereDate('paid_at', '>=', $start_date)
+            ->whereDate('paid_at', '<=', $end_date)
             ->whereIn('status', ['paid', 'refunded'])
             ->chunk(10, function ($bills) use ($masterCardService) {
                 foreach ($bills as $bill) {
