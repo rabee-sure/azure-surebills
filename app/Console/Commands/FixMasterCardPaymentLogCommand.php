@@ -51,11 +51,11 @@ class FixMasterCardPaymentLogCommand extends Command
      */
     public function handle()
     {
-        Log::erro('This is start of FixMasterCardPaymentLogCommand');
+        Log::error('This is start of FixMasterCardPaymentLogCommand');
         $start_date = $this->argument('start_date');
         $end_date = $this->argument('end_date');
-        Log::erro('start date = '.$start_date);
-        Log::erro('end date = '.$end_date);
+        Log::error('start date = '.$start_date);
+        Log::error('end date = '.$end_date);
         $masterCardService = new MasterCardService;
         Bill::whereDoesntHave('transactions')
             ->whereDate('paid_at', '>=', $start_date)
