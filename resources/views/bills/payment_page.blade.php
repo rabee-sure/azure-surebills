@@ -51,7 +51,7 @@
 </head>
 <body>
 
-    <div @if($bill->user->settings->api_bill_style && $bill->application_id) class="container" id="app" @endif>
+    <div @if($bill->user->settings->api_bill_style && $bill->application_id) class="payment-api-page container" id="app" @endif>
         <div @if($bill->user->settings->api_bill_style && $bill->application_id) class="row align-items-center justify-content-center" @endif>
             <div class="@if($bill->user->settings->api_bill_style && $bill->application_id) col-md-4 mt-4 p-0 @endif">
                 <div class="pay_apple">
