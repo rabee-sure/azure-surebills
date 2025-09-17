@@ -36,7 +36,8 @@ class Kernel extends ConsoleKernel
             $schedule->command('cybersource:get-transaction-details')->cron($transactionCheckerInterval);
         }
         if(config('mastercard.webhook_simulation')){
-            $schedule->command('fix:mastercard-payment-log', [today()->format('Y-m-d')  , today()->format('Y-m-d')])->everyMinute();
+            // $schedule->command('fix:mastercard-payment-log', [today()->subHours(1)->format('Y-m-d H:i:s')  , today()->format('Y-m-d H:i:s')])->everyTenMinutes();
+            $schedule->command('fix:mastercard-payment-log', [today()->subHours(1)->format('Y-m-d H:i:s')  , today()->format('Y-m-d H:i:s')])->everyMinute();
         }
     }
 
