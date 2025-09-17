@@ -54,6 +54,19 @@ class FixMasterCardPaymentLogCommand extends Command
         Log::error('This is start of FixMasterCardPaymentLogCommand');
         $start_date = $this->argument('start_date');
         $end_date = $this->argument('end_date');
+
+        Log::error('start date = '.$start_date);
+        Log::error('end date = '.$end_date);
+
+        $totalBills = Bill::whereDoesntHave('transactions')
+            ->whereDate('paid_at', '>=', $start_date)
+            ->whereDate('paid_at', '<=', $end_date)
+            ->whereIn('status', ['paid', 'refunded'])->count();
+
+        
+        Log::error('total bills = '.$totalBills);
+
+
         $masterCardService = new MasterCardService;
         Bill::whereDoesntHave('transactions')
             ->whereDate('paid_at', '>=', $start_date)
