@@ -52,8 +52,8 @@ class FixMasterCardPaymentLogCommand extends Command
     public function handle()
     {
         Log::error('This is start of FixMasterCardPaymentLogCommand');
-        $start_date = $this->option('start_date');
-        $end_date = $this->option('end_date');
+        $start_date = $this->argument('start_date');
+        $end_date = $this->argument('end_date');
 
         Log::error('start date = '.$start_date);
         Log::error('end date = '.$end_date);
