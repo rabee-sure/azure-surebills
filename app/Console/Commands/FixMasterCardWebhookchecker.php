@@ -2,15 +2,15 @@
 
 namespace App\Console\Commands;
 
-use App\Events\BillPaid;
 use App\Models\Bill;
 use App\Models\PaymentLog;
 use App\Services\MasterCardService;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 
-class CheckPaidBillsMissingTransactions extends Command
+class FixMasterCardWebhookchecker extends Command
 {
     private $client, $url, $headers;
     /**
@@ -18,14 +18,14 @@ class CheckPaidBillsMissingTransactions extends Command
      *
      * @var string
      */
-    protected $signature = 'bills:check_paid_bills_missing_transactions';
+    protected $signature = 'fix:mastercard-webhookchecker {start_date} {end_date}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command for check paid bills missing transactions and insert it';
+    protected $description = 'Check MasterCard Webhook for paid bills';
 
     /**
      * Create a new command instance.
@@ -51,45 +51,26 @@ class CheckPaidBillsMissingTransactions extends Command
      */
     public function handle()
     {
-        $date = date('Y-m-d', strtotime(' -2 day'));
+        Log::error('This is start of FixMasterCardPaymentLogCommand');
+        $start_date = $this->argument('start_date');
+        $end_date = $this->argument('end_date');
+        Log::error('start date = '.$start_date);
+        Log::error('end date = '.$end_date);
+        $this->info('paid bills will check from '.$start_date.' to '.$end_date);
+        $masterCardService = new MasterCardService;
+        $loop = 1;
+        $paidBills = Bill::whereDoesntHave('transactions')
+            ->whereDate('paid_at', '>=', $start_date)
+            ->whereDate('paid_at', '<=', $end_date)
+            ->whereIn('status', ['paid', 'refunded']);
+        
+        $this->info('paid bills count = '.$paidBills->count());
 
-        $paidBills = Bill::where('status', 'paid')->doesnthave('transactions')->whereDate('created_at', $date);
-
-        $paidBills = $paidBills->orderBy('created_at')->pluck('id')->toArray();
-
-        $billsCount = count($paidBills);
-
-        $this->info($billsCount.' bills found missing transactions');
-
-        if($billsCount > 0){
-            Log::channel('paid_bills_transactions_fixed')->error("Check date: ", [$date]);
-            Log::channel('paid_bills_transactions_not_fixed')->error("Check date: ", [$date]);
-            $chunked_bills = array_chunk($paidBills, 100);
-            foreach($chunked_bills as $key => $bills){
-                foreach($bills as $bill_id){
-                    $bill = Bill::find($bill_id);
-                    // check for bill paymentLog
-                    $billPaymentLog = PaymentLog::where('bill_id', $bill->id)
-                    ->whereIn('payment_method', ['mastercard_pay', 'hyperpay_applepay', 'mastercard_applepay', 'stc_pay'])
-                    ->where('webhook_response_received', 1)
-                    ->where('is_failure', 0)
-                    ->whereJsonContains('results->transaction->type', 'PAYMENT')
-                    ->whereJsonContains('results->result', 'SUCCESS')
-                    ->whereJsonContains('results->response->gatewayCode', 'APPROVED')
-                    ->orderBy('created_at', 'Desc')
-                    ->first();
-
-                    if($billPaymentLog != null){
-                        event(new BillPaid($bill, $billPaymentLog));
-                        Log::channel('paid_bills_transactions_fixed')->error("bill id: ", [$bill->id]);
-                        $this->line("BillPaid Event fire for bill ".$bill->id);
-                    }else{
-                        Log::channel('paid_bills_transactions_not_fixed')->error("bill id: ", [$bill->id]);
-                        $this->line("BillPaid Event not fire for bill ".$bill->id);
+        if($this->confirm('Do you wish to check this bills ?')){
+            $paidBills->chunk(10, function ($bills) use ($masterCardService, $loop) {
+                    foreach ($bills as $bill) {
                         Log::channel('master_card')->error('DB bill = ' . $bill->id);
-                        $this->line('Round '.($key+1).' checking bill = '.$bill->id);
-
-                        $masterCardService = new MasterCardService();
+                        $this->line('Round '.$loop.' checking bill = '.$bill->id);
                         
                         $masterCardResponse = $this->getBillStatusFromMasterCard($bill->id);
                         if ($masterCardResponse) {
@@ -121,11 +102,14 @@ class CheckPaidBillsMissingTransactions extends Command
                             Log::channel('master_card')->error('no response from master card = ' . $bill->id);
                         }
                     }
-                }
-            }
-
-            $this->info("All correct paid Bills missing inserted succeefully! you can view faild bills in Bill transactions fix log file");
+    
+                    $loop++;
+                    sleep(3);
+                });
+    
+            return 0;
         }
+        
     }
 
     private function getBillStatusFromMasterCard($billId)
