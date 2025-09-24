@@ -57,13 +57,15 @@ class FixMasterCardPaymentLogCommand extends Command
         Log::error('start date = '.$start_date);
         Log::error('end date = '.$end_date);
         $masterCardService = new MasterCardService;
+        $loop = 1;
         Bill::whereDoesntHave('transactions')
             ->whereDate('paid_at', '>=', $start_date)
             ->whereDate('paid_at', '<=', $end_date)
             ->whereIn('status', ['paid', 'refunded'])
-            ->chunk(10, function ($bills) use ($masterCardService) {
+            ->chunk(10, function ($bills) use ($masterCardService, $loop) {
                 foreach ($bills as $bill) {
                     Log::channel('master_card')->error('DB bill = ' . $bill->id);
+                    $this->line('Round '.$loop.' checking bill = '.$bill->id);
                     $masterCardResponse = $this->getBillStatusFromMasterCard($bill->id);
                     if ($masterCardResponse) {
                         $masterCardResponseTransactions = $masterCardResponse['transaction'];
@@ -94,6 +96,7 @@ class FixMasterCardPaymentLogCommand extends Command
                     }
                 }
 
+                $loop++;
                 sleep(3);
             });
 
