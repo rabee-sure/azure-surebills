@@ -13,7 +13,7 @@ class TestSendEmailCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'mail:sendTo {--email=}';
+    protected $signature = 'mail:sendToTest {--email=}';
 
     /**
      * The console command description.
