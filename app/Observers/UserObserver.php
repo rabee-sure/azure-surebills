@@ -24,7 +24,7 @@ class UserObserver
     {
         $this->letUserSuperAdmin($user);
 
-        SetNewMerchantSettings::dispatch($user);
+        dispatch(new SetNewMerchantSettings($user));
     }
 
     public function saved(User $user)
