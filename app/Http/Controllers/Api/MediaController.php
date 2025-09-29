@@ -25,7 +25,7 @@ class MediaController extends Controller
         if ($validator->fails()){
             return response()->json(['error' =>$validator->errors()]);
         }
-        
+
 	    if ($request->hasFile('file')) {
 	        $file = $request->file('file');
 	        $name = time().'-'.$file->getClientOriginalName();
@@ -33,7 +33,7 @@ class MediaController extends Controller
 	        $file->move($destinationPath, $name);
             $file_path = ($request->folder)? $request->folder.'/'.$name : $name;
 
-	        return response()->json(['data' => Storage::disk('public')->exists($file_path) ? "storage/$file_path":$file_path]);
+	        return response()->json(['data' => Storage::exists($file_path) ? "storage/$file_path":$file_path]);
 	    }
     }
 

@@ -36,7 +36,7 @@ class MerchantBillsTransactionsFix extends Command
     const REFUND_TRANSACTIONS = ['refund'];
 
     private $inserted_transactions_summary = [];
-    
+
     /**
      * Create a new command instance.
      *
@@ -61,7 +61,7 @@ class MerchantBillsTransactionsFix extends Command
         $merchantBills = $this->getBills($user_id, $from, $to);
 
         $billsCount = count($merchantBills);
-        
+
         $this->info($billsCount.' bills found');
 
         if($this->confirm('Do you wish to review this bills ?')){
@@ -85,7 +85,7 @@ class MerchantBillsTransactionsFix extends Command
                             if($bill->status == 'refunded'){
                                 $requiredTransactions = array_merge(self::PAYMENT_TRANSACTIONS, self::REFUND_TRANSACTIONS);
                             }
-                            
+
                             if($bill->application_id != null && $bill->application->channel_id != null){
                                 $requiredTransactions = array_merge($requiredTransactions, self::CHANNEL_TRANSACTIONS);
                             }
@@ -94,22 +94,22 @@ class MerchantBillsTransactionsFix extends Command
 
                             if($paymentLog){
                                 $currentTransactions = $this->getBillTransactionsSources($bill_id);
-                                
-                    
+
+
                                 $missingTransactions = array_diff($requiredTransactions, $currentTransactions);
-                                
+
                                 if(empty($missingTransactions)){
                                     $this->info('bill ('.$bill_id.') is '.$bill->status.' and have not missing Transactions');
                                     continue;
                                 }
-                                
+
                                 $this->info('bill ('.$bill_id.') is '.$bill->status.' and have not the below transactions');
                                 foreach($missingTransactions as $tkey => $transaction){
                                     $this->line($tkey.'-'.$transaction);
                                 }
 
                                 $this->insertMissingTransactions($missingTransactions, $bill, $paymentLog);
-                                
+
                                 $billTransactions = Transaction::where('bill_id', $bill_id)->get();
 
                                 $this->info($billTransactions);
@@ -135,15 +135,15 @@ class MerchantBillsTransactionsFix extends Command
             }
         }
     }
-    
+
     private function getBills($user_id = null, $from = null, $to = null){
         $merchantBills = DB::table('bills')
         ->leftJoin('transactions', 'bills.id', '=', 'transactions.bill_id')
         ->leftJoin('applications', 'bills.application_id', '=', 'applications.id')
         ->leftJoin('channels', 'applications.channel_id', '=', 'channels.id');
-        
+
         $merchantBills = $merchantBills->select('bills.id as bid', DB::raw('count(transactions.bill_id) as trans'));
-        
+
         $merchantBills = $merchantBills->whereIn('bills.status', ['paid', 'refunded']);
 
         if($user_id != null){
@@ -164,18 +164,18 @@ class MerchantBillsTransactionsFix extends Command
         $merchantBillsBasic = $merchantBillsBasic->having('trans', '<', 5);
         $merchantBillsBasic = $merchantBillsBasic->orderBy('trans');
         $merchantBillsBasic = $merchantBillsBasic->get()->toArray();
-        
-        
+
+
         $merchantBillsChannel = clone $merchantBills;
         $merchantBillsChannel = $merchantBillsChannel->whereNotNull('applications.channel_id');
         $merchantBillsChannel = $merchantBillsChannel->groupBy('bid');
         $merchantBillsChannel = $merchantBillsChannel->having('trans', '<', 7);
         $merchantBillsChannel = $merchantBillsChannel->orderBy('trans');
         $merchantBillsChannel = $merchantBillsChannel->get()->toArray();
-        
+
         $merchantBillsArr = array_merge($merchantBillsBasic, $merchantBillsChannel);
         $merchantBillsArrIds = array_column($merchantBillsArr,'bid');
-        
+
         return $merchantBillsArrIds;
     }
 
@@ -204,7 +204,7 @@ class MerchantBillsTransactionsFix extends Command
     private function insertMissingTransactions($missingTransactions, $bill, $log){
         $user = User::whereEmail('surebills@sura.com.sa')->first();
         $dash = $bill->customer_name ? '-' : '';
-        
+
         foreach ($missingTransactions as $transaction) {
             switch ($transaction) {
                 case 'bill':
@@ -263,7 +263,7 @@ class MerchantBillsTransactionsFix extends Command
                     $this->pushTransaction($transaction);
                     $this->line('vat transaction inserted');
                     break;
-                    
+
                 case 'surebills_fees':
                     if($user && isset($bill->payment_surebills_fees)){
                         $fee_trans = new Transaction;
@@ -327,7 +327,7 @@ class MerchantBillsTransactionsFix extends Command
                         Log::channel('bills_missing_transactions_fixing_summary')->error($error);
                     }
                     break;
-                    
+
                 case 'channel_vat':
                     if(isset($bill->application) && isset($bill->application->channel)){
                         $vat_trans = new Transaction;
@@ -370,7 +370,7 @@ class MerchantBillsTransactionsFix extends Command
                     $this->pushTransaction($transaction);
                     $this->line('refund transaction inserted');
                     break;
-                
+
                 default:
                     # code...
                     break;
@@ -394,7 +394,7 @@ class MerchantBillsTransactionsFix extends Command
 
     private function exportTransactionsSummary(){
         $file_name = 'fixing_commands_files/Missing_Transactions_Summary.xlsx';
-        if(Excel::store(new MissingTransactionsSummaryExport($this->inserted_transactions_summary), $file_name , 'public')){
+        if(Excel::store(new MissingTransactionsSummaryExport($this->inserted_transactions_summary), $file_name)){
             $emails = ['mzain@sure.com.sa'];
             if(count($emails)){
                 foreach ($emails as $email) {

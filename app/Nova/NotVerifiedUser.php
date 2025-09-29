@@ -106,35 +106,48 @@ class NotVerifiedUser extends Resource
                 return $this->mainStoreUser ? $this->mainStoreUser->business_name_en : $this->business_name_en;
             })->rules('required', 'max:50'),
 
-            Text::make(__('merchant type'), function(){
+            Text::maake(__('merchant type'), function(){
                 return $this->mainStoreUser ? __('employee') : __('owner');
             })->exceptOnForms(),
 
             Image::make(__('Business logo'), 'logo')
-                ->disk('public')
                 ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
+                ->path('businessـlogo/')
                 ->preview(function ($value) {
-                    if(Storage::disk('public')->exists($value)){
-                        return url('storage/'.$value);
-                    }else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
+                    if (file_exists(Storage::disk('public')->path('downloads/businessـlogo'.$value))){
+                        return url('storage/downloads/'.$value);
+                    }
+                    else if(Storage::disk('oci')->exists($value)){
+                        $stream = Storage::disk('oci')->readStream($value);
+                        $localPath = 'downloads/businessـlogo/' . basename($value);
+                        Storage::disk('public')->put($localPath, $stream);
+                        if (is_resource($stream)) {
+                            fclose($stream);
                         }
+                        return url('storage/downloads/'.$value);
+                    }
+                    else{
+                        return '/images/no-image.jpg';
                     }
                 })
                 ->thumbnail(function ($value) {
-                    if(Storage::disk('public')->exists($value)){
-                        return url('storage/'.$value);
-                    }else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
-                        }
+                    if (file_exists(Storage::disk('public')->path('downloads/businessـlogo'.$value))){
+                        return url('storage/downloads/'.$value);
                     }
-                })->disableDownload()->hideWhenUpdating($this->store_main_user_id ? true : false)->hideFromDetail($this->store_main_user_id ? true : false),
+                    else if(Storage::disk('oci')->exists($value)){
+                        $stream = Storage::disk('oci')->readStream($value);
+                        $localPath = 'downloads/businessـlogo/' . basename($value);
+                        Storage::disk('public')->put($localPath, $stream);
+                        if (is_resource($stream)) {
+                            fclose($stream);
+                        }
+                        return url('storage/downloads'.$value);
+                    }
+                    else{
+                        return '/images/no-image.jpg';
+                    }
+                })
+                ->disableDownload()->hideWhenUpdating($this->store_main_user_id ? true : false)->hideFromDetail($this->store_main_user_id ? true : false),
 
 
             Text::make(__('Balance'), function () {

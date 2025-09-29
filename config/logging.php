@@ -35,6 +35,10 @@ return [
     */
 
     'channels' => [
+        'oci' => [
+            'driver' => 'custom',
+            'via' => App\Logging\OCIObjectStorageLogger::class,
+        ],
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],

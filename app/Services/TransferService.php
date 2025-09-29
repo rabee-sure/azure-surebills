@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
-class TransferService 
-{ 
+class TransferService
+{
     /**
      * Make Transfer.
      *
@@ -85,7 +85,7 @@ class TransferService
             CreateTransferExcelFileJob::dispatch($transfer->id);
 
             return $transfer;
-        }); 
+        });
     }
 
 
@@ -113,13 +113,13 @@ class TransferService
     public static function createTransactionsExcel($transfer, $file_name)
     {
         $data = json_decode((TransactionExportResource::collection($transfer->transactions->load('bill.application.channel')))->toJson(), true);
-        
-        (new TransactionsExportQueued($data))->store($file_name, 'public')->chain([
+
+        (new TransactionsExportQueued($data))->store($file_name)->chain([
             new UpdateTransferExcelFile($transfer, $file_name),
         ]);
-        
 
-        // if(Excel::store(new TransactionsExportQueued($data), $file_name , 'public')){
+
+        // if(Excel::store(new TransactionsExportQueued($data), $file_name)){
 
         //     $transfer->addMedia(storage_path('app/public/'.$file_name))
         //         ->preservingOriginal()

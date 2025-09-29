@@ -121,10 +121,9 @@ class VerifiedUser extends Resource
             })->exceptOnForms(),
 
             Image::make(__('Business logo'), 'logo')
-                ->disk('public')
                 ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
                 ->preview(function ($value) {
-                    if(Storage::disk('public')->exists($value)){
+                    if(Storage::exists($value)){
                         return url('storage/'.$value);
                     }else{
                         if($value){
@@ -135,7 +134,7 @@ class VerifiedUser extends Resource
                     }
                 })
                 ->thumbnail(function ($value) {
-                    if(Storage::disk('public')->exists($value)){
+                    if(Storage::exists($value)){
                         return url('storage/'.$value);
                     }else{
                         if($value){

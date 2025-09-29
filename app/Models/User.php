@@ -289,7 +289,7 @@ class User extends Authenticatable implements HasMedia
 
     public function getLogoUrlAttribute()
     {
-        if (Storage::disk('public')->exists($this->logo))
+        if (Storage::exists($this->logo))
             return url('storage/' . $this->logo);
         else
             return url($this->logo);
@@ -337,10 +337,10 @@ class User extends Authenticatable implements HasMedia
             $message .= PHP_EOL;
 
             $mobile = (int) $this->mobile;
-            
+
             $smsService = new SMSService();
             $response = $smsService->sendSMS($mobile, $message);
-            
+
             $this->sent_sms_response = $response;
             $this->save();
         }
