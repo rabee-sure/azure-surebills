@@ -106,7 +106,7 @@ class NotVerifiedUser extends Resource
                 return $this->mainStoreUser ? $this->mainStoreUser->business_name_en : $this->business_name_en;
             })->rules('required', 'max:50'),
 
-            Text::maake(__('merchant type'), function(){
+            Text::make(__('merchant type'), function(){
                 return $this->mainStoreUser ? __('employee') : __('owner');
             })->exceptOnForms(),
 
