@@ -4,6 +4,8 @@ namespace App\Helpers;
 use App\Models\Bill;
 use App\Models\PaymentLog;
 use GuzzleHttp\Client;
+use App\Jobs\MastercardWebhookSimulation;
+
 use Illuminate\Support\Facades\Log;
 
 class PaymentHelper
@@ -72,6 +74,9 @@ class PaymentHelper
             $payment->status = 1;
             $payment->save();
             $bill->setPaid();
+
+            MastercardWebhookSimulation::dispatch($bill->id, $payment->id)->delay(now()->addMinutes(1));
+
             if($viaWebHook) {
                 $bill->firePaidEvent();
             }

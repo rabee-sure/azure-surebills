@@ -157,6 +157,11 @@ return [
             'path' => storage_path('logs/master_card.log'),
             'level' => 'info',
         ],
+        'mastercard_review_transactions_command' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/mastercard_review_transactions_command.log'),
+            'level' => 'info',
+        ],
 
 
     ],

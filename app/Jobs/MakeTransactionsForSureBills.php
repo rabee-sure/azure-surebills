@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class MakeTransactionsForSureBills
 {
@@ -38,6 +39,9 @@ class MakeTransactionsForSureBills
     public function handle()
     {
         $user = User::whereEmail('surebills@sura.com.sa')->first();
+        Log::error('MakeTransactionsForSureBills', ['user' => $user]);
+        Log::error('MakeTransactionsForSureBills', ['surebills_fees' => $this->bill->payment_surebills_fees]);
+        Log::error('MakeTransactionsForSureBills', ['surebills_fees_vat' => $this->bill->payment_surebills_fees_vat]);
 
         if($user && isset($this->bill->payment_surebills_fees) && isset($this->bill->payment_surebills_fees_vat) ){
 

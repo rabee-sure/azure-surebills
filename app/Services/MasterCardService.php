@@ -251,4 +251,62 @@ class MasterCardService
 
         return false;
     }
+
+    public function handleMastercardChecker($response)
+    {
+        if (isset($response['order'])
+            && isset($response['order']['id'])
+            && isset($response['transaction'])
+            && isset($response['transaction']['id'])
+            && isset($response['transaction']['type'])
+        ) {
+
+            // get bill & payment
+            $bill = Bill::find($response['order']['id']);
+            $payment = PaymentLog::find($response['transaction']['id']);
+            if ($bill && $payment) {
+                // handle PAYMENT transaction
+                if ($response['transaction']['type'] == "PAYMENT") {
+                    try {
+                        return $this->handlePaymentTransaction($response, $bill, $payment);
+                    } catch (\Exception $e) {
+                        Log::emergency("payment issue");
+                        Log::emergency($e->getMessage());
+                        Log::emergency(json_encode($e));
+                    }
+                }
+
+                // handle REFUND transaction
+                if ($response['transaction']['type'] == "REFUND") {
+                    try {
+                        \Log::channel('refunded_transactions')->info("refunded transaction request from handleWebhook", array($bill->id, $response['transaction']['amount']));
+                        return $this->handleRefundTransaction($response, $bill, $payment);
+                    } catch (\Exception $e) {
+                        Log::emergency("refund issue");
+                        Log::emergency($e->getMessage());
+                        Log::emergency(json_encode($e));
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function getBillTransactionStatusFromMasterCard($billId, $transactionId)
+    {
+        $client = new Client();
+        $url = config('payment.drivers.mastercard_iframe.api_base_url') . '/order/'.$billId.'/transaction/'.$transactionId;
+        $headers = [
+            'Authorization' => 'Basic ' . base64_encode(config('payment.drivers.mastercard_iframe.operator_username') . ':' . config('payment.drivers.mastercard_iframe.operator_password')),
+            'Content-Type' => 'application/json',
+        ];
+
+        $response = $client->get($url, ['headers' => $headers]);
+        if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+            return json_decode($response->getBody(), true);
+        }
+
+        return false;
+    }
 }
