@@ -7,6 +7,7 @@ use App\Services\CyberSourceService;
 use Hashids\Hashids;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
+use App\Jobs\MastercardWebhookSimulation;
 
 class PaymentLog extends Model
 {
@@ -116,6 +117,7 @@ class PaymentLog extends Model
                 $payment->refunded_amount = $amount;
                 $payment->save();
 
+                
                 if (isset($response['response']) && isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] == 'APPROVED') {
                     \Log::channel('refunded_transactions')->info("refunded transaction from mastercard rescponse", array(
                         "bill_id" => $this->bill->id, 
@@ -125,6 +127,8 @@ class PaymentLog extends Model
                     // update refunded amount
                     $this->refunded_amount += $amount;
                     $this->save();
+
+                    MastercardWebhookSimulation::dispatch($this->bill->id, $payment->id)->delay(now()->addMinutes(config('mastercard.webhook_simulation_delay_in_minutes')));
 
                     return true;
                 }
