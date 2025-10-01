@@ -128,7 +128,7 @@ class PaymentLog extends Model
                     $this->refunded_amount += $amount;
                     $this->save();
 
-                    MastercardWebhookSimulation::dispatch($this->bill->id, $payment->id)->delay(now()->addMinutes(1));
+                    MastercardWebhookSimulation::dispatch($this->bill->id, $payment->id)->delay(now()->addMinutes(config('mastercard.webhook_simulation_delay_in_minutes')));
 
                     return true;
                 }

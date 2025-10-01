@@ -75,7 +75,7 @@ class PaymentHelper
             $payment->save();
             $bill->setPaid();
 
-            MastercardWebhookSimulation::dispatch($bill->id, $payment->id)->delay(now()->addMinutes(1));
+            MastercardWebhookSimulation::dispatch($bill->id, $payment->id)->delay(now()->addMinutes(config('mastercard.webhook_simulation_delay_in_minutes')));
 
             if($viaWebHook) {
                 $bill->firePaidEvent();
