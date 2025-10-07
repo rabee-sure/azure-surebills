@@ -207,15 +207,17 @@ class BillController extends Controller
         $application = $request->application;
         if($application->user){
             $user = $application->user->store_main_user_id ? $application->user->mainStoreUser : $application->user;
+            $bill_user_id = $application->user->store_main_user_id ? $application->user->store_main_user_id : $application->user_id;
         }else{
             $user = null;
+            $bill_user_id = null;
         }
 
         if($request->application_name){
             $application = $this->getApplication($application, $request);
         }
 
-        Bill::where('reference_id', $request->reference_id)->where('user_id', $application->user_id ?? null)->where('status', 'pending')->update(['status' => 'canceled']);
+        Bill::where('reference_id', $request->reference_id)->where('user_id', $bill_user_id)->where('status', 'pending')->update(['status' => 'canceled']);
 
         $mainBill = Bill::find($mainBillId);
 
@@ -354,7 +356,13 @@ class BillController extends Controller
     public function wordpress(Request $request)
     {
         $application = $request->application;
-        $user = $application->user ?? null;
+        if($application->user){
+            $user = $application->user->store_main_user_id ? $application->user->mainStoreUser : $application->user;
+            $bill_user_id = $application->user->store_main_user_id ? $application->user->store_main_user_id : $application->user_id;
+        }else{
+            $user = null;
+            $bill_user_id = null;
+        }
 
         $validator = Validator::make($request->all(), [
             'customer_mobile' => ['required'],
@@ -367,7 +375,7 @@ class BillController extends Controller
         }
 
         Bill::where('reference_id', $request->reference_id)
-            ->where('user_id', $application->user_id ?? null)
+            ->where('user_id', $bill_user_id)
             ->where('status', 'pending')
             ->update(['status' => 'canceled']);
 
