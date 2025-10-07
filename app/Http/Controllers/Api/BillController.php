@@ -40,17 +40,19 @@ class BillController extends Controller
     {
         $application = $request->application;
         $user = $application->user ?? null;
+        $bill_user_id = $application->user_id ?? null;
         
         if($user && $user->store_main_user_id)
         {
             $user = $user->mainStoreUser;
+            $bill_user_id = $user->id ?? null;
         }
-
+        
         if($request->application_name){
             $application = $this->getApplication($application, $request);
         }
 
-        Bill::where('reference_id', $request->reference_id)->where('user_id', $application->user_id ?? null)->where('status', 'pending')->update(['status' => 'canceled']);
+        Bill::where('reference_id', $request->reference_id)->where('user_id', $bill_user_id)->where('status', 'pending')->update(['status' => 'canceled']);
 
         // Find the customer by mobile or email
         $customer = Customer::where('user_id', $user->id)
