@@ -122,7 +122,7 @@ class SanitizeSandboxData extends Command
         }
 
         if (str_contains($col, 'card_number') || $col === 'card') {
-            return '4111111111111111';
+            return 'xxxxxxxxxxxx1111';
         }
 
         if (str_contains($col, 'vat_registration_number')) {
@@ -146,7 +146,7 @@ class SanitizeSandboxData extends Command
         }
 
         if (str_contains($col, 'bank')) {
-            return $faker->randomElement(['ANB', 'Riyad Bank', 'Alinma', 'Al Rajhi']);
+            return $faker->randomElement(['ANB - TEST', 'Riyad Bank -TEST', 'Alinma -TEST', 'Al Rajhi - TEST']);
         }
 
         return $faker->word();
