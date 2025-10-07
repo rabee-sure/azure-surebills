@@ -47,12 +47,24 @@ class RefundedBillController extends Controller
     public function show($id)
     {
         $refundedBill = RefundedBill::find($id);
+        // check ownership
+        $user_id = auth()->user()->store_main_user_id ?? auth()->user()->id;
+        if($refundedBill->user_id != $user_id){
+            abort(403);
+        }
         return view('bills.refunded_bill_show', ['refundedbill' => $refundedBill]);
     }
 
     public function billPrint($id, Request $request)
     {
         $refundedBill = RefundedBill::find($id);
+
+        // check ownership
+        $user_id = auth()->user()->store_main_user_id ?? auth()->user()->id;
+        if($refundedBill->user_id != $user_id){
+            abort(403);
+        }
+
         $type = $request->input('type');
         $lang = $request->input('lang');
         if($type == 'billA4' && $lang == 'en'){
@@ -69,6 +81,13 @@ class RefundedBillController extends Controller
     public function invoice($id, $lang = null)
     {
         $refundedBill = RefundedBill::decodeId($id);
+
+        // check ownership
+        $user_id = auth()->user()->store_main_user_id ?? auth()->user()->id;
+        if($refundedBill->user_id != $user_id){
+            abort(403);
+        }
+        
         return view('refunded_bills.invoice', compact('refundedBill', 'id'));
     }
 

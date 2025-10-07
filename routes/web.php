@@ -76,31 +76,31 @@ Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage')->middleware('redirect.to.subdomain');
 
 Route::middleware(['auth'])->group(function () {
-  Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
-  Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
-  Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('resend_code');
+    Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
+    Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
+    Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('resend_code');
 
-  Route::get('settings', 'SettingsController@settings')->name('settings');
-  Route::post('settings', 'SettingsController@postSettings')->name('post.settings');
+    Route::get('settings', 'SettingsController@settings')->name('settings');
+    Route::post('settings', 'SettingsController@postSettings')->name('post.settings');
 
-  Route::get('tax_invoice_request', 'TaxInvoiceRequestController@store')->name('tax_invoice.request');
+    Route::get('tax_invoice_request', 'TaxInvoiceRequestController@store')->name('tax_invoice.request');
 
-  Route::get('account', 'AccountController@account')->name('account');
-  Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
-  Route::post('account-information', 'AccountController@storeAccountInformation')->name('account.information');
+    Route::get('account', 'AccountController@account')->name('account');
+    Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
+    Route::post('account-information', 'AccountController@storeAccountInformation')->name('account.information');
 
-  Route::get('account/bank_information', 'AccountController@bank_information')->name('bank_information');
-  Route::post('bank-information', 'AccountController@storeBankInformation')->name('bank.information');
+    Route::get('account/bank_information', 'AccountController@bank_information')->name('bank_information');
+    Route::post('bank-information', 'AccountController@storeBankInformation')->name('bank.information');
 
-  Route::get('account/business_information', 'AccountController@business_information')->name('business_information');
-  Route::post('business-information', 'AccountController@storeBusinessInformation')->name('business.information');
+    Route::get('account/business_information', 'AccountController@business_information')->name('business_information');
+    Route::post('business-information', 'AccountController@storeBusinessInformation')->name('business.information');
 
-  Route::get('account/change_password', 'AccountController@changePassword')->name('change_password');
-  Route::post('change-password', 'AccountController@storeChangePassword')->name('change.password');
+    Route::get('account/change_password', 'AccountController@changePassword')->name('change_password');
+    Route::post('change-password', 'AccountController@storeChangePassword')->name('change.password');
 
-  Route::get('pricing', 'PricingController@index')->name('pricing');
-  Route::put('pricing', 'PricingController@update')->name('update_price');
-  Route::get('pricing/details', 'PricingController@details')->name('details');
+    Route::get('pricing', 'PricingController@index')->name('pricing');
+    Route::put('pricing', 'PricingController@update')->name('update_price');
+    Route::get('pricing/details', 'PricingController@details')->name('details');
 
     Route::get('/bills/{id}/print', 'BillController@billPrint')->name('bills.bill_print');
     Route::get('/refundedbills/{id}/print', 'RefundedBillController@billPrint')->name('refundedbills.bill_print');
