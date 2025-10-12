@@ -771,6 +771,20 @@ class BillController extends Controller
 
         $bill = Bill::find($id);
 
+        // Prevent access if bill already paid
+        if ($bill->status != 'pending') {
+            return response()->json(['error' => [
+                'bill' => __('This bill not pending you can not access it')
+            ]], 403);
+        }
+
+        // Prevent access if bill is older than 12 hours
+        if ($bill->created_at->lt(now()->subHours(config('bills.pay_page_expiration_time')))) {
+            return response()->json(['error' => [
+                'bill' => __('This payment link has expired.')
+            ]], 403);
+        }
+
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
         } else {
