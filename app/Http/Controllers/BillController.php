@@ -402,6 +402,16 @@ class BillController extends Controller
     {
         $bill = Bill::decodeId($id);
 
+        // Prevent access if bill already paid
+        if ($bill->status != 'pending') {
+            abort(403, 'This bill not pending you can not access it');
+        }
+
+        // Prevent access if bill is older than 12 hours
+        if ($bill->created_at->lt(now()->subHours(config('bills.pay_page_expiration_time')))) {
+            abort(403, 'This payment link has expired.');
+        }
+
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
             session()->put('user-lang', $lang);
