@@ -93,16 +93,25 @@
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
               <label for="expiry_date" class="d-block mb-2">{{ __('Expiry Date') }}</label>
+              @if(config('bills.pay_page_expiration_time_type') == 'Days')
               <select value="{{ old('expiry_date') }}" name="expiry_date" id="expiry_date" class="form-control shadow-none bg-white border w-100 rounded-3 text-body select2-single">
-                <option value="1">{{ __('1 Day') }}</option>
-                <option value="2">{{ __('2 Day') }}</option>
-                <option value="3">{{ __('3 Day') }}</option>
-                <option value="7">{{ __('7 Day') }}</option>
-                <option value="30" selected="selected">{{ __('30 Day') }}</option>
-                <option value="60">{{ __('60 Day') }}</option>
-                <option value="90">{{ __('90 Day') }}</option>
-                <option value="0">{{ __('Never') }}</option>
+                @for ($i = 1; $i <= config('bills.pay_page_expiration_time'); $i++)
+                  <option value="{{ $i }}" @if(old('expiry_date') == $i) selected="selected" @endif>{{ $i }} {{ __('Day') }}</option>
+                @endfor
               </select>
+              @elseif(config('bills.pay_page_expiration_time_type') == 'Hours')
+              <select value="{{ old('expiry_hours') }}" name="expiry_hours" id="expiry_hours" class="form-control shadow-none bg-white border w-100 rounded-3 text-body select2-single">
+                @for ($i = 1; $i <= config('bills.pay_page_expiration_time'); $i++)
+                  <option value="{{ $i }}" @if(old('expiry_hours') == $i) selected="selected" @endif>{{ $i }} {{ __('Hour') }}</option>
+                @endfor
+              </select>
+              @elseif(config('bills.pay_page_expiration_time_type') == 'Minutes')
+              <select value="{{ old('expiry_minutes') }}" name="expiry_minutes" id="expiry_minutes" class="form-control shadow-none bg-white border w-100 rounded-3 text-body select2-single">
+                @for ($i = 1; $i <= config('bills.pay_page_expiration_time'); $i++)
+                  <option value="{{ $i }}" @if(old('expiry_minutes') == $i) selected="selected" @endif>{{ $i }} {{ __('Minute') }}</option>
+                @endfor
+              </select>
+              @endif
             </div><!-- form-group -->
           </div><!-- col -->
         </div><!-- row -->

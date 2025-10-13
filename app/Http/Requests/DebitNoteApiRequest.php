@@ -37,9 +37,6 @@ class DebitNoteApiRequest extends FormRequest
         $rules = [
             'customer_notes' => ['nullable'],
             'due_date' => ['required'],
-            'expiry_date' => ['required'],
-            'expiry_hours' => ['numeric','min:0','max:23','nullable'],
-            'expiry_minutes' => ['numeric','min:0','max:59','nullable'],
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
             'discount_value' => ['required_if:add_discount,on'],
@@ -57,6 +54,25 @@ class DebitNoteApiRequest extends FormRequest
                 // })
             ],
         ];
+
+        if(config('bills.pay_page_expiration_time_type') == 'Days')
+        {
+            $rules['expiry_date'] = ['required', 'numeric', 'min:1', 'max:'.config('bills.pay_page_expiration_time')];
+            $rules['expiry_hours'] = ['nullable', 'numeric', 'max:0'];
+            $rules['expiry_minutes'] = ['nullable', 'numeric', 'max:0'];
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Hours')
+        {
+            $rules['expiry_date'] = ['nullable', 'numeric', 'max:0'];
+            $rules['expiry_hours'] = ['required', 'numeric', 'min:1', 'max:'.config('bills.pay_page_expiration_time')];
+            $rules['expiry_minutes'] = ['nullable', 'numeric', 'max:0'];
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
+        {
+            $rules['expiry_date'] = ['nullable', 'numeric', 'max:0'];
+            $rules['expiry_hours'] = ['nullable', 'numeric', 'max:0'];
+            $rules['expiry_minutes'] = ['required', 'numeric', 'min:1', 'max:'.config('bills.pay_page_expiration_time')];
+        }
 
         return $rules;
     }
