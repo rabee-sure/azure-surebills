@@ -29,6 +29,10 @@ Route::domain(config('payment.invoice_subdomain'))->group(function (){
   
 });
 
+Route::domain(config('app.url'))->group(function (){
+  Route::get('/payment-success', 'BillController@paymentSuccess')->name('paymentsuccess');
+});
+
 
 // Payments Routes
 Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
