@@ -835,4 +835,14 @@ class User extends Authenticatable implements HasMedia
     {
         return !$this->trashed();
     }
+
+    /**
+     * Get the OTPs for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function otps()
+    {
+        return $this->hasMany(UserOtp::class);
+    }
 }
