@@ -67,6 +67,12 @@ Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
 });
 
 Auth::routes();
+
+// OTP verification routes
+Route::get('/verify-otp', 'Auth\OtpController@showVerifyForm')->name('otp.verify.form');
+Route::post('/verify-otp', 'Auth\OtpController@verify')->name('otp.verify');
+Route::post('/resend-otp', 'Auth\OtpController@resend')->name('otp.resend');
+
 Route::get('login-by-secret/{secret}/{secret2}', 'FandaqahOperationsController@loginBySecret');
 
 Route::get('redirect/to/products/via/pos/{uuid}', 'PosController@redirectToProductsViaPos')->name('redirect.to.products.via.pos');
