@@ -6,6 +6,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StoreUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -220,6 +221,20 @@ Route::middleware(['auth:admins'])->group(function () {
     Route::get('users/{user}/alltransactions', 'TransferController@userallTransactions')->name('users.alltransactions');
     Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
     Route::get('users/{user}', 'UserController@show')->name('users.show');
+
+    
+    Route::get('/admin/download/{model_name}/{id}/{file_name}', function ($model_name, $id, $file_name) {
+      // نحول الاسم القادم من Nova لاسم الكلاس الكامل
+      $class = '\\App\\Models\\' . Str::studly($model_name);
+      abort_unless(class_exists($class), 404);
+
+      $record = $class::findOrFail($id);
+
+      $path = storage_path('app/public/' . $record->$file_name);
+      abort_unless(file_exists($path), 404);
+
+      return response()->download($path);
+    })->name('nova.download');
 });
 
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');

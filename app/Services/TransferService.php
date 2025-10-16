@@ -70,9 +70,11 @@ class TransferService
                 $perations->complete([$transfer], $status, auth()->user()->id);
             }elseif($status == 'pending'){
                 $user_id = null;
-                if(auth()->user()->id){
-                    if (Auth::guard('admins')->check()) {
-                        $user_id = auth()->user()->id;
+                if(auth()->user()){
+                    if(auth()->user()->id){
+                        if (Auth::guard('admins')->check()) {
+                            $user_id = auth()->user()->id;
+                        }
                     }
                 }
                 $perations->pending([$transfer], $status, $user_id);
