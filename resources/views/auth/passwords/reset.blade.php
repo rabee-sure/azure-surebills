@@ -52,7 +52,7 @@
         <div class="form_group mb-3">
           <div class="inputIcon d-flex align-items-center justify-content-center rounded overflow-hidden border @error('email') is-invalid @enderror">
             <span class="d-flex align-items-center justify-content-center h-100 fal fa-envelope"></span>
-            <input id="email" type="email" class=" border-0 h-100 flex-grow-1 text-body" name="email" inputmode="email" autocomplete="off" value="{{ $email ?? old('email') }}" autofocus disabled="" />
+            <input id="email" type="email" class=" border-0 h-100 flex-grow-1 text-body" name="email" inputmode="email" autocomplete="off" value="{{ $email ?? old('email') }}" autofocus readonly />
           </div><!-- inputIcon -->
           @error('email')
             <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
