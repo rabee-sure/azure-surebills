@@ -96,6 +96,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('account/business_information', 'AccountController@business_information')->name('business_information');
     Route::post('business-information', 'AccountController@storeBusinessInformation')->name('business.information');
 
+    // download file
+    Route::get('download/{id}/{file}', 'AccountController@downloadFile')->name('download.file');
+
     Route::get('account/change_password', 'AccountController@changePassword')->name('change_password');
     Route::post('change-password', 'AccountController@storeChangePassword')->name('change.password');
 
