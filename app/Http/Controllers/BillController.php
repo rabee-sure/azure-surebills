@@ -197,7 +197,7 @@ class BillController extends Controller
                 'customer_mobile' => $request->customer_mobile,
                 'customer_notes' => $request->customer_notes,
 
-                'expiry_date' => $request->expiry_date,
+                'expiry_date' => $request->expiry_date ?? 0,
                 'expiry_hours' => $request->expiry_hours ?? 0,
                 'expiry_minutes' => $request->expiry_minutes ?? 0,
                 'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->due_date))),
@@ -293,7 +293,7 @@ class BillController extends Controller
                     'customer_mobile' => $mainBill->customer_mobile,
                     'customer_notes' => $request->customer_notes,
 
-                    'expiry_date' => $request->expiry_date,
+                    'expiry_date' => $request->expiry_date ?? 0,
                     'expiry_hours' => $request->expiry_hours ?? 0,
                     'expiry_minutes' => $request->expiry_minutes ?? 0,
                     'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->due_date))),
@@ -402,6 +402,31 @@ class BillController extends Controller
     {
         $bill = Bill::decodeId($id);
 
+        // Prevent access if bill already paid
+        if ($bill->status != 'pending') {
+            abort(403, 'This bill not pending you can not access it');
+        }
+
+        // Prevent access if bill is older than pay page expiration time
+        if(config('bills.pay_page_expiration_time_type') == 'Days')
+        {
+            if ($bill->created_at->lt(now()->subDays(config('bills.pay_page_expiration_time')))) {
+                abort(403, 'This payment link has expired.');
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Hours')
+        {
+            if ($bill->created_at->lt(now()->subHours(config('bills.pay_page_expiration_time')))) {
+                abort(403, 'This payment link has expired.');
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
+        {
+            if ($bill->created_at->lt(now()->subMinutes(config('bills.pay_page_expiration_time')))) {
+                abort(403, 'This payment link has expired.');
+            }
+        }
+
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
             session()->put('user-lang', $lang);
@@ -457,6 +482,11 @@ class BillController extends Controller
         }
 
         return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'));
+    }
+
+    public function paymentSuccess()
+    {
+        return view('bills.payment_page_success');
     }
 
     /**

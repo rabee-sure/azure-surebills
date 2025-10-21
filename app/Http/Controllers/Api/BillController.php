@@ -112,9 +112,9 @@ class BillController extends Controller
             'customer_mobile' => $request->customer_mobile,
             'customer_notes' => $request->customer_notes,
 
-            'expiry_date' => $request->expiry_date,
-            'expiry_hours' => $request->expiry_hours,
-            'expiry_minutes' => $request->expiry_minutes,
+            'expiry_date' => $request->expiry_date ?? 0,
+            'expiry_hours' => $request->expiry_hours ?? 0,
+            'expiry_minutes' => $request->expiry_minutes ?? 0,
             'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => $request->add_discount ?? false,
@@ -256,9 +256,9 @@ class BillController extends Controller
             'customer_mobile' => $mainBill->customer_mobile,
             'customer_notes' => $mainBill->customer_notes,
 
-            'expiry_date' => $request->expiry_date,
-            'expiry_hours' => $request->expiry_hours,
-            'expiry_minutes' => $request->expiry_minutes,
+            'expiry_date' => $request->expiry_date ?? 0,
+            'expiry_hours' => $request->expiry_hours ?? 0,
+            'expiry_minutes' => $request->expiry_minutes ?? 0,
             'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => $request->add_discount ?? false,
@@ -364,14 +364,53 @@ class BillController extends Controller
             $bill_user_id = null;
         }
 
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'customer_mobile' => ['required'],
             'customer_name' => ['required'],
             'customer_email' => ['required'],
-        ]);
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()){
              return view('bills.error', ['error' => $validator->errors()->first()]);
+        }
+
+        if(config('bills.pay_page_expiration_time_type') == 'Days')
+        {
+            if($request->expiry_date){
+                if($request->expiry_date >= config('bills.pay_page_expiration_time')){
+                    $expiry_date = config('bills.pay_page_expiration_time');
+                    $expiry_hours = 0;
+                    $expiry_minutes = 0;
+                }
+            }else{
+                $expiry_date = 0;
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Hours')
+        {
+            $expiry_date = 0;
+            if($request->expiry_hours){
+                if($request->expiry_hours >= config('bills.pay_page_expiration_time')){
+                    $expiry_hours = config('bills.pay_page_expiration_time');
+                    $expiry_minutes = 0;
+                }
+            }else{
+                $expiry_hours = 0;
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
+        {
+            $expiry_date = 0;
+            $expiry_hours = 0;
+            if($request->expiry_minutes){
+                if($request->expiry_minutes >= config('bills.pay_page_expiration_time')){
+                    $expiry_minutes = config('bills.pay_page_expiration_time');
+                }
+            }else{
+                $expiry_minutes = 0;
+            }
         }
 
         Bill::where('reference_id', $request->reference_id)
@@ -433,9 +472,9 @@ class BillController extends Controller
             'customer_mobile' => $request->customer_mobile,
             'customer_notes' => $request->customer_notes,
 
-            'expiry_date' => $request->expiry_date,
-            'expiry_hours' => $request->expiry_hours,
-            'expiry_minutes' => $request->expiry_minutes,
+            'expiry_date' => $expiry_date,
+            'expiry_hours' => $expiry_hours,
+            'expiry_minutes' => $expiry_minutes,
             'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => (isset($request->add_discount) && ($request->add_discount == 'on' || $request->add_discount == true) )? true : false,
@@ -770,6 +809,39 @@ class BillController extends Controller
         $lang = $request->lang;
 
         $bill = Bill::find($id);
+
+        // Prevent access if bill already paid
+        if ($bill->status != 'pending') {
+            return response()->json(['error' => [
+                'bill' => __('This bill not pending you can not access it')
+            ]], 403);
+        }
+
+        // Prevent access if bill is older than pay page expiration time
+        if(config('bills.pay_page_expiration_time_type') == 'Days')
+        {
+            if ($bill->created_at->lt(now()->subDays(config('bills.pay_page_expiration_time')))) {
+                return response()->json(['error' => [
+                    'bill' => __('This payment link has expired.')
+                ]], 403);
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Hours')
+        {
+            if ($bill->created_at->lt(now()->subHours(config('bills.pay_page_expiration_time')))) {
+                return response()->json(['error' => [
+                    'bill' => __('This payment link has expired.')
+                ]], 403);
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
+        {
+            if ($bill->created_at->lt(now()->subMinutes(config('bills.pay_page_expiration_time')))) {
+                return response()->json(['error' => [
+                    'bill' => __('This payment link has expired.')
+                ]], 403);
+            }
+        }
 
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
