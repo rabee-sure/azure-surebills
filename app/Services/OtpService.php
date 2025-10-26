@@ -131,6 +131,10 @@ class OtpService
     protected function generateOtp()
     {
         // Generate a random 6-digit number
+        // create 000000 if not production
+        if(!app()->environment('production')){
+            return '000000';
+        }
         return str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
     }
 
