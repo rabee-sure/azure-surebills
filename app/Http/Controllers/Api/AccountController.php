@@ -26,7 +26,7 @@ class AccountController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function updateInformation(UpdateInformationRequest $request)
-    {        
+    {
         $user = $request->user();
 
         if($request->type == 'bank' || $request->type == "all"){
@@ -46,13 +46,11 @@ class AccountController extends Controller
 
                 //create
                 foreach ($bank_documents as $file) {
-                    $name = time().'-'.$file->getClientOriginalName();
-                    $destinationPath = storage_path('/app/public');
-                    $file->move($destinationPath, $name);
-                    $file_name = $name;
-
+                    $file_name = time() . '-' . $file->getClientOriginalName();
+                    $folder = 'bank_documents';
+                    $file->storeAs($folder, $file_name, 'oci');
                     try {
-                        $user->addMedia(storage_path('app/public/'.$file_name))->toMediaCollection('bank_documents');
+                        $user->addMedia($file_name)->toMediaCollection('bank_documents');
                     } catch (FileDoesNotExist $e) {
                         return [
                             "message" => "File Does Not Exist.",
@@ -62,9 +60,9 @@ class AccountController extends Controller
                                 ]
                             ]
                         ];
-                    }  
-                    
-                }       
+                    }
+
+                }
             }
         }
 
@@ -91,13 +89,13 @@ class AccountController extends Controller
                         $media->delete();
                     }
                 }
-                
+
                 //create
                 foreach ($business_documents as $file) {
                     if($file['id'] == null && isset($file['file'])){
                         $file_name =  str_replace('storage/','', $file['file']);
                         try {
-                            $user->addMedia(storage_path('app/public/'.$file_name))->toMediaCollection('business_documents');   
+                            $user->addMedia($file_name)->toMediaCollection('business_documents');
                         } catch (FileDoesNotExist $e) {
                             return [
                                 "message" => "File Does Not Exist.",
@@ -109,7 +107,7 @@ class AccountController extends Controller
                             ];
                         }
                     }
-                }       
+                }
             }
 
             if(!$user->disable_business_documents && $request->business_documents){
@@ -122,13 +120,11 @@ class AccountController extends Controller
 
                 //create
                 foreach ($business_documents as $file) {
-                    $name = time().'-'.$file->getClientOriginalName();
-                    $destinationPath = storage_path('/app/public');
-                    $file->move($destinationPath, $name);
-                    $file_name = $name;
-
+                    $file_name = time() . '-' . $file->getClientOriginalName();
+                    $folder = 'business_documents';
+                    $file->storeAs($folder, $file_name, 'oci');
                     try {
-                        $user->addMedia(storage_path('app/public/'.$file_name))->toMediaCollection('business_documents');
+                        $user->addMedia($file_name)->toMediaCollection('business_documents');
                     } catch (FileDoesNotExist $e) {
                         return [
                             "message" => "File Does Not Exist.",
@@ -138,9 +134,9 @@ class AccountController extends Controller
                                 ]
                             ]
                         ];
-                    }  
-                    
-                }       
+                    }
+
+                }
             }
         }
 

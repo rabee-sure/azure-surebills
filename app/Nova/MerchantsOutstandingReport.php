@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Kpolicar\DateRange\DateRange;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -74,14 +73,16 @@ class MerchantsOutstandingReport extends Resource
             }),
 
             Date::make(__('Request date'), 'created_at')->exceptOnForms(),
-            Text::make(__('Download File'), function(){
-                if(file_exists(storage_path('app/reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx')))
-                {
-                    return "<a class='btn btn-success' style='margin:5px' href='". url('file/admins/' . 'reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx') ."'><i class='fa fa-download' aria-hidden='true'></i></a>";
-                }elseif(file_exists(storage_path('app/public/reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx')))
-                {
-                    return "<a class='btn btn-success' style='margin:5px' href='". url('file/admins/' . 'public/reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx') ."'><i class='fa fa-download' aria-hidden='true'></i></a>";
+            Text::make(__('Download File'), function () {
+                $url = getDownloadFile($this->name, $this->id);
+
+                if ($url) {
+                    return "<a class='btn btn-success' style='margin:5px' href='{$url}' target='_blank'>
+                    <i class='fa fa-download' aria-hidden='true'></i>
+                </a>";
                 }
+
+                return "<span style='color: #aaa;'>-</span>";
             })->asHtml(),
         ];
     }

@@ -9,12 +9,10 @@ use App\Jobs\UpdateTransferExcelFile;
 use App\Models\Transaction;
 use App\Models\Transfer;
 use App\Models\TransferLog;
-use App\Services\TransferOperations;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
+
 
 class TransferService
 {
@@ -118,13 +116,6 @@ class TransferService
             new UpdateTransferExcelFile($transfer, $file_name),
         ]);
 
-
-        // if(Excel::store(new TransactionsExportQueued($data), $file_name)){
-
-        //     $transfer->addMedia(storage_path('app/public/'.$file_name))
-        //         ->preservingOriginal()
-        //         ->toMediaCollection('transfers_transactions');
-        // }
         return $transfer;
     }
 

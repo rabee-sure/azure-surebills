@@ -8,10 +8,6 @@ use App\Exports\TransactionsExport;
 use App\Exports\TransactionsExportQueued;
 use App\Http\Resources\BillResource;
 use App\Http\Resources\TransactionExportResource;
-use App\Jobs\ExportTransactionsFileJob;
-use App\Jobs\SendAutoTransferMailsJob;
-use App\Jobs\ZipFolderJob;
-use App\Mail\AutoTransferMail;
 use App\Models\AutoTransfer;
 use App\Models\AutoTransferTransfer;
 use App\Models\Bill;
@@ -85,7 +81,7 @@ class TransferAutomatic extends Command
     public function handle()
     {
         ini_set('memory_limit','3072M');
-        $settings =  Valuestore::make(storage_path('app/settings.json'));
+        $settings =  Valuestore::make(getSettings());
         $transfer_automatic = $settings->get('transfer_automatic');
         $transfer_days = [];
 
@@ -226,7 +222,7 @@ class TransferAutomatic extends Command
 
     public function sendMails($day)
     {
-        $settings =  Valuestore::make(storage_path('app/settings.json'));
+        $settings =  Valuestore::make(getSettings());
         $transfer_emails = $settings->get('transfer_emails');
         $emails = explode(",", $transfer_emails);
         if(count($emails)){

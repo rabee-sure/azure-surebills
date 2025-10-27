@@ -34,12 +34,14 @@ class MerchantBillsExportedExcelMail extends Mailable implements ShouldQueue
     public function build()
     {
         $fileName = $this->file_name;
-        $filePath = Storage::disk('local')->path(join(DIRECTORY_SEPARATOR, array('merchant-bills', $fileName)));
+        $fileContent = Storage::get('merchant-bills/' . $fileName);
         return $this->subject("Your Exported Bills - SureBills")
             ->view('emails.bills.merchant_exported_bills', [
                 'file_name' => $this->file_name,
             ])
-            ->attach($filePath);
+            ->attachData($fileContent, $fileName, [
+                'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            ]);
     }
 
 }

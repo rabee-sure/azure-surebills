@@ -46,8 +46,7 @@ class TransferExcel extends Command
     public function handle()
     {
 
-        $settings = Valuestore::make(storage_path('app/settings.json'));
-
+        $settings = Valuestore::make(getSettings());
 
         $transfer_emails = $settings->get('transfer_emails');
 

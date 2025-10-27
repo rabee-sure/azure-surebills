@@ -28,7 +28,7 @@ class RefundedBillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -84,7 +84,7 @@ class RefundedBillController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -96,7 +96,7 @@ class RefundedBillController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

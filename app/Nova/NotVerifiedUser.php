@@ -15,8 +15,6 @@ use DigitalCreative\ConditionalContainer\HasConditionalContainer;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use KABBOUCHI\NovaImpersonate\Impersonate;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -112,40 +110,12 @@ class NotVerifiedUser extends Resource
 
             Image::make(__('Business logo'), 'logo')
                 ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
-                ->path('businessـlogo/')
+                ->path('businessـlogo')
                 ->preview(function ($value) {
-                    if (file_exists(Storage::disk('public')->path('downloads/businessـlogo'.$value))){
-                        return url('storage/downloads/'.$value);
-                    }
-                    else if(Storage::disk('oci')->exists($value)){
-                        $stream = Storage::disk('oci')->readStream($value);
-                        $localPath = 'downloads/businessـlogo/' . basename($value);
-                        Storage::disk('public')->put($localPath, $stream);
-                        if (is_resource($stream)) {
-                            fclose($stream);
-                        }
-                        return url('storage/downloads/'.$value);
-                    }
-                    else{
-                        return '/images/no-image.jpg';
-                    }
+                    return addFile($value, 'businessـlogo');
                 })
                 ->thumbnail(function ($value) {
-                    if (file_exists(Storage::disk('public')->path('downloads/businessـlogo'.$value))){
-                        return url('storage/downloads/'.$value);
-                    }
-                    else if(Storage::disk('oci')->exists($value)){
-                        $stream = Storage::disk('oci')->readStream($value);
-                        $localPath = 'downloads/businessـlogo/' . basename($value);
-                        Storage::disk('public')->put($localPath, $stream);
-                        if (is_resource($stream)) {
-                            fclose($stream);
-                        }
-                        return url('storage/downloads'.$value);
-                    }
-                    else{
-                        return '/images/no-image.jpg';
-                    }
+                    return addFile($value, 'businessـlogo');
                 })
                 ->disableDownload()->hideWhenUpdating($this->store_main_user_id ? true : false)->hideFromDetail($this->store_main_user_id ? true : false),
 

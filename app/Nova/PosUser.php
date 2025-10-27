@@ -6,7 +6,6 @@ use App\Rules\ValidateUploadFile;
 use DigitalCreative\ConditionalContainer\ConditionalContainer;
 use DigitalCreative\ConditionalContainer\HasConditionalContainer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
@@ -86,27 +85,12 @@ class PosUser extends Resource
 
             Image::make(__('Business logo'), 'logo')
                 ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
+                ->path('businessـlogo')
                 ->preview(function ($value) {
-                    if(Storage::exists($value)){
-                        return url('storage/'.$value);
-                    }else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
-                        }
-                    }
+                    return addFile($value, 'businessـlogo');
                 })
                 ->thumbnail(function ($value) {
-                    if(Storage::exists($value)){
-                        return url('storage/'.$value);
-                    }else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
-                        }
-                    }
+                    return addFile($value, 'businessـlogo');
                 })->disableDownload()->hideWhenUpdating($this->store_main_user_id ? true : false)->hideFromDetail($this->store_main_user_id ? true : false),
 
             Text::make(__('Email'), 'email')

@@ -25,7 +25,7 @@ class ChartsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -65,12 +65,12 @@ class ChartsController extends Controller
                 ->orderby('Month')
                 ->pluck('Total', 'Month');
                 break;
-            
+
             default:
                 # code...
                 break;
         }
-  
+
         return $this->datasets($collection, [
             'label' => __('The amount of the payments'),
             'backgroundColor' => 'rgba(224, 123, 57, 0.51)',
@@ -79,7 +79,7 @@ class ChartsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -119,7 +119,7 @@ class ChartsController extends Controller
                 ->orderby('Month')
                 ->pluck('BillCounter', 'Month');
                 break;
-            
+
             default:
                 # code...
                 break;
@@ -133,7 +133,7 @@ class ChartsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -170,7 +170,7 @@ class ChartsController extends Controller
                 ->orderby('Month')
                 ->pluck('BillCounter', 'Month');
                 break;
-            
+
             default:
                 # code...
                 break;

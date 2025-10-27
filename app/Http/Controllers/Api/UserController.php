@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -31,7 +31,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -75,7 +75,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

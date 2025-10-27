@@ -6,7 +6,7 @@
   <section id="homepage">
 
     @php
-      $settings =  Spatie\Valuestore\Valuestore::make(storage_path('app/settings.json'));
+      $settings =  Spatie\Valuestore\Valuestore::make(getSettings());
       $mobile_number = $settings->get('mobile_number');
     @endphp
 

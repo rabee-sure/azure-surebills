@@ -159,9 +159,9 @@ class GenerateMerchantOutstandingReport implements ShouldQueue
         ".$whereInMerchants."
         GROUP BY  `users`.`id`");
 
-        if(Excel::store(new ReportExport($results), $file_name , 'local')){
+        if(Excel::store(new ReportExport($results), $file_name)){
 
-            $this->report->addMedia(storage_path('app/'.$file_name))
+            $this->report->addMedia($file_name)
                 ->preservingOriginal()
                 ->toMediaCollection('reports_file');
 

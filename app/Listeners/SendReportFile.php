@@ -169,7 +169,7 @@ class SendReportFile implements ShouldQueue
 
         if(Excel::store(new ReportExport($results), $file_name , 'local')){
 
-            $report->addMedia(storage_path('app/'.$file_name))
+            $report->addMedia($file_name)
                 ->preservingOriginal()
                 ->toMediaCollection('reports_file');
 
@@ -179,5 +179,5 @@ class SendReportFile implements ShouldQueue
             $report->save();
         }
     }
-    
+
 }

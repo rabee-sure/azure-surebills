@@ -130,7 +130,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -487,7 +487,7 @@ class BillController extends Controller
     }
 
     /**
-     * Handle payment the specified resource in storage.
+     * Handle payment the specified resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id

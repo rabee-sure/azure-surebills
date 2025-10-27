@@ -289,10 +289,7 @@ class User extends Authenticatable implements HasMedia
 
     public function getLogoUrlAttribute()
     {
-        if (Storage::exists($this->logo))
-            return url('storage/' . $this->logo);
-        else
-            return url($this->logo);
+        return getFile($this->logo);
     }
 
     /**

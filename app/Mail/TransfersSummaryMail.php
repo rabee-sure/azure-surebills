@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\File;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Storage;
 use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class TransfersSummaryMail extends Mailable implements ShouldQueue
@@ -32,12 +33,15 @@ class TransfersSummaryMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $dueAmountsFile = "app/public/summary_transfers/$this->folder/due_amounts.xlsx";
-        $merchantsSummaryFile = "app/public/summary_transfers/$this->folder/merchants_summary.xlsx";
+        $dueAmountsPath = "summary_transfers/{$this->folder}/due_amounts.xlsx";
+        $merchantsSummaryPath = "summary_transfers/{$this->folder}/merchants_summary.xlsx";
+
+        $dueAmountsContent = Storage::get($dueAmountsPath);
+        $merchantsSummaryContent = Storage::get($merchantsSummaryPath);
 
         return $this->subject("SureBills Master Sheet $this->folder")
             ->view('emails.bills.auto_transfer')
-            ->attach(storage_path($dueAmountsFile))
-            ->attach(storage_path($merchantsSummaryFile));
+            ->attachData($dueAmountsContent, 'due_amounts.xlsx')
+            ->attachData($merchantsSummaryContent, 'merchants_summary.xlsx');
     }
 }

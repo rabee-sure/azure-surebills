@@ -32,6 +32,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\Nova\NovaLoginController;
 use Laravel\Nova\Http\Controllers\LoginController;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**

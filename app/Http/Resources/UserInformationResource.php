@@ -34,7 +34,7 @@ class UserInformationResource extends JsonResource
             'bank_id' => $this->bank_id,
             'iban_number' => $this->iban_number,
             'beneficiary_name' => $this->beneficiary_name,
-            'logo' => (Storage::exists($this->logo))? "storage/$this->logo":$this->logo,
+            'logo' => getFile($this->logo),
             'disable_business_documents' => $this->disable_business_documents,
             'disable_bank_documents' => $this->disable_bank_documents,
             'business_documents' => $this->getDocuments($this->business_documents),

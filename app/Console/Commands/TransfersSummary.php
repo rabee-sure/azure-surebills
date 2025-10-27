@@ -187,7 +187,7 @@ class TransfersSummary extends Command
 
     public function sendMails($transfers)
     {
-        $settings =  Valuestore::make(storage_path('app/settings.json'));
+        $settings =  Valuestore::make(getSettings());
         $transfer_emails = $settings->get('transfer_emails');
         $emails = explode(",", $transfer_emails);
         $t_file_n = $this->getFileName($transfers);

@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\TranferBillsExcelDownload;
 use App\Nova\Actions\TranferTransactionsExcelDownload;
 use PosLifestyle\DateRangeFilter\DateRangeFilter;
 use App\Nova\Filters\UserName;

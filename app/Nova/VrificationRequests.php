@@ -10,14 +10,9 @@ use App\Nova\Filters\UsersUnverified;
 use App\Nova\Metrics\NewBills;
 use App\Rules\ValidateUploadFile;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
-use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
@@ -148,29 +143,12 @@ class VrificationRequests extends Resource
 
             Image::make(__('Business logo'), 'logo')
                 ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
+                ->path('businessـlogo')
                 ->preview(function ($value) {
-                    if(Storage::exists($value)){
-                        return url('storage/'.$value);
-                    }
-                    else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
-                        }
-                    }
+                    return addFile($value, 'businessـlogo');
                 })
                 ->thumbnail(function ($value) {
-                    if(Storage::exists($value)){
-                        return url('storage/'.$value);
-                    }
-                    else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
-                        }
-                    }
+                    return addFile($value, 'businessـlogo');
                 })->disableDownload(),
 
             HasMany::make(__('Transfers'), 'transfers', Transfer::class),
