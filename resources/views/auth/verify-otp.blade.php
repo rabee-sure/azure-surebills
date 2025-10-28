@@ -46,7 +46,24 @@
 
       @if (session('status'))
         <div class="alert alert-success w-100 mx-auto mb-3" role="alert">
-          {{ session('status') }}
+          <i class="fas fa-check-circle"></i> {{ session('status') }}
+        </div>
+      @endif
+
+      @if (session('error'))
+        <div class="alert alert-danger w-100 mx-auto mb-3" role="alert">
+          <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+        </div>
+      @endif
+
+      @if ($errors->has('email') || $errors->has('message'))
+        <div class="alert alert-warning w-100 mx-auto mb-3" role="alert">
+          <i class="fas fa-exclamation-triangle"></i> 
+          @if ($errors->has('email'))
+            {{ $errors->first('email') }}
+          @elseif ($errors->has('message'))
+            {{ $errors->first('message') }}
+          @endif
         </div>
       @endif
 
