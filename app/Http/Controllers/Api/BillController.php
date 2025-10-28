@@ -571,7 +571,10 @@ class BillController extends Controller
            ], 422);
         }
 
-        if(isset($application) && $application->user_id == $bill->user_id){
+        $applicationMainUser = $application->user->store_main_user_id ? $application->user->mainStoreUser : $application->user;
+        $billMainUser = $bill->user->store_main_user_id ? $bill->user->mainStoreUser : $bill->user;
+
+        if(isset($application) && $applicationMainUser->id == $billMainUser->id){
             return new BillResource($bill);
         }else{
             return response()->json(['success' => false]);
