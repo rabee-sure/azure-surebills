@@ -33,6 +33,8 @@ class BillResource extends JsonResource
             'reference_id' => $this->reference_id,
             'due_date' => $this->due_date,
             'expiry_date' => $this->expiry_date,
+            'expiry_hours' => $this->expiry_hours,
+            'expiry_minutes' => $this->expiry_minutes,
             'add_discount' => $this->add_discount,
             'discount_type' => $this->discount_type,
             'discount_value' => round($this->discount_value, 2),
