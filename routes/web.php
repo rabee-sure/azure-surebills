@@ -68,10 +68,10 @@ Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
 
 Auth::routes();
 
-// OTP verification routes
+// OTP verification routes with throttle:3,1 for 3 attempts in 1 minute as per as merchant otp configuration
 Route::get('/verify-otp', 'Auth\OtpController@showVerifyForm')->name('otp.verify.form');
-Route::post('/verify-otp', 'Auth\OtpController@verify')->name('otp.verify');
-Route::post('/resend-otp', 'Auth\OtpController@resend')->name('otp.resend');
+Route::post('/verify-otp', 'Auth\OtpController@verify')->name('otp.verify')->middleware('throttle:'.config("merchant_otp.throttle_attempts").','.config("merchant_otp.throttle_time"));
+Route::post('/resend-otp', 'Auth\OtpController@resend')->name('otp.resend')->middleware('throttle:'.config("merchant_otp.throttle_attempts").','.config("merchant_otp.throttle_time"));
 
 Route::get('login-by-secret/{secret}/{secret2}', 'FandaqahOperationsController@loginBySecret');
 
