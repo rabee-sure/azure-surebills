@@ -92,7 +92,7 @@
           </div><!-- col -->
           <div class="col-12 col-md-6 col-lg-4">
             <div class="form-group mb-3">
-              <label for="expiry_date" class="d-block mb-2">{{ __('Expiry Date') }}</label>
+              <label for="expiry_date" class="d-block mb-2">{{ __('Expiry Time') }}</label>
               @if(config('bills.pay_page_expiration_time_type') == 'Days')
               <select value="{{ old('expiry_date') }}" name="expiry_date" id="expiry_date" class="form-control shadow-none bg-white border w-100 rounded-3 text-body select2-single">
                 @for ($i = 1; $i <= config('bills.pay_page_expiration_time'); $i++)
