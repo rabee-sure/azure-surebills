@@ -19,15 +19,6 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::get('/test', function () {
-  $iban = 'SA0000000000000000000000';
-  $encrypted = encrypt($iban);
-  $decrypted = decrypt($encrypted);
-
-  dd($iban, $encrypted, $decrypted);
-
-});
-
 Route::domain(config('payment.invoice_subdomain'))->group(function (){
     
   Route::get('.well-known/{file}', 'BillSubdomainController@verifyOwnershipForApplePay')->name('verify.applepay.ownership');
