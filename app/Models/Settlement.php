@@ -2,16 +2,28 @@
 
 namespace App\Models;
 
+use App\Traits\HasEncryptedAttributes;
 use Illuminate\Database\Eloquent\Model;
 
 class Settlement extends Model
 {
+    use HasEncryptedAttributes;
+
     protected $table = 'settlements';
 
     protected $fillable = [
 		'amount',
 		'user_id',
 	];
+
+    /**
+     * The attributes that should be encrypted.
+     *
+     * @var array
+     */
+    protected $encrypted = [
+        'iban_number',
+    ];
 
     public function scopeUserId($query, $value)
     {
