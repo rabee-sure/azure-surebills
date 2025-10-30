@@ -19,7 +19,6 @@ use Illuminate\Support\Str;
 |
 */
 
-
 Route::domain(config('payment.invoice_subdomain'))->group(function (){
     
   Route::get('.well-known/{file}', 'BillSubdomainController@verifyOwnershipForApplePay')->name('verify.applepay.ownership');

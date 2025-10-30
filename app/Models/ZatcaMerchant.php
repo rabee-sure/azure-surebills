@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasEncryptedAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ZatcaMerchant extends Model
 {
-    use HasFactory;
+    use HasFactory, HasEncryptedAttributes;
 
     protected $fillable = [
         'uuid',
@@ -37,5 +38,14 @@ class ZatcaMerchant extends Model
         'publicKey',
         'csrKey',
         'configData',
+    ];
+
+    /**
+     * The attributes that should be encrypted.
+     *
+     * @var array
+     */
+    protected $encrypted = [
+        'crn'                         // Commercial Registration Number
     ];
 }
