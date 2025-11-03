@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasEncryptedAttributes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -10,7 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Transfer extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use InteractsWithMedia, HasEncryptedAttributes;
 
     protected $table = 'settlements';
 
@@ -39,6 +40,15 @@ class Transfer extends Model implements HasMedia
      */
     protected $casts = [
         'filters' => 'array',
+    ];
+
+    /**
+     * The attributes that should be encrypted.
+     *
+     * @var array
+     */
+    protected $encrypted = [
+        'iban_number',
     ];
 
     public function scopeUserId($query, $value)

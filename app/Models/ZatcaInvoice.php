@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasEncryptedAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ZatcaInvoice extends Model
 {
-    use HasFactory;
+    use HasFactory, HasEncryptedAttributes;
 
     protected $fillable = [
         'uuid',
@@ -40,6 +41,15 @@ class ZatcaInvoice extends Model
         'total',
         'invoice_date',
         'paid_at',
+    ];
+
+    /**
+     * The attributes that should be encrypted.
+     *
+     * @var array
+     */
+    protected $encrypted = [
+        'merchant_crn'    // Commercial Registration Number
     ];
 
     public function merchant(){
