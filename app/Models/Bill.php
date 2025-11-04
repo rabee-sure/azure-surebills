@@ -288,6 +288,39 @@ class Bill extends Model
     {
         return route('paybillpagelang', ['id' => $this->pay_id, 'lang' => $this->user->settings->default_lang]);
     }
+    
+    // get access to pay page attribute
+    public function getAccessToPayPageAttribute()
+    {
+        $accessToPayPage = ['status' => true, 'message' => ''];
+        // Prevent access if bill already paid
+        if ($this->status != 'pending') {
+            $accessToPayPage = ['status' => false, 'message' => 'This bill not pending you can not access it'];
+            return (object)$accessToPayPage;
+        }
+
+        // Prevent access if bill is older than pay page expiration time
+        if(config('bills.pay_page_expiration_time_type') == 'Days')
+        {
+            if ($this->created_at->lt(now()->subDays(config('bills.pay_page_expiration_time')))) {
+                $accessToPayPage = ['status' => false, 'message' => 'This payment link has expired.'];
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Hours')
+        {
+            if ($this->created_at->lt(now()->subHours(config('bills.pay_page_expiration_time')))) {
+                $accessToPayPage = ['status' => false, 'message' => 'This payment link has expired.'];
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
+        {
+            if ($this->created_at->lt(now()->subMinutes(config('bills.pay_page_expiration_time')))) {
+                $accessToPayPage = ['status' => false, 'message' => 'This payment link has expired.'];
+            }
+        };
+
+        return (object)$accessToPayPage;
+    }
 
     /**
      * Pay Url.
