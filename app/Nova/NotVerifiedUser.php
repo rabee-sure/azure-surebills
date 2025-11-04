@@ -31,6 +31,7 @@ use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Http\Requests\ActionRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -216,7 +217,11 @@ class NotVerifiedUser extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->withTrashed()->where([['verified', false], ['store_main_user_id', null], ['source', '<>', 'pos']]);
+        if (! $request instanceof ActionRequest) {
+            return $query->withTrashed()->where('source', '<>', 'pos')->where([['verified', false], ['store_main_user_id', null], ['source', '<>', 'pos']]);
+        }
+
+        return $query;
     }
 
     /**
