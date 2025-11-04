@@ -36,10 +36,12 @@
   </div><!-- alert -->
 
   <div class="buttonsArea p-2 d-flex align-items-center justify-content-center bg-white rounded-3 mb-3 shadow-sm d-print-none">
+    @if ($bill->access_to_pay_page->status)
     <button class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none copyButton" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Copy payment link') }}" data-from="top" data-align="right"><i class="fal fa-copy"></i></button>
     <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
 
     <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ $bill->pay_url}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Visit Payment Link') }}"><i class="fal fa-link"></i></a>
+    @endif
 
     @if($bill->user->settings->add_tax_invoice)
       <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ $bill->invoice_url}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Tax Invoice') }}"><i class="fal fa-qrcode"></i></a>
