@@ -383,9 +383,11 @@ class BillController extends Controller
                     $expiry_date = config('bills.pay_page_expiration_time');
                     $expiry_hours = 0;
                     $expiry_minutes = 0;
+                }elseif($request->expiry_date < 1){
+                    $expiry_date = 1;
                 }
             }else{
-                $expiry_date = 0;
+                $expiry_date = 1;
             }
         }
         else if(config('bills.pay_page_expiration_time_type') == 'Hours')
@@ -395,9 +397,11 @@ class BillController extends Controller
                 if($request->expiry_hours >= config('bills.pay_page_expiration_time')){
                     $expiry_hours = config('bills.pay_page_expiration_time');
                     $expiry_minutes = 0;
+                }elseif($request->expiry_hours < 1){
+                    $expiry_hours = 1;
                 }
             }else{
-                $expiry_hours = 0;
+                $expiry_hours = 1;
             }
         }
         else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
@@ -407,9 +411,11 @@ class BillController extends Controller
             if($request->expiry_minutes){
                 if($request->expiry_minutes >= config('bills.pay_page_expiration_time')){
                     $expiry_minutes = config('bills.pay_page_expiration_time');
+                }elseif($request->expiry_minutes < 1){
+                    $expiry_minutes = 1;
                 }
             }else{
-                $expiry_minutes = 0;
+                $expiry_minutes = 5;
             }
         }
 

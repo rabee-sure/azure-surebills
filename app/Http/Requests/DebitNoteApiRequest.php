@@ -33,9 +33,11 @@ class DebitNoteApiRequest extends FormRequest
                     $this->merge(['expiry_date' => config('bills.pay_page_expiration_time')]);
                     $this->merge(['expiry_hours' => 0]);
                     $this->merge(['expiry_minutes' => 0]);
+                }elseif($this->expiry_date < 1){
+                    $this->merge(['expiry_date' => 1]);
                 }
             }else{
-                $this->merge(['expiry_date' => 0]);
+                $this->merge(['expiry_date' => 1]);
             }
         }
         else if(config('bills.pay_page_expiration_time_type') == 'Hours')
@@ -45,9 +47,11 @@ class DebitNoteApiRequest extends FormRequest
                 if($this->expiry_hours >= config('bills.pay_page_expiration_time')){
                     $this->merge(['expiry_hours' => config('bills.pay_page_expiration_time')]);
                     $this->merge(['expiry_minutes' => 0]);
+                }elseif($this->expiry_hours < 1){
+                    $this->merge(['expiry_hours' => 1]);
                 }
             }else{
-                $this->merge(['expiry_hours' => 0]);
+                $this->merge(['expiry_hours' => 1]);
             }
         }
         else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
@@ -57,9 +61,11 @@ class DebitNoteApiRequest extends FormRequest
             if($this->expiry_minutes){
                 if($this->expiry_minutes >= config('bills.pay_page_expiration_time')){
                     $this->merge(['expiry_minutes' => config('bills.pay_page_expiration_time')]);
+                }elseif($this->expiry_minutes < 1){
+                    $this->merge(['expiry_minutes' => 1]);
                 }
             }else{
-                $this->merge(['expiry_minutes' => 0]);
+                $this->merge(['expiry_minutes' => 5]);
             }
         }
     }
