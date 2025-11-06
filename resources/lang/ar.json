@@ -1013,5 +1013,8 @@
   "Didn't receive the code?" : "لم تستلم الرمز؟",
   "Back to Login" : "العودة لتسجيل الدخول",
   "Too many attempts. Please try again in :minutes minutes." : "محاولات كثيرة جداً. برجاء المحاولة مرة أخرى بعد :minutes دقائق.",
-  "Expiry Time" : "وقت الانتهاء"
+  "Expiry Time" : "وقت الانتهاء",
+  "The OTP is required." : "رمز التحقق مطلوب.",
+  "The OTP must be a string." : "رمز التحقق يجب أن يكون عبارة عن سلسلة من الأحرف.",
+  "The OTP must be 6 digits." : "رمز التحقق يجب أن يكون 6 أرقام."
 }

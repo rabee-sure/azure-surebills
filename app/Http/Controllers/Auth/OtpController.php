@@ -55,9 +55,16 @@ class OtpController extends Controller
     public function verify(Request $request)
     {
         // Validate the OTP input
-        $validator = Validator::make($request->all(), [
-            'otp' => 'required|string|size:6',
-        ]);
+        $validator = Validator::make($request->all(), 
+        [
+                'otp' => ['required', 'string', 'size:6'],
+            ],
+            [
+                'otp.required' => __('The OTP is required.'),
+                'otp.string' => __('The OTP must be a string.'),
+                'otp.size' => __('The OTP must be 6 digits.'),
+            ]
+        );
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
