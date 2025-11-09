@@ -6,6 +6,13 @@ use App\Models\Bill;
 
 class BillObserver
 {
+    public function creating(Bill $bill)
+    {
+        // generate QR code for pay url 
+        $qr_code = generateUrlQRcode($bill->pay_url);
+        $bill->qr_code = $qr_code;
+    }
+
     /**
      * Handle the Bill "created" event.
      *

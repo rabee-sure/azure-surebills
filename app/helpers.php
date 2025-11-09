@@ -1,5 +1,6 @@
 <?php
 
+use chillerlan\QRCode\QRCode;
 use Salla\ZATCA\GenerateQrCode;
 use Salla\ZATCA\Tags\InvoiceDate;
 use Salla\ZATCA\Tags\InvoiceTaxAmount;
@@ -198,6 +199,13 @@ if(!function_exists('generateQRcode')){
 
         $qr = $src ? $displayQRCodeAsBase64 : '<img src="'.$displayQRCodeAsBase64.'" alt="QR Code" />';
         return $qr;
+    }
+}
+
+if(!function_exists('generateUrlQRcode')){
+    function generateUrlQRcode($url){
+        $qr_code = (new QRCode)->render($url);
+        return $qr_code;
     }
 }
 
