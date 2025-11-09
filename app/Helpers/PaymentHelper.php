@@ -85,7 +85,7 @@ class PaymentHelper
             if($bill->application && $bill->is_redirect) {
                 $redirect = $bill->getRedirectUrl($payment->results['response']);
             } else {
-                $redirect = route('paymentsuccess');
+                $redirect = config('app.url') . '/payment-success';
             }
 
             if ($apiResponse) {
