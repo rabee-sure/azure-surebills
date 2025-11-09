@@ -28,9 +28,7 @@ Route::domain(config('payment.invoice_subdomain'))->group(function (){
   
 });
 
-Route::domain(config('app.url'))->group(function (){
-  Route::get('/payment-success', 'BillController@paymentSuccess')->name('paymentsuccess');
-});
+Route::get('/payment-success', 'BillController@paymentSuccess')->name('paymentsuccess');
 
 
 // Payments Routes
