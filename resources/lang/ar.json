@@ -1016,5 +1016,13 @@
   "Expiry Time" : "وقت الانتهاء",
   "The OTP is required." : "رمز التحقق مطلوب.",
   "The OTP must be a string." : "رمز التحقق يجب أن يكون عبارة عن سلسلة من الأحرف.",
-  "The OTP must be 6 digits." : "رمز التحقق يجب أن يكون 6 أرقام."
+  "The OTP must be 6 digits." : "رمز التحقق يجب أن يكون 6 أرقام.",
+  "Background Color" : "لون الخلفية",
+  "Background Image" : "صورة الخلفية",
+  "Text Color" : "لون النصوص",
+  "Payment Button Background Color" : "لون خلفية زرار الدفع",
+  "Payment Button Text Color" : "لون نص زرار الدفع",
+  "Maximum image size is 1MB" : "أقصى حجم للصورة 1 ميجا بايت",
+  "Bill UI Customization" : "تصميم الفاتورة",
+  "Preview" : "معاينة"
 }

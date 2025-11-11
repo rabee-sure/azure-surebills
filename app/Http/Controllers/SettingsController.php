@@ -9,6 +9,7 @@ use App\Http\Requests\SettingsRequest;
 use App\Models\Settings;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
@@ -69,7 +70,32 @@ class SettingsController extends Controller
         $settings->setTranslation('footer_bill', 'en', $request->footer_bill_en);
         $settings->setTranslation('footer_bill', 'ar', $request->footer_bill_ar);
         $settings->display_customer_details = $request->display_customer_details;
+        $settings->background_color_body = $request->background_color_body;
+        $settings->text_color_body = $request->text_color_body;
+        $settings->background_color_payment_button = $request->background_color_payment_button;
+        $settings->text_color_payment_button = $request->text_color_payment_button;
+
+        // If delete_background_image is set, delete the image
+        if($request->delete_background_image == '1') {
+            // Delete old image file if exists
+            if($settings->background_image_file && file_exists(public_path($settings->background_image_file))) {
+                unlink(public_path($settings->background_image_file));
+            }
+            $settings->background_image_file = null;
+        }
+        // If background image file is uploaded, save it in public/images/merchant/bills_backgrounds folder
+        elseif($request->hasFile('background_image_file')) {
+            // Delete old image file if exists
+            if($settings->background_image_file && file_exists(public_path($settings->background_image_file))) {
+                unlink(public_path($settings->background_image_file));
+            }
+            $imageName = time().'_'.auth()->user()->id.'.'.$request->background_image_file->extension();
+            $image = $request->background_image_file->move(public_path('uploads/bills_backgrounds'), $imageName);
+            $settings->background_image_file = 'uploads/bills_backgrounds/'.$imageName;
+        }
+
         $settings->save();
+
 
         $fields = config('accountfields.tax_invoice_information');
         $user = auth()->user();
