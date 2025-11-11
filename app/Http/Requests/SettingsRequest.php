@@ -28,6 +28,7 @@ class SettingsRequest extends FormRequest
             'create_send_email' => ['nullable'],
             'paid_send_email' => ['nullable'],
             'paid_send_email' => ['nullable'],
+            'background_image_file' => ['nullable', 'mimes:png,jpeg,jpg', 'max:1024'],
         ];
 
         if(request()->add_tax == 'on')
