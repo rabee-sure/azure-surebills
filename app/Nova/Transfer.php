@@ -254,11 +254,11 @@ class Transfer extends Resource
             //     ->canRun(function(NovaRequest $request) {
             //         return TRUE;
             //     }),
-            (new TranferTransactionsExcelDownload)
-                ->onlyOnDetail()
-                ->canRun(function(NovaRequest $request) {
-                    return TRUE;
-                }),
+            // (new TranferTransactionsExcelDownload)
+            //     ->onlyOnDetail()
+            //     ->canRun(function(NovaRequest $request) {
+            //         return TRUE;
+            //     }),
                 (new DownloadExcel)->withHeadings()->withName(__('download excel')),
         ];
     }

@@ -383,9 +383,11 @@ class BillController extends Controller
                     $expiry_date = config('bills.pay_page_expiration_time');
                     $expiry_hours = 0;
                     $expiry_minutes = 0;
+                }elseif($request->expiry_date < 1){
+                    $expiry_date = 1;
                 }
             }else{
-                $expiry_date = 0;
+                $expiry_date = 1;
             }
         }
         else if(config('bills.pay_page_expiration_time_type') == 'Hours')
@@ -395,9 +397,11 @@ class BillController extends Controller
                 if($request->expiry_hours >= config('bills.pay_page_expiration_time')){
                     $expiry_hours = config('bills.pay_page_expiration_time');
                     $expiry_minutes = 0;
+                }elseif($request->expiry_hours < 1){
+                    $expiry_hours = 1;
                 }
             }else{
-                $expiry_hours = 0;
+                $expiry_hours = 1;
             }
         }
         else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
@@ -407,9 +411,11 @@ class BillController extends Controller
             if($request->expiry_minutes){
                 if($request->expiry_minutes >= config('bills.pay_page_expiration_time')){
                     $expiry_minutes = config('bills.pay_page_expiration_time');
+                }elseif($request->expiry_minutes < 1){
+                    $expiry_minutes = 1;
                 }
             }else{
-                $expiry_minutes = 0;
+                $expiry_minutes = 5;
             }
         }
 
@@ -813,37 +819,11 @@ class BillController extends Controller
 
         $bill = Bill::find($id);
 
-        // Prevent access if bill already paid
-        if ($bill->status != 'pending') {
+        // prevent access payment page
+        if (!$bill->access_to_pay_page->status) {
             return response()->json(['error' => [
-                'bill' => __('This bill not pending you can not access it')
+                'bill' => $bill->access_to_pay_page->message
             ]], 403);
-        }
-
-        // Prevent access if bill is older than pay page expiration time
-        if(config('bills.pay_page_expiration_time_type') == 'Days')
-        {
-            if ($bill->created_at->lt(now()->subDays(config('bills.pay_page_expiration_time')))) {
-                return response()->json(['error' => [
-                    'bill' => __('This payment link has expired.')
-                ]], 403);
-            }
-        }
-        else if(config('bills.pay_page_expiration_time_type') == 'Hours')
-        {
-            if ($bill->created_at->lt(now()->subHours(config('bills.pay_page_expiration_time')))) {
-                return response()->json(['error' => [
-                    'bill' => __('This payment link has expired.')
-                ]], 403);
-            }
-        }
-        else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
-        {
-            if ($bill->created_at->lt(now()->subMinutes(config('bills.pay_page_expiration_time')))) {
-                return response()->json(['error' => [
-                    'bill' => __('This payment link has expired.')
-                ]], 403);
-            }
         }
 
         if ($lang && in_array($lang, ['en', 'ar'])) {

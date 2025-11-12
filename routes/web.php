@@ -28,9 +28,7 @@ Route::domain(config('payment.invoice_subdomain'))->group(function (){
   
 });
 
-Route::domain(config('app.url'))->group(function (){
-  Route::get('/payment-success', 'BillController@paymentSuccess')->name('paymentsuccess');
-});
+Route::get('/payment-success', 'BillController@paymentSuccess')->name('paymentsuccess');
 
 
 // Payments Routes
@@ -67,6 +65,12 @@ Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
 });
 
 Auth::routes();
+
+// OTP verification routes with throttle:3,1 for 3 attempts in 1 minute as per as merchant otp configuration
+Route::get('/verify-otp', 'Auth\OtpController@showVerifyForm')->name('otp.verify.form');
+Route::post('/verify-otp', 'Auth\OtpController@verify')->name('otp.verify')->middleware('throttle:'.config("merchant_otp.throttle_attempts").','.config("merchant_otp.throttle_time"));
+Route::post('/resend-otp', 'Auth\OtpController@resend')->name('otp.resend')->middleware('throttle:'.config("merchant_otp.throttle_attempts").','.config("merchant_otp.throttle_time"));
+
 Route::get('login-by-secret/{secret}/{secret2}', 'FandaqahOperationsController@loginBySecret');
 
 Route::get('redirect/to/products/via/pos/{uuid}', 'PosController@redirectToProductsViaPos')->name('redirect.to.products.via.pos');

@@ -402,29 +402,9 @@ class BillController extends Controller
     {
         $bill = Bill::decodeId($id);
 
-        // Prevent access if bill already paid
-        if ($bill->status != 'pending') {
-            abort(403, 'This bill not pending you can not access it');
-        }
-
-        // Prevent access if bill is older than pay page expiration time
-        if(config('bills.pay_page_expiration_time_type') == 'Days')
-        {
-            if ($bill->created_at->lt(now()->subDays(config('bills.pay_page_expiration_time')))) {
-                abort(403, 'This payment link has expired.');
-            }
-        }
-        else if(config('bills.pay_page_expiration_time_type') == 'Hours')
-        {
-            if ($bill->created_at->lt(now()->subHours(config('bills.pay_page_expiration_time')))) {
-                abort(403, 'This payment link has expired.');
-            }
-        }
-        else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
-        {
-            if ($bill->created_at->lt(now()->subMinutes(config('bills.pay_page_expiration_time')))) {
-                abort(403, 'This payment link has expired.');
-            }
+        // prevent access payment page
+        if (!$bill->access_to_pay_page->status) {
+            abort(403, $bill->access_to_pay_page->message);
         }
 
         if ($lang && in_array($lang, ['en', 'ar'])) {
