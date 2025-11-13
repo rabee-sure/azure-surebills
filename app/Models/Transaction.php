@@ -6,6 +6,7 @@ use App\Models\Bill;
 use App\Models\User;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Transaction extends Model
 {
@@ -82,7 +83,17 @@ class Transaction extends Model
             ->where('transaction_source', $this->transaction_source)
             ->first();
 
-        return $oldTransaction ? false : $this->save();
+        if($oldTransaction){
+            return false;
+        }else{
+            $this->save();
+            DB::statement('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
+            DB::transaction(function () {
+                $user_balance = UserBalance::where('user_id', $this->user_id)->lockForUpdate()->first();
+                $user_balance->balance = $this->balance;
+                $user_balance->save();
+            });
+        }
     }
 
     /**
