@@ -25,6 +25,8 @@ class UserObserver
         $this->letUserSuperAdmin($user);
 
         SetNewMerchantSettings::dispatch($user);
+
+        $user->myBalance()->create();
     }
 
     public function saved(User $user)
