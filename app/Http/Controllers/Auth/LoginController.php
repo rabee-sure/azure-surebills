@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use App\Services\OtpService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, ThrottlesLogins;
 
     /**
      * Where to redirect users after login.
@@ -31,6 +32,20 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
+     * The maximum number of attempts to allow.
+     *
+     * @var int
+     */
+    protected $maxAttempts = 5;
+
+    /**
+     * The number of minutes to throttle for.
+     *
+     * @var int
+     */
+    protected $decayMinutes = 60;
 
     /**
      * OTP Service instance.
