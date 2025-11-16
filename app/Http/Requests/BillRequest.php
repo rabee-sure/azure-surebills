@@ -51,9 +51,6 @@ class BillRequest extends FormRequest
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
             'customer_notes' => ['nullable'],
             'due_date' => ['required'],
-            'expiry_date' => ['required'],
-            'expiry_hours' => ['numeric','min:0','max:23','nullable'],
-            'expiry_minutes' => ['numeric','min:0','max:59','nullable'],
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
             'discount_value' => ['required_if:add_discount,on'],
@@ -66,6 +63,19 @@ class BillRequest extends FormRequest
             'items.*.price' => 'required|numeric',
             'items.*.quantity' => 'required|numeric',
         ];
+
+        if(config('bills.pay_page_expiration_time_type') == 'Days')
+        {
+            $rules['expiry_date'] = ['required', 'numeric', 'min:1', 'max:'.config('bills.pay_page_expiration_time')];
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Hours')
+        {
+            $rules['expiry_hours'] = ['required', 'numeric', 'min:1', 'max:'.config('bills.pay_page_expiration_time')];
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
+        {
+            $rules['expiry_minutes'] = ['required', 'numeric', 'min:1', 'max:'.config('bills.pay_page_expiration_time')];
+        }
 
         if(request()->send_email == 'on')
         {

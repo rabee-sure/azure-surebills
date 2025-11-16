@@ -4,6 +4,8 @@ namespace App\Helpers;
 use App\Models\Bill;
 use App\Models\PaymentLog;
 use GuzzleHttp\Client;
+use App\Jobs\MastercardWebhookSimulation;
+
 use Illuminate\Support\Facades\Log;
 
 class PaymentHelper
@@ -72,6 +74,9 @@ class PaymentHelper
             $payment->status = 1;
             $payment->save();
             $bill->setPaid();
+
+            MastercardWebhookSimulation::dispatch($bill->id, $payment->id)->delay(now()->addMinutes(config('mastercard.webhook_simulation_delay_in_minutes')));
+
             if($viaWebHook) {
                 $bill->firePaidEvent();
             }
@@ -80,7 +85,7 @@ class PaymentHelper
             if($bill->application && $bill->is_redirect) {
                 $redirect = $bill->getRedirectUrl($payment->results['response']);
             } else {
-                $redirect = route('paybillpage', ['id' => $bill->pay_id]);
+                $redirect = config('app.url') . '/payment-success';
             }
 
             if ($apiResponse) {

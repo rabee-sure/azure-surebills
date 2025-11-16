@@ -52,8 +52,22 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
             return redirect('/login');
-
         }
+
+        // Handle throttle exceptions for OTP routes
+        if ($exception instanceof \Illuminate\Http\Exceptions\ThrottleRequestsException) {
+            // Check if it's an OTP-related route
+            if ($request->is('verify-otp') || $request->is('resend-otp')) {
+                $retryAfter = $exception->getHeaders()['Retry-After'] ?? config('merchant_otp.throttle_time', 5);
+                
+                return back()->withErrors([
+                    'message' => __('Too many attempts. Please try again in :minutes minutes.', [
+                        'minutes' => ceil($retryAfter / 60)
+                    ])
+                ]);
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }

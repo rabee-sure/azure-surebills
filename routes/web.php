@@ -6,6 +6,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StoreUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::domain(config('payment.invoice_subdomain'))->group(function (){
     
   Route::get('.well-known/{file}', 'BillSubdomainController@verifyOwnershipForApplePay')->name('verify.applepay.ownership');
@@ -27,6 +27,8 @@ Route::domain(config('payment.invoice_subdomain'))->group(function (){
   Route::get('payment/otp/{setupAccessToken}', [PaymentController::class, 'otpForm'])->name('payment.otp.form');
   
 });
+
+Route::get('/payment-success', 'BillController@paymentSuccess')->name('paymentsuccess');
 
 
 // Payments Routes
@@ -63,6 +65,12 @@ Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
 });
 
 Auth::routes();
+
+// OTP verification routes with throttle:3,1 for 3 attempts in 1 minute as per as merchant otp configuration
+Route::get('/verify-otp', 'Auth\OtpController@showVerifyForm')->name('otp.verify.form');
+Route::post('/verify-otp', 'Auth\OtpController@verify')->name('otp.verify')->middleware('throttle:'.config("merchant_otp.throttle_attempts").','.config("merchant_otp.throttle_time"));
+Route::post('/resend-otp', 'Auth\OtpController@resend')->name('otp.resend')->middleware('throttle:'.config("merchant_otp.throttle_attempts").','.config("merchant_otp.throttle_time"));
+
 Route::get('login-by-secret/{secret}/{secret2}', 'FandaqahOperationsController@loginBySecret');
 
 Route::get('redirect/to/products/via/pos/{uuid}', 'PosController@redirectToProductsViaPos')->name('redirect.to.products.via.pos');
@@ -76,31 +84,34 @@ Route::post('/bills/{id}/pay', 'BillController@postPay')->name('bills.bay');
 Route::get('/bills/{id}/pay', 'BillController@pay')->name('paybillpage')->middleware('redirect.to.subdomain');
 
 Route::middleware(['auth'])->group(function () {
-  Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
-  Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
-  Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('resend_code');
+    Route::get('mobile_verify', 'MobileVerifyController@index')->name('mobile_verify');
+    Route::post('mobile_verify', 'MobileVerifyController@store')->name('post.mobile_verify');
+    Route::post('mobile_verify/resendCode', 'MobileVerifyController@resendCode')->name('resend_code');
 
-  Route::get('settings', 'SettingsController@settings')->name('settings');
-  Route::post('settings', 'SettingsController@postSettings')->name('post.settings');
+    Route::get('settings', 'SettingsController@settings')->name('settings');
+    Route::post('settings', 'SettingsController@postSettings')->name('post.settings');
 
-  Route::get('tax_invoice_request', 'TaxInvoiceRequestController@store')->name('tax_invoice.request');
+    Route::get('tax_invoice_request', 'TaxInvoiceRequestController@store')->name('tax_invoice.request');
 
-  Route::get('account', 'AccountController@account')->name('account');
-  Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
-  Route::post('account-information', 'AccountController@storeAccountInformation')->name('account.information');
+    Route::get('account', 'AccountController@account')->name('account');
+    Route::get('account/account_information', 'AccountController@account_information')->name('account_information');
+    Route::post('account-information', 'AccountController@storeAccountInformation')->name('account.information');
 
-  Route::get('account/bank_information', 'AccountController@bank_information')->name('bank_information');
-  Route::post('bank-information', 'AccountController@storeBankInformation')->name('bank.information');
+    Route::get('account/bank_information', 'AccountController@bank_information')->name('bank_information');
+    Route::post('bank-information', 'AccountController@storeBankInformation')->name('bank.information');
 
-  Route::get('account/business_information', 'AccountController@business_information')->name('business_information');
-  Route::post('business-information', 'AccountController@storeBusinessInformation')->name('business.information');
+    Route::get('account/business_information', 'AccountController@business_information')->name('business_information');
+    Route::post('business-information', 'AccountController@storeBusinessInformation')->name('business.information');
 
-  Route::get('account/change_password', 'AccountController@changePassword')->name('change_password');
-  Route::post('change-password', 'AccountController@storeChangePassword')->name('change.password');
+    // download file
+    Route::get('download/{id}/{file}', 'AccountController@downloadFile')->name('download.file');
 
-  Route::get('pricing', 'PricingController@index')->name('pricing');
-  Route::put('pricing', 'PricingController@update')->name('update_price');
-  Route::get('pricing/details', 'PricingController@details')->name('details');
+    Route::get('account/change_password', 'AccountController@changePassword')->name('change_password');
+    Route::post('change-password', 'AccountController@storeChangePassword')->name('change.password');
+
+    Route::get('pricing', 'PricingController@index')->name('pricing');
+    Route::put('pricing', 'PricingController@update')->name('update_price');
+    Route::get('pricing/details', 'PricingController@details')->name('details');
 
     Route::get('/bills/{id}/print', 'BillController@billPrint')->name('bills.bill_print');
     Route::get('/refundedbills/{id}/print', 'RefundedBillController@billPrint')->name('refundedbills.bill_print');
@@ -220,6 +231,20 @@ Route::middleware(['auth:admins'])->group(function () {
     Route::get('users/{user}/alltransactions', 'TransferController@userallTransactions')->name('users.alltransactions');
     Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
     Route::get('users/{user}', 'UserController@show')->name('users.show');
+
+    
+    Route::get('/admin/download/{model_name}/{id}/{file_name}', function ($model_name, $id, $file_name) {
+      // نحول الاسم القادم من Nova لاسم الكلاس الكامل
+      $class = '\\App\\Models\\' . Str::studly($model_name);
+      abort_unless(class_exists($class), 404);
+
+      $record = $class::findOrFail($id);
+
+      $path = storage_path('app/public/' . $record->$file_name);
+      abort_unless(file_exists($path), 404);
+
+      return response()->download($path);
+    })->name('nova.download');
 });
 
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');

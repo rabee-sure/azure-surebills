@@ -60,13 +60,13 @@
                   <td class="text-center">
                     <div class="d-flex align-items-center justify-content-center">
                       @if ($transaction->card_brand == 'VISA')
-                        <img alt="mastercard" src="/images/cards/visa.gif" width="18px"> 
-                      @elseif ($transaction->card_brand == 'MASTER')
-                        <img alt="mastercard" src="/images/cards/mastercard.gif" width="18px"> 
+                        <img alt="visa" src="/images/cards/visa.gif" width="18px">
+                      @elseif ($transaction->card_brand == 'MASTERCARD' || $transaction->card_brand == 'MASTER')
+                        <img alt="mastercard" src="/images/cards/mastercard.gif" width="18px">
                       @elseif ($transaction->card_brand == 'MADA')
-                        <img alt="mastercard" src="/images/cards/mada.gif" width="18px"> 
+                        <img alt="mada" src="/images/cards/mada.gif" width="18px">
                       @elseif ($transaction->card_brand == 'APPLEPAY')
-                        <img alt="mastercard" src="/images/cards/applepay.gif" width="18px"> 
+                        <img alt="applepay" src="/images/cards/applepay.gif" width="18px">
                       @endif
                       {{ $transaction->card }}
                     </div>
@@ -122,10 +122,10 @@
 
   </section><!-- transactionsPage -->
 
-  
+
     <div class="row">
       <div class="col-12 list" data-check-all="checkAll">
-        
+
       </div>
     </div>
 @endsection
@@ -136,7 +136,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <script type="text/javascript">
       function oldParams() {
-        var params = ''  
+        var params = ''
         let array1 = [
           'transaction_type',
           'transaction_source',
@@ -166,7 +166,7 @@
       };
 
       $(function() {
-        var lang = "<?php echo app()->getLocale(); ?>"; 
+        var lang = "<?php echo app()->getLocale(); ?>";
         $('input[name="dates"]').daterangepicker({
           opens: lang == 'en' ? 'right' : 'left',
           locale: {
@@ -208,7 +208,7 @@
              '{{__('This Month')}}': [moment().startOf('month'), moment().endOf('month')],
              '{{__('Last Month')}}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
           },
-          startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"), 
+          startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"),
           endDate: getUrlParameter('date_to')?getUrlParameter('date_to'):moment(new Date()).format("MM/DD/YYYY"),
         }, function(start, end, label) {
             var dateParam = '?date_start=' + start.format('MM/DD/YYYY') + '&date_to='+end.format('MM/DD/YYYY')+oldParams();

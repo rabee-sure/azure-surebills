@@ -197,7 +197,7 @@ class BillController extends Controller
                 'customer_mobile' => $request->customer_mobile,
                 'customer_notes' => $request->customer_notes,
 
-                'expiry_date' => $request->expiry_date,
+                'expiry_date' => $request->expiry_date ?? 0,
                 'expiry_hours' => $request->expiry_hours ?? 0,
                 'expiry_minutes' => $request->expiry_minutes ?? 0,
                 'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->due_date))),
@@ -293,7 +293,7 @@ class BillController extends Controller
                     'customer_mobile' => $mainBill->customer_mobile,
                     'customer_notes' => $request->customer_notes,
 
-                    'expiry_date' => $request->expiry_date,
+                    'expiry_date' => $request->expiry_date ?? 0,
                     'expiry_hours' => $request->expiry_hours ?? 0,
                     'expiry_minutes' => $request->expiry_minutes ?? 0,
                     'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->due_date))),
@@ -402,6 +402,11 @@ class BillController extends Controller
     {
         $bill = Bill::decodeId($id);
 
+        // prevent access payment page
+        if (!$bill->access_to_pay_page->status) {
+            abort(403, $bill->access_to_pay_page->message);
+        }
+
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
             session()->put('user-lang', $lang);
@@ -457,6 +462,11 @@ class BillController extends Controller
         }
 
         return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'));
+    }
+
+    public function paymentSuccess()
+    {
+        return view('bills.payment_page_success');
     }
 
     /**

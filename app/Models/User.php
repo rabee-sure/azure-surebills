@@ -17,10 +17,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Auth;
+use App\Traits\HasEncryptedAttributes;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, HasApiTokens, Notifiable, InteractsWithMedia, HasRoles, SoftDeletes;
+    use HasFactory, HasApiTokens, Notifiable, InteractsWithMedia, HasRoles, SoftDeletes, HasEncryptedAttributes;
 
     /**
      * The attributes that are mass assignable.
@@ -105,6 +106,15 @@ class User extends Authenticatable implements HasMedia
         'disable_business_documents' => 'boolean',
         'disable_bank_documents' => 'boolean',
         'verified' => 'boolean',
+    ];
+
+    /**
+     * The attributes that should be encrypted.
+     *
+     * @var array
+     */
+    protected $encrypted = [
+        'iban_number',
     ];
 
     protected static function boot()
@@ -831,5 +841,15 @@ class User extends Authenticatable implements HasMedia
     public function canBeImpersonated($impersonator = null)
     {
         return !$this->trashed();
+    }
+
+    /**
+     * Get the OTPs for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function otps()
+    {
+        return $this->hasMany(UserOtp::class);
     }
 }

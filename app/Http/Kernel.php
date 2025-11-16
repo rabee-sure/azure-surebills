@@ -79,5 +79,6 @@ class Kernel extends HttpKernel
         'validate.referer' => \App\Http\Middleware\ValidateReferer::class,
         'redirect.to.subdomain' => \App\Http\Middleware\RedirectToSubDomainMiddleware::class,
         'zatca.api' => \App\Http\Middleware\ZatcaApi::class,
+        'otp.verified' => \App\Http\Middleware\OtpVerified::class,
     ];
 }

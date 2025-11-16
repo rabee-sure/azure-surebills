@@ -108,6 +108,11 @@ class TransferAutomatic extends Command
                 if($amount  >= $transfer_minimum){
                     $this->info("transfer to user ID $user->id amount: $amount");
 
+                    if($user->bank_id == null){
+                        $this->info("user ID $user->id has no bank");
+                        continue;
+                    }
+
                     $bank = $user->bank;
                     $transfer_fees = $bank->fees + ($bank->fees * 0.15);
                     $data = [

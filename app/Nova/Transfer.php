@@ -128,7 +128,41 @@ class Transfer extends Resource
 
             File::make(__('Attachment'), 'attachment')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])),
 
-            Files::make('Excel File', 'transfers_transactions'),
+            Files::make('Excel File', 'transfers_transactions')->hideFromIndex()->hideFromDetail(),
+
+            // Custom version that mimics Nova gallery but removes the eye icon
+            Text::make(__('Excel File'), function () {
+                $mediaItems = $this->getMedia('transfers_transactions');
+
+                if ($mediaItems->isEmpty()) {
+                    return '—';
+                }
+
+                $items = $mediaItems->map(function ($media) {
+                    $downloadUrl = "/nova-vendor/ebess/advanced-nova-media-library/download/{$media->id}";
+                    $fileName = e($media->file_name);
+
+                    return <<<HTML
+                    <div class="gallery-item gallery-item-file mb-3 p-3 mr-3" 
+                        style="display:inline-block; border:1px solid #e5e7eb; border-radius:8px;">
+                        <div class="gallery-item-info" style="display:flex; align-items:center; gap:8px;">
+                            <a href="{$downloadUrl}" class="download mr-2" title="Download {$fileName}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" 
+                                    viewBox="0 0 20 22" aria-labelledby="download" role="presentation" 
+                                    class="fill-current text-primary">
+                                    <path d="M11 14.59V3a1 1 0 0 1 2 0v11.59l3.3-3.3a1 1 0 0 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 0 1 1.4-1.42l3.3 3.3zM3 17a1 1 0 0 1 2 0v3h14v-3a1 1 0 0 1 2 0v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3z"></path>
+                                </svg>
+                            </a>
+                            <span class="label" style="font-size:13px;">{$fileName}</span>
+                        </div>
+                    </div>
+                    HTML;
+                })->implode('');
+
+                return "<div class='gallery'><div class='gallery-list clearfix'>{$items}</div></div>";
+            })
+            ->onlyOnDetail()
+            ->asHtml(),
 
             Text::make(__('Cycle Date'))->displayUsing(function(){
                 if(isset($this->filters['date'])){
@@ -219,11 +253,11 @@ class Transfer extends Resource
             //     ->canRun(function(NovaRequest $request) {
             //         return TRUE;
             //     }),
-            (new TranferTransactionsExcelDownload)
-                ->onlyOnDetail()
-                ->canRun(function(NovaRequest $request) {
-                    return TRUE;
-                }),
+            // (new TranferTransactionsExcelDownload)
+            //     ->onlyOnDetail()
+            //     ->canRun(function(NovaRequest $request) {
+            //         return TRUE;
+            //     }),
                 (new DownloadExcel)->withHeadings()->withName(__('download excel')),
         ];
     }

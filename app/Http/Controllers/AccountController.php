@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\ValidateUploadFile;
+use Illuminate\Support\Str;
 
 class AccountController extends Controller
 {
@@ -340,5 +341,14 @@ class AccountController extends Controller
             'original_name' => $originalName,
             'path'          => $path,
         ]);
+    }
+
+    public function downloadFile($id, $file_name)
+    {
+        $path = storage_path('app/public/' . $id . '/' . $file_name);
+        if (!file_exists($path)) {
+            abort(404);
+        }
+        return response()->download($path);
     }
 }

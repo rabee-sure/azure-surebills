@@ -85,7 +85,7 @@
               $('.dropzone')[0].dropzone.files.push(file);
               this.options.addedfile.call(this, file)
               if(file.mime_type.includes("image")){
-                this.options.thumbnail.call(this, file, '/storage/'+file.id+'/'+file.file_name)
+                // this.options.thumbnail.call(this, file, '/storage/'+file.id+'/'+file.file_name)
               }
 
               file.previewElement.classList.add('dz-complete')
@@ -95,6 +95,8 @@
               file.previewElement.addEventListener("click", function(click) {
                 var preview_file = files.find(x => x.id == this.getAttribute("id")) ;
                 // window.open('/storage/'+preview_file.id+'/'+preview_file.file_name, '_blank');
+                // download the file
+                window.open('/download/'+preview_file.id+'/'+preview_file.file_name, '_blank');
               });
               $('.dropzone')[0].dropzone.options.maxFiles = 5-files.length;
             }

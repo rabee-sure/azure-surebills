@@ -25,6 +25,49 @@ class DebitNoteApiRequest extends FormRequest
         if (!$this->has('is_redirect')) {
             $this->is_redirect = false;
         }
+
+        if(config('bills.pay_page_expiration_time_type') == 'Days')
+        {
+            if($this->expiry_date){
+                if($this->expiry_date >= config('bills.pay_page_expiration_time')){
+                    $this->merge(['expiry_date' => config('bills.pay_page_expiration_time')]);
+                    $this->merge(['expiry_hours' => 0]);
+                    $this->merge(['expiry_minutes' => 0]);
+                }elseif($this->expiry_date < 1){
+                    $this->merge(['expiry_date' => 1]);
+                }
+            }else{
+                $this->merge(['expiry_date' => 1]);
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Hours')
+        {
+            $this->merge(['expiry_date' => 0]);
+            if($this->expiry_hours){
+                if($this->expiry_hours >= config('bills.pay_page_expiration_time')){
+                    $this->merge(['expiry_hours' => config('bills.pay_page_expiration_time')]);
+                    $this->merge(['expiry_minutes' => 0]);
+                }elseif($this->expiry_hours < 1){
+                    $this->merge(['expiry_hours' => 1]);
+                }
+            }else{
+                $this->merge(['expiry_hours' => 1]);
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
+        {
+            $this->merge(['expiry_date' => 0]);
+            $this->merge(['expiry_hours' => 0]);
+            if($this->expiry_minutes){
+                if($this->expiry_minutes >= config('bills.pay_page_expiration_time')){
+                    $this->merge(['expiry_minutes' => config('bills.pay_page_expiration_time')]);
+                }elseif($this->expiry_minutes < 1){
+                    $this->merge(['expiry_minutes' => 1]);
+                }
+            }else{
+                $this->merge(['expiry_minutes' => 5]);
+            }
+        }
     }
 
     /**
@@ -37,9 +80,6 @@ class DebitNoteApiRequest extends FormRequest
         $rules = [
             'customer_notes' => ['nullable'],
             'due_date' => ['required'],
-            'expiry_date' => ['required'],
-            'expiry_hours' => ['numeric','min:0','max:23','nullable'],
-            'expiry_minutes' => ['numeric','min:0','max:59','nullable'],
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
             'discount_value' => ['required_if:add_discount,on'],
@@ -57,6 +97,25 @@ class DebitNoteApiRequest extends FormRequest
                 // })
             ],
         ];
+
+        if(config('bills.pay_page_expiration_time_type') == 'Days')
+        {
+            $rules['expiry_date'] = ['required', 'numeric', 'min:0', 'max:'.config('bills.pay_page_expiration_time')];
+            $rules['expiry_hours'] = ['nullable', 'numeric', 'min:0', 'max:23'];
+            $rules['expiry_minutes'] = ['nullable', 'numeric', 'min:0', 'max:59'];
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Hours')
+        {
+            $rules['expiry_date'] = ['nullable', 'numeric', 'max:0'];
+            $rules['expiry_hours'] = ['required', 'numeric', 'min:0', 'max:'.config('bills.pay_page_expiration_time')];
+            $rules['expiry_minutes'] = ['nullable', 'numeric', 'min:0', 'max:59'];
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
+        {
+            $rules['expiry_date'] = ['nullable', 'numeric', 'max:0'];
+            $rules['expiry_hours'] = ['nullable', 'numeric', 'max:0'];
+            $rules['expiry_minutes'] = ['required', 'numeric', 'min:0', 'max:'.config('bills.pay_page_expiration_time')];
+        }
 
         return $rules;
     }

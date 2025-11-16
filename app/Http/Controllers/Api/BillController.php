@@ -41,16 +41,19 @@ class BillController extends Controller
         $application = $request->application;
         $user = $application->user ?? null;
 
+        $bill_user_id = $application->user_id ?? null;
+        
         if($user && $user->store_main_user_id)
         {
             $user = $user->mainStoreUser;
+            $bill_user_id = $user->id ?? null;
         }
-
+        
         if($request->application_name){
             $application = $this->getApplication($application, $request);
         }
 
-        Bill::where('reference_id', $request->reference_id)->where('user_id', $application->user_id ?? null)->where('status', 'pending')->update(['status' => 'canceled']);
+        Bill::where('reference_id', $request->reference_id)->where('user_id', $bill_user_id)->where('status', 'pending')->update(['status' => 'canceled']);
 
         // Find the customer by mobile or email
         $customer = Customer::where('user_id', $user->id)
@@ -110,9 +113,9 @@ class BillController extends Controller
             'customer_mobile' => $request->customer_mobile,
             'customer_notes' => $request->customer_notes,
 
-            'expiry_date' => $request->expiry_date,
-            'expiry_hours' => $request->expiry_hours,
-            'expiry_minutes' => $request->expiry_minutes,
+            'expiry_date' => $request->expiry_date ?? 0,
+            'expiry_hours' => $request->expiry_hours ?? 0,
+            'expiry_minutes' => $request->expiry_minutes ?? 0,
             'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => $request->add_discount ?? false,
@@ -205,15 +208,17 @@ class BillController extends Controller
         $application = $request->application;
         if($application->user){
             $user = $application->user->store_main_user_id ? $application->user->mainStoreUser : $application->user;
+            $bill_user_id = $application->user->store_main_user_id ? $application->user->store_main_user_id : $application->user_id;
         }else{
             $user = null;
+            $bill_user_id = null;
         }
 
         if($request->application_name){
             $application = $this->getApplication($application, $request);
         }
 
-        Bill::where('reference_id', $request->reference_id)->where('user_id', $application->user_id ?? null)->where('status', 'pending')->update(['status' => 'canceled']);
+        Bill::where('reference_id', $request->reference_id)->where('user_id', $bill_user_id)->where('status', 'pending')->update(['status' => 'canceled']);
 
         $mainBill = Bill::find($mainBillId);
 
@@ -252,9 +257,9 @@ class BillController extends Controller
             'customer_mobile' => $mainBill->customer_mobile,
             'customer_notes' => $mainBill->customer_notes,
 
-            'expiry_date' => $request->expiry_date,
-            'expiry_hours' => $request->expiry_hours,
-            'expiry_minutes' => $request->expiry_minutes,
+            'expiry_date' => $request->expiry_date ?? 0,
+            'expiry_hours' => $request->expiry_hours ?? 0,
+            'expiry_minutes' => $request->expiry_minutes ?? 0,
             'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => $request->add_discount ?? false,
@@ -352,20 +357,71 @@ class BillController extends Controller
     public function wordpress(Request $request)
     {
         $application = $request->application;
-        $user = $application->user ?? null;
+        if($application->user){
+            $user = $application->user->store_main_user_id ? $application->user->mainStoreUser : $application->user;
+            $bill_user_id = $application->user->store_main_user_id ? $application->user->store_main_user_id : $application->user_id;
+        }else{
+            $user = null;
+            $bill_user_id = null;
+        }
 
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'customer_mobile' => ['required'],
             'customer_name' => ['required'],
             'customer_email' => ['required'],
-        ]);
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()){
              return view('bills.error', ['error' => $validator->errors()->first()]);
         }
 
+        if(config('bills.pay_page_expiration_time_type') == 'Days')
+        {
+            if($request->expiry_date){
+                if($request->expiry_date >= config('bills.pay_page_expiration_time')){
+                    $expiry_date = config('bills.pay_page_expiration_time');
+                    $expiry_hours = 0;
+                    $expiry_minutes = 0;
+                }elseif($request->expiry_date < 1){
+                    $expiry_date = 1;
+                }
+            }else{
+                $expiry_date = 1;
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Hours')
+        {
+            $expiry_date = 0;
+            if($request->expiry_hours){
+                if($request->expiry_hours >= config('bills.pay_page_expiration_time')){
+                    $expiry_hours = config('bills.pay_page_expiration_time');
+                    $expiry_minutes = 0;
+                }elseif($request->expiry_hours < 1){
+                    $expiry_hours = 1;
+                }
+            }else{
+                $expiry_hours = 1;
+            }
+        }
+        else if(config('bills.pay_page_expiration_time_type') == 'Minutes')
+        {
+            $expiry_date = 0;
+            $expiry_hours = 0;
+            if($request->expiry_minutes){
+                if($request->expiry_minutes >= config('bills.pay_page_expiration_time')){
+                    $expiry_minutes = config('bills.pay_page_expiration_time');
+                }elseif($request->expiry_minutes < 1){
+                    $expiry_minutes = 1;
+                }
+            }else{
+                $expiry_minutes = 5;
+            }
+        }
+
         Bill::where('reference_id', $request->reference_id)
-            ->where('user_id', $application->user_id ?? null)
+            ->where('user_id', $bill_user_id)
             ->where('status', 'pending')
             ->update(['status' => 'canceled']);
 
@@ -423,9 +479,9 @@ class BillController extends Controller
             'customer_mobile' => $request->customer_mobile,
             'customer_notes' => $request->customer_notes,
 
-            'expiry_date' => $request->expiry_date,
-            'expiry_hours' => $request->expiry_hours,
-            'expiry_minutes' => $request->expiry_minutes,
+            'expiry_date' => $expiry_date,
+            'expiry_hours' => $expiry_hours,
+            'expiry_minutes' => $expiry_minutes,
             'due_date' => Carbon::parse($request->due_date),
 
             'add_discount' => (isset($request->add_discount) && ($request->add_discount == 'on' || $request->add_discount == true) )? true : false,
@@ -522,7 +578,10 @@ class BillController extends Controller
            ], 422);
         }
 
-        if(isset($application) && $application->user_id == $bill->user_id){
+        $applicationMainUser = $application->user->store_main_user_id ? $application->user->mainStoreUser : $application->user;
+        $billMainUser = $bill->user->store_main_user_id ? $bill->user->mainStoreUser : $bill->user;
+
+        if(isset($application) && $applicationMainUser->id == $billMainUser->id){
             return new BillResource($bill);
         }else{
             return response()->json(['success' => false]);
@@ -760,6 +819,13 @@ class BillController extends Controller
         $lang = $request->lang;
 
         $bill = Bill::find($id);
+
+        // prevent access payment page
+        if (!$bill->access_to_pay_page->status) {
+            return response()->json(['error' => [
+                'bill' => $bill->access_to_pay_page->message
+            ]], 403);
+        }
 
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
