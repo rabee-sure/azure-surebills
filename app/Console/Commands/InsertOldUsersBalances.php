@@ -44,15 +44,21 @@ class InsertOldUsersBalances extends Command
         $usersBalances = Transaction::groupBy('user_id')
             ->select(DB::raw("user_id ,(SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END)) - (SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END)) AS balance"))->get()->toArray();
 
-            
+
+        $this->info('total users balances '.count($usersBalances));
+
+        $this->info('start inserting users balances');
         // chunk users balances
-        UserBalance::chunk(100, function($userBalances) use ($usersBalances){
-            foreach($userBalances as $userBalance){
+        $round = 1;
+        UserBalance::chunk(100, function() use ($usersBalances, $round){
+            foreach($usersBalances as $userBalance){
                 // create or update user balance
                 UserBalance::updateOrCreate(
                     ['user_id' => $userBalance['user_id']],
                     ['balance' => $userBalance['balance']]
                 );
+                $this->info('round '.$round.' user '.$userBalance['user_id'].' balance '.$userBalance['balance'].' done');
+                $round++;
             }
         });
 
