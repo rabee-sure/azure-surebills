@@ -87,12 +87,6 @@ class Transaction extends Model
             return false;
         }else{
             $this->save();
-            DB::statement('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
-            DB::transaction(function () {
-                $user_balance = UserBalance::where('user_id', $this->user_id)->lockForUpdate()->first();
-                $user_balance->balance = $this->balance;
-                $user_balance->save();
-            });
         }
     }
 
