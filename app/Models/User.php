@@ -108,6 +108,15 @@ class User extends Authenticatable implements HasMedia
         'verified' => 'boolean',
     ];
 
+    /**
+     * The attributes that should be encrypted.
+     *
+     * @var array
+     */
+    protected $encrypted = [
+        'iban_number',
+    ];
+
     protected static function boot()
     {
         parent::boot();

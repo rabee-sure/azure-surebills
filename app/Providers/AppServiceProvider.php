@@ -13,6 +13,7 @@ use App\Models\Channel;
 use App\Models\Bank;
 use App\Models\TaxInvoiceRequest;
 use App\Observers\ApplicationObserver;
+use App\Observers\TransactionObserver;
 use App\Observers\TransferObserver;
 use App\Observers\UserObserver;
 use App\Observers\BillObserver;
@@ -31,6 +32,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\Nova\NovaLoginController;
+use App\Models\Transaction;
 use Laravel\Nova\Http\Controllers\LoginController;
 class AppServiceProvider extends ServiceProvider
 {
@@ -67,6 +69,7 @@ class AppServiceProvider extends ServiceProvider
 
         AutoTransfer::observe(AutoTransferPolicy::class);
         Transfer::observe(TransferObserver::class);
+        Transaction::observe(TransactionObserver::class);
         Application::observe(ApplicationObserver::class);
         User::observe(UserObserver::class);
         Bill::observe(BillObserver::class);

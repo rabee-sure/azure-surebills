@@ -41,9 +41,21 @@ class InsertOldUsersBalances extends Command
     public function handle()
     {
         $start = microtime(true);
-        $usersBalance = Transaction::groupBy('user_id')
+        $usersBalances = Transaction::groupBy('user_id')
             ->select(DB::raw("user_id ,(SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END)) - (SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END)) AS balance"))->get()->toArray();
-        UserBalance::insert($usersBalance);
+
+            
+        // chunk users balances
+        UserBalance::chunk(100, function($userBalances) use ($usersBalances){
+            foreach($userBalances as $userBalance){
+                // create or update user balance
+                UserBalance::updateOrCreate(
+                    ['user_id' => $userBalance['user_id']],
+                    ['balance' => $userBalance['balance']]
+                );
+            }
+        });
+
         $time_elapsed_secs = microtime(true) - $start;
         $this->info('time spent '.$time_elapsed_secs);
     }
