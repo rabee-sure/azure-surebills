@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\DB;
 class TransactionObserver
 {
     public function created(Transaction $transaction){
-        DB::statement('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
-        DB::transaction(function () use ($transaction) {
+        // Execute the balance update logic
+        $updateBalance = function () use ($transaction) {
             $user_balance = UserBalance::where('user_id', $transaction->user_id)->lockForUpdate()->first();
             if(!$user_balance){
                 $user_balance = new UserBalance();
@@ -29,6 +29,17 @@ class TransactionObserver
             }
 
             $user_balance->save();
-        });
+        };
+
+        // Only set isolation level if not already in a transaction
+        // Note: In MySQL/MariaDB, isolation level can only be set before a transaction starts
+        if (DB::transactionLevel() === 0) {
+            DB::statement('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
+            DB::transaction($updateBalance);
+        } else {
+            // Already in a transaction, just execute the logic
+            // Laravel's DB::transaction() will use savepoints for nested transactions
+            DB::transaction($updateBalance);
+        }
     }
 }
