@@ -155,7 +155,7 @@ class OtpService
         }
         if($channel == 'sms' || $channel == 'both') {
             if (app()->environment('production')) {
-                $message = __('Your login OTP code is: :otp. This code will expire in :minutes minutes.', ['otp' => $this->otp, 'minutes' => config('merchant_otp.expiration_minutes')]);
+                $message = __('Your login OTP code is: :otp. This code will expire in :minutes minutes.', ['otp' => $otp, 'minutes' => config('merchant_otp.expiration_minutes')]);
                 $message .= PHP_EOL;
     
                 $mobile = (int) $user->mobile;
