@@ -2,8 +2,8 @@
   @if( $bill->add_tax || $bill->add_discount)
     <div class="item">
       <span @if(app()->getLocale() == 'ar') style="float: right;" @else style="float: left;" @endif>
-        {{ __('Total amount') }} 
-        <small>( {{ __('SAR') }} )</small> 
+        {{ __('Total amount') }}
+        <small>( {{ __('SAR') }} )</small>
         @if( $bill->add_tax)
           <div class="excludeTax">( {{ __('Exclude added tax') }} )</div>
         @endif
