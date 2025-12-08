@@ -33409,6 +33409,20 @@ span.select2-container .select2-dropdown ul.select2-results__options li[aria-dis
 }
 
 /* select2-container */
+[dir=rtl] {
+  /* is-invalid */
+  /* is-valid */
+}
+[dir=rtl] .was-validated .form-control:invalid, [dir=rtl] .form-control.is-invalid {
+  background-position: left 10px center !important;
+  padding-inline: 0.75rem calc(1.5em + 0.75rem);
+}
+[dir=rtl] .was-validated .form-control:valid, [dir=rtl] .form-control.is-valid {
+  background-position: left 10px center !important;
+  padding-inline: 0.75rem calc(1.5em + 0.75rem);
+}
+
+/* rtl */
 @media print {
   body {
     background-color: #fff !important;
