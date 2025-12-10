@@ -29493,10 +29493,10 @@ section#homepage .addNewBillBtn:hover {
 .deleteCustomerModal {
   /* form */
 }
-.deleteCustomerModal form {
+.deleteCustomerModal .form {
   /* button */
 }
-.deleteCustomerModal form button {
+.deleteCustomerModal .form button {
   padding: 0 15px;
   height: 40px !important;
   min-width: 100px;

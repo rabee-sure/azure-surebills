@@ -1024,5 +1024,6 @@
   "Payment Button Text Color" : "لون نص زرار الدفع",
   "Maximum image size is 1MB" : "أقصى حجم للصورة 1 ميجا بايت",
   "Bill UI Customization" : "تصميم الفاتورة",
-  "Preview" : "معاينة"
+  "Preview" : "معاينة",
+  "Are you sure you want to delete this image?": "هل أنت متأكد من حذف هذه الصورة؟"
 }
