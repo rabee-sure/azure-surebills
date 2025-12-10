@@ -95,7 +95,7 @@
     <div @if($bill->user->settings->api_bill_style && $bill->application_id) class="container" id="app" @endif>
         <div @if($bill->user->settings->api_bill_style && $bill->application_id) class="row align-items-center justify-content-center" @endif>
             <div class="@if($bill->user->settings->api_bill_style && $bill->application_id) col-md-4 mt-4 p-0 @endif">
-                <div class="pay_apple">
+                <div class="pay_apple bg-white rounded-3 overflow-hidden">
 
                     <div class="load_form active">
                         <div class="spinner-border text-muted"></div>
@@ -112,7 +112,7 @@
                                 <a href="{{ $bill->back_url}}" title="{{ __('Back') }}" class="text-secondary">{{ __('Back') }}</a>
                             @endif
                         </div><!-- title -->
-                        <span class="d-block font-weight-bold text-dark p-3 text-center border-right border-left">
+                        <span class="d-block font-weight-bold text-dark p-3 text-center border-right border-left bg-white">
                             {{ $bill->total }} <span class="riyal-symbol-font">$</span>
                             @if(!$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
                                 <div class="countdown" id="new_countdown">

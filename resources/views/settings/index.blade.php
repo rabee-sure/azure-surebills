@@ -268,6 +268,24 @@
                   </div><!-- logoImage -->
                   <input type="hidden" name="delete_background_image" id="delete_background_image" value="0">
                 </div><!-- form-group -->
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade deleteCustomerModal" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteImageModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content border-0 shadow-sm rounded-3">
+                      <div class="modal-body d-flex align-items-center justify-content-center flex-column">
+                        <div class="closeBtn d-flex align-items-center justify-content-end mb-3 w-100">
+                          <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
+                        </div><!-- closeBtn -->
+                        <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __("Are you sure you want to delete this image?") }}</span>
+                        <div class="d-flex align-items-center justify-content-center gap-3 form w-100">
+                          <button type="button" class="border-0 shadow-none rounded-3 btn-danger formBtn mx-2" id="confirmDeleteBtn">{{__('Delete')}}</button>
+                          <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Close')}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Delete Confirmation Modal -->
               @endif
             </div>
           </div>
@@ -330,12 +348,24 @@
       toggleLangSelector()
 
       // Delete background image
-      $('.delete-background-image').click(function() {
-        if(confirm('{{ __("Are you sure you want to delete this image?") }}')) {
-          $('#delete_background_image').val('1');
-          $(this).closest('.form-group').hide();
-        }
-      });
+ $('.delete-background-image').click(function() {
+  // تخزين العنصر الحالي لاستخدامه لاحقًا
+  var currentButton = $(this);
+  var formGroup = $(this).closest('.form-group');
+
+  // عرض الـ Modal
+  $('#deleteImageModal').modal('show');
+
+  // عند الضغط على زر الحذف في الـ Modal
+  $('#confirmDeleteBtn').off('click').on('click', function() {
+    // تنفيذ عملية الحذف
+    $('#delete_background_image').val('1');
+    formGroup.hide();
+
+    // إغلاق الـ Modal
+    $('#deleteImageModal').modal('hide');
+  });
+});
 
     });
     function toggleLangSelector() {
