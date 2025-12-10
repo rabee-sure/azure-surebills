@@ -15,7 +15,7 @@
         @else
           <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __('Are You sure Delete this Customer?')}}</span>
         @endif
-        <form action="{{ route('customers.destroy', $customer->id)}}" method="post" class="w-100">
+        <form action="{{ route('customers.destroy', $customer->id)}}" method="post" class="form w-100">
           @csrf
           @method('DELETE')
           @if(!$customer->bills()->exists())
