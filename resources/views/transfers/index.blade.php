@@ -36,7 +36,7 @@
           @if($key == 'transfer_minimum')
           <li>
             <div class="d-flex align-items-center justify-content-start gap-1">
-                {{ __('Your balance is not allowed to transfer. The minimum transfer balance is') }} <div class="d-flex align-items-center gap-1 m-0 {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}}">{{ $error }} <span class="riyal-symbol-font">$</span></div>
+                <div class="d-flex align-items-center gap-1 m-0 {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}}">{{ $error }}</div>
             </div>
           </li>
           @else
