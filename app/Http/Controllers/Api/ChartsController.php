@@ -35,6 +35,8 @@ class ChartsController extends Controller
         $user = User::find($request->user_id);
         $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
 
+        $collection = [];
+
         switch ($request->mode) {
             case 'daily':
                 $collection['daily'] = Bill::whereIn('user_id', $userIds)
@@ -89,6 +91,8 @@ class ChartsController extends Controller
         $user = User::find($request->user_id);
         $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
 
+        $collection = [];
+
         switch ($request->mode) {
             case 'daily':
                 $collection['daily'] = Bill::whereIn('user_id', $userIds)
@@ -142,6 +146,8 @@ class ChartsController extends Controller
     {
         $user = User::find($request->user_id);
         $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
+
+        $collection = [];
 
         switch ($request->mode) {
             case 'daily':
@@ -255,13 +261,13 @@ class ChartsController extends Controller
                         'backgroundColor' => $data['backgroundColor'],
                         'borderColor' => $data['borderColor'],
                         'data'=> [
-                            ($collection['daily'][1]) ?? 0,
-                            ($collection['daily'][2]) ?? 0,
-                            ($collection['daily'][3]) ?? 0,
-                            ($collection['daily'][4]) ?? 0,
-                            ($collection['daily'][5]) ?? 0,
-                            ($collection['daily'][6]) ?? 0,
-                            ($collection['daily'][7]) ?? 0,
+                            ($collection['daily'] ?? [])[1] ?? 0,
+                            ($collection['daily'] ?? [])[2] ?? 0,
+                            ($collection['daily'] ?? [])[3] ?? 0,
+                            ($collection['daily'] ?? [])[4] ?? 0,
+                            ($collection['daily'] ?? [])[5] ?? 0,
+                            ($collection['daily'] ?? [])[6] ?? 0,
+                            ($collection['daily'] ?? [])[7] ?? 0,
                         ]
                     ]
                 ],
@@ -273,13 +279,9 @@ class ChartsController extends Controller
                         'label' => $data['label'],
                         'backgroundColor' => $data['backgroundColor'],
                         'borderColor' => $data['borderColor'],
-                        'data'=> [
-                            ($collection['weekly'][(int) $this->weeks[0]['number']]) ?? 0,
-                            ($collection['weekly'][(int) $this->weeks[1]['number']]) ?? 0,
-                            ($collection['weekly'][(int) $this->weeks[2]['number']]) ?? 0,
-                            ($collection['weekly'][(int) $this->weeks[3]['number']]) ?? 0,
-                            ($collection['weekly'][(int) $this->weeks[4]['number']]) ?? 0,
-                        ]
+                        'data'=> $this->weeks->map(function ($week) use ($collection) {
+                            return ($collection['weekly'] ?? [])[(int) $week['number']] ?? 0;
+                        })->values()->toArray(),
                     ]
                 ],
             ],
@@ -304,18 +306,18 @@ class ChartsController extends Controller
                         'backgroundColor' => $data['backgroundColor'],
                         'borderColor' => $data['borderColor'],
                         'data'=> [
-                            ($collection['monthly'][1]) ?? 0,
-                            ($collection['monthly'][2]) ?? 0,
-                            ($collection['monthly'][3]) ?? 0,
-                            ($collection['monthly'][4]) ?? 0,
-                            ($collection['monthly'][5]) ?? 0,
-                            ($collection['monthly'][6]) ?? 0,
-                            ($collection['monthly'][7]) ?? 0,
-                            ($collection['monthly'][8]) ?? 0,
-                            ($collection['monthly'][9]) ?? 0,
-                            ($collection['monthly'][10]) ?? 0,
-                            ($collection['monthly'][11]) ?? 0,
-                            ($collection['monthly'][12]) ?? 0,
+                            ($collection['monthly'] ?? [])[1] ?? 0,
+                            ($collection['monthly'] ?? [])[2] ?? 0,
+                            ($collection['monthly'] ?? [])[3] ?? 0,
+                            ($collection['monthly'] ?? [])[4] ?? 0,
+                            ($collection['monthly'] ?? [])[5] ?? 0,
+                            ($collection['monthly'] ?? [])[6] ?? 0,
+                            ($collection['monthly'] ?? [])[7] ?? 0,
+                            ($collection['monthly'] ?? [])[8] ?? 0,
+                            ($collection['monthly'] ?? [])[9] ?? 0,
+                            ($collection['monthly'] ?? [])[10] ?? 0,
+                            ($collection['monthly'] ?? [])[11] ?? 0,
+                            ($collection['monthly'] ?? [])[12] ?? 0,
                         ],
                     ]
                 ],
