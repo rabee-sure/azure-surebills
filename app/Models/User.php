@@ -138,14 +138,11 @@ class User extends Authenticatable implements HasMedia
      */
     public function getBalanceAttribute()
     {
-        if ($this->myBalance) {
-            $balance = $this->myBalance->balance;
+        $owner_merchant = $this->mainStoreUser ? $this->mainStoreUser : $this;
+        if ($owner_merchant->myBalance) {
+            $balance = $owner_merchant->myBalance->balance;
         } else {
-            if ($this->userId) {
-                $user = Transaction::userId($this->userId);
-            } else {
-                $user = $this->transactions();
-            }
+            $user = $owner_merchant->transactions();
             $user = $user
                 ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
                 ->first();
