@@ -84,7 +84,11 @@
                   <span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span>
                 @endif
               @else
-                <span class="badge badge-pill badge-warning bill_status_badge">{{ __('Waiting') }}</span>
+                @if($log->results['success'] == true)
+                  <span class="badge badge-pill badge-warning bill_status_badge">{{ __('Waiting') }}</span>
+                @else
+                  <span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span>
+                @endif
               @endif
             </td>
           </tr>
