@@ -148,7 +148,7 @@ class MerchantsReport extends Resource
     public function actions(Request $request)
     {
         return [
-            (new MerchantsExcelDownload(Auth::user()->email, $request->toArray()))->standalone()->canRun(function (NovaRequest $request) {
+            (new MerchantsExcelDownload(Auth::user()->email, $request->toArray()))->standalone()->onlyOnIndex()->canRun(function (NovaRequest $request) {
                 return true;
             }),
         ];
