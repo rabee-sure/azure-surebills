@@ -112,7 +112,7 @@
                                 <a href="{{ $bill->back_url}}" title="{{ __('Back') }}" class="text-secondary">{{ __('Back') }}</a>
                             @endif
                         </div><!-- title -->
-                        <span class="d-block font-weight-bold text-dark p-3 text-center border-right border-left bg-white">
+                        <span class="d-block font-weight-bold p-3 text-center border-right border-left bg-white">
                             {{ $bill->total }} <span class="riyal-symbol-font">$</span>
                             @if(!$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
                                 <div class="countdown" id="new_countdown">
