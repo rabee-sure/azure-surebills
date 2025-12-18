@@ -46,7 +46,7 @@
 
       body {
         @if($bgImage)
-          background-image: url('{{ $bgImage }}');
+          background-image: url('{{ asset($bgImage) }}');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
