@@ -109,18 +109,21 @@
                                 </div><!-- d-flex -->
                             @endif
                             @if($bill->application && $bill->is_redirect)
-                                <a href="{{ $bill->back_url}}" title="{{ __('Back') }}" class="text-secondary">{{ __('Back') }}</a>
+                                <a href="{{ $bill->back_url}}" title="{{ __('Back') }}">{{ __('Back') }}</a>
                             @endif
                         </div><!-- title -->
-                        <span class="d-block font-weight-bold p-3 text-center border-right border-left bg-white">
+                        <span class="p-3 text-center border-right border-left bg-white d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 justify-content-center">
                             {{ $bill->total }} <span class="riyal-symbol-font">$</span>
-                            @if(!$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
-                                <div class="countdown" id="new_countdown">
-                                    <p>{{ __('the bill will expire in')}}</p>
+
+                        </span>
+
+                        @if(!$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
+                                <div class="countdown pt-0 pb-3 text-center border-right border-left text-capitalize bg-white d-flex alignn-items-center gap-1 justify-content-center flex-wrap" id="new_countdown">
+                                    <p class="mb-0">{{ __('the bill will expire in')}}</p>
                                     <span id="hm_timer"></span>
                                 </div><!-- countdown -->
                             @endif
-                        </span>
+
                     @endif
                     @if($bill->user->settings->api_bill_style && $bill->application_id)
                         <div id="status">
