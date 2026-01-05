@@ -6,6 +6,7 @@ use App\Models\Bill;
 use App\Models\User;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Transaction extends Model
 {
@@ -82,7 +83,11 @@ class Transaction extends Model
             ->where('transaction_source', $this->transaction_source)
             ->first();
 
-        return $oldTransaction ? false : $this->save();
+        if($oldTransaction){
+            return false;
+        }else{
+            $this->save();
+        }
     }
 
     /**

@@ -598,7 +598,7 @@
 	"Full Name" : "الاسم الكامل",
 	"I agree to" : "أوافق على",
 	"Terms & Conditions" : "الشروط والاحكام",
-	"SAR" : "",
+	"SAR" : "ريال",
 	"Current Password" : "كلمة المرور الحالية",
 	"New Password" : "كلمة المرور الجديدة",
 	"Re-type New Password" : "تاكيد كلمة المرور الجديدة",
@@ -1016,5 +1016,16 @@
   "Expiry Time" : "وقت الانتهاء",
   "The OTP is required." : "رمز التحقق مطلوب.",
   "The OTP must be a string." : "رمز التحقق يجب أن يكون عبارة عن سلسلة من الأحرف.",
-  "The OTP must be 6 digits." : "رمز التحقق يجب أن يكون 6 أرقام."
+  "The OTP must be 6 digits." : "رمز التحقق يجب أن يكون 6 أرقام.",
+  "Background Color" : "لون الخلفية",
+  "Background Image" : "صورة الخلفية",
+  "Text Color" : "لون النصوص",
+  "Payment Button Background Color" : "لون خلفية زرار الدفع",
+  "Payment Button Text Color" : "لون نص زرار الدفع",
+  "Maximum image size is 1MB" : "أقصى حجم للصورة 1 ميجا بايت",
+  "Bill UI Customization" : "تصميم الفاتورة",
+  "Preview" : "معاينة",
+  "Are you sure you want to delete this image?": "هل أنت متأكد من حذف هذه الصورة؟",
+  "The background image file must be a png, jpeg or jpg file.": "يجب أن تكون الصورة الخلفية من نوع png, jpeg أو jpg.",
+  "The background image file must be less than 1024 MB.": "يجب أن تكون الصورة الخلفية اقل من 1024 ميجا بايت."
 }

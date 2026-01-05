@@ -1,5 +1,55 @@
 @extends('layouts.bill')
 @section('title', __('Bill No.') . ' ' . $bill->number)
+
+@push('styles')
+<style>
+  @php
+    $settings = $bill->user->settings;
+    $bgColor = $settings->background_color_body ?? '#fafafa';
+    $bgImage = $settings->background_image_file ?? null;
+    $textColor = $settings->text_color_body ?? '#000000';
+    $btnBgColor = $settings->background_color_payment_button ?? '#00d595';
+    $btnTextColor = $settings->text_color_payment_button ?? '#ffffff';
+  @endphp
+
+  .singlebBillSimple_page {
+    @if($bgImage)
+      background-image: url('{{ asset($bgImage) }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    @else
+      background-color: {{ $bgColor }};
+    @endif
+  }
+
+  .single_bill_content,
+  .single_bill_content * {
+    color: {{ $textColor }} !important;
+  }
+
+  .single_bill_content .all_bill_page {
+    background-color: transparent;
+  }
+
+  #payButton,
+  .payment_area button[type="button"],
+  .payment_area .btn-success {
+    background-color: {{ $btnBgColor }} !important;
+    color: {{ $btnTextColor }} !important;
+    border-color: {{ $btnBgColor }} !important;
+  }
+
+  #payButton:hover,
+  .payment_area button[type="button"]:hover,
+  .payment_area .btn-success:hover {
+    background-color: {{ $btnBgColor }} !important;
+    color: {{ $btnTextColor }} !important;
+    opacity: 0.9;
+  }
+</style>
+@endpush
+
 @section('content')
 
   <div class="loading"></div>

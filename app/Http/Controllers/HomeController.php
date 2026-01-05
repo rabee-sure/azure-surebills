@@ -70,7 +70,7 @@ class HomeController extends Controller
 
         $balance = $user->balance;
 
-        $total_paid_query = Transaction::whereNotNull('bill_id')->where('user_id', auth()->user()->id)->whereHas('bill', function($q){
+        $total_paid_query = Transaction::whereNotNull('bill_id')->where('user_id', auth()->user()->store_main_user_id ?? auth()->user()->id)->whereHas('bill', function($q){
             $q->where('payment_way', 'online');
         });
 

@@ -17,14 +17,14 @@
         .rtl {
           direction: rtl !important;
         }
-        
+
         @font-face {
           font-family: "A Jannat LT";
           src: url("{{rtrim(config('payment.invoice_subdomain_url'), '/')}}/fonts/AJannatLT-Bold/AJannatLT-Bold_1.ttf") format("truetype");
           font-weight: normal;
           font-style: normal;
         }
-        
+
         .riyal-symbol-font {
           font-family: "A Jannat LT", sans-serif;
         }
@@ -33,6 +33,47 @@
       }
       .fw-bold {
         font-weight: bold !important;
+      }
+
+      @php
+        $settings = $bill->user->settings;
+        $bgColor = $settings->background_color_body ?? '#fafafa';
+        $bgImage = $settings->background_image_file ?? null;
+        $textColor = $settings->text_color_body ?? '#000000';
+        $btnBgColor = $settings->background_color_payment_button ?? '#00d595';
+        $btnTextColor = $settings->text_color_payment_button ?? '#ffffff';
+      @endphp
+
+      body {
+        @if($bgImage)
+          background-image: url('{{ asset($bgImage) }}');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        @else
+          background-color: {{ $bgColor }};
+        @endif
+      }
+
+      body,
+      body * {
+        color: {{ $textColor }} !important;
+      }
+
+      #payButton,
+      button.btn-success,
+      .btn-success {
+        background-color: {{ $btnBgColor }} !important;
+        color: {{ $btnTextColor }} !important;
+        border-color: {{ $btnBgColor }} !important;
+      }
+
+      #payButton:hover,
+      button.btn-success:hover,
+      .btn-success:hover {
+        background-color: {{ $btnBgColor }} !important;
+        color: {{ $btnTextColor }} !important;
+        opacity: 0.9;
       }
     </style>
 
@@ -54,7 +95,7 @@
     <div @if($bill->user->settings->api_bill_style && $bill->application_id) class="container" id="app" @endif>
         <div @if($bill->user->settings->api_bill_style && $bill->application_id) class="row align-items-center justify-content-center" @endif>
             <div class="@if($bill->user->settings->api_bill_style && $bill->application_id) col-md-4 mt-4 p-0 @endif">
-                <div class="pay_apple">
+                <div class="pay_apple bg-white rounded-3 overflow-hidden">
 
                     <div class="load_form active">
                         <div class="spinner-border text-muted"></div>
@@ -68,25 +109,28 @@
                                 </div><!-- d-flex -->
                             @endif
                             @if($bill->application && $bill->is_redirect)
-                                <a href="{{ $bill->back_url}}" title="{{ __('Back') }}" class="text-secondary">{{ __('Back') }}</a>
+                                <a href="{{ $bill->back_url}}" title="{{ __('Back') }}">{{ __('Back') }}</a>
                             @endif
                         </div><!-- title -->
-                        <span class="d-block font-weight-bold text-dark p-3 text-center border-right border-left">
+                        <span class="p-3 text-center border-right border-left bg-white d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 justify-content-center">
                             {{ $bill->total }} <span class="riyal-symbol-font">$</span>
-                            @if(!$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
-                                <div class="countdown" id="new_countdown">
-                                    <p>{{ __('the bill will expire in')}}</p>
+
+                        </span>
+
+                        @if(!$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
+                                <div class="countdown pt-0 pb-3 text-center border-right border-left text-capitalize bg-white d-flex alignn-items-center gap-1 justify-content-center flex-wrap" id="new_countdown">
+                                    <p class="mb-0">{{ __('the bill will expire in')}}</p>
                                     <span id="hm_timer"></span>
                                 </div><!-- countdown -->
                             @endif
-                        </span> 
+
                     @endif
                     @if($bill->user->settings->api_bill_style && $bill->application_id)
                         <div id="status">
                         </div>
                     @endif
                     <div id="payment_area">
-                        @if (!isset($sureEasyRendrer))  
+                        @if (!isset($sureEasyRendrer))
                         <div class="pay_button border-right border-left bg-light p-2 border-top" id="applepay_button">
                             <button id="payment" class="d-block mx-auto" lang="<?php echo App::getLocale() ?>" style="-webkit-appearance: -apple-pay-button; -apple-pay-button-type: buy; width: 230px; height: 40px; cursor: pointer; border-radius: 5px;"></button>
                         </div><!-- pay_button -->
@@ -106,7 +150,7 @@
                                     </div><!-- inputs -->
                                     <input type="text" id="security-code" class="input-field security-code" title="{{ __('Security Code') }}" aria-label="three digit CCV security code" placeholder="{{ __('Security Code') }}" value="" tabindex="4" dir="ltr" readonly>
                                     <input type="text" id="cardholder-name" class="input-field" title="{{ __('Cardholder Name') }}" aria-label="enter name on card" placeholder="{{ __('Cardholder Name') }}" value="" tabindex="5" dir="ltr" readonly>
-                                </div><!-- inputs --> 
+                                </div><!-- inputs -->
                             </div>
                             <div class="p-2">
                                 @if(isset($errors) && $errors->any())
@@ -203,12 +247,12 @@
                 <?php require app_path('Payment/Drivers/MasterCardApplePay/payment-request.js'); ?>
                 {{-- APPLE PAY VIA MASTERCARD --}}
             @endif
-        @else 
+        @else
             {{--  Cybersource Hosted Session --}}
             <?php require app_path('Payment/Drivers/CybersourceHostedSession/pay.js'); ?>
             @if($microformSessionToken)
                 <?php require app_path('Payment/Drivers/CybersourceHostedSession/payViaToken.js'); ?>
-            @else 
+            @else
                 <?php require app_path('Payment/Drivers/CybersourceHostedSession/payViaCard.js'); ?>
             @endif
               @if (!isset($sureEasyRendrer))
@@ -217,7 +261,7 @@
                 {{-- APPLE PAY VIA Cybersource --}}
               @endif
         @endif
-        
+
         {{-- Socket Update --}}
         @if($bill->user->settings->api_bill_style && $bill->application_id)
         Echo.channel('bill.{{$bill->id}}').listen('BillStatusUpdated', (e) => {
