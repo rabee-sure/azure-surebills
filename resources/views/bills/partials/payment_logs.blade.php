@@ -84,7 +84,11 @@
                   <span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span>
                 @endif
               @else
-                <span class="badge badge-pill badge-warning bill_status_badge">{{ __('Waiting') }}</span>
+                @if($log->payment_method != 'mastercard_refund' && $log->results['success'] == false)
+                  <span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span>
+                @else
+                  <span class="badge badge-pill badge-warning bill_status_badge">{{ __('Waiting') }}</span>
+                @endif
               @endif
             </td>
           </tr>

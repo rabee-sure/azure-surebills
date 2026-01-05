@@ -28,6 +28,7 @@ class SettingsRequest extends FormRequest
             'create_send_email' => ['nullable'],
             'paid_send_email' => ['nullable'],
             'paid_send_email' => ['nullable'],
+            'background_image_file' => ['nullable', 'mimes:png,jpeg,jpg', 'max:1024'],
         ];
 
         if(request()->add_tax == 'on')
@@ -118,6 +119,8 @@ class SettingsRequest extends FormRequest
           'street_name.required_if' => __('The street name field is required when add tax invoice is on.'),
           'district.required_if' => __('The district field is required when add tax invoice is on.'),
           'postal_code.required_if' => __('The postal code field is required when add tax invoice is on.'),
+          'background_image_file.mimes' => __('The background image file must be a png, jpeg or jpg file.'),
+          'background_image_file.max' => __('The background image file must be less than 1024 MB.'),
         ];
     }
 }

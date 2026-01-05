@@ -119,8 +119,8 @@ main {
 } /* tooltip */
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
 input:-webkit-autofill:active{
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
@@ -539,6 +539,17 @@ span.select2-container {
   } /* select2-dropdown */
 } /* select2-container */
 
+
+[dir="rtl"] {
+  .was-validated .form-control:invalid, .form-control.is-invalid {
+    background-position: left 10px center !important;
+    padding-inline: 0.75rem calc(1.5em + 0.75rem);
+  } /* is-invalid */
+  .was-validated .form-control:valid, .form-control.is-valid {
+    background-position: left 10px  center !important;
+    padding-inline: 0.75rem calc(1.5em + 0.75rem);
+  } /* is-valid */
+} /* rtl */
 
 @media print {
   body {background-color: #fff !important;}

@@ -138,19 +138,16 @@ class User extends Authenticatable implements HasMedia
      */
     public function getBalanceAttribute()
     {
-        if($this->userId)
-        {
-            $user = Transaction::userId($this->userId);
+        $owner_merchant = $this->mainStoreUser ? $this->mainStoreUser : $this;
+        if ($owner_merchant->myBalance) {
+            $balance = $owner_merchant->myBalance->balance;
+        } else {
+            $user = $owner_merchant->transactions();
+            $user = $user
+                ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
+                ->first();
+            $balance = $user->credit_total - $user->debit_total;
         }
-        else
-        {
-            $user = $this->transactions();
-        }
-
-        $user = $user
-            ->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))
-            ->first();
-        $balance = $user->credit_total - $user->debit_total;
         return floorp($balance, 2);
     }
 
@@ -347,10 +344,10 @@ class User extends Authenticatable implements HasMedia
             $message .= PHP_EOL;
 
             $mobile = (int) $this->mobile;
-            
+
             $smsService = new SMSService();
             $response = $smsService->sendSMS($mobile, $message);
-            
+
             $this->sent_sms_response = $response;
             $this->save();
         }
@@ -854,5 +851,10 @@ class User extends Authenticatable implements HasMedia
     public function otps()
     {
         return $this->hasMany(UserOtp::class);
+    }
+
+    public function myBalance()
+    {
+        return $this->hasOne(UserBalance::class);
     }
 }

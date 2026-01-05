@@ -32,7 +32,7 @@
     @endif
     @if($user->settings)
       <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3 p-3">
-        <form method="POST" action="{{ route('post.settings') }}" class="repeater" id="settings">
+        <form method="POST" action="{{ route('post.settings') }}" class="repeater" id="settings" enctype="multipart/form-data">
           @csrf
           <div class="name d-block mb-4 fw-bold fs-6">{{ __('Taxes') }}</div>
           <div class="row">
@@ -244,6 +244,71 @@
               {{ __('Hide the additional information of the orgianization in the payment URL') }}
             </span>
           </label>
+
+          <hr>
+          <div class="name d-block mb-4 fw-bold fs-6">{{ __('Bill UI Customization') }}</div>
+          <div class="row mb-3">
+            <label for="background_color_body" class="col-sm-2 col-form-label">{{ __('Background Color') }}</label>
+            <div class="col-sm-4">
+              <input type="color" name="background_color_body" id="background_color_body" class="color_input w-100" value="{{ $user->settings->background_color_body ?? '#fafafa' }}">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="background_color_body" class="col-sm-2 col-form-label">{{ __('Background Image') }}</label>
+            <div class="col-sm-4">
+              <input type="file" name="background_image_file" id="background_image_file" accept="image/*" class="form-control shadow-none bg-white border w-100 rounded-3" accept="image/png, image/jpeg, image/jpg">
+              <small class="text-secondary">{{ __('Maximum image size is 1MB') }}</small>
+              @if($user->settings->background_image_file)
+                <div class="form-group mt-3">
+                  <div class="logoImage p-2 border overflow-hidden rounded-3 position-relative d-flex align-items-center justify-content-center">
+                    <img src="{{ $user->settings->background_image_file }}" alt="background image" class="logo_image mw-100 mh-100" />
+                    <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 delete-background-image" style="z-index: 10;" title="{{ __('Delete Image') }}">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </div><!-- logoImage -->
+                  <input type="hidden" name="delete_background_image" id="delete_background_image" value="0">
+                </div><!-- form-group -->
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade deleteCustomerModal" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteImageModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content border-0 shadow-sm rounded-3">
+                      <div class="modal-body d-flex align-items-center justify-content-center flex-column">
+                        <div class="closeBtn d-flex align-items-center justify-content-end mb-3 w-100">
+                          <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
+                        </div><!-- closeBtn -->
+                        <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __("Are you sure you want to delete this image?") }}</span>
+                        <div class="d-flex align-items-center justify-content-center gap-3 form w-100">
+                          <button type="button" class="border-0 shadow-none rounded-3 btn-danger formBtn mx-2" id="confirmDeleteBtn">{{__('Delete')}}</button>
+                          <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Close')}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Delete Confirmation Modal -->
+              @endif
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="text_color_body" class="col-sm-2 col-form-label">{{ __('Text Color') }}</label>
+            <div class="col-sm-4">
+              <input type="color" name="text_color_body" id="text_color_body" class="color_input w-100" value="{{ $user->settings->text_color_body ?? '#000000' }}">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="background_color_body" class="col-sm-2 col-form-label">{{ __('Payment Button Background Color') }}</label>
+            <div class="col-sm-4">
+              <input type="color" name="background_color_payment_button" id="background_color_payment_button" class="color_input w-100" value="{{ $user->settings->background_color_payment_button ?? '#00d595' }}">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="text_color_payment_button" class="col-sm-2 col-form-label">{{ __('Payment Button Text Color') }}</label>
+            <div class="col-sm-4">
+              <input type="color" name="text_color_payment_button" id="text_color_payment_button" class="color_input w-100" value="{{ $user->settings->text_color_payment_button ?? '#ffffff' }}">
+            </div>
+          </div>
+
+
           <div class="saveBtn d-flex justify-content-start mt-5">
             <button type="submit" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold"> {{__('Save')}}</button>
           </div><!-- saveBtn -->
@@ -281,6 +346,27 @@
         toggleLangSelector()
       });
       toggleLangSelector()
+
+      // Delete background image
+ $('.delete-background-image').click(function() {
+  // تخزين العنصر الحالي لاستخدامه لاحقًا
+  var currentButton = $(this);
+  var formGroup = $(this).closest('.form-group');
+
+  // عرض الـ Modal
+  $('#deleteImageModal').modal('show');
+
+  // عند الضغط على زر الحذف في الـ Modal
+  $('#confirmDeleteBtn').off('click').on('click', function() {
+    // تنفيذ عملية الحذف
+    $('#delete_background_image').val('1');
+    formGroup.hide();
+
+    // إغلاق الـ Modal
+    $('#deleteImageModal').modal('hide');
+  });
+});
+
     });
     function toggleLangSelector() {
       if($("#arabic").is(':checked') && $("#english").is(':checked')){
@@ -288,6 +374,11 @@
       }else{
         $("#default_lang").hide();  // To hide
       }
+    }
+    function previewBackgroundImage() {
+      const backgroundImage = document.getElementById('background_image_file').value;
+      const previewImage = document.getElementById('preview_background_image');
+      previewImage.src = backgroundImage;
     }
   </script>
   {!! JsValidator::formRequest('App\Http\Requests\SettingsRequest', '#settings') !!}
