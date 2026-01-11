@@ -1102,5 +1102,10 @@
   "Excel": "Excel",
   "Microsoft Excel format (.xlsx)": "تنسيق Microsoft Excel (.xlsx)",
   "Export Codes": "تصدير الرموز",
-  "Coupon created successfully": "تم إنشاء الكوبون بنجاح"
+  "Coupon created successfully": "تم إنشاء الكوبون بنجاح",
+  "Invalid coupon code": "رمز الكوبون غير صالح",
+  "If you have a coupon code, enter it here. The discount will be applied automatically.": "إذا كان لديك رمز كوبون، أدخله هنا. سيتم تطبيق الخصم تلقائياً.",
+  "Enter coupon code": "أدخل رمز الكوبون",
+  "Add Manual Discount": "إضافة خصم",
+  "You have reached the maximum usage limit for this coupon": "لقد تم الوصول إلى الحد الأقصى لعدد الاستخدامات لهذا الكوبون"
 }

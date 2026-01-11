@@ -83,12 +83,181 @@ class CouponService
     }
 
     /**
+     * Validate a coupon without applying (for pre-validation)
+     * 
+     * Returns discount information if valid:
+     * ['success' => bool, 'discount' => ['discount_type' => 'fixed'|'percentage', 'discount_value' => float], 'coupon_id' => int, 'message' => string]
+     */
+    public function validateCoupon(string $code, int $customerId, int $userId): array
+    {
+        try {
+            // Try to find as reusable coupon first
+            $coupon = $this->repository->findByCode($code, $userId);
+            
+            if (!$coupon) {
+                // Try to find as one-time code
+                $couponCode = $this->repository->findCodeByCode($code, $userId);
+                
+                if (!$couponCode) {
+                    // Log for debugging
+                    Log::warning('Coupon not found', [
+                        'code' => $code,
+                        'user_id' => $userId,
+                        'customer_id' => $customerId,
+                    ]);
+                    
+                    return [
+                        'success' => false,
+                        'message' => __('Invalid coupon code'),
+                    ];
+                }
+
+                $coupon = $couponCode->coupon;
+            }
+
+            // Validate without applying
+            $customer = \App\Models\Customer::find($customerId);
+            if (!$customer) {
+                return [
+                    'success' => false,
+                    'message' => __('Customer not found'),
+                ];
+            }
+
+            $validation = $this->validator->validate($couponCode ?? $coupon, $customer);
+            
+            if (!$validation['valid']) {
+                return [
+                    'success' => false,
+                    'message' => $validation['message'],
+                ];
+            }
+
+            return [
+                'success' => true,
+                'discount' => [
+                    'discount_type' => $coupon->discount_type,
+                    'discount_value' => $coupon->discount_value,
+                ],
+                'coupon_id' => $coupon->id,
+                'message' => __('Coupon is valid'),
+            ];
+
+        } catch (\Exception $e) {
+            Log::error('Coupon validation error', [
+                'code' => $code,
+                'customer_id' => $customerId,
+                'error' => $e->getMessage(),
+            ]);
+
+            return [
+                'success' => false,
+                'message' => __('An error occurred while validating the coupon'),
+            ];
+        }
+    }
+
+    /**
+     * Record coupon usage without re-validation (use after bill is created)
+     * 
+     * @param string $code
+     * @param int $customerId
+     * @param int $userId
+     * @param string $billId UUID of the bill
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public function recordUsage(string $code, int $customerId, int $userId, string $billId): array
+    {
+        try {
+            // Find the coupon
+            $coupon = $this->repository->findByCode($code, $userId);
+            $couponCode = null;
+            
+            if (!$coupon) {
+                // Try to find as one-time code
+                $couponCode = $this->repository->findCodeByCode($code, $userId);
+                
+                if (!$couponCode) {
+                    return [
+                        'success' => false,
+                        'message' => __('Invalid coupon code'),
+                    ];
+                }
+
+                $coupon = $couponCode->coupon;
+            }
+
+            $customer = \App\Models\Customer::find($customerId);
+            if (!$customer) {
+                return [
+                    'success' => false,
+                    'message' => __('Customer not found'),
+                ];
+            }
+
+            // Record usage directly without re-validation
+            try {
+                $usage = $this->repository->createUsage([
+                    'coupon_id' => $coupon->id,
+                    'coupon_code_id' => $couponCode ? $couponCode->id : null,
+                    'customer_id' => $customer->id,
+                    'bill_id' => $billId,
+                    'used_at' => now(),
+                ]);
+
+                // Mark code as used if it's ONE_TIME_USAGE
+                if ($couponCode && $coupon->mechanism && $coupon->mechanism->equals(\App\Enums\CouponMechanism::from(\App\Enums\CouponMechanism::ONE_TIME_USAGE))) {
+                    $this->repository->markCodeAsUsed($couponCode);
+                }
+
+                Log::info('Coupon usage recorded successfully', [
+                    'coupon_id' => $coupon->id,
+                    'customer_id' => $customer->id,
+                    'bill_id' => $billId,
+                    'usage_id' => $usage->id,
+                ]);
+
+                return [
+                    'success' => true,
+                    'message' => __('Coupon usage recorded successfully'),
+                ];
+            } catch (\Exception $e) {
+                Log::error('Failed to record coupon usage', [
+                    'coupon_id' => $coupon->id,
+                    'customer_id' => $customer->id,
+                    'bill_id' => $billId,
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                ]);
+
+                return [
+                    'success' => false,
+                    'message' => __('Failed to record coupon usage: ' . $e->getMessage()),
+                ];
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Coupon usage recording error', [
+                'code' => $code,
+                'customer_id' => $customerId,
+                'bill_id' => $billId,
+                'error' => $e->getMessage(),
+            ]);
+
+            return [
+                'success' => false,
+                'message' => __('An error occurred while recording coupon usage'),
+            ];
+        }
+    }
+
+    /**
      * Validate and apply a coupon
      * 
      * Returns discount information if valid:
-     * ['discount_type' => 'fixed'|'percentage', 'discount_value' => float]
+     * ['success' => bool, 'discount' => ['discount_type' => 'fixed'|'percentage', 'discount_value' => float], 'coupon_id' => int, 'message' => string]
      */
-    public function validateAndApply(string $code, int $customerId, int $userId, ?int $billId = null): array
+    public function validateAndApply(string $code, int $customerId, int $userId, $billId = null): array
     {
         try {
             // Try to find as reusable coupon first
@@ -116,7 +285,11 @@ class CouponService
                     ];
                 }
 
-                return $this->validator->apply($couponCode, $customer, $billId);
+                $result = $this->validator->apply($couponCode, $customer, $billId);
+                if ($result['success']) {
+                    $result['coupon_id'] = $coupon->id;
+                }
+                return $result;
             }
 
             // For reusable coupons
@@ -128,7 +301,11 @@ class CouponService
                 ];
             }
 
-            return $this->validator->apply($coupon, $customer, $billId);
+            $result = $this->validator->apply($coupon, $customer, $billId);
+            if ($result['success']) {
+                $result['coupon_id'] = $coupon->id;
+            }
+            return $result;
 
         } catch (\Exception $e) {
             Log::error('Coupon validation error', [
