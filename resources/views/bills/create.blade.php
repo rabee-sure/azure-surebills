@@ -255,12 +255,22 @@
         <hr>
         <div class="title2 fw-bold mb-4">{{ __('Additonal Details') }}</div>
         <div class="row">
+          <div class="col-12 mb-3">
+            <div class="form-group">
+              <label for="coupon_code" class="d-block mb-2">{{ __('Coupon Code') }} <small class="text-muted">({{ __('Optional') }})</small></label>
+              <input type="text" name="coupon_code" id="coupon_code" class="form-control shadow-none bg-white border w-100 rounded-3" value="{{ old('coupon_code') }}" placeholder="{{ __('Enter coupon code') }}">
+              @error('coupon_code')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+              @enderror
+              <small class="text-muted d-block mt-1">{{ __('If you have a coupon code, enter it here. The discount will be applied automatically.') }}</small>
+            </div>
+          </div>
           <div class="col-12 col-lg-6">
             <label for="Discount_Values_Checkbox" class="checkboxItem position-relative mb-3 mb-md-0">
               <input name="add_discount" class="position-absolute top-0 strat-0 w-100 h-100" id="Discount_Values_Checkbox" type="checkbox" @if(old('add_discount')) checked @endif>
               <span class="d-flex align-items-center justify-content-start">
                 <i class="d-block rounded-pill position-relative"></i>
-                {{ __('Add Discount') }}
+                {{ __('Add Manual Discount') }}
               </span>
             </label>
             <div class="Discount_Values" style="display: none;">
@@ -342,6 +352,48 @@
 @endsection
 
 @push('footer-scripts')
+<script>
+  // Handle coupon code and manual discount interaction
+  document.addEventListener('DOMContentLoaded', function() {
+    const couponCodeInput = document.getElementById('coupon_code');
+    const discountCheckbox = document.getElementById('Discount_Values_Checkbox');
+    const discountValuesDiv = document.querySelector('.Discount_Values');
+    
+    if (couponCodeInput && discountCheckbox) {
+      // Disable manual discount when coupon code is entered
+      couponCodeInput.addEventListener('input', function() {
+        if (this.value.trim() !== '') {
+          discountCheckbox.checked = false;
+          discountCheckbox.disabled = true;
+          if (discountValuesDiv) {
+            discountValuesDiv.style.display = 'none';
+          }
+        } else {
+          discountCheckbox.disabled = false;
+        }
+      });
+      
+      // Disable coupon code when manual discount is checked
+      discountCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+          couponCodeInput.value = '';
+          couponCodeInput.disabled = true;
+        } else {
+          couponCodeInput.disabled = false;
+        }
+      });
+      
+      // Initialize on page load
+      if (couponCodeInput.value.trim() !== '') {
+        discountCheckbox.checked = false;
+        discountCheckbox.disabled = true;
+        if (discountValuesDiv) {
+          discountValuesDiv.style.display = 'none';
+        }
+      }
+    }
+  });
+</script>
   <script src="{{ asset('new/js/daterangepicker/moment.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script src="{{ asset('new/js/daterangepicker/daterangepicker.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script src="{{ asset('new/js/jquery-ui/jquery-ui.js') }}?v={{ config('app.asset_version') }}" defer></script>
