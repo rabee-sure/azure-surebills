@@ -85,6 +85,15 @@
 
       @can('update settings')
         <div class="col">
+          <a href="{{ route('coupons.index') }}" title="{{__('Coupon Management')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
+            <i class="fal fa-ticket-alt"></i>
+            <span class="d-block mt-3 text-center">{{__('Coupon Management')}}</span>
+          </a>
+        </div><!-- col -->
+      @endcan
+
+      @can('update settings')
+        <div class="col">
           <a href="{{ route('tax_invoice.request') }}" title="{{__('Tax invoice request')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
             <i class="fal fa-envelope"></i>
             <span class="d-block mt-3 text-center">{{__('Tax invoice request')}}</span>
