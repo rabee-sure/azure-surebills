@@ -124,6 +124,11 @@ Route::prefix('v1')->group(function () {
 	});
 
 	Route::group(['middleware' => ['auth:api']], function () {
+		// Coupons API routes
+		Route::post('coupons/validate', 'Api\CouponController@validateCoupon')->name('api.coupons.validate');
+		Route::get('coupons', 'Api\CouponController@index')->name('api.coupons.index');
+		Route::get('coupons/{id}', 'Api\CouponController@show')->name('api.coupons.show');
+
 		//POS
 		// Route::get('getAllActiveCategoryAndProducts', 'PosController@getAllActiveCategoryAndProducts');
 		// Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory');
