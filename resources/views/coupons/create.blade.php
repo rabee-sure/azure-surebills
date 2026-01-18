@@ -2,6 +2,12 @@
 
 @section('title', __('Create Coupon'))
 
+@section('css_styles')
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/daterangepicker/daterangepicker.css') }}?v={{ config('app.asset_version') }}">
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2.min.css') }}?v={{ config('app.asset_version') }}">
+  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2-bootstrap.min.css') }}?v={{ config('app.asset_version') }}">
+@endsection
+
 @section('content')
 
   <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
@@ -34,10 +40,10 @@
 
         @include('coupons.partials.form', ['coupon' => null, 'mechanisms' => $mechanisms])
 
-        <div class="form-group mt-4 d-flex align-items-center justify-content-end">
-          <a href="{{ route('coupons.index') }}" class="btn btn-light me-2 rounded-3">{{ __('Cancel') }}</a>
-          <button type="submit" class="btn btn-primary rounded-3">{{ __('Create Coupon') }}</button>
-        </div>
+        <div class="saveBtn d-flex justify-content-start gap-3 mt-5">
+            <button type="submit" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold">{{ __('Create Coupon') }}</button>
+            <a href="{{ route('coupons.index') }}" class="btn btn-light rounded-3">{{ __('Cancel') }}</a>
+          </div>
       </form>
     </div><!-- couponFormArea -->
 
