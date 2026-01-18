@@ -32777,13 +32777,10 @@ section#homepage .addNewBillBtn:hover {
 #couponsIndexPage .title a {
   min-width: 130px;
   height: 40px;
-}
-#couponsIndexPage .couponsArea {
-  /* table */
+  font-size: 14px;
 }
 #couponsIndexPage .couponsArea table {
   /* th */
-  /* td */
 }
 #couponsIndexPage .couponsArea table th {
   border: 1px solid #dee2e6;
@@ -32797,7 +32794,6 @@ section#homepage .addNewBillBtn:hover {
   color: #3a3a3a;
   vertical-align: middle;
   padding: 10px;
-  /* a */
 }
 #couponsIndexPage .couponsArea table td .badge {
   display: flex;
@@ -32910,6 +32906,56 @@ section#homepage .addNewBillBtn:hover {
   opacity: 0.6;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+#couponsShowPage .title h1, #couponsShowPage .title .h1 {
+  color: #3a3a3a;
+}
+#couponsShowPage .title a {
+  min-width: 130px;
+  height: 40px;
+  font-size: 14px;
+}
+#couponsShowPage .customCard .customCard-header {
+  background-color: #fafafa;
+  border-inline: 1px solid #dee2e6;
+  border-block-start: 1px solid #dee2e6;
+  padding: 10px;
+}
+#couponsShowPage .customCard .customCard-body table th {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 14px;
+}
+#couponsShowPage .customCard .customCard-body table td {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+}
+#couponsShowPage .customCard .customCard-body table td .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  font-size: 12px;
+  padding: 0 10px;
+}
+#couponsShowPage .customCard .customCard-body .anotherTable table td {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+}
+#couponsShowPage .customCard .customCard-body .anotherTable table td .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  font-size: 12px;
+  padding: 0 10px;
 }
 
 body {
