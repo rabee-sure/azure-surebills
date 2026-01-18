@@ -811,6 +811,7 @@ class BillController extends Controller
             'bill_id' => ['required'],
             'lang' => ['required', 'in:en,ar'],
             'host' => ['required'],
+            'sureEasyRendrer' => ['nullable', 'boolean'],
         ]);
 
         $host = $request->host;
@@ -864,7 +865,7 @@ class BillController extends Controller
             ->format('m/d/Y H:i:s');
 
         $years = [];
-        $sureEasyRendrer = true;
+        $sureEasyRendrer = $request->sureEasyRendrer ?? true;
         $microformSessionToken = $billSignature = $payTime = null;
         if(config('payment.default_payment_gateway') == 'cybersource')
         {
