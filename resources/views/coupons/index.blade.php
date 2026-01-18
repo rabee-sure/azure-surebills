@@ -14,7 +14,7 @@
 
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Coupons')}}</h1>
-      <a href="{{ route('coupons.create')}}" class="addCouponBtn d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-pill" title="{{ __('Add Coupon') }}">{{ __('Add Coupon') }}</a>
+      <a href="{{ route('coupons.create')}}" class="addCouponBtn d-flex btn-primary border-0 shadow-none align-items-center justify-content-center gap-2 px-3 text-white rounded-pill" title="{{ __('Add Coupon') }}"><i class="fal fa-plus"></i> {{ __('Add Coupon') }}</a>
     </div><!-- title -->
 
     @if (session('success'))

@@ -6,6 +6,7 @@
     a {
       min-width: 130px;
       height: 40px;
+      font-size: 14px;
     } // a
   } // title
   .couponsArea {
@@ -29,13 +30,13 @@
           height: 30px;
           font-size: 12px;
           padding: 0 10px;
-        }
+        } // badge
         a, button {
           width: 35px;
           height: 35px;
-        } /* a */
-      } /* td */
-    } /* table */
+        } // a
+      } // td
+    } // table
     .no_coupons_yet {
       min-height: 400px;
       color: #999;
@@ -127,3 +128,68 @@
     } /* button */
   } /* saveBtn */
 } // couponsCreatePage
+
+
+#couponsShowPage {
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } // h1
+    a {
+      min-width: 130px;
+      height: 40px;
+      font-size: 14px;
+    } // a
+  } // title
+  .customCard {
+    .customCard-header {
+      background-color: #fafafa;
+      border-inline: 1px solid #dee2e6;
+      border-block-start: 1px solid #dee2e6;
+      padding: 10px;
+    } // card-header
+    .customCard-body {
+      table {
+        th {
+          border: 1px solid #dee2e6;
+          color: #3a3a3a;
+          vertical-align: middle;
+          padding: 10px;
+          font-size: 14px;
+        } // th
+        td {
+          border: 1px solid #dee2e6;
+          color: #3a3a3a;
+          vertical-align: middle;
+          padding: 10px;
+          .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 30px;
+            font-size: 12px;
+            padding: 0 10px;
+          } // badge
+        } // td
+      } // table
+      .anotherTable {
+        table {
+          td {
+            border: 1px solid #dee2e6;
+            color: #3a3a3a;
+            vertical-align: middle;
+            padding: 10px;
+            .badge {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              height: 30px;
+              font-size: 12px;
+              padding: 0 10px;
+            } // badge
+          } // td
+        } // table
+      } //anotherTable
+    } // customCard-body
+  } // customCard
+} // couponsShowPage
