@@ -29,6 +29,8 @@
 @import "pages/integration";
 @import "pages/reports";
 @import "pages/pos";
+@import "pages/coupons";
+
 
 body {
   background-color: #f8f8f8;
@@ -438,13 +440,12 @@ span.select2 {
       } /* select2-selection__rendered */
       .select2-selection__arrow {
         position: absolute;
-        left: 0;
+        inset-inline-end: 10px !important;
         top: 0;
         height: 38px;
-        [dir="ltr"] & {
-          left: auto;
-          right: 1px;
-        } /* ltr */
+        left: unset;
+        right: unset;
+        width: auto;
         &::after {
           content: "\f107";
           font-family: 'Font Awesome 5 Pro';
@@ -632,3 +633,4 @@ span.select2-container {
 .riyal-symbol-font {
   font-family: "A Jannat LT", sans-serif;
 }
+
