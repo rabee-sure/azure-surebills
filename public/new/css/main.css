@@ -32980,6 +32980,45 @@ section#homepage .addNewBillBtn:hover {
   pointer-events: none;
 }
 
+#couponsExportPage {
+  /* saveBtn */
+}
+#couponsExportPage .title h1, #couponsExportPage .title .h1 {
+  color: #3a3a3a;
+}
+#couponsExportPage .checkItem input {
+  opacity: 0;
+  z-index: 99;
+  cursor: pointer;
+}
+#couponsExportPage .checkItem input:checked ~ label {
+  border-color: var(--mainColor) !important;
+}
+#couponsExportPage .checkItem input:checked ~ label .checkmark {
+  background-color: var(--mainColor) !important;
+  border-color: var(--mainColor) !important;
+  box-shadow: 0 0 0 2px var(--mainColor);
+}
+#couponsExportPage .checkItem label .checkmark {
+  width: 24px;
+  height: 24px;
+}
+#couponsExportPage .saveBtn {
+  /* button */
+}
+#couponsExportPage .saveBtn a {
+  height: 40px;
+  min-width: 120px;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  /* disabled="disabled" */
+}
+#couponsExportPage .saveBtn a[disabled=disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 body {
   background-color: #f8f8f8;
   direction: rtl;
