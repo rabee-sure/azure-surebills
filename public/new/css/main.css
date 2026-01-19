@@ -32958,6 +32958,28 @@ section#homepage .addNewBillBtn:hover {
   padding: 0 10px;
 }
 
+#couponsBulkGeneratePage {
+  /* saveBtn */
+}
+#couponsBulkGeneratePage .title h1, #couponsBulkGeneratePage .title .h1 {
+  color: #3a3a3a;
+}
+#couponsBulkGeneratePage .saveBtn {
+  /* button */
+}
+#couponsBulkGeneratePage .saveBtn button, #couponsBulkGeneratePage .saveBtn a {
+  height: 40px;
+  min-width: 120px;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  /* disabled="disabled" */
+}
+#couponsBulkGeneratePage .saveBtn button[disabled=disabled], #couponsBulkGeneratePage .saveBtn a[disabled=disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 body {
   background-color: #f8f8f8;
   direction: rtl;
