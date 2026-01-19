@@ -193,3 +193,25 @@
     } // customCard-body
   } // customCard
 } // couponsShowPage
+
+
+#couponsBulkGeneratePage {
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } // h1
+  } // title
+  .saveBtn {
+    button, a {
+      height: 40px;
+      min-width: 120px;
+      font-size: 14px;
+      transition: all 0.2s ease-in-out;
+      &[disabled="disabled"] {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+      } /* disabled="disabled" */
+    } /* button */
+  } /* saveBtn */
+} // couponsBulkGeneratePage
