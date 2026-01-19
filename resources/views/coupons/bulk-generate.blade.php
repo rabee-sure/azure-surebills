@@ -35,11 +35,11 @@
       <form method="POST" action="{{ route('coupons.store-bulk-generate', $coupon->id) }}" id="bulk_generate_form">
         @csrf
 
-        <div class="alert alert-info">
+        <div class="alert alert-info mb-4">
           <strong>{{ __('Note:') }}</strong> {{ __('This will generate unique one-time use codes for this coupon.') }}
         </div>
 
-        <div class="row">
+        <div class="row mb-4">
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <label for="count" class="d-block mb-2">{{ __('Number of Codes to Generate') }} <span class="requirement text-danger">*</span></label>
@@ -83,7 +83,7 @@
         </div><!-- row -->
 
         <div class="saveBtn d-flex justify-content-start gap-3 mt-3">
-          <button type="submit" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center gap-2 fw-bold px-3"> <i class="fal fa-plus-circle me-1"></i>{{ __('Generate Codes') }}</button>
+          <button type="submit" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center gap-2 fw-bold px-3"> <i class="fal fa-plus-circle"></i>{{ __('Generate Codes') }}</button>
           <a href="{{ route('coupons.show', $coupon->id) }}" class="btn-light rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold px-3">{{ __('Cancel') }}</a>
         </div>
 
