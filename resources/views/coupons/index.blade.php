@@ -14,7 +14,7 @@
 
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Coupons')}}</h1>
-      <a href="{{ route('coupons.create')}}" class="addCouponBtn d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-pill" title="{{ __('Add Coupon') }}">{{ __('Add Coupon') }}</a>
+      <a href="{{ route('coupons.create')}}" class="addCouponBtn d-flex btn-primary border-0 shadow-none align-items-center justify-content-center gap-2 px-3 text-white rounded-pill" title="{{ __('Add Coupon') }}"><i class="fal fa-plus"></i> {{ __('Add Coupon') }}</a>
     </div><!-- title -->
 
     @if (session('success'))
@@ -63,79 +63,80 @@
                 <tr>
                   <td class="text-center">{{ $coupon->id }}</td>
                   <td class="text-center">{{ $coupon->name }}</td>
-                  <td class="text-center">
-                    @include('coupons.partials.mechanism-badge', ['coupon' => $coupon])
-                  </td>
+                  <td class="text-center">@include('coupons.partials.mechanism-badge', ['coupon' => $coupon])</td>
                   <td class="text-center">
                     @if($coupon->discount_type === 'percentage')
                       {{ number_format($coupon->discount_value, 2) }}%
                     @else
-                      {{ number_format($coupon->discount_value, 2) }} {{ __('SAR') }}
+                      <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+                        {{ number_format($coupon->discount_value, 2) }}  <span class="riyal-symbol-font">$</span>
+                      </div><!-- d-flex -->
                     @endif
                   </td>
                   <td class="text-center">
                     @if($coupon->valid_from && $coupon->valid_to)
-                      <small class="d-block">{{ $coupon->valid_from->format('Y-m-d') }}</small>
-                      <small class="d-block text-muted">{{ $coupon->valid_to->format('Y-m-d') }}</small>
+                      <div class="d-flex align-items-center justify-content-center gap-1 flex-column">
+                        <span class="d-block text-capitalize">{{ __('from') }} : {{ $coupon->valid_from->format('Y-m-d') }}</span>
+                        <span class="d-block text-capitalize">{{ __('to') }} : {{ $coupon->valid_to->format('Y-m-d') }}</span>
+                      </div>
                     @elseif($coupon->valid_from)
-                      <small>{{ __('From') }}: {{ $coupon->valid_from->format('Y-m-d') }}</small>
+                      <span class="d-block text-capitalize">{{ __('From') }} : {{ $coupon->valid_from->format('Y-m-d') }}</span>
                     @elseif($coupon->valid_to)
-                      <small>{{ __('Until') }}: {{ $coupon->valid_to->format('Y-m-d') }}</small>
+                      <span class="d-block text-capitalize">{{ __('Until') }} : {{ $coupon->valid_to->format('Y-m-d') }}</span>
                     @else
-                      <small class="text-muted">{{ __('No expiration') }}</small>
+                      <span class="d-block text-capitalize">{{ __('no expiration') }}</span>
                     @endif
                   </td>
                   <td class="text-center">
                     @if($limit)
-                      <div class="d-flex align-items-center">
-                        <span class="me-2">{{ $totalUsage }}/{{ $limit }}</span>
+                      <div class="d-flex align-items-center flex-column gap-1">
+                        <span class="d-block text-capitalize">{{ $totalUsage }}/{{ $limit }}</span>
                         @if($totalUsage > 0)
-                          <div class="progress flex-grow-1" style="height: 8px; min-width: 60px;">
-                            <div class="progress-bar {{ $remaining === 0 ? 'bg-danger' : 'bg-primary' }}" 
-                                 style="width: {{ min(100, ($totalUsage / $limit) * 100) }}%"></div>
+                          <div class="progress flex-grow-1" style="height: 8px; min-width: 100%;">
+                            <div class="progress-bar {{ $remaining === 0 ? 'bg-danger' : 'bg-primary' }}" style="width: {{ min(100, ($totalUsage / $limit) * 100) }}%"></div>
                           </div>
                         @endif
                       </div>
                     @elseif($coupon->mechanism && $coupon->mechanism->value() === 'one_time_usage')
-                      <small>{{ $totalUsage }} {{ __('used') }}</small>
+                      <span>{{ $totalUsage }} {{ __('used') }}</span>
                     @else
-                      <small>{{ $totalUsage }} {{ __('uses') }}</small>
+                      <span>{{ $totalUsage }} {{ __('uses') }}</span>
                     @endif
                   </td>
                   <td class="text-center">
                     @if($isExpired)
-                      <span class="badge bg-danger">{{ __('Expired') }}</span>
+                      <span class="badge badge-pill badge-danger">{{ __('Expired') }}</span>
                     @elseif(!$coupon->is_active)
-                      <span class="badge bg-secondary">{{ __('Inactive') }}</span>
+                      <span class="badge badge-pill badge-secondary">{{ __('Inactive') }}</span>
                     @elseif(!$isValid)
-                      <span class="badge bg-warning">{{ __('Exhausted') }}</span>
+                      <span class="badge badge-pill badge-warning">{{ __('Exhausted') }}</span>
                     @else
-                      <span class="badge bg-success">{{ __('Active') }}</span>
+                      <span class="badge badge-pill badge-success">{{ __('Active') }}</span>
                     @endif
                   </td>
                   <td class="text-center">
                     <div class="d-flex align-items-center justify-content-center">
-                      <a href="{{ route('coupons.show', $coupon->id)}}" 
-                         class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" 
-                         data-bs-toggle="tooltip" 
-                         data-bs-placement="top" 
+                      <a href="{{ route('coupons.show', $coupon->id)}}"
+                         class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1"
+                         data-bs-toggle="tooltip"
+                         data-bs-placement="top"
                          title="{{ __('View') }}">
                         <i class="fal fa-eye"></i>
                       </a>
-                      
+
                       @if($coupon->mechanism && $coupon->mechanism->value() === 'one_time_usage' && $isValid)
-                        <a href="{{ route('coupons.bulk-generate', $coupon->id)}}" 
-                           class="rounded-3 border-0 shadow-none p-0 btn-info d-flex align-items-center justify-content-center mx-1" 
-                           data-bs-toggle="tooltip" 
-                           data-bs-placement="top" 
+                        <a href="{{ route('coupons.bulk-generate', $coupon->id)}}"
+                           class="rounded-3 border-0 shadow-none p-0 btn-info d-flex align-items-center justify-content-center mx-1"
+                           data-bs-toggle="tooltip"
+                           data-bs-placement="top"
                            title="{{ __('Generate Codes') }}">
                           <i class="fal fa-plus-circle"></i>
                         </a>
-                        
-                        <a href="{{ route('coupons.show-export', $coupon->id)}}" 
-                           class="rounded-3 border-0 shadow-none p-0 btn-secondary d-flex align-items-center justify-content-center mx-1" 
-                           data-bs-toggle="tooltip" 
-                           data-bs-placement="top" 
+
+                        <a href="{{ route('coupons.show-export', $coupon->id)}}"
+                           class="rounded-3 border-0 shadow-none p-0 btn-secondary d-flex align-items-center justify-content-center mx-1"
+                           data-bs-toggle="tooltip"
+                           data-bs-placement="top"
                            title="{{ __('Export') }}">
                           <i class="fal fa-download"></i>
                         </a>
@@ -144,7 +145,6 @@
                   </td>
                 </tr>
               @endforeach
-
             </tbody>
           </table>
         </div><!-- table-responsive -->
@@ -156,6 +156,7 @@
         </div><!-- no_coupons_yet -->
       @endif
     </div><!-- couponsArea -->
+
 
   </section><!-- couponsIndexPage -->
 

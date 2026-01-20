@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * CouponController (Web)
- * 
+ *
  * Handles web routes for coupon management.
  * Uses CouponService for all business logic.
  */
@@ -33,7 +33,7 @@ class CouponController extends Controller
     {
         $userId = Auth::user()->store_main_user_id ?? Auth::user()->id;
         $perPage = $request->get('per_page', 15);
-        
+
         $coupons = $this->couponService->getCoupons($userId, $perPage);
 
         // Add additional data for views
@@ -201,7 +201,7 @@ class CouponController extends Controller
         $result = $this->couponService->exportCodes($coupon, $validated['format']);
 
         // If result is a response (success), return it
-        if ($result instanceof \Illuminate\Http\Response 
+        if ($result instanceof \Illuminate\Http\Response
             || $result instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse
             || $result instanceof \Symfony\Component\HttpFoundation\StreamedResponse) {
             return $result;

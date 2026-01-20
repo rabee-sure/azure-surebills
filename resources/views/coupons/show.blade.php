@@ -16,13 +16,13 @@
 
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Coupon Details')}}</h1>
-      <div>
+      <div class="d-flex align-items-center justify-content-end gap-2">
         @if($coupon->mechanism && $coupon->mechanism->value() === 'one_time_usage' && $coupon->is_valid)
-          <a href="{{ route('coupons.bulk-generate', $coupon->id)}}" class="btn btn-info me-2 rounded-3">
-            <i class="fal fa-plus-circle me-1"></i>{{ __('Generate Codes') }}
+          <a href="{{ route('coupons.bulk-generate', $coupon->id)}}" class="d-flex btn-info border-0 shadow-none align-items-center justify-content-center gap-2 rounded-pill px-3">
+            <i class="fal fa-plus-circle"></i> {{ __('Generate Codes') }}
           </a>
-          <a href="{{ route('coupons.show-export', $coupon->id)}}" class="btn btn-secondary rounded-3">
-            <i class="fal fa-download me-1"></i>{{ __('Export') }}
+          <a href="{{ route('coupons.show-export', $coupon->id)}}" class="d-flex btn-secondary border-0 shadow-none align-items-center justify-content-center gap-2 rounded-pill px-3">
+            <i class="fal fa-download"></i> {{ __('Export') }}
           </a>
         @endif
       </div>
@@ -43,14 +43,13 @@
     @endif
 
     <div class="row g-4">
+
       {{-- Coupon Details --}}
       <div class="col-lg-8">
-        <div class="card border-0 shadow-sm">
-          <div class="card-header bg-white border-bottom">
-            <h5 class="mb-0">{{ __('Coupon Information') }}</h5>
-          </div>
-          <div class="card-body">
-            <table class="table table-borderless">
+        <div class="customCard">
+          <div class="customCard-header fs-6 fw-bold text-capitalize">{{ __('Coupon Information') }}</div>
+          <div class="customCard-body bg-white">
+            <table class="table m-0 text-nowrap">
               <tr>
                 <td class="fw-bold" width="30%">{{ __('Name') }}</td>
                 <td>{{ $coupon->name }}</td>
@@ -58,8 +57,10 @@
               <tr>
                 <td class="fw-bold">{{ __('Mechanism') }}</td>
                 <td>
+                  <div class="d-flex flex-column gap-1">
                   @include('coupons.partials.mechanism-badge', ['coupon' => $coupon])
-                  <small class="d-block text-muted mt-2">{{ $coupon->mechanism->description() }}</small>
+                  <small class="d-block text-muted">{{ $coupon->mechanism->description() }}</small>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -68,7 +69,9 @@
                   @if($coupon->discount_type === 'percentage')
                     <strong>{{ number_format($coupon->discount_value, 2) }}%</strong>
                   @else
-                    <strong>{{ number_format($coupon->discount_value, 2) }} {{ __('SAR') }}</strong>
+                    <div class="d-flex align-items-center justify-content-start gap-1 fw-bold rtl flex-shrink-0">
+                      {{ number_format($coupon->discount_value, 2) }}  <span class="riyal-symbol-font">$</span>
+                    </div><!-- d-flex -->
                   @endif
                 </td>
               </tr>
@@ -114,13 +117,13 @@
                 <td class="fw-bold">{{ __('Status') }}</td>
                 <td>
                   @if($coupon->is_expired)
-                    <span class="badge bg-danger">{{ __('Expired') }}</span>
+                    <span class="badge badge-pill badge-danger">{{ __('Expired') }}</span>
                   @elseif(!$coupon->is_active)
-                    <span class="badge bg-secondary">{{ __('Inactive') }}</span>
+                    <span class="badge badge-pill badge-secondary">{{ __('Inactive') }}</span>
                   @elseif(!$coupon->is_valid)
-                    <span class="badge bg-warning">{{ __('Exhausted') }}</span>
+                    <span class="badge badge-pill badge-warning">{{ __('Exhausted') }}</span>
                   @else
-                    <span class="badge bg-success">{{ __('Active') }}</span>
+                    <span class="badge badge-pill badge-success">{{ __('Active') }}</span>
                   @endif
                 </td>
               </tr>
@@ -131,64 +134,53 @@
             </table>
           </div>
         </div>
-      </div>
+      </div><!-- col -->
 
       {{-- Usage Statistics --}}
       <div class="col-lg-4">
-        <div class="card border-0 shadow-sm">
-          <div class="card-header bg-white border-bottom">
-            <h5 class="mb-0">{{ __('Usage Statistics') }}</h5>
-          </div>
-          <div class="card-body">
+        <div class="customCard">
+          <div class="customCard-header fs-6 fw-bold text-capitalize">{{ __('Usage Statistics') }}</div>
+          <div class="customCard-body p-3 border bg-white">
             @include('coupons.partials.usage-stats', ['coupon' => $coupon, 'stats' => $stats])
           </div>
         </div>
-      </div>
-    </div>
+      </div><!-- col -->
 
-    {{-- Generated Codes (for ONE_TIME_USAGE) --}}
-    @if($coupon->mechanism && $coupon->mechanism->value() === 'one_time_usage' && $codes && $codes->count())
-    <div class="card border-0 shadow-sm mt-4">
-      <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between">
-        <h5 class="mb-0">{{ __('Recent Generated Codes') }}</h5>
-        <small class="text-muted">{{ __('Showing latest 50 codes') }}</small>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-sm table-hover">
-            <thead>
-              <tr>
-                <th>{{ __('Code') }}</th>
-                <th>{{ __('Status') }}</th>
-                <th>{{ __('Used At') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($codes as $code)
-                <tr>
-                  <td><code>{{ $code->code }}</code></td>
-                  <td>
-                    @if($code->is_used)
-                      <span class="badge bg-danger">{{ __('Used') }}</span>
-                    @else
-                      <span class="badge bg-success">{{ __('Available') }}</span>
-                    @endif
-                  </td>
-                  <td>
-                    @if($code->is_used && $code->usage->first())
-                      {{ $code->usage->first()->used_at->format('Y-m-d H:i:s') }}
-                    @else
-                      <span class="text-muted">-</span>
-                    @endif
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    @endif
+      {{-- Generated Codes (for ONE_TIME_USAGE) --}}
+      @if($coupon->mechanism && $coupon->mechanism->value() === 'one_time_usage' && $codes && $codes->count())
+        <div class="col-md-12">
+          <div class="customCard">
+            <div class="customCard-header text-capitalize d-flex align-items-center justify-content-between">
+              <span class="d-block text-capitalize fs-6 fw-bold">{{ __('Recent Generated Codes') }}</span>
+              <small class="text-muted">{{ __('Showing latest 50 codes') }}</small>
+            </div>
+            <div class="customCard-body p-3 border bg-white">
+              <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
+                @foreach($codes as $code)
+                  <div class="col">
+                    <div class="border shadow-sm rounded-2 p-3 d-flex flex-column gap-2 h-100">
+                      <span class="d-block text-capitalize">{{ __('Code') }} : <code>{{ $code->code }}</code></span>
+                      <span class="d-block text-capitalize">{{ __('Status') }} : <span class="badge badge-pill badge-{{ $code->is_used ? 'danger' : 'success' }}">{{ $code->is_used ? __('Used') : __('Available') }}</span></span>
+                      <small class="d-block text-capitalize text-muted">
+                        {{ __('Used At') }} :
+                        @if($code->is_used && $code->usage->first())
+                          {{ $code->usage->first()->used_at->format('Y-m-d H:i:s') }}
+                        @else
+                          <span class="text-muted">-</span>
+                        @endif
+                      </small>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+
+
+            </div>
+          </div><!-- customCard -->
+        </div><!-- col -->
+      @endif
+
+    </div><!-- row -->
 
   </section><!-- couponsShowPage -->
 

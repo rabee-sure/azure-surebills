@@ -1,0 +1,262 @@
+#couponsIndexPage {
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } // h1
+    a {
+      min-width: 130px;
+      height: 40px;
+      font-size: 14px;
+    } // a
+  } // title
+  .couponsArea {
+    table {
+      th {
+        border: 1px solid #dee2e6;
+        color: #3a3a3a;
+        vertical-align: middle;
+        padding: 10px;
+        font-size: 14px;
+      } /* th */
+      td {
+        border: 1px solid #dee2e6;
+        color: #3a3a3a;
+        vertical-align: middle;
+        padding: 10px;
+        .badge {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 30px;
+          font-size: 12px;
+          padding: 0 10px;
+        } // badge
+        a, button {
+          width: 35px;
+          height: 35px;
+        } // a
+      } // td
+    } // table
+    .no_coupons_yet {
+      min-height: 400px;
+      color: #999;
+      @include media-breakpoint-down(md) {
+        min-height: 200px;
+      } /* md */
+      i {
+        font-size: 100px;
+        @include media-breakpoint-down(md) {
+          font-size: 70px;
+        } // md
+      } // i
+      span {
+        font-size: 18px;
+        @include media-breakpoint-down(md) {
+          font-size: 15px;
+        } // md
+      } // span
+    } // no_coupons_yet
+  } // couponsArea
+} // couponsIndexPage
+
+#couponsCreatePage {
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } // h1
+  } // title
+  .checkboxItem {
+    input {
+      opacity: 0;
+      z-index: 99;
+      cursor: pointer;
+      &:checked ~ {
+        span {
+          i {
+            background-color: var(--mainColor);
+            box-shadow: 0 2px 4px 0 rgba(var(--mainColorRGB),.4);
+            &::after {
+              transform: translateX(-28px);
+              [dir="ltr"] & {
+                transform: translateX(28px);
+              } /* ltr */
+            } // after
+          } // i
+        } // span
+      } // checked
+    } // input
+    span {
+      color: #3a3a3a;
+      i {
+        height: 25px;
+        width: 53px;
+        background-color: #d7d7d7;
+        margin: 0 0 0 10px;
+        transition: all 0.3s ease-in-out;
+        [dir="ltr"] & {
+          margin: 0 10px 0 0;
+        } /* ltr */
+        &::after {
+          content: "";
+          width: 17px;
+          height: 17px;
+          background-color: #fff;
+          position: absolute;
+          top: 4px;
+          right: 4px;
+          border-radius: 100%;
+          transition: all 0.3s ease-in-out;
+          [dir="ltr"] & {
+            right: auto;
+            left: 4px;
+          } /* ltr */
+        } /* after */
+      } /* i */
+    } /* span */
+  } /* checkboxItem */
+  .saveBtn {
+    button {
+      height: 40px;
+      min-width: 120px;
+      font-size: 14px;
+      transition: all 0.2s ease-in-out;
+      &[disabled="disabled"] {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+      } /* disabled="disabled" */
+    } /* button */
+  } /* saveBtn */
+} // couponsCreatePage
+
+
+#couponsShowPage {
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } // h1
+    a {
+      min-width: 130px;
+      height: 40px;
+      font-size: 14px;
+    } // a
+  } // title
+  .customCard {
+    .customCard-header {
+      background-color: #fafafa;
+      border-inline: 1px solid #dee2e6;
+      border-block-start: 1px solid #dee2e6;
+      padding: 10px;
+    } // card-header
+    .customCard-body {
+      table {
+        th {
+          border: 1px solid #dee2e6;
+          color: #3a3a3a;
+          vertical-align: middle;
+          padding: 10px;
+          font-size: 14px;
+        } // th
+        td {
+          border: 1px solid #dee2e6;
+          color: #3a3a3a;
+          vertical-align: middle;
+          padding: 10px;
+          .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 30px;
+            font-size: 12px;
+            padding: 0 10px;
+          } // badge
+        } // td
+      } // table
+      .anotherTable {
+        table {
+          td {
+            border: 1px solid #dee2e6;
+            color: #3a3a3a;
+            vertical-align: middle;
+            padding: 10px;
+            .badge {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              height: 30px;
+              font-size: 12px;
+              padding: 0 10px;
+            } // badge
+          } // td
+        } // table
+      } //anotherTable
+    } // customCard-body
+  } // customCard
+} // couponsShowPage
+
+
+#couponsBulkGeneratePage {
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } // h1
+  } // title
+  .saveBtn {
+    button, a {
+      height: 40px;
+      min-width: 120px;
+      font-size: 14px;
+      transition: all 0.2s ease-in-out;
+      &[disabled="disabled"] {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+      } /* disabled="disabled" */
+    } /* button */
+  } /* saveBtn */
+} // couponsBulkGeneratePage
+
+
+#couponsExportPage {
+  .title {
+    h1 {
+      color: #3a3a3a;
+    } // h1
+  } // title
+  .checkItem {
+    input {
+      opacity: 0;
+      z-index: 99;
+      cursor: pointer;
+      &:checked ~ {
+        label {
+          border-color: var(--mainColor) !important;
+          .checkmark {
+            background-color: var(--mainColor) !important;
+            border-color: var(--mainColor) !important;
+            box-shadow: 0 0 0 2px var(--mainColor);
+          } // checkmark
+        } // label
+      } // checked
+    } // input
+    label {
+      .checkmark {
+        width: 24px;
+        height: 24px;
+      } // checkmark
+    } // label
+  } // checkItem
+  .saveBtn {
+    a {
+      height: 40px;
+      min-width: 120px;
+      font-size: 14px;
+      transition: all 0.2s ease-in-out;
+      &[disabled="disabled"] {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+      } /* disabled="disabled" */
+    } /* button */
+  } /* saveBtn */
+} // couponsExportPage
