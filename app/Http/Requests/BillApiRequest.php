@@ -99,9 +99,10 @@ class BillApiRequest extends FormRequest
 
             'due_date' => ['required', 'date_format:d-m-Y'],
 
+            'coupon_code' => ['nullable', 'string', 'max:255'],
             'add_discount' => ['nullable'],
-            'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
-            'discount_value' => ['required_if:add_discount,on'],
+            'discount_type' => ['required_if:add_discount,on', 'required_without:coupon_code', Rule::in(['fixed', 'percentage'])],
+            'discount_value' => ['required_if:add_discount,on', 'required_without:coupon_code'],
 
             'add_tax' => ['nullable'],
             'tax_value' => ['required_if:add_tax,on'],
