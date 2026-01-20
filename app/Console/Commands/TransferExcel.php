@@ -46,8 +46,7 @@ class TransferExcel extends Command
     public function handle()
     {
 
-        $settings = Valuestore::make(storage_path('app/settings.json'));
-
+        $settings = Valuestore::make(getSettings());
 
         $transfer_emails = $settings->get('transfer_emails');
 
@@ -58,12 +57,12 @@ class TransferExcel extends Command
 
         $data = json_decode((TransactionExportResource::collection($transfer->transactions->load('bill.application.channel')))->toJson(), true);
 
-        if(Excel::store(new TransactionsExport($data), $file_name , 'public')){
+        if(Excel::store(new TransactionsExport($data), $file_name)){
 
             $transfer->addMedia(storage_path('app/public/'.$file_name))
                 ->preservingOriginal()
                 ->toMediaCollection('transfers_transactions');
-                
+
                 //fire event transfer file generated
                 event(new TransferFileGenerated($transfer_emails, $cycleDate, $transfer));
         }

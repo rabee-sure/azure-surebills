@@ -44,7 +44,7 @@ class DiscussionResource extends Resource
         return [
             BelongsTo::make('User', 'user', UserResource::class),
             Text::make('Title')->rules('required', 'string', 'max:255'),
-            Trix::make('Body')->rules('required')->withFiles('public'),
+            Trix::make('Body')->rules('required')->withFiles(),
         ];
     }
 

@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class MissingTransactionsSummaryMail extends Mailable
 {
@@ -30,10 +31,10 @@ class MissingTransactionsSummaryMail extends Mailable
      */
     public function build()
     {
-        $reportFileName = "app/public/".$this->file_name;
-        
+        $fileContent = Storage::get($this->file_name);
+
         return $this->subject("Missing transactions inserted summary")
             ->view('emails.reports.missing_transactions_inserted_summary')
-            ->attach(storage_path($reportFileName));
+            ->attachData($fileContent, basename($this->file_name));
     }
 }

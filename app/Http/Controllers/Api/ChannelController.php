@@ -19,7 +19,7 @@ use Illuminate\Support\Str;
 class ChannelController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -37,7 +37,7 @@ class ChannelController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \App\Channel  $channel
      * @param  \Illuminate\Http\Request  $request

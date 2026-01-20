@@ -28,7 +28,7 @@ class BankController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function updateInformation(UpdateInformationRequest $request)
-    {        
+    {
         $user = $request->user();
 
         $user->update([
@@ -63,9 +63,9 @@ class BankController extends Controller
 
             foreach ($request->input('document', []) as $file) {
                 if (count($media) === 0 || !in_array($file, $media)) {
-                    $user->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('bank_documents');
+                    $user->addMedia('tmp/uploads/' . $file)->toMediaCollection('bank_documents');
                 }
-            }       
+            }
         }
 
         if($request->hasFile('logo')) {
@@ -95,7 +95,7 @@ class BankController extends Controller
 
             foreach ($request->input('document', []) as $file) {
                 if (count($media) === 0 || !in_array($file, $media)) {
-                    $user->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('business_documents');
+                    $user->addMedia('tmp/uploads/' . $file)->toMediaCollection('business_documents');
                 }
             }
         }

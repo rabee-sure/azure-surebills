@@ -57,9 +57,8 @@ class ProductsController extends Controller
             foreach ($request->image as $image) {
                 $file = $image;
                 $file_name = time() . '-' . $file->getClientOriginalName();
-                $destinationPath = storage_path('/app/public/products');
-                $file->move($destinationPath, $file_name);
-                $images[]['image'] = $file_name;
+                $path = $file->storeAs('products', $file_name, 'oci');
+                $images[]['image'] = $path;
             }
         }
 
@@ -127,9 +126,8 @@ class ProductsController extends Controller
                 foreach ($request->image as $image) {
                     $file = $image;
                     $file_name = time() . '-' . $file->getClientOriginalName();
-                    $destinationPath = storage_path('/app/public/products');
-                    $file->move($destinationPath, $file_name);
-                    $images[]['image'] = $file_name;
+                    $path = $file->storeAs('products', $file_name, 'oci');
+                    $images[]['image'] = $path;
                 }
             }
 

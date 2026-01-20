@@ -157,7 +157,7 @@ class AccountController extends Controller
 
             foreach ($request->input('document', []) as $file) {
                 if (count($media) === 0 || !in_array($file, $media)) {
-                    $bankInfo->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('bank_documents');
+                    $bankInfo->addMedia('tmp/uploads/' . $file)->toMediaCollection('bank_documents');
                 }
             }
         }
@@ -270,7 +270,7 @@ class AccountController extends Controller
 
             foreach ($request->input('document', []) as $file) {
                 if (count($media) === 0 || !in_array($file, $media)) {
-                    $businessInfo->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('business_documents');
+                    $businessInfo->addMedia('tmp/uploads/' . $file)->toMediaCollection('business_documents');
                 }
             }
         }
@@ -319,11 +319,7 @@ class AccountController extends Controller
 
         return redirect('/account');
     }
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
     public function imagesUploadPost(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -334,21 +330,16 @@ class AccountController extends Controller
         {
             return response()->json(['error' => $validator->errors()], 400);
         }
-        $path = storage_path('tmp/uploads');
-
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
-        }
 
         $file = $request->file('file');
-
-        $name = uniqid() . '_' . trim($file->getClientOriginalName());
-
-        $file->move($path, $name);
-
+        $originalName = trim($file->getClientOriginalName());
+        $fileName = uniqid() . '_' . $originalName;
+        $folder = 'tmp/uploads';
+        $path = $file->storeAs($folder, $fileName, 'oci');
         return response()->json([
-            'name'          => $name,
-            'original_name' => $file->getClientOriginalName(),
+            'name'          => $fileName,
+            'original_name' => $originalName,
+            'path'          => $path,
         ]);
     }
 

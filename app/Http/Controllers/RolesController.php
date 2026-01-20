@@ -39,7 +39,7 @@ class RolesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -75,7 +75,7 @@ class RolesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -91,7 +91,7 @@ class RolesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

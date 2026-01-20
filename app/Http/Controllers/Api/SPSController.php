@@ -9,9 +9,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class SPSController extends Controller
-{   
+{
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \App\Transfer  $transfer
      * @param  \Illuminate\Http\Request  $request
@@ -36,7 +36,7 @@ class SPSController extends Controller
                 'Message' => $validator->errors()->first(),
             ]);
         }
-        
+
         foreach($request->transfers as $data){
             $transfer = Transfer::find($data['ReferenceNumber']);
             if($transfer){

@@ -44,7 +44,7 @@ class GenerateMerchantOutstandingReport extends Command
      * @return int
      */
     public function handle()
-    {        
+    {
         ini_set('memory_limit','4096M');
 
         $results = DB::table('users')
@@ -62,7 +62,7 @@ class GenerateMerchantOutstandingReport extends Command
 
         if(!empty($results)){
             $file_name = 'merchants/outstanding_report.xlsx';
-            if(Excel::store(new MerchantsOutstandingReportExport($results), $file_name , 'public')){
+            if(Excel::store(new MerchantsOutstandingReportExport($results), $file_name)){
                 $this->info('Report Generated');
             }
         }

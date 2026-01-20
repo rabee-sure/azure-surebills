@@ -1,5 +1,6 @@
 <?php
 
+use Laravel\Nova\Actions\Action;
 use chillerlan\QRCode\QRCode;
 use Salla\ZATCA\GenerateQrCode;
 use Salla\ZATCA\Tags\InvoiceDate;
@@ -7,7 +8,8 @@ use Salla\ZATCA\Tags\InvoiceTaxAmount;
 use Salla\ZATCA\Tags\InvoiceTotalAmount;
 use Salla\ZATCA\Tags\Seller;
 use Salla\ZATCA\Tags\TaxNumber;
-use Illuminate\Support\Str; 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('getMastercardError')) {
     function getMastercardError($response)
@@ -15,141 +17,141 @@ if (!function_exists('getMastercardError')) {
         if (isset($response['error']) && isset($response['error']['explanation'])) {
             return $response['error']['explanation'];
         }
-        
+
         if (isset($response['response']) && isset($response['response']['gatewayCode'])) {
             return $response['response']['gatewayCode'];
         }
     }
 }
- 
+
 if (!function_exists('getBanks')) {
     function getBanks()
     {
         $banks = [
             [
                 "id" => 1,
-                "en" => "National Bank of Abu Dhabi", 
-                "ar" => "بنك أبوظبي الوطني", 
+                "en" => "National Bank of Abu Dhabi",
+                "ar" => "بنك أبوظبي الوطني",
             ],
             [
                 "id" => 2,
-                "en" => "MUFG EMEA", 
-                "ar" => "MUFG EMEA", 
+                "en" => "MUFG EMEA",
+                "ar" => "MUFG EMEA",
             ],
             [
                 "id" => 3,
-                "en" => "Industrial and Commercial Bank of China Ltd", 
-                "ar" => "البنك الصناعي والتجاري الصيني المحدود", 
-            ],            
+                "en" => "Industrial and Commercial Bank of China Ltd",
+                "ar" => "البنك الصناعي والتجاري الصيني المحدود",
+            ],
             [
                 "id" => 4,
-                "en" => "Ziraat Bankası", 
-                "ar" => "بنك زراعات التركي", 
-            ],            
+                "en" => "Ziraat Bankası",
+                "ar" => "بنك زراعات التركي",
+            ],
             [
                 "id" => 5,
-                "en" => "National Bank of Pakistan", 
-                "ar" => "البنك الوطني الباكستاني", 
+                "en" => "National Bank of Pakistan",
+                "ar" => "البنك الوطني الباكستاني",
             ],
             [
                 "id" => 6,
-                "en" => "J.P. Morgan Bank", 
-                "ar" => "جي بي مورغان تشيس", 
+                "en" => "J.P. Morgan Bank",
+                "ar" => "جي بي مورغان تشيس",
             ],
             [
                 "id" => 7,
-                "en" => "BNP Paribas", 
-                "ar" => "بي إن بي باريبا", 
-            ],            
+                "en" => "BNP Paribas",
+                "ar" => "بي إن بي باريبا",
+            ],
             [
                 "id" => 8,
-                "en" => "Deutsche Bank", 
-                "ar" => "دويتشه بنك", 
-            ],         
+                "en" => "Deutsche Bank",
+                "ar" => "دويتشه بنك",
+            ],
             [
                 "id" => 9,
-                "en" => "Bank Muscat", 
-                "ar" => "بنك مسقط", 
+                "en" => "Bank Muscat",
+                "ar" => "بنك مسقط",
             ],
             [
                 "id" => 10,
-                "en" => "National Bank of Kuwait", 
-                "ar" => "بنك الكويت الوطني", 
+                "en" => "National Bank of Kuwait",
+                "ar" => "بنك الكويت الوطني",
             ],
             [
                 "id" => 11,
-                "en" => "National Bank of Bahrain", 
-                "ar" => "بنك البحرين الوطني", 
+                "en" => "National Bank of Bahrain",
+                "ar" => "بنك البحرين الوطني",
             ],
             [
                 "id" => 12,
-                "en" => "Emirates NBD", 
-                "ar" => "بنك الإمارات دبي الوطني", 
+                "en" => "Emirates NBD",
+                "ar" => "بنك الإمارات دبي الوطني",
             ],
             [
                 "id" => 13,
-                "en" => "Gulf International Bank", 
-                "ar" => "بنك الخليج الدولي", 
+                "en" => "Gulf International Bank",
+                "ar" => "بنك الخليج الدولي",
             ],
             [
                 "id" => 14,
-                "en" => "Alinma Bank", 
-                "ar" => "مصرف الإنماء", 
+                "en" => "Alinma Bank",
+                "ar" => "مصرف الإنماء",
             ],
             [
                 "id" => 15,
-                "en" => "Al-Rajhi Bank", 
-                "ar" => "مصرف الراجحي", 
+                "en" => "Al-Rajhi Bank",
+                "ar" => "مصرف الراجحي",
             ],
             [
                 "id" => 16,
-                "en" => "Samba Financial Group", 
-                "ar" => "مجموعة سامبا المالية", 
+                "en" => "Samba Financial Group",
+                "ar" => "مجموعة سامبا المالية",
             ],
             [
                 "id" => 17,
-                "en" => "Riyad Bank", 
-                "ar" => "بنك الرياض", 
+                "en" => "Riyad Bank",
+                "ar" => "بنك الرياض",
             ],
             [
                 "id" => 18,
-                "en" => "Bank AlJazira", 
-                "ar" => "بنك الجزيرة", 
+                "en" => "Bank AlJazira",
+                "ar" => "بنك الجزيرة",
             ],
             [
                 "id" => 19,
-                "en" => "Al Bilad Bank", 
-                "ar" => "بنك البلاد", 
+                "en" => "Al Bilad Bank",
+                "ar" => "بنك البلاد",
             ],
             [
                 "id" => 20,
-                "en" => "Arab National Bank", 
-                "ar" => "البنك العربي الوطني", 
+                "en" => "Arab National Bank",
+                "ar" => "البنك العربي الوطني",
             ],
             [
                 "id" => 21,
-                "en" => "The Saudi Investment Bank", 
-                "ar" => "البنك السعودي للاستثمار", 
+                "en" => "The Saudi Investment Bank",
+                "ar" => "البنك السعودي للاستثمار",
             ],
             [
                 "id" => 22,
-                "en" => "Alawwal Bank", 
-                "ar" => "البنك الأول", 
+                "en" => "Alawwal Bank",
+                "ar" => "البنك الأول",
             ],
             [
                 "id" => 23,
-                "en" => "Banque Saudi Fransi", 
-                "ar" => "البنك السعودي الفرنسي", 
+                "en" => "Banque Saudi Fransi",
+                "ar" => "البنك السعودي الفرنسي",
             ],
             [
                 "id" => 24,
-                "en" => "British Saudi Bank", 
-                "ar" => "بنك ساب", 
+                "en" => "British Saudi Bank",
+                "ar" => "بنك ساب",
             ],
             [
                 "id" => 25,
-                "en" => "National Commercial Bank", 
-                "ar" => "البنك الأهلي التجاري", 
+                "en" => "National Commercial Bank",
+                "ar" => "البنك الأهلي التجاري",
             ],
         ];
         return $banks;
@@ -169,7 +171,7 @@ if (!function_exists('round2')) {
 if (!function_exists('floorp')) {
     function floorp($val, $precision)
     {
-        $mult = pow(10, $precision); // Can be cached in lookup table        
+        $mult = pow(10, $precision); // Can be cached in lookup table
         return floor($val * $mult) / $mult;
     }
 }
@@ -189,7 +191,7 @@ if(!function_exists('generateQRcode')){
     function generateQRcode($bill, $src = null){
 
         $displayQRCodeAsBase64 = GenerateQrCode::fromArray([
-            new Seller($bill->user->business_name_ar), // seller name        
+            new Seller($bill->user->business_name_ar), // seller name
             new TaxNumber($bill->user->vat_registration_number), // seller tax number
             new InvoiceDate($bill->paid_at), // invoice date as Zulu ISO8601 @see https://en.wikipedia.org/wiki/ISO_8601
             new InvoiceTotalAmount($bill->total), // invoice total amount
@@ -233,3 +235,115 @@ if(!function_exists('generateSecureOTP')){
         return Str::padLeft($randomNumber, 4, '0');
     }
 }
+
+if (!function_exists('addFile')){
+    function addFile($value, $path)
+    {
+        if (file_exists(Storage::disk('public')->path('downloads/'.$value))){
+            return url('storage/downloads/'.$value);
+        }
+        else if(Storage::disk('oci')->exists($value)){
+            $stream = Storage::disk('oci')->readStream($value);
+            $localPath = 'downloads/' . $path . '/' . basename($value);
+            Storage::disk('public')->put($localPath, $stream);
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+            return url('storage/downloads/'.$value);
+        }
+        else{
+            return '/images/no-image.jpg';
+        }
+    }
+}
+
+if (!function_exists('getFile')){
+    function getFile($value)
+    {
+        if (file_exists(Storage::disk('public')->path('downloads/'.$value))){
+            return url('storage/downloads/'.$value);
+        }
+        else if(Storage::disk('oci')->exists($value)){
+            $stream = Storage::disk('oci')->readStream($value);
+            $localPath = 'downloads/' . $value;
+            Storage::disk('public')->put($localPath, $stream);
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+            return url('storage/downloads/'.$value);
+        }
+        else{
+            return '/images/no-image.jpg';
+        }
+    }
+}
+
+if (!function_exists('downloadFile')){
+    function downloadFile($filePath, $fileName)
+    {
+        if (file_exists(Storage::disk('public')->path('downloads/'.$filePath))){
+            return Action::download(url('storage/downloads/' . $filePath), $fileName);
+        } else if(Storage::disk('oci')->exists($filePath)){
+            $stream = Storage::disk('oci')->readStream($filePath);
+            $localPath = 'downloads/' . $filePath;
+            Storage::disk('public')->put($localPath, $stream);
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+            return Action::download(url('storage/downloads/' . $filePath), $fileName);
+        } else
+            return Action::danger(404);
+    }
+}
+
+if (!function_exists('getFilePath')) {
+    function getFilePath($name, $id)
+    {
+        $relativePath = "downloads/reports/{$name}/{$name}_{$id}.xlsx";
+        $localFullPath = storage_path("app/public/{$relativePath}");
+        $ociPath = "reports/{$name}/{$name}_{$id}.xlsx";
+        if (file_exists($localFullPath)) {
+            return url("storage/{$relativePath}");
+        }
+        if (Storage::disk('oci')->exists($ociPath)) {
+            $stream = Storage::disk('oci')->readStream($ociPath);
+            Storage::disk('public')->makeDirectory("downloads/reports/{$name}");
+            Storage::disk('public')->put($relativePath, $stream);
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+            return url("storage/{$relativePath}");
+        }
+        return null;
+    }
+}
+
+
+if (!function_exists('getSettings')){
+    function getSettings()
+    {
+        if (file_exists(Storage::disk('public')->path('downloads/app/settings.json'))){
+            return storage_path('app/downloads/app/settings.json');
+        }
+        else if(Storage::disk('oci')->exists('app/settings.json')){
+            $stream = Storage::disk('oci')->readStream('app/settings.json');
+            $localPath = 'downloads/app/settings.json';
+            Storage::disk('public')->put($localPath, $stream);
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+            return storage_path('app/downloads/app/settings.json');
+        }
+    }
+}
+
+if (!function_exists('uploadFile')){
+    function uploadFile($file)
+    {
+        $filePath = storage_path($file);
+        if (file_exists($filePath)) {
+            Storage::disk('oci')->put($filePath, fopen($filePath, 'r+'));
+        }
+    }
+}
+

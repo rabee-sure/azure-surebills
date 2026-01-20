@@ -32,12 +32,14 @@ class TransactionsExportedExcelMail extends Mailable
     public function build()
     {
         $fileName = $this->file_name;
-        $filePath = Storage::disk('local')->path(join(DIRECTORY_SEPARATOR, array('exported-transactions', $fileName)));
+        $fileContent = Storage::get('exported-transactions/' . $fileName);
         return $this->subject("New Exported Transactions - SureBills")
             ->view('emails.transactions.exported_transactions', [
                 'file_name' => $this->file_name,
             ])
-            ->attach($filePath);
+            ->attachData($fileContent, $fileName, [
+                'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            ]);
     }
 
 }

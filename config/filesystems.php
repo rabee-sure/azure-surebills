@@ -72,6 +72,18 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'oci' => [
+            'driver'                  => 's3',
+            'key'                     => env('OCI_ACCESS_KEY_ID'),
+            'secret'                  => env('OCI_SECRET_ACCESS_KEY'),
+            'region'                  => env('OCI_REGION'),
+            'bucket'                  => env('OCI_BUCKET'),
+            'endpoint'                => env('OCI_ENDPOINT'),
+            'bucket_endpoint'         => false,
+            'use_path_style_endpoint' => true,
+            'throw'                   => true,
+        ],
+
     ],
 
     /*

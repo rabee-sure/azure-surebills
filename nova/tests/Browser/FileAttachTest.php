@@ -32,7 +32,7 @@ class FileAttachTest extends DuskTestCase
             $captain = Captain::orderBy('id', 'desc')->first();
             $photo = $captain->photo;
             $this->assertNotNull($captain->photo);
-            $this->assertTrue(Storage::disk('public')->exists($captain->photo));
+            $this->assertTrue(Storage::exists($captain->photo));
 
             // Download the file...
             $browser->on(new Detail('captains', $captain->id))
@@ -45,7 +45,7 @@ class FileAttachTest extends DuskTestCase
 
             $captain = $captain->fresh();
             $this->assertNotNull($captain->photo);
-            $this->assertTrue(Storage::disk('public')->exists($captain->photo));
+            $this->assertTrue(Storage::exists($captain->photo));
 
             // Delete the file...
             $browser->visit(new Update('captains', $captain->id))
@@ -55,7 +55,7 @@ class FileAttachTest extends DuskTestCase
                     ->pause(250);
 
             // Clean up the file...
-            $this->assertFalse(Storage::disk('public')->exists($captain->photo));
+            $this->assertFalse(Storage::exists($captain->photo));
 
             $browser->blank();
 

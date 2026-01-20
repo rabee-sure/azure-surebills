@@ -31,7 +31,7 @@ use phpDocumentor\Reflection\Types\Null_;
 class BillController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -40,6 +40,7 @@ class BillController extends Controller
     {
         $application = $request->application;
         $user = $application->user ?? null;
+
         $bill_user_id = $application->user_id ?? null;
         
         if($user && $user->store_main_user_id)
@@ -94,7 +95,7 @@ class BillController extends Controller
                 'user_id' => $user->id
             ]);
         }
-       
+
         $send_sms = $request->send_sms ?? 0;
         $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
 
@@ -348,7 +349,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -558,7 +559,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -588,7 +589,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -643,7 +644,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -882,7 +883,7 @@ class BillController extends Controller
         if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
             return response()->json(['view' => view('bills.pay', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'))->render()]);
         }
-        
-        return response()->json(['view' => view('bills.payment_page', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'))->render()]); 
+
+        return response()->json(['view' => view('bills.payment_page', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'))->render()]);
     }
 }

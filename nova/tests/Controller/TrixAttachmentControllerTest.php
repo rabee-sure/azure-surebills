@@ -48,7 +48,6 @@ class TrixAttachmentControllerTest extends IntegrationTest
             $this->assertDatabaseHas('nova_trix_attachments', [
                 'attachable_type' => Discussion::class,
                 'attachable_id' => $discussion->id,
-                'disk' => 'public',
             ]);
 
             tap(Attachment::first(), function ($attachment) {

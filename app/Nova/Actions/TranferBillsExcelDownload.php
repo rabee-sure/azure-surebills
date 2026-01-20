@@ -35,6 +35,7 @@ class TranferBillsExcelDownload extends Action
         foreach ($models as $model) {
             $filename = 'bills/'.$model->filters['files']['folder'].'/'.$model->filters['files']['bills'];
             $new_file_name = 'public/shared-bills/'.$model->filters['files']['bills'];
+
             Storage::delete( $new_file_name );
             Storage::copy( $filename, $new_file_name );
             $path = storage_path('app/'.$new_file_name);

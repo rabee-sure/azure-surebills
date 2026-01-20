@@ -36,7 +36,7 @@ class SendTaxInvoiceRequestMailJob implements ShouldQueue
      */
     public function handle()
     {
-        $settings =  Valuestore::make(storage_path('app/settings.json'));
+        $settings =  Valuestore::make(getSettings());
         $tax_invoice_requests_emails = $settings->get('tax_invoice_requests_emails');
         $emails = explode(",", $tax_invoice_requests_emails);
         if(count($emails)){

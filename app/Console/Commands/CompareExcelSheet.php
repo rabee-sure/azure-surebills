@@ -46,7 +46,7 @@ class CompareExcelSheet extends Command
 
         $excel_file = storage_path('app/public/'.$path);
 
-        if(Storage::disk('public')->has($path)){
+        if(Storage::has($path)){
             $data = Excel::toCollection(new HyperPayImport, $excel_file)[0];
 
             $uniqueids = $data->pluck('uniqueid')

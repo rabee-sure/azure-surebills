@@ -16,14 +16,10 @@ use DigitalCreative\ConditionalContainer\HasConditionalContainer;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use KABBOUCHI\NovaImpersonate\Impersonate;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
@@ -138,29 +134,13 @@ class User extends Resource
             })->exceptOnForms(),
 
             Image::make(__('Business logo'), 'logo')
-                ->disk('public')
                 ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
+                ->path('businessـlogo')
                 ->preview(function ($value) {
-                    if(Storage::disk('public')->exists($value)){
-                        return url('storage/'.$value);
-                    }else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
-                        }
-                    }
+                    return addFile($value, 'businessـlogo');
                 })
                 ->thumbnail(function ($value) {
-                    if(Storage::disk('public')->exists($value)){
-                        return url('storage/'.$value);
-                    }else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
-                        }
-                    }
+                    return addFile($value, 'businessـlogo');
                 })->disableDownload()->hideWhenUpdating($this->store_main_user_id ? true : false)->hideFromDetail($this->store_main_user_id ? true : false),
 
 
