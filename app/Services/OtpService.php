@@ -132,7 +132,7 @@ class OtpService
     {
         // Generate a random 6-digit number
         // create 000000 if not production
-        if(!app()->environment('production')){
+        if(config('merchant_otp.environment') == 'testing'){
             return '000000';
         }
         return str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
