@@ -10,7 +10,7 @@
         <div class="closeBtn d-flex align-items-center justify-content-end mb-3 w-100">
           <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
         </div><!-- closeBtn -->
-        <form action="{{ route('roles.destroy', $role->id)}}" method="post">
+        <form action="{{ route('roles.destroy', $role->id)}}" method="post" class="form w-100">
           @csrf
           @method('DELETE')
           @can('deleteMerchantRole', $role)
