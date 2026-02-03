@@ -183,7 +183,7 @@
               </div><!-- bill_info -->
               <div id="status">
                 @if($bill->status == 'expired')
-                  <div class="alert alert-danger">
+                  <div class="alert alert-danger text-center text-capitalize">
                     @if($bill->debit_note_bill_id == null)
                     {{ __('this bill has been expired', ['number' => $bill->number ]) }}
                     @else
@@ -191,7 +191,7 @@
                     @endif
                   </div>
                 @elseif(in_array($bill->status, ['paid', 'refunded']))
-                  <div class="alert alert-success text-center">
+                  <div class="alert alert-success text-center text-capitalize">
                     @if ($bill->depositTransaction)
                       {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
                     @else
@@ -203,7 +203,7 @@
                     @endif
                   </div>
                 @elseif(in_array($bill->status, ['paid_cash', 'refunded_cash']))
-                  <div class="alert alert-success text-center">
+                  <div class="alert alert-success text-center text-capitalize">
                     @if($bill->debit_note_bill_id == null)
                       {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}
                     @else
@@ -211,7 +211,7 @@
                     @endif
                   </div>
                 @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
-                  <div class="alert alert-success text-center">
+                  <div class="alert alert-success text-center text-capitalize">
                     @if($bill->debit_note_bill_id == null)
                       {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
                     @else
@@ -219,7 +219,7 @@
                     @endif
                   </div>
                 @elseif(in_array($bill->status, ['paid_machine', 'refunded_machine']))
-                  <div class="alert alert-success text-center">
+                  <div class="alert alert-success text-center text-capitalize">
                     @if($bill->debit_note_bill_id == null)
                       {{ __('this bill has been Paid Machine successfully', ['number' => $bill->number ]) }}
                     @else
@@ -227,7 +227,7 @@
                     @endif
                   </div>
                 @elseif($bill->status == 'canceled')
-                  <div class="alert alert-danger text-center">
+                  <div class="alert alert-danger text-center text-capitalize">
                     @if($bill->debit_note_bill_id == null)
                       {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
                     @else
@@ -235,7 +235,7 @@
                     @endif
                   </div>
                 @elseif($bill->status == 'failed')
-                  <div class="alert alert-danger text-center">
+                  <div class="alert alert-danger text-center text-capitalize">
                     @if($bill->debit_note_bill_id == null)
                       {{ __('this bill has been failed', ['number' => $bill->number ]) }}
                     @else
@@ -245,7 +245,7 @@
                 {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
                   <div class="alert alert-warning text-center"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div> --}}
                 @elseif($bill->status == 'rejected')
-                  <div class="alert alert-danger text-center">
+                  <div class="alert alert-danger text-center text-capitalize">
                     @if($bill->debit_note_bill_id == null)
                       {{ __('this bill has been rejected', ['number' => $bill->number ]) }}
                     @else
