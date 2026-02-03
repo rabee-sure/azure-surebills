@@ -4,6 +4,7 @@
 
 @section('content')
   <section id="homepage">
+    <!-- test azure -->
 
     @php
       $settings =  Spatie\Valuestore\Valuestore::make(getSettings());
