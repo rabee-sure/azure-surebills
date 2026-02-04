@@ -17,17 +17,22 @@ class SureConnectService extends SMSAbstract
     public function sendSMS($mobile, $message){
         $mobile = (int) $mobile;
 
-        $result = Http::withHeaders([
-            'email' => config('sure_connect.email'),
-            'apiKey' => config('sure_connect.apiKey'),
-        ])->post('https://api.sureconnects.com/api/Message/SendOTPMessage', [
-            'sender' => config('sure_connect.sender'),
-            'message' => $message,
-            'MessageTypeId' => 3,
-            'messageInfo' => [
-                'distination' => $mobile,
-            ]
-        ]);
+        $url = 'https://api.sureconnects.com/api/NewMessage/SendMessage';
+
+        $headers = [
+            'email'    => config('sms.sure-connect.email'),
+            'apiKey'   => config('sms.sure-connect.apiKey'),
+            'Content-Type' => 'application/json',
+        ];
+
+        $data = [
+            'senderId' => config('sms.sure-connect.sender'),
+            'messageBody' => $message,
+            'messageType' => 3,
+            'Recipients' => [$mobile],
+        ];
+
+        $result = Http::withHeaders($headers)->post($url, $data);
         
         $response = json_decode($result, true);
 
