@@ -160,6 +160,7 @@
 
 @can('show bills')
 @push('footer-scripts')
+  <script src="{{ asset('js/app.js') }}"></script>
   <script src="{{ asset('new/js/chartjs/Chart.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script type="text/javascript">
     Echo.channel('home')

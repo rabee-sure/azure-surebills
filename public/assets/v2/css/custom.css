@@ -1,0 +1,60 @@
+/* Logo: show light/dark by theme (no dependency on Helpers.switchImage) */
+.app-brand-logo-theme {
+  position: relative;
+  display: inline-block;
+}
+.app-brand-logo-theme .app-brand-logo-light {
+  display: block;
+}
+.app-brand-logo-theme .app-brand-logo-dark {
+  display: none;
+}
+[data-bs-theme="dark"] .app-brand-logo-theme .app-brand-logo-light {
+  display: none;
+}
+[data-bs-theme="dark"] .app-brand-logo-theme .app-brand-logo-dark {
+  display: block;
+}
+
+/* Theme toggle button: show sun in light, moon in dark */
+.theme-toggle-icon-dark {
+  display: none !important;
+}
+.theme-toggle-icon-light {
+  display: inline-block !important;
+}
+[data-bs-theme="dark"] .theme-toggle-icon-light {
+  display: none !important;
+}
+[data-bs-theme="dark"] .theme-toggle-icon-dark {
+  display: inline-block !important;
+}
+@media (prefers-color-scheme: dark) {
+  [data-bs-theme="system"] .theme-toggle-icon-light {
+    display: none !important;
+  }
+  [data-bs-theme="system"] .theme-toggle-icon-dark {
+    display: inline-block !important;
+  }
+}
+
+/* System theme: follow prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  [data-bs-theme="system"] .app-brand-logo-theme .app-brand-logo-light {
+    display: none;
+  }
+  [data-bs-theme="system"] .app-brand-logo-theme .app-brand-logo-dark {
+    display: block;
+  }
+}
+
+html[dir="rtl"] body {
+  font-family: "IBM Plex Sans Arabic", "IBM Plex Sans" !important;
+}
+html[dir="ltr"] body {
+  font-family: "IBM Plex Sans", "IBM Plex Sans Arabic" !important;
+}
+
+.table th {
+  letter-spacing: 0 !important;
+}
