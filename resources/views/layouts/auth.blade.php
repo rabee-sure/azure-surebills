@@ -50,6 +50,7 @@
     <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
     <!-- endbuild -->
     <!-- Page CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/@form-validation/form-validation.css') }}" />
     <!-- Page -->
     <link rel="stylesheet" href="{{ asset('assets/v2/vendor/css/pages/page-auth.css') }}" />
 

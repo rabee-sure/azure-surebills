@@ -122,16 +122,16 @@
                   ><span class="align-middle">{{ __('Settings') }}</span>
                 </a>
               </li>
+              <li>
+                <a class="dropdown-item" href="{{ route('account_information') }}" title="{{ __('My Information') }}">
+                  <i class="icon-base ti ti-user-cog me-2 icon-md"></i
+                  ><span class="align-middle">{{ __('My Information') }}</span>
+                </a>
+              </li>
+              <li>
+                <div class="dropdown-divider my-1 mx-n2"></div>
+              </li>
             @endif
-            <li>
-              <a class="dropdown-item" href="{{ route('account_information') }}" title="{{ __('My Information') }}">
-                <i class="icon-base ti ti-user-cog me-2 icon-md"></i
-                ><span class="align-middle">{{ __('My Information') }}</span>
-              </a>
-            </li>
-            <li>
-              <div class="dropdown-divider my-1 mx-n2"></div>
-            </li>
             <li>
               <div class="d-grid px-2 pt-2 pb-1">
                 <a class="btn btn-sm btn-danger d-flex" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="{{ __('Logout') }}">

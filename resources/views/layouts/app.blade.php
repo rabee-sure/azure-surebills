@@ -98,9 +98,12 @@
         <div class="layout-page">
           <!-- Content wrapper -->
           <div class="content-wrapper">
-            <!-- Nav -->
-            @include('layouts.partials.nav')
-            <!-- / Navigation -->
+
+            @if(auth()->user()->is_complete_profile)
+              <!-- Nav -->
+              @include('layouts.partials.nav')
+              <!-- / Navigation -->
+            @endif
 
             <!-- Content -->
             <div id="app" class="container-fluid flex-grow-1 container-p-y">
