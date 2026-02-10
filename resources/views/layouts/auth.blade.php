@@ -1,23 +1,64 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  @if(app()->getLocale() == 'ar') dir="rtl" @else dir="ltr" @endif>
+<html
+  lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+  class="light-style layout-menu-fixed layout-compact"
+  dir="{{app()->getLocale() == 'en' ? 'ltr' : 'rtl'}}"
+  data-skin="default"
+  data-assets-path="{{ asset('assets/v2') }}/"
+  data-template="horizontal-menu-template"
+  data-bs-theme="light"
+>
   <head>
-    <meta charset="UTF-8">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <title>@yield('title') - Sure Bills</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-
-    <!-- Google Fonts -->
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('assets/v2/img/favicons/apple-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('assets/v2/img/favicons/apple-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('assets/v2/img/favicons/apple-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/v2/img/favicons/apple-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('assets/v2/img/favicons/apple-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets/v2/img/favicons/apple-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('assets/v2/img/favicons/apple-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('assets/v2/img/favicons/apple-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/v2/img/favicons/apple-icon-180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('assets/v2/img/favicons/android-icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/v2/img/favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('assets/v2/img/favicons/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/v2/img/favicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('assets/v2/img/favicons/manifest.json') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ asset('assets/v2/img/favicons/ms-icon-144x144.png') }}">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="{{ asset('assets/v2/vendor/fonts/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/v2/vendor/fonts/tabler-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/v2/vendor/fonts/flag-icons.css') }}" />
+    <!-- Core CSS -->
+    <!-- build:css assets/vendor/css/theme.css  -->
+    <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/node-waves/node-waves.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/pickr/pickr-themes.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/v2/vendor/css/core.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/v2/css/custom.css') }}" />
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <!-- endbuild -->
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="{{ asset('assets/v2/vendor/css/pages/page-auth.css') }}" />
 
-    @yield('css_styles')
+    <!-- Helpers -->
+    <script src="{{ asset('assets/v2/vendor/js/helpers.js') }}"></script>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
 
-    <!-- Slick Slider -->
-    <link rel="stylesheet" href="{{ asset('new/css/plugins/slick/slick.css') }}">
-    <link rel="stylesheet" href="{{ asset('new/css/plugins/slick/slick-theme.css') }}">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('new/css/auth.css') }}?v={{ config('app.asset_version') }}">
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{{ asset('assets/v2/js/config.js') }}"></script>
 
     @if (env('APP_ENV') == 'production')
       <!-- Google Tag Manager -->
@@ -30,21 +71,74 @@
     @endif
 
   </head>
-  <body class="show-spinner">
+  <body>
+    <!-- Content -->
 
-    <main class="d-flex align-items-center justify-content-center min-vh-100 py-3">
-      <div class="container">
-        <section class="rounded-3 shadow d-flex align-items-start justify-content-between bg-white overflow-hidden flex-wrap flex-md-nowrap">
-          @yield('content')
-        </section><!-- section -->
-        <div class="copyrights mt-3 d-flex align-items-center justify-content-center text-white">
-          صُنع بـ <div class="heart d-block"></div> في <div class="ksa d-block"></div>
-        </div><!-- copyrights -->
-      </div><!-- container -->
-    </main><!-- main -->
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner py-6">
 
+          <div class="d-flex align-items-center justify-content-end position-relative z-10 mb-3">
+            @if(App::isLocale('en'))
+              <a href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي" class="btn btn-sm btn-label-primary waves-effect">عربي</a>
+            @else
+              <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English" class="btn btn-sm btn-label-primary waves-effect">English</a>
+            @endif
+          </div>
+
+          <!-- Login -->
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand app-brand-logo-theme d-flex align-items-center justify-content-center mb-8">
+                <img
+                  src="{{ asset('assets/v2/img/logo_blue_light.png') }}"
+                  alt="Sure Bills"
+                  class="mw-100 app-brand-logo-light"
+                  loading="lazy"
+                  height="42px"
+                >
+                <img
+                  src="{{ asset('assets/v2/img/logo_blue_dark.png') }}"
+                  alt="Sure Bills"
+                  class="mw-100 app-brand-logo-dark"
+                  loading="lazy"
+                  height="42px"
+                >
+              </div>
+              <!-- /Logo -->
+
+              @yield('content')
+
+            </div>
+          </div>
+          <!-- /Login -->
+        </div>
+      </div>
+    </div>
+    <!-- / Content -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/theme.js -->
+    <script src="{{ asset('assets/v2/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('assets/v2/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('assets/v2/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/v2/vendor/libs/node-waves/node-waves.js') }}"></script>
+    <script src="{{ asset('assets/v2/vendor/libs/@algolia/autocomplete-js.js') }}"></script>
+    <script src="{{ asset('assets/v2/vendor/libs/pickr/pickr.js') }}"></script>
+    <script src="{{ asset('assets/v2/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('assets/v2/vendor/libs/hammer/hammer.js') }}"></script>
+    <script src="{{ asset('assets/v2/vendor/libs/i18n/i18n.js') }}"></script>
+    <script src="{{ asset('assets/v2/vendor/js/menu.js') }}"></script>
+    <!-- endbuild -->
+    <!-- Vendors JS -->
+    <!-- Main JS -->
+    <script src="{{ asset('assets/v2/js/main.js') }}"></script>
+    <!-- Page JS -->
+    <script src="{{ asset('assets/v2/js/pages-auth.js') }}"></script>
     @stack('footer-scripts')
-
+    <!-- Laravel Javascript Validation -->
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>
     @if (env('APP_ENV') == 'production')
       <!-- Google Tag Manager (noscript) -->
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4WN2GW"
@@ -59,24 +153,6 @@
         gtag('config', 'G-WRYZ8313H2');
       </script>
     @endif
-
-
-    <!-- Jquery -->
-    <script src="{{ asset('new/js/jquery-3.6.0.min.js') }}"></script>
-
-    <!-- Slick Slider -->
-    <script src="{{ asset('new/js/slick/slick.min.js') }}"></script>
-    
-    <!-- Laravel Javascript Validation -->
-    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>
-
-    <!-- Script -->
-    <script src="{{ asset('new/js/auth_main.js') }}?v={{ config('app.asset_version') }}"></script>
-
-    <!--[if lt IE 8 ]>
-    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
-    <script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
-    <![endif]-->
 
   </body>
 </html>
