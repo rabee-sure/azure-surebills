@@ -1027,5 +1027,6 @@
   "Preview" : "معاينة",
   "Are you sure you want to delete this image?": "هل أنت متأكد من حذف هذه الصورة؟",
   "The background image file must be a png, jpeg or jpg file.": "يجب أن تكون الصورة الخلفية من نوع png, jpeg أو jpg.",
-  "The background image file must be less than 1024 MB.": "يجب أن تكون الصورة الخلفية اقل من 1024 ميجا بايت."
+  "The background image file must be less than 1024 MB.": "يجب أن تكون الصورة الخلفية اقل من 1024 ميجا بايت.",
+  "Please use this form to reset your password.": "برجاء استخدام هذا النموذج لإعادة تعيين كلمة المرور الخاصة بك."
 }
