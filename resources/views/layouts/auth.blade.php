@@ -119,6 +119,38 @@
     </div>
     <!-- / Content -->
 
+
+
+
+  <!-- Conditions Modal -->
+  <div class="modal fade" id="conditionsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel1">{{ __('Terms & Conditions') }}</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-body d-block m-0">
+            سوف يتم تحويل المبالغ لحساب بنكي باسم منشأتك فقط في حال كنت تستخدم سجل تجاري ، ولحسابك الشخصي المسجل في وثيقة العمل الحر في حال كنت تستخدم وثيقة عمل حر .
+            <br>
+            تأكيد من تحميلك للسجل التجاري او وثيقة العمل الحر لتوثيق حسابك والبدء بإستقبال المدفوعات.
+            <br>
+            يرجى الافصاح إذا كان نشاطك التجاري يتطلب ترخيص من جهة غير وزارة التجارة.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal"> {{ __('Close') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Conditions Modal -->
+
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/theme.js -->
     <script src="{{ asset('assets/v2/vendor/libs/jquery/jquery.js') }}"></script>

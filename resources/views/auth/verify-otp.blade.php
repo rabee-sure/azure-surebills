@@ -5,17 +5,7 @@
 @section('content')
 
   <h4 class="mb-1">{{ __('Secure Login') }}</h4>
-  <p class="text-start mb-6">
-    @if(config('app.otp_channel', 'email') == 'email')
-      {{ __('We have sent a verification code to your registered email address.') }}
-    @elseif(config('app.otp_channel', 'email') == 'sms')
-      {{ __('We have sent a verification code to your registered mobile number.') }}
-    @elseif(config('app.otp_channel', 'email') == 'both')
-      {{ __('We have sent a verification code to your registered email address and mobile number.') }}
-    @endif
-    <br>
-    {{ __('Please enter the code to complete your login.') }}
-  </p>
+  <p class="text-start mb-6">{{ __('Please enter the code to complete your login.') }}</p>
   <h1 class="d-block mb-3 fw-normal text-body"></h1>
 
       @if (session('status'))
@@ -86,9 +76,7 @@
     <button type="submit" class="btn btn-link p-1"> {{ __('Resend OTP') }} </button>
   </form>
 
-  <div class="divider my-6">
-                <div class="divider-text">or</div>
-              </div>
+  <hr class="my-6">
 
   <a href="{{ route('login') }}" title="{{ __('Back to Login') }}" class="text-center d-block">{{ __('Back to Login') }}</a>
 
