@@ -37,6 +37,20 @@ class MastercardWebhookSimulation implements ShouldQueue
      */
     public function handle()
     {
+        // In full simulation mode we do not call MPGS at all.
+        if (function_exists('mastercard_simulation_enabled') && mastercard_simulation_enabled()) {
+            $payment = \App\Models\PaymentLog::find($this->transactionId);
+            $bill = $payment ? $payment->bill : null;
+
+            if ($bill && $payment) {
+                $simulator = app(\App\Services\MasterCardSandboxSimulator::class);
+                $fakeResponse = $simulator->simulateSuccessfulPayment($bill, $payment);
+                $this->masterCardService->handlePaymentTransaction($fakeResponse, $bill, $payment);
+            }
+
+            return;
+        }
+        
         $response = $this->masterCardService->getBillTransactionStatusFromMasterCard($this->billId, $this->transactionId);
         $this->masterCardService->handleMastercardChecker($response);
     }
