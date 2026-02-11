@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Bill;
 use App\Services\CyberSourceService;
+use App\Services\MasterCardSandboxSimulator;
+use App\Services\MasterCardService;
 use Hashids\Hashids;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
@@ -93,6 +95,52 @@ class PaymentLog extends Model
                 $cyberSourceService = new CyberSourceService;
                 return $cyberSourceService->processRefund($this->bill, $payment, $amount);
             }elseif($billPaymentLog->provider_name == 'mastercard'){
+                // SANDBOX PAYMENT SIMULATION FOR REFUND (no real MPGS calls)
+                // Check simulation flag directly from config (more reliable than function_exists)
+                $simulationEnabled = !app()->environment('production') 
+                    && (bool) config('mastercard.payment_simulation', false);
+
+                \Log::channel('refunded_transactions')->info("Refund check - simulation enabled: " . ($simulationEnabled ? 'YES' : 'NO'), [
+                    'environment' => app()->environment(),
+                    'config_value' => config('mastercard.payment_simulation'),
+                    'bill_id' => $this->bill->id
+                ]);
+
+                if ($simulationEnabled) {
+                    /** @var MasterCardSandboxSimulator $simulator */
+                    $simulator = app(MasterCardSandboxSimulator::class);
+                    $fakeResponse = $simulator->simulateSuccessfulRefund($this->bill, $payment, $amount);
+
+                    \Log::channel('refunded_transactions')->info("Refund SIMULATION enabled - skipping MPGS API call", [
+                        'bill_id' => $this->bill->id,
+                        'refund_amount' => $amount,
+                        'simulated_response' => $fakeResponse
+                    ]);
+
+                    // Save simulated refund response on the refund log
+                    $payment->results = $fakeResponse;
+                    $payment->refunded_amount = $amount;
+                    $payment->save();
+
+                    // Update total refunded amount on original payment log
+                    $this->refunded_amount += $amount;
+                    $this->save();
+
+                    /** @var MasterCardService $masterCardService */
+                    $masterCardService = app(MasterCardService::class);
+                    $masterCardService->handleRefundTransaction($fakeResponse, $this->bill, $payment);
+
+                    return true;
+                }
+
+                // REAL MPGS REFUND API CALL (only when simulation is disabled)
+                \Log::channel('refunded_transactions')->info("Calling REAL MPGS REFUND API", [
+                    'bill_id' => $this->bill->id,
+                    'transaction_id' => $payment->id,
+                    'amount' => $amount,
+                    'simulation_enabled' => $simulationEnabled ?? false
+                ]);
+                
                 // api link
                 $link = config('payment.drivers.mastercard.base_url').'/api/rest/version/58/merchant/'.config('payment.drivers.mastercard.merchant_id').'/order/'.$this->bill->id.'/transaction/'.$payment->id;
                 $client = new Client(['http_errors' => false]);
