@@ -23,6 +23,20 @@ if (!function_exists('getMastercardError')) {
         }
     }
 }
+ 
+if (!function_exists('mastercard_simulation_enabled')) {
+    /**
+     * Check if Mastercard full payment-cycle simulation is enabled.
+     *
+     * This is hard-disabled in production for safety and can be toggled
+     * per environment using the MASTERCARD_PAYMENT_SIMULATION env flag.
+     */
+    function mastercard_simulation_enabled(): bool
+    {
+        return !app()->environment('production')
+            && (bool) config('mastercard.payment_simulation', false);
+    }
+}
 
 if (!function_exists('getBanks')) {
     function getBanks()
