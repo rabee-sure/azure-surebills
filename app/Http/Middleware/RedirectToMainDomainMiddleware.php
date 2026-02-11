@@ -19,6 +19,7 @@ class RedirectToMainDomainMiddleware
     
     public function handle(Request $request, Closure $next)
     {
+      return $next($request);
       if(config('app.env') != 'local') {
  
         $host = $request->getHost();
