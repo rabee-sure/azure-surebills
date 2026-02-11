@@ -12,7 +12,7 @@ const mix = require('laravel-mix');
  */
 
   // *** New Ui Rabee ***//
-  mix.js('resources/new/js/app.js', 'public/new/js').vue()
+  mix.js('resources/new/js/app.js', 'public/assets/v2/vendor/js').vue()
   .sass('resources/new/scss/main.scss', 'public/new/css')
   .sass('resources/new/scss/auth.scss', 'public/new/css')
   .sass('resources/new/scss/print.scss', 'public/new/css')
