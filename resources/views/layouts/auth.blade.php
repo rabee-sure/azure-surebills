@@ -61,6 +61,20 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/v2/js/config.js') }}"></script>
 
+    <!-- Apply stored theme immediately to prevent flash and persist across page loads -->
+    <script>
+      (function() {
+        var templateName = document.documentElement.getAttribute('data-template') || 'horizontal-menu-template';
+        var storedTheme = localStorage.getItem('templateCustomizer-' + templateName + '--Theme');
+        if (storedTheme) {
+          var themeToApply = storedTheme === 'system'
+            ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+            : storedTheme;
+          document.documentElement.setAttribute('data-bs-theme', themeToApply);
+        }
+      })();
+    </script>
+
     @if (env('APP_ENV') == 'production')
       <!-- Google Tag Manager -->
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
