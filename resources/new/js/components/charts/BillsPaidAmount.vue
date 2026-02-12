@@ -1,25 +1,70 @@
 <template>
-  <div class="chart_Block bg-white shadow-sm mb-3 rounded-3">
-    <div class="title d-flex align-items-center justify-content-center justify-content-md-between flex-column flex-md-row flex-wrap mb-3">
-      <span class="d-block fw-bold mb-2 mb-md-0 text-capitalize">{{ __('The amount of the payments') }}</span>
-      <ul class="nav nav-tabs border-0 p-0 d-flex align-items-center justify-content-end" role="tablist">
-        <li>
-          <a class="d-flex align-items-center justify-content-center border rounded-pill" :class="[type =='monthly' ? 'active' : '']" @click="changeTab('monthly')">{{ __('monthly')}}</a>
-        </li>
-        <li>
-          <a class="d-flex align-items-center justify-content-center border rounded-pill" :class="[type =='weekly' ? 'active' : '']" @click="changeTab('weekly')">{{ __('weekly')}}</a>
-        </li>
-        <li>
-          <a class="d-flex align-items-center justify-content-center border rounded-pill" :class="[type =='daily' ? 'active' : '']" @click="changeTab('daily')">{{ __('daily')}}</a>
-        </li>
-      </ul>
-    </div><!-- title -->
-    <div class="tab-content">
-      <div class="tab-pane fade show active">
-        <line-chart  :chart-data="data_c" :options="this.options"></line-chart>
-      </div><!-- tab-pane -->
-    </div><!-- tab-content -->
-  </div><!-- chart_Block -->
+  <div class="card card-action m-0">
+    <div class="card-header d-flex align-items-center justify-between">
+      <h5 class="card-action-title mb-0 flex-grow-1">{{ __('The amount of the payments') }}</h5>
+      <div class="card-action-element ms-auto py-0">
+        <div class="dropdown">
+          <button type="button" class="btn dropdown-toggle p-0" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="icon-base ti ti-calendar"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <button
+                type="button"
+                class="btn d-flex align-items-center justify-content-start w-100 waves-effect"
+                :class="[type =='monthly' ? 'btn-label-primary' : '']"
+                @click="changeTab('monthly')"
+                role="tab"
+                data-bs-toggle="tab"
+                data-bs-target="#navs1-tab-monthly"
+                aria-controls="navs1-tab-monthly"
+                aria-selected="true"
+              >
+                {{ __('monthly')}}
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="btn d-flex align-items-center justify-content-start w-100 waves-effect"
+                :class="[type =='weekly' ? 'btn-label-primary' : '']"
+                @click="changeTab('weekly')"
+                role="tab"
+                data-bs-toggle="tab"
+                data-bs-target="#navs1-tab-weekly"
+                aria-controls="navs1-tab-weekly"
+                aria-selected="false"
+              >
+                {{ __('weekly')}}
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="btn d-flex align-items-center justify-content-start w-100 waves-effect"
+                :class="[type =='daily' ? 'btn-label-primary' : '']"
+                @click="changeTab('daily')"
+                role="tab"
+                data-bs-toggle="tab"
+                data-bs-target="#navs1-tab-daily"
+                aria-controls="navs1-tab-daily"
+                aria-selected="false"
+              >
+                {{ __('daily')}}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div><!-- card-header -->
+    <div class="card-body">
+      <div class="tab-content p-0">
+        <div class="tab-pane fade show active">
+          <line-chart  :chart-data="data_c" :options="this.options"></line-chart>
+        </div><!-- tab-pane -->
+      </div><!-- tab-content -->
+    </div><!-- card-body -->
+  </div><!-- card -->
 </template>
 
 <script>
@@ -93,7 +138,7 @@
                   ffff.labels = this.weekly.labels;
                   ffff.datasets = this.weekly.datasets;
                   this.data_c = ffff
-                  break;              
+                  break;
                 case 'monthly':
                   ffff.labels = this.monthly.labels;
                   ffff.datasets = this.monthly.datasets;

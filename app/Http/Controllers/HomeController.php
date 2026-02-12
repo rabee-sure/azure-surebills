@@ -66,7 +66,7 @@ class HomeController extends Controller
             ])
         );
         
-        $latest = $latestQuery->orderBy('created_at', 'desc')->take(3)->get();
+        $latest = $latestQuery->orderBy('created_at', 'desc')->take(6)->get();
 
         $balance = $user->balance;
 

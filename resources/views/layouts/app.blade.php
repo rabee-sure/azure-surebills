@@ -63,12 +63,7 @@
     <script src="{{ asset('assets/v2/vendor/js/helpers.js') }}"></script>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
 
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-    <link rel="stylesheet" href="{{ asset('assets/v2/vendor/js/_template-customizer/_template-customizer.css') }}" />
-    <script src="{{ asset('assets/v2/vendor/js/template-customizer.js') }}"></script>
-
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-
     <script src="{{ asset('assets/v2/js/config.js') }}"></script>
 
     @if (env('APP_ENV') == 'production')
@@ -161,6 +156,15 @@
 
     <script src="{{ asset('assets/v2/js/main.js') }}"></script>
 
+    <script>
+      window._locale = '{{ app()->getLocale() }}';
+      window._translations = {!! cache('translations') !!};
+    </script>
+
+    @if(in_array(request()->route()->getName(), ['channels.show', 'integration','mobile_verify', 'home' ]))
+      <script src="{{ asset('assets/v2/vendor/js/app.js') }}?v={{ config('app.asset_version') }}"></script>
+    @endif
+
     <!-- Page JS -->
     @stack('footer-scripts')
 
@@ -179,11 +183,6 @@
       </script>
       <!-- Global site tag (gtag.js) - Google Analytics -->
     @endif
-
-    <script>
-      window._locale = '{{ app()->getLocale() }}';
-      window._translations = {!! cache('translations') !!};
-    </script>
 
     @if (env('APP_ENV') == 'production')
       <!-- Google Tag Manager (noscript) -->
