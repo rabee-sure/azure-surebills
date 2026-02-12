@@ -2,9 +2,10 @@
 
 @section('title', __('My Account'))
 
-@section('css_styles')
-  <link rel="stylesheet" href="{{ asset('css/smart_wizard.min.css') }}">
-@endsection
+@push('css_styles')
+<link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/bs-stepper/bs-stepper.css') }}?v={{ config('app.asset_version') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/@form-validation/form-validation.css') }}?v={{ config('app.asset_version') }}" />
+@endpush
 
 @section('content')
 
@@ -18,8 +19,7 @@
 
 @endsection
 
-<script src="{{ asset('js/jquery.smartWizard.min.js') }}" defer></script>
-
 @push('footer-scripts')
-    {!! JsValidator::formRequest('App\Http\Requests\AccountInformationRequest', '#form') !!}
+  <!-- Laravel Javascript Validation -->
+  <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
 @endpush

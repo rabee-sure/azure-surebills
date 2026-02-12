@@ -55,7 +55,7 @@
     <!-- endbuild -->
 
     <!-- Page CSS -->
-    @yield('css_styles')
+    @stack('css_styles')
 
     @stack('header-css')
 

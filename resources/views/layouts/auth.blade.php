@@ -51,6 +51,7 @@
     <!-- endbuild -->
     <!-- Page CSS -->
     <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/@form-validation/form-validation.css') }}" />
+    @stack('css_styles')
     <!-- Page -->
     <link rel="stylesheet" href="{{ asset('assets/v2/vendor/css/pages/page-auth.css') }}" />
 
@@ -182,10 +183,9 @@
     <!-- Main JS -->
     <script src="{{ asset('assets/v2/js/main.js') }}"></script>
     <!-- Page JS -->
-    <script src="{{ asset('assets/v2/js/pages-auth.js') }}"></script>
     @stack('footer-scripts')
     <!-- Laravel Javascript Validation -->
-    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
     @if (env('APP_ENV') == 'production')
       <!-- Google Tag Manager (noscript) -->
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4WN2GW"
