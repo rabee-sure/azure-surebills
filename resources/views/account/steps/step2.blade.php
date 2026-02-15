@@ -1,202 +1,388 @@
 @extends('account.account_complete')
 
-@section('css_styles')
-  <link rel="stylesheet" href="{{ asset('new/css/plugins/daterangepicker/daterangepicker.css') }}?v={{ config('app.asset_version') }}">
-  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2.min.css') }}?v={{ config('app.asset_version') }}">
-  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2-bootstrap.min.css') }}?v={{ config('app.asset_version') }}">
-@endsection
+@push('css_styles')
+  <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/select2/select2.css') }}?v={{ config('app.asset_version') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/flatpickr/flatpickr.css') }}?v={{ config('app.asset_version') }}" />
+@endpush
 
 @section('steps')
-  <div class="stepsArea d-flex align-items-start justify-content-center position-relative mb-5">
-    <div class="item d-flex align-items-center justify-content-center flex-column done">
-      <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm"><i class="fal fa-check"></i></span>
-      <p class="d-block text-center mb-0 mt-2">{{ __('My Information') }}</p>
-    </div><!-- item -->
-    <div class="item d-flex align-items-center justify-content-center flex-column active">
-      <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm">2</span>
-      <p class="d-block text-center mb-0 mt-2">{{ __('Business Information') }}</p>
-    </div><!-- item -->
-    @if(auth()->user()->source == 'sure bills')
-    <div class="item d-flex align-items-center justify-content-center flex-column">
-      <span class="border rounded-circle fw-bold d-flex align-items-center justify-content-center position-relative bg-light shadow-sm">3</span>
-      <p class="d-block text-center mb-0 mt-2">{{ __('Bank Information') }}</p>
-    </div><!-- item -->
-    @endif
-  </div><!-- stepsArea -->
-  @if ($errors->any())
-      <div class="alert alert-danger">
-        <ul class="m-0 p-0 d-flex flex-column gap-1">
+  <div class="bs-stepper wizard-modern wizard-modern-example">
+    <div class="bs-stepper-header gap-0 gap-lg-8 px-0 justify-content-between">
+      <div class="step crossed" data-target="#my-information">
+        <button type="button" class="step-trigger">
+          <span class="bs-stepper-circle m-0">1</span>
+          <span class="bs-stepper-label">
+            <span class="bs-stepper-title fs-5">{{ __('My Information') }}</span>
+          </span>
+        </button>
+      </div>
+      <div class="line">
+        <i class="icon-base ti ti-chevron-right"></i>
+      </div>
+      <div class="step active" data-target="#business-information">
+        <button type="button" class="step-trigger">
+          <span class="bs-stepper-circle m-0">2</span>
+          <span class="bs-stepper-label">
+            <span class="bs-stepper-title fs-5">{{ __('Business Information') }}</span>
+          </span>
+        </button>
+      </div>
+      @if(auth()->user()->source == 'sure bills')
+        <div class="line">
+          <i class="icon-base ti ti-chevron-right"></i>
+        </div>
+        <div class="step" data-target="#bank-information">
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle m-0">3</span>
+            <span class="bs-stepper-label">
+              <span class="bs-stepper-title fs-5">{{ __('Bank Information') }}</span>
+            </span>
+          </button>
+        </div>
+      @endif
+    </div>
+
+    <div class="bs-stepper-content">
+
+      @if ($errors->any())
+        <ul class="list-group mb-6">
           @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
+            <li class="list-group-item list-group-item-danger">{{ $error }}</li>
           @endforeach
         </ul>
-      </div><!-- alert -->
-    @endif
-  <div class="blockStep2 bg-white rounded-3 shadow-sm p-3">
-    <form id="form" method="POST" action="{{ route('business.information') }}" enctype="multipart/form-data" class="m-0">
-      @csrf
-      <div class="row">
-        <div class="col-12 col-md-6">
-          <div class="form-group mb-3">
-            <label for="license_type" class="d-flex align-items-center justify-content-start mb-2">
-              {{ __('License type') }}
-              <button class="btn-primary border-0 rounded-circle shadow-none p-0 d-flex align-items-center justify-content-center" type="button" data-bs-toggle="modal" data-bs-target=".license_type_modal"><i class="fas fa-question"></i></button>
-            </label>
-            <select id="license_type" name="license_type" class="form-control rounded-3 shadow-none border select2-single">
-              <option value="Commercial Record"
-                @if($errors->any())
-                  @if(old('license_type') == 'Commercial Record')
-                    {{'selected'}}
-                  @endif
-                @elseif($user->license_type == 'Commercial Record')
-                  {{'selected'}}
-                @endif
-              >
-                {{ __('Commercial Record') }}
-              </option>
-              <option value="Freelance"
-                @if($errors->any())
-                  @if(old('license_type') == 'Freelance')
-                    {{'selected'}}
-                  @endif
-                @elseif($user->license_type == 'Freelance')
-                  {{'selected'}}
-                @endif
-              >
-                {{ __('Freelance') }}
-              </option>
-            </select>
-          </div><!-- form-group -->
-        </div><!-- col-12 -->
-        <div class="col-12 col-md-6">
-          <div class="form-group mb-3">
-            <label for="vat_registration_number" class="d-block mb-2">{{ __('VAT Registration Number') }}
-                @if(auth()->user()->source == 'sure bills')
-                <small class="d-inline-block text-secondary">( {{ __('optional') }} )</small>
-                @else
-                <span class="requirement text-danger">*</span>
-                @endif
-            </label>
-            <input value="@if($errors->any()){{old('vat_registration_number')}}@else{{$user->vat_registration_number}}@endif" name="vat_registration_number" type="text" class="form-control rounded-3 shadow-none border" id="vat_registration_number" placeholder="{{ __('VAT Registration Number') }}" autocomplete="off">
-          </div><!-- form-group -->
-        </div><!-- col-12 -->
-        <div id="registry_expiry_date" class="col-12 col-md-6">
-          <div class="form-group mb-3">
-            <label for="commercial_registry_expiry_date" class="d-block mb-2">{{ __('Commercial Registry Expiry Date') }} <span class="requirement text-danger">*</span></label>
-            <input value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" name="commercial_registry_expiry_date" id="commercial_registry_expiry_date" class="form-control shadow-none border rounded-3 expiryDate" placeholder="{{ __('Commercial Registry Expiry Date') }}" autocomplete="off">
-          </div><!-- form-group -->
-        </div><!-- col-12 -->
-        <div class="col-12 col-md-6">
-          <div class="form-group mb-3">
-            <label for="business_name_en" class="d-block mb-2">{{ __('Business Name') }} <small class="d-inline-block text-secondary">( EN )</small> <span class="requirement text-danger">*</span></label>
-            <input value="@if($errors->any()){{old('business_name_en')}}@else{{$user->business_name_en}}@endif" name="business_name_en" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_name_en" placeholder="{{ __('Business Name') }} (EN)" autocomplete="off">
-          </div><!-- form-group -->
-        </div><!-- col-12 -->
-        <div class="col-12 col-md-6">
-          <div class="form-group mb-3">
-            <label for="business_name_ar" class="d-block mb-2">{{ __('Business Name') }} <small class="d-inline-block text-secondary">( AR )</small> <span class="requirement text-danger">*</span></label>
-            <input value="@if($errors->any()){{old('business_name_ar')}}@else{{$user->business_name_ar}}@endif" name="business_name_ar" type="text" class="form-control rounded-3 shadow-none border" id="business_name_ar" placeholder="{{ __('Business Name') }} (AR)" autocomplete="off">
-          </div><!-- form-group -->
-        </div><!-- col-12 -->
-        <div class="col-12 col-md-6">
-          <div class="form-group mb-3">
-            <label for="business_address" class="d-block mb-2">{{ __('City') }} <span class="requirement text-danger">*</span></label>
-            <input value="@if($errors->any()){{old('business_address')}}@else{{$user->business_address}}@endif" name="business_address" type="text" class="form-control rounded-3 shadow-none border onlyEng" id="business_address" placeholder="{{ __('City') }}" autocomplete="off">
-          </div><!-- form-group -->
-        </div><!-- col-12 -->
-        <div class="col-12 col-md-6">
-          <div class="form-group mb-3">
-            <label for="business_address_details" class="d-block mb-2">{{ __('Address') }} <span class="requirement text-danger">*</span></label>
-            <input value="@if($errors->any()){{old('business_address_details')}}@else{{$user->business_address_details}}@endif" name="business_address_details" type="text" class="form-control rounded-3 shadow-none border" id="business_address_details" placeholder="{{ __('Address') }}" autocomplete="off">
-          </div><!-- form-group -->
-        </div><!-- col-12 -->
-        <div class="col-12 col-md-6">
-          <div class="form-group mb-3">
-            <label for="business_mobile" class="d-block mb-2">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
-            <div class="phoneInput overflow-hidden position-relative">
-              <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
-              <input value="@if($errors->any()){{old('business_mobile')}}@else{{$user->business_mobile}}@endif" name="business_mobile" type="tel" inputmode="numeric" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="business_mobile" placeholder="5XXXXXXXX" pattern="[0-9]*" maxlength="9" autocomplete="off">
-            </div><!-- phoneInput -->
-          </div><!-- form-group -->
-        </div><!-- col-12 -->
-        @if(auth()->user()->source == 'sure bills')
-        <div class="col-12 col-md-6">
-          <div class="form-group mb-3">
-            <label for="website" class="d-block mb-2">{{ __('Website') }}</label>
-            <input value="@if($errors->any()){{old('website')}}@else{{$user->website}}@endif" name="website"  type="url" inputmode="url" class="form-control rounded-3 shadow-none border" id="website" placeholder="{{ __('Website') }}" autocomplete="off">
-          </div><!-- form-group -->
-        </div><!-- col-12 -->
-        <div class="col-12 col-md-6">
-          <div class="form-group mb-3">
-            <label for="sector" class="d-block mb-2">{{ __('Sector') }}</label>
-            <input value="@if($errors->any()){{old('sector')}}@else{{$user->sector}}@endif" name="sector" type="text" class="form-control rounded-3 shadow-none border" id="sector" placeholder="{{ __('Sector') }}" autocomplete="off">
-          </div><!-- form-group -->
-        </div><!-- col-12 -->
-        @endif
-        <div class="col-12 col-md-6">
-          <div class="form-group mb-3">
-            <label for="logo" class="d-block mb-2">{{ __('Logo') }}</label>
-            <div class="upoadInput border rounded-3 position-relative overflow-hidden d-flex align-items-center justify-content-start">
-              <input name="logo" type="file" id="logo" class="d-block position-absolute top-0 start-0 w-100 h-100" accept="image/png, image/jpeg, image/jpg" autocomplete="off">
-              <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
-              <div class="fileName h-100 d-flex align-items-center justify-content-start flex-grow-1 px-2"></div>
-              <div class="fileBtn text-body d-flex align-items-center justify-content-center fw-bold">{{ __('Choose file') }}</div>
-            </div><!-- upoadInput -->
-            @if($errors->has('logo'))
-              <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('logo') }}</span>
-            @endif
-          </div><!-- form-group -->
-        </div><!-- col-12 -->
-        @if(auth()->user()->logo)
-          <div class="col-12 col-md-6">
-            <div class="form-group mb-3">
-              <div class="logoImage p-2 border overflow-hidden rounded-3 position-relative d-flex align-items-center justify-content-center">
-                <img src="{{ url(auth()->user()->logo)  }}" alt="logo" class="logo_image mw-100 mh-100" />
-                <i class="fal fa-trash-alt delete_logo position-absolute btn-danger rounded-3 d-flex align-items-center justify-content-center text-white"></i>
-              </div><!-- logoImage -->
-            </div><!-- form-group -->
-          </div><!-- col-12 -->
-        @endif
-        @if(auth()->user()->source == 'sure bills')
-        <div class="col-12">
-          <span class="d-block fw-bold fs-6 text-body mb-1">{{ __('Upload the required documents') }}</span>
-          <p class="d-block mb-3 text-secondary">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
-          @include('components.dropzone',['documents' => auth()->user()->business_documents->toArray()])
-        </div><!-- col-12 -->
-        @endif
-      </div><!-- row -->
-      <div class="btnsArea d-flex align-items-center justify-content-between gap-3 flex-wrap border-top pt-3">
-        <a id="previous" class="d-flex align-items-center justify-content-center btn-light rounded-3 shadow-none fw-bold border-0 px-5" href="/account?previous=1">{{__('Previous')}}</a>
-        @if(auth()->user()->source == 'sure bills')
-            <button  id="next" class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 px-5" type="submit">{{__('Next')}}</button>
-        @else
-            <button class="d-flex align-items-center justify-content-center btn-primary rounded-3 shadow-none fw-bold border-0 px-5" type="submit">{{__('Finish')}}</button>
-        @endif
-      </div><!-- btnsArea -->
-    </form>
-  </div><!-- blockStep2 -->
+      @endif
 
-  <div class="modal fade license_type_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content border-0 shadow-sm rounded-3">
-        <div class="modal-header d-flex align-items-center justify-content-between">
-          <h5 class="modal-title">{{ __('License type') }}</h5>
-          <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
+      <form id="form" method="POST" action="{{ route('business.information') }}" enctype="multipart/form-data">
+        @csrf
+        <!-- Business Information -->
+        <div id="business-information" class="content active dstepper-block">
+          <div class="row g-6">
+            <div class="col-sm-6">
+              <label class="form-label d-flex align-items-center justify-content-start gap-1" for="license_type">
+                {{ __('License type') }}
+                <button class="text-info p-0 bg-transparent border-0" type="button" data-bs-toggle="modal" data-bs-target="#license_type_modal"><i class="ti ti-info-circle"></i></button>
+              </label>
+              <select id="license_type" name="license_type" class="select2 form-select" data-allow-clear="false" data-minimum-results-for-search="Infinity">
+                <option value="Commercial Record"
+                  @if($errors->any())
+                    @if(old('license_type') == 'Commercial Record')
+                      {{'selected'}}
+                    @endif
+                  @elseif($user->license_type == 'Commercial Record')
+                    {{'selected'}}
+                  @endif
+                >
+                  {{ __('Commercial Record') }}
+                </option>
+                <option value="Freelance"
+                  @if($errors->any())
+                    @if(old('license_type') == 'Freelance')
+                      {{'selected'}}
+                    @endif
+                  @elseif($user->license_type == 'Freelance')
+                    {{'selected'}}
+                  @endif
+                >
+                  {{ __('Freelance') }}
+                </option>
+              </select>
+            </div><!-- col -->
+
+            <div class="col-sm-6">
+              <label for="vat_registration_number" class="form-label">
+                {{ __('VAT Registration Number') }}
+                @if(auth()->user()->source == 'sure bills')
+                  <small class="d-inline-block text-secondary">( {{ __('optional') }} )</small>
+                @else
+                  <span class="requirement text-danger">*</span>
+                @endif
+              </label>
+              <input
+                value="@if($errors->any()){{old('vat_registration_number')}}@else{{$user->vat_registration_number}}@endif"
+                name="vat_registration_number"
+                type="text" class="form-control"
+                id="vat_registration_number"
+                placeholder="{{ __('VAT Registration Number') }}"
+                autocomplete="off"
+              />
+            </div><!-- col -->
+
+            <div id="registry_expiry_date" class="col-sm-6">
+              <label for="commercial_registry_expiry_date" class="form-label">
+                {{ __('Commercial Registry Expiry Date') }}
+                <span class="requirement text-danger">*</span>
+              </label>
+              <input
+                value="{{ Carbon\Carbon::now()->format('d/m/Y') }}"
+                name="commercial_registry_expiry_date"
+                id="commercial_registry_expiry_date"
+                class="form-control flatpickr"
+                placeholder="{{ __('Commercial Registry Expiry Date') }}"
+                autocomplete="off"
+              />
+            </div><!-- col -->
+
+            <div class="col-sm-6">
+              <label for="commercial_registry_expiry_date" class="form-label">
+                {{ __('Business Name') }}
+                <small class="d-inline-block text-secondary">( EN )</small>
+                <span class="requirement text-danger">*</span>
+              </label>
+              <input
+                value="@if($errors->any()){{old('business_name_en')}}@else{{$user->business_name_en}}@endif"
+                name="business_name_en"
+                type="text"
+                class="form-control"
+                id="business_name_en"
+                placeholder="{{ __('Business Name') }} (EN)"
+                autocomplete="off"
+              />
+            </div><!-- col -->
+
+            <div class="col-sm-6">
+              <label for="business_name_ar" class="form-label">
+                {{ __('Business Name') }}
+                <small class="d-inline-block text-secondary">( AR )</small>
+                <span class="requirement text-danger">*</span>
+              </label>
+              <input
+                value="@if($errors->any()){{old('business_name_ar')}}@else{{$user->business_name_ar}}@endif"
+                name="business_name_ar"
+                type="text"
+                class="form-control"
+                id="business_name_ar"
+                placeholder="{{ __('Business Name') }} (AR)"
+                autocomplete="off"
+              />
+            </div><!-- col -->
+
+            <div class="col-sm-6">
+              <label for="business_address" class="form-label">
+                {{ __('City') }}
+                <span class="requirement text-danger">*</span>
+              </label>
+              <input
+                value="@if($errors->any()){{old('business_address')}}@else{{$user->business_address}}@endif"
+                name="business_address"
+                type="text"
+                class="form-control"
+                id="business_address"
+                placeholder="{{ __('City') }}"
+                autocomplete="off"
+              />
+            </div><!-- col -->
+
+            <div class="col-sm-6">
+              <label for="business_address" class="form-label">
+                {{ __('Address') }}
+                <span class="requirement text-danger">*</span>
+              </label>
+              <input
+                value="@if($errors->any()){{old('business_address_details')}}@else{{$user->business_address_details}}@endif"
+                name="business_address_details"
+                type="text"
+                class="form-control"
+                id="business_address_details"
+                placeholder="{{ __('Address') }}"
+                autocomplete="off"
+              />
+            </div><!-- col -->
+
+            <div class="col-sm-6">
+              <label for="business_mobile" class="form-label">
+                {{ __('Mobile') }}
+                <span class="requirement text-danger">*</span>
+              </label>
+              <input
+                value="@if($errors->any()){{old('business_mobile')}}@else{{$user->business_mobile}}@endif"
+                name="business_mobile"
+                type="tel"
+                inputmode="numeric"
+                class="form-control"
+                id="business_mobile"
+                placeholder="5XXXXXXXX"
+                pattern="[0-9]*"
+                maxlength="9"
+                autocomplete="off"
+              />
+            </div><!-- col -->
+
+            @if(auth()->user()->source == 'sure bills')
+              <div class="col-sm-6">
+                <label for="website" class="form-label">{{ __('Website') }}</label>
+                <input
+                  value="@if($errors->any()){{old('website')}}@else{{$user->website}}@endif"
+                  name="website"
+                  type="url"
+                  inputmode="url"
+                  class="form-control"
+                  id="website"
+                  placeholder="{{ __('Website') }}"
+                  autocomplete="off"
+                />
+              </div><!-- col -->
+              <div class="col-sm-6">
+                <label for="sector" class="form-label">{{ __('Sector') }}</label>
+                <input
+                  value="@if($errors->any()){{old('sector')}}@else{{$user->sector}}@endif"
+                  name="sector"
+                  type="text"
+                  class="form-control"
+                  id="sector"
+                  placeholder="{{ __('Sector') }}"
+                  autocomplete="off"
+                />
+              </div><!-- col -->
+            @endif
+
+            <div class="col-sm-6">
+              <label for="logo" class="form-label">{{ __('Logo') }}</label>
+              <input name="logo" type="file" id="logo" class="form-control" autocomplete="off" accept="image/png, image/jpeg, image/jpg" />
+              <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
+              @if($errors->has('logo'))
+                <span id="inputEmail8-error" class="invalid-feedback">{{ $errors->first('logo') }}</span>
+              @endif
+            </div><!-- col -->
+
+            @if(auth()->user()->logo || (auth()->user()->mainStoreUser && auth()->user()->mainStoreUser->logo))
+              <div class="logoImage col-sm-6">
+                <div class="card h-100 relative">
+                  <img src="@if(Storage::disk('public')->has(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)) {{url('storage/'.auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)}} @else {{url(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)}} @endif" alt="logo" class="card-img-top rounded-3" />
+                  <button type="button" class="delete_logo position-absolute btn btn-icon btn-danger waves-effect waves-light">
+                    <span class="ti ti-trash ti-xs"></span>
+                  </button>
+                </div>
+              </div><!-- col-12 -->
+            @endif
+
+            @if(auth()->user()->source == 'sure bills')
+              <div class="col-12">
+                <hr class="mb-6 mt-0" />
+                <label for="commercial_registry_expiry_date" class="form-label d-flex align-items-start justify-content-start flex-column">
+                  <span class="d-block fs-5 mb-1">{{ __('Upload the required documents') }}</span>
+                  <span class="text-muted mb-2">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</span>
+                </label>
+                @include('components.dropzone',['documents' => (auth()->user()->mainStoreUser ?? auth()->user())->business_documents->toArray()])
+              </div><!-- col -->
+            @endif
+
+            <div class="col-12 d-flex justify-content-between">
+              <a href="/account?previous=1" class="btn btn-label-secondary btn-prev" id="previous">
+                <i class="icon-base ti ti-arrow-left icon-xs me-sm-2 me-0"></i>
+                <span class="align-middle d-sm-inline-block d-none">{{__('Previous')}}</span>
+              </a>
+              @if(auth()->user()->source == 'sure bills')
+                <button type="submit" class="btn btn-primary btn-next" id="next">
+                  <span class="align-middle d-sm-inline-block d-none me-sm-2">{{__('Next')}}</span>
+                  <i class="icon-base ti ti-arrow-right icon-xs"></i>
+                </button>
+              @else
+                <button type="submit" class="btn btn-primary btn-next">
+                  <span class="align-middle d-sm-inline-block d-none me-sm-2">{{__('Finish')}}</span>
+                  <i class="icon-base ti ti-arrow-right icon-xs"></i>
+                </button>
+              @endif
+            </div><!-- col -->
+          </div><!-- row -->
+        </div><!-- business-information -->
+      </form>
+    </div>
+
+  </div>
+
+
+  <!-- License type Modal -->
+  <div class="modal fade" id="license_type_modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="license_type_modal_Label">{{ __('License type') }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>السجل التجاري يمكن إصدارة من وزارة التجارة من خلال الموقع الاكتروني الخاص بهم من خلال هذا الرابط .. <a href="http://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=2" target="_blank" title="إضغط هنا">إضغط هنا</a></p>
-          <p>وثيقة العمل الحر وهي وثيقة مجانية تصدر من قبل وزارة العمل والتنمية الاجتماعية لممارسة العمل الحر، ولإصدار وثيقة العمل المجانية تقدم بطلب من خلال هذا الرابط .. <a href="https://freelance.sa/" target="_blank" title="أضغط هنا">أضغط هنا</a></p>
+          <p class="text-body d-block m-0">السجل التجاري يمكن إصدارة من وزارة التجارة من خلال الموقع الاكتروني الخاص بهم من خلال هذا الرابط .. <a href="http://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=2" target="_blank" title="إضغط هنا">إضغط هنا</a></p>
+          <p class="text-body d-block m-0">وثيقة العمل الحر وهي وثيقة مجانية تصدر من قبل وزارة العمل والتنمية الاجتماعية لممارسة العمل الحر، ولإصدار وثيقة العمل المجانية تقدم بطلب من خلال هذا الرابط .. <a href="https://freelance.sa/" target="_blank" title="أضغط هنا">أضغط هنا</a></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal"> {{ __('Close') }}</button>
         </div>
       </div>
     </div>
   </div>
+  <!-- License type Modal -->
+
+
 @endsection
 
 @push('footer-scripts')
-  <script src="{{ asset('new/js/daterangepicker/moment.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
-  <script src="{{ asset('new/js/daterangepicker/daterangepicker.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
-  <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}" defer></script>
+  <script src="{{ asset('assets/v2/vendor/libs/select2/select2.js') }}?v={{ config('app.asset_version') }}"></script>
+  <script src="{{ asset('assets/v2/vendor/libs/flatpickr/flatpickr.js') }}?v={{ config('app.asset_version') }}"></script>
   <script type="text/javascript">
+    $(document).ready(function() {
+      $(".flatpickr").flatpickr({
+        dateFormat: "d/m/Y",
+        locale: {
+          weekdays: {
+            shorthand: [
+              '{{ __("Sun") }}',
+              '{{ __("Mon") }}',
+              '{{ __("Tue") }}',
+              '{{ __("Wed") }}',
+              '{{ __("Thu") }}',
+              '{{ __("Fri") }}',
+              '{{ __("Sat") }}'
+            ],
+            longhand: [
+              '{{ __("Sunday") }}',
+              '{{ __("Monday") }}',
+              '{{ __("Tuesday") }}',
+              '{{ __("Wednesday") }}',
+              '{{ __("Thursday") }}',
+              '{{ __("Friday") }}',
+              '{{ __("Saturday") }}'
+            ]
+          },
+          months: {
+            shorthand: [
+              '{{ __("January") }}',
+              '{{ __("February") }}',
+              '{{ __("March") }}',
+              '{{ __("April") }}',
+              '{{ __("May") }}',
+              '{{ __("June") }}',
+              '{{ __("July") }}',
+              '{{ __("August") }}',
+              '{{ __("September") }}',
+              '{{ __("October") }}',
+              '{{ __("November") }}',
+              '{{ __("December") }}'
+            ],
+            longhand: [
+              '{{ __("January") }}',
+              '{{ __("February") }}',
+              '{{ __("March") }}',
+              '{{ __("April") }}',
+              '{{ __("May") }}',
+              '{{ __("June") }}',
+              '{{ __("July") }}',
+              '{{ __("August") }}',
+              '{{ __("September") }}',
+              '{{ __("October") }}',
+              '{{ __("November") }}',
+              '{{ __("December") }}'
+            ]
+          },
+          firstDayOfWeek: {{ app()->getLocale() == 'ar' ? 6 : 0 }},
+          rangeSeparator: "{{ __("to") }}",
+          weekAbbreviation: "{{ __("week") }}"
+        }
+      });
+
+      $('.select2').select2();
+    });
+
+
+
     $('#logo').bind('change', function () {
       var filename = $("#logo").val();
       if (/^\s*$/.test(filename)) {
@@ -213,49 +399,6 @@
       $(this).remove();
     });
 
-    // Single Daterangepicker
-    $(function() {
-      $('.expiryDate').daterangepicker({
-        "singleDatePicker": true,
-        "autoApply": true,
-        "maxSpan": {
-          "days": 7
-        },
-        locale: {
-          format: 'DD/MM/YYYY',
-          daysOfWeek: [
-            '{{__('Sun')}}',
-            '{{__('Mon')}}',
-            '{{__('Tue')}}',
-            '{{__('Wed')}}',
-            '{{__('Thur')}}',
-            '{{__('Fri')}}',
-            '{{__('Sat')}}'
-          ],
-          monthNames: [
-            '{{__('January')}}',
-            '{{__('February')}}',
-            '{{__('March')}}',
-            '{{__('April')}}',
-            '{{__('May')}}',
-            '{{__('June')}}',
-            '{{__('July')}}',
-            '{{__('August')}}',
-            '{{__('September')}}',
-            '{{__('October')}}',
-            '{{__('November')}}',
-            '{{__('December')}}'
-          ],
-          fromLabel: '{{__('from')}}',
-          toLabel: '{{__('to')}}',
-          applyLabel: '{{__('apply')}}',
-          cancelLabel:'{{__('cancel')}}',
-          customRangeLabel: '{{__('custom Range')}}',
-          weekLabel: '{{__('week')}}',
-        },
-      });
-    });
-
     $('#license_type').on('change', function() {
       if(this.value == 'Commercial Record'){
           $('#registry_expiry_date').show();
@@ -268,7 +411,7 @@
       if($('#license_type').val() == 'Commercial Record'){
         $('#registry_expiry_date').show();
       }else{
-        $('#registry_expiry_date').hide();  
+        $('#registry_expiry_date').hide();
       }
     });
   </script>

@@ -1,10 +1,9 @@
 @extends('account.account_complete')
 
 @section('steps')
-
   <div class="bs-stepper wizard-modern wizard-modern-example">
     <div class="bs-stepper-header gap-0 gap-lg-8 px-0 justify-content-between">
-      <div class="step active" data-target="#account-details-modern">
+      <div class="step active" data-target="#my-information">
         <button type="button" class="step-trigger">
           <span class="bs-stepper-circle m-0">1</span>
           <span class="bs-stepper-label">
@@ -15,7 +14,7 @@
       <div class="line">
         <i class="icon-base ti ti-chevron-right"></i>
       </div>
-      <div class="step" data-target="#personal-info-modern">
+      <div class="step" data-target="#business-information">
         <button type="button" class="step-trigger">
           <span class="bs-stepper-circle m-0">2</span>
           <span class="bs-stepper-label">
@@ -27,7 +26,7 @@
         <div class="line">
           <i class="icon-base ti ti-chevron-right"></i>
         </div>
-        <div class="step" data-target="#social-links-modern">
+        <div class="step" data-target="#bank-information">
           <button type="button" class="step-trigger">
             <span class="bs-stepper-circle m-0">3</span>
             <span class="bs-stepper-label">
@@ -41,8 +40,8 @@
     <div class="bs-stepper-content">
       <form id="form" method="POST" action="{{ route('account.information') }}">
         @csrf
-        <!-- Account Details -->
-        <div id="account-details-modern" class="content active dstepper-block">
+        <!-- My Information -->
+        <div id="my-information" class="content active dstepper-block">
           <div class="row g-6">
             <div class="col-sm-6">
               <label class="form-label" for="name">{{ __('Full Name')}} <div class="text-danger d-inline-block">*</div></label>

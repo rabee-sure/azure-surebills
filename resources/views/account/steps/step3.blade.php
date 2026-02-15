@@ -61,7 +61,7 @@
         <div class="col-12">
           <span class="d-block fw-bold fs-6 text-body mb-1">{{ __('Upload the required documents') }}</span>
           <p class="d-block mb-3 text-secondary">{{ __('Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility') }}</p>
-          @include('components.dropzone',['documents' => auth()->user()->bank_documents->toArray()])
+          @include('components.dropzone',['documents' => (auth()->user()->mainStoreUser ?? auth()->user())->bank_documents->toArray()])
         </div><!-- col-12 -->
       </div><!-- row -->
       <div class="btnsArea d-flex align-items-center justify-content-between gap-3 flex-wrap border-top pt-3">
