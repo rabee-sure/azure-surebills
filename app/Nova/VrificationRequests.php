@@ -26,6 +26,7 @@ use Laravel\Nova\Panel;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use Sure\Userstats\Userstats;
 use PosLifestyle\DateRangeFilter\DateRangeFilter;
+use Illuminate\Support\Facades\Storage;
 
 class VrificationRequests extends Resource
 {
@@ -143,13 +144,34 @@ class VrificationRequests extends Resource
 
             Image::make(__('Business logo'), 'logo')
                 ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
-                ->path('businessـlogo')
+                ->disk('oci')
+                ->path('business-logo')
                 ->preview(function ($value) {
-                    return addFile($value, 'businessـlogo');
+                    if (!$value) {
+                        return asset('images/no-image.jpg');
+                    }
+
+                    $path = str_starts_with($value, 'business-logo/')
+                        ? $value
+                        : 'business-logo/'.$value;
+
+                    return Storage::disk('oci')
+                        ->temporaryUrl($path, now()->addMinutes(10));
                 })
                 ->thumbnail(function ($value) {
-                    return addFile($value, 'businessـlogo');
-                })->disableDownload(),
+                    if (!$value) {
+                        return asset('images/no-image.jpg');
+                    }
+
+                    $path = str_starts_with($value, 'business-logo/')
+                        ? $value
+                        : 'business-logo/'.$value;
+
+                    return Storage::disk('oci')
+                        ->temporaryUrl($path, now()->addMinutes(10));
+                })
+                ->disableDownload(),
+
 
             HasMany::make(__('Transfers'), 'transfers', Transfer::class),
             // HasMany::make('statement'),

@@ -296,7 +296,16 @@ class User extends Authenticatable implements HasMedia
 
     public function getLogoUrlAttribute()
     {
-        return getFile($this->logo);
+        if (!$this->logo) {
+            return asset('/images/no-image.jpg');
+        }
+
+        if (Storage::disk('oci')->exists($this->logo)) {
+            return Storage::disk('oci')
+                ->temporaryUrl($this->logo, now()->addMinutes(10));
+        }
+
+        return asset('/images/no-image.jpg');
     }
 
     /**

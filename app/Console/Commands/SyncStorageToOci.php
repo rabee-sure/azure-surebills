@@ -22,11 +22,27 @@ class SyncStorageToOci extends Command
 
     public function handle()
     {
-        $dir = $this->option('dir') ?: '';
+        $ociDisk   = Storage::disk('oci');
         $localDisk = Storage::disk('local');
-        $ociDisk = Storage::disk('oci');
-        $allFiles = $localDisk->allFiles($dir);
-        $ociDisk->put('app/settings.json', file_get_contents(storage_path('app/settings.json')));
+
+        $paths = [
+            storage_path('app'),
+            storage_path('logs'),
+        ];
+
+        $allFiles = [];
+
+        foreach ($paths as $basePath) {
+
+            $files = \Illuminate\Support\Facades\File::allFiles($basePath);
+
+            foreach ($files as $file) {
+
+                $relativePath = str_replace(storage_path() . DIRECTORY_SEPARATOR, '', $file->getPathname());
+
+                $allFiles[] = $relativePath;
+            }
+        }
 
         if (empty($allFiles)) {
             $this->warn('No files found to upload.');
@@ -36,18 +52,30 @@ class SyncStorageToOci extends Command
         $bar = $this->output->createProgressBar(count($allFiles));
         $bar->start();
 
-        foreach ($allFiles as $path) {
+        foreach ($allFiles as $relativePath) {
+
             try {
-                $content = $localDisk->get($path);
-                $ociDisk->put($path, $content);
+
+                $fullPath = storage_path($relativePath);
+
+                $stream = fopen($fullPath, 'r');
+
+                $ociDisk->put($relativePath, $stream);
+
+                if (is_resource($stream)) {
+                    fclose($stream);
+                }
+
             } catch (\Throwable $e) {
-                $this->error("\n❌ Failed to upload {$path}: " . $e->getMessage());
+                $this->error("\nFailed to upload {$relativePath}: " . $e->getMessage());
             }
+
             $bar->advance();
         }
 
-        Media::query()->update(['disk' => 'oci', 'conversions_disk' => 'oci']);
         $bar->finish();
-        $this->info("\n✅ Sync complete! Uploaded " . count($allFiles) . " file(s) to OCI.");
+
+        $this->info("\n Sync complete! Uploaded " . count($allFiles) . " file(s) to OCI.");
     }
+
 }

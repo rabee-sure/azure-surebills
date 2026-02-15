@@ -76,24 +76,34 @@ class SettingsController extends Controller
         $settings->text_color_payment_button = $request->text_color_payment_button;
 
         // If delete_background_image is set, delete the image
-        if($request->delete_background_image == '1') {
-            // Delete old image file if exists
-            if($settings->background_image_file && file_exists(public_path($settings->background_image_file))) {
-                unlink(public_path($settings->background_image_file));
+        if ($request->delete_background_image == '1') {
+
+            if ($settings->background_image_file &&
+                Storage::disk('oci')->exists($settings->background_image_file)) {
+
+                Storage::disk('oci')->delete($settings->background_image_file);
             }
+
             $settings->background_image_file = null;
         }
-        // If background image file is uploaded, save it in public/images/merchant/bills_backgrounds folder
-        elseif($request->hasFile('background_image_file')) {
-            // Delete old image file if exists
-            if($settings->background_image_file && file_exists(public_path($settings->background_image_file))) {
-                unlink(public_path($settings->background_image_file));
-            }
-            $imageName = time().'_'.auth()->user()->id.'.'.$request->background_image_file->extension();
-            $image = $request->background_image_file->move(public_path('uploads/bills_backgrounds'), $imageName);
-            $settings->background_image_file = 'uploads/bills_backgrounds/'.$imageName;
-        }
 
+        // If new file uploaded
+        elseif ($request->hasFile('background_image_file')) {
+
+            // delete old file if exists
+            if ($settings->background_image_file &&
+                Storage::disk('oci')->exists($settings->background_image_file)) {
+
+                Storage::disk('oci')->delete($settings->background_image_file);
+            }
+
+            $imageName = time().'_'.auth()->user()->id.'.'.$request->background_image_file->extension();
+
+            $path = $request->background_image_file
+                ->storeAs('uploads/bills_backgrounds', $imageName, 'oci');
+
+            $settings->background_image_file = $path;
+        }
         $settings->save();
 
 

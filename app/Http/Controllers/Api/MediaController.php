@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Transfer;
-use Illuminate\Http\Request;
 use App\Rules\ValidateUploadFile;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -12,75 +12,100 @@ use Illuminate\Support\Facades\Validator;
 class MediaController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Upload generic file
      */
     public function upload(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'file' => ['required', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])],
+            'file' => ['required', new ValidateUploadFile(['pdf','png','jpeg','jpg','docx','doc','xlsx','csv'])],
         ]);
 
-        if ($validator->fails()){
-            return response()->json(['error' =>$validator->errors()]);
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors()
+            ], 422);
         }
 
-	    if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $name = time() . '-' . $file->getClientOriginalName();
-            $folder = $request->folder ? trim($request->folder, '/') : '';
-            $file_path = $folder ? "$folder/$name" : $name;
-            Storage::putFileAs($folder, $file, $name);
+        if (!$request->hasFile('file')) {
+            return response()->json(['error' => 'No file uploaded'], 400);
+        }
 
-	        return response()->json(['data' => getFile($file_path)]);
-	    }
+        $file = $request->file('file');
+
+        $name = time() . '-' . $file->getClientOriginalName();
+
+        $folder = $request->folder
+            ? trim($request->folder, '/')
+            : '';
+
+        $filePath = $folder ? "$folder/$name" : $name;
+
+        Storage::disk('oci')->putFileAs($folder, $file, $name);
+
+        $url = Storage::disk('oci')
+            ->temporaryUrl($filePath, now()->addMinutes(10));
+
+        return response()->json([
+            'path' => $filePath,
+            'url'  => $url,
+        ]);
     }
 
     /**
-     * change Status.
-     *
-     * @param  \App\Models\Transfer  $Transfer
-     * @return \Illuminate\Http\Response
+     * Upload attachment for transfer
      */
     public function uploadAttachment(Request $request, Transfer $transfer)
     {
-        if ($request->hasFile('file')) {
+        $validator = Validator::make($request->all(), [
+            'file' => ['required', new ValidateUploadFile(['pdf','png','jpeg','jpg','docx','doc','xlsx','csv'])],
+        ]);
 
-            $validator = Validator::make($request->all(), [
-                'file' => ['required', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])],
-            ]);
-
-            if ($validator->fails()){
-                return response()->json(['error' =>$validator->errors()]);
-            }
-
-            $file = $request->file('file');
-            $fileName = time().'.'.$file->getClientOriginalExtension();
-            $folder = 'attachments';
-            $path = $file->storeAs($folder, $fileName, 'oci');
-            $transfer->attachment = $path;
-            $transfer->save();
-            return response()->json(['data' => $fileName]);
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors()
+            ], 422);
         }
+
+        if (!$request->hasFile('file')) {
+            return response()->json(['error' => 'No file uploaded'], 400);
+        }
+
+        $file = $request->file('file');
+
+        $fileName = time().'.'.$file->getClientOriginalExtension();
+
+        $folder = 'attachments';
+
+        $filePath = "$folder/$fileName";
+
+        Storage::disk('oci')->putFileAs($folder, $file, $fileName);
+
+        $transfer->attachment = $filePath;
+        $transfer->save();
+
+        return response()->json([
+            'path' => $filePath,
+            'url'  => Storage::disk('oci')
+                        ->temporaryUrl($filePath, now()->addMinutes(10)),
+        ]);
     }
 
-    public function getFile($guard ,$fileName)
+    /**
+     * Secure download (Alternative to temporaryUrl if needed)
+     */
+    public function download($guard, $filePath)
     {
-        if(auth()->guard($guard)->check())
-        {
-            if (Storage::exists($fileName)) {
-                $fileContent = Storage::get($fileName);
-                $mimeType = Storage::mimeType($fileName) ?? 'application/octet-stream';
-                $downloadName = basename($fileName);
+        if (!auth()->guard($guard)->check()) {
+            abort(401);
+        }
 
-                return response($fileContent, 200)
-                    ->header('Content-Type', $mimeType)
-                    ->header('Content-Disposition', "attachment; filename=\"$downloadName\"");
-            }
-
+        if (!Storage::disk('oci')->exists($filePath)) {
             abort(404);
         }
-        return abort(401);
+
+        $url = Storage::disk('oci')
+            ->temporaryUrl($filePath, now()->addMinutes(5));
+
+        return redirect()->away($url);
     }
 }

@@ -7,12 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserInformationResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
     public function toArray($request)
     {
         return [
@@ -29,28 +23,50 @@ class UserInformationResource extends JsonResource
             'business_address' => $this->business_address,
             'business_mobile' => $this->business_mobile,
             'vat_registration_number' => $this->vat_registration_number,
-            'commercial_registry_expiry_date' => $this->commercial_registry_expiry_date ? $this->commercial_registry_expiry_date->format('Y-m-d') : null,
+            'commercial_registry_expiry_date' => $this->commercial_registry_expiry_date
+                ? $this->commercial_registry_expiry_date->format('Y-m-d')
+                : null,
             'verified' => $this->verified,
             'bank_id' => $this->bank_id,
             'iban_number' => $this->iban_number,
             'beneficiary_name' => $this->beneficiary_name,
-            'logo' => getFile($this->logo),
+
+            'logo' => $this->getLogoUrl(),
+
             'disable_business_documents' => $this->disable_business_documents,
             'disable_bank_documents' => $this->disable_bank_documents,
+
             'business_documents' => $this->getDocuments($this->business_documents),
             'bank_documents' => $this->getDocuments($this->bank_documents),
         ];
     }
 
-    public function getDocuments($items)
+    private function getLogoUrl()
     {
-        $array = [];
-        foreach ($items as $item) {
-            $array[] = [
-                'full_url' => $item->getFullUrl(),
-                'id' => $item->id
-            ];
+        if (!$this->logo) {
+            return null;
         }
-        return $array;
+
+        if (!Storage::disk('oci')->exists($this->logo)) {
+            return null;
+        }
+
+        return Storage::disk('oci')
+            ->temporaryUrl($this->logo, now()->addMinutes(10));
+    }
+
+    private function getDocuments($items)
+    {
+        return collect($items)->map(function ($item) {
+
+            $path = $item->getPath();
+
+            return [
+                'id' => $item->id,
+                'file_name' => $item->file_name,
+                'url' => Storage::disk('oci')
+                        ->temporaryUrl($path, now()->addMinutes(10)),
+            ];
+        })->values();
     }
 }

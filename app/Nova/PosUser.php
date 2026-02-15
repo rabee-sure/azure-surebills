@@ -15,6 +15,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Illuminate\Support\Facades\Storage;
 
 class PosUser extends Resource
 {
@@ -84,14 +85,38 @@ class PosUser extends Resource
             })->rules('required', 'max:50'),
 
             Image::make(__('Business logo'), 'logo')
-                ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
-                ->path('businessـlogo')
-                ->preview(function ($value) {
-                    return addFile($value, 'businessـlogo');
-                })
-                ->thumbnail(function ($value) {
-                    return addFile($value, 'businessـlogo');
-                })->disableDownload()->hideWhenUpdating($this->store_main_user_id ? true : false)->hideFromDetail($this->store_main_user_id ? true : false),
+            ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
+            ->disk('oci')
+            ->path('business-logo')
+            ->preview(function ($value) {
+                if (!$value) {
+                    return asset('images/no-image.jpg');
+                }
+
+                return Storage::disk('oci')
+                    ->temporaryUrl(
+                        str_starts_with($value, 'business-logo/')
+                            ? $value
+                            : 'business-logo/'.$value,
+                        now()->addMinutes(10)
+                    );
+            })
+            ->thumbnail(function ($value) {
+                if (!$value) {
+                    return asset('images/no-image.jpg');
+                }
+
+                return Storage::disk('oci')
+                    ->temporaryUrl(
+                        str_starts_with($value, 'business-logo/')
+                            ? $value
+                            : 'business-logo/'.$value,
+                        now()->addMinutes(10)
+                    );
+            })
+            ->disableDownload()
+            ->hideWhenUpdating($this->store_main_user_id ? true : false)
+            ->hideFromDetail($this->store_main_user_id ? true : false),
 
             Text::make(__('Email'), 'email')
                 ->sortable()

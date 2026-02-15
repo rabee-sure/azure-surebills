@@ -4,55 +4,87 @@ namespace App\Nova\Actions;
 
 use App\Services\TransferService;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 
 class TranferTransactionsExcelDownload extends Action
 {
     /**
-     * Get the displayable name of the metric.
-     *
-     * @return string
+     * Display name
      */
     public function name()
     {
-        return  __('Download Transfer Transactions Excel');
+        return __('Download Transfer Transactions Excel');
     }
 
     /**
-     * Perform the action on the given models.
-     *
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
-     * @param  \Illuminate\Support\Collection  $models
-     * @return mixed
+     * Execute action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        foreach ($models as $transfer) {
-            $transfer_files = $transfer->filters['files']??[];
-            $transactions_file_path = $transfer_files['file_path'] ?? 'rfedw';
-            return downloadFile($transactions_file_path, $transfer->filters['files']['file_name']);
+        $transfer = $models->first();
+
+        if (!$transfer) {
+            return Action::danger('Transfer not found.');
         }
+
+        $files = $transfer->filters['files'] ?? [];
+
+        if (!isset($files['file_path'])) {
+            return Action::danger('No file attached to this transfer.');
+        }
+
+        $filePath = $files['file_path'];
+        $fileName = $files['file_name'] ?? basename($filePath);
+
+        if (!Storage::disk('oci')->exists($filePath)) {
+            return Action::danger('File not found on storage.');
+        }
+
+        $stream = Storage::disk('oci')->readStream($filePath);
+
+        if (!$stream) {
+            return Action::danger('Unable to read file stream.');
+        }
+
+        return response()->streamDownload(function () use ($stream) {
+            fpassthru($stream);
+            fclose($stream);
+        }, $fileName, [
+            'Content-Type' => Storage::disk('oci')->mimeType($filePath) ?? 'application/octet-stream',
+        ]);
     }
 
     /**
-     * Get the fields available on the action.
-     *
-     * @return array
+     * No extra fields required
      */
     public function fields()
     {
         return [];
     }
+
     /**
-     * Get the fields available on the action.
-     *
-     * @return array
+     * Optional: regenerate file if needed
      */
     public function updateFile($model)
     {
-        $filename = 'bills/'.$model->filters['files']['folder'].'/';
-        $filename = $filename . str_replace('transactions-', '', $model->filters['files']['transactions']);
-        TransferService::createTransactionsExcel( $model->transactions->load('bill'), $filename);
+        if (!isset($model->filters['files'])) {
+            return;
+        }
+
+        $folder = $model->filters['files']['folder'] ?? null;
+        $transactionsName = $model->filters['files']['transactions'] ?? null;
+
+        if (!$folder || !$transactionsName) {
+            return;
+        }
+
+        $filename = 'bills/' . $folder . '/' . str_replace('transactions-', '', $transactionsName);
+
+        TransferService::createTransactionsExcel(
+            $model->transactions->load('bill'),
+            $filename
+        );
     }
 }

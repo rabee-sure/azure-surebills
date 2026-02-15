@@ -250,85 +250,43 @@ if(!function_exists('generateSecureOTP')){
     }
 }
 
-if (!function_exists('addFile')){
-    function addFile($value, $path)
+if (!function_exists('ociFile')) {
+    function ociFile($path, $minutes = 10)
     {
-        if (file_exists(Storage::disk('public')->path('downloads/'.$value))){
-            return url('storage/downloads/'.$value);
+        if (!$path) {
+            return asset('images/no-image.jpg');
         }
-        else if(Storage::disk('oci')->exists($value)){
-            $stream = Storage::disk('oci')->readStream($value);
-            $localPath = 'downloads/' . $path . '/' . basename($value);
-            Storage::disk('public')->put($localPath, $stream);
-            if (is_resource($stream)) {
-                fclose($stream);
-            }
-            return url('storage/downloads/'.$value);
-        }
-        else{
-            return '/images/no-image.jpg';
+
+        try {
+            return Storage::disk('oci')
+                ->temporaryUrl($path, now()->addMinutes($minutes));
+        } catch (\Throwable $e) {
+            return asset('images/no-image.jpg');
         }
     }
 }
 
-if (!function_exists('getFile')){
-    function getFile($value)
+if (!function_exists('ociDownload')) {
+    function ociDownload($path, $minutes = 5)
     {
-        if (file_exists(Storage::disk('public')->path('downloads/'.$value))){
-            return url('storage/downloads/'.$value);
-        }
-        else if(Storage::disk('oci')->exists($value)){
-            $stream = Storage::disk('oci')->readStream($value);
-            $localPath = 'downloads/' . $value;
-            Storage::disk('public')->put($localPath, $stream);
-            if (is_resource($stream)) {
-                fclose($stream);
-            }
-            return url('storage/downloads/'.$value);
-        }
-        else{
-            return '/images/no-image.jpg';
-        }
+        return redirect(
+            Storage::disk('oci')
+                ->temporaryUrl($path, now()->addMinutes($minutes))
+        );
     }
 }
 
-if (!function_exists('downloadFile')){
-    function downloadFile($filePath, $fileName)
+if (!function_exists('ociReport')) {
+    function ociReport($name, $id, $minutes = 5)
     {
-        if (file_exists(Storage::disk('public')->path('downloads/'.$filePath))){
-            return Action::download(url('storage/downloads/' . $filePath), $fileName);
-        } else if(Storage::disk('oci')->exists($filePath)){
-            $stream = Storage::disk('oci')->readStream($filePath);
-            $localPath = 'downloads/' . $filePath;
-            Storage::disk('public')->put($localPath, $stream);
-            if (is_resource($stream)) {
-                fclose($stream);
-            }
-            return Action::download(url('storage/downloads/' . $filePath), $fileName);
-        } else
-            return Action::danger(404);
-    }
-}
+        $path = "reports/{$name}/{$name}_{$id}.xlsx";
 
-if (!function_exists('getFilePath')) {
-    function getFilePath($name, $id)
-    {
-        $relativePath = "downloads/reports/{$name}/{$name}_{$id}.xlsx";
-        $localFullPath = storage_path("app/public/{$relativePath}");
-        $ociPath = "reports/{$name}/{$name}_{$id}.xlsx";
-        if (file_exists($localFullPath)) {
-            return url("storage/{$relativePath}");
+        try {
+            return Storage::disk('oci')
+                ->temporaryUrl($path, now()->addMinutes($minutes));
+        } catch (\Throwable $e) {
+            return null;
         }
-        if (Storage::disk('oci')->exists($ociPath)) {
-            $stream = Storage::disk('oci')->readStream($ociPath);
-            Storage::disk('public')->makeDirectory("downloads/reports/{$name}");
-            Storage::disk('public')->put($relativePath, $stream);
-            if (is_resource($stream)) {
-                fclose($stream);
-            }
-            return url("storage/{$relativePath}");
-        }
-        return null;
     }
 }
 
@@ -336,28 +294,10 @@ if (!function_exists('getFilePath')) {
 if (!function_exists('getSettings')){
     function getSettings()
     {
-        if (file_exists(Storage::disk('public')->path('downloads/app/settings.json'))){
-            return storage_path('app/downloads/app/settings.json');
-        }
-        else if(Storage::disk('oci')->exists('app/settings.json')){
-            $stream = Storage::disk('oci')->readStream('app/settings.json');
-            $localPath = 'downloads/app/settings.json';
-            Storage::disk('public')->put($localPath, $stream);
-            if (is_resource($stream)) {
-                fclose($stream);
-            }
-            return storage_path('app/downloads/app/settings.json');
-        }
+        return Valuestore::make(
+            storage_path('app/nova-settings.json')
+        );
     }
 }
 
-if (!function_exists('uploadFile')){
-    function uploadFile($file)
-    {
-        $filePath = storage_path($file);
-        if (file_exists($filePath)) {
-            Storage::disk('oci')->put($filePath, fopen($filePath, 'r+'));
-        }
-    }
-}
 

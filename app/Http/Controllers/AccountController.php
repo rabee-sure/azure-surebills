@@ -224,11 +224,20 @@ class AccountController extends Controller
         }
         $oldData['documents'] = $user->business_documents->pluck('file_name')->toArray();
 
-        if($request->hasFile('logo')) {
-            $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();
-            $image = $request->logo->move(public_path('uploads'), $imageName);
+        if ($request->hasFile('logo')) {
+
+            $file = $request->file('logo');
+
+            $imageName = time().'_'.auth()->user()->id.'.'.$file->extension();
+
+            $path = $file->storeAs(
+                'uploads',
+                $imageName,
+                'oci'
+            );
+
             $businessInfo->update([
-                'logo' => 'uploads/'.$imageName,
+                'logo' => $path,
             ]);
         }
         else
