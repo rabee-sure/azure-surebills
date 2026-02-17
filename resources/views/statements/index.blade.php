@@ -13,12 +13,12 @@
 
   <div class="d-flex align-items-center justify-content-between gap-2 mb-6">
     <h4 class="m-0 flex-grow-1">{{ __('Electronic payment') }}</h4>
-    <h5 class="m-0 flex-shrink-0 d-flex align-items-center justify-content-end gap-1 text-primary">
+    <h6 class="text-success bg-label-success rounded-3 py-2 px-3 m-0 d-flex align-items-center justify-content-end gap-1">
       {{ __('Balance') }} :
       <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0">
         {{ round2(auth()->user()->balance) }} <i class="sar-icon"></i>
       </span>
-    </h5>
+    </h6>
   </div><!-- d-flex -->
 
   <div class="card mb-6">
