@@ -1,74 +1,73 @@
-<button type="button" class="addCustomerBtn d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-pill" data-bs-toggle="modal" data-bs-target="#add_customer_Modal">{{ __('Add Customer') }} </button>
+<button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#add_customer_Modal">
+  <span class="icon-xs icon-base ti ti-plus me-2"></span> {{ __('Add Customer') }}
+</button>
 
-<div class="modal fade addCustomerModal" id="add_customer_Modal" tabindex="-1" role="dialog" aria-labelledby="add_customer_ModalLabel" aria-hidden="true">
-  <form method="POST" action="{{ route('customers.store') }}" id="customers_store" class="modal-dialog modal-dialog-scrollable" role="document">
-    <div class="modal-content border-0 shadow-sm rounded-3">
-      <div class="modal-header d-flex align-items-center justify-content-between">
-        <h5 class="modal-title" id="add_customer_ModalLabel">{{ __('Add Customer') }}</h5>
-        <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
-      </div>
+<div class="modal fade" id="add_customer_Modal" tabindex="-1" aria-hidden="true">
+  <form method="POST" action="{{ route('customers.store') }}" id="customers_store" class="modal-dialog modal-lg" role="document">
+    @csrf
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">{{ __('Add Customer') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div><!-- modal-header -->
       <div class="modal-body">
-        @csrf
-        <div class="form-group mb-3">
-          <label for="Name" class="d-block mb-1">{{__('Name')}} <span class="requirement text-danger">*</span></label>
-          <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}" autocomplete="off">
-        </div>
-        <div class="form-group mb-3">
-          <label for="Mobile" class="d-block mb-1">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
-          <div class="phoneInput overflow-hidden position-relative">
-            <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
-            <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}"  pattern="[0-9]*" maxlength="9" inputmod="numaric" autocomplete="off">
-          </div><!-- phoneInput -->
-        </div>
-        <div class="form-group mb-3">
-          <label for="Email" class="d-block mb-1">{{__('Email')}}</label>
-          <input  name="email" type="email" inputmode="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" autocomplete="off">
-        </div>
-        <div class="form-group mb-3">
-          <label for="Notes" class="d-block mb-1">{{__('Customer Notes')}}</label>
-          <input name="notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Notes" placeholder="{{__('Customer Notes')}}" autocomplete="off">
-        </div>
-        @if($user->settings->add_tax_invoice)
-          <div class="form-group mb-3">
-              <label for="bullding_no" class="d-block mb-1">{{__('Building Number')}}</label>
-              <input name="bullding_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('Building Number')}}" autocomplete="off">
-          </div>
-          <div class="form-group mb-3">
-              <label for="street_name" class="d-block mb-1">{{__('Street Name')}}</label>
-              <input name="street_name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('Street Name')}}" autocomplete="off">
-          </div>
-          <div class="form-group mb-3">
-              <label for="district" class="d-block mb-1">{{__('District')}}</label>
-              <input name="district" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('District')}}" autocomplete="off">
-          </div>
-          <div class="form-group mb-3">
-              <label for="city" class="d-block mb-1">{{__('City')}}</label>
-              <input name="city" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('City')}}" autocomplete="off">
-          </div>
-          <div class="form-group mb-3">
-              <label for="postal_code" class="d-block mb-1">{{__('Postal Code')}}</label>
-              <input name="postal_code" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('Postal Code')}}" autocomplete="off">
-          </div>
-          <div class="form-group mb-3">
-              <label for="additional_no" class="d-block mb-1">{{__('Additional Number')}}</label>
-              <input name="additional_no" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('Additional Number')}}" autocomplete="off">
-          </div>
-          <div class="form-group mb-3">
-              <label for="other_buyer_id" class="d-block mb-1">{{__('Additional ID')}}</label>
-              <input name="other_buyer_id" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('Additional ID')}}" autocomplete="off">
-          </div>
-          <div class="form-group mb-3">
-              <label for="vat_registration_number" class="d-block mb-1">{{__('VAT Registration Number (optional)')}}</label>
-              <input name="vat_registration_number" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('VAT Registration Number (optional)')}}" autocomplete="off">
-          </div>
-        @endif
-      </div>
-      <div class="modal-footer p-2">
-          <button type="submit" class="border-0 shadow-none rounded-3 btn-primary">{{__('Add')}}</button>
-          <button type="button" class="border-0 shadow-none rounded-3 btn-light" data-bs-dismiss="modal">{{__('Close')}}</button>
-      </div>
-    </div>
+        <div class="row row-cols-1 row-cols-md-2 g-6">
+          <div class="col">
+            <label for="Name" class="form-label">{{__('Name')}} <span class="requirement text-danger">*</span></label>
+            <input name="name" type="text" class="form-control" id="Name" placeholder="{{__('Name')}}" autocomplete="off">
+          </div><!-- col -->
+          <div class="col">
+            <label for="Mobile" class="form-label">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
+            <input name="mobile" type="tel" class="form-control" id="Mobile" placeholder="{{__('Mobile')}}"  pattern="[0-9]*" maxlength="9" inputmod="numaric" autocomplete="off">
+          </div><!-- col -->
+          <div class="col">
+            <label for="Email" class="form-label">{{__('Email')}}</label>
+            <input value="{{ old('email') }}" name="email" type="email" inputmode="email" class="form-control" id="Email" placeholder="{{__('Email')}}" autocomplete="off">
+          </div><!-- col -->
+          <div class="col">
+            <label for="Notes" class="form-label">{{__('Customer Notes')}}</label>
+            <input name="notes" type="text" class="form-control" id="Notes" placeholder="{{__('Customer Notes')}}" autocomplete="off">
+          </div><!-- col -->
+          @if($user->settings->add_tax_invoice)
+            <div class="col">
+              <label for="bullding_no" class="form-label">{{__('Building Number')}}</label>
+              <input name="bullding_no" type="text" class="form-control" id="bullding_no" placeholder="{{__('Building Number')}}" autocomplete="off">
+            </div><!-- col -->
+            <div class="col">
+              <label for="street_name" class="form-label">{{__('Street Name')}}</label>
+              <input name="street_name" type="text" class="form-control" id="street_name" placeholder="{{__('Street Name')}}" autocomplete="off">
+            </div><!-- col -->
+            <div class="col">
+              <label for="district" class="form-label">{{__('District')}}</label>
+              <input name="district" type="text" class="form-control" id="district" placeholder="{{__('District')}}" autocomplete="off">
+            </div><!-- col -->
+            <div class="col">
+              <label for="city" class="form-label">{{__('City')}}</label>
+              <input name="city" type="text" class="form-control" id="city" placeholder="{{__('City')}}" autocomplete="off">
+            </div><!-- col -->
+            <div class="col">
+              <label for="postal_code" class="form-label">{{__('Postal Code')}}</label>
+              <input name="postal_code" type="text" class="form-control" id="postal_code" placeholder="{{__('Postal Code')}}" autocomplete="off">
+            </div><!-- col -->
+            <div class="col">
+              <label for="additional_no" class="form-label">{{__('Additional Number')}}</label>
+              <input name="additional_no" type="text" class="form-control" id="additional_no" placeholder="{{__('Additional Number')}}" autocomplete="off">
+            </div><!-- col -->
+            <div class="col">
+              <label for="other_buyer_id" class="form-label">{{__('Additional ID')}}</label>
+              <input name="other_buyer_id" type="text" class="form-control" id="other_buyer_id" placeholder="{{__('Additional ID')}}" autocomplete="off">
+            </div><!-- col -->
+            <div class="col">
+              <label for="vat_registration_number" class="form-label">{{__('VAT Registration Number (optional)')}}</label>
+              <input name="vat_registration_number" type="text" class="form-control" id="vat_registration_number" placeholder="{{__('VAT Registration Number (optional)')}}" autocomplete="off">
+            </div><!-- col -->
+          @endif
+        </div><!-- row -->
+      </div><!-- modal-body -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
+        <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
+      </div><!-- modal-footer -->
+    </div><!-- modal-content -->
   </form>
-</div>
-<!-- Modal -->
-
+</div><!-- modal -->
