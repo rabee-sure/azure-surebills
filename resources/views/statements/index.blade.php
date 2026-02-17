@@ -9,8 +9,6 @@
 
 @section('content')
 
-<section id="statement-index-page">
-
   <div class="d-flex align-items-center justify-content-between gap-2 mb-6">
     <h4 class="m-0 flex-grow-1">{{ __('Electronic payment') }}</h4>
     <h6 class="text-success bg-label-success rounded-3 py-2 px-3 m-0 d-flex align-items-center justify-content-end gap-1">
@@ -247,7 +245,6 @@
     </div><!-- card -->
   @endif
 
-</section><!-- statement-index-page -->
 @endsection
 
 @push('footer-scripts')
