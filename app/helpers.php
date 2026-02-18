@@ -294,9 +294,8 @@ if (!function_exists('ociReport')) {
 if (!function_exists('getSettings')){
     function getSettings()
     {
-        return Valuestore::make(
-            storage_path('app/nova-settings.json')
-        );
+        return storage_path('app/nova-settings.json');
+
     }
 }
 

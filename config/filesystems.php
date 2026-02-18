@@ -80,6 +80,7 @@ return [
             'bucket'                  => env('OCI_BUCKET'),
             'endpoint'                => env('OCI_ENDPOINT'),
             'use_path_style_endpoint' => true,
+            // 'root' => env('OCI_PREFIX'),
         ],
     ],
 

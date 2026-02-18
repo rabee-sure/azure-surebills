@@ -14,6 +14,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\MultiselectField\Multiselect;
 use App\Events\AddActionLogEvent;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BillReport extends Resource
 {
@@ -68,16 +69,28 @@ class BillReport extends Resource
             Date::make(__('Request date'), 'created_at')->exceptOnForms(),
 
             Text::make(__('Download File'), function () {
-                $url = getDownloadFile($this->name, $this->id);
 
-                if ($url) {
-                    return "<a class='btn btn-success' style='margin:5px' href='{$url}' target='_blank'>
-                    <i class='fa fa-download' aria-hidden='true'></i>
-                </a>";
+                if (!$this->name) {
+                    return "<span style='color: #aaa;'>-</span>";
                 }
 
-                return "<span style='color: #aaa;'>-</span>";
+                $path = $this->name;
+
+                if (!Storage::disk('oci')->exists($path)) {
+                    return "<span style='color: #aaa;'>File not found</span>";
+                }
+
+                $url = Storage::disk('oci')->temporaryUrl(
+                    $path,
+                    now()->addMinutes(10)
+                );
+
+                return "<a class='btn btn-success' style='margin:5px' href='{$url}' target='_blank'>
+                            <i class='fa fa-download'></i>
+                        </a>";
             })->asHtml(),
+            
+
         ];
     }
 

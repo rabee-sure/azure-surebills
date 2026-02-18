@@ -22,25 +22,35 @@ class SyncStorageToOci extends Command
 
     public function handle()
     {
-        $ociDisk   = Storage::disk('oci');
-        $localDisk = Storage::disk('local');
+        $ociDisk = Storage::disk('oci');
 
         $paths = [
-            storage_path('app'),
-            storage_path('logs'),
+            storage_path('app/public') => '',
+            storage_path('logs')       => 'logs/',
         ];
 
         $allFiles = [];
 
-        foreach ($paths as $basePath) {
+        foreach ($paths as $basePath => $prefix) {
+
+            if (!is_dir($basePath)) {
+                continue;
+            }
 
             $files = \Illuminate\Support\Facades\File::allFiles($basePath);
 
             foreach ($files as $file) {
 
-                $relativePath = str_replace(storage_path() . DIRECTORY_SEPARATOR, '', $file->getPathname());
+                $relativePath = $prefix . str_replace(
+                    $basePath . DIRECTORY_SEPARATOR,
+                    '',
+                    $file->getPathname()
+                );
 
-                $allFiles[] = $relativePath;
+                $allFiles[] = [
+                    'full_path'     => $file->getPathname(),
+                    'relative_path' => str_replace('\\', '/', $relativePath),
+                ];
             }
         }
 
@@ -52,22 +62,19 @@ class SyncStorageToOci extends Command
         $bar = $this->output->createProgressBar(count($allFiles));
         $bar->start();
 
-        foreach ($allFiles as $relativePath) {
+        foreach ($allFiles as $file) {
 
             try {
+                $stream = fopen($file['full_path'], 'r');
 
-                $fullPath = storage_path($relativePath);
-
-                $stream = fopen($fullPath, 'r');
-
-                $ociDisk->put($relativePath, $stream);
+                $ociDisk->put($file['relative_path'], $stream);
 
                 if (is_resource($stream)) {
                     fclose($stream);
                 }
 
             } catch (\Throwable $e) {
-                $this->error("\nFailed to upload {$relativePath}: " . $e->getMessage());
+                $this->error("\nFailed to upload {$file['relative_path']}: " . $e->getMessage());
             }
 
             $bar->advance();
@@ -75,7 +82,9 @@ class SyncStorageToOci extends Command
 
         $bar->finish();
 
-        $this->info("\n Sync complete! Uploaded " . count($allFiles) . " file(s) to OCI.");
+        $this->info("\nSync complete! Uploaded " . count($allFiles) . " file(s) to OCI.");
     }
+
+
 
 }

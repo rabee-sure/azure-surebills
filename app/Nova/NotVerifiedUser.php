@@ -118,7 +118,6 @@ class NotVerifiedUser extends Resource
                 if (!$value) {
                     return asset('images/no-image.jpg');
                 }
-
                 return Storage::disk('oci')
                     ->temporaryUrl($value, now()->addMinutes(10));
             })
