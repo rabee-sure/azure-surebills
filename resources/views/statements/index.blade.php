@@ -179,13 +179,13 @@
                 <td>
                   <div class="d-flex align-items-center justify-content-start gap-1">
                     @if ($transaction->card_brand == 'VISA')
-                      <img alt="mastercard" src="images/cards/visa.gif" width="18px">
+                      <img alt="visa" src="{{ asset('assets/v2/img/payments/visa.png') }}">
                     @elseif ($transaction->card_brand == 'MASTER')
-                      <img alt="mastercard" src="images/cards/mastercard.gif" width="18px">
+                      <img alt="mastercard" src="{{ asset('assets/v2/img/payments/mastercard.png') }}">
                     @elseif ($transaction->card_brand == 'MADA')
-                      <img alt="mastercard" src="images/cards/mada.gif" width="18px">
+                      <img alt="mada" src="{{ asset('assets/v2/img/payments/mada.png') }}">
                     @elseif ($transaction->card_brand == 'APPLEPAY')
-                      <img alt="mastercard" src="images/cards/applepay.gif" width="18px">
+                      <img alt="applepay" src="{{ asset('assets/v2/img/payments/applepay.png') }}">
                     @endif
                     {{ $transaction->card }}
                   </div>
