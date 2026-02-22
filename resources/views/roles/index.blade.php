@@ -4,88 +4,100 @@
 
 @section('content')
 
-  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
-    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
-    <i>/</i>
-    <a href="{{ url('account')}}" title="{{ __('Settings') }}">{{ __('Settings') }}</a>
-    <i>/</i>
-    <span>{{ __('Roles')}}</span>
-  </div><!-- breadcrump -->
+  <div class="d-flex align-items-center justify-content-between gap-2 mb-6">
+    <h4 class="m-0 flex-grow-1">{{__('Roles')}}</h4>
+    @can('create user')
+      @include('roles.create')
+    @endcan
+  </div><!-- d-flex -->
 
   @if ($errors->any())
-    <div class="alert alert-danger">
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div><!-- alert -->
+    <ul class="list-group mb-6">
+      @foreach ($errors->all() as $error)
+        <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+      @endforeach
+    </ul>
   @endif
 
-  <section id="usersIndexPage">
-    <div class="tabsArea d-flex align-items-center justify-content-center justify-content-md-start flex-wrap mb-5 mb-md-4">
-      <a href="{{route('users.index')}}" title="{{__('Users')}}" class="d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-3">{{__('Users')}}</a>
-      <span class="d-flex shadow-none align-items-center justify-content-center border bg-white text-body rounded-3">{{__('Roles')}}</span>
-    </div><!-- tabsArea -->
-    <div class="title d-flex align-items-center justify-content-between mb-4">
-      <h1 class="d-block fw-bold m-0 fs-5">{{__('Roles')}}</h1>
-      @can('create user')
-        @include('roles.create')
-      @endcan
-    </div><!-- title -->
-    @if(count($roles) == 0)
-      <div class="no_customers_yet d-flex align-items-center justify-content-center flex-column bg-white shadow-sm rounded-3 overflow-hidden mb-3">
-        <i class="fal fa-users"></i>
-        <span class="d-block text-center mt-3 text-capitalize">{{ __('No roles') }}</span>
-      </div><!-- no_customers_yet -->
-    @else
-      <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
-        <div class="table-responsive">
-          <table class="table table-striped table-hover">
-            <thead>
+  @if($roles->count())
+    <div class="card">
+      <div class="table-responsive text-nowrap">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col" class="fw-bold">#</th>
+              <th scope="col" class="fw-bold">{{__('Name')}}</th>
+              <th scope="col" class="fw-bold">{{__('Permissions')}}</th>
+              @canany(['update user', 'delete user'])
+                <th scope="col" class="fw-bold" width="10%">{{__('Actions')}}</th>
+              @endcanany
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($roles as $role)
               <tr>
-                <th scope="col" class="text-center">#</th>
-                <th scope="col" class="text-center">{{__('Name')}}</th>
-                <th scope="col" class="text-center">{{__('Permissions')}}</th>
+                <td>{{$loop->index+1}}</td>
+                <td>{{$role->name}}</td>
+                <td>
+                  @php
+                    $permissions = $role->getPermissionNames();
+                    $visibleCount = 7;
+                    $visiblePermissions = $permissions->take($visibleCount);
+                    $remainingPermissions = $permissions->skip($visibleCount);
+                  @endphp
+                  @foreach($visiblePermissions as $permission)
+                    <span class="badge bg-label-dark">{{__($permission)}}</span>
+                  @endforeach
+                  @if($remainingPermissions->isNotEmpty())
+                    <span
+                      class="badge bg-label-dark cursor-pointer"
+                      data-bs-toggle="tooltip"
+                      data-bs-html="true"
+                      data-bs-placement="top"
+                      title="{!! $remainingPermissions->map(fn($p) => e(__($p)))->implode('<br>') !!}"
+                    >
+                      +{{ $remainingPermissions->count() }}
+                    </span>
+                  @endif
+                </td>
                 @canany(['update user', 'delete user'])
-                  <th scope="col" class="text-center">{{__('Actions')}}</th>
+                  <td>
+                    <div class="d-flex align-items-center justify-content-start gap-2">
+                      @can('update user')
+                        <a href="{{ route('roles.edit', $role->id)}}" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}">
+                          <span class="icon-base ti ti-edit icon-18px"></span>
+                        </a>
+                      @endcan
+                      @can('delete user')
+                        @include('roles.delete', ['role' => $role])
+                      @endcan
+                    </div>
+                  </td>
                 @endcanany
               </tr>
-            </thead>
-            <tbody>
-              @foreach($roles as $role)
-                <tr>
-                  <td class="text-center">{{$loop->index+1}}</td>
-                  <td class="text-center">{{$role->name}}</td>
-                  <td class="text-center">
-                    @foreach($role->getPermissionNames() as $permission)
-                      <span class="roleTag badge badge-info">{{__($permission)}}</span>
-                    @endforeach
-                  </td>
-                  @canany(['update user', 'delete user'])
-                    <td class="text-center">
-                      <div class="d-flex align-items-center justify-content-center">
-                        @can('update user')
-                          <a href="{{ route('roles.edit', $role->id)}}" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>
-                        @endcan
-                        @can('delete user')
-                          @include('roles.delete', ['role' => $role])
-                        @endcan
-                      </div>
-                    </td>
-                  @endcanany
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div><!-- table-responsive -->
-        {{ $roles->links() }}
-      </div><!-- blockArea -->
-    @endif
-  </section><!-- rolesIndexPage -->
+            @endforeach
+          </tbody>
+        </table>
+      </div><!-- table-responsive -->
+    </div><!-- card -->
+    <div class="d-flex align-items-center justify-content-center mt-3">
+      {{ $roles->links() }}
+    </div><!-- d-flex -->
+  @else
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-center flex-column py-5">
+          <i class="ti ti-list-check ti-xl"></i>
+          <span class="d-block text-center mt-3 text-capitalize">{{ __('No roles') }}</span>
+        </div><!-- d-flex -->
+      </div><!-- card-body -->
+    </div><!-- card -->
+  @endif
 
 @endsection
 
 @push('footer-scripts')
+  <!-- Laravel Javascript Validation -->
+  <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
   {!! JsValidator::formRequest('App\Http\Requests\RoleRequest', '#roles_form') !!}
 @endpush
