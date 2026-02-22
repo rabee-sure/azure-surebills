@@ -1,25 +1,25 @@
-<button type="button" class="rounded-3 border-0 shadow-none p-0 mx-1 btn-secondary d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#restore_customer_Modal_{{$user->id}}">
-  <span class="w-100 h-100 d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Restore') }}"><i class="fal fa-undo"></i></span>
+<button type="button" class="btn btn-icon text-white btn-sm btn-warning waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#restore_customer_Modal_{{$user->id}}">
+  <span class="w-100 h-100 d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Restore') }}"><i class="icon-base ti ti-restore icon-18px"></i></span>
 </button>
 
-<!-- Restore User Modal -->
-<div class="modal fade deleteCustomerModal" id="restore_customer_Modal_{{$user->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="modal fade" id="restore_customer_Modal_{{$user->id}}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content border-0 shadow-sm rounded-3">
-      <div class="modal-body d-flex align-items-center justify-content-center flex-column">
-        <div class="closeBtn d-flex align-items-center justify-content-end mb-3 w-100">
-          <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
-        </div><!-- closeBtn -->
-        <form action="{{ route('users.restore', $user->id) }}" method="post" class="form w-100">
-          @csrf
-          <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __('Are You sure Restore this User?')}}</span>
-          <div class="d-flex align-items-center justify-content-center flex-wrap">
-            <button type="submit" class="border-0 shadow-none rounded-3 btn-secondary formBtn mx-2">{{__('Restore')}}</button>
-            <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Close')}}</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div><!-- modal-header -->
+      <div class="modal-body">
+        <div class="d-flex align-items-center justify-content-center text-warning mb-3">
+          <i class="icon-base ti ti-info-triangle icon-50px"></i>
+        </div>
+        <h5 class="m-0 text-center">{{ __('Are You sure Restore this User?')}}</h5>
+      </div><!-- modal-body -->
+      <form action="{{ route('users.restore', $user->id) }}" method="post" class="modal-footer">
+        @csrf
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
+        <button type="submit" class="btn btn-warning">{{__('Restore')}}</button>
+      </form><!-- modal-footer -->
+    </div><!-- modal-content -->
   </div>
-</div>
-<!-- Restore User Modal -->
+</div><!-- modal -->

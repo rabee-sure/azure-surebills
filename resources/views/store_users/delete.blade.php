@@ -1,26 +1,25 @@
-<button type="button" class="rounded-3 border-0 shadow-none p-0 mx-1 btn-danger d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#delete_customer_Modal_{{$user->id}}">
-  <span class="w-100 h-100 d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Suspend') }}"><i class="fal fa-user-slash"></i></span>
+<button type="button" class="btn btn-icon text-white btn-sm btn-danger waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#delete_user_Modal_{{$user->id}}">
+  <span class="w-100 h-100 d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Suspend') }}"><i class="icon-base ti ti-user-off icon-18px"></i></span>
 </button>
 
-<!-- Delete User Modal -->
-<div class="modal fade deleteCustomerModal" id="delete_customer_Modal_{{$user->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="delete_user_Modal_{{$user->id}}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content border-0 shadow-sm rounded-3">
-      <div class="modal-body d-flex align-items-center justify-content-center flex-column">
-        <div class="closeBtn d-flex align-items-center justify-content-end mb-3 w-100">
-          <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
-        </div><!-- closeBtn -->
-        <form action="{{ route('users.destroy', $user->id)}}" method="post" class="form w-100">
-          @csrf
-          @method('DELETE')
-          <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __('Are You sure Suspend this User?')}}</span>
-          <div class="d-flex align-items-center justify-content-center flex-wrap">
-            <button type="submit" class="border-0 shadow-none rounded-3 btn-danger formBtn mx-2">{{__('Suspend')}}</button>
-            <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Close')}}</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div><!-- modal-header -->
+      <div class="modal-body">
+        <div class="d-flex align-items-center justify-content-center text-warning mb-3">
+          <i class="icon-base ti ti-info-triangle icon-50px"></i>
+        </div>
+        <h5 class="m-0 text-center">{{ __('Are You sure Suspend this User?')}}</h5>
+      </div><!-- modal-body -->
+      <form action="{{ route('users.destroy', $user->id)}}" method="post" class="modal-footer">
+        @csrf
+        @method('DELETE')
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
+        <button type="submit" class="btn btn-danger">{{__('Suspend')}}</button>
+      </form><!-- modal-footer -->
+    </div><!-- modal-content -->
   </div>
-</div>
-<!-- Delete User Modal -->
+</div><!-- modal -->

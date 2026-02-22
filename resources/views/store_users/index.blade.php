@@ -2,97 +2,130 @@
 
 @section('title', __('Users'))
 
+@push('css_styles')
+  <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/select2/select2.css') }}">
+@endpush
+
 @section('content')
 
-  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
-    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
-    <i>/</i>
-    <a href="{{ url('account')}}" title="{{ __('Settings') }}">{{ __('Settings') }}</a>
-    <i>/</i>
-    <span>{{ __('Users')}}</span>
-  </div><!-- breadcrump -->
+  <div class="d-flex align-items-center justify-content-between gap-2 mb-6">
+    <h4 class="m-0 flex-grow-1">{{__('Users')}}</h4>
+    @can('create user')
+      @include('store_users.create')
+    @endcan
+  </div><!-- d-flex -->
 
   @if ($errors->any())
-    <div class="alert alert-danger">
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
+    <ul class="list-group mb-6">
+      @foreach ($errors->all() as $error)
+        <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+      @endforeach
+    </ul>
   @endif
 
-  <section id="usersIndexPage">
-    <div class="tabsArea d-flex align-items-center justify-content-center justify-content-md-start flex-wrap mb-5 mb-md-4">
-      <span class="d-flex shadow-none align-items-center justify-content-center border bg-white text-body rounded-3">{{__('Users')}}</span>
-      <a href="{{route('roles.index')}}" title="{{__('Roles')}}" class="d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-3">{{__('Roles')}}</a>
-    </div><!-- tabsArea -->
-    <div class="title d-flex align-items-center justify-content-between mb-4">
-      <h1 class="d-block fw-bold m-0 fs-5">{{__('Users')}}</h1>
-      @can('create user')
-        @include('store_users.create')
-      @endcan
-    </div><!-- title -->
-    @if(count($users) == 0)
-      <div class="no_customers_yet d-flex align-items-center justify-content-center flex-column bg-white shadow-sm rounded-3 overflow-hidden mb-3">
-        <i class="fal fa-users"></i>
-        <span class="d-block text-center mt-3 text-capitalize">{{ __('No users') }}</span>
-      </div><!-- no_customers_yet -->
-    @else
-      <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
-        <div class="table-responsive">
-          <table class="table table-striped table-hover text-nowrap">
-            <thead>
+  @if($users->count())
+    <div class="card">
+      <div class="table-responsive text-nowrap">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col" class="fw-bold" width="5%">#</th>
+              <th scope="col" class="fw-bold">{{__('Name')}}</th>
+              <th scope="col" class="fw-bold">{{__('Mobile')}}</th>
+              <th scope="col" class="fw-bold">{{__('Email')}}</th>
+              {{-- <th scope="col" class="fw-bold">{{__('Gender')}}</th> --}}
+              <th scope="col" class="fw-bold">{{__('Role')}}</th>
+              @canany(['update user', 'delete user'])
+                <th scope="col" class="fw-bold" width="10%">{{__('Actions')}}</th>
+              @endcanany
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($users as $user)
               <tr>
-                <th scope="col" class="text-center">#</th>
-                <th scope="col" class="text-center">{{__('Name')}}</th>
-                <th scope="col" class="text-center">{{__('Mobile')}}</th>
-                <th scope="col" class="text-center">{{__('Email')}}</th>
-                {{-- <th scope="col" class="text-center">{{__('Gender')}}</th> --}}
-                <th scope="col" class="text-center">{{__('Role')}}</th>
-                @canany(['update user', 'delete user'])
-                  <th scope="col" class="text-center" width="10%">{{__('Actions')}}</th>
+                <td>{{$loop->index+1}}</td>
+                <td>{{$user->name}}</td>
+                <td>{{$user->mobile}}</td>
+                <td>{{$user->email}}</td>
+                <td>{{$user->getRoleNames()->first()}}</td>
+                @canany(['update user', 'delete user', 'restore user'])
+                  <td>
+                    <div class="d-flex align-items-center justify-content-start gap-2">
+                      @can('updateMerchantUser', $user)
+                        <a href="{{ route('users.edit', $user->id)}}" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}">
+                          <span class="icon-base ti ti-edit icon-18px"></span>
+                        </a>
+                      @endcan
+                      @if ($user->deleted_at == null)
+                        @can('deleteMerchantUser', $user)
+                          @include('store_users.delete', ['user' => $user])
+                        @endcan
+                      @else
+                        @can('restoreMerchantUser', $user)
+                          @include('store_users.restore', ['user' => $user])
+                        @endcan
+                      @endif
+                    </div>
+                  </td>
                 @endcanany
               </tr>
-            </thead>
-            <tbody>
-              @foreach($users as $user)
-                <tr>
-                  <td class="text-center">{{$loop->index+1}}</td>
-                  <td class="text-center">{{$user->name}}</td>
-                  <td class="text-center">{{$user->mobile}}</td>
-                  <td class="text-center">{{$user->email}}</td>
-                  {{-- <td class="text-center">{{$user->gender == 1 ? __('Male') : __('female')}}</td> --}}
-                  <td class="text-center">{{$user->getRoleNames()->first()}}</td>
-                  @canany(['update user', 'delete user', 'restore user'])
-                    <td class="text-center">
-                      <div class="d-flex align-items-center justify-content-center">
-                        @can('updateMerchantUser', $user)
-                        <a href="{{ route('users.edit', $user->id)}}" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>
-                        @endcan
-                        @if ($user->deleted_at == null)  
-                          @can('deleteMerchantUser', $user)
-                            @include('store_users.delete', ['user' => $user])
-                          @endcan
-                        @else
-                          @can('restoreMerchantUser', $user)
-                            @include('store_users.restore', ['user' => $user])
-                          @endcan
-                        @endif
-                      </div>
-                    </td>
-                  @endcanany
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-          {{ $users->links() }}
-        </div><!-- table-responsive -->
-      </div><!-- blockArea -->
-    @endif
-  </section><!-- usersIndexPage -->
+            @endforeach
+          </tbody>
+        </table>
+      </div><!-- table-responsive -->
+    </div><!-- card -->
+    <div class="d-flex align-items-center justify-content-center mt-3">
+      {{ $users->links() }}
+    </div><!-- d-flex -->
+  @else
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-center flex-column py-5">
+          <i class="ti ti-users-group ti-xl"></i>
+          <span class="d-block text-center mt-3 text-capitalize">{{ __('No users') }}</span>
+        </div><!-- d-flex -->
+      </div><!-- card-body -->
+    </div><!-- card -->
+  @endif
+
 @endsection
 
 @push('footer-scripts')
+  <!-- Laravel Javascript Validation -->
+  <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
   {!! JsValidator::formRequest('App\Http\Requests\StoreUserRequest', '#user_form') !!}
+  <script src="{{ asset('assets/v2/vendor/libs/select2/select2.js') }}"></script>
+  <script>
+    // Select2
+    $(document).ready(function() {
+      $('.select2-single').select2({
+        dropdownParent: $('#add_user_Modal')
+      });
+    });
+
+    // Password Toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      initPasswordToggle();
+    });
+    function initPasswordToggle() {
+      const togglers = document.querySelectorAll('.custom-form-password-toggle i');
+      togglers.forEach(icon => {
+        icon.addEventListener('click', function(e) {
+          e.preventDefault();
+
+          const container = this.closest('.custom-form-password-toggle');
+          const input = container.querySelector('input');
+          const toggleIcon = container.querySelector('i');
+
+          if (input.type === 'password') {
+            input.type = 'text';
+            toggleIcon.classList.replace('ti-eye-off', 'ti-eye');
+          } else {
+            input.type = 'password';
+            toggleIcon.classList.replace('ti-eye', 'ti-eye-off');
+          }
+        });
+      });
+    }
+  </script>
 @endpush
