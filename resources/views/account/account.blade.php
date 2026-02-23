@@ -146,18 +146,6 @@
         </div><!-- col -->
       @endif
     @endcan
-    @can('show users')
-      <div class="col">
-        <a href="{{ route('users.index') }}" title="{{ __('Users') }}" class="card h-100">
-          <div class="card-body d-flex align-items-center justify-content-start">
-            <div class="badge rounded p-2 bg-label-primary me-3">
-              <i class="icon-base ti ti-users-group icon-lg"></i>
-            </div>
-            <h6 class="card-title mb-0">{{__('Users')}}</h6>
-          </div>
-        </a>
-      </div><!-- col -->
-    @endcan
   </div><!-- row -->
 
 @endsection

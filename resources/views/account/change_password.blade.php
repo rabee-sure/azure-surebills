@@ -3,44 +3,105 @@
 @section('title', __('Change Password'))
 
 @section('content')
-  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
-    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
-    <i>/</i>
-    <a href="{{ url('account')}}" title="{{ __('Settings') }}">{{ __('Settings') }}</a>
-    <i>/</i>
-    <span>{{ __('Change Password') }}</span>
-  </div><!-- breadcrump -->
-  <section id="changePasswordPage">
-    <div class="title mb-4">
-      <h1 class="d-block fw-bold m-0 fs-5">{{__('Change Password')}}</h1>
-    </div><!-- title -->
-    <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3 p-3">
-      <form id="form" method="POST" action="{{ route('change.password') }}">
-        @csrf
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <div class="form-group mb-3">
-              <label for="password" class="d-block mb-2">{{ __('Current Password') }} <span class="requirement">*</span></label>
-              <input id="password" type="password" name="current_password" autocomplete="off" class="form-control rounded-3 shadow-none border" placeholder="{{ __('Current Password') }}">
-            </div>
-            <div class="form-group mb-3">
-              <label for="_confirmation" class="d-block mb-2">{{ __('New Password') }} <span class="requirement">*</span></label>
-              <input id="new_password" type="password" class="form-control rounded-3 shadow-none border" name="new_password" autocomplete="off" placeholder="{{ __('New Password') }}">
-            </div>
-            <div class="form-group mb-3">
-              <label for="new_password_confirmation" class="d-block mb-2">{{ __('Re-type New Password') }} <span class="requirement">*</span></label>
-              <input id="new_password_confirmation" type="password" class="form-control rounded-3 shadow-none border" name="new_password_confirmation" autocomplete="off" placeholder="{{__('Re-type New Password') }}">
-            </div>
-          </div><!-- col-12 -->
-        </div><!-- row -->
-        <div class="saveBtn d-flex justify-content-start mt-3">
-          <button type="submit" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold"> {{__('Save')}}</button>
-        </div><!-- saveBtn -->
-      </form>
-    </div><!-- blockArea -->
-  </section><!-- changePasswordPage -->
+
+  <h4 class="mb-1">{{ __('Change Password')}}</h4>
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-custom-icon mb-6">
+      <li class="breadcrumb-item">
+        <a href="{{ url('account') }}" title="{{ __('Settings') }}">{{ __('Settings')}}</a>
+        <i class="breadcrumb-icon icon-base ti ti-chevron-right align-middle icon-xs"></i>
+      </li>
+      <li class="breadcrumb-item active">{{ __('Change Password') }}</li>
+    </ol>
+  </nav>
+
+  <form id="form" method="POST" action="{{ route('change.password') }}" class="card">
+    @csrf
+    <div class="card-body">
+      <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 g-6">
+        <div class="col">
+          <label for="password" class="form-label">{{ __('Current Password') }} <span class="text-danger">*</span></label>
+          <div class="input-group input-group-merge custom-form-password-toggle">
+            <input
+              id="password"
+              name="current_password"
+              autocomplete="off"
+              type="password"
+              class="form-control"
+              placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+              aria-describedby="password"
+              />
+            <span class="input-group-text cursor-pointer position-relative"><i class="icon-base ti ti-eye-off"></i></span>
+          </div>
+        </div>
+        <div class="col">
+          <label for="new_password" class="form-label">{{ __('New Password') }} <span class="text-danger">*</span></label>
+          <div class="input-group input-group-merge custom-form-password-toggle">
+            <input
+              id="new_password"
+              name="new_password"
+              autocomplete="off"
+              type="password"
+              class="form-control"
+              placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+              aria-describedby="new_password"
+              />
+            <span class="input-group-text cursor-pointer position-relative"><i class="icon-base ti ti-eye-off"></i></span>
+          </div>
+        </div>
+        <div class="col">
+          <label for="new_password_confirmation" class="form-label">{{ __('Re-type New Password') }} <span class="text-danger">*</span></label>
+          <div class="input-group input-group-merge custom-form-password-toggle">
+            <input
+              id="new_password_confirmation"
+              name="new_password_confirmation"
+              autocomplete="off"
+              type="password"
+              class="form-control"
+              placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+              aria-describedby="new_password_confirmation"
+              />
+            <span class="input-group-text cursor-pointer position-relative"><i class="icon-base ti ti-eye-off"></i></span>
+          </div>
+        </div><!-- col -->
+      </div><!-- row -->
+    </div><!-- card-body -->
+    <div class="card-footer d-flex align-items-center justify-content-end">
+      <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
+    </div><!-- card-footer -->
+  </form>
+
 @endsection
 
 @push('footer-scripts')
+  <!-- Laravel Javascript Validation -->
+  <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
   {!! JsValidator::formRequest('App\Http\Requests\ChangePasswordRequest', '#form') !!}
+  <script>
+    // Password Toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      initPasswordToggle();
+    });
+    function initPasswordToggle() {
+      const togglers = document.querySelectorAll('.custom-form-password-toggle i');
+      togglers.forEach(icon => {
+        icon.addEventListener('click', function(e) {
+          e.preventDefault();
+
+          const container = this.closest('.custom-form-password-toggle');
+          const input = container.querySelector('input');
+          const toggleIcon = container.querySelector('i');
+
+          if (input.type === 'password') {
+            input.type = 'text';
+            toggleIcon.classList.replace('ti-eye-off', 'ti-eye');
+          } else {
+            input.type = 'password';
+            toggleIcon.classList.replace('ti-eye', 'ti-eye-off');
+          }
+        });
+      });
+    }
+  </script>
 @endpush
