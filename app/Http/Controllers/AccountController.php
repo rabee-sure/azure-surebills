@@ -197,7 +197,14 @@ class AccountController extends Controller
             $businessInfo = auth()->user();
         }
 
-        return view('account.business_information', ['user' => $businessInfo]);
+        $logoUrl = null;
+
+        if ($businessInfo->logo) {
+
+            $logoUrl = \Illuminate\Support\Facades\Storage::disk('oci')->temporaryUrl($businessInfo->logo, now()->addMinutes(10));
+        }
+
+        return view('account.business_information', ['user' => $businessInfo, 'logoUrl' => $logoUrl,]);
     }
 
     /**
