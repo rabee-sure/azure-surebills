@@ -12,7 +12,7 @@ const mix = require('laravel-mix');
  */
 
   // *** New Ui Rabee ***//
-  mix.js('resources/new/js/app.js', 'public/assets/v2/vendor/js').vue()
+  mix.js('resources/new/js/app.js', 'public/new/js').vue()
   .sass('resources/new/scss/main.scss', 'public/new/css')
   .sass('resources/new/scss/auth.scss', 'public/new/css')
   .sass('resources/new/scss/print.scss', 'public/new/css')
@@ -102,3 +102,9 @@ const mix = require('laravel-mix');
     .options({
      processCssUrls: false
    });
+
+
+
+   // *** New Ui Rabee Components ***//
+   mix.js('resources/assets/v2/js/app.js', 'public/assets/v2/vendor/js').vue()
+   // *** New Ui Rabee Components ***//
