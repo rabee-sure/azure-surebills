@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
+use Illuminate\Support\Facades\Storage;
 
 class Media extends BaseMedia
 {
