@@ -8,6 +8,8 @@ return [
      */
     'disk_name' => env('MEDIA_DISK', 'oci'),
 
+    'temporary_file_upload_disk' => 'local',
+
     /*
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
@@ -23,7 +25,7 @@ return [
     /*
      * By default all conversions will be performed on a queue.
      */
-    'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', true),
+    'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', false),
 
     /*
      * The fully qualified class name of the media model.
@@ -42,7 +44,7 @@ return [
      * in the same session. You can opt to disable this for stateless usage of
      * the pro components.
      */
-    'enable_temporary_uploads_session_affinity' => true,
+    'enable_temporary_uploads_session_affinity' => false,
 
     /*
      * When enabled, Media Library pro will generate thumbnails for uploaded file.

@@ -27,6 +27,7 @@ class SyncStorageToOci extends Command
         $paths = [
             storage_path('app/public') => '',
             storage_path('logs')       => 'logs/',
+            storage_path('app/tmp')       => 'tmp/',
         ];
 
         $allFiles = [];

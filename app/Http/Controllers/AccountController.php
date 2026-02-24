@@ -157,7 +157,7 @@ class AccountController extends Controller
 
             foreach ($request->input('document', []) as $file) {
                 if (count($media) === 0 || !in_array($file, $media)) {
-                    $bankInfo->addMedia('tmp/uploads/' . $file)->toMediaCollection('bank_documents');
+                    $bankInfo->addMediaFromDisk('tmp/uploads/' . $file, 'local')->toMediaCollection('bank_documents');
                 }
             }
         }
@@ -279,7 +279,7 @@ class AccountController extends Controller
 
             foreach ($request->input('document', []) as $file) {
                 if (count($media) === 0 || !in_array($file, $media)) {
-                    $businessInfo->addMedia('tmp/uploads/' . $file)->toMediaCollection('business_documents');
+                    $businessInfo->addMediaFromDisk('tmp/uploads/' . $file, 'local')->toMediaCollection('business_documents');
                 }
             }
         }
@@ -344,7 +344,7 @@ class AccountController extends Controller
         $originalName = trim($file->getClientOriginalName());
         $fileName = uniqid() . '_' . $originalName;
         $folder = 'tmp/uploads';
-        $path = $file->storeAs($folder, $fileName, 'oci');
+        $path = $file->storeAs($folder, $fileName, 'local');
         return response()->json([
             'name'          => $fileName,
             'original_name' => $originalName,

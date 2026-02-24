@@ -6,16 +6,14 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
 class Media extends BaseMedia
 {
-        public function getUrl(string $conversionName = ''): string
+    public function getUrl(string $conversionName = ''): string
     {
-        $disk = $this->disk;
-        $path = $this->getPathRelativeToRoot($conversionName);
-
-        if ($disk !== 'oci') {
+        if ($this->disk !== 'oci') {
             return parent::getUrl($conversionName);
         }
-
-        return Storage::disk($disk)
-            ->temporaryUrl($path, now()->addMinutes(10));
+        return Storage::disk($this->disk)->temporaryUrl(
+            $this->getPath($conversionName),
+            now()->addMinutes(10)
+        );
     }
 }
