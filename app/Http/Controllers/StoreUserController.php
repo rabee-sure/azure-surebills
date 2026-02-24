@@ -74,7 +74,7 @@ class StoreUserController extends Controller
             $role = Role::find($request->role);
             $user->assignRole($role);
         });
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', __('User added successfully'));
     }
 
     /**
@@ -135,7 +135,7 @@ class StoreUserController extends Controller
             }
         });
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', __('User updated successfully'));
     }
 
     /**
@@ -148,7 +148,7 @@ class StoreUserController extends Controller
     {
         $this->authorize('deleteMerchantUser', $user);
         $user->delete();
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', __('User suspended successfully'));
     }
 
     public function restore($id)
@@ -156,6 +156,6 @@ class StoreUserController extends Controller
         $user = User::onlyTrashed()->find($id);
         $this->authorize('restoreMerchantUser', $user);
         $user->restore();
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', __('User restored successfully'));
     }
 }

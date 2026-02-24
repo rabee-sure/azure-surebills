@@ -19,6 +19,15 @@
     </ul>
   @endif
 
+  @if(session()->has('success'))
+    <div class="alert alert-success d-flex align-items-center mb-6" role="alert">
+      <span class="alert-icon rounded">
+        <i class="icon-base ti ti-check icon-md"></i>
+      </span>
+      {{ session()->get('success') }}
+    </div>
+  @endif
+
   @if($roles->count())
     <div class="card">
       <div class="table-responsive text-nowrap">
@@ -64,9 +73,11 @@
                   <td>
                     <div class="d-flex align-items-center justify-content-start gap-2">
                       @can('update user')
-                        <a href="{{ route('roles.edit', $role->id)}}" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}">
-                          <span class="icon-base ti ti-edit icon-18px"></span>
-                        </a>
+                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}">
+                          <button type="button" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#edit_role_Modal" data-role="{{ json_encode(['id' => $role->id, 'name' => $role->name, 'permissions' => $role->getPermissionNames()->toArray()]) }}">
+                            <span class="icon-base ti ti-edit icon-18px"></span>
+                          </button>
+                        </span>
                       @endcan
                       @can('delete user')
                         @include('roles.delete', ['role' => $role])
@@ -83,6 +94,9 @@
     <div class="d-flex align-items-center justify-content-center mt-3">
       {{ $roles->links() }}
     </div><!-- d-flex -->
+    @can('update user')
+      @include('roles.edit')
+    @endcan
   @else
     <div class="card">
       <div class="card-body">
@@ -100,4 +114,26 @@
   <!-- Laravel Javascript Validation -->
   <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
   {!! JsValidator::formRequest('App\Http\Requests\RoleRequest', '#roles_form') !!}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const editModal = document.getElementById('edit_role_Modal');
+      if (editModal) {
+        editModal.addEventListener('show.bs.modal', function(event) {
+          const button = event.relatedTarget;
+          if (button && button.dataset.role) {
+            const role = JSON.parse(button.dataset.role);
+            const form = document.getElementById('roles_update_form');
+            form.action = "{{ url('roles') }}/" + role.id;
+
+            document.getElementById('edit_Name').value = role.name || '';
+
+            const permissions = role.permissions || [];
+            document.querySelectorAll('.edit-permission-checkbox').forEach(function(cb) {
+              cb.checked = permissions.includes(cb.dataset.permission);
+            });
+          }
+        });
+      }
+    });
+  </script>
 @endpush

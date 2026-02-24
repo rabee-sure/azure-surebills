@@ -23,6 +23,15 @@
     </ul>
   @endif
 
+  @if(session()->has('success'))
+    <div class="alert alert-success d-flex align-items-center mb-6" role="alert">
+      <span class="alert-icon rounded">
+        <i class="icon-base ti ti-check icon-md"></i>
+      </span>
+      {{ session()->get('success') }}
+    </div>
+  @endif
+
   @if($users->count())
     <div class="card">
       <div class="table-responsive text-nowrap">
@@ -52,9 +61,11 @@
                   <td>
                     <div class="d-flex align-items-center justify-content-start gap-2">
                       @can('updateMerchantUser', $user)
-                        <a href="{{ route('users.edit', $user->id)}}" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}">
-                          <span class="icon-base ti ti-edit icon-18px"></span>
-                        </a>
+                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}">
+                          <button type="button" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#edit_user_Modal" data-user="{{ json_encode(['id' => $user->id, 'name' => $user->name, 'mobile' => $user->mobile, 'email' => $user->email, 'role_id' => optional($user->roles->first())->id, 'is_super_admin' => $user->getRoleNames()->first() == 'super admin']) }}">
+                            <span class="icon-base ti ti-edit icon-18px"></span>
+                          </button>
+                        </span>
                       @endcan
                       @if ($user->deleted_at == null)
                         @can('deleteMerchantUser', $user)
@@ -77,6 +88,9 @@
     <div class="d-flex align-items-center justify-content-center mt-3">
       {{ $users->links() }}
     </div><!-- d-flex -->
+    @can('update user')
+      @include('store_users.edit')
+    @endcan
   @else
     <div class="card">
       <div class="card-body">
@@ -98,9 +112,46 @@
   <script>
     // Select2
     $(document).ready(function() {
-      $('.select2-single').select2({
+      $('#Role').select2({
         dropdownParent: $('#add_user_Modal')
       });
+      $('#edit_Role').select2({
+        dropdownParent: $('#edit_user_Modal')
+      });
+    });
+
+    // Edit User Modal - populate form when opened
+    document.addEventListener('DOMContentLoaded', function() {
+      const editModal = document.getElementById('edit_user_Modal');
+      if (editModal) {
+        editModal.addEventListener('show.bs.modal', function(event) {
+          const button = event.relatedTarget;
+          if (button && button.dataset.user) {
+            const user = JSON.parse(button.dataset.user);
+            const form = document.getElementById('user_update_form');
+            form.action = "{{ url('users') }}/" + user.id;
+
+            document.getElementById('edit_Name').value = user.name || '';
+            document.getElementById('edit_Mobile').value = user.mobile || '';
+            document.getElementById('edit_Email').value = user.email || '';
+            document.getElementById('edit_Password').value = '';
+            document.getElementById('edit_Confirm_Password').value = '';
+
+            const roleCol = document.getElementById('edit_role_col');
+            const roleSelect = document.getElementById('edit_Role');
+            if (user.is_super_admin) {
+              roleCol.style.display = 'none';
+              roleSelect.disabled = true;
+              roleSelect.removeAttribute('name');
+            } else {
+              roleCol.style.display = '';
+              roleSelect.disabled = false;
+              roleSelect.setAttribute('name', 'role');
+              $('#edit_Role').val(user.role_id || '').trigger('change');
+            }
+          }
+        });
+      }
     });
 
     // Password Toggle

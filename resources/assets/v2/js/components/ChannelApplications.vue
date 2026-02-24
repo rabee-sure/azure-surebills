@@ -54,17 +54,9 @@
               <td>{{ application.name }}</td>
               <td>{{ application.email}}</td>
               <td><code>{{ application.secret ? application.secret : '-' }}</code></td>
-              <td>
-                <a :href="application.webhook_url" :title="application.webhook_url" target="_blank" class="btn btn-icon btn-sm btn-primary waves-effect waves-light text-white">
-                  <span class="icon-base ti ti-link icon-18px"></span>
-                </a>
-              </td>
+              <td><code>{{ application.webhook_url }}</code></td>
               <td><code>{{ application.webhook_secret ? application.webhook_secret : '-' }}</code></td>
-              <td>
-                <a :href="application.redirect" :title="application.redirect" target="_blank" class="btn btn-icon btn-sm btn-primary waves-effect waves-light text-white">
-                  <span class="icon-base ti ti-link icon-18px"></span>
-                </a>
-              </td>
+              <td><code>{{ application.redirect }}</code></td>
               <td v-if="userPermissions.includes('update application') || userPermissions.includes('delete application')">
                 <div class="d-flex align-items-center justify-content-start gap-2">
                   <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" :title="__('Edit')" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light" v-if="userPermissions.includes('update application')" @click="edit(application)">

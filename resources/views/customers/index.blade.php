@@ -19,6 +19,15 @@
     </ul>
   @endif
 
+  @if(session()->has('success'))
+    <div class="alert alert-success d-flex align-items-center mb-6" role="alert">
+      <span class="alert-icon rounded">
+        <i class="icon-base ti ti-check icon-md"></i>
+      </span>
+      {{ session()->get('success') }}
+    </div>
+  @endif
+
   <div class="card">
     @if($customers->count())
         <div class="table-responsive text-nowrap">
@@ -49,9 +58,11 @@
                   <td>
                     <div class="d-flex align-items-center justify-content-start gap-2">
                       @can('update customer')
-                        <a href="{{ route('customers.edit', $customer->id)}}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light">
-                          <span class="icon-base ti ti-edit icon-18px"></span>
-                        </a>
+                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}">
+                          <button type="button" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#edit_customer_Modal" data-customer="{{ json_encode($customer->only(['id', 'name', 'mobile', 'email', 'notes', 'bullding_no', 'street_name', 'district', 'city', 'postal_code', 'additional_no', 'other_buyer_id', 'vat_registration_number'])) }}">
+                            <span class="icon-base ti ti-edit icon-18px"></span>
+                          </button>
+                        </span>
                       @endcan
                       @can('delete customer')
                         @include('customers.delete', ['customer' => $customer])
@@ -75,10 +86,43 @@
       @endif
     </div><!-- card -->
 
+    @can('update customer')
+      @include('customers.edit')
+    @endcan
+
 @endsection
 
 @push('footer-scripts')
   <!-- Laravel Javascript Validation -->
   <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
   {!! JsValidator::formRequest('App\Http\Requests\CustomerRequest', '#customers_store') !!}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const editModal = document.getElementById('edit_customer_Modal');
+      if (editModal) {
+        editModal.addEventListener('show.bs.modal', function(event) {
+          const button = event.relatedTarget;
+          if (button && button.dataset.customer) {
+            const customer = JSON.parse(button.dataset.customer);
+            const form = document.getElementById('customers_update');
+            form.action = "{{ url('customers') }}/" + customer.id;
+            document.getElementById('edit_Name').value = customer.name || '';
+            document.getElementById('edit_Mobile').value = customer.mobile || '';
+            document.getElementById('edit_Email').value = customer.email || '';
+            document.getElementById('edit_Notes').value = customer.notes || '';
+            @if($user->settings->add_tax_invoice ?? false)
+              document.getElementById('edit_bullding_no').value = customer.bullding_no || '';
+              document.getElementById('edit_street_name').value = customer.street_name || '';
+              document.getElementById('edit_district').value = customer.district || '';
+              document.getElementById('edit_city').value = customer.city || '';
+              document.getElementById('edit_postal_code').value = customer.postal_code || '';
+              document.getElementById('edit_additional_no').value = customer.additional_no || '';
+              document.getElementById('edit_other_buyer_id').value = customer.other_buyer_id || '';
+              document.getElementById('edit_vat_registration_number').value = customer.vat_registration_number || '';
+            @endif
+          }
+        });
+      }
+    });
+  </script>
 @endpush

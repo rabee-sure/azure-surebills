@@ -99,7 +99,7 @@ class CustomerController extends Controller
             'vat_registration_number' => $request->vat_registration_number,
         ]);
 
-        return redirect()->route('customers.index');
+        return redirect()->route('customers.index')->with('success', __('Customer added successfully'));
     }
 
     /**
@@ -150,7 +150,7 @@ class CustomerController extends Controller
         $customer->vat_registration_number = $request->vat_registration_number;
         $customer->save();
 
-        return redirect()->route('customers.index');
+        return redirect()->route('customers.index')->with('success', __('Customer updated successfully'));
     }
 
     /**
@@ -163,6 +163,6 @@ class CustomerController extends Controller
     {
         $this->authorize('update', $customer);
         $customer->delete();
-        return redirect()->route('customers.index');
+        return redirect()->route('customers.index')->with('success', __('Customer deleted successfully'));
     }
 }

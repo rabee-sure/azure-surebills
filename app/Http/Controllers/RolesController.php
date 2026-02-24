@@ -48,7 +48,7 @@ class RolesController extends Controller
     {
         $role = Role::create(['name' => $request->name, 'user_id' => auth()->user()->store_main_user_id ?? auth()->user()->id]);
         $role->syncPermissions($request->permissions);
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.index')->with('success', __('Role added successfully'));
     }
 
     /**
@@ -87,7 +87,7 @@ class RolesController extends Controller
         $role->name = $request->name;
         $role->save();
         $role->syncPermissions($request->permissions);
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.index')->with('success', __('Role updated successfully'));
     }
 
     /**
@@ -100,6 +100,6 @@ class RolesController extends Controller
     {
         $this->authorize('deleteMerchantRole', $role);
         $role->delete();
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.index')->with('success', __('Role deleted successfully'));
     }
 }

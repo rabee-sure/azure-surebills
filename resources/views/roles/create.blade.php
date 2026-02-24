@@ -3,7 +3,7 @@
 </button>
 
 <div class="modal fade" id="add_role_Modal" tabindex="-1" aria-hidden="true">
-  <form form method="POST" action="{{ route('roles.store') }}" id="roles_form" class="modal-dialog modal-lg" role="document">
+  <form method="POST" action="{{ route('roles.store') }}" id="roles_form" class="modal-dialog modal-lg" role="document">
     @csrf
     <div class="modal-content">
       <div class="modal-header">
