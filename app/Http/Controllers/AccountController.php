@@ -209,6 +209,7 @@ class AccountController extends Controller
             return [
                 'id' => $media->id,
                 'name' => $media->file_name,
+                'file_name' => $media->file_name,
                 'size' => $media->size,
                 'mime_type' => $media->mime_type,
                 'url' => $media->getUrl()
