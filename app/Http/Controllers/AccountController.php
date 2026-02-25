@@ -208,7 +208,7 @@ class AccountController extends Controller
             return [
                 'id'   => $media->id,
                 'name' => $media->file_name,
-                'url'  => \Illuminate\Support\Facades\Storage::disk('oci')->temporaryUrl($media->getPath(), now()->addMinutes(10)),,
+                'url'  => \Illuminate\Support\Facades\Storage::disk('oci')->temporaryUrl($media->getPath(), now()->addMinutes(10)),
             ];
         });
 
