@@ -145,17 +145,22 @@
           <div class="col-12">
             <span class="d-block fw-bold fs-6 text-body mb-1">{{ __('Upload the required documents') }}</span>
             <p class="d-block mb-3 text-secondary">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
-            @if(auth()->user()->disable_business_documents)
-              <div class="dropzone">
-                @foreach(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->business_documents : auth()->user()->business_documents as $file)
-                  @include('components.file', ['file' => $file])
-                @endforeach
-              </div>
+            @if($user->disable_business_documents)
+
+                <div class="dropzone">
+                    @foreach($documents as $file)
+                        @include('components.file', ['file' => $file])
+                    @endforeach
+                </div>
+
             @else
-              @include('components.dropzone',[
-                'documents' => auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->business_documents->toArray() : auth()->user()->business_documents->toArray()
-              ])
+
+                @include('components.dropzone', [
+                    'documents' => $documents
+                ])
+
             @endif
+
           </div><!-- col-12 -->
           @endif
         </div><!-- row -->
