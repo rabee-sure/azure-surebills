@@ -112,7 +112,18 @@ class AccountController extends Controller
         {
             $bankInfo = auth()->user();
         }
-        return view('account.bank_information', ['user' => $bankInfo]);
+
+        $documents = $bankInfo->bank_documents->map(function ($media) {
+            return [
+                'id'        => $media->id,
+                'name'      => $media->file_name,
+                'file_name' => $media->file_name,
+                'size'      => $media->size,
+                'mime_type' => $media->mime_type,
+                'url'       => $media->getUrl(),
+            ];
+        });
+        return view('account.bank_information', ['user' => $bankInfo, 'documents' => $documents,]);
     }
 
     /**

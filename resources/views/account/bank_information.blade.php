@@ -59,7 +59,7 @@
               </div>
             @else
               @include('components.dropzone',[
-                'documents' => auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->bank_documents->toArray() : auth()->user()->bank_documents->toArray()
+                'documents' => $documents
               ])
             @endif
           </div><!-- col-12 -->
