@@ -86,6 +86,7 @@
               this.options.addedfile.call(this, file)
               if(file.mime_type.includes("image")){
                 // this.options.thumbnail.call(this, file, '/storage/'+file.id+'/'+file.file_name)
+                this.options.thumbnail.call(this, file, file.url);
               }
 
               file.previewElement.classList.add('dz-complete')

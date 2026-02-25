@@ -204,8 +204,18 @@ class AccountController extends Controller
             $logoUrl = \Illuminate\Support\Facades\Storage::disk('oci')->temporaryUrl($businessInfo->logo, now()->addMinutes(10));
         }
         $businessInfo = auth()->user()->mainStoreUser  ? auth()->user()->mainStoreUser   : auth()->user();
-        $documents = $businessInfo->business_documents;
 
+        $documents = $businessInfo->business_documents->map(function ($media) {
+            return [
+                'id' => $media->id,
+                'name' => $media->file_name,
+                'size' => $media->size,
+                'mime_type' => $media->mime_type,
+                'url' => $media->getUrl()
+            ];
+        });
+
+        
         return view('account.business_information', ['user' => $businessInfo, 'logoUrl' => $logoUrl, 'documents' => $documents]);
     }
 
