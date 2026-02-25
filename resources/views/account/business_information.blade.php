@@ -129,46 +129,35 @@
               @endif
             </div><!-- form-group -->
           </div><!-- col-12 -->
-          @if($logoUrl)
-              <div class="col-12 col-md-6 col-lg-4">
-                  <div class="form-group mb-3">
-                      <div class="logoImage p-2 border overflow-hidden rounded-3 position-relative d-flex align-items-center justify-content-center">
-                          <img src="{{ $logoUrl }}"
-                              alt="logo"
-                              class="logo_image mw-100 mh-100" />
-                          <i class="fal fa-trash-alt delete_logo position-absolute btn-danger rounded-3 d-flex align-items-center justify-content-center text-white"></i>
-                      </div>
-                  </div>
-              </div>
-          @endif
-          @if($user->source == 'sure bills')
+        @if($logoUrl)
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group mb-3">
+                    <div class="logoImage p-2 border overflow-hidden rounded-3 position-relative d-flex align-items-center justify-content-center">
+                        <img src="{{ $logoUrl }}"
+                            alt="logo"
+                            class="logo_image mw-100 mh-100" />
+                        <i class="fal fa-trash-alt delete_logo position-absolute btn-danger rounded-3 d-flex align-items-center justify-content-center text-white"></i>
+                    </div>
+                </div>
+            </div>
+        @endif
+          @if(auth()->user()->source == 'sure bills')
           <div class="col-12">
-              <span class="d-block fw-bold fs-6 text-body mb-1">
-                  {{ __('Upload the required documents') }}
-              </span>
-
-              <p class="d-block mb-3 text-secondary">
-                  {{ __('Commercial registry, self-employment document, ID card ..etc') }}
-              </p>
-
-              @if($user->disable_business_documents)
-
-                  <div class="dropzone">
-                      @foreach($documents as $file)
-                          @include('components.file', ['file' => $file])
-                      @endforeach
-                  </div>
-
-              @else
-
-                  @include('components.dropzone', [
-                      'documents' => $documents
-                  ])
-
-              @endif
-          </div>
+            <span class="d-block fw-bold fs-6 text-body mb-1">{{ __('Upload the required documents') }}</span>
+            <p class="d-block mb-3 text-secondary">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</p>
+            @if(auth()->user()->disable_business_documents)
+              <div class="dropzone">
+                @foreach(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->business_documents : auth()->user()->business_documents as $file)
+                  @include('components.file', ['file' => $file])
+                @endforeach
+              </div>
+            @else
+              @include('components.dropzone',[
+                'documents' => auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->business_documents->toArray() : auth()->user()->business_documents->toArray()
+              ])
+            @endif
+          </div><!-- col-12 -->
           @endif
-
         </div><!-- row -->
         <div class="saveBtn d-flex justify-content-start mt-3">
           <button type="submit" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold"> {{__('Save')}}</button>
