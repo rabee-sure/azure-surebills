@@ -310,7 +310,12 @@
                         </div><!-- modal-body -->
                         <div class="modal-footer">
                           <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-                          <button type="submit" class="btn btn-danger" id="confirmDeleteBtn">{{__('Delete')}}</button>
+                          <button type="submit" class="btn btn-danger btn-submit-with-spinner" id="confirmDeleteBtn" data-loading-text="{{ __('Deleting...') }}">
+                            <span class="btn-spinner d-none me-2" role="status">
+                              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            </span>
+                            <span class="btn-text">{{__('Delete')}}</span>
+                          </button>
                         </div><!-- modal-footer -->
                       </div><!-- modal-content -->
                     </div>
@@ -347,7 +352,12 @@
 
       </div><!-- card-body -->
       <div class="card-footer d-flex align-items-center justify-content-end">
-        <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
+        <button type="submit" class="btn btn-primary btn-submit-with-spinner" data-loading-text="{{ __('Saving...') }}">
+          <span class="btn-spinner d-none me-2" role="status">
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          </span>
+          <span class="btn-text">{{__('Save')}}</span>
+        </button>
       </div><!-- card-footer -->
 
     </form>
@@ -363,6 +373,46 @@
   <script src="{{ asset('assets/v2/vendor/libs/select2/select2.js') }}?v={{ config('app.asset_version') }}"></script>
   <script type="text/javascript">
     $(document).ready(function() {
+      // Submit button spinner for settings form
+      setTimeout(function() {
+        const form = document.getElementById('settings');
+        if (!form) return;
+
+        form.addEventListener('submit', function(e) {
+          if (e.defaultPrevented) return;
+          const submitter = e.submitter || form.querySelector('button[type="submit"].btn-primary');
+          if (submitter && submitter.classList.contains('btn-submit-with-spinner') && !submitter.disabled) {
+            const btnText = submitter.querySelector('.btn-text');
+            const btnSpinner = submitter.querySelector('.btn-spinner');
+            const originalText = btnText ? btnText.textContent : (submitter.classList.contains('btn-danger') ? '{{ __("Delete") }}' : '{{ __("Save") }}');
+            submitter.disabled = true;
+            if (btnText && btnSpinner) {
+              btnText.textContent = submitter.dataset.loadingText || 'Saving...';
+              btnSpinner.classList.remove('d-none');
+            }
+            setTimeout(function() {
+              submitter.disabled = false;
+              if (btnText && btnSpinner) {
+                btnText.textContent = originalText;
+                btnSpinner.classList.add('d-none');
+              }
+            }, 8000);
+          }
+        });
+
+        $('#settings').on('invalid-form.validate', function() {
+          form.querySelectorAll('.btn-submit-with-spinner').forEach(function(btn) {
+            btn.disabled = false;
+            const btnText = btn.querySelector('.btn-text');
+            const btnSpinner = btn.querySelector('.btn-spinner');
+            if (btnText && btnSpinner) {
+              btnText.textContent = btn.classList.contains('btn-danger') ? '{{ __("Delete") }}' : '{{ __("Save") }}';
+              btnSpinner.classList.add('d-none');
+            }
+          });
+        });
+      }, 100);
+
       // Select2
       $('.select2').select2();
 

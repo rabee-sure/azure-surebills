@@ -18,12 +18,17 @@
           <h5 class="m-0 text-center">{{ __('Are You sure Delete this Customer?')}}</h5>
         @endif
       </div><!-- modal-body -->
-      <form action="{{ route('customers.destroy', $customer->id)}}" method="post" class="modal-footer">
+      <form action="{{ route('customers.destroy', $customer->id)}}" method="post" class="modal-footer form-delete-customer">
         @csrf
         @method('DELETE')
         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
         @if(!$customer->bills()->exists())
-          <button type="submit" class="btn btn-danger">{{__('Delete')}}</button>
+          <button type="submit" class="btn btn-danger btn-submit-with-spinner" data-loading-text="{{ __('Deleting...') }}">
+            <span class="btn-spinner d-none me-2" role="status">
+              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            </span>
+            <span class="btn-text">{{__('Delete')}}</span>
+          </button>
         @endif
       </form><!-- modal-footer -->
     </div><!-- modal-content -->

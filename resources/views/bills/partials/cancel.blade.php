@@ -1,17 +1,20 @@
-<div class="modal fade billCancelModal" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content border-0 shadow-sm rounded-3">
-      <div class="modal-body d-flex align-items-center justify-content-center flex-column">
-        <div class="closeBtn d-flex align-items-center justify-content-end mb-3 w-100">
-          <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
-        </div><!-- closeBtn -->
-        <span class="d-block text-center text-body mb-4 fs-5">@if($bill->debit_note_bill_id == null) {{ __('Are you Sure to Cancel Bill ?')}} @else {{ __('Are you Sure to Cancel Debit Note ?')}} @endif</span>
-        <form method="POST" action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" class="repeater" id="bill_create">
-          @csrf
-          <button type="submit" class="border-0 shadow-none rounded-3 btn-danger mx-2">@if($bill->debit_note_bill_id == null) {{__('Confirm Cancel Bill')}} @else {{__('Confirm Cancel Debit Note')}} @endif</button>
-          <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Cancel')}}</button>
-        </form>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div><!-- modal-header -->
+      <div class="modal-body">
+        <div class="d-flex align-items-center justify-content-center text-warning mb-3">
+          <i class="icon-base ti ti-info-triangle icon-50px"></i>
+        </div>
+        <h5 class="m-0 text-center">@if($bill->debit_note_bill_id == null) {{ __('Are you Sure to Cancel Bill ?')}} @else {{ __('Are you Sure to Cancel Debit Note ?')}} @endif</h5>
       </div><!-- modal-body -->
-    </div>
+      <form action="{{ route('bills.cancel', ['id'=> $bill->id]) }}" method="post" class="modal-footer">
+        @csrf
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
+        <button type="submit" class="btn btn-danger">@if($bill->debit_note_bill_id == null) {{__('Confirm Cancel Bill')}} @else {{__('Confirm Cancel Debit Note')}} @endif</button>
+      </form><!-- modal-footer -->
+    </div><!-- modal-content -->
   </div>
-</div>
+</div><!-- modal -->

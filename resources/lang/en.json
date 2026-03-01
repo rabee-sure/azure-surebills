@@ -281,6 +281,7 @@
 "The merchant bears the payment fee" : "The merchant bears the payment fee",
 "The customer bears the payment fee" : "The customer bears the payment fee",
 "link is copied": "Link is copied",
+"Failed to copy link": "Failed to copy link",
 "No incorporation fees" : "No incorporation fees",
 "No monthly fees" : "No monthly fees",
 "2.95% + 1 SAR on each transaction" : "2.95% + 1 SAR on each transaction",
@@ -414,5 +415,10 @@
 "OTP verified successfully": "OTP verified successfully",
 "Failed to resend OTP. Please try again.": "Failed to resend OTP. Please try again.",
 "Are you sure you want to delete this image?": "Are you sure you want to delete this image?",
-"Please use this form to reset your password.": "Please use this form to reset your password."
+"Please use this form to reset your password.": "Please use this form to reset your password.",
+"Select Payment Status" : "Select Payment Status",
+"Saving..." : "Saving...",
+"Deleting..." : "Deleting...",
+"Suspending..." : "Suspending...",
+"Restoring..." : "Restoring..."
 }

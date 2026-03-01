@@ -94,7 +94,10 @@
           </form><!-- modal-body -->
           <div class="modal-footer">
             <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-            <button type="button" class="btn btn-primary" @click="store">{{__('Create')}}</button>
+            <button type="button" class="btn btn-primary" @click="store" :disabled="isCreating">
+              <span v-if="isCreating" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ isCreating ? __('Saving...') : __('Create') }}
+            </button>
           </div><!-- modal-footer -->
         </div><!-- modal-content -->
       </div><!-- modal-dialog -->
@@ -132,7 +135,10 @@
           </form><!-- modal-body -->
           <div class="modal-footer">
             <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-            <button type="button" class="btn btn-primary" @click="update">{{__('Save Changes')}}</button>
+            <button type="button" class="btn btn-primary" @click="update" :disabled="isUpdating">
+              <span v-if="isUpdating" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ isUpdating ? __('Saving...') : __('Save Changes') }}
+            </button>
           </div><!-- modal-footer -->
         </div><!-- modal-content -->
       </div><!-- modal-dialog -->
@@ -153,7 +159,10 @@
           </div><!-- modal-body -->
           <div class="modal-footer">
             <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-            <button type="button" class="btn btn-danger" @click="destroy">{{__('Delete')}}</button>
+            <button type="button" class="btn btn-danger" @click="destroy" :disabled="isDeleting">
+              <span v-if="isDeleting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ isDeleting ? __('Deleting...') : __('Delete') }}
+            </button>
           </div><!-- modal-footer -->
         </div><!-- modal-content -->
       </div>
@@ -191,6 +200,9 @@
 
                 applicationSecret: null,
                 deleteId: null,
+                isCreating: false,
+                isUpdating: false,
+                isDeleting: false,
 
                 createForm: {
                     errors: [],
@@ -328,6 +340,9 @@
                 form.errors = [];
                 form.errors_obj = [];
 
+                const isCreate = method === 'post';
+                if (isCreate) this.isCreating = true; else this.isUpdating = true;
+
                 axios[method](uri, form)
                     .then(response => {
                         this.getApplications();
@@ -355,6 +370,9 @@
                         } else {
                             form.errors = ['Something went wrong. Please try again.'];
                         }
+                    })
+                    .finally(() => {
+                        if (isCreate) this.isCreating = false; else this.isUpdating = false;
                     });
             },
 
@@ -372,11 +390,15 @@
                 $('#modal-delete-application').modal('show');
             },
             destroy() {
-              axios.delete('/applications/' + this.deleteId )
-                        .then(response => {
-                            this.getApplications();
-                            $('#modal-delete-application').modal('hide');
-                        });
+                this.isDeleting = true;
+                axios.delete('/applications/' + this.deleteId)
+                    .then(response => {
+                        this.getApplications();
+                        $('#modal-delete-application').modal('hide');
+                    })
+                    .finally(() => {
+                        this.isDeleting = false;
+                    });
             },
             haveError(key, type=1) {
                 if(type == 1){

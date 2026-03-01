@@ -75,3 +75,15 @@ html[dir="ltr"] body {
   font-display: block;
   content: "\e9bc";
 }
+
+.view-print-options .item label input:checked ~ span {
+  color: #fff;
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+.view-print-options .item label input {
+  cursor: pointer;
+}
+.view-print-options .item span {
+  min-height: 38px;
+}

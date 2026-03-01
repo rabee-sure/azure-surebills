@@ -15,10 +15,15 @@
         </div>
         <h5 class="m-0 text-center">{{ __('Are You sure Restore this User?')}}</h5>
       </div><!-- modal-body -->
-      <form action="{{ route('users.restore', $user->id) }}" method="post" class="modal-footer">
+      <form action="{{ route('users.restore', $user->id) }}" method="post" class="modal-footer form-restore-user">
         @csrf
         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-        <button type="submit" class="btn btn-warning">{{__('Restore')}}</button>
+        <button type="submit" class="btn btn-warning btn-submit-with-spinner" data-loading-text="{{ __('Restoring...') }}">
+          <span class="btn-spinner d-none me-2" role="status">
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          </span>
+          <span class="btn-text">{{__('Restore')}}</span>
+        </button>
       </form><!-- modal-footer -->
     </div><!-- modal-content -->
   </div>

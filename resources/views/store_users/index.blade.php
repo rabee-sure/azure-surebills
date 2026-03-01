@@ -122,6 +122,113 @@
 
     // Edit User Modal - populate form when opened
     document.addEventListener('DOMContentLoaded', function() {
+      // Submit button spinner for Add User form
+      setTimeout(function() {
+        const form = document.getElementById('user_form');
+        if (!form || !form.closest('#add_user_Modal')) return;
+
+        const btn = form.querySelector('.btn-submit-with-spinner');
+        if (!btn) return;
+
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        const originalText = btnText ? btnText.textContent : '{{ __("Save") }}';
+
+        function showSpinner() {
+          btn.disabled = true;
+          if (btnText && btnSpinner) {
+            btnText.textContent = btn.dataset.loadingText || 'Saving...';
+            btnSpinner.classList.remove('d-none');
+          }
+        }
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        form.addEventListener('submit', function(e) {
+          if (btn.disabled) return;
+          if (e.defaultPrevented) return;
+          showSpinner();
+          setTimeout(resetButton, 8000);
+        });
+
+        $(form).on('invalid-form.validate', function() {
+          resetButton();
+        });
+      }, 100);
+
+      // Submit button spinner for Edit User form
+      setTimeout(function() {
+        const editForm = document.getElementById('user_update_form');
+        if (!editForm) return;
+
+        const btn = editForm.querySelector('.btn-submit-with-spinner');
+        if (!btn) return;
+
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        const originalText = btnText ? btnText.textContent : '{{ __("Update") }}';
+
+        function showSpinner() {
+          btn.disabled = true;
+          if (btnText && btnSpinner) {
+            btnText.textContent = btn.dataset.loadingText || 'Saving...';
+            btnSpinner.classList.remove('d-none');
+          }
+        }
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        editForm.addEventListener('submit', function(e) {
+          if (btn.disabled) return;
+          showSpinner();
+          setTimeout(resetButton, 8000);
+        });
+
+        editForm.addEventListener('invalid', function() {
+          resetButton();
+        });
+      }, 100);
+
+      // Submit button spinner for Delete/Restore User forms
+      document.addEventListener('submit', function(e) {
+        const form = e.target;
+        if (!form.classList.contains('form-delete-user') && !form.classList.contains('form-restore-user')) return;
+
+        const btn = form.querySelector('.btn-submit-with-spinner');
+        if (!btn || btn.disabled) return;
+
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        const originalText = btnText ? btnText.textContent : '';
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        btn.disabled = true;
+        if (btnText && btnSpinner) {
+          btnText.textContent = btn.dataset.loadingText || '';
+          btnSpinner.classList.remove('d-none');
+        }
+        setTimeout(resetButton, 8000);
+      });
+
       const editModal = document.getElementById('edit_user_Modal');
       if (editModal) {
         editModal.addEventListener('show.bs.modal', function(event) {

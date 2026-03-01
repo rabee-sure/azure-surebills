@@ -211,6 +211,7 @@
 	"channels": "قنوات",
 	"channel": "قناة",
     "link is copied": "تم نسخ الرابط",
+"Failed to copy link": "فشل نسخ الرابط",
 	"Hello :name, You’ve got a new bill of :total SAR, From :business_name, Pay now :url": "اهلا بك :name لقد تلقيت طلب دفع جديد من :business_name باجمالي :total ريال. ادفع الان :url",
     "taxvalue": "قيمة الضريبة",
     "No transaction on this date": "لا يوجد معاملات في هذا التاريخ",
@@ -1038,5 +1039,10 @@
   "Are you sure you want to delete this image?": "هل أنت متأكد من حذف هذه الصورة؟",
   "The background image file must be a png, jpeg or jpg file.": "يجب أن تكون الصورة الخلفية من نوع png, jpeg أو jpg.",
   "The background image file must be less than 1024 MB.": "يجب أن تكون الصورة الخلفية اقل من 1024 ميجا بايت.",
-  "Please use this form to reset your password.": "برجاء استخدام هذا النموذج لإعادة تعيين كلمة المرور الخاصة بك."
+  "Please use this form to reset your password.": "برجاء استخدام هذا النموذج لإعادة تعيين كلمة المرور الخاصة بك.",
+  "Select Payment Status" : "اختر حالة الدفع",
+  "Saving..." : "جاري الحفظ...",
+  "Deleting..." : "جاري الحذف...",
+  "Suspending..." : "جاري الحظر...",
+  "Restoring..." : "جاري الاستعادة..."
 }

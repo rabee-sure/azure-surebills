@@ -66,7 +66,12 @@
       </div><!-- modal-body -->
       <div class="modal-footer">
         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-        <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
+        <button type="submit" class="btn btn-primary btn-submit-with-spinner" data-loading-text="{{ __('Saving...') }}">
+          <span class="btn-spinner d-none me-2" role="status">
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          </span>
+          <span class="btn-text">{{__('Save')}}</span>
+        </button>
       </div><!-- modal-footer -->
     </div><!-- modal-content -->
   </form>
