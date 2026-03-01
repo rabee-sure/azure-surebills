@@ -150,6 +150,32 @@ class MasterCardController extends Controller
             return redirect()->route('paybillpage', ['id' => $bill->pay_id, 'error' => '3DS Check Failure'])->withErrors(['field_name' => '3DS Check Failure']);
         }
 
+        // SANDBOX PAYMENT SIMULATION (PAY step, no real MPGS calls)
+        if (mastercard_simulation_enabled()) {
+            /** @var MasterCardSandboxSimulator $simulator */
+            $simulator = app(MasterCardSandboxSimulator::class);
+            $fakeResponse = $simulator->simulateSuccessfulPayment($bill, $payment);
+
+            // Save simulated PAYMENT response on the pay log
+            $payment->results = $fakeResponse;
+            $payment->status = 1;
+            $payment->provider_name = 'mastercard';
+            $payment->save();
+
+            // Use existing MasterCardService logic to update bill, etc.
+            $masterCardService = app(\App\Services\MasterCardService::class);
+            $masterCardService->handlePaymentTransaction($fakeResponse, $bill, $payment);
+
+            // Build redirect similar to PaymentHelper::checkPaymentStatus
+            if($bill->application && $bill->is_redirect) {
+                $redirect = $bill->getRedirectUrl();
+            } else {
+                $redirect = config('app.url') . '/payment-success';
+            }
+
+            return redirect($redirect);
+        }
+
         // make the payment
         $client = new Client(['http_errors' => false]);
         $response = $client->put(
