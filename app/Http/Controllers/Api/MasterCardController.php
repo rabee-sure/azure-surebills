@@ -195,7 +195,7 @@ class MasterCardController extends Controller
 
             // Build redirect similar to PaymentHelper::checkPaymentStatus
             if($bill->application && $bill->is_redirect) {
-                $redirect = $bill->getRedirectUrl($payment->results['response'] ?? []);
+                $redirect = $bill->getRedirectUrl();
             } else {
                 $redirect = config('app.url') . '/payment-success';
             }
