@@ -40,7 +40,7 @@
             <li class="list-group-item list-group-item-danger">{{ $error }}</li>
           @endforeach
         </ul>
-      </div><!-- table_items -->
+      </div><!-- alert -->
     @endif
   </div><!-- alert -->
 
@@ -160,29 +160,20 @@
 
         <div class="card-body invoice-preview-header rounded p-5 mb-5">
           @if($bill->user->logo)
-            <span class="app-brand-logo d-flex align-items-center justify-content-start mb-4">
+            <span class="app-brand-logo d-flex align-items-center justify-content-center mb-4">
               <img src="{{ $bill->user->logo_url }}" alt="{{ $bill->user->business_name }}" class="w-auto" height="32px">
             </span>
           @endif
-          <div class="d-flex justify-content-between flex-xl-row flex-md-column flex-sm-row flex-column align-items-xl-center align-items-md-start align-items-sm-center align-items-start">
-            <div class="text-heading mb-xl-0 mb-5">
-              @if($bill->user->settings->add_tax_invoice)
-                <p class="mb-2">@if($bill->debit_note_bill_id == null) {{ __('Simplified Tax Invoice') }} @else {{ __('Tax debit note') }} @endif</p>
-              @endif
-              <p class="mb-2">{{ $bill->user->business_name }}</p>
-              @if(isset($bill->user->settings->header_bill))
-                <p class="mb-2">{{ $bill->user->settings->header_bill }}</p>
-              @endif
-              <p class="mb-2">{{  $bill->user->business_address }}</p>
-              <p class="mb-0">{{  $bill->user->business_mobile }}</p>
-            </div>
-            <div class="d-flex flex-column gap-2 text-heading">
-              @if($bill->debit_note_bill_id == null)
-                @include('bills.partials.bill_info',['bill' => $bill])
-              @else
-                @include('bills.partials.debit_note_info',['bill' => $bill])
-              @endif
-            </div>
+          <div class="text-heading mb-xl-0 mb-5 d-flex flex-column gap-2 text-center">
+            @if($bill->user->settings->add_tax_invoice)
+              <p class="m-0">@if($bill->debit_note_bill_id == null) {{ __('Simplified Tax Invoice') }} @else {{ __('Tax debit note') }} @endif</p>
+            @endif
+            <p class="m-0">{{ $bill->user->business_name }}</p>
+            @if(isset($bill->user->settings->header_bill))
+              <p class="m-0">{{ $bill->user->settings->header_bill }}</p>
+            @endif
+            <p class="m-0">{{  $bill->user->business_address }}</p>
+            <p class="m-0">{{  $bill->user->business_mobile }}</p>
           </div>
         </div><!-- card-body -->
 
@@ -260,7 +251,15 @@
           @endif
         </div><!-- status -->
 
-        <div class="table-responsive border border-bottom-0 border-top-0 rounded">
+        <div class="d-flex flex-column gap-2 mb-5">
+          @if($bill->debit_note_bill_id == null)
+            @include('bills.partials.bill_info',['bill' => $bill])
+          @else
+            @include('bills.partials.debit_note_info',['bill' => $bill])
+          @endif
+        </div><!-- d-flex -->
+
+        <div class="table-responsive border border-bottom-0 border-top-0 rounded mb-5">
           <table class="table m-0">
             <thead>
               <tr>
@@ -322,85 +321,75 @@
           </table>
         </div><!-- table-responsive -->
 
-        <div class="table-responsive">
-          <table class="table m-0 table-borderless">
-            <tbody>
-              <tr>
-                <td class="px-0 py-5 w-px-400">
-                  <div class="d-flex flex-column gap-2">
-                    @if( $bill->add_tax || $bill->add_discount)
-                      <div class="d-flex align-items-center justify-content-between gap-2">
-                        <p class="mb-0">
-                          {{ __('Total amount') }}
-                          @if( $bill->add_tax)
-                            <small class="d-block text-muted mt-1">( {{ __('Exclude added tax') }} )</small>
-                          @endif
-                        </p>
-                        <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
-                          {{ $bill->sub_total }} <i class="sar-icon"></i>
-                        </p>
-                      </div>
-                    @endif
-                    @if( $bill->add_discount)
-                      <div class="d-flex align-items-center justify-content-between gap-2">
-                        <p class="mb-0">{{ __('Discount amount') }}</p>
-                        <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
-                          {{ $bill->discount }} <i class="sar-icon"></i>
-                        </p>
-                      </div>
-                    @endif
-                    @if( $bill->user->pay_fees == 'client')
-                      <div class="d-flex align-items-center justify-content-between gap-2">
-                        <p class="mb-0">{{ __('payment fees') }}</p>
-                        <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
-                          {{ $bill->payment_fees }} <i class="sar-icon"></i>
-                        </p>
-                      </div>
-                    @endif
-                    @if( $bill->add_tax)
-                      <div class="d-flex align-items-center justify-content-between gap-2">
-                        <p class="mb-0">{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }}</p>
-                        <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
-                          {{ $bill->vat }} <i class="sar-icon"></i>
-                        </p>
-                      </div>
-                    @endif
-                    @if( $bill->channel_extra_amount)
-                      <div class="d-flex align-items-center justify-content-between gap-2">
-                        <p class="mb-0">{{$bill->channel_extra_title}}</p>
-                        <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
-                          {{ $bill->channel_extra_amount }} <i class="sar-icon"></i>
-                        </p>
-                      </div>
-                    @endif
-                    @if( $bill->channel_extra_vat)
-                      <div class="d-flex align-items-center justify-content-between gap-2">
-                        <p class="mb-0">{{ __('Vat') }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))</p>
-                        <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
-                          {{ $bill->channel_extra_vat }} <i class="sar-icon"></i>
-                        </p>
-                      </div>
-                    @endif
-                    {{-- @if( $bill->refund_amount)
-                      <div class="d-flex align-items-center justify-content-between">
-                        <span class="d-block mb-2">{{ __('Refund Amount') }}</span>
-                        <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                          {{ $bill->refund_amount }}  <span class="riyal-symbol-font">$</span>
-                        </div><!-- d-flex -->
-                      </div><!-- d-flex -->
-                    @endif --}}
-                    <div class="d-flex align-items-center justify-content-between gap-2 border-top pt-2 fw-bold">
-                      <p class="mb-0">{{ __('Total amount') }}</p>
-                      <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
-                        {{ $bill->sub_total + $bill->vat - $bill->discount}} <i class="sar-icon"></i>
-                      </p>
-                    </div>
-                  </div><!-- d-flex -->
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="d-flex flex-column gap-3">
+          @if( $bill->add_tax || $bill->add_discount)
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">
+                {{ __('Total amount') }}
+                @if( $bill->add_tax)
+                  <small class="d-block text-muted mt-1">( {{ __('Exclude added tax') }} )</small>
+                @endif
+              </p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->sub_total }} <i class="sar-icon"></i>
+              </p>
+            </div>
+          @endif
+          @if( $bill->add_discount)
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">{{ __('Discount amount') }}</p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->discount }} <i class="sar-icon"></i>
+              </p>
+            </div>
+          @endif
+          @if( $bill->user->pay_fees == 'client')
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">{{ __('payment fees') }}</p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->payment_fees }} <i class="sar-icon"></i>
+              </p>
+            </div>
+          @endif
+          @if( $bill->add_tax)
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }}</p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->vat }} <i class="sar-icon"></i>
+              </p>
+            </div>
+          @endif
+          @if( $bill->channel_extra_amount)
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">{{$bill->channel_extra_title}}</p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->channel_extra_amount }} <i class="sar-icon"></i>
+              </p>
+            </div>
+          @endif
+          @if( $bill->channel_extra_vat)
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">{{ __('Vat') }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))</p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->channel_extra_vat }} <i class="sar-icon"></i>
+              </p>
+            </div>
+          @endif
+          {{-- @if( $bill->refund_amount)
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="d-block mb-2">{{ __('Refund Amount') }}</span>
+              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0 text-heading">
+                {{ $bill->refund_amount }}  <span class="riyal-symbol-font">$</span>
+              </div><!-- d-flex -->
+            </div><!-- d-flex -->
+          @endif --}}
+          <div class="d-flex align-items-center justify-content-between gap-2 border-top pt-3 fw-bold">
+            <p class="mb-0">{{ __('Total amount') }}</p>
+            <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading">
+              {{ $bill->sub_total + $bill->vat - $bill->discount}} <i class="sar-icon"></i>
+            </p>
+          </div>
+        </div><!-- d-flex -->
 
         @if($bill->customer_notes)
           <hr class="my-5">

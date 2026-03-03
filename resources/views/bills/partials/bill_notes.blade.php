@@ -15,7 +15,7 @@
             <td><a href="@if($note->model == 'bills'){{route('bills.show', $note)}}@elseif ($note->model == 'refundedbills'){{route('refundedbills.show', $note->id)}} @endif">{{$note->number}}</a></td>
             <td>{{$note->created_at}}</td>
             <td>
-              <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
+              <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading">
                 {{$note->sub_total + $note->vat - $note->discount}}  <i class="sar-icon"></i>
               </span>
             </td>

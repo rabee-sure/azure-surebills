@@ -1042,6 +1042,7 @@
   "Please use this form to reset your password.": "برجاء استخدام هذا النموذج لإعادة تعيين كلمة المرور الخاصة بك.",
   "Select Payment Status" : "اختر حالة الدفع",
   "Saving..." : "جاري الحفظ...",
+"Sending..." : "جاري الإرسال...",
   "Deleting..." : "جاري الحذف...",
   "Suspending..." : "جاري الحظر...",
   "Restoring..." : "جاري الاستعادة..."

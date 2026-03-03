@@ -44,21 +44,21 @@
             <td>
               @if ($brand == 'VISA')
                 <img alt="visa" src="{{ asset('assets/v2/img/payments/visa.png') }}">
-              @elseif ($brand == 'MASTER')
+              @elseif($brand == 'MASTERCARD' || $brand == 'MASTER')
                 <img alt="mastercard" src="{{ asset('assets/v2/img/payments/mastercard.png') }}">
               @elseif ($brand == 'MADA')
                 <img alt="mada" src="{{ asset('assets/v2/img/payments/mada.png') }}">
               @elseif ($brand == 'APPLEPAY')
                 <img alt="applepay" src="{{ asset('assets/v2/img/payments/applepay.png') }}">
               @else
-                <img src="{{ asset('assets/v2/img/payments/cardnon.png') }}" alt="card non">
+                <img alt="card non" src="{{ asset('assets/v2/img/payments/cardnon.png') }}">
               @endif
             </td>
             <td>
               <a href="/logs/{{$log->id}}" title="{{ $log->id }}">{{ $log->id }}</a>
             </td>
             <td>
-              <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
+              <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading">
                 @if($log->payment_method == 'mastercard_refund')
                   {{ $refund_amount }} <i class="sar-icon"></i>
                 @else

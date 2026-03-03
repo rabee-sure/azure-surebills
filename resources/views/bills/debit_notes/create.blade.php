@@ -2,352 +2,438 @@
 
 @section('title', __('Create Debit Note'))
 
-@section('css_styles')
+@push('css_styles')
   <link rel="stylesheet" href="{{ asset('new/css/plugins/jquery-ui/jquery-ui.css') }}?v={{ config('app.asset_version') }}">
-  <link rel="stylesheet" href="{{ asset('new/css/plugins/daterangepicker/daterangepicker.css') }}?v={{ config('app.asset_version') }}">
-  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2.min.css') }}?v={{ config('app.asset_version') }}">
-  <link rel="stylesheet" href="{{ asset('new/css/plugins/select2/select2-bootstrap.min.css') }}?v={{ config('app.asset_version') }}">
-@endsection
+  <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/select2/select2.css') }}?v={{ config('app.asset_version') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/flatpickr/flatpickr.css') }}?v={{ config('app.asset_version') }}" />
+@endpush
 
 @section('content')
 
-  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
-    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
-    <i>/</i>
-    <a href="/bills" title="{{ __('Bills') }}">{{ __('Bills') }}</a>
-    <i>/</i>
-    <span>{{ __('Create Debit Note')}}</span>
-  </div><!-- breadcrump -->
+  <h4 class="mb-1">{{ __('Create Debit Note') }}</h4>
 
-  <section id="billCreatePage">
-    <div class="title mb-4">
-      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Create Debit Note') }}</h1>
-    </div><!-- title -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-custom-icon mb-6">
+      <li class="breadcrumb-item">
+        <a href="{{ url('/bills') }}" title="{{ __('Bills') }}">{{ __('Bills') }}</a>
+        <i class="breadcrumb-icon icon-base ti ti-chevron-right align-middle icon-xs"></i>
+      </li>
+      <li class="breadcrumb-item active">{{ __('Create Debit Note') }}</li>
+    </ol>
+  </nav>
 
-    @if ($errors->any())
-      <div class="alert alert-danger p-2">
-        <ul class="m-0 p-0 d-flex flex-column gap-2">
-          @foreach ($errors->all() as $error)
-            <li class="d-flex align-items-center justify-content-start gap-2 flex-wrap">
-                @if ($error == 'less_than')
-                <div class="d-flex align-items-center justify-content-start gap-1">
-                    {{ __('Invoice total is less than') }}<div class="d-flex align-items-center gap-1 m-0 {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}}">2 <span class="riyal-symbol-font">$</span></div>
-                </div>
-                @elseif ($error == 'more_than')
-                <div class="d-flex align-items-center justify-content-start gap-1">
-                    {{ __('Invoice total is more than') }}<div class="d-flex align-items-center gap-1 m-0 {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}}">{{config('bill.max_total_amount')}} <span class="riyal-symbol-font">$</span></div>
-                </div>
-                @else
-                   {{ $error }}
-                @endif
-            </li>
-          @endforeach
-        </ul>
-      </div><!-- alert -->
-    @endif
-
-    <div class="block bg-white shadow-sm rounded-3">
-      <form method="POST" action="{{ route('debitNote.store') }}" class="repeater" id="bill_create">
-        @csrf
-
-        <input type="hidden" name="bill_id" value="{{ $bill->id }}">
-        <div class="row">
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group mb-3">
-              <label for="customer_name" class="d-block mb-2">{{ __('Customer Name') }} <span class="requirement text-danger">*</span></label>
-              <input value="{{ $bill->customer_name }}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="customer_name" placeholder="{{ __('Customer Name') }} *" readonly>
-            </div><!-- form-group -->
-          </div><!-- col -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group mb-3">
-              <label for="customer_mobile" class="d-block mb-2">{{ __('Mobile Number') }} <span class="requirement text-danger">*</span></label>
-              <div class="phoneInput overflow-hidden position-relative">
-                <input value="{{ $bill->customer_mobile }}"  type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="5XXXXXXXX"  pattern="[0-9]*" maxlength="9" inputmod="numaric" readonly>
-              </div><!-- phoneInput -->
-              @error('customer_mobile')
-                <p class="invalid-feedback" role="alert">{{ $message }}</p>
-              @enderror
-            </div><!-- mb-3 -->
-          </div><!-- col -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group mb-3">
-              <label for="customer_email" class="d-block mb-2">{{ __('Email') }}</label>
-              <input value="{{ $bill->customer_email }}" type="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body @error('customer_email') is-invalid @enderror" id="customer_email" inputmode="email" placeholder="{{ __('Email') }}" readonly>
-              @error('customer_email')
-                <p class="invalid-feedback" role="alert">{{ $message }}</p>
-              @enderror
-            </div><!-- form-group -->
-          </div><!-- col -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group mb-3">
-              <label for="customer_notes" class="d-block mb-2">{{ __('Special Note') }}</label>
-              <input value="@if(old('customer_notes')) {{ old('customer_notes') }} @else {{$bill->customer->notes}} @endif" name="customer_notes" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="customer_notes" placeholder="{{ __('Special Note') }}">
-            </div><!-- form-group -->
-          </div><!-- col -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group mb-3">
-              <label for="due_date" class="d-block mb-2">{{ __('Due Date') }}</label>
-              <input value="{{ Carbon\Carbon::now()->format('d/m/y') }}" name="due_date" id="due_date" class="form-control shadow-none bg-white border w-100 rounded-3 text-body dueDate" placeholder="{{ __('Due Date') }}">
-            </div><!-- form-group -->
-          </div><!-- col -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group mb-3">
-              <label for="expiry_date" class="d-block mb-2">{{ __('Expiry Time') }}</label>
-              @if(config('bills.pay_page_expiration_time_type') == 'Days')
-              <select value="{{ old('expiry_date') }}" name="expiry_date" id="expiry_date" class="form-control shadow-none bg-white border w-100 rounded-3 text-body select2-single">
-                @for ($i = 1; $i <= config('bills.pay_page_expiration_time'); $i++)
-                  <option value="{{ $i }}" @if(old('expiry_date') == $i) selected="selected" @endif>{{ $i }} {{ __('Day') }}</option>
-                @endfor
-              </select>
-              @elseif(config('bills.pay_page_expiration_time_type') == 'Hours')
-              <select value="{{ old('expiry_hours') }}" name="expiry_hours" id="expiry_hours" class="form-control shadow-none bg-white border w-100 rounded-3 text-body select2-single">
-                @for ($i = 1; $i <= config('bills.pay_page_expiration_time'); $i++)
-                  <option value="{{ $i }}" @if(old('expiry_hours') == $i) selected="selected" @endif>{{ $i }} {{ __('Hour') }}</option>
-                @endfor
-              </select>
-              @elseif(config('bills.pay_page_expiration_time_type') == 'Minutes')
-              <select value="{{ old('expiry_minutes') }}" name="expiry_minutes" id="expiry_minutes" class="form-control shadow-none bg-white border w-100 rounded-3 text-body select2-single">
-                @for ($i = 1; $i <= config('bills.pay_page_expiration_time'); $i++)
-                  <option value="{{ $i }}" @if(old('expiry_minutes') == $i) selected="selected" @endif>{{ $i }} {{ __('Minute') }}</option>
-                @endfor
-              </select>
-              @endif
-            </div><!-- form-group -->
-          </div><!-- col -->
-        </div><!-- row -->
-        @if($settings->add_tax_invoice)
-          <button type="button" class="additionalInformationBtn border-0 d-flex align-items-center justify-content-start bg-transparent p-0">{{__('Additional Information')}}</button>
-          <div class="additionalInformationArea">
-            <div class="pt-3">
-              <div class="row">
-                <div class="col-12 col-md-6 col-lg-4">
-                  <div class="form-group mb-3">
-                    <label for="bullding_no" class="d-block mb-2">{{__('Building Number')}}</label>
-                    <input value="{{ $bill->customer->bullding_no }}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('Building Number')}}" readonly>
-                  </div><!-- form-group -->
-                </div><!-- col -->
-                <div class="col-12 col-md-6 col-lg-4">
-                  <div class="form-group mb-3">
-                    <label for="street_name" class="d-block mb-2">{{__('Street Name')}}</label>
-                    <input value="{{ $bill->customer->street_name }}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('Street Name')}}" readonly>
-                  </div><!-- form-group -->
-                </div><!-- col -->
-                <div class="col-12 col-md-6 col-lg-4">
-                  <div class="form-group mb-3">
-                    <label for="district" class="d-block mb-2">{{__('District')}}</label>
-                    <input value="{{ $bill->customer->district }}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('District')}}" readonly>
-                  </div><!-- form-group -->
-                </div><!-- col -->
-                <div class="col-12 col-md-6 col-lg-4">
-                  <div class="form-group mb-3">
-                    <label for="city" class="d-block mb-2">{{__('City')}}</label>
-                    <input value="{{ $bill->customer->city }}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('City')}}" readonly>
-                  </div><!-- form-group -->
-                </div><!-- col -->
-                <div class="col-12 col-md-6 col-lg-4">
-                  <div class="form-group mb-3">
-                    <label for="postal_code" class="d-block mb-2">{{__('Postal Code')}}</label>
-                    <input value="{{ $bill->customer->postal_code }}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('Postal Code')}}" readonly>
-                  </div><!-- form-group -->
-                </div><!-- col -->
-                <div class="col-12 col-md-6 col-lg-4">
-                  <div class="form-group mb-3">
-                    <label for="additional_no" class="d-block mb-2">{{__('Additional Number')}}</label>
-                    <input value="{{ $bill->customer->additional_no }}"  type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('Additional Number')}}" readonly>
-                  </div><!-- form-group -->
-                </div><!-- col -->
-                <div class="col-12 col-md-6 col-lg-4">
-                  <div class="form-group mb-3">
-                    <label for="other_buyer_id" class="d-block mb-2">{{__('Additional ID')}}</label>
-                    <input value="{{ $bill->customer->other_buyer_id }}"  type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('Additional ID')}}" readonly>
-                  </div><!-- form-group -->
-                </div><!-- col -->
-                <div class="col-12 col-md-6 col-lg-4">
-                  <div class="form-group mb-3">
-                    <label for="vat_registration_number" class="d-block mb-2">{{__('VAT Registration Number (optional)')}}</label>
-                    <input value="{{ $bill->customer->vat_registration_number }}"  type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('VAT Registration Number (optional)')}}" readonly>
-                  </div><!-- form-group -->
-                </div><!-- col -->
-              </div><!-- row -->
-            </div><!-- pt-3 -->
-          </div><!-- additionalInformationArea -->
-        @endif
-        <hr>
-        <div class="title2 d-flex align-items-center justify-content-between mb-4">
-          <span class="d-block fw-bold">{{ __('Bill items') }}</span>
-          <input data-repeater-create type="button" class="addNewItem rounded-3 d-flex align-items-center justify-content-center border-0 text-white" value="{{ __('Add Item') }}">
-        </div><!-- title2 -->
-        <div class="d-flex justify-content-end">
-        </div><!-- d-flex  -->
-        <div class="inner-repeater">
-          <div class="repeaterItems" data-repeater-list="items">
-            @if(old('items'))
-              @foreach( old('items') as $item)
-                <div class="repeaterItem row align-items-end" data-repeater-item>
-                  <div class="col-12 col-lg-5">
-                    <div class="form-group mb-3">
-                      <label for="inputEmail1" class="d-block mb-2">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
-                      <input name="name" value="{{$item['name']}}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body product_name" placeholder="{{ __('Name') }}">
-                    </div><!-- form-group -->
-                  </div><!-- col-12 -->
-                  <div class="col-6 col-lg-2">
-                    <div class="form-group mb-3">
-                      <label for="Price" class="d-block mb-2">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
-                      <input name="price"  value="{{$item['price']}}" min="1" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_price" placeholder="{{ __('Price') }}">
-                    </div><!-- form-group -->
-                  </div><!-- col-12 -->
-                  <div class="col-6 col-lg-2">
-                    <div class="form-group mb-3">
-                      <label for="Price" class="d-block mb-2">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
-                      <input type="tel" name="quantity" value="{{$item['quantity']}}" min="1" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_quantity" placeholder="{{ __('Quantity') }}">
-                    </div><!-- form-group -->
-                  </div><!-- col-12 -->
-                  <div class="col-6 col-lg-2">
-                    <div class="form-group mb-3">
-                      <label for="Price" class="d-block mb-2">{{ __('Total') }}</label>
-                      <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control shadow-none bg-white border w-100 rounded-3 text-body text-center fw-bold" disabled>
-                    </div><!-- form-group -->
-                  </div><!-- col-12 -->
-                  <div class="col-6 col-lg-1">
-                    <div class="form-group mb-3">
-                      <!-- <label for="Delete" class="d-block">{{ __('Delete') }}</label> -->
-                      <input data-repeater-delete type="button" class="deleteBtn w-100 border-0 rounded-3 text-white d-flex align-items-center justify-content-center" value="X"/>
-                    </div><!-- form-group -->
-                  </div><!-- col-12 -->
-                </div><!-- repeaterItem -->
-              @endforeach
+  @if ($errors->any())
+    <div class="mb-6">
+      <ul class="list-group">
+        @foreach ($errors->all() as $error)
+          <li class="list-group-item list-group-item-danger">
+            @if ($error == 'less_than')
+              <div class="d-flex align-items-center justify-content-start gap-1">
+                {{ __('Invoice total is less than') }}
+                <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
+                  2 <i class="sar-icon"></i>
+                </span>
+              </div>
+            @elseif ($error == 'more_than')
+              <div class="d-flex align-items-center justify-content-start gap-1">
+                {{ __('Invoice total is more than') }}
+                <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
+                  {{config('bill.max_total_amount')}} <i class="sar-icon"></i>
+                </span>
+              </div>
             @else
-              <div class="repeaterItem row align-items-end" data-repeater-item>
-                <div class="col-12 col-lg-5">
-                  <div class="form-group mb-3">
-                    <label for="inputEmail1" class="d-block mb-2">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
-                    <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body product_name" placeholder="{{ __('Name') }}">
-                  </div><!-- form-group -->
-                </div><!-- col-12 -->
-                <div class="col-6 col-lg-2">
-                  <div class="form-group mb-3">
-                    <label for="Price" class="d-block mb-2">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
-                    <input type="tel" name="price" min="1" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_price" placeholder="{{ __('Price') }}">
-                  </div><!-- form-group -->
-                </div><!-- col-6 -->
-                <div class="col-6 col-lg-2">
-                  <div class="form-group mb-3">
-                    <label for="Price" class="d-block mb-2">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
-                    <input type="tel" name="quantity" min="1" class="form-control shadow-none bg-white border w-100 rounded-3 text-body qty1 product_quantity" placeholder="{{ __('Quantity') }}">
-                  </div><!-- form-group -->
-                </div><!-- col-6 -->
-                <div class="col-6 col-lg-2">
-                  <div class="form-group mb-3">
-                    <label for="Price" class="d-block mb-2">{{ __('Total') }}</label>
-                    <input name="total" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body text-center fw-bold" disabled>
-                  </div><!-- form-group -->
-                </div><!-- col-6 -->
-                <div class="col-6 col-lg-1">
-                  <div class="form-group mb-3 delete_block">
-                    <!-- <label for="Delete" class="d-block">{{ __('Delete') }}</label> -->
-                    <input data-repeater-delete type="button" class="deleteBtn w-100 border-0 rounded-3 text-white d-flex align-items-center justify-content-center" value="X"/>
-                  </div><!-- form-group -->
-                </div><!-- col-6 -->
-              </div><!-- repeaterItem -->
+                {{ $error }}
             @endif
-          </div><!-- repeaterItems -->
-        </div><!-- inner-repeater -->
-        <hr>
-        <div class="title2 fw-bold mb-4">{{ __('Additonal Details') }}</div>
-        <div class="row">
-          <div class="col-12 col-lg-6">
-            <label for="Discount_Values_Checkbox" class="checkboxItem position-relative mb-3 mb-md-0">
-              <input name="add_discount" class="position-absolute top-0 strat-0 w-100 h-100" id="Discount_Values_Checkbox" type="checkbox" @if(old('add_discount')) checked @endif>
-              <span class="d-flex align-items-center justify-content-start">
-                <i class="d-block rounded-pill position-relative"></i>
-                {{ __('Add Discount') }}
-              </span>
-            </label>
-            <div class="Discount_Values" style="display: none;">
-              <div class="row py-3">
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="type" class="d-block mb-2">{{ __('Discount type') }}</label>
-                    <select name="discount_type" id="discount_type" class="form-control shadow-none bg-white border w-100 rounded-3">
-                      <option value="fixed" @if(old('discount_type') == 'fixed') selected @endif> {{ __('fixed') }}</option>
-                      <option value="percentage" @if(old('discount_type') == 'percentage') selected @endif>{{ __('Percentage Discount (%)') }}</option>
-                    </select>
-                  </div><!-- form-group -->
-                </div><!-- col-6 -->
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="Price" class="d-block mb-2">{{ __('Discount Value') }}</label>
-                    <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
-                      <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="fixed"><span class="riyal-symbol-font">$</span></div>
-                      <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
-                      <input type="tel" name="discount_value" class="form-control shadow-none bg-white border w-100 rounded-3" value="{{old('discount_value')}}" id="Discount_Value" aria-describedby="basic-addon2">
-                    </div><!-- inputGroup -->
-                  </div><!-- form-group -->
-                </div><!-- col-6 -->
+          </li>
+        @endforeach
+      </ul>
+    </div><!-- alert -->
+  @endif
+
+  <form method="POST" action="{{ route('debitNote.store') }}" class="form-repeater card" id="bill_create">
+    @csrf
+    <input type="hidden" name="bill_id" value="{{ $bill->id }}">
+    <div class="card-body">
+      <div class="row g-6">
+        <div class="col-12 col-md-6 col-lg-4">
+          <label for="customer_name" class="form-label">{{ __('Customer Name') }} <span class="requirement text-danger">*</span></label>
+          <input value="{{ $bill->customer_name }}" type="text" class="form-control" id="customer_name" placeholder="{{ __('Customer Name') }} *" disabled readonly>
+        </div><!-- col -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <label for="customer_mobile" class="form-label">{{ __('Mobile Number') }} <span class="requirement text-danger">*</span></label>
+          <input value="{{ $bill->customer_mobile }}"  type="tel" class="form-control @error('customer_mobile') is-invalid @enderror" id="customer_mobile" placeholder="5XXXXXXXX"  pattern="[0-9]*" maxlength="9" inputmod="numaric" disabled readonly>
+          @error('customer_mobile')
+            <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
+          @enderror
+        </div><!-- col -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <label for="customer_email" class="form-label">{{ __('Email') }}</label>
+          <input value="{{ $bill->customer_email }}" type="email" class="form-control @error('customer_email') is-invalid @enderror" id="customer_email" inputmode="email" placeholder="{{ __('Email') }}" disabled readonly>
+          @error('customer_email')
+          <div class="invalid-feedback text-danger" role="alert">{{ $message }}</div>
+          @enderror
+        </div><!-- col -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <label for="customer_notes" class="form-label">{{ __('Special Note') }}</label>
+          <input value="@if(old('customer_notes')) {{ old('customer_notes') }} @else {{$bill->customer->notes}} @endif" name="customer_notes" type="text" class="form-control" id="customer_notes" placeholder="{{ __('Special Note') }}">
+        </div><!-- col -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <label for="due_date" class="form-label">{{ __('Due Date') }}</label>
+          <input value="{{ Carbon\Carbon::now()->format('d/m/y') }}" name="due_date" id="due_date" class="form-control flatpickr" placeholder="{{ __('Due Date') }}">
+        </div><!-- col -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <label for="expiry_date" class="form-label">{{ __('Expiry Time') }}</label>
+          @if(config('bills.pay_page_expiration_time_type') == 'Days')
+            <select value="{{ old('expiry_date') }}" name="expiry_date" id="expiry_date" class="form-control select2">
+              @for ($i = 1; $i <= config('bills.pay_page_expiration_time'); $i++)
+                <option value="{{ $i }}" @if(old('expiry_date') == $i) selected="selected" @endif>{{ $i }} {{ __('Day') }}</option>
+              @endfor
+            </select>
+          @elseif(config('bills.pay_page_expiration_time_type') == 'Hours')
+            <select value="{{ old('expiry_hours') }}" name="expiry_hours" id="expiry_hours" class="form-control select2">
+              @for ($i = 1; $i <= config('bills.pay_page_expiration_time'); $i++)
+                <option value="{{ $i }}" @if(old('expiry_hours') == $i) selected="selected" @endif>{{ $i }} {{ __('Hour') }}</option>
+              @endfor
+            </select>
+          @elseif(config('bills.pay_page_expiration_time_type') == 'Minutes')
+            <select value="{{ old('expiry_minutes') }}" name="expiry_minutes" id="expiry_minutes" class="form-control select2">
+              @for ($i = 1; $i <= config('bills.pay_page_expiration_time'); $i++)
+                <option value="{{ $i }}" @if(old('expiry_minutes') == $i) selected="selected" @endif>{{ $i }} {{ __('Minute') }}</option>
+              @endfor
+            </select>
+          @endif
+        </div><!-- col -->
+      </div><!-- row -->
+
+      @if($settings->add_tax_invoice)
+        <button type="button" class="additionalInformationBtn border-0 d-flex align-items-center justify-content-start bg-transparent p-0">{{__('Additional Information')}}</button>
+        <div class="additionalInformationArea">
+          <div class="pt-3">
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group mb-3">
+                  <label for="bullding_no" class="d-block mb-2">{{__('Building Number')}}</label>
+                  <input value="{{ $bill->customer->bullding_no }}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="bullding_no" placeholder="{{__('Building Number')}}" readonly>
+                </div><!-- form-group -->
+              </div><!-- col -->
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group mb-3">
+                  <label for="street_name" class="d-block mb-2">{{__('Street Name')}}</label>
+                  <input value="{{ $bill->customer->street_name }}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="street_name" placeholder="{{__('Street Name')}}" readonly>
+                </div><!-- form-group -->
+              </div><!-- col -->
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group mb-3">
+                  <label for="district" class="d-block mb-2">{{__('District')}}</label>
+                  <input value="{{ $bill->customer->district }}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="district" placeholder="{{__('District')}}" readonly>
+                </div><!-- form-group -->
+              </div><!-- col -->
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group mb-3">
+                  <label for="city" class="d-block mb-2">{{__('City')}}</label>
+                  <input value="{{ $bill->customer->city }}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="city" placeholder="{{__('City')}}" readonly>
+                </div><!-- form-group -->
+              </div><!-- col -->
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group mb-3">
+                  <label for="postal_code" class="d-block mb-2">{{__('Postal Code')}}</label>
+                  <input value="{{ $bill->customer->postal_code }}" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="postal_code" placeholder="{{__('Postal Code')}}" readonly>
+                </div><!-- form-group -->
+              </div><!-- col -->
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group mb-3">
+                  <label for="additional_no" class="d-block mb-2">{{__('Additional Number')}}</label>
+                  <input value="{{ $bill->customer->additional_no }}"  type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="additional_no" placeholder="{{__('Additional Number')}}" readonly>
+                </div><!-- form-group -->
+              </div><!-- col -->
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group mb-3">
+                  <label for="other_buyer_id" class="d-block mb-2">{{__('Additional ID')}}</label>
+                  <input value="{{ $bill->customer->other_buyer_id }}"  type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="other_buyer_id" placeholder="{{__('Additional ID')}}" readonly>
+                </div><!-- form-group -->
+              </div><!-- col -->
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group mb-3">
+                  <label for="vat_registration_number" class="d-block mb-2">{{__('VAT Registration Number (optional)')}}</label>
+                  <input value="{{ $bill->customer->vat_registration_number }}"  type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="vat_registration_number" placeholder="{{__('VAT Registration Number (optional)')}}" readonly>
+                </div><!-- form-group -->
+              </div><!-- col -->
+            </div><!-- row -->
+          </div><!-- pt-3 -->
+        </div><!-- additionalInformationArea -->
+      @endif
+
+      <hr class="my-5" />
+
+      <div class="d-flex align-items-center justify-content-between mb-5">
+        <h5 class="card-title m-0">{{ __('Bill items') }}</h5>
+        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-repeater-create>
+          <span class="icon-xs icon-base ti ti-plus me-2"></span> {{ __('Add Item') }}
+        </button>
+      </div>
+      <div class="inner-repeater">
+        <div data-repeater-list="items">
+          @if(old('items'))
+            @foreach( old('items') as $item)
+              <div data-repeater-item>
+                <div class="row g-5">
+                  <div class="col-lg-6 col-xl-3 col-12">
+                    <label class="form-label" for="name">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
+                    <input name="name" value="{{$item['name']}}" type="text" class="form-control" placeholder="{{ __('Name') }}">
+                  </div><!-- col -->
+                  <div class="col-lg-6 col-xl-3 col-12">
+                    <label class="form-label" for="price">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
+                    <input type="number" class="form-control qty1 product_price" id="price" name="price" value="{{$item['price']}}" placeholder="{{ __('Price') }}"  min="1" />
+                  </div><!-- col -->
+                  <div class="col-lg-6 col-xl-2 col-12">
+                    <label class="form-label" for="quantity">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
+                    <input type="number" class="form-control qty1 product_quantity" id="quantity" name="quantity" value="{{$item['quantity']}}" placeholder="{{ __('Quantity') }}" min="1" />
+                  </div><!-- col -->
+                  <div class="col-lg-6 col-xl-2 col-12">
+                    <label class="form-label" for="total">{{ __('Total') }}</label>
+                    <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control" id="total" disabled>
+                  </div><!-- col -->
+                  <div class="col-lg-12 col-xl-2 col-12 d-flex align-items-center">
+                    <button type="button" class="btn btn-label-danger mt-xl-6" data-repeater-delete>
+                      <i class="icon-base ti ti-trash me-1"></i>
+                      <span class="align-middle">{{ __('Delete') }}</span>
+                    </button>
+                  </div><!-- col -->
+                </div><!-- row -->
+                <hr class="my-5" />
+              </div>
+            @endforeach
+          @else
+            <div data-repeater-item>
+              <div class="row g-5">
+                <div class="col-lg-6 col-xl-3 col-12">
+                  <label class="form-label" for="name">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
+                  <input name="name" type="text" class="form-control" placeholder="{{ __('Name') }}" />
+                </div><!-- col -->
+                <div class="col-lg-6 col-xl-3 col-12">
+                  <label class="form-label" for="price">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
+                  <input name="price" type="number" min="1" class="form-control qty1 product_price" placeholder="{{ __('Price') }}" />
+                </div><!-- col -->
+                <div class="col-lg-6 col-xl-2 col-12">
+                  <label class="form-label" for="quantity">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
+                  <input name="quantity" type="number" min="1" class="form-control qty1 product_quantity" placeholder="{{ __('Quantity') }}" />
+                </div><!-- col -->
+                <div class="col-lg-6 col-xl-2 col-12">
+                  <label class="form-label" for="total">{{ __('Total') }}</label>
+                  <input name="total" type="number" class="form-control fw-bold" disabled>
+                </div><!-- col -->
+                <div class="col-lg-12 col-xl-2 col-12 d-flex align-items-center">
+                  <button type="button" class="btn btn-label-danger mt-xl-6" data-repeater-delete>
+                    <i class="icon-base ti ti-trash me-1"></i>
+                    <span class="align-middle">{{ __('Delete') }}</span>
+                  </button>
+                </div><!-- col -->
               </div><!-- row -->
-            </div><!-- Discount_Values -->
-          </div><!-- col-12 -->
-          <div class="col-12 col-lg-6">
-            <label for="Tax_Values_Checkbox" class="checkboxItem position-relative mb-3 mb-md-0">
-              <input name="add_tax" class="position-absolute top-0 strat-0 w-100 h-100" id="Tax_Values_Checkbox" @if($errors->any()) @if(old('add_tax') == true) checked @endif @else @if($bill->add_tax) checked @endif @endif type="checkbox" onclick="return false;">
-              <span class="d-flex align-items-center justify-content-start">
-                <i class="d-block rounded-pill position-relative"></i>
-                {{ __('Add Tax') }}
+              <hr class="my-5" />
+            </div>
+          @endif
+        </div>
+      </div><!-- inner-repeater -->
+
+      <hr class="my-5" />
+
+      <h5 class="card-title mb-5">{{ __('Additonal Details') }}</h5>
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <label for="Discount_Values_Checkbox" class="switch switch-lg m-0">
+            <input type="checkbox" class="switch-input" name="add_discount" id="Discount_Values_Checkbox" @if(old('add_discount')) checked @endif>
+            <span class="switch-toggle-slider">
+              <span class="switch-on">
+                <i class="icon-base ti ti-check"></i>
               </span>
-            </label>
-            <div class="Tax_Values" style="display: none;">
-              <div class="row py-3">
-                <div class="col-12 col-md-6">
-                  <div class="form-group">
-                    <label for="Tax" class="d-block mb-2">{{ __('Tax Value') }}</label>
-                    <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
-                      <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
-                      <input type="tel" name="tax_value" class="form-control shadow-none bg-white border w-100 rounded-3" id="Value" value="@if($bill->add_tax){{$bill->tax_value}}@else{{old('tax_value')}}@endif" aria-describedby="basic-addon3" readonly>
-                    </div><!-- inputGroup -->
-                  </div><!-- form-group -->
-                </div><!-- col-12 -->
-              </div><!-- row -->
-            </div><!-- Tax_Values -->
-          </div><!-- col-12 -->
-        </div><!-- row -->
-        <hr>
-        <div class="title2 fw-bold mb-4">{{ __('Send The Bill To Customer') }}</div>
-        <div class="row">
-          <div class="col-12 col-lg-6">
-            <label for="send_sms" class="checkboxItem position-relative mb-3 mb-md-0">
-              <input name="send_sms" class="position-absolute top-0 strat-0 w-100 h-100" id="send_sms" type="checkbox" @if($bill->send_sms || old('send_sms')) checked @endif>
-              <span class="d-flex align-items-center justify-content-start">
-                <i class="d-block rounded-pill position-relative"></i>
-                {{ __('Send SMS') }}
+              <span class="switch-off">
+                <i class="icon-base ti ti-x"></i>
               </span>
-            </label>
-          </div><!-- col-12 -->
-          <div class="col-12 col-lg-6">
-            <label for="send_email" class="checkboxItem position-relative m-0">
-              <input name="send_email" class="position-absolute top-0 strat-0 w-100 h-100" id="send_email" type="checkbox" @if($bill->send_email || old('send_email')) checked @endif>
-              <span class="d-flex align-items-center justify-content-start">
-                <i class="d-block rounded-pill position-relative"></i>
-                {{ __('Send Email') }}
+            </span>
+            <span class="switch-label">{{ __('Add Discount') }}</span>
+          </label>
+          <div class="Discount_Values" style="display: none;">
+            <div class="row py-3">
+              <div class="col-6">
+                <label for="discount_type" class="form-label">{{ __('Discount type') }}</label>
+                <select name="discount_type" id="discount_type" class="form-select select2" data-allow-clear="false" data-minimum-results-for-search="Infinity">
+                  <option value="fixed" @if(old('discount_type') == 'fixed') selected @endif> {{ __('fixed') }}</option>
+                  <option value="percentage" @if(old('discount_type') == 'percentage') selected @endif>{{ __('Percentage Discount (%)') }}</option>
+                </select>
+              </div><!-- col-6 -->
+              <div class="col-6">
+                <label for="fixed" class="form-label">{{ __('Discount Value') }}</label>
+                <div class="input-group input-group-merge" dir="ltr">
+                  <span class="input-group-text">
+                    <i id="fixed" class="sar-icon lh-1"></i>
+                    <i id="percentage" class="icon-base ti ti-percentage"></i>
+                  </span>
+                  <input type="number" inputmode="numeric" name="discount_value" class="form-control" value="{{old('discount_value')}}" id="Discount_Value" aria-describedby="fixed, percentage" />
+                </div><!-- input-group -->
+              </div><!-- col-6 -->
+            </div><!-- row -->
+          </div><!-- Discount_Values -->
+        </div><!-- col-12 -->
+        <div class="col-12 col-lg-6">
+          <label for="Tax_Values_Checkbox" class="switch switch-lg m-0">
+            <input type="checkbox" class="switch-input" name="add_tax" id="Tax_Values_Checkbox" @if($errors->any()) @if(old('add_tax') == true) checked @endif @else @if($bill->add_tax) checked @endif @endif onclick="return false;"/>
+            <span class="switch-toggle-slider">
+              <span class="switch-on">
+                <i class="icon-base ti ti-check"></i>
               </span>
-            </label>
-          </div><!-- col-12 -->
-        </div><!-- row -->
-        <div class="sendBtn d-flex justify-content-start mt-5">
-          <button id="create-bill" type="submit" class="formBtn btn-primary rounded-3 border-0 d-flex align-items-center justify-content-center fw-bold"> {{__('Send')}}</button>
-        </div><!-- sendBtn  -->
-      </form>
-    </div><!-- block -->
-  </section><!-- billCreatePage -->
+              <span class="switch-off">
+                <i class="icon-base ti ti-x"></i>
+              </span>
+            </span>
+            <span class="switch-label">{{ __('Add Tax') }}</span>
+          </label>
+          <div class="Tax_Values" style="display: none;">
+            <div class="row py-3">
+              <div class="col-12 col-md-6">
+                <label for="Value" class="form-label">{{ __('Tax Value') }}</label>
+                <div class="input-group input-group-merge" dir="ltr">
+                  <span class="input-group-text"><i class="icon-base ti ti-percentage"></i></span>
+                  <input type="number" inputmode="numeric" name="tax_value" class="form-control" value="@if($bill->add_tax){{$bill->tax_value}}@else{{old('tax_value')}}@endif" id="Value" aria-describedby="Value" readonly />
+                </div><!-- input-group -->
+              </div><!-- col-12 -->
+            </div><!-- row -->
+          </div><!-- Tax_Values -->
+        </div><!-- col-12 -->
+      </div><!-- row -->
+
+      <hr class="my-5" />
+
+      <h5 class="card-title mb-5">{{ __('Send The Bill To Customer') }}</h5>
+      <div class="row g-5">
+        <div class="col-12 col-lg-6">
+          <label for="send_sms" class="switch switch-lg m-0">
+            <input type="checkbox" class="switch-input" name="send_sms" id="send_sms" @if($settings->create_send_sms || old('send_sms')) checked @endif>
+            <span class="switch-toggle-slider">
+              <span class="switch-on">
+                <i class="icon-base ti ti-check"></i>
+              </span>
+              <span class="switch-off">
+                <i class="icon-base ti ti-x"></i>
+              </span>
+            </span>
+            <span class="switch-label">{{ __('Send SMS') }}</span>
+          </label>
+        </div><!-- col-12 -->
+        <div class="col-12 col-lg-6">
+          <label for="send_email" class="switch switch-lg m-0">
+            <input type="checkbox" class="switch-input" name="send_email" id="send_email" @if($settings->create_send_email || old('send_email')) checked @endif>
+            <span class="switch-toggle-slider">
+              <span class="switch-on">
+                <i class="icon-base ti ti-check"></i>
+              </span>
+              <span class="switch-off">
+                <i class="icon-base ti ti-x"></i>
+              </span>
+            </span>
+            <span class="switch-label">{{ __('Send Email') }}</span>
+          </label>
+        </div><!-- col-12 -->
+      </div><!-- row -->
+    </div><!-- card-body -->
+    <div class="card-footer d-flex align-items-center justify-content-end">
+      <button type="submit" id="create-bill" class="btn btn-primary btn-submit-with-spinner waves-effect waves-light" data-loading-text="{{__('Sending...')}}">
+        <span class="btn-spinner d-none me-2" role="status">
+          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        </span>
+        <span class="btn-text">{{__('Send')}}</span>
+      </button>
+    </div><!-- card-footer -->
+  </form>
 
 @endsection
 
 @push('footer-scripts')
-  <script src="{{ asset('new/js/daterangepicker/moment.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
-  <script src="{{ asset('new/js/daterangepicker/daterangepicker.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
+  <!-- Laravel Javascript Validation -->
+  <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/v2/vendor/libs/select2/select2.js') }}?v={{ config('app.asset_version') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/v2/vendor/libs/flatpickr/flatpickr.js') }}?v={{ config('app.asset_version') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/v2/vendor/libs/jquery-repeater/jquery-repeater.js') }}?v={{ config('app.asset_version') }}"></script>
   <script src="{{ asset('new/js/jquery-ui/jquery-ui.js') }}?v={{ config('app.asset_version') }}" defer></script>
-  <script src="{{ asset('new/js/repeater/jquery.repeater.min.js') }}?v={{ config('app.asset_version') }}"></script>
-  <script src="{{ asset('new/js/select2/select2.full.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script>
+    $(document).ready(function() {
+
+      // Flatpickr
+      $(".flatpickr").flatpickr({
+        dateFormat: "d/m/Y",
+        locale: {
+          weekdays: {
+            shorthand: [
+              '{{ __("Sun") }}',
+              '{{ __("Mon") }}',
+              '{{ __("Tue") }}',
+              '{{ __("Wed") }}',
+              '{{ __("Thu") }}',
+              '{{ __("Fri") }}',
+              '{{ __("Sat") }}'
+            ],
+            longhand: [
+              '{{ __("Sunday") }}',
+              '{{ __("Monday") }}',
+              '{{ __("Tuesday") }}',
+              '{{ __("Wednesday") }}',
+              '{{ __("Thursday") }}',
+              '{{ __("Friday") }}',
+              '{{ __("Saturday") }}'
+            ]
+          },
+          months: {
+            shorthand: [
+              '{{ __("January") }}',
+              '{{ __("February") }}',
+              '{{ __("March") }}',
+              '{{ __("April") }}',
+              '{{ __("May") }}',
+              '{{ __("June") }}',
+              '{{ __("July") }}',
+              '{{ __("August") }}',
+              '{{ __("September") }}',
+              '{{ __("October") }}',
+              '{{ __("November") }}',
+              '{{ __("December") }}'
+            ],
+            longhand: [
+              '{{ __("January") }}',
+              '{{ __("February") }}',
+              '{{ __("March") }}',
+              '{{ __("April") }}',
+              '{{ __("May") }}',
+              '{{ __("June") }}',
+              '{{ __("July") }}',
+              '{{ __("August") }}',
+              '{{ __("September") }}',
+              '{{ __("October") }}',
+              '{{ __("November") }}',
+              '{{ __("December") }}'
+            ]
+          },
+          firstDayOfWeek: {{ app()->getLocale() == 'ar' ? 6 : 0 }},
+          rangeSeparator: "{{ __("to") }}",
+          weekAbbreviation: "{{ __("week") }}"
+        }
+      });
+
+      // Select2
+      $('.select2').select2();
+
+      $('.form-repeater').repeater({
+        initEmpty: false,
+        show: function () {
+          $(this).slideDown();
+        },
+        hide: function (deleteElement) {
+          if(confirm('Are you sure you want to delete this element?')) {
+            $(this).slideUp(deleteElement);
+          }
+        },
+        isFirstItemUndeletable: true
+      });
+    });
+
     // Additional Information
     $(".additionalInformationArea").hide();
     $("button.additionalInformationBtn").click(function(){
@@ -355,48 +441,45 @@
       $(".additionalInformationArea").slideToggle();
     });
 
-    // Single Daterangepicker
-    $(function() {
-      $('.dueDate').daterangepicker({
-        "singleDatePicker": true,
-        "autoApply": true,
-        "maxSpan": {
-          "days": 7
-        },
-        locale: {
-          format: 'DD/MM/YYYY',
-          daysOfWeek: [
-            '{{__('Sun')}}',
-            '{{__('Mon')}}',
-            '{{__('Tue')}}',
-            '{{__('Wed')}}',
-            '{{__('Thur')}}',
-            '{{__('Fri')}}',
-            '{{__('Sat')}}'
-          ],
-          monthNames: [
-            '{{__('January')}}',
-            '{{__('February')}}',
-            '{{__('March')}}',
-            '{{__('April')}}',
-            '{{__('May')}}',
-            '{{__('June')}}',
-            '{{__('July')}}',
-            '{{__('August')}}',
-            '{{__('September')}}',
-            '{{__('October')}}',
-            '{{__('November')}}',
-            '{{__('December')}}'
-          ],
-          fromLabel: '{{__('from')}}',
-          toLabel: '{{__('to')}}',
-          applyLabel: '{{__('apply')}}',
-          cancelLabel:'{{__('cancel')}}',
-          customRangeLabel: '{{__('custom Range')}}',
-          weekLabel: '{{__('week')}}',
-        },
-      });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        var form = document.getElementById('bill_create');
+        if (!form) return;
+        var btn = form.querySelector('.btn-submit-with-spinner');
+        if (!btn) return;
+        var btnText = btn.querySelector('.btn-text');
+        var btnSpinner = btn.querySelector('.btn-spinner');
+        var originalText = btnText ? btnText.textContent.trim() : '{{ __("Send") }}';
+
+        function showSpinner() {
+          btn.disabled = true;
+          if (btnText && btnSpinner) {
+            btnText.textContent = btn.dataset.loadingText || '{{ __("Sending...") }}';
+            btnSpinner.classList.remove('d-none');
+          }
+        }
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        form.addEventListener('submit', function(e) {
+          if (btn.disabled) return;
+          if (e.defaultPrevented) return;
+          showSpinner();
+          setTimeout(resetButton, 8000);
+        }, false);
+
+        $(form).on('invalid-form.validate', resetButton);
+      }, 150);
     });
+
 
     // Repeater
     $('.repeater').repeater({

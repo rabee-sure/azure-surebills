@@ -87,3 +87,27 @@ html[dir="ltr"] body {
 .view-print-options .item span {
   min-height: 38px;
 }
+
+
+
+ul.ui-widget {
+  border: none !important;
+  background-color: var(--bs-paper-bg) !important;
+  box-shadow: var(--bs-box-shadow-lg) !important;
+  border-radius: var(--bs-border-radius) !important;
+  padding-block: 0.5rem !important;
+}
+ul.ui-widget li.ui-menu-item .ui-menu-item-wrapper {
+  border-radius: 0.375rem !important;
+  margin-block: 0.125rem !important;
+  margin-inline: 0.5rem !important;
+  padding-block: 0.543rem !important;
+  padding-inline: 0.75rem !important;
+  color: var(--bs-select-color) !important;
+  border: none !important;
+  color: var(--bs-heading-color) !important;
+}
+ul.ui-widget li.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+  background-color: var(--bs-gray-50) !important;
+  color: var(--bs-heading-color) !important;
+}
