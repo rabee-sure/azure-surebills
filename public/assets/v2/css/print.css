@@ -1,0 +1,38 @@
+html[dir="rtl"] body {
+  background-color: #ffffff;
+  font-family: "IBM Plex Sans Arabic", "IBM Plex Sans" !important;
+  direction: rtl;
+  font-size: 15px;
+}
+html[dir="ltr"] body {
+  background-color: #ffffff;
+  direction: ltr;
+  font-family: "IBM Plex Sans", "IBM Plex Sans Arabic" !important;
+  font-size: 15px;
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+} /* a */
+
+.table th {
+  letter-spacing: 0 !important;
+}
+
+
+@font-face {
+  font-family: 'sar-icon';
+  src: url('../vendor/fonts/sar-icon/sar-icon.eot?gx968n');
+  src: url('../vendor/fonts/sar-icon/sar-icon.eot?gx968n#iefix') format('embedded-opentype'),
+      url('../vendor/fonts/sar-icon/sar-icon.ttf?gx968n') format('truetype'),
+      url('../vendor/fonts/sar-icon/sar-icon.woff?gx968n') format('woff'),
+      url('../vendor/fonts/sar-icon/sar-icon.svg?gx968n#ordericons') format('svg');
+}
+.sar-icon:before {
+  font-family: 'sar-icon';
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+  content: "\e9bc";
+}
