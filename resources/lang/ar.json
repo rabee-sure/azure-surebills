@@ -1143,5 +1143,6 @@
   "The format field must be a valid format.": "يجب أن يكون التنسيق صالح.",
   "Failed to generate enough unique codes. Try a different pattern or reduce the count.": "فشل إنشاء الرموز المميزة بما يكفي. جرب نموذج مختلف أو تقليل العدد.",
   "Coupon: :name": "كوبون: :name",
-  "Coupon usage limit has been reached": "تم الوصول إلى الحد الأقصى لعدد الاستخدامات لهذا الكوبون"
+  "Coupon usage limit has been reached": "تم الوصول إلى الحد الأقصى لعدد الاستخدامات لهذا الكوبون",
+  "by :count customers": "بواسطة :count عملاء"
 }
