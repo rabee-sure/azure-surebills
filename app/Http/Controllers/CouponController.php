@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Coupon;
 use App\Services\Coupon\CouponService;
 use App\Enums\CouponMechanism;
+use App\Http\Requests\CouponBulkGenerationCodesExportRequest;
+use App\Http\Requests\CouponBulkGenerationCodesStoreRequest;
+use App\Http\Requests\CouponStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,20 +65,9 @@ class CouponController extends Controller
     /**
      * Store a newly created coupon
      */
-    public function store(Request $request)
+    public function store(CouponStoreRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'mechanism' => 'required|in:' . implode(',', CouponMechanism::values()),
-            'discount_type' => 'required|in:fixed,percentage',
-            'discount_value' => 'required|numeric|min:0' . ($request->discount_type === 'percentage' ? '|max:100' : ''),
-            'valid_from' => 'nullable|date',
-            'valid_to' => 'nullable|date|after_or_equal:valid_from',
-            'max_usage' => 'nullable|integer|min:1',
-            'max_customer_usage' => 'nullable|integer|min:1',
-            'code_pattern' => 'nullable|string|max:255',
-            'is_active' => 'boolean',
-        ]);
+        $validated = $request->validated();
 
         $userId = Auth::user()->store_main_user_id ?? Auth::user()->id;
 
@@ -151,12 +143,9 @@ class CouponController extends Controller
     /**
      * Process bulk generation
      */
-    public function storeBulkGenerate(Request $request, int $id)
+    public function storeBulkGenerate(CouponBulkGenerationCodesStoreRequest $request, int $id)
     {
-        $validated = $request->validate([
-            'count' => 'required|integer|min:1|max:10000',
-            'pattern' => 'nullable|string|max:255',
-        ]);
+        $validated = $request->validated();
 
         $userId = Auth::user()->store_main_user_id ?? Auth::user()->id;
         $coupon = $this->couponService->getCoupon($id, $userId);
@@ -185,11 +174,9 @@ class CouponController extends Controller
     /**
      * Export coupon codes
      */
-    public function export(Request $request, int $id)
+    public function export(CouponBulkGenerationCodesExportRequest $request, int $id)
     {
-        $validated = $request->validate([
-            'format' => 'required|in:csv,excel',
-        ]);
+        $validated = $request->validated();
 
         $userId = Auth::user()->store_main_user_id ?? Auth::user()->id;
         $coupon = $this->couponService->getCoupon($id, $userId);
