@@ -1140,5 +1140,7 @@
   "The pattern field must be a string.": "يجب أن يكون النموذج عبارة عن سلسلة من الأحرف.",
   "The pattern field must be less than 255 characters.": "يجب أن يكون النموذج اقل من 255 حرف.",
   "The format field is required.": "يجب أن يكون لديك تنسيق للتصدير.",
-  "The format field must be a valid format.": "يجب أن يكون التنسيق صالح."
+  "The format field must be a valid format.": "يجب أن يكون التنسيق صالح.",
+  "Failed to generate enough unique codes. Try a different pattern or reduce the count.": "فشل إنشاء الرموز المميزة بما يكفي. جرب نموذج مختلف أو تقليل العدد.",
+  "Coupon: :name": "كوبون: :name"
 }
