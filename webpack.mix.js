@@ -107,4 +107,13 @@ const mix = require('laravel-mix');
 
    // *** New Ui Rabee Components ***//
    mix.js('resources/assets/v2/js/app.js', 'public/assets/v2/vendor/js').vue()
+   .sass('resources/assets/v2/scss/custom.scss', 'public/assets/v2/css')
+   .sass('resources/assets/v2/scss/payment_form.scss', 'public/assets/v2/css')
    // *** New Ui Rabee Components ***//
+
+   // Minify CSS in production (run: npm run production)
+   if (mix.inProduction()) {
+     mix.options({
+       cssNano: { preset: ['default', { discardComments: { removeAll: true } }] }
+     });
+   }
