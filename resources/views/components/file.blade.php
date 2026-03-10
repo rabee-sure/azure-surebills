@@ -18,7 +18,7 @@
   <script type="text/javascript">
     $(document).ready(function() {
       $('#file-{{$file->id}}').on('click', function() {
-        window.open('/download/{{$file->id}}/{{$file->file_name}}', '_blank');
+        window.open('/download/{{$file->id}}/{{$file->file_name}}', '_blank', 'download');
       });
     });
   </script>

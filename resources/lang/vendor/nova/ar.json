@@ -538,5 +538,6 @@
 	"Exported File will send to your mail" : "الملف المستخرج سيتم إرساله عبر البريد الالكتروني",
 	"Start Exporting" : "إبدأ الاستخراج",
 	"Exporteing" : "جاري الاستخراج",
-	"The exportation prosses started after finished the file will send to your email" : "تم البدأ في عملية الاستخراج وسيتمم ارسالها عبر البريد الالكتروني فور الانتهاء من الملف"
+	"The exportation prosses started after finished the file will send to your email" : "تم البدأ في عملية الاستخراج وسيتمم ارسالها عبر البريد الالكتروني فور الانتهاء من الملف",
+  "Are you sure you want to delete this application ?": "هل أنت متأكد من حذف هذا التطبيق ؟"
 }

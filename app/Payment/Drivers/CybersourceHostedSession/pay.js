@@ -1,7 +1,9 @@
 // anticlickjack
 if (self === top) {
     var antiClickjack = document.getElementById("antiClickjack");
-    antiClickjack.parentNode.removeChild(antiClickjack);
+    if (antiClickjack && antiClickjack.parentNode) {
+      antiClickjack.parentNode.removeChild(antiClickjack);
+  }
 } else {
     top.location = self.location;
 }
@@ -49,12 +51,12 @@ function BuildDeviceDataCollectionIFrame(accessToken) {
     $("#payerAuthIFrames").html(iframe);
 
     var cardinalCollectionForm = document.querySelector('#cardinal_collection_form');
-        if (cardinalCollectionForm) // form exists 
+        if (cardinalCollectionForm) // form exists
             cardinalCollectionForm.submit();
 
     window.addEventListener("message", function (event) {
         if (event.origin === actionUrl) {
-            // 
+            //
         }
     }, false);
 }

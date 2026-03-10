@@ -25,7 +25,7 @@ class RoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:50', Rule::unique('roles', 'name')->where('user_id', auth()->user()->store_main_user_id ?? auth()->user()->id)->ignore($this->role, 'id')],
+            'name' => ['required', 'string', 'max:50', Rule::unique('roles', 'name')->where('user_id', auth()->user()->store_main_user_id ?? auth()->user()->id)->ignore(optional($this->route('role'))->id ?? 0, 'id')],
             'permissions' => ['required', 'array', 'min:1'],
         ];
     }

@@ -4,7 +4,9 @@ $('#payButton').on("click", function(e){
 // anticlickjack
 if (self === top) {
     var antiClickjack = document.getElementById("antiClickjack");
-    antiClickjack.parentNode.removeChild(antiClickjack);
+    if (antiClickjack && antiClickjack.parentNode) {
+      antiClickjack.parentNode.removeChild(antiClickjack);
+  }
 } else {
     top.location = self.location;
 }
@@ -29,7 +31,7 @@ PaymentSession.configure({
             // HANDLE RESPONSE FOR UPDATE SESSION
             if (response.status) {
                 if ("ok" == response.status) {
-  
+
                     //check if the security code was provided by the user
                     if (response.sourceOfFunds.provided.card.securityCode) {
                         // console.log("Security code was provided.");

@@ -4,217 +4,130 @@
 
 @section('content')
 
-  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
-    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
-    <i>/</i>
-    <a href="{{ url('/transfers')}}" title="{{ __('Transfers') }}">{{ __('Transfers') }}</a>
-  </div><!-- breadcrump -->
+  <div class="d-flex align-items-center justify-content-between gap-2 mb-6">
+    <div class="d-flex flex-column gap-1">
+      <h4 class="mb-0">{{ __('Transfer Transactions') }}</h4>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb breadcrumb-custom-icon m-0">
+          <li class="breadcrumb-item">
+            <a href="{{ url('/transfers') }}" title="{{ __('Transfers') }}">{{ __('Transfers')}}</a>
+            <i class="breadcrumb-icon icon-base ti ti-chevron-right align-middle icon-xs"></i>
+          </li>
+          <li class="breadcrumb-item active">{{ __('Transfer Transactions') }} : {{$transfer->id}}</li>
+        </ol>
+      </nav>
+    </div>
+    <a href="{{ route('transfer.export_bills', ['transfer' => $transfer])}}" title="{{ __('Export Transfer Bills')}}" class="btn btn-success waves-effect waves-light">
+      <span class="icon-xs icon-base ti ti-file-export me-2"></span> {{ __('Export Transfer Bills')}}
+    </a>
+  </div>
 
-  <div id="errors" class="d-print-none">
-    @if ($errors->any())
-      <div class="alert alert-danger">
-        <ul>
-          @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div><!-- table_items -->
-    @endif
-  </div><!-- alert -->
-
-  @if(session()->has('success'))
-      <div class="alert alert-success">
-          {{ session()->get('success') }}
-      </div>
+  @if ($errors->any())
+    <ul class="list-group mb-6">
+      @foreach ($errors->all() as $error)
+        <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+      @endforeach
+    </ul>
   @endif
 
-  <section id="transactionsPage">
-    <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
-      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Transfer Transactions') }}</h1>
-      <a href="{{ route('transfer.export_bills', ['transfer' => $transfer])}}" title="{{ __('Export Transfer Bills')}}" class="d-flex align-items-center justify-content-center btn-primary text-white rounded-pill border-0 shadow-none" style="padding: 12px;">{{ __('Export Transfer Bills')}}</a>
-    </div><!-- title -->
-
-    <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
-      @if($transactions->count())
-        <div class="table-responsive">
-          <table class="table table-striped table-hover text-nowrap">
-            <thead>
-              <tr>
-                <th class="text-center">{{ __('Payment Date') }}</th>
-                <th class="text-center">{{ __('Description') }}</th>
-                <th class="text-center">{{ __('Reference') }}</th>
-                <th class="text-center">{{ __('Receipt') }}</th>
-                <th class="text-center">{{ __('Card') }}</th>
-                <th class="text-center">{{ __('Debit') }}</th>
-                <th class="text-center">{{ __('Credit') }}</th>
-                <th class="text-center">{{ __('Balance') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($transactions as $transaction)
-                <tr>
-                  <td class="text-center">{{ $transaction->created_at }}</td>
-                  <td class="text-center">{{ $transaction->description }}</td>
-                  <td class="text-center">{{ $transaction->reference }}</td>
-                  <td class="text-center">{{ $transaction->receipt }}</td>
-                  <td class="text-center">
-                    <div class="d-flex align-items-center justify-content-center">
-                      @if ($transaction->card_brand == 'VISA')
-                        <img alt="visa" src="/images/cards/visa.gif" width="18px">
-                      @elseif ($transaction->card_brand == 'MASTERCARD' || $transaction->card_brand == 'MASTER')
-                        <img alt="mastercard" src="/images/cards/mastercard.gif" width="18px">
-                      @elseif ($transaction->card_brand == 'MADA')
-                        <img alt="mada" src="/images/cards/mada.gif" width="18px">
-                      @elseif ($transaction->card_brand == 'APPLEPAY')
-                        <img alt="applepay" src="/images/cards/applepay.gif" width="18px">
-                      @endif
-                      {{ $transaction->card }}
-                    </div>
-                  </td>
-                  <td class="text-danger text-center">
-                    <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                      {{ $transaction->type == 'debit' ? round2($transaction->amount) : '0' }}  <span class="riyal-symbol-font">$</span>
-                    </div><!-- d-flex -->
-                  </td>
-                  <td class="text-success text-center">
-                    <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                      {{ $transaction->type == 'credit' ? round2($transaction->amount) : '0' }}  <span class="riyal-symbol-font">$</span>
-                    </div><!-- d-flex -->
-                  </td>
-                  <td class="text-center">
-                    <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                      {{ fact_number(round($transaction->balance, 2)) }}  <span class="riyal-symbol-font">$</span>
-                    </div><!-- d-flex -->
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="5" class="text-center fw-bold">{{ __('Total')}}</td>
-                <td class="text-danger text-center fw-bold">
-                  <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                    {{ $totals['debit'] ?? 0 }}  <span class="riyal-symbol-font">$</span>
-                  </div><!-- d-flex -->
-                </td>
-                <td class="text-success text-center fw-bold">
-                  <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                    {{ $totals['credit'] ?? 0 }}  <span class="riyal-symbol-font">$</span>
-                  </div><!-- d-flex -->
-                </td>
-                <td class="text-center fw-bold">
-                  <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                    {{ $totals['all'] ?? 0 }}  <span class="riyal-symbol-font">$</span>
-                  </div><!-- d-flex -->
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-        {{ $transactions->links() }}
-      @else
-        <div class="no_bills_yet d-flex align-items-center justify-content-center flex-column">
-          <i class="fal fa-file-invoice-dollar"></i>
-          <span class="d-block text-center mt-3 text-capitalize">{{ __('No Bill Matched The Given Criteria.') }}</span>
-        </div><!-- no_bills_yet -->
-      @endif
-    </div><!-- blockArea -->
-
-  </section><!-- transactionsPage -->
-
-
-    <div class="row">
-      <div class="col-12 list" data-check-all="checkAll">
-
-      </div>
+  @if(session()->has('success'))
+    <div class="alert alert-success d-flex align-items-center mb-6" role="alert">
+      <span class="alert-icon rounded">
+        <i class="icon-base ti ti-check icon-md"></i>
+      </span>
+      {{ session()->get('success') }}
     </div>
+  @endif
+
+  @if($transactions->count())
+    <div class="card">
+      <div class="table-responsive text-nowrap">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th class="fw-bold">{{ __('Payment Date') }}</th>
+              <th class="fw-bold">{{ __('Description') }}</th>
+              <th class="fw-bold">{{ __('Reference') }}</th>
+              <th class="fw-bold">{{ __('Receipt') }}</th>
+              <th class="fw-bold">{{ __('Card') }}</th>
+              <th class="fw-bold">{{ __('Debit') }}</th>
+              <th class="fw-bold">{{ __('Credit') }}</th>
+              <th class="fw-bold">{{ __('Balance') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($transactions as $transaction)
+              <tr>
+                <td>{{ $transaction->created_at }}</td>
+                <td>{{ $transaction->description }}</td>
+                <td>{{ $transaction->reference }}</td>
+                <td>{{ $transaction->receipt }}</td>
+                <td>
+                  <div class="d-flex align-items-center justify-content-start gap-1">
+                    @if ($transaction->card_brand == 'VISA')
+                      <img alt="visa" src="{{ asset('assets/v2/img/payments/visa.png') }}">
+                    @elseif ($transaction->card_brand == 'MASTER')
+                      <img alt="mastercard" src="{{ asset('assets/v2/img/payments/mastercard.png') }}">
+                    @elseif ($transaction->card_brand == 'MADA')
+                      <img alt="mada" src="{{ asset('assets/v2/img/payments/mada.png') }}">
+                    @elseif ($transaction->card_brand == 'APPLEPAY')
+                      <img alt="applepay" src="{{ asset('assets/v2/img/payments/applepay.png') }}">
+                    @endif
+                    {{ $transaction->card }}
+                  </div>
+                </td>
+                <td>
+                  <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0 text-danger">
+                    {{ $transaction->type == 'debit' ? round2($transaction->amount) : '0' }} <i class="sar-icon"></i>
+                  </span>
+                </td>
+                <td>
+                  <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0 text-success">
+                    {{ $transaction->type == 'credit' ? round2($transaction->amount) : '0' }} <i class="sar-icon"></i>
+                  </span>
+                </td>
+                <td>
+                  <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0">
+                    {{ fact_number(round($transaction->balance, 2)) }} <i class="sar-icon"></i>
+                  </span>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5" class="fw-bold">{{ __('Total')}}</td>
+              <td>
+                <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0 text-danger fw-bold">
+                  {{ $totals['debit'] ?? 0 }} <i class="sar-icon"></i>
+                </span>
+              <td>
+                <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0 text-success fw-bold">
+                  {{ $totals['credit'] ?? 0 }} <i class="sar-icon"></i>
+                </span>
+              </td>
+              <td>
+                <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0 fw-bold">
+                  {{ $totals['all'] ?? 0 }} <i class="sar-icon"></i>
+                </span>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div><!-- table-responsive -->
+    </div><!-- card -->
+    <div class="d-flex align-items-center justify-content-center mt-3">
+      {{ $transactions->links() }}
+    </div><!-- d-flex -->
+  @else
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-center flex-column py-5">
+        <i class="ti ti-transfer ti-xl"></i>
+          <span class="d-block text-center mt-3 text-capitalize">{{ __('No Bill Matched The Given Criteria.') }}</span>
+        </div><!-- d-flex -->
+      </div><!-- card-body -->
+    </div><!-- card -->
+  @endif
+
 @endsection
-
-@push('footer-scripts')
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-  <script type="text/javascript">
-      function oldParams() {
-        var params = ''
-        let array1 = [
-          'transaction_type',
-          'transaction_source',
-          'channel_id',
-          'application_id',
-        ];
-        array1.forEach(i => {
-          if(getUrlParameter(i)){
-            params += '&'+i+'='+getUrlParameter(i)
-          }
-        });
-        return params;
-      }
-      var getUrlParameter = function getUrlParameter(sParam) {
-          var sPageURL = window.location.search.substring(1),
-              sURLVariables = sPageURL.split('&'),
-              sParameterName,
-              i;
-
-          for (i = 0; i < sURLVariables.length; i++) {
-              sParameterName = sURLVariables[i].split('=');
-
-              if (sParameterName[0] === sParam) {
-                  return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-              }
-          }
-      };
-
-      $(function() {
-        var lang = "<?php echo app()->getLocale(); ?>";
-        $('input[name="dates"]').daterangepicker({
-          opens: lang == 'en' ? 'right' : 'left',
-          locale: {
-              daysOfWeek: [
-                  '{{__('Sun')}}',
-                  '{{__('Mon')}}',
-                  '{{__('Tue')}}',
-                  '{{__('Wed')}}',
-                  '{{__('Thur')}}',
-                  '{{__('Fri')}}',
-                  '{{__('Sat')}}'
-              ],
-              monthNames: [
-                  '{{__('January')}}',
-                  '{{__('February')}}',
-                  '{{__('March')}}',
-                  '{{__('April')}}',
-                  '{{__('May')}}',
-                  '{{__('June')}}',
-                  '{{__('July')}}',
-                  '{{__('August')}}',
-                  '{{__('September')}}',
-                  '{{__('October')}}',
-                  '{{__('November')}}',
-                  '{{__('December')}}'
-              ],
-              fromLabel: '{{__('from')}}',
-              toLabel: '{{__('to')}}',
-              applyLabel: '{{__('apply')}}',
-              cancelLabel:'{{__('cancel')}}',
-              customRangeLabel: '{{__('custom Range')}}',
-              weekLabel: '{{__('week')}}',
-          },
-          ranges: {
-             '{{__('Today')}}': [moment(), moment()],
-             '{{__('Yesterday')}}': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-             '{{__('Last 7 Days')}}': [moment().subtract(6, 'days'), moment()],
-             '{{__('Last 30 Days')}}': [moment().subtract(29, 'days'), moment()],
-             '{{__('This Month')}}': [moment().startOf('month'), moment().endOf('month')],
-             '{{__('Last Month')}}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-          },
-          startDate: getUrlParameter('date_start')?getUrlParameter('date_start'): moment().startOf('month').format("MM/DD/YYYY"),
-          endDate: getUrlParameter('date_to')?getUrlParameter('date_to'):moment(new Date()).format("MM/DD/YYYY"),
-        }, function(start, end, label) {
-            var dateParam = '?date_start=' + start.format('MM/DD/YYYY') + '&date_to='+end.format('MM/DD/YYYY')+oldParams();
-            window.history.pushState('', '', dateParam);
-            location.reload();
-        });
-      });
-  </script>
-@endpush

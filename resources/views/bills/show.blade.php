@@ -1,111 +1,185 @@
 @extends('layouts.app')
-
 @section('title', $title . ' ' . $bill->number . ' ' . __('Bills'))
+
+@push('css_styles')
+  <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/notyf/notyf.css') }}?v={{ config('app.asset_version') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/animate-css/animate.css') }}?v={{ config('app.asset_version') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/v2/vendor/css/pages/app-invoice.css') }}?v={{ config('app.asset_version') }}" />
+@endpush
 
 @php
   $statues = session('status_filters', ['pending', 'paid'])?? [];
   $separated = (count($statues)) ? 'statuses[]='.implode("&statuses[]=", $statues):'';
-  // dd(app()->getLocale());
+  $hasBillActions = ($bill->access_to_pay_page->status ?? false)
+    || ($bill->user->settings->add_tax_invoice ?? false)
+    || (auth()->user()->can('create debit note') && (!$bill->debit_note_bill_id) && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine']) && ((!auth()->user()->mainStoreUser && count(auth()->user()->channels) == 0) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) == 0)))
+    || (auth()->user()->can('cancel bill') && $bill->is_pending)
+    || (auth()->user()->can('refund bill') && $bill->is_able_refund && !$bill->debit_note_bill_id)
+    || (auth()->user()->can('change bill status') && $bill->is_able_change_status);
 @endphp
 
 @section('content')
 
-<div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm d-print-none">
-  <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
-  <i>/</i>
-  <a href="/bills" title="{{ __('Bills') }}">{{ __('Bills') }}</a>
-  <i>/</i>
-  <span>{{$title}} {{ $bill->number }}</span>
-</div><!-- breadcrump -->
+  <h4 class="mb-1">@if($bill->debit_note_bill_id == null) {{__('Bill')}} @else {{__('Debit Note')}} @endif</h4>
 
-<section id="billShowPage">
-  <div class="title mb-4 d-print-none">
-    <h1 class="d-block fw-bold m-0 fs-5">@if($bill->debit_note_bill_id == null) {{__('Bill')}} @else {{__('Debit Note')}} @endif</h1>
-  </div><!-- title -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-custom-icon mb-6">
+      <li class="breadcrumb-item">
+        <a href="{{ url('bills') }}" title="{{ __('Bills') }}">{{ __('Bills')}}</a>
+        <i class="breadcrumb-icon icon-base ti ti-chevron-right align-middle icon-xs"></i>
+      </li>
+      <li class="breadcrumb-item active">{{$title}} : {{ $bill->number }}</li>
+    </ol>
+  </nav>
 
   <div id="errors" class="d-print-none">
     @if ($errors->any())
-      <div class="alert alert-danger">
-        <ul>
+      <div class="alert alert-danger mb-6">
+        <ul class="list-group">
           @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
+            <li class="list-group-item list-group-item-danger">{{ $error }}</li>
           @endforeach
         </ul>
-      </div><!-- table_items -->
+      </div><!-- alert -->
     @endif
   </div><!-- alert -->
 
-  <div class="buttonsArea p-2 d-flex align-items-center justify-content-center bg-white rounded-3 mb-3 shadow-sm d-print-none">
-    @if ($bill->access_to_pay_page->status)
-    <button class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none copyButton" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Copy payment link') }}" data-from="top" data-align="right"><i class="fal fa-copy"></i></button>
-    <input class="linkToCopy" value="{{ $bill->pay_url}}" style="position: absolute; z-index: -999; opacity: 0;" />
-
-    <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ $bill->pay_url}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Visit Payment Link') }}"><i class="fal fa-link"></i></a>
-    @endif
-
-    @if($bill->user->settings->add_tax_invoice)
-      <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ $bill->invoice_url}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Tax Invoice') }}"><i class="fal fa-qrcode"></i></a>
-    @endif
-
-    <!-- <a onclick="window.print(); return false;" class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" href="#" title="{{ __('Print') }}"><i class="fal fa-print"></i></a> -->
-
-    <!-- <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="#">{{ __('Send Reminder') }}</a> -->
-
-    @can('create debit note')
-      @if((!auth()->user()->mainStoreUser && count(auth()->user()->channels) == 0) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) == 0))
-        @if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine']))
-          <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="{{ route('debitNote.create', ['bill_id' => $bill->id])}}" data-bs-toggle="tooltip" data-bs-placement="top" target="_blank" title="{{ __('Create Debit Note') }}"><i class="fal fa-receipt"></i></a>
+  @if($hasBillActions)
+    <div class="card mb-6">
+      <div class="card-body p-3 d-flex align-items-center justify-content-center gap-3 flex-wrap">
+        @if ($bill->access_to_pay_page->status)
+          <button
+            type="button"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="{{ __('Copy payment link') }}"
+            data-clipboard-text="{{ $bill->pay_url }}"
+            class="btn btn-icon btn-primary waves-effect waves-light copy-link-btn"
+          >
+            <i class="icon-base ti ti-copy"></i>
+          </button>
+          <a
+            href="{{ $bill->pay_url}}"
+            target="_blank"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="{{ __('Visit Payment Link') }}"
+            class="btn btn-icon btn-primary waves-effect waves-light"
+          >
+            <i class="icon-base ti ti-link"></i>
+          </a>
         @endif
-      @endif
-    @endcan
 
-    @can('cancel bill')
-    @if($bill->is_pending)
-      <button id="cancel_btn" type="button" class="btn-danger p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="@if($bill->debit_note_bill_id == null) {{ __('Cancel Bill') }} @else {{ __('Cancel Debit Note') }} @endif">
-        <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right"><i class="fal fa-times-circle"></i></span>
-      </button>
-    @endif
-    @endcan
+        @if($bill->user->settings->add_tax_invoice)
+          <a
+            href="{{ $bill->invoice_url}}"
+            target="_blank"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="{{ __('Tax Invoice') }}"
+            class="btn btn-icon btn-primary waves-effect waves-light"
+          >
+            <i class="icon-base ti ti-qrcode"></i>
+          </a>
+        @endif
 
-    @can('refund bill')
-    @if($bill->is_able_refund && $bill->debit_note_bill_id == null)
-      <button id="refund_btn" type="button" class="btn-warning p-0 text-white m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Refund') }}">
-        <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right"><i class="fal fa-box-usd"></i></span>
-      </button>
-    @endif
-    @endcan
+        <!-- <a onclick="window.print(); return false;" class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" href="#" title="{{ __('Print') }}"><i class="fal fa-print"></i></a> -->
 
-    @can('change bill status')
-    @if($bill->is_able_change_status)
-      <button type="button" class="btn-info p-0 text-white m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Change Status') }}" >
-        <span class="d-flex align-items-center justify-content-center w-100 h-100" data-from="top" data-align="right" data-bs-toggle="modal" data-bs-target="#changeStatusModal"><i class="fal fa-repeat"></i></span>
-      </button>
-    @endif
-    @endcan
-  </div><!-- buttonsArea -->
+        <!-- <a class="btn-primary p-0 m-1 rounded-3 d-flex align-items-center justify-content-center border-0 shadow-none" href="#">{{ __('Send Reminder') }}</a> -->
 
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-6">
-      <div class="showBill mb-3 bg-white shadow-sm rounded-3 p-2">
-        <div class="aboutUser d-flex align-items-center justify-content-center flex-column">
+        @can('create debit note')
+          @if((!auth()->user()->mainStoreUser && count(auth()->user()->channels) == 0) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels) == 0))
+            @if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine']))
+              <a
+                href="{{ route('debitNote.create', ['bill_id' => $bill->id])}}"
+                target="_blank"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="{{ __('Create Debit Note') }}"
+                class="btn btn-icon btn-primary waves-effect waves-light"
+              >
+                <i class="icon-base ti ti-receipt"></i>
+              </a>
+            @endif
+          @endif
+        @endcan
+
+        @can('cancel bill')
+          @if($bill->is_pending)
+            <button
+              type="button"
+              id="cancel_btn"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="@if($bill->debit_note_bill_id == null) {{ __('Cancel Bill') }} @else {{ __('Cancel Debit Note') }} @endif"
+              class="btn btn-icon btn-danger waves-effect waves-light"
+            >
+              <i class="icon-base ti ti-square-x"></i>
+            </button>
+            @include('bills.partials.cancel',['bill' => $bill])
+          @endif
+        @endcan
+
+        @can('refund bill')
+          @if($bill->is_able_refund && $bill->debit_note_bill_id == null)
+            <button
+              type="button"
+              id="refund_btn"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="{{ __('Refund') }}"
+              class="btn btn-icon btn-warning waves-effect waves-light"
+            >
+              <i class="icon-base ti ti-receipt-dollar"></i>
+            </button>
+            @include('bills.partials.refund',['bill' => $bill])
+          @endif
+        @endcan
+
+        @can('change bill status')
+          @if($bill->is_able_change_status)
+            <span class="d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Change Status') }}">
+              <button
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#changeStatusModal"
+                class="btn btn-icon btn-info waves-effect waves-light"
+              >
+                <i class="icon-base ti ti-repeat"></i>
+              </button>
+            </span>
+          @endif
+        @endcan
+      </div><!-- card-body -->
+    </div><!-- card -->
+  @endif
+
+  <div class="row g-6">
+    <div class="col-12 col-md-6 invoice-preview">
+      <div class="card invoice-preview-card p-5">
+
+        <div class="card-body invoice-preview-header rounded p-5 mb-5">
           @if($bill->user->logo)
-            <figure class="my-2">
-              <img src="{{ $bill->user->logo_url }}" alt="{{ $bill->user->business_name }}" class="mw-100">
-            </figure><!-- figure -->
+            <span class="app-brand-logo d-flex align-items-center justify-content-center mb-4">
+              <img src="{{ $bill->user->logo_url }}" alt="{{ $bill->user->business_name }}" class="w-auto" height="32px">
+            </span>
           @endif
-          @if($bill->user->settings->add_tax_invoice)
-            <div class="taxInvoiceText text-secondary">@if($bill->debit_note_bill_id == null) {{ __('Simplified Tax Invoice') }} @else {{ __('Tax debit note') }} @endif</div>
-          @endif
-          <span class="d-block fw-bold mt-3">{{ $bill->user->business_name }}</span>
-          @if(isset($bill->user->settings->header_bill))
-            <p class="d-block mb-0 text-center text-break">{{ $bill->user->settings->header_bill }}</p>
-          @endif
-          <p class="d-block mb-0">{{  $bill->user->business_address }}</p>
-          <b class="d-block fw-normal mb-2">{{  $bill->user->business_mobile }}</b>
-        </div><!-- aboutUser -->
+          <div class="text-heading mb-xl-0 mb-5 d-flex flex-column gap-2 text-center">
+            @if($bill->user->settings->add_tax_invoice)
+              <p class="m-0">@if($bill->debit_note_bill_id == null) {{ __('Simplified Tax Invoice') }} @else {{ __('Tax debit note') }} @endif</p>
+            @endif
+            <p class="m-0">{{ $bill->user->business_name }}</p>
+            @if(isset($bill->user->settings->header_bill))
+              <p class="m-0">{{ $bill->user->settings->header_bill }}</p>
+            @endif
+            <p class="m-0">{{  $bill->user->business_address }}</p>
+            <p class="m-0">{{  $bill->user->business_mobile }}</p>
+          </div>
+        </div><!-- card-body -->
+
         <div id="status">
           @if($bill->status == 'expired')
-            <div class="alert alert-danger text-center text-capitalize">
+            <div class="alert alert-danger text-center text-capitalize mb-5">
               @if($bill->debit_note_bill_id == null)
               {{ __('this bill has been expired', ['number' => $bill->number ]) }}
               @else
@@ -113,7 +187,7 @@
               @endif
             </div>
           @elseif(in_array($bill->status, ['paid', 'refunded']))
-            <div class="alert alert-success text-center text-capitalize">
+            <div class="alert alert-success text-center text-capitalize mb-5">
               @if ($bill->depositTransaction)
                 {{ __('Paid') }} - {{ $bill->depositTransaction->card_brand }} {{ $bill->depositTransaction->card }} {{ $bill->depositTransaction->receipt }}
               @else
@@ -125,7 +199,7 @@
               @endif
             </div>
           @elseif(in_array($bill->status, ['paid_cash', 'refunded_cash']))
-            <div class="alert alert-success text-center">
+            <div class="alert alert-success text-center text-capitalize mb-5">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been Paid Cash successfully', ['number' => $bill->number ]) }}
               @else
@@ -133,7 +207,7 @@
               @endif
             </div>
           @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
-            <div class="alert alert-success text-center">
+            <div class="alert alert-success text-center text-capitalize mb-5">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ]) }}
               @else
@@ -141,7 +215,7 @@
               @endif
             </div>
           @elseif(in_array($bill->status, ['paid_machine', 'refunded_machine']))
-            <div class="alert alert-success text-center">
+            <div class="alert alert-success text-center text-capitalize mb-5">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been Paid Machine successfully', ['number' => $bill->number ]) }}
               @else
@@ -149,7 +223,7 @@
               @endif
             </div>
           @elseif($bill->status == 'canceled')
-            <div class="alert alert-danger text-center">
+            <div class="alert alert-danger text-center text-capitalize mb-5">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been canceled', ['number' => $bill->number ]) }}
               @else
@@ -157,17 +231,17 @@
               @endif
             </div>
           @elseif($bill->status == 'failed')
-            <div class="alert alert-danger text-center">
+            <div class="alert alert-danger text-center text-capitalize mb-5">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been failed', ['number' => $bill->number ]) }}
               @else
                 {{ __('this debit note has been failed', ['number' => $bill->number ]) }}
               @endif
             </div>
-          {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
-            <div class="alert alert-warning text-center"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div> --}}
+            {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
+            <div class="alert alert-warning text-center text-capitalize mb-5"> {{ __('this bill has been refunded', ['number' => $bill->number ]) }}</div> --}}
           @elseif($bill->status == 'rejected')
-            <div class="alert alert-danger text-center">
+            <div class="alert alert-danger text-center text-capitalize mb-5">
               @if($bill->debit_note_bill_id == null)
                 {{ __('this bill has been rejected', ['number' => $bill->number ]) }}
               @else
@@ -176,197 +250,208 @@
             </div>
           @endif
         </div><!-- status -->
-        <div class="billInfo pt-2 mt-2 borderTop">
+
+        <div class="d-flex flex-column gap-2 mb-5">
           @if($bill->debit_note_bill_id == null)
             @include('bills.partials.bill_info',['bill' => $bill])
           @else
             @include('bills.partials.debit_note_info',['bill' => $bill])
           @endif
-        </div><!-- billInfo -->
-        <div class="tableItems pt-2 borderTop">
-          <table class="w-100">
+        </div><!-- d-flex -->
+
+        <div class="table-responsive border border-bottom-0 border-top-0 rounded mb-5">
+          <table class="table m-0">
             <thead>
               <tr>
-                <th class="p-1 text-start">{{ __('Description') }}</th>
-                <th class="p-1 text-center">{{ __('Price') }}</th>
-                <th class="p-1 text-center">{{ __('Quantity') }}</th>
+                <th class="text-nowrap">{{ __('Description') }}</th>
+                <th class="text-nowrap">{{ __('Price') }}</th>
+                <th class="text-nowrap">{{ __('Quantity') }}</th>
                 @if($bill->add_tax)
-                  <th th width="35%" class="p-1 text-end">{{ __('Total include added tax') }}</th>
+                  <th class="text-nowrap">{{ __('Total include added tax') }}</th>
                 @else
-                  <th width="35%" class="p-1 text-end">{{ __('Total') }}</th>
+                  <th class="text-nowrap">{{ __('Total') }}</th>
                 @endif
               </tr>
             </thead>
             <tbody>
               @foreach($bill->items as $item)
-              @if($item->product_parent) @continue @endif
-              <tr>
-                <td class="p-1 text-start">
+                @if($item->product_parent) @continue @endif
+                <tr>
+                  <td class="text-nowrap text-heading">
                     {{ $item->product_name }}
                     @foreach($item->customizations as $customization)
-                    <br>
-                    <span class="text-muted">{{$customization->product_name}}</span>
+                      <br>
+                      <span class="text-muted">{{$customization->product_name}}</span>
                     @endforeach
-                </td>
-                <td class="p-1 text-center">
-                  <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                    {{ $item->product_price  }}  <span class="riyal-symbol-font">$</span>
-                  </div><!-- d-flex -->
-                  @foreach($item->customizations as $customization)
-                  <br>
-                  <span class="text-muted">{{$customization->product_price}}</span>
-                  @endforeach
-                </td>
-                <td class="p-1 text-center">
+                  </td>
+                  <td class="text-nowrap">
+                    <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0">
+                      {{ $item->product_price  }} <i class="sar-icon"></i>
+                    </span>
+                    @foreach($item->customizations as $customization)
+                      <br>
+                      <span class="text-muted">{{$customization->product_price}}</span>
+                    @endforeach
+                  </td>
+                  <td class="text-nowrap">
                     {{ $item->quantity  }}
                     @foreach($item->customizations as $customization)
                     <br>
-                    <span class="text-muted">{{$customization->quantity}}</span>
+                    <span>{{$customization->quantity}}</span>
                     @endforeach
-                </td>
-                <td class="p-1 text-end">
-                @if( $bill->add_tax)
-                  <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if(app()->getLocale() == 'ar') justify-content-end @else justify-content-start @endif">
-                    {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }}  <span class="riyal-symbol-font">$</span>
-                  </div><!-- d-flex -->
-                @else
-                  <div class="d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 @if(app()->getLocale() == 'ar') justify-content-end @else justify-content-start @endif">
-                    {{ $item->product_price * $item->quantity }}  <span class="riyal-symbol-font">$</span>
-                  </div><!-- d-flex -->
-                @endif
-                @foreach($item->customizations as $customization)
-                <br>
-                <span class="text-muted">{{$bill->add_tax ? $customization->product_price + ($customization->product_price * $bill->tax_value) / 100 : $customization->product_price}}</span>
-                @endforeach
-                </td>
-              </tr>
+                  </td>
+                  <td class="text-nowrap">
+                    @if( $bill->add_tax)
+                      <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0">
+                        {{ ($item->product_price * $item->quantity) + (($item->product_price * $item->quantity) * $bill->tax_value / 100)  }} <i class="sar-icon"></i>
+                      </span>
+                    @else
+                      <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0">
+                        {{ $item->product_price * $item->quantity }} <i class="sar-icon"></i>
+                      </span>
+                    @endif
+                    @foreach($item->customizations as $customization)
+                      <br>
+                      <span>{{$bill->add_tax ? $customization->product_price + ($customization->product_price * $bill->tax_value) / 100 : $customization->product_price}}</span>
+                    @endforeach
+                  </td>
+                </tr>
               @endforeach
             </tbody>
           </table>
-        </div><!-- tableItems -->
-        <div class="billInfo pt-2 mt-2 borderTop">
+        </div><!-- table-responsive -->
+
+        <div class="d-flex flex-column gap-3">
           @if( $bill->add_tax || $bill->add_discount)
-            <div class="d-flex align-items-center justify-content-between">
-              <div class="d-flex align-items-start justify-content-between flex-column mb-2">
-                <span class="d-block">{{ __('Total amount') }}</span>
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">
+                {{ __('Total amount') }}
                 @if( $bill->add_tax)
                   <small class="d-block text-muted mt-1">( {{ __('Exclude added tax') }} )</small>
                 @endif
-              </div>
-              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                {{ $bill->sub_total }}  <span class="riyal-symbol-font">$</span>
-              </div><!-- d-flex -->
-            </div><!-- d-flex -->
+              </p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->sub_total }} <i class="sar-icon"></i>
+              </p>
+            </div>
           @endif
           @if( $bill->add_discount)
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Discount amount') }}</span>
-              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                {{ $bill->discount }}  <span class="riyal-symbol-font">$</span>
-              </div><!-- d-flex -->
-            </div><!-- d-flex -->
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">{{ __('Discount amount') }}</p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->discount }} <i class="sar-icon"></i>
+              </p>
+            </div>
           @endif
           @if( $bill->user->pay_fees == 'client')
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('payment fees') }}</span>
-              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                {{ $bill->payment_fees }}  <span class="riyal-symbol-font">$</span>
-              </div><!-- d-flex -->
-            </div><!-- d-flex -->
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">{{ __('payment fees') }}</p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->payment_fees }} <i class="sar-icon"></i>
+              </p>
+            </div>
           @endif
           @if( $bill->add_tax)
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }}</span>
-              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                {{ $bill->vat }}  <span class="riyal-symbol-font">$</span>
-              </div><!-- d-flex -->
-            </div><!-- d-flex -->
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">{{ __('Added tax value (:percentge %)', ['percentge'=>$bill->tax_value]) }}</p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->vat }} <i class="sar-icon"></i>
+              </p>
+            </div>
           @endif
           @if( $bill->channel_extra_amount)
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{$bill->channel_extra_title}}</span>
-              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                {{ $bill->channel_extra_amount }}  <span class="riyal-symbol-font">$</span>
-              </div><!-- d-flex -->
-            </div><!-- d-flex -->
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">{{$bill->channel_extra_title}}</p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->channel_extra_amount }} <i class="sar-icon"></i>
+              </p>
+            </div>
           @endif
           @if( $bill->channel_extra_vat)
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="d-block mb-2">{{ __('Vat') }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))</span>
-              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-                {{ $bill->channel_extra_vat }}  <span class="riyal-symbol-font">$</span>
-              </div><!-- d-flex -->
-            </div><!-- d-flex -->
+            <div class="d-flex align-items-center justify-content-between gap-2">
+              <p class="mb-0">{{ __('Vat') }} ({{$bill->channel_extra_title}} ({{ $bill->tax_value }}%))</p>
+              <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading fw-medium">
+                {{ $bill->channel_extra_vat }} <i class="sar-icon"></i>
+              </p>
+            </div>
           @endif
           {{-- @if( $bill->refund_amount)
             <div class="d-flex align-items-center justify-content-between">
               <span class="d-block mb-2">{{ __('Refund Amount') }}</span>
-              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
+              <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0 text-heading">
                 {{ $bill->refund_amount }}  <span class="riyal-symbol-font">$</span>
               </div><!-- d-flex -->
             </div><!-- d-flex -->
           @endif --}}
-          <div class="d-flex align-items-center justify-content-between">
-            <span class="d-block mb-2">{{ __('Total amount') }}</span>
-            <div class="d-flex align-items-center justify-content-center gap-1 fw-bold rtl flex-shrink-0">
-              {{ $bill->sub_total + $bill->vat - $bill->discount}}  <span class="riyal-symbol-font">$</span>
-            </div><!-- d-flex -->
-          </div><!-- d-flex -->
-        </div><!-- bill_info -->
+          <div class="d-flex align-items-center justify-content-between gap-2 border-top pt-3 fw-bold">
+            <p class="mb-0">{{ __('Total amount') }}</p>
+            <p class="mb-0 d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 text-heading">
+              {{ $bill->sub_total + $bill->vat - $bill->discount}} <i class="sar-icon"></i>
+            </p>
+          </div>
+        </div><!-- d-flex -->
+
         @if($bill->customer_notes)
-          <div class="customer_notes pt-2 mt-2 borderTop text-break">{{$bill->customer_notes}}</div>
+          <hr class="my-5">
+          <div class="card-body p-0 text-heading text-center text-capitalize">{{$bill->customer_notes}}</div>
         @endif
+
         @if($bill->user->settings->add_tax_invoice)
-          <div class="qrCode mt-2 pt-2 borderTop">
+          <hr class="my-5">
+          <div class="card-body p-0 text-heading text-center text-capitalize">
             <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
               {!! generateQRcode($bill) !!}
               <!-- <p>تم إنشاء كود الاستجابة السريعة بواسطة حل الفوترة الإلكترونية لدافعي الضرائب وفقاً لمواصفات ZATCA.</p> -->
               <span class="d-block text-body">{{ __('Tax Invoice') }}</span>
             </a>
-          </div><!-- qrCode -->
+          </div>
         @endif
+
         @if(isset($bill->user->settings->footer_bill))
-          <p class="d-block mb-0 mt-2 text-center text-break">{{ $bill->user->settings->footer_bill }}</p>
+          <hr class="my-5">
+          <div class="card-body p-0 text-heading text-center text-capitalize">{{ $bill->user->settings->footer_bill }}</div>
         @endif
-      </div><!-- showBill -->
-    </div><!-- col-12 -->
-    <div class="col-12 col-md-6 d-print-none">
-      <div class="viewPrintOptions bg-white shadow-sm rounded-3 p-3 mb-3">
-        <div class="row justify-content-center">
-          <div class="col-12 col-md-9">
-            <div class="row">
-              <div class="col-6">
-                <div class="item d-flex align-items-center justify-content-between rounded-3">
-                  <label for="billA4" class="w-50 m-1 position-relative">
-                    <input type="radio" name="type" id="billA4" value="billA4" class="start-0 top-0 position-absolute w-100 h-100" checked>
-                    <span class="d-flex align-items-center justify-content-center rounded-3">A4</span>
-                  </label>
-                  <label for="billTh" class="w-50 m-1 position-relative">
-                    <input type="radio" name="type" id="billTh" value="billTh" class="start-0 top-0 position-absolute w-100 h-100">
-                    <span class="d-flex align-items-center justify-content-center rounded-3">Thermal</span>
-                  </label>
-                </div><!-- item -->
-              </div><!-- col-12 -->
-              <div class="col-6">
-                <div class="item d-flex align-items-center justify-content-between rounded-3">
-                  <label for="billAr" class="w-50 m-1 position-relative">
-                    <input type="radio" name="lang" id="billAr" value="ar" class="start-0 top-0 position-absolute w-100 h-100" checked>
-                    <span class="d-flex align-items-center justify-content-center rounded-3">عربي</span>
-                  </label>
-                  <label for="billEn" class="w-50 m-1 position-relative">
-                    <input type="radio" name="lang" id="billEn" value="en" class="start-0 top-0 position-absolute w-100 h-100">
-                    <span class="d-flex align-items-center justify-content-center rounded-3">English</span>
-                  </label>
-                </div><!-- item -->
-              </div><!-- col-12 -->
-            </div><!-- row -->
-          </div><!-- col-12 -->
-        </div><!-- row -->
-        <div id="printBillBtn" class="d-flex align-items-center justify-content-center mt-3">
-          <span class="d-flex align-items-center justify-content-center text-center gap-2 border rounded-3 bg-light text-body">{{ __('Print Receipt') }}</span>
-        </div><!-- printBillBtn -->
-        <iframe id="ifrPaySlip"  name="ifrPaySlip" scrolling="yes" style="display:none"></iframe>
-      </div><!-- viewPrintOptions -->
+
+      </div>
+    </div><!-- col -->
+    <div class="col-12 col-md-6 d-flex flex-column gap-6">
+      <div class="card">
+        <div class="card-body view-print-options d-flex flex-column gap-6">
+          <div class="row">
+            <div class="col-6">
+              <div class="item bg-light d-flex align-items-center justify-content-between p-2 gap-2 rounded-2">
+                <label for="billA4" class="w-50 m-0 position-relative">
+                  <input type="radio" name="type" id="billA4" value="billA4" class="start-0 top-0 position-absolute w-100 h-100 opacity-0 z-1" checked>
+                  <span class="btn waves-effect waves-light d-flex align-items-center justify-content-center">A4</span>
+                </label>
+                <label for="billTh" class="w-50 m-0 position-relative">
+                  <input type="radio" name="type" id="billTh" value="billTh" class="start-0 top-0 position-absolute w-100 h-100 opacity-0 z-1">
+                  <span class="btn waves-effect waves-light d-flex align-items-center justify-content-center">Thermal</span>
+                </label>
+              </div><!-- item -->
+            </div><!-- col-12 -->
+            <div class="col-6">
+              <div class="item bg-light d-flex align-items-center justify-content-between p-2 gap-2 rounded-2">
+                <label for="billAr" class="w-50 m-0 position-relative">
+                  <input type="radio" name="lang" id="billAr" value="ar" class="start-0 top-0 position-absolute w-100 h-100 opacity-0 z-1" checked>
+                  <span class="btn waves-effect waves-light d-flex align-items-center justify-content-center">عربي</span>
+                </label>
+                <label for="billEn" class="w-50 m-0 position-relative">
+                  <input type="radio" name="lang" id="billEn" value="en" class="start-0 top-0 position-absolute w-100 h-100 opacity-0 z-1">
+                  <span class="btn waves-effect waves-light d-flex align-items-center justify-content-center">English</span>
+                </label>
+              </div><!-- item -->
+            </div><!-- col-12 -->
+          </div><!-- row -->
+          <div id="printBillBtn" class="d-flex align-items-center justify-content-center">
+            <button type="button" class="btn btn-secondary waves-effect waves-light d-flex align-items-center justify-content-center gap-2" dir="ltr">
+              <span class="ti ti-printer"></span> {{ __('Print Receipt') }}
+            </button>
+          </div><!-- printBillBtn -->
+          <iframe id="ifrPaySlip"  name="ifrPaySlip" scrolling="yes" style="display:none"></iframe>
+        </div><!-- card-body -->
+      </div><!-- card -->
+
       @if(count($bill->payment_logs) > 0)
         @include('bills.partials.payment_logs')
       @endif
@@ -375,90 +460,52 @@
         @include('bills.partials.bill_notes', ['billNotes' => $billNotes])
       @endif
 
-    </div><!-- col-12 -->
+    </div><!-- col -->
   </div><!-- row -->
 
-</section><!-- billShowPage -->
-
-@can('cancel bill')
-@if($bill->is_pending)
-@include('bills.partials.cancel',['bill' => $bill])
-@endif
-@endcan
-
-@can('refund bill')
-@if($bill->is_able_refund)
-@include('bills.partials.refund',['bill' => $bill])
-@endif
-@endcan
-
-@can('change bill status')
-@if($bill->is_able_change_status)
-@include('bills.partials.change_status',['bill' => $bill])
-@endif
-@endcan
+  @can('change bill status')
+    @if($bill->is_able_change_status)
+      @include('bills.partials.change_status',['bill' => $bill])
+    @endif
+  @endcan
 
 @endsection
 
 @push('footer-scripts')
-
-  <script src="{{ asset('js/bootstrap-notify.min.js') }}" defer></script>
+  <!-- Laravel Javascript Validation -->
+  <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
+  <script src="{{ asset('assets/v2/vendor/libs/clipboard/clipboard.js') }}?v={{ config('app.asset_version') }}"></script>
+  <script src="{{ asset('assets/v2/vendor/libs/notyf/notyf.js') }}?v={{ config('app.asset_version') }}"></script>
   <script>
-  /* 03.12. Notification */
-  function showNotification(placementFrom, placementAlign, type) {
-      $.notify(
-        {
-          title: false,
-          message: "{{__('link is copied')}}",
-          target: "_blank"
-        },
-        {
-          element: "body",
-          position: null,
-          type: type,
-          allow_dismiss: true,
-          newest_on_top: false,
-          showProgressbar: false,
-          placement: {
-            from: placementFrom,
-            align: placementAlign
-          },
-          offset: 20,
-          spacing: 10,
-          z_index: 1031,
-          delay: 4000,
-          timer: 1000,
-          url_target: "_blank",
-          mouse_over: null,
-          animate: {
-            enter: "animated fadeInDown",
-            exit: "animated fadeOutUp"
-          },
-          onShow: null,
-          onShown: null,
-          onClose: null,
-          onClosed: null,
-          icon_type: "class",
-          template:
-            '<div class="alert alert-success fs-6" role="alert" style="min-width:30%" data-notify="message">{2}</div>'
-        }
-      );
-    }
+    (function() {
+      var notyf = new Notyf({ duration: 3000, position: { x: 'right', y: 'top' } });
+      var copyBtn = document.querySelector('.copy-link-btn');
+      if (copyBtn && typeof ClipboardJS !== 'undefined') {
+        var clipboard = new ClipboardJS('.copy-link-btn');
+        clipboard.on('success', function() {
+          notyf.success("{{ __('link is copied') }}");
+        });
+        clipboard.on('error', function() {
+          notyf.error("{{ __('Failed to copy link') }}");
+        });
+      } else if (copyBtn) {
+        copyBtn.addEventListener('click', function() {
+          var url = this.getAttribute('data-clipboard-text');
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(function() {
+              notyf.success("{{ __('link is copied') }}");
+            }).catch(function() {
+              notyf.error("{{ __('Failed to copy link') }}");
+            });
+          } else {
+            notyf.error("{{ __('Failed to copy link') }}");
+          }
+        });
+      }
+    })();
 
-    $("body").on("click", ".notify-btn", function (event) {
-      event.preventDefault();
-      showNotification($(this).data("from"), $(this).data("align"), "primary");
-    });
-
-
-    $(document).on("click", '.copyButton', function() {
-       $(this).siblings('input.linkToCopy').select();
-        document.execCommand("copy");
-        showNotification($(this).data("from"), $(this).data("align"), "primary");
-    });
-
-
-    Echo.channel('bill.{{$bill->id}}')
+    if (typeof window.Echo !== 'undefined') {
+      Echo.channel('bill.{{$bill->id}}')
       .listen('BillStatusUpdated', (e) => {
           switch(e.bill.status) {
             case "pending":
@@ -482,6 +529,7 @@
               $("#cancel_btn").remove();
           }
       });
+    }
   </script>
 
   <script>

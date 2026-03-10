@@ -2,97 +2,288 @@
 
 @section('title', __('Users'))
 
+@push('css_styles')
+  <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/select2/select2.css') }}">
+@endpush
+
 @section('content')
 
-  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
-    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
-    <i>/</i>
-    <a href="{{ url('account')}}" title="{{ __('Settings') }}">{{ __('Settings') }}</a>
-    <i>/</i>
-    <span>{{ __('Users')}}</span>
-  </div><!-- breadcrump -->
+  <div class="d-flex align-items-center justify-content-between gap-2 mb-6">
+    <h4 class="m-0 flex-grow-1">{{__('Users')}}</h4>
+    @can('create user')
+      @include('store_users.create')
+    @endcan
+  </div><!-- d-flex -->
 
   @if ($errors->any())
-    <div class="alert alert-danger">
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
+    <ul class="list-group mb-6">
+      @foreach ($errors->all() as $error)
+        <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+      @endforeach
+    </ul>
+  @endif
+
+  @if(session()->has('success'))
+    <div class="alert alert-success d-flex align-items-center mb-6" role="alert">
+      <span class="alert-icon rounded">
+        <i class="icon-base ti ti-check icon-md"></i>
+      </span>
+      {{ session()->get('success') }}
     </div>
   @endif
 
-  <section id="usersIndexPage">
-    <div class="tabsArea d-flex align-items-center justify-content-center justify-content-md-start flex-wrap mb-5 mb-md-4">
-      <span class="d-flex shadow-none align-items-center justify-content-center border bg-white text-body rounded-3">{{__('Users')}}</span>
-      <a href="{{route('roles.index')}}" title="{{__('Roles')}}" class="d-flex btn-primary border-0 shadow-none align-items-center justify-content-center text-white rounded-3">{{__('Roles')}}</a>
-    </div><!-- tabsArea -->
-    <div class="title d-flex align-items-center justify-content-between mb-4">
-      <h1 class="d-block fw-bold m-0 fs-5">{{__('Users')}}</h1>
-      @can('create user')
-        @include('store_users.create')
-      @endcan
-    </div><!-- title -->
-    @if(count($users) == 0)
-      <div class="no_customers_yet d-flex align-items-center justify-content-center flex-column bg-white shadow-sm rounded-3 overflow-hidden mb-3">
-        <i class="fal fa-users"></i>
-        <span class="d-block text-center mt-3 text-capitalize">{{ __('No users') }}</span>
-      </div><!-- no_customers_yet -->
-    @else
-      <div class="blockArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
-        <div class="table-responsive">
-          <table class="table table-striped table-hover text-nowrap">
-            <thead>
+  @if($users->count())
+    <div class="card">
+      <div class="table-responsive text-nowrap">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col" class="fw-bold" width="5%">#</th>
+              <th scope="col" class="fw-bold">{{__('Name')}}</th>
+              <th scope="col" class="fw-bold">{{__('Mobile')}}</th>
+              <th scope="col" class="fw-bold">{{__('Email')}}</th>
+              {{-- <th scope="col" class="fw-bold">{{__('Gender')}}</th> --}}
+              <th scope="col" class="fw-bold">{{__('Role')}}</th>
+              @canany(['update user', 'delete user'])
+                <th scope="col" class="fw-bold" width="10%">{{__('Actions')}}</th>
+              @endcanany
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($users as $user)
               <tr>
-                <th scope="col" class="text-center">#</th>
-                <th scope="col" class="text-center">{{__('Name')}}</th>
-                <th scope="col" class="text-center">{{__('Mobile')}}</th>
-                <th scope="col" class="text-center">{{__('Email')}}</th>
-                {{-- <th scope="col" class="text-center">{{__('Gender')}}</th> --}}
-                <th scope="col" class="text-center">{{__('Role')}}</th>
-                @canany(['update user', 'delete user'])
-                  <th scope="col" class="text-center" width="10%">{{__('Actions')}}</th>
+                <td>{{$loop->index+1}}</td>
+                <td>{{$user->name}}</td>
+                <td>{{$user->mobile}}</td>
+                <td>{{$user->email}}</td>
+                <td>{{$user->getRoleNames()->first()}}</td>
+                @canany(['update user', 'delete user', 'restore user'])
+                  <td>
+                    <div class="d-flex align-items-center justify-content-start gap-2">
+                      @can('updateMerchantUser', $user)
+                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}">
+                          <button type="button" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#edit_user_Modal" data-user="{{ json_encode(['id' => $user->id, 'name' => $user->name, 'mobile' => $user->mobile, 'email' => $user->email, 'role_id' => optional($user->roles->first())->id, 'is_super_admin' => $user->getRoleNames()->first() == 'super admin']) }}">
+                            <span class="icon-base ti ti-edit icon-18px"></span>
+                          </button>
+                        </span>
+                      @endcan
+                      @if ($user->deleted_at == null)
+                        @can('deleteMerchantUser', $user)
+                          @include('store_users.delete', ['user' => $user])
+                        @endcan
+                      @else
+                        @can('restoreMerchantUser', $user)
+                          @include('store_users.restore', ['user' => $user])
+                        @endcan
+                      @endif
+                    </div>
+                  </td>
                 @endcanany
               </tr>
-            </thead>
-            <tbody>
-              @foreach($users as $user)
-                <tr>
-                  <td class="text-center">{{$loop->index+1}}</td>
-                  <td class="text-center">{{$user->name}}</td>
-                  <td class="text-center">{{$user->mobile}}</td>
-                  <td class="text-center">{{$user->email}}</td>
-                  {{-- <td class="text-center">{{$user->gender == 1 ? __('Male') : __('female')}}</td> --}}
-                  <td class="text-center">{{$user->getRoleNames()->first()}}</td>
-                  @canany(['update user', 'delete user', 'restore user'])
-                    <td class="text-center">
-                      <div class="d-flex align-items-center justify-content-center">
-                        @can('updateMerchantUser', $user)
-                        <a href="{{ route('users.edit', $user->id)}}" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>
-                        @endcan
-                        @if ($user->deleted_at == null)  
-                          @can('deleteMerchantUser', $user)
-                            @include('store_users.delete', ['user' => $user])
-                          @endcan
-                        @else
-                          @can('restoreMerchantUser', $user)
-                            @include('store_users.restore', ['user' => $user])
-                          @endcan
-                        @endif
-                      </div>
-                    </td>
-                  @endcanany
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-          {{ $users->links() }}
-        </div><!-- table-responsive -->
-      </div><!-- blockArea -->
-    @endif
-  </section><!-- usersIndexPage -->
+            @endforeach
+          </tbody>
+        </table>
+      </div><!-- table-responsive -->
+    </div><!-- card -->
+    <div class="d-flex align-items-center justify-content-center mt-3">
+      {{ $users->links() }}
+    </div><!-- d-flex -->
+    @can('update user')
+      @include('store_users.edit')
+    @endcan
+  @else
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-center flex-column py-5">
+          <i class="ti ti-users-group ti-xl"></i>
+          <span class="d-block text-center mt-3 text-capitalize">{{ __('No users') }}</span>
+        </div><!-- d-flex -->
+      </div><!-- card-body -->
+    </div><!-- card -->
+  @endif
+
 @endsection
 
 @push('footer-scripts')
+  <!-- Laravel Javascript Validation -->
+  <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
   {!! JsValidator::formRequest('App\Http\Requests\StoreUserRequest', '#user_form') !!}
+  <script src="{{ asset('assets/v2/vendor/libs/select2/select2.js') }}"></script>
+  <script>
+    // Select2
+    $(document).ready(function() {
+      $('#Role').select2({
+        dropdownParent: $('#add_user_Modal')
+      });
+      $('#edit_Role').select2({
+        dropdownParent: $('#edit_user_Modal')
+      });
+    });
+
+    // Edit User Modal - populate form when opened
+    document.addEventListener('DOMContentLoaded', function() {
+      // Submit button spinner for Add User form
+      setTimeout(function() {
+        const form = document.getElementById('user_form');
+        if (!form || !form.closest('#add_user_Modal')) return;
+
+        const btn = form.querySelector('.btn-submit-with-spinner');
+        if (!btn) return;
+
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        const originalText = btnText ? btnText.textContent : '{{ __("Save") }}';
+
+        function showSpinner() {
+          btn.disabled = true;
+          if (btnText && btnSpinner) {
+            btnText.textContent = btn.dataset.loadingText || 'Saving...';
+            btnSpinner.classList.remove('d-none');
+          }
+        }
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        form.addEventListener('submit', function(e) {
+          if (btn.disabled) return;
+          if (e.defaultPrevented) return;
+          showSpinner();
+          setTimeout(resetButton, 8000);
+        });
+
+        $(form).on('invalid-form.validate', function() {
+          resetButton();
+        });
+      }, 100);
+
+      // Submit button spinner for Edit User form
+      setTimeout(function() {
+        const editForm = document.getElementById('user_update_form');
+        if (!editForm) return;
+
+        const btn = editForm.querySelector('.btn-submit-with-spinner');
+        if (!btn) return;
+
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        const originalText = btnText ? btnText.textContent : '{{ __("Update") }}';
+
+        function showSpinner() {
+          btn.disabled = true;
+          if (btnText && btnSpinner) {
+            btnText.textContent = btn.dataset.loadingText || 'Saving...';
+            btnSpinner.classList.remove('d-none');
+          }
+        }
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        editForm.addEventListener('submit', function(e) {
+          if (btn.disabled) return;
+          showSpinner();
+          setTimeout(resetButton, 8000);
+        });
+
+        editForm.addEventListener('invalid', function() {
+          resetButton();
+        });
+      }, 100);
+
+      // Submit button spinner for Delete/Restore User forms
+      document.addEventListener('submit', function(e) {
+        const form = e.target;
+        if (!form.classList.contains('form-delete-user') && !form.classList.contains('form-restore-user')) return;
+
+        const btn = form.querySelector('.btn-submit-with-spinner');
+        if (!btn || btn.disabled) return;
+
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        const originalText = btnText ? btnText.textContent : '';
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        btn.disabled = true;
+        if (btnText && btnSpinner) {
+          btnText.textContent = btn.dataset.loadingText || '';
+          btnSpinner.classList.remove('d-none');
+        }
+        setTimeout(resetButton, 8000);
+      });
+
+      const editModal = document.getElementById('edit_user_Modal');
+      if (editModal) {
+        editModal.addEventListener('show.bs.modal', function(event) {
+          const button = event.relatedTarget;
+          if (button && button.dataset.user) {
+            const user = JSON.parse(button.dataset.user);
+            const form = document.getElementById('user_update_form');
+            form.action = "{{ url('users') }}/" + user.id;
+
+            document.getElementById('edit_Name').value = user.name || '';
+            document.getElementById('edit_Mobile').value = user.mobile || '';
+            document.getElementById('edit_Email').value = user.email || '';
+            document.getElementById('edit_Password').value = '';
+            document.getElementById('edit_Confirm_Password').value = '';
+
+            const roleCol = document.getElementById('edit_role_col');
+            const roleSelect = document.getElementById('edit_Role');
+            if (user.is_super_admin) {
+              roleCol.style.display = 'none';
+              roleSelect.disabled = true;
+              roleSelect.removeAttribute('name');
+            } else {
+              roleCol.style.display = '';
+              roleSelect.disabled = false;
+              roleSelect.setAttribute('name', 'role');
+              $('#edit_Role').val(user.role_id || '').trigger('change');
+            }
+          }
+        });
+      }
+    });
+
+    // Password Toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      initPasswordToggle();
+    });
+    function initPasswordToggle() {
+      const togglers = document.querySelectorAll('.custom-form-password-toggle i');
+      togglers.forEach(icon => {
+        icon.addEventListener('click', function(e) {
+          e.preventDefault();
+
+          const container = this.closest('.custom-form-password-toggle');
+          const input = container.querySelector('input');
+          const toggleIcon = container.querySelector('i');
+
+          if (input.type === 'password') {
+            input.type = 'text';
+            toggleIcon.classList.replace('ti-eye-off', 'ti-eye');
+          } else {
+            input.type = 'password';
+            toggleIcon.classList.replace('ti-eye', 'ti-eye-off');
+          }
+        });
+      });
+    }
+  </script>
 @endpush

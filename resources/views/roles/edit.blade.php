@@ -1,65 +1,44 @@
-@extends('layouts.app')
-
-@section('title', __('Roles'))
-
-@section('content')
-
-  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
-    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
-    <i>/</i>
-    <a href="{{ url('account')}}" title="{{ __('Settings') }}">{{ __('Settings') }}</a>
-    <i>/</i>
-    <a href="{{ url('/roles')}}" title="{{ __('Roles') }}">{{ __('Roles') }}</a>
-    <i>/</i>
-    <span>{{ __('Edit')}}</span>
-  </div><!-- breadcrump -->
-
-  @if ($errors->any())
-    <div class="alert alert-danger">
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
-
-  <section id="usersEditPage">
-    <div class="title mb-4">
-      <h1 class="d-block fw-bold m-0 fs-5">{{__('Edit')}}</h1>
-    </div><!-- title -->
-    <div class="blockArea bg-white rounded-3 shadow-sm p-3">
-      <form method="post" action="{{ route('roles.update', $role->id) }}" id="roles_form">
-        @method('PATCH')
-        @csrf
-        <div class="form-group mb-3">
-          <label for="Name" class="d-block mb-2">{{__('Name')}} <span class="requirement text-danger">*</span></label>
-          <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}" value="{{old('name') ?? $role->name}}">
-        </div>
-        <div class="form-group mb-3">
-          <label for="Permissions" class="d-block mb-2">{{__('Permissions')}} <span class="requirement text-danger">*</span></label>
-          <div class="border p-3 rounded-3">
-            <div class="row">
-              @foreach(config('RolePermissionsMatrix') as $permission)
-                <div class="col-12 col-md-6">
-                  <label for="{{$permission}}" class="checkboxItem d-block mb-3 position-relative">
-                    <input type="checkbox" id="{{$permission}}" value="{{$permission}}" class="w-100 h-100 position-absolute" name="permissions[]" @if(in_array($permission, $role->getPermissionNames()->toArray()) || (old('permissions') && in_array($permission, old('permissions')))) {{"checked"}} @endif>
-                    <span class="d-flex align-items-center justify-content-start">
-                      <i class="d-block rounded-pill position-relative"></i>
-                      {{__($permission)}}
-                    </span>
-                  </label>
-                </div><!-- col-12 -->
-              @endforeach
-            </div><!-- row -->
-          </div>
-        </div>
-        <div class="buttonsArea mt-5 d-flex align-items-center justify-content-start">
-          <button type="submit" class="rounded-3 border-0 shadow-none d-flex align-items-center justify-content-center btn-primary fw-bold formBtn">{{__('Update')}}</button>
-          <a href="{{ url('roles') }}" class="rounded-3 border-0 shadow-none d-flex align-items-center fw-bold justify-content-center btn-light m-0" title="{{__('Back')}}">{{__('Back')}}</a>
-        </div>
-      </form>
-    </div><!-- blockArea -->
-  </section><!-- usersEditPage -->
-
-@endsection
+<div class="modal fade" id="edit_role_Modal" tabindex="-1" aria-hidden="true">
+  <form method="POST" action="" id="roles_update_form" class="modal-dialog modal-lg" role="document">
+    @method('PATCH')
+    @csrf
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ __('Edit') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div><!-- modal-header -->
+      <div class="modal-body">
+        <div class="row g-6">
+          <div class="col-12">
+            <label for="edit_Name" class="form-label">{{__('Name')}} <span class="requirement text-danger">*</span></label>
+            <input name="name" type="text" class="form-control" id="edit_Name" placeholder="{{__('Name')}}" required>
+          </div><!-- col -->
+          <div class="col-12">
+            <label for="edit_Permissions" class="form-label">{{__('Permissions')}} <span class="requirement text-danger">*</span></label>
+            <div class="border p-3 rounded-3">
+              <div class="row row-cols-1 row-cols-md-2 g-3">
+                @foreach(config('RolePermissionsMatrix') as $permission)
+                  <div class="col">
+                    <div class="form-check">
+                      <input class="form-check-input edit-permission-checkbox" id="edit_{{ Str::slug($permission) }}" value="{{ $permission }}" name="permissions[]" type="checkbox" data-permission="{{ $permission }}" />
+                      <label class="form-check-label" for="edit_{{ Str::slug($permission) }}">{{__($permission)}}</label>
+                    </div>
+                  </div><!-- col -->
+                @endforeach
+              </div><!-- row -->
+            </div>
+          </div><!-- col -->
+        </div><!-- row -->
+      </div><!-- modal-body -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
+        <button type="submit" class="btn btn-primary btn-submit-with-spinner" data-loading-text="{{ __('Saving...') }}">
+          <span class="btn-spinner d-none me-2" role="status">
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          </span>
+          <span class="btn-text">{{__('Save')}}</span>
+        </button>
+      </div><!-- modal-footer -->
+    </div><!-- modal-content -->
+  </form>
+</div><!-- modal -->

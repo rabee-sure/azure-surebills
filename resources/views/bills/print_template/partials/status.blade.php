@@ -1,5 +1,5 @@
 @if($bill->status == 'expired')
-    <div class="alertMsg text-center fw-bold expired"> 
+    <div class="alertMsg text-center fw-bold expired">
         @if($bill->debit_note_bill_id == null)
         {{ __('this bill has been expired', ['number' => $bill->number ], $lang) }}
         @else
@@ -27,7 +27,7 @@
         @endif
     </div>
 @elseif(in_array($bill->status, ['paid_bank_transfer', 'refunded_bank_transfer']))
-    <div class="alertMsg text-center fw-bold paid"> 
+    <div class="alertMsg text-center fw-bold paid">
         @if($bill->debit_note_bill_id == null)
         {{ __('this bill has been Paid Bank Transfer successfully', ['number' => $bill->number ], $lang) }}
         @else
@@ -43,7 +43,7 @@
         @endif
     </div>
 @elseif($bill->status == 'canceled')
-    <div class="alertMsg text-center fw-bold canceled"> 
+    <div class="alertMsg text-center fw-bold canceled">
         @if($bill->debit_note_bill_id == null)
         {{ __('this bill has been canceled', ['number' => $bill->number ], $lang) }}
         @else
@@ -51,7 +51,7 @@
         @endif
     </div>
 @elseif($bill->status == 'failed')
-    <div class="alertMsg text-center fw-bold canceled"> 
+    <div class="alertMsg text-center fw-bold canceled">
         @if($bill->debit_note_bill_id == null)
         {{ __('this bill has been failed', ['number' => $bill->number ], $lang) }}
         @else
@@ -60,12 +60,4 @@
     </div>
 {{-- @elseif(in_array($bill->status, ['refunded', 'refunded_cash', 'refunded_bank_transfer']))
     <div class="alertMsg text-center fw-bold refunded"> {{ __('this bill has been refunded', ['number' => $bill->number ],$lang) }}</div> --}}
-@elseif($bill->status == 'rejected')
-    <div class="alertMsg text-center fw-bold canceled"> 
-        @if($bill->debit_note_bill_id == null)
-        {{ __('this bill has been rejected', ['number' => $bill->number ], $lang) }}
-        @else
-        {{ __('this debit note has been rejected', ['number' => $bill->number ], $lang) }}
-        @endif
-    </div>
 @endif

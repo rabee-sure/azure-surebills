@@ -1,31 +1,31 @@
-<div class="d-flex align-items-center justify-content-between">
-    <span class="d-block mb-2">
-        @if($bill->user->settings->add_tax_invoice)
-        {{ __('Bill No.') }}
-        @else
-        {{ __('No.') }}
-        @endif
-    </span>
-    <span class="d-block mb-2">{{ $bill->number }}</span>
+<div class="d-flex align-items-center justify-content-between gap-2">
+  <p class="mb-0">
+    @if($bill->user->settings->add_tax_invoice)
+      {{ __('Bill No.') }}
+    @else
+      {{ __('No.') }}
+    @endif
+  </p>
+  <p class="mb-0">{{ $bill->number }}</p>
 </div><!-- d-flex -->
-<div class="d-flex align-items-center justify-content-between">
-    <span class="d-block mb-2">{{ __('Date') }}</span>
-    <span class="d-block mb-2">{{ $bill->created_at->format('d/m/Y')}}</span>
+<div class="d-flex align-items-center justify-content-between gap-2">
+  <p class="mb-0">{{ __('Date') }}</p>
+  <p class="mb-0">{{ $bill->created_at->format('d/m/Y')}}</p>
 </div><!-- d-flex -->
 
 @if($bill->user->settings->add_tax_invoice && $bill->user->vat_registration_number)
-<div class="d-flex align-items-center justify-content-between">
-    <span class="d-block mb-2">{{ __('Organization VAT Registration Number') }}</span>
-    <span class="d-block mb-2">{{ $bill->user->vat_registration_number }}</span>
+<div class="d-flex align-items-center justify-content-between gap-2">
+  <p class="mb-0">{{ __('Organization VAT Registration Number') }}</p>
+  <p class="mb-0">{{ $bill->user->vat_registration_number }}</p>
 </div><!-- d-flex -->
 @endif
 @if($bill->user->settings->display_customer_details)
-<div class="d-flex align-items-center justify-content-between">
-    <span class="d-block mb-2">{{ __('Customer Name') }}</span>
-    <span class="d-block mb-2">{{ $bill->customer_name }}</span>
+<div class="d-flex align-items-center justify-content-between gap-2">
+  <p class="mb-0">{{ __('Customer Name') }}</p>
+  <p class="mb-0">{{ $bill->customer_name }}</p>
 </div><!-- d-flex -->
-<div class="d-flex align-items-center justify-content-between">
-    <span class="d-block mb-2">{{ __('Mobile Number') }}</span>
-    <span class="d-block mb-2">{{ $bill->customer_mobile }}</span>
+<div class="d-flex align-items-center justify-content-between gap-2">
+  <p class="mb-0">{{ __('Mobile Number') }}</p>
+  <p class="mb-0">{{ $bill->customer_mobile }}</p>
 </div><!-- d-flex -->
 @endif

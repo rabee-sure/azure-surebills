@@ -167,8 +167,15 @@ class AccountController extends Controller
             $media = $bankInfo->bank_documents->pluck('file_name')->toArray();
 
             foreach ($request->input('document', []) as $file) {
+                if (empty($file) || $file === 'undefined') {
+                    continue;
+                }
                 if (count($media) === 0 || !in_array($file, $media)) {
                     $bankInfo->addMediaFromDisk('tmp/uploads/' . $file, 'local')->toMediaCollection('bank_documents');
+                    $filePath = storage_path('tmp/uploads/' . $file);
+                    if (file_exists($filePath)) {
+                        $bankInfo->addMedia($filePath)->toMediaCollection('bank_documents');
+                    }
                 }
             }
         }
@@ -227,7 +234,7 @@ class AccountController extends Controller
             ];
         });
 
-        
+
         return view('account.business_information', ['user' => $businessInfo, 'logoUrl' => $logoUrl, 'documents' => $documents]);
     }
 
@@ -309,6 +316,9 @@ class AccountController extends Controller
             $media = $businessInfo->business_documents->pluck('file_name')->toArray();
 
             foreach ($request->input('document', []) as $file) {
+                if (empty($file) || $file === 'undefined') {
+                    continue;
+                }
                 if (count($media) === 0 || !in_array($file, $media)) {
                     $businessInfo->addMediaFromDisk('tmp/uploads/' . $file, 'local')->toMediaCollection('business_documents');
                 }

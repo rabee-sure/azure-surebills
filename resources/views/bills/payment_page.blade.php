@@ -1,215 +1,65 @@
-<!DOCTYPE html>
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if IE 9 ]><html class="ie ie9" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
-<html lang="{{ App::getLocale() }}" dir="{{ App::isLocale('ar') ? 'rtl' : 'ltr' }}">
-<!--<![endif]-->
-<head>
-    <!-- Basic Page Needs -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>{{ __('Bill No.') . ' ' . $bill->number }} - SureBills</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <!-- App Css -->
-    <link rel="stylesheet" href="{{asset('css/payment_page.css')}}">
+@extends('layouts.bill')
+@section('title', __('Bill No.') . ' ' . $bill->number)
 
-    <style>
-        .rtl {
-          direction: rtl !important;
-        }
+@section('content')
 
-        @font-face {
-          font-family: "A Jannat LT";
-          src: url("{{rtrim(config('payment.invoice_subdomain_url'), '/')}}/fonts/AJannatLT-Bold/AJannatLT-Bold_1.ttf") format("truetype");
-          font-weight: normal;
-          font-style: normal;
-        }
+  <div id="app" class="simple_bill_page py-4 min-vh-100">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-5">
 
-        .riyal-symbol-font {
-          font-family: "A Jannat LT", sans-serif;
-        }
-        .gap-1 {
-        gap: .25rem !important;
-      }
-      .fw-bold {
-        font-weight: bold !important;
-      }
+        <div class="card">
+          <div class="card-body p-3">
 
-      @php
-        $settings = $bill->user->settings;
-        $bgColor = $settings->background_color_body ?? '#fafafa';
-        $bgImage = $settings->background_image_file ?? null;
-        $textColor = $settings->text_color_body ?? '#000000';
-        $btnBgColor = $settings->background_color_payment_button ?? '#00d595';
-        $btnTextColor = $settings->text_color_payment_button ?? '#ffffff';
-      @endphp
+            <div class="load_form active">
+              <div class="spinner-border text-muted"></div>
+            </div>
 
-      body {
-        @if($bgImage)
-          background-image: url('{{ asset($bgImage) }}');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-        @else
-          background-color: {{ $bgColor }};
-        @endif
-      }
+            <div class="d-flex align-items-center justify-content-between">
+              @if($bill->user->logo)
+                <div class="d-flex align-items-center justify-content-start">
+                  <img src="{{ $bill->user->logo_url }}" alt="{{ $bill->user->business_name }}" class="rounded-circle" width="30px" height="30px">
+                  <span class="mr-2 d-block">{{ $bill->user->business_name }}</span>
+                </div><!-- d-flex -->
+              @endif
+              @if($bill->application && $bill->is_redirect)
+                <a href="{{ $bill->back_url}}" title="{{ __('Back') }}" class="btn btn-sm btn-label-secondary waves-effect">{{ __('Back') }}</a>
+              @endif
+            </div><!-- d-flex -->
 
-      body,
-      body * {
-        color: {{ $textColor }} !important;
-      }
+            <h4 class="d-flex align-items-center my-5 {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-center' : 'justify-content-center'}} gap-1 m-0">
+              {{ $bill->total }} <i class="sar-icon"></i>
+            </h4>
 
-      #payButton,
-      button.btn-success,
-      .btn-success {
-        background-color: {{ $btnBgColor }} !important;
-        color: {{ $btnTextColor }} !important;
-        border-color: {{ $btnBgColor }} !important;
-      }
+            @if(!$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
+              <div class="countdown alert alert-warning d-flex align-items-center justify-content-center gap-1 mb-3" id="new_countdown">
+                <p class="mb-0">{{ __('the bill will expire in')}}</p>
+                <span id="hm_timer"></span>
+              </div><!-- countdown -->
+            @endif
 
-      #payButton:hover,
-      button.btn-success:hover,
-      .btn-success:hover {
-        background-color: {{ $btnBgColor }} !important;
-        color: {{ $btnTextColor }} !important;
-        opacity: 0.9;
-      }
-    </style>
+            <div id="status"></div>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+            @include('bills.partials.payment_form')
 
-    @if(config('payment.default_payment_gateway') != 'cybersource')
-        <!-- INCLUDE SESSION.JS JAVASCRIPT LIBRARY -->
-        <script src="{{ config('payment.drivers.mastercard.base_url') }}/form/version/57/merchant/{{ config('payment.drivers.mastercard.merchant_id') }}/session.js"></script>
-        <!-- APPLY CLICK-JACKING STYLING AND HIDE CONTENTS OF THE PAGE -->
-    @endif
 
-    <style id="antiClickjack">body{display:none !important;}</style>
-</head>
-<body>
+          </div><!-- card-body -->
+        </div><!-- card -->
 
-    <div @if($bill->user->settings->api_bill_style && $bill->application_id) class="container" id="app" @endif>
-        <div @if($bill->user->settings->api_bill_style && $bill->application_id) class="row align-items-center justify-content-center" @endif>
-            <div class="@if($bill->user->settings->api_bill_style && $bill->application_id) col-md-4 mt-4 p-0 @endif">
-                <div class="pay_apple bg-white rounded-3 overflow-hidden">
 
-                    <div class="load_form active">
-                        <div class="spinner-border text-muted"></div>
-                    </div>
-                    @if($bill->user->settings->api_bill_style && $bill->application_id)
-                        <div class="title rounded-top border bg-light p-2 d-flex align-items-center justify-content-between">
-                            @if($bill->user->logo)
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <img src="{{ $bill->user->logo_url }}" alt="{{ $bill->user->business_name }}" class="rounded-circle" width="30px" height="30px">
-                                    <span class="mr-2 d-block">{{ $bill->user->business_name }}</span>
-                                </div><!-- d-flex -->
-                            @endif
-                            @if($bill->application && $bill->is_redirect)
-                                <a href="{{ $bill->back_url}}" title="{{ __('Back') }}">{{ __('Back') }}</a>
-                            @endif
-                        </div><!-- title -->
-                        <span class="p-3 text-center border-right border-left bg-white d-flex align-items-center gap-1 fw-bold rtl flex-shrink-0 justify-content-center">
-                            {{ $bill->total }} <span class="riyal-symbol-font">$</span>
-
-                        </span>
-
-                        @if(!$bill->is_expired && $bill->remaining_time_hours['hours'] == '00' && $bill->remaining_time_hours['days'] == 0)
-                                <div class="countdown pt-0 pb-3 text-center border-right border-left text-capitalize bg-white d-flex alignn-items-center gap-1 justify-content-center flex-wrap" id="new_countdown">
-                                    <p class="mb-0">{{ __('the bill will expire in')}}</p>
-                                    <span id="hm_timer"></span>
-                                </div><!-- countdown -->
-                            @endif
-
-                    @endif
-                    @if($bill->user->settings->api_bill_style && $bill->application_id)
-                        <div id="status">
-                        </div>
-                    @endif
-                    <div id="payment_area">
-                        @if (!isset($sureEasyRendrer))
-                        <div class="pay_button border-right border-left bg-light p-2 border-top" id="applepay_button">
-                            <button id="payment" class="d-block mx-auto" lang="<?php echo App::getLocale() ?>" style="-webkit-appearance: -apple-pay-button; -apple-pay-button-type: buy; width: 230px; height: 40px; cursor: pointer; border-radius: 5px;"></button>
-                        </div><!-- pay_button -->
-                        @endif
-                        <div class="pay_form border-right border-left border-bottom border-top rounded-bottom">
-                            <div class="d-flex align-items-start justify-content-start  border-bottom">
-                                <div class="icons p-3 d-flex align-items-center justify-content-between flex-column h-100 align-self-center">
-                                    <img src=" {{ asset('images/payment_page/mada.png')}}" class="d-block mx-auto mw-100" alt="#">
-                                    <img src=" {{ asset('images/payment_page/master.png')}}" class="d-block my-3 mx-auto mw-100" alt="#">
-                                    <img src=" {{ asset('images/payment_page/visa.png')}}" class="d-block mx-auto mw-100" alt="#">
-                                </div><!-- icon -->
-                                <div class="inputs">
-                                    <input type="text" id="card-number" class="input-field" title="{{ __('Card Number') }}" aria-label="enter your card number" placeholder="{{ __('Card Number') }}" value="" tabindex="1" dir="ltr" readonly>
-                                    <div class="tow_inputs">
-                                        <span><input type="text" id="expiry-month" class="input-field expiry-month" title="{{ __('Expiry Month') }}" aria-label="two digit expiry month" placeholder="{{ __('Expiry Month') }}" value="" tabindex="2" dir="ltr" readonly></span>
-                                        <span><input type="text" id="expiry-year" class="input-field" title="{{ __('Expiry Year') }}" aria-label="two digit expiry year" placeholder="{{ __('Expiry Year') }}" value="" tabindex="3" dir="ltr" readonly></span>
-                                    </div><!-- inputs -->
-                                    <input type="text" id="security-code" class="input-field security-code" title="{{ __('Security Code') }}" aria-label="three digit CCV security code" placeholder="{{ __('Security Code') }}" value="" tabindex="4" dir="ltr" readonly>
-                                    <input type="text" id="cardholder-name" class="input-field" title="{{ __('Cardholder Name') }}" aria-label="enter name on card" placeholder="{{ __('Cardholder Name') }}" value="" tabindex="5" dir="ltr" readonly>
-                                </div><!-- inputs -->
-                            </div>
-                            <div class="p-2">
-                                @if(isset($errors) && $errors->any())
-                                    <div class="alert alert-danger" role="alert" id="errors">
-                                        <ul>
-                                            <li>{{ __($errors->first()) }}</li>
-                                        </ul>
-                                    </div>
-                                @else
-                                    <div class="alert alert-danger" role="alert" id="errors" style="display: none;">
-                                        <ul></ul>
-                                    </div>
-                                @endif
-                                <button type="button" class="btn btn-success btn-block" id="payButton" onclick="pay('card');">
-                                    {{ __('Pay') }}
-                                </button>
-                            </div>
-                        </div><!-- pay_form -->
-                    </div>
-                </div><!-- pay_apple -->
-            </div><!-- col-12 -->
-        </div><!-- row -->
+        </div><!-- col -->
+      </div><!-- row -->
     </div><!-- container -->
+  </div><!-- simple_bill_page -->
 
-  @stack('footer-scripts')
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+@endsection
 
+@push('footer-scripts')
     <script>
       var host = "{{isset($host) ? $host : request()->getHost()}}";
     </script>
 
-    @if($bill->user->settings->api_bill_style && $bill->application_id)
-        <script src="{{ asset('js/app.js') }}"></script>
-
-        {{-- Count Down --}}
-        <script src="{{ asset('js/jquery.countdownTimer.min.js') }}"></script>
-        <script src="https://code.jquery.com/jquery-migrate-1.2.1.js"></script>
-
-        <script type='text/javascript'>
-            /* New countdown */
-            $(function(){
-              $("#hm_timer").countdowntimer({
-                minutes : {{ $bill->remaining_time_minutes}},
-                seconds : {{ $bill->remaining_time_seconds}},
-                size : "lg",
-                timeUp : timeisUp
-              });
-
-              function timeisUp() {
-                $("#new_countdown").remove();
-                $("#payment_area").remove();
-                $("#status").empty();
-                $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
-              }
-            });
-            /* New countdown */
-        </script>
-        {{-- Count Down --}}
-    @endif
+  <script src="{{ asset('assets/v2/vendor/js/app.js') }}"></script>
 
     <script>
         function loading() {
@@ -295,5 +145,4 @@
         {{-- Socket Update --}}
     </script>
 
-</body>
-</html>
+    @endpush

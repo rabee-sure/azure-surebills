@@ -4,88 +4,232 @@
 
 @section('content')
 
-  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
-    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
-    <i>/</i>
-    <span>{{ __('Customers')}}</span>
-  </div><!-- breadcrump -->
+  <div class="d-flex align-items-center justify-content-between gap-2 mb-6">
+    <h4 class="m-0 flex-grow-1">{{ __('Customers')}}</h4>
+    @can('create customer')
+      @include('customers.create')
+    @endcan
+  </div><!-- d-flex -->
 
-  <section id="customersIndexPage">
+  @if ($errors->any())
+    <ul class="list-group mb-6">
+      @foreach ($errors->all() as $error)
+        <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+      @endforeach
+    </ul>
+  @endif
 
-    <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
-      <h1 class="d-block fw-bold m-0 fs-5">{{ __('Customers')}}</h1>
-      @can('create customer')
-        @include('customers.create')
-      @endcan
-    </div><!-- title -->
+  @if(session()->has('success'))
+    <div class="alert alert-success d-flex align-items-center mb-6" role="alert">
+      <span class="alert-icon rounded">
+        <i class="icon-base ti ti-check icon-md"></i>
+      </span>
+      {{ session()->get('success') }}
+    </div>
+  @endif
 
-    @if ($errors->any())
-      <div class="alert alert-danger">
-        <ul>
-          @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div>
-    @endif
-
-    <div class="customersArea bg-white shadow-sm rounded-3 overflow-hidden mb-3">
-      @if($customers->count())
-        <div class="table-responsive">
-          <table class="table table-striped table-hover text-nowrap">
+  <div class="card">
+    @if($customers->count())
+        <div class="table-responsive text-nowrap">
+          <table class="table table-striped table-hover">
             <thead>
               <tr>
-                <th scope="col" class="text-center">#</th>
-                <th scope="col" class="text-center">{{__('Name')}}</th>
-                <th scope="col" class="text-center">{{__('Mobile')}}</th>
-                <th scope="col" class="text-center">{{__('Email')}}</th>
-                <th scope="col" class="text-center">{{__('Bills')}}</th>
-                <th scope="col" class="text-center">{{__('Date created')}}</th>
+                <th scope="col" class="fw-bold">#</th>
+                <th scope="col" class="fw-bold">{{__('Name')}}</th>
+                <th scope="col" class="fw-bold">{{__('Mobile')}}</th>
+                <th scope="col" class="fw-bold">{{__('Email')}}</th>
+                <th scope="col" class="fw-bold">{{__('Bills')}}</th>
+                <th scope="col" class="fw-bold">{{__('Date created')}}</th>
                 @canany(['update customer', 'delete customer'])
-                <th scope="col" class="text-center" width="10%">{{__('Actions')}}</th>
+                <th scope="col" class="fw-bold" width="10%">{{__('Actions')}}</th>
                 @endcanany
               </tr>
             </thead>
             <tbody>
               @foreach ($customers as $customer)
                 <tr>
-                  <td class="text-center">{{ $customer->id }}</td>
-                  <td class="text-center">{{ $customer->name }}</td>
-                  <td class="text-center">{{ $customer->mobile }}</td>
-                  <td class="text-center">{{ $customer->email }}</td>
-                  <td class="text-center">{{ $customer->bills->count() }}</td>
-                  <td class="text-center">{{ $customer->created_at }}</td>
+                  <td>{{ $customer->id }}</td>
+                  <td>{{ $customer->name }}</td>
+                  <td>{{ $customer->mobile }}</td>
+                  <td>{{ $customer->email }}</td>
+                  <td>{{ $customer->bills->count() }}</td>
+                  <td>{{ $customer->created_at }}</td>
                   @canany(['update customer', 'delete customer'])
-                  <td class="text-center">
-                    <div class="d-flex align-items-center justify-content-center">
-                        @can('update customer')
-                        <a href="{{ route('customers.edit', $customer->id)}}" class="rounded-3 border-0 shadow-none p-0 btn-primary d-flex align-items-center justify-content-center mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}"><i class="fal fa-edit"></i></a>
-                        @endcan
-                        @can('delete customer')
+                  <td>
+                    <div class="d-flex align-items-center justify-content-start gap-2">
+                      @can('update customer')
+                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Edit') }}">
+                          <button type="button" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#edit_customer_Modal" data-customer="{{ json_encode($customer->only(['id', 'name', 'mobile', 'email', 'notes', 'bullding_no', 'street_name', 'district', 'city', 'postal_code', 'additional_no', 'other_buyer_id', 'vat_registration_number'])) }}">
+                            <span class="icon-base ti ti-edit icon-18px"></span>
+                          </button>
+                        </span>
+                      @endcan
+                      @can('delete customer')
                         @include('customers.delete', ['customer' => $customer])
-                        @endcan
+                      @endcan
                     </div>
                   </td>
                   @endcanany
                 </tr>
               @endforeach
-
             </tbody>
           </table>
         </div><!-- table-responsive -->
-        {{ $customers->links() }}
+        <div class="d-flex align-items-center justify-content-center mt-4">
+          {{ $customers->links() }}
+        </div>
       @else
-        <div class="no_customers_yet d-flex align-items-center justify-content-center flex-column">
-          <i class="fal fa-users"></i>
+        <div class="no_bills_yet d-flex align-items-center justify-content-center flex-column py-5">
+          <i class="ti ti-users ti-xl"></i>
           <span class="d-block text-center mt-3 text-capitalize">{{ __('No Customer matched the given criteria.') }}</span>
-        </div><!-- no_customers_yet -->
+        </div><!-- no_bills_yet -->
       @endif
-    </div><!-- customersArea -->
+    </div><!-- card -->
 
-  </section><!-- customersIndexPage -->
+    @can('update customer')
+      @include('customers.edit')
+    @endcan
 
 @endsection
 
 @push('footer-scripts')
+  <!-- Laravel Javascript Validation -->
+  <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
   {!! JsValidator::formRequest('App\Http\Requests\CustomerRequest', '#customers_store') !!}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Submit button spinner for Add Customer form (delay so we run after JsValidator)
+      setTimeout(function() {
+        const form = document.getElementById('customers_store');
+        if (!form || !form.closest('#add_customer_Modal')) return;
+
+        const btn = form.querySelector('.btn-submit-with-spinner');
+        if (!btn) return;
+
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        const originalText = btnText ? btnText.textContent : '{{ __("Save") }}';
+
+        function showSpinner() {
+          btn.disabled = true;
+          if (btnText && btnSpinner) {
+            btnText.textContent = btn.dataset.loadingText || 'Saving...';
+            btnSpinner.classList.remove('d-none');
+          }
+        }
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        form.addEventListener('submit', function(e) {
+          if (btn.disabled) return;
+          if (e.defaultPrevented) return;
+          showSpinner();
+          setTimeout(resetButton, 8000);
+        });
+
+        $(form).on('invalid-form.validate', function() {
+          resetButton();
+        });
+      }, 100);
+
+      // Submit button spinner for Edit Customer form
+      setTimeout(function() {
+        const editForm = document.getElementById('customers_update');
+        if (!editForm) return;
+
+        const btn = editForm.querySelector('.btn-submit-with-spinner');
+        if (!btn) return;
+
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        const originalText = btnText ? btnText.textContent : '{{ __("Save") }}';
+
+        function showSpinner() {
+          btn.disabled = true;
+          if (btnText && btnSpinner) {
+            btnText.textContent = btn.dataset.loadingText || 'Saving...';
+            btnSpinner.classList.remove('d-none');
+          }
+        }
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        editForm.addEventListener('submit', function(e) {
+          if (btn.disabled) return;
+          showSpinner();
+          setTimeout(resetButton, 8000);
+        });
+
+        editForm.addEventListener('invalid', function() {
+          resetButton();
+        });
+      }, 100);
+
+      // Submit button spinner for Delete Customer forms (event delegation)
+      document.addEventListener('submit', function(e) {
+        const form = e.target;
+        if (!form.classList.contains('form-delete-customer')) return;
+
+        const btn = form.querySelector('.btn-submit-with-spinner');
+        if (!btn || btn.disabled) return;
+
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        const originalText = btnText ? btnText.textContent : '{{ __("Delete") }}';
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        btn.disabled = true;
+        if (btnText && btnSpinner) {
+          btnText.textContent = btn.dataset.loadingText || 'Deleting...';
+          btnSpinner.classList.remove('d-none');
+        }
+        setTimeout(resetButton, 8000);
+      });
+
+      const editModal = document.getElementById('edit_customer_Modal');
+      if (editModal) {
+        editModal.addEventListener('show.bs.modal', function(event) {
+          const button = event.relatedTarget;
+          if (button && button.dataset.customer) {
+            const customer = JSON.parse(button.dataset.customer);
+            const form = document.getElementById('customers_update');
+            form.action = "{{ url('customers') }}/" + customer.id;
+            document.getElementById('edit_Name').value = customer.name || '';
+            document.getElementById('edit_Mobile').value = customer.mobile || '';
+            document.getElementById('edit_Email').value = customer.email || '';
+            document.getElementById('edit_Notes').value = customer.notes || '';
+            @if($user->settings->add_tax_invoice ?? false)
+              document.getElementById('edit_bullding_no').value = customer.bullding_no || '';
+              document.getElementById('edit_street_name').value = customer.street_name || '';
+              document.getElementById('edit_district').value = customer.district || '';
+              document.getElementById('edit_city').value = customer.city || '';
+              document.getElementById('edit_postal_code').value = customer.postal_code || '';
+              document.getElementById('edit_additional_no').value = customer.additional_no || '';
+              document.getElementById('edit_other_buyer_id').value = customer.other_buyer_id || '';
+              document.getElementById('edit_vat_registration_number').value = customer.vat_registration_number || '';
+            @endif
+          }
+        });
+      }
+    });
+  </script>
 @endpush

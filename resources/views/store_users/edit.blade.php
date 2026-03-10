@@ -1,108 +1,76 @@
-@extends('layouts.app')
-
-@section('title', __('Users'))
-
-@section('content')
-
-  <div class="breadcrump d-flex align-items-center justify-content-start flex-wrap mb-4 shadow-sm">
-    <a href="{{ url('/')}}" title="{{ __('Home') }}">{{ __('Home') }}</a>
-    <i>/</i>
-    <a href="{{ url('account')}}" title="{{ __('Settings') }}">{{ __('Settings') }}</a>
-    <i>/</i>
-    <a href="{{ url('/users')}}" title="{{ __('Users') }}">{{ __('Users') }}</a>
-    <i>/</i>
-    <span>{{ __('Edit')}}</span>
-  </div><!-- breadcrump -->
-
-  <section id="usersEditPage">
-    <div class="title mb-4">
-      <h1 class="d-block fw-bold m-0 fs-5">{{__('Edit')}}</h1>
-    </div><!-- title -->
-    @if ($errors->any())
-      <div class="alert alert-danger">
-        <ul>
-          @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div><!-- alert -->
-    @endif
-    <div class="blockArea bg-white rounded-3 shadow-sm p-3">
-      <form method="post" action="{{ route('users.update', $user->id) }}" id="user_form">
-        @method('PATCH')
-        @csrf
-        <div class="row">
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group mb-3">
-              <label for="Name" class="d-block mb-2">{{__('Name')}}<span class="requirement text-danger">*</span></label>
-              <input name="name" type="text" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Name" placeholder="{{__('Name')}}" value="{{old('name') ?? $user->name}}" autocomplete="off">
-            </div><!-- form-group -->
-          </div><!-- col-12 -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group mb-3">
-              <label for="Mobile" class="d-block mb-2">{{ __('Mobile') }}<span class="requirement text-danger">*</span></label>
-              <div class="phoneInput overflow-hidden position-relative">
-                <span class="d-flex align-items-center justify-content-center position-absolute rounded-3">+966</span>
-                <input name="mobile" type="tel" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Mobile" placeholder="{{__('Mobile')}}" value="{{old('mobile') ?? $user->mobile}}" pattern="[0-9]*" maxlength="9" inputmod="numaric" autocomplete="off">
-              </div><!-- phoneInput -->
-            </div><!-- form-group -->
-          </div><!-- col-12 -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group mb-3">
-              <label for="Email" class="d-block mb-2">{{__('Email')}}<span class="requirement text-danger">*</span></label>
-              <input  name="email" type="email" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Email" placeholder="{{__('Email')}}" value="{{old('email') ?? $user->email}}" autocomplete="off">
-            </div><!-- form-group -->
-          </div><!-- col-12 -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group mb-3">
-              <label for="Password" class="d-block mb-2">{{__('Password')}}</label>
-              <input name="password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Password" placeholder="{{__('Password')}}" value="" autocomplete="off">
-            </div><!-- form-group -->
-          </div><!-- col-12 -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group mb-3">
-              <label for="Confirm Password" class="d-block mb-2">{{__('Confirm Password')}}</label>
-              <input name="confirm_password" type="password" class="form-control shadow-none bg-white border w-100 rounded-3 text-body" id="Confirm_Password" placeholder="{{__('Confirm Password')}}" value="" autocomplete="off">
-            </div><!-- form-group -->
-          </div><!-- col-12 -->
-          {{-- <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group">
-              <label for="gender" class="d-block mb-2">{{ __('Gander')}}<span class="requirement text-danger">*</span></label>
-              <select name="gender" id="gender" class="form-control shadow-none bg-white border w-100 rounded-3 text-body">
-                <option value="0" @if ($user->gender == 0 || old('gender') == 0)selected="selected"@endif>{{ __('Choose Gender')}}</option>
-                <option value="1" @if ($user->gender == 1 || old('gender') == 1)selected="selected"@endif>{{ __('Male')}}</option>
-                <option value="2" @if ($user->gender == 2 || old('gender') == 2)selected="selected"@endif>{{ __('female')}}</option>
-              </select>
-            </div><!-- form-group -->
-          </div><!-- col-12 --> --}}
-          @if($user->getRoleNames()->first() != 'super admin')
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="form-group">
-              <label for="role" class="d-block mb-2">{{__('Role')}}<span class="requirement text-danger">*</span></label>
-              <select name="role" id="role" class="form-control shadow-none bg-white border w-100 rounded-3 text-body">
-                @foreach($roles as $role)
-                      <option value="{{$role->id}}" {{ optional($user->roles->first())->id == $role->id || old('role') == $role->id ? 'selected' : ''}}>{{$role->name}}</option>
-                @endforeach
-              </select>
-            </div><!-- form-group -->
-          </div><!-- col-12 -->
+<div class="modal fade" id="edit_user_Modal" tabindex="-1" aria-hidden="true">
+  <form method="POST" action="" id="user_update_form" class="modal-dialog modal-lg" role="document">
+    @method('PATCH')
+    @csrf
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ __('Edit') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div><!-- modal-header -->
+      <div class="modal-body">
+        <div class="row row-cols-1 row-cols-md-2 g-6">
+          <div class="col">
+            <label for="edit_Name" class="form-label">{{__('Name')}} <span class="requirement text-danger">*</span></label>
+            <input name="name" type="text" class="form-control" id="edit_Name" placeholder="{{__('Name')}}" required autocomplete="off">
+          </div><!-- col -->
+          <div class="col">
+            <label for="edit_Mobile" class="form-label">{{__('Mobile')}} <span class="requirement text-danger">*</span></label>
+            <input name="mobile" type="tel" class="form-control" id="edit_Mobile" placeholder="{{__('Mobile')}}" pattern="[0-9]*" maxlength="9" inputmod="numaric" required autocomplete="off">
+          </div><!-- col -->
+          <div class="col">
+            <label for="edit_Email" class="form-label">{{__('Email')}} <span class="requirement text-danger">*</span></label>
+            <input name="email" type="email" inputmode="email" class="form-control" id="edit_Email" placeholder="{{__('Email')}}" required autocomplete="off">
+          </div><!-- col -->
+          <div class="col">
+            <label for="edit_Password" class="form-label">{{__('Password')}}</label>
+            <div class="input-group input-group-merge custom-form-password-toggle">
+              <input
+                id="edit_Password"
+                name="password"
+                autocomplete="off"
+                type="password"
+                class="form-control"
+                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                aria-describedby="edit_Password"
+                />
+              <span class="input-group-text cursor-pointer position-relative"><i class="icon-base ti ti-eye-off"></i></span>
+            </div>
+          </div><!-- col -->
+          <div class="col">
+            <label for="edit_Confirm_Password" class="form-label">{{__('Confirm Password')}}</label>
+            <div class="input-group input-group-merge custom-form-password-toggle">
+              <input
+                id="edit_Confirm_Password"
+                name="confirm_password"
+                autocomplete="off"
+                type="password"
+                class="form-control"
+                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                aria-describedby="edit_Confirm_Password"
+                />
+              <span class="input-group-text cursor-pointer position-relative"><i class="icon-base ti ti-eye-off"></i></span>
+            </div>
+          </div><!-- col -->
+          <div class="col" id="edit_role_col">
+            <label for="edit_Role" class="form-label">{{__('Role')}} <span class="requirement text-danger">*</span></label>
+            <select name="role" class="form-control select2-single" id="edit_Role" aria-describedby="role-error" aria-invalid="false">
+              <option value="" disabled selected>{{ __('Choose Role')}}</option>
+              @foreach($roles as $role)
+                <option value="{{$role->id}}">{{$role->name}}</option>
+              @endforeach
+            </select>
+          </div><!-- col -->
         </div><!-- row -->
-        @endif
-        <div class="buttonsArea mt-5 d-flex align-items-center justify-content-start">
-          <button type="submit" class="rounded-3 border-0 shadow-none d-flex align-items-center justify-content-center btn-primary fw-bold formBtn">{{__('Update')}}</button>
-          <a href="{{ url('users') }}" title="{{__('Back')}}" class="rounded-3 border-0 shadow-none d-flex align-items-center fw-bold justify-content-center btn-light m-0">{{__('Back')}}</a>
-        </div><!-- buttonsArea -->
-      </form>
-    </div><!-- blockArea -->
-  </section><!-- usersEditPage -->
-@endsection
-
-@push('footer-scripts')
-<script type="text/javascript">
-    $(window).on('load',function() {
-        setTimeout(function() {
-            $("input[type=password]").val('');
-        }, 100);
-    });
-</script>
-@endpush
+      </div><!-- modal-body -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
+        <button type="submit" class="btn btn-primary btn-submit-with-spinner" data-loading-text="{{ __('Saving...') }}">
+          <span class="btn-spinner d-none me-2" role="status">
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          </span>
+          <span class="btn-text">{{__('Update')}}</span>
+        </button>
+      </div><!-- modal-footer -->
+    </div><!-- modal-content -->
+  </form>
+</div><!-- modal -->

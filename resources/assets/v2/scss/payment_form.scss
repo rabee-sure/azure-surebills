@@ -1,0 +1,125 @@
+#payment_area {
+  border: 1px solid #dddddd;
+  background-color: #ffffff;
+  border-radius: .25rem;
+  div#applepay_button {
+    border-bottom: 1px solid #dddddd;
+    padding: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  } // div#applepay_button
+  .pay_form {
+    .form_area {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      border-bottom: 1px solid #dddddd;
+      @media (max-width: 767.98px) {
+        flex-direction: column;
+        justify-content: center;
+      } // md
+      .payment_icons {
+        flex-shrink: 0;
+        padding: 1rem;
+        border-inline-end: 1px solid #dddddd;
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: .5rem;
+        @media (max-width: 767.98px) {
+          justify-content: center;
+          flex-direction: row;
+          align-self: center;
+          border-inline-end: none;
+          border-block-end: 1px solid #dddddd;
+          flex-grow: 1;
+          width: 100%;
+          padding: .5rem;
+        } // md
+        img {
+          @media (max-width: 767.98px) {
+            max-height: 32px;
+          } // md
+        } // img
+      } // payment_icons
+      .inputs {
+        flex-grow: 1;
+        padding: .5rem;
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        .two_inputs {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: .5rem;
+          span {
+            display: block;
+            height: 40px;
+            iframe {
+              width: 100% !important;
+              height: 40px !important;
+              text-align: left;
+              -webkit-transition: none !important;
+              transition: none !important;
+              [dir="rtl"] & {
+                direction: rtl;
+                text-align: right;
+              }
+            }
+          } // span
+        } // two_inputs
+        input {
+          width: 100%;
+          border: 1px solid #eeeeee;
+          border-radius: .25rem;
+          padding: 0 .5rem;
+          height: 40px;
+          font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+          font-size: 14px;
+          color: #000000;
+          text-align:left;
+          -webkit-transition:none!important;
+          transition:none!important;
+          [dir="rtl"] & {
+            direction: rtl;
+            text-align: right;
+          } // rtl
+          &::-webkit-input-placeholder {
+            color: #999999;
+            [dir="rtl"] & {
+              direction: rtl;
+            }
+          }
+          &::-moz-placeholder {
+            color: #999999;
+            [dir="rtl"] & {
+              direction: rtl;
+            }
+          }
+          &:-ms-input-placeholder {
+            color: #999999;
+            [dir="rtl"] & {
+              direction: rtl;
+            }
+          }
+          &:-moz-placeholder {
+            color: #999999;
+            [dir="rtl"] & {
+              direction: rtl;
+            }
+          }
+        } // input
+      } // inputs
+    } // form_area
+    button#payButton {
+      width: 100%;
+      height: 40px;
+      padding: 0;
+      text-align: center;
+    } // button#payButton
+  } // pay_form
+} // #payment_area
