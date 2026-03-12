@@ -99,10 +99,10 @@
             <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('logo') }}</span>
           @endif
         </div><!-- col -->
-        @if(auth()->user()->logo || (auth()->user()->mainStoreUser && auth()->user()->mainStoreUser->logo))
+        @if($logoUrl)
           <div class="logoImage col">
             <div class="card h-100 relative">
-              <img src="@if(Storage::disk('public')->has(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)) {{url('storage/'.auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)}} @else {{url(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)}} @endif" alt="logo" class="card-img-top rounded-3" />
+              <img src="{{ $logoUrl }}" alt="logo" class="card-img-top rounded-3" />
               <button type="button" class="delete_logo position-absolute btn btn-icon btn-danger waves-effect waves-light">
                 <span class="ti ti-trash ti-xs"></span>
               </button>
