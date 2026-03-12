@@ -133,12 +133,19 @@
           </div><!-- form-group -->
         </div><!-- col-12 -->
         @endif
+@php
+  $logoUrl = null;
+  if(auth()->user()->logo){
+      $logoUrl = \Illuminate\Support\Facades\Storage::disk('oci')
+          ->temporaryUrl(auth()->user()->logo, now()->addMinutes(10));
+  }
+@endphp
         <div class="col-12 col-md-6">
           <div class="form-group mb-3">
             <label for="logo" class="d-block mb-2">{{ __('Logo') }}</label>
             <div class="upoadInput border rounded-3 position-relative overflow-hidden d-flex align-items-center justify-content-start">
               <input name="logo" type="file" id="logo" class="d-block position-absolute top-0 start-0 w-100 h-100" accept="image/png, image/jpeg, image/jpg" autocomplete="off">
-              <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
+              <input type="hidden" name="hidden_logo" value="{{ $logoUrl }}" />
               <div class="fileName h-100 d-flex align-items-center justify-content-start flex-grow-1 px-2"></div>
               <div class="fileBtn text-body d-flex align-items-center justify-content-center fw-bold">{{ __('Choose file') }}</div>
             </div><!-- upoadInput -->
@@ -147,15 +154,15 @@
             @endif
           </div><!-- form-group -->
         </div><!-- col-12 -->
-        @if(auth()->user()->logo)
+        @if($logoUrl)
           <div class="col-12 col-md-6">
             <div class="form-group mb-3">
               <div class="logoImage p-2 border overflow-hidden rounded-3 position-relative d-flex align-items-center justify-content-center">
-                <img src="{{ url(auth()->user()->logo)  }}" alt="logo" class="logo_image mw-100 mh-100" />
+                <img src="{{ $logoUrl }}" alt="logo" class="logo_image mw-100 mh-100" />
                 <i class="fal fa-trash-alt delete_logo position-absolute btn-danger rounded-3 d-flex align-items-center justify-content-center text-white"></i>
-              </div><!-- logoImage -->
-            </div><!-- form-group -->
-          </div><!-- col-12 -->
+              </div>
+            </div>
+          </div>
         @endif
         @if(auth()->user()->source == 'sure bills')
         <div class="col-12">

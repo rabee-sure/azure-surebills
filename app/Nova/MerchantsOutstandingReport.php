@@ -80,7 +80,7 @@ class MerchantsOutstandingReport extends Resource
                     return "<span style='color:#aaa;'>-</span>";
                 }
 
-                $path = $this->name;
+                $path = "reports/{$this->name}/{$this->name}_{$this->id}.xlsx";
 
                 if (!Storage::disk('oci')->exists($path)) {
                     return "<span style='color:#aaa;'>File not found</span>";
