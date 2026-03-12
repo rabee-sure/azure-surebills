@@ -137,3 +137,12 @@ ul.ui-widget {
     display: flex;
   } // active
 } // load_form
+
+
+
+.bulk-generate-custom-tooltip {
+  .tooltip-inner {
+    padding: 1rem !important;
+    max-width: none !important;
+  }
+}

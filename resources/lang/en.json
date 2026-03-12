@@ -423,5 +423,18 @@
 "Sending..." : "Sending...",
 "Deleting..." : "Deleting...",
 "Suspending..." : "Suspending...",
-"Restoring..." : "Restoring..."
+"Restoring..." : "Restoring...",
+"Code Pattern :": "Code Pattern :",
+"Define how your codes should look using placeholders inside { }.": "Define how your codes should look using placeholders inside { }.",
+"Examples :": "Examples :",
+"{RANDOM:8} → Generates an 8-character random code (letters and numbers)": "{RANDOM:8} → Generates an 8-character random code (letters and numbers)",
+"{ALPHA:4}-{NUMBER:4} → 4 letters followed by a dash and 4 numbers (e.g., ABCD-1234)": "{ALPHA:4}-{NUMBER:4} → 4 letters followed by a dash and 4 numbers (e.g., ABCD-1234)",
+"SAVE-{RANDOM:6} → Code starts with \"SAVE\" followed by 6 random characters": "SAVE-{RANDOM:6} → Code starts with \"SAVE\" followed by 6 random characters",
+"Available placeholders :": "Available placeholders :",
+"{RANDOM} → Random letters and numbers": "{RANDOM} → Random letters and numbers",
+"{NUMBER} → Numbers only": "{NUMBER} → Numbers only",
+"{ALPHA} → Letters only": "{ALPHA} → Letters only",
+"{UUID} → Automatically generated unique identifier": "{UUID} → Automatically generated unique identifier",
+"Note: You can control the length by adding a number after : like {RANDOM:8}.": "Note: You can control the length by adding a number after : like {RANDOM:8}.",
+"No codes have been generated for this coupon yet. Please generate codes first.": "No codes have been generated for this coupon yet. Please generate codes first."
 }

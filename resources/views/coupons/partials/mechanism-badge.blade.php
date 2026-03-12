@@ -10,4 +10,4 @@
     }
 @endphp
 
-<span class="d-block text-capitalize">{{ $mechanism->label() }}</span>
+{{ $mechanism->label() }}

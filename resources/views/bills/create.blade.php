@@ -235,18 +235,22 @@
       </div><!-- inner-repeater -->
 
       <h5 class="card-title mb-5">{{ __('Additonal Details') }}</h5>
-      <div class="row">
-      <div class="col-12 mb-3">
-            <div class="form-group">
-              <label for="coupon_code" class="d-block mb-2">{{ __('Coupon Code') }} <small class="text-muted">({{ __('Optional') }})</small></label>
-              <input type="text" name="coupon_code" id="coupon_code" class="form-control shadow-none bg-white border w-100 rounded-3" value="{{ old('coupon_code') }}" placeholder="{{ __('Enter coupon code') }}">
+      <div class="row g-6">
+        <div class="col-12">
+          <label for="coupon_code" class="form-label">{{ __('Coupon Code') }} <small class="text-muted">( {{ __('Optional') }} )</small></label>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <input type="text" name="coupon_code" id="coupon_code" class="form-control" value="{{ old('coupon_code') }}" placeholder="{{ __('Enter coupon code') }}" aria-describedby="couponCodeHelp">
               @error('coupon_code')
                 <div class="text-danger small mt-1">{{ $message }}</div>
               @enderror
-              <small class="text-muted d-block mt-1">{{ __('If you have a coupon code, enter it here. The discount will be applied automatically.') }}</small>
-            </div>
-          </div>
-        <div class="col-12 col-lg-6">
+              <div id="couponCodeHelp" class="form-text">
+                {{ __('If you have a coupon code, enter it here. The discount will be applied automatically.') }}
+              </div><!-- form-text -->
+            </div><!-- col -->
+          </div><!-- row -->
+        </div><!-- col -->
+        <div class="col-12 col-md-6">
           <label for="Discount_Values_Checkbox" class="switch switch-lg m-0">
             <input type="checkbox" class="switch-input" name="add_discount" id="Discount_Values_Checkbox" @if(old('add_discount')) checked @endif>
             <span class="switch-toggle-slider">
@@ -280,8 +284,8 @@
               </div><!-- col-6 -->
             </div><!-- row -->
           </div><!-- Discount_Values -->
-        </div><!-- col-12 -->
-        <div class="col-12 col-lg-6">
+        </div><!-- col -->
+        <div class="col-12 col-md-6">
           <label for="Tax_Values_Checkbox" class="switch switch-lg m-0">
             <input type="checkbox" class="switch-input" name="add_tax" id="Tax_Values_Checkbox" @if($errors->any()) @if(old('add_tax') == true) checked @endif @else @if($settings->add_tax) checked @endif @endif>
             <span class="switch-toggle-slider">
@@ -305,7 +309,7 @@
               </div><!-- col-12 -->
             </div><!-- row -->
           </div><!-- Tax_Values -->
-        </div><!-- col-12 -->
+        </div><!-- col -->
       </div><!-- row -->
 
       <hr class="my-5" />

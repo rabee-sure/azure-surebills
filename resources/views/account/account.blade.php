@@ -147,13 +147,17 @@
       @endif
     @endcan
     @can('update settings')
-        <div class="col">
-          <a href="{{ route('coupons.index') }}" title="{{__('Coupon Management')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
-            <i class="fal fa-ticket-alt"></i>
-            <span class="d-block mt-3 text-center">{{__('Coupon Management')}}</span>
-          </a>
-        </div><!-- col -->
-      @endcan
+      <div class="col">
+        <a href="{{ route('coupons.index') }}" title="{{ __('Coupon Management') }}" class="card h-100">
+          <div class="card-body d-flex align-items-center justify-content-start">
+            <div class="badge rounded p-2 bg-label-primary me-3">
+              <i class="icon-base ti ti-ticket icon-lg"></i>
+            </div>
+            <h6 class="card-title mb-0">{{__('Coupon Management')}}</h6>
+          </div>
+        </a>
+      </div><!-- col -->
+    @endcan
   </div><!-- row -->
 
 @endsection
