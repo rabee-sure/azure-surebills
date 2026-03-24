@@ -383,7 +383,7 @@ class User extends Authenticatable implements HasMedia
 
     public function getBankNameAttribute()
     {
-        return $this->bank->name;
+        return optional($this->bank)->name;
     }
 
     /**
