@@ -220,4 +220,46 @@ class CouponController extends Controller
             'coupon' => $coupon,
         ]);
     }
+
+    /**
+     * Toggle coupon active/inactive status.
+     */
+    public function toggleStatus(int $id)
+    {
+        $userId = Auth::user()->store_main_user_id ?? Auth::user()->id;
+        $coupon = $this->couponService->getCoupon($id, $userId);
+
+        if (!$coupon) {
+            abort(404);
+        }
+
+        $result = $this->couponService->toggleStatus($coupon);
+
+        if (!$result['success']) {
+            return back()->withErrors(['error' => $result['message']]);
+        }
+
+        return back()->with('success', $result['message']);
+    }
+
+    /**
+     * Delete coupon if not used yet.
+     */
+    public function destroy(int $id)
+    {
+        $userId = Auth::user()->store_main_user_id ?? Auth::user()->id;
+        $coupon = $this->couponService->getCoupon($id, $userId);
+
+        if (!$coupon) {
+            abort(404);
+        }
+
+        $result = $this->couponService->deleteCouponIfUnused($coupon);
+
+        if (!$result['success']) {
+            return back()->withErrors(['error' => $result['message']]);
+        }
+
+        return redirect()->route('coupons.index')->with('success', $result['message']);
+    }
 }
