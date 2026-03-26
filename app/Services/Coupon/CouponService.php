@@ -83,6 +83,92 @@ class CouponService
     }
 
     /**
+     * Check whether coupon status can be toggled now.
+     * Rule: only within valid period.
+     */
+    public function canToggleStatus(Coupon $coupon): bool
+    {
+        $now = now();
+
+        if ($coupon->valid_from && $now->lt($coupon->valid_from)) {
+            return false;
+        }
+
+        if ($coupon->valid_to && $now->gt($coupon->valid_to)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Toggle coupon active/inactive status.
+     */
+    public function toggleStatus(Coupon $coupon): array
+    {
+        if (!$this->canToggleStatus($coupon)) {
+            return [
+                'success' => false,
+                'message' => __('Coupon status can only be changed within valid period'),
+            ];
+        }
+
+        $updated = $this->repository->update($coupon, [
+            'is_active' => !$coupon->is_active,
+        ]);
+
+        if (!$updated) {
+            return [
+                'success' => false,
+                'message' => __('Failed to update coupon status'),
+            ];
+        }
+
+        return [
+            'success' => true,
+            'message' => $coupon->is_active
+                ? __('Coupon deactivated successfully')
+                : __('Coupon activated successfully'),
+        ];
+    }
+
+    /**
+     * Check whether coupon can be deleted.
+     * Rule: delete only if never used.
+     */
+    public function canDelete(Coupon $coupon): bool
+    {
+        return $this->repository->getUsageCount($coupon->id) === 0;
+    }
+
+    /**
+     * Delete coupon safely with business rule checks.
+     */
+    public function deleteCouponIfUnused(Coupon $coupon): array
+    {
+        if (!$this->canDelete($coupon)) {
+            return [
+                'success' => false,
+                'message' => __('Coupon cannot be deleted after it has been used'),
+            ];
+        }
+
+        $deleted = $this->repository->delete($coupon);
+
+        if (!$deleted) {
+            return [
+                'success' => false,
+                'message' => __('Failed to delete coupon'),
+            ];
+        }
+
+        return [
+            'success' => true,
+            'message' => __('Coupon deleted successfully'),
+        ];
+    }
+
+    /**
      * Validate a coupon without applying (for pre-validation)
      * 
      * Returns discount information if valid:
