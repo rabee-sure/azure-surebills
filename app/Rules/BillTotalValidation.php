@@ -49,7 +49,7 @@ class BillTotalValidation implements Rule
         }
 
         // Apply coupon discount
-        if(request()->has('coupon_code')){
+        if(request()->has('coupon_code') && request()->coupon_code != null){
             // Try to find as reusable coupon first
             $coupon = $this->repository->findByCode(request()->coupon_code, Auth::user()->store_main_user_id ?? Auth::user()->id);
             
