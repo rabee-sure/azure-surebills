@@ -285,7 +285,7 @@
           }
           if (codePatternField) {
             codePatternField.style.display =
-              (mechanism === 'max_usage' || mechanism === 'max_customer_usage' || mechanism === 'one_time_usage')
+              (mechanism === 'max_usage' || mechanism === 'max_customer_usage')
               ? 'block' : 'none';
           }
 

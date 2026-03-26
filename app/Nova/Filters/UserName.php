@@ -45,7 +45,22 @@ class UserName extends Filter
      */
     public function options(Request $request)
     {
-        $models = \App\Models\User::all();
-        return $models->pluck('id', 'name')->all();
+        return \App\Models\User::query()
+            ->whereHas('transfers')
+            ->select(['id', 'name', 'business_name_en'])
+            ->orderBy('business_name_en')
+            ->orderBy('name')
+            ->get()
+            ->mapWithKeys(function ($user) {
+                $label = trim((string) ($user->business_name_en ?: $user->name));
+
+                if ($label === '') {
+                    $label = __('Merchant') . ' #' . $user->id;
+                }
+
+                // Keep labels unique so options are not overwritten on duplicate names.
+                return [$label . ' (#' . $user->id . ')' => $user->id];
+            })
+            ->all();
     }
 }
