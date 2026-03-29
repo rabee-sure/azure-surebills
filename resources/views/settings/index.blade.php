@@ -266,7 +266,7 @@
               @if($user->settings->background_image_file)
                 <div class="form-group mt-3">
                   <div class="logoImage p-2 border overflow-hidden rounded-3 position-relative d-flex align-items-center justify-content-center">
-                    <img src="{{ $user->settings->background_image_file }}" alt="background image" class="logo_image mw-100 mh-100" />
+                    <img src="{{ $imageUrl }}" alt="background image" class="logo_image mw-100 mh-100" />
                     <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 delete-background-image" style="z-index: 10;" title="{{ __('Delete Image') }}">
                       <i class="fas fa-trash-alt"></i>
                     </button>
