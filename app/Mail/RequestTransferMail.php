@@ -39,7 +39,7 @@ class RequestTransferMail extends Mailable
     {
         $transactionsFilePath = $this->transfer->filters['files']['file_path'];
         $transactionsFileName = basename($transactionsFilePath);
-        $fileContent = Storage::get($transactionsFilePath);
+        $fileContent = Storage::disk('oci')->get($transactionsFilePath);
 
         return $this->subject( $this->user->business_name ." requesting a new transfer - SureBills Transfers")
             ->view('emails.bills.request_transfer', [

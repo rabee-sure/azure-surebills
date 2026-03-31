@@ -9,7 +9,7 @@ class ReportPathGenerator implements PathGenerator
 {
   public function getPath(Media $media): string
   {
-    return 'reports/' . $media->model->name . '/';
+    return '';
   }
 
   public function getPathForConversions(Media $media): string
