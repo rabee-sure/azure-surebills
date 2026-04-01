@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Api\ZatcaController;
+use App\Http\Controllers\Security\CspReportController;
 use App\Services\CyberSourceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,7 @@ use Illuminate\Support\Facades\Route;
 // end test routes
 Route::post('payment-webhook', [PaymentController::class, 'handleWebhook'])->name('payment.webhook');
 Route::any('health-check', [PaymentController::class, 'healthCheck'])->name('health.check');
+Route::post('csp/report', [CspReportController::class, 'store'])->name('csp.report');
 
 Route::post('payment', [PaymentController::class, 'processPayment']);
 Route::post('refund/{transactionId}', [PaymentController::class, 'processRefund']);
