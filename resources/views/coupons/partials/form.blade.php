@@ -5,12 +5,13 @@
     $coupon = $coupon ?? null;
     $mechanisms = $mechanisms ?? \App\Enums\CouponMechanism::options();
     $isEdit = $coupon !== null;
+    $defaultDateTime = now()->format('Y-m-d H:i:s');
     $couponName = $coupon ? $coupon->name : '';
     $couponMechanism = $coupon && $coupon->mechanism ? $coupon->mechanism->value() : '';
     $couponDiscountType = $coupon ? $coupon->discount_type : '';
     $couponDiscountValue = $coupon ? $coupon->discount_value : '';
-    $couponValidFrom = $coupon && $coupon->valid_from ? $coupon->valid_from->format('Y-m-d\TH:i') : '';
-    $couponValidTo = $coupon && $coupon->valid_to ? $coupon->valid_to->format('Y-m-d\TH:i') : '';
+    $couponValidFrom = $coupon && $coupon->valid_from ? $coupon->valid_from->format('Y-m-d H:i:s') : ($isEdit ? '' : $defaultDateTime);
+    $couponValidTo = $coupon && $coupon->valid_to ? $coupon->valid_to->format('Y-m-d H:i:s') : ($isEdit ? '' : $defaultDateTime);
     $couponMaxUsage = $coupon ? $coupon->max_usage : '';
     $couponMaxCustomerUsage = $coupon ? $coupon->max_customer_usage : '';
     $couponCodePattern = $coupon ? $coupon->code_pattern : '';
@@ -228,6 +229,7 @@
   <div class="col-12">
     <div class="form-group mb-3">
       <label for="is_active" class="checkboxItem position-relative">
+        <input type="hidden" name="is_active" value="0">
         <input name="is_active" class="position-absolute top-0 strat-0 w-100 h-100" id="is_active" type="checkbox" value="1" {{ old('is_active', $couponIsActive) ? 'checked' : '' }}>
         <span class="d-flex align-items-center justify-content-start">
           <i class="d-block rounded-pill position-relative"></i>
@@ -285,7 +287,7 @@
           }
           if (codePatternField) {
             codePatternField.style.display =
-              (mechanism === 'max_usage' || mechanism === 'max_customer_usage' || mechanism === 'one_time_usage')
+              (mechanism === 'max_usage' || mechanism === 'max_customer_usage')
               ? 'block' : 'none';
           }
 
@@ -429,6 +431,11 @@
           validFromHidden.val(formattedDate);
         });
 
+        // Ensure hidden input always has a value for submission.
+        if (!validFromHidden.val()) {
+          validFromHidden.val(validFromDisplay.data('daterangepicker').startDate.format('YYYY-MM-DD HH:mm:ss'));
+        }
+
         // Initialize with existing value if present
         if (validFromHidden.val()) {
           const existingDate = moment(validFromHidden.val(), 'YYYY-MM-DD HH:mm:ss');
@@ -488,6 +495,11 @@
           const formattedDate = start.format('YYYY-MM-DD HH:mm:ss');
           validToHidden.val(formattedDate);
         });
+
+        // Ensure hidden input always has a value for submission.
+        if (!validToHidden.val()) {
+          validToHidden.val(validToDisplay.data('daterangepicker').startDate.format('YYYY-MM-DD HH:mm:ss'));
+        }
 
         // Initialize with existing value if present
         if (validToHidden.val()) {

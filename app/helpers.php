@@ -295,7 +295,7 @@ if (!function_exists('ociReport')) {
 if (!function_exists('getSettings')){
     function getSettings()
     {
-        return storage_path('app/nova-settings.json');
+        return storage_path('app/settings.json');
 
     }
 }

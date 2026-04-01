@@ -17,6 +17,31 @@
     <div class="title mb-4 d-flex align-items-center justify-content-between flex-wrap">
       <h1 class="d-block fw-bold m-0 fs-5">{{ __('Coupon Details')}}</h1>
       <div class="d-flex align-items-center justify-content-end gap-2">
+        @php
+          $withinValidPeriod = (!$coupon->valid_from || now()->gte($coupon->valid_from))
+            && (!$coupon->valid_to || now()->lte($coupon->valid_to));
+          $canDelete = ($stats['total_usage'] ?? 0) === 0;
+        @endphp
+
+        @if($withinValidPeriod)
+          <form method="POST" action="{{ route('coupons.toggle-status', $coupon->id) }}" class="d-inline">
+            @csrf
+            <button type="submit" class="d-flex {{ $coupon->is_active ? 'btn-warning' : 'btn-success' }} border-0 shadow-none align-items-center justify-content-center gap-2 rounded-pill px-3">
+              <i class="fal {{ $coupon->is_active ? 'fa-toggle-off' : 'fa-toggle-on' }}"></i>
+              {{ $coupon->is_active ? __('Deactivate') : __('Activate') }}
+            </button>
+          </form>
+        @endif
+
+        @if($canDelete)
+          <form method="POST" action="{{ route('coupons.delete', $coupon->id) }}" class="d-inline" onsubmit="return confirm('{{ __('Are you sure you want to delete this coupon?') }}');">
+            @csrf
+            <button type="submit" class="d-flex btn-danger border-0 shadow-none align-items-center justify-content-center gap-2 rounded-pill px-3">
+              <i class="fal fa-trash-alt"></i> {{ __('Delete') }}
+            </button>
+          </form>
+        @endif
+
         @if($coupon->mechanism && $coupon->mechanism->value() === 'one_time_usage' && $coupon->is_valid)
           <a href="{{ route('coupons.bulk-generate', $coupon->id)}}" class="d-flex btn-info border-0 shadow-none align-items-center justify-content-center gap-2 rounded-pill px-3">
             <i class="fal fa-plus-circle"></i> {{ __('Generate Codes') }}
@@ -117,13 +142,13 @@
                 <td class="fw-bold">{{ __('Status') }}</td>
                 <td>
                   @if($coupon->is_expired)
-                    <span class="badge badge-pill badge-danger">{{ __('Expired') }}</span>
+                    <span class="badge badge-pill bg-danger">{{ __('Expired') }}</span>
                   @elseif(!$coupon->is_active)
-                    <span class="badge badge-pill badge-secondary">{{ __('Inactive') }}</span>
+                    <span class="badge badge-pill bg-secondary">{{ __('Inactive') }}</span>
                   @elseif(!$coupon->is_valid)
-                    <span class="badge badge-pill badge-warning">{{ __('Exhausted') }}</span>
+                    <span class="badge badge-pill bg-warning">{{ __('Exhausted') }}</span>
                   @else
-                    <span class="badge badge-pill badge-success">{{ __('Active') }}</span>
+                    <span class="badge badge-pill bg-success">{{ __('Active') }}</span>
                   @endif
                 </td>
               </tr>
