@@ -1,0 +1,18 @@
+[Unit]
+Description=SureBills payment page integrity checker
+After=network.target
+
+[Service]
+Type=oneshot
+Environment=APP_ROOT=/var/www/sure-bills-dev
+Environment=ASSET_FILE=/var/www/sure-bills-dev/security/payment-page-assets.json
+Environment=MANIFEST_FILE=/var/www/sure-bills-dev/security/payment-page-manifest.sha256
+Environment=LOG_FILE=/var/log/surebills/payment_integrity.log
+# Set ALERT_WEBHOOK_URL using systemctl edit or EnvironmentFile
+ExecStart=/var/www/sure-bills-dev/scripts/check-payment-integrity.sh
+User=www-data
+Group=www-data
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/log/surebills
