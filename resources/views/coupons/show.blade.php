@@ -21,32 +21,35 @@
         </ol>
       </nav>
     </div>
-    @php
-          $withinValidPeriod = (!$coupon->valid_from || now()->gte($coupon->valid_from))
-            && (!$coupon->valid_to || now()->lte($coupon->valid_to));
-          $canDelete = ($stats['total_usage'] ?? 0) === 0;
-        @endphp
 
-        @if($withinValidPeriod)
-          <form method="POST" action="{{ route('coupons.toggle-status', $coupon->id) }}" class="d-inline">
-            @csrf
-            <button type="submit" class="d-flex {{ $coupon->is_active ? 'btn-warning' : 'btn-success' }} border-0 shadow-none align-items-center justify-content-center gap-2 rounded-pill px-3">
-              <i class="fal {{ $coupon->is_active ? 'fa-toggle-off' : 'fa-toggle-on' }}"></i>
-              {{ $coupon->is_active ? __('Deactivate') : __('Activate') }}
-            </button>
-          </form>
-        @endif
+    <div class="d-flex align-items-center justify-content-end gap-3 flex-wrap">
+      @php
+        $withinValidPeriod = (!$coupon->valid_from || now()->gte($coupon->valid_from)) && (!$coupon->valid_to || now()->lte($coupon->valid_to));
+        $canDelete = ($stats['total_usage'] ?? 0) === 0;
+      @endphp
 
-        @if($canDelete)
-          <form method="POST" action="{{ route('coupons.delete', $coupon->id) }}" class="d-inline" onsubmit="return confirm('{{ __('Are you sure you want to delete this coupon?') }}');">
-            @csrf
-            <button type="submit" class="d-flex btn-danger border-0 shadow-none align-items-center justify-content-center gap-2 rounded-pill px-3">
-              <i class="fal fa-trash-alt"></i> {{ __('Delete') }}
-            </button>
-          </form>
-        @endif
-    @if($coupon->mechanism && $coupon->mechanism->value() === 'one_time_usage' && $coupon->is_valid)
-      <div class="d-flex align-items-center justify-content-end gap-3">
+      @if($withinValidPeriod)
+        <form method="POST" action="{{ route('coupons.toggle-status', $coupon->id) }}" class="d-inline">
+          @csrf
+          <button type="submit" class="btn btn-{{ $coupon->is_active ? 'warning' : 'success' }} waves-effect waves-light">
+            <span class="icon-base ti ti-toggle-{{ $coupon->is_active ? 'left' : 'right' }} me-1"></span>
+            {{ $coupon->is_active ? __('Deactivate') : __('Activate') }}
+          </button>
+        </form>
+      @endif
+
+      @if($canDelete)
+        <button
+          type="button"
+          class="btn btn-danger waves-effect waves-light"
+          data-bs-toggle="modal"
+          data-bs-target="#delete_coupon_Modal_{{ $coupon->id }}"
+        >
+          <span class="icon-base ti ti-trash me-1"></span> {{ __('Delete') }}
+        </button>
+      @endif
+
+      @if($coupon->mechanism && $coupon->mechanism->value() === 'one_time_usage' && $coupon->is_valid)
         <a href="{{ route('coupons.bulk-generate', $coupon->id)}}" class="btn btn-info waves-effect waves-light">
           <span class="icon-xs icon-base ti ti-circle-plus me-2"></span>
           {{ __('Generate Codes') }}
@@ -55,8 +58,8 @@
           <span class="icon-xs icon-base ti ti-download me-2"></span>
           {{ __('Export') }}
         </a>
-      </div>
-    @endif
+      @endif
+    </div>
   </div>
 
   @if (session('success'))
@@ -210,4 +213,65 @@
     @endif
   </div><!-- row -->
 
+  @if($canDelete)
+    <div class="modal fade" id="delete_coupon_Modal_{{ $coupon->id }}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex align-items-center justify-content-center text-warning mb-3">
+              <i class="icon-base ti ti-info-triangle icon-50px"></i>
+            </div>
+            <h5 class="m-0 text-center">{{ __('Are you sure you want to delete this coupon?') }}</h5>
+          </div>
+          <form action="{{ route('coupons.delete', $coupon->id) }}" method="post" class="modal-footer form-delete-coupon">
+            @csrf
+            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+            <button type="submit" class="btn btn-danger btn-submit-with-spinner" data-loading-text="{{ __('Deleting...') }}">
+              <span class="btn-spinner d-none me-2" role="status">
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+              </span>
+              <span class="btn-text">{{ __('Delete') }}</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  @endif
+
 @endsection
+
+@push('footer-scripts')
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('submit', function(e) {
+        const form = e.target;
+        if (!form.classList.contains('form-delete-coupon')) return;
+
+        const btn = form.querySelector('.btn-submit-with-spinner');
+        if (!btn || btn.disabled) return;
+
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        const originalText = btnText ? btnText.textContent : '{{ __("Delete") }}';
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        btn.disabled = true;
+        if (btnText && btnSpinner) {
+          btnText.textContent = btn.dataset.loadingText || 'Deleting...';
+          btnSpinner.classList.remove('d-none');
+        }
+        setTimeout(resetButton, 8000);
+      });
+    });
+  </script>
+@endpush
