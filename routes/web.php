@@ -20,12 +20,12 @@ use Illuminate\Support\Str;
 */
 
 Route::domain(config('payment.invoice_subdomain'))->group(function (){
-    
+
   Route::get('.well-known/{file}', 'BillSubdomainController@verifyOwnershipForApplePay')->name('verify.applepay.ownership');
   Route::get('/bills/{id}/pay', 'BillController@pay')->name('bill.invoice.subdomain');
   Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('bill.invoice.lang.subdomain');
   Route::get('payment/otp/{setupAccessToken}', [PaymentController::class, 'otpForm'])->name('payment.otp.form');
-  
+
 });
 
 Route::get('/payment-success', 'BillController@paymentSuccess')->name('paymentsuccess');
@@ -151,6 +151,8 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 
   // Coupons routes
   Route::resource('coupons', 'CouponController');
+  Route::post('coupons/{id}/toggle-status', 'CouponController@toggleStatus')->name('coupons.toggle-status');
+  Route::post('coupons/{id}/delete', 'CouponController@destroy')->name('coupons.delete');
   Route::get('coupons/{id}/bulk-generate', 'CouponController@bulkGenerate')->name('coupons.bulk-generate');
   Route::post('coupons/{id}/bulk-generate', 'CouponController@storeBulkGenerate')->name('coupons.store-bulk-generate');
   Route::get('coupons/{id}/export', 'CouponController@showExport')->name('coupons.show-export');
@@ -239,7 +241,7 @@ Route::middleware(['auth:admins'])->group(function () {
     Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
     Route::get('users/{user}', 'UserController@show')->name('users.show');
 
-    
+
     Route::get('/admin/download/{model_name}/{id}/{file_name}', function ($model_name, $id, $file_name) {
       // نحول الاسم القادم من Nova لاسم الكلاس الكامل
       $class = '\\App\\Models\\' . Str::studly($model_name);
@@ -280,6 +282,8 @@ Route::middleware(config('nova.middleware', []))->group(function () {
   // Route::get('reports', 'ReportsController@index')->name('reports.index');
   // Route::get('reports/merchants-outstanding', 'ReportsController@merchants_outstanding')->name('reports.merchants-outstanding');
   // Route::post('reports/merchants-outstanding/store', 'ReportsController@merchants_outstanding_store')->name('reports.merchants-outstanding-store');
+
+  Route::get('download/{id}/{path}/{file}', 'AccountController@downloadFileByPath')->name('download.file_with_path');
 
 });
 

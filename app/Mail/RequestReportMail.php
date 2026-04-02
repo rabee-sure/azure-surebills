@@ -34,8 +34,8 @@ class RequestReportMail extends Mailable implements ShouldQueue
     {
         $reportFilePath = "reports/{$this->report->name}/{$this->report->name}_{$this->report->id}.xlsx";
         $reportFileName = basename($reportFilePath);
-        $fileContent = Storage::get($reportFilePath);
 
+      $fileContent = Storage::disk('oci')->get($reportFilePath);
         return $this->subject( $this->report->name ." Report - SureBills Reports")
             ->view('emails.reports.request_report', [
                 'report' => $this->report,

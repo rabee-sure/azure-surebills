@@ -38,7 +38,7 @@ class CreateTransferExcelFileJob implements ShouldQueue
     {
 
         \Artisan::call('transfer:excel', [
-            'id' => $this->transfer_id 
+            'id' => $this->transfer_id
         ]);
     }
 }

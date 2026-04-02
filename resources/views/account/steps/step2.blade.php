@@ -234,20 +234,26 @@
                 />
               </div><!-- col -->
             @endif
-
+            @php
+              $logoUrl = null;
+              if(auth()->user()->logo){
+                  $logoUrl = \Illuminate\Support\Facades\Storage::disk('oci')
+                      ->temporaryUrl(auth()->user()->logo, now()->addMinutes(10));
+              }
+            @endphp
             <div class="col-sm-6">
               <label for="logo" class="form-label">{{ __('Logo') }}</label>
               <input name="logo" type="file" id="logo" class="form-control" autocomplete="off" accept="image/png, image/jpeg, image/jpg" />
-              <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
+              <input type="hidden" name="hidden_logo" value="{{ $logoUrl }}" />
               @if($errors->has('logo'))
                 <span id="inputEmail8-error" class="invalid-feedback">{{ $errors->first('logo') }}</span>
               @endif
             </div><!-- col -->
 
-            @if(auth()->user()->logo || (auth()->user()->mainStoreUser && auth()->user()->mainStoreUser->logo))
+            @if($logoUrl)
               <div class="logoImage col-sm-6">
                 <div class="card h-100 relative">
-                  <img src="@if(Storage::disk('public')->has(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)) {{url('storage/'.auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)}} @else {{url(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->logo : auth()->user()->logo)}} @endif" alt="logo" class="card-img-top rounded-3" />
+                  <img src="{{ $logoUrl }}" alt="logo" class="card-img-top rounded-3" />
                   <button type="button" class="delete_logo position-absolute btn btn-icon btn-danger waves-effect waves-light">
                     <span class="ti ti-trash ti-xs"></span>
                   </button>

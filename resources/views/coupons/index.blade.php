@@ -56,14 +56,18 @@
           </thead>
           <tbody>
             @foreach ($coupons as $coupon)
-              @php
-                $stats = $coupon->stats ?? [];
-                $totalUsage = $stats['total_usage'] ?? $coupon->total_usage ?? 0;
-                $remaining = $stats['remaining'] ?? $coupon->remaining_usage ?? null;
-                $limit = $stats['limit'] ?? $coupon->max_usage ?? null;
-                $isExpired = $coupon->is_expired;
-                $isValid = $coupon->is_valid;
-              @endphp
+            @php
+                  $stats = $coupon->stats ?? [];
+                  $totalUsage = $stats['total_usage'] ?? $coupon->total_usage ?? 0;
+                  $remaining = $stats['remaining'] ?? $coupon->remaining_usage ?? null;
+                  $limit = $stats['limit'] ?? $coupon->max_usage ?? null;
+                  $isExpired = $coupon->is_expired;
+                  $isValid = $coupon->is_valid;
+                  $now = now();
+                  $withinValidPeriod = (!$coupon->valid_from || $now->gte($coupon->valid_from))
+                    && (!$coupon->valid_to || $now->lte($coupon->valid_to));
+                  $canDelete = $totalUsage === 0;
+                @endphp
               <tr>
                 <td>{{ $coupon->id }}</td>
                 <td>{{ $coupon->name }}</td>
@@ -158,6 +162,31 @@
                         <span class="icon-base ti ti-download icon-18px"></span>
                       </a>
                     @endif
+                    @if($withinValidPeriod)
+                        <form method="POST" action="{{ route('coupons.toggle-status', $coupon->id) }}" class="d-inline">
+                          @csrf
+                          <button type="submit"
+                                  class="rounded-3 border-0 shadow-none p-0 {{ $coupon->is_active ? 'btn-warning' : 'btn-success' }} d-flex align-items-center justify-content-center mx-1"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="{{ $coupon->is_active ? __('Deactivate') : __('Activate') }}">
+                            <i class="fal {{ $coupon->is_active ? 'fa-toggle-off' : 'fa-toggle-on' }}"></i>
+                          </button>
+                        </form>
+                      @endif
+
+                      @if($canDelete)
+                        <form method="POST" action="{{ route('coupons.delete', $coupon->id) }}" class="d-inline" onsubmit="return confirm('{{ __('Are you sure you want to delete this coupon?') }}');">
+                          @csrf
+                          <button type="submit"
+                                  class="rounded-3 border-0 shadow-none p-0 btn-danger d-flex align-items-center justify-content-center mx-1"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="{{ __('Delete') }}">
+                            <i class="fal fa-trash-alt"></i>
+                          </button>
+                        </form>
+                      @endif
                   </div>
                 </td>
               </tr>

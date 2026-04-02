@@ -8,6 +8,7 @@ use App\Models\CouponCode;
 use App\Repositories\CouponRepository;
 use Illuminate\Contracts\Validation\Rule;
 use App\Services\Coupon\CouponService;
+use App\Services\GetAuthUser;
 use Illuminate\Support\Facades\Auth;
 
 class BillTotalValidation implements Rule
@@ -49,13 +50,16 @@ class BillTotalValidation implements Rule
         }
 
         // Apply coupon discount
-        if(request()->has('coupon_code')){
+        if(request()->has('coupon_code') && request()->coupon_code != null){
+            // Get auth user from api or web
+            $authUser = GetAuthUser::authUser(request());
+            
             // Try to find as reusable coupon first
-            $coupon = $this->repository->findByCode(request()->coupon_code, Auth::user()->store_main_user_id ?? Auth::user()->id);
+            $coupon = $this->repository->findByCode(request()->coupon_code, $authUser->store_main_user_id ?? $authUser->id);
             
             if (!$coupon) {
                 // Try to find as one-time code
-                $couponCode = $this->repository->findCodeByCode(request()->coupon_code, Auth::user()->store_main_user_id ?? Auth::user()->id);
+                $couponCode = $this->repository->findCodeByCode(request()->coupon_code, $authUser->store_main_user_id ?? $authUser->id);
                 
                 if ($couponCode) {
                     $coupon = $couponCode->coupon;

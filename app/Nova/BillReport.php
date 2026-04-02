@@ -74,22 +74,26 @@ class BillReport extends Resource
                     return "<span style='color: #aaa;'>-</span>";
                 }
 
-                $path = $this->name;
+                $path = 'reports/'.$this->name.'/'.$this->name.'_'.$this->id.'.xlsx';
 
                 if (!Storage::disk('oci')->exists($path)) {
                     return "<span style='color: #aaa;'>File not found</span>";
                 }
 
-                $url = Storage::disk('oci')->temporaryUrl(
-                    $path,
-                    now()->addMinutes(10)
-                );
+//                $url = Storage::disk('oci')->temporaryUrl(
+//                    $path,
+//                    now()->addMinutes(10)
+//                );
+
+             // $id, $folder , $file_name
+
+              $url = route('download.file_with_path', [$this->id ,'reports', $this->name]);
 
                 return "<a class='btn btn-success' style='margin:5px' href='{$url}' target='_blank'>
                             <i class='fa fa-download'></i>
                         </a>";
             })->asHtml(),
-            
+
 
         ];
     }

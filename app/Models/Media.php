@@ -12,6 +12,7 @@ class Media extends BaseMedia
         if ($this->disk !== 'oci') {
             return parent::getUrl($conversionName);
         }
+
         return Storage::disk($this->disk)->temporaryUrl(
             $this->getPath($conversionName),
             now()->addMinutes(10)

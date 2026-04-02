@@ -24,14 +24,14 @@ class MerchantsExcelDownload extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $queryFilter = self::rebuildFilter(json_decode(base64_decode($this->filters['filters'])));
-        
+
         $file_name = 'merchants_report_'.Carbon::now()->timestamp.'.xlsx';
         (new MerchantsDataExport($queryFilter))
-        ->store($filePath = 'merchants_reports/'. $file_name)
+        ->store($filePath = 'merchants_reports/'. $file_name, 'oci')
         ->chain([
             (new SendExportedMercahntsReportMailsJob($file_name, $this->email))
         ]);
-        
+
         return Action::message('Exported file will send to your email after finished!');
     }
 
@@ -42,7 +42,7 @@ class MerchantsExcelDownload extends Action
                 case 'App\Nova\Filters\YearFilter':
                     $FilterdColums['created_at'] = $filter->value;
                     break;
-                
+
                 default:
                     # code...
                     break;

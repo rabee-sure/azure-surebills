@@ -10,6 +10,7 @@ use App\Http\Requests\ChangePasswordRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\ValidateUploadFile;
 use Illuminate\Support\Str;
@@ -393,12 +394,33 @@ class AccountController extends Controller
         ]);
     }
 
-    public function downloadFile($id, $file_name)
-    {
-        $path = storage_path('app/public/' . $id . '/' . $file_name);
-        if (!file_exists($path)) {
-            abort(404);
-        }
-        return response()->download($path);
+  public function downloadFile($id, $file_name)
+  {
+    $path = $file_name;
+
+    if (!Storage::disk('oci')->exists($path)) {
+      abort(404);
     }
+
+    $stream = Storage::disk('oci')->readStream($path);
+
+    return response()->streamDownload(function () use ($stream) {
+      fpassthru($stream);
+    }, $file_name);
+  }
+
+  public function downloadFileByPath($id, $folder , $file_name)
+  {
+    $path = $folder . '/'. $file_name . '/' . $file_name . '_' . $id . '.xlsx';
+
+    if (!Storage::disk('oci')->exists($path)) {
+      abort(404);
+    }
+
+    $stream = Storage::disk('oci')->readStream($path);
+
+    return response()->streamDownload(function () use ($stream) {
+      fpassthru($stream);
+    }, $file_name);
+  }
 }

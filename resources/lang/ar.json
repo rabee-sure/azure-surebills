@@ -1181,5 +1181,15 @@
   "{ALPHA} → Letters only": "{ALPHA} ← حروف فقط",
   "{UUID} → Automatically generated unique identifier": "{UUID} ← معرّف فريد يتم إنشاؤه تلقائيًا",
   "Note: You can control the length by adding a number after : like {RANDOM:8}.": "ملاحظة: يمكنك تحديد عدد الأحرف بكتابة رقم بعد : مثل {RANDOM:8}.",
-  "No codes have been generated for this coupon yet. Please generate codes first.": "لا يوجد رموز منشئة لهذا الكوبون بعد. يرجى إنشاء الرموز أولاً."
+  "No codes have been generated for this coupon yet. Please generate codes first.": "لا يوجد رموز منشئة لهذا الكوبون بعد. يرجى إنشاء الرموز أولاً.",
+  "Coupon is not yet valid": "الكوبون غير صالح بعد",
+  "Coupon status can only be changed within valid period": "يمكن تعطيل الكوبون فقط خلال فترة الصلاحية",
+  "Failed to update coupon status": "فشل تعطيل الكوبون",
+  "Coupon activated successfully": "تم تفعيل الكوبون بنجاح",
+  "Coupon deactivated successfully": "تم تعطيل الكوبون بنجاح",
+  "Coupon cannot be deleted after it has been used": "الكوبون لا يمكن حذفه بعد ان تم استخدامه",
+  "Failed to delete coupon": "فشل حذف الكوبون",
+  "Coupon deleted successfully": "تم حذف الكوبون بنجاح",
+  "Deactivate": "تعطيل",
+  "Are you sure you want to delete this coupon?": "هل أنت متأكد من حذف هذا الكوبون؟"
 }
