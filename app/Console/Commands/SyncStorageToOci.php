@@ -68,7 +68,7 @@ class SyncStorageToOci extends Command
             try {
                 $stream = fopen($file['full_path'], 'r');
 
-                $ociDisk->put($file['relative_path'], $stream);
+                $ociDisk->put(basename($file['relative_path']), $stream);
 
                 if (is_resource($stream)) {
                     fclose($stream);
