@@ -32,7 +32,7 @@ class RequestReportMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $reportFilePath = "reports/{$this->report->name}/{$this->report->name}_{$this->report->id}.xlsx";
+        $reportFilePath = "{$this->report->name}_{$this->report->id}.xlsx";
         $reportFileName = basename($reportFilePath);
 
       $fileContent = Storage::disk('oci')->get($reportFilePath);

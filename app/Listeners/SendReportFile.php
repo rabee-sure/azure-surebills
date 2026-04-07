@@ -58,7 +58,7 @@ class SendReportFile implements ShouldQueue
         $report_from = $report_filters->from;
         $report_to = $report_filters->to ?? $report_filters->from;
 
-        $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'.xlsx';
+        $file_name =  $report->name.'_'.$report->id.'.xlsx';
 
         // $transactionsQuery = DB::table('transactions AS transactions')
         // ->select(DB::raw("(SELECT user_id, amount AS amount, transaction_source AS transaction_source, type as type, settled as settled)"));

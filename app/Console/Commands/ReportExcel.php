@@ -50,7 +50,7 @@ class ReportExcel extends Command
 
         $report_emails = $report->emails;
 
-        $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->created_at.'.xlsx';
+        $file_name = $report->name.'_'.$report->created_at.'.xlsx';
 
         $data = DB::table('users')
             ->join('transactions', 'users.id', '=', 'transactions.user_id')

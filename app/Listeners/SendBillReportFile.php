@@ -41,7 +41,7 @@ class SendBillReportFile implements ShouldQueue
 
         $report_filters = json_decode($report->params, true) ;
 
-        $file_name = 'reports/'.$report->name.'/'.$report->name.'_'.$report->id.'_old.xlsx';
+        $file_name = $report->name.'_'.$report->id.'_old.xlsx';
 
         $whereCondition = "where (date(paid_at) >= '".$report_filters['paid_from']."' and date(paid_at) <= ('".$report_filters['paid_to']."') and bills.status in ('paid', 'refunded'))";
 
