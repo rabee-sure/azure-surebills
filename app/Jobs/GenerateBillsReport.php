@@ -41,7 +41,7 @@ class GenerateBillsReport implements ShouldQueue
      */
     public function handle()
     {
-        $file_name = 'reports/'.$this->report_name.'/'.$this->report_name.'_'.$this->report_id.'.xlsx';
+        $file_name = $this->report_name.'_'.$this->report_id.'.xlsx';
         return (new ReportBillExport($this->filter))
         ->store($filePath = $file_name, 'oci')->allOnQueue($this->queue)
         ->chain([

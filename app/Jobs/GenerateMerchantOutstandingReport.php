@@ -50,7 +50,7 @@ class GenerateMerchantOutstandingReport implements ShouldQueue
         $report_from = $report_filters->from;
         $report_to = $report_filters->to ?? $report_filters->from;
 
-        $file_name = 'reports/'.$this->report->name.'/'.$this->report->name.'_'.$this->report->id.'.xlsx';
+        $file_name = $this->report->name.'_'.$this->report->id.'.xlsx';
 
         // $transactionsQuery = DB::table('transactions AS transactions')
         // ->select(DB::raw("(SELECT user_id, amount AS amount, transaction_source AS transaction_source, type as type, settled as settled)"));
