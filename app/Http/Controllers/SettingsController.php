@@ -42,11 +42,14 @@ class SettingsController extends Controller
     public function settings(Request $request)
     {
         $user = User::find(auth()->user()->store_main_user_id ?? auth()->user()->id);
+        $imageUrl = '';
+        if (!empty($user->settings->background_image_file)){
+            $imageUrl = Storage::disk('oci')->temporaryUrl(
+              $user->settings->background_image_file,
+              now()->addMinutes(10)
+            );
+        }
 
-      $imageUrl = Storage::disk('oci')->temporaryUrl(
-        $user->settings->background_image_file,
-        now()->addMinutes(10)
-      );
 
         return view('settings.index', ['user' => $user, 'imageUrl' => $imageUrl]);
     }
