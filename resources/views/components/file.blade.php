@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center justify-content-start align-self-stretch p-1 position-relative">
     <figure class="m-0 rounded-3 overflow-hidden position-relative flex-shrink-0">
       <div class="dz-error-mark"><span><i></i></span></div><div class="dz-success-mark"><span><i></i></span></div>
-      <img data-dz-thumbnail="" class='w-100 h-100' onerror="this.onerror=null;this.src='{{ $file->url }}';" />
+      <img data-dz-thumbnail="" src="{{ $file->url }}" class='w-100 h-100' onerror="this.onerror=null;this.src='{{ $file->url }}';" />
       <i class="fal fa-file-alt border rounded-3 overflow-clip d-flex align-items-center justify-content-center position-absolute top-0 start-0 bg-white fs-1 w-100 h-100 simple-icon-doc preview-icon"></i>
     </figure>
     <figcaption class="flex-grow-1 align-self-stretch d-flex align-items-start justify-content-between flex-column">
