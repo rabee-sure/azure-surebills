@@ -127,8 +127,8 @@ class CouponService
         return [
             'success' => true,
             'message' => $coupon->is_active
-                ? __('Coupon deactivated successfully')
-                : __('Coupon activated successfully'),
+                ? __('Coupon activated successfully')
+                : __('Coupon deactivated successfully'),
         ];
     }
 
