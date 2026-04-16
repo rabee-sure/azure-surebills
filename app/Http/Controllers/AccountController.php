@@ -218,7 +218,7 @@ class AccountController extends Controller
         $businessInfo = auth()->user()->mainStoreUser  ? auth()->user()->mainStoreUser   : auth()->user();
 
         $documents = $businessInfo->business_documents->map(function ($media) {
-            return [
+            return (object)[
                 'id' => $media->id,
                 'name' => $media->file_name,
                 'file_name' => $media->file_name,
