@@ -4,7 +4,7 @@ set -euo pipefail
 APP_ROOT="${APP_ROOT:-/var/www/sure-bills-dev}"
 ASSET_FILE="${ASSET_FILE:-${APP_ROOT}/security/payment-page-assets.json}"
 MANIFEST_FILE="${MANIFEST_FILE:-${APP_ROOT}/security/payment-page-manifest.sha256}"
-LOG_FILE="${LOG_FILE:-/var/log/surebills/payment_integrity.log}"
+LOG_FILE="${LOG_FILE:-${APP_ROOT}/storage/logs/payment_integrity.log}"
 HOSTNAME_VAL="$(hostname -f 2>/dev/null || hostname)"
 ALERT_WEBHOOK_URL="${ALERT_WEBHOOK_URL:-}"
 
@@ -53,7 +53,9 @@ if [[ "${#mismatches[@]}" -gt 0 ]]; then
 fi
 
 event="{\"timestamp\":\"${now_iso}\",\"host\":\"${HOSTNAME_VAL}\",\"status\":\"${status}\",\"mismatches\":${mismatches_json}}"
-echo "${event}" >> "${LOG_FILE}"
+if [[ "${status}" != "ok" ]]; then
+  echo "${event}" >> "${LOG_FILE}"
+fi
 
 if [[ "${status}" != "ok" && -n "${ALERT_WEBHOOK_URL}" ]]; then
   curl -sS -X POST -H "Content-Type: application/json" --data "${event}" "${ALERT_WEBHOOK_URL}" >/dev/null || true

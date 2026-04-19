@@ -1,9 +1,9 @@
 [Unit]
-Description=Run payment page integrity check every 5 minutes
+Description=Run payment page integrity check every 10 minutes
 
 [Timer]
 OnBootSec=2min
-OnUnitActiveSec=5min
+OnUnitActiveSec=10min
 Unit=payment-integrity-check.service
 Persistent=true
 
