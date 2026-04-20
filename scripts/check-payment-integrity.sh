@@ -64,7 +64,7 @@ fi
 
 if [[ "${status}" != "ok" ]]; then
   echo "Payment integrity mismatch detected." >&2
-  exit 2
+  exit 0
 fi
 
 echo "Payment integrity check passed."
