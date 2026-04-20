@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP_ROOT="${APP_ROOT:-/var/www/sure-bills-dev}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+APP_ROOT="${APP_ROOT:-$(cd "${SCRIPT_DIR}/.." && pwd)}"
 ASSET_FILE="${ASSET_FILE:-${APP_ROOT}/security/payment-page-assets.json}"
 MANIFEST_FILE="${MANIFEST_FILE:-${APP_ROOT}/security/payment-page-manifest.sha256}"
 LOG_FILE="${LOG_FILE:-${APP_ROOT}/storage/logs/payment_integrity.log}"
