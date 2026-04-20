@@ -51,3 +51,5 @@ yarn-error.log
 .cache/
 .cursor/
 docs/
+deploy/nginx/
+security/payment-page-manifest.sha256
