@@ -52,4 +52,4 @@ yarn-error.log
 .cursor/
 docs/
 deploy/nginx/
-security/payment-page-manifest.sha256
+/security/payment-page-manifest.sha256
