@@ -176,7 +176,7 @@
     </div><!-- container -->
 
   @stack('footer-scripts')
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
     <script>
       var host = "{{isset($host) ? $host : request()->getHost()}}";
@@ -187,7 +187,6 @@
 
         {{-- Count Down --}}
         <script src="{{ asset('js/jquery.countdownTimer.min.js') }}"></script>
-        <script src="https://code.jquery.com/jquery-migrate-1.2.1.js"></script>
 
         <script type='text/javascript'>
             /* New countdown */
@@ -229,15 +228,6 @@
         $(window).on("load",function(){
             loaded();
         });
-
-        {{--  MasterCard Hosted Session --}}
-        <?php require app_path('Payment/Drivers/MasterCardHostedSession/pay.js'); ?>
-
-        {{-- APPLE PAY VIA MASTERCARD --}}
-        @if (!isset($sureEasyRendrer))
-        <?php require app_path('Payment/Drivers/MasterCardApplePay/payment-request.js'); ?>
-        @endif
-        {{-- APPLE PAY VIA MASTERCARD --}}
 
         @if(config('payment.default_payment_gateway') != 'cybersource')
             {{--  MasterCard Hosted Session --}}

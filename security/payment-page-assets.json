@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "description": "PCI DSS 11.6 payment page asset inventory for Mastercard flow",
+  "paymentRoutes": [
+    "/bills/{id}/pay",
+    "/bills/{id}/pay/{lang}"
+  ],
+  "localFiles": [
+    "resources/views/bills/payment_page.blade.php",
+    "resources/views/bills/pay.blade.php",
+    "resources/views/layouts/bill.blade.php",
+    "app/Payment/Drivers/MasterCardHostedSession/pay.js",
+    "app/Payment/Drivers/MasterCardApplePay/payment-request.js",
+    "public/js/app.js",
+    "public/js/jquery.countdownTimer.min.js",
+    "public/css/payment_page.css"
+  ],
+  "approvedExternalScriptSources": [
+    "https://code.jquery.com",
+    "https://www.googletagmanager.com",
+    "https://*.mastercard.com"
+  ],
+  "owners": [
+    "security-team",
+    "payments-team"
+  ]
+}
