@@ -334,7 +334,6 @@
 
 @push('footer-scripts')
 <script src="{{ asset('js/jquery.countdownTimer.min.js') }}"></script>
-<script src="https://code.jquery.com/jquery-migrate-1.2.1.js"></script>
 
 <script type='text/javascript'>
 /* New countdown */

@@ -1,0 +1,13 @@
+# Payment page integrity controls
+/security/payment-page-assets.json @payments-team @security-team
+/security/payment-page-manifest.sha256 @payments-team @security-team
+/scripts/generate-payment-page-manifest.sh @payments-team @security-team
+/scripts/verify-payment-page-manifest.sh @payments-team @security-team
+/scripts/check-payment-asset-change-policy.sh @payments-team @security-team
+
+# Payment page templates and Mastercard drivers
+/resources/views/bills/payment_page.blade.php @payments-team @security-team
+/resources/views/bills/pay.blade.php @payments-team @security-team
+/resources/views/layouts/bill.blade.php @payments-team @security-team
+/app/Payment/Drivers/MasterCardHostedSession/pay.js @payments-team @security-team
+/app/Payment/Drivers/MasterCardApplePay/payment-request.js @payments-team @security-team

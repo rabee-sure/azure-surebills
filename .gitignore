@@ -49,3 +49,7 @@ yarn-error.log
 .DS_Store
 .idea/
 .cache/
+.cursor/
+docs/
+deploy/nginx/
+/security/payment-page-manifest.sha256

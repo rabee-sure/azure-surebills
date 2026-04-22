@@ -157,6 +157,18 @@ return [
             'path' => storage_path('logs/master_card.log'),
             'level' => 'info',
         ],
+        'csp_violations' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/csp_violations.log'),
+            'level' => 'warning',
+            'days' => 180,
+        ],
+        'payment_integrity' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/payment_integrity.log'),
+            'level' => 'warning',
+            'days' => 180,
+        ],
         'mastercard_review_transactions_command' => [
             'driver' => 'single',
             'path' => storage_path('logs/mastercard_review_transactions_command.log'),
