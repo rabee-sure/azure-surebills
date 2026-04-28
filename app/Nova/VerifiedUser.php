@@ -117,38 +117,29 @@ class VerifiedUser extends Resource
                 return $this->mainStoreUser ? __('employee') : __('owner');
             })->exceptOnForms(),
 
-           Image::make(__('Business logo'), 'logo')
-            ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
-            ->disk('oci')
-            ->path('business-logo')
-            ->preview(function ($value) {
-                if (!$value) {
-                    return asset('images/no-image.jpg');
-                }
+            Image::make(__('Business logo'), 'logo')
+                ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
+                ->disk('oci')
+                ->path('business-logo')
+                ->preview(function ($value) {
+                    if (!$value) {
+                        return asset('images/no-image.jpg');
+                    }
 
-                $path = str_starts_with($value, 'business-logo/')
-                    ? $value
-                    : 'business-logo/'.$value;
+                    return Storage::disk('oci')
+                        ->temporaryUrl($value, now()->addMinutes(10));
+                })
+                ->thumbnail(function ($value) {
+                    if (!$value) {
+                        return asset('images/no-image.jpg');
+                    }
 
-                return Storage::disk('oci')
-                    ->temporaryUrl($path, now()->addMinutes(10));
-            })
-            ->thumbnail(function ($value) {
-                if (!$value) {
-                    return asset('images/no-image.jpg');
-                }
-
-                $path = str_starts_with($value, 'business-logo/')
-                    ? $value
-                    : 'business-logo/'.$value;
-
-                return Storage::disk('oci')
-                    ->temporaryUrl($path, now()->addMinutes(10));
-            })
-            ->disableDownload()
-            ->hideWhenUpdating($this->store_main_user_id ? true : false)
-            ->hideFromDetail($this->store_main_user_id ? true : false),
-
+                    return Storage::disk('oci')
+                        ->temporaryUrl($value, now()->addMinutes(10));
+                })
+                ->disableDownload()
+                ->hideWhenUpdating($this->store_main_user_id ? true : false)
+                ->hideFromDetail($this->store_main_user_id ? true : false),
 
             Text::make(__('Balance'), function () {
                 return round2($this->balance);
