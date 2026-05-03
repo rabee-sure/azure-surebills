@@ -21,18 +21,16 @@ use App\Http\Requests\DebitNoteRequest;
 use Illuminate\Support\Facades\DB;
 use App\Services\MasterCardService;
 use Illuminate\Support\Facades\Log;
-use App\Traits\ResolvesBillUiTheme;
 use App\Http\Requests\RefundRequest;
 use App\Jobs\ExportMerchantBills;
 use App\Models\RefundedBill;
 use App\Models\Settings;
 use App\Services\Coupon\CouponService;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException as ValidationsException;
 
 class BillController extends Controller
 {
-    use ResolvesBillUiTheme;
-
     private $masterCardService;
     protected $couponService;
 
@@ -136,7 +134,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -513,13 +511,28 @@ class BillController extends Controller
         {
             $payForm = 'bills.mastercard_pay_form';
         }
-        $billUiTheme = $this->resolveBillUiTheme($bill);
 
-        if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
-            return view('bills.pay', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'));
+        $settings = $bill->user->settings;
+        
+        $billCustomozations = [];
+        $billCustomozations['imageUrl'] = '';
+        if (!empty($bill->user->settings->background_image_file)){
+            $billCustomozations['imageUrl'] = Storage::disk('oci')->temporaryUrl(
+              $bill->user->settings->background_image_file,
+              now()->addMinutes(10)
+            );
         }
 
-        return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'));
+        $billCustomozations['bgColor'] = $settings->background_color_body ?? '#fafafa';
+        $billCustomozations['textColor'] = $settings->text_color_body ?? '#000000';
+        $billCustomozations['btnBgColor'] = $settings->background_color_payment_button ?? '#00d595';
+        $billCustomozations['btnTextColor'] = $settings->text_color_payment_button ?? '#ffffff';
+
+        if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
+            return view('bills.pay', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billCustomozations'));
+        }
+
+        return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billCustomozations'));
     }
 
     public function paymentSuccess()
@@ -555,7 +568,7 @@ class BillController extends Controller
     }
 
     /**
-     * Handle payment the specified resource in storage.
+     * Handle payment the specified resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id

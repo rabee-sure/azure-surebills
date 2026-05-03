@@ -4,19 +4,19 @@
 @push('styles')
 <style>
   .singlebBillSimple_page {
-    @if($billUiTheme['bgImageUrl'])
-      background-image: url('{{ $billUiTheme['bgImageUrl'] }}');
+    @if($billCustomozations['imageUrl'])
+      background-image: url('{!! $billCustomozations['imageUrl'] !!}');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
     @else
-      background-color: {{ $billUiTheme['bgColor'] }};
+      background-color: {{ $billCustomozations['bgColor'] }};
     @endif
   }
 
   .single_bill_content,
   .single_bill_content * {
-    color: {{ $billUiTheme['textColor'] }} !important;
+    color: {{ $billCustomozations['textColor'] }} !important;
   }
 
   .single_bill_content .all_bill_page {
@@ -26,16 +26,16 @@
   #payButton,
   .payment_area button[type="button"],
   .payment_area .btn-success {
-    background-color: {{ $billUiTheme['btnBgColor'] }} !important;
-    color: {{ $billUiTheme['btnTextColor'] }} !important;
-    border-color: {{ $billUiTheme['btnBgColor'] }} !important;
+    background-color: {{ $billCustomozations['btnBgColor'] }} !important;
+    color: {{ $billCustomozations['btnTextColor'] }} !important;
+    border-color: {{ $billCustomozations['btnBgColor'] }} !important;
   }
 
   #payButton:hover,
   .payment_area button[type="button"]:hover,
   .payment_area .btn-success:hover {
-    background-color: {{ $billUiTheme['btnBgColor'] }} !important;
-    color: {{ $billUiTheme['btnTextColor'] }} !important;
+    background-color: {{ $billCustomozations['btnBgColor'] }} !important;
+    color: {{ $billCustomozations['btnTextColor'] }} !important;
     opacity: 0.9;
   }
 </style>
