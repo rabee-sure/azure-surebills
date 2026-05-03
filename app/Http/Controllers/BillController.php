@@ -26,6 +26,7 @@ use App\Jobs\ExportMerchantBills;
 use App\Models\RefundedBill;
 use App\Models\Settings;
 use App\Services\Coupon\CouponService;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException as ValidationsException;
 
 class BillController extends Controller
@@ -510,11 +511,28 @@ class BillController extends Controller
         {
             $payForm = 'bills.mastercard_pay_form';
         }
-        if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
-            return view('bills.pay', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'));
+
+        $settings = $bill->user->settings;
+        
+        $billCustomozations = [];
+        $billCustomozations['imageUrl'] = '';
+        if (!empty($bill->user->settings->background_image_file)){
+            $billCustomozations['imageUrl'] = Storage::disk('oci')->temporaryUrl(
+              $bill->user->settings->background_image_file,
+              now()->addMinutes(10)
+            );
         }
 
-        return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'));
+        $billCustomozations['bgColor'] = $settings->background_color_body ?? '#fafafa';
+        $billCustomozations['textColor'] = $settings->text_color_body ?? '#000000';
+        $billCustomozations['btnBgColor'] = $settings->background_color_payment_button ?? '#00d595';
+        $billCustomozations['btnTextColor'] = $settings->text_color_payment_button ?? '#ffffff';
+
+        if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
+            return view('bills.pay', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billCustomozations'));
+        }
+
+        return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billCustomozations'));
     }
 
     public function paymentSuccess()
