@@ -242,18 +242,29 @@ Route::middleware(['auth:admins'])->group(function () {
     Route::get('users/{user}', 'UserController@show')->name('users.show');
 
 
-    Route::get('/admin/download/{model_name}/{id}/{file_name}', function ($model_name, $id, $file_name) {
-      // نحول الاسم القادم من Nova لاسم الكلاس الكامل
-      $class = '\\App\\Models\\' . Str::studly($model_name);
-      abort_unless(class_exists($class), 404);
+  Route::get('/admin/download/{model_name}/{id}/{file_name}', function ($model_name, $id, $file_name) {
 
-      $record = $class::findOrFail($id);
+    $class = '\\App\\Models\\' . Str::studly($model_name);
+    abort_unless(class_exists($class), 404);
+    $record = $class::findOrFail($id);
+    $path = $record->$file_name;
+    abort_unless($path, 404);
+    $disk = \Illuminate\Support\Facades\Storage::disk('oci');
+    $path = ltrim($path, '/');
+    if (str_starts_with($path, 'public/')) {
+      $path = substr($path, 7);
+    }
+    abort_unless($disk->exists($path), 404);
+    $stream = $disk->readStream($path);
+    abort_unless($stream, 404);
+    return response()->streamDownload(function () use ($stream) {
+      fpassthru($stream);
+      if (is_resource($stream)) {
+        fclose($stream);
+      }
+    }, basename($path));
 
-      $path = storage_path('app/public/' . $record->$file_name);
-      abort_unless(file_exists($path), 404);
-
-      return response()->download($path);
-    })->name('nova.download');
+  })->name('nova.download');
 });
 
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');

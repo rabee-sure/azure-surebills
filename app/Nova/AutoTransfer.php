@@ -82,9 +82,9 @@ class AutoTransfer extends Resource
                 if (!$model->zip_file) {
                     return null;
                 }
-            
+
                 $url = route('nova.download', ['model_name' => 'AutoTransfer', 'id' => $model->id, 'file_name' => 'zip_file']);
-            
+
                 return <<<HTML
                     <a class="btn btn-success" style="margin:5px" href="{$url}">
                         <i class="fa fa-file-archive-o" aria-hidden="true"></i>
@@ -96,9 +96,9 @@ class AutoTransfer extends Resource
                 if (!$model->merchants_file) {
                     return null;
                 }
-            
+
                 $url = route('nova.download', ['model_name' => 'AutoTransfer', 'id' => $model->id, 'file_name' => 'merchants_file']);
-            
+
                 return <<<HTML
                     <a class="btn btn-success" style="margin:5px" href="{$url}">
                     <i class='fa fa-download' aria-hidden='true'></i>
@@ -111,9 +111,9 @@ class AutoTransfer extends Resource
                 if (!$model->channels_file) {
                     return null;
                 }
-            
+
                 $url = route('nova.download', ['model_name' => 'AutoTransfer', 'id' => $model->id, 'file_name' => 'channels_file']);
-            
+
                 return <<<HTML
                     <a class="btn btn-success" style="margin:5px" href="{$url}">
                     <i class='fa fa-download' aria-hidden='true'></i>
@@ -126,9 +126,9 @@ class AutoTransfer extends Resource
                 if (!$model->due_amount_file) {
                     return null;
                 }
-            
+
                 $url = route('nova.download', ['model_name' => 'AutoTransfer', 'id' => $model->id, 'file_name' => 'due_amount_file']);
-            
+
                 return <<<HTML
                     <a class="btn btn-success" style="margin:5px" href="{$url}">
                     <i class='fa fa-download' aria-hidden='true'></i>
@@ -141,9 +141,9 @@ class AutoTransfer extends Resource
                 if (!$model->merchants_summary_file) {
                     return null;
                 }
-            
+
                 $url = route('nova.download', ['model_name' => 'AutoTransfer', 'id' => $model->id, 'file_name' => 'merchants_summary_file']);
-            
+
                 return <<<HTML
                     <a class="btn btn-success" style="margin:5px" href="{$url}">
                     <i class='fa fa-download' aria-hidden='true'></i>

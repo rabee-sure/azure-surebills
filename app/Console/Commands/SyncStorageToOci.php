@@ -4,87 +4,105 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Symfony\Component\Finder\Finder;
 
 class SyncStorageToOci extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * Example: php artisan oci:sync
-     */
-    protected $signature = 'oci:sync {--dir= : Specific subdirectory under storage/app to sync (optional)}';
+  protected $signature = 'oci:sync';
 
-    /**
-     * The console command description.
-     */
-    protected $description = 'Upload all files from storage/app (or subdirectory) to the OCI bucket';
+  protected $description = 'Sync all files from storage/app to OCI without app/public prefix';
 
-    public function handle()
-    {
-        $ociDisk = Storage::disk('oci');
+  public function handle()
+  {
+    ini_set('memory_limit', '-1');
+    set_time_limit(0);
 
-        $paths = [
-            storage_path('app') => '',
-            storage_path('logs')       => 'logs/',
-        ];
+    $ociDisk = Storage::disk('oci');
 
-        $allFiles = [];
+    $basePath = storage_path('app');
 
-        foreach ($paths as $basePath => $prefix) {
+    $finder = new Finder();
+    $finder->files()->in($basePath);
 
-            if (!is_dir($basePath)) {
-                continue;
-            }
+    $files = [];
 
-            $files = \Illuminate\Support\Facades\File::allFiles($basePath);
+    foreach ($finder as $file) {
 
-            foreach ($files as $file) {
+      $fullPath = $file->getRealPath();
 
-                $relativePath = $prefix . str_replace(
-                    $basePath . DIRECTORY_SEPARATOR,
-                    '',
-                    $file->getPathname()
-                );
+      // ✨ شيل storage/app/
+      $relativePath = str_replace(
+        $basePath . DIRECTORY_SEPARATOR,
+        '',
+        $fullPath
+      );
 
-                $allFiles[] = [
-                    'full_path'     => $file->getPathname(),
-                    'relative_path' => str_replace('\\', '/', $relativePath),
-                ];
-            }
-        }
+      // ✨ normalize
+      $relativePath = str_replace('\\', '/', $relativePath);
 
-        if (empty($allFiles)) {
-            $this->warn('No files found to upload.');
-            return;
-        }
+      // 🔥 شيل public لو موجود
+      if (str_starts_with($relativePath, 'public/')) {
+        $relativePath = substr($relativePath, 7);
+      }
 
-        $bar = $this->output->createProgressBar(count($allFiles));
-        $bar->start();
+      $relativePath = ltrim($relativePath, '/');
 
-        foreach ($allFiles as $file) {
-
-            try {
-                $stream = fopen($file['full_path'], 'r');
-
-                $ociDisk->put(basename($file['relative_path']), $stream);
-
-                if (is_resource($stream)) {
-                    fclose($stream);
-                }
-
-            } catch (\Throwable $e) {
-                $this->error("\nFailed to upload {$file['relative_path']}: " . $e->getMessage());
-            }
-
-            $bar->advance();
-        }
-
-        $bar->finish();
-
-        $this->info("\nSync complete! Uploaded " . count($allFiles) . " file(s) to OCI.");
+      $files[] = [
+        'full' => $fullPath,
+        'path' => $relativePath,
+      ];
     }
 
+    $this->info("Total files: " . count($files));
 
+    $bar = $this->output->createProgressBar(count($files));
+    $bar->start();
 
+    $uploaded = 0;
+    $skipped = 0;
+    $failed = 0;
+
+    foreach ($files as $file) {
+
+      try {
+        $path = $file['path'];
+
+        // skip لو موجود
+        if ($ociDisk->exists($path)) {
+          $skipped++;
+          $bar->advance();
+          continue;
+        }
+
+        $stream = fopen($file['full'], 'rb');
+
+        if (!$stream) {
+          $failed++;
+          $bar->advance();
+          continue;
+        }
+
+        $ociDisk->put($path, $stream);
+
+        if (is_resource($stream)) {
+          fclose($stream);
+        }
+
+        $uploaded++;
+
+      } catch (\Throwable $e) {
+        $failed++;
+        $this->error("\nError: {$file['path']} → " . $e->getMessage());
+      }
+
+      $bar->advance();
+    }
+
+    $bar->finish();
+
+    $this->info("\n\nDone ✅");
+    $this->info("Uploaded: $uploaded");
+    $this->info("Skipped: $skipped");
+    $this->info("Failed: $failed");
+  }
 }
