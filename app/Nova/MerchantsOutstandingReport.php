@@ -91,7 +91,7 @@ class MerchantsOutstandingReport extends Resource
 //                    now()->addMinutes(10)
 //                );
 
-              $url = route('download.file_with_path', [$this->id ,'reports', $this->name]);
+              $url = route('download.file_path', [$this->id , $path]);
 
 
               return "<a class='btn btn-success' style='margin:5px' href='{$url}' target='_blank'>

@@ -87,7 +87,7 @@ class BillReport extends Resource
 
              // $id, $folder , $file_name
 
-              $url = route('download.file_with_path', [$this->id ,'reports', $this->name]);
+              $url = route('download.file_path', [$this->id ,$path]);
 
                 return "<a class='btn btn-success' style='margin:5px' href='{$url}' target='_blank'>
                             <i class='fa fa-download'></i>

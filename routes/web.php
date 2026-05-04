@@ -283,7 +283,8 @@ Route::middleware(config('nova.middleware', []))->group(function () {
   // Route::get('reports/merchants-outstanding', 'ReportsController@merchants_outstanding')->name('reports.merchants-outstanding');
   // Route::post('reports/merchants-outstanding/store', 'ReportsController@merchants_outstanding_store')->name('reports.merchants-outstanding-store');
 
-  Route::get('download/{id}/{path}/{file}', 'AccountController@downloadFileByPath')->name('download.file_with_path');
+  Route::get('download/file/{id}/{file}', 'AccountController@downloadFile')->name('download.file_path');
+//  Route::get('download/{id}/{path}/{file}', 'AccountController@downloadFileByPath')->name('download.file_with_path');
 
 });
 
