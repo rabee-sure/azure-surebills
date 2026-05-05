@@ -7,6 +7,7 @@ use App\Events\BillStatusUpdated;
 use App\Helpers\BillSignatureHelper;
 use App\Helpers\CybersourceMicroformHandlerHelper;
 use App\Http\Controllers\Controller;
+use App\Traits\ResolvesBillUiTheme;
 use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\CheckBillApiRequest;
 use App\Http\Requests\DebitNoteApiRequest;
@@ -31,6 +32,8 @@ use phpDocumentor\Reflection\Types\Null_;
 
 class BillController extends Controller
 {
+    use ResolvesBillUiTheme;
+
     protected $couponService;
 
     public function __construct(CouponService $couponService)
@@ -939,10 +942,12 @@ class BillController extends Controller
         {
             $payForm = 'bills.mastercard_pay_form';
         }
+        $billUiTheme = $this->resolveBillUiTheme($bill);
+
         if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
-            return response()->json(['view' => view('bills.pay', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'))->render()]);
+            return response()->json(['view' => view('bills.pay', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'))->render()]);
         }
-        
-        return response()->json(['view' => view('bills.payment_page', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'))->render()]); 
+
+        return response()->json(['view' => view('bills.payment_page', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'))->render()]);
     }
 }
