@@ -232,6 +232,9 @@ Route::get('/', 'HomeController@landing');
 Route::get('/contact', 'HomeController@contact');
 Route::get('/privacy', 'HomeController@privacy');
 Route::get('/terms', 'HomeController@terms');
+Route::prefix('ajax')->group(function () {
+  Route::post('contact/send', 'HomeController@contactSendForm')->name('contact.send_form');
+});
 
 Route::middleware(['auth:admins'])->group(function () {
     Route::get('users/all', 'UserController@all')->name('users.all');

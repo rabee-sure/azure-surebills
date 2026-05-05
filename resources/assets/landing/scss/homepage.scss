@@ -1,0 +1,19 @@
+@use "../helpers/common" as helpers;
+
+.faq-item {
+  &.active {
+    .faq-button {
+      .faq-icon {
+        @apply rotate-45;
+      } // faq-icon
+    } // faq-button
+    .faq-panel {
+      @apply grid-rows-[1fr];
+    } // faq-panel
+  } // active
+} // faq-item
+
+
+.statistics_item {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(239, 246, 255, 0.88) 100%);
+}
