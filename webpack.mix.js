@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const tailwindcss = require('tailwindcss');
 
 /*
  |--------------------------------------------------------------------------
@@ -100,7 +101,8 @@ const mix = require('laravel-mix');
     .copy('vendor/proengsoft/laravel-jsvalidation/resources/views', 'resources/views/vendor/jsvalidation')
     .copy('vendor/proengsoft/laravel-jsvalidation/public', 'public/vendor/jsvalidation')
     .options({
-     processCssUrls: false
+     processCssUrls: false,
+     postCss: [tailwindcss('./tailwind.config.js')],
    });
 
 
@@ -117,3 +119,5 @@ const mix = require('laravel-mix');
        cssNano: { preset: ['default', { discardComments: { removeAll: true } }] }
      });
    }
+
+  mix.sass('resources/assets/landing/scss/homepage.scss', 'public/assets/landing/css');
