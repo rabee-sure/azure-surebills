@@ -37,7 +37,11 @@
 
       body {
         @if($billUiTheme['bgImageUrl'])
-          background-image: url('{{ $billUiTheme['bgImageUrl'] }}');
+          /*  Emit the OCI pre-signed URL unescaped: inside <style> the HTML
+               parser does NOT decode character references, so Blade's default
+               `e()` would leave literal `&amp;` in the query string and break
+               the AWS-Sig-v4 signature ("SignatureDoesNotMatch"). */
+          background-image: url('{!! $billUiTheme['bgImageUrl'] !!}');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
