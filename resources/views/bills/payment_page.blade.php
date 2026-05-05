@@ -35,44 +35,35 @@
         font-weight: bold !important;
       }
 
-      @php
-        $settings = $bill->user->settings;
-        $bgColor = $settings->background_color_body ?? '#fafafa';
-        $bgImage = $settings->background_image_file ?? null;
-        $textColor = $settings->text_color_body ?? '#000000';
-        $btnBgColor = $settings->background_color_payment_button ?? '#00d595';
-        $btnTextColor = $settings->text_color_payment_button ?? '#ffffff';
-      @endphp
-
       body {
-        @if($bgImage)
-          background-image: url('{{ asset($bgImage) }}');
+        @if($billUiTheme['bgImageUrl'])
+          background-image: url('{{ $billUiTheme['bgImageUrl'] }}');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
         @else
-          background-color: {{ $bgColor }};
+          background-color: {{ $billUiTheme['bgColor'] }};
         @endif
       }
 
       body,
       body * {
-        color: {{ $textColor }} !important;
+        color: {{ $billUiTheme['textColor'] }} !important;
       }
 
       #payButton,
       button.btn-success,
       .btn-success {
-        background-color: {{ $btnBgColor }} !important;
-        color: {{ $btnTextColor }} !important;
-        border-color: {{ $btnBgColor }} !important;
+        background-color: {{ $billUiTheme['btnBgColor'] }} !important;
+        color: {{ $billUiTheme['btnTextColor'] }} !important;
+        border-color: {{ $billUiTheme['btnBgColor'] }} !important;
       }
 
       #payButton:hover,
       button.btn-success:hover,
       .btn-success:hover {
-        background-color: {{ $btnBgColor }} !important;
-        color: {{ $btnTextColor }} !important;
+        background-color: {{ $billUiTheme['btnBgColor'] }} !important;
+        color: {{ $billUiTheme['btnTextColor'] }} !important;
         opacity: 0.9;
       }
     </style>

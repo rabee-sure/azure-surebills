@@ -21,6 +21,7 @@ use App\Http\Requests\DebitNoteRequest;
 use Illuminate\Support\Facades\DB;
 use App\Services\MasterCardService;
 use Illuminate\Support\Facades\Log;
+use App\Traits\ResolvesBillUiTheme;
 use App\Http\Requests\RefundRequest;
 use App\Jobs\ExportMerchantBills;
 use App\Models\RefundedBill;
@@ -30,6 +31,8 @@ use Illuminate\Validation\ValidationException as ValidationsException;
 
 class BillController extends Controller
 {
+    use ResolvesBillUiTheme;
+
     private $masterCardService;
     protected $couponService;
 
@@ -510,11 +513,13 @@ class BillController extends Controller
         {
             $payForm = 'bills.mastercard_pay_form';
         }
+        $billUiTheme = $this->resolveBillUiTheme($bill);
+
         if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
-            return view('bills.pay', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'));
+            return view('bills.pay', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'));
         }
 
-        return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'));
+        return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'));
     }
 
     public function paymentSuccess()
