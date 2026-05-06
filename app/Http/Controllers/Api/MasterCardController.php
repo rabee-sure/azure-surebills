@@ -174,7 +174,10 @@ class MasterCardController extends Controller
 
         // 3DS Failure
         if ($request->result != 'SUCCESS' || $request->response_gatewayRecommendation != 'PROCEED') {
-            return redirect()->route('paybillpage', ['id' => $bill->pay_id, 'error' => '3DS Check Failure'])->withErrors(['field_name' => '3DS Check Failure']);
+            return PaymentHelper::renderPostPaymentRedirect(
+                route('paybillpage', ['id' => $bill->pay_id, 'error' => '3DS Check Failure']),
+                ['field_name' => '3DS Check Failure']
+            );
         }
 
         // SANDBOX PAYMENT SIMULATION (PAY step, no real MPGS calls)
@@ -200,7 +203,7 @@ class MasterCardController extends Controller
                 $redirect = config('app.url') . '/payment-success';
             }
 
-            return redirect($redirect);
+            return PaymentHelper::renderPostPaymentRedirect($redirect);
         }
 
         // make the payment
@@ -231,7 +234,10 @@ class MasterCardController extends Controller
         $response = json_decode($response->getBody()->getContents(), true);
 
         if (isset($response['result']) && $response['result'] == 'ERROR') {
-            return redirect()->route('paybillpage', ['id' => $bill->pay_id, 'error' => $invoice->getDetail('description')])->withErrors(['field_name' => $invoice->getDetail('description')]);
+            return PaymentHelper::renderPostPaymentRedirect(
+                route('paybillpage', ['id' => $bill->pay_id, 'error' => $invoice->getDetail('description')]),
+                ['field_name' => $invoice->getDetail('description')]
+            );
         }
 
         PaymentHelper::handlePaymentResponse($invoice, $bill->id, $invoice->getDetails());

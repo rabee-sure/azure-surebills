@@ -7,6 +7,8 @@ use GuzzleHttp\Client;
 use App\Jobs\MastercardWebhookSimulation;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\ViewErrorBag;
 
 class PaymentHelper
 {
@@ -94,7 +96,7 @@ class PaymentHelper
                 ];
             }
 
-            return redirect($redirect);
+            return self::renderPostPaymentRedirect($redirect);
         }
 
         // log for the payment
@@ -113,10 +115,43 @@ class PaymentHelper
         if($bill->application && $bill->user->settings->api_bill_style && $bill->is_redirect) {
             $bill->status = 'failed';
             $bill->save();
-            return redirect($bill->getRedirectUrl($payment->results['response']));
+            return self::renderPostPaymentRedirect($bill->getRedirectUrl($payment->results['response']));
         } else {
-            return redirect()->route('paybillpage', ['id' => $bill->pay_id, 'error' => trans('Payment is Failed')])->withErrors(['field_name' => $invoice->getDetail('description')]);
+            return self::renderPostPaymentRedirect(
+                route('paybillpage', ['id' => $bill->pay_id, 'error' => trans('Payment is Failed')]),
+                ['field_name' => $invoice->getDetail('description')]
+            );
         }
 
+    }
+
+    /**
+     * Render a 200-OK HTML interstitial that performs a client-side redirect
+     * to `$url` instead of issuing an HTTP 302.
+     *
+     * Why: CSP `form-action` (Level 3) is enforced on EVERY URL in the
+     * redirect chain that follows a form submission. The Mastercard 3DS
+     * auto-submitted form posts to our `check-payment` endpoint and we then
+     * redirect to either the merchant's `back_url` (arbitrary URL we cannot
+     * whitelist) or our own pay/success pages. Returning this interstitial
+     * terminates the form-submission navigation on our host (which IS in
+     * `form-action`); the subsequent `window.location.replace(...)` is a
+     * regular navigation that `form-action` does not gate.
+     *
+     * @param  string  $url
+     * @param  array<string,string>  $errors  Optional validation errors to
+     *         flash to the session (mirrors `redirect()->withErrors([...])`),
+     *         so the destination Blade can still display them via `$errors`.
+     * @return \Illuminate\Contracts\View\View
+     */
+    public static function renderPostPaymentRedirect($url, array $errors = [])
+    {
+        if (!empty($errors)) {
+            $bag = session()->get('errors', new ViewErrorBag())
+                ->put('default', new MessageBag($errors));
+            session()->flash('errors', $bag);
+        }
+
+        return view('bills.payment_redirect', ['redirectUrl' => $url]);
     }
 }
