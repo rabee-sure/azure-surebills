@@ -42,6 +42,33 @@ class Customer extends Model
     	return $query->where('user_id', $user_id);
     }
 
+    public function scopeMatchByMobileOrEmail($query, $userId, $mobile = null, $email = null)
+    {
+        return $query->where('user_id', $userId)
+            ->where(function ($query) use ($mobile, $email) {
+                $hasCondition = false;
+
+                if (!is_null($mobile)) {
+                    $query->where('mobile', $mobile);
+                    $hasCondition = true;
+                }
+
+                if (!is_null($email)) {
+                    if ($hasCondition) {
+                        $query->orWhere('email', $email);
+                    } else {
+                        $query->where('email', $email);
+                    }
+
+                    $hasCondition = true;
+                }
+
+                if (!$hasCondition) {
+                    $query->whereRaw('1 = 0');
+                }
+            });
+    }
+
     /**
      * Get bills.
      *
