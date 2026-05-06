@@ -62,13 +62,12 @@ class BillController extends Controller
 
         Bill::where('reference_id', $request->reference_id)->where('user_id', $bill_user_id)->where('status', 'pending')->update(['status' => 'canceled']);
 
-        // Find the customer by mobile or email
-        $customer = Customer::where('user_id', $user->id)
-                    ->where(function($query) use ($request) {
-                        $query->where('mobile', $request->customer_mobile)
-                              ->orWhere('email', $request->customer_email);
-                    })
-                    ->first();
+        // Find the customer by mobile or email (if email is provided)
+        $customer = Customer::matchByMobileOrEmail(
+            $user->id,
+            $request->customer_mobile,
+            $request->customer_email
+        )->first();
 
         if ($customer) {
             // Update the existing customer
@@ -484,13 +483,12 @@ class BillController extends Controller
             ->where('status', 'pending')
             ->update(['status' => 'canceled']);
 
-        // Find the customer by mobile or email
-        $customer = Customer::where('user_id', $user->id)
-                    ->where(function($query) use ($request) {
-                        $query->where('mobile', $request->customer_mobile)
-                              ->orWhere('email', $request->customer_email);
-                    })
-                    ->first();
+        // Find the customer by mobile or email (if email is provided)
+        $customer = Customer::matchByMobileOrEmail(
+            $user->id,
+            $request->customer_mobile,
+            $request->customer_email
+        )->first();
 
         if ($customer) {
             // Update the existing customer
