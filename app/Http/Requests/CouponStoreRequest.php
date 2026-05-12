@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\CouponMechanism;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CouponStoreRequest extends FormRequest
 {
@@ -25,7 +26,12 @@ class CouponStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255|unique:coupons,name',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('coupons', 'name')->whereNull('deleted_at'),
+            ],
             'mechanism' => 'required|in:' . implode(',', CouponMechanism::values()),
             'discount_type' => 'required|in:fixed,percentage',
             'discount_value' => 'required|numeric|min:0' . ($this->discount_type === 'percentage' ? '|max:100' : ''),
