@@ -151,13 +151,12 @@ class BillController extends Controller
         $bill = DB::transaction(function () use ($request) {
             $user = auth()->user();
 
-            // Find the customer by mobile or email
-            $customer = Customer::where('user_id', $user->store_main_user_id ?? $user->id)
-            ->where(function($query) use ($request) {
-                $query->where('mobile', $request->customer_mobile)
-                    ->orWhere('email', $request->customer_email);
-            })
-            ->first();
+            // Find the customer by mobile or email (if email is provided)
+            $customer = Customer::matchByMobileOrEmail(
+                $user->store_main_user_id ?? $user->id,
+                $request->customer_mobile,
+                $request->customer_email
+            )->first();
 
             if ($customer) {
                 // Update the existing customer
