@@ -1150,5 +1150,6 @@
   "uses": "استخدامات",
   "used": "مستخدم",
   "Inactive": "غير مفعل",
-  "Exhausted": "مستهلك"
+  "Exhausted": "مستهلك",
+  "Coupon is not yet valid": "الكوبون غير صالح بعد"
 }
