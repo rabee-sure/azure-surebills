@@ -52,7 +52,7 @@ class BillTotalValidation implements Rule
         if(request()->has('coupon_code')){
             // Try to find as reusable coupon first
             $coupon = $this->repository->findByCode(request()->coupon_code, Auth::user()->store_main_user_id ?? Auth::user()->id);
-
+            
             if (!$coupon) {
                 // Try to find as one-time code
                 $couponCode = $this->repository->findCodeByCode(request()->coupon_code, Auth::user()->store_main_user_id ?? Auth::user()->id);
@@ -63,13 +63,13 @@ class BillTotalValidation implements Rule
             }
             
             if($coupon){
-                if($coupon->mechanism == 'fixed')
+                if($coupon->discount_type == 'fixed')
                     $this->total -= $coupon->discount_value;
-                else if($coupon->mechanism == 'percentage')
+                else if($coupon->discount_type == 'percentage')
                     $this->total -= ($this->total * $coupon->discount_value) / 100;
             }
         }
-        
+
         $addTax = false;
         $taxValue = null;
 
