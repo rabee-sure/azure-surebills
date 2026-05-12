@@ -117,13 +117,13 @@
                 <td class="fw-bold">{{ __('Status') }}</td>
                 <td>
                   @if($coupon->is_expired)
-                    <span class="badge badge-pill badge-danger">{{ __('Expired') }}</span>
+                    <span class="badge badge-pill bg-danger">{{ __('Expired') }}</span>
                   @elseif(!$coupon->is_active)
-                    <span class="badge badge-pill badge-secondary">{{ __('Inactive') }}</span>
+                    <span class="badge badge-pill bg-secondary">{{ __('Inactive') }}</span>
                   @elseif(!$coupon->is_valid)
-                    <span class="badge badge-pill badge-warning">{{ __('Exhausted') }}</span>
+                    <span class="badge badge-pill bg-warning">{{ __('Exhausted') }}</span>
                   @else
-                    <span class="badge badge-pill badge-success">{{ __('Active') }}</span>
+                    <span class="badge badge-pill bg-success">{{ __('Active') }}</span>
                   @endif
                 </td>
               </tr>
