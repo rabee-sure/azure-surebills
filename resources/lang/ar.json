@@ -1145,5 +1145,6 @@
   "Coupon: :name": "كوبون: :name",
   "Coupon usage limit has been reached": "تم الوصول إلى الحد الأقصى لعدد الاستخدامات لهذا الكوبون",
   "by :count customers": "بواسطة :count عملاء",
-  "Successfully generated :count codes": "تم إنشاء :count رمز بنجاح"
+  "Successfully generated :count codes": "تم إنشاء :count رمز بنجاح",
+  "Invalid placeholder: :placeholder": "المتغير :placeholder غير صالح"
 }
