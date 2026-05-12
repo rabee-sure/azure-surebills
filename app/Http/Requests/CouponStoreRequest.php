@@ -25,7 +25,7 @@ class CouponStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:coupons,name',
             'mechanism' => 'required|in:' . implode(',', CouponMechanism::values()),
             'discount_type' => 'required|in:fixed,percentage',
             'discount_value' => 'required|numeric|min:0' . ($this->discount_type === 'percentage' ? '|max:100' : ''),
@@ -33,7 +33,7 @@ class CouponStoreRequest extends FormRequest
             'valid_to' => 'nullable|date|after_or_equal:valid_from',
             'max_usage' => 'nullable|integer|min:1',
             'max_customer_usage' => 'nullable|integer|min:1',
-            'code_pattern' => 'nullable|string|max:255',
+            'code_pattern' => 'nullable|string|max:255|unique:coupons,code_pattern',
             'is_active' => 'boolean',
         ];
     }
@@ -44,6 +44,7 @@ class CouponStoreRequest extends FormRequest
             'name.required' => __('The name field is required.'),
             'name.string' => __('The name field must be a string.'),
             'name.max' => __('The name field must be less than 255 characters.'),
+            'name.unique' => __('The name has already been taken.'),
             'mechanism.required' => __('The mechanism field is required.'),
             'mechanism.in' => __('The mechanism field must be a valid mechanism.'),
             'discount_type.required' => __('The discount type field is required.'),
@@ -61,6 +62,7 @@ class CouponStoreRequest extends FormRequest
             'max_customer_usage.min' => __('The max customer usage field must be greater than 0.'),
             'code_pattern.string' => __('The code pattern field must be a string.'),
             'code_pattern.max' => __('The code pattern field must be less than 255 characters.'),
+            'code_pattern.unique' => __('The code pattern has already been taken.'),
             'is_active.boolean' => __('The is active field must be a boolean.'),
         ];
     }
