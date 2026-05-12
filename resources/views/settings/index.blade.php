@@ -256,7 +256,12 @@
           <div class="row mb-3">
             <label for="background_color_body" class="col-sm-2 col-form-label">{{ __('Background Image') }}</label>
             <div class="col-sm-4">
-              <input type="file" name="background_image_file" id="background_image_file" accept="image/*" class="form-control shadow-none bg-white border w-100 rounded-3" accept="image/png, image/jpeg, image/jpg">
+              <div class="upoadInput border rounded-3 position-relative overflow-hidden d-flex align-items-center justify-content-start">
+                <input name="background_image_file" type="file" id="background_image_file" class="d-block position-absolute top-0 start-0 w-100 h-100" accept="image/png, image/jpeg, image/jpg">
+                <input type="hidden" name="hidden_background_image_file" value="{{ $user->settings->background_image_file }}" />
+                <div class="fileName h-100 d-flex align-items-center justify-content-start flex-grow-1 px-2"></div>
+                <div class="fileBtn text-body d-flex align-items-center justify-content-center fw-bold">{{ __('Choose file') }}</div>
+              </div><!-- upoadInput -->
               <small class="text-secondary">{{ __('Maximum image size is 1MB') }}</small>
               @if($user->settings->background_image_file)
                 <div class="form-group mt-3">
@@ -348,24 +353,33 @@
       toggleLangSelector()
 
       // Delete background image
- $('.delete-background-image').click(function() {
-  // تخزين العنصر الحالي لاستخدامه لاحقًا
-  var currentButton = $(this);
-  var formGroup = $(this).closest('.form-group');
+      $('.delete-background-image').click(function() {
+        // تخزين العنصر الحالي لاستخدامه لاحقًا
+        var currentButton = $(this);
+        var formGroup = $(this).closest('.form-group');
 
-  // عرض الـ Modal
-  $('#deleteImageModal').modal('show');
+        // عرض الـ Modal
+        $('#deleteImageModal').modal('show');
 
-  // عند الضغط على زر الحذف في الـ Modal
-  $('#confirmDeleteBtn').off('click').on('click', function() {
-    // تنفيذ عملية الحذف
-    $('#delete_background_image').val('1');
-    formGroup.hide();
+        // عند الضغط على زر الحذف في الـ Modal
+        $('#confirmDeleteBtn').off('click').on('click', function() {
+          // تنفيذ عملية الحذف
+          $('#delete_background_image').val('1');
+          formGroup.hide();
 
-    // إغلاق الـ Modal
-    $('#deleteImageModal').modal('hide');
-  });
-});
+          // إغلاق الـ Modal
+          $('#deleteImageModal').modal('hide');
+        });
+      });
+      $('#background_image_file').bind('change', function () {
+        var filename = $("#background_image_file").val();
+        if (/^\s*$/.test(filename)) {
+          $(".fileName").text("No file chosen...");
+        }
+        else {
+          $(".fileName").text(filename.replace("C:\\fakepath\\", ""));
+        }
+      });
 
     });
     function toggleLangSelector() {
