@@ -149,6 +149,15 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 
   Route::resource('customers', 'CustomerController');
 
+  // Coupons routes
+  Route::resource('coupons', 'CouponController');
+  Route::post('coupons/{id}/toggle-status', 'CouponController@toggleStatus')->name('coupons.toggle-status');
+  Route::post('coupons/{id}/delete', 'CouponController@destroy')->name('coupons.delete');
+  Route::get('coupons/{id}/bulk-generate', 'CouponController@bulkGenerate')->name('coupons.bulk-generate');
+  Route::post('coupons/{id}/bulk-generate', 'CouponController@storeBulkGenerate')->name('coupons.store-bulk-generate');
+  Route::get('coupons/{id}/export', 'CouponController@showExport')->name('coupons.show-export');
+  Route::post('coupons/{id}/export', 'CouponController@export')->name('coupons.export');
+
   Route::get('statement', 'StatementController@index')->name('statement.index');
   Route::get('statement/export', 'StatementController@export')->name('statement.export');
   Route::get('transfers', 'TransferController@index')->name('transfers.index');

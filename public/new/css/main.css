@@ -2211,7 +2211,8 @@ progress {
 .form-control::-webkit-file-upload-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
-  margin-inline-end: 0.75rem;
+  -webkit-margin-end: 0.75rem;
+          margin-inline-end: 0.75rem;
   color: #212529;
   background-color: #e9ecef;
   pointer-events: none;
@@ -2226,7 +2227,8 @@ progress {
 .form-control::file-selector-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
-  margin-inline-end: 0.75rem;
+  -webkit-margin-end: 0.75rem;
+          margin-inline-end: 0.75rem;
   color: #212529;
   background-color: #e9ecef;
   pointer-events: none;
@@ -2255,7 +2257,8 @@ progress {
 .form-control::-webkit-file-upload-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
-  margin-inline-end: 0.75rem;
+  -webkit-margin-end: 0.75rem;
+          margin-inline-end: 0.75rem;
   color: #212529;
   background-color: #e9ecef;
   pointer-events: none;
@@ -2302,17 +2305,20 @@ progress {
 .form-control-sm::-webkit-file-upload-button {
   padding: 0.25rem 0.5rem;
   margin: -0.25rem -0.5rem;
-  margin-inline-end: 0.5rem;
+  -webkit-margin-end: 0.5rem;
+          margin-inline-end: 0.5rem;
 }
 .form-control-sm::file-selector-button {
   padding: 0.25rem 0.5rem;
   margin: -0.25rem -0.5rem;
-  margin-inline-end: 0.5rem;
+  -webkit-margin-end: 0.5rem;
+          margin-inline-end: 0.5rem;
 }
 .form-control-sm::-webkit-file-upload-button {
   padding: 0.25rem 0.5rem;
   margin: -0.25rem -0.5rem;
-  margin-inline-end: 0.5rem;
+  -webkit-margin-end: 0.5rem;
+          margin-inline-end: 0.5rem;
 }
 
 .form-control-lg {
@@ -2324,17 +2330,20 @@ progress {
 .form-control-lg::-webkit-file-upload-button {
   padding: 0.5rem 1rem;
   margin: -0.5rem -1rem;
-  margin-inline-end: 1rem;
+  -webkit-margin-end: 1rem;
+          margin-inline-end: 1rem;
 }
 .form-control-lg::file-selector-button {
   padding: 0.5rem 1rem;
   margin: -0.5rem -1rem;
-  margin-inline-end: 1rem;
+  -webkit-margin-end: 1rem;
+          margin-inline-end: 1rem;
 }
 .form-control-lg::-webkit-file-upload-button {
   padding: 0.5rem 1rem;
   margin: -0.5rem -1rem;
-  margin-inline-end: 1rem;
+  -webkit-margin-end: 1rem;
+          margin-inline-end: 1rem;
 }
 
 textarea.form-control {
@@ -4792,6 +4801,12 @@ textarea.form-control-lg {
   color: #101214;
 }
 
+@-webkit-keyframes progress-bar-stripes {
+  0% {
+    background-position-x: 1rem;
+  }
+}
+
 @keyframes progress-bar-stripes {
   0% {
     background-position-x: 1rem;
@@ -4829,11 +4844,13 @@ textarea.form-control-lg {
 }
 
 .progress-bar-animated {
-  animation: 1s linear infinite progress-bar-stripes;
+  -webkit-animation: 1s linear infinite progress-bar-stripes;
+          animation: 1s linear infinite progress-bar-stripes;
 }
 @media (prefers-reduced-motion: reduce) {
   .progress-bar-animated {
-    animation: none;
+    -webkit-animation: none;
+            animation: none;
   }
 }
 
@@ -5224,6 +5241,7 @@ textarea.form-control-lg {
 }
 
 .toast-container {
+  width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
   max-width: 100%;
@@ -5791,7 +5809,8 @@ textarea.form-control-lg {
   float: left;
   width: 100%;
   margin-right: -100%;
-  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
   transition: transform 0.6s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -5972,6 +5991,12 @@ textarea.form-control-lg {
   color: #000;
 }
 
+@-webkit-keyframes spinner-border {
+  to {
+    transform: rotate(360deg) /* rtl:ignore */;
+  }
+}
+
 @keyframes spinner-border {
   to {
     transform: rotate(360deg) /* rtl:ignore */;
@@ -5985,13 +6010,24 @@ textarea.form-control-lg {
   border: 0.25em solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
-  animation: 0.75s linear infinite spinner-border;
+  -webkit-animation: 0.75s linear infinite spinner-border;
+          animation: 0.75s linear infinite spinner-border;
 }
 
 .spinner-border-sm {
   width: 1rem;
   height: 1rem;
   border-width: 0.2em;
+}
+
+@-webkit-keyframes spinner-grow {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes spinner-grow {
@@ -6011,7 +6047,8 @@ textarea.form-control-lg {
   background-color: currentColor;
   border-radius: 50%;
   opacity: 0;
-  animation: 0.75s linear infinite spinner-grow;
+  -webkit-animation: 0.75s linear infinite spinner-grow;
+          animation: 0.75s linear infinite spinner-grow;
 }
 
 .spinner-grow-sm {
@@ -6022,7 +6059,8 @@ textarea.form-control-lg {
 @media (prefers-reduced-motion: reduce) {
   .spinner-border,
 .spinner-grow {
-    animation-duration: 1.5s;
+    -webkit-animation-duration: 1.5s;
+            animation-duration: 1.5s;
   }
 }
 .offcanvas {
@@ -6219,6 +6257,7 @@ textarea.form-control-lg {
 }
 
 .sticky-top {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 1020;
@@ -6226,6 +6265,7 @@ textarea.form-control-lg {
 
 @media (min-width: 576px) {
   .sticky-sm-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -6233,6 +6273,7 @@ textarea.form-control-lg {
 }
 @media (min-width: 768px) {
   .sticky-md-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -6240,6 +6281,7 @@ textarea.form-control-lg {
 }
 @media (min-width: 992px) {
   .sticky-lg-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -6247,6 +6289,7 @@ textarea.form-control-lg {
 }
 @media (min-width: 1200px) {
   .sticky-xl-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -6254,6 +6297,7 @@ textarea.form-control-lg {
 }
 @media (min-width: 1400px) {
   .sticky-xxl-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -6413,6 +6457,7 @@ textarea.form-control-lg {
 }
 
 .position-sticky {
+  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -10979,11 +11024,22 @@ textarea.form-control-lg {
 }
 
 .fa-spin {
-  animation: fa-spin 2s infinite linear;
+  -webkit-animation: fa-spin 2s infinite linear;
+          animation: fa-spin 2s infinite linear;
 }
 
 .fa-pulse {
-  animation: fa-spin 1s infinite steps(8);
+  -webkit-animation: fa-spin 1s infinite steps(8);
+          animation: fa-spin 1s infinite steps(8);
+}
+
+@-webkit-keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes fa-spin {
@@ -30697,6 +30753,7 @@ section#homepage .addNewBillBtn:hover {
   /* inputGroup */
   /* checkboxItem */
   /* name */
+  /* upoadInput */
   /* saveBtn */
 }
 #invoiceSettingsPage .title {
@@ -30891,6 +30948,26 @@ section#homepage .addNewBillBtn:hover {
 }
 #invoiceSettingsPage .color_input::-webkit-color-swatch {
   border: none;
+}
+#invoiceSettingsPage .upoadInput {
+  height: 40px;
+  /* input */
+  /* fileName */
+  /* fileBtn */
+}
+#invoiceSettingsPage .upoadInput input {
+  opacity: 0;
+  z-index: 999;
+  cursor: pointer;
+}
+#invoiceSettingsPage .upoadInput .fileName {
+  direction: ltr;
+}
+#invoiceSettingsPage .upoadInput .fileBtn {
+  height: 38px;
+  min-width: 85px;
+  font-size: 13px;
+  background-color: #dee2e6;
 }
 #invoiceSettingsPage .saveBtn {
   /* button */
@@ -32771,6 +32848,255 @@ section#homepage .addNewBillBtn:hover {
 }
 
 /* posPayPage */
+#couponsIndexPage .title h1, #couponsIndexPage .title .h1 {
+  color: #3a3a3a;
+}
+#couponsIndexPage .title a {
+  min-width: 130px;
+  height: 40px;
+  font-size: 14px;
+}
+#couponsIndexPage .couponsArea table {
+  /* th */
+}
+#couponsIndexPage .couponsArea table th {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 14px;
+}
+#couponsIndexPage .couponsArea table td {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+}
+#couponsIndexPage .couponsArea table td .badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  font-size: 12px;
+  padding: 0 10px;
+}
+#couponsIndexPage .couponsArea table td a, #couponsIndexPage .couponsArea table td button {
+  width: 35px;
+  height: 35px;
+}
+#couponsIndexPage .couponsArea .no_coupons_yet {
+  min-height: 400px;
+  color: #999;
+  /* md */
+}
+@media (max-width: 767.98px) {
+  #couponsIndexPage .couponsArea .no_coupons_yet {
+    min-height: 200px;
+  }
+}
+#couponsIndexPage .couponsArea .no_coupons_yet i {
+  font-size: 100px;
+}
+@media (max-width: 767.98px) {
+  #couponsIndexPage .couponsArea .no_coupons_yet i {
+    font-size: 70px;
+  }
+}
+#couponsIndexPage .couponsArea .no_coupons_yet span {
+  font-size: 18px;
+}
+@media (max-width: 767.98px) {
+  #couponsIndexPage .couponsArea .no_coupons_yet span {
+    font-size: 15px;
+  }
+}
+
+#couponsCreatePage {
+  /* checkboxItem */
+  /* saveBtn */
+}
+#couponsCreatePage .title h1, #couponsCreatePage .title .h1 {
+  color: #3a3a3a;
+}
+#couponsCreatePage .checkboxItem {
+  /* span */
+}
+#couponsCreatePage .checkboxItem input {
+  opacity: 0;
+  z-index: 99;
+  cursor: pointer;
+}
+#couponsCreatePage .checkboxItem input:checked ~ span i {
+  background-color: var(--mainColor);
+  box-shadow: 0 2px 4px 0 rgba(var(--mainColorRGB), 0.4);
+}
+#couponsCreatePage .checkboxItem input:checked ~ span i::after {
+  transform: translateX(-28px);
+  /* ltr */
+}
+[dir=ltr] #couponsCreatePage .checkboxItem input:checked ~ span i::after {
+  transform: translateX(28px);
+}
+#couponsCreatePage .checkboxItem span {
+  color: #3a3a3a;
+  /* i */
+}
+#couponsCreatePage .checkboxItem span i {
+  height: 25px;
+  width: 53px;
+  background-color: #d7d7d7;
+  margin: 0 0 0 10px;
+  transition: all 0.3s ease-in-out;
+  /* ltr */
+  /* after */
+}
+[dir=ltr] #couponsCreatePage .checkboxItem span i {
+  margin: 0 10px 0 0;
+}
+#couponsCreatePage .checkboxItem span i::after {
+  content: "";
+  width: 17px;
+  height: 17px;
+  background-color: #fff;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  border-radius: 100%;
+  transition: all 0.3s ease-in-out;
+  /* ltr */
+}
+[dir=ltr] #couponsCreatePage .checkboxItem span i::after {
+  right: auto;
+  left: 4px;
+}
+#couponsCreatePage .saveBtn {
+  /* button */
+}
+#couponsCreatePage .saveBtn button {
+  height: 40px;
+  min-width: 120px;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  /* disabled="disabled" */
+}
+#couponsCreatePage .saveBtn button[disabled=disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+#couponsShowPage .title h1, #couponsShowPage .title .h1 {
+  color: #3a3a3a;
+}
+#couponsShowPage .title a {
+  min-width: 130px;
+  height: 40px;
+  font-size: 14px;
+}
+#couponsShowPage .customCard .customCard-header {
+  background-color: #fafafa;
+  border-inline: 1px solid #dee2e6;
+  -webkit-border-before: 1px solid #dee2e6;
+          border-block-start: 1px solid #dee2e6;
+  padding: 10px;
+}
+#couponsShowPage .customCard .customCard-body table th {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 14px;
+}
+#couponsShowPage .customCard .customCard-body table td {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+}
+#couponsShowPage .customCard .customCard-body table td .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  font-size: 12px;
+  padding: 0 10px;
+}
+#couponsShowPage .customCard .customCard-body .anotherTable table td {
+  border: 1px solid #dee2e6;
+  color: #3a3a3a;
+  vertical-align: middle;
+  padding: 10px;
+}
+#couponsShowPage .customCard .customCard-body .anotherTable table td .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  font-size: 12px;
+  padding: 0 10px;
+}
+
+#couponsBulkGeneratePage {
+  /* saveBtn */
+}
+#couponsBulkGeneratePage .title h1, #couponsBulkGeneratePage .title .h1 {
+  color: #3a3a3a;
+}
+#couponsBulkGeneratePage .saveBtn {
+  /* button */
+}
+#couponsBulkGeneratePage .saveBtn button, #couponsBulkGeneratePage .saveBtn a {
+  height: 40px;
+  min-width: 120px;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  /* disabled="disabled" */
+}
+#couponsBulkGeneratePage .saveBtn button[disabled=disabled], #couponsBulkGeneratePage .saveBtn a[disabled=disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+#couponsExportPage {
+  /* saveBtn */
+}
+#couponsExportPage .title h1, #couponsExportPage .title .h1 {
+  color: #3a3a3a;
+}
+#couponsExportPage .checkItem input {
+  opacity: 0;
+  z-index: 99;
+  cursor: pointer;
+}
+#couponsExportPage .checkItem input:checked ~ label {
+  border-color: var(--mainColor) !important;
+}
+#couponsExportPage .checkItem input:checked ~ label .checkmark {
+  background-color: var(--mainColor) !important;
+  border-color: var(--mainColor) !important;
+  box-shadow: 0 0 0 2px var(--mainColor);
+}
+#couponsExportPage .checkItem label .checkmark {
+  width: 24px;
+  height: 24px;
+}
+#couponsExportPage .saveBtn {
+  /* button */
+}
+#couponsExportPage .saveBtn a {
+  height: 40px;
+  min-width: 120px;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  /* disabled="disabled" */
+}
+#couponsExportPage .saveBtn a[disabled=disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 body {
   background-color: #f8f8f8;
   direction: rtl;
@@ -32810,6 +33136,11 @@ body.show-spinner::after {
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
   }
 }
 a {
@@ -33294,15 +33625,13 @@ span.select2 .selection .select2-selection--single .select2-selection__rendered 
 }
 span.select2 .selection .select2-selection--single .select2-selection__arrow {
   position: absolute;
-  left: 0;
+  inset-inline-end: 10px !important;
   top: 0;
   height: 38px;
-  /* ltr */
+  left: unset;
+  right: unset;
+  width: auto;
   /* after */
-}
-[dir=ltr] span.select2 .selection .select2-selection--single .select2-selection__arrow {
-  left: auto;
-  right: 1px;
 }
 span.select2 .selection .select2-selection--single .select2-selection__arrow::after {
   content: "";

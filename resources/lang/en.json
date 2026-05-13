@@ -403,5 +403,7 @@
 "OTP has expired. Please request a new one.": "OTP has expired. Please request a new one.",
 "OTP verified successfully": "OTP verified successfully",
 "Failed to resend OTP. Please try again.": "Failed to resend OTP. Please try again.",
-"Are you sure you want to delete this image?": "Are you sure you want to delete this image?"
+"Are you sure you want to delete this image?": "Are you sure you want to delete this image?",
+"no expiration": "no expiration",
+"Until": "Until"
 }

@@ -851,6 +851,23 @@
       border: none;
     }
   } // color_input
+  .upoadInput {
+    height: 40px;
+    input {
+      opacity: 0;
+      z-index: 999;
+      cursor: pointer;
+    } /* input */
+    .fileName {
+      direction: ltr;
+    } /* fileName */
+    .fileBtn {
+      height: 38px;
+      min-width: 85px;
+      font-size: 13px;
+      background-color: #dee2e6;
+    } /* fileBtn */
+  } /* upoadInput */
   .saveBtn {
     button {
       height: 40px;
