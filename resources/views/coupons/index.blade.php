@@ -51,7 +51,7 @@
               <th scope="col" class="fw-bold">{{__('Valid Period')}}</th>
               <th scope="col" class="fw-bold">{{__('Usage Progress')}}</th>
               <th scope="col" class="fw-bold">{{__('Status')}}</th>
-              <th scope="col" class="fw-bold" width="10%">{{__('Actions')}}</th>
+              <th scope="col" class="fw-bold" width="5%">{{__('Actions')}}</th>
             </tr>
           </thead>
           <tbody>
@@ -63,6 +63,10 @@
                 $limit = $stats['limit'] ?? $coupon->max_usage ?? null;
                 $isExpired = $coupon->is_expired;
                 $isValid = $coupon->is_valid;
+                $now = now();
+                $withinValidPeriod = (!$coupon->valid_from || $now->gte($coupon->valid_from))
+                  && (!$coupon->valid_to || $now->lte($coupon->valid_to));
+                $canDelete = $totalUsage === 0;
               @endphp
               <tr>
                 <td>{{ $coupon->id }}</td>
@@ -92,7 +96,6 @@
                   @endif
                 </td>
                 <td>
-
                   @if($limit)
                     <div class="d-flex align-items-start flex-column gap-1">
                       <span class="d-block text-capitalize">{{ $totalUsage }}/{{ $limit }}</span>
@@ -128,37 +131,72 @@
                   @endif
                 </td>
                 <td>
-                  <div class="d-flex align-items-center justify-content-start gap-2">
-                    <a
-                      href="{{ route('coupons.show', $coupon->id)}}"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title="{{ __('View') }}"
-                      class="btn btn-icon text-white btn-sm btn-primary waves-effect waves-light"
-                    >
-                      <span class="icon-base ti ti-eye icon-18px"></span>
-                    </a>
-                    @if($coupon->mechanism && $coupon->mechanism->value() === 'one_time_usage' && $isValid)
-                      <a
-                        href="{{ route('coupons.bulk-generate', $coupon->id)}}"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="{{ __('Generate Codes') }}"
-                        class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light"
-                      >
-                        <span class="icon-base ti ti-circle-plus icon-18px"></span>
+                  <div class="dropdown">
+                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                      <i class="icon-base ti ti-dots-vertical"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="{{ route('coupons.show', $coupon->id)}}">
+                        <i class="icon-base ti ti-eye me-1"></i> {{ __('View') }}
                       </a>
-                      <a
-                        href="{{ route('coupons.show-export', $coupon->id)}}"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="{{ __('Export') }}"
-                        class="btn btn-icon text-white btn-sm btn-secondary waves-effect waves-light"
-                      >
-                        <span class="icon-base ti ti-download icon-18px"></span>
-                      </a>
-                    @endif
+                      @if($coupon->mechanism && $coupon->mechanism->value() === 'one_time_usage' && $isValid)
+                        <a class="dropdown-item" href="{{ route('coupons.bulk-generate', $coupon->id)}}">
+                          <i class="icon-base ti ti-circle-plus me-1"></i> {{ __('Generate Codes') }}
+                        </a>
+                        <a class="dropdown-item" href="{{ route('coupons.show-export', $coupon->id)}}">
+                          <i class="icon-base ti ti-download me-1"></i> {{ __('Export') }}
+                        </a>
+                      @endif
+                      @if($withinValidPeriod)
+                        <form method="POST" action="{{ route('coupons.toggle-status', $coupon->id) }}">
+                          @csrf
+                          <button
+                            type="submit"
+                            class="dropdown-item"
+                          >
+                            <i class="icon-base ti ti-toggle-right me-1"></i> {{ $coupon->is_active ? __('Deactivate') : __('Activate') }}
+                          </button>
+                        </form>
+                      @endif
+                      @if($canDelete)
+                        <button
+                          type="button"
+                          class="dropdown-item"
+                          data-bs-toggle="modal"
+                          data-bs-target="#delete_coupon_Modal_{{ $coupon->id }}"
+                        >
+                          <i class="icon-base ti ti-trash me-1"></i> {{ __('Delete') }}
+                        </button>
+                      @endif
+                    </div>
                   </div>
+                  @if($canDelete)
+                    <div class="modal fade" id="delete_coupon_Modal_{{ $coupon->id }}" tabindex="-1" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="d-flex align-items-center justify-content-center text-warning mb-3">
+                              <i class="icon-base ti ti-info-triangle icon-50px"></i>
+                            </div>
+                            <h5 class="m-0 text-center">{{ __('Are you sure you want to delete this coupon?') }}</h5>
+                          </div>
+                          <form action="{{ route('coupons.delete', $coupon->id) }}" method="post" class="modal-footer form-delete-coupon">
+                            @csrf
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="submit" class="btn btn-danger btn-submit-with-spinner" data-loading-text="{{ __('Deleting...') }}">
+                              <span class="btn-spinner d-none me-2" role="status">
+                                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                              </span>
+                              <span class="btn-text">{{ __('Delete') }}</span>
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  @endif
                 </td>
               </tr>
             @endforeach
@@ -176,4 +214,37 @@
     @endif
   </div><!-- card -->
 
-  @endsection
+@endsection
+
+@push('footer-scripts')
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('submit', function(e) {
+        const form = e.target;
+        if (!form.classList.contains('form-delete-coupon')) return;
+
+        const btn = form.querySelector('.btn-submit-with-spinner');
+        if (!btn || btn.disabled) return;
+
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        const originalText = btnText ? btnText.textContent : '{{ __("Delete") }}';
+
+        function resetButton() {
+          btn.disabled = false;
+          if (btnText && btnSpinner) {
+            btnText.textContent = originalText;
+            btnSpinner.classList.add('d-none');
+          }
+        }
+
+        btn.disabled = true;
+        if (btnText && btnSpinner) {
+          btnText.textContent = btn.dataset.loadingText || 'Deleting...';
+          btnSpinner.classList.remove('d-none');
+        }
+        setTimeout(resetButton, 8000);
+      });
+    });
+  </script>
+@endpush
