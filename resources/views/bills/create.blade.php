@@ -235,8 +235,22 @@
       </div><!-- inner-repeater -->
 
       <h5 class="card-title mb-5">{{ __('Additonal Details') }}</h5>
-      <div class="row">
-        <div class="col-12 col-lg-6">
+      <div class="row g-6">
+        <div class="col-12">
+          <label for="coupon_code" class="form-label">{{ __('Coupon Code') }} <small class="text-muted">( {{ __('Optional') }} )</small></label>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <input type="text" name="coupon_code" id="coupon_code" class="form-control" value="{{ old('coupon_code') }}" placeholder="{{ __('Enter coupon code') }}" aria-describedby="couponCodeHelp">
+              @error('coupon_code')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+              @enderror
+              <div id="couponCodeHelp" class="form-text">
+                {{ __('If you have a coupon code, enter it here. The discount will be applied automatically.') }}
+              </div><!-- form-text -->
+            </div><!-- col -->
+          </div><!-- row -->
+        </div><!-- col -->
+        <div class="col-12 col-md-6">
           <label for="Discount_Values_Checkbox" class="switch switch-lg m-0">
             <input type="checkbox" class="switch-input" name="add_discount" id="Discount_Values_Checkbox" @if(old('add_discount')) checked @endif>
             <span class="switch-toggle-slider">
@@ -270,8 +284,8 @@
               </div><!-- col-6 -->
             </div><!-- row -->
           </div><!-- Discount_Values -->
-        </div><!-- col-12 -->
-        <div class="col-12 col-lg-6">
+        </div><!-- col -->
+        <div class="col-12 col-md-6">
           <label for="Tax_Values_Checkbox" class="switch switch-lg m-0">
             <input type="checkbox" class="switch-input" name="add_tax" id="Tax_Values_Checkbox" @if($errors->any()) @if(old('add_tax') == true) checked @endif @else @if($settings->add_tax) checked @endif @endif>
             <span class="switch-toggle-slider">
@@ -295,7 +309,7 @@
               </div><!-- col-12 -->
             </div><!-- row -->
           </div><!-- Tax_Values -->
-        </div><!-- col-12 -->
+        </div><!-- col -->
       </div><!-- row -->
 
       <hr class="my-5" />
@@ -597,5 +611,48 @@
       }
     });
   </script>
+
+<script>
+  // Handle coupon code and manual discount interaction
+  document.addEventListener('DOMContentLoaded', function() {
+    const couponCodeInput = document.getElementById('coupon_code');
+    const discountCheckbox = document.getElementById('Discount_Values_Checkbox');
+    const discountValuesDiv = document.querySelector('.Discount_Values');
+
+    if (couponCodeInput && discountCheckbox) {
+      // Disable manual discount when coupon code is entered
+      couponCodeInput.addEventListener('input', function() {
+        if (this.value.trim() !== '') {
+          discountCheckbox.checked = false;
+          discountCheckbox.disabled = true;
+          if (discountValuesDiv) {
+            discountValuesDiv.style.display = 'none';
+          }
+        } else {
+          discountCheckbox.disabled = false;
+        }
+      });
+
+      // Disable coupon code when manual discount is checked
+      discountCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+          couponCodeInput.value = '';
+          couponCodeInput.disabled = true;
+        } else {
+          couponCodeInput.disabled = false;
+        }
+      });
+
+      // Initialize on page load
+      if (couponCodeInput.value.trim() !== '') {
+        discountCheckbox.checked = false;
+        discountCheckbox.disabled = true;
+        if (discountValuesDiv) {
+          discountValuesDiv.style.display = 'none';
+        }
+      }
+    }
+  });
+</script>
   {!! JsValidator::formRequest('App\Http\Requests\BillRequest', '#bill_create') !!}
 @endpush

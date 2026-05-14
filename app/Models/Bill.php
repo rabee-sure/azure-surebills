@@ -29,6 +29,7 @@ class Bill extends Model
         'user_id',
         'created_by',
         'customer_id',
+        'coupon_id',
         'business_name',
         'customer_name',
         'customer_mobile',
@@ -855,6 +856,14 @@ class Bill extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    /**
+     * Get the coupon used for this bill
+     */
+    public function coupon()
+    {
+        return $this->belongsTo(Coupon::class);
     }
 
     /**

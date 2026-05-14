@@ -21,17 +21,22 @@ use App\Http\Requests\DebitNoteRequest;
 use Illuminate\Support\Facades\DB;
 use App\Services\MasterCardService;
 use Illuminate\Support\Facades\Log;
+use App\Traits\ResolvesBillUiTheme;
 use App\Http\Requests\RefundRequest;
 use App\Jobs\ExportMerchantBills;
 use App\Models\RefundedBill;
 use App\Models\Settings;
+use App\Services\Coupon\CouponService;
 use Illuminate\Validation\ValidationException as ValidationsException;
 
 class BillController extends Controller
 {
-    private $masterCardService;
+    use ResolvesBillUiTheme;
 
-    public function __construct()
+    private $masterCardService;
+    protected $couponService;
+
+    public function __construct(CouponService $couponService)
     {
         $this->middleware('permission:show bills', ['only' => ['index','show']]);
         $this->middleware(['permission:create bills', 'verified.user'], ['only' => ['create','store',]]);
@@ -41,6 +46,7 @@ class BillController extends Controller
         $this->middleware(['permission:cancel bill', 'verified.user'], ['only' => ['cancel']]);
 
         $this->masterCardService = new MasterCardService();
+        $this->couponService = $couponService;
     }
 
     /**
@@ -145,13 +151,12 @@ class BillController extends Controller
         $bill = DB::transaction(function () use ($request) {
             $user = auth()->user();
 
-            // Find the customer by mobile or email
-            $customer = Customer::where('user_id', $user->store_main_user_id ?? $user->id)
-            ->where(function($query) use ($request) {
-                $query->where('mobile', $request->customer_mobile)
-                    ->orWhere('email', $request->customer_email);
-            })
-            ->first();
+            // Find the customer by mobile or email (if email is provided)
+            $customer = Customer::matchByMobileOrEmail(
+                $user->store_main_user_id ?? $user->id,
+                $request->customer_mobile,
+                $request->customer_email
+            )->first();
 
             if ($customer) {
                 // Update the existing customer
@@ -186,12 +191,41 @@ class BillController extends Controller
                 ]);
             }
 
+            // Handle coupon validation before creating bill
+            $couponId = null;
+            $discountType = null;
+            $discountValue = null;
+            $userId = $user->store_main_user_id ?? $user->id;
+            
+            if ($request->coupon_code) {
+                // Validate coupon first (without applying/recording usage)
+                $couponResult = $this->couponService->validateCoupon(
+                    $request->coupon_code,
+                    $customer->id,
+                    $userId
+                );
+
+                if (!$couponResult['success']) {
+                    throw ValidationsException::withMessages(['coupon_code' => $couponResult['message']]);
+                }
+
+                // Use coupon discount
+                $couponId = $couponResult['coupon_id'] ?? null;
+                $discountType = $couponResult['discount']['discount_type'];
+                $discountValue = $couponResult['discount']['discount_value'];
+            } elseif ($request->add_discount) {
+                // Manual discount
+                $discountType = $request->discount_type;
+                $discountValue = $request->discount_value;
+            }
+
             $bill = Bill::create([
-                'user_id' => $user->store_main_user_id ?? $user->id,
+                'user_id' => $userId,
                 'created_by' => $user->id,
                 'status' => 'pending',
                 'business_name' => $user->store_main_user_id ? $user->mainStoreUser->business_name : $user->business_name,
                 'customer_id' => $customer->id,
+                'coupon_id' => $couponId,
                 'customer_name' => $request->customer_name,
                 'customer_email' => $request->customer_email,
                 'customer_mobile' => $request->customer_mobile,
@@ -202,9 +236,9 @@ class BillController extends Controller
                 'expiry_minutes' => $request->expiry_minutes ?? 0,
                 'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->due_date))),
 
-                'add_discount' => $request->add_discount,
-                'discount_type' => $request->discount_type,
-                'discount_value' => $request->discount_value,
+                'add_discount' => ($request->coupon_code || $request->add_discount) ? true : false,
+                'discount_type' => $discountType,
+                'discount_value' => $discountValue,
 
                 'add_tax' => $request->add_tax,
                 'tax_name' => $request->tax_name,
@@ -215,6 +249,26 @@ class BillController extends Controller
 
                 'source' => 'sure_bill',
             ]);
+
+            // Record coupon usage with bill ID if coupon was used
+            if ($request->coupon_code && $couponId) {
+                // Record usage directly without re-validation (we already validated before bill creation)
+                $usageResult = $this->couponService->recordUsage(
+                    $request->coupon_code,
+                    $customer->id,
+                    $userId,
+                    $bill->id
+                );
+                
+                // Log if usage recording failed (but don't fail the bill creation)
+                if (!$usageResult['success']) {
+                    \Illuminate\Support\Facades\Log::warning('Coupon usage recording failed for bill', [
+                        'bill_id' => $bill->id,
+                        'coupon_code' => $request->coupon_code,
+                        'message' => $usageResult['message'],
+                    ]);
+                }
+            }
 
             foreach ($request->items as $item) {
                 BillItem::create([
@@ -236,13 +290,14 @@ class BillController extends Controller
                 $payment_fees = ($sub_total * ($user->credit_cards_percentage / 100)) + $user->credit_cards_fixed;
             }
 
-            if ($request->add_discount) {
-                switch ($request->discount_type) {
+            // Calculate discount amount
+            if ($request->coupon_code || $request->add_discount) {
+                switch ($discountType) {
                     case 'fixed':
-                        $discount = $request->discount_value;
+                        $discount = $discountValue;
                         break;
                     case 'percentage':
-                        $discount = ($sub_total + $payment_fees) * $request->discount_value / 100;
+                        $discount = ($sub_total + $payment_fees) * $discountValue / 100;
                         break;
                 }
             }
@@ -457,11 +512,13 @@ class BillController extends Controller
         {
             $payForm = 'bills.mastercard_pay_form';
         }
+        $billUiTheme = $this->resolveBillUiTheme($bill);
+
         if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
-            return view('bills.pay', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'));
+            return view('bills.pay', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'));
         }
 
-        return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'));
+        return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'));
     }
 
     public function paymentSuccess()

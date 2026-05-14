@@ -7,6 +7,7 @@ use App\Events\BillStatusUpdated;
 use App\Helpers\BillSignatureHelper;
 use App\Helpers\CybersourceMicroformHandlerHelper;
 use App\Http\Controllers\Controller;
+use App\Traits\ResolvesBillUiTheme;
 use App\Http\Requests\BillApiRequest;
 use App\Http\Requests\CheckBillApiRequest;
 use App\Http\Requests\DebitNoteApiRequest;
@@ -26,10 +27,20 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\Tag;
 use App\Payment\Invoice;
+use App\Services\Coupon\CouponService;
 use phpDocumentor\Reflection\Types\Null_;
 
 class BillController extends Controller
 {
+    use ResolvesBillUiTheme;
+
+    protected $couponService;
+
+    public function __construct(CouponService $couponService)
+    {
+        $this->couponService = $couponService;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -54,13 +65,12 @@ class BillController extends Controller
 
         Bill::where('reference_id', $request->reference_id)->where('user_id', $bill_user_id)->where('status', 'pending')->update(['status' => 'canceled']);
 
-        // Find the customer by mobile or email
-        $customer = Customer::where('user_id', $user->id)
-                    ->where(function($query) use ($request) {
-                        $query->where('mobile', $request->customer_mobile)
-                              ->orWhere('email', $request->customer_email);
-                    })
-                    ->first();
+        // Find the customer by mobile or email (if email is provided)
+        $customer = Customer::matchByMobileOrEmail(
+            $user->id,
+            $request->customer_mobile,
+            $request->customer_email
+        )->first();
 
         if ($customer) {
             // Update the existing customer
@@ -98,6 +108,36 @@ class BillController extends Controller
         $send_sms = $request->send_sms ?? 0;
         $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
 
+        // Handle coupon validation before creating bill
+        $couponId = null;
+        $discountType = null;
+        $discountValue = null;
+        
+        if ($request->coupon_code) {
+            // Validate coupon first (without applying/recording usage)
+            $couponResult = $this->couponService->validateCoupon(
+                $request->coupon_code,
+                $customer->id,
+                $bill_user_id
+            );
+
+            if (!$couponResult['success']) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $couponResult['message'],
+                ], 400);
+            }
+
+            // Use coupon discount
+            $couponId = $couponResult['coupon_id'] ?? null;
+            $discountType = $couponResult['discount']['discount_type'];
+            $discountValue = $couponResult['discount']['discount_value'];
+        } elseif ($request->add_discount) {
+            // Manual discount
+            $discountType = $request->discount_type;
+            $discountValue = $request->discount_value;
+        }
+
         $bill = Bill::create([
             'user_id' => $user->id,
             'creted_by' => $user->id,
@@ -106,6 +146,7 @@ class BillController extends Controller
 
             'business_name' => $user->store_main_user_id ? $user->mainStoreUser->business_name : $user->business_name,
             'customer_id' => $customer->id,
+            'coupon_id' => $couponId,
 
             'customer_name' => $request->customer_name,
             'customer_email' => $request->customer_email,
@@ -117,9 +158,9 @@ class BillController extends Controller
             'expiry_minutes' => $request->expiry_minutes ?? 0,
             'due_date' => Carbon::parse($request->due_date),
 
-            'add_discount' => $request->add_discount ?? false,
-            'discount_type' => $request->discount_type,
-            'discount_value' => $request->discount_value,
+            'add_discount' => ($request->coupon_code || $request->add_discount) ? true : false,
+            'discount_type' => $discountType,
+            'discount_value' => $discountValue,
 
             'add_tax' => $request->add_tax ?? false,
             'tax_name' => $request->tax_name,
@@ -136,6 +177,25 @@ class BillController extends Controller
             'source' => 'api',
         ]);
 
+        // Record coupon usage with bill ID if coupon was used
+        if ($request->coupon_code && $couponId) {
+            // Record usage directly without re-validation (we already validated before bill creation)
+            $usageResult = $this->couponService->recordUsage(
+                $request->coupon_code,
+                $customer->id,
+                $bill_user_id,
+                $bill->id
+            );
+            
+            // Log if usage recording failed (but don't fail the bill creation)
+            if (!$usageResult['success']) {
+                \Illuminate\Support\Facades\Log::warning('Coupon usage recording failed for bill', [
+                    'bill_id' => $bill->id,
+                    'coupon_code' => $request->coupon_code,
+                    'message' => $usageResult['message'],
+                ]);
+            }
+        }
 
         foreach ($request->items as $item) {
             BillItem::create([
@@ -150,13 +210,15 @@ class BillController extends Controller
         $sub_total = $bill->items->sum('total');
         $discount = 0;
         $vat = 0;
-        if($request->add_discount){
-            switch ($request->discount_type) {
+        
+        // Calculate discount amount
+        if ($request->coupon_code || $request->add_discount) {
+            switch ($discountType) {
                 case 'fixed':
-                    $discount = $request->discount_value;
+                    $discount = $discountValue;
                     break;
                 case 'percentage':
-                    $discount = $sub_total * $request->discount_value / 100;
+                    $discount = $sub_total * $discountValue / 100;
                     break;
             }
         }
@@ -424,13 +486,12 @@ class BillController extends Controller
             ->where('status', 'pending')
             ->update(['status' => 'canceled']);
 
-        // Find the customer by mobile or email
-        $customer = Customer::where('user_id', $user->id)
-                    ->where(function($query) use ($request) {
-                        $query->where('mobile', $request->customer_mobile)
-                              ->orWhere('email', $request->customer_email);
-                    })
-                    ->first();
+        // Find the customer by mobile or email (if email is provided)
+        $customer = Customer::matchByMobileOrEmail(
+            $user->id,
+            $request->customer_mobile,
+            $request->customer_email
+        )->first();
 
         if ($customer) {
             // Update the existing customer
@@ -879,10 +940,12 @@ class BillController extends Controller
         {
             $payForm = 'bills.mastercard_pay_form';
         }
+        $billUiTheme = $this->resolveBillUiTheme($bill);
+
         if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
-            return response()->json(['view' => view('bills.pay', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'))->render()]);
+            return response()->json(['view' => view('bills.pay', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'))->render()]);
         }
-        
-        return response()->json(['view' => view('bills.payment_page', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'))->render()]); 
+
+        return response()->json(['view' => view('bills.payment_page', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'))->render()]);
     }
 }

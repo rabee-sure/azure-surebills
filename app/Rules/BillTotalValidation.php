@@ -3,13 +3,20 @@
 namespace App\Rules;
 
 use App\Models\Bill;
+use App\Models\Coupon;
+use App\Models\CouponCode;
+use App\Repositories\CouponRepository;
 use Illuminate\Contracts\Validation\Rule;
+use App\Services\Coupon\CouponService;
+use App\Services\GetAuthUser;
+use Illuminate\Support\Facades\Auth;
 
 class BillTotalValidation implements Rule
 {
     const MAX_TOTAL_AMOUNT = 150000;
 
     private $total;
+    private CouponRepository $repository;
 
     /**
      * Create a new rule instance.
@@ -18,7 +25,7 @@ class BillTotalValidation implements Rule
      */
     public function __construct()
     {
-        //
+        $this->repository = new CouponRepository();
     }
 
     /**
@@ -40,6 +47,31 @@ class BillTotalValidation implements Rule
                 $this->total -= request()->discount_value;
             else if(request()->discount_type == 'percentage')
                 $this->total -= ($this->total * request()->discount_value) / 100;
+        }
+
+        // Apply coupon discount
+        if(request()->has('coupon_code') && request()->coupon_code != null){
+            // Get auth user from api or web
+            $authUser = GetAuthUser::authUser(request());
+            
+            // Try to find as reusable coupon first
+            $coupon = $this->repository->findByCode(request()->coupon_code, $authUser->store_main_user_id ?? $authUser->id);
+            
+            if (!$coupon) {
+                // Try to find as one-time code
+                $couponCode = $this->repository->findCodeByCode(request()->coupon_code, $authUser->store_main_user_id ?? $authUser->id);
+                
+                if ($couponCode) {
+                    $coupon = $couponCode->coupon;
+                }
+            }
+            
+            if($coupon){
+                if($coupon->discount_type == 'fixed')
+                    $this->total -= $coupon->discount_value;
+                else if($coupon->discount_type == 'percentage')
+                    $this->total -= ($this->total * $coupon->discount_value) / 100;
+            }
         }
 
         $addTax = false;

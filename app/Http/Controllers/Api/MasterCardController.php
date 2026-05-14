@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Bill;
 use App\Models\PaymentLog;
 use GuzzleHttp\Client;
+use App\Services\MasterCardSandboxSimulator;
 use App\Payment\Invoice;
 use Illuminate\Http\Request;
 use App\Helpers\PaymentHelper;
@@ -25,6 +26,32 @@ class MasterCardController extends Controller
 
         if(!$payment || !$bill || $bill->is_invalid){
             abort(404);
+        }
+
+        // SANDBOX PAYMENT SIMULATION (no real MPGS calls)
+        // Follow original cycle: create mastercard_auth here, then create
+        // mastercard_pay later in checkPayment.
+        if (mastercard_simulation_enabled()) {
+            // Simulate a successful 3DS authentication by returning
+            // an auto-submitting form that posts back to the 3DS callback
+            // route with SUCCESS and PROCEED, just like MPGS would do
+            // after a frictionless/challenge completion.
+            $redirectUrl = route('mastercard.3ds', ['session' => $request->paymentToken]);
+
+            $redirectHtml =
+                '<form id="simulated-3ds-form" method="POST" action="'.e($redirectUrl).'">'.
+                    '<input type="hidden" name="transaction_id" value="'.e($payment->id).'">'.
+                    '<input type="hidden" name="result" value="SUCCESS">'.
+                    '<input type="hidden" name="response_gatewayRecommendation" value="PROCEED">'.
+                '</form>'.
+                '<script>document.getElementById("simulated-3ds-form").submit();</script>';
+
+            return response()->json([
+                'authentication' => [
+                    'redirectHtml' => $redirectHtml,
+                ],
+                'simulated' => true,
+            ]);
         }
 
         // prepare invoice
@@ -148,6 +175,32 @@ class MasterCardController extends Controller
         // 3DS Failure
         if ($request->result != 'SUCCESS' || $request->response_gatewayRecommendation != 'PROCEED') {
             return redirect()->route('paybillpage', ['id' => $bill->pay_id, 'error' => '3DS Check Failure'])->withErrors(['field_name' => '3DS Check Failure']);
+        }
+
+        // SANDBOX PAYMENT SIMULATION (PAY step, no real MPGS calls)
+        if (mastercard_simulation_enabled()) {
+            /** @var MasterCardSandboxSimulator $simulator */
+            $simulator = app(MasterCardSandboxSimulator::class);
+            $fakeResponse = $simulator->simulateSuccessfulPayment($bill, $payment);
+
+            // Save simulated PAYMENT response on the pay log
+            $payment->results = $fakeResponse;
+            $payment->status = 1;
+            $payment->provider_name = 'mastercard';
+            $payment->save();
+
+            // Use existing MasterCardService logic to update bill, etc.
+            $masterCardService = app(\App\Services\MasterCardService::class);
+            $masterCardService->handlePaymentTransaction($fakeResponse, $bill, $payment);
+
+            // Build redirect similar to PaymentHelper::checkPaymentStatus
+            if($bill->application && $bill->is_redirect) {
+                $redirect = $bill->getRedirectUrl();
+            } else {
+                $redirect = config('app.url') . '/payment-success';
+            }
+
+            return redirect($redirect);
         }
 
         // make the payment

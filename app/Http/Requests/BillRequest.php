@@ -51,6 +51,7 @@ class BillRequest extends FormRequest
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
             'customer_notes' => ['nullable'],
             'due_date' => ['required'],
+            'coupon_code' => ['nullable', 'string', 'max:255'],
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
             'discount_value' => ['required_if:add_discount,on'],

@@ -146,6 +146,18 @@
         </div><!-- col -->
       @endif
     @endcan
+    @can('update settings')
+      <div class="col">
+        <a href="{{ route('coupons.index') }}" title="{{ __('Coupon Management') }}" class="card h-100">
+          <div class="card-body d-flex align-items-center justify-content-start">
+            <div class="badge rounded p-2 bg-label-primary me-3">
+              <i class="icon-base ti ti-ticket icon-lg"></i>
+            </div>
+            <h6 class="card-title mb-0">{{__('Coupon Management')}}</h6>
+          </div>
+        </a>
+      </div><!-- col -->
+    @endcan
   </div><!-- row -->
 
 @endsection

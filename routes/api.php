@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Api\ZatcaController;
+use App\Http\Controllers\Security\CspReportController;
 use App\Services\CyberSourceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,8 +37,9 @@ use Illuminate\Support\Facades\Route;
 // 	}
 // });
 // end test routes
-Route::post('payment-webhook', [PaymentController::class, 'handleWebhook'])->name('payment.webhook');
-Route::any('health-check', [PaymentController::class, 'healthCheck'])->name('health.check');
+Route::post('payment-webhook', [PaymentController::class, 'handleWebhook'])->name('api.payment.webhook');
+Route::any('health-check', [PaymentController::class, 'healthCheck'])->name('api.health.check');
+Route::post('csp/report', [CspReportController::class, 'store'])->name('csp.report');
 
 Route::post('payment', [PaymentController::class, 'processPayment']);
 Route::post('refund/{transactionId}', [PaymentController::class, 'processRefund']);
@@ -122,6 +124,11 @@ Route::prefix('v1')->group(function () {
 	});
 
 	Route::group(['middleware' => ['auth:api']], function () {
+		// Coupons API routes
+		Route::post('coupons/validate', 'Api\CouponController@validateCoupon')->name('api.coupons.validate');
+		Route::get('coupons', 'Api\CouponController@index')->name('api.coupons.index');
+		Route::get('coupons/{id}', 'Api\CouponController@show')->name('api.coupons.show');
+
 		//POS
 		// Route::get('getAllActiveCategoryAndProducts', 'PosController@getAllActiveCategoryAndProducts');
 		// Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory');

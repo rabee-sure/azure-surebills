@@ -421,5 +421,8 @@
 "Sending..." : "Sending...",
 "Deleting..." : "Deleting...",
 "Suspending..." : "Suspending...",
-"Restoring..." : "Restoring..."
+"Restoring..." : "Restoring...",
+"Are you sure you want to delete this image?": "Are you sure you want to delete this image?",
+"no expiration": "no expiration",
+"Until": "Until"
 }
