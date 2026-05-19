@@ -68,13 +68,12 @@ class BankController extends Controller
             }       
         }
 
-        if($request->hasFile('logo')) {
-            $imageName = time().'_'.$user->id.'.'.$request->logo->extension();
-            $image = $request->logo->move(public_path('uploads'), $imageName);
+        if ($request->hasFile('logo')) {
+            delete_merchant_logo($user->logo);
             $user->update([
-                'logo' => 'uploads/'.$imageName,
+                'logo' => store_merchant_logo($request->file('logo'), (int) $user->id),
             ]);
-        }else{
+        } else {
             if($request->hidden_logo == null){
                 $user->update([
                     'logo' => null,

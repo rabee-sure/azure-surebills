@@ -1,6 +1,7 @@
 <?php
 
 use chillerlan\QRCode\QRCode;
+use Illuminate\Support\Facades\Storage;
 use Salla\ZATCA\GenerateQrCode;
 use Salla\ZATCA\Tags\InvoiceDate;
 use Salla\ZATCA\Tags\InvoiceTaxAmount;
@@ -245,5 +246,318 @@ if(!function_exists('generateSecureOTP')){
         $randomBytes = random_bytes(2); // 2 bytes = 16 bits, enough for 0-9999
         $randomNumber = unpack('n', $randomBytes)[1] % 10000;
         return Str::padLeft($randomNumber, 4, '0');
+    }
+}
+
+if (! function_exists('oci_storage_enabled')) {
+    /**
+     * Whether OCI Object Storage is enabled via OCI_ENABLED.
+     */
+    function oci_storage_enabled(): bool
+    {
+        return (bool) config('oci.enabled', false);
+    }
+}
+
+if (! function_exists('public_storage_url')) {
+    /**
+     * Resolve a public URL for a file on the "public" disk (local or OCI).
+     *
+     * Local mode uses /media/{path} (no storage:link). OCI mode uses bucket URLs.
+     */
+    function public_storage_url(?string $path): ?string
+    {
+        if (empty($path)) {
+            return null;
+        }
+
+        if (preg_match('#^https?://#i', $path)) {
+            return $path;
+        }
+
+        $path = ltrim($path, '/');
+
+        if (! Storage::disk('public')->exists($path)) {
+            return url($path);
+        }
+
+        return Storage::disk('public')->url($path);
+    }
+}
+
+if (! function_exists('merchant_logo_disk_path')) {
+    /**
+     * Relative path on the "public" disk for merchant business logos.
+     */
+    function merchant_logo_disk_path(): string
+    {
+        return 'logos';
+    }
+}
+
+if (! function_exists('ensure_merchant_logo_directory')) {
+    /**
+     * Ensure logos/ exists on the public disk (writable by the web server).
+     */
+    function ensure_merchant_logo_directory(): void
+    {
+        $disk = Storage::disk('public');
+        $dir = merchant_logo_disk_path();
+
+        if (! $disk->exists($dir)) {
+            $disk->makeDirectory($dir);
+        }
+    }
+}
+
+if (! function_exists('store_merchant_logo')) {
+    /**
+     * Store a merchant business logo on the public disk under logos/.
+     *
+     * @param  \Illuminate\Http\UploadedFile  $file
+     * @return string  e.g. "logos/1234567890_42.png"
+     */
+    function store_merchant_logo($file, int $userId): string
+    {
+        ensure_merchant_logo_directory();
+
+        $extension = $file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'png';
+        $filename = time().'_'.$userId.'.'.strtolower($extension);
+
+        return Storage::disk('public')->putFileAs(
+            merchant_logo_disk_path(),
+            $file,
+            $filename
+        );
+    }
+}
+
+if (! function_exists('delete_merchant_logo')) {
+    /**
+     * Remove a merchant logo file from disk (public disk and legacy public/uploads).
+     */
+    function delete_merchant_logo(?string $path): void
+    {
+        if (empty($path)) {
+            return;
+        }
+
+        $path = ltrim($path, '/');
+
+        if (Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
+        }
+
+        if (strpos($path, 'uploads/') === 0) {
+            $legacy = public_path($path);
+            if (is_file($legacy)) {
+                @unlink($legacy);
+            }
+        }
+    }
+}
+
+if (! function_exists('auth_user_logo_path')) {
+    /**
+     * Logo path for the authenticated merchant (owner or main store user).
+     */
+    function auth_user_logo_path(): ?string
+    {
+        $user = auth()->user();
+
+        if (! $user) {
+            return null;
+        }
+
+        if ($user->mainStoreUser && $user->mainStoreUser->logo) {
+            return $user->mainStoreUser->logo;
+        }
+
+        return $user->logo ?: null;
+    }
+}
+
+if (! function_exists('merchant_logo_url')) {
+    /**
+     * Resolve the display URL for a merchant business logo.
+     *
+     * Handles:
+     * - logos/* on the public disk (Nova + unified uploads)
+     * - legacy uploads/* under public/uploads
+     * - legacy root-level hashes on the public disk (pre-path Nova uploads)
+     */
+    function merchant_logo_url(?string $path): ?string
+    {
+        if (empty($path)) {
+            return null;
+        }
+
+        if (preg_match('#^https?://#i', $path)) {
+            return $path;
+        }
+
+        $path = ltrim($path, '/');
+
+        if (Storage::disk('public')->exists($path)) {
+            return public_storage_url($path);
+        }
+
+        if (strpos($path, 'uploads/') === 0) {
+            if (is_file(public_path($path))) {
+                return url($path);
+            }
+
+            $migrated = merchant_logo_disk_path().'/'.basename($path);
+            if (Storage::disk('public')->exists($migrated)) {
+                return public_storage_url($migrated);
+            }
+
+            return url($path);
+        }
+
+        return url($path);
+    }
+}
+
+if (! function_exists('bills_background_disk_path')) {
+    function bills_background_disk_path(): string
+    {
+        return 'bills_backgrounds';
+    }
+}
+
+if (! function_exists('ensure_bills_background_directory')) {
+    function ensure_bills_background_directory(): void
+    {
+        $disk = Storage::disk('public');
+        $dir = bills_background_disk_path();
+
+        if (! $disk->exists($dir)) {
+            $disk->makeDirectory($dir);
+        }
+    }
+}
+
+if (! function_exists('store_bill_background_image')) {
+    /**
+     * Store bill UI background image on the public disk (OCI when enabled).
+     *
+     * @param  \Illuminate\Http\UploadedFile  $file
+     * @return string  e.g. "bills_backgrounds/1779210942_240.png"
+     */
+    function store_bill_background_image($file, int $userId): string
+    {
+        ensure_bills_background_directory();
+
+        $extension = $file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'png';
+        $filename = time().'_'.$userId.'.'.strtolower($extension);
+
+        return Storage::disk('public')->putFileAs(
+            bills_background_disk_path(),
+            $file,
+            $filename
+        );
+    }
+}
+
+if (! function_exists('delete_bill_background_image')) {
+    function delete_bill_background_image(?string $path): void
+    {
+        if (empty($path)) {
+            return;
+        }
+
+        $path = ltrim($path, '/');
+
+        if (Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
+        }
+
+        if (strpos($path, 'uploads/') === 0 && is_file(public_path($path))) {
+            @unlink(public_path($path));
+        }
+    }
+}
+
+if (! function_exists('media_route_url')) {
+    /**
+     * Same-origin URL to stream a public-disk file (works with OCI + local fallback).
+     *
+     * Use in HTML/CSS on payment pages instead of direct OCI signed URLs so:
+     * - CSP img-src 'self' allows the request
+     * - Blade does not break AWS signatures by escaping & to &amp;
+     */
+    function media_route_url(string $path): string
+    {
+        $path = ltrim($path, '/');
+
+        return route('media.show', ['path' => $path], true);
+    }
+}
+
+if (! function_exists('bill_background_image_url')) {
+    /**
+     * Resolve URL for bill payment page background image.
+     *
+     * Uses /media/ proxy when the file is on the public disk (OCI or local).
+     * Legacy uploads/bills_backgrounds/ under public/ still use direct url().
+     */
+    function bill_background_image_url(?string $path): ?string
+    {
+        if (empty($path)) {
+            return null;
+        }
+
+        if (preg_match('#^https?://#i', $path)) {
+            return $path;
+        }
+
+        $path = ltrim($path, '/');
+
+        if (Storage::disk('public')->exists($path)) {
+            return media_route_url($path);
+        }
+
+        if (strpos($path, 'uploads/bills_backgrounds/') === 0) {
+            if (is_file(public_path($path))) {
+                return url($path);
+            }
+
+            $migrated = bills_background_disk_path().'/'.basename($path);
+            if (Storage::disk('public')->exists($migrated)) {
+                return media_route_url($migrated);
+            }
+
+            return url($path);
+        }
+
+        if (strpos($path, 'uploads/') === 0 && is_file(public_path($path))) {
+            return url($path);
+        }
+
+        return url($path);
+    }
+}
+
+if (! function_exists('public_storage_path')) {
+    /**
+     * Local filesystem path for the public disk when available (local fallback).
+     *
+     * Code that uses storage_path('app/public/...') for reads should prefer
+     * Storage::disk('public') when possible. This helper returns a local path
+     * only when the file exists on the local fallback disk.
+     */
+    function public_storage_path(string $path = ''): string
+    {
+        $path = ltrim($path, '/');
+
+        if (oci_storage_enabled() && $path !== '') {
+            $local = \Illuminate\Support\Facades\Storage::disk('public-local');
+            if ($local->exists($path)) {
+                return $local->path($path);
+            }
+        }
+
+        return storage_path('app/public'.($path !== '' ? '/'.$path : ''));
     }
 }

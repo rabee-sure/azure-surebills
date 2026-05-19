@@ -61,7 +61,7 @@
     @php
       $settings = $bill->user->settings;
       $bgColor = $settings->background_color_body ?? '#fafafa';
-      $bgImage = $settings->background_image_file ?? null;
+      $bgImage = bill_background_image_url($settings->background_image_file ?? null);
       $textColor = $settings->text_color_body ?? '#000000';
       $btnBgColor = $settings->background_color_payment_button ?? '#00d595';
       $btnTextColor = $settings->text_color_payment_button ?? '#ffffff';
@@ -71,7 +71,7 @@
       .singlebBillSimple_page,
       .simple_bill_page {
         @if($bgImage)
-          background-image: url('{{ asset($bgImage) }}');
+          background-image: url({!! json_encode($bgImage) !!});
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
