@@ -49,7 +49,12 @@ class AppServiceProvider extends ServiceProvider
         }
         $this->app->bind(LoginController::class, NovaLoginController::class);
         $this->app->bind(ResetPasswordController::class, NovaResetPasswordController::class);
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'nova');
+
+        // Custom Nova view overrides (published to resources/views/vendor/nova)
+        $novaViews = resource_path('views/vendor/nova');
+        if (is_dir($novaViews)) {
+            $this->loadViewsFrom($novaViews, 'nova');
+        }
     }
 
     /**
@@ -59,6 +64,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (! $this->app->runningInConsole()) {
+            ensure_merchant_logo_directory();
+            ensure_bills_background_directory();
+        }
+
         if(config('app.env') === 'production') {
             \URL::forceScheme('https');
         }

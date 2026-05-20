@@ -288,7 +288,7 @@
                 @if($user->settings->background_image_file)
                   <div class="form-group mt-3">
                     <div class="logoImage card h-100 relative">
-                      <img src="{{ $user->settings->background_image_file }}" alt="background image" class="logo_image card-img-top rounded-3" />
+                      <img src="{{ bill_background_image_url($user->settings->background_image_file) }}" alt="background image" class="logo_image card-img-top rounded-3" />
                       <button type="button" class="btn btn-icon btn-danger waves-effect waves-light position-absolute top-0 end-0 m-2 delete-background-image" style="z-index: 10;" title="{{ __('Delete Image') }}">
                         <span class="icon-base ti ti-trash icon-22px"></span>
                       </button>

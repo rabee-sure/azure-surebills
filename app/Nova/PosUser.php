@@ -86,29 +86,10 @@ class PosUser extends Resource
 
             Image::make(__('Business logo'), 'logo')
                 ->disk('public')
+                ->path(merchant_logo_disk_path())
                 ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
-                ->preview(function ($value) {
-                    if(Storage::disk('public')->exists($value)){
-                        return url('storage/'.$value);
-                    }else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
-                        }
-                    }
-                })
-                ->thumbnail(function ($value) {
-                    if(Storage::disk('public')->exists($value)){
-                        return url('storage/'.$value);
-                    }else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
-                        }
-                    }
-                })->disableDownload()->hideWhenUpdating($this->store_main_user_id ? true : false)->hideFromDetail($this->store_main_user_id ? true : false),
+                ->preview(fn ($value) => merchant_logo_url($value) ?: '/images/no-image.jpg')
+                ->thumbnail(fn ($value) => merchant_logo_url($value) ?: '/images/no-image.jpg')->disableDownload()->hideWhenUpdating($this->store_main_user_id ? true : false)->hideFromDetail($this->store_main_user_id ? true : false),
 
             Text::make(__('Email'), 'email')
                 ->sortable()

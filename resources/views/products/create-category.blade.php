@@ -36,7 +36,7 @@
                         <div class="form-group col-md-6">
                             <div class="custom-file">
                             @if(auth()->user()->logo)
-                                <img src="@if(Storage::disk('public')->has(auth()->user()->logo)) {{url('storage/'.auth()->user()->logo)}} @else {{url(auth()->user()->logo)}} @endif" class="img-thumbnail logo_image" width="100" />
+                                <img src="{{ merchant_logo_url(auth()->user()->logo) }}" class="img-thumbnail logo_image" width="100" />
                                 <i class="glyph-icon simple-icon-trash delete_logo"></i>
 
                             @endif

@@ -3,9 +3,11 @@
 use App\Application;
 use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PublicMediaController;
 use App\Http\Controllers\StoreUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /*
@@ -226,6 +228,15 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
   Route::resource('roles', 'RolesController');
 });
 
+Route::get('media/{path}', [PublicMediaController::class, 'show'])
+    ->where('path', '.*')
+    ->name('media.show');
+
+// Backward compatibility: /storage/* URLs without php artisan storage:link
+Route::get('storage/{path}', function (string $path) {
+    return redirect()->route('media.show', ['path' => $path], 301);
+})->where('path', '.*');
+
 Route::get('file/{guard}/{file}', [MediaController::class, 'getFile'])->where('file', '.*');
 
 Route::get('/', 'HomeController@landing');
@@ -249,10 +260,9 @@ Route::middleware(['auth:admins'])->group(function () {
 
       $record = $class::findOrFail($id);
 
-      $path = storage_path('app/public/' . $record->$file_name);
-      abort_unless(file_exists($path), 404);
+      abort_unless(Storage::disk('public')->exists($record->$file_name), 404);
 
-      return response()->download($path);
+      return Storage::disk('public')->download($record->$file_name);
     })->name('nova.download');
 });
 

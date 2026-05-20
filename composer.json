@@ -38,6 +38,7 @@
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "laravel/vapor-cli": "^1.12",
         "laravel/vapor-core": "^2.10",
         "maatwebsite/excel": "^3.1",

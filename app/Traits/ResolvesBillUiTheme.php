@@ -2,8 +2,6 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Builds the merchant-customizable theme variables consumed by the bill
@@ -26,7 +24,7 @@ trait ResolvesBillUiTheme
     {
         $settings = $bill->user->settings;
 
-        $bgImage = $settings->background_image_file ?? null;
+        $bgImage = bill_background_image_url($settings->background_image_file ?? null);
 
         return [
             'bgColor'      => $settings->background_color_body ?? '#fafafa',

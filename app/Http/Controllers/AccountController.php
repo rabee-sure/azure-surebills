@@ -230,11 +230,10 @@ class AccountController extends Controller
         }
         $oldData['documents'] = $user->business_documents->pluck('file_name')->toArray();
 
-        if($request->hasFile('logo')) {
-            $imageName = time().'_'.auth()->user()->id.'.'.$request->logo->extension();
-            $image = $request->logo->move(public_path('uploads'), $imageName);
+        if ($request->hasFile('logo')) {
+            delete_merchant_logo($businessInfo->logo);
             $businessInfo->update([
-                'logo' => 'uploads/'.$imageName,
+                'logo' => store_merchant_logo($request->file('logo'), (int) auth()->id()),
             ]);
         }
         else

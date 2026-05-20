@@ -148,31 +148,11 @@ class VrificationRequests extends Resource
 
             Image::make(__('Business logo'), 'logo')
                 ->disk('public')
+                ->path(merchant_logo_disk_path())
                 ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
-                ->preview(function ($value) {
-                    if(Storage::disk('public')->exists($value)){
-                        return url('storage/'.$value);
-                    }
-                    else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
-                        }
-                    }
-                })
-                ->thumbnail(function ($value) {
-                    if(Storage::disk('public')->exists($value)){
-                        return url('storage/'.$value);
-                    }
-                    else{
-                        if($value){
-                            return url($value);
-                        }else{
-                            return '/images/no-image.jpg';
-                        }
-                    }
-                })->disableDownload(),
+                ->preview(fn ($value) => merchant_logo_url($value) ?: '/images/no-image.jpg')
+                ->thumbnail(fn ($value) => merchant_logo_url($value) ?: '/images/no-image.jpg')
+                ->disableDownload(),
 
             HasMany::make(__('Transfers'), 'transfers', Transfer::class),
             // HasMany::make('statement'),
