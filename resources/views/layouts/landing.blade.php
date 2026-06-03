@@ -63,9 +63,11 @@
           </ul>
           <div class="flex items-center justify-end gap-3 shrink-0">
             <div class="flex items-center gap-1 text-sm font-medium">
-              <a href="{{ route('changeLang', 'ar') }}" title="العربية" class="px-2 py-1 rounded transition-all duration-300 {{ app()->getLocale() === 'ar' ? 'text-[--PrimaryColor] bg-[rgba(var(--PrimaryColorRGB),0.19)]' : 'text-[--MainColor] hover:text-[--PrimaryColor]' }}">AR</a>
-              <span class="text-[--MainColor]">|</span>
-              <a href="{{ route('changeLang', 'en') }}" title="English" class="px-2 py-1 rounded transition-all duration-300 {{ app()->getLocale() === 'en' ? 'text-[--PrimaryColor] bg-[rgba(var(--PrimaryColorRGB),0.19)]' : 'text-[--MainColor] hover:text-[--PrimaryColor]' }}">EN</a>
+              @if(App::isLocale('en'))
+                <a href="{{ route('changeLang', ['lang' => 'ar']) }}" title="عربي" class="btn btn-sm btn-label-primary waves-effect">AR</a>
+              @else
+                <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English" class="btn btn-sm btn-label-primary waves-effect">EN</a>
+              @endif
             </div>
             <a href="{{ url('/register') }}" title="{{ __('landing.nav.register') }}" class="flex items-center justify-center gap-2 text-sm font-medium bg-[rgba(var(--PrimaryColorRGB),0.19)] text-[--PrimaryColor] rounded px-3 py-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 w-5 h-5"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M16 19h6" /><path d="M19 16v6" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4" /></svg>
