@@ -17,3 +17,17 @@
 .statistics_item {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(239, 246, 255, 0.88) 100%);
 }
+
+
+form#contact_form {
+  .form-control {
+    .invalid-feedback {
+      @apply text-red-500 text-xs font-medium;
+    } // invalid-feedback
+    &.is-invalid {
+      input, textarea {
+        @apply border-red-500 text-red-500;
+      } // input, textarea
+    } // is-invalid
+  } // form-control
+} // form#contact_form

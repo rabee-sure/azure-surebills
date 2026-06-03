@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ContactSendEmail;
+use App\Http\Requests\ContactRequest;
 use App\Models\Bill;
 use App\Models\RefundedBill;
 use App\Models\Transaction;

@@ -29,6 +29,7 @@ return [
     'env' => env('APP_ENV', 'production'),
 
     'customer_support_phone' => env('CUSTOMER_SUPPORT_PHONE_NUMBER', '8001110102'),
+    'contact_form_email' => env('CONTACT_FORM_EMAIL', 'bills@surepay.sa'),
 
     /*
     |--------------------------------------------------------------------------
