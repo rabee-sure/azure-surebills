@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ContactSendEmail;
+use App\Http\Requests\ContactRequest;
 use App\Models\Bill;
 use App\Models\RefundedBill;
 use App\Models\Transaction;
@@ -38,7 +40,7 @@ class HomeController extends Controller
         $user = auth()->user();
         $user->userId = auth()->user()->store_main_user_id ?? auth()->user()->id;
         $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id);
-        
+
         // Create union query with refunded bills
         $latestQuery = clone $bills;
         $latestQuery = $latestQuery->select([
@@ -100,6 +102,19 @@ class HomeController extends Controller
     public function contact()
     {
         return view('landing/contact');
+    }
+
+    public function contactSendForm(ContactRequest $request){
+        $data['source'] = $request->source;
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['company'] = $request->company;
+        $data['mobile'] = $request->mobile;
+        $data['message'] = $request->message;
+        //fire event to send email for message
+        event(new ContactSendEmail($data));
+
+        return response()->json(['success' => __('message will sent to support team')], 200);
     }
 
     /**

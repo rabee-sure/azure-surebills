@@ -3,26 +3,19 @@
 @section('title', __('privacy_policy'))
 
 @section('content')
-    <div class="page_name">
-      <div class="container">
-        <div class="breadcrumbs">
-          <ul>
-            <li><a href="{{ url('/') }}" title="الرئيسية">الرئيسية</a></li>
-            <li>|</li>
-            <li>سياسة الخصوصية</li>
-          </ul>
-        </div><!-- breadcrumbs -->
-        <div class="title">سياسة الخصوصية</div>
+  <main class="grow">
+
+    <section class="py-10 lg:py-18">
+      <div class="container flex flex-col gap-8">
+
+        <h1 class="text-3xl lg:text-3xl font-bold leading-relaxed lg:leading-normal text-black">سياسة الخصوصية</h1>
+
+        <article class="bg-white rounded-xl p-5 border border-gray-200 shadow-md leading-relaxed text-base text-black">
+          {!! nl2br(app()->getLocale() == 'ar' ? config('privacy_policy.contentAr') : config('privacy_policy.contentEn')) !!}
+        </article>
+
       </div><!-- container -->
-    </div><!-- page_name -->
+    </section>
 
-    <div class="container">
-      <div id="simple_page">
-        {!! nl2br(app()->getLocale() == 'ar' ? config('privacy_policy.contentAr') : config('privacy_policy.contentEn')) !!}
-      </div><!-- simple_page -->
-    </div><!-- container -->
+  </main><!-- main -->
 @endsection
-
-
-@push('footer-scripts')
-@endpush
