@@ -217,12 +217,17 @@
   </div><!-- col -->
   {{-- Active Toggle --}}
   <div class="col-12">
-    <label for="is_active" class="checkboxItem position-relative">
-      <input name="is_active" class="position-absolute top-0 strat-0 w-100 h-100" id="is_active" type="checkbox" value="1" {{ old('is_active', $couponIsActive) ? 'checked' : '' }}>
-      <span class="d-flex align-items-center justify-content-start">
-        <i class="d-block rounded-pill position-relative"></i>
-        {{ __('Active') }}
+    <label class="switch switch-success" for="is_active">
+      <input type="checkbox" class="switch-input" name="is_active" id="is_active" value="1" {{ old('is_active', $couponIsActive) ? 'checked' : '' }}>
+      <span class="switch-toggle-slider">
+        <span class="switch-on">
+          <i class="icon-base ti ti-check"></i>
+        </span>
+        <span class="switch-off">
+          <i class="icon-base ti ti-x"></i>
+        </span>
       </span>
+      <span class="switch-label">{{ __('Active') }}</span>
     </label>
     @error('is_active')
       <div class="text-danger small mt-1">{{ $message }}</div>
