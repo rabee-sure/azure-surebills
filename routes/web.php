@@ -106,6 +106,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('business-information', 'AccountController@storeBusinessInformation')->name('business.information');
 
     // download file
+    Route::get('download/merchant-document/{collection}/{file}', 'AccountController@downloadMerchantDocument')->name('download.merchant_document');
+
     Route::get('download/{id}/{file}', 'AccountController@downloadFile')->name('download.file');
 
     Route::get('account/change_password', 'AccountController@changePassword')->name('change_password');

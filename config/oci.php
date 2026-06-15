@@ -7,13 +7,24 @@ return [
     | OCI Object Storage Feature Toggle
     |--------------------------------------------------------------------------
     |
-    | When enabled, the "public" and "private" filesystem disks transparently
-    | use OCI Object Storage (S3-compatible API) for writes while reads fall
-    | back to local storage for files not yet migrated.
+    | When enabled, OCI credentials are available. Whether Laravel disks "public"
+    | and "private" use OCI is controlled by public_disk_enabled (OCI_PUBLIC_DISK_ENABLED).
     |
     */
 
     'enabled' => filter_var(env('OCI_ENABLED', false), FILTER_VALIDATE_BOOLEAN),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Use OCI for Laravel "public" / "private" disks (with local fallback)
+    |--------------------------------------------------------------------------
+    |
+    | When false, "public" and "private" stay on local storage even if OCI_ENABLED is true.
+    | Default true for backward compatibility.
+    |
+    */
+
+    'public_disk_enabled' => filter_var(env('OCI_PUBLIC_DISK_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
 
     /*
     |--------------------------------------------------------------------------
@@ -31,6 +42,18 @@ return [
     'bucket' => env('OCI_BUCKET'),
     'endpoint' => env('OCI_ENDPOINT'),
     'use_path_style_endpoint' => filter_var(env('OCI_USE_PATH_STYLE_ENDPOINT', true), FILTER_VALIDATE_BOOLEAN),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Optional: Object key prefix (logical tree under the bucket)
+    |--------------------------------------------------------------------------
+    |
+    | When set, keys look like "{prefix}/shared/merchants/logos/...".
+    | Omit leading/trailing slashes (e.g. staging, prod).
+    |
+    */
+
+    'bucket_prefix' => env('OCI_BUCKET_PREFIX', ''),
 
     /*
     |--------------------------------------------------------------------------

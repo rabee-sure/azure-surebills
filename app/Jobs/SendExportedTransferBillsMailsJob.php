@@ -8,25 +8,24 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-
 use Illuminate\Support\Facades\Mail;
 
 class SendExportedTransferBillsMailsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $file_name;
+    /** @var string Relative path on the public disk (OCI when enabled), e.g. shared/exports/transfers/bills/… */
+    protected $exportStoragePath;
+
+    /** @var array<int, string>|string */
     protected $email;
 
-
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * @param  array<int, string>|string  $email
      */
-    public function __construct($file_name, $email)
+    public function __construct(string $exportStoragePath, $email)
     {
-        $this->file_name = $file_name;
+        $this->exportStoragePath = $exportStoragePath;
         $this->email = $email;
     }
 
@@ -37,7 +36,6 @@ class SendExportedTransferBillsMailsJob implements ShouldQueue
      */
     public function handle()
     {
-        $message = (new TransferBillsExportedExcelMail($this->file_name));
-        Mail::to($this->email)->send($message);
+        Mail::to($this->email)->send(new TransferBillsExportedExcelMail($this->exportStoragePath));
     }
 }

@@ -159,9 +159,9 @@ class SendReportFile implements ShouldQueue
         ".$whereInMerchants."
         GROUP BY  `users`.`id`");
 
-        if(Excel::store(new ReportExport($results), $file_name , 'local')){
+        if (Excel::store(new ReportExport($results), $file_name, 'public')) {
 
-            $report->addMedia(storage_path('app/'.$file_name))
+            $report->addMediaFromDisk($file_name, 'public')
                 ->preservingOriginal()
                 ->toMediaCollection('reports_file');
 

@@ -1,6 +1,8 @@
 <?php
 
 $ociEnabled = (bool) config('oci.enabled', filter_var(env('OCI_ENABLED', false), FILTER_VALIDATE_BOOLEAN));
+$ociPublicDiskEnabled = (bool) config('oci.public_disk_enabled', filter_var(env('OCI_PUBLIC_DISK_ENABLED', true), FILTER_VALIDATE_BOOLEAN));
+$useOciPublicDisk = $ociEnabled && $ociPublicDiskEnabled;
 
 $ociS3Disk = [
     'driver' => 's3',
@@ -43,12 +45,12 @@ return [
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
-    | When OCI_ENABLED=true:
+    | When OCI_ENABLED=true and OCI_PUBLIC_DISK_ENABLED=true (config oci.public_disk_enabled):
     |   - "oci"              – direct OCI Object Storage (S3-compatible)
     |   - "public" / "private" – fallback disks (OCI primary, local fallback)
     |   - "public-local"     – original local public disk (used as fallback)
     |
-    | When OCI_ENABLED=false:
+    | When OCI is disabled or public_disk_enabled is false:
     |   - "public" / "private" – unchanged local disks (production default)
     |
     */
@@ -77,7 +79,7 @@ return [
 
         'oci-private' => $ociPrivateS3Disk,
 
-        'public' => $ociEnabled ? [
+        'public' => $useOciPublicDisk ? [
             'driver' => 'fallback',
             'primary' => 'oci',
             'fallback' => 'public-local',
@@ -88,7 +90,7 @@ return [
             'visibility' => 'public',
         ],
 
-        'private' => $ociEnabled ? [
+        'private' => $useOciPublicDisk ? [
             'driver' => 'fallback',
             'primary' => config('oci.private_bucket') ? 'oci-private' : 'oci',
             'fallback' => 'public-local',

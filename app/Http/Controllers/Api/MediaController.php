@@ -29,11 +29,15 @@ class MediaController extends Controller
 	    if ($request->hasFile('file')) {
 	        $file = $request->file('file');
 	        $name = time().'-'.$file->getClientOriginalName();
-	        $destinationPath = ($request->folder)? storage_path('/app/public/').$request->folder : storage_path('/app/public');
-	        $file->move($destinationPath, $name);
-            $file_path = ($request->folder)? $request->folder.'/'.$name : $name;
+            $folder = $this->sanitizePublicUploadFolder($request->folder);
+            $disk = Storage::disk('public');
+            if ($folder !== '') {
+                $file_path = $disk->putFileAs($folder, $file, $name);
+            } else {
+                $file_path = $disk->putFileAs('', $file, $name);
+            }
 
-	        return response()->json(['data' => Storage::disk('public')->exists($file_path) ? "storage/$file_path":$file_path]);
+	        return response()->json(['data' => $disk->exists($file_path) ? "storage/$file_path" : $file_path]);
 	    }
     }
 
@@ -57,8 +61,7 @@ class MediaController extends Controller
 
             $image = $request->file('file');
             $name = time().'.'.$image->getClientOriginalExtension();
-            $destinationPath = storage_path('/app/public');
-            $image->move($destinationPath, $name);
+            Storage::disk('public')->putFileAs('', $image, $name);
             $transfer->attachment = $name;
             $transfer->save();
             return response()->json(['data' => $name]);
@@ -75,5 +78,24 @@ class MediaController extends Controller
             abort(404);
         }
         return abort(401);
+    }
+
+    /**
+     * Allow only safe subfolders under the public disk (no traversal).
+     */
+    protected function sanitizePublicUploadFolder(?string $folder): string
+    {
+        if ($folder === null || $folder === '') {
+            return '';
+        }
+
+        $folder = str_replace(['..', '\\'], '/', (string) $folder);
+        $folder = trim($folder, '/');
+
+        if ($folder === '' || strpos($folder, '..') !== false) {
+            return '';
+        }
+
+        return preg_replace('/[^a-zA-Z0-9_\/\-]/', '', $folder) ?: '';
     }
 }

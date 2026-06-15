@@ -14,6 +14,7 @@ use App\Models\ProductCustomization;
 use App\Services\GetAuthUser;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -56,9 +57,8 @@ class ProductsController extends Controller
         if (!empty($request->image) && count($request->image) > 0) {
             foreach ($request->image as $image) {
                 $file = $image;
-                $file_name = time() . '-' . $file->getClientOriginalName();
-                $destinationPath = storage_path('/app/public/products');
-                $file->move($destinationPath, $file_name);
+                $file_name = time().'-'.$file->getClientOriginalName();
+                Storage::disk('public')->putFileAs('products', $file, $file_name);
                 $images[]['image'] = $file_name;
             }
         }
@@ -126,9 +126,8 @@ class ProductsController extends Controller
                 $images = array();
                 foreach ($request->image as $image) {
                     $file = $image;
-                    $file_name = time() . '-' . $file->getClientOriginalName();
-                    $destinationPath = storage_path('/app/public/products');
-                    $file->move($destinationPath, $file_name);
+                    $file_name = time().'-'.$file->getClientOriginalName();
+                    Storage::disk('public')->putFileAs('products', $file, $file_name);
                     $images[]['image'] = $file_name;
                 }
             }

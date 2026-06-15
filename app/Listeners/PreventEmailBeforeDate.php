@@ -37,7 +37,10 @@ class PreventEmailBeforeDate
         }
 
         // Define the minimum required account age (e.g., users created before this date are blocked)
-        $blockBeforeDate = Carbon::parse(env('BLOCK_EMAIL_BEFORE_DATE'));
+        $blockBeforeDate = Carbon::parse(env('BLOCK_EMAIL_BEFORE_DATE', null));
+        if ($blockBeforeDate === null) {
+            return;
+        }
 
         // Get recipient emails
         $toEmails = collect($event->message->getTo())->keys()->toArray();

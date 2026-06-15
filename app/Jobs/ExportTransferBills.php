@@ -3,14 +3,14 @@
 namespace App\Jobs;
 
 use App\Exports\TransferBillsExportData;
+use App\Support\Storage\ExportStoragePaths;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ExportTransferBills implements ShouldQueue
 {
@@ -18,6 +18,7 @@ class ExportTransferBills implements ShouldQueue
 
     public $transfer;
     public $email;
+    public $queue;
 
     /**
      * Create a new job instance.
@@ -28,6 +29,7 @@ class ExportTransferBills implements ShouldQueue
     {
         $this->transfer = $transfer;
         $this->email = $email;
+        $this->queue = config('queue.working_queues.export_queue');
     }
 
     /**
@@ -38,11 +40,16 @@ class ExportTransferBills implements ShouldQueue
     public function handle()
     {
         $file_name = 'bills_'.Carbon::now()->timestamp.'.xlsx';
-        return (new TransferBillsExportData($this->transfer))
-        ->store($filePath = 'transfer-bills/'. $file_name)
-        ->chain([
-            (new SendExportedTransferBillsMailsJob($file_name, $this->email))
-        ]);
+        $exportRoot = ExportStoragePaths::transferBillsExportsRoot();
+        $relativePath = $exportRoot.'/'.$file_name;
 
+        Storage::disk('public')->makeDirectory($exportRoot);
+
+        return (new TransferBillsExportData($this->transfer))
+            ->store($relativePath, 'public')
+            ->allOnQueue($this->queue)
+            ->chain([
+                (new SendExportedTransferBillsMailsJob($relativePath, $this->email))->onQueue($this->queue),
+            ]);
     }
 }

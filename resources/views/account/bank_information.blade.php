@@ -26,7 +26,7 @@
       <div class="row g-6">
         <div class="col-12 col-md-6">
           <label for="bank_id" class="form-label">{{__('Bank')}} <span class="text-danger">*</span></label>
-          <select name="bank_id" id="bank_id" class="form-select select2" @if(auth()->user()->disable_bank_documents) disabled @endif>
+          <select name="bank_id" id="bank_id" class="form-select select2" @if($user->disable_bank_documents) disabled @endif>
             <option value="" disabled selected>{{__('Select your Bank')}}</option>
             @foreach(App\Models\Bank::active()->get() as $bank)
               <option value="{{$bank->id}}" @if($user->bank_id == $bank->id)selected="selected"@endif>{{ $bank->name }}</option>
@@ -35,12 +35,12 @@
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
           <label for="iban_number" class="form-label">{{__('IBAN Number')}} <span class="text-danger">*</span></label>
-          <input value="{{ $user->iban_number }}"  name="iban_number" type="text" class="form-control" id="iban_number" placeholder="رقم آيبان مثلاً : SA2720000000000000001212 *" aria-describedby="ibanNumberHelp" autocomplete="off" @if(auth()->user()->disable_bank_documents) disabled @endif>
+          <input value="{{ $user->iban_number }}"  name="iban_number" type="text" class="form-control" id="iban_number" placeholder="رقم آيبان مثلاً : SA2720000000000000001212 *" aria-describedby="ibanNumberHelp" autocomplete="off" @if($user->disable_bank_documents) disabled @endif>
           <div id="ibanNumberHelp" class="form-text">{{__('This account will be used to settle payments received through point-of-sale devices')}}</div>
         </div><!-- col-12 -->
         <div class="col-12">
           <label for="beneficiary_name" class="form-label">{{__('Beneficiary Name')}} <span class="text-danger">*</span></label>
-          <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control" id="beneficiary_name" placeholder="{{__('Beneficiary Name')}}" aria-describedby="beneficiaryNameHelp" autocomplete="off" @if(auth()->user()->disable_bank_documents) disabled @endif>
+          <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control" id="beneficiary_name" placeholder="{{__('Beneficiary Name')}}" aria-describedby="beneficiaryNameHelp" autocomplete="off" @if($user->disable_bank_documents) disabled @endif>
           <div id="beneficiaryNameHelp" class="form-text">{{__('Write the name of the account holder in English as registered with the bank')}}</div>
         </div><!-- col-12 -->
         <div class="col-12">
@@ -49,21 +49,22 @@
             <span class="d-block fs-5 mb-1">{{ __('Upload the required documents') }}</span>
             <span class="text-muted mb-2">{{ __('Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility') }}</span>
           </label>
-          @if(auth()->user()->disable_bank_documents)
+          @if($user->disable_bank_documents)
             <div class="dropzone">
-              @foreach(auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->bank_documents : auth()->user()->bank_documents as $file)
+              @foreach($user->bank_documents as $file)
                 @include('components.file', ['file' => $file])
               @endforeach
             </div>
           @else
             @include('components.dropzone',[
-              'documents' => auth()->user()->mainStoreUser ? auth()->user()->mainStoreUser->bank_documents->toArray() : auth()->user()->bank_documents->toArray()
+              'documents' => merchant_dropzone_documents_payload((int) $user->id, 'bank_documents'),
+              'upload_context' => 'bank_documents',
             ])
           @endif
         </div><!-- col-12 -->
       </div><!-- row -->
     </div><!-- card-body -->
-    @if(!auth()->user()->disable_bank_documents)
+    @if(!$user->disable_bank_documents)
       <div class="card-footer d-flex align-items-center justify-content-end">
         <button type="submit" class="btn btn-primary btn-submit-with-spinner" data-loading-text="{{ __('Saving...') }}">
           <span class="btn-spinner d-none me-2" role="status">

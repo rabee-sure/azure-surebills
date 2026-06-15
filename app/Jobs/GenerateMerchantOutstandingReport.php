@@ -8,8 +8,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GenerateMerchantOutstandingReport implements ShouldQueue
 {
@@ -159,9 +159,9 @@ class GenerateMerchantOutstandingReport implements ShouldQueue
         ".$whereInMerchants."
         GROUP BY  `users`.`id`");
 
-        if(Excel::store(new ReportExport($results), $file_name , 'local')){
+        if (Excel::store(new ReportExport($results), $file_name, 'public')) {
 
-            $this->report->addMedia(storage_path('app/'.$file_name))
+            $this->report->addMediaFromDisk($file_name, 'public')
                 ->preservingOriginal()
                 ->toMediaCollection('reports_file');
 

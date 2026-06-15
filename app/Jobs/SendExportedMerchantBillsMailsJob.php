@@ -2,35 +2,33 @@
 
 namespace App\Jobs;
 
-use App\Mail\BillsExportedExcelMail;
 use App\Mail\MerchantBillsExportedExcelMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-
 use Illuminate\Support\Facades\Mail;
 
 class SendExportedMerchantBillsMailsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $file_name;
+    /** @var string Full relative path on the public disk (OCI when enabled), e.g. shared/exports/merchants/bills/… */
+    protected $exportStoragePath;
+
+    /** @var array<int, string>|string */
     protected $email;
 
-
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * @param  array<int, string>|string  $email
      */
-    public function __construct($file_name, $email)
+    public function __construct(string $exportStoragePath, $email)
     {
-        $this->file_name = $file_name;
+        $this->exportStoragePath = $exportStoragePath;
         $this->email = $email;
     }
-    
+
     /**
      * Execute the job.
      *
@@ -38,7 +36,6 @@ class SendExportedMerchantBillsMailsJob implements ShouldQueue
      */
     public function handle()
     {
-        $message = (new MerchantBillsExportedExcelMail($this->file_name));
-        Mail::to($this->email)->send($message);
+        Mail::to($this->email)->send(new MerchantBillsExportedExcelMail($this->exportStoragePath));
     }
 }

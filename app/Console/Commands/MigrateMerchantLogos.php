@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class MigrateMerchantLogos extends Command
@@ -13,7 +12,7 @@ class MigrateMerchantLogos extends Command
                             {--dry-run : Show changes without writing files or DB}
                             {--user= : Migrate a single user ID only}';
 
-    protected $description = 'Move legacy merchant logos (uploads/* and public-disk root) into storage/app/public/logos/';
+    protected $description = 'Move legacy merchant logos (uploads/* and public-disk root) into storage/app/public/{OCI_BUCKET_PREFIX/}shared/merchants/logos/';
 
     public function handle(): int
     {
@@ -61,7 +60,7 @@ class MigrateMerchantLogos extends Command
 
             $newPath = $targetDir.'/'.$filename;
 
-            if ($disk->exists($newPath) && realpath($sourcePath) !== realpath($disk->path($newPath))) {
+            if ($disk->exists($newPath)) {
                 $filename = pathinfo($filename, PATHINFO_FILENAME).'_'.$user->id.'.'.pathinfo($filename, PATHINFO_EXTENSION);
                 $newPath = $targetDir.'/'.$filename;
             }
@@ -74,8 +73,14 @@ class MigrateMerchantLogos extends Command
 
             try {
                 ensure_merchant_logo_directory();
-                File::copy($sourcePath, $disk->path($newPath));
-                @chmod($disk->path($newPath), 0664);
+                $read = fopen($sourcePath, 'r');
+                if ($read === false) {
+                    throw new \RuntimeException('Could not read source file');
+                }
+                $disk->writeStream($newPath, $read);
+                if (is_resource($read)) {
+                    fclose($read);
+                }
                 $user->update(['logo' => $newPath]);
 
                 if (strpos($logo, 'uploads/') === 0 && is_file($sourcePath)) {
@@ -96,7 +101,7 @@ class MigrateMerchantLogos extends Command
             ['Result', 'Count'],
             [
                 ['Migrated / would migrate', $migrated],
-                ['Already on logos/', $skipped],
+                ['Already on canonical merchant logos path', $skipped],
                 ['Failed / missing file', $failed],
             ]
         );

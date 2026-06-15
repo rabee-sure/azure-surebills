@@ -60,7 +60,7 @@ class TransferExcel extends Command
 
         if(Excel::store(new TransactionsExport($data), $file_name , 'public')){
 
-            $transfer->addMedia(storage_path('app/public/'.$file_name))
+            $transfer->addMediaFromDisk($file_name, 'public')
                 ->preservingOriginal()
                 ->toMediaCollection('transfers_transactions');
                 

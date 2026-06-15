@@ -5,14 +5,14 @@ namespace App\Jobs;
 use App\Exports\BillMerchantExportData;
 use App\Models\Bill;
 use App\Models\RefundedBill;
+use App\Support\Storage\ExportStoragePaths;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ExportMerchantBills implements ShouldQueue
 {
@@ -42,10 +42,16 @@ class ExportMerchantBills implements ShouldQueue
     public function handle()
     {
         $file_name = 'bills_'.Carbon::now()->timestamp.'.xlsx';
+        $exportRoot = ExportStoragePaths::merchantBillsExportsRoot();
+        $relativePath = $exportRoot.'/'.$file_name;
+
+        Storage::disk('public')->makeDirectory($exportRoot);
+
         return (new BillMerchantExportData($this->filter))
-        ->store($filePath = 'merchant-bills/'. $file_name)->allOnQueue($this->queue)
-        ->chain([
-            (new SendExportedMerchantBillsMailsJob($file_name, $this->email))->onQueue($this->queue)
-        ]);
+            ->store($relativePath, 'public')
+            ->allOnQueue($this->queue)
+            ->chain([
+                (new SendExportedMerchantBillsMailsJob($relativePath, $this->email))->onQueue($this->queue),
+            ]);
     }
 }

@@ -212,4 +212,12 @@ return [
      * More info: https://css-tricks.com/native-lazy-loading/
      */
     'default_loading_attribute_value' => null,
+
+    /*
+     * Per-model path generators (see Spatie PathGeneratorFactory).
+     * Merchant business/bank KYC files use shared/merchants/{business|bank}_documents/{userId}/ on the public disk (see ExportStoragePaths).
+     */
+    'custom_path_generators' => [
+        App\Models\User::class => App\Support\MediaLibrary\UserMerchantDocumentsPathGenerator::class,
+    ],
 ];

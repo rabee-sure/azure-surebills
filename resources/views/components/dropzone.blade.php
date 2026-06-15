@@ -41,11 +41,13 @@
     var uploadedDocumentMap = {}
 
     var dropzoneEl = document.getElementById("dropzone-documents");
-    if (dropzoneEl && $().dropzone && !$(".dropzonex").hasClass("disabled")) {
+    var formEl = dropzoneEl ? dropzoneEl.closest("form") : null;
+
+    if (dropzoneEl && formEl && typeof Dropzone !== "undefined") {
       if (dropzoneEl.dropzone) {
         dropzoneEl.dropzone.destroy();
       }
-      $("#dropzone-documents").dropzone({
+      new Dropzone(dropzoneEl, {
         url: "/images-upload",
         maxFilesize: 5,
         maxFiles: 5,
@@ -53,9 +55,22 @@
           'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
         success: function (file, response) {
-          if (response && response.name) {
-            $('form').append('<input type="hidden" name="document[]" value="' + response.name + '">');
-            uploadedDocumentMap[file.name] = response.name;
+          var res = response;
+          if (typeof res === "string") {
+            try {
+              res = JSON.parse(res);
+            } catch (e) {
+              res = null;
+            }
+          }
+          if (res && res.name) {
+            var storedPath = res.path || ("tmp/uploads/" + res.name);
+            file.storedPath = storedPath;
+            $(formEl).append($("<input>", { type: "hidden", name: "document[]", value: storedPath }));
+            uploadedDocumentMap[file.name] = storedPath;
+          }
+          if (file.previewElement) {
+            file.previewElement.classList.add("dz-success", "dz-complete");
           }
         },
         error: function (file, errorMessage ) {
@@ -76,41 +91,62 @@
         removedfile: function (file) {
             $(".dropzone_error").hide();
             if (file.previewElement) file.previewElement.remove();
-            var name = (typeof file.file_name !== 'undefined') ? file.file_name : uploadedDocumentMap[file.name];
+            var name = (typeof file.storedPath !== 'undefined' && file.storedPath) ? file.storedPath : uploadedDocumentMap[file.name];
+            if (!name && typeof file.file_name !== 'undefined') {
+              name = file.file_name;
+            }
             if (name) {
-              $('form').find('input[name="document[]"][value="' + name + '"]').remove();
+              var baseName = function (p) {
+                try { var parts = String(p).split('/'); return parts[parts.length - 1]; } catch (e) { return p; }
+              };
+              $(formEl).find('input[name="document[]"]').filter(function () {
+                var v = $(this).val();
+                return v === name || baseName(v) === baseName(name);
+              }).remove();
             }
             this.options.maxFiles = 5 - this.files.length;
         },
 
         init: function () {
           var dz = this;
+          var uploadContext = @json($upload_context ?? null);
           @if(isset($documents) && count($documents) > 0)
-            var files = {!! json_encode($documents) !!};
+            var files = {!! json_encode($documents, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!};
             for (var i = 0; i < files.length; i++) {
               var fileData = files[i];
+              var storedPath = fileData.disk_relative_path || fileData.file_name || '';
               var mockFile = {
                 name: fileData.file_name || fileData.name || 'file',
                 size: fileData.size || 0,
                 file_name: fileData.file_name,
                 id: fileData.id,
-                mime_type: fileData.mime_type || ''
+                mime_type: fileData.mime_type || '',
+                storedPath: storedPath,
+                download_url: fileData.download_url || null
               };
               dz.options.addedfile.call(dz, mockFile);
               dz.files.push(mockFile);
-              if (mockFile.mime_type && mockFile.mime_type.indexOf('image') !== -1) {
+              if (fileData.thumbnail_url) {
+                dz.options.thumbnail.call(dz, mockFile, fileData.thumbnail_url);
+              } else if (mockFile.mime_type && mockFile.mime_type.indexOf('image') !== -1) {
                 dz.options.thumbnail.call(dz, mockFile, '/storage/' + mockFile.id + '/' + mockFile.file_name);
               }
               mockFile.previewElement.classList.add('dz-complete');
               mockFile.previewElement.setAttribute("id", mockFile.id);
-              if (mockFile.file_name) {
-                $('form').append('<input type="hidden" name="document[]" value="' + mockFile.file_name + '">');
+              if (storedPath) {
+                $(formEl).append($('<input>', { type: 'hidden', name: 'document[]', value: storedPath }));
               }
               (function(f) {
                 mockFile.previewElement.addEventListener("click", function(click) {
                   if (!click.target.closest('[data-dz-remove]')) {
                     var a = document.createElement('a');
-                    a.href = '/download/' + f.id + '/' + encodeURIComponent(f.file_name);
+                    if (f.download_url) {
+                      a.href = f.download_url;
+                    } else if (uploadContext) {
+                      a.href = '/download/merchant-document/' + encodeURIComponent(uploadContext) + '/' + encodeURIComponent(f.file_name);
+                    } else {
+                      a.href = '/download/' + f.id + '/' + encodeURIComponent(f.file_name);
+                    }
                     a.download = f.file_name || 'download';
                     a.style.display = 'none';
                     document.body.appendChild(a);
@@ -131,9 +167,11 @@
                 $(".dropzone_error").text('{{__("reach the max num of files")}}');
             });
 
-            this.on("sending", function(file) {
-
+            this.on("sending", function(file, xhr, formData) {
                 $("button[type='submit'], input[type='submit']").attr('disabled', true);
+                @isset($upload_context)
+                formData.append('upload_context', @json($upload_context));
+                @endisset
             });
 
             this.on("complete", function (file) {

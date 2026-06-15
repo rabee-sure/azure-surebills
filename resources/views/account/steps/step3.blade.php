@@ -82,7 +82,7 @@
               <hr class="mb-6 mt-0" />
               <span class="d-block fw-bold fs-6 text-body mb-1">{{ __('Upload the required documents') }}</span>
               <p class="d-block mb-3 text-secondary">{{ __('Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility') }}</p>
-              @include('components.dropzone',['documents' => (auth()->user()->mainStoreUser ?? auth()->user())->bank_documents->toArray()])
+              @include('components.dropzone',['documents' => merchant_dropzone_documents_payload((int) (auth()->user()->mainStoreUser ?? auth()->user())->id, 'bank_documents'), 'upload_context' => 'bank_documents'])
             </div><!-- col -->
 
             <div class="col-12 d-flex justify-content-between">

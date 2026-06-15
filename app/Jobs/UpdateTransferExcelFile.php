@@ -3,8 +3,6 @@
 namespace App\Jobs;
 
 use App\Models\Transfer;
-use App\Models\PaymentLog;
-use App\Models\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -38,7 +36,7 @@ class UpdateTransferExcelFile implements ShouldQueue
      */
     public function handle()
     {
-        $this->transfer->addMedia(storage_path('app/public/'.$this->file_name))
+        $this->transfer->addMediaFromDisk($this->file_name, 'public')
             ->preservingOriginal()
             ->toMediaCollection('transfers_transactions');
     }

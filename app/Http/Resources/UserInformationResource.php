@@ -48,9 +48,10 @@ class UserInformationResource extends JsonResource
         foreach ($items as $item) {
             $array[] = [
                 'full_url' => $item->getFullUrl(),
-                'id' => $item->id
+                'id' => $item->id,
             ];
         }
+
         return $array;
     }
 }

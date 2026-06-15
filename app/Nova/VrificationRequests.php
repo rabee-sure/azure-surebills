@@ -173,7 +173,7 @@ class VrificationRequests extends Resource
 
             // Custom version that mimics Nova gallery but removes the eye icon
             Text::make(__('Business Documents'), function () {
-                $mediaItems = $this->business_documents;
+                $mediaItems = $this->getMedia('business_documents');
 
                 if ($mediaItems->isEmpty()) {
                     return '—';
@@ -212,7 +212,7 @@ class VrificationRequests extends Resource
 
             // Custom version that mimics Nova gallery but removes the eye icon
             Text::make(__('Bank Documents'), function () {
-                $mediaItems = $this->bank_documents;
+                $mediaItems = $this->getMedia('bank_documents');
 
                 if ($mediaItems->isEmpty()) {
                     return '—';

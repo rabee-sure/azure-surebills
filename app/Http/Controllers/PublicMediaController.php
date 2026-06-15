@@ -13,8 +13,16 @@ class PublicMediaController extends Controller
 {
     /**
      * Allowed path prefixes (no directory traversal).
+     * Canonical merchant logos use merchant_logo_disk_path() (shared/merchants/logos + optional OCI_BUCKET_PREFIX).
      */
     protected const ALLOWED_PREFIXES = [
+        'shared/merchants/logos/',
+        'shared/merchants/business_documents/',
+        'shared/merchants/bank_documents/',
+        'shared/merchants/bills_backgrounds/',
+        'shared/bills/',
+        'shared/exports/merchants/logos/',
+        'shared/exports/merchants/bills/',
         'logos/',
         'bills_backgrounds/',
         'products/',
@@ -61,6 +69,31 @@ class PublicMediaController extends Controller
 
     protected function isAllowedPath(string $path): bool
     {
+        $logoDir = merchant_logo_disk_path();
+        if ($logoDir !== '' && strlen($path) > strlen($logoDir) && strpos($path, $logoDir.'/') === 0) {
+            return true;
+        }
+
+        $businessDocs = merchant_business_documents_disk_path();
+        if ($businessDocs !== '' && strlen($path) > strlen($businessDocs) && strpos($path, $businessDocs.'/') === 0) {
+            return true;
+        }
+
+        $bankDocs = merchant_bank_documents_disk_path();
+        if ($bankDocs !== '' && strlen($path) > strlen($bankDocs) && strpos($path, $bankDocs.'/') === 0) {
+            return true;
+        }
+
+        $billBgs = merchant_bills_backgrounds_disk_path();
+        if ($billBgs !== '' && strlen($path) > strlen($billBgs) && strpos($path, $billBgs.'/') === 0) {
+            return true;
+        }
+
+        $exportsBills = \App\Support\Storage\ExportStoragePaths::merchantBillsExportsRoot();
+        if ($exportsBills !== '' && strlen($path) > strlen($exportsBills) && strpos($path, $exportsBills.'/') === 0) {
+            return true;
+        }
+
         foreach (self::ALLOWED_PREFIXES as $prefix) {
             if (strpos($path, $prefix) === 0) {
                 return true;

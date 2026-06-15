@@ -44,10 +44,8 @@ class CompareExcelSheet extends Command
     {
         $path = $this->ask('What is your file name in "app/public"?');
 
-        $excel_file = storage_path('app/public/'.$path);
-
-        if(Storage::disk('public')->has($path)){
-            $data = Excel::toCollection(new HyperPayImport, $excel_file)[0];
+        if (Storage::disk('public')->has($path)) {
+            $data = Excel::toCollection(new HyperPayImport, $path, 'public')[0];
 
             $uniqueids = $data->pluck('uniqueid')
                 ->map(fn($item, $key) => str_replace(["'", '"'], '', $item));

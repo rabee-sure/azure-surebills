@@ -2,11 +2,15 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesMerchantDropzoneDocuments;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\ValidateUploadFile;
+use Illuminate\Validation\Validator;
 
 class BusinessInformationRequest extends FormRequest
 {
+    use ValidatesMerchantDropzoneDocuments;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,6 +19,16 @@ class BusinessInformationRequest extends FormRequest
     public function authorize()
     {
         return true;
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->prepareMerchantDropzoneDocuments();
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $this->withMerchantDropzoneDocumentDistinctValidator($validator);
     }
 
     /**
@@ -41,8 +55,8 @@ class BusinessInformationRequest extends FormRequest
             'business_address_details' => ['required', 'max:100'],
             'business_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
             'vat_registration_number' => [auth()->user()->source == 'sure bills' ? 'nullable' : 'required'],
-            'document' => ['nullable', 'array', "max:5"],
-            'document.*' => ['required', new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])],
+            'document' => ['nullable', 'array', 'max:5'],
+            'document.*' => ['required', 'string', 'max:2048', new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])],
         ];
     }
 
@@ -65,6 +79,7 @@ class BusinessInformationRequest extends FormRequest
           'business_mobile.regex' => __('business mobile format invalid'),
           'logo.required_without' => __('Logo required'),
           'vat_registration_number.required' => __('VAT Registration Number is required'),
+          'document.max' => __('You may upload at most 5 documents.'),
         ];
     }
 }
