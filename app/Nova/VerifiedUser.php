@@ -230,7 +230,7 @@ class VerifiedUser extends Resource
             Files::make(__('Business Documents'), 'business_documents')->hideFromIndex()->hideFromDetail()->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])),
             // Custom version that mimics Nova gallery but removes the eye icon
             Text::make(__('Business Documents'), function () {
-                $mediaItems = $this->business_documents;
+                $mediaItems = $this->getMedia('business_documents');
 
                 if ($mediaItems->isEmpty()) {
                     return '—';
@@ -266,7 +266,7 @@ class VerifiedUser extends Resource
             Files::make(__('Bank Documents'), 'bank_documents')->hideFromIndex()->hideFromDetail()->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])),
             // Custom version that mimics Nova gallery but removes the eye icon
             Text::make(__('Bank Documents'), function () {
-                $mediaItems = $this->bank_documents;
+                $mediaItems = $this->getMedia('bank_documents');
 
                 if ($mediaItems->isEmpty()) {
                     return '—';

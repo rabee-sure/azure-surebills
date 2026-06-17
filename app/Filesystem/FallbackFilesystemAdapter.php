@@ -8,6 +8,7 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
+use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -28,6 +29,19 @@ class FallbackFilesystemAdapter implements CloudContract
     {
         $this->primary = $primary;
         $this->fallback = $fallback;
+    }
+
+    /**
+     * Underlying Flysystem instance (writes use the primary disk, e.g. OCI).
+     *
+     * Must not be routed through {@see __call}: calling
+     * {@see FilesystemAdapter::__call}('getDriver') would forward to the inner
+     * Flysystem driver, which has no getDriver() — breaks Spatie Media Library
+     * and other packages that expect Laravel's adapter API.
+     */
+    public function getDriver(): FilesystemInterface
+    {
+        return $this->primary->getDriver();
     }
 
     /**

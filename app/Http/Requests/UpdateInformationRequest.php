@@ -2,13 +2,17 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Concerns\ValidatesMerchantDropzoneDocuments;
 use App\Rules\ValidateIban;
 use App\Rules\ValidateUploadFile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class UpdateInformationRequest extends FormRequest
 {
+    use ValidatesMerchantDropzoneDocuments;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -19,6 +23,16 @@ class UpdateInformationRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        $this->prepareMerchantDropzoneDocuments();
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $this->withMerchantDropzoneDocumentDistinctValidator($validator);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,14 +40,19 @@ class UpdateInformationRequest extends FormRequest
      */
     public function rules()
     {
-        $bank = [
+        $document = [
+            'document' => ['nullable', 'array', 'max:5'],
+            'document.*' => ['nullable', 'string', 'max:2048'],
+        ];
+
+        $bank = array_merge([
             'bank_id' => ['required'],
             'iban_number' => ['required', new ValidateIban()],
             'beneficiary_name' => ['required', 'max:50'],
             'bank_documents' => ['nullable', 'array', "max:5", new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])],
-        ];
+        ], $document);
 
-        $business =  [
+        $business = array_merge([
             'license_type' => ['required', Rule::in(['Commercial Record','Freelance'])],
             'commercial_registry_expiry_date' => ['required_if:license_type,Commercial Record', 'required'],
             'business_name_en' => ['required', 'max:50'],
@@ -51,7 +70,7 @@ class UpdateInformationRequest extends FormRequest
             'vat_registration_number' => ['nullable'],
             // 'business_documents' => ['nullable', 'array', "max:5"],
             'business_documents' => ['array', "max:5", 'nullable', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])],
-        ];
+        ], $document);
 
         if($this->type == 'bank')
             return $bank;

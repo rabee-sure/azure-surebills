@@ -2,28 +2,26 @@
 
 namespace App\Mail;
 
-use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\File;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Storage;
 use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class MerchantBillsExportedExcelMailWithoutQueue extends Mailable
 {
     use SerializesModels, IsMonitored;
 
+    public $export_storage_path;
+
     public $file_name;
 
     /**
-     * Create a new message instance.
-     *
-     * @return void
+     * @param  string  $exportStoragePath  Full relative path or legacy basename (see storage_read_public_disk_export_contents)
      */
-    public function __construct($file_name)
+    public function __construct(string $exportStoragePath)
     {
-        $this->file_name = $file_name;
+        $this->export_storage_path = ltrim($exportStoragePath, '/');
+        $this->file_name = basename($exportStoragePath);
     }
 
     /**
@@ -33,13 +31,17 @@ class MerchantBillsExportedExcelMailWithoutQueue extends Mailable
      */
     public function build()
     {
-        $fileName = $this->file_name;
-        $filePath = Storage::disk('local')->path(join(DIRECTORY_SEPARATOR, array('merchant-bills', $fileName)));
-        return $this->subject("Your Exported Bills - SureBills Without Queue")
+        $binary = storage_read_public_disk_export_contents($this->export_storage_path);
+        if ($binary === null) {
+            throw new FileNotFoundException("Merchant bills export not found: {$this->export_storage_path}");
+        }
+
+        return $this->subject(__('Your Exported Bills - SureBills Without Queue'))
             ->view('emails.bills.merchant_exported_bills', [
                 'file_name' => $this->file_name,
             ])
-            ->attach($filePath);
+            ->attachData($binary, $this->file_name, [
+                'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            ]);
     }
-
 }

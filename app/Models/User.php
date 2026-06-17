@@ -574,7 +574,8 @@ class User extends Authenticatable implements HasMedia
      */
     public function getIsUploadedDocumentsAttribute()
     {
-        return $this->getMedia('business_documents')->count() && $this->getMedia('bank_documents')->count();
+        return merchant_disk_documents_collection((int) $this->id, 'business_documents')->isNotEmpty()
+            && merchant_disk_documents_collection((int) $this->id, 'bank_documents')->isNotEmpty();
     }
 
     /**
@@ -585,7 +586,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function getIsUploadedBusinessDocumentsAttribute()
     {
-        return $this->getMedia('business_documents')->count();
+        return merchant_disk_documents_collection((int) $this->id, 'business_documents')->isNotEmpty();
     }
 
     /**
@@ -596,7 +597,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function getIsUploadedBankDocumentsAttribute()
     {
-        return $this->getMedia('bank_documents')->count();
+        return merchant_disk_documents_collection((int) $this->id, 'bank_documents')->isNotEmpty();
     }
 
     /**
@@ -607,12 +608,25 @@ class User extends Authenticatable implements HasMedia
      */
     public function getTwoBusinessDaysAttribute()
     {
-        $last_business_documents = $this->getMedia('business_documents')->last()->created_at;
-        $last_bank_documents = $this->getMedia('bank_documents')->last()->created_at;
-        // dd($last_bank_documents);
-        $result = $last_business_documents->gt($last_bank_documents);
-        $date = ($result) ? $last_business_documents : $last_bank_documents;
-        return $date->addDays(2)->format('d/m/Y');
+        $disk = Storage::disk('public');
+        $latest = null;
+        foreach (merchant_disk_documents_collection((int) $this->id, 'business_documents') as $d) {
+            $t = Carbon::createFromTimestamp($disk->lastModified($d->disk_relative_path));
+            if ($latest === null || $t->gt($latest)) {
+                $latest = $t;
+            }
+        }
+        foreach (merchant_disk_documents_collection((int) $this->id, 'bank_documents') as $d) {
+            $t = Carbon::createFromTimestamp($disk->lastModified($d->disk_relative_path));
+            if ($latest === null || $t->gt($latest)) {
+                $latest = $t;
+            }
+        }
+        if ($latest === null) {
+            return Carbon::now()->addDays(2)->format('d/m/Y');
+        }
+
+        return $latest->copy()->addDays(2)->format('d/m/Y');
     }
 
     /**
@@ -623,7 +637,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function getBusinessDocumentsAttribute($token)
     {
-        return $this->getMedia('business_documents');
+        return merchant_disk_documents_collection((int) $this->id, 'business_documents');
     }
 
     /**
@@ -673,7 +687,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function getBankDocumentsAttribute($token)
     {
-        return $this->getMedia('bank_documents');
+        return merchant_disk_documents_collection((int) $this->id, 'bank_documents');
     }
 
     /**

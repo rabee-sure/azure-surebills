@@ -9,6 +9,7 @@ use App\Http\Resources\UserInformationResource;
 use App\Models\Bank;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BankController extends Controller
 {
@@ -50,22 +51,16 @@ class BankController extends Controller
 
 
 
-        if (!$user->disable_bank_documents){
-             if (count($user->bank_documents) > 0) {
-                foreach ($user->bank_documents as $media) {
-                    if (!in_array($media->file_name, $request->input('document', []))) {
-                        $media->delete();
-                    }
+        if (! $user->disable_bank_documents) {
+            $uid = (int) $user->id;
+            sync_merchant_disk_documents(
+                $uid,
+                'bank_documents',
+                $request->input('document', []),
+                function ($file) use ($uid) {
+                    return merchant_bank_document_storage_candidates($file, $uid);
                 }
-            }
-
-            $media = $user->bank_documents->pluck('file_name')->toArray();
-
-            foreach ($request->input('document', []) as $file) {
-                if (count($media) === 0 || !in_array($file, $media)) {
-                    $user->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('bank_documents');
-                }
-            }       
+            );
         }
 
         if ($request->hasFile('logo')) {
@@ -81,22 +76,16 @@ class BankController extends Controller
             }
         }
 
-        if (!$user->disable_business_documents){
-            if (count($user->business_documents) > 0) {
-                foreach ($user->business_documents as $media) {
-                    if (!in_array($media->file_name, $request->input('document', []))) {
-                        $media->delete();
-                    }
+        if (! $user->disable_business_documents) {
+            $uid = (int) $user->id;
+            sync_merchant_disk_documents(
+                $uid,
+                'business_documents',
+                $request->input('document', []),
+                function ($file) use ($uid) {
+                    return merchant_business_document_storage_candidates($file, $uid);
                 }
-            }
-
-            $media = $user->business_documents->pluck('file_name')->toArray();
-
-            foreach ($request->input('document', []) as $file) {
-                if (count($media) === 0 || !in_array($file, $media)) {
-                    $user->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('business_documents');
-                }
-            }
+            );
         }
 
         return new UserInformationResource($user);

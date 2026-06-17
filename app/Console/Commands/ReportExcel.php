@@ -70,7 +70,7 @@ class ReportExcel extends Command
         
         if(Excel::store(new ReportExport($data), $file_name , 'public')){
             
-            $report->addMedia(storage_path('app/public/'.$file_name))
+            $report->addMediaFromDisk($file_name, 'public')
                 ->preservingOriginal()
                 ->toMediaCollection('reports_file');
                 

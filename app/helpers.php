@@ -1,14 +1,17 @@
 <?php
 
+use App\Support\MerchantDocuments\MerchantDiskDocument;
+use App\Support\Storage\ExportStoragePaths;
 use chillerlan\QRCode\QRCode;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Salla\ZATCA\GenerateQrCode;
 use Salla\ZATCA\Tags\InvoiceDate;
 use Salla\ZATCA\Tags\InvoiceTaxAmount;
 use Salla\ZATCA\Tags\InvoiceTotalAmount;
 use Salla\ZATCA\Tags\Seller;
 use Salla\ZATCA\Tags\TaxNumber;
-use Illuminate\Support\Str; 
 
 if (!function_exists('getMastercardError')) {
     function getMastercardError($response)
@@ -285,19 +288,36 @@ if (! function_exists('public_storage_url')) {
     }
 }
 
+if (! function_exists('oci_bucket_object_prefix')) {
+    /**
+     * Optional prefix for object keys under the OCI bucket (see OCI_BUCKET_PREFIX).
+     * Returns e.g. "staging/" or "" when unset.
+     */
+    function oci_bucket_object_prefix(): string
+    {
+        $p = trim((string) config('oci.bucket_prefix', ''), '/');
+
+        return $p === '' ? '' : $p.'/';
+    }
+}
+
 if (! function_exists('merchant_logo_disk_path')) {
     /**
      * Relative path on the "public" disk for merchant business logos.
+     *
+     * Matches the canonical OCI tree:
+     *   {OCI_BUCKET_PREFIX}/shared/merchants/logos/{filename}
+     * Legacy keys may still use logos/ or shared/exports/merchants/logos/.
      */
     function merchant_logo_disk_path(): string
     {
-        return 'logos';
+        return oci_bucket_object_prefix().'shared/merchants/logos';
     }
 }
 
 if (! function_exists('ensure_merchant_logo_directory')) {
     /**
-     * Ensure logos/ exists on the public disk (writable by the web server).
+     * Ensure shared/merchants/logos/ (with optional bucket prefix) exists on the public disk.
      */
     function ensure_merchant_logo_directory(): void
     {
@@ -310,12 +330,361 @@ if (! function_exists('ensure_merchant_logo_directory')) {
     }
 }
 
+if (! function_exists('merchant_business_documents_disk_path')) {
+    /**
+     * Root directory on the "public" disk for merchant business documents (admin-aligned).
+     * {prefix}shared/merchants/business_documents
+     */
+    function merchant_business_documents_disk_path(): string
+    {
+        return ExportStoragePaths::merchantBusinessDocumentsRoot();
+    }
+}
+
+if (! function_exists('merchant_bank_documents_disk_path')) {
+    /**
+     * Root directory on the "public" disk for merchant bank documents (admin-aligned).
+     */
+    function merchant_bank_documents_disk_path(): string
+    {
+        return ExportStoragePaths::merchantBankDocumentsRoot();
+    }
+}
+
+if (! function_exists('merchant_admin_document_random_suffix')) {
+    /**
+     * Random lowercase alphanumeric suffix (Surebills admin MerchantService contract).
+     */
+    function merchant_admin_document_random_suffix(int $length = 6): string
+    {
+        $pool = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        $max = strlen($pool) - 1;
+        $out = '';
+        for ($i = 0; $i < $length; $i++) {
+            $out .= $pool[random_int(0, $max)];
+        }
+
+        return $out;
+    }
+}
+
+if (! function_exists('merchant_document_unique_filename')) {
+    /**
+     * Unique stored filename: slug basename + "_" + 6 random alnum + extension (admin-aligned).
+     */
+    function merchant_document_unique_filename(UploadedFile $file): string
+    {
+        $origExt = $file->getClientOriginalExtension();
+        $ext = $origExt !== '' && $origExt !== null
+            ? strtolower((string) $origExt)
+            : strtolower((string) ($file->guessExtension() ?: 'bin'));
+        $base = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+        if ($base === '') {
+            $base = 'document';
+        }
+        if (strlen($base) > 80) {
+            $base = substr($base, 0, 80);
+        }
+
+        return $base.'_'.merchant_admin_document_random_suffix(6).'.'.$ext;
+    }
+}
+
+if (! function_exists('merchant_business_document_storage_candidates')) {
+    /**
+     * Relative keys to try on the public disk when attaching a business document (hidden form value).
+     * Final layout: shared/merchants/business_documents/{userId}/{filename}; dropzone staging uses tmp/uploads.
+     *
+     * @return list<string>
+     */
+    function merchant_business_document_storage_candidates(string $input, int $userId): array
+    {
+        $input = ltrim($input, '/');
+        if ($input === '' || $input === 'undefined') {
+            return [];
+        }
+        $candidates = [];
+        if (strpos($input, '/') !== false) {
+            $candidates[] = $input;
+        }
+        $base = basename($input);
+        $candidates[] = ExportStoragePaths::merchantBusinessDocumentUserPrefix($userId).'/'.$base;
+        $candidates[] = 'tmp/uploads/'.$base;
+        $candidates[] = merchant_business_documents_disk_path().'/'.$base;
+        $candidates[] = merchant_business_documents_disk_path().'/'.$userId.'/'.$base;
+
+        return array_values(array_unique(array_filter($candidates)));
+    }
+}
+
+if (! function_exists('merchant_bank_document_storage_candidates')) {
+    /**
+     * @return list<string>
+     */
+    function merchant_bank_document_storage_candidates(string $input, int $userId): array
+    {
+        $input = ltrim($input, '/');
+        if ($input === '' || $input === 'undefined') {
+            return [];
+        }
+        $candidates = [];
+        if (strpos($input, '/') !== false) {
+            $candidates[] = $input;
+        }
+        $base = basename($input);
+        $candidates[] = ExportStoragePaths::merchantBankDocumentUserPrefix($userId).'/'.$base;
+        $candidates[] = 'tmp/uploads/'.$base;
+        $candidates[] = merchant_bank_documents_disk_path().'/'.$base;
+        $candidates[] = merchant_bank_documents_disk_path().'/'.$userId.'/'.$base;
+
+        return array_values(array_unique(array_filter($candidates)));
+    }
+}
+
+if (! function_exists('merchant_document_input_references_stored_file')) {
+    /**
+     * Whether a dropzone hidden-field value refers to an existing stored file (basename or full relative key).
+     */
+    function merchant_document_input_references_stored_file(string $input, string $storedFileName): bool
+    {
+        $input = trim(str_replace('\\', '/', $input));
+        $storedFileName = trim(str_replace('\\', '/', $storedFileName));
+        if ($input === '' || $storedFileName === '') {
+            return false;
+        }
+        if ($input === $storedFileName) {
+            return true;
+        }
+
+        return basename($input) === $storedFileName;
+    }
+}
+
+if (! function_exists('merchant_document_input_references_media_file')) {
+    /** @deprecated Use merchant_document_input_references_stored_file */
+    function merchant_document_input_references_media_file(string $input, string $mediaFileName): bool
+    {
+        return merchant_document_input_references_stored_file($input, $mediaFileName);
+    }
+}
+
+if (! function_exists('merchant_dropzone_staging_may_delete_after_import')) {
+    /**
+     * Whether a path may be removed after a successful import (tmp staging only).
+     */
+    function merchant_dropzone_staging_may_delete_after_import(string $relativePath): bool
+    {
+        $relativePath = ltrim(str_replace('\\', '/', $relativePath), '/');
+        if ($relativePath === '' || strpos($relativePath, '..') !== false) {
+            return false;
+        }
+
+        return strpos($relativePath, 'tmp/uploads/') === 0;
+    }
+}
+
+if (! function_exists('merchant_merchant_document_sync_path_allowed')) {
+    /**
+     * Allowed sources during sync: tmp/uploads/{file} or final prefix/{userId}/{file}.
+     */
+    function merchant_merchant_document_sync_path_allowed(string $path, int $userId, string $collection): bool
+    {
+        if (! in_array($collection, ['business_documents', 'bank_documents'], true)) {
+            return false;
+        }
+        $path = ltrim(str_replace('\\', '/', $path), '/');
+        if ($path === '' || strpos($path, '..') !== false) {
+            return false;
+        }
+        $prefix = $collection === 'business_documents'
+            ? ExportStoragePaths::merchantBusinessDocumentUserPrefix($userId)
+            : ExportStoragePaths::merchantBankDocumentUserPrefix($userId);
+        if (strpos($path, $prefix.'/') === 0) {
+            return true;
+        }
+        if (strpos($path, 'tmp/uploads/') === 0) {
+            $rest = substr($path, strlen('tmp/uploads/'));
+
+            return $rest !== '' && strpos($rest, '/') === false;
+        }
+
+        return false;
+    }
+}
+
+if (! function_exists('merchant_disk_documents_collection')) {
+    /**
+     * Business or bank documents for a merchant user from the public disk (no Spatie).
+     *
+     * @return \Illuminate\Support\Collection<int, MerchantDiskDocument>
+     */
+    function merchant_disk_documents_collection(int $userId, string $collection)
+    {
+        if (! in_array($collection, ['business_documents', 'bank_documents'], true)) {
+            return collect();
+        }
+        $prefix = $collection === 'business_documents'
+            ? ExportStoragePaths::merchantBusinessDocumentUserPrefix($userId)
+            : ExportStoragePaths::merchantBankDocumentUserPrefix($userId);
+        $disk = Storage::disk('public');
+        if (! $disk->exists($prefix)) {
+            return collect();
+        }
+        $items = [];
+        foreach ($disk->files($prefix) as $relativePath) {
+            $relativePath = ltrim(str_replace('\\', '/', $relativePath), '/');
+            $items[] = MerchantDiskDocument::fromRelativePath($relativePath, $collection);
+        }
+        usort($items, function (MerchantDiskDocument $a, MerchantDiskDocument $b) {
+            return strcmp($a->file_name, $b->file_name);
+        });
+
+        return collect($items);
+    }
+}
+
+if (! function_exists('merchant_dropzone_documents_payload')) {
+    /**
+     * JSON-safe rows for account dropzone (disk-backed merchant documents).
+     *
+     * @return list<array<string, mixed>>
+     */
+    function merchant_dropzone_documents_payload(int $userId, string $collection): array
+    {
+        return merchant_disk_documents_collection($userId, $collection)->map(function (MerchantDiskDocument $doc) {
+            return [
+                'id' => $doc->id,
+                'name' => $doc->name,
+                'file_name' => $doc->file_name,
+                'size' => $doc->size,
+                'mime_type' => $doc->mime_type,
+                'disk_relative_path' => $doc->disk_relative_path,
+                'thumbnail_url' => $doc->thumbnailUrl(),
+                'download_url' => $doc->download_url,
+            ];
+        })->values()->all();
+    }
+}
+
+if (! function_exists('sync_merchant_disk_documents')) {
+    /**
+     * Sync merchant business/bank documents on the public disk from document[] (max 5).
+     * Moves tmp/uploads into shared/merchants/.../{userId}/ and deletes removed files.
+     *
+     * @param  callable(string): iterable<string>  $storageCandidatesForInput
+     */
+    function sync_merchant_disk_documents(int $userId, string $collection, array $rawDocumentInputs, callable $storageCandidatesForInput): void
+    {
+        if (! in_array($collection, ['business_documents', 'bank_documents'], true)) {
+            return;
+        }
+        $prefix = $collection === 'business_documents'
+            ? ExportStoragePaths::merchantBusinessDocumentUserPrefix($userId)
+            : ExportStoragePaths::merchantBankDocumentUserPrefix($userId);
+
+        $disk = Storage::disk('public');
+        if (! $disk->exists($prefix)) {
+            $disk->makeDirectory($prefix);
+        }
+
+        $kept = collect($rawDocumentInputs)
+            ->map(function ($d) {
+                return is_string($d) ? trim($d) : '';
+            })
+            ->filter(function ($d) {
+                return $d !== '' && $d !== 'undefined';
+            })
+            ->values()
+            ->take(5);
+
+        $resolvedPaths = [];
+        foreach ($kept as $input) {
+            $resolved = null;
+            foreach ($storageCandidatesForInput($input) as $candidate) {
+                $candidate = ltrim(str_replace('\\', '/', (string) $candidate), '/');
+                if ($candidate === '' || ! $disk->exists($candidate)) {
+                    continue;
+                }
+                if (! merchant_merchant_document_sync_path_allowed($candidate, $userId, $collection)) {
+                    continue;
+                }
+                $resolved = $candidate;
+                break;
+            }
+            if ($resolved !== null) {
+                $resolvedPaths[] = $resolved;
+            }
+        }
+        $resolvedPaths = array_values(array_unique($resolvedPaths));
+
+        $finalList = [];
+        foreach ($resolvedPaths as $path) {
+            if (strpos($path, 'tmp/uploads/') === 0) {
+                $basename = basename($path);
+                $dest = $prefix.'/'.$basename;
+                $n = 0;
+                while ($disk->exists($dest)) {
+                    $n++;
+                    $pi = pathinfo($basename);
+                    $ext = isset($pi['extension']) && $pi['extension'] !== '' ? '.'.$pi['extension'] : '';
+                    $stem = isset($pi['extension']) && $pi['extension'] !== '' ? substr($basename, 0, -strlen($ext)) : $basename;
+                    $dest = $prefix.'/'.$stem.'-'.$n.$ext;
+                }
+                $disk->move($path, $dest);
+                $finalList[] = $dest;
+            } elseif (strpos($path, $prefix.'/') === 0) {
+                $finalList[] = $path;
+            }
+        }
+        $finalList = array_values(array_unique($finalList));
+
+        foreach ($disk->files($prefix) as $existing) {
+            $existing = ltrim(str_replace('\\', '/', $existing), '/');
+            if (! in_array($existing, $finalList, true)) {
+                $disk->delete($existing);
+            }
+        }
+    }
+}
+
+if (! function_exists('merchant_replace_merchant_disk_documents_from_uploads')) {
+    /**
+     * Replace all files in a merchant document directory with the given uploads (API-style full replace).
+     *
+     * @param  iterable<int, \Illuminate\Http\UploadedFile|\Symfony\Component\HttpFoundation\File\UploadedFile>  $files
+     */
+    function merchant_replace_merchant_disk_documents_from_uploads(int $userId, string $collection, iterable $files): void
+    {
+        if (! in_array($collection, ['business_documents', 'bank_documents'], true)) {
+            return;
+        }
+        $prefix = $collection === 'business_documents'
+            ? ExportStoragePaths::merchantBusinessDocumentUserPrefix($userId)
+            : ExportStoragePaths::merchantBankDocumentUserPrefix($userId);
+        $disk = Storage::disk('public');
+        if ($disk->exists($prefix)) {
+            foreach ($disk->files($prefix) as $f) {
+                $disk->delete($f);
+            }
+        }
+        $disk->makeDirectory($prefix);
+        foreach ($files as $file) {
+            if (! $file instanceof UploadedFile) {
+                continue;
+            }
+            $name = merchant_document_unique_filename($file);
+            $file->storeAs($prefix, $name, 'public');
+        }
+    }
+}
+
 if (! function_exists('store_merchant_logo')) {
     /**
-     * Store a merchant business logo on the public disk under logos/.
+     * Store a merchant business logo on the public disk under shared/merchants/logos/
+     * (after optional oci_bucket_object_prefix()).
      *
      * @param  \Illuminate\Http\UploadedFile  $file
-     * @return string  e.g. "logos/1234567890_42.png"
+     * @return string  e.g. "shared/merchants/logos/1234567890_42.png" or "staging/shared/merchants/logos/..."
      */
     function store_merchant_logo($file, int $userId): string
     {
@@ -382,8 +751,8 @@ if (! function_exists('merchant_logo_url')) {
      * Resolve the display URL for a merchant business logo.
      *
      * Handles:
-     * - logos/* on the public disk (Nova + unified uploads)
-     * - legacy uploads/* under public/uploads
+     * - {prefix}/shared/merchants/logos/* (canonical; prefix from OCI_BUCKET_PREFIX)
+     * - legacy shared/exports/merchants/logos/*, logos/*, uploads/*
      * - legacy root-level hashes on the public disk (pre-path Nova uploads)
      */
     function merchant_logo_url(?string $path): ?string
@@ -419,7 +788,77 @@ if (! function_exists('merchant_logo_url')) {
     }
 }
 
+if (! function_exists('merchant_bills_backgrounds_disk_path')) {
+    /**
+     * Root on the public disk for merchant bill backgrounds (admin-aligned): {prefix}shared/merchants/bills_backgrounds
+     */
+    function merchant_bills_backgrounds_disk_path(): string
+    {
+        return ExportStoragePaths::merchantBillsBackgroundsRoot();
+    }
+}
+
+if (! function_exists('storage_read_public_disk_export_contents')) {
+    /**
+ * Read export file bytes (OCI primary when enabled, then public / public-local; legacy merchant-bills/).
+ */
+    function storage_read_public_disk_export_contents(string $relativePath): ?string
+    {
+        $relativePath = ltrim(str_replace('\\', '/', $relativePath), '/');
+        $candidates = [$relativePath];
+        if (strpos($relativePath, '/') === false) {
+            $candidates[] = 'merchant-bills/'.$relativePath;
+            $candidates[] = 'transfer-bills/'.$relativePath;
+        }
+        $prefix = oci_bucket_object_prefix();
+        if ($prefix !== '' && strpos($relativePath, $prefix) !== 0) {
+            $candidates[] = $prefix.$relativePath;
+        }
+        if ($prefix !== '' && strpos($relativePath, $prefix) === 0) {
+            $stripped = substr($relativePath, strlen($prefix));
+            if ($stripped !== '' && $stripped !== $relativePath) {
+                $candidates[] = $stripped;
+            }
+        }
+        $candidates = array_values(array_unique(array_filter($candidates)));
+
+        $useOci = (bool) config('oci.enabled', false) && (bool) config('oci.public_disk_enabled', true);
+        if ($useOci) {
+            foreach ($candidates as $key) {
+                if (Storage::disk('oci')->exists($key)) {
+                    return Storage::disk('oci')->get($key);
+                }
+            }
+        }
+
+        foreach ($candidates as $key) {
+            if (Storage::disk('public')->exists($key)) {
+                return Storage::disk('public')->get($key);
+            }
+        }
+        foreach ($candidates as $key) {
+            if (Storage::disk('public-local')->exists($key)) {
+                return Storage::disk('public-local')->get($key);
+            }
+        }
+        $base = basename($relativePath);
+        $legacyKey = 'merchant-bills/'.$base;
+        if (Storage::disk('local')->exists($legacyKey)) {
+            return Storage::disk('local')->get($legacyKey);
+        }
+        $legacyTransferKey = 'transfer-bills/'.$base;
+        if (Storage::disk('local')->exists($legacyTransferKey)) {
+            return Storage::disk('local')->get($legacyTransferKey);
+        }
+
+        return null;
+    }
+}
+
 if (! function_exists('bills_background_disk_path')) {
+    /**
+     * @deprecated Legacy flat directory; new uploads use merchant_bills_backgrounds_disk_path() + user id.
+     */
     function bills_background_disk_path(): string
     {
         return 'bills_backgrounds';
@@ -427,10 +866,13 @@ if (! function_exists('bills_background_disk_path')) {
 }
 
 if (! function_exists('ensure_bills_background_directory')) {
+    /**
+     * Ensure shared/merchants/bills_backgrounds root exists on the public disk (OCI/local).
+     */
     function ensure_bills_background_directory(): void
     {
         $disk = Storage::disk('public');
-        $dir = bills_background_disk_path();
+        $dir = merchant_bills_backgrounds_disk_path();
 
         if (! $disk->exists($dir)) {
             $disk->makeDirectory($dir);
@@ -440,23 +882,25 @@ if (! function_exists('ensure_bills_background_directory')) {
 
 if (! function_exists('store_bill_background_image')) {
     /**
-     * Store bill UI background image on the public disk (OCI when enabled).
+     * Store bill UI background image on the public disk under shared/merchants/bills_backgrounds/{userId}/ (OCI when enabled).
      *
      * @param  \Illuminate\Http\UploadedFile  $file
-     * @return string  e.g. "bills_backgrounds/1779210942_240.png"
+     * @param  int  $userId  Merchant owner user id (store main user)
+     * @return string  e.g. "{prefix}shared/merchants/bills_backgrounds/42/1779210942_42.png"
      */
     function store_bill_background_image($file, int $userId): string
     {
-        ensure_bills_background_directory();
+        $disk = Storage::disk('public');
+        $dir = ExportStoragePaths::merchantBillsBackgroundUserPrefix($userId);
+
+        if (! $disk->exists($dir)) {
+            $disk->makeDirectory($dir);
+        }
 
         $extension = $file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'png';
         $filename = time().'_'.$userId.'.'.strtolower($extension);
 
-        return Storage::disk('public')->putFileAs(
-            bills_background_disk_path(),
-            $file,
-            $filename
-        );
+        return $disk->putFileAs($dir, $file, $filename);
     }
 }
 
@@ -471,6 +915,17 @@ if (! function_exists('delete_bill_background_image')) {
 
         if (Storage::disk('public')->exists($path)) {
             Storage::disk('public')->delete($path);
+        }
+
+        // Also remove if file was moved to shared/merchants/bills_backgrounds/{userId}/ (same basename pattern)
+        if (strpos($path, bills_background_disk_path().'/') === 0) {
+            $base = basename($path);
+            if (preg_match('/^(\d+)_(\d+)\./', $base, $m)) {
+                $candidate = ExportStoragePaths::merchantBillsBackgroundUserPrefix((int) $m[2]).'/'.$base;
+                if ($candidate !== $path && Storage::disk('public')->exists($candidate)) {
+                    Storage::disk('public')->delete($candidate);
+                }
+            }
         }
 
         if (strpos($path, 'uploads/') === 0 && is_file(public_path($path))) {
@@ -529,6 +984,17 @@ if (! function_exists('bill_background_image_url')) {
             }
 
             return url($path);
+        }
+
+        // Legacy flat bills_backgrounds/{time}_{userId}.ext → shared/merchants/bills_backgrounds/{userId}/…
+        if (strpos($path, bills_background_disk_path().'/') === 0) {
+            $base = basename($path);
+            if (preg_match('/^(\d+)_(\d+)\./', $base, $m)) {
+                $candidate = ExportStoragePaths::merchantBillsBackgroundUserPrefix((int) $m[2]).'/'.$base;
+                if (Storage::disk('public')->exists($candidate)) {
+                    return media_route_url($candidate);
+                }
+            }
         }
 
         if (strpos($path, 'uploads/') === 0 && is_file(public_path($path))) {

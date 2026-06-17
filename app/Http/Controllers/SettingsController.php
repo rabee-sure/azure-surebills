@@ -82,7 +82,7 @@ class SettingsController extends Controller
             delete_bill_background_image($settings->background_image_file);
             $settings->background_image_file = store_bill_background_image(
                 $request->file('background_image_file'),
-                (int) auth()->id()
+                (int) (auth()->user()->store_main_user_id ?? auth()->user()->id)
             );
         }
 

@@ -23,7 +23,6 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -210,22 +209,41 @@ class TransferAutomatic extends Command
         }
     }
 
-    public function zipFolder($folder_name , $file_name)
+    public function zipFolder($folder_name, $file_name)
     {
-        $file_full_path = 'app/public/'.$folder_name.'/'.$file_name;
-        //first delete file
-        if(is_file(storage_path($file_full_path)))
-            unlink(storage_path($file_full_path));
+        $disk = Storage::disk('public');
+        $folder = trim($folder_name, '/');
+        $relativeZip = $folder.'/'.$file_name;
 
-        $zip = new ZipArchive();
+        if ($disk->exists($relativeZip)) {
+            $disk->delete($relativeZip);
+        }
 
-        if ($zip->open(storage_path($file_full_path), ZipArchive::CREATE) === TRUE){
-            $files = File::files(storage_path("app/public/$folder_name"));
-            foreach ($files as $key => $value) {
-                $relativeNameInZipFile = basename($value);
-                $zip->addFile($value, $relativeNameInZipFile);
+        $tempLocal = storage_path('app/temp-zip-'.uniqid('', true).'-'.$file_name);
+        @mkdir(dirname($tempLocal), 0755, true);
+
+        $zip = new ZipArchive;
+        if ($zip->open($tempLocal, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+            return;
+        }
+
+        foreach ($disk->files($folder) as $path) {
+            if ($path === $relativeZip) {
+                continue;
             }
-            $zip->close();
+            $zip->addFromString(basename($path), $disk->get($path));
+        }
+        $zip->close();
+
+        if (is_file($tempLocal)) {
+            $stream = fopen($tempLocal, 'r');
+            if ($stream !== false) {
+                $disk->writeStream($relativeZip, $stream);
+                if (is_resource($stream)) {
+                    fclose($stream);
+                }
+            }
+            @unlink($tempLocal);
         }
     }
 

@@ -41,13 +41,12 @@ class SendEmailTest extends Command
     public function handle()
     {
         //Send without Queue
-        $file_name = $this->option('file');
-        $message = (new MerchantBillsExportedExcelMailWithoutQueue($file_name));
+        $path = (string) ($this->option('file') ?: 'merchant-bills/bills_test.xlsx');
+        $message = (new MerchantBillsExportedExcelMailWithoutQueue($path));
         Mail::to($this->argument('email'))->send($message);
 
         //Send With Queue
-        $file_name = $this->option('file');
-        $message = (new MerchantBillsExportedExcelMail($file_name));
+        $message = (new MerchantBillsExportedExcelMail($path));
         Mail::to($this->argument('email'))->send($message);
         
         $this->info('emails sent succefully');

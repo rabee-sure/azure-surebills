@@ -7,12 +7,17 @@ use App\Http\Requests\AccountInformationRequest;
 use App\Http\Requests\BankInformationRequest;
 use App\Http\Requests\BusinessInformationRequest;
 use App\Http\Requests\ChangePasswordRequest;
+use App\Models\Media;
+use App\Models\User;
+use App\Rules\ValidateUploadFile;
+use App\Support\Storage\ExportStoragePaths;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use App\Rules\ValidateUploadFile;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 class AccountController extends Controller
 {
@@ -144,28 +149,16 @@ class AccountController extends Controller
             'iban_number' => $request->get('iban_number'),
             'beneficiary_name' => $request->get('beneficiary_name'),
         ]);
-        if (!$bankInfo->disable_bank_documents){
-             if (count($bankInfo->bank_documents) > 0) {
-                foreach ($bankInfo->bank_documents as $media) {
-                    if (!in_array($media->file_name, $request->input('document', []))) {
-                        $media->delete();
-                    }
+        if (! $bankInfo->disable_bank_documents) {
+            $uid = (int) $bankInfo->id;
+            sync_merchant_disk_documents(
+                $uid,
+                'bank_documents',
+                $request->input('document', []),
+                function ($file) use ($uid) {
+                    return merchant_bank_document_storage_candidates($file, $uid);
                 }
-            }
-
-            $media = $bankInfo->bank_documents->pluck('file_name')->toArray();
-
-            foreach ($request->input('document', []) as $file) {
-                if (empty($file) || $file === 'undefined') {
-                    continue;
-                }
-                if (count($media) === 0 || !in_array($file, $media)) {
-                    $filePath = storage_path('tmp/uploads/' . $file);
-                    if (file_exists($filePath)) {
-                        $bankInfo->addMedia($filePath)->toMediaCollection('bank_documents');
-                    }
-                }
-            }
+            );
         }
 
         $updatedData = [];
@@ -262,28 +255,16 @@ class AccountController extends Controller
             'vat_registration_number' => $request->get('vat_registration_number'),
             'commercial_registry_expiry_date' => Carbon::createFromFormat('d/m/Y', $request->commercial_registry_expiry_date)->format('d-m-Y'),
         ]);
-        if (!$businessInfo->disable_business_documents){
-            if (count($businessInfo->business_documents) > 0) {
-                foreach ($businessInfo->business_documents as $media) {
-                    if (!in_array($media->file_name, $request->input('document', []))) {
-                        $media->delete();
-                    }
+        if (! $businessInfo->disable_business_documents) {
+            $uid = (int) $businessInfo->id;
+            sync_merchant_disk_documents(
+                $uid,
+                'business_documents',
+                $request->input('document', []),
+                function ($file) use ($uid) {
+                    return merchant_business_document_storage_candidates($file, $uid);
                 }
-            }
-
-            $media = $businessInfo->business_documents->pluck('file_name')->toArray();
-
-            foreach ($request->input('document', []) as $file) {
-                if (empty($file) || $file === 'undefined') {
-                    continue;
-                }
-                if (count($media) === 0 || !in_array($file, $media)) {
-                    $filePath = storage_path('tmp/uploads/' . $file);
-                    if (file_exists($filePath)) {
-                        $businessInfo->addMedia($filePath)->toMediaCollection('business_documents');
-                    }
-                }
-            }
+            );
         }
 
         $updatedData = [];
@@ -338,37 +319,119 @@ class AccountController extends Controller
     public function imagesUploadPost(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'file' => ['required', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])]
+            'file' => ['required', new ValidateUploadFile(['pdf', 'png', 'jpeg', 'jpg', 'docx', 'doc', 'xlsx', 'csv'])],
+            'upload_context' => ['nullable', 'string', 'in:business_documents,bank_documents'],
         ]);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
-        }
-        $path = storage_path('tmp/uploads');
-
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
         }
 
         $file = $request->file('file');
+        $name = merchant_document_unique_filename($file);
 
-        $name = uniqid() . '_' . trim($file->getClientOriginalName());
+        $disk = Storage::disk('public');
+        $owner = auth()->user()->mainStoreUser ?? auth()->user();
+        $uploadContext = $request->input('upload_context');
 
-        $file->move($path, $name);
+        if ($owner && in_array($uploadContext, ['business_documents', 'bank_documents'], true)) {
+            $uid = (int) $owner->id;
+            $directory = $uploadContext === 'business_documents'
+                ? ExportStoragePaths::merchantBusinessDocumentUserPrefix($uid)
+                : ExportStoragePaths::merchantBankDocumentUserPrefix($uid);
+            if (! $disk->exists($directory)) {
+                $disk->makeDirectory($directory);
+            }
+            $relativePath = $file->storeAs($directory, $name, 'public');
+        } else {
+            $dir = 'tmp/uploads';
+            if (! $disk->exists($dir)) {
+                $disk->makeDirectory($dir);
+            }
+            $relativePath = $disk->putFileAs($dir, $file, $name);
+        }
 
         return response()->json([
-            'name'          => $name,
+            'name' => basename($relativePath),
+            'path' => $relativePath,
             'original_name' => $file->getClientOriginalName(),
         ]);
     }
 
-    public function downloadFile($id, $file_name)
+    public function downloadFile(Request $request, $id, $file_name)
     {
-        $path = storage_path('app/public/' . $id . '/' . $file_name);
-        if (!file_exists($path)) {
+        $media = Media::query()
+            ->where('id', $id)
+            ->where('file_name', $file_name)
+            ->firstOrFail();
+
+        if ($media->model_type !== User::class || ! in_array($media->collection_name, ['business_documents', 'bank_documents'], true)) {
             abort(404);
         }
-        return response()->download($path);
+
+        $user = $request->user();
+        $ownerId = (int) ($user->mainStoreUser ? $user->mainStoreUser->id : $user->id);
+        if ((int) $media->model_id !== $ownerId) {
+            abort(403);
+        }
+
+        $relativePath = PathGeneratorFactory::create($media)->getPath($media).$media->file_name;
+        $relativePath = ltrim(str_replace('\\', '/', $relativePath), '/');
+
+        abort_unless(Storage::disk('public')->exists($relativePath), 404);
+
+        if (config('oci.enabled') && config('oci.visibility') === 'private') {
+            try {
+                $minutes = (int) config('oci.signed_url_expiration', 30);
+                $url = Storage::disk('public')->temporaryUrl($relativePath, now()->addMinutes($minutes));
+
+                return redirect()->away($url);
+            } catch (\Throwable $e) {
+                // Local disk or adapter without signed URLs: fall through to download response.
+            }
+        }
+
+        return Storage::disk('public')->download($relativePath, $media->file_name);
+    }
+
+    /**
+     * Download a merchant business/bank document stored on the public disk (admin-aligned paths).
+     */
+    public function downloadMerchantDocument(Request $request, string $collection, string $file)
+    {
+        if (! in_array($collection, ['business_documents', 'bank_documents'], true)) {
+            abort(404);
+        }
+
+        $user = $request->user();
+        $ownerId = (int) ($user->mainStoreUser ? $user->mainStoreUser->id : $user->id);
+
+        $prefix = $collection === 'business_documents'
+            ? ExportStoragePaths::merchantBusinessDocumentUserPrefix($ownerId)
+            : ExportStoragePaths::merchantBankDocumentUserPrefix($ownerId);
+
+        $prefixNorm = ltrim(str_replace('\\', '/', $prefix), '/');
+        $fileName = basename(str_replace('\\', '/', rawurldecode($file)));
+        if ($fileName === '' || strpos($fileName, '..') !== false) {
+            abort(404);
+        }
+
+        $relativePath = $prefixNorm.'/'.$fileName;
+
+        abort_unless(strpos($relativePath, $prefixNorm.'/') === 0, 404);
+        abort_unless(Storage::disk('public')->exists($relativePath), 404);
+
+        if (config('oci.enabled') && config('oci.visibility') === 'private') {
+            try {
+                $minutes = (int) config('oci.signed_url_expiration', 30);
+                $url = Storage::disk('public')->temporaryUrl($relativePath, now()->addMinutes($minutes));
+
+                return redirect()->away($url);
+            } catch (\Throwable $e) {
+                // fall through
+            }
+        }
+
+        return Storage::disk('public')->download($relativePath, $fileName);
     }
 }

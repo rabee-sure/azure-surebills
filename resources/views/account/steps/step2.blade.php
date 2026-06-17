@@ -262,7 +262,7 @@
                   <span class="d-block fs-5 mb-1">{{ __('Upload the required documents') }}</span>
                   <span class="text-muted mb-2">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</span>
                 </label>
-                @include('components.dropzone',['documents' => (auth()->user()->mainStoreUser ?? auth()->user())->business_documents->toArray()])
+                @include('components.dropzone',['documents' => merchant_dropzone_documents_payload((int) (auth()->user()->mainStoreUser ?? auth()->user())->id, 'business_documents'), 'upload_context' => 'business_documents'])
               </div><!-- col -->
             @endif
 

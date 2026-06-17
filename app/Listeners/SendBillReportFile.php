@@ -95,7 +95,7 @@ class SendBillReportFile implements ShouldQueue
 
         if(Excel::store(new ReportBillExportFromView($results), $file_name , 'public')){
 
-            $report->addMedia(storage_path('app/public/'.$file_name))
+            $report->addMediaFromDisk($file_name, 'public')
                 ->preservingOriginal()
                 ->toMediaCollection('reports_file');
 
