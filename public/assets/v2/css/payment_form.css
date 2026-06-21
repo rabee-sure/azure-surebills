@@ -25,8 +25,7 @@
 #payment_area .pay_form .form_area .payment_icons {
   flex-shrink: 0;
   padding: 1rem;
-  -webkit-border-end: 1px solid #dddddd;
-          border-inline-end: 1px solid #dddddd;
+  border-inline-end: 1px solid #dddddd;
   align-self: stretch;
   display: flex;
   align-items: center;
@@ -39,16 +38,12 @@
     justify-content: center;
     flex-direction: row;
     align-self: center;
-    -webkit-border-end: none;
-            border-inline-end: none;
-    -webkit-border-after: 1px solid #dddddd;
-            border-block-end: 1px solid #dddddd;
+    border-inline-end: none;
+    border-block-end: 1px solid #dddddd;
     flex-grow: 1;
     width: 100%;
     padding: 0.5rem;
   }
-}
-@media (max-width: 767.98px) {
   #payment_area .pay_form .form_area .payment_icons img {
     max-height: 32px;
   }
