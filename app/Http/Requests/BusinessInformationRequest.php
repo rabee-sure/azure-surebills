@@ -54,7 +54,8 @@ class BusinessInformationRequest extends FormRequest
             'business_address' => ['required', 'regex:/^[a-zA-Z ]+$/', 'max:100'],
             'business_address_details' => ['required', 'max:100'],
             'business_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
-            'vat_registration_number' => [auth()->user()->source == 'sure bills' ? 'nullable' : 'required'],
+            // regex of vat registration number is 15 digits starting with 3 and ending with 3
+            'vat_registration_number' => [auth()->user()->source == 'sure bills' ? 'nullable' : 'required', 'regex:/^3\d{13}3$/'],
             'document' => ['nullable', 'array', 'max:5'],
             'document.*' => ['required', 'string', 'max:2048', new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])],
         ];
@@ -79,6 +80,7 @@ class BusinessInformationRequest extends FormRequest
           'business_mobile.regex' => __('business mobile format invalid'),
           'logo.required_without' => __('Logo required'),
           'vat_registration_number.required' => __('VAT Registration Number is required'),
+          'vat_registration_number.regex' => __('VAT Registration Number must be 15 digits starting with 3 and ending with 3'),
           'document.max' => __('You may upload at most 5 documents.'),
         ];
     }
