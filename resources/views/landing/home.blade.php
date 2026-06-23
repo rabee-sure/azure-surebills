@@ -266,7 +266,7 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div class="form-control flex flex-col gap-1">
-                    <input type="tel" value="{{ old('mobile') }}" name="mobile" id="mobile" inputmode="numeric" autocomplete="off" pattern="[0-9]{9}" maxlength="9" placeholder="{{ __('landing.contact.form.mobile') }}" class="w-full border border-gray-300 rounded-lg px-4 py-0 h-12 outline-none text-black text-base placeholder:text-end focus:border-[var(--PrimaryColor)] transition-all duration-300 invalid:border-pink-500 invalid:text-pink-600">
+                    <input type="tel" value="{{ old('mobile') }}" name="mobile" id="mobile" inputmode="numeric" autocomplete="off" pattern="[0-9]{9}" maxlength="9" placeholder="{{ __('landing.contact.form.mobile') }}" class="w-full border border-gray-300 rounded-lg px-4 py-0 h-12 outline-none text-black text-base placeholder:text-end ltr:placeholder:text-start focus:border-[var(--PrimaryColor)] transition-all duration-300 invalid:border-pink-500 invalid:text-pink-600">
                   </div>
                   <div class="form-control flex flex-col gap-1">
                     <input type="text" value="{{ old('company') }}" name="company" id="company" placeholder="{{ __('landing.contact.form.company') }}" class="w-full border border-gray-300 rounded-lg px-4 py-0 h-12 outline-none text-black text-base placeholder:text-start focus:border-[var(--PrimaryColor)] transition-all duration-300 invalid:border-pink-500 invalid:text-pink-600">
