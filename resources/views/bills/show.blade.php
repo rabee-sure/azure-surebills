@@ -37,7 +37,7 @@
       <div class="alert alert-danger mb-6">
         <ul class="list-group">
           @foreach ($errors->all() as $error)
-            <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+            <li class="{{ $errors->count() === 1 ? 'list-group-item list-group-item-danger border-0 p-0' : 'list-group-item list-group-item-danger' }}">{{ $error }}</li>
           @endforeach
         </ul>
       </div><!-- alert -->
