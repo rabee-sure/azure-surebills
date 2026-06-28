@@ -66,7 +66,7 @@
                   <div class="d-flex align-items-center justify-content-start gap-1">
                     @if ($transaction->card_brand == 'VISA')
                       <img alt="visa" src="{{ asset('assets/v2/img/payments/visa.png') }}">
-                    @elseif ($transaction->card_brand == 'MASTER')
+                    @elseif ($transaction->card_brand == 'MASTERCARD' || $transaction->card_brand == 'MASTER')
                       <img alt="mastercard" src="{{ asset('assets/v2/img/payments/mastercard.png') }}">
                     @elseif ($transaction->card_brand == 'MADA')
                       <img alt="mada" src="{{ asset('assets/v2/img/payments/mada.png') }}">
