@@ -9,6 +9,7 @@ use App\Jobs\UpdateTransferExcelFile;
 use App\Models\Transaction;
 use App\Models\Transfer;
 use App\Models\TransferLog;
+use App\Support\Storage\ExportStoragePaths;
 use App\Services\TransferOperations;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -139,12 +140,13 @@ class TransferService
     {
         $date = $transfer->filters['date']['cycle_date'] ?? $transfer->filters['date']['from'];
         $cycleDate = Carbon::parse($date);
-        $fileName = "transfers/{$transfer->user_id}/{$transfer->id}-transfer-transactions-{$cycleDate->format('Y-m-d')}.xlsx";
+        $workbookFileName = "{$transfer->id}-transfer-transactions-{$cycleDate->format('Y-m-d')}.xlsx";
+        $fileName = ExportStoragePaths::transferWorkbook((int) $transfer->user_id, $workbookFileName);
         $filters = $transfer->filters;
         $filters['files'] = [
-            "folder" => explode('/', $fileName)[1],
-            "file_name" => explode('/', $fileName)[2],
-            "file_path" => $fileName,
+            'folder' => dirname($fileName),
+            'file_name' => basename($fileName),
+            'file_path' => $fileName,
         ];
         $transfer->filters = $filters;
         $transfer->save();

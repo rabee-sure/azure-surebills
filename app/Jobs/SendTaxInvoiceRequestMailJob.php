@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Mail\TaxInvoiceRequestMail;
 use App\Models\TaxInvoiceRequest;
+use App\Services\BasicSettingsService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,7 +12,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Valuestore\Valuestore;
 
 class SendTaxInvoiceRequestMailJob implements ShouldQueue
 {
@@ -34,10 +34,9 @@ class SendTaxInvoiceRequestMailJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(BasicSettingsService $basicSettingsService)
     {
-        $settings =  Valuestore::make(storage_path('app/settings.json'));
-        $tax_invoice_requests_emails = $settings->get('tax_invoice_requests_emails');
+        $tax_invoice_requests_emails = $basicSettingsService->get('tax_invoice_requests_emails', '');
         $emails = explode(",", $tax_invoice_requests_emails);
         if(count($emails)){
             $message = (new TaxInvoiceRequestMail($this->user));

@@ -13,6 +13,7 @@ $ociS3Disk = [
     'endpoint' => config('oci.endpoint', env('OCI_ENDPOINT')),
     'use_path_style_endpoint' => config('oci.use_path_style_endpoint', filter_var(env('OCI_USE_PATH_STYLE_ENDPOINT', true), FILTER_VALIDATE_BOOLEAN)),
     'url' => config('oci.url', env('OCI_URL')),
+    'root' => (string) config('oci.bucket_prefix', env('OCI_BUCKET_PREFIX', '')),
     'visibility' => config('oci.visibility', env('OCI_VISIBILITY', 'private')),
     'throw' => false,
 ];

@@ -352,6 +352,11 @@ class FallbackFilesystemAdapter implements CloudContract
         return $disk->mimeType($path);
     }
 
+    public function providesTemporaryUrls(): bool
+    {
+        return method_exists($this->primary, 'providesTemporaryUrls') && $this->primary->providesTemporaryUrls();
+    }
+
     /**
      * Forward unknown methods to the underlying adapter (Flysystem compatibility).
      */

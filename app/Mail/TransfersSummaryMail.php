@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Support\Storage\ExportStoragePaths;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\File;
@@ -32,12 +33,12 @@ class TransfersSummaryMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $dueAmountsFile = "app/public/summary_transfers/$this->folder/due_amounts.xlsx";
-        $merchantsSummaryFile = "app/public/summary_transfers/$this->folder/merchants_summary.xlsx";
+        $dueAmountsFile = ExportStoragePaths::summaryTransferFolder($this->folder).'/due_amounts.xlsx';
+        $merchantsSummaryFile = ExportStoragePaths::summaryTransferFolder($this->folder).'/merchants_summary.xlsx';
 
         return $this->subject("SureBills Master Sheet $this->folder")
             ->view('emails.bills.auto_transfer')
-            ->attach(storage_path($dueAmountsFile))
-            ->attach(storage_path($merchantsSummaryFile));
+            ->attachFromStorageDisk('public', $dueAmountsFile, 'due_amounts.xlsx')
+            ->attachFromStorageDisk('public', $merchantsSummaryFile, 'merchants_summary.xlsx');
     }
 }

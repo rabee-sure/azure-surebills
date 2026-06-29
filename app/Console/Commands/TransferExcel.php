@@ -6,10 +6,10 @@ use App\Exports\TransactionsExport;
 use App\Events\TransferFileGenerated;
 use App\Http\Resources\TransactionExportResource;
 use App\Models\Transfer;
+use App\Services\BasicSettingsService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
-use Spatie\Valuestore\Valuestore;
 use Carbon\Carbon;
 
 class TransferExcel extends Command
@@ -43,13 +43,9 @@ class TransferExcel extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(BasicSettingsService $basicSettingsService)
     {
-
-        $settings = Valuestore::make(storage_path('app/settings.json'));
-
-
-        $transfer_emails = $settings->get('transfer_emails');
+        $transfer_emails = $basicSettingsService->get('transfer_emails', '');
 
         $cycleDate = Carbon::now()->addHours(3);
 
@@ -58,15 +54,16 @@ class TransferExcel extends Command
 
         $data = json_decode((TransactionExportResource::collection($transfer->transactions->load('bill.application.channel')))->toJson(), true);
 
-        if(Excel::store(new TransactionsExport($data), $file_name , 'public')){
-
-            $transfer->addMediaFromDisk($file_name, 'public')
-                ->preservingOriginal()
-                ->toMediaCollection('transfers_transactions');
-                
-                //fire event transfer file generated
-                event(new TransferFileGenerated($transfer_emails, $cycleDate, $transfer));
+        if (! Excel::store(new TransactionsExport($data), $file_name, 'public')) {
+            return 1;
         }
 
+        $transfer->addMediaFromDisk($file_name, 'public')
+            ->preservingOriginal()
+            ->toMediaCollection('transfers_transactions');
+
+        event(new TransferFileGenerated($transfer_emails, $cycleDate, $transfer));
+
+        return 0;
     }
 }

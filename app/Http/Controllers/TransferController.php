@@ -12,6 +12,7 @@ use App\Models\Bank;
 use App\Models\Transfer;
 use App\Models\User;
 use App\Models\PaymentLog;
+use App\Services\BasicSettingsService;
 use App\Services\TransferOperations;
 use App\Services\TransferService;
 use Carbon\Carbon;
@@ -19,12 +20,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Valuestore\Valuestore;
 
 class TransferController extends Controller
 {
-    public function __construct()
+    /** @var BasicSettingsService */
+    private $basicSettingsService;
+
+    public function __construct(BasicSettingsService $basicSettingsService)
     {
+        $this->basicSettingsService = $basicSettingsService;
         $this->middleware('permission:show bills', ['only' => ['bills']]);
         // $this->middleware('permission:show transfers');
     }
@@ -112,10 +116,10 @@ class TransferController extends Controller
         $cycleDate = Carbon::now()->addHours(3);
 
         $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d'));
-        $settings = Valuestore::make(storage_path('app/settings.json'));
+        $settings = $this->basicSettingsService->getSettings();
 
-        $transfer_minimum = $settings->get('transfer_minimum');
-        $transfer_emails = $settings->get('transfer_emails');
+        $transfer_minimum = (float) ($settings['transfer_minimum'] ?? 0);
+        $transfer_emails = $settings['transfer_emails'] ?? '';
 
         if ($transfer_minimum > $amount) {
             // return redirect()->back()->withErrors(['transfer_minimum' => $transfer_minimum]);
