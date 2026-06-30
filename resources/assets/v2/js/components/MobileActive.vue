@@ -1,31 +1,46 @@
 <template>
-  <div class="col-12 col-sm-10 col-md-6 col-lg-4 col-xl-4">
-    <div class="verifyPhonePage my-5 rounded-3 overflow-hidden shadow-sm bg-white">
-      <h1 class="d-block text-center text-body mb-3">{{ __('verify your phone number') }}</h1>
-      <h2 class="d-block text-center text-body mb-3">{{ __('we sent You SMS Message Contain Apin Code') }}</h2>
-      <h3 class="d-block text-center text-secondary mb-3">+966{{ user.mobile }}</h3>
+  <div>
+
+    <h4 class="mb-1 text-capitalize">{{ __('verify your phone number') }}</h4>
+  <p class="mb-6 text-capitalize">{{ __('we sent You SMS Message Contain Apin Code') }}</p>
+      <h3 class="d-block text-center text-secondary mb-3 text-capitalize">{{ user.mobile }}</h3>
       <div class="form-group mb-3">
-        <input @keyup.enter="sendPinCode" type="tel" class="form-control rounded-3 shadow-none text-body text-center p-0" v-model="pin" :placeholder="__('PIN')" maxlength="4">
-        <div v-if="error != null" class="invalid-pin text-center text-danger mt-1 d-block fs-6">{{__('invalid PIN') }}</div>
+        <div class="otp-fields d-flex justify-content-center gap-2 mb-1" dir="ltr">
+          <input
+            v-for="(digit, index) in digits"
+            :key="index"
+            :ref="'otp' + index"
+            type="tel"
+            class="form-control rounded-3 shadow-none text-body text-center p-0 otp-box"
+            maxlength="1"
+            v-model="digits[index]"
+            @keyup="onDigitKeyup($event, index)"
+            @keydown="onDigitKeydown($event, index)"
+            @paste.prevent="onPaste($event)"
+          >
+        </div>
+        <div v-if="error != null" class="invalid-pin text-center text-danger mt-1 d-block fs-6 text-capitalize">{{__('invalid PIN') }}</div>
       </div><!-- form-group -->
-      <hr>
-      <h4 class="d-block text-center text-body fs-6 mb-3">{{ __('didn’t Get The PIN') }}</h4>
-      <div class="didnt_get_pin text-center mb-3 fs-6">
-        <div v-if="timerCount > 0">
-          {{ __('resending PIN in') }} {{ timerCount}}  {{__('Second') }}
-        </div>
-        <div v-else>
-          <a href="" @click.prevent="resendCode" >{{ __('Resend Code')}}</a>
-        </div>
-      </div><!-- didnt_get_pin -->
-      <div class="d-flex justify-content-center">
-        <button type="button" class="btn-primary w-100 d-flex align-items-center justify-content-center rounded-3 border-0 shadow-none"  @click="sendPinCode" :disabled="is_loading">
+
+
+      <div class="mb-6 text-capitalize">
+        <button type="button" class="btn btn-primary d-grid w-100 waves-effect waves-light"  @click="sendPinCode" :disabled="is_loading">
           <i v-if="is_loading" class="fad fa-spinner fa-spin"></i>
           <span v-if="is_loading">{{ __('Loading') }} ...</span>
           <span v-if="!is_loading">{{ __('Verify') }}</span>
         </button>
-      </div><!-- d-flex  -->
-    </div><!-- verifyPhonePage -->
+      </div>
+
+      <p class="text-center text-capitalize">
+        <span>{{ __('didn’t Get The PIN') }}</span>
+        <span v-if="timerCount > 0">
+          {{ __('resending PIN in') }} {{ timerCount}}  {{__('Second') }}
+        </span>
+        <span v-else>
+          <a href="" @click.prevent="resendCode" >{{ __('Resend Code')}}</a>
+        </span>
+      </p>
+
   </div><!-- col-12 -->
 </template>
 
@@ -35,9 +50,14 @@
         data() {
             return {
                 timerCount: 60,
-                pin: null,
+                digits: ['', '', '', ''],
                 error: null,
                 is_loading: false,
+            }
+        },
+        computed: {
+            pin() {
+                return this.digits.join('');
             }
         },
         watch: {
@@ -50,16 +70,48 @@
                     }
                 },
             },
-          pin(num) {
-              this.pin = num.replace(/([٠١٢٣٤٥٦٧٨٩])|([۰۱۲۳۴۵۶۷۸۹])/g, (m, $1, $2) => m.charCodeAt(0) - ($1 ? 1632 : 1776))
-              this.pin = this.pin.replace(/[^\d.\d]/g,'')
-          }
         },
         mounted() {
             this.timerCount = this.user.diff_in_sec
             console.log(this.timerCount)
         },
         methods: {
+            sanitizeDigit(val) {
+                // convert Arabic-Indic / Extended Arabic-Indic numerals to ASCII
+                return val
+                    .replace(/[٠١٢٣٤٥٦٧٨٩]/g, d => d.charCodeAt(0) - 1632)
+                    .replace(/[۰۱۲۳۴۵۶۷۸۹]/g, d => d.charCodeAt(0) - 1776)
+                    .replace(/[^\d]/g, '')
+                    .slice(0, 1);
+            },
+            onDigitKeyup(event, index) {
+                const sanitized = this.sanitizeDigit(event.target.value);
+                this.$set(this.digits, index, sanitized);
+                if (sanitized && index < 3) {
+                    this.$refs['otp' + (index + 1)][0].focus();
+                }
+                if (index === 3 && this.pin.length === 4) {
+                    this.sendPinCode();
+                }
+            },
+            onDigitKeydown(event, index) {
+                if (event.key === 'Backspace' && !this.digits[index] && index > 0) {
+                    this.$refs['otp' + (index - 1)][0].focus();
+                }
+            },
+            onPaste(event) {
+                const text = (event.clipboardData || window.clipboardData).getData('text');
+                const sanitized = text
+                    .replace(/[٠١٢٣٤٥٦٧٨٩]/g, d => d.charCodeAt(0) - 1632)
+                    .replace(/[۰۱۲۳۴۵۶۷۸۹]/g, d => d.charCodeAt(0) - 1776)
+                    .replace(/[^\d]/g, '')
+                    .slice(0, 4);
+                sanitized.split('').forEach((ch, i) => {
+                    this.$set(this.digits, i, ch);
+                });
+                const nextEmpty = Math.min(sanitized.length, 3);
+                this.$nextTick(() => this.$refs['otp' + nextEmpty][0].focus());
+            },
             sendPinCode() {
                 this.is_loading = true
                 axios.post('/mobile_verify',{
@@ -75,7 +127,7 @@
                 setTimeout(() => {
                     this.is_loading = false
                 }, 1000);
-            },     
+            },
             resendCode() {
                 this.is_loading = true
                 axios.post('/mobile_verify/resendCode')
@@ -91,6 +143,22 @@
 </script>
 
 <style lang="scss">
+.otp-fields {
+  .otp-box {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0;
+    padding: 0;
+    &:focus {
+      background-color: var(--hoverBg) !important;
+      border-color: var(--mainColor) !important;
+    }
+  }
+}
+
 .verifyPhonePage {
   padding: 15px;
   h1 {

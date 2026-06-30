@@ -87,7 +87,7 @@
     @endif
 
   </head>
-  <body>
+  <body >
     <!-- Content -->
 
     <div class="container-xxl">
@@ -182,6 +182,12 @@
     <!-- Vendors JS -->
     <!-- Main JS -->
     <script src="{{ asset('assets/v2/js/main.js') }}"></script>
+
+    <script>
+      window._locale = '{{ app()->getLocale() }}';
+      window._translations = {!! cache('translations') !!};
+    </script>
+
     <!-- Page JS -->
     @stack('footer-scripts')
     <!-- Laravel Javascript Validation -->
