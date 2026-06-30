@@ -345,6 +345,26 @@
     </div><!-- card-footer -->
   </form>
 
+  <div class="modal fade" id="deleteItemModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex align-items-center justify-content-center text-warning mb-3">
+            <i class="icon-base ti ti-info-triangle icon-50px"></i>
+          </div>
+          <h5 class="m-0 text-center">{{ __('Are you sure you want to delete this element?') }}</h5>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteItem">{{ __('Delete') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 @endsection
 
 @push('footer-scripts')
@@ -420,17 +440,30 @@
       // Select2
       $('.select2').select2();
 
+      var pendingDeleteElement = null;
+      var pendingDeleteRow = null;
+
       $('.form-repeater').repeater({
         initEmpty: false,
         show: function () {
           $(this).slideDown();
         },
         hide: function (deleteElement) {
-          if(confirm('Are you sure you want to delete this element?')) {
-            $(this).slideUp(deleteElement);
-          }
+          pendingDeleteElement = deleteElement;
+          pendingDeleteRow = $(this);
+          var deleteModal = new bootstrap.Modal(document.getElementById('deleteItemModal'));
+          deleteModal.show();
         },
         isFirstItemUndeletable: true
+      });
+
+      $('#confirmDeleteItem').on('click', function() {
+        if (pendingDeleteRow && pendingDeleteElement) {
+          pendingDeleteRow.slideUp(pendingDeleteElement);
+          pendingDeleteRow = null;
+          pendingDeleteElement = null;
+        }
+        bootstrap.Modal.getInstance(document.getElementById('deleteItemModal')).hide();
       });
     });
 

@@ -439,5 +439,6 @@
 "{ALPHA} → Letters only": "{ALPHA} → Letters only",
 "{UUID} → Automatically generated unique identifier": "{UUID} → Automatically generated unique identifier",
 "Note: You can control the length by adding a number after : like {RANDOM:8}.": "Note: You can control the length by adding a number after : like {RANDOM:8}.",
-"No codes have been generated for this coupon yet. Please generate codes first.": "No codes have been generated for this coupon yet. Please generate codes first."
+"No codes have been generated for this coupon yet. Please generate codes first.": "No codes have been generated for this coupon yet. Please generate codes first.",
+  "Are you sure you want to delete this element?": "Are you sure you want to delete this element?"
 }
