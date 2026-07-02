@@ -61,6 +61,10 @@ return [
 
     'asset_version' => '1.2',
 
+    'bill_token' => env('BILL_TOKEN'),
+
+    'admin_app_url' => env('ADMIN_APP_URL'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

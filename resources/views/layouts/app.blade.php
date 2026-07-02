@@ -95,7 +95,9 @@
   </head>
   <body id="app-container">
 
-
+  @if(session('impersonated_by_admin'))
+    @include('partials.admin-impersonate-banner')
+  @endif
 
   <!-- Layout wrapper -->
   <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">

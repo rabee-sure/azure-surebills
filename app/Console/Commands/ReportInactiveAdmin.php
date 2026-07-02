@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Jobs\ExportInactiveAdmins;
 use App\Models\Admin;
+use App\Services\BasicSettingsService;
 use Illuminate\Console\Command;
 
 class ReportInactiveAdmin extends Command
@@ -37,9 +38,9 @@ class ReportInactiveAdmin extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(BasicSettingsService $basicSettingsService)
     {
-        $email = config('nova.send_to_mail');
+        $email = $basicSettingsService->get('inactive_users_report_emails');
         if($email){
             $days = config('nova.inactive_period_day');
             $date = date('Y-m-d', strtotime('-'.$days.' days'));
