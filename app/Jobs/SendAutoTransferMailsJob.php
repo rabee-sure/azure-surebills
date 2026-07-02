@@ -6,13 +6,12 @@ use App\Mail\AutoTransferMail;
 use App\Models\PaymentLog;
 use App\Models\Transaction;
 use App\Models\Transfer;
+use App\Services\BasicSettingsService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\File;
-use Spatie\Valuestore\Valuestore;
 use Illuminate\Support\Facades\Mail;
 
 class SendAutoTransferMailsJob implements ShouldQueue
@@ -37,16 +36,12 @@ class SendAutoTransferMailsJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(BasicSettingsService $basicSettingsService)
     {
-        $settings =  Valuestore::make(storage_path('app/settings.json'));
-        $transfer_emails = $settings->get('transfer_emails');
-        $emails = explode(",", $transfer_emails);
-        if(count($emails)){
-            foreach ($emails as $email) {
-                Mail::to($email)->send(new AutoTransferMail($this->day));
-            }
-        }
+        $emails = array_values(array_filter(array_map('trim', explode(',', $basicSettingsService->get('transfer_emails', '') ?? ''))));
 
+        foreach ($emails as $email) {
+            Mail::to($email)->send(new AutoTransferMail($this->day));
+        }
     }
 }

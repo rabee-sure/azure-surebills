@@ -28,8 +28,11 @@ class PublicMediaController extends Controller
         'products/',
         'categories/',
         'reports/',
+        'shared/bills/',
+        'shared/transfers/',
         'transfers/',
         'automatic_transfers/',
+        'summary_transfers/',
         'downloads/',
     ];
 

@@ -12,10 +12,11 @@ use App\Models\Transfer;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
-use Spatie\Valuestore\Valuestore;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TransfersSummaryMail;
 use App\Models\AutoTransfer;
+use App\Services\BasicSettingsService;
+use App\Support\Storage\ExportStoragePaths;
 
 class TransfersSummary extends Command
 {
@@ -57,7 +58,7 @@ class TransfersSummary extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(BasicSettingsService $basicSettingsService)
     {
         $ids = (count($this->argument('id')) == 1) ? explode(',', $this->argument('id')[0]):$this->argument('id');
         $transfers = Transfer::whereIn('id', $ids)->with('user.bank', 'transactions')->get();
@@ -69,7 +70,7 @@ class TransfersSummary extends Command
 
         $merchantsSummaryFile = $this->createMerchantsSummaryFile($transfers, $transactions);
         $dueAmountFile = $this->createDueAmountsFile($transfers, $transactions);
-        $this->sendMails($transfers);
+        $this->sendMails($transfers, $basicSettingsService->get('transfer_emails', ''));
 
         $autoTransfer = AutoTransfer::find($this->argument('auto_transfer_id'));
         $autoTransfer->due_amount_file = $dueAmountFile;
@@ -83,7 +84,7 @@ class TransfersSummary extends Command
         $data = $this->getMerchantsSummaryData($transfers, $transactions);
 
         $t_file_n = $this->getFileName($transfers);
-        $file_name = "summary_transfers/$t_file_n/merchants_summary.xlsx";
+        $file_name = ExportStoragePaths::summaryTransferFolder($t_file_n).'/merchants_summary.xlsx';
 
         Excel::store(new MerchantsSummaryExport($data), $file_name , 'public');
 
@@ -137,7 +138,7 @@ class TransfersSummary extends Command
         $data = $this->getDueAmountsData($transfers, $transactions);
 
         $t_file_n = $this->getFileName($transfers);
-        $file_name = "summary_transfers/$t_file_n/due_amounts.xlsx";
+        $file_name = ExportStoragePaths::summaryTransferFolder($t_file_n).'/due_amounts.xlsx';
 
         Excel::store(new DueAmountsExport($data), $file_name , 'public');
 
@@ -185,16 +186,13 @@ class TransfersSummary extends Command
         ];
     }
 
-    public function sendMails($transfers)
+    public function sendMails($transfers, $transfer_emails = '')
     {
-        $settings =  Valuestore::make(storage_path('app/settings.json'));
-        $transfer_emails = $settings->get('transfer_emails');
-        $emails = explode(",", $transfer_emails);
+        $emails = array_values(array_filter(array_map('trim', explode(',', $transfer_emails ?? ''))));
         $t_file_n = $this->getFileName($transfers);
-        if(count($emails)){
-            foreach ($emails as $email) {
-                Mail::to($email)->send(new TransfersSummaryMail($t_file_n));
-            }
+
+        foreach ($emails as $email) {
+            Mail::to($email)->queue(new TransfersSummaryMail($t_file_n));
         }
     }
 

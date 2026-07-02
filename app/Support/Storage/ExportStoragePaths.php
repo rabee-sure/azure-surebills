@@ -8,6 +8,14 @@ namespace App\Support\Storage;
  */
 final class ExportStoragePaths
 {
+    public const PREFIX = 'shared';
+
+    public const TRANSFERS = self::PREFIX.'/transfers';
+
+    public const TRANSFERS_AUTOMATIC = self::TRANSFERS.'/automatic';
+
+    public const TRANSFERS_SUMMARY = self::TRANSFERS.'/summary';
+
     public const MERCHANT_BUSINESS_DOCUMENTS = 'shared/merchants/business_documents';
 
     public const MERCHANT_BANK_DOCUMENTS = 'shared/merchants/bank_documents';
@@ -65,5 +73,20 @@ final class ExportStoragePaths
     public static function transferBillsExportsRoot(): string
     {
         return \oci_bucket_object_prefix().self::TRANSFER_BILLS_EXPORTS;
+    }
+
+    public static function transferWorkbook(int $userId, string $workbookFileName): string
+    {
+        return self::TRANSFERS.'/'.$userId.'/'.$workbookFileName;
+    }
+
+    public static function automaticTransferFolder(string $date, string $uniqId): string
+    {
+        return self::TRANSFERS_AUTOMATIC.'/'.$date.'/'.$uniqId;
+    }
+
+    public static function summaryTransferFolder(string $folderName): string
+    {
+        return self::TRANSFERS_SUMMARY.'/'.$folderName;
     }
 }

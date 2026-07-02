@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../surebills-admin-dashboard"
+		},
+		{
+			"path": "../surebills-ai"
+		}
+	]
+}

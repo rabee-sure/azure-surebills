@@ -7,6 +7,7 @@ use App\Http\Resources\TransactionExportResource;
 use App\Models\AutoTransfer;
 use App\Models\AutoTransferTransfer;
 use App\Models\Transaction;
+use App\Support\Storage\ExportStoragePaths;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
@@ -47,7 +48,7 @@ class RecreateAutoTransferReport extends Command
         parent::__construct();
         $this->today = date('Y-m-d');
         $this->uniqId = uniqid();
-        $this->folder = "automatic_transfers/".$this->today."/".$this->uniqId;
+        $this->folder = ExportStoragePaths::automaticTransferFolder($this->today, $this->uniqId);
     }
 
     /**

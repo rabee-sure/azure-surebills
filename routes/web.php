@@ -2,6 +2,7 @@
 
 use App\Application;
 use App\Http\Controllers\Api\MediaController;
+use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PublicMediaController;
 use App\Http\Controllers\StoreUserController;
@@ -39,6 +40,9 @@ Route::post('payment-webhook', [PaymentController::class, 'handleWebhook'])->nam
 Route::any('health-check', [PaymentController::class, 'healthCheck'])->name('health.check');
 
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
+
+Route::get('impersonate/login', [ImpersonateController::class, 'login'])->name('impersonate.login');
+Route::get('impersonate/leave', [ImpersonateController::class, 'leave'])->middleware('auth')->name('impersonate.leave');
 
 // Route::middleware(['guest'])->group(function () {
 //   Route::get('pos/register', 'UserController@posRegister')->name('pos.register');

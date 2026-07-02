@@ -7,10 +7,19 @@ use App\Http\Requests\ContactRequest;
 use App\Models\Bill;
 use App\Models\RefundedBill;
 use App\Models\Transaction;
+use App\Services\BasicSettingsService;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
+    /** @var BasicSettingsService */
+    private $basicSettingsService;
+
+    public function __construct(BasicSettingsService $basicSettingsService)
+    {
+        $this->basicSettingsService = $basicSettingsService;
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -84,6 +93,8 @@ class HomeController extends Controller
         $total_paid_bills_query = clone $bills;
         $total_paid_bills = $total_paid_bills_query->where('status', 'paid')->count();
 
+        $settings = $this->basicSettingsService->getSettings();
+
         return view('home', [
             'user' =>  $user,
             'balance' =>  $balance ?? 0,
@@ -91,6 +102,7 @@ class HomeController extends Controller
             'total_paid' =>  $total_paid,
             'total_bills' =>  $total_bills,
             'total_paid_bills' =>  $total_paid_bills,
+            'mobile_number' => $settings['mobile_number'] ?? null,
         ]);
     }
 

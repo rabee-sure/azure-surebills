@@ -97,19 +97,7 @@ class ReportBillExport implements FromQuery, WithHeadings, ShouldQueue, WithCust
         ->whereDate('paid_at', '<=', $report_filters['paid_to'])
         ->whereIn('bills.status', ['paid', 'refunded', 'rejected']);
 
-        if($report_filters['merchants'] == '' && $report_filters['channels'] != '')
-        {
-            $query->whereIn('channels.id', explode(",", str_replace('"','',$report_filters['channels'])));
-        }
-        else if($report_filters['merchants'] != '' && $report_filters['channels'] == '')
-        {
-            $query->whereIn('bills.user_id', explode(",", str_replace('"','',$report_filters['merchants'])));
-        }
-        else if($report_filters['merchants'] != '' && $report_filters['channels'] != '')
-        {
-            $query->whereIn('bills.user_id', explode(",", str_replace('"','',$report_filters['merchants'])))
-            ->orWhereIn('channels.id', explode(",", str_replace('"','',$report_filters['channels'])));
-        }
+        $this->applyMerchantChannelFilters($query, $report_filters);
 
         $query->groupBy('bills.id')->orderBy('paid_at');
 
@@ -138,19 +126,7 @@ class ReportBillExport implements FromQuery, WithHeadings, ShouldQueue, WithCust
         ->whereDate('paid_at', '<=', $report_filters['paid_to'])
         ->whereIn('bills.status', ['paid', 'refunded', 'rejected']);
 
-        if($report_filters['merchants'] == '' && $report_filters['channels'] != '')
-        {
-            $query->whereIn('channels.id', explode(",", str_replace('"','',$report_filters['channels'])));
-        }
-        else if($report_filters['merchants'] != '' && $report_filters['channels'] == '')
-        {
-            $query->whereIn('bills.user_id', explode(",", str_replace('"','',$report_filters['merchants'])));
-        }
-        else if($report_filters['merchants'] != '' && $report_filters['channels'] != '')
-        {
-            $query->whereIn('bills.user_id', explode(",", str_replace('"','',$report_filters['merchants'])))
-            ->orWhereIn('channels.id', explode(",", str_replace('"','',$report_filters['channels'])));
-        }
+        $this->applyMerchantChannelFilters($query, $report_filters);
 
         $query->groupBy('bills.id')->orderBy('paid_at');
 
@@ -159,5 +135,39 @@ class ReportBillExport implements FromQuery, WithHeadings, ShouldQueue, WithCust
         $count = collect(DB::select($countQuery, $query->getBindings()))->pluck('aggregate')->first();
 
         return $count;
+    }
+
+    /**
+     * @param  \Illuminate\Database\Query\Builder  $query
+     */
+    private function applyMerchantChannelFilters($query, array $report_filters)
+    {
+        $merchantIds = $this->parseFilterIds(isset($report_filters['merchants']) ? $report_filters['merchants'] : '');
+        $channelIds = $this->parseFilterIds(isset($report_filters['channels']) ? $report_filters['channels'] : '');
+
+        if ($merchantIds === [] && $channelIds !== []) {
+            $query->whereIn('channels.id', $channelIds);
+        } elseif ($merchantIds !== [] && $channelIds === []) {
+            $query->whereIn('bills.user_id', $merchantIds);
+        } elseif ($merchantIds !== [] && $channelIds !== []) {
+            $query->where(function ($innerQuery) use ($merchantIds, $channelIds) {
+                $innerQuery->whereIn('bills.user_id', $merchantIds)
+                    ->orWhereIn('channels.id', $channelIds);
+            });
+        }
+    }
+
+    private function parseFilterIds($value)
+    {
+        if ($value === null || $value === '' || $value === 'all') {
+            return [];
+        }
+
+        return array_values(array_filter(
+            explode(',', str_replace('"', '', $value)),
+            function ($id) {
+                return $id !== '' && $id !== 'all';
+            }
+        ));
     }
 }

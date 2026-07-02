@@ -18,7 +18,9 @@ use App\Models\Bill;
 use App\Models\Transaction;
 use App\Models\Transfer;
 use App\Models\User;
+use App\Services\BasicSettingsService;
 use App\Services\TransferService;
+use App\Support\Storage\ExportStoragePaths;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -26,7 +28,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
-use Spatie\Valuestore\Valuestore;
 use ZipArchive;
 
 class TransferAutomatic extends Command
@@ -72,7 +73,7 @@ class TransferAutomatic extends Command
         parent::__construct();
         $this->today = date('Y-m-d');
         $this->uniqId = uniqid();
-        $this->folder = "automatic_transfers/".$this->today."/".$this->uniqId;
+        $this->folder = ExportStoragePaths::automaticTransferFolder($this->today, $this->uniqId);
     }
 
 
@@ -81,21 +82,20 @@ class TransferAutomatic extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(BasicSettingsService $basicSettingsService)
     {
         ini_set('memory_limit','3072M');
-        $settings =  Valuestore::make(storage_path('app/settings.json'));
-        $transfer_automatic = $settings->get('transfer_automatic');
-        $transfer_days = [];
+        $settings = $basicSettingsService->getSettings();
+        $transfer_automatic = $settings['transfer_automatic'] ?? null;
 
         $transfer_days = collect($this->working_days)->map(function($number, $day) use ($settings){
-            if($settings->get($day)){
+            if(!empty($settings[$day])){
                 return $number;
             }
         })->filter(fn($day) => $day !== null)->toArray();
-        
-        $transfer_minimum = $settings->get('transfer_minimum');
-        $transfer_emails = $settings->get('transfer_emails');
+
+        $transfer_minimum = (float) ($settings['transfer_minimum'] ?? 0);
+        $transfer_emails = $settings['transfer_emails'] ?? '';
 
         $cycleDate = Carbon::now()->startOfDay();
         if($transfer_automatic && in_array($cycleDate->dayOfWeek, array_values($transfer_days)) ){
@@ -107,7 +107,7 @@ class TransferAutomatic extends Command
             $transfer_ids = [];
             foreach ($filtered_users as $user) {
                 $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d'));
-
+                $this->info("user ID: $user->id, amount: $amount");
                 if($amount  >= $transfer_minimum){
                     $this->info("transfer to user ID $user->id amount: $amount");
 
@@ -141,7 +141,7 @@ class TransferAutomatic extends Command
                     'tranfer_ids' => $transfer_ids,
                 ]);
 
-                $this->createMasterSheet($transfer_ids, $cycleDate);
+                $this->createMasterSheet($transfer_ids, $cycleDate, $transfer_emails);
                 $this->call("transfers:summary", ['id' =>  $transfer_ids, 'auto_transfer_id' => $autoTransfer->id]);
 
                 $autoTransfer->zip_file = Storage::disk('public')->exists($this->folder."/master_sheet_".$this->today.".zip") ? $this->folder."/master_sheet_".$this->today.".zip" : null;
@@ -166,13 +166,13 @@ class TransferAutomatic extends Command
      * @param  App\Transfer  $transfer
      * @return App\Transfer  $transfer
      */
-    public function createMasterSheet($transfer_ids, $day)
+    public function createMasterSheet($transfer_ids, $day, $transfer_emails = '')
     {
         if(count($transfer_ids) > 0){
             $this->createMerchantsFile($transfer_ids, $day);
             $this->createChannelsFile($transfer_ids, $day);
             $this->zipFolder($this->folder, "master_sheet_".$this->today.".zip");
-            $this->sendMails($day);
+            $this->sendMails($day, $transfer_emails);
         }
         return true;
     }
@@ -247,15 +247,12 @@ class TransferAutomatic extends Command
         }
     }
 
-    public function sendMails($day)
+    public function sendMails($day, $transfer_emails = '')
     {
-        $settings =  Valuestore::make(storage_path('app/settings.json'));
-        $transfer_emails = $settings->get('transfer_emails');
-        $emails = explode(",", $transfer_emails);
-        if(count($emails)){
-            foreach ($emails as $email) {
-                // Mail::to($email)->send(new AutoTransferMail($day));
-            }
+        $emails = array_values(array_filter(array_map('trim', explode(',', $transfer_emails ?? ''))));
+
+        foreach ($emails as $email) {
+            // Mail::to($email)->send(new AutoTransferMail($day));
         }
     }
 

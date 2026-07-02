@@ -49,6 +49,6 @@ yarn-error.log
 .DS_Store
 .idea/
 .cache/
-.cursor/
+.cursor
 docs/
 /security/payment-page-manifest.sha256

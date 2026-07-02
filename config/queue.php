@@ -37,14 +37,14 @@ return [
         'database' => [
             'driver' => 'database',
             'table' => 'jobs',
-            'queue' => 'default',
+            'queue' => env('QUEUE_NAME', 'default'),
             'retry_after' => 90,
         ],
 
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => 'localhost',
-            'queue' => 'default',
+            'queue' => env('QUEUE_NAME', 'default'),
             'retry_after' => 90,
             'block_for' => 0,
         ],
@@ -56,7 +56,7 @@ return [
             'user' => env('RABBITMQ_USER', 'guest'),
             'password' => env('RABBITMQ_PASSWORD', 'guest'),
             'vhost' => env('RABBITMQ_VHOST', '/'),
-            'queue' => env('RABBITMQ_ROUTE_KEY', 'test'),
+            'queue' => env('RABBITMQ_ROUTE_KEY', env('QUEUE_NAME', 'test')),
             'options' => [
                 'exchange' => [
                     'auto_delete' => env('RABBITMQ_EXCHANGE_AUTODELETE', false),
@@ -77,7 +77,7 @@ return [
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'prefix' => env('SQS_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
-            'queue' => env('SQS_QUEUE', 'your-queue-name'),
+            'queue' => env('SQS_QUEUE', env('QUEUE_NAME', 'default')),
             'suffix' => env('SQS_SUFFIX'),
             'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
         ],
@@ -85,7 +85,7 @@ return [
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',
-            'queue' => env('REDIS_QUEUE', 'default'),
+            'queue' => env('REDIS_QUEUE', env('QUEUE_NAME', 'default')),
             'retry_after' => 90,
             'block_for' => null,
         ],
@@ -110,11 +110,12 @@ return [
     ],
 
     'working_queues' => [
-        'sqs_queue' => env('SQS_QUEUE'),
-        'webhook_queue' => env('WEBHOOK_QUEUE'),
-        'email_queue' => env('EMAILS_QUEUE'),
-        'sms_queue' => env('SMS_QUEUE'),
-        'export_queue' => env('EXPORT_QUEUE'),
-        'cybersource_transaction_queue' => env('CYBERSOURCE_TRANSACTION_QUEUE', env('RABBITMQ_QUEUE')),
+        'default_queue' => env('QUEUE_NAME', 'default'),
+        'sqs_queue' => env('SQS_QUEUE', env('QUEUE_NAME', 'default')),
+        'webhook_queue' => env('WEBHOOK_QUEUE', env('QUEUE_NAME', 'default')),
+        'email_queue' => env('EMAILS_QUEUE', env('QUEUE_NAME', 'default')),
+        'sms_queue' => env('SMS_QUEUE', env('QUEUE_NAME', 'default')),
+        'export_queue' => env('EXPORT_QUEUE', env('QUEUE_NAME', 'default')),
+        'cybersource_transaction_queue' => env('CYBERSOURCE_TRANSACTION_QUEUE', env('RABBITMQ_QUEUE', env('QUEUE_NAME', 'default'))),
     ],
 ];

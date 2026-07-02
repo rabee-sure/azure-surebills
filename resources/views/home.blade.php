@@ -4,11 +4,6 @@
 
 @section('content')
 
-  @php
-    $settings =  Spatie\Valuestore\Valuestore::make(storage_path('app/settings.json'));
-    $mobile_number = $settings->get('mobile_number');
-  @endphp
-
   @if(!$user->verified && !$user->mainStoreUser && $user->source == 'sure bills')
     @if($user->is_uploaded_documents)
       <div class="alert alert-warning d-flex align-items-center" role="alert">
