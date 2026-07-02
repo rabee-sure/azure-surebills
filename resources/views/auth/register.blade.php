@@ -75,7 +75,7 @@
       <label for="mobile" class="form-label mb-2">{{ __('Mobile') }}</label>
       <div class="input-group">
         <input
-          type="text"
+          type="tel"
           inputmode="numeric"
           class="form-control @error('mobile') is-invalid @enderror text-start"
           id="mobile"

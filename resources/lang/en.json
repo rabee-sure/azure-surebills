@@ -243,11 +243,12 @@
 "Previous" : "Previous",
 "Next" : "Next",
 "Finish" : "Finish",
-"verify your phone number" : "verify your phone number",
-"we sent You SMS Message Contain Apin Code" : "we sent You SMS Message Contain Apin Code",
+"verify your phone number" : "Verify Your Phone Number",
+"we sent You SMS Message Contain Apin Code" : "We have sent an SMS message containing your PIN code.",
 "Resend Code" : "Resend Code",
-"Second" : "Second",
-"didn’t Get The PIN" : "didn’t Get The PIN",
+"Second" : "seconds",
+"didn't Get The PIN" : "Didn't receive the PIN?",
+"resending PIN in" : "Resending PIN in",
 "Verify" : "Verify",
 "Loading" : "Loading",
 "Products" : "Products",
@@ -438,5 +439,6 @@
 "{ALPHA} → Letters only": "{ALPHA} → Letters only",
 "{UUID} → Automatically generated unique identifier": "{UUID} → Automatically generated unique identifier",
 "Note: You can control the length by adding a number after : like {RANDOM:8}.": "Note: You can control the length by adding a number after : like {RANDOM:8}.",
-"No codes have been generated for this coupon yet. Please generate codes first.": "No codes have been generated for this coupon yet. Please generate codes first."
+"No codes have been generated for this coupon yet. Please generate codes first.": "No codes have been generated for this coupon yet. Please generate codes first.",
+  "Are you sure you want to delete this element?": "Are you sure you want to delete this element?"
 }

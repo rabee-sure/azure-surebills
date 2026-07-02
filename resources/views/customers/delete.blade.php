@@ -13,9 +13,9 @@
           <i class="icon-base ti ti-info-triangle icon-50px"></i>
         </div>
         @if($customer->bills()->exists())
-          <h5 class="m-0 text-center">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</h5>
+          <h5 class="m-0 text-center text-wrap">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</h5>
         @else
-          <h5 class="m-0 text-center">{{ __('Are You sure Delete this Customer?')}}</h5>
+          <h5 class="m-0 text-center text-wrap">{{ __('Are You sure Delete this Customer?')}}</h5>
         @endif
       </div><!-- modal-body -->
       <form action="{{ route('customers.destroy', $customer->id)}}" method="post" class="modal-footer form-delete-customer">
