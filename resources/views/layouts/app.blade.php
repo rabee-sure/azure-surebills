@@ -93,7 +93,7 @@
 
 
   </head>
-  <body id="app-container">
+  <body id="app-container" class="show-spinner">
 
   @if(session('impersonated_by_admin'))
     @include('partials.admin-impersonate-banner')
@@ -238,6 +238,17 @@
         gtag('config', 'G-5GHCLW7TQK');
       </script>
     @endif
+
+    <script>
+      // =============================================
+      // Showing Body
+      // =============================================
+      $("body > *").css({ opacity: 0 });
+      setTimeout(function () {
+        $("body").removeClass("show-spinner");
+        $("body > *").animate({ opacity: 1 }, 200);
+      }, 400);
+    </script>
 
   </body>
 </html>
