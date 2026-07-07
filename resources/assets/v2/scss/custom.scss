@@ -146,3 +146,12 @@ ul.ui-widget {
     max-width: none !important;
   }
 }
+
+.select2-container--default .select2-selection--multiple .select2-selection__clear {
+  float: left !important;
+  margin-inline: 0 .25rem !important;
+  margin-block-start: 6px !important;
+}
+[dir="ltr"] .select2-container--default .select2-selection--multiple .select2-selection__clear {
+  float: right !important;
+}
