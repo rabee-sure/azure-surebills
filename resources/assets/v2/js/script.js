@@ -1,7 +1,7 @@
 // =============================================
 // Sidebar Toggle
 // =============================================
-let sidebarHide = localStorage.getItem('sidebarHide'); 
+let sidebarHide = localStorage.getItem('sidebarHide');
 var sidebarToggle = document.querySelector('.sidebarButton');
 var enableSidebarHide = () => {
   document.body.classList.add('sidebar_hide');
@@ -15,11 +15,11 @@ if (sidebarHide === 'enabled') {
   enableSidebarHide();
 }
 sidebarToggle.addEventListener('click', () => {
-  sidebarHide = localStorage.getItem('sidebarHide'); 
+  sidebarHide = localStorage.getItem('sidebarHide');
   if (sidebarHide !== 'enabled') {
     enableSidebarHide();
-  } else {  
-    disableSidebarHide(); 
+  } else {
+    disableSidebarHide();
   }
 });
 
@@ -52,7 +52,7 @@ setTimeout(function () {
 
 // =============================================
 // convert Arabic number to English in input tel
-// ============================================= 
+// =============================================
 function toEnglishNumber2(strNum2) {
   var ar = '٠١٢٣٤٥٦٧٨٩'.split('');
   var en = '0123456789'.split('');
@@ -68,7 +68,7 @@ $(document).on('keyup', 'input[type="tel"]', function(e) {
 
 // =============================================
 // Loading Spinner Buttton
-// ============================================= 
+// =============================================
 $(document).ready(function() {
   $('.formBtn').on('click', function() {
     var $this = $(this);
@@ -88,7 +88,7 @@ $(document).ready(function() {
 
 // =============================================
 // Select2 Plugin
-// ============================================= 
+// =============================================
 $(document).ready(function() {
   $('.select2-single').select2();
 });

@@ -17,7 +17,7 @@
             <input name="name" type="text" class="form-control" id="Name" placeholder="{{__('Name')}}">
           </div><!-- col -->
           <div class="col-12">
-            <label for="Permissions" class="form-label">{{__('Permissions')}} <span class="requirement text-danger">*</span></label>
+            <label for="Permissions" class="form-label" id="permissions-label">{{__('Permissions')}} <span class="requirement text-danger">*</span></label>
             <div class="border p-3 rounded-3">
               <div class="row row-cols-1 row-cols-md-2 g-3">
                 @foreach(config('RolePermissionsMatrix') as $permission)

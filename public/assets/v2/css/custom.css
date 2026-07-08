@@ -5,7 +5,34 @@ body {
 [dir=ltr] body {
   font-family: "IBM Plex Sans", "IBM Plex Sans Arabic" !important;
 }
+body.show-spinner {
+  /* * */
+  /* after */
+}
+body.show-spinner * {
+  opacity: 0 !important;
+}
+body.show-spinner::after {
+  content: " ";
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: rgba(0, 0, 0, 0.4);
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+  left: calc(50% - 15px);
+  top: calc(50% - 15px);
+  position: fixed;
+  z-index: 1;
+}
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 /* Logo: show light/dark by theme (no dependency on Helpers.switchImage) */
 .app-brand-logo-theme {
   position: relative;
@@ -134,4 +161,14 @@ ul.ui-widget li.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
 .bulk-generate-custom-tooltip .tooltip-inner {
   padding: 1rem !important;
   max-width: none !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__clear {
+  float: left !important;
+  margin-inline: 0 0.25rem !important;
+  margin-block-start: 6px !important;
+}
+
+[dir=ltr] .select2-container--default .select2-selection--multiple .select2-selection__clear {
+  float: right !important;
 }

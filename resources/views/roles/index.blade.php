@@ -121,6 +121,19 @@
         const form = document.getElementById('roles_form');
         if (!form || !form.closest('#add_role_Modal')) return;
 
+        // Move the "permissions" required error from after the checkboxes to under the Permissions label
+        const validator = $(form).data('validator');
+        if (validator) {
+          const defaultErrorPlacement = validator.settings.errorPlacement;
+          validator.settings.errorPlacement = function(error, element) {
+            if (element.attr('name') === 'permissions[]') {
+              error.css('display', 'block').addClass('mb-1 mt-0').insertAfter('#permissions-label');
+            } else if (defaultErrorPlacement) {
+              defaultErrorPlacement(error, element);
+            }
+          };
+        }
+
         const btn = form.querySelector('.btn-submit-with-spinner');
         if (!btn) return;
 
