@@ -2,6 +2,7 @@
   <span class="w-100 h-100 d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Delete') }}"><i class="icon-base ti ti-trash icon-18px"></i></span>
 </button>
 
+<<<<<<< HEAD
 <div class="modal fade" id="delete_role_Modal_{{$role->id}}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -35,3 +36,34 @@
     </div><!-- modal-content -->
   </div>
 </div><!-- modal -->
+=======
+<!-- Delete Role Modal -->
+<div class="modal fade deleteCustomerModal" id="delete_role_Modal_{{$role->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+ <div class="modal-dialog" role="document">
+    <div class="modal-content border-0 shadow-sm rounded-3">
+      <div class="modal-body d-flex align-items-center justify-content-center flex-column">
+        <div class="closeBtn d-flex align-items-center justify-content-end mb-3 w-100">
+          <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
+        </div><!-- closeBtn -->
+        <form action="{{ route('roles.destroy', $role->id)}}" method="post" class="form w-100">
+          @csrf
+          @method('DELETE')
+          @can('deleteMerchantRole', $role)
+            <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __('Are You sure Delete this Role?')}}</span>
+          @endcan
+          @cannot('deleteMerchantRole', $role)
+            <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</span>
+          @endcannot
+          <div class="d-flex align-items-center justify-content-center flex-wrap">
+            @can('deleteMerchantRole', $role)
+              <button type="submit" class="border-0 shadow-none rounded-3 btn-danger formBtn mx-2">{{__('Delete')}}</button>
+            @endcan
+            <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Close')}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete Role Modal -->
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4

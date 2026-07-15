@@ -93,9 +93,13 @@ class SendBillReportFile implements ShouldQueue
         group by bills.id
         order by paid_at;");
 
-        if(Excel::store(new ReportBillExportFromView($results), $file_name , 'public')){
+        if(Excel::store(new ReportBillExportFromView($results), $file_name)){
 
+<<<<<<< HEAD
             $report->addMediaFromDisk($file_name, 'public')
+=======
+            $report->addMedia($file_name)
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
                 ->preservingOriginal()
                 ->toMediaCollection('reports_file');
 

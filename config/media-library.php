@@ -6,7 +6,7 @@ return [
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
      */
-    'disk_name' => env('MEDIA_DISK', 'public'),
+    'disk_name' => env('MEDIA_DISK', 'oci'),
 
     /*
      * The maximum file size of an item in bytes.
@@ -212,6 +212,7 @@ return [
      * More info: https://css-tricks.com/native-lazy-loading/
      */
     'default_loading_attribute_value' => null,
+<<<<<<< HEAD
 
     /*
      * Per-model path generators (see Spatie PathGeneratorFactory).
@@ -221,3 +222,6 @@ return [
         App\Models\User::class => App\Support\MediaLibrary\UserMerchantDocumentsPathGenerator::class,
     ],
 ];
+=======
+];
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4

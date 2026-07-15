@@ -45,7 +45,14 @@ class TransferExcel extends Command
      */
     public function handle(BasicSettingsService $basicSettingsService)
     {
+<<<<<<< HEAD
         $transfer_emails = $basicSettingsService->get('transfer_emails', '');
+=======
+
+        $settings = Valuestore::make(getSettings());
+
+        $transfer_emails = $settings->get('transfer_emails');
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
         $cycleDate = Carbon::now()->addHours(3);
 
@@ -54,8 +61,19 @@ class TransferExcel extends Command
 
         $data = json_decode((TransactionExportResource::collection($transfer->transactions->load('bill.application.channel')))->toJson(), true);
 
+<<<<<<< HEAD
         if (! Excel::store(new TransactionsExport($data), $file_name, 'public')) {
             return 1;
+=======
+        if(Excel::store(new TransactionsExport($data), $file_name)){
+
+            $transfer->addMedia(storage_path('app/public/'.$file_name))
+                ->preservingOriginal()
+                ->toMediaCollection('transfers_transactions');
+
+                //fire event transfer file generated
+                event(new TransferFileGenerated($transfer_emails, $cycleDate, $transfer));
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
         }
 
         $transfer->addMediaFromDisk($file_name, 'public')

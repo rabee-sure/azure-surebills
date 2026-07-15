@@ -3,6 +3,7 @@
 @section('title', __('Home'))
 
 @section('content')
+<<<<<<< HEAD
 
   @if(!$user->verified && !$user->mainStoreUser && $user->source == 'sure bills')
     @if($user->is_uploaded_documents)
@@ -15,6 +16,26 @@
         <span class="alert-icon rounded"><i class="icon-base ti ti-bell icon-md"></i></span>
         {{ __('Your account is not verified. Please upload the necessary documents to verify your account and avoid delays in transferring dues.') }} {{__('To upload files, please click on the')}} <a href="/account" title="{{ __('Account Settings') }}" class="alert-link">{{ __('Account Settings') }}.</a>
       </div><!-- alert -->
+=======
+  <section id="homepage">
+    <!-- test azure -->
+
+    @php
+      $settings =  Spatie\Valuestore\Valuestore::make(getSettings());
+      $mobile_number = $settings->get('mobile_number');
+    @endphp
+
+      @if(!$user->verified && !$user->mainStoreUser && $user->source == 'sure bills')
+        @if($user->is_uploaded_documents)
+        <div class="alert alert-warning account_not_verified mb-3" role="alert">
+          {{ __('Your account is being verified so that you can withdraw the collected amounts. The documentation process may take up to two business days. In the event that the documentation is not completed before :date, please contact us on :mobile', ['mobile' => $mobile_number, 'date' => $user->two_business_days]) }}
+        </div>
+      @else
+        <div class="alert alert-warning account_not_verified mb-3" role="alert">
+          {{ __('Your account is not verified. Please upload the necessary documents to verify your account and avoid delays in transferring dues.') }} {{__('To upload files, please click on the')}} <a href="/account" title="{{ __('Account Settings') }}" class="alert-link">{{ __('Account Settings') }}.</a>
+        </div>
+      @endif
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
     @endif
   @endif
 

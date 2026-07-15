@@ -68,9 +68,9 @@ class RecreateAutoTransferReport extends Command
             $this->createMasterSheet($transfer_ids, $cycleDate);
             $this->call("transfers:summary", ['id' =>  $transfer_ids, 'auto_transfer_id' => $autoTransfer->id]);
 
-            $autoTransfer->zip_file = Storage::disk('public')->exists($this->folder."/master_sheet_".$this->today.".zip") ? $this->folder."/master_sheet_".$this->today.".zip" : null;
-            $autoTransfer->merchants_file = Storage::disk('public')->exists($this->folder."/merchants_transactions.xlsx") ? $this->folder."/merchants_transactions.xlsx" : null;
-            $autoTransfer->channels_file = Storage::disk('public')->exists($this->folder."/channels_transactions.xlsx") ? $this->folder."/channels_transactions.xlsx" : null;
+            $autoTransfer->zip_file = Storage::exists($this->folder."/master_sheet_".$this->today.".zip") ? $this->folder."/master_sheet_".$this->today.".zip" : null;
+            $autoTransfer->merchants_file = Storage::exists($this->folder."/merchants_transactions.xlsx") ? $this->folder."/merchants_transactions.xlsx" : null;
+            $autoTransfer->channels_file = Storage::exists($this->folder."/channels_transactions.xlsx") ? $this->folder."/channels_transactions.xlsx" : null;
             $autoTransfer->save();
 
             foreach($transfer_ids as $transferId)
@@ -109,7 +109,7 @@ class RecreateAutoTransferReport extends Command
 
         $merchants_file = $this->folder."/merchants_transactions.xlsx";
         $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
-        Excel::store(new TransactionsExport($data, 'merchants_transactions'), $merchants_file , 'public');
+        Excel::store(new TransactionsExport($data, 'merchants_transactions'), $merchants_file);
     }
 
     public function createChannelsFile($transfer_ids, $day)
@@ -127,7 +127,7 @@ class RecreateAutoTransferReport extends Command
         if(count($channel_transactions) > 0)
         {
             $channels_data = json_decode((TransactionExportResource::collection($channel_transactions))->toJson(), true);
-            Excel::store(new TransactionsExport($channels_data, 'channels_transactions'), $channels_file , 'public');
+            Excel::store(new TransactionsExport($channels_data, 'channels_transactions'), $channels_file);
         }
     }
 

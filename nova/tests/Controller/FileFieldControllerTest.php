@@ -56,7 +56,7 @@ class FileFieldControllerTest extends IntegrationTest
         $file = File::first();
 
         $filename = $file->avatar;
-        Storage::disk('public')->assertExists($file->avatar);
+        Storage::assertExists($file->avatar);
 
         $this->withExceptionHandling()
             ->postJson('/nova-api/files/'.$file->id, [
@@ -68,8 +68,8 @@ class FileFieldControllerTest extends IntegrationTest
 
         $file = File::first();
 
-        Storage::disk('public')->assertMissing($filename);
-        Storage::disk('public')->assertExists($file->avatar);
+        Storage::assertMissing($filename);
+        Storage::assertExists($file->avatar);
         $this->assertnotEquals($filename, $file->avatar);
     }
 
@@ -95,7 +95,7 @@ class FileFieldControllerTest extends IntegrationTest
         $file = File::first();
 
         $filename = $file->avatar;
-        Storage::disk('public')->assertExists($file->avatar);
+        Storage::assertExists($file->avatar);
 
         $this->withExceptionHandling()
             ->postJson('/nova-api/files/'.$file->id, [
@@ -107,8 +107,8 @@ class FileFieldControllerTest extends IntegrationTest
 
         $file = File::first();
 
-        Storage::disk('public')->assertMissing($filename);
-        Storage::disk('public')->assertExists($file->avatar);
+        Storage::assertMissing($filename);
+        Storage::assertExists($file->avatar);
         $this->assertnotEquals($filename, $file->avatar);
     }
 
@@ -171,7 +171,7 @@ class FileFieldControllerTest extends IntegrationTest
 
     public function test_pivot_file_field_can_be_deleted()
     {
-        Storage::fake('public');
+        Storage::fake();
 
         $_SERVER['__nova.user.pivotFile'] = true;
         $_SERVER['__nova.role.pivotFile'] = true;
@@ -189,13 +189,13 @@ class FileFieldControllerTest extends IntegrationTest
 
         $response->assertStatus(200);
 
-        Storage::disk('public')->assertExists($image->hashName());
+        Storage::assertExists($image->hashName());
 
         $response = $this->withExceptionHandling()
                         ->deleteJson('/nova-api/users/'.$user->id.'/roles/'.$role->id.'/field/photo?viaRelationship=roles');
 
         $response->assertStatus(200);
-        Storage::disk('public')->assertMissing($image->hashName());
+        Storage::assertMissing($image->hashName());
 
         unset($_SERVER['__nova.user.pivotFile']);
         unset($_SERVER['__nova.role.pivotFile']);
@@ -203,7 +203,7 @@ class FileFieldControllerTest extends IntegrationTest
 
     public function test_pivot_file_field_cant_be_deleted_if_not_authorized_to_attach_the_related_resource()
     {
-        Storage::fake('public');
+        Storage::fake();
 
         $_SERVER['__nova.user.pivotFile'] = true;
         $_SERVER['__nova.role.pivotFile'] = true;
@@ -221,7 +221,7 @@ class FileFieldControllerTest extends IntegrationTest
 
         $response->assertStatus(200);
 
-        Storage::disk('public')->assertExists($image->hashName());
+        Storage::assertExists($image->hashName());
 
         $_SERVER['nova.user.authorizable'] = true;
         $_SERVER['nova.user.attachRole'] = false;
@@ -234,7 +234,7 @@ class FileFieldControllerTest extends IntegrationTest
         unset($_SERVER['nova.user.attachRole']);
 
         $response->assertStatus(403);
-        Storage::disk('public')->assertExists($image->hashName());
+        Storage::assertExists($image->hashName());
 
         unset($_SERVER['nova.user.attachRole']);
         unset($_SERVER['__nova.user.pivotFile']);
@@ -375,7 +375,7 @@ class FileFieldControllerTest extends IntegrationTest
         Storage::fake();
 
         $_SERVER['nova.fileResource.imageField'] = function ($request) {
-            return Image::make('Files', 'files', 'public')
+            return Image::make('Files', 'files')
                 ->path('avatars');
         };
 
@@ -394,10 +394,10 @@ class FileFieldControllerTest extends IntegrationTest
         Storage::fake();
 
         $_SERVER['nova.fileResource.imageField'] = function ($request) {
-            return Image::make('Avatar', 'avatar', 'public')
+            return Image::make('Avatar', 'avatar')
                         ->store(function (Request $request, $model) {
                             return function () use ($request, $model) {
-                                $model->avatar = $request->file('avatar')->store('avatars', 'public');
+                                $model->avatar = $request->file('avatar')->store('avatars');
                             };
                         });
         };

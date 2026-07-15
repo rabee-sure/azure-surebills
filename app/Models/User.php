@@ -296,7 +296,11 @@ class User extends Authenticatable implements HasMedia
 
     public function getLogoUrlAttribute()
     {
+<<<<<<< HEAD
         return merchant_logo_url($this->logo) ?? url('/images/no-image.jpg');
+=======
+        return getFile($this->logo);
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
     }
 
     /**

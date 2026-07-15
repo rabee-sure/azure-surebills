@@ -55,37 +55,37 @@ class UnMatchingMerchantsTransfer extends Command
                 $raw = [];
 
                 $this->info("start with user {$user}");
-                
+
                 $balance_obj = Transaction::where('user_id', $user)->select(DB::raw("SUM(CASE WHEN type  = 'credit' THEN amount ELSE 0 END) AS credit_total,SUM(CASE WHEN type  = 'debit' THEN amount ELSE 0 END) AS debit_total"))->first();
                 $this->line('Total credit = '.$balance_obj->credit_total);
                 $this->line('Total debit = '.$balance_obj->debit_total);
                 $balance = $balance_obj->credit_total - $balance_obj->debit_total;
                 $this->line('Balance = '.$balance);
-                
+
                 $count_transfers_transactions = Transaction::where('user_id', $user)->where('transaction_source', '=', "transfer")->count();
                 $this->line('Count transfers = '.$count_transfers_transactions);
-                
+
                 $sum_transfers_transactions = Transaction::where('user_id', $user)->where('transaction_source', '=', "transfer")->sum('amount');
                 $this->line('Total transfers amount = '.$sum_transfers_transactions);
-                
+
                 $count_completed_transfers = Transfer::where('user_id', $user)->where('status', 'completed')->count();
                 $this->line('Count completed transfers = '.$count_completed_transfers);
-                
+
                 $sum_completed_transfers = Transfer::where('user_id', $user)->where('status', 'completed')->sum('amount');
                 $this->line('Total completed transfers amount = '.$sum_completed_transfers);
-                
+
                 $count_pending_transfers = Transfer::where('user_id', $user)->whereIn('status', ['pending', 'send_to_sps'])->count();
                 $this->line('Count pending transfers = '.$count_pending_transfers);
-                
+
                 $sum_pending_transfers = Transfer::where('user_id', $user)->whereIn('status', ['pending', 'send_to_sps'])->sum('amount');
                 $this->line('Total pending transfers amount = '.$sum_pending_transfers);
-                
+
                 $count_unsettled_transactions = Transaction::where('user_id', $user)->where('pending_settled', false)->where('settled', false)->where('transaction_source', '!=', "transfer")->count();
                 $this->line('Count unsettled transactions = '.$count_unsettled_transactions);
-                
+
                 $sum_unsettled_transactions = Transaction::where('user_id', $user)->where('pending_settled', false)->where('settled', false)->where('transaction_source', '!=', "transfer")->sum('amount');
                 $this->line('Total unsettled transactions amount = '.$sum_unsettled_transactions);
-                
+
                 if($balance != ($sum_unsettled_transactions + $sum_pending_transfers)){
                     array_push($raw, $user);
                     array_push($raw, $balance_obj->credit_total);
@@ -106,7 +106,7 @@ class UnMatchingMerchantsTransfer extends Command
 
         if(!empty($results)){
             $file_name = 'merchants/balance.xlsx';
-            if(Excel::store(new MerchantsBalanceExport($results), $file_name , 'public')){
+            if(Excel::store(new MerchantsBalanceExport($results), $file_name)){
                 $emails = ['mzain@sure.com.sa'];
                 if(count($emails)){
                     foreach ($emails as $email) {

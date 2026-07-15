@@ -54,7 +54,7 @@ class ReportExcel extends Command
         $data = DB::table('users')
             ->join('transactions', 'users.id', '=', 'transactions.user_id')
             ->join('settlements', 'users.id', '=', 'settlements.user_id')
-            ->select(DB::raw("users.id AS MID, 
+            ->select(DB::raw("users.id AS MID,
             users.business_name_en AS Merchant_Name,
             SUM(CASE WHEN transactions.transaction_source = 'bill' AND transactions.type = 'credit' THEN transactions.amount ELSE 0 END) AS Total_amount_in,
             SUM(CASE WHEN (transactions.transaction_source = 'fees' OR transactions.transaction_source = 'vat') AND transactions.type = 'debit' THEN transactions.amount ELSE 0 END) AS Total_fee_with_vat,
@@ -66,13 +66,20 @@ class ReportExcel extends Command
             ->groupBy('users.id')
             ->get();
 
+<<<<<<< HEAD
         
         if(Excel::store(new ReportExport($data), $file_name , 'public')){
             
             $report->addMediaFromDisk($file_name, 'public')
+=======
+
+        if(Excel::store(new ReportExport($data), $file_name)){
+
+            $report->addMedia(storage_path('app/public/'.$file_name))
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
                 ->preservingOriginal()
                 ->toMediaCollection('reports_file');
-                
+
             //fire event transfer file generated
             event(new GenerateReport($report_emails, $report));
         }

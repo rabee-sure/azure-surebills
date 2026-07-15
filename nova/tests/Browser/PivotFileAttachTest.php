@@ -36,7 +36,7 @@ class PivotFileAttachTest extends DuskTestCase
                 $captain = Captain::orderBy('id', 'desc')->first();
                 $ship = $captain->ships()->get()->first();
                 $this->assertNotNull($ship->pivot->contract);
-                $this->assertTrue(Storage::disk('public')->exists($ship->pivot->contract));
+                $this->assertTrue(Storage::exists($ship->pivot->contract));
 
                 // Ensure file is not removed on blank update...
                 $browser->visit(new UpdateAttached('captains', $captain->id, 'ships', $ship->id))
@@ -45,7 +45,7 @@ class PivotFileAttachTest extends DuskTestCase
                 $captain = Captain::orderBy('id', 'desc')->first();
                 $ship = $captain->ships()->get()->first();
                 $this->assertNotNull($path = $ship->pivot->contract);
-                $this->assertTrue(Storage::disk('public')->exists($ship->pivot->contract));
+                $this->assertTrue(Storage::exists($ship->pivot->contract));
 
                 // Detach the record...
                 $browser->visit(new Detail('captains', $captain->id))
@@ -55,7 +55,7 @@ class PivotFileAttachTest extends DuskTestCase
                         });
 
                 // Clean up the file...
-                $this->assertFalse(Storage::disk('public')->exists($path));
+                $this->assertFalse(Storage::exists($path));
 
                 $browser->blank();
             });
@@ -82,7 +82,7 @@ class PivotFileAttachTest extends DuskTestCase
                 $captain = Captain::orderBy('id', 'desc')->first();
                 $ship = $captain->ships()->get()->first();
                 $this->assertNotNull($path = $ship->pivot->contract);
-                $this->assertTrue(Storage::disk('public')->exists($ship->pivot->contract));
+                $this->assertTrue(Storage::exists($ship->pivot->contract));
 
                 // Delete the file...
                 $browser->visit(new UpdateAttached('captains', $captain->id, 'ships', $ship->id))
@@ -92,7 +92,7 @@ class PivotFileAttachTest extends DuskTestCase
                         ->pause(250);
 
                 // Clean up the file...
-                $this->assertFalse(Storage::disk('public')->exists($path));
+                $this->assertFalse(Storage::exists($path));
 
                 $browser->blank();
             });

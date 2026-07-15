@@ -83,6 +83,7 @@ class CouponService
     }
 
     /**
+<<<<<<< HEAD
      * Check whether coupon status can be toggled now.
      * Rule: only within valid period.
      */
@@ -169,6 +170,8 @@ class CouponService
     }
 
     /**
+=======
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
      * Validate a coupon without applying (for pre-validation)
      * 
      * Returns discount information if valid:

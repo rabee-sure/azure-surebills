@@ -144,6 +144,7 @@
             </div>
           </a>
         </div><!-- col -->
+<<<<<<< HEAD
       @endif
     @endcan
     @can('update settings')
@@ -159,5 +160,66 @@
       </div><!-- col -->
     @endcan
   </div><!-- row -->
+=======
+      @endcan
+
+      @can('update settings')
+        <div class="col">
+          <a href="{{ route('coupons.index') }}" title="{{__('Coupon Management')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
+            <i class="fal fa-ticket-alt"></i>
+            <span class="d-block mt-3 text-center">{{__('Coupon Management')}}</span>
+          </a>
+        </div><!-- col -->
+      @endcan
+
+      @can('update settings')
+        <div class="col">
+          <a href="{{ route('tax_invoice.request') }}" title="{{__('Tax invoice request')}}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
+            <i class="fal fa-envelope"></i>
+            <span class="d-block mt-3 text-center">{{__('Tax invoice request')}}</span>
+          </a>
+        </div><!-- col -->
+      @endcan
+
+      {{-- @can('show products')
+        <div class="col">
+          <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
+            <i class="fal fa-boxes"></i>
+            <span class="d-block mt-3 text-center">{{__('Products')}}</span>
+          </a>
+        </div><!-- col -->
+      @endcan --}}
+      @can('show applications')
+        <div class="col">
+          <a href="{{ route('integration') }}" title="{{ __('Integration') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
+            <i class="fal fa-network-wired"></i>
+            <span class="d-block mt-3 text-center">{{__('Integration')}}</span>
+          </a>
+        </div><!-- col -->
+      @endcan
+      @can('show channels')
+        @if(count(auth()->user()->channels) || (auth()->user()->mainStoreUser && count(auth()->user()->mainStoreUser->channels)))
+          <div class="col">
+            <a href="{{ route('channels.index') }}" title="{{ __('Channels') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
+              <i class="fal fa-chart-network"></i>
+              <span class="d-block mt-3 text-center">{{__('Channels')}}</span>
+            </a>
+          </div><!-- col -->
+        @endif
+      @endcan
+      @can('show users')
+        <div class="col">
+          <a href="{{ route('users.index') }}" title="{{ __('Users') }}" class="catItem d-flex align-items-center justify-content-center flex-column mb-3 rounded-3 bg-white shadow-sm p-2 p-md-3">
+            <i class="fal fa-users"></i>
+            <span class="d-block mt-3 text-center">{{__('Users')}}</span>
+          </a>
+        </div><!-- col -->
+      @endcan
+    </div><!-- row -->
+
+    @yield('steps')
+
+  </section><!-- accountIndexPage -->
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
 @endsection

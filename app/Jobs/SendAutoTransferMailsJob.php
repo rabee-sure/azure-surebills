@@ -38,7 +38,18 @@ class SendAutoTransferMailsJob implements ShouldQueue
      */
     public function handle(BasicSettingsService $basicSettingsService)
     {
+<<<<<<< HEAD
         $emails = array_values(array_filter(array_map('trim', explode(',', $basicSettingsService->get('transfer_emails', '') ?? ''))));
+=======
+        $settings =  Valuestore::make(getSettings());
+        $transfer_emails = $settings->get('transfer_emails');
+        $emails = explode(",", $transfer_emails);
+        if(count($emails)){
+            foreach ($emails as $email) {
+                Mail::to($email)->send(new AutoTransferMail($this->day));
+            }
+        }
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
         foreach ($emails as $email) {
             Mail::to($email)->send(new AutoTransferMail($this->day));

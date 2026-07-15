@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class TransactionController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -26,7 +26,7 @@ class TransactionController extends Controller
             'total_debit' => round($all_transactions->where('type', 'debit')->sum('amount'), 2),
         ]]);
     }
-    
+
     protected function query ($request){
         $user = $request->user;
         $date_start = $request->date_start ?? Carbon::today()->firstOfMonth()->format('m/d/Y');

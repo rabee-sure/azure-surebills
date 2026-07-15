@@ -54,6 +54,29 @@ class AccountController extends Controller
                 } elseif ($this->requestHasUploadedFiles($request->bank_documents)) {
                     merchant_replace_merchant_disk_documents_from_uploads($uid, 'bank_documents', (array) $request->bank_documents);
                 }
+<<<<<<< HEAD
+=======
+
+                //create
+                foreach ($bank_documents as $file) {
+                    $file_name = time() . '-' . $file->getClientOriginalName();
+                    $folder = 'bank_documents';
+                    $file->storeAs($folder, $file_name, 'oci');
+                    try {
+                        $user->addMedia($file_name)->toMediaCollection('bank_documents');
+                    } catch (FileDoesNotExist $e) {
+                        return [
+                            "message" => "File Does Not Exist.",
+                            "errors" => [
+                                "bank_documents" => [
+                                    $file. ' File Does Not Exist'
+                                ]
+                            ]
+                        ];
+                    }
+
+                }
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
             }
         }
 
@@ -72,6 +95,7 @@ class AccountController extends Controller
                 'logo' => $request->get('logo'),
             ]);
 
+<<<<<<< HEAD
             if (! $user->disable_business_documents) {
                 $uid = (int) $user->id;
                 $docInputs = $request->input('document', []);
@@ -89,6 +113,64 @@ class AccountController extends Controller
                 } else {
                     $this->syncBusinessDocumentsFromStructuredPayload($user, $request->input('business_documents', []));
                 }
+=======
+            if (!$user->disable_business_documents ){
+                $business_documents = $request->get('business_documents') ?? [];
+                //delete if Deleted
+                foreach ($user->business_documents as $media) {
+                    if (!in_array($media->id, array_column($business_documents, 'id'))) {
+                        $media->delete();
+                    }
+                }
+
+                //create
+                foreach ($business_documents as $file) {
+                    if($file['id'] == null && isset($file['file'])){
+                        $file_name =  str_replace('storage/','', $file['file']);
+                        try {
+                            $user->addMedia($file_name)->toMediaCollection('business_documents');
+                        } catch (FileDoesNotExist $e) {
+                            return [
+                                "message" => "File Does Not Exist.",
+                                "errors" => [
+                                    "business_documents" => [
+                                        $file['file']. ' File Does Not Exist'
+                                    ]
+                                ]
+                            ];
+                        }
+                    }
+                }
+            }
+
+            if(!$user->disable_business_documents && $request->business_documents){
+                $business_documents = $request->business_documents;
+
+                //first delete business_documents
+                foreach ($user->business_documents as $media) {
+                    $media->delete();
+                }
+
+                //create
+                foreach ($business_documents as $file) {
+                    $file_name = time() . '-' . $file->getClientOriginalName();
+                    $folder = 'business_documents';
+                    $file->storeAs($folder, $file_name, 'oci');
+                    try {
+                        $user->addMedia($file_name)->toMediaCollection('business_documents');
+                    } catch (FileDoesNotExist $e) {
+                        return [
+                            "message" => "File Does Not Exist.",
+                            "errors" => [
+                                "business_documents" => [
+                                    $file. ' File Does Not Exist'
+                                ]
+                            ]
+                        ];
+                    }
+
+                }
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
             }
         }
 

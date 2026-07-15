@@ -116,7 +116,11 @@ class TransferController extends Controller
         $cycleDate = Carbon::now()->addHours(3);
 
         $amount = $user->getBalanceBefore($cycleDate->format('Y-m-d'));
+<<<<<<< HEAD
         $settings = $this->basicSettingsService->getSettings();
+=======
+        $settings = Valuestore::make(getSettings());
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
         $transfer_minimum = (float) ($settings['transfer_minimum'] ?? 0);
         $transfer_emails = $settings['transfer_emails'] ?? '';
@@ -154,7 +158,7 @@ class TransferController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

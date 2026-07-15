@@ -31,11 +31,17 @@ use Illuminate\Validation\ValidationException as ValidationsException;
 
 class BillController extends Controller
 {
+<<<<<<< HEAD
     use ResolvesBillUiTheme;
 
     private $masterCardService;
     protected $couponService;
 
+=======
+    private $masterCardService;
+    protected $couponService;
+
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
     public function __construct(CouponService $couponService)
     {
         $this->middleware('permission:show bills', ['only' => ['index','show']]);
@@ -136,7 +142,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -554,7 +560,7 @@ class BillController extends Controller
     }
 
     /**
-     * Handle payment the specified resource in storage.
+     * Handle payment the specified resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id

@@ -2,14 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Models\Transfer;
-use App\Models\PaymentLog;
-use App\Models\Transaction;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Facades\File;
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 use Illuminate\Support\Facades\Storage;
 
 class ZipFolderJob
@@ -38,6 +36,7 @@ class ZipFolderJob
      */
     public function handle()
     {
+<<<<<<< HEAD
         $disk = Storage::disk('public');
         $folder = trim($this->folder_name, '/');
         $relativeZip = $folder.'/'.$this->file_name;
@@ -72,5 +71,27 @@ class ZipFolderJob
             }
             @unlink($tempLocal);
         }
+=======
+        $zipFileName = "{$this->file_name}";
+        $zipPath = "{$this->folder_name}/{$zipFileName}";
+        $localZipPath = storage_path("app/tmp_{$zipFileName}");
+        if (Storage::exists($zipPath)) {
+            Storage::delete($zipPath);
+        }
+        $zip = new ZipArchive;
+        if ($zip->open($localZipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+            $files = Storage::allFiles($this->folder_name);
+            foreach ($files as $filePath) {
+                if (basename($filePath) === $zipFileName) {
+                    continue;
+                }
+                $fileContent = Storage::get($filePath);
+                $zip->addFromString(basename($filePath), $fileContent);
+            }
+            $zip->close();
+        }
+        Storage::put($zipPath, file_get_contents($localZipPath));
+        @unlink($localZipPath);
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
     }
 }

@@ -158,7 +158,19 @@ class AccountController extends Controller
                 function ($file) use ($uid) {
                     return merchant_bank_document_storage_candidates($file, $uid);
                 }
+<<<<<<< HEAD
             );
+=======
+            }
+
+            $media = $bankInfo->bank_documents->pluck('file_name')->toArray();
+
+            foreach ($request->input('document', []) as $file) {
+                if (count($media) === 0 || !in_array($file, $media)) {
+                    $bankInfo->addMedia('tmp/uploads/' . $file)->toMediaCollection('bank_documents');
+                }
+            }
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
         }
 
         $updatedData = [];
@@ -264,7 +276,19 @@ class AccountController extends Controller
                 function ($file) use ($uid) {
                     return merchant_business_document_storage_candidates($file, $uid);
                 }
+<<<<<<< HEAD
             );
+=======
+            }
+
+            $media = $businessInfo->business_documents->pluck('file_name')->toArray();
+
+            foreach ($request->input('document', []) as $file) {
+                if (count($media) === 0 || !in_array($file, $media)) {
+                    $businessInfo->addMedia('tmp/uploads/' . $file)->toMediaCollection('business_documents');
+                }
+            }
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
         }
 
         $updatedData = [];
@@ -311,11 +335,7 @@ class AccountController extends Controller
 
         return redirect('/account');
     }
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
     public function imagesUploadPost(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -328,6 +348,7 @@ class AccountController extends Controller
         }
 
         $file = $request->file('file');
+<<<<<<< HEAD
         $name = merchant_document_unique_filename($file);
 
         $disk = Storage::disk('public');
@@ -355,6 +376,16 @@ class AccountController extends Controller
             'name' => basename($relativePath),
             'path' => $relativePath,
             'original_name' => $file->getClientOriginalName(),
+=======
+        $originalName = trim($file->getClientOriginalName());
+        $fileName = uniqid() . '_' . $originalName;
+        $folder = 'tmp/uploads';
+        $path = $file->storeAs($folder, $fileName, 'oci');
+        return response()->json([
+            'name'          => $fileName,
+            'original_name' => $originalName,
+            'path'          => $path,
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
         ]);
     }
 

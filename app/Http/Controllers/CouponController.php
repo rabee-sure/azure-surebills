@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Coupon;
 use App\Services\Coupon\CouponService;
 use App\Enums\CouponMechanism;
+<<<<<<< HEAD
 use App\Http\Requests\CouponBulkGenerationCodesExportRequest;
 use App\Http\Requests\CouponBulkGenerationCodesStoreRequest;
 use App\Http\Requests\CouponStoreRequest;
+=======
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,9 +68,26 @@ class CouponController extends Controller
     /**
      * Store a newly created coupon
      */
+<<<<<<< HEAD
     public function store(CouponStoreRequest $request)
     {
         $validated = $request->validated();
+=======
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'mechanism' => 'required|in:' . implode(',', CouponMechanism::values()),
+            'discount_type' => 'required|in:fixed,percentage',
+            'discount_value' => 'required|numeric|min:0' . ($request->discount_type === 'percentage' ? '|max:100' : ''),
+            'valid_from' => 'nullable|date',
+            'valid_to' => 'nullable|date|after_or_equal:valid_from',
+            'max_usage' => 'nullable|integer|min:1',
+            'max_customer_usage' => 'nullable|integer|min:1',
+            'code_pattern' => 'nullable|string|max:255',
+            'is_active' => 'boolean',
+        ]);
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
         $userId = Auth::user()->store_main_user_id ?? Auth::user()->id;
 
@@ -143,9 +163,18 @@ class CouponController extends Controller
     /**
      * Process bulk generation
      */
+<<<<<<< HEAD
     public function storeBulkGenerate(CouponBulkGenerationCodesStoreRequest $request, int $id)
     {
         $validated = $request->validated();
+=======
+    public function storeBulkGenerate(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            'count' => 'required|integer|min:1|max:10000',
+            'pattern' => 'nullable|string|max:255',
+        ]);
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
         $userId = Auth::user()->store_main_user_id ?? Auth::user()->id;
         $coupon = $this->couponService->getCoupon($id, $userId);
@@ -174,9 +203,17 @@ class CouponController extends Controller
     /**
      * Export coupon codes
      */
+<<<<<<< HEAD
     public function export(CouponBulkGenerationCodesExportRequest $request, int $id)
     {
         $validated = $request->validated();
+=======
+    public function export(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            'format' => 'required|in:csv,excel',
+        ]);
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
         $userId = Auth::user()->store_main_user_id ?? Auth::user()->id;
         $coupon = $this->couponService->getCoupon($id, $userId);
@@ -220,6 +257,7 @@ class CouponController extends Controller
             'coupon' => $coupon,
         ]);
     }
+<<<<<<< HEAD
 
     /**
      * Toggle coupon active/inactive status.
@@ -262,4 +300,6 @@ class CouponController extends Controller
 
         return redirect()->route('coupons.index')->with('success', $result['message']);
     }
+=======
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 }

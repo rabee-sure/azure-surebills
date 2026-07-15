@@ -32,8 +32,11 @@ use phpDocumentor\Reflection\Types\Null_;
 
 class BillController extends Controller
 {
+<<<<<<< HEAD
     use ResolvesBillUiTheme;
 
+=======
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
     protected $couponService;
 
     public function __construct(CouponService $couponService)
@@ -42,7 +45,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -51,6 +54,7 @@ class BillController extends Controller
     {
         $application = $request->application;
         $user = $application->user ?? null;
+
         $bill_user_id = $application->user_id ?? null;
         
         if($user && $user->store_main_user_id)
@@ -104,7 +108,7 @@ class BillController extends Controller
                 'user_id' => $user->id
             ]);
         }
-       
+
         $send_sms = $request->send_sms ?? 0;
         $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
 
@@ -410,7 +414,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -619,7 +623,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -649,7 +653,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -704,7 +708,7 @@ class BillController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -946,6 +950,10 @@ class BillController extends Controller
             return response()->json(['view' => view('bills.pay', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'))->render()]);
         }
 
+<<<<<<< HEAD
         return response()->json(['view' => view('bills.payment_page', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'))->render()]);
+=======
+        return response()->json(['view' => view('bills.payment_page', compact('host', 'bill', 'id', 'countdown', 'sureEasyRendrer', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime'))->render()]);
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
     }
 }
