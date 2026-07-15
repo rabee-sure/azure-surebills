@@ -38,7 +38,12 @@
         <a class="dz-remove" href="javascript:undefined;" data-dz-remove>{{ __('Remove') }}</a>
       </div>
     `;
+    @php $maxUploadMb = 4; @endphp
     var uploadedDocumentMap = {}
+
+    var maxUploadMb = {{ $maxUploadMb }};
+    var maxUploadBytes = maxUploadMb * 1024 * 1024;
+    var fileTooBigMessage = @json(__('file max size should be less than or equal', ['value' => $maxUploadMb]));
 
     var dropzoneEl = document.getElementById("dropzone-documents");
     var formEl = dropzoneEl ? dropzoneEl.closest("form") : null;
@@ -49,7 +54,8 @@
       }
       new Dropzone(dropzoneEl, {
         url: "/images-upload",
-        maxFilesize: 5,
+        maxFilesize: maxUploadMb,
+        dictFileTooBig: fileTooBigMessage,
         maxFiles: 5,
         headers: {
           'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -74,6 +80,12 @@
           }
         },
         error: function (file, errorMessage ) {
+          if (file.size > maxUploadBytes) {
+            if (file.previewElement) file.previewElement.remove();
+            this.removeFile(file);
+            $(".dropzone_error").show().text(fileTooBigMessage);
+            return;
+          }
           file.previewElement.classList.add('error_file');
           var errorEl = file.previewElement.querySelector('[data-dz-errormessage]');
           if (errorEl) {
