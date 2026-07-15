@@ -147,7 +147,8 @@
                     } else {
                       a.href = '/download/' + f.id + '/' + encodeURIComponent(f.file_name);
                     }
-                    a.download = f.file_name || 'download';
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
                     a.style.display = 'none';
                     document.body.appendChild(a);
                     a.click();
