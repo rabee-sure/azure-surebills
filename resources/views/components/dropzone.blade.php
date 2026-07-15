@@ -38,12 +38,21 @@
         <a class="dz-remove" href="javascript:undefined;" data-dz-remove>{{ __('Remove') }}</a>
       </div>
     `;
-    @php $maxUploadMb = 4; @endphp
+    @php
+      $maxUploadMb = 4;
+      $allowedExtensions = ['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'];
+      $fileTooBigMessage = __('file max size should be less than or equal', ['value' => $maxUploadMb]);
+      $invalidFileTypeMessage = __('file extension should be in', ['value' => implode(', ', $allowedExtensions)]);
+    @endphp
     var uploadedDocumentMap = {}
 
     var maxUploadMb = {{ $maxUploadMb }};
     var maxUploadBytes = maxUploadMb * 1024 * 1024;
-    var fileTooBigMessage = @json(__('file max size should be less than or equal', ['value' => $maxUploadMb]));
+    var fileTooBigMessage = @json($fileTooBigMessage);
+
+    var allowedExtensions = @json($allowedExtensions);
+    var acceptedFilesList = '.' + allowedExtensions.join(',.');
+    var invalidFileTypeMessage = @json($invalidFileTypeMessage);
 
     var dropzoneEl = document.getElementById("dropzone-documents");
     var formEl = dropzoneEl ? dropzoneEl.closest("form") : null;
@@ -56,6 +65,8 @@
         url: "/images-upload",
         maxFilesize: maxUploadMb,
         dictFileTooBig: fileTooBigMessage,
+        acceptedFiles: acceptedFilesList,
+        dictInvalidFileType: invalidFileTypeMessage,
         maxFiles: 5,
         headers: {
           'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -80,10 +91,12 @@
           }
         },
         error: function (file, errorMessage ) {
-          if (file.size > maxUploadBytes) {
+          var fileExtension = (file.name.split('.').pop() || '').toLowerCase();
+          if (file.size > maxUploadBytes || allowedExtensions.indexOf(fileExtension) === -1) {
             if (file.previewElement) file.previewElement.remove();
             this.removeFile(file);
-            $(".dropzone_error").show().text(fileTooBigMessage);
+            var errorMessage = file.size > maxUploadBytes ? fileTooBigMessage : invalidFileTypeMessage;
+            $(".dropzone_error").show().text(errorMessage);
             return;
           }
           file.previewElement.classList.add('error_file');
