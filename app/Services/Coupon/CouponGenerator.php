@@ -78,7 +78,11 @@ class CouponGenerator
         }
 
         if (count($codes) < $count) {
+<<<<<<< HEAD
             throw new \Exception(__('Failed to generate enough unique codes. Try a different pattern or reduce the count.'));
+=======
+            throw new \Exception('Failed to generate enough unique codes. Try a different pattern or reduce the count.');
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
         }
 
         return $codes;

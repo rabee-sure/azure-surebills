@@ -44,6 +44,7 @@
             @else
                 {{ $error }}
             @endif
+<<<<<<< HEAD
           </li>
         @endforeach
       </ul>
@@ -227,6 +228,52 @@
                     <span class="align-middle">{{ __('Delete') }}</span>
                   </button>
                 </div><!-- col -->
+=======
+          </div><!-- repeaterItems -->
+        </div><!-- inner-repeater -->
+        <hr>
+        <div class="title2 fw-bold mb-4">{{ __('Additonal Details') }}</div>
+        <div class="row">
+          <div class="col-12 mb-3">
+            <div class="form-group">
+              <label for="coupon_code" class="d-block mb-2">{{ __('Coupon Code') }} <small class="text-muted">({{ __('Optional') }})</small></label>
+              <input type="text" name="coupon_code" id="coupon_code" class="form-control shadow-none bg-white border w-100 rounded-3" value="{{ old('coupon_code') }}" placeholder="{{ __('Enter coupon code') }}">
+              @error('coupon_code')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+              @enderror
+              <small class="text-muted d-block mt-1">{{ __('If you have a coupon code, enter it here. The discount will be applied automatically.') }}</small>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <label for="Discount_Values_Checkbox" class="checkboxItem position-relative mb-3 mb-md-0">
+              <input name="add_discount" class="position-absolute top-0 strat-0 w-100 h-100" id="Discount_Values_Checkbox" type="checkbox" @if(old('add_discount')) checked @endif>
+              <span class="d-flex align-items-center justify-content-start">
+                <i class="d-block rounded-pill position-relative"></i>
+                {{ __('Add Manual Discount') }}
+              </span>
+            </label>
+            <div class="Discount_Values" style="display: none;">
+              <div class="row py-3">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="type" class="d-block mb-2">{{ __('Discount type') }}</label>
+                    <select name="discount_type" id="discount_type" class="form-control shadow-none bg-white border w-100 rounded-3">
+                      <option value="fixed" @if(old('discount_type') == 'fixed') selected @endif> {{ __('fixed') }}</option>
+                      <option value="percentage" @if(old('discount_type') == 'percentage') selected @endif>{{ __('Percentage Discount (%)') }}</option>
+                    </select>
+                  </div><!-- form-group -->
+                </div><!-- col-6 -->
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="Price" class="d-block mb-2">{{ __('Discount Value') }}</label>
+                    <div class="inputGroup position-relative d-flex align-items-center justify-content-start flex-wrap">
+                      <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="fixed"><span class="riyal-symbol-font">$</span></div>
+                      <div class="txt align-items-center justify-content-center position-absolute rounded-3" id="percentage"><i class="far fa-percentage"></i></div>
+                      <input type="tel" name="discount_value" class="form-control shadow-none bg-white border w-100 rounded-3" value="{{old('discount_value')}}" id="Discount_Value" aria-describedby="basic-addon2">
+                    </div><!-- inputGroup -->
+                  </div><!-- form-group -->
+                </div><!-- col-6 -->
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
               </div><!-- row -->
               <hr class="my-5" />
             </div>
@@ -379,11 +426,58 @@
 @endsection
 
 @push('footer-scripts')
+<<<<<<< HEAD
   <!-- Laravel Javascript Validation -->
   <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/v2/vendor/libs/select2/select2.js') }}?v={{ config('app.asset_version') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/v2/vendor/libs/flatpickr/flatpickr.js') }}?v={{ config('app.asset_version') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/v2/vendor/libs/jquery-repeater/jquery-repeater.js') }}?v={{ config('app.asset_version') }}"></script>
+=======
+<script>
+  // Handle coupon code and manual discount interaction
+  document.addEventListener('DOMContentLoaded', function() {
+    const couponCodeInput = document.getElementById('coupon_code');
+    const discountCheckbox = document.getElementById('Discount_Values_Checkbox');
+    const discountValuesDiv = document.querySelector('.Discount_Values');
+    
+    if (couponCodeInput && discountCheckbox) {
+      // Disable manual discount when coupon code is entered
+      couponCodeInput.addEventListener('input', function() {
+        if (this.value.trim() !== '') {
+          discountCheckbox.checked = false;
+          discountCheckbox.disabled = true;
+          if (discountValuesDiv) {
+            discountValuesDiv.style.display = 'none';
+          }
+        } else {
+          discountCheckbox.disabled = false;
+        }
+      });
+      
+      // Disable coupon code when manual discount is checked
+      discountCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+          couponCodeInput.value = '';
+          couponCodeInput.disabled = true;
+        } else {
+          couponCodeInput.disabled = false;
+        }
+      });
+      
+      // Initialize on page load
+      if (couponCodeInput.value.trim() !== '') {
+        discountCheckbox.checked = false;
+        discountCheckbox.disabled = true;
+        if (discountValuesDiv) {
+          discountValuesDiv.style.display = 'none';
+        }
+      }
+    }
+  });
+</script>
+  <script src="{{ asset('new/js/daterangepicker/moment.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
+  <script src="{{ asset('new/js/daterangepicker/daterangepicker.min.js') }}?v={{ config('app.asset_version') }}" defer></script>
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
   <script src="{{ asset('new/js/jquery-ui/jquery-ui.js') }}?v={{ config('app.asset_version') }}" defer></script>
   <script type="text/javascript">
     $(document).ready(function() {

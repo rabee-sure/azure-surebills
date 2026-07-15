@@ -134,7 +134,7 @@ class VaporFileFieldControllerTest extends IntegrationTest
 //        $file = File::first();
 //
 //        $filename = $file->avatar;
-//        Storage::disk('public')->assertExists($file->avatar);
+//        Storage::assertExists($file->avatar);
 //
 //        $this->withExceptionHandling()
 //            ->postJson('/nova-api/files/'.$file->id, [
@@ -146,8 +146,8 @@ class VaporFileFieldControllerTest extends IntegrationTest
 //
 //        $file = File::first();
 //
-//        Storage::disk('public')->assertMissing($filename);
-//        Storage::disk('public')->assertExists($file->avatar);
+//        Storage::assertMissing($filename);
+//        Storage::assertExists($file->avatar);
 //        $this->assertnotEquals($filename, $file->avatar);
 //    }
 //

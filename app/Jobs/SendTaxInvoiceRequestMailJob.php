@@ -36,7 +36,12 @@ class SendTaxInvoiceRequestMailJob implements ShouldQueue
      */
     public function handle(BasicSettingsService $basicSettingsService)
     {
+<<<<<<< HEAD
         $tax_invoice_requests_emails = $basicSettingsService->get('tax_invoice_requests_emails', '');
+=======
+        $settings =  Valuestore::make(getSettings());
+        $tax_invoice_requests_emails = $settings->get('tax_invoice_requests_emails');
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
         $emails = explode(",", $tax_invoice_requests_emails);
         if(count($emails)){
             $message = (new TaxInvoiceRequestMail($this->user));

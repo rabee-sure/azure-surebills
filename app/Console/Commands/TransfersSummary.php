@@ -86,7 +86,7 @@ class TransfersSummary extends Command
         $t_file_n = $this->getFileName($transfers);
         $file_name = ExportStoragePaths::summaryTransferFolder($t_file_n).'/merchants_summary.xlsx';
 
-        Excel::store(new MerchantsSummaryExport($data), $file_name , 'public');
+        Excel::store(new MerchantsSummaryExport($data), $file_name);
 
         return $file_name;
     }
@@ -140,7 +140,7 @@ class TransfersSummary extends Command
         $t_file_n = $this->getFileName($transfers);
         $file_name = ExportStoragePaths::summaryTransferFolder($t_file_n).'/due_amounts.xlsx';
 
-        Excel::store(new DueAmountsExport($data), $file_name , 'public');
+        Excel::store(new DueAmountsExport($data), $file_name);
 
         return $file_name;
     }
@@ -188,7 +188,13 @@ class TransfersSummary extends Command
 
     public function sendMails($transfers, $transfer_emails = '')
     {
+<<<<<<< HEAD
         $emails = array_values(array_filter(array_map('trim', explode(',', $transfer_emails ?? ''))));
+=======
+        $settings =  Valuestore::make(getSettings());
+        $transfer_emails = $settings->get('transfer_emails');
+        $emails = explode(",", $transfer_emails);
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
         $t_file_n = $this->getFileName($transfers);
 
         foreach ($emails as $email) {

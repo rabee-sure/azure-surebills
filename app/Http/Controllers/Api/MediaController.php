@@ -25,6 +25,7 @@ class MediaController extends Controller
         if ($validator->fails()){
             return response()->json(['error' =>$validator->errors()]);
         }
+<<<<<<< HEAD
         
 	    if ($request->hasFile('file')) {
 	        $file = $request->file('file');
@@ -38,6 +39,17 @@ class MediaController extends Controller
             }
 
 	        return response()->json(['data' => $disk->exists($file_path) ? "storage/$file_path" : $file_path]);
+=======
+
+	    if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $name = time() . '-' . $file->getClientOriginalName();
+            $folder = $request->folder ? trim($request->folder, '/') : '';
+            $file_path = $folder ? "$folder/$name" : $name;
+            Storage::putFileAs($folder, $file, $name);
+
+	        return response()->json(['data' => getFile($file_path)]);
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 	    }
     }
 
@@ -59,12 +71,20 @@ class MediaController extends Controller
                 return response()->json(['error' =>$validator->errors()]);
             }
 
+<<<<<<< HEAD
             $image = $request->file('file');
             $name = time().'.'.$image->getClientOriginalExtension();
             Storage::disk('public')->putFileAs('', $image, $name);
             $transfer->attachment = $name;
+=======
+            $file = $request->file('file');
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $folder = 'attachments';
+            $path = $file->storeAs($folder, $fileName, 'oci');
+            $transfer->attachment = $path;
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
             $transfer->save();
-            return response()->json(['data' => $name]);
+            return response()->json(['data' => $fileName]);
         }
     }
 
@@ -72,9 +92,16 @@ class MediaController extends Controller
     {
         if(auth()->guard($guard)->check())
         {
-            if (Storage::disk('local')->exists($fileName)){
-                return Storage::disk('local')->download($fileName);
+            if (Storage::exists($fileName)) {
+                $fileContent = Storage::get($fileName);
+                $mimeType = Storage::mimeType($fileName) ?? 'application/octet-stream';
+                $downloadName = basename($fileName);
+
+                return response($fileContent, 200)
+                    ->header('Content-Type', $mimeType)
+                    ->header('Content-Disposition', "attachment; filename=\"$downloadName\"");
             }
+
             abort(404);
         }
         return abort(401);

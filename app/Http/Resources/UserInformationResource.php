@@ -34,7 +34,11 @@ class UserInformationResource extends JsonResource
             'bank_id' => $this->bank_id,
             'iban_number' => $this->iban_number,
             'beneficiary_name' => $this->beneficiary_name,
+<<<<<<< HEAD
             'logo' => merchant_logo_url($this->logo),
+=======
+            'logo' => getFile($this->logo),
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
             'disable_business_documents' => $this->disable_business_documents,
             'disable_bank_documents' => $this->disable_bank_documents,
             'business_documents' => $this->getDocuments($this->business_documents),

@@ -98,11 +98,15 @@ class File extends Field implements StorableContract, DeletableContract, Downloa
      * @param  callable|null  $storageCallback
      * @return void
      */
-    public function __construct($name, $attribute = null, $disk = 'public', $storageCallback = null)
+    public function __construct($name, $attribute = null, $disk = null, $storageCallback = null)
     {
         parent::__construct($name, $attribute);
 
-        $this->disk($disk);
+        if ($disk){
+            $this->disk($disk);
+        } else {
+            $this->disk(config('filesystems.default'));
+        }
 
         $this->prepareStorageCallback($storageCallback);
 

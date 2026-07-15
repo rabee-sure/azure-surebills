@@ -190,7 +190,7 @@ class PosController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -537,7 +537,7 @@ class PosController extends Controller
 
         $status = 'pending';
         $payment_method = null;
-        
+
         switch ($request->sps_response['TX_RSLT']) {
             case '0':
                 $status = 'paid_machine';
@@ -552,7 +552,7 @@ class PosController extends Controller
             case '3':
                 $status = 'canceled';
                 break;
-            
+
             default:
                 # code...
                 break;

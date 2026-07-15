@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
@@ -31,10 +30,11 @@ class MerchantsBalancesReportMail extends Mailable
      */
     public function build()
     {
-        $reportFileName = "app/public/".$this->file_name;
-        
+        $reportFileName = basename($this->file_name);
+        $fileContent = Storage::get($this->file_name);
+
         return $this->subject("Merchant transfer need fix")
             ->view('emails.reports.merchant_balance_transfer')
-            ->attach(storage_path($reportFileName));
+            ->attachData($fileContent, $reportFileName);
     }
 }

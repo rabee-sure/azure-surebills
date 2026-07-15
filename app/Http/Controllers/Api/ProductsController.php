@@ -57,9 +57,15 @@ class ProductsController extends Controller
         if (!empty($request->image) && count($request->image) > 0) {
             foreach ($request->image as $image) {
                 $file = $image;
+<<<<<<< HEAD
                 $file_name = time().'-'.$file->getClientOriginalName();
                 Storage::disk('public')->putFileAs('products', $file, $file_name);
                 $images[]['image'] = $file_name;
+=======
+                $file_name = time() . '-' . $file->getClientOriginalName();
+                $path = $file->storeAs('products', $file_name, 'oci');
+                $images[]['image'] = $path;
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
             }
         }
 
@@ -126,9 +132,15 @@ class ProductsController extends Controller
                 $images = array();
                 foreach ($request->image as $image) {
                     $file = $image;
+<<<<<<< HEAD
                     $file_name = time().'-'.$file->getClientOriginalName();
                     Storage::disk('public')->putFileAs('products', $file, $file_name);
                     $images[]['image'] = $file_name;
+=======
+                    $file_name = time() . '-' . $file->getClientOriginalName();
+                    $path = $file->storeAs('products', $file_name, 'oci');
+                    $images[]['image'] = $path;
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
                 }
             }
 

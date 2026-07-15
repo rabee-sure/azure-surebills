@@ -34,6 +34,7 @@ use Laravel\Nova\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\Nova\NovaLoginController;
 use App\Models\Transaction;
 use Laravel\Nova\Http\Controllers\LoginController;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**

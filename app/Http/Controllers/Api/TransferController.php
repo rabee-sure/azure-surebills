@@ -8,9 +8,9 @@ use App\Models\Transfer;
 use Illuminate\Http\Request;
 
 class TransferController extends Controller
-{   
+{
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \App\Transfer  $transfer
      * @param  \Illuminate\Http\Request  $request

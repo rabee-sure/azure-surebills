@@ -136,7 +136,7 @@ class FileFieldTest extends IntegrationTest
     public function test_can_correctly_fill_the_main_attribute_and_store_file()
     {
         Storage::fake();
-        Storage::fake('public');
+        Storage::fake();
 
         $model = new Model();
         $field = $this->makeField();
@@ -152,7 +152,7 @@ class FileFieldTest extends IntegrationTest
 
         $this->assertEquals('david.jpg', $model->avatar);
 
-        Storage::disk('public')->assertExists('david.jpg');
+        Storage::assertExists('david.jpg');
     }
 
     public function test_field_is_prunable()

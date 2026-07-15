@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\TranferBillsExcelDownload;
 use App\Nova\Actions\TranferTransactionsExcelDownload;
 use PosLifestyle\DateRangeFilter\DateRangeFilter;
 use App\Nova\Filters\UserName;
@@ -127,7 +126,7 @@ class Transfer extends Resource
 
             Textarea::make(__('Note'), 'note'),
 
-            File::make(__('Attachment'), 'attachment')->disk('public')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])),
+            File::make(__('Attachment'), 'attachment')->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'])),
 
             Files::make('Excel File', 'transfers_transactions')->hideFromIndex()->hideFromDetail(),
 

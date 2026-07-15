@@ -4,9 +4,8 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class RequestTransferMail extends Mailable
@@ -38,19 +37,29 @@ class RequestTransferMail extends Mailable
      */
     public function build()
     {
+<<<<<<< HEAD
         $timestamp = $this->date->timestamp;
         $formate = $this->date->format('l d/m/Y');
         $day = $this->date->format('d-m-Y');
 
         $path = $this->transfer->filters['files']['file_path'] ?? '';
         $attachmentName = basename($path);
+=======
+        $transactionsFilePath = $this->transfer->filters['files']['file_path'];
+        $transactionsFileName = basename($transactionsFilePath);
+        $fileContent = Storage::get($transactionsFilePath);
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
         return $this->subject( $this->user->business_name ." requesting a new transfer - SureBills Transfers")
             ->view('emails.bills.request_transfer', [
                 'user' => $this->user,
                 'transfer' => $this->transfer,
             ])
+<<<<<<< HEAD
             ->attachFromStorageDisk('public', $path, $attachmentName);
+=======
+            ->attachData($fileContent, $transactionsFileName);
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
     }
 
 }

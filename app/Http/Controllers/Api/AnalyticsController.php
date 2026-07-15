@@ -22,7 +22,7 @@ class AnalyticsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -34,7 +34,7 @@ class AnalyticsController extends Controller
 
         $paid_bills = Bill::whereBetween('paid_at', [$from, $to])->paid()->get();
         $refunded_bills = Bill::whereBetween('refunded_at', [$from, $to])->refunded()->get();
-         
+
         $sum_total = $paid_bills->sum('total');
         $sum_surebills_fees = $paid_bills->sum('payment_surebills_fees');
         $sum_surebills_fees_vat = $paid_bills->sum('payment_surebills_fees_vat');
@@ -43,65 +43,65 @@ class AnalyticsController extends Controller
         $total_due_merchants = $paid_bills_not_settled->sum('total') - $paid_bills_not_settled->sum('payment_surebills_fees') - $paid_bills_not_settled->sum('payment_surebills_fees_vat');
         $total_transfers_merchants = Transfer::where('status', 'completed')->whereBetween('created_at', [$from, $to])->sum('amount');
 
-     
+
         $filter = $this->encode([
-            [    
+            [
                 "class"=> "PosLifestyle\DateRangeFilter\DateRangeFilter_created_at",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ]
         ]);
         $filter2 = $this->encode([
-            [    
+            [
                 "class"=> "PosLifestyle\DateRangeFilter\DateRangeFilter_paid_at",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ],
-            [    
+            [
                 "class"=> "App\Nova\Filters\BillStatus",
                 "value" => ["paid"]
             ]
         ]);
         $filter4 = $this->encode([
-            [    
-                "class"=> "PosLifestyle\DateRangeFilter\DateRangeFilter_refunded_at", 
+            [
+                "class"=> "PosLifestyle\DateRangeFilter\DateRangeFilter_refunded_at",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ],
-            [    
+            [
                 "class"=> "App\Nova\Filters\BillStatus",
                 "value" => ["refunded"]
             ]
         ]);
         $filter3 = $this->encode([
-            [    
+            [
                 "class"=> "PosLifestyle\DateRangeFilter\DateRangeFilter_paid_at",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ],
-            // [    
+            // [
             //     "class"=> "App\Nova\Filters\BillSettled",
             //     "value" => 1
             // ]
-        ]);           
+        ]);
 
         $filter5 = $this->encode([
-            [    
+            [
                 "class" => "PosLifestyle\DateRangeFilter\DateRangeFilter_paid_at",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ],
-            // [    
+            // [
             //     "class" => "App\Nova\Filters\BillSettled",
             //     "value" => 2
             // ],
-            [    
+            [
                 "class" => "App\Nova\Filters\BillStatus",
                 "value" => ["paid"]
             ]
         ]);
-        
+
         $filter6 = $this->encode([
-            [    
+            [
                 "class"=> "PosLifestyle\DateRangeFilter\DateRangeFilter_created_at",
                 "value" => [$from->format('Y-m-d'), $to->format('Y-m-d')]
             ],
-            [    
+            [
                 "class" => "App\Nova\Filters\TransferStatus",
                 "value" => ["completed"]
             ]

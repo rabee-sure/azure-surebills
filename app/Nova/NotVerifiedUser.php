@@ -15,8 +15,6 @@ use DigitalCreative\ConditionalContainer\HasConditionalContainer;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use KABBOUCHI\NovaImpersonate\Impersonate;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -112,11 +110,23 @@ class NotVerifiedUser extends Resource
             })->exceptOnForms(),
 
             Image::make(__('Business logo'), 'logo')
+<<<<<<< HEAD
                 ->disk('public')
                 ->path(merchant_logo_disk_path())
                 ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
                 ->preview(fn ($value) => merchant_logo_url($value) ?: '/images/no-image.jpg')
                 ->thumbnail(fn ($value) => merchant_logo_url($value) ?: '/images/no-image.jpg')->disableDownload()->hideWhenUpdating($this->store_main_user_id ? true : false)->hideFromDetail($this->store_main_user_id ? true : false),
+=======
+                ->rules(new ValidateUploadFile(['png', 'jpg', 'jpeg']))
+                ->path('businessـlogo')
+                ->preview(function ($value) {
+                    return addFile($value, 'businessـlogo');
+                })
+                ->thumbnail(function ($value) {
+                    return addFile($value, 'businessـlogo');
+                })
+                ->disableDownload()->hideWhenUpdating($this->store_main_user_id ? true : false)->hideFromDetail($this->store_main_user_id ? true : false),
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
 
             Text::make(__('Balance'), function () {

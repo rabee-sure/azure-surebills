@@ -4,10 +4,10 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\File;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use romanzipp\QueueMonitor\Traits\IsMonitored;
+use Illuminate\Support\Facades\Storage;
 
 class AutoTransferMail extends Mailable implements ShouldQueue
 {
@@ -32,10 +32,12 @@ class AutoTransferMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $fileName = "app/public/automatic_transfers/".date('Y-m-d', strtotime($this->day))."/master_sheet_".date('Y-m-d', strtotime($this->day)).".zip";
+        $path = "automatic_transfers/" . date('Y-m-d', strtotime($this->day)) . "/master_sheet_" . date('Y-m-d', strtotime($this->day)) . ".zip";
+        $fileName = basename($path);
+        $fileContent = Storage::get($path);
 
         return $this->subject("SureBills Master Sheet $this->day")
             ->view('emails.bills.auto_transfer')
-            ->attach(storage_path($fileName));
+            ->attachData($fileContent, $fileName);
     }
 }

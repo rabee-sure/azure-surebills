@@ -19,6 +19,7 @@
     </ol>
   </nav>
 
+<<<<<<< HEAD
   @if ($errors->any())
     <ul class="list-group mb-6">
       @foreach ($errors->all() as $error)
@@ -128,6 +129,52 @@
                 <div class="form-check m-0">
                   <input class="form-check-input" type="checkbox" name="active_lang_ar" id="arabic" @if($user->settings->active_lang  == 'ar'|| $user->settings->active_lang  == 'all' || old('active_lang_ar') == 'on') checked @endif>
                   <label class="form-check-label" for="arabic">{{ __('Arabic') }}</label>
+=======
+          <hr>
+          <div class="name d-block mb-4 fw-bold fs-6">{{ __('Bill UI Customization') }}</div>
+          <div class="row mb-3">
+            <label for="background_color_body" class="col-sm-2 col-form-label">{{ __('Background Color') }}</label>
+            <div class="col-sm-4">
+              <input type="color" name="background_color_body" id="background_color_body" class="color_input w-100" value="{{ $user->settings->background_color_body ?? '#fafafa' }}">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="background_color_body" class="col-sm-2 col-form-label">{{ __('Background Image') }}</label>
+            <div class="col-sm-4">
+              <div class="upoadInput border rounded-3 position-relative overflow-hidden d-flex align-items-center justify-content-start">
+                <input name="background_image_file" type="file" id="background_image_file" class="d-block position-absolute top-0 start-0 w-100 h-100" accept="image/png, image/jpeg, image/jpg">
+                <input type="hidden" name="hidden_background_image_file" value="{{ $user->settings->background_image_file }}" />
+                <div class="fileName h-100 d-flex align-items-center justify-content-start flex-grow-1 px-2"></div>
+                <div class="fileBtn text-body d-flex align-items-center justify-content-center fw-bold">{{ __('Choose file') }}</div>
+              </div><!-- upoadInput -->
+              <small class="text-secondary">{{ __('Maximum image size is 1MB') }}</small>
+              @if($user->settings->background_image_file)
+                <div class="form-group mt-3">
+                  <div class="logoImage p-2 border overflow-hidden rounded-3 position-relative d-flex align-items-center justify-content-center">
+                    <img src="{{ $user->settings->background_image_file }}" alt="background image" class="logo_image mw-100 mh-100" />
+                    <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 delete-background-image" style="z-index: 10;" title="{{ __('Delete Image') }}">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </div><!-- logoImage -->
+                  <input type="hidden" name="delete_background_image" id="delete_background_image" value="0">
+                </div><!-- form-group -->
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade deleteCustomerModal" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteImageModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content border-0 shadow-sm rounded-3">
+                      <div class="modal-body d-flex align-items-center justify-content-center flex-column">
+                        <div class="closeBtn d-flex align-items-center justify-content-end mb-3 w-100">
+                          <button type="button" class="d-flex align-items-center justify-content-center border-0 bg-transparent p-0 text-body fs-4" data-bs-dismiss="modal" aria-label="Close"><i class="fal fa-times-circle"></i></button>
+                        </div><!-- closeBtn -->
+                        <span class="d-block text-center text-body mb-4 fs-5 text-break text-wrap">{{ __("Are you sure you want to delete this image?") }}</span>
+                        <div class="d-flex align-items-center justify-content-center gap-3 form w-100">
+                          <button type="button" class="border-0 shadow-none rounded-3 btn-danger formBtn mx-2" id="confirmDeleteBtn">{{__('Delete')}}</button>
+                          <button type="button" class="border-0 shadow-none rounded-3 btn-light mx-2" data-bs-dismiss="modal">{{__('Close')}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
                 </div>
               </div><!-- col -->
               <div class="col">
@@ -441,6 +488,7 @@
 
       // Delete background image
       $('.delete-background-image').click(function() {
+<<<<<<< HEAD
         var currentButton = $(this);
         var formGroup = $(this).closest('.form-group');
         $('#deleteImageModal').modal('show');
@@ -450,6 +498,34 @@
           $('#deleteImageModal').modal('hide');
         });
       });
+=======
+        // تخزين العنصر الحالي لاستخدامه لاحقًا
+        var currentButton = $(this);
+        var formGroup = $(this).closest('.form-group');
+
+        // عرض الـ Modal
+        $('#deleteImageModal').modal('show');
+
+        // عند الضغط على زر الحذف في الـ Modal
+        $('#confirmDeleteBtn').off('click').on('click', function() {
+          // تنفيذ عملية الحذف
+          $('#delete_background_image').val('1');
+          formGroup.hide();
+
+          // إغلاق الـ Modal
+          $('#deleteImageModal').modal('hide');
+        });
+      });
+      $('#background_image_file').bind('change', function () {
+        var filename = $("#background_image_file").val();
+        if (/^\s*$/.test(filename)) {
+          $(".fileName").text("No file chosen...");
+        }
+        else {
+          $(".fileName").text(filename.replace("C:\\fakepath\\", ""));
+        }
+      });
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
     });
     function toggleLangSelector() {

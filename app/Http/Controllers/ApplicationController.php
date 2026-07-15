@@ -29,7 +29,7 @@ class ApplicationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -57,7 +57,7 @@ class ApplicationController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource .
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Application  $application
@@ -79,7 +79,7 @@ class ApplicationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource.
      *
      * @param  \App\Models\Application  $application
      * @return \Illuminate\Http\Response

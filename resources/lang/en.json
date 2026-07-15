@@ -416,6 +416,7 @@
 "OTP verified successfully": "OTP verified successfully",
 "Failed to resend OTP. Please try again.": "Failed to resend OTP. Please try again.",
 "Are you sure you want to delete this image?": "Are you sure you want to delete this image?",
+<<<<<<< HEAD
 "Please use this form to reset your password.": "Please use this form to reset your password.",
 "Select Payment Status" : "Select Payment Status",
 "Saving..." : "Saving...",
@@ -443,4 +444,8 @@
   "Are you sure you want to delete this element?": "Are you sure you want to delete this element?",
   "footer_text": "Made with",
   "footer_text_2": "by"
+=======
+"no expiration": "no expiration",
+"Until": "Until"
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 }

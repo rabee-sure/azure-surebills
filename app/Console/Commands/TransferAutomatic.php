@@ -8,10 +8,6 @@ use App\Exports\TransactionsExport;
 use App\Exports\TransactionsExportQueued;
 use App\Http\Resources\BillResource;
 use App\Http\Resources\TransactionExportResource;
-use App\Jobs\ExportTransactionsFileJob;
-use App\Jobs\SendAutoTransferMailsJob;
-use App\Jobs\ZipFolderJob;
-use App\Mail\AutoTransferMail;
 use App\Models\AutoTransfer;
 use App\Models\AutoTransferTransfer;
 use App\Models\Bill;
@@ -85,8 +81,14 @@ class TransferAutomatic extends Command
     public function handle(BasicSettingsService $basicSettingsService)
     {
         ini_set('memory_limit','3072M');
+<<<<<<< HEAD
         $settings = $basicSettingsService->getSettings();
         $transfer_automatic = $settings['transfer_automatic'] ?? null;
+=======
+        $settings =  Valuestore::make(getSettings());
+        $transfer_automatic = $settings->get('transfer_automatic');
+        $transfer_days = [];
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
         $transfer_days = collect($this->working_days)->map(function($number, $day) use ($settings){
             if(!empty($settings[$day])){
@@ -94,8 +96,13 @@ class TransferAutomatic extends Command
             }
         })->filter(fn($day) => $day !== null)->toArray();
 
+<<<<<<< HEAD
         $transfer_minimum = (float) ($settings['transfer_minimum'] ?? 0);
         $transfer_emails = $settings['transfer_emails'] ?? '';
+=======
+        $transfer_minimum = $settings->get('transfer_minimum');
+        $transfer_emails = $settings->get('transfer_emails');
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
         $cycleDate = Carbon::now()->startOfDay();
         if($transfer_automatic && in_array($cycleDate->dayOfWeek, array_values($transfer_days)) ){
@@ -144,9 +151,9 @@ class TransferAutomatic extends Command
                 $this->createMasterSheet($transfer_ids, $cycleDate, $transfer_emails);
                 $this->call("transfers:summary", ['id' =>  $transfer_ids, 'auto_transfer_id' => $autoTransfer->id]);
 
-                $autoTransfer->zip_file = Storage::disk('public')->exists($this->folder."/master_sheet_".$this->today.".zip") ? $this->folder."/master_sheet_".$this->today.".zip" : null;
-                $autoTransfer->merchants_file = Storage::disk('public')->exists($this->folder."/merchants_transactions.xlsx") ? $this->folder."/merchants_transactions.xlsx" : null;
-                $autoTransfer->channels_file = Storage::disk('public')->exists($this->folder."/channels_transactions.xlsx") ? $this->folder."/channels_transactions.xlsx" : null;
+                $autoTransfer->zip_file = Storage::exists($this->folder."/master_sheet_".$this->today.".zip") ? $this->folder."/master_sheet_".$this->today.".zip" : null;
+                $autoTransfer->merchants_file = Storage::exists($this->folder."/merchants_transactions.xlsx") ? $this->folder."/merchants_transactions.xlsx" : null;
+                $autoTransfer->channels_file = Storage::exists($this->folder."/channels_transactions.xlsx") ? $this->folder."/channels_transactions.xlsx" : null;
                 $autoTransfer->save();
 
                 foreach($transfer_ids as $transferId)
@@ -187,7 +194,7 @@ class TransferAutomatic extends Command
 
         $merchants_file = $this->folder."/merchants_transactions.xlsx";
         $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
-        Excel::store(new TransactionsExport($data, 'merchants_transactions'), $merchants_file , 'public');
+        Excel::store(new TransactionsExport($data, 'merchants_transactions'), $merchants_file);
     }
 
     public function createChannelsFile($transfer_ids, $day)
@@ -205,7 +212,7 @@ class TransferAutomatic extends Command
         if(count($channel_transactions) > 0)
         {
             $channels_data = json_decode((TransactionExportResource::collection($channel_transactions))->toJson(), true);
-            Excel::store(new TransactionsExport($channels_data, 'channels_transactions'), $channels_file , 'public');
+            Excel::store(new TransactionsExport($channels_data, 'channels_transactions'), $channels_file);
         }
     }
 
@@ -249,10 +256,20 @@ class TransferAutomatic extends Command
 
     public function sendMails($day, $transfer_emails = '')
     {
+<<<<<<< HEAD
         $emails = array_values(array_filter(array_map('trim', explode(',', $transfer_emails ?? ''))));
 
         foreach ($emails as $email) {
             // Mail::to($email)->send(new AutoTransferMail($day));
+=======
+        $settings =  Valuestore::make(getSettings());
+        $transfer_emails = $settings->get('transfer_emails');
+        $emails = explode(",", $transfer_emails);
+        if(count($emails)){
+            foreach ($emails as $email) {
+                // Mail::to($email)->send(new AutoTransferMail($day));
+            }
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
         }
     }
 

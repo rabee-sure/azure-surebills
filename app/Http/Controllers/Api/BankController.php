@@ -29,7 +29,7 @@ class BankController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function updateInformation(UpdateInformationRequest $request)
-    {        
+    {
         $user = $request->user();
 
         $user->update([
@@ -60,7 +60,19 @@ class BankController extends Controller
                 function ($file) use ($uid) {
                     return merchant_bank_document_storage_candidates($file, $uid);
                 }
+<<<<<<< HEAD
             );
+=======
+            }
+
+            $media = $user->bank_documents->pluck('file_name')->toArray();
+
+            foreach ($request->input('document', []) as $file) {
+                if (count($media) === 0 || !in_array($file, $media)) {
+                    $user->addMedia('tmp/uploads/' . $file)->toMediaCollection('bank_documents');
+                }
+            }
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
         }
 
         if ($request->hasFile('logo')) {
@@ -85,7 +97,19 @@ class BankController extends Controller
                 function ($file) use ($uid) {
                     return merchant_business_document_storage_candidates($file, $uid);
                 }
+<<<<<<< HEAD
             );
+=======
+            }
+
+            $media = $user->business_documents->pluck('file_name')->toArray();
+
+            foreach ($request->input('document', []) as $file) {
+                if (count($media) === 0 || !in_array($file, $media)) {
+                    $user->addMedia('tmp/uploads/' . $file)->toMediaCollection('business_documents');
+                }
+            }
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
         }
 
         return new UserInformationResource($user);

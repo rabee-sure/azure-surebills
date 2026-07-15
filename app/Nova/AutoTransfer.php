@@ -3,19 +3,9 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Nova;
-use Spatie\NovaTranslatable\Translatable;
-use App\Events\AddActionLogEvent;
-use Illuminate\Support\Facades\Auth;
 
 class AutoTransfer extends Resource
 {

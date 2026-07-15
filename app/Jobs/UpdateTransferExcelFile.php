@@ -36,7 +36,11 @@ class UpdateTransferExcelFile implements ShouldQueue
      */
     public function handle()
     {
+<<<<<<< HEAD
         $this->transfer->addMediaFromDisk($this->file_name, 'public')
+=======
+        $this->transfer->addMedia($this->file_name)
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
             ->preservingOriginal()
             ->toMediaCollection('transfers_transactions');
     }

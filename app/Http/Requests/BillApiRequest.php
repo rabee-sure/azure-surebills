@@ -101,12 +101,17 @@ class BillApiRequest extends FormRequest
 
             'coupon_code' => ['nullable', 'string', 'max:255'],
             'add_discount' => ['nullable'],
+<<<<<<< HEAD
             'discount_type' => [
                 'nullable',
                 Rule::requiredIf(fn () => $this->input('add_discount') === 'on'),
                 Rule::in(['fixed', 'percentage']),
             ],
             'discount_value' => ['required_if:add_discount,on'],
+=======
+            'discount_type' => ['required_if:add_discount,on', 'required_without:coupon_code', Rule::in(['fixed', 'percentage'])],
+            'discount_value' => ['required_if:add_discount,on', 'required_without:coupon_code'],
+>>>>>>> 79152f3b8ca19cc1464254750d139cfac6ccb9f4
 
             'add_tax' => ['nullable'],
             'tax_value' => ['required_if:add_tax,on'],

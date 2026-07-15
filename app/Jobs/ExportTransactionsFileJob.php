@@ -53,6 +53,6 @@ class ExportTransactionsFileJob implements ShouldQueue
         })->with('bill.application.channel')->get();
         $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
 
-        (new TransactionsExport($data))->store($this->file_name, 'public');
+        (new TransactionsExport($data))->store($this->file_name);
     }
 }
