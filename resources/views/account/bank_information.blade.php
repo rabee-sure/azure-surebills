@@ -49,18 +49,11 @@
             <span class="d-block fs-5 mb-1">{{ __('Upload the required documents') }}</span>
             <span class="text-muted mb-2">{{ __('Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility') }}</span>
           </label>
-          @if($user->disable_bank_documents)
-            <div class="dropzone">
-              @foreach($user->bank_documents as $file)
-                @include('components.file', ['file' => $file])
-              @endforeach
-            </div>
-          @else
-            @include('components.dropzone',[
-              'documents' => merchant_dropzone_documents_payload((int) $user->id, 'bank_documents'),
-              'upload_context' => 'bank_documents',
-            ])
-          @endif
+          @include('components.dropzone',[
+            'documents' => merchant_dropzone_documents_payload((int) $user->id, 'bank_documents'),
+            'upload_context' => 'bank_documents',
+            'readonly' => (bool) $user->disable_bank_documents,
+          ])
         </div><!-- col-12 -->
       </div><!-- row -->
     </div><!-- card-body -->
