@@ -29,7 +29,6 @@
         autocomplete="off"
         placeholder="{{ __('E-Mail Address') }}"
         readonly
-        disabled
         autofocus
       />
       @error('email')
