@@ -25,8 +25,12 @@ class CouponController extends Controller
     {
         $this->couponService = $couponService;
         // Add middleware for permissions if needed
-        // $this->middleware('permission:show coupons', ['only' => ['index', 'show']]);
-        // $this->middleware('permission:create coupons', ['only' => ['create', 'store']]);
+        $this->middleware('permission:show coupons', ['only' => ['index', 'show']]);
+        $this->middleware('permission:create coupons', ['only' => ['create', 'store']]);
+        $this->middleware('permission:bulk generate coupons', ['only' => ['bulkGenerate', 'storeBulkGenerate']]);
+        $this->middleware('permission:export coupons', ['only' => ['export', 'showExport']]);
+        $this->middleware('permission:toggle coupon status', ['only' => ['toggleStatus']]);
+        $this->middleware('permission:delete coupons', ['only' => ['destroy']]);
     }
 
     /**

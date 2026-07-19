@@ -423,10 +423,8 @@
 "Deleting..." : "Deleting...",
 "Suspending..." : "Suspending...",
 "Restoring..." : "Restoring...",
-"Are you sure you want to delete this image?": "Are you sure you want to delete this image?",
 "no expiration": "no expiration",
 "Until": "Until",
-"Restoring..." : "Restoring...",
 "Code Pattern :": "Code Pattern :",
 "Define how your codes should look using placeholders inside { }.": "Define how your codes should look using placeholders inside { }.",
 "Examples :": "Examples :",
@@ -442,5 +440,11 @@
 "No codes have been generated for this coupon yet. Please generate codes first.": "No codes have been generated for this coupon yet. Please generate codes first.",
   "Are you sure you want to delete this element?": "Are you sure you want to delete this element?",
   "footer_text": "Made with",
-  "footer_text_2": "by"
+  "footer_text_2": "by",
+  "show coupons": "Show coupons",
+  "create coupon": "Create coupon",
+  "bulk generate coupons": "Bulk generate coupons",
+  "export coupons": "Export coupons",
+  "toggle coupon status": "Toggle coupon status",
+  "delete coupon": "Delete coupon"
 }

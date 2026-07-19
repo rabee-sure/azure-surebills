@@ -62,7 +62,21 @@
         ${dropzoneReadonly ? '' : '<a class="dz-remove" href="javascript:undefined;" data-dz-remove>{{ __("Remove") }}</a>'}
       </div>
     `;
+    @php
+      $maxUploadMb = 4;
+      $allowedExtensions = ['png', 'jpg', 'jpeg', 'pdf', 'doc', 'docx', 'xlsx', 'csv'];
+      $fileTooBigMessage = __('file max size should be less than or equal', ['value' => $maxUploadMb]);
+      $invalidFileTypeMessage = __('file extension should be in', ['value' => implode(', ', $allowedExtensions)]);
+    @endphp
     var uploadedDocumentMap = {}
+
+    var maxUploadMb = {{ $maxUploadMb }};
+    var maxUploadBytes = maxUploadMb * 1024 * 1024;
+    var fileTooBigMessage = @json($fileTooBigMessage);
+
+    var allowedExtensions = @json($allowedExtensions);
+    var acceptedFilesList = '.' + allowedExtensions.join(',.');
+    var invalidFileTypeMessage = @json($invalidFileTypeMessage);
 
     var dropzoneEl = document.getElementById("dropzone-documents");
     var formEl = dropzoneEl ? dropzoneEl.closest("form") : null;
@@ -73,7 +87,10 @@
       }
       new Dropzone(dropzoneEl, {
         url: "/images-upload",
-        maxFilesize: 5,
+        maxFilesize: maxUploadMb,
+        dictFileTooBig: fileTooBigMessage,
+        acceptedFiles: acceptedFilesList,
+        dictInvalidFileType: invalidFileTypeMessage,
         maxFiles: dropzoneReadonly ? 0 : 5,
         clickable: !dropzoneReadonly,
         disablePreviews: false,
@@ -102,6 +119,14 @@
         },
         error: function (file, errorMessage ) {
           if (dropzoneReadonly) return;
+          var fileExtension = (file.name.split('.').pop() || '').toLowerCase();
+          if (file.size > maxUploadBytes || allowedExtensions.indexOf(fileExtension) === -1) {
+            if (file.previewElement) file.previewElement.remove();
+            this.removeFile(file);
+            var errorMessage = file.size > maxUploadBytes ? fileTooBigMessage : invalidFileTypeMessage;
+            $(".dropzone_error").show().text(errorMessage);
+            return;
+          }
           file.previewElement.classList.add('error_file');
           var errorEl = file.previewElement.querySelector('[data-dz-errormessage]');
           if (errorEl) {
@@ -179,7 +204,8 @@
                     } else {
                       a.href = '/download/' + f.id + '/' + encodeURIComponent(f.file_name);
                     }
-                    a.download = f.file_name || 'download';
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
                     a.style.display = 'none';
                     document.body.appendChild(a);
                     a.click();

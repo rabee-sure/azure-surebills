@@ -38,4 +38,11 @@ return [
     'update settings',
 
     'show payment record',
+
+    'show coupons',
+    'create coupon',
+    'bulk generate coupons',
+    'export coupons',
+    'toggle coupon status',
+    'delete coupon',
 ];
