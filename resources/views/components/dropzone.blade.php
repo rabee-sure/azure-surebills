@@ -1,23 +1,47 @@
+@php
+  $readonly = !empty($readonly);
+@endphp
+
 @push('css_styles')
   <link rel="stylesheet" href="{{ asset('assets/v2/vendor/libs/dropzone/dropzone.css') }}?v={{ config('app.asset_version') }}" />
+  @if($readonly)
+  <style>
+    #dropzone-documents.dz-readonly {
+      pointer-events: auto;
+      cursor: default;
+      min-height: auto;
+    }
+    #dropzone-documents.dz-readonly .dz-message {
+      display: none;
+    }
+    #dropzone-documents.dz-readonly .dz-remove {
+      display: none !important;
+    }
+  </style>
+  @endif
 @endpush
 
-<div class="dropzone needsclick" id="dropzone-documents">
+<div class="dropzone needsclick{{ $readonly ? ' dz-readonly' : '' }}" id="dropzone-documents">
+  @unless($readonly)
   <div class="dz-message needsclick" data-dz-message>
     {{ __('Drop files here to upload') }}
   </div>
+  @endunless
 </div>
 
+@unless($readonly)
 <p class="text-danger mb-3 dropzone_error" role="alert" style="display: none;"></p>
 
 @error('document')
   <p class="text-danger mb-3" role="alert">{{ $message }}</p>
 @enderror
+@endunless
 
 @push('footer-scripts')
   <script src="{{ asset('assets/v2/vendor/libs/dropzone/dropzone.min.js') }}?v={{ config('app.asset_version') }}"></script>
   <script type="text/javascript">
     Dropzone.autoDiscover = false;
+    var dropzoneReadonly = @json($readonly);
     const previewTemplateDiv = `
       <div class="dz-preview dz-file-preview">
         <div class="dz-details cursor-pointer">
@@ -35,7 +59,7 @@
           <div class="dz-filename" data-dz-name></div>
           <div class="dz-size" data-dz-size></div>
         </div>
-        <a class="dz-remove" href="javascript:undefined;" data-dz-remove>{{ __('Remove') }}</a>
+        ${dropzoneReadonly ? '' : '<a class="dz-remove" href="javascript:undefined;" data-dz-remove>{{ __("Remove") }}</a>'}
       </div>
     `;
     var uploadedDocumentMap = {}
@@ -50,11 +74,14 @@
       new Dropzone(dropzoneEl, {
         url: "/images-upload",
         maxFilesize: 5,
-        maxFiles: 5,
+        maxFiles: dropzoneReadonly ? 0 : 5,
+        clickable: !dropzoneReadonly,
+        disablePreviews: false,
         headers: {
           'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
         success: function (file, response) {
+          if (dropzoneReadonly) return;
           var res = response;
           if (typeof res === "string") {
             try {
@@ -74,6 +101,7 @@
           }
         },
         error: function (file, errorMessage ) {
+          if (dropzoneReadonly) return;
           file.previewElement.classList.add('error_file');
           var errorEl = file.previewElement.querySelector('[data-dz-errormessage]');
           if (errorEl) {
@@ -89,6 +117,10 @@
           }
         },
         removedfile: function (file) {
+            if (dropzoneReadonly) {
+              if (file.previewElement) file.previewElement.remove();
+              return;
+            }
             $(".dropzone_error").hide();
             if (file.previewElement) file.previewElement.remove();
             var name = (typeof file.storedPath !== 'undefined' && file.storedPath) ? file.storedPath : uploadedDocumentMap[file.name];
@@ -133,7 +165,7 @@
               }
               mockFile.previewElement.classList.add('dz-complete');
               mockFile.previewElement.setAttribute("id", mockFile.id);
-              if (storedPath) {
+              if (storedPath && !dropzoneReadonly) {
                 $(formEl).append($('<input>', { type: 'hidden', name: 'document[]', value: storedPath }));
               }
               (function(f) {
@@ -156,27 +188,29 @@
                 });
               })(fileData);
             }
-            dz.options.maxFiles = 5 - files.length;
+            dz.options.maxFiles = dropzoneReadonly ? 0 : (5 - files.length);
           @else
-            dz.options.maxFiles = 5;
+            dz.options.maxFiles = dropzoneReadonly ? 0 : 5;
           @endif
-          this.on("maxfilesexceeded", function(file){
-                file.previewElement.remove();
-                this.removeFile(file);
-                $(".dropzone_error").show();
-                $(".dropzone_error").text('{{__("reach the max num of files")}}');
-            });
+          if (!dropzoneReadonly) {
+            this.on("maxfilesexceeded", function(file){
+                  file.previewElement.remove();
+                  this.removeFile(file);
+                  $(".dropzone_error").show();
+                  $(".dropzone_error").text('{{__("reach the max num of files")}}');
+              });
 
-            this.on("sending", function(file, xhr, formData) {
-                $("button[type='submit'], input[type='submit']").attr('disabled', true);
-                @isset($upload_context)
-                formData.append('upload_context', @json($upload_context));
-                @endisset
-            });
+              this.on("sending", function(file, xhr, formData) {
+                  $("button[type='submit'], input[type='submit']").attr('disabled', true);
+                  @isset($upload_context)
+                  formData.append('upload_context', @json($upload_context));
+                  @endisset
+              });
 
-            this.on("complete", function (file) {
-                $("button[type='submit'], input[type='submit']").removeAttr('disabled');
-            });
+              this.on("complete", function (file) {
+                  $("button[type='submit'], input[type='submit']").removeAttr('disabled');
+              });
+          }
         },
         thumbnailWidth: 200,
         previewTemplate: previewTemplateDiv

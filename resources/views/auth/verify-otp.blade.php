@@ -67,7 +67,7 @@
         <div class="invalid-feedback d-block text-danger" role="alert">{{ $message }}</div>
       @enderror
     </div>
-    <button class="btn btn-primary d-grid w-100 mb-6" type="submit">{{ __('Verify') }}</button>
+    <button id="otp-verify-btn" class="btn btn-primary d-grid w-100 mb-6" type="submit" disabled>{{ __('Verify') }}</button>
   </form>
 
   <form method="POST" action="{{ route('otp.resend') }}" id="resend-otp-form" class="text-center">
@@ -89,7 +89,22 @@
     document.addEventListener('DOMContentLoaded', function() {
       var form = document.getElementById('twoStepsForm');
       var hiddenOtp = document.getElementById('otp');
+      var verifyBtn = document.getElementById('otp-verify-btn');
       var inputs = document.querySelectorAll('.numeral-mask-wrapper .numeral-mask');
+      var submitting = false;
+
+      function syncOtpAndToggleVerify() {
+        var otpValue = '';
+        inputs.forEach(function(inp) {
+          otpValue += (inp.value || '').replace(/\D/g, '').slice(0, 1);
+        });
+        if (hiddenOtp) {
+          hiddenOtp.value = otpValue.length === 6 ? otpValue : '';
+        }
+        if (verifyBtn && !submitting) {
+          verifyBtn.disabled = otpValue.length !== 6;
+        }
+      }
 
       // Pre-fill from old('otp') on validation error
       var oldOtp = hiddenOtp && hiddenOtp.value ? String(hiddenOtp.value).replace(/\D/g, '').slice(0, 6) : '';
@@ -98,6 +113,7 @@
           inputs[i].value = oldOtp[i];
         }
       }
+      syncOtpAndToggleVerify();
 
       // Only allow digits in the 6 inputs
       inputs.forEach(function(inp) {
@@ -108,28 +124,38 @@
         });
         inp.addEventListener('input', function() {
           this.value = this.value.replace(/\D/g, '').slice(0, 1);
+          syncOtpAndToggleVerify();
         });
+        inp.addEventListener('keyup', syncOtpAndToggleVerify);
       });
 
-      // Auto-submit when 6 digits are in (after two-steps.js fills the hidden field)
       var wrapper = document.querySelector('.numeral-mask-wrapper');
-      if (wrapper && form) {
-        wrapper.addEventListener('keyup', function() {
-          if (hiddenOtp && hiddenOtp.value.length === 6) {
-            form.submit();
-          }
-        });
-        // Paste: split 6 digits into boxes and update hidden
+      if (wrapper) {
+        // Paste: split digits into boxes (no auto-submit)
         wrapper.addEventListener('paste', function(e) {
           e.preventDefault();
           var pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
-          for (var j = 0; j < pasted.length && j < inputs.length; j++) {
-            inputs[j].value = pasted[j];
+          for (var j = 0; j < inputs.length; j++) {
+            inputs[j].value = pasted[j] || '';
           }
-          if (hiddenOtp) {
-            hiddenOtp.value = pasted;
-            if (pasted.length === 6) form.submit();
+          syncOtpAndToggleVerify();
+        });
+      }
+
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          syncOtpAndToggleVerify();
+          if (!hiddenOtp || hiddenOtp.value.length !== 6) {
+            e.preventDefault();
+            if (verifyBtn) verifyBtn.disabled = true;
+            return;
           }
+          if (submitting) {
+            e.preventDefault();
+            return;
+          }
+          submitting = true;
+          if (verifyBtn) verifyBtn.disabled = true;
         });
       }
     });

@@ -13,10 +13,10 @@
           <i class="icon-base ti ti-info-triangle icon-50px"></i>
         </div>
         @can('deleteMerchantRole', $role)
-          <h5 class="m-0 text-center">{{ __('Are You sure Delete this Role?')}}</h5>
+          <h5 class="m-0 text-center text-wrap">{{ __('Are You sure Delete this Role?')}}</h5>
         @endcan
         @cannot('deleteMerchantRole', $role)
-          <h5 class="m-0 text-center">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</h5>
+          <h5 class="m-0 text-center text-wrap">{{ __('Sorry, you cannot delete this record because it has dependencies')}}</h5>
         @endcannot
       </div><!-- modal-body -->
       <form action="{{ route('roles.destroy', $role->id)}}" method="post" class="modal-footer form-delete-role">

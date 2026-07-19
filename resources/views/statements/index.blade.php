@@ -23,7 +23,7 @@
     <div class="card-body p-3">
       <div class="row row-cols-2 row-cols-md-5 g-3">
         <div class="col">
-          <select name="transaction_type" class="form-control select2-single filter">
+          <select name="transaction_type" class="form-control select2-single filter" data-allow-clear="false">
             <option selected disabled>
               @if(request()->transaction_type == 'debit')
                 {{ __('Debit') }}
@@ -39,7 +39,7 @@
           </select>
         </div><!-- col -->
         <div class="col">
-          <select name="transaction_source" class="form-control select2-single filter" @if(request()->transaction_type != 'credit' && request()->transaction_type != 'debit') disabled @endif>
+          <select name="transaction_source" class="form-control select2-single filter" data-allow-clear="false" @if(request()->transaction_type != 'credit' && request()->transaction_type != 'debit') disabled @endif>
             <option selected disabled>
               @switch(request()->transaction_source)
                 @case('bill')
@@ -91,7 +91,7 @@
         </div><!-- col -->
         @if(count($channels))
           <div class="col">
-            <select name="channel_id" class="form-control select2-single filter">
+            <select name="channel_id" class="form-control select2-single filter" data-allow-clear="false">
               <option selected disabled>
                 @if(isset($channel))
                   {{ $channel->name}}
@@ -106,7 +106,7 @@
             </select>
           </div><!-- col -->
           <div class="col">
-            <select name="application_id" class="form-control select2-single filter" @if(count($applications) == 0) disabled @endif>
+            <select name="application_id" class="form-control select2-single filter" data-allow-clear="false" @if(count($applications) == 0) disabled @endif>
               <option selected disabled>
                 @if(isset($application))
                   {{$application->id}} - {{ $application->user->business_name}}
