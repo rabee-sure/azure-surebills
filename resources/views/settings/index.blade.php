@@ -283,7 +283,14 @@
             <div class="row mb-4">
               <label for="background_image_file" class="col-md-3 col-form-label">{{ __('Background Image') }}</label>
               <div class="col-md-9">
-                <input type="file" name="background_image_file" id="background_image_file" accept="image/*" class="form-control m-0" accept="image/png, image/jpeg, image/jpg">
+                <div class="uploadFiledArea">
+                  <div class="uploadInput">
+                    <div class="fileName"></div>
+                    <div class="fileBtn">{{ __('Choose file') }}</div>
+                  </div><!-- uploadInput -->
+                  <input name="background_image_file" type="file" id="background_image_file" class="position-absolute top-0 start-0 w-100 h-100 opacity-0 z- z-10" accept="image/png, image/jpeg, image/jpg">
+                  <input type="hidden" name="hidden_background_image_file" class="d-none" value="{{ $user->settings->background_image_file }}" />
+                </div><!-- uploadFiledArea -->
                 <small class="text-secondary">{{ __('Maximum image size is 1MB') }}</small>
                 @if($user->settings->background_image_file)
                   <div class="form-group mt-3">
@@ -441,14 +448,31 @@
 
       // Delete background image
       $('.delete-background-image').click(function() {
+        // تخزين العنصر الحالي لاستخدامه لاحقًا
         var currentButton = $(this);
         var formGroup = $(this).closest('.form-group');
+
+        // عرض الـ Modal
         $('#deleteImageModal').modal('show');
+
+        // عند الضغط على زر الحذف في الـ Modal
         $('#confirmDeleteBtn').off('click').on('click', function() {
+          // تنفيذ عملية الحذف
           $('#delete_background_image').val('1');
           formGroup.hide();
+
+          // إغلاق الـ Modal
           $('#deleteImageModal').modal('hide');
         });
+      });
+      $('#background_image_file').bind('change', function () {
+        var filename = $("#background_image_file").val();
+        if (/^\s*$/.test(filename)) {
+          $(".fileName").text("No file chosen...");
+        }
+        else {
+          $(".fileName").text(filename.replace("C:\\fakepath\\", ""));
+        }
       });
 
     });
