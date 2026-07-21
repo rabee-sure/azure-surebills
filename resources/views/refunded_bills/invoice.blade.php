@@ -73,7 +73,7 @@
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">رقم المبني :</td>
                       <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $refundedBill->bill->customer->bullding_no}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Bullding No. :</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Building No. :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">اسم الشارع :</td>
@@ -139,7 +139,7 @@
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">رقم المبني :</td>
                       <td style="border-bottom: 1px solid #000;padding: 5px;text-align: center;direction: ltr;font-weight: normal;font-size: 8pt;width: 50%;">{{ $refundedBill->bill->user->bullding_no}}</td>
-                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Bullding No. :</td>
+                      <td style="border: 1px solid #000;padding: 5px;text-align: left;direction: ltr;font-weight: normal;font-size: 8pt;width: 25%;">Building Number :</td>
                     </tr>
                     <tr>
                       <td style="border: 1px solid #000;padding: 5px;text-align: right;font-weight: normal;font-size: 8pt;width: 25%;">اسم الشارع :</td>
