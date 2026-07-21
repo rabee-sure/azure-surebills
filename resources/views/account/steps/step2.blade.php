@@ -258,7 +258,7 @@
             @if(auth()->user()->source == 'sure bills')
               <div class="col-12">
                 <hr class="mb-6 mt-0" />
-                <label for="commercial_registry_expiry_date" class="form-label d-flex align-items-start justify-content-start flex-column">
+                <label for="required_documents" class="form-label d-flex align-items-start justify-content-start flex-column">
                   <span class="d-block fs-5 mb-1">{{ __('Upload the required documents') }}</span>
                   <span class="text-muted mb-2">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</span>
                 </label>
