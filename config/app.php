@@ -184,7 +184,7 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
-        App\Providers\NovaServiceProvider::class,
+        // PR-01: NovaServiceProvider is registered from AppServiceProvider when NOVA_ENABLED=true.
         App\Providers\RouteServiceProvider::class,
         App\Providers\TranslationServiceProvider::class,
         Multicaret\Unifonic\UnifonicServiceProvider::class,

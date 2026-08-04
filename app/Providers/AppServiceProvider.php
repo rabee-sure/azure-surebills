@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Http\Controllers\Nova\NovaResetPasswordController;
 use App\Models\Application;
 use App\Models\AutoTransfer;
 use App\Models\Transfer;
@@ -30,10 +29,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Nova\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\Nova\NovaLoginController;
 use App\Models\Transaction;
-use Laravel\Nova\Http\Controllers\LoginController;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -47,13 +44,11 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
-        $this->app->bind(LoginController::class, NovaLoginController::class);
-        $this->app->bind(ResetPasswordController::class, NovaResetPasswordController::class);
 
-        // Custom Nova view overrides (published to resources/views/vendor/nova)
-        $novaViews = resource_path('views/vendor/nova');
-        if (is_dir($novaViews)) {
-            $this->loadViewsFrom($novaViews, 'nova');
+        // PR-01: Nova boot path is optional (NOVA_ENABLED). Default false — Nova retired (ADR-014).
+        if ($this->isNovaBootEnabled()) {
+            $this->app->register(NovaServiceProvider::class);
+            $this->registerNovaBindings();
         }
     }
 
@@ -75,7 +70,12 @@ class AppServiceProvider extends ServiceProvider
 
         // Model::preventLazyLoading(! app()->isProduction());
 
-        \Spatie\NovaTranslatable\Translatable::defaultLocales(['en', 'ar']);
+        // PR-01: Gate NovaTranslatable — do not hard-require Nova field package on merchant boot.
+        if ($this->isNovaBootEnabled()
+            && class_exists(\Spatie\NovaTranslatable\Translatable::class)
+        ) {
+            \Spatie\NovaTranslatable\Translatable::defaultLocales(['en', 'ar']);
+        }
 
         AutoTransfer::observe(AutoTransferPolicy::class);
         Transfer::observe(TransferObserver::class);
@@ -137,5 +137,43 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
+    }
+
+    /**
+     * Whether the optional Nova boot path is enabled.
+     *
+     * Default false: merchant boot must not require Nova runtime classes.
+     * Set NOVA_ENABLED=true only for temporary rollback / residual Nova access.
+     */
+    protected function isNovaBootEnabled(): bool
+    {
+        return filter_var(env('NOVA_ENABLED', false), FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Register Nova Login/Reset binds and Nova view overrides when Nova boot is enabled.
+     */
+    protected function registerNovaBindings(): void
+    {
+        if (! class_exists(\Laravel\Nova\Http\Controllers\LoginController::class)
+            || ! class_exists(\Laravel\Nova\Http\Controllers\ResetPasswordController::class)
+        ) {
+            return;
+        }
+
+        $this->app->bind(
+            \Laravel\Nova\Http\Controllers\LoginController::class,
+            \App\Http\Controllers\Nova\NovaLoginController::class
+        );
+        $this->app->bind(
+            \Laravel\Nova\Http\Controllers\ResetPasswordController::class,
+            \App\Http\Controllers\Nova\NovaResetPasswordController::class
+        );
+
+        // Custom Nova view overrides (published to resources/views/vendor/nova)
+        $novaViews = resource_path('views/vendor/nova');
+        if (is_dir($novaViews)) {
+            $this->loadViewsFrom($novaViews, 'nova');
+        }
     }
 }
