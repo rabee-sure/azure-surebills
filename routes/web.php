@@ -277,33 +277,6 @@ Route::middleware(['auth:admins'])->group(function () {
 
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
 
-Route::middleware(config('nova.middleware', []))->group(function () {
-  Route::prefix('nova/jobs')->group(function () {
-    Route::queueMonitor();
-  });
-
-  Route::get('transfers/all', 'TransferController@all');
-
-  /**this routes moved from ['auth', 'mobile.verified', 'profile.completed'] middleware
-   * to config('nova.middleware', []) middleware because it used on nova and nova after apply users and admins features
-   * nova didn't have any "mobile verified" and "profile completed" middlewares
-   * so please if any one need to use route in nova
-   *
-   * we need to ask amr for this middleware security
-   */
-  Route::post('transfers', 'TransferController@store');
-  Route::put('transfers/change_status', 'TransferController@changeStatus');
-  Route::put('transfers/{transfer}/cancel', 'TransferController@cancel');
-
-  Route::post('request_change_status', 'TaxInvoiceRequestController@changeStatus')->name('tax_invoice.change_status');
-
-  //Reports
-  // Route::get('reports', 'ReportsController@index')->name('reports.index');
-  // Route::get('reports/merchants-outstanding', 'ReportsController@merchants_outstanding')->name('reports.merchants-outstanding');
-  // Route::post('reports/merchants-outstanding/store', 'ReportsController@merchants_outstanding_store')->name('reports.merchants-outstanding-store');
-
-});
-
 Route::get('/docs/{page?}', 'DocumentationController@index');
 // Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('process.payment');
 
