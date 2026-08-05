@@ -42,7 +42,7 @@ class ReportInactiveAdmin extends Command
     {
         $email = $basicSettingsService->get('inactive_users_report_emails');
         if($email){
-            $days = config('nova.inactive_period_day');
+            $days = config('admin_hygiene.inactive_period_day');
             $date = date('Y-m-d', strtotime('-'.$days.' days'));
             ExportInactiveAdmins::dispatch($email, $date);
         }
