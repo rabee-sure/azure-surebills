@@ -146,11 +146,4 @@ return [
     */
 
     'currency' => 'USD',
-
-
-    /**
-     * Inactive admin setting (emails are read from basic_settings at runtime)
-     */
-    'inactive_period_day' => 90,
-    'change_password_period_day' => 90
 ];
