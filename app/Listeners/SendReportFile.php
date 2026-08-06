@@ -12,11 +12,9 @@ use App\Exports\ReportExport;
 use App\Jobs\SendMerchantOutstandingRepotEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestReportMail;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class SendReportFile implements ShouldQueue
 {
-    use IsMonitored;
     public $queue;
 
     /**
