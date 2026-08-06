@@ -9,31 +9,16 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "ampeco/nova-date-range-filter": "^0.1.2",
-        "anaseqal/nova-sidebar-icons": "^0.0.3",
-        "bakerkretzmar/nova-settings-tool": "^1.1",
-        "benjacho/belongs-to-many-field": "^2.0",
-        "beyondcode/reports": "*",
-        "chris-ware/nova-breadcrumbs": "^2.0",
-        "codebykyle/calculated-field": "^1.1",
-        "digital-creative/conditional-container": "^1.3",
-        "digital-creative/nova-range-input-filter": "^0.1.5",
-        "ebess/advanced-nova-media-library": "^3.2",
         "fideloper/proxy": "^4.2",
-        "fourstacks/nova-checkboxes": "^0.1.7",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "hashids/hashids": "^4.0",
-        "inspheric/nova-indicator-field": "^1.43",
         "jenssegers/date": "^4.0",
-        "kabbouchi/nova-impersonate": "^1.5",
-        "kpolicar/nova-date-range": "dev-master",
         "laravel-validation-rules/credit-card": "^1.3",
         "laravel/framework": "^8.0",
         "laravel/helpers": "^1.4",
         "laravel/horizon": "^5.0.0",
         "laravel/legacy-factories": "^1.1",
-        "laravel/nova": "*",
         "laravel/passport": "^10.0",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.0",
@@ -42,31 +27,17 @@
         "laravel/vapor-cli": "^1.12",
         "laravel/vapor-core": "^2.10",
         "maatwebsite/excel": "^3.1",
-        "maatwebsite/laravel-nova-excel": "^1.2",
         "multicaret/laravel-unifonic": "^1.0",
-        "naif/toggle": "^1.2",
-        "optimistdigital/nova-multiselect-field": "^2.3",
-        "pdmfc/nova-action-button": "^0.7.4",
-        "pos-lifestyle/laravel-nova-date-range-filter": "^1.3",
         "predis/predis": "^1.1",
         "proengsoft/laravel-jsvalidation": "^4.0",
         "pusher/pusher-php-server": "^4.0",
-        "rcknr/nova-multiselect-filter": "^1.3",
-        "romanzipp/laravel-queue-monitor": "^2.1",
         "salla/zatca": "^2.0",
         "simplesoftwareio/simple-qrcode": "^4.2",
-        "sotechnology/nova-google2fa": "^2.0",
         "spatie/laravel-medialibrary": "^9.0.0",
         "spatie/laravel-permission": "^5.5",
         "spatie/laravel-translatable": "^4.6",
         "spatie/laravel-webhook-server": "^1.11",
-        "spatie/nova-translatable": "^3.0",
-        "sure/home-analytics": "*",
-        "sure/settlements": "*",
-        "sure/userstats": "*",
         "surepay/cybersource-rest-client-php": "dev-master",
-        "timothyasp/nova-badge-field": "^1.0",
-        "titasgailius/search-relations": "^1.0",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.3"
     },
     "require-dev": {
@@ -123,27 +94,5 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "./nova"
-        },
-        {
-            "type": "path",
-            "url": "./nova-components/Settlements"
-        },
-        {
-            "type": "path",
-            "url": "./nova-components/Userstats"
-        },
-        {
-            "type": "path",
-            "url": "./nova-components/HomeAnalytics"
-        },
-        {
-            "type": "path",
-            "url": "./nova-components/Reports"
-        }
-    ]
+    }
 }

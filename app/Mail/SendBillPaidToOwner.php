@@ -6,11 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class SendBillPaidToOwner extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels, IsMonitored;
+    use Queueable, SerializesModels;
 
     public $bill;
     /**

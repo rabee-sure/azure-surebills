@@ -9,11 +9,10 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class RequestReportMail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels, IsMonitored;
+    use Queueable, SerializesModels;
 
     protected $report;
 

@@ -12,11 +12,9 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestReportMail;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class SendBillReportFile implements ShouldQueue
 {
-    use IsMonitored;
     /**
      * Create the event listener.
      *
