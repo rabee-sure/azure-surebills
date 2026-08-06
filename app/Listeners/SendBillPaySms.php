@@ -7,11 +7,9 @@ use App\Services\SMSService;
 use Multicaret\Unifonic\UnifonicFacade;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class SendBillPaySms implements ShouldQueue
 {
-    use IsMonitored;
 
     /**
      * Create the event listener.

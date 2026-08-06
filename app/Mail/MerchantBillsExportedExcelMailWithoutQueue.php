@@ -5,11 +5,10 @@ namespace App\Mail;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class MerchantBillsExportedExcelMailWithoutQueue extends Mailable
 {
-    use SerializesModels, IsMonitored;
+    use SerializesModels;
 
     public $export_storage_path;
 

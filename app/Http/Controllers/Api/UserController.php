@@ -10,26 +10,10 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PosUserResource;
-use App\Http\Resources\UserStatResource;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function stats(User $user)
-    {
-        if (Auth::user()->can('show system admins')) {
-            return new UserStatResource($user);
-        }
-
-        abort(403);
-    }
-
     /**
      * Store a newly created resource in storage.
      *

@@ -1,1 +1,0 @@
-<img src="{{ asset('images/logo-white.svg') }}" alt="Kiwi standing on oval">

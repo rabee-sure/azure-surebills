@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Http\Controllers\Nova\NovaResetPasswordController;
 use App\Models\Application;
 use App\Models\AutoTransfer;
 use App\Models\Transfer;
@@ -30,10 +29,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Nova\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\Nova\NovaLoginController;
 use App\Models\Transaction;
-use Laravel\Nova\Http\Controllers\LoginController;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -46,14 +43,6 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->isLocal()) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
-        }
-        $this->app->bind(LoginController::class, NovaLoginController::class);
-        $this->app->bind(ResetPasswordController::class, NovaResetPasswordController::class);
-
-        // Custom Nova view overrides (published to resources/views/vendor/nova)
-        $novaViews = resource_path('views/vendor/nova');
-        if (is_dir($novaViews)) {
-            $this->loadViewsFrom($novaViews, 'nova');
         }
     }
 
@@ -74,8 +63,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Model::preventLazyLoading(! app()->isProduction());
-
-        \Spatie\NovaTranslatable\Translatable::defaultLocales(['en', 'ar']);
 
         AutoTransfer::observe(AutoTransferPolicy::class);
         Transfer::observe(TransferObserver::class);
