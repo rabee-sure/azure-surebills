@@ -8,8 +8,6 @@ use App\Http\Controllers\PublicMediaController;
 use App\Http\Controllers\StoreUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -260,19 +258,6 @@ Route::middleware(['auth:admins'])->group(function () {
     Route::get('users/{user}/alltransactions', 'TransferController@userallTransactions')->name('users.alltransactions');
     Route::get('users/{user}/bills', 'UserController@bills')->name('users.bills');
     Route::get('users/{user}', 'UserController@show')->name('users.show');
-
-    
-    Route::get('/admin/download/{model_name}/{id}/{file_name}', function ($model_name, $id, $file_name) {
-      // نحول الاسم القادم من Nova لاسم الكلاس الكامل
-      $class = '\\App\\Models\\' . Str::studly($model_name);
-      abort_unless(class_exists($class), 404);
-
-      $record = $class::findOrFail($id);
-
-      abort_unless(Storage::disk('public')->exists($record->$file_name), 404);
-
-      return Storage::disk('public')->download($record->$file_name);
-    })->name('nova.download');
 });
 
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
@@ -284,11 +269,6 @@ Route::middleware('auth')->prefix('api/v1')->group(function () {
     Route::get('charts/bills_paid_amount', 'Api\ChartsController@billsPaidAmount');
     Route::get('charts/bills_paid_count', 'Api\ChartsController@billsPaidCount');
     Route::get('charts/bills_count', 'Api\ChartsController@billsCount');
-});
-
-Route::middleware(['auth:admins'])->prefix('api/v1')->group(function () {
-    Route::get('users/{user}/stats', 'Api\UserController@stats');
-    Route::get('analytics', 'Api\AnalyticsController@index');
 });
 
 Route::post('/password/reset', [\App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])
