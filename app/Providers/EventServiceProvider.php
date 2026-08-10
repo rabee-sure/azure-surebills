@@ -36,18 +36,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserUpdated' => [
             // 'App\Listeners\SPSSendMerchantData',
         ],
-        'App\Events\PosSendBill' => [
-            'App\Listeners\PosSendBillPayEmail',
-        ],
         'App\Events\UserCreated' => [
             'App\Listeners\CreateSettingsForUser',
         ],
         'App\Events\BillStatusUpdated' => [
             'App\Listeners\CallbackApplication',
             'App\Listeners\CalculateOfflinePayment',
-        ],
-        'App\Events\PosBillPaid' => [
-            'App\Listeners\CalculateOfflinePosPayment',
         ],
         'App\Events\BillPaid' => [
             'App\Listeners\CalculatePayment',
@@ -92,9 +86,6 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\GenerateBillReport' => [
             'App\Listeners\SendBillReportFile',
-        ],
-        'App\Events\OrderCreated' => [
-            'App\Listeners\CreateOrderBill',
         ],
         'App\Events\AddActionLogEvent' => [
             'App\Listeners\StoreActionLog',

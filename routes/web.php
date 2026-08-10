@@ -42,10 +42,6 @@ Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLan
 Route::get('impersonate/login', [ImpersonateController::class, 'login'])->name('impersonate.login');
 Route::get('impersonate/leave', [ImpersonateController::class, 'leave'])->middleware('auth')->name('impersonate.leave');
 
-// Route::middleware(['guest'])->group(function () {
-//   Route::get('pos/register', 'UserController@posRegister')->name('pos.register');
-// });
-
 Route::middleware(['web', 'auth'])->prefix('oauth')->group(function () {
   Route::get('/clients', [
     'uses' => 'ClientController@forUser',
@@ -76,8 +72,6 @@ Route::post('/verify-otp', 'Auth\OtpController@verify')->name('otp.verify')->mid
 Route::post('/resend-otp', 'Auth\OtpController@resend')->name('otp.resend')->middleware('throttle:'.config("merchant_otp.throttle_attempts").','.config("merchant_otp.throttle_time"));
 
 Route::get('login-by-secret/{secret}/{secret2}', 'FandaqahOperationsController@loginBySecret');
-
-Route::get('redirect/to/products/via/pos/{uuid}', 'PosController@redirectToProductsViaPos')->name('redirect.to.products.via.pos');
 
 Route::get('user-permissions/{guard?}', 'UserController@getUserPermissions');
 Route::get('merchant-settings', 'UserController@getMerchantsettings');
@@ -141,15 +135,6 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
   Route::post('bills/debit_note/store', 'BillController@storeDebitNote')->name('debitNote.store');
   Route::get('/logs/{log}/', 'PaymentLogController@show')->name('logpage');
 
-  //Zain 24/2/2022 POS Routes
-  // Route::get('pos/categories', 'PosController@categories')->name('pos.categories');
-  // Route::get('pos/products', 'PosController@products')->name('pos.products');
-  // Route::get('pos/discount', 'PosController@discount')->name('pos.discount');
-  // Route::get('pos/quantity', 'PosController@quantity')->name('pos.quantity');
-  // Route::get('pos/pay', 'PosController@pay')->name('pos.pay');
-  // Route::get('pos/bill', 'PosController@bill')->name('pos.bill');
-  // Route::get('pos/client', 'PosController@client')->name('pos.client');
-
   Route::get('customers/search_by_name', 'CustomerController@searchByName')->name('customers.search_name');
   Route::get('customers/search_by_mobile', 'CustomerController@searchByMobile')->name('customers.search_mobile');
 
@@ -179,49 +164,6 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
   Route::get('/integration', 'IntegrationController@index')->name('integration');
   Route::get('/integration/documentation', 'IntegrationController@documentation')->name('integration.documentation');
 
-  // Route::get('categories', 'ProductsController@indexCategory')->name('categories.all');
-  // Route::get('categories/{id}/view', 'ProductsController@viewCategory')->name('categories.view');
-  // Route::get('categories/create', 'ProductsController@createCategory')->name('categories.create');
-  // Route::post('categories/create', 'ProductsController@createCategory');
-  // Route::get('categories/{id}/edit', 'ProductsController@editCategory')->name('categories.edit');
-  // Route::post('categories/{id}/edit', 'ProductsController@editCategory');
-
-  // Route::get('products', 'ProductsController@index')->name('products.all');
-  // Route::get('products/{id}/view', 'ProductsController@view')->name('products.view');
-  // Route::get('products/{id}/edit', 'ProductsController@edit')->name('products.edit');
-  // Route::post('products/{id}/edit', 'ProductsController@edit');
-  // Route::get('products/create', 'ProductsController@create')->name('products.create');
-  // Route::post('products/create', 'ProductsController@create');
-
-  // Route::get('products/settings', 'ProductsController@settings')->name('products.settings');
-
-  Route::prefix('ajax')->group(function () {
-    //Categories
-    // Route::get('categories', 'Api\CategoryController@index')->name('categories.index');
-    // Route::get('categories/all', 'Api\CategoryController@getAll')->name('categories.get-all');
-    // Route::get('top-categories', 'Api\CategoryController@topCategories')->name('categories.top');
-    // Route::get('sub-categories/{parent}', 'Api\CategoryController@subCategories');
-    // Route::post('category/store', 'Api\CategoryController@store')->name('categories.store');
-    // Route::get('categories/{id}', 'Api\CategoryController@show')->name('categories.show');
-    // Route::post('category/{id}/update', 'Api\CategoryController@update')->name('categories.update');
-    // Route::delete('category/{id}/delete', 'Api\CategoryController@delete')->name('categories.delete');
-    // Route::delete('category/{id}/delete-dependency', 'Api\CategoryController@deleteDependency')->name('categories.delete-dependency');
-    // Route::post('categories/delete-move', 'Api\CategoryController@deleteMove')->name('categories.delete-move');
-    // Route::get('category/{id}/childsCount', 'Api\CategoryController@childsCount')->name('categories.childsCount');
-    // Route::get('category/{id}/productsCount', 'Api\CategoryController@productsCount')->name('categories.productsCount');
-    //Products
-    // Route::get('products', 'Api\ProductsController@index')->name('products.index');
-    // Route::get('products/{id}', 'Api\ProductsController@show')->name('products.show');
-    // Route::post('products/store', 'Api\ProductsController@store')->name('products.store');
-    // Route::post('products/{id}/update', 'Api\ProductsController@update')->name('products.update');
-    // Route::delete('products/{id}/delete', 'Api\ProductsController@delete')->name('products.delete');
-  });
-
-  // Orders
-  Route::get('orders', 'OrdersController@index')->name('orders.all');
-  Route::get('orders/view', 'OrdersController@view')->name('orders.view');
-
-  //Payment Record Report
   Route::get('payment_record', 'ReportsController@paymentRecord')->name('reports.paymentRecord');
   Route::get('payment_record/export', 'ReportsController@paymentRecordExport')->name('reports.paymentRecordExport');
 

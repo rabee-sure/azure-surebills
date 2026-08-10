@@ -80,28 +80,6 @@ Route::post('transfers/{transfer}/upload_attachment', 'MediaController@uploadAtt
 Route::prefix('v1')->group(function () {
 	Route::post('onbording', [ZatcaController::class, 'onboarding'])->middleware(['zatca.api'])->name('onbording');
 	Route::post('sent-invoice-to-zatca', [ZatcaController::class, 'sendInvoiveToZatca'])->middleware(['zatca.api'])->name('sent-invoice-to-zatca');
-	Route::group(['middleware' => ['Mutli.auth']], function () {
-		//Categories
-		// Route::get('categories', 'CategoryController@index');
-		// Route::get('categories/all', 'Api\CategoryController@getAll');
-		// Route::get('top-categories', 'CategoryController@topCategories');
-		// Route::get('sub-categories/{parent}', 'CategoryController@subCategories');
-		// Route::post('category/store', 'CategoryController@store');
-		// Route::get('categories/{id}', 'CategoryController@show');
-		// Route::post('category/{id}/update', 'CategoryController@update');
-		// Route::delete('category/{id}/delete', 'CategoryController@delete');
-		// Route::delete('category/{id}/delete-dependency', 'Api\CategoryController@deleteDependency');
-		// Route::post('categoriesdelete-move', 'Api\CategoryController@deleteMove');
-		// Route::get('category/{id}/childsCount', 'Api\CategoryController@childsCount');
-        // Route::get('category/{id}/productsCount', 'Api\CategoryController@productsCount');
-
-		//Products
-		// Route::get('products', 'ProductsController@index');
-		// Route::get('products/{id}', 'ProductsController@show');
-		// Route::post('products/store', 'ProductsController@store');
-		// Route::post('products/{id}/update', 'ProductsController@update');
-		// Route::delete('products/{id}/delete', 'ProductsController@delete');
-	});
 
 	//should send application id and secret
 	Route::group(['middleware' => ['User.from.application']], function () {
@@ -130,24 +108,6 @@ Route::prefix('v1')->group(function () {
 		Route::post('coupons/validate', 'CouponController@validateCoupon')->name('api.coupons.validate');
 		Route::get('coupons', 'CouponController@index')->name('api.coupons.index');
 		Route::get('coupons/{id}', 'CouponController@show')->name('api.coupons.show');
-
-		//POS
-		// Route::get('getAllActiveCategoryAndProducts', 'PosController@getAllActiveCategoryAndProducts');
-		// Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory');
-		// Route::get('getActiveSubCategory/{category_id}', 'PosController@getActiveSubCategory');
-		// Route::get('getActiveCategoryProducts/{category_id}', 'PosController@getActiveCategoryProducts');
-		// Route::get('getActiveProducts', 'PosController@getActiveProducts');
-		// Route::get('getProduct/{product_id}', 'PosController@getProduct');
-		// Route::get('searchForProduct/{keyword}', 'PosController@searchForProduct');
-		// Route::get('searchForCustomer/{name}', 'PosController@searchForCustomer');
-		// Route::post('customerStore', 'PosController@customerStore');
-		// Route::post('orderStore', 'PosController@orderStore');
-		// Route::post('billChangeStatus', 'PosController@billChangeStatus')->middleware('valid_signture');
-		// Route::get('getBills', 'PosController@getBills');
-		// Route::get('getBill/{id}', 'PosController@getBill');
-		// Route::post('sendBillByEmail', 'PosController@sendBillByEmail');
-		// Route::post('setPosUserSetting', 'PosController@setUserSetting');
-        // Route::post('redirectToBillsProducts', 'PosController@redirectToBillsProducts');
   });
 
     // Route::post('fandaqah-register', 'UserController@registerFandaqah');

@@ -140,9 +140,4 @@ class UserController extends Controller
         }
         return abort(401);
     }
-
-    public function posRegister()
-    {
-        return view('auth.register');
-    }
 }
