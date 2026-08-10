@@ -21,9 +21,10 @@ class CreateUser2faTable extends Migration
             $table->text('recovery')->nullable();
             $table->timestamps();
 
+            // Historical Nova-era Google2FA table; FK targets admins (do not DROP in PR-02).
             $table->foreign('user_id')
                 ->references('id')
-                ->on(config('screen2fa.tables.user'));
+                ->on('admins');
         });
     }
 
