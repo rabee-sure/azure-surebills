@@ -25,6 +25,10 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Role' => 'App\Policies\RolePolicy',
         'App\Models\Statement' => 'App\Policies\StatementPolicy',
         'App\Models\Application' => 'App\Policies\ApplicationPolicy',
+        // Explicit hardening (already conventionally discoverable on Laravel 8):
+        'App\Models\Bill' => 'App\Policies\BillPolicy',
+        'App\Models\PaymentLog' => 'App\Policies\PaymentLogPolicy',
+        'App\Models\Transfer' => 'App\Policies\TransferPolicy',
     ];
 
     /**

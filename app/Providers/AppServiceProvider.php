@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Application;
-use App\Models\AutoTransfer;
 use App\Models\Transfer;
 use App\Models\User;
 use App\Models\Bill;
@@ -20,7 +19,6 @@ use App\Observers\MediaObserver;
 use App\Observers\ChannelObserver;
 use App\Observers\BankObserver;
 use App\Observers\TaxInvoiceRequestObserver;
-use App\Policies\AutoTransferPolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -64,7 +62,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Model::preventLazyLoading(! app()->isProduction());
 
-        AutoTransfer::observe(AutoTransferPolicy::class);
+        // AutoTransfer has no Eloquent observer in this codebase.
+        // AutoTransferPolicy must be registered via AuthServiceProvider / Gate, not Model::observe().
         Transfer::observe(TransferObserver::class);
         Transaction::observe(TransactionObserver::class);
         Application::observe(ApplicationObserver::class);
