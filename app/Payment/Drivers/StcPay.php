@@ -4,11 +4,9 @@ namespace App\Payment\Drivers;
 
 use App\Exceptions\InvalidPaymentException;
 use App\Exceptions\PurchaseFailedException;
-use App\Models\PaymentLog;
 use App\Payment\Abstracts\Driver;
 use App\Payment\Contracts\ReceiptInterface;
 use App\Payment\Invoice;
-use App\Payment\Receipt;
 use GuzzleHttp\Client;
 
 class StcPay extends Driver
@@ -42,18 +40,14 @@ class StcPay extends Driver
     }
 
     // Purchase the invoice, save its transactionId and finaly return it.
-    public function purchase() 
+    public function purchase()
     {
-        // Request for a payment transaction id.
-        ...
-            
-        $this->invoice->transactionId($transId);
-        
-        return $transId;
+        // STC purchase integration is intentionally stubbed until configured.
+        throw new PurchaseFailedException('STC Pay purchase is not implemented.');
     }
-    
+
     // Redirect into bank using transactionId, to complete the payment.
-    public function pay() 
+    public function pay()
     {
         // It is better to set bankApiUrl in config/payment.php and retrieve it here:
         $bankUrl = $this->settings->bankApiUrl; // bankApiUrl is the config name.
@@ -64,24 +58,11 @@ class StcPay extends Driver
         // Redirect to the bank.
         return redirect()->to($payUrl);
     }
-    
+
     // Verify the payment (we must verify to ensure that user has paid the invoice).
-    public function verify(): ReceiptInterface 
+    public function verify(): ReceiptInterface
     {
-        $verifyPayment = $this->settings->verifyApiUrl;
-        
-        $verifyUrl = $verifyPayment.$this->invoice->getTransactionId();
-        
-        ...
-        
-        /**
-			Then we send a request to $verifyUrl and if payment is not valid we throw an InvalidPaymentException with a suitable message.
-        **/
-        throw new InvalidPaymentException('a suitable message');
-        
-        /**
-        	We create a receipt for this payment if everything goes normally.
-        **/
-        return new Receipt('stcpay', 'payment_receipt_number');
+        // STC verify integration is intentionally stubbed until configured.
+        throw new InvalidPaymentException('STC Pay verification is not implemented.');
     }
 }
