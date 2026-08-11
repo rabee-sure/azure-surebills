@@ -24,7 +24,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $transactionCheckerInterval = config('cybersource.transaction_checker_command_interval');
         $schedule->command('expire:bill')->everyMinute();
         $schedule->command('delete:uncompleted')->daily();
         $schedule->command('transfer:automatic')->daily();
@@ -33,9 +32,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('admin:report_inactive')->quarterly();
         $schedule->command('admin:block_password')->quarterly();
         $schedule->command('otp:cleanup')->daily();
-        if($transactionCheckerInterval && config('cybersource.transaction_checker_active')){
-            $schedule->command('cybersource:get-transaction-details')->cron($transactionCheckerInterval);
-        }
         if(config('mastercard.webhook_simulation')){
             $schedule->command('mastercard:review-transactions --from='.today()->subDays(1)->format('Y-m-d').' --to='.today()->subDays(1)->format('Y-m-d'))->dailyAt('00:02');
         }

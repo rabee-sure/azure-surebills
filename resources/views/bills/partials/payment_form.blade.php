@@ -1,9 +1,7 @@
 @push('css_styles')
-  @if(config('payment.default_payment_gateway') != 'cybersource')
-    <!-- INCLUDE SESSION.JS JAVASCRIPT LIBRARY -->
-    <script src="{{ config('payment.drivers.mastercard.base_url') }}/form/version/57/merchant/{{ config('payment.drivers.mastercard.merchant_id') }}/session.js"></script>
-    <!-- APPLY CLICK-JACKING STYLING AND HIDE CONTENTS OF THE PAGE -->
-  @endif
+  <!-- INCLUDE SESSION.JS JAVASCRIPT LIBRARY -->
+  <script src="{{ config('payment.drivers.mastercard.base_url') }}/form/version/57/merchant/{{ config('payment.drivers.mastercard.merchant_id') }}/session.js"></script>
+  <!-- APPLY CLICK-JACKING STYLING AND HIDE CONTENTS OF THE PAGE -->
   <style id="antiClickjack">body{display:none !important;}</style>
   <link rel="stylesheet" href="{{ asset('assets/v2/css/payment_form.css') }}">
 @endpush
@@ -79,29 +77,6 @@
         <?php require app_path('Payment/Drivers/MasterCardApplePay/payment-request.js'); ?>
         @endif
         {{-- APPLE PAY VIA MASTERCARD --}}
-
-        @if(config('payment.default_payment_gateway') != 'cybersource')
-            {{--  MasterCard Hosted Session --}}
-            <?php require app_path('Payment/Drivers/MasterCardHostedSession/pay.js'); ?>
-            @if (!isset($sureEasyRendrer))
-                {{-- APPLE PAY VIA MASTERCARD --}}
-                <?php require app_path('Payment/Drivers/MasterCardApplePay/payment-request.js'); ?>
-                {{-- APPLE PAY VIA MASTERCARD --}}
-            @endif
-        @else
-            {{--  Cybersource Hosted Session --}}
-            <?php require app_path('Payment/Drivers/CybersourceHostedSession/pay.js'); ?>
-            @if($microformSessionToken)
-                <?php require app_path('Payment/Drivers/CybersourceHostedSession/payViaToken.js'); ?>
-            @else
-                <?php require app_path('Payment/Drivers/CybersourceHostedSession/payViaCard.js'); ?>
-            @endif
-              @if (!isset($sureEasyRendrer))
-                {{-- APPLE PAY VIA Cybersource --}}
-                <?php require app_path('Payment/Drivers/CybersourceApplePay/payment-request.js'); ?>
-                {{-- APPLE PAY VIA Cybersource --}}
-              @endif
-        @endif
 
 
     </script>

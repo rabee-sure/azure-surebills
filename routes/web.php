@@ -3,7 +3,6 @@
 use App\Application;
 use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\ImpersonateController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PublicMediaController;
 use App\Http\Controllers\StoreUserController;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +24,6 @@ Route::domain(config('payment.invoice_subdomain'))->group(function (){
   Route::get('.well-known/{file}', 'BillSubdomainController@verifyOwnershipForApplePay')->name('verify.applepay.ownership');
   Route::get('/bills/{id}/pay', 'BillController@pay')->name('bill.invoice.subdomain');
   Route::get('/bills/{id}/pay/{lang}', 'BillController@pay')->name('bill.invoice.lang.subdomain');
-  Route::get('payment/otp/{setupAccessToken}', [PaymentController::class, 'otpForm'])->name('payment.otp.form');
   
 });
 
@@ -34,8 +32,6 @@ Route::get('/payment-success', 'BillController@paymentSuccess')->name('paymentsu
 
 // Payments Routes
 Route::any('mastercard-webhook', 'BillController@masterCardWebHookResponse')->name('webhook-success');
-Route::post('payment-webhook', [PaymentController::class, 'handleWebhook'])->name('payment.webhook');
-Route::any('health-check', [PaymentController::class, 'healthCheck'])->name('health.check');
 
 Route::get('/set-lang/{lang}', 'SettingsController@changeLang')->name('changeLang');
 
@@ -205,7 +201,6 @@ Route::middleware(['auth:admins'])->group(function () {
 Route::post('images-upload', 'AccountController@imagesUploadPost')->name('images.upload');
 
 Route::get('/docs/{page?}', 'DocumentationController@index');
-// Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('process.payment');
 
 Route::middleware('auth')->prefix('api/v1')->group(function () {
     Route::get('charts/bills_paid_amount', 'Api\ChartsController@billsPaidAmount');
