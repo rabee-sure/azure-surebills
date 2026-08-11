@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -19,7 +20,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\HasEncryptedAttributes;
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMedia, OAuthenticatable
 {
     use HasFactory, HasApiTokens, Notifiable, InteractsWithMedia, HasRoles, SoftDeletes, HasEncryptedAttributes;
 

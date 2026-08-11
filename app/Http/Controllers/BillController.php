@@ -455,6 +455,10 @@ class BillController extends Controller
     {
         $bill = Bill::decodeId($id);
 
+        if (! $bill) {
+            abort(404);
+        }
+
         // prevent access payment page
         if (!$bill->access_to_pay_page->status) {
             abort(403, $bill->access_to_pay_page->message);

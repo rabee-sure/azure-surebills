@@ -1,5 +1,15 @@
 <?php
 
+use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\ApplePayController;
+use App\Http\Controllers\Api\BillController;
+use App\Http\Controllers\Api\ChannelController;
+use App\Http\Controllers\Api\CouponController;
+use App\Http\Controllers\Api\MasterCardController;
+use App\Http\Controllers\Api\MediaController;
+use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\TransferController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ZatcaController;
 use App\Http\Controllers\Security\CspReportController;
 use Illuminate\Support\Facades\Route;
@@ -17,13 +27,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('csp/report', [CspReportController::class, 'store'])->name('csp.report');
 
-Route::post('applepay/validate', 'ApplePayController@validateMerchant')->name('mastercard.applepay.validate');
-Route::post('applepay/check-payment', 'ApplePayController@checkPayment')->name('mastercard.applepay.check.payment');
-Route::post('mastercard/handle-payment', 'MasterCardController@handlePyament')->name('mastercard.handle.payment');
-Route::post('mastercard/{session}/check-payment', 'MasterCardController@checkPayment')->name('mastercard.3ds');
+Route::post('applepay/validate', [ApplePayController::class, 'validateMerchant'])->name('mastercard.applepay.validate');
+Route::post('applepay/check-payment', [ApplePayController::class, 'checkPayment'])->name('mastercard.applepay.check.payment');
+Route::post('mastercard/handle-payment', [MasterCardController::class, 'handlePyament'])->name('mastercard.handle.payment');
+Route::post('mastercard/{session}/check-payment', [MasterCardController::class, 'checkPayment'])->name('mastercard.3ds');
 
-Route::post('upload', 'MediaController@upload')->name('media.upload');
-Route::post('transfers/{transfer}/upload_attachment', 'MediaController@uploadAttachment');
+Route::post('upload', [MediaController::class, 'upload'])->name('media.upload');
+Route::post('transfers/{transfer}/upload_attachment', [MediaController::class, 'uploadAttachment']);
 
 Route::prefix('v1')->group(function () {
 	Route::post('onbording', [ZatcaController::class, 'onboarding'])->middleware(['zatca.api'])->name('onbording');
@@ -31,38 +41,36 @@ Route::prefix('v1')->group(function () {
 
 	//should send application id and secret
 	Route::group(['middleware' => ['User.from.application']], function () {
-		Route::post('bills/create/wordpress', 'BillController@wordpress')->middleware(['verified.user']);
-		Route::post('bills/create', 'BillController@store')->middleware(['verified.user']);
-		Route::post('bills/{bill}/debitnote/create', 'BillController@storeDebitNote')->middleware(['verified.user']);
-		Route::put('bills/{bill}/cancel', 'BillController@cancel')->middleware(['verified.user']);
-		Route::put('bills/{bill}/timeout', 'BillController@timeout');
-		Route::put('bills/{bill}/refund', 'BillController@refund')->middleware(['verified.user']);
-		Route::post('bills/payment_form', 'BillController@paymentForm')->middleware(['verified.user']);
-		Route::get('bills/{bill}', 'BillController@show');
+		Route::post('bills/create/wordpress', [BillController::class, 'wordpress'])->middleware(['verified.user']);
+		Route::post('bills/create', [BillController::class, 'store'])->middleware(['verified.user']);
+		Route::post('bills/{bill}/debitnote/create', [BillController::class, 'storeDebitNote'])->middleware(['verified.user']);
+		Route::put('bills/{bill}/cancel', [BillController::class, 'cancel'])->middleware(['verified.user']);
+		Route::put('bills/{bill}/timeout', [BillController::class, 'timeout']);
+		Route::put('bills/{bill}/refund', [BillController::class, 'refund'])->middleware(['verified.user']);
+		Route::post('bills/payment_form', [BillController::class, 'paymentForm'])->middleware(['verified.user']);
+		Route::get('bills/{bill}', [BillController::class, 'show']);
 
-		Route::get('transfers/{transfer}/transactions', 'TransferController@transactions');
+		Route::get('transfers/{transfer}/transactions', [TransferController::class, 'transactions']);
 
-		Route::get('transactions', 'TransactionController@index');
-    	Route::get('account/information', 'AccountController@getInformation');
-    	Route::post('account/information', 'AccountController@updateInformation');
+		Route::get('transactions', [TransactionController::class, 'index']);
+    	Route::get('account/information', [AccountController::class, 'getInformation']);
+    	Route::post('account/information', [AccountController::class, 'updateInformation']);
 
 
 	});
 
 	Route::group(['middleware' => ['auth:api']], function () {
 		// Coupons API routes
-		// Controllers resolve under RouteServiceProvider::$api_namespace (App\Http\Controllers\Api).
-		// Do not prefix with "Api\" or the target becomes Api\Api\CouponController.
-		Route::post('coupons/validate', 'CouponController@validateCoupon')->name('api.coupons.validate');
-		Route::get('coupons', 'CouponController@index')->name('api.coupons.index');
-		Route::get('coupons/{id}', 'CouponController@show')->name('api.coupons.show');
+		Route::post('coupons/validate', [CouponController::class, 'validateCoupon'])->name('api.coupons.validate');
+		Route::get('coupons', [CouponController::class, 'index'])->name('api.coupons.index');
+		Route::get('coupons/{id}', [CouponController::class, 'show'])->name('api.coupons.show');
   });
 
-    // Route::post('fandaqah-register', 'UserController@registerFandaqah');
-    Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
+    // Route::post('fandaqah-register', [UserController::class, 'registerFandaqah']);
+    Route::post('fandaqah-update-redirect', [UserController::class, 'updateRedirect']);
 
-    Route::post('channels/{channel}/add-app', 'ChannelController@addApplication');
-    Route::post('channels/{channel}/sub-account', 'ChannelController@subAccount');
-    Route::post('channels/{channel}/transactions', 'ChannelController@transactions');
-    Route::put('channels/{channel}/update_sub_account_payment_fees', 'ChannelController@updateSubAccountPaymentFees');
+    Route::post('channels/{channel}/add-app', [ChannelController::class, 'addApplication']);
+    Route::post('channels/{channel}/sub-account', [ChannelController::class, 'subAccount']);
+    Route::post('channels/{channel}/transactions', [ChannelController::class, 'transactions']);
+    Route::put('channels/{channel}/update_sub_account_payment_fees', [ChannelController::class, 'updateSubAccountPaymentFees']);
 });

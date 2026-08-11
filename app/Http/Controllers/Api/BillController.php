@@ -879,6 +879,10 @@ class BillController extends Controller
 
         $bill = Bill::find($id);
 
+        if (! $bill) {
+            return response()->json(['error' => ['bill' => 'Not found']], 404);
+        }
+
         // prevent access payment page
         if (!$bill->access_to_pay_page->status) {
             return response()->json(['error' => [

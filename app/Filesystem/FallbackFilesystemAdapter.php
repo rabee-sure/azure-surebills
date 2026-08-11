@@ -52,20 +52,40 @@ class FallbackFilesystemAdapter implements CloudContract
      */
     protected function diskForRead(string $path): ?FilesystemAdapter
     {
-        if ($this->primary->exists($path)) {
+        if ($this->diskExists($this->primary, $path)) {
             return $this->primary;
         }
 
-        if ($this->fallback->exists($path)) {
+        if ($this->diskExists($this->fallback, $path)) {
             return $this->fallback;
         }
 
         return null;
     }
 
+    /**
+     * Safe exists check for Flysystem 3: network/API failures on primary must
+     * not abort fallback reads (UnableToCheckFileExistence replaces soft false).
+     */
+    protected function diskExists(FilesystemAdapter $disk, string $path): bool
+    {
+        try {
+            return $disk->exists($path);
+        } catch (\League\Flysystem\UnableToCheckExistence|\League\Flysystem\UnableToCheckFileExistence $e) {
+            return false;
+        } catch (\Throwable $e) {
+            // Preserve prior soft-fail behavior for transient OCI/S3 connectivity issues.
+            if ($disk === $this->primary) {
+                return false;
+            }
+
+            throw $e;
+        }
+    }
+
     public function exists($path): bool
     {
-        return $this->primary->exists($path) || $this->fallback->exists($path);
+        return $this->diskExists($this->primary, $path) || $this->diskExists($this->fallback, $path);
     }
 
     /**
@@ -149,10 +169,10 @@ class FallbackFilesystemAdapter implements CloudContract
         $success = true;
 
         foreach ($paths as $path) {
-            if ($this->primary->exists($path)) {
+            if ($this->diskExists($this->primary, $path)) {
                 $success = $this->primary->delete($path) && $success;
             }
-            if ($this->fallback->exists($path)) {
+            if ($this->diskExists($this->fallback, $path)) {
                 $success = $this->fallback->delete($path) && $success;
             }
         }
@@ -255,17 +275,18 @@ class FallbackFilesystemAdapter implements CloudContract
     }
 
     /**
-     * @param  string|\Illuminate\Http\File|\Illuminate\Http\UploadedFile  $file
+     * @param  string|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|null  $file
      */
-    public function putFile($path, $file, $options = [])
+    public function putFile($path, $file = null, $options = [])
     {
         return $this->primary->putFile($path, $file, $options);
     }
 
     /**
      * @param  string|\Illuminate\Http\File|\Illuminate\Http\UploadedFile  $file
+     * @param  string|null  $name
      */
-    public function putFileAs($path, $file, $name, $options = [])
+    public function putFileAs($path, $file, $name = null, $options = [])
     {
         return $this->primary->putFileAs($path, $file, $name, $options);
     }
