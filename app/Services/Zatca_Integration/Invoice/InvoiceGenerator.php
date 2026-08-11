@@ -1,12 +1,13 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
-use Exception;
 use Allam\Zatca\Cert509XParser;
 use Allam\Zatca\QRCodeString;
 use Allam\Zatca\ZatcaConfig;
 use Allam\Zatca\ZatcaLog;
 use chillerlan\QRCode\QRCode;
+use Exception;
 use GuzzleHttp\Exception\ClientException;
 
 /**
@@ -15,41 +16,70 @@ use GuzzleHttp\Exception\ClientException;
 class InvoiceGenerator
 {
     private $profileID = 'reporting:1.0';
+
     private $invoiceNumber;
+
     private $invoiceUuid;
+
     private $invoiceIssueDate;
+
     private $invoiceIssueTime;
+
     private $invoiceType;
+
     private $invoiceDocumentType;
+
     private $invoiceCurrencyCode;
+
     private $invoiceTaxCurrencyCode;
+
     private $billingReference = null;
+
     private $AdditionalDocumentReference;
+
     private $pih;
+
     private $supplier;
+
     private $client = null;
+
     private $delivery;
+
     private $paymentType;
+
     private $allowanceCharges;
+
     private $returnReason = null;
+
     private $legalMonetaryTotal;
+
     private $taxesTotal;
+
     private $taxSubTotal;
+
     private $invoiceLines;
+
     private $timestamp;
+
     private $certificateEncoded;
+
     private $certificateSecret;
+
     private $privateKey;
-    private  $invoiceDigitalSignature = null;
+
+    private $invoiceDigitalSignature = null;
+
     private $env;
+
     private $language = 'en';
 
     private $qrImage;
 
     public function __construct()
     {
-        $this->timestamp = (new \DateTime())->format('Y-m-d\TH:i:s\Z');
+        $this->timestamp = (new \DateTime)->format('Y-m-d\TH:i:s\Z');
     }
+
     /**
      * Set invoice number
      */
@@ -133,7 +163,7 @@ class InvoiceGenerator
      */
     public function setInvoiceBillingReference($billingReference)
     {
-        if($this->invoiceDocumentType != '388'){
+        if ($this->invoiceDocumentType != '388') {
             $this->billingReference = $billingReference;
         }
 
@@ -204,7 +234,7 @@ class InvoiceGenerator
 
         return $this;
     }
-    
+
     /**
      * Set invoice allowance charges
      */
@@ -221,7 +251,7 @@ class InvoiceGenerator
      */
     public function setInvoiceReturnReason($returnReason)
     {
-        if($this->invoiceDocumentType != '388'){
+        if ($this->invoiceDocumentType != '388') {
             $this->returnReason = $returnReason;
         }
 
@@ -234,9 +264,9 @@ class InvoiceGenerator
     public function getPaymentMeansElement()
     {
         $paymentMeans = [];
-        array_push($paymentMeans,$this->paymentType->getElement());
-        if($this->returnReason){
-            array_push($paymentMeans,$this->returnReason->getElement());
+        array_push($paymentMeans, $this->paymentType->getElement());
+        if ($this->returnReason) {
+            array_push($paymentMeans, $this->returnReason->getElement());
         }
 
         return $paymentMeans;
@@ -269,7 +299,7 @@ class InvoiceGenerator
      */
     public function setInvoiceTaxSubTotal(...$taxSubTotal)
     {
-        array_unshift($taxSubTotal,$this->taxesTotal->getElement());
+        array_unshift($taxSubTotal, $this->taxesTotal->getElement());
         $this->taxSubTotal = $taxSubTotal;
 
         return $this;
@@ -280,7 +310,7 @@ class InvoiceGenerator
      */
     public function setZatcaEnv($env)
     {
-        if(!in_array($env,ZatcaConfig::getEnvironments())){
+        if (! in_array($env, ZatcaConfig::getEnvironments())) {
             throw new Exception('Zatca environment is required');
         }
 
@@ -304,14 +334,14 @@ class InvoiceGenerator
      */
     public function getInvoiceHashBaseEncoded()
     {
-        $xml = (new XmlBuilder())
-        ->build($this->getElement())
-        ->generateAsText();
+        $xml = (new XmlBuilder)
+            ->build($this->getElement())
+            ->generateAsText();
 
-        $xml = str_replace('<?xml version="1.0"?>','',$xml);
-        $xml = str_replace('<cbc:elementToRemoved></cbc:elementToRemoved>','',$xml);
+        $xml = str_replace('<?xml version="1.0"?>', '', $xml);
+        $xml = str_replace('<cbc:elementToRemoved></cbc:elementToRemoved>', '', $xml);
 
-        return base64_encode(hash('sha256',trim($xml),true));
+        return base64_encode(hash('sha256', trim($xml), true));
     }
 
     /**
@@ -330,10 +360,10 @@ class InvoiceGenerator
      */
     public function certificateParser()
     {
-        return (new Cert509XParser())
-        ->setCertificateEncoded($this->certificateEncoded)
-        ->setPrivateKeyEncoded($this->privateKey)
-        ->setCertificateSecret($this->certificateSecret);
+        return (new Cert509XParser)
+            ->setCertificateEncoded($this->certificateEncoded)
+            ->setPrivateKeyEncoded($this->privateKey)
+            ->setCertificateSecret($this->certificateSecret);
     }
 
     /**
@@ -341,9 +371,9 @@ class InvoiceGenerator
      */
     public function getInvoiceDigitalSignature()
     {
-        if(is_null($this->invoiceDigitalSignature)){
-            openssl_sign($this->getInvoiceHashBaseEncoded(), $signature, $this->certificateParser()->getPrivateKeyDecoded(), "sha256");
-            $this->invoiceDigitalSignature =  base64_encode($signature);
+        if (is_null($this->invoiceDigitalSignature)) {
+            openssl_sign($this->getInvoiceHashBaseEncoded(), $signature, $this->certificateParser()->getPrivateKeyDecoded(), 'sha256');
+            $this->invoiceDigitalSignature = base64_encode($signature);
         }
 
         return $this->invoiceDigitalSignature;
@@ -357,22 +387,21 @@ class InvoiceGenerator
         $qrCodeString = new QRCodeString([
             $this->supplier->getVatName(),
             $this->supplier->getVatNumber(),
-            (string)$this->invoiceIssueDate . 'T' . (string)$this->invoiceIssueTime,
-            number_format($this->legalMonetaryTotal->getTaxInclusiveAmount(),2,'.',''),
-            number_format($this->taxesTotal->getTaxTotal(),2,'.',''),
+            (string) $this->invoiceIssueDate.'T'.(string) $this->invoiceIssueTime,
+            number_format($this->legalMonetaryTotal->getTaxInclusiveAmount(), 2, '.', ''),
+            number_format($this->taxesTotal->getTaxTotal(), 2, '.', ''),
             $this->getInvoiceHashBaseEncoded(),
             $this->getInvoiceDigitalSignature(),
             $this->certificateParser()->getCertificatePublicKeyEncoded(),
-            $this->certificateParser()->getCertificateSignature()
+            $this->certificateParser()->getCertificateSignature(),
         ]);
 
         $qrImage = (new QRCode)->render($qrCodeString->toBase64());
         $this->setQrImage($qrImage);
 
-
-        return (new Qr())
-        ->setQrCode($qrCodeString->toBase64())
-        ->getElement();
+        return (new Qr)
+            ->setQrCode($qrCodeString->toBase64())
+            ->getElement();
     }
 
     /**
@@ -391,66 +420,62 @@ class InvoiceGenerator
      */
     public function getInvoiceSignatureElement()
     {
-        return (new Signature())
-        ->getElement();
+        return (new Signature)
+            ->getElement();
     }
 
     /**
      * Set invoice signed properties hash base64 encoded
-     *
      */
     public function GetSignedPropertiesHashEncoded()
     {
-        $ublDefaults = (new UBLExtensions())
-        ->setSigningTimestamp($this->timestamp)
-        ->setCertificateHash($this->certificateParser()->getCertificateHashEncoded())
-        ->setCertificateIssuer($this->certificateParser()->getCertificateIssuerName())
-        ->setCertificateSerialNumber($this->certificateParser()->getCertificateSerialNumber())
-        ->getElement();
+        $ublDefaults = (new UBLExtensions)
+            ->setSigningTimestamp($this->timestamp)
+            ->setCertificateHash($this->certificateParser()->getCertificateHashEncoded())
+            ->setCertificateIssuer($this->certificateParser()->getCertificateIssuerName())
+            ->setCertificateSerialNumber($this->certificateParser()->getCertificateSerialNumber())
+            ->getElement();
 
-        $xml = (new XmlBuilder())
-        ->build($this->getElement($ublDefaults))
-        ->generateAsText();
+        $xml = (new XmlBuilder)
+            ->build($this->getElement($ublDefaults))
+            ->generateAsText();
 
-        //Creating an XMLReader
-        $reader = new \XMLReader();
+        // Creating an XMLReader
+        $reader = new \XMLReader;
         $reader->xml($xml);
-    
-        //Opening a reader
-        while( $reader->read() )
-        {
-            if($reader->name == "xades:QualifyingProperties" && $reader->nodeType === \XmlReader::ELEMENT)
-            {
+
+        // Opening a reader
+        while ($reader->read()) {
+            if ($reader->name == 'xades:QualifyingProperties' && $reader->nodeType === \XmlReader::ELEMENT) {
                 $signedProperties = $reader->readInnerXml();
             }
         }
 
-        //Closing the reader
+        // Closing the reader
         $reader->close();
 
-        return base64_encode(hash('sha256',trim($signedProperties),false));
+        return base64_encode(hash('sha256', trim($signedProperties), false));
     }
 
-    
     /**
      * Get Signed invoice
      */
     public function getSignedInvoiceEncoded()
     {
-        $uBLExtensions = (new UBLExtensions())
-        ->setInvoiceHash($this->getInvoiceHashBaseEncoded())
-        ->setSignedPropertiesHash($this->GetSignedPropertiesHashEncoded())
-        ->setDigitalSignature($this->getInvoiceDigitalSignature())
-        ->setCertificateValue($this->certificateParser()->getCertificateDecoded())
-        ->setSigningTimestamp($this->timestamp)
-        ->setCertificateHash($this->certificateParser()->getCertificateHashEncoded())
-        ->setCertificateIssuer($this->certificateParser()->getCertificateIssuerName())
-        ->setCertificateSerialNumber($this->certificateParser()->getCertificateSerialNumber())
-        ->getElement();
+        $uBLExtensions = (new UBLExtensions)
+            ->setInvoiceHash($this->getInvoiceHashBaseEncoded())
+            ->setSignedPropertiesHash($this->GetSignedPropertiesHashEncoded())
+            ->setDigitalSignature($this->getInvoiceDigitalSignature())
+            ->setCertificateValue($this->certificateParser()->getCertificateDecoded())
+            ->setSigningTimestamp($this->timestamp)
+            ->setCertificateHash($this->certificateParser()->getCertificateHashEncoded())
+            ->setCertificateIssuer($this->certificateParser()->getCertificateIssuerName())
+            ->setCertificateSerialNumber($this->certificateParser()->getCertificateSerialNumber())
+            ->getElement();
 
-        $xml = (new XmlBuilder())
-        ->build($this->getElement($uBLExtensions,true))
-        ->generateAsText();
+        $xml = (new XmlBuilder)
+            ->build($this->getElement($uBLExtensions, true))
+            ->generateAsText();
 
         return trim(base64_encode($xml));
     }
@@ -465,15 +490,15 @@ class InvoiceGenerator
             'uuid' => $this->invoiceUuid,
             'invoice' => $this->getSignedInvoiceEncoded(),
         ];
-        
+
         $url = ZatcaConfig::BaseUrl($this->env);
-        if($isProduction){
-            if($this->invoiceType == '0200000'){
+        if ($isProduction) {
+            if ($this->invoiceType == '0200000') {
                 $url .= '/invoices/reporting/single';
-            }else{
+            } else {
                 $url .= '/invoices/clearance/single';
             }
-        }else{
+        } else {
             $url .= '/compliance/invoices';
         }
 
@@ -484,33 +509,35 @@ class InvoiceGenerator
             'Accept-Language' => $this->language,
             'Accept-Version' => 'V2',
             'Clearance-Status' => '1',
-            'Accept' => 'application/json'
+            'Accept' => 'application/json',
         ];
 
-        if(empty($this->certificateEncoded) || empty($this->certificateSecret)){
+        if (empty($this->certificateEncoded) || empty($this->certificateSecret)) {
             throw new Exception('Zatca Basic Auth is required');
         }
-        $options['auth'] = [$this->certificateEncoded,$this->certificateSecret];
+        $options['auth'] = [$this->certificateEncoded, $this->certificateSecret];
 
         $request = null;
         $response = null;
         $statusCode = 0;
-        
+
         try {
-            $request = $client->request('POST',$url,$options);
+            $request = $client->request('POST', $url, $options);
             $statusCode = $request->getStatusCode();
             $response = json_decode($request->getBody()->getContents());
             $xml = '';
-            if($this->env != 'developer-portal' && $this->invoiceType != '0200000'){
+            if ($this->env != 'developer-portal' && $this->invoiceType != '0200000') {
                 $xml = isset($response->clearedInvoice) ? $response->clearedInvoice : null;
-            }else{
+            } else {
                 $xml = $this->getSignedInvoiceEncoded();
             }
-            return ['success' => true,'response' => $response , 'hash' => $this->getInvoiceHashBaseEncoded() , 'xml' => $xml, 'qrImage' => $this->qrImage];
+
+            return ['success' => true, 'response' => $response, 'hash' => $this->getInvoiceHashBaseEncoded(), 'xml' => $xml, 'qrImage' => $this->qrImage];
         } catch (ClientException $exception) {
-            $statusCode =  $exception->getResponse()->getStatusCode();
+            $statusCode = $exception->getResponse()->getStatusCode();
             $response = json_decode($exception->getResponse()->getBody()->getContents());
-            return ['success' => false,'response' => $response];
+
+            return ['success' => false, 'response' => $response];
         } finally {
             $decodedResponse = json_decode(json_encode($response), true);
 
@@ -520,7 +547,7 @@ class InvoiceGenerator
                 case '388':
                     $model = 'App\Models\Bill';
                     break;
-                    
+
                 case '383':
                     $model = 'App\Models\Bill';
                     break;
@@ -529,10 +556,9 @@ class InvoiceGenerator
                     $model = 'App\Models\RefundedBill';
                     break;
                 default:
-                    # code...
+                    // code...
                     break;
             }
-
 
             $data['parentable_id'] = $this->invoiceUuid;
             $data['model'] = $model;
@@ -542,18 +568,18 @@ class InvoiceGenerator
             $data['response_code'] = $statusCode;
             $data['reporting_status'] = (isset($decodedResponse['reportingStatus'])) ? $decodedResponse['reportingStatus'] : null;
             $data['clearance_status'] = (isset($decodedResponse['clearanceStatus'])) ? $decodedResponse['clearanceStatus'] : null;
-            if(isset($decodedResponse['dispositionMessage'])){
+            if (isset($decodedResponse['dispositionMessage'])) {
                 $data['disposition_message'] = $decodedResponse['dispositionMessage'];
-            }elseif(isset($decodedResponse['DispositionMessage'])){
+            } elseif (isset($decodedResponse['DispositionMessage'])) {
                 $data['disposition_message'] = $decodedResponse['DispositionMessage'];
-            }else{
+            } else {
                 $data['disposition_message'] = null;
             }
             $data['status'] = (isset($decodedResponse['status'])) ? $decodedResponse['status'] : null;
             $data['qrSellert_status'] = (isset($decodedResponse['qrSellertStatus'])) ? $decodedResponse['qrSellertStatus'] : null;
             $data['qrBuyert_status'] = (isset($decodedResponse['qrBuyertStatus'])) ? $decodedResponse['qrBuyertStatus'] : null;
 
-            (new ZatcaLog())->responseLog($data);
+            (new ZatcaLog)->responseLog($data);
         }
     }
 
@@ -586,13 +612,14 @@ class InvoiceGenerator
 
         return $this;
     }
+
     /**
      * The getElement method is called during xml writing.
      */
-    public function getElement($uBLExtensions = [],$forSigning = false)
+    public function getElement($uBLExtensions = [], $forSigning = false)
     {
         return [
-                [
+            [
                 'name' => 'Invoice',
                 'value' => null,
                 'namespaced' => false,
@@ -628,7 +655,7 @@ class InvoiceGenerator
                         'prefix' => null,
                     ],
                 ],
-                'childs' =>  array_merge((count($uBLExtensions) > 0) ? [$uBLExtensions] : [null],[
+                'childs' => array_merge((count($uBLExtensions) > 0) ? [$uBLExtensions] : [null], [
                     ($forSigning) ? null : [
                         'name' => 'elementToRemoved',
                         'value' => '',
@@ -685,7 +712,7 @@ class InvoiceGenerator
                                 'namespace' => null,
                                 'prefix' => null,
                             ],
-                        ]
+                        ],
                     ],
                     [
                         'name' => 'DocumentCurrencyCode',
@@ -701,15 +728,15 @@ class InvoiceGenerator
                         'namespace' => null,
                         'prefix' => 'cbc',
                     ],
-                    (!is_null($this->billingReference)) ? [
+                    (! is_null($this->billingReference)) ? [
                         'name' => 'BillingReference',
                         'value' => null,
                         'namespaced' => true,
                         'namespace' => null,
                         'prefix' => 'cac',
                         'childs' => [
-                            $this->billingReference->getElement()
-                        ]
+                            $this->billingReference->getElement(),
+                        ],
                     ] : null,
                     [
                         'name' => 'AdditionalDocumentReference',
@@ -717,7 +744,7 @@ class InvoiceGenerator
                         'namespaced' => true,
                         'namespace' => null,
                         'prefix' => 'cac',
-                        'childs' => $this->AdditionalDocumentReference->getElement()
+                        'childs' => $this->AdditionalDocumentReference->getElement(),
                     ],
                     [
                         'name' => 'AdditionalDocumentReference',
@@ -725,7 +752,7 @@ class InvoiceGenerator
                         'namespaced' => true,
                         'namespace' => null,
                         'prefix' => 'cac',
-                        'childs' => $this->pih->getElement()
+                        'childs' => $this->pih->getElement(),
                     ],
                     ($forSigning) ? null : [
                         'name' => 'elementToRemoved',
@@ -741,21 +768,21 @@ class InvoiceGenerator
                         'namespace' => null,
                         'prefix' => 'cbc',
                     ],
-                    (!$forSigning) ? null : [
+                    (! $forSigning) ? null : [
                         'name' => 'AdditionalDocumentReference',
                         'value' => null,
                         'namespaced' => true,
                         'namespace' => null,
                         'prefix' => 'cac',
-                        'childs' => $this->getInvoiceQrCodeElement()
+                        'childs' => $this->getInvoiceQrCodeElement(),
                     ],
-                    (!$forSigning) ? null : [
+                    (! $forSigning) ? null : [
                         'name' => 'Signature',
                         'value' => null,
                         'namespaced' => true,
                         'namespace' => null,
                         'prefix' => 'cac',
-                        'childs' => $this->getInvoiceSignatureElement()
+                        'childs' => $this->getInvoiceSignatureElement(),
                     ],
                     [
                         'name' => 'AccountingSupplierParty',
@@ -764,8 +791,8 @@ class InvoiceGenerator
                         'namespace' => null,
                         'prefix' => 'cac',
                         'childs' => [
-                            $this->supplier->getElement()
-                        ]
+                            $this->supplier->getElement(),
+                        ],
                     ],
                     [
                         'name' => 'AccountingCustomerParty',
@@ -773,9 +800,9 @@ class InvoiceGenerator
                         'namespaced' => true,
                         'namespace' => null,
                         'prefix' => 'cac',
-                        'childs' => (!is_null($this->client)) ? [
-                            $this->client->getElement()
-                        ] : null
+                        'childs' => (! is_null($this->client)) ? [
+                            $this->client->getElement(),
+                        ] : null,
                     ],
                     [
                         'name' => 'Delivery',
@@ -784,8 +811,8 @@ class InvoiceGenerator
                         'namespace' => null,
                         'prefix' => 'cac',
                         'childs' => [
-                            $this->delivery->getElement()
-                        ]
+                            $this->delivery->getElement(),
+                        ],
                     ]],
                     [
                         [
@@ -794,12 +821,10 @@ class InvoiceGenerator
                             'namespaced' => true,
                             'namespace' => null,
                             'prefix' => 'cac',
-                            'childs' => $this->getPaymentMeansElement()
-                        ]
-                    ]
-                    ,
-                    $this->allowanceCharges
-                    ,
+                            'childs' => $this->getPaymentMeansElement(),
+                        ],
+                    ],
+                    $this->allowanceCharges,
                     [
                         [
                             'name' => 'TaxTotal',
@@ -808,8 +833,8 @@ class InvoiceGenerator
                             'namespace' => null,
                             'prefix' => 'cac',
                             'childs' => [
-                                $this->taxesTotal->getElement()
-                            ]
+                                $this->taxesTotal->getElement(),
+                            ],
                         ],
                         [
                             'name' => 'TaxTotal',
@@ -817,7 +842,7 @@ class InvoiceGenerator
                             'namespaced' => true,
                             'namespace' => null,
                             'prefix' => 'cac',
-                            'childs' => $this->taxSubTotal
+                            'childs' => $this->taxSubTotal,
                         ],
                         [
                             'name' => 'LegalMonetaryTotal',
@@ -825,11 +850,11 @@ class InvoiceGenerator
                             'namespaced' => true,
                             'namespace' => null,
                             'prefix' => 'cac',
-                            'childs' => $this->legalMonetaryTotal->getElement()
-                        ]
-                    ],$this->invoiceLines) 
+                            'childs' => $this->legalMonetaryTotal->getElement(),
+                        ],
+                    ], $this->invoiceLines),
 
-            ]
+            ],
         ];
     }
 }

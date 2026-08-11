@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -7,11 +8,17 @@ namespace Allam\Zatca\Invoice;
 class LegalMonetaryTotal
 {
     private $totalCurrency;
+
     private $lineExtensionAmount;
+
     private $taxExclusiveAmount;
+
     private $taxInclusiveAmount;
+
     private $allowanceTotalAmount;
+
     private $prepaidAmount;
+
     private $payableAmount;
 
     /**
@@ -78,7 +85,7 @@ class LegalMonetaryTotal
 
         return $this;
     }
-    
+
     /**
      * Set prepaid amount
      */
@@ -109,7 +116,7 @@ class LegalMonetaryTotal
         return [
             [
                 'name' => 'LineExtensionAmount',
-                'value' => number_format($this->lineExtensionAmount,2,'.',''),
+                'value' => number_format($this->lineExtensionAmount, 2, '.', ''),
                 'namespaced' => true,
                 'namespace' => null,
                 'prefix' => 'cbc',
@@ -121,11 +128,11 @@ class LegalMonetaryTotal
                         'namespace' => null,
                         'prefix' => null,
                     ],
-                ]
+                ],
             ],
             [
                 'name' => 'TaxExclusiveAmount',
-                'value' => number_format($this->taxExclusiveAmount,2,'.',''),
+                'value' => number_format($this->taxExclusiveAmount, 2, '.', ''),
                 'namespaced' => true,
                 'namespace' => null,
                 'prefix' => 'cbc',
@@ -137,11 +144,11 @@ class LegalMonetaryTotal
                         'namespace' => null,
                         'prefix' => null,
                     ],
-                ]
+                ],
             ],
             [
                 'name' => 'TaxInclusiveAmount',
-                'value' => number_format($this->taxInclusiveAmount,2,'.',''),
+                'value' => number_format($this->taxInclusiveAmount, 2, '.', ''),
                 'namespaced' => true,
                 'namespace' => null,
                 'prefix' => 'cbc',
@@ -153,11 +160,11 @@ class LegalMonetaryTotal
                         'namespace' => null,
                         'prefix' => null,
                     ],
-                ]
+                ],
             ],
             [
                 'name' => 'AllowanceTotalAmount',
-                'value' => number_format($this->allowanceTotalAmount,2,'.',''),
+                'value' => number_format($this->allowanceTotalAmount, 2, '.', ''),
                 'namespaced' => true,
                 'namespace' => null,
                 'prefix' => 'cbc',
@@ -169,11 +176,11 @@ class LegalMonetaryTotal
                         'namespace' => null,
                         'prefix' => null,
                     ],
-                ]
+                ],
             ],
             [
                 'name' => 'PrepaidAmount',
-                'value' => number_format($this->prepaidAmount,2,'.',''),
+                'value' => number_format($this->prepaidAmount, 2, '.', ''),
                 'namespaced' => true,
                 'namespace' => null,
                 'prefix' => 'cbc',
@@ -185,11 +192,11 @@ class LegalMonetaryTotal
                         'namespace' => null,
                         'prefix' => null,
                     ],
-                ]
+                ],
             ],
             [
                 'name' => 'PayableAmount',
-                'value' => number_format($this->payableAmount,2,'.',''),
+                'value' => number_format($this->payableAmount, 2, '.', ''),
                 'namespaced' => true,
                 'namespace' => null,
                 'prefix' => 'cbc',
@@ -201,7 +208,7 @@ class LegalMonetaryTotal
                         'namespace' => null,
                         'prefix' => null,
                     ],
-                ]
+                ],
             ],
         ];
     }

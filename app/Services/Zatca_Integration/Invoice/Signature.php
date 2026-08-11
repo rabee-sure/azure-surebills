@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -17,7 +18,7 @@ class Signature
                 'value' => 'urn:oasis:names:specification:ubl:signature:Invoice',
                 'namespaced' => true,
                 'namespace' => null,
-                'prefix' => 'cbc'
+                'prefix' => 'cbc',
             ],
             [
                 'name' => 'SignatureMethod',

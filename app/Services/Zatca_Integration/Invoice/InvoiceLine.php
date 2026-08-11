@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -7,15 +8,25 @@ namespace Allam\Zatca\Invoice;
 class InvoiceLine
 {
     private $lineID;
+
     private $lineQuantity;
+
     private $lineSubTotal;
+
     private $lineTaxTotal;
+
     private $lineNetTotal;
+
     private $lineName;
+
     private $linePrice;
+
     private $lineCurrency;
+
     private $lineTaxCategories;
+
     private $lineDiscountReason = ' ';
+
     private $lineDiscountAmount = 0;
 
     /**
@@ -149,7 +160,7 @@ class InvoiceLine
             'value' => $this->lineName,
             'namespaced' => true,
             'namespace' => null,
-            'prefix' => 'cbc',  
+            'prefix' => 'cbc',
         ]);
 
         return [
@@ -164,14 +175,14 @@ class InvoiceLine
                     'value' => $this->lineID,
                     'namespaced' => true,
                     'namespace' => null,
-                    'prefix' => 'cbc', 
+                    'prefix' => 'cbc',
                 ],
                 [
                     'name' => 'InvoicedQuantity',
-                    'value' => number_format($this->lineQuantity,2,'.',''),
+                    'value' => number_format($this->lineQuantity, 2, '.', ''),
                     'namespaced' => true,
                     'namespace' => null,
-                    'prefix' => 'cbc', 
+                    'prefix' => 'cbc',
                     'attributes' => [
                         [
                             'name' => 'unitCode',
@@ -180,14 +191,14 @@ class InvoiceLine
                             'namespace' => null,
                             'prefix' => null,
                         ],
-                    ]
+                    ],
                 ],
                 [
                     'name' => 'LineExtensionAmount',
-                    'value' => number_format($this->lineSubTotal,2,'.',''),
+                    'value' => number_format($this->lineSubTotal, 2, '.', ''),
                     'namespaced' => true,
                     'namespace' => null,
-                    'prefix' => 'cbc', 
+                    'prefix' => 'cbc',
                     'attributes' => [
                         [
                             'name' => 'currencyID',
@@ -196,18 +207,18 @@ class InvoiceLine
                             'namespace' => null,
                             'prefix' => null,
                         ],
-                    ]
+                    ],
                 ],
                 [
                     'name' => 'TaxTotal',
                     'value' => null,
                     'namespaced' => true,
                     'namespace' => null,
-                    'prefix' => 'cac', 
+                    'prefix' => 'cac',
                     'childs' => [
                         [
                             'name' => 'TaxAmount',
-                            'value' => number_format($this->lineTaxTotal,2,'.',''),
+                            'value' => number_format($this->lineTaxTotal, 2, '.', ''),
                             'namespaced' => true,
                             'namespace' => null,
                             'prefix' => 'cbc',
@@ -219,11 +230,11 @@ class InvoiceLine
                                     'namespace' => null,
                                     'prefix' => null,
                                 ],
-                            ]
+                            ],
                         ],
                         [
                             'name' => 'RoundingAmount',
-                            'value' => number_format($this->lineNetTotal,2,'.',''),
+                            'value' => number_format($this->lineNetTotal, 2, '.', ''),
                             'namespaced' => true,
                             'namespace' => null,
                             'prefix' => 'cbc',
@@ -235,28 +246,28 @@ class InvoiceLine
                                     'namespace' => null,
                                     'prefix' => null,
                                 ],
-                            ]
+                            ],
                         ],
-                    ]
+                    ],
                 ],
                 [
                     'name' => 'Item',
                     'value' => null,
                     'namespaced' => true,
                     'namespace' => null,
-                    'prefix' => 'cac', 
-                    'childs' => $this->lineTaxCategories
+                    'prefix' => 'cac',
+                    'childs' => $this->lineTaxCategories,
                 ],
                 [
                     'name' => 'Price',
                     'value' => null,
                     'namespaced' => true,
                     'namespace' => null,
-                    'prefix' => 'cac', 
+                    'prefix' => 'cac',
                     'childs' => [
                         [
                             'name' => 'PriceAmount',
-                            'value' => number_format($this->linePrice,2,'.',''),
+                            'value' => number_format($this->linePrice, 2, '.', ''),
                             'namespaced' => true,
                             'namespace' => null,
                             'prefix' => 'cbc',
@@ -268,35 +279,35 @@ class InvoiceLine
                                     'namespace' => null,
                                     'prefix' => null,
                                 ],
-                            ] 
+                            ],
                         ],
                         [
                             'name' => 'AllowanceCharge',
                             'value' => null,
                             'namespaced' => true,
                             'namespace' => null,
-                            'prefix' => 'cac', 
+                            'prefix' => 'cac',
                             'childs' => [
                                 [
                                     'name' => 'ChargeIndicator',
                                     'value' => 'false',
                                     'namespaced' => true,
                                     'namespace' => null,
-                                    'prefix' => 'cbc',  
+                                    'prefix' => 'cbc',
                                 ],
                                 [
                                     'name' => 'AllowanceChargeReason',
                                     'value' => $this->lineDiscountReason,
                                     'namespaced' => true,
                                     'namespace' => null,
-                                    'prefix' => 'cbc',  
+                                    'prefix' => 'cbc',
                                 ],
                                 [
                                     'name' => 'Amount',
-                                    'value' => number_format($this->lineDiscountAmount,2,'.',''),
+                                    'value' => number_format($this->lineDiscountAmount, 2, '.', ''),
                                     'namespaced' => true,
                                     'namespace' => null,
-                                    'prefix' => 'cbc',  
+                                    'prefix' => 'cbc',
                                     'attributes' => [
                                         [
                                             'name' => 'currencyID',
@@ -305,13 +316,13 @@ class InvoiceLine
                                             'namespace' => null,
                                             'prefix' => null,
                                         ],
-                                    ]
+                                    ],
                                 ],
-                            ]
+                            ],
                         ],
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ];
     }
 }
