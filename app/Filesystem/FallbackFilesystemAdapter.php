@@ -5,17 +5,18 @@ namespace App\Filesystem;
 use Illuminate\Contracts\Filesystem\Cloud as CloudContract;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
-use League\Flysystem\FilesystemInterface;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Reads from primary (OCI) first, then local fallback. Writes always go to primary.
  *
  * Enables zero-downtime migration: existing local files remain readable while new
  * uploads are stored in OCI Object Storage.
+ *
+ * Flysystem note (PR-06): do not type-hint League\Flysystem\FilesystemInterface.
+ * That interface exists only on Flysystem 1.x (Laravel 8). Laravel 12 uses Flysystem 3
+ * (FilesystemOperator). Returning the primary driver's getDriver() without a League
+ * return type keeps this adapter compatible with both stacks after the PR-08 package cutover.
  */
 class FallbackFilesystemAdapter implements CloudContract
 {
@@ -38,8 +39,10 @@ class FallbackFilesystemAdapter implements CloudContract
      * {@see FilesystemAdapter::__call}('getDriver') would forward to the inner
      * Flysystem driver, which has no getDriver() — breaks Spatie Media Library
      * and other packages that expect Laravel's adapter API.
+     *
+     * @return mixed Flysystem 1 FilesystemInterface or Flysystem 3 FilesystemOperator
      */
-    public function getDriver(): FilesystemInterface
+    public function getDriver()
     {
         return $this->primary->getDriver();
     }
