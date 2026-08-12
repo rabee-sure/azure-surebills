@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -7,9 +8,11 @@ namespace Allam\Zatca\Invoice;
 class XmlBuilder
 {
     private $xMLWriter;
-    public function __construct(){
 
-        $this->xMLWriter = new \XMLWriter(); 
+    public function __construct()
+    {
+
+        $this->xMLWriter = new \XMLWriter;
         $this->xMLWriter->openMemory();
         $this->xMLWriter->setIndent(true);
         $this->xMLWriter->setIndentString('    ');
@@ -21,7 +24,7 @@ class XmlBuilder
      */
     public function build($content)
     {
-        $this->arrayToXml($content,$this->xMLWriter);
+        $this->arrayToXml($content, $this->xMLWriter);
         $this->xMLWriter->endDocument();
 
         return $this;
@@ -32,7 +35,7 @@ class XmlBuilder
      */
     public function generateAsText()
     {
-        $outputString = $this->xMLWriter->outputMemory(TRUE);
+        $outputString = $this->xMLWriter->outputMemory(true);
         $this->xMLWriter->flush();
 
         return $outputString;
@@ -41,35 +44,35 @@ class XmlBuilder
     /**
      * Convert nested arrays to xml elements
      */
-    public function arrayToXml($input , $xMLWriter)
+    public function arrayToXml($input, $xMLWriter)
     {
-        foreach($input as $item){
-            if(is_null($item)){
+        foreach ($input as $item) {
+            if (is_null($item)) {
                 continue;
             }
-            if($item['namespaced']){
-                $xMLWriter->startElementNs($item['prefix'],$item['name'],$item['namespace']);
-            }else{
+            if ($item['namespaced']) {
+                $xMLWriter->startElementNs($item['prefix'], $item['name'], $item['namespace']);
+            } else {
                 $xMLWriter->startElement($item['name']);
             }
-            if(isset($item['attributes']) && count($item['attributes']) > 0){
-                foreach($item['attributes'] as $key=>$attribute){
-                    if($attribute['namespaced']){
-                        $xMLWriter->startAttributeNs($attribute['prefix'],$attribute['name'],$attribute['namespace']);
+            if (isset($item['attributes']) && count($item['attributes']) > 0) {
+                foreach ($item['attributes'] as $key => $attribute) {
+                    if ($attribute['namespaced']) {
+                        $xMLWriter->startAttributeNs($attribute['prefix'], $attribute['name'], $attribute['namespace']);
                         $xMLWriter->text($attribute['value']);
                         $xMLWriter->endAttribute();
-                    }else{
+                    } else {
                         $xMLWriter->startAttribute($attribute['name']);
                         $xMLWriter->text($attribute['value']);
                         $xMLWriter->endAttribute();
                     }
                 }
             }
-            if(!isset($item['childs'])){
+            if (! isset($item['childs'])) {
                 $xMLWriter->text($item['value']);
             }
-            if(isset($item['childs']) && count($item['childs']) > 0){
-                $this->arrayToXml($item['childs'],$xMLWriter);
+            if (isset($item['childs']) && count($item['childs']) > 0) {
+                $this->arrayToXml($item['childs'], $xMLWriter);
             }
             $xMLWriter->endElement();
         }

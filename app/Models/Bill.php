@@ -7,7 +7,6 @@ use Hashids\Hashids;
 use Ramsey\Uuid\Uuid;
 use App\Events\BillPaid;
 use App\Traits\UsesUuid;
-use Jenssegers\Date\Date;
 use App\Models\PaymentLog;
 use App\Models\WebhookLog;
 use App\Events\BillRefunded;
@@ -932,8 +931,9 @@ class Bill extends Model
 
     public function dateLocalization()
     {
-        Date::setLocale(app()->getLocale());
-        return Date::parse($this->due_date->format('Y-m-d'))->format('j F Y');
+        return Carbon::parse($this->due_date->format('Y-m-d'))
+            ->locale(app()->getLocale())
+            ->translatedFormat('j F Y');
     }
 
     /**

@@ -108,18 +108,6 @@
         </a>
       </div><!-- col -->
     @endcan
-    {{--  @can('show products')
-      <div class="col">
-        <a href="{{ route('products.all') }}" title="{{ __('Products') }}" class="card h-100">
-          <div class="card-body d-flex align-items-center justify-content-start">
-            <div class="badge rounded p-2 bg-label-primary me-3">
-              <i class="icon-base ti ti-building-store icon-lg"></i>
-            </div>
-            <h6 class="card-title mb-0">{{__('Products')}}</h6>
-          </div>
-        </a>
-      </div><!-- col -->
-    @endcan --}}
     @can('show applications')
       <div class="col">
         <a href="{{ route('integration') }}" title="{{ __('Integration') }}" class="card h-100">

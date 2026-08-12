@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -7,6 +8,7 @@ namespace Allam\Zatca\Invoice;
 class TaxesTotal
 {
     private $taxCurrencyCode;
+
     private $taxTotal;
 
     /**
@@ -48,7 +50,7 @@ class TaxesTotal
     {
         return [
             'name' => 'TaxAmount',
-            'value' => number_format($this->taxTotal,2,'.',''),
+            'value' => number_format($this->taxTotal, 2, '.', ''),
             'namespaced' => true,
             'namespace' => null,
             'prefix' => 'cbc',
@@ -60,7 +62,7 @@ class TaxesTotal
                     'namespace' => null,
                     'prefix' => null,
                 ],
-            ]
+            ],
         ];
     }
 }

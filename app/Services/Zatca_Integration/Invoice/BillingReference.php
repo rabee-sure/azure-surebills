@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -37,8 +38,8 @@ class BillingReference
                     'namespaced' => true,
                     'namespace' => null,
                     'prefix' => 'cbc',
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

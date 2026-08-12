@@ -14,8 +14,6 @@ use Illuminate\Http\Request;
 use App\Payment\Facades\Payment;
 use App\Events\BillStatusUpdated;
 use App\Events\RequestMerchantBillsExport;
-use App\Helpers\BillSignatureHelper;
-use App\Helpers\CybersourceMicroformHandlerHelper;
 use App\Http\Requests\BillRequest;
 use App\Http\Requests\DebitNoteRequest;
 use Illuminate\Support\Facades\DB;
@@ -457,6 +455,10 @@ class BillController extends Controller
     {
         $bill = Bill::decodeId($id);
 
+        if (! $bill) {
+            abort(404);
+        }
+
         // prevent access payment page
         if (!$bill->access_to_pay_page->status) {
             abort(403, $bill->access_to_pay_page->message);
@@ -500,18 +502,7 @@ class BillController extends Controller
 
         $years = [];
         $microformSessionToken = $billSignature = $payTime = null;
-        if(config('payment.default_payment_gateway') == 'cybersource')
-        {
-            $years = range(date('Y'), date('Y') + 10);
-            // $microformSessionToken = CybersourceMicroformHandlerHelper::retrieveMicroformToken();
-            $payTime = now()->unix();
-            $billSignature = BillSignatureHelper::generateSignature($bill, $payTime);
-            $payForm = 'bills.cybersource_pay_form';
-        }
-        else
-        {
-            $payForm = 'bills.mastercard_pay_form';
-        }
+        $payForm = 'bills.mastercard_pay_form';
         $billUiTheme = $this->resolveBillUiTheme($bill);
 
         if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {

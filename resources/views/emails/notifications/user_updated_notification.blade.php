@@ -32,7 +32,7 @@
               @endforeach
             </ul>
             @endif
-            <a href="{{ url('/')}}/nova/resources/users/{{$data['user']}}" title="#" style="display: inline-block;height: 45px;background-color: #2d3748;padding: 0 20px;min-width: 200px;text-align: center;line-height: 45px;border-radius: 4px;text-decoration: none;color: #fff;text-transform: capitalize;">visit merchant account</a>
+            <a href="{{ rtrim(config('app.admin_app_url') ?: config('app.url'), '/') }}/merchants/{{ $data['user'] }}" title="#" style="display: inline-block;height: 45px;background-color: #2d3748;padding: 0 20px;min-width: 200px;text-align: center;line-height: 45px;border-radius: 4px;text-decoration: none;color: #fff;text-transform: capitalize;">visit merchant account</a>
           </div>
         </td>
       </tr>

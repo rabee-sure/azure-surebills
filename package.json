@@ -7,9 +7,7 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production",
-        "build-reports": "cd nova-components/Reports && npm run dev",
-        "build-reports-prod": "cd nova-components/Reports && npm run prod"
+        "production": "mix --production"
     },
     "devDependencies": {
         "autoprefixer": "^10.5.0",

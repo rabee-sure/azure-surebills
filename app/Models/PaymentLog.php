@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Bill;
-use App\Services\CyberSourceService;
 use App\Services\MasterCardSandboxSimulator;
 use App\Services\MasterCardService;
 use Hashids\Hashids;
@@ -92,8 +91,13 @@ class PaymentLog extends Model
 
         if($billPaymentLog != null){
             if($billPaymentLog->provider_name == 'cybersource'){
-                $cyberSourceService = new CyberSourceService;
-                return $cyberSourceService->processRefund($this->bill, $payment, $amount);
+                // Legacy Local/Staging Cybersource test payments only — integration removed in PR-07a.
+                session(['refund_error' => __('Cybersource refunds are no longer supported.')]);
+                \Log::channel('refunded_transactions')->warning('Refund attempted for retired Cybersource payment log', [
+                    'bill_id' => $this->bill->id,
+                    'payment_log_id' => $billPaymentLog->id,
+                ]);
+                return false;
             }elseif($billPaymentLog->provider_name == 'mastercard'){
                 // SANDBOX PAYMENT SIMULATION FOR REFUND (no real MPGS calls)
                 // Check simulation flag directly from config (more reliable than function_exists)

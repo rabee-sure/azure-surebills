@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca;
 
 /**
@@ -28,11 +29,10 @@ class QRCodeString
     /**
      * Get string representing the encoded TLV data structure
      */
-
     public function toString($tag, $length, $value)
     {
 
-        return $this->__toHex($tag) . $this->__toHex($length) . ($value);
+        return $this->__toHex($tag).$this->__toHex($length).($value);
 
     }
 
@@ -41,7 +41,7 @@ class QRCodeString
      */
     public function __toHex($value)
     {
-        return pack("H*", sprintf("%02X", $value));
+        return pack('H*', sprintf('%02X', $value));
     }
 
     /**

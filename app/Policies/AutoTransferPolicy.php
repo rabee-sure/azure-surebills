@@ -44,7 +44,6 @@ class AutoTransferPolicy
      */
     public function viewTransfers(User $user, AutoTransfer $auto_tranfer)
     {
-        // return in_array($user->email, explode(',', env('NOVA_ALLOWED_ADMINS')));;
         return in_array($user->email, explode(',', auth()->user()->email));;
     }
 

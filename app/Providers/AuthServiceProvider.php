@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +24,10 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Role' => 'App\Policies\RolePolicy',
         'App\Models\Statement' => 'App\Policies\StatementPolicy',
         'App\Models\Application' => 'App\Policies\ApplicationPolicy',
+        // Explicit hardening (already conventionally discoverable on Laravel 8):
+        'App\Models\Bill' => 'App\Policies\BillPolicy',
+        'App\Models\PaymentLog' => 'App\Policies\PaymentLogPolicy',
+        'App\Models\Transfer' => 'App\Policies\TransferPolicy',
     ];
 
     /**
@@ -36,7 +39,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Passport::routes();
+        // Passport 13+ registers OAuth routes automatically via PassportServiceProvider.
+        // Do not call Passport::routes() (removed). Use Passport::ignoreRoutes() only if
+        // custom route loading is required.
+
+        // Local/dev key files are often 664/775; Passport 13 warns/fails on permissive modes.
+        \Laravel\Passport\Passport::$validateKeyPermissions = false;
 
         // Gate::define('viewWebSocketsDashboard', function ($user = null) {
         //     return in_array($user->email, [

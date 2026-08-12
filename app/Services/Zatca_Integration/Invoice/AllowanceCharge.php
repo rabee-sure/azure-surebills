@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -7,9 +8,13 @@ namespace Allam\Zatca\Invoice;
 class AllowanceCharge
 {
     private $allowanceChargeCurrency;
+
     private $allowanceChargeIndex;
+
     private $allowanceChargeAmount;
+
     private $allowanceChargeTaxCategory;
+
     private $allowanceChargeTaxPercentage;
 
     /**
@@ -102,7 +107,7 @@ class AllowanceCharge
                 ],
                 [
                     'name' => 'Amount',
-                    'value' => number_format($this->allowanceChargeAmount,2,'.',''),
+                    'value' => number_format($this->allowanceChargeAmount, 2, '.', ''),
                     'namespaced' => true,
                     'namespace' => null,
                     'prefix' => 'cbc',
@@ -183,11 +188,11 @@ class AllowanceCharge
                                         ],
                                     ],
                                 ],
-                            ]
+                            ],
                         ],
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ];
     }
 }

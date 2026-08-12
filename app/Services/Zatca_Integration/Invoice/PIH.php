@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -30,7 +31,7 @@ class PIH
                 'value' => 'PIH',
                 'namespaced' => true,
                 'namespace' => null,
-                'prefix' => 'cbc'
+                'prefix' => 'cbc',
             ],
             [
                 'name' => 'Attachment',
@@ -53,9 +54,9 @@ class PIH
                                 'namespace' => null,
                                 'prefix' => null,
                             ],
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
         ];
     }
