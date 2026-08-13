@@ -1205,5 +1205,6 @@
   "toggle coupon status": "تفعيل/تعطيل الكوبون",
   "delete coupon": "حذف الكوبون",
   "VAT Registration Number must be 15 digits starting with 3 and ending with 3": "الرقم الضريبي يجب أن يكون 15 رقماً بدءاً بـ3 ونهايته بـ3",
-  "You may upload at most 5 documents.": "يمكنك تحميل ما يصل إلى 5 مستندات."
+  "You may upload at most 5 documents.": "يمكنك تحميل ما يصل إلى 5 مستندات.",
+  "didn’t Get The PIN": "لم تحصل على الرمز"
 }
