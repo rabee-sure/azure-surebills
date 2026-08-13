@@ -79,7 +79,7 @@
         </div><!-- col -->
         <div class="col">
           <label for="business_mobile" class="form-label">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
-          <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" inputmode="numeric" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}" pattern="[0-9]*" autocomplete="off">
+          <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" inputmode="numeric" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}" pattern="[0-9]*" maxlength="9" autocomplete="off">
         </div><!-- col -->
         @if(auth()->user()->source == 'sure bills')
           <div class="col">
@@ -93,7 +93,13 @@
         @endif
         <div class="col">
           <label for="logo" class="form-label">{{ __('Logo') }}</label>
-          <input name="logo" type="file" id="logo" class="form-control" accept="image/png, image/jpeg, image/jpg">
+          <div class="uploadFiledArea">
+            <div class="uploadInput">
+              <div class="fileName">{{ __('No file chosen...') }}</div>
+              <div class="fileBtn">{{ __('Choose file') }}</div>
+            </div><!-- uploadInput -->
+            <input name="logo" type="file" id="logo" accept="image/png, image/jpeg, image/jpg">
+          </div><!-- uploadFiledArea -->
           <input type="hidden" name="hidden_logo" value="{{ auth()->user()->logo }}" />
           @if($errors->has('logo'))
             <span id="inputEmail8-error" class="invalid-feedback" style="display: inline;">{{ $errors->first('logo') }}</span>
@@ -254,7 +260,7 @@
     $('#logo').bind('change', function () {
       var filename = $("#logo").val();
       if (/^\s*$/.test(filename)) {
-        $(".fileName").text("No file chosen...");
+        $(".fileName").text("{{ __('No file chosen...') }}");
       }
       else {
         $(".fileName").text(filename.replace("C:\\fakepath\\", ""));

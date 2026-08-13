@@ -732,7 +732,7 @@ class User extends Authenticatable implements HasMedia, OAuthenticatable
         return floorp($balance, 2);
     }
 
-    public function getAuthUser($token = null)
+    public static function getAuthUser($token = null)
     {
         if($token){
             return auth('api')->user();
