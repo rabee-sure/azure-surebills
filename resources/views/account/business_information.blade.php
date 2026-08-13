@@ -79,7 +79,7 @@
         </div><!-- col -->
         <div class="col">
           <label for="business_mobile" class="form-label">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
-          <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" inputmode="numeric" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}" pattern="[0-9]*" autocomplete="off">
+          <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" inputmode="numeric" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}" pattern="[0-9]*" maxlength="9" autocomplete="off">
         </div><!-- col -->
         @if(auth()->user()->source == 'sure bills')
           <div class="col">
