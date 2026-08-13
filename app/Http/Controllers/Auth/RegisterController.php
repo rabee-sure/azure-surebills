@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Rules\EmailFormat;
 use App\Rules\PasswordRule;
 use App\Models\User;
 use Carbon\Carbon;
@@ -56,7 +57,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'business_name_en' => ['required', 'string', 'max:100'],
             'name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email'],
+            'email' => ['required', 'string', 'email', new EmailFormat, 'max:50', 'unique:users,email'],
             'mobile' => ['required', 'unique:users',
                 // 'regex:/^((?:[+?0?0?966]+)(?:\s?\d{2})(?:\s?\d{7}))$/', //Saudi number with +966
                 'regex:/(^[5]{1}[0-9]{8}$)/',
