@@ -3,7 +3,7 @@
 
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-4 mb-6">
       <div class="d-flex flex-column gap-1">
-        <h4 class="mb-0">{{ __('Channel') }} : {{ applications[0].name }}</h4>
+        <h4 class="mb-0">{{ __('Channel') }} : {{ channel_name }}</h4>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb breadcrumb-custom-icon mb-0">
             <li class="breadcrumb-item">

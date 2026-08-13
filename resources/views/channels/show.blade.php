@@ -4,7 +4,7 @@
 
 @section('content')
 
-  <channel-applications :channel_id="{{$channel->id}}" :channel_name="{{$channel->name}}"> </channel-applications>
+  <channel-applications :channel_id="{{$channel->id}}" :channel_name="'{{$channel->name}}'"> </channel-applications>
 @endsection
 
 @push('footer-scripts')
