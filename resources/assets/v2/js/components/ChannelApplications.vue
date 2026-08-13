@@ -14,7 +14,7 @@
               <a href="/channels" :title="__('Channels')">{{ __('Channels')}}</a>
               <i class="breadcrumb-icon icon-base ti ti-chevron-right align-middle icon-xs"></i>
             </li>
-            <li class="breadcrumb-item active">{{ __('Channel') }} : {{ applications[0].name }}</li>
+            <li class="breadcrumb-item active">{{ __('Channel') }} : {{ channel_name }}</li>
           </ol>
         </nav>
       </div><!-- d-flex -->
@@ -231,7 +231,7 @@
 
 <script>
     export default {
-        props: ['channel_id'],
+        props: ['channel_id', 'channel_name'],
         data() {
             return {
                 applications: [],
