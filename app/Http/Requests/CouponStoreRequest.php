@@ -19,6 +19,20 @@ class CouponStoreRequest extends FormRequest
     }
 
     /**
+     * An unchecked checkbox is not submitted by the browser, so the absent
+     * value must be normalized before validation to avoid falling back to
+     * the is_active column default.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'is_active' => $this->boolean('is_active'),
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
