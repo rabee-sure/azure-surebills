@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,7 +27,7 @@ class AccountInformationRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email,'.auth()->user()->id.',id' ],
+            'email' => ['required', 'string', 'email', new EmailFormat(), 'max:50', 'unique:users,email,'.auth()->user()->id.',id' ],
         ];
     }
 }
