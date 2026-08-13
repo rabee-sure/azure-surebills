@@ -637,6 +637,7 @@
 	"Website" : "الموقع الإلكتروني",
 	"Logo" : "الشعار",
 	"Choose file" : "إختر ملف",
+	"No file chosen..." : "لم يتم اختيار ملف...",
 	"license type required" : "نوع الترخيص مطلوب",
 	"business name required" : "الإسم التجاري مطلوب",
 	"business address required" : "العنوان مطلوب",

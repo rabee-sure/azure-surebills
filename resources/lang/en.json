@@ -230,6 +230,7 @@
 "Website" : "Website",
 "Logo" : "Logo",
 "Choose file" : "Choose file",
+"No file chosen..." : "No file chosen...",
 "license type required" : "license type required",
 "business name required" : "business name required",
 "business address required" : "business address required",
