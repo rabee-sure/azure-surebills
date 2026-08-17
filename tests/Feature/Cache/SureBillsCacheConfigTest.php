@@ -18,6 +18,7 @@ class SureBillsCacheConfigTest extends TestCase
         $this->assertArrayHasKey('domains', config('surebills_cache'));
         $this->assertArrayHasKey('ttl', config('surebills_cache'));
         $this->assertArrayHasKey('fail_open', config('surebills_cache'));
+        $this->assertArrayHasKey('log_sample_rate', config('surebills_cache'));
     }
 
     public function test_production_safe_defaults_are_disabled(): void

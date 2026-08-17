@@ -4,7 +4,9 @@ namespace Tests\Unit\Services\Cache;
 
 use App\Services\Cache\CacheKeys;
 use App\Services\Cache\SureBillsCache;
+use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -22,6 +24,7 @@ class SureBillsCacheTest extends TestCase
         config([
             'surebills_cache.enabled' => false,
             'surebills_cache.fail_open' => true,
+            'surebills_cache.log_sample_rate' => 0,
             'surebills_cache.domains' => [
                 'basic_settings' => false,
                 'banks' => false,
@@ -307,5 +310,126 @@ class SureBillsCacheTest extends TestCase
         $resolved = $this->app->make(SureBillsCache::class);
 
         $this->assertInstanceOf(SureBillsCache::class, $resolved);
+    }
+
+    public function test_logging_off_produces_no_cache_logs_on_hit_or_miss(): void
+    {
+        $records = [];
+        $this->captureSureBillsCacheLogs($records);
+
+        config([
+            'surebills_cache.enabled' => true,
+            'surebills_cache.domains.banks' => true,
+            'surebills_cache.log_sample_rate' => 0,
+        ]);
+
+        $this->cache->remember('log-off-key', 60, fn () => 'v1', 'banks');
+        $this->cache->remember('log-off-key', 60, fn () => 'v2', 'banks');
+
+        $this->assertCount(0, $records);
+    }
+
+    public function test_logging_on_records_miss_then_hit_with_hashed_key(): void
+    {
+        $records = [];
+        $this->captureSureBillsCacheLogs($records);
+
+        config([
+            'surebills_cache.enabled' => true,
+            'surebills_cache.domains.banks' => true,
+            'surebills_cache.log_sample_rate' => 1.0,
+        ]);
+
+        $logicalKey = 'log-miss-hit-key';
+        $expectedHash = hash('sha256', $logicalKey);
+
+        $this->cache->remember($logicalKey, 60, fn () => 'from-db', 'banks');
+        $this->cache->remember($logicalKey, 60, fn () => 'should-not-run', 'banks');
+
+        $this->assertTrue(collect($records)->contains(function (MessageLogged $log) use ($expectedHash) {
+            return $log->level === 'info'
+                && $log->message === 'surebills.cache'
+                && ($log->context['result'] ?? null) === 'miss'
+                && ($log->context['op'] ?? null) === 'get'
+                && ($log->context['domain'] ?? null) === 'banks'
+                && ($log->context['app'] ?? null) === 'merchant'
+                && ($log->context['key'] ?? null) === $expectedHash
+                && isset($log->context['ms'])
+                && ! array_key_exists('value', $log->context);
+        }));
+
+        $this->assertTrue(collect($records)->contains(function (MessageLogged $log) use ($expectedHash) {
+            return $log->level === 'info'
+                && $log->message === 'surebills.cache'
+                && ($log->context['result'] ?? null) === 'hit'
+                && ($log->context['key'] ?? null) === $expectedHash
+                && ($log->context['app'] ?? null) === 'merchant';
+        }));
+    }
+
+    public function test_logging_on_records_error_on_redis_failure_and_fail_open(): void
+    {
+        $records = [];
+        $this->captureSureBillsCacheLogs($records);
+
+        config([
+            'surebills_cache.enabled' => true,
+            'surebills_cache.domains.banks' => true,
+            'surebills_cache.fail_open' => true,
+            'surebills_cache.log_sample_rate' => 1.0,
+        ]);
+
+        Cache::shouldReceive('remember')
+            ->once()
+            ->andThrow(new RuntimeException('redis down'));
+
+        $result = $this->cache->remember('log-error-key', 60, fn () => 'db-fallback', 'banks');
+
+        $this->assertSame('db-fallback', $result);
+
+        $this->assertTrue(collect($records)->contains(function (MessageLogged $log) {
+            return $log->level === 'info'
+                && $log->message === 'surebills.cache'
+                && ($log->context['result'] ?? null) === 'error'
+                && ($log->context['op'] ?? null) === 'get'
+                && ($log->context['app'] ?? null) === 'merchant'
+                && ($log->context['key'] ?? null) === hash('sha256', 'log-error-key');
+        }));
+    }
+
+    public function test_logging_off_skips_error_logs(): void
+    {
+        $records = [];
+        $this->captureSureBillsCacheLogs($records);
+
+        config([
+            'surebills_cache.enabled' => true,
+            'surebills_cache.domains.banks' => true,
+            'surebills_cache.fail_open' => true,
+            'surebills_cache.log_sample_rate' => 0,
+        ]);
+
+        Cache::shouldReceive('remember')
+            ->once()
+            ->andThrow(new RuntimeException('redis down'));
+
+        $this->assertSame(
+            'db-fallback',
+            $this->cache->remember('log-error-off', 60, fn () => 'db-fallback', 'banks')
+        );
+
+        $this->assertCount(0, $records);
+    }
+
+    /**
+     * @param  array<int, MessageLogged>  $records
+     */
+    protected function captureSureBillsCacheLogs(array &$records): void
+    {
+        Event::listen(MessageLogged::class, function (MessageLogged $event) use (&$records) {
+            if ($event->message === 'surebills.cache') {
+                $records[] = $event;
+            }
+        });
     }
 }
