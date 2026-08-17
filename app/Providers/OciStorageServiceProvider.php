@@ -12,6 +12,10 @@ class OciStorageServiceProvider extends ServiceProvider
     /**
      * Register the fallback driver in register() so it exists before any
      * other provider boot() calls Storage::disk('public').
+     *
+     * Storage::extend remains the supported Laravel 8 → 12 registration API for
+     * custom disk drivers. Primary/fallback must be concrete FilesystemAdapter
+     * instances (oci / public-local), not nested fallback disks.
      */
     public function register(): void
     {

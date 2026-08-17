@@ -38,7 +38,7 @@ class BlockPasswordForAdmins extends Command
      */
     public function handle()
     {
-        $days = config('nova.change_password_period_day');
+        $days = config('admin_hygiene.change_password_period_day');
         $date = date('Y-m-d', strtotime('-'.$days.' days'));
         $admins = Admin::whereDate('last_change_password_at', '<=', $date)->update(['password_block' => true]);
     }

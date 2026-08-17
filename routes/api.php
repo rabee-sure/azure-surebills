@@ -1,10 +1,17 @@
 <?php
 
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\ApplePayController;
+use App\Http\Controllers\Api\BillController;
+use App\Http\Controllers\Api\ChannelController;
+use App\Http\Controllers\Api\CouponController;
+use App\Http\Controllers\Api\MasterCardController;
+use App\Http\Controllers\Api\MediaController;
+use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\TransferController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ZatcaController;
 use App\Http\Controllers\Security\CspReportController;
-use App\Services\CyberSourceService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,142 +24,53 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-/**
- * Routes for test must remove on production
- */
 
-// Route::post('reverse-transaction-simulation', function(Request $request){
-// 	// dd($request->header('secret-key'), $request->transaction_id);
-// 	if($request->header('secret-key') != "c8080539-ce2b-471e-8c18-d5a073ee6471"){
-// 		return response()->json('unauthorized', 422);
-// 	}
-
-// 	$cyberSourceService = new CyberSourceService;
-// 	$transactionDetails = $cyberSourceService->checkTransaction($request->transaction_id);
-// 	$completePaymentCycle = $cyberSourceService->createRevirseTransaction($transactionDetails);
-// 	if ($completePaymentCycle['status']) {
-// 		return response()->json($completePaymentCycle['type'].' TRANSACTION SUCCESS', 200);
-// 	} else {
-// 		return response()->json($completePaymentCycle['type'].' TRANSACTION REVERSED', 200);
-// 	}
-// });
-// end test routes
-Route::post('payment-webhook', [PaymentController::class, 'handleWebhook'])->name('api.payment.webhook');
-Route::any('health-check', [PaymentController::class, 'healthCheck'])->name('api.health.check');
 Route::post('csp/report', [CspReportController::class, 'store'])->name('csp.report');
 
-Route::post('payment', [PaymentController::class, 'processPayment']);
-Route::post('refund/{transactionId}', [PaymentController::class, 'processRefund']);
+Route::post('applepay/validate', [ApplePayController::class, 'validateMerchant'])->name('mastercard.applepay.validate');
+Route::post('applepay/check-payment', [ApplePayController::class, 'checkPayment'])->name('mastercard.applepay.check.payment');
+Route::post('mastercard/handle-payment', [MasterCardController::class, 'handlePyament'])->name('mastercard.handle.payment');
+Route::post('mastercard/{session}/check-payment', [MasterCardController::class, 'checkPayment'])->name('mastercard.3ds');
 
-Route::post('applepay/validate', 'ApplePayController@validateMerchant')->name('mastercard.applepay.validate');
-Route::post('applepay/check-payment', 'ApplePayController@checkPayment')->name('mastercard.applepay.check.payment');
-Route::post('mastercard/handle-payment', 'MasterCardController@handlePyament')->name('mastercard.handle.payment');
-Route::post('mastercard/{session}/check-payment', 'MasterCardController@checkPayment')->name('mastercard.3ds');
-
-/**
- * Cybersource Routes
- */
-
-// Apple Pay
-Route::post('cybersource/applepay/validate', [PaymentController::class, 'validateApplePayMerchant'])->name('applepay.validate');
-Route::post('cybersource/applepay/check-payment', 'CybersourceApplePayController@checkPayment')->name('applepay.check-payment');
-
-// Payer Setup
-Route::post('payer-auth-setup', [PaymentController::class, 'payerAuthSetup'])->name('cybersource.payerAuth.setup');
-
-// Enrollement
-Route::post('payer-auth-enrollment', [PaymentController::class, 'checkPayerAuthEnrollment'])->name('cybersource.payerAuth.enrollment.check');
-
-// Callback after enrollement
-Route::any('callback-after-enrollement/{billId}/{applePay?}', [PaymentController::class, 'callbackAfterEnrollement'])->name('cybersource.callback.after.enrollement');
-
-// Validation check
-Route::post('payer-auth-validation-results', [PaymentController::class, 'validateAuthenticationResults'])->name('cybersource.payerAuth.validation.results');
-
-// Payment
-Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('process.payment');
-
-// End Cybersource Routes
-
-Route::post('upload', 'MediaController@upload')->name('media.upload');
-Route::post('transfers/{transfer}/upload_attachment', 'MediaController@uploadAttachment');
+Route::post('upload', [MediaController::class, 'upload'])->name('media.upload');
+Route::post('transfers/{transfer}/upload_attachment', [MediaController::class, 'uploadAttachment']);
 
 Route::prefix('v1')->group(function () {
 	Route::post('onbording', [ZatcaController::class, 'onboarding'])->middleware(['zatca.api'])->name('onbording');
 	Route::post('sent-invoice-to-zatca', [ZatcaController::class, 'sendInvoiveToZatca'])->middleware(['zatca.api'])->name('sent-invoice-to-zatca');
-	Route::group(['middleware' => ['Mutli.auth']], function () {
-		//Categories
-		// Route::get('categories', 'CategoryController@index');
-		// Route::get('categories/all', 'Api\CategoryController@getAll');
-		// Route::get('top-categories', 'CategoryController@topCategories');
-		// Route::get('sub-categories/{parent}', 'CategoryController@subCategories');
-		// Route::post('category/store', 'CategoryController@store');
-		// Route::get('categories/{id}', 'CategoryController@show');
-		// Route::post('category/{id}/update', 'CategoryController@update');
-		// Route::delete('category/{id}/delete', 'CategoryController@delete');
-		// Route::delete('category/{id}/delete-dependency', 'Api\CategoryController@deleteDependency');
-		// Route::post('categoriesdelete-move', 'Api\CategoryController@deleteMove');
-		// Route::get('category/{id}/childsCount', 'Api\CategoryController@childsCount');
-        // Route::get('category/{id}/productsCount', 'Api\CategoryController@productsCount');
-
-		//Products
-		// Route::get('products', 'ProductsController@index');
-		// Route::get('products/{id}', 'ProductsController@show');
-		// Route::post('products/store', 'ProductsController@store');
-		// Route::post('products/{id}/update', 'ProductsController@update');
-		// Route::delete('products/{id}/delete', 'ProductsController@delete');
-	});
 
 	//should send application id and secret
 	Route::group(['middleware' => ['User.from.application']], function () {
-		Route::post('bills/create/wordpress', 'BillController@wordpress')->middleware(['verified.user']);
-		Route::post('bills/create', 'BillController@store')->middleware(['verified.user']);
-		Route::post('bills/{bill}/debitnote/create', 'BillController@storeDebitNote')->middleware(['verified.user']);
-		Route::put('bills/{bill}/cancel', 'BillController@cancel')->middleware(['verified.user']);
-		Route::put('bills/{bill}/timeout', 'BillController@timeout');
-		Route::put('bills/{bill}/refund', 'BillController@refund')->middleware(['verified.user']);
-		Route::post('bills/payment_form', 'BillController@paymentForm')->middleware(['verified.user']);
-		Route::get('bills/{bill}', 'BillController@show');
+		Route::post('bills/create/wordpress', [BillController::class, 'wordpress'])->middleware(['verified.user']);
+		Route::post('bills/create', [BillController::class, 'store'])->middleware(['verified.user']);
+		Route::post('bills/{bill}/debitnote/create', [BillController::class, 'storeDebitNote'])->middleware(['verified.user']);
+		Route::put('bills/{bill}/cancel', [BillController::class, 'cancel'])->middleware(['verified.user']);
+		Route::put('bills/{bill}/timeout', [BillController::class, 'timeout']);
+		Route::put('bills/{bill}/refund', [BillController::class, 'refund'])->middleware(['verified.user']);
+		Route::post('bills/payment_form', [BillController::class, 'paymentForm'])->middleware(['verified.user']);
+		Route::get('bills/{bill}', [BillController::class, 'show']);
 
-		Route::get('transfers/{transfer}/transactions', 'TransferController@transactions');
+		Route::get('transfers/{transfer}/transactions', [TransferController::class, 'transactions']);
 
-		Route::get('transactions', 'TransactionController@index');
-    	Route::get('account/information', 'AccountController@getInformation');
-    	Route::post('account/information', 'AccountController@updateInformation');
+		Route::get('transactions', [TransactionController::class, 'index']);
+    	Route::get('account/information', [AccountController::class, 'getInformation']);
+    	Route::post('account/information', [AccountController::class, 'updateInformation']);
 
 
 	});
 
 	Route::group(['middleware' => ['auth:api']], function () {
 		// Coupons API routes
-		Route::post('coupons/validate', 'Api\CouponController@validateCoupon')->name('api.coupons.validate');
-		Route::get('coupons', 'Api\CouponController@index')->name('api.coupons.index');
-		Route::get('coupons/{id}', 'Api\CouponController@show')->name('api.coupons.show');
-
-		//POS
-		// Route::get('getAllActiveCategoryAndProducts', 'PosController@getAllActiveCategoryAndProducts');
-		// Route::get('getActiveTopCategory', 'PosController@getActiveTopCategory');
-		// Route::get('getActiveSubCategory/{category_id}', 'PosController@getActiveSubCategory');
-		// Route::get('getActiveCategoryProducts/{category_id}', 'PosController@getActiveCategoryProducts');
-		// Route::get('getActiveProducts', 'PosController@getActiveProducts');
-		// Route::get('getProduct/{product_id}', 'PosController@getProduct');
-		// Route::get('searchForProduct/{keyword}', 'PosController@searchForProduct');
-		// Route::get('searchForCustomer/{name}', 'PosController@searchForCustomer');
-		// Route::post('customerStore', 'PosController@customerStore');
-		// Route::post('orderStore', 'PosController@orderStore');
-		// Route::post('billChangeStatus', 'PosController@billChangeStatus')->middleware('valid_signture');
-		// Route::get('getBills', 'PosController@getBills');
-		// Route::get('getBill/{id}', 'PosController@getBill');
-		// Route::post('sendBillByEmail', 'PosController@sendBillByEmail');
-		// Route::post('setPosUserSetting', 'PosController@setUserSetting');
-        // Route::post('redirectToBillsProducts', 'PosController@redirectToBillsProducts');
+		Route::post('coupons/validate', [CouponController::class, 'validateCoupon'])->name('api.coupons.validate');
+		Route::get('coupons', [CouponController::class, 'index'])->name('api.coupons.index');
+		Route::get('coupons/{id}', [CouponController::class, 'show'])->name('api.coupons.show');
   });
 
-    // Route::post('fandaqah-register', 'UserController@registerFandaqah');
-    Route::post('fandaqah-update-redirect', 'UserController@updateRedirect');
+    // Route::post('fandaqah-register', [UserController::class, 'registerFandaqah']);
+    Route::post('fandaqah-update-redirect', [UserController::class, 'updateRedirect']);
 
-    Route::post('channels/{channel}/add-app', 'ChannelController@addApplication');
-    Route::post('channels/{channel}/sub-account', 'ChannelController@subAccount');
-    Route::post('channels/{channel}/transactions', 'ChannelController@transactions');
-    Route::put('channels/{channel}/update_sub_account_payment_fees', 'ChannelController@updateSubAccountPaymentFees');
+    Route::post('channels/{channel}/add-app', [ChannelController::class, 'addApplication']);
+    Route::post('channels/{channel}/sub-account', [ChannelController::class, 'subAccount']);
+    Route::post('channels/{channel}/transactions', [ChannelController::class, 'transactions']);
+    Route::put('channels/{channel}/update_sub_account_payment_fees', [ChannelController::class, 'updateSubAccountPaymentFees']);
 });

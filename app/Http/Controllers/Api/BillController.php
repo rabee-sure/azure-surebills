@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\BillCreated;
 use App\Events\BillStatusUpdated;
-use App\Helpers\BillSignatureHelper;
-use App\Helpers\CybersourceMicroformHandlerHelper;
 use App\Http\Controllers\Controller;
 use App\Traits\ResolvesBillUiTheme;
 use App\Http\Requests\BillApiRequest;
@@ -881,6 +879,10 @@ class BillController extends Controller
 
         $bill = Bill::find($id);
 
+        if (! $bill) {
+            return response()->json(['error' => ['bill' => 'Not found']], 404);
+        }
+
         // prevent access payment page
         if (!$bill->access_to_pay_page->status) {
             return response()->json(['error' => [
@@ -928,18 +930,7 @@ class BillController extends Controller
         $years = [];
         $sureEasyRendrer = $request->sureEasyRendrer ?? true;
         $microformSessionToken = $billSignature = $payTime = null;
-        if(config('payment.default_payment_gateway') == 'cybersource')
-        {
-            $years = range(date('Y'), date('Y') + 10);
-            // $microformSessionToken = CybersourceMicroformHandlerHelper::retrieveMicroformToken($request->host);
-            $payTime = now()->unix();
-            $billSignature = BillSignatureHelper::generateSignature($bill, $payTime);
-            $payForm = 'bills.cybersource_pay_form';
-        }
-        else
-        {
-            $payForm = 'bills.mastercard_pay_form';
-        }
+        $payForm = 'bills.mastercard_pay_form';
         $billUiTheme = $this->resolveBillUiTheme($bill);
 
         if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {

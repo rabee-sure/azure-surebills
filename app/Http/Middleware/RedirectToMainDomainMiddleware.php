@@ -24,7 +24,7 @@ class RedirectToMainDomainMiddleware
  
         $host = $request->getHost();
 
-        $excludeRoutesNamesFromRedirect = ['payment.otp.form', 'verify.applepay.ownership', 'paybillpage', 'paybillpagelang', 'applepay.validate', 'applepay.check-payment', 'bill.invoice.subdomain', 'bill.invoice.lang.subdomain'];
+        $excludeRoutesNamesFromRedirect = ['verify.applepay.ownership', 'paybillpage', 'paybillpagelang', 'bill.invoice.subdomain', 'bill.invoice.lang.subdomain'];
         if($host == config('payment.invoice_subdomain') && !in_array(Route::currentRouteName(), $excludeRoutesNamesFromRedirect))
         {
             return redirect()->to(config('app.url'));

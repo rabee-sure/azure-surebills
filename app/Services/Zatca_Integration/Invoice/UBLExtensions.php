@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -7,12 +8,19 @@ namespace Allam\Zatca\Invoice;
 class UBLExtensions
 {
     private $invoiceHash = '';
+
     private $signedPropertiesHash = '';
+
     private $digitalSignature = '';
+
     private $certificateValue = '';
+
     private $signingTimestamp = '';
+
     private $certificateHash = '';
+
     private $certificateIssuer = '';
+
     private $certificateSerialNumber = '';
 
     /**
@@ -178,14 +186,14 @@ class UBLExtensions
                                                     'value' => 'urn:oasis:names:specification:ubl:signature:1',
                                                     'namespaced' => true,
                                                     'namespace' => null,
-                                                    'prefix' => 'cbc',  
+                                                    'prefix' => 'cbc',
                                                 ],
                                                 [
                                                     'name' => 'ReferencedSignatureID',
                                                     'value' => 'urn:oasis:names:specification:ubl:signature:Invoice',
                                                     'namespaced' => true,
                                                     'namespace' => null,
-                                                    'prefix' => 'sbc',  
+                                                    'prefix' => 'sbc',
                                                 ],
                                                 [
                                                     'name' => 'Signature',
@@ -208,7 +216,7 @@ class UBLExtensions
                                                             'namespace' => null,
                                                             'prefix' => null,
                                                         ],
-                                                    ], 
+                                                    ],
                                                     'childs' => [
                                                         [
                                                             'name' => 'SignedInfo',
@@ -231,7 +239,7 @@ class UBLExtensions
                                                                             'namespace' => null,
                                                                             'prefix' => null,
                                                                         ],
-                                                                    ], 
+                                                                    ],
                                                                 ],
                                                                 [
                                                                     'name' => 'SignatureMethod',
@@ -247,7 +255,7 @@ class UBLExtensions
                                                                             'namespace' => null,
                                                                             'prefix' => null,
                                                                         ],
-                                                                    ], 
+                                                                    ],
                                                                 ],
                                                                 [
                                                                     'name' => 'Reference',
@@ -270,14 +278,14 @@ class UBLExtensions
                                                                             'namespace' => null,
                                                                             'prefix' => null,
                                                                         ],
-                                                                    ], 
+                                                                    ],
                                                                     'childs' => [
                                                                         [
                                                                             'name' => 'Transforms',
                                                                             'value' => '',
                                                                             'namespaced' => true,
                                                                             'namespace' => null,
-                                                                            'prefix' => 'ds', 
+                                                                            'prefix' => 'ds',
                                                                             'childs' => [
                                                                                 [
                                                                                     'name' => 'Transform',
@@ -293,7 +301,7 @@ class UBLExtensions
                                                                                             'namespace' => null,
                                                                                             'prefix' => null,
                                                                                         ],
-                                                                                    ], 
+                                                                                    ],
                                                                                     'childs' => [
                                                                                         [
                                                                                             'name' => 'XPath',
@@ -301,8 +309,8 @@ class UBLExtensions
                                                                                             'namespaced' => true,
                                                                                             'namespace' => null,
                                                                                             'prefix' => 'ds',
-                                                                                        ]
-                                                                                    ]
+                                                                                        ],
+                                                                                    ],
                                                                                 ],
                                                                                 [
                                                                                     'name' => 'Transform',
@@ -318,7 +326,7 @@ class UBLExtensions
                                                                                             'namespace' => null,
                                                                                             'prefix' => null,
                                                                                         ],
-                                                                                    ], 
+                                                                                    ],
                                                                                     'childs' => [
                                                                                         [
                                                                                             'name' => 'XPath',
@@ -326,8 +334,8 @@ class UBLExtensions
                                                                                             'namespaced' => true,
                                                                                             'namespace' => null,
                                                                                             'prefix' => 'ds',
-                                                                                        ]
-                                                                                    ]
+                                                                                        ],
+                                                                                    ],
                                                                                 ],
                                                                                 [
                                                                                     'name' => 'Transform',
@@ -343,7 +351,7 @@ class UBLExtensions
                                                                                             'namespace' => null,
                                                                                             'prefix' => null,
                                                                                         ],
-                                                                                    ], 
+                                                                                    ],
                                                                                     'childs' => [
                                                                                         [
                                                                                             'name' => 'XPath',
@@ -351,8 +359,8 @@ class UBLExtensions
                                                                                             'namespaced' => true,
                                                                                             'namespace' => null,
                                                                                             'prefix' => 'ds',
-                                                                                        ]
-                                                                                    ]
+                                                                                        ],
+                                                                                    ],
                                                                                 ],
                                                                                 [
                                                                                     'name' => 'Transform',
@@ -368,9 +376,9 @@ class UBLExtensions
                                                                                             'namespace' => null,
                                                                                             'prefix' => null,
                                                                                         ],
-                                                                                    ], 
+                                                                                    ],
                                                                                 ],
-                                                                            ]
+                                                                            ],
                                                                         ],
                                                                         [
                                                                             'name' => 'DigestMethod',
@@ -386,7 +394,7 @@ class UBLExtensions
                                                                                     'namespace' => null,
                                                                                     'prefix' => null,
                                                                                 ],
-                                                                            ], 
+                                                                            ],
                                                                         ],
                                                                         [
                                                                             'name' => 'DigestValue',
@@ -395,7 +403,7 @@ class UBLExtensions
                                                                             'namespace' => null,
                                                                             'prefix' => 'ds',
                                                                         ],
-                                                                    ]
+                                                                    ],
                                                                 ],
                                                                 [
                                                                     'name' => 'Reference',
@@ -418,7 +426,7 @@ class UBLExtensions
                                                                             'namespace' => null,
                                                                             'prefix' => null,
                                                                         ],
-                                                                    ], 
+                                                                    ],
                                                                     'childs' => [
                                                                         [
                                                                             'name' => 'DigestMethod',
@@ -434,7 +442,7 @@ class UBLExtensions
                                                                                     'namespace' => null,
                                                                                     'prefix' => null,
                                                                                 ],
-                                                                            ], 
+                                                                            ],
                                                                         ],
                                                                         [
                                                                             'name' => 'DigestValue',
@@ -443,9 +451,9 @@ class UBLExtensions
                                                                             'namespace' => null,
                                                                             'prefix' => 'ds',
                                                                         ],
-                                                                    ]
-                                                                ]
-                                                            ]
+                                                                    ],
+                                                                ],
+                                                            ],
                                                         ],
                                                         [
                                                             'name' => 'SignatureValue',
@@ -473,11 +481,11 @@ class UBLExtensions
                                                                             'value' => $this->certificateValue,
                                                                             'namespaced' => true,
                                                                             'namespace' => null,
-                                                                            'prefix' => 'ds', 
-                                                                        ]
-                                                                    ]
-                                                                ]
-                                                            ]
+                                                                            'prefix' => 'ds',
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                            ],
                                                         ],
                                                         [
                                                             'name' => 'Object',
@@ -507,7 +515,7 @@ class UBLExtensions
                                                                             'namespace' => null,
                                                                             'prefix' => null,
                                                                         ],
-                                                                    ], 
+                                                                    ],
                                                                     'childs' => [
                                                                         [
                                                                             'name' => 'SignedProperties',
@@ -569,7 +577,7 @@ class UBLExtensions
                                                                                                             'childs' => [
                                                                                                                 [
                                                                                                                     'name' => 'DigestMethod',
-                                                                                                                    'value' => ' ',  
+                                                                                                                    'value' => ' ',
                                                                                                                     'namespaced' => true,
                                                                                                                     'namespace' => null,
                                                                                                                     'prefix' => 'ds',
@@ -600,7 +608,7 @@ class UBLExtensions
                                                                                                                         ],
                                                                                                                     ],
                                                                                                                 ],
-                                                                                                            ]
+                                                                                                            ],
                                                                                                         ],
                                                                                                         [
                                                                                                             'name' => 'IssuerSerial',
@@ -637,31 +645,31 @@ class UBLExtensions
                                                                                                                         ],
                                                                                                                     ],
                                                                                                                 ],
-                                                                                                            ]
+                                                                                                            ],
                                                                                                         ],
-                                                                                                    ]
+                                                                                                    ],
                                                                                                 ],
-                                                                                            ]
-                                                                                        ]
-                                                                                    ]
-                                                                                ]
-                                                                            ]
-                                                                        ]
-                                                                    ]
-                                                                ]
-                                                            ]
+                                                                                            ],
+                                                                                        ],
+                                                                                    ],
+                                                                                ],
+                                                                            ],
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                            ],
                                                         ],
-                                                    ] 
+                                                    ],
                                                 ],
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
     }
 }

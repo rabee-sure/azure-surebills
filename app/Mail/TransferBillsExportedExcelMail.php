@@ -5,7 +5,6 @@ namespace App\Mail;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 /**
  * Sent synchronously from {@see \App\Jobs\SendExportedTransferBillsMailsJob} so the export is read and
@@ -13,7 +12,7 @@ use romanzipp\QueueMonitor\Traits\IsMonitored;
  */
 class TransferBillsExportedExcelMail extends Mailable
 {
-    use SerializesModels, IsMonitored;
+    use SerializesModels;
 
     /** @var string Relative path on the public disk (includes OCI prefix when used) */
     public $export_storage_path;

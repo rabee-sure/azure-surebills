@@ -1,7 +1,7 @@
 <?php
 return [
 
-    'default_payment_gateway' => env('DEFAULT_PAYMENT_GATEWAY', 'cybersource'),
+    'default_payment_gateway' => env('DEFAULT_PAYMENT_GATEWAY', 'mastercard'),
     'bill_form_signature_secret_key' => env('BILL_FORM_SIGNATURE_SECRET_KEY', '22e33eab07cadb3c13fe4256ff4f2245679c006b5e03d1072e8ac784a75df8de'),
     'invoice_subdomain' => env('INVOICE_SUBDOMAIN'),
     'invoice_subdomain_url' => env('INVOICE_SUBDOMAIN_URL'),
@@ -72,10 +72,6 @@ return [
             'api_base_url'         => env('MASTERCARD_APPLEPAY_COMPLETE_PAYMENT'),
             'operator_username'    => env('MASTERCARD_OPERATOR_USERNAME'),
             'operator_password'    => env('MASTERCARD_OPERATOR_PASSWORD'),
-        ],
-        'cybersource_applepay' => [
-            'applepay_merchant_id' => env('CYBERSOURCE_APPLEPAY_MERCHANT_ID'),
-            'domain'               => env('CYBERSOURCE_APPLEPAY_DOMAIN'),
         ],
         'stcpay' => [
             'merchant_id'          => env('MASTERCARD_APPLEPAY_MASTERCARD_MERCHANT_ID'),

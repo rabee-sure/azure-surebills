@@ -6,7 +6,6 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\File;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class TransactionsExportedExcelMail extends Mailable
 {

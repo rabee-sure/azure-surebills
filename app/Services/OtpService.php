@@ -21,7 +21,7 @@ class OtpService
 
     public function __construct()
     {
-        $this->expirationMinutes = config('merchant_otp.expiration_minutes');
+        $this->expirationMinutes = (int) config('merchant_otp.expiration_minutes', 5);
     }
 
     /**

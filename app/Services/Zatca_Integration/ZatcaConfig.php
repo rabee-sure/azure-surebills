@@ -1,14 +1,12 @@
 <?php
-namespace Allam\Zatca;
 
-use Exception;
-use Illuminate\Support\Arr;
+namespace Allam\Zatca;
 
 /**
  * A class defines zatca required integration defaults
  */
-class ZatcaConfig {
-
+class ZatcaConfig
+{
     /**
      * Get base url depended on zatca environment
      */
@@ -25,7 +23,7 @@ class ZatcaConfig {
         return [
             'developer-portal',
             'simulation',
-            'core'
+            'core',
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ContactRequest extends FormRequest
@@ -26,7 +27,7 @@ class ContactRequest extends FormRequest
         return [
             'source' => 'required',
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => ['required', 'email', new EmailFormat()],
             'company' => 'required',
             'mobile' => 'required|regex:/(^[5]{1}[0-9]{8}$)/',
             'message' => 'required'

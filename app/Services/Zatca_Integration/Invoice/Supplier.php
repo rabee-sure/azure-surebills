@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -7,14 +8,23 @@ namespace Allam\Zatca\Invoice;
 class Supplier
 {
     private $crn;
+
     private $streetName;
+
     private $buildingNumber;
+
     private $plotIdentification;
+
     private $subDivisionName;
+
     private $cityName;
+
     private $postalNumber;
+
     private $countryName;
+
     private $vatNumber;
+
     private $vatName;
 
     /**
@@ -38,7 +48,7 @@ class Supplier
 
         return $this;
     }
-    
+
     /**
      * Set supplier building number
      */
@@ -181,8 +191,8 @@ class Supplier
                                     'prefix' => null,
                                 ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 [
                     'name' => 'PostalAddress',
@@ -240,16 +250,16 @@ class Supplier
                             'namespace' => null,
                             'prefix' => 'cac',
                             'childs' => [
-                               [
-                                'name' => 'IdentificationCode',
-                                'value' => $this->countryName,
-                                'namespaced' => true,
-                                'namespace' => null,
-                                'prefix' => 'cbc',
-                               ]
-                            ]
-                        ]
-                    ]
+                                [
+                                    'name' => 'IdentificationCode',
+                                    'value' => $this->countryName,
+                                    'namespaced' => true,
+                                    'namespace' => null,
+                                    'prefix' => 'cbc',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'name' => 'PartyTaxScheme',
@@ -278,10 +288,10 @@ class Supplier
                                     'namespaced' => true,
                                     'namespace' => null,
                                     'prefix' => 'cbc',
-                                ]
-                            ]
-                        ]
-                    ]
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'name' => 'PartyLegalEntity',
@@ -296,10 +306,10 @@ class Supplier
                             'namespaced' => true,
                             'namespace' => null,
                             'prefix' => 'cbc',
-                        ]
-                    ]  
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 }

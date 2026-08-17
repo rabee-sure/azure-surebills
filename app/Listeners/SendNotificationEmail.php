@@ -10,11 +10,9 @@ use App\Models\Role;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class SendNotificationEmail implements ShouldQueue
 {
-    use IsMonitored;
     /**
      * Create the event listener.
      *

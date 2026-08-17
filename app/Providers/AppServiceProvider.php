@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use App\Http\Controllers\Nova\NovaResetPasswordController;
 use App\Models\Application;
-use App\Models\AutoTransfer;
 use App\Models\Transfer;
 use App\Models\User;
 use App\Models\Bill;
@@ -21,7 +19,6 @@ use App\Observers\MediaObserver;
 use App\Observers\ChannelObserver;
 use App\Observers\BankObserver;
 use App\Observers\TaxInvoiceRequestObserver;
-use App\Policies\AutoTransferPolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -30,10 +27,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Nova\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\Nova\NovaLoginController;
 use App\Models\Transaction;
-use Laravel\Nova\Http\Controllers\LoginController;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -46,14 +41,6 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->isLocal()) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
-        }
-        $this->app->bind(LoginController::class, NovaLoginController::class);
-        $this->app->bind(ResetPasswordController::class, NovaResetPasswordController::class);
-
-        // Custom Nova view overrides (published to resources/views/vendor/nova)
-        $novaViews = resource_path('views/vendor/nova');
-        if (is_dir($novaViews)) {
-            $this->loadViewsFrom($novaViews, 'nova');
         }
     }
 
@@ -75,9 +62,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Model::preventLazyLoading(! app()->isProduction());
 
-        \Spatie\NovaTranslatable\Translatable::defaultLocales(['en', 'ar']);
-
-        AutoTransfer::observe(AutoTransferPolicy::class);
+        // AutoTransfer has no Eloquent observer in this codebase.
+        // AutoTransferPolicy must be registered via AuthServiceProvider / Gate, not Model::observe().
         Transfer::observe(TransferObserver::class);
         Transaction::observe(TransactionObserver::class);
         Application::observe(ApplicationObserver::class);

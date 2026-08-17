@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\Decimal;
 use App\Rules\EmailChannel;
+use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -59,6 +60,7 @@ class ChannelApplicationRequest extends FormRequest
                     'email' => [
                         'required',
                         'email',
+                        new EmailFormat(),
                     'exists:users,email',],
                 ]);
             }

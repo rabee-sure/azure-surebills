@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -30,7 +31,7 @@ class Qr
                 'value' => 'QR',
                 'namespaced' => true,
                 'namespace' => null,
-                'prefix' => 'cbc'
+                'prefix' => 'cbc',
             ],
             [
                 'name' => 'Attachment',
@@ -53,9 +54,9 @@ class Qr
                                 'namespace' => null,
                                 'prefix' => null,
                             ],
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
         ];
     }

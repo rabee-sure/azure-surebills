@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -7,9 +8,13 @@ namespace Allam\Zatca\Invoice;
 class TaxSubtotal
 {
     private $taxCurrencyCode;
+
     private $taxableAmount;
+
     private $taxAmount;
+
     private $taxCategory;
+
     private $taxPercentage;
 
     /**
@@ -81,7 +86,7 @@ class TaxSubtotal
             'childs' => [
                 [
                     'name' => 'TaxableAmount',
-                    'value' => number_format($this->taxableAmount,2,'.',''),
+                    'value' => number_format($this->taxableAmount, 2, '.', ''),
                     'namespaced' => true,
                     'namespace' => null,
                     'prefix' => 'cbc',
@@ -97,7 +102,7 @@ class TaxSubtotal
                 ],
                 [
                     'name' => 'TaxAmount',
-                    'value' => number_format($this->taxAmount,2,'.',''),
+                    'value' => number_format($this->taxAmount, 2, '.', ''),
                     'namespaced' => true,
                     'namespace' => null,
                     'prefix' => 'cbc',
@@ -143,7 +148,7 @@ class TaxSubtotal
                         ],
                         [
                             'name' => 'Percent',
-                            'value' => number_format($this->taxPercentage,2,'.',''),
+                            'value' => number_format($this->taxPercentage, 2, '.', ''),
                             'namespaced' => true,
                             'namespace' => null,
                             'prefix' => 'cbc',
@@ -177,12 +182,12 @@ class TaxSubtotal
                                             'prefix' => null,
                                         ],
                                     ],
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
                     ],
                 ],
-            ]
+            ],
         ];
     }
 }

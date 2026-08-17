@@ -116,6 +116,5 @@ return [
         'email_queue' => env('EMAILS_QUEUE', env('QUEUE_NAME', 'default')),
         'sms_queue' => env('SMS_QUEUE', env('QUEUE_NAME', 'default')),
         'export_queue' => env('EXPORT_QUEUE', env('QUEUE_NAME', 'default')),
-        'cybersource_transaction_queue' => env('CYBERSOURCE_TRANSACTION_QUEUE', env('RABBITMQ_QUEUE', env('QUEUE_NAME', 'default'))),
     ],
 ];

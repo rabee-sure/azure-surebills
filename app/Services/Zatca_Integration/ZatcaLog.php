@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca;
 
 use App\Models\ZatcaLog as ModelsZatcaLog;
@@ -7,14 +8,12 @@ use Illuminate\Support\Str;
 /**
  * A class defines certificate parser
  */
-class ZatcaLog {
+class ZatcaLog
+{
+    public function __construct() {}
 
-    public function __construct()
+    public function responseLog($data)
     {
-        
-    }
-
-    public function responseLog($data){
         $zatcaLog = ModelsZatcaLog::create([
             'uuid' => Str::uuid()->toString(),
             'payload' => $data['payload'],

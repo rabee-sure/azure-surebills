@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use App\Rules\EmailFormat;
 use App\Rules\PasswordRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -28,7 +29,7 @@ class StoreUserRequest extends FormRequest
     {
         $rules = [
             'name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email,NULL,id'],
+            'email' => ['required', new EmailFormat(), 'max:50', 'unique:users,email,NULL,id'],
             'mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/','unique:users,mobile,NULL,id'],
             'password' => ['required', 'string', 'min:8', new PasswordRule],
             'confirm_password' =>  ['required', 'same:password'],

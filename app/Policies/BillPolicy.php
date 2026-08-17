@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Bill;
-use App\Models\Admin as User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class BillPolicy
@@ -41,7 +41,7 @@ class BillPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->can('create bills');
     }
 
     /**

@@ -1,25 +1,37 @@
 <?php
 
-$ociEnabled = (bool) config('oci.enabled', filter_var(env('OCI_ENABLED', false), FILTER_VALIDATE_BOOLEAN));
-$ociPublicDiskEnabled = (bool) config('oci.public_disk_enabled', filter_var(env('OCI_PUBLIC_DISK_ENABLED', true), FILTER_VALIDATE_BOOLEAN));
+/*
+|--------------------------------------------------------------------------
+| OCI disk flags (env-first)
+|--------------------------------------------------------------------------
+|
+| This file is loaded before config/oci.php (alphabetical config merge order),
+| so calling config('oci.*') here is unreliable. Use env() with the same keys
+| as config/oci.php. Behavior is unchanged: OCI public/private disks activate
+| only when OCI_ENABLED and OCI_PUBLIC_DISK_ENABLED are both true.
+|
+*/
+
+$ociEnabled = filter_var(env('OCI_ENABLED', false), FILTER_VALIDATE_BOOLEAN);
+$ociPublicDiskEnabled = filter_var(env('OCI_PUBLIC_DISK_ENABLED', true), FILTER_VALIDATE_BOOLEAN);
 $useOciPublicDisk = $ociEnabled && $ociPublicDiskEnabled;
 
 $ociS3Disk = [
     'driver' => 's3',
-    'key' => config('oci.access_key', env('OCI_ACCESS_KEY')),
-    'secret' => config('oci.secret_key', env('OCI_SECRET_KEY')),
-    'region' => config('oci.region', env('OCI_REGION')),
-    'bucket' => config('oci.bucket', env('OCI_BUCKET')),
-    'endpoint' => config('oci.endpoint', env('OCI_ENDPOINT')),
-    'use_path_style_endpoint' => config('oci.use_path_style_endpoint', filter_var(env('OCI_USE_PATH_STYLE_ENDPOINT', true), FILTER_VALIDATE_BOOLEAN)),
-    'url' => config('oci.url', env('OCI_URL')),
-    'root' => (string) config('oci.bucket_prefix', env('OCI_BUCKET_PREFIX', '')),
-    'visibility' => config('oci.visibility', env('OCI_VISIBILITY', 'private')),
+    'key' => env('OCI_ACCESS_KEY'),
+    'secret' => env('OCI_SECRET_KEY'),
+    'region' => env('OCI_REGION'),
+    'bucket' => env('OCI_BUCKET'),
+    'endpoint' => env('OCI_ENDPOINT'),
+    'use_path_style_endpoint' => filter_var(env('OCI_USE_PATH_STYLE_ENDPOINT', true), FILTER_VALIDATE_BOOLEAN),
+    'url' => env('OCI_URL'),
+    'root' => (string) env('OCI_BUCKET_PREFIX', ''),
+    'visibility' => env('OCI_VISIBILITY', 'private'),
     'throw' => false,
 ];
 
 $ociPrivateS3Disk = array_merge($ociS3Disk, [
-    'bucket' => config('oci.private_bucket') ?: config('oci.bucket', env('OCI_BUCKET')),
+    'bucket' => env('OCI_PRIVATE_BUCKET') ?: env('OCI_BUCKET'),
     'visibility' => 'private',
 ]);
 
@@ -46,7 +58,7 @@ return [
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
-    | When OCI_ENABLED=true and OCI_PUBLIC_DISK_ENABLED=true (config oci.public_disk_enabled):
+    | When OCI_ENABLED=true and OCI_PUBLIC_DISK_ENABLED=true:
     |   - "oci"              – direct OCI Object Storage (S3-compatible)
     |   - "public" / "private" – fallback disks (OCI primary, local fallback)
     |   - "public-local"     – original local public disk (used as fallback)
@@ -93,7 +105,7 @@ return [
 
         'private' => $useOciPublicDisk ? [
             'driver' => 'fallback',
-            'primary' => config('oci.private_bucket') ? 'oci-private' : 'oci',
+            'primary' => env('OCI_PRIVATE_BUCKET') ? 'oci-private' : 'oci',
             'fallback' => 'public-local',
         ] : [
             'driver' => 'local',

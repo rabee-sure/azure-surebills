@@ -8,11 +8,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Storage;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class BillsExportedExcelMail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels, IsMonitored;
+    use Queueable, SerializesModels;
 
     public $file_name;
 

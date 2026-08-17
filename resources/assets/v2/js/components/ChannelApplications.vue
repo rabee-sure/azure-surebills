@@ -3,7 +3,7 @@
 
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-4 mb-6">
       <div class="d-flex flex-column gap-1">
-        <h4 class="mb-0">{{ __('Channel') }} : {{ applications[0].name }}</h4>
+        <h4 class="mb-0">{{ __('Channel') }} : {{ channel_name }}</h4>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb breadcrumb-custom-icon mb-0">
             <li class="breadcrumb-item">
@@ -14,7 +14,7 @@
               <a href="/channels" :title="__('Channels')">{{ __('Channels')}}</a>
               <i class="breadcrumb-icon icon-base ti ti-chevron-right align-middle icon-xs"></i>
             </li>
-            <li class="breadcrumb-item active">{{ __('Channel') }} : {{ applications[0].name }}</li>
+            <li class="breadcrumb-item active">{{ __('Channel') }} : {{ channel_name }}</li>
           </ol>
         </nav>
       </div><!-- d-flex -->
@@ -231,7 +231,7 @@
 
 <script>
     export default {
-        props: ['channel_id'],
+        props: ['channel_id', 'channel_name'],
         data() {
             return {
                 applications: [],

@@ -8,12 +8,10 @@ use GuzzleHttp\Psr7\Response;
 use Multicaret\Unifonic\UnifonicFacade;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
 use Spatie\WebhookServer\Events\WebhookCallFailedEvent;
 
 class SaveWebhookFailedLog implements ShouldQueue
 {
-    use IsMonitored;
     
     /**
      * Create the event listener.

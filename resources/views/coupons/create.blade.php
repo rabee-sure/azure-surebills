@@ -24,7 +24,7 @@
     </ul>
   @endif
 
-  <form method="POST" action="{{ route('coupons.store') }}" id="coupon_form" class="card">
+  <form method="POST" action="{{ route('coupons.store') }}" id="coupon_form" class="card" novalidate>
     <div class="card-body">
       @csrf
       @include('coupons.partials.form', ['coupon' => null, 'mechanisms' => $mechanisms])

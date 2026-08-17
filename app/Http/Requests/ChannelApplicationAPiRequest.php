@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ChannelApplicationAPiRequest extends FormRequest
@@ -25,7 +26,7 @@ class ChannelApplicationAPiRequest extends FormRequest
     {
         return [
             'channel_token' => ['required'],
-            'email' => ['required', 'unique:users'],
+            'email' => ['required', 'email', new EmailFormat(), 'unique:users'],
             'mobile' => ['required', 'unique:users'],
             'redirect' => ['required'],
             'webhook_url' => ['required'],

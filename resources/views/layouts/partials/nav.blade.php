@@ -89,20 +89,6 @@
           <i class="d-flex align-items-center justify-content-center flex-shrink-0 fal fa-user-cog"></i>
           {{__('Pricing')}}
         </a> --}}
-        {{-- @if(in_array(Auth::user()->email, explode(',', env('NOVA_ALLOWED_ADMINS'))))
-          <a href="{{ route('reports.index') }}" title="{{ __('Reports') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('reports*') ? 'active' : '' }}">
-            <i class="d-flex align-items-center justify-content-center flex-shrink-0 fal fa-file-chart-line"></i>
-            {{ __('Reports') }}
-          </a>
-        @endif --}}
-        {{-- <a href="{{ route('orders.all') }}" title="{{ __('Orders') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('orders*') ? 'active' : '' }}">
-          <i class="d-flex align-items-center justify-content-center flex-shrink-0 fal fa-file-chart-line"></i>
-          {{ __('Orders') }}
-        </a>
-        <a href="{{ route('products.settings') }}" title="{{ __('Store Settings') }}" class="d-flex text-center align-items-center justify-content-center flex-column rounded w-100 {{ Request::is('products*') ? 'active' : '' }}">
-          <i class="d-flex align-items-center justify-content-center flex-shrink-0 fal fa-file-chart-line"></i>
-          {{ __('Store Settings') }}
-        </a> --}}
       </ul>
 
     </div>

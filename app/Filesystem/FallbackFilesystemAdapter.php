@@ -5,17 +5,18 @@ namespace App\Filesystem;
 use Illuminate\Contracts\Filesystem\Cloud as CloudContract;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
-use League\Flysystem\FilesystemInterface;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Reads from primary (OCI) first, then local fallback. Writes always go to primary.
  *
  * Enables zero-downtime migration: existing local files remain readable while new
  * uploads are stored in OCI Object Storage.
+ *
+ * Flysystem note (PR-06): do not type-hint League\Flysystem\FilesystemInterface.
+ * That interface exists only on Flysystem 1.x (Laravel 8). Laravel 12 uses Flysystem 3
+ * (FilesystemOperator). Returning the primary driver's getDriver() without a League
+ * return type keeps this adapter compatible with both stacks after the PR-08 package cutover.
  */
 class FallbackFilesystemAdapter implements CloudContract
 {
@@ -38,8 +39,10 @@ class FallbackFilesystemAdapter implements CloudContract
      * {@see FilesystemAdapter::__call}('getDriver') would forward to the inner
      * Flysystem driver, which has no getDriver() — breaks Spatie Media Library
      * and other packages that expect Laravel's adapter API.
+     *
+     * @return mixed Flysystem 1 FilesystemInterface or Flysystem 3 FilesystemOperator
      */
-    public function getDriver(): FilesystemInterface
+    public function getDriver()
     {
         return $this->primary->getDriver();
     }
@@ -49,20 +52,40 @@ class FallbackFilesystemAdapter implements CloudContract
      */
     protected function diskForRead(string $path): ?FilesystemAdapter
     {
-        if ($this->primary->exists($path)) {
+        if ($this->diskExists($this->primary, $path)) {
             return $this->primary;
         }
 
-        if ($this->fallback->exists($path)) {
+        if ($this->diskExists($this->fallback, $path)) {
             return $this->fallback;
         }
 
         return null;
     }
 
+    /**
+     * Safe exists check for Flysystem 3: network/API failures on primary must
+     * not abort fallback reads (UnableToCheckFileExistence replaces soft false).
+     */
+    protected function diskExists(FilesystemAdapter $disk, string $path): bool
+    {
+        try {
+            return $disk->exists($path);
+        } catch (\League\Flysystem\UnableToCheckExistence|\League\Flysystem\UnableToCheckFileExistence $e) {
+            return false;
+        } catch (\Throwable $e) {
+            // Preserve prior soft-fail behavior for transient OCI/S3 connectivity issues.
+            if ($disk === $this->primary) {
+                return false;
+            }
+
+            throw $e;
+        }
+    }
+
     public function exists($path): bool
     {
-        return $this->primary->exists($path) || $this->fallback->exists($path);
+        return $this->diskExists($this->primary, $path) || $this->diskExists($this->fallback, $path);
     }
 
     /**
@@ -146,10 +169,10 @@ class FallbackFilesystemAdapter implements CloudContract
         $success = true;
 
         foreach ($paths as $path) {
-            if ($this->primary->exists($path)) {
+            if ($this->diskExists($this->primary, $path)) {
                 $success = $this->primary->delete($path) && $success;
             }
-            if ($this->fallback->exists($path)) {
+            if ($this->diskExists($this->fallback, $path)) {
                 $success = $this->fallback->delete($path) && $success;
             }
         }
@@ -252,17 +275,18 @@ class FallbackFilesystemAdapter implements CloudContract
     }
 
     /**
-     * @param  string|\Illuminate\Http\File|\Illuminate\Http\UploadedFile  $file
+     * @param  string|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|null  $file
      */
-    public function putFile($path, $file, $options = [])
+    public function putFile($path, $file = null, $options = [])
     {
         return $this->primary->putFile($path, $file, $options);
     }
 
     /**
      * @param  string|\Illuminate\Http\File|\Illuminate\Http\UploadedFile  $file
+     * @param  string|null  $name
      */
-    public function putFileAs($path, $file, $name, $options = [])
+    public function putFileAs($path, $file, $name = null, $options = [])
     {
         return $this->primary->putFileAs($path, $file, $name, $options);
     }

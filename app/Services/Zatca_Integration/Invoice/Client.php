@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -7,13 +8,21 @@ namespace Allam\Zatca\Invoice;
 class Client
 {
     private $vatNumber;
+
     private $streetName;
+
     private $buildingNumber;
+
     private $plotIdentification;
+
     private $subDivisionName;
+
     private $cityName;
+
     private $postalNumber;
+
     private $countryName;
+
     private $clientName;
 
     /**
@@ -37,7 +46,7 @@ class Client
 
         return $this;
     }
-    
+
     /**
      * Set client building number
      */
@@ -149,8 +158,8 @@ class Client
                                     'prefix' => null,
                                 ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 [
                     'name' => 'PostalAddress',
@@ -209,15 +218,15 @@ class Client
                             'prefix' => 'cac',
                             'childs' => [
                                 [
-                                'name' => 'IdentificationCode',
-                                'value' => $this->countryName,
-                                'namespaced' => true,
-                                'namespace' => null,
-                                'prefix' => 'cbc',
-                                ]
-                            ]
-                        ]
-                    ]
+                                    'name' => 'IdentificationCode',
+                                    'value' => $this->countryName,
+                                    'namespaced' => true,
+                                    'namespace' => null,
+                                    'prefix' => 'cbc',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'name' => 'PartyTaxScheme',
@@ -239,10 +248,10 @@ class Client
                                     'namespaced' => true,
                                     'namespace' => null,
                                     'prefix' => 'cbc',
-                                ]
-                            ]
-                        ]
-                    ]
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'name' => 'PartyLegalEntity',
@@ -257,10 +266,10 @@ class Client
                             'namespaced' => true,
                             'namespace' => null,
                             'prefix' => 'cbc',
-                        ]
-                    ]  
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 }

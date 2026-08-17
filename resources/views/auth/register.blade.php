@@ -7,7 +7,7 @@
   <h4 class="mb-1">{{ __('Register a new account') }}</h4>
   <p class="mb-6">{{ __('Please use this form to register.') }}</p>
 
-  <form method="POST" action="{{ route('register') }}" id="register-form" class="mb-6">
+  <form method="POST" action="{{ route('register') }}" id="register-form" class="mb-6" novalidate>
     @csrf
 
     <div class="mb-6 form-control-validation @error('business_name_en') is-invalid @enderror">

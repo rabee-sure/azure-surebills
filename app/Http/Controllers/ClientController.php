@@ -11,6 +11,13 @@ use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Http\Rules\RedirectRule;
 use Laravel\Passport\Passport;
 
+/**
+ * Merchant OAuth client management (Passport).
+ *
+ * PR-08: Updated for Passport 13 ClientRepository API while preserving
+ * existing route names, request fields, and OauthClient webhook extensions.
+ * Existing oauth_* tables are kept (Passport 13 is backward-compatible).
+ */
 class ClientController
 {
     /**
@@ -60,9 +67,7 @@ class ClientController
      */
     public function forUser(Request $request)
     {
-        $userId = $request->user()->getAuthIdentifier();
-
-        $clients = $this->clients->activeForUser($userId);
+        $clients = $this->clients->forUser($request->user());
 
         if (Passport::$hashesClientSecrets) {
             return $clients;
@@ -87,37 +92,27 @@ class ClientController
             'confidential' => 'boolean',
         ])->validate();
 
-        // $client = Passport::client()->forceFill([
-        //     'user_id' => $request->user()->getAuthIdentifier(),
-        //     'user_id' => $request->user()->getAuthIdentifier(),
-        //     'name' => $request->name,
-        //     'secret' => ((bool) $request->input('confidential', false) || false) ? Str::random(40) : null,
-        //     'provider' => null,
-        //     'redirect' => $request->redirect,
-        //     'personal_access_client' => false,
-        //     'password_client' => false,
-        //     'revoked' => false,
-        // ]);
+        $redirectUris = array_values(array_filter(array_map('trim', explode(',', $request->redirect))));
 
-        $client = $this->clients->create(
-            $request->user()->getAuthIdentifier(), $request->name, $request->redirect,
-            null, false, false, (bool) $request->input('confidential', true)
+        $client = $this->clients->createAuthorizationCodeGrantClient(
+            $request->name,
+            $redirectUris,
+            (bool) $request->input('confidential', true),
+            $request->user()
         );
 
         if (Passport::$hashesClientSecrets) {
             return ['plainSecret' => $client->plainSecret] + $client->toArray();
         }
 
-
-            $oauth_client = OauthClient::find($client->id);
-            $oauth_client->fail_redirect_url = $request->fail_redirect_url;
-            $oauth_client->webhook_secret = '';
-            if($request->webhook_url){
-                $oauth_client->webhook_url = $request->webhook_url;
-                $oauth_client->webhook_secret = Str::random(20);
-            }
-            $oauth_client->save();
-
+        $oauth_client = OauthClient::find($client->id);
+        $oauth_client->fail_redirect_url = $request->fail_redirect_url;
+        $oauth_client->webhook_secret = '';
+        if ($request->webhook_url) {
+            $oauth_client->webhook_url = $request->webhook_url;
+            $oauth_client->webhook_secret = Str::random(20);
+        }
+        $oauth_client->save();
 
         return $client->makeVisible('secret');
     }
@@ -127,11 +122,11 @@ class ClientController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $clientId
-     * @return \Illuminate\Http\Response|\Laravel\Passport\Client
+     * @return \Illuminate\Http\Response|\Laravel\Passport\Client|bool
      */
     public function update(Request $request, $clientId)
     {
-        $client = $this->clients->findForUser($clientId, $request->user()->getAuthIdentifier());
+        $client = $this->clients->findForUser($clientId, $request->user());
 
         if (! $client) {
             return new Response('', 404);
@@ -145,15 +140,17 @@ class ClientController
         $oauth_client = OauthClient::find($client->id);
         $oauth_client->fail_redirect_url = $request->fail_redirect_url;
         $oauth_client->webhook_secret = '';
-        if($request->webhook_url){
+        if ($request->webhook_url) {
             $oauth_client->webhook_url = $request->webhook_url;
             $oauth_client->webhook_secret = Str::random(20);
         }
         $oauth_client->save();
 
-        return $this->clients->update(
-            $client, $request->name, $request->redirect
-        );
+        $redirectUris = array_values(array_filter(array_map('trim', explode(',', $request->redirect))));
+
+        $this->clients->update($client, $request->name, $redirectUris);
+
+        return $client->fresh()->makeVisible('secret');
     }
 
     /**
@@ -165,7 +162,7 @@ class ClientController
      */
     public function destroy(Request $request, $clientId)
     {
-        $client = $this->clients->findForUser($clientId, $request->user()->getAuthIdentifier());
+        $client = $this->clients->findForUser($clientId, $request->user());
 
         if (! $client) {
             return new Response('', 404);

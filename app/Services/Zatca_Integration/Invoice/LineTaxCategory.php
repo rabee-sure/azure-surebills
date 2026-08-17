@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -7,6 +8,7 @@ namespace Allam\Zatca\Invoice;
 class LineTaxCategory
 {
     private $taxCategory;
+
     private $taxPercentage;
 
     /**
@@ -48,32 +50,32 @@ class LineTaxCategory
                     'value' => $this->taxCategory,
                     'namespaced' => true,
                     'namespace' => null,
-                    'prefix' => 'cbc', 
+                    'prefix' => 'cbc',
                 ],
                 [
                     'name' => 'Percent',
-                    'value' => number_format($this->taxPercentage,2,'.',''),
+                    'value' => number_format($this->taxPercentage, 2, '.', ''),
                     'namespaced' => true,
                     'namespace' => null,
-                    'prefix' => 'cbc', 
+                    'prefix' => 'cbc',
                 ],
                 [
                     'name' => 'TaxScheme',
                     'value' => null,
                     'namespaced' => true,
                     'namespace' => null,
-                    'prefix' => 'cac', 
+                    'prefix' => 'cac',
                     'childs' => [
                         [
                             'name' => 'ID',
                             'value' => 'VAT',
                             'namespaced' => true,
                             'namespace' => null,
-                            'prefix' => 'cbc', 
-                        ]
-                    ]
+                            'prefix' => 'cbc',
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ];
     }
 }

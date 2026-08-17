@@ -1,4 +1,5 @@
 <?php
+
 namespace Allam\Zatca\Invoice;
 
 /**
@@ -29,7 +30,7 @@ class Delivery
             'value' => $this->deliveryDateTime,
             'namespaced' => true,
             'namespace' => null,
-            'prefix' => 'cbc'
+            'prefix' => 'cbc',
         ];
     }
 }

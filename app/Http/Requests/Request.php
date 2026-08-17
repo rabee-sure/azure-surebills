@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,7 +27,7 @@ class CustomerRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:50'],
-            'email' => ['nullable','email', 'max:50',
+            'email' => ['nullable', new EmailFormat(), 'max:50',
                 Rule::unique('customers')->where(function ($query){
                     return $query->where('user_id', auth()->user()->id);
                 })
