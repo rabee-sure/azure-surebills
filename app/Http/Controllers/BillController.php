@@ -23,8 +23,8 @@ use App\Traits\ResolvesBillUiTheme;
 use App\Http\Requests\RefundRequest;
 use App\Jobs\ExportMerchantBills;
 use App\Models\RefundedBill;
-use App\Models\Settings;
 use App\Services\Coupon\CouponService;
+use App\Services\MerchantSettingsService;
 use Illuminate\Validation\ValidationException as ValidationsException;
 
 class BillController extends Controller
@@ -34,8 +34,10 @@ class BillController extends Controller
     private $masterCardService;
     protected $couponService;
 
-    public function __construct(CouponService $couponService)
-    {
+    public function __construct(
+        CouponService $couponService,
+        private readonly MerchantSettingsService $merchantSettings,
+    ) {
         $this->middleware('permission:show bills', ['only' => ['index','show']]);
         $this->middleware(['permission:create bills', 'verified.user'], ['only' => ['create','store',]]);
         $this->middleware(['permission:create debit note', 'verified.user'], ['only' => ['createDebitNote', 'storeDebitNote']]);
@@ -114,7 +116,7 @@ class BillController extends Controller
         {
             abort(403);
         }
-        $settings = Settings::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->first();
+        $settings = $this->merchantSettings->getForUser(auth()->user());
         return view('bills.create', compact('settings'));
     }
 
@@ -126,7 +128,7 @@ class BillController extends Controller
         $bill = Bill::find($bill_id);
         $this->authorize('checkPermission', $bill);
         if($bill->debit_note_bill_id == null && in_array($bill->status, ['paid', 'paid_cash', 'paid_bank_transfer', 'paid_machine'])){
-            $settings = Settings::userId($bill->user_id)->first();
+            $settings = $this->merchantSettings->getForOwner((int) $bill->user_id);
             return view('bills.debit_notes.create', compact(['settings', 'bill']));
         }else{
             return redirect()->back()->withErrors(['authorization' => __("You can't create debit note for this bill")]);
@@ -464,11 +466,13 @@ class BillController extends Controller
             abort(403, $bill->access_to_pay_page->message);
         }
 
+        $settings = $this->merchantSettings->getForUser($bill->user);
+
         if ($lang && in_array($lang, ['en', 'ar'])) {
             \App::setLocale($lang);
             session()->put('user-lang', $lang);
         } else {
-            \App::setLocale($bill->user->settings->default_lang);
+            \App::setLocale($settings->default_lang ?? 'ar');
         }
 
         if (!$bill) {
@@ -487,7 +491,7 @@ class BillController extends Controller
         }
 
         if ($bill->is_invalid) {
-            return view('bills.status', ['bill' => $bill]);
+            return view('bills.status', ['bill' => $bill, 'settings' => $settings]);
         }
 
         $invoice = (new Invoice)->amount(number_format($bill->total, 2, '.', ''));
@@ -505,11 +509,11 @@ class BillController extends Controller
         $payForm = 'bills.mastercard_pay_form';
         $billUiTheme = $this->resolveBillUiTheme($bill);
 
-        if ($bill->application_id == null || !$bill->user->settings->api_bill_style) {
-            return view('bills.pay', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'));
+        if ($bill->application_id == null || !($settings->api_bill_style ?? false)) {
+            return view('bills.pay', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme', 'settings'));
         }
 
-        return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme'));
+        return view('bills.payment_page', compact('bill', 'id', 'countdown', 'payForm', 'years', 'microformSessionToken', 'billSignature', 'payTime', 'billUiTheme', 'settings'));
     }
 
     public function paymentSuccess()
