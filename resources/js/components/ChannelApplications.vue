@@ -423,14 +423,18 @@
             edit(application) {
                 this.editForm.id = application.id;
                 this.editForm.email = application.email;
-                this.editForm.redirect = application.redirect;
-                this.editForm.webhook_url = application.webhook_url;
-                this.editForm.mada_fixed = parseFloat(application.mada_fixed).toFixed(2);
-                this.editForm.mada_percentage = parseFloat(application.mada_percentage).toFixed(2);
-                this.editForm.credit_cards_fixed = parseFloat(application.credit_cards_fixed).toFixed(2);
-                this.editForm.credit_cards_percentage = parseFloat(application.credit_cards_percentage).toFixed(2);
 
-                $('#modal-edit-application').modal('show');
+                axios.get('/channels/'+ this.channel_id +'/applications/' + application.id)
+                    .then(response => {
+                        const authoritative = response.data.data || response.data;
+                        this.editForm.redirect = authoritative.redirect;
+                        this.editForm.webhook_url = authoritative.webhook_url;
+                        this.editForm.mada_fixed = parseFloat(authoritative.mada_fixed).toFixed(2);
+                        this.editForm.mada_percentage = parseFloat(authoritative.mada_percentage).toFixed(2);
+                        this.editForm.credit_cards_fixed = parseFloat(authoritative.credit_cards_fixed).toFixed(2);
+                        this.editForm.credit_cards_percentage = parseFloat(authoritative.credit_cards_percentage).toFixed(2);
+                        $('#modal-edit-application').modal('show');
+                    });
             },
 
             /**

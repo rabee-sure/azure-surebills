@@ -2,11 +2,18 @@
 
 namespace App\Observers;
 
-use App\Models\Transaction;
 use App\Models\Application;
+use App\Services\ApplicationFeeConfigService;
+use App\Services\Cache\CacheKeys;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ApplicationObserver
 {
+    public function __construct(
+        private readonly ApplicationFeeConfigService $applicationCache,
+    ) {}
+
     /**
      * Handle the application "created" event.
      *
@@ -25,6 +32,8 @@ class ApplicationObserver
                 $application->save();
             }
         }
+
+        $this->putSafely($application);
     }
 
     /**
@@ -35,7 +44,7 @@ class ApplicationObserver
      */
     public function updated(Application $application)
     {
-        //
+        $this->putSafely($application);
     }
 
     /**
@@ -46,7 +55,7 @@ class ApplicationObserver
      */
     public function deleted(Application $application)
     {
-        //
+        $this->forgetSafely($application);
     }
 
     /**
@@ -69,5 +78,33 @@ class ApplicationObserver
     public function forceDeleted(Application $application)
     {
         //
+    }
+
+    private function putSafely(Application $application): void
+    {
+        try {
+            $this->applicationCache->put($application);
+        } catch (Throwable $e) {
+            Log::warning('channels cache rewrite failed after application mutation', [
+                'domain' => 'channels',
+                'key' => CacheKeys::application($application->id),
+                'operation' => 'put',
+                'exception' => $e::class,
+            ]);
+        }
+    }
+
+    private function forgetSafely(Application $application): void
+    {
+        try {
+            $this->applicationCache->forget((int) $application->id);
+        } catch (Throwable $e) {
+            Log::warning('channels cache forget failed after application delete', [
+                'domain' => 'channels',
+                'key' => CacheKeys::application($application->id),
+                'operation' => 'forget',
+                'exception' => $e::class,
+            ]);
+        }
     }
 }
