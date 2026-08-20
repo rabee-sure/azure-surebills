@@ -57,7 +57,7 @@
         <div id="bank-information" class="content active dstepper-block">
           <div class="row g-6">
             <div class="col-sm-6">
-              <label class="form-label" for="bank_id">{{__('Bank')}} <div class="text-danger d-inline-block">*</div></label>
+              <label class="form-label text-capitalize" for="bank_id">{{__('Bank')}} <div class="text-danger d-inline-block">*</div></label>
               <select name="bank_id" id="bank_id" class="form-control select2">
                 <option value="" disabled selected>{{__('Select your Bank')}}</option>
                 @foreach(App\Models\Bank::active()->get() as $bank)
@@ -67,20 +67,20 @@
             </div><!-- col -->
 
             <div class="col-sm-6">
-              <label class="form-label" for="iban_number">{{__('IBAN Number')}} <div class="text-danger d-inline-block">*</div></label>
+              <label class="form-label text-capitalize" for="iban_number">{{__('IBAN Number')}} <div class="text-danger d-inline-block">*</div></label>
               <input value="{{ old('iban_number') }}"  name="iban_number" type="text" class="form-control" id="iban_number" placeholder="{{__('For Example IBAN Number')}} : SA2720000000000000001212 *">
               <small id="emailHelp" class="form-text mt-1 d-block text-muted">{{__('This account will be used to settle payments received through point-of-sale devices')}}</small>
             </div><!-- col -->
 
             <div class="col-sm-6">
-              <label class="form-label" for="beneficiary_name">{{__('Beneficiary Name')}} <div class="text-danger d-inline-block">*</div></label>
+              <label class="form-label text-capitalize" for="beneficiary_name">{{__('Beneficiary Name')}} <div class="text-danger d-inline-block">*</div></label>
               <input value="{{ old('beneficiary_name') }}" name="beneficiary_name" type="text" class="form-control" id="beneficiary_name" placeholder="{{__('Beneficiary Name')}}" autocomplete="off">
               <small id="beneficiary_name_help" class="form-text d-block mt-1 text-muted">{{__('Write the name of the account holder in English as registered with the bank')}}</small>
             </div><!-- col -->
 
             <div class="col-12">
               <hr class="mb-6 mt-0" />
-              <span class="d-block fw-bold fs-6 text-body mb-1">{{ __('Upload the required documents') }}</span>
+              <span class="d-block fw-bold fs-6 text-body text-capitalize mb-1">{{ __('Upload the required documents') }}</span>
               <p class="d-block mb-3 text-secondary">{{ __('Upload a copy of the IBAN card or an account statement showing the IBAN number and the name of the facility') }}</p>
               @include('components.dropzone',['documents' => merchant_dropzone_documents_payload((int) (auth()->user()->mainStoreUser ?? auth()->user())->id, 'bank_documents'), 'upload_context' => 'bank_documents'])
             </div><!-- col -->

@@ -236,3 +236,8 @@ ul.ui-widget {
     } // fileBtn
   } // uploadInput
 } // uploadFiledArea
+
+
+.invalid-feedback {
+  text-transform: capitalize !important;
+}
