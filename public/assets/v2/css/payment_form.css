@@ -68,12 +68,9 @@
 #payment_area .pay_form .form_area .inputs .two_inputs span iframe {
   width: 100% !important;
   height: 40px !important;
+  direction: ltr;
   text-align: left;
   transition: none !important;
-}
-[dir=rtl] #payment_area .pay_form .form_area .inputs .two_inputs span iframe {
-  direction: rtl;
-  text-align: right;
 }
 #payment_area .pay_form .form_area .inputs input {
   width: 100%;
@@ -84,36 +81,21 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 14px;
   color: #000000;
-  text-align: left;
   transition: none !important;
-}
-[dir=rtl] #payment_area .pay_form .form_area .inputs input {
-  direction: rtl;
-  text-align: right;
+  direction: ltr;
+  text-align: left;
 }
 #payment_area .pay_form .form_area .inputs input::-webkit-input-placeholder {
   color: #999999;
 }
-[dir=rtl] #payment_area .pay_form .form_area .inputs input::-webkit-input-placeholder {
-  direction: rtl;
-}
 #payment_area .pay_form .form_area .inputs input::-moz-placeholder {
   color: #999999;
-}
-[dir=rtl] #payment_area .pay_form .form_area .inputs input::-moz-placeholder {
-  direction: rtl;
 }
 #payment_area .pay_form .form_area .inputs input:-ms-input-placeholder {
   color: #999999;
 }
-[dir=rtl] #payment_area .pay_form .form_area .inputs input:-ms-input-placeholder {
-  direction: rtl;
-}
 #payment_area .pay_form .form_area .inputs input:-moz-placeholder {
   color: #999999;
-}
-[dir=rtl] #payment_area .pay_form .form_area .inputs input:-moz-placeholder {
-  direction: rtl;
 }
 #payment_area .pay_form button#payButton {
   width: 100%;
