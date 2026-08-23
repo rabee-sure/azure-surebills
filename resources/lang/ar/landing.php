@@ -13,6 +13,8 @@ return [
         'register_full' => 'تسجيل جديد',
         'login' => 'دخول',
         'login_full' => 'تسجيل الدخول',
+        'open_menu' => 'فتح القائمة',
+        'close_menu' => 'إغلاق القائمة',
     ],
 
     'footer' => [
