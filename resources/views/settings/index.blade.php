@@ -273,16 +273,13 @@
         <div class="row">
           <div class="col-12 col-md-6">
 
-            <div class="row mb-4">
-              <label for="background_color_body" class="col-md-3 col-form-label">{{ __('Background Color') }}</label>
-              <div class="col-md-9">
-                <input type="color" name="background_color_body" id="background_color_body" class="form-control m-0 p-1 h-100" value="{{ $user->settings->background_color_body ?? '#fafafa' }}">
-              </div><!-- col-md-10 -->
-            </div><!-- row -->
+            <div class="mb-4">
+              <label for="background_color_body" class="form-label">{{ __('Background Color') }}</label>
+              <input type="color" name="background_color_body" id="background_color_body" class="form-control input-color" value="{{ $user->settings->background_color_body ?? '#fafafa' }}">
+            </div><!-- mb-4 -->
 
-            <div class="row mb-4">
-              <label for="background_image_file" class="col-md-3 col-form-label">{{ __('Background Image') }}</label>
-              <div class="col-md-9">
+            <div class="mb-4">
+              <label for="background_image_file" class="form-label">{{ __('Background Image') }}</label>
                 <div class="uploadFiledArea">
                   <div class="uploadInput">
                     <div class="fileName"></div>
@@ -329,29 +326,22 @@
                   </div><!-- modal -->
                   <!-- Delete Confirmation Modal -->
                 @endif
-              </div><!-- col-md-10 -->
-            </div><!-- row -->
+            </div><!-- mb-4 -->
 
-            <div class="row mb-4">
-              <label for="text_color_body" class="col-md-3 col-form-label">{{ __('Text Color') }}</label>
-              <div class="col-md-9">
-                <input type="color" name="text_color_body" id="text_color_body" class="form-control m-0 p-1 h-100" value="{{ $user->settings->text_color_body ?? '#000000' }}">
-              </div><!-- col-md-10 -->
-            </div><!-- row -->
+            <div class="mb-4">
+              <label for="text_color_body" class="form-label">{{ __('Text Color') }}</label>
+              <input type="color" name="text_color_body" id="text_color_body" class="form-control input-color" value="{{ $user->settings->text_color_body ?? '#000000' }}">
+            </div>
 
-            <div class="row mb-4">
-              <label for="background_color_payment_button" class="col-md-3 col-form-label">{{ __('Payment Button Background Color') }}</label>
-              <div class="col-md-9">
-                <input type="color" name="background_color_payment_button" id="background_color_payment_button" class="form-control m-0 p-1 h-100" value="{{ $user->settings->background_color_payment_button ?? '#00d595' }}">
-              </div><!-- col-md-10 -->
-            </div><!-- row -->
+            <div class="mb-4">
+              <label for="background_color_payment_button" class="form-label">{{ __('Payment Button Background Color') }}</label>
+              <input type="color" name="background_color_payment_button" id="background_color_payment_button" class="form-control input-color" value="{{ $user->settings->background_color_payment_button ?? '#00d595' }}">
+            </div><!-- mb-4 -->
 
-            <div class="row">
-              <label for="text_color_payment_button" class="col-md-3 col-form-label">{{ __('Payment Button Text Color') }}</label>
-              <div class="col-md-9">
-                <input type="color" name="text_color_payment_button" id="text_color_payment_button" class="form-control m-0 p-1 h-100" value="{{ $user->settings->text_color_payment_button ?? '#ffffff' }}">
-              </div><!-- col-md-10 -->
-            </div><!-- row -->
+            <div>
+              <label for="text_color_payment_button" class="form-label">{{ __('Payment Button Text Color') }}</label>
+              <input type="color" name="text_color_payment_button" id="text_color_payment_button" class="form-control input-color" value="{{ $user->settings->text_color_payment_button ?? '#ffffff' }}">
+            </div><!-- mb-4 -->
 
 
           </div><!-- col-12 -->

@@ -241,3 +241,14 @@ ul.ui-widget {
 .invalid-feedback {
   text-transform: capitalize !important;
 }
+
+.input-color {
+  height: 42px;
+  padding: 0.375rem;
+  border-radius: var(--bs-border-radius);
+  border: var(--bs-border-width) solid color-mix(in sRGB, var(--bs-base-color) 22%, var(--bs-paper-bg));
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  &:hover {
+    border-color: var(--bs-gray-600);
+  }
+}
