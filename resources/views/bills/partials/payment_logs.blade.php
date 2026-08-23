@@ -77,19 +77,8 @@
               @endif
             </td>
             <td class="text-center p-2 border">
-              @if($log->webhook_response_received == true)
-                @if($log->status == true)
-                  <span class="badge badge-pill badge-success bill_status_badge">{{ __('Successfull') }}</span>
-                @else
-                  <span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span>
-                @endif
-              @else
-                @if($log->payment_method != 'mastercard_refund' && isset($log->results['success']) && $log->results['success'] == false)
-                  <span class="badge badge-pill badge-danger bill_status_badge">{{ __('Failed') }}</span>
-                @else
-                  <span class="badge badge-pill badge-warning bill_status_badge">{{ __('Waiting') }}</span>
-                @endif
-              @endif
+              @php $paymentLogStatus = getPaymentLogStatusBadge($log, $bill->payment_logs); @endphp
+              <span class="badge badge-pill {{ $paymentLogStatus['class'] }} bill_status_badge">{{ $paymentLogStatus['text'] }}</span>
             </td>
           </tr>
         @endforeach

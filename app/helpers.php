@@ -247,3 +247,69 @@ if(!function_exists('generateSecureOTP')){
         return Str::padLeft($randomNumber, 4, '0');
     }
 }
+
+if (!function_exists('getPaymentLogStatusBadge')) {
+    /**
+     * Map a payment log to its status badge class and label.
+     *
+     * @param  \App\Models\PaymentLog  $log
+     * @param  \Illuminate\Support\Collection|array|null  $billLogs
+     * @return array{class: string, text: string}
+     */
+    function getPaymentLogStatusBadge($log, $billLogs = null)
+    {
+        if ($log->webhook_response_received) {
+            if ($log->status) {
+                return [
+                    'class' => 'badge-success',
+                    'text' => __('Successfull'),
+                ];
+            }
+
+            return [
+                'class' => 'badge-danger',
+                'text' => __('Failed'),
+            ];
+        }
+
+        $results = $log->results;
+        $isEmptyResults = empty($results);
+        $billLogs = collect($billLogs ?? optional($log->bill)->payment_logs ?? []);
+        $hasMorePayOrRefundLogs = $billLogs->contains(function ($otherLog) use ($log) {
+            return $otherLog->id != $log->id
+                && $otherLog->id > $log->id
+                && $otherLog->payment_method !== 'mastercard_auth';
+        });
+
+        if ($isEmptyResults && !$hasMorePayOrRefundLogs) {
+            return [
+                'class' => 'badge-warning',
+                'text' => __('Waiting'),
+            ];
+        }
+
+        if ($isEmptyResults && $hasMorePayOrRefundLogs) {
+            return [
+                'class' => 'badge-danger',
+                'text' => __('Failed'),
+            ];
+        }
+
+        if (
+            !$isEmptyResults
+            && $log->payment_method != 'mastercard_refund'
+            && isset($results['success'])
+            && $results['success'] == false
+        ) {
+            return [
+                'class' => 'badge-danger',
+                'text' => __('Failed'),
+            ];
+        }
+
+        return [
+            'class' => 'badge-warning',
+            'text' => __('Waiting'),
+        ];
+    }
+}
