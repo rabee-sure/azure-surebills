@@ -27169,7 +27169,7 @@ html:not(.layout-footer-fixed) .content-wrapper {
     position: fixed;
     z-index: 1036;
     block-size: 100%;
-    inline-size: 40px;
+    inline-size: 0px;
     inset-block-start: 0;
     inset-inline-start: 0;
   }
