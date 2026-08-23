@@ -149,7 +149,7 @@
 
         <hr class="my-5">
 
-        <h5 class="card-title mb-5">{{ __('bills header and footer') }} <small class="d-inline-block text-secondary">( {{ __('optional') }} )</small></h5>
+        <h5 class="card-title mb-5 text-capitalize">{{ __('bills header and footer') }} <small class="d-inline-block text-secondary">( {{ __('optional') }} )</small></h5>
         <div class="row g-4 g-md-6">
           <div class="col-12 col-md-6">
             <label for="header_bill_ar" class="form-label">{{ __('Header ar') }}</label>
