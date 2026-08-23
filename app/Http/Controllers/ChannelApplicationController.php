@@ -7,11 +7,18 @@ use App\Models\Channel;
 use App\Http\Requests\ChannelApplicationRequest;
 use App\Http\Resources\ChannelApplicationResource;
 use App\Models\User;
+use App\Services\ApplicationFeeConfigService;
+use App\Services\ChannelFeeConfigService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ChannelApplicationController extends Controller
 {
+    public function __construct(
+        private readonly ApplicationFeeConfigService $applicationFeeConfig,
+        private readonly ChannelFeeConfigService $channelFeeConfig,
+    ) {}
+
     /**
      * Display a listing of the resource.
      *
@@ -25,9 +32,35 @@ class ChannelApplicationController extends Controller
             },
             'channel'
         ])->get();
+
+        $channelFeeConfig = $this->channelFeeConfig->get((int) $channel->id) ?? $channel;
+        $applications->each(function (Application $application) use ($channelFeeConfig) {
+            $application->setRelation(
+                'displayFeeConfig',
+                $this->applicationFeeConfig->get((int) $application->id) ?? $application
+            );
+            $application->setRelation('displayChannelFeeConfig', $channelFeeConfig);
+        });
+
         return ChannelApplicationResource::collection($applications);
     }
 
+    /**
+     * Authoritative DB-backed Application for the Edit form.
+     *
+     * Cached list fields must not populate editable fee inputs.
+     */
+    public function show(Channel $channel, Application $application)
+    {
+        $application->load([
+            'user' => function ($query) {
+                $query->withTrashed();
+            },
+            'channel',
+        ]);
+
+        return new ChannelApplicationResource($application);
+    }
 
     /**
      * Store a newly created resource in storage.

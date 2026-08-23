@@ -28,10 +28,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Hit/Miss Log Sample Rate (PR-04)
+    | Hit/Miss Log Sample Rate (PR-04 / P0-05)
     |--------------------------------------------------------------------------
     |
-    | Reserved for structured logging in PR-04. Unused by SureBillsCache in PR-01.
+    | <= 0: structured cache logging OFF (including errors).
+    | > 0: logging ON — sample successful hit/miss; log errors at 100%.
+    | Uses existing SUREBILLS_CACHE_LOG_SAMPLE_RATE only (no new env vars).
     |
     */
 

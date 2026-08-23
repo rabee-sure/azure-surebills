@@ -330,14 +330,18 @@
             edit(application) {
                 this.editForm.id = application.id;
                 this.editForm.email = application.email;
-                this.editForm.redirect = application.redirect;
-                this.editForm.webhook_url = application.webhook_url;
-                this.editForm.mada_fixed = application.mada_fixed;
-                this.editForm.mada_percentage = application.mada_percentage;
-                this.editForm.credit_cards_fixed = application.credit_cards_fixed;
-                this.editForm.credit_cards_percentage = application.credit_cards_percentage;
 
-                $('#modal-edit-application').modal('show');
+                axios.get('/channels/'+ this.channel_id +'/applications/' + application.id)
+                    .then(response => {
+                        const authoritative = response.data.data || response.data;
+                        this.editForm.redirect = authoritative.redirect;
+                        this.editForm.webhook_url = authoritative.webhook_url;
+                        this.editForm.mada_fixed = authoritative.mada_fixed;
+                        this.editForm.mada_percentage = authoritative.mada_percentage;
+                        this.editForm.credit_cards_fixed = authoritative.credit_cards_fixed;
+                        this.editForm.credit_cards_percentage = authoritative.credit_cards_percentage;
+                        $('#modal-edit-application').modal('show');
+                    });
             },
 
             /**

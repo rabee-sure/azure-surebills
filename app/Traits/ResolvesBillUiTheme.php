@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Services\MerchantSettingsService;
 
 /**
  * Builds the merchant-customizable theme variables consumed by the bill
@@ -13,6 +14,8 @@ namespace App\Traits;
  * Used by both the web `App\Http\Controllers\BillController` and the API
  * `App\Http\Controllers\Api\BillController` because they render the same
  * Blade templates and therefore must inject the same `$billUiTheme` payload.
+ *
+ * Theme/display only — never use for VAT or payment authority (PR-09).
  */
 trait ResolvesBillUiTheme
 {
@@ -22,7 +25,7 @@ trait ResolvesBillUiTheme
      */
     protected function resolveBillUiTheme($bill): array
     {
-        $settings = $bill->user->settings;
+        $settings = app(MerchantSettingsService::class)->getForUser($bill->user);
 
         $bgImage = bill_background_image_url($settings->background_image_file ?? null);
 

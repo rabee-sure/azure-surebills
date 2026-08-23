@@ -2,6 +2,7 @@
 @section('title', __('Bill No.') . ' ' . $bill->number)
 
 @section('content')
+@php($settings = $settings ?? $bill->user->settings)
 
   <div id="app" class="simple_bill_page py-4 min-vh-100">
     <div class="container">
@@ -90,7 +91,7 @@
         {{-- APPLE PAY VIA MASTERCARD --}}
 
         {{-- Socket Update --}}
-        @if($bill->user->settings->api_bill_style && $bill->application_id)
+        @if($settings->api_bill_style && $bill->application_id)
         Echo.channel('bill.{{$bill->id}}').listen('BillStatusUpdated', (e) => {
             var className;
 

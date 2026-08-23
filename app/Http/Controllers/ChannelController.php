@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Channel;
 use App\Http\Requests\ChannelRequest;
 use App\Http\Requests\ChannelUpdateRequest;
+use App\Services\ChannelFeeConfigService;
 use Illuminate\Http\Request;
 
 class ChannelController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(
+        private readonly ChannelFeeConfigService $channelFeeConfig,
+    ) {
         $this->middleware('permission:show channels');
         $this->middleware('permission:show applications', ['only' => ['show']]);
     }
@@ -70,7 +72,10 @@ class ChannelController extends Controller
         {
             $this->authorize('view', $channel);
         }
-        return view('channels.show', ['channel' => $channel]);
+
+        $channelDisplayConfig = $this->channelFeeConfig->get((int) $channel->id) ?? $channel;
+
+        return view('channels.show', compact('channel', 'channelDisplayConfig'));
     }
 
     /**
