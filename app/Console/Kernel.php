@@ -31,6 +31,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('merchants:transfer_balance')->dailyAt('03:00');
         $schedule->command('bills:check_paid_bills_missing_transactions')->dailyAt('03:00');
         $schedule->command('admin:report_inactive')->quarterly();
+        $activeAdminsReportSchedule = config('active_admins_report.schedule');
+        if ($activeAdminsReportSchedule) {
+            $schedule->command('admin:report_active')->cron($activeAdminsReportSchedule);
+        }
         $schedule->command('admin:block_password')->quarterly();
         $schedule->command('otp:cleanup')->daily();
         if($transactionCheckerInterval && config('cybersource.transaction_checker_active')){
