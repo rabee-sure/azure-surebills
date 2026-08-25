@@ -23,14 +23,10 @@ class ActiveAdminsExport implements FromQuery, WithHeadings, WithMapping
             'Email',
             'Mobile',
             'Status',
-            'Password Block Status',
             'Roles',
-            'Permissions',
             'Last Login At',
             'Last Password Change At',
-            'Email Verified At',
             'Created At',
-            'Updated At',
         ];
     }
 
