@@ -46,16 +46,10 @@ class ActiveAdminsExport implements FromQuery, WithHeadings, WithMapping
             $admin->email,
             $admin->mobile,
             $admin->is_active ? 'Active' : 'Inactive',
-            $admin->password_block ? 'Blocked' : 'Unblocked',
             $admin->roles->pluck('name')->filter()->implode(', '),
-            $admin->roles->flatMap(function ($role) {
-                return $role->permissions->pluck('name');
-            })->merge($admin->permissions->pluck('name'))->unique()->filter()->implode(', '),
             $admin->last_login_at,
             $admin->last_change_password_at,
-            $admin->email_verified_at,
             $admin->created_at,
-            $admin->updated_at,
         ];
     }
 
