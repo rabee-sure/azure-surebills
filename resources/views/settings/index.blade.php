@@ -35,14 +35,12 @@
         <h5 class="card-title mb-5">{{ __('Taxes') }}</h5>
         <div class="row g-4">
           <div class="col-12">
-            <label for="Tax_Values_Checkbox" class="switch switch-lg m-0">
+            <label for="Tax_Values_Checkbox" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="add_tax" id="Tax_Values_Checkbox" @if($user->settings->add_tax || old('add_tax') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Add Tax') }}</span>
@@ -66,14 +64,12 @@
         <h5 class="card-title mb-5">{{ __('Tax Invoice') }}</h5>
         <div class="row g-4">
           <div class="col-12">
-            <label for="Tax_Invoice_Values_Checkbox" class="switch switch-lg m-0">
+            <label for="Tax_Invoice_Values_Checkbox" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="add_tax_invoice" id="Tax_Invoice_Values_Checkbox" @if($user->settings->add_tax_invoice || old('add_tax_invoice') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Activate Tax Invoice') }}</span>
@@ -174,42 +170,36 @@
         <h5 class="card-title mb-5">{{ __('When Bill Created') }} <small class="d-inline-block text-secondary">( {{ __('Default settings') }} )</small></h5>
         <div class="row g-4 g-md-6">
           <div class="col-12 col-md-4">
-            <label for="create_send_sms" class="switch switch-lg m-0">
+            <label for="create_send_sms" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="create_send_sms" id="create_send_sms" @if($user->settings->create_send_sms || old('create_send_sms') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Send a text message to the customer') }}</span>
             </label>
           </div><!-- col-12 -->
           <div class="col-12 col-md-4">
-            <label for="create_send_email" class="switch switch-lg m-0">
+            <label for="create_send_email" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="create_send_email" id="create_send_email" @if($user->settings->create_send_email || old('create_send_email') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Send an email to the customer') }}</span>
             </label>
           </div><!-- col-12 -->
           <div class="col-12 col-md-4">
-            <label for="display_customer_details" class="switch switch-lg m-0">
+            <label for="display_customer_details" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="display_customer_details" id="display_customer_details" @if($user->settings->display_customer_details || old('display_customer_details') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Display Customer Details') }}</span>
@@ -222,28 +212,24 @@
         <h5 class="card-title mb-5">{{ __('When Bill Paid') }}</h5>
         <div class="row g-4 g-md-6">
           <div class="col-12 col-md-4">
-            <label for="paid_send_sms" class="switch switch-lg m-0">
+            <label for="paid_send_sms" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="paid_send_sms" id="paid_send_sms" @if($user->settings->paid_send_sms || old('paid_send_sms') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Send me a text message') }}</span>
             </label>
           </div><!-- col-12 -->
           <div class="col-12 col-md-4">
-            <label for="paid_send_email" class="switch switch-lg m-0">
+            <label for="paid_send_email" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="paid_send_email" id="paid_send_email" @if($user->settings->paid_send_email || old('paid_send_email') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Send an email to me') }}</span>
@@ -254,14 +240,12 @@
         <hr class="my-5">
 
         <h5 class="card-title mb-5">{{ __('Simple Style for API') }}</h5>
-        <label for="api_bill_style" class="switch switch-lg m-0">
+        <label for="api_bill_style" class="switch switch-success switch-lg m-0">
           <input type="checkbox" class="switch-input" name="api_bill_style" id="api_bill_style" @if($user->settings->api_bill_style || old('api_bill_style') == 'on') checked @endif>
           <span class="switch-toggle-slider">
             <span class="switch-on">
-              <i class="icon-base ti ti-check"></i>
             </span>
             <span class="switch-off">
-              <i class="icon-base ti ti-x"></i>
             </span>
           </span>
           <span class="switch-label">{{ __('Hide the additional information of the orgianization in the payment URL') }}</span>
