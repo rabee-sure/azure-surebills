@@ -4,7 +4,7 @@
 
 @section('content')
 
-  <div class="d-flex align-items-center justify-content-between gap-2 mb-6">
+  <div class="d-flex align-items-center justify-content-between gap-3 mb-6 flex-wrap">
     <div class="d-flex flex-column gap-1">
       <h4 class="mb-0">{{ __('Transfer Transactions') }}</h4>
       <nav aria-label="breadcrumb">

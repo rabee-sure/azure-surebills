@@ -21,7 +21,7 @@
         <img src=" {{ asset('assets/v2/img/payments/visa_lg.png')}}" class="d-block mw-100" alt="#">
       </div><!-- payment_icons -->
       <div class="inputs">
-        <input type="text" id="card-number" class="input-field" title="{{ __('Card Number') }}" aria-label="enter your card number" placeholder="{{ __('Card Number') }}" value="" tabindex="1" dir="ltr" readonly>
+        <input type="text" id="card-number" class="input-field" title="{{ __('Card Number') }}" aria-label="enter your card number" placeholder="{{ __('Card Number') }}" value="" tabindex="1" readonly>
         <div class="two_inputs">
           <span><input type="text" id="expiry-month" class="input-field expiry-month" title="{{ __('Expiry Month') }}" aria-label="two digit expiry month" placeholder="{{ __('Expiry Month') }}" value="" tabindex="2" dir="ltr" readonly></span>
           <span><input type="text" id="expiry-year" class="input-field" title="{{ __('Expiry Year') }}" aria-label="two digit expiry year" placeholder="{{ __('Expiry Year') }}" value="" tabindex="3" dir="ltr" readonly></span>

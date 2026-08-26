@@ -9,7 +9,7 @@
 
 @section('content')
 
-  <div class="d-flex align-items-center justify-content-between gap-2 mb-6">
+  <div class="d-flex align-items-center justify-content-between gap-2 mb-6 flex-wrap">
     <h4 class="m-0 flex-grow-1">{{ __('Electronic payment') }}</h4>
     <h6 class="text-success bg-label-success rounded-3 py-2 px-3 m-0 d-flex align-items-center justify-content-end gap-1">
       {{ __('Balance') }} :
@@ -21,7 +21,7 @@
 
   <div class="card mb-6">
     <div class="card-body p-3">
-      <div class="row row-cols-2 row-cols-md-5 g-3">
+      <div class="row row-cols-1 row-cols-md-5 g-3">
         <div class="col">
           <select name="transaction_type" class="form-control select2-single filter" data-allow-clear="false">
             <option selected disabled>
