@@ -251,14 +251,12 @@
           </div><!-- row -->
         </div><!-- col -->
         <div class="col-12 col-md-6">
-          <label for="Discount_Values_Checkbox" class="switch switch-lg m-0">
+          <label for="Discount_Values_Checkbox" class="switch switch-success switch-lg m-0">
             <input type="checkbox" class="switch-input" name="add_discount" id="Discount_Values_Checkbox" @if(old('add_discount')) checked @endif>
             <span class="switch-toggle-slider">
               <span class="switch-on">
-                <i class="icon-base ti ti-check"></i>
               </span>
               <span class="switch-off">
-                <i class="icon-base ti ti-x"></i>
               </span>
             </span>
             <span class="switch-label">{{ __('Add Discount') }}</span>
@@ -286,14 +284,12 @@
           </div><!-- Discount_Values -->
         </div><!-- col -->
         <div class="col-12 col-md-6">
-          <label for="Tax_Values_Checkbox" class="switch switch-lg m-0">
+          <label for="Tax_Values_Checkbox" class="switch switch-success switch-lg m-0">
             <input type="checkbox" class="switch-input" name="add_tax" id="Tax_Values_Checkbox" @if($errors->any()) @if(old('add_tax') == true) checked @endif @else @if($settings->add_tax) checked @endif @endif>
             <span class="switch-toggle-slider">
               <span class="switch-on">
-                <i class="icon-base ti ti-check"></i>
               </span>
               <span class="switch-off">
-                <i class="icon-base ti ti-x"></i>
               </span>
             </span>
             <span class="switch-label">{{ __('Add Tax') }}</span>
@@ -317,28 +313,24 @@
       <h5 class="card-title mb-5">{{ __('Send The Bill To Customer') }}</h5>
       <div class="row g-5">
         <div class="col-12 col-lg-6">
-          <label for="send_sms" class="switch switch-lg m-0">
+          <label for="send_sms" class="switch switch-success switch-lg m-0">
             <input type="checkbox" class="switch-input" name="send_sms" id="send_sms" @if($settings->create_send_sms || old('send_sms')) checked @endif>
             <span class="switch-toggle-slider">
               <span class="switch-on">
-                <i class="icon-base ti ti-check"></i>
               </span>
               <span class="switch-off">
-                <i class="icon-base ti ti-x"></i>
               </span>
             </span>
             <span class="switch-label">{{ __('Send SMS') }}</span>
           </label>
         </div><!-- col-12 -->
         <div class="col-12 col-lg-6">
-          <label for="send_email" class="switch switch-lg m-0">
+          <label for="send_email" class="switch switch-success switch-lg m-0">
             <input type="checkbox" class="switch-input" name="send_email" id="send_email" @if($settings->create_send_email || old('send_email')) checked @endif>
             <span class="switch-toggle-slider">
               <span class="switch-on">
-                <i class="icon-base ti ti-check"></i>
               </span>
               <span class="switch-off">
-                <i class="icon-base ti ti-x"></i>
               </span>
             </span>
             <span class="switch-label">{{ __('Send Email') }}</span>
