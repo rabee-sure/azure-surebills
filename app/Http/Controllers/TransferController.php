@@ -145,7 +145,11 @@ class TransferController extends Controller
             'beneficiary_name' => $user->beneficiary_name,
         ];
 
-        $transfer = TransferService::makeTransfer('pending', $amount, $data);
+        try {
+            $transfer = TransferService::makeTransfer('pending', $amount, $data);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors());
+        }
 
         // if($transfer)
             //add listner of transfer file generated
@@ -195,7 +199,11 @@ class TransferController extends Controller
                 'beneficiary_name' => $user->beneficiary_name,
             ];
 
-            $transfer = TransferService::makeTransfer($status, $amount, $data);
+            try {
+                $transfer = TransferService::makeTransfer($status, $amount, $data);
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                return response()->json(['error' => $e->validator->errors()->first()], 422);
+            }
 
             return new TransferResource($transfer);
         }

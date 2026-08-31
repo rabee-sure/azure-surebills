@@ -80,8 +80,12 @@ class CreateCustomeTransferRequest extends Command
             $this->line($key.' = '.$line);
         }
         if ($this->confirm('Do you wish to continue?')) {
-            $transfer = TransferService::makeTransfer('pending', $amount, $data);
-            $this->info('Transfer Request Created');
+            try {
+                $transfer = TransferService::makeTransfer('pending', $amount, $data);
+                $this->info('Transfer Request Created');
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                $this->error($e->getMessage());
+            }
         }else{
             $this->info('Transfer Request canceled');
         }

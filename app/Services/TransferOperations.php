@@ -10,8 +10,9 @@ use App\Models\TransferLog;
 use App\Models\Transfer;
 use App\Services\TransferService;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 
 class TransferOperations
@@ -22,25 +23,28 @@ class TransferOperations
      */
     public function complete($transfers, $status, $user_id, $results=null, $from_sps=false)
     {
-        foreach($transfers as $transfer){
-            if($transfer->status == 'pending' || $transfer->status == 'send_to_sps' ){
-                $type = $from_sps ? $status.' sps transfer':$status.' transfer';
+        foreach ($transfers as $transfer) {
+            DB::transaction(function () use ($transfer, $status, $user_id, $results, $from_sps) {
+                $lockedTransfer = Transfer::where('id', $transfer->id)->lockForUpdate()->first();
 
-                $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results);
+                if (! $lockedTransfer || ! in_array($lockedTransfer->status, ['pending', 'send_to_sps'], true)) {
+                    return;
+                }
 
-                $this->createTransferTransaction($transfer);
+                $type = $from_sps ? $status.' sps transfer' : $status.' transfer';
 
-            $transfer->transactions()
-                ->chunkById(1000, function($transactions_ids){
-                    Transaction::whereIn('id', $transactions_ids->pluck('id'))->update(['settled' => true]);
-                });
+                $this->changeStatusAndCreateLog($lockedTransfer, $status, $type, $user_id, $results);
 
-                // $transfer->transactions()->update(['settled' => true]);
+                $this->createTransferTransaction($lockedTransfer);
 
-                SendCompletedTransferEmailToMerchant::dispatch($transfer);
-            }
+                $lockedTransfer->transactions()
+                    ->chunkById(1000, function ($transactions_ids) {
+                        Transaction::whereIn('id', $transactions_ids->pluck('id'))->update(['settled' => true]);
+                    });
+
+                SendCompletedTransferEmailToMerchant::dispatch($lockedTransfer);
+            });
         }
-
     }
 
     /**
@@ -49,13 +53,19 @@ class TransferOperations
      */
     public function cancel($transfers, $status, $user_id, $results=null, $from_sps=false)
     {
-        foreach($transfers as $transfer){
-            if($transfer->status == 'pending' ){
-                $type = $from_sps ? $status.' sps transfer':$status.' transfer';
-                $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results);
+        foreach ($transfers as $transfer) {
+            DB::transaction(function () use ($transfer, $status, $user_id, $results, $from_sps) {
+                $lockedTransfer = Transfer::where('id', $transfer->id)->lockForUpdate()->first();
 
-                $transfer->transactions()->update(["pending_settled" => false]);
-            }
+                if (! $lockedTransfer || $lockedTransfer->status != 'pending') {
+                    return;
+                }
+
+                $type = $from_sps ? $status.' sps transfer' : $status.' transfer';
+                $this->changeStatusAndCreateLog($lockedTransfer, $status, $type, $user_id, $results);
+
+                $lockedTransfer->transactions()->update(['pending_settled' => false]);
+            });
         }
     }
 
@@ -66,13 +76,19 @@ class TransferOperations
      */
     public function fail($transfers, $status, $user_id, $results=null, $from_sps=false)
     {
-        foreach($transfers as $transfer){
-            if($transfer->status == 'send_to_sps' ){
-                $type = $from_sps ? $status.' sps transfer':$status.' transfer';
-                $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results);
+        foreach ($transfers as $transfer) {
+            DB::transaction(function () use ($transfer, $status, $user_id, $results, $from_sps) {
+                $lockedTransfer = Transfer::where('id', $transfer->id)->lockForUpdate()->first();
 
-                $transfer->transactions()->update(["pending_settled" => false]);
-            }
+                if (! $lockedTransfer || $lockedTransfer->status != 'send_to_sps') {
+                    return;
+                }
+
+                $type = $from_sps ? $status.' sps transfer' : $status.' transfer';
+                $this->changeStatusAndCreateLog($lockedTransfer, $status, $type, $user_id, $results);
+
+                $lockedTransfer->transactions()->update(['pending_settled' => false]);
+            });
         }
     }
 
@@ -82,10 +98,16 @@ class TransferOperations
      */
     public function pending($transfers, $status, $user_id, $results=null, $from_sps=false)
     {
-        foreach($transfers as $transfer){
-            if($transfer->status == 'pending' ){
-                $transfer->transactions()->update(['pending_settled' => true]);
-            }
+        foreach ($transfers as $transfer) {
+            DB::transaction(function () use ($transfer) {
+                $lockedTransfer = Transfer::where('id', $transfer->id)->lockForUpdate()->first();
+
+                if (! $lockedTransfer || $lockedTransfer->status != 'pending') {
+                    return;
+                }
+
+                $lockedTransfer->transactions()->update(['pending_settled' => true]);
+            });
         }
     }
 
@@ -93,33 +115,53 @@ class TransferOperations
      * send transfers To Sps.
      * 
      */
-    public function sendToSps($transfers, $status, $user_id, $results=null, $from_sps=false)
+    public function sendToSps($transfers, $status, $user_id, $results=null, $from_sps=false, $sendHttp=true)
     {
         $body = [];
 
-        foreach($transfers as $transfer){
-            if($transfer->status == 'pending' || $transfer->status == 'send_to_sps'){
+        foreach ($transfers as $transfer) {
+            DB::transaction(function () use ($transfer, $status, $user_id, $results, &$body) {
+                $lockedTransfer = Transfer::where('id', $transfer->id)->lockForUpdate()->first();
+
+                if (! $lockedTransfer || ! in_array($lockedTransfer->status, ['pending', 'send_to_sps'], true)) {
+                    return;
+                }
+
                 $type = $status.' sps transfer';
-                $this->changeStatusAndCreateLog($transfer, $status, $type, $user_id, $results);
-                $transfer->transactions()->update(["pending_settled" => true]);
+                $this->changeStatusAndCreateLog($lockedTransfer, $status, $type, $user_id, $results);
+                $lockedTransfer->transactions()->update(['pending_settled' => true]);
+                $body[] = $this->transformToSPS($lockedTransfer);
+            });
+        }
+
+        if ($sendHttp && $body) {
+            $this->dispatchSpsHttp($body);
+        }
+    }
+
+    public function postToSps(array $transfers): void
+    {
+        $body = [];
+        foreach ($transfers as $transfer) {
+            if ($transfer) {
                 $body[] = $this->transformToSPS($transfer);
             }
         }
 
-        // $response = Http::post('http://10.2.2.45:8087/api/Transfer/Transfer', [
-        // $response = Http::post('https://surebill-api.surepay.sa/api/Transfer/Transfer', [
-        //     'transfers' => $body
-        // ]);
+        if ($body) {
+            $this->dispatchSpsHttp($body);
+        }
+    }
 
+    protected function dispatchSpsHttp(array $body): void
+    {
         $url = 'https://surebill-api.surepay.sa/api/Transfer/Transfer';
 
         \Log::channel('send_to_sps')->info("request body", $body);
 
-        $transfers = [
-            'transfers' => $body
-        ];
-
-        $postData = json_encode($transfers);
+        $postData = json_encode([
+            'transfers' => $body,
+        ]);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
@@ -133,7 +175,6 @@ class TransferOperations
         curl_close ($ch);
 
         \Log::channel('send_to_sps')->info("SPS response", ['response' => $server_output]);
-
     }
 
     /**

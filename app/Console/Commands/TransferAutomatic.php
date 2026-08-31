@@ -128,7 +128,12 @@ class TransferAutomatic extends Command
                         'iban_number' => $user->iban_number,
                         'beneficiary_name' => $user->beneficiary_name,
                     ];
-                    $transfer = TransferService::makeTransfer('pending', $amount, $data);
+                    try {
+                        $transfer = TransferService::makeTransfer('pending', $amount, $data);
+                    } catch (\Illuminate\Validation\ValidationException $e) {
+                        $this->info("skipped user ID $user->id: ".$e->getMessage());
+                        continue;
+                    }
                     $transfer_ids[] = $transfer->id;
                 }
             }
