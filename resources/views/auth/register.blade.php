@@ -137,7 +137,7 @@
       <div class="d-flex justify-content-between">
         <div class="form-check mb-0">
           <input type="checkbox" class="form-check-input @error('terms') is-invalid @enderror" name="terms" id="customCheckThis" value="1" />
-          <label class="form-check-label" for="remember">{{ __('I agree to') }} <a id="read_terms" href="#" title="{{ __('Terms & Conditions') }}" data-bs-toggle="modal" data-bs-target="#conditionsModal">{{ __('Terms & Conditions') }}</a></label>
+          <label class="form-check-label" for="remember">{{ __('I agree to') }} <a id="read_terms" target="_blank" href="{{ route('terms-and-conditions') }}" title="{{ __('Terms & Conditions') }}">{{ __('Terms & Conditions') }}</a></label>
         </div>
       </div>
       @error('terms')
