@@ -1016,7 +1016,7 @@
   "We have sent a verification code to your registered email address and mobile number." : "تم إرسال رمز التحقق إلى بريدك الإلكتروني ورقم هاتفك المسجل.",
   "Please enter the code to complete your login." : "برجاء إدخال الرمز لإكمال تسجيل الدخول.",
   "Verify OTP" : "تحقق رمز التحقق",
-  "Enter 6-digit OTP" : "أدخل رمز التحقق 6 رقم",
+  "Enter 6-digit OTP" : "أدخل رمز التحقق 6 ارقام",
   "Resend OTP" : "إعادة إرسال رمز التحقق",
   "No valid OTP found. Please request a new one." : "لا يوجد رمز تحقق صالح. برجاء طلب رمز جديد.",
   "OTP sent successfully" : "تم إرسال رمز التحقق بنجاح",
