@@ -121,10 +121,21 @@
           if (dropzoneReadonly) return;
           var fileExtension = (file.name.split('.').pop() || '').toLowerCase();
           if (file.size > maxUploadBytes || allowedExtensions.indexOf(fileExtension) === -1) {
-            if (file.previewElement) file.previewElement.remove();
-            this.removeFile(file);
-            var errorMessage = file.size > maxUploadBytes ? fileTooBigMessage : invalidFileTypeMessage;
-            $(".dropzone_error").show().text(errorMessage);
+            file.accepted = false;
+            var validationMessage = file.size > maxUploadBytes ? fileTooBigMessage : invalidFileTypeMessage;
+            $(".dropzone_error").show().text(validationMessage);
+            var dz = this;
+            // Remove after Dropzone finishes error handling so the rejected file
+            // is dropped from this.files and does not consume a maxFiles slot.
+            setTimeout(function () {
+              if (file.previewElement) file.previewElement.remove();
+              if (dz.files.indexOf(file) !== -1) {
+                dz.removeFile(file);
+              }
+              if (typeof dz._updateMaxFilesReachedClass === 'function') {
+                dz._updateMaxFilesReachedClass();
+              }
+            }, 0);
             return;
           }
           file.previewElement.classList.add('error_file');
@@ -146,7 +157,9 @@
               if (file.previewElement) file.previewElement.remove();
               return;
             }
-            $(".dropzone_error").hide();
+            if (file.accepted !== false) {
+              $(".dropzone_error").hide();
+            }
             if (file.previewElement) file.previewElement.remove();
             var name = (typeof file.storedPath !== 'undefined' && file.storedPath) ? file.storedPath : uploadedDocumentMap[file.name];
             if (!name && typeof file.file_name !== 'undefined') {
@@ -161,7 +174,9 @@
                 return v === name || baseName(v) === baseName(name);
               }).remove();
             }
-            this.options.maxFiles = 5 - this.files.length;
+            if (typeof this._updateMaxFilesReachedClass === 'function') {
+              this._updateMaxFilesReachedClass();
+            }
         },
 
         init: function () {
@@ -179,7 +194,9 @@
                 id: fileData.id,
                 mime_type: fileData.mime_type || '',
                 storedPath: storedPath,
-                download_url: fileData.download_url || null
+                download_url: fileData.download_url || null,
+                accepted: true,
+                status: Dropzone.SUCCESS
               };
               dz.options.addedfile.call(dz, mockFile);
               dz.files.push(mockFile);
@@ -214,7 +231,7 @@
                 });
               })(fileData);
             }
-            dz.options.maxFiles = dropzoneReadonly ? 0 : (5 - files.length);
+            dz.options.maxFiles = dropzoneReadonly ? 0 : 5;
           @else
             dz.options.maxFiles = dropzoneReadonly ? 0 : 5;
           @endif
