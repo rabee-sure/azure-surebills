@@ -54,8 +54,11 @@
                 <label for="Tax" class="form-label">{{ __('Tax Value') }}</label>
                 <div class="input-group input-group-merge" dir="ltr">
                   <span class="input-group-text" id="percentage"><i class="icon-base ti ti-percentage"></i></span>
-                  <input type="number" inputmode="numeric" name="tax_value" class="form-control" min="0" max="100" id="Value" value="{{ old('tax_value') ?? $user->settings->tax_value }}" aria-describedby="percentage">
+                  <input type="number" inputmode="numeric" name="tax_value" class="form-control @error('tax_value') is-invalid @enderror" min="0" max="100" step="any" id="Value" value="{{ old('tax_value') ?? $user->settings->tax_value }}" aria-describedby="percentage">
                 </div><!-- input-group -->
+                @error('tax_value')
+                  <div class="invalid-feedback d-block" role="alert">{{ $message }}</div>
+                @enderror
               </div><!-- col -->
             </div><!-- row -->
           </div><!-- col-12 -->
