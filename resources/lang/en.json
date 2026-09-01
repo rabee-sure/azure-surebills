@@ -447,5 +447,6 @@
   "bulk generate coupons": "Bulk generate coupons",
   "export coupons": "Export coupons",
   "toggle coupon status": "Toggle coupon status",
-  "delete coupon": "Delete coupon"
+  "delete coupon": "Delete coupon",
+  "Upload the required documents": "Upload the required documents (Max 5 files)"
 }
