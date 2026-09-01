@@ -94,7 +94,7 @@ class BillApiRequest extends FormRequest
             ],
             'customer_name' => ['required', 'string', 'max:50', 'regex:/^[\p{L}\s]+$/u'],
             'customer_email' => ['required', 'string', new EmailFormat, 'max:50'],
-            'customer_mobile' => ['required'],
+            'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
             'customer_notes' => ['nullable'],
 
             'due_date' => ['required', 'date_format:d-m-Y'],
