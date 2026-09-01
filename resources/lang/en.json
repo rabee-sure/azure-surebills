@@ -402,6 +402,7 @@
 "Verify": "Verify",
 "Didn't receive the code?": "Didn't receive the code?",
 "Resend OTP": "Resend OTP",
+"Resend OTP in :time": "Resend OTP in :time",
 "Back to Login": "Back to Login",
 "An OTP has been sent to your email. Please enter it to complete login.": "An OTP has been sent to your email. Please enter it to complete login.",
 "An OTP has been sent to your mobile number. Please enter it to complete login.": "An OTP has been sent to your mobile number. Please enter it to complete login.",

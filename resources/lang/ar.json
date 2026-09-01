@@ -1000,6 +1000,7 @@
   "Verify OTP" : "تحقق رمز التحقق",
   "Enter 6-digit OTP" : "أدخل رمز التحقق 6 رقم",
   "Resend OTP" : "إعادة إرسال رمز التحقق",
+  "Resend OTP in :time" : "إعادة إرسال رمز التحقق خلال :time",
   "No valid OTP found. Please request a new one." : "لا يوجد رمز تحقق صالح. برجاء طلب رمز جديد.",
   "OTP sent successfully" : "تم إرسال رمز التحقق بنجاح",
   "Failed to send OTP" : "فشل إرسال رمز التحقق",

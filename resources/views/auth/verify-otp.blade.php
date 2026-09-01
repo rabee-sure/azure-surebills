@@ -73,7 +73,20 @@
   <form method="POST" action="{{ route('otp.resend') }}" id="resend-otp-form" class="text-center">
     @csrf
     {{ __("Didn't receive the code?") }}
-    <button type="submit" class="btn btn-link p-1"> {{ __('Resend OTP') }} </button>
+    <button
+      type="submit"
+      id="resend-otp-btn"
+      class="btn btn-link p-1"
+      @disabled($resendRemainingSeconds > 0)
+      data-remaining="{{ $resendRemainingSeconds }}"
+      data-idle-label="{{ __('Resend OTP') }}"
+      data-wait-label="{{ __('Resend OTP in :time') }}">
+      @if ($resendRemainingSeconds > 0)
+        {{ __('Resend OTP in :time', ['time' => sprintf('%02d:%02d', intdiv($resendRemainingSeconds, 60), $resendRemainingSeconds % 60)]) }}
+      @else
+        {{ __('Resend OTP') }}
+      @endif
+    </button>
   </form>
 
   <hr class="my-6">
@@ -156,6 +169,50 @@
           }
           submitting = true;
           if (verifyBtn) verifyBtn.disabled = true;
+        });
+      }
+
+      var resendForm = document.getElementById('resend-otp-form');
+      var resendBtn = document.getElementById('resend-otp-btn');
+      if (resendBtn) {
+        var remaining = parseInt(resendBtn.getAttribute('data-remaining'), 10) || 0;
+        var idleLabel = resendBtn.getAttribute('data-idle-label') || '';
+        var waitLabel = resendBtn.getAttribute('data-wait-label') || ':time';
+
+        function pad(n) {
+          return String(n).padStart(2, '0');
+        }
+
+        function formatMmSs(seconds) {
+          return pad(Math.floor(seconds / 60)) + ':' + pad(seconds % 60);
+        }
+
+        function renderResendCountdown() {
+          if (remaining <= 0) {
+            resendBtn.disabled = false;
+            resendBtn.textContent = idleLabel;
+            return;
+          }
+          resendBtn.disabled = true;
+          resendBtn.textContent = waitLabel.replace(':time', formatMmSs(remaining));
+        }
+
+        renderResendCountdown();
+        if (remaining > 0) {
+          var resendTimer = setInterval(function() {
+            remaining -= 1;
+            renderResendCountdown();
+            if (remaining <= 0) {
+              clearInterval(resendTimer);
+            }
+          }, 1000);
+        }
+      }
+      if (resendForm) {
+        resendForm.addEventListener('submit', function(e) {
+          if (resendBtn && resendBtn.disabled) {
+            e.preventDefault();
+          }
         });
       }
     });
