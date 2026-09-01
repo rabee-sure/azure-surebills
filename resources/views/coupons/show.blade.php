@@ -140,12 +140,6 @@
                 <td><code>{{ $coupon->code_pattern }}</code></td>
               </tr>
               @endif
-              @if($coupon->mechanism && $coupon->mechanism->value() === 'one_time_usage' && $coupon->code_pattern)
-              <tr>
-                <td class="fw-bold">{{ __('Code Pattern') }}</td>
-                <td><code>{{ $coupon->code_pattern }}</code></td>
-              </tr>
-              @endif
               <tr>
                 <td class="fw-bold">{{ __('Status') }}</td>
                 <td>
