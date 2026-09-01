@@ -391,7 +391,8 @@
         },
         firstDayOfWeek: {{ app()->getLocale() == 'ar' ? 6 : 0 }},
         rangeSeparator: ' {{ __("to") }} ',
-        weekAbbreviation: '{{ __("week") }}'
+        weekAbbreviation: '{{ __("week") }}',
+        amPM: ['{{ __("AM") }}', '{{ __("PM") }}']
       };
 
       function parseForFlatpickr(val) {

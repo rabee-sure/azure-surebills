@@ -448,5 +448,7 @@
   "export coupons": "Export coupons",
   "toggle coupon status": "Toggle coupon status",
   "delete coupon": "Delete coupon",
-  "Upload the required documents": "Upload the required documents (Max 5 files)"
+  "Upload the required documents": "Upload the required documents (Max 5 files)",
+  "AM": "AM",
+  "PM": "PM"
 }
