@@ -25,20 +25,24 @@ class CustomerUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $customerId = optional($this->route('customer'))->id ?? 0;
+        $customerId = optional($this->route('customer'))->id;
+
+        $emailRules = ['nullable', new EmailFormat, 'max:50'];
+        $mobileRules = ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'];
+
+        if ($customerId) {
+            $emailRules[] = Rule::unique('customers')->where(function ($query) {
+                return $query->where('user_id', auth()->user()->id);
+            })->ignore($customerId);
+            $mobileRules[] = Rule::unique('customers')->where(function ($query) {
+                return $query->where('user_id', auth()->user()->id);
+            })->ignore($customerId);
+        }
 
         return [
             'name' => ['required', 'string', 'max:50', 'regex:/^[\p{L}\s]+$/u'],
-            'email' => ['nullable',new EmailFormat, 'max:50',
-                Rule::unique('customers')->where(function ($query){
-                    return $query->where('user_id', auth()->user()->id);
-                })->ignore($customerId)
-            ],
-            'mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/',
-                Rule::unique('customers')->where(function ($query){
-                    return $query->where('user_id', auth()->user()->id);
-                })->ignore($customerId)
-            ],
+            'email' => $emailRules,
+            'mobile' => $mobileRules,
             'notes' => ['nullable'],
         ];
     }
