@@ -43,6 +43,7 @@ class ContactRequest extends FormRequest
     {
         return [
           'source.required' => __('source required'),
+          'name.required' => __('name required'),
           'name.string' => __('name must be real'),
           'email.required' => __('email required'),
           'email.email' => __('email must be email format'),
