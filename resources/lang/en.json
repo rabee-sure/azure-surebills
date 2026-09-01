@@ -399,6 +399,8 @@
 "We have sent a verification code to your registered email address and mobile number.": "We have sent a verification code to your registered email address and mobile number.",
 "Please enter the code to complete your login.": "Please enter the code to complete your login.",
 "Enter 6-digit OTP": "Enter 6-digit OTP",
+"Enter 4-digit OTP": "Enter 4-digit OTP",
+"The OTP must be 4 digits.": "The OTP must be 4 digits.",
 "Verify": "Verify",
 "Didn't receive the code?": "Didn't receive the code?",
 "Resend OTP": "Resend OTP",

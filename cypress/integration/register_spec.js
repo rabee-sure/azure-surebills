@@ -62,8 +62,10 @@ context('Register', () => {
         cy.get('#password').type(password);
         cy.get('.login_button').click();
 
-        cy.get('.verify_phone_page input').type('0000');
-        cy.get('.verify_phone_page button').click();
+        cy.get('#twoStepsForm .numeral-mask').each(($el) => {
+            cy.wrap($el).type('0');
+        });
+        cy.get('#otp-verify-btn').should('not.be.disabled').click();
         cy.assertRedirect('account');
     });
 

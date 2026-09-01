@@ -999,6 +999,8 @@
   "Please enter the code to complete your login." : "برجاء إدخال الرمز لإكمال تسجيل الدخول.",
   "Verify OTP" : "تحقق رمز التحقق",
   "Enter 6-digit OTP" : "أدخل رمز التحقق 6 رقم",
+  "Enter 4-digit OTP" : "أدخل رمز التحقق 4 أرقام",
+  "The OTP must be 4 digits." : "رمز التحقق يجب أن يكون 4 أرقام.",
   "Resend OTP" : "إعادة إرسال رمز التحقق",
   "Resend OTP in :time" : "إعادة إرسال رمز التحقق خلال :time",
   "No valid OTP found. Please request a new one." : "لا يوجد رمز تحقق صالح. برجاء طلب رمز جديد.",
