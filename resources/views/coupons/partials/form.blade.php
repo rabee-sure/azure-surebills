@@ -217,14 +217,12 @@
   </div><!-- col -->
   {{-- Active Toggle --}}
   <div class="col-12">
-    <label class="switch switch-success" for="is_active">
+    <label class="switch switch-lg switch-success" for="is_active">
       <input type="checkbox" class="switch-input" name="is_active" id="is_active" value="1" {{ old('is_active', $couponIsActive) ? 'checked' : '' }}>
       <span class="switch-toggle-slider">
         <span class="switch-on">
-          <i class="icon-base ti ti-check"></i>
         </span>
         <span class="switch-off">
-          <i class="icon-base ti ti-x"></i>
         </span>
       </span>
       <span class="switch-label">{{ __('Active') }}</span>
