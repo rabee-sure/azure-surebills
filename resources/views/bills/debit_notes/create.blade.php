@@ -277,8 +277,11 @@
                     <i id="fixed" class="sar-icon lh-1"></i>
                     <i id="percentage" class="icon-base ti ti-percentage"></i>
                   </span>
-                  <input type="number" inputmode="numeric" name="discount_value" class="form-control" value="{{old('discount_value')}}" id="Discount_Value" aria-describedby="fixed, percentage" />
+                  <input type="number" inputmode="numeric" name="discount_value" class="form-control" value="{{old('discount_value')}}" id="Discount_Value" min="0" step="any" aria-describedby="fixed, percentage" />
                 </div><!-- input-group -->
+                @error('discount_value')
+                  <div class="invalid-feedback d-block" role="alert">{{ $message }}</div>
+                @enderror
               </div><!-- col-6 -->
             </div><!-- row -->
           </div><!-- Discount_Values -->

@@ -106,10 +106,10 @@ class BillApiRequest extends FormRequest
                 Rule::requiredIf(fn () => $this->input('add_discount') === 'on'),
                 Rule::in(['fixed', 'percentage']),
             ],
-            'discount_value' => ['required_if:add_discount,on'],
+            'discount_value' => ['required_if:add_discount,on', 'nullable', 'numeric', 'min:0'],
 
             'add_tax' => ['nullable'],
-            'tax_value' => ['required_if:add_tax,on'],
+            'tax_value' => ['required_if:add_tax,on', 'nullable', 'numeric', 'min:0'],
 
             'send_sms' => ['nullable'],
             'send_email' => ['nullable'],
@@ -158,6 +158,10 @@ class BillApiRequest extends FormRequest
     {
         return [
           'customer_name.required' => __('customer name required'),
+          'discount_value.numeric' => __('Discount value must be a number'),
+          'discount_value.min' => __('Value must be greater than or equal to 0'),
+          'tax_value.numeric' => __('Tax value must be a number'),
+          'tax_value.min' => __('Value must be greater than or equal to 0'),
           'customer_mobile.required' => __('customer mobile required'),
           'customer_mobile.regex' => __('customer mobile is not correct'),
           'items.*.name.required' => __('item name required'),

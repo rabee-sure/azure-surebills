@@ -288,8 +288,11 @@
                     <i id="fixed" class="sar-icon lh-1"></i>
                     <i id="percentage" class="icon-base ti ti-percentage"></i>
                   </span>
-                  <input type="number" inputmode="numeric" name="discount_value" class="form-control" value="{{old('discount_value')}}" id="Discount_Value" aria-describedby="fixed, percentage" />
+                  <input type="number" inputmode="numeric" name="discount_value" class="form-control" value="{{old('discount_value')}}" id="Discount_Value" min="0" step="any" aria-describedby="fixed, percentage" />
                 </div><!-- input-group -->
+                @error('discount_value')
+                  <div class="invalid-feedback d-block" role="alert">{{ $message }}</div>
+                @enderror
               </div><!-- col-6 -->
             </div><!-- row -->
           </div><!-- Discount_Values -->
@@ -313,8 +316,11 @@
                 <label for="Value" class="form-label">{{ __('Tax Value') }}</label>
                 <div class="input-group input-group-merge" dir="ltr">
                   <span class="input-group-text"><i class="icon-base ti ti-percentage"></i></span>
-                  <input type="number" inputmode="numeric" name="tax_value" class="form-control" value="@if($settings->add_tax){{$settings->tax_value}}@else{{old('tax_value')}}@endif" id="Value" aria-describedby="Value" />
+                  <input type="number" inputmode="numeric" name="tax_value" class="form-control" value="@if($settings->add_tax){{$settings->tax_value}}@else{{old('tax_value')}}@endif" id="Value" min="0" step="any" aria-describedby="Value" />
                 </div><!-- input-group -->
+                @error('tax_value')
+                  <div class="invalid-feedback d-block" role="alert">{{ $message }}</div>
+                @enderror
               </div><!-- col-12 -->
             </div><!-- row -->
           </div><!-- Tax_Values -->
