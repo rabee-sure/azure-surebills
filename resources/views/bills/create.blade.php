@@ -177,20 +177,29 @@
               <div data-repeater-item>
                 <div class="row g-5">
                   <div class="col-lg-6 col-xl-3 col-12">
-                    <label class="form-label" for="name">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
-                    <input type="text" id="name" class="form-control" name="name" value="{{$item['name']}}" placeholder="{{ __('Name') }}" />
+                    <label class="form-label">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
+                    <input type="text" class="form-control" name="name" value="{{$item['name']}}" placeholder="{{ __('Name') }}" />
+                    @error('items.'.$loop->index.'.name')
+                      <p class="text-danger mb-0 mt-1" role="alert">{{ $message }}</p>
+                    @enderror
                   </div><!-- col -->
                   <div class="col-lg-6 col-xl-3 col-12">
-                    <label class="form-label" for="price">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
-                    <input type="number" class="form-control qty1 product_price" id="price" name="price" value="{{$item['price']}}" placeholder="{{ __('Price') }}"  min="1" />
+                    <label class="form-label">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
+                    <input type="number" class="form-control qty1 product_price" name="price" value="{{$item['price']}}" placeholder="{{ __('Price') }}"  min="1" />
+                    @error('items.'.$loop->index.'.price')
+                      <p class="text-danger mb-0 mt-1" role="alert">{{ $message }}</p>
+                    @enderror
                   </div><!-- col -->
                   <div class="col-lg-6 col-xl-2 col-12">
-                    <label class="form-label" for="quantity">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
-                    <input type="number" class="form-control qty1 product_quantity" id="quantity" name="quantity" value="{{$item['quantity']}}" placeholder="{{ __('Quantity') }}" min="1" />
+                    <label class="form-label">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
+                    <input type="number" class="form-control qty1 product_quantity" name="quantity" value="{{$item['quantity']}}" placeholder="{{ __('Quantity') }}" min="1" />
+                    @error('items.'.$loop->index.'.quantity')
+                      <p class="text-danger mb-0 mt-1" role="alert">{{ $message }}</p>
+                    @enderror
                   </div><!-- col -->
                   <div class="col-lg-6 col-xl-2 col-12">
-                    <label class="form-label" for="total">{{ __('Total') }}</label>
-                    <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control" id="total" disabled>
+                    <label class="form-label">{{ __('Total') }}</label>
+                    <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control" disabled>
                   </div><!-- col -->
                   <div class="col-lg-12 col-xl-2 col-12 d-flex align-items-center">
                     <button type="button" class="btn btn-label-danger mt-xl-6" data-repeater-delete>
@@ -206,19 +215,19 @@
             <div data-repeater-item>
               <div class="row g-5">
                 <div class="col-lg-6 col-xl-3 col-12">
-                  <label class="form-label" for="name">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
+                  <label class="form-label">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
                   <input name="name" type="text" class="form-control" placeholder="{{ __('Name') }}" />
                 </div><!-- col -->
                 <div class="col-lg-6 col-xl-3 col-12">
-                  <label class="form-label" for="price">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
+                  <label class="form-label">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
                   <input name="price" type="number" min="1" class="form-control qty1 product_price" placeholder="{{ __('Price') }}" />
                 </div><!-- col -->
                 <div class="col-lg-6 col-xl-2 col-12">
-                  <label class="form-label" for="quantity">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
+                  <label class="form-label">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
                   <input name="quantity" type="number" min="1" class="form-control qty1 product_quantity" placeholder="{{ __('Quantity') }}" />
                 </div><!-- col -->
                 <div class="col-lg-6 col-xl-2 col-12">
-                  <label class="form-label" for="total">{{ __('Total') }}</label>
+                  <label class="form-label">{{ __('Total') }}</label>
                   <input name="total" type="number" class="form-control fw-bold" disabled>
                 </div><!-- col -->
                 <div class="col-lg-12 col-xl-2 col-12 d-flex align-items-center">
@@ -277,8 +286,11 @@
                     <i id="fixed" class="sar-icon lh-1"></i>
                     <i id="percentage" class="icon-base ti ti-percentage"></i>
                   </span>
-                  <input type="number" inputmode="numeric" name="discount_value" class="form-control" value="{{old('discount_value')}}" id="Discount_Value" aria-describedby="fixed, percentage" />
+                  <input type="number" inputmode="numeric" name="discount_value" class="form-control" value="{{old('discount_value')}}" id="Discount_Value" min="0" step="any" aria-describedby="fixed, percentage" />
                 </div><!-- input-group -->
+                @error('discount_value')
+                  <div class="invalid-feedback d-block" role="alert">{{ $message }}</div>
+                @enderror
               </div><!-- col-6 -->
             </div><!-- row -->
           </div><!-- Discount_Values -->
@@ -300,8 +312,11 @@
                 <label for="Value" class="form-label">{{ __('Tax Value') }}</label>
                 <div class="input-group input-group-merge" dir="ltr">
                   <span class="input-group-text"><i class="icon-base ti ti-percentage"></i></span>
-                  <input type="number" inputmode="numeric" name="tax_value" class="form-control" value="@if($settings->add_tax){{$settings->tax_value}}@else{{old('tax_value')}}@endif" id="Value" aria-describedby="Value" />
+                  <input type="number" inputmode="numeric" name="tax_value" class="form-control" value="@if($settings->add_tax){{$settings->tax_value}}@else{{old('tax_value')}}@endif" id="Value" min="0" step="any" aria-describedby="Value" />
                 </div><!-- input-group -->
+                @error('tax_value')
+                  <div class="invalid-feedback d-block" role="alert">{{ $message }}</div>
+                @enderror
               </div><!-- col-12 -->
             </div><!-- row -->
           </div><!-- Tax_Values -->
@@ -446,10 +461,22 @@
       var pendingDeleteElement = null;
       var pendingDeleteRow = null;
 
+      function syncBillItemFieldIds(scope) {
+        $(scope).find('[data-repeater-item]').each(function() {
+          $(this).find('input[name], select[name], textarea[name]').each(function() {
+            if (!this.name) return;
+            var uniqueId = this.name.replace(/\]\[/g, '_').replace(/[\[\]]/g, '');
+            this.id = uniqueId;
+            $(this).closest('[class*="col-"]').find('label.form-label').attr('for', uniqueId);
+          });
+        });
+      }
+
       $('.form-repeater').repeater({
         initEmpty: false,
         show: function () {
           $(this).slideDown();
+          syncBillItemFieldIds(this);
         },
         hide: function (deleteElement) {
           pendingDeleteElement = deleteElement;
@@ -460,11 +487,16 @@
         isFirstItemUndeletable: true
       });
 
+      syncBillItemFieldIds('.inner-repeater');
+
       $('#confirmDeleteItem').on('click', function() {
         if (pendingDeleteRow && pendingDeleteElement) {
-          pendingDeleteRow.slideUp(pendingDeleteElement);
-          pendingDeleteRow = null;
-          pendingDeleteElement = null;
+          pendingDeleteRow.slideUp(function() {
+            pendingDeleteElement();
+            syncBillItemFieldIds('.inner-repeater');
+            pendingDeleteRow = null;
+            pendingDeleteElement = null;
+          });
         }
         bootstrap.Modal.getInstance(document.getElementById('deleteItemModal')).hide();
       });
@@ -680,4 +712,56 @@
   });
 </script>
   {!! JsValidator::formRequest('App\Http\Requests\BillRequest', '#bill_create') !!}
+  <script>
+    jQuery(document).ready(function() {
+      var $form = $('#bill_create');
+      var validator = $form.data('validator');
+      if (!validator) return;
+
+      // Repeater rows must be identified by unique name, never a shared id like "price".
+      validator.idOrName = function(element) {
+        return element.name || element.id;
+      };
+
+      validator.errorsFor = function(element) {
+        return this.errors().filter(function() {
+          var describedBy = $(element).attr('aria-describedby');
+          return (describedBy && this.id === describedBy) ||
+            $(this).attr('data-error-for') === element.name;
+        });
+      };
+
+      validator.settings.highlight = function(element) {
+        $(element).removeClass('is-valid').addClass('is-invalid');
+      };
+      validator.settings.unhighlight = function(element) {
+        $(element).removeClass('is-invalid').addClass('is-valid');
+      };
+      validator.settings.success = function(label, element) {
+        if (element) {
+          $(element).removeClass('is-invalid');
+        }
+        $(label).remove();
+      };
+      validator.settings.errorPlacement = function(error, element) {
+        error.attr('data-error-for', element.attr('name') || '');
+        error.insertAfter(element);
+      };
+
+      $form.on('invalid-form.validate', function(event, validatorInstance) {
+        $.each(validatorInstance.errorMap, function(name, message) {
+          var el = validatorInstance.findByName(name)[0];
+          if (!el) return;
+          $(el).removeClass('is-valid').addClass('is-invalid');
+          var $error = $(el).nextAll('.invalid-feedback').filter(function() {
+            return $(this).attr('data-error-for') === name;
+          }).first();
+          if (!$error.length) {
+            $error = $('<span class="invalid-feedback"></span>').attr('data-error-for', name).insertAfter(el);
+          }
+          $error.text(message).show();
+        });
+      });
+    });
+  </script>
 @endpush

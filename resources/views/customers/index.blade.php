@@ -96,6 +96,7 @@
   <!-- Laravel Javascript Validation -->
   <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
   {!! JsValidator::formRequest('App\Http\Requests\CustomerRequest', '#customers_store') !!}
+  {!! JsValidator::formRequest('App\Http\Requests\CustomerUpdateRequest', '#customers_update') !!}
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Submit button spinner for Add Customer form (delay so we run after JsValidator)
@@ -168,11 +169,12 @@
 
         editForm.addEventListener('submit', function(e) {
           if (btn.disabled) return;
+          if (e.defaultPrevented) return;
           showSpinner();
           setTimeout(resetButton, 8000);
         });
 
-        editForm.addEventListener('invalid', function() {
+        $(editForm).on('invalid-form.validate', function() {
           resetButton();
         });
       }, 100);
@@ -213,6 +215,11 @@
             const customer = JSON.parse(button.dataset.customer);
             const form = document.getElementById('customers_update');
             form.action = "{{ url('customers') }}/" + customer.id;
+            if (typeof $ !== 'undefined' && $(form).data('validator')) {
+              $(form).validate().resetForm();
+              $(form).find('.is-invalid').removeClass('is-invalid');
+              $(form).find('label.error').remove();
+            }
             document.getElementById('edit_Name').value = customer.name || '';
             document.getElementById('edit_Mobile').value = customer.mobile || '';
             document.getElementById('edit_Email').value = customer.email || '';

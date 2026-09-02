@@ -26,7 +26,7 @@
       <div class="row g-6">
         <div class="col-12 col-md-6">
           <label for="bank_id" class="form-label text-capitalize">{{__('Bank')}} <span class="text-danger">*</span></label>
-          <select name="bank_id" id="bank_id" class="form-select select2" @if($user->disable_bank_documents) disabled @endif>
+          <select name="bank_id" id="bank_id" class="form-select select2">
             <option value="" disabled selected>{{__('Select your Bank')}}</option>
             @foreach(App\Models\Bank::active()->get() as $bank)
               <option value="{{$bank->id}}" @if($user->bank_id == $bank->id)selected="selected"@endif>{{ $bank->name }}</option>
@@ -35,12 +35,12 @@
         </div><!-- col-12 -->
         <div class="col-12 col-md-6">
           <label for="iban_number" class="form-label text-capitalize">{{__('IBAN Number')}} <span class="text-danger">*</span></label>
-          <input value="{{ $user->iban_number }}"  name="iban_number" type="text" class="form-control" id="iban_number" placeholder="رقم آيبان مثلاً : SA2720000000000000001212 *" aria-describedby="ibanNumberHelp" autocomplete="off" @if($user->disable_bank_documents) disabled @endif>
+          <input value="{{ $user->iban_number }}"  name="iban_number" type="text" class="form-control" id="iban_number" placeholder="رقم آيبان مثلاً : SA2720000000000000001212 *" aria-describedby="ibanNumberHelp" autocomplete="off">
           <div id="ibanNumberHelp" class="form-text">{{__('This account will be used to settle payments received through point-of-sale devices')}}</div>
         </div><!-- col-12 -->
         <div class="col-12">
           <label for="beneficiary_name" class="form-label text-capitalize">{{__('Beneficiary Name')}} <span class="text-danger">*</span></label>
-          <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control" id="beneficiary_name" placeholder="{{__('Beneficiary Name')}}" aria-describedby="beneficiaryNameHelp" autocomplete="off" @if($user->disable_bank_documents) disabled @endif>
+          <input value="{{ $user->beneficiary_name }}" name="beneficiary_name" type="text" class="form-control" id="beneficiary_name" placeholder="{{__('Beneficiary Name')}}" aria-describedby="beneficiaryNameHelp" autocomplete="off">
           <div id="beneficiaryNameHelp" class="form-text">{{__('Write the name of the account holder in English as registered with the bank')}}</div>
         </div><!-- col-12 -->
         <div class="col-12">
@@ -57,7 +57,6 @@
         </div><!-- col-12 -->
       </div><!-- row -->
     </div><!-- card-body -->
-    @if(!$user->disable_bank_documents)
       <div class="card-footer d-flex align-items-center justify-content-end">
         <button type="submit" class="btn btn-primary btn-submit-with-spinner" data-loading-text="{{ __('Saving...') }}">
           <span class="btn-spinner d-none me-2" role="status">
@@ -66,7 +65,6 @@
           <span class="btn-text">{{__('Save')}}</span>
         </button>
       </div><!-- card-footer -->
-    @endif
   </form>
 
 @endsection

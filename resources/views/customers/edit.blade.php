@@ -1,5 +1,5 @@
 <div class="modal fade" id="edit_customer_Modal" tabindex="-1" aria-hidden="true">
-  <form method="POST" action="" id="customers_update" class="modal-dialog modal-lg" role="document">
+  <form method="POST" action="" id="customers_update" class="modal-dialog modal-lg" role="document" novalidate>
     @method('PATCH')
     @csrf
     <div class="modal-content">
@@ -11,11 +11,11 @@
         <div class="row row-cols-1 row-cols-md-2 g-6">
           <div class="col">
             <label for="edit_Name" class="form-label">{{__('Name')}} <span class="requirement text-danger">*</span></label>
-            <input name="name" type="text" class="form-control" id="edit_Name" placeholder="{{__('Name')}}" required autocomplete="off">
+            <input name="name" type="text" class="form-control" id="edit_Name" placeholder="{{__('Name')}}" autocomplete="off">
           </div><!-- col -->
           <div class="col">
             <label for="edit_Mobile" class="form-label">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
-            <input name="mobile" type="tel" class="form-control" id="edit_Mobile" placeholder="{{__('Mobile')}}" pattern="[0-9]*" maxlength="9" inputmod="numaric" required autocomplete="off">
+            <input name="mobile" type="tel" class="form-control" id="edit_Mobile" placeholder="{{__('Mobile')}}" pattern="[0-9]*" maxlength="9" inputmod="numaric" autocomplete="off">
           </div><!-- col -->
           <div class="col">
             <label for="edit_Email" class="form-label">{{__('Email')}}</label>

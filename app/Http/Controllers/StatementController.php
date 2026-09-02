@@ -33,7 +33,7 @@ class StatementController extends Controller
         $application = ($request->has('application_id') && !in_array($request->application_id, ['all','undefined']))
             ? Application::where('id',$request->application_id)
                 ->with(['user' => function ($query) {
-                    $query->withTrashed();
+                    $query->withTrashed()->with('mainStoreUser');
                 }])
                 ->first() 
             : null;
@@ -45,7 +45,7 @@ class StatementController extends Controller
         $applications = ($channel)
             ? Application::where('channel_id', $channel->id)
                 ->with(['user' => function ($query) {
-                    $query->withTrashed();
+                    $query->withTrashed()->with('mainStoreUser');
                 }])
                 ->get()
             : [];

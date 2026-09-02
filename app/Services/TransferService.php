@@ -9,12 +9,15 @@ use App\Jobs\UpdateTransferExcelFile;
 use App\Models\Transaction;
 use App\Models\Transfer;
 use App\Models\TransferLog;
+use App\Models\User;
 use App\Support\Storage\ExportStoragePaths;
+use App\Services\BasicSettingsService;
 use App\Services\TransferOperations;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TransferService 
@@ -30,14 +33,45 @@ class TransferService
      */
     public static function makeTransfer($status, $amount, $data)
     {
-        return DB::transaction(function () use($status, $amount, $data){
+        $transfer = DB::transaction(function () use ($status, $data) {
+            $merchant = User::where('id', $data['user_id'])->lockForUpdate()->first();
+
+            if (! $merchant) {
+                throw ValidationException::withMessages([
+                    'amount' => [__('amount must be greater than 0')],
+                ]);
+            }
+
+            $cycleDate = $data['cycle_date'] instanceof Carbon
+                ? $data['cycle_date']->format('Y-m-d')
+                : Carbon::parse($data['cycle_date'])->format('Y-m-d');
+
+            $unsettled = Transaction::select('id', 'type', 'amount')
+                ->where('user_id', $merchant->id)
+                ->amountByCycleDate($cycleDate)
+                ->get();
+
+            $transactionIds = $unsettled->pluck('id')->all();
+            $lockedAmount = floorp(
+                $unsettled->where('type', 'credit')->sum('amount') - $unsettled->where('type', 'debit')->sum('amount'),
+                2
+            );
+
+            $settings = app(BasicSettingsService::class)->getSettings();
+            $transfer_minimum = (float) ($settings['transfer_minimum'] ?? 0);
+
+            if ($transactionIds === [] || $lockedAmount < $transfer_minimum) {
+                throw ValidationException::withMessages([
+                    'amount' => [__('Your balance is not allowed to transfer. The minimum transfer balance is :minimum', ['minimum' => $transfer_minimum])],
+                ]);
+            }
 
             $transfer = Transfer::create([
                 'status' => 'pending',
-                'amount' => $amount,
-                'user_id' => $data['user_id'],
+                'amount' => $lockedAmount,
+                'user_id' => $merchant->id,
                 'transfer_fees' => $data['transfer_fees'],
-                'net_amount' => $amount - $data['transfer_fees'],
+                'net_amount' => $lockedAmount - $data['transfer_fees'],
                 'note' => $data['note'] ?? null,
                 'attachment' => $data['attachment'] ?? null,
                 'created_by_id' => $data['created_by_id'],
@@ -46,49 +80,50 @@ class TransferService
                 'beneficiary_name' => $data['beneficiary_name'],
                 'filters' => [
                     'date' => [
-                        "cycle_date" => $data['cycle_date'],
+                        'cycle_date' => $data['cycle_date'],
                     ],
                 ],
             ]);
 
-
-            $log = TransferLog::create([
+            TransferLog::create([
                 'type' => 'create transfer',
-                'user_id' => auth()->user()->id?? null,
+                'user_id' => auth()->user()->id ?? null,
                 'transfer_id' => $transfer->id,
                 'transfer_status' => $status,
             ]);
 
-            Transaction::select('id')
-                ->where('user_id', $data['user_id'])
-                ->amountByCycleDate($data['cycle_date']->format('Y-m-d'))
-                ->chunk(1000, function($transactions_ids) use($transfer){
-                    $transfer->transactions()->attach($transactions_ids->pluck('id'));
-                });
+            foreach (array_chunk($transactionIds, 1000) as $chunk) {
+                $transfer->transactions()->attach($chunk);
+            }
 
             $perations = new TransferOperations();
-            if($status == 'completed'){
-                $perations->complete([$transfer], $status, auth()->user()->id);
-            }elseif($status == 'pending'){
+            if ($status == 'completed') {
+                $perations->complete([$transfer], $status, auth()->user()->id ?? null);
+            } elseif ($status == 'pending') {
                 $user_id = null;
-                if(auth()->user()){
-                    if(auth()->user()->id){
+                if (auth()->user()) {
+                    if (auth()->user()->id) {
                         if (Auth::guard('admins')->check()) {
                             $user_id = auth()->user()->id;
                         }
                     }
                 }
                 $perations->pending([$transfer], $status, $user_id);
-            }elseif($status == 'send_to_sps'){
-                $perations->sendToSps([$transfer], $status, auth()->user()->id);
+            } elseif ($status == 'send_to_sps') {
+                $perations->sendToSps([$transfer], $status, auth()->user()->id ?? null, null, false, false);
             }
 
-            $file_name = self::saveExcelFileName($transfer);
+            return $transfer->fresh();
+        });
 
-            CreateTransferExcelFileJob::dispatch($transfer->id);
+        self::saveExcelFileName($transfer);
+        CreateTransferExcelFileJob::dispatch($transfer->id);
 
-            return $transfer;
-        }); 
+        if ($status == 'send_to_sps' && $transfer->status == 'send_to_sps') {
+            (new TransferOperations())->postToSps([$transfer]);
+        }
+
+        return $transfer;
     }
 
 

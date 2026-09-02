@@ -450,5 +450,17 @@
   "bulk generate coupons": "Bulk generate coupons",
   "export coupons": "Export coupons",
   "toggle coupon status": "Toggle coupon status",
-  "delete coupon": "Delete coupon"
+  "delete coupon": "Delete coupon",
+  "Upload the required documents": "Upload the required documents (Max 5 files)",
+  "AM": "AM",
+  "PM": "PM",
+  "source required": "Source is required",
+  "name required": "Name is required",
+  "name must be real": "Name must be valid",
+  "email required": "Email is required",
+  "email must be email format": "Email must be a valid email format",
+  "company required": "Company is required",
+  "mobile required": "Mobile is required",
+  "mobile is not correct": "Mobile number is not correct",
+  "message required": "Message is required"
 }

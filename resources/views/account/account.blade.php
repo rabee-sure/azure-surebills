@@ -134,7 +134,7 @@
         </div><!-- col -->
       @endif
     @endcan
-    @can('update settings')
+    @canany(['show coupons', 'create coupon', 'bulk generate coupons', 'export coupons', 'toggle coupon status', 'delete coupon'])
       <div class="col">
         <a href="{{ route('coupons.index') }}" title="{{ __('Coupon Management') }}" class="card h-100">
           <div class="card-body d-flex align-items-center justify-content-start">
@@ -145,7 +145,7 @@
           </div>
         </a>
       </div><!-- col -->
-    @endcan
+    @endcanany
   </div><!-- row -->
 
 @endsection
