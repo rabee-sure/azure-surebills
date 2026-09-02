@@ -43,7 +43,12 @@ class OtpController extends Controller
             ]);
         }
 
-        return view('auth.verify-otp');
+        $user = User::find(session('pending_user_id'));
+        $resendRemainingSeconds = $user
+            ? $this->otpService->resendRemainingSeconds($user)
+            : 0;
+
+        return view('auth.verify-otp', compact('resendRemainingSeconds'));
     }
 
     /**
@@ -134,6 +139,10 @@ class OtpController extends Controller
             return redirect()->route('login')->withErrors([
                 'email' => __('User not found. Please log in again.'),
             ]);
+        }
+
+        if ($this->otpService->resendRemainingSeconds($user) > 0) {
+            return back();
         }
 
         // Generate and send new OTP

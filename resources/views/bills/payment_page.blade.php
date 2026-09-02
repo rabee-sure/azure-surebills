@@ -3,13 +3,15 @@
 
 @section('content')
 
-  <div id="app" class="simple_bill_page py-4 min-vh-100">
+  {{-- Vue mounts to #app; keep it off the hosted-field form or session iframes get wiped. --}}
+  <div id="app" hidden></div>
+  <div class="simple_bill_page py-4 min-vh-100">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-12 col-lg-5">
 
         <div class="card">
-          <div class="card-body p-3">
+          <div class="card-body p-3 position-relative">
 
             <div class="load_form active">
               <div class="spinner-border text-muted"></div>
@@ -55,71 +57,33 @@
 @endsection
 
 @push('footer-scripts')
-    <script>
-      var host = "{{isset($host) ? $host : request()->getHost()}}";
-    </script>
-
   <script src="{{ asset('assets/v2/vendor/js/app.js') }}"></script>
-
-    <script>
-        function loading() {
-          $('#errors').css('display', 'none');
-          $("#errors ul").html('');
-          $(".load_form").addClass('active');
+  <script>
+    @if($bill->user->settings->api_bill_style && $bill->application_id)
+    if (typeof window.Echo !== 'undefined') {
+      Echo.channel('bill.{{$bill->id}}').listen('BillStatusUpdated', (e) => {
+        switch(e.bill.status) {
+          case "paid":
+            $("#payment_area").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
+            break;
+          case "canceled":
+            $("#payment_area").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-danger" role="alert">{{ __("this bill is canceled") }}</div>');
+            break;
+          case "expired":
+            $("#payment_area").remove();
+            $("#status").empty();
+            $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
+            break;
+          default:
+            $("#payment_area").remove();
+            $("#status").empty();
         }
-        function loaded() {
-            $(".load_form").removeClass('active');
-        }
-        function addError(error) {
-            $('#errors').css('display', 'block');
-            $('#errors ul').append('<li>' + error + '</li>');
-            loaded();
-        }
-        // Loadin Page
-        $(window).on("load",function(){
-            loaded();
-        });
-
-        {{--  MasterCard Hosted Session --}}
-        <?php require app_path('Payment/Drivers/MasterCardHostedSession/pay.js'); ?>
-
-        {{-- APPLE PAY VIA MASTERCARD --}}
-        @if (!isset($sureEasyRendrer))
-        <?php require app_path('Payment/Drivers/MasterCardApplePay/payment-request.js'); ?>
-        @endif
-        {{-- APPLE PAY VIA MASTERCARD --}}
-
-        {{-- Socket Update --}}
-        @if($bill->user->settings->api_bill_style && $bill->application_id)
-        Echo.channel('bill.{{$bill->id}}').listen('BillStatusUpdated', (e) => {
-            var className;
-
-            switch(e.bill.status) {
-                case "pending":
-                    className = "badge-info";
-                    break;
-                case "paid":
-                    $("#payment_area").remove();
-                    $("#status").empty();
-                    $("#status").append('<div class="alert alert-success" role="alert">{{ __("this bill is paid successfully") }}</div>');
-                    break;
-                case "canceled":
-                    $("#payment_area").remove();
-                    $("#status").empty();
-                    $("#status").append('<div class="alert alert-danger" role="alert">{{ __("this bill is canceled") }}</div>');
-                    break;
-                case "expired":
-                    $("#payment_area").remove();
-                    $("#status").empty();
-                    $("#status").append('<div class="alert alert-danger" role="alert">{{ __('this bill has been expired', ['number' => $bill->number ]) }}</div>');
-                    break;
-                default:
-                    $("#payment_area").remove();
-                    $("#status").empty();
-            }
-        });
-        @endif
-        {{-- Socket Update --}}
-    </script>
-
-    @endpush
+      });
+    }
+    @endif
+  </script>
+@endpush

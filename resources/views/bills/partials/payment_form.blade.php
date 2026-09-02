@@ -81,6 +81,3 @@
 
     </script>
   @endpush
-
-</body>
-</html>
