@@ -53,21 +53,28 @@
                     $visibleCount = 7;
                     $visiblePermissions = $permissions->take($visibleCount);
                     $remainingPermissions = $permissions->skip($visibleCount);
+                    $remainingTooltip = $remainingPermissions
+                      ->map(fn ($p) => '<div>'.e(__($p)).'</div>')
+                      ->implode('');
                   @endphp
-                  @foreach($visiblePermissions as $permission)
-                    <span class="badge bg-label-dark">{{__($permission)}}</span>
-                  @endforeach
-                  @if($remainingPermissions->isNotEmpty())
-                    <span
-                      class="badge bg-label-dark cursor-pointer"
-                      data-bs-toggle="tooltip"
-                      data-bs-html="true"
-                      data-bs-placement="top"
-                      title="{!! $remainingPermissions->map(fn($p) => e(__($p)))->implode('<br>') !!}"
-                    >
-                      +{{ $remainingPermissions->count() }}
-                    </span>
-                  @endif
+                  <div class="d-flex flex-wrap align-items-center gap-1">
+                    @foreach($visiblePermissions as $permission)
+                      <span class="badge bg-label-dark">{{__($permission)}}</span>
+                    @endforeach
+                    @if($remainingPermissions->isNotEmpty())
+                      <span
+                        class="badge bg-label-dark cursor-pointer"
+                        data-bs-toggle="tooltip"
+                        data-bs-html="true"
+                        data-bs-placement="top"
+                        data-bs-container="body"
+                        data-bs-custom-class="role-permissions-tooltip"
+                        data-bs-title="{!! $remainingTooltip !!}"
+                      >
+                        +{{ $remainingPermissions->count() }}
+                      </span>
+                    @endif
+                  </div>
                 </td>
                 @canany(['update user', 'delete user'])
                   <td>

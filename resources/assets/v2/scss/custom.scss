@@ -169,6 +169,26 @@ ul.ui-widget {
   }
 }
 
+.role-permissions-tooltip {
+  --bs-tooltip-color: #fff;
+  --bs-tooltip-padding-x: 1rem;
+  --bs-tooltip-padding-y: 0.75rem;
+  --bs-tooltip-max-width: 20rem;
+
+  .tooltip-inner {
+    text-align: start;
+    color: #fff !important;
+    font-family: "IBM Plex Sans Arabic", "IBM Plex Sans" !important;
+    [dir="ltr"] & {
+      font-family: "IBM Plex Sans", "IBM Plex Sans Arabic" !important;
+    }
+
+    > div {
+      padding-block: 0.125rem;
+    }
+  }
+}
+
 .select2-container--default .select2-selection--multiple .select2-selection__clear {
   float: left !important;
   margin-inline: 0 .25rem !important;
