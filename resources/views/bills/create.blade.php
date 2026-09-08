@@ -165,7 +165,7 @@
       <hr class="my-5">
 
       <div class="d-flex align-items-center justify-content-between mb-5">
-        <h5 class="card-title m-0">{{ __('Bill items') }}</h5>
+        <h5 class="card-title m-0 text-capitalize">{{ __('Bill items') }}</h5>
         <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-repeater-create>
           <span class="icon-xs icon-base ti ti-plus me-2"></span> {{ __('Add Item') }}
         </button>
