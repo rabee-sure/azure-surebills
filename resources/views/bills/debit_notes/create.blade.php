@@ -696,6 +696,11 @@
         });
       };
 
+      function errorInsertTarget(element) {
+        var $group = $(element).closest('.input-group');
+        return $group.length ? $group : $(element);
+      }
+
       validator.settings.highlight = function(element) {
         $(element).removeClass('is-valid').addClass('is-invalid');
       };
@@ -709,8 +714,8 @@
         $(label).remove();
       };
       validator.settings.errorPlacement = function(error, element) {
-        error.attr('data-error-for', element.attr('name') || '');
-        error.insertAfter(element);
+        error.addClass('d-block mt-1').attr('data-error-for', element.attr('name') || '');
+        error.insertAfter(errorInsertTarget(element));
       };
 
       $form.on('invalid-form.validate', function(event, validatorInstance) {
@@ -718,11 +723,12 @@
           var el = validatorInstance.findByName(name)[0];
           if (!el) return;
           $(el).removeClass('is-valid').addClass('is-invalid');
-          var $error = $(el).nextAll('.invalid-feedback').filter(function() {
+          var $target = errorInsertTarget(el);
+          var $error = validatorInstance.errors().filter(function() {
             return $(this).attr('data-error-for') === name;
           }).first();
           if (!$error.length) {
-            $error = $('<span class="invalid-feedback"></span>').attr('data-error-for', name).insertAfter(el);
+            $error = $('<span class="invalid-feedback d-block mt-1"></span>').attr('data-error-for', name).insertAfter($target);
           }
           $error.text(message).show();
         });
