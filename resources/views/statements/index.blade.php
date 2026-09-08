@@ -10,7 +10,7 @@
 @section('content')
 
   <div class="d-flex align-items-center justify-content-between gap-2 mb-6 flex-wrap">
-    <h4 class="m-0 flex-grow-1">{{ __('Electronic payment') }}</h4>
+    <h4 class="m-0 flex-grow-1 text-capitalize">{{ __('Electronic payment') }}</h4>
     <h6 class="text-success bg-label-success rounded-3 py-2 px-3 m-0 d-flex align-items-center justify-content-end gap-1">
       {{ __('Balance') }} :
       <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0">
