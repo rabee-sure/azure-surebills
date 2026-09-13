@@ -165,7 +165,7 @@
       <hr class="my-5">
 
       <div class="d-flex align-items-center justify-content-between mb-5">
-        <h5 class="card-title m-0">{{ __('Bill items') }}</h5>
+        <h5 class="card-title m-0 text-capitalize">{{ __('Bill items') }}</h5>
         <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-repeater-create>
           <span class="icon-xs icon-base ti ti-plus me-2"></span> {{ __('Add Item') }}
         </button>
@@ -731,6 +731,11 @@
         });
       };
 
+      function errorInsertTarget(element) {
+        var $group = $(element).closest('.input-group');
+        return $group.length ? $group : $(element);
+      }
+
       validator.settings.highlight = function(element) {
         $(element).removeClass('is-valid').addClass('is-invalid');
       };
@@ -744,8 +749,8 @@
         $(label).remove();
       };
       validator.settings.errorPlacement = function(error, element) {
-        error.attr('data-error-for', element.attr('name') || '');
-        error.insertAfter(element);
+        error.addClass('d-block mt-1').attr('data-error-for', element.attr('name') || '');
+        error.insertAfter(errorInsertTarget(element));
       };
 
       $form.on('invalid-form.validate', function(event, validatorInstance) {
@@ -753,11 +758,12 @@
           var el = validatorInstance.findByName(name)[0];
           if (!el) return;
           $(el).removeClass('is-valid').addClass('is-invalid');
-          var $error = $(el).nextAll('.invalid-feedback').filter(function() {
+          var $target = errorInsertTarget(el);
+          var $error = validatorInstance.errors().filter(function() {
             return $(this).attr('data-error-for') === name;
           }).first();
           if (!$error.length) {
-            $error = $('<span class="invalid-feedback"></span>').attr('data-error-for', name).insertAfter(el);
+            $error = $('<span class="invalid-feedback d-block mt-1"></span>').attr('data-error-for', name).insertAfter($target);
           }
           $error.text(message).show();
         });

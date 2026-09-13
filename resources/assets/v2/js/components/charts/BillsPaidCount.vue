@@ -11,7 +11,7 @@
             <li>
               <button
                 type="button"
-                class="btn d-flex align-items-center justify-content-start w-100 waves-effect"
+                class="btn d-flex align-items-center justify-content-start w-100 waves-effect text-capitalize"
                 :class="[type =='monthly' ? 'btn-label-primary' : '']"
                 @click="changeTab('monthly')"
                 role="tab"
@@ -26,7 +26,7 @@
             <li>
               <button
                 type="button"
-                class="btn d-flex align-items-center justify-content-start w-100 waves-effect"
+                class="btn d-flex align-items-center justify-content-start w-100 waves-effect text-capitalize"
                 :class="[type =='weekly' ? 'btn-label-primary' : '']"
                 @click="changeTab('weekly')"
                 role="tab"
@@ -41,7 +41,7 @@
             <li>
               <button
                 type="button"
-                class="btn d-flex align-items-center justify-content-start w-100 waves-effect"
+                class="btn d-flex align-items-center justify-content-start w-100 waves-effect text-capitalize"
                 :class="[type =='daily' ? 'btn-label-primary' : '']"
                 @click="changeTab('daily')"
                 role="tab"
