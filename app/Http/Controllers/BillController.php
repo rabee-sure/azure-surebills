@@ -319,7 +319,10 @@ class BillController extends Controller
         });
 
         event(new BillCreated($bill));
-        return redirect()->route('bills.show', $bill);
+
+        // rederct to payment page instead of showing the bill details page until SAMA Demo
+        // return redirect()->route('bills.show', $bill);
+        return redirect($bill->pay_url);
     }
 
     public function storeDebitNote(DebitNoteRequest $request){
@@ -416,7 +419,9 @@ class BillController extends Controller
             });
 
             event(new BillCreated($bill));
-            return redirect()->route('bills.show', $mainBill);
+            // redirect to bill details page instead of showing the debit note details page until SAMA Demo
+            // return redirect()->route('bills.show', $mainBill);
+            return redirect($bill->pay_url);
         }else{
             abort(403);
         }

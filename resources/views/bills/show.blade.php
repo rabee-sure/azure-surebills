@@ -47,6 +47,8 @@
   @if($hasBillActions)
     <div class="card mb-6">
       <div class="card-body p-3 d-flex align-items-center justify-content-center gap-3 flex-wrap">
+        <!-- comment payment - link buttons until SAMA Demo -->
+        <!--
         @if ($bill->access_to_pay_page->status)
           <button
             type="button"
@@ -69,6 +71,7 @@
             <i class="icon-base ti ti-link"></i>
           </a>
         @endif
+        -->
 
         @if($bill->user->settings->add_tax_invoice)
           <a

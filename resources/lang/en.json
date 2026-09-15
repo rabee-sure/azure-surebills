@@ -179,7 +179,6 @@
 "Discount Value" : "Discount Value",
 "discount_value" : "Discount Value",
 "Tax Value" : "Tax Value",
-"Send The Bill To Customer" : "Send The Bill To Customer",
 "Send SMS" : "Send SMS",
 "Send Email" : "Send Email",
 "Send" : "Send",
@@ -462,5 +461,6 @@
   "company required": "Company is required",
   "mobile required": "Mobile is required",
   "mobile is not correct": "Mobile number is not correct",
-  "message required": "Message is required"
+  "message required": "Message is required",
+  "Send The Bill To Customer" : "Send notification of the bill to the customer"
 }
