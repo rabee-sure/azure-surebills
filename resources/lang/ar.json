@@ -1238,5 +1238,6 @@
   "company required": "اسم المنشأة مطلوب",
   "mobile required": "رقم الجوال مطلوب",
   "mobile is not correct": "رقم الجوال غير صحيح",
-  "message required": "الرسالة مطلوبة"
+  "message required": "الرسالة مطلوبة",
+  "VAT Inc": "ش.ض.ق.م"
 }
