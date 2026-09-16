@@ -18,10 +18,29 @@
       padding: 0;
       -webkit-print-color-adjust: exact;
     }
+    .thermal-bill-container {
+      font-size: 12px !important;
+    }
+    .thermal-bill-container .table th {
+      padding: 0.5rem !important;
+      letter-spacing: 0 !important;
+      font-size: 10px !important;
+    }
+    .thermal-bill-container .table td {
+      padding: 0.5rem !important;
+      letter-spacing: 0 !important;
+      font-size: 10px !important;
+    }
+    .thermal-bill-container .table th small {
+      font-size: 9px !important;
+      display: block !important;
+      margin-top: 1px !important;
+    }
   </style>
 @endpush
 
-<div class="d-flex flex-column gap-2 min-vh-100">
+@section('content')
+<div class="thermal-bill-container d-flex flex-column gap-2 min-vh-100">
 
   <div class="bill-header p-2 flex-shrink-0">
     @if($bill->user->logo)
@@ -159,3 +178,4 @@
     window.print();
   }
 </script>
+@endsection

@@ -1,5 +1,6 @@
 @extends('layouts.print')
 
+@push('css_styles')
 <style>
   @media print {
     @page {
@@ -7,7 +8,9 @@
     }
   }
 </style>
+@endpush
 
+@section('content')
 <div class="billPrint">
   <div class="aboutUser d-flex align-items-center justify-content-center flex-column">
     @if($refundedBill->bill->user->logo)
@@ -89,3 +92,4 @@
     window.print();
   }
 </script>
+@endsection
