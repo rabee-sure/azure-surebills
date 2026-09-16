@@ -47,10 +47,9 @@
   @if($hasBillActions)
     <div class="card mb-6">
       <div class="card-body p-3 d-flex align-items-center justify-content-center gap-3 flex-wrap">
-        <!-- comment payment - link buttons until SAMA Demo -->
-        <!--
         @if ($bill->access_to_pay_page->status)
-          <button
+          <!-- comment payment - link buttons until SAMA Demo -->
+          <!-- <button
             type="button"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
@@ -59,19 +58,19 @@
             class="btn btn-icon btn-primary waves-effect waves-light copy-link-btn"
           >
             <i class="icon-base ti ti-copy"></i>
-          </button>
+          </button> -->
           <a
             href="{{ $bill->pay_url}}"
             target="_blank"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
-            title="{{ __('Visit Payment Link') }}"
+            title="{{ __('Pay') }}"
             class="btn btn-icon btn-primary waves-effect waves-light"
           >
-            <i class="icon-base ti ti-link"></i>
+            <i class="icon-base ti ti-credit-card"></i>
           </a>
         @endif
-        -->
+
 
         @if($bill->user->settings->add_tax_invoice)
           <a
@@ -175,7 +174,13 @@
             @if(isset($bill->user->settings->header_bill))
               <p class="m-0">{{ $bill->user->settings->header_bill }}</p>
             @endif
-            <p class="m-0">{{  $bill->user->business_address }}</p>
+            <!-- while system language En get business address and when Ar get business_address_details until SAMA Demo -->
+            @if(app()->getLocale() == 'en')
+              <p class="m-0">{{  $bill->user->business_address }}</p>
+            @else
+              <p class="m-0">{{  $bill->user->business_address_details }}</p>
+            @endif
+            
             <p class="m-0">{{  $bill->user->business_mobile }}</p>
           </div>
         </div><!-- card-body -->
