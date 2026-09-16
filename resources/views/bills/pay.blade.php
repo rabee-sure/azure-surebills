@@ -34,7 +34,14 @@
               @if(isset($bill->user->settings->header_bill))
                 <p class="m-0">{{ $bill->user->settings->header_bill }}</p>
               @endif
-              <p class="m-0">{{  $bill->user->business_address }}</p>
+              
+              <!-- while system language En get business address and when Ar get business_address_details until SAMA Demo -->
+              @if(app()->getLocale() == 'en')
+                <p class="m-0">{{  $bill->user->business_address }}</p>
+              @else
+                <p class="m-0">{{  $bill->user->business_address_details }}</p>
+              @endif
+
               <p class="m-0">{{  $bill->user->business_mobile }}</p>
             </div>
 
