@@ -52,11 +52,15 @@
       @if($bill->user->settings->add_tax_invoice)
         <p class="m-0">@if($bill->debit_note_bill_id == null) فاتورة ضريبية مبسطة @else إشعار مدين ضريبي @endif</p>
       @endif
-      <p class="m-0">{{ $bill->user->business_name }}</p>
+      <p class="m-0">{{ $bill->user->business_name_ar }}</p>
       @if(isset($bill->user->settings->header_bill))
         <p class="m-0">{{ $bill->user->settings->header_bill }}</p>
       @endif
-      <p class="m-0">{{  $bill->user->business_address }}</p>
+      
+      <!-- comment business address and make it read from business_address_details until SAMA Demo -->
+      <!-- <p class="m-0">{{  $bill->user->business_address }}</p> -->
+      <p class="m-0">{{  $bill->user->business_address_details }}</p>
+      
       <p class="m-0">{{  $bill->user->business_mobile }}</p>
     </div>
     <div id="status">
