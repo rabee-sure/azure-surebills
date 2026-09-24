@@ -41,7 +41,7 @@
         <div class="col">
           <select name="transaction_source" class="form-control select2-single filter" data-allow-clear="false" @if(request()->transaction_type != 'credit' && request()->transaction_type != 'debit') disabled @endif>
             <option selected disabled>
-              @switch(request()->transaction_source)
+            @switch(request()->transaction_source)
                 @case('bill')
                     {{ __('Bill') }}
                     @break
@@ -52,6 +52,14 @@
 
                 @case('channel_vat')
                     {{ __('Channel VAT') }}
+                    @break
+
+                @case('surebills_fees')
+                    {{ __('Surebills Fees') }}
+                    @break
+
+                @case('surebills_vat')
+                    {{ __('Surebills VAT') }}
                     @break
 
                 @case('fees')
@@ -75,15 +83,17 @@
               @endswitch
             </option>
             <option value="all">{{ __('All') }}</option>
+            <option value="bill">{{ __('Bill') }}</option>
+            @if(count($channels))
+              <option value="channel_fees">{{ __('Channel Fees') }}</option>
+              <option value="channel_vat">{{ __('Channel VAT') }}</option>
+            @endif
+            <option value="surebills_fees">{{ __('Surebills Fees') }}</option>
+            <option value="surebills_vat">{{ __('Surebills VAT') }}</option>
+            <option value="fees">{{ __('Bill Fees') }}</option>
+            <option value="vat">{{ __('Bill VAT') }}</option>
             @if(request()->transaction_type == 'credit')
-              <option value="bill">{{ __('Bill') }}</option>
-              @if(count($channels))
-                <option value="channel_fees">{{ __('Channel Fees') }}</option>
-                <option value="channel_vat">{{ __('Channel VAT') }}</option>
-              @endif
             @elseif(request()->transaction_type == 'debit')
-              <option value="fees">{{ __('Bill Fees') }}</option>
-              <option value="vat">{{ __('Bill VAT') }}</option>
               <option value="transfer">{{ __('Transfer') }}</option>
             @endif
             <option value="refund">{{ __('Refunded') }}</option>

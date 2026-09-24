@@ -246,7 +246,7 @@
 
       <hr class="my-5" />
 
-      <h5 class="card-title mb-5">{{ __('Additonal Details') }}</h5>
+      <h5 class="card-title mb-5">{{ __('Additional Details') }}</h5>
       <div class="row">
         <div class="col-12 col-lg-6">
           <label for="Discount_Values_Checkbox" class="switch switch-success switch-lg m-0">
@@ -595,8 +595,32 @@
         $('.Discount_Values').hide();
       }
 
+      function clearOptionalAmount(selector) {
+        var $input = $(selector);
+        if (!$input.length) {
+          return;
+        }
+
+        $input.val('');
+        var validator = $('#bill_create').data('validator');
+        if (!validator) {
+          return;
+        }
+
+        var element = $input.get(0);
+        $input.removeClass(validator.settings.errorClass + ' is-invalid is-valid').removeAttr('aria-invalid');
+        validator.hideThese(validator.errorsFor(element));
+        if (element.name) {
+          delete validator.invalid[element.name];
+          delete validator.submitted[element.name];
+        }
+      }
+
       // Tax & Discount
       $('#Discount_Values_Checkbox').change(function() {
+        if (!this.checked) {
+          clearOptionalAmount('#Discount_Value');
+        }
         $('.Discount_Values').slideToggle();
         if($('#discount_type').val() === 'percentage') {
           $('#percentage').show();
@@ -617,6 +641,9 @@
       });
 
       $('#Tax_Values_Checkbox').change(function() {
+        if (!this.checked) {
+          clearOptionalAmount('#Value');
+        }
         $('.Tax_Values').slideToggle();
       });
 

@@ -22,9 +22,17 @@ class BillRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        if(!$this->has('add_tax'))
-        {
-            request()->merge(['add_tax' => 0]);
+        if (!$this->has('add_tax') || $this->input('add_tax') !== 'on') {
+            $this->merge([
+                'add_tax' => 0,
+                'tax_value' => null,
+            ]);
+        }
+
+        if (!$this->has('add_discount') || $this->input('add_discount') !== 'on') {
+            $this->merge([
+                'discount_value' => null,
+            ]);
         }
 
         if ($this->has('customer_mobile')) {

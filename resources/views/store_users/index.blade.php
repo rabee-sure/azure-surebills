@@ -192,11 +192,12 @@
 
         editForm.addEventListener('submit', function(e) {
           if (btn.disabled) return;
+          if (e.defaultPrevented) return;
           showSpinner();
           setTimeout(resetButton, 8000);
         });
 
-        editForm.addEventListener('invalid', function() {
+        $(editForm).on('invalid-form.validate', function() {
           resetButton();
         });
       }, 100);
