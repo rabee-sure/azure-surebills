@@ -105,7 +105,7 @@ class RecreateAutoTransferReport extends Command
                 $q->whereIn('transfer_id', $transfer_ids)
                     ->whereNotIn('transaction_source', $this->CHANNEL_SOURCES)
                     ->where('description', 'not like', "%Channel:%");
-            })->with('bill.application.channel')->get();
+            })->with('bill.application.channel')->orderBy('created_at')->orderBy('id')->get();
 
         $merchants_file = $this->folder."/merchants_transactions.xlsx";
         $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
