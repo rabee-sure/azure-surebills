@@ -205,7 +205,7 @@ class TransferAutomatic extends Command
                         ->orWhere('description', 'like', "%Channel:%")
                         ;
                 });
-        })->with('bill.application.channel')->get();
+        })->with('bill.application.channel')->orderBy('created_at')->orderBy('id')->get();
 
         if(count($channel_transactions) > 0)
         {
