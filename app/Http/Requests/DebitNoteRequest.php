@@ -24,6 +24,12 @@ class DebitNoteRequest extends FormRequest
         if (!$this->has('is_redirect')) {
             $this->is_redirect = false;
         }
+
+        if (!$this->has('add_discount') || $this->input('add_discount') !== 'on') {
+            $this->merge([
+                'discount_value' => null,
+            ]);
+        }
     }
 
     /**

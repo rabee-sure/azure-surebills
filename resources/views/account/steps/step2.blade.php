@@ -306,8 +306,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p class="text-body d-block m-0">السجل التجاري يمكن إصدارة من وزارة التجارة من خلال الموقع الاكتروني الخاص بهم من خلال هذا الرابط .. <a href="http://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=2" target="_blank" title="إضغط هنا">إضغط هنا</a></p>
-          <p class="text-body d-block m-0">وثيقة العمل الحر وهي وثيقة مجانية تصدر من قبل وزارة العمل والتنمية الاجتماعية لممارسة العمل الحر، ولإصدار وثيقة العمل المجانية تقدم بطلب من خلال هذا الرابط .. <a href="https://freelance.sa/" target="_blank" title="أضغط هنا">أضغط هنا</a></p>
+          <p class="text-body d-block m-0">{{ __('The commercial register can be issued by the Ministry of Commerce through their website using this link.') }} <a href="http://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=2" target="_blank" title="{{ __('Click here') }}">{{ __('Click here') }}</a></p>
+          <p class="text-body d-block m-0">{{ __('The freelance document is a free document issued by the Ministry of Labor and Social Development for freelance work. To issue the free freelance document, apply through this link.') }} <a href="https://freelance.sa/" target="_blank" title="{{ __('Click here') }}">{{ __('Click here') }}</a></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal"> {{ __('Close') }}</button>
