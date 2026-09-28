@@ -6,7 +6,6 @@ use App\Events\ContactSendEmail;
 use App\Http\Requests\ContactRequest;
 use App\Models\Bill;
 use App\Models\RefundedBill;
-use App\Models\Transaction;
 use App\Services\BasicSettingsService;
 use Illuminate\Support\Facades\DB;
 
@@ -81,11 +80,7 @@ class HomeController extends Controller
 
         $balance = $user->balance;
 
-        $total_paid_query = Transaction::whereNotNull('bill_id')->where('user_id', auth()->user()->store_main_user_id ?? auth()->user()->id)->whereHas('bill', function($q){
-            $q->where('payment_way', 'online');
-        });
-
-        $total_paid = $total_paid_query->where('type', 'credit')->sum('amount') - $total_paid_query->where('type', 'debit')->sum('amount');
+        $total_paid = (clone $bills)->where('status', 'paid')->sum('total');
 
         $total_bills_query = clone $bills;
         $total_bills = $total_bills_query->count();
