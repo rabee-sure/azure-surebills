@@ -57,17 +57,17 @@
               <td>{{$transfer->id}}</td>
               <td>
                 <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
-                  {{$transfer->amount}} <i class="sar-icon"></i>
+                  {{round2($transfer->amount)}} <i class="sar-icon"></i>
                 </span>
               </td>
               <td>
                 <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
-                  {{$transfer->transfer_fees}} <i class="sar-icon"></i>
+                  {{round2($transfer->transfer_fees)}} <i class="sar-icon"></i>
                 </span>
               </td>
               <td>
                 <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1">
-                  {{$transfer->net_amount}} <i class="sar-icon"></i>
+                  {{round2($transfer->net_amount)}} <i class="sar-icon"></i>
                 </span>
               </td>
               <td>{{$transfer->note}}</td>

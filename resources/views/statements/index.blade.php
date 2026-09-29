@@ -178,12 +178,11 @@
                 <td>{{ $transaction->receipt }}</td>
                 @if(count($channels))
                   <td>
-                    <!-- @if(isset($transaction->bill->application_id) && isset ($transaction->bill->application->channel_id))
-                      {{$transaction->bill->application_id}} - {{ $transaction->bill->user->business_name}}
+                    @if(isset($transaction->bill->application_id) && isset ($transaction->bill->application->channel_id))
+                      {{$transaction->bill->application_id}} - {{ $transaction->bill->user->mainStoreUser ? $transaction->bill->user->mainStoreUser->business_name : $transaction->bill->user->business_name}}
                     @else
                     --
-                    @endif -->
-                    --
+                    @endif
                   </td>
                 @endif
                 <td>

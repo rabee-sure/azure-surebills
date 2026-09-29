@@ -108,7 +108,7 @@
             <div class="card-body d-flex justify-content-between align-items-center">
               <div class="card-title mb-0">
                 <h5 class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 mb-1 me-2">
-                  {{ $total_paid }} <i class="sar-icon"></i>
+                  {{ round2($total_paid) }} <i class="sar-icon"></i>
                 </h5>
                 <p class="mb-0 text-capitalize">{{ __('Total Paid') }}</p>
               </div>
