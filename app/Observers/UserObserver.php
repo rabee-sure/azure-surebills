@@ -9,11 +9,19 @@ use App\Jobs\SetNewMerchantSettings;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\SystemAction;
+use App\Services\Cache\CacheKeys;
+use App\Services\MerchantProfileService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 
 class UserObserver
 {
+    public function __construct(
+        private readonly MerchantProfileService $merchantProfile,
+    ) {}
+
     /**
      * Handle the User "created" event.
      *
@@ -27,6 +35,8 @@ class UserObserver
         SetNewMerchantSettings::dispatch($user);
 
         $user->myBalance()->create();
+
+        $this->putProfile($user, true);
     }
 
     public function saved(User $user)
@@ -101,6 +111,8 @@ class UserObserver
                 ));
             }
         }
+
+        $this->putProfile($user, $user->wasChanged('name'));
     }
 
     /**
@@ -111,7 +123,7 @@ class UserObserver
      */
     public function deleted(User $user)
     {
-        //
+        $this->forgetProfile($user);
     }
 
     /**
@@ -122,7 +134,7 @@ class UserObserver
      */
     public function restored(User $user)
     {
-        //
+        $this->putProfile($user, true);
     }
 
     /**
@@ -133,7 +145,43 @@ class UserObserver
      */
     public function forceDeleted(User $user)
     {
-        //
+        $this->forgetProfile($user);
+    }
+
+    /**
+     * Refresh the sanitized profile. Bump the shared dropdown version only when
+     * the merchant enters, leaves, or is renamed in the id/name dropdown.
+     */
+    private function putProfile(User $user, bool $bumpDropdown): void
+    {
+        try {
+            $this->merchantProfile->put($user);
+            if ($bumpDropdown) {
+                $this->merchantProfile->bumpDropdown();
+            }
+        } catch (Throwable $e) {
+            Log::warning('merchant_profile cache rewrite failed after user mutation', [
+                'domain' => 'merchant_profile',
+                'key' => CacheKeys::merchantProfile($user->id),
+                'operation' => 'put',
+                'exception' => $e::class,
+            ]);
+        }
+    }
+
+    private function forgetProfile(User $user): void
+    {
+        try {
+            $this->merchantProfile->forget((int) $user->id);
+            $this->merchantProfile->bumpDropdown();
+        } catch (Throwable $e) {
+            Log::warning('merchant_profile cache forget failed after user delete', [
+                'domain' => 'merchant_profile',
+                'key' => CacheKeys::merchantProfile($user->id),
+                'operation' => 'forget',
+                'exception' => $e::class,
+            ]);
+        }
     }
 
     private function letUserSuperAdmin($user)
