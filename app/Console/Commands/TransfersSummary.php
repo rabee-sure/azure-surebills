@@ -171,6 +171,7 @@ class TransfersSummary extends Command
             'merchant_name' => $user->business_name_ar,
             'merchan_iban' => $user->iban_number,
             'bank' => $user->bank->name,
+            'bank_translations' => $user->bank->getTranslations('name'),
             'total_amount' => $sum_bills,
             'total_fees' => $sum_fees,
             'total_fees_vat' => $sum_fees_vat,

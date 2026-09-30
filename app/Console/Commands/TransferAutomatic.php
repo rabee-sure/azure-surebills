@@ -128,7 +128,12 @@ class TransferAutomatic extends Command
                         'iban_number' => $user->iban_number,
                         'beneficiary_name' => $user->beneficiary_name,
                     ];
-                    $transfer = TransferService::makeTransfer('pending', $amount, $data);
+                    try {
+                        $transfer = TransferService::makeTransfer('pending', $amount, $data);
+                    } catch (\Illuminate\Validation\ValidationException $e) {
+                        $this->info("skipped user ID $user->id: ".$e->getMessage());
+                        continue;
+                    }
                     $transfer_ids[] = $transfer->id;
                 }
             }
@@ -183,7 +188,7 @@ class TransferAutomatic extends Command
                 $q->whereIn('transfer_id', $transfer_ids)
                     ->whereNotIn('transaction_source', $this->CHANNEL_SOURCES)
                     ->where('description', 'not like', "%Channel:%");
-            })->with('bill.application.channel')->get();
+            })->with('bill.application.channel')->orderBy('created_at')->orderBy('id')->get();
 
         $merchants_file = $this->folder."/merchants_transactions.xlsx";
         $data = json_decode((TransactionExportResource::collection($transactions))->toJson(), true);
@@ -200,7 +205,7 @@ class TransferAutomatic extends Command
                         ->orWhere('description', 'like', "%Channel:%")
                         ;
                 });
-        })->with('bill.application.channel')->get();
+        })->with('bill.application.channel')->orderBy('created_at')->orderBy('id')->get();
 
         if(count($channel_transactions) > 0)
         {

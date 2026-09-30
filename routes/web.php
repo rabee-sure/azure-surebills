@@ -170,7 +170,6 @@ Route::middleware(['auth', 'mobile.verified', 'profile.completed'])->group(funct
 
 
   Route::get('/home', [HomeController::class, 'index'])->name('home');
-  Route::get('/terms', [HomeController::class, 'terms']);
   Route::get('/integration', [IntegrationController::class, 'index'])->name('integration');
   Route::get('/integration/documentation', [IntegrationController::class, 'documentation'])->name('integration.documentation');
 
@@ -198,7 +197,7 @@ Route::get('file/{guard}/{file}', [MediaController::class, 'getFile'])->where('f
 Route::get('/', [HomeController::class, 'landing']);
 Route::get('/contact', [HomeController::class, 'contact']);
 Route::get('/privacy', [HomeController::class, 'privacy']);
-Route::get('/terms', [HomeController::class, 'terms']);
+Route::get('/terms', [HomeController::class, 'terms'])->name('terms-and-conditions');
 Route::prefix('ajax')->group(function () {
   Route::post('contact/send', [HomeController::class, 'contactSendForm'])->name('contact.send_form');
 });

@@ -39,12 +39,12 @@
 
   <div class="card mb-6">
     <div class="card-body p-3">
-      <div class="row row-cols-2 row-cols-md-3 g-3">
+      <div class="row row-cols-1 row-cols-md-3 g-3">
         <div class="col">
           <input id="keyword" class="form-control" value="{{request()->get('keyword')}}" placeholder="{{__('Search')}}" >
         </div><!-- col -->
         <div class="col">
-          <select name="statuses[]" id="paymentStatus" class="select2 form-select" multiple>
+          <select name="statuses[]" id="paymentStatus" class="select2 form-select" data-allow-clear="false" multiple>
             <option value="pending" @if(in_array('pending', request()->get('statuses', [])) ) selected @endif>{{ __('Unpaid') }}</option>
             <option value="paid" @if(in_array('paid', request()->get('statuses', [])) ) selected @endif>{{ __('Paid') }}</option>
             <option value="expired" @if(in_array('expired', request()->get('statuses', [])) ) selected @endif>{{ __('Expired') }}</option>

@@ -9,8 +9,8 @@
 
 @section('content')
 
-  <div class="d-flex align-items-center justify-content-between gap-2 mb-6">
-    <h4 class="m-0 flex-grow-1">{{ __('Electronic payment') }}</h4>
+  <div class="d-flex align-items-center justify-content-between gap-2 mb-6 flex-wrap">
+    <h4 class="m-0 flex-grow-1 text-capitalize">{{ __('Electronic payment') }}</h4>
     <h6 class="text-success bg-label-success rounded-3 py-2 px-3 m-0 d-flex align-items-center justify-content-end gap-1">
       {{ __('Balance') }} :
       <span class="d-flex align-items-center {{app()->getLocale() == 'en' ? 'flex-row-reverse justify-content-end' : 'justify-content-start'}} gap-1 m-0">
@@ -21,7 +21,7 @@
 
   <div class="card mb-6">
     <div class="card-body p-3">
-      <div class="row row-cols-2 row-cols-md-5 g-3">
+      <div class="row row-cols-1 row-cols-md-5 g-3">
         <div class="col">
           <select name="transaction_type" class="form-control select2-single filter" data-allow-clear="false">
             <option selected disabled>
@@ -41,7 +41,7 @@
         <div class="col">
           <select name="transaction_source" class="form-control select2-single filter" data-allow-clear="false" @if(request()->transaction_type != 'credit' && request()->transaction_type != 'debit') disabled @endif>
             <option selected disabled>
-              @switch(request()->transaction_source)
+            @switch(request()->transaction_source)
                 @case('bill')
                     {{ __('Bill') }}
                     @break
@@ -52,6 +52,14 @@
 
                 @case('channel_vat')
                     {{ __('Channel VAT') }}
+                    @break
+
+                @case('surebills_fees')
+                    {{ __('Surebills Fees') }}
+                    @break
+
+                @case('surebills_vat')
+                    {{ __('Surebills VAT') }}
                     @break
 
                 @case('fees')
@@ -75,15 +83,17 @@
               @endswitch
             </option>
             <option value="all">{{ __('All') }}</option>
+            <option value="bill">{{ __('Bill') }}</option>
+            @if(count($channels))
+              <option value="channel_fees">{{ __('Channel Fees') }}</option>
+              <option value="channel_vat">{{ __('Channel VAT') }}</option>
+            @endif
+            <option value="surebills_fees">{{ __('Surebills Fees') }}</option>
+            <option value="surebills_vat">{{ __('Surebills VAT') }}</option>
+            <option value="fees">{{ __('Bill Fees') }}</option>
+            <option value="vat">{{ __('Bill VAT') }}</option>
             @if(request()->transaction_type == 'credit')
-              <option value="bill">{{ __('Bill') }}</option>
-              @if(count($channels))
-                <option value="channel_fees">{{ __('Channel Fees') }}</option>
-                <option value="channel_vat">{{ __('Channel VAT') }}</option>
-              @endif
             @elseif(request()->transaction_type == 'debit')
-              <option value="fees">{{ __('Bill Fees') }}</option>
-              <option value="vat">{{ __('Bill VAT') }}</option>
               <option value="transfer">{{ __('Transfer') }}</option>
             @endif
             <option value="refund">{{ __('Refunded') }}</option>
@@ -109,7 +119,7 @@
             <select name="application_id" class="form-control select2-single filter" data-allow-clear="false" @if(count($applications) == 0) disabled @endif>
               <option selected disabled>
                 @if(isset($application))
-                  {{$application->id}} - {{ $application->user->business_name}}
+                  {{$application->id}} - {{ optional($application->user->mainStoreUser)->business_name ?? $application->user->business_name }}
                 @else
                   {{ __('Applications') }}
                 @endif
@@ -117,7 +127,7 @@
               <option value="all">{{ __('All') }}</option>
               @if($applications)
                 @foreach($applications as $application)
-                  <option value="{{$application->id}}">{{$application->id}} - {{ $application->user->business_name }}</option>
+                  <option value="{{$application->id}}">{{$application->id}} - {{ optional($application->user->mainStoreUser)->business_name ?? $application->user->business_name }}</option>
                 @endforeach
               @endif
             </select>
@@ -168,12 +178,11 @@
                 <td>{{ $transaction->receipt }}</td>
                 @if(count($channels))
                   <td>
-                    <!-- @if(isset($transaction->bill->application_id) && isset ($transaction->bill->application->channel_id))
-                      {{$transaction->bill->application_id}} - {{ $transaction->bill->user->business_name}}
+                    @if(isset($transaction->bill->application_id) && isset ($transaction->bill->application->channel_id))
+                      {{$transaction->bill->application_id}} - {{ $transaction->bill->user->mainStoreUser ? $transaction->bill->user->mainStoreUser->business_name : $transaction->bill->user->business_name}}
                     @else
                     --
-                    @endif -->
-                    --
+                    @endif
                   </td>
                 @endif
                 <td>

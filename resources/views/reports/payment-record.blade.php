@@ -13,7 +13,7 @@
 
   <div class="card mb-6">
     <div class="card-body p-3">
-      <div class="row row-cols-2 row-cols-md-4 g-3">
+      <div class="row row-cols-1 row-cols-md-4 g-3">
         <div class="col">
           <select name="transaction_type" class="form-control select2-single filter">
             <option @if(!isset(request()->transaction_type)) selected @endif disabled> {{ __('Transaction Type') }}</option>

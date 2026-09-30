@@ -69,20 +69,55 @@
                 <a href="{{ route('changeLang', ['lang' => 'en']) }}" title="English" class="btn btn-sm btn-label-primary waves-effect">EN</a>
               @endif
             </div>
-            <a href="{{ url('/register') }}" title="{{ __('landing.nav.register') }}" class="flex items-center justify-center gap-2 text-sm font-medium bg-[rgba(var(--PrimaryColorRGB),0.19)] text-[--PrimaryColor] rounded px-3 py-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <a href="{{ url('/register') }}" title="{{ __('landing.nav.register') }}" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium bg-[rgba(var(--PrimaryColorRGB),0.19)] text-[--PrimaryColor] rounded px-3 py-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 w-5 h-5"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M16 19h6" /><path d="M19 16v6" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4" /></svg>
-              <span class="hidden lg:block">{{ __('landing.nav.register_full') }}</span>
-              <span class="block lg:hidden">{{ __('landing.nav.register') }}</span>
+              <span>{{ __('landing.nav.register_full') }}</span>
             </a>
-            <a href="{{ url('/login') }}" title="{{ __('landing.nav.login') }}" class="flex items-center justify-center gap-2 text-sm font-medium bg-[--PrimaryColor] text-white rounded px-3 py-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <a href="{{ url('/login') }}" title="{{ __('landing.nav.login') }}" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium bg-[--PrimaryColor] text-white rounded px-3 py-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 w-5 h-5"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M21 12h-13l3 -3" /><path d="M11 15l-3 -3" /></svg>
-              <span class="hidden lg:block">{{ __('landing.nav.login_full') }}</span>
-              <span class="block lg:hidden">{{ __('landing.nav.login') }}</span>
+              <span>{{ __('landing.nav.login_full') }}</span>
             </a>
+            <button type="button" id="mobile-nav-toggle" class="lg:hidden flex items-center justify-center w-10 h-10 rounded text-[--MainColor] hover:text-[--PrimaryColor] transition-all duration-300" aria-expanded="false" aria-controls="mobile-nav-drawer" aria-label="{{ __('landing.nav.open_menu') }}" data-open-label="{{ __('landing.nav.open_menu') }}" data-close-label="{{ __('landing.nav.close_menu') }}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mobile-nav-icon-open"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mobile-nav-icon-close hidden"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+            </button>
           </div>
         </div>
       </div><!-- container -->
     </header><!-- header -->
+
+    <div id="mobile-nav-overlay" class="mobile-nav-overlay" aria-hidden="true"></div>
+    <aside id="mobile-nav-drawer" class="mobile-nav-drawer" aria-hidden="true" inert>
+      <nav>
+        <ul class="px-3 py-3">
+          <li>
+            <a href="{{ url('/') }}" title="{{ __('landing.nav.home') }}">{{ __('landing.nav.home') }}</a>
+          </li>
+          <li>
+            <a href="{{ url('/#about') }}" title="{{ __('landing.nav.features') }}">{{ __('landing.nav.features') }}</a>
+          </li>
+          <li>
+            <a href="{{ url('/#how') }}" title="{{ __('landing.nav.how_it_works') }}">{{ __('landing.nav.how_it_works') }}</a>
+          </li>
+          <li>
+            <a href="{{ url('/#faqs') }}" title="{{ __('landing.nav.faqs') }}">{{ __('landing.nav.faqs') }}</a>
+          </li>
+          <li>
+            <a href="{{ url('/#contact') }}" title="{{ __('landing.nav.contact') }}">{{ __('landing.nav.contact') }}</a>
+          </li>
+        </ul>
+        <div class="mobile-nav-actions">
+          <a href="{{ url('/register') }}" title="{{ __('landing.nav.register') }}" class="flex items-center justify-center gap-2 text-sm font-medium bg-[rgba(var(--PrimaryColorRGB),0.19)] text-[--PrimaryColor] rounded px-3 py-3 transition-all duration-300 hover:shadow-xl">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 w-5 h-5"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M16 19h6" /><path d="M19 16v6" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4" /></svg>
+            <span>{{ __('landing.nav.register_full') }}</span>
+          </a>
+          <a href="{{ url('/login') }}" title="{{ __('landing.nav.login') }}" class="flex items-center justify-center gap-2 text-sm font-medium bg-[--PrimaryColor] text-white rounded px-3 py-3 transition-all duration-300 hover:shadow-xl">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 w-5 h-5"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M21 12h-13l3 -3" /><path d="M11 15l-3 -3" /></svg>
+            <span>{{ __('landing.nav.login_full') }}</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
 
     @yield('content')
 
@@ -99,25 +134,65 @@
 
     <script type="text/javascript">
       document.querySelectorAll("body > *").forEach(el => {
+        if (el.id === 'mobile-nav-overlay' || el.id === 'mobile-nav-drawer') return;
         el.style.opacity = 0;
       });
       setTimeout(() => {
         document.body.classList.remove("show-spinner");
         document.querySelectorAll("body > *").forEach(el => {
+          if (el.id === 'mobile-nav-overlay' || el.id === 'mobile-nav-drawer') return;
           el.style.transition = "opacity 0.1s ease";
           el.style.opacity = 1;
         });
       }, 300);
 
       document.addEventListener('DOMContentLoaded', function() {
-          const header = document.querySelector('header');
-          const scrollThreshold = 0;
-          window.addEventListener('scroll', function() {
-            if (window.scrollY > scrollThreshold) {
-              header.classList.add('shadow-md','!py-3','bg-white');
-            } else {
+        const header = document.querySelector('header');
+        const scrollThreshold = 0;
+        window.addEventListener('scroll', function() {
+          if (window.scrollY > scrollThreshold) {
+            header.classList.add('shadow-md','!py-3','bg-white');
+          } else {
             header.classList.remove('shadow-md','!py-3','bg-white');
           }
+        });
+
+        const toggle = document.getElementById('mobile-nav-toggle');
+        const drawer = document.getElementById('mobile-nav-drawer');
+        const overlay = document.getElementById('mobile-nav-overlay');
+        if (!toggle || !drawer || !overlay) return;
+
+        const iconOpen = toggle.querySelector('.mobile-nav-icon-open');
+        const iconClose = toggle.querySelector('.mobile-nav-icon-close');
+        const desktopNav = window.matchMedia('(min-width: 1024px)');
+
+        const setDrawerOpen = (open) => {
+          drawer.classList.toggle('is-open', open);
+          overlay.classList.toggle('is-open', open);
+          document.body.classList.toggle('mobile-nav-open', open);
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          toggle.setAttribute('aria-label', open ? toggle.dataset.closeLabel : toggle.dataset.openLabel);
+          drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+          overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
+          iconOpen.classList.toggle('hidden', open);
+          iconClose.classList.toggle('hidden', !open);
+          if (open) {
+            drawer.removeAttribute('inert');
+          } else {
+            drawer.setAttribute('inert', '');
+          }
+        };
+
+        toggle.addEventListener('click', () => setDrawerOpen(!drawer.classList.contains('is-open')));
+        overlay.addEventListener('click', () => setDrawerOpen(false));
+        drawer.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => setDrawerOpen(false));
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') setDrawerOpen(false);
+        });
+        desktopNav.addEventListener('change', (event) => {
+          if (event.matches) setDrawerOpen(false);
         });
       });
     </script>

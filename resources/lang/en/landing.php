@@ -13,6 +13,8 @@ return [
         'register_full' => 'Sign up',
         'login' => 'Login',
         'login_full' => 'Sign in',
+        'open_menu' => 'Open menu',
+        'close_menu' => 'Close menu',
     ],
 
     'footer' => [

@@ -3,7 +3,7 @@
 </button>
 
 <div class="modal fade" id="add_customer_Modal" tabindex="-1" aria-hidden="true">
-  <form method="POST" action="{{ route('customers.store') }}" id="customers_store" class="modal-dialog modal-lg" role="document">
+  <form method="POST" action="{{ route('customers.store') }}" id="customers_store" class="modal-dialog modal-lg" role="document" novalidate>
     @csrf
     <div class="modal-content">
       <div class="modal-header">

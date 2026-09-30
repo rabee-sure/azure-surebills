@@ -29,12 +29,8 @@ class SettingsRequest extends FormRequest
             'paid_send_email' => ['nullable'],
             'paid_send_email' => ['nullable'],
             'background_image_file' => ['nullable', 'mimes:png,jpeg,jpg', 'max:1024'],
+            'tax_value' => ['required_if:add_tax,on', 'nullable', 'numeric', 'min:0', 'max:100'],
         ];
-
-        if(request()->add_tax == 'on')
-        {
-            $rules['tax_value'] = ['required_if:add_tax,on', 'between:0.1,100'];
-        }
 
         if(request()->add_tax_invoice == 'on')
         {
@@ -121,6 +117,10 @@ class SettingsRequest extends FormRequest
           'postal_code.required_if' => __('The postal code field is required when add tax invoice is on.'),
           'background_image_file.mimes' => __('The background image file must be a png, jpeg or jpg file.'),
           'background_image_file.max' => __('The background image file must be less than 1024 MB.'),
+          'tax_value.required_if' => __('Tax value is required'),
+          'tax_value.numeric' => __('Tax value must be a number'),
+          'tax_value.min' => __('Tax value must be greater than or equal to 0'),
+          'tax_value.max' => __('Tax value must be less than or equal to 100'),
         ];
     }
 }

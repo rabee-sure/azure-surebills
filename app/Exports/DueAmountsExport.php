@@ -42,7 +42,7 @@ class DueAmountsExport implements FromView
                 'merchant_id' => $item['merchant_id'],
                 'merchant_name' => $item['merchant_name'],
                 'merchant_iban' => $item['merchan_iban'],
-                'bank' => $item['bank'],
+                'bank' => $item['bank_translations'],
                 'total_amount' => $item['total_amount'],
                 'total_fees' => $item['total_fees'],
                 'total_fees_vat' => $item['total_fees_vat'],

@@ -29,7 +29,7 @@
         <!-- Electronic payment -->
         @can('show statement')
           <li class="menu-item {{ Request::is('statement*') ? 'active' : '' }}">
-            <a href="{{ route('statement.index') }}" title="{{ __('Electronic payment') }}" class="menu-link">
+            <a href="{{ route('statement.index') }}" title="{{ __('Electronic payment') }}" class="menu-link text-capitalize">
               <i class="menu-icon tf-icons ti ti-credit-card-pay"></i>
               <div>{{ __('Electronic payment') }}</div>
             </a>

@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Log;
 class OtpService
 {
     /**
+     * Seconds the merchant must wait before Resend OTP is enabled.
+     * Matches the existing mobile PIN resend cooldown.
+     */
+    public const RESEND_COOLDOWN_SECONDS = 60;
+
+    /**
      * OTP expiration time in minutes.
      *
      * @var int
@@ -219,5 +225,29 @@ class OtpService
     public static function isEnabled()
     {
         return config('merchant_otp.enabled', false);
+    }
+
+    /**
+     * Seconds remaining before the merchant can resend OTP.
+     */
+    public function resendRemainingSeconds(User $user): int
+    {
+        $otp = UserOtp::where('user_id', $user->id)->latest('id')->first();
+
+        return self::secondsUntilResend($otp?->created_at);
+    }
+
+    /**
+     * Remaining resend cooldown from a send timestamp.
+     */
+    public static function secondsUntilResend(?Carbon $sentAt, ?Carbon $now = null): int
+    {
+        if (!$sentAt) {
+            return 0;
+        }
+
+        $now = $now ?? Carbon::now();
+
+        return max(0, self::RESEND_COOLDOWN_SECONDS - (int) $sentAt->diffInSeconds($now));
     }
 }

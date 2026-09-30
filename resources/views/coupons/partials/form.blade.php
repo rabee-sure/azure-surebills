@@ -200,7 +200,7 @@
       <div class="invalid-feedback">{{ $message }}</div>
     @enderror
   </div><!-- col -->
-  {{-- Code Pattern (for MAX_USAGE reusable code or ONE_TIME_USAGE pattern) --}}
+  {{-- Code Pattern (for MAX_USAGE reusable code) --}}
   <div class="col" id="code_pattern_field" style="display: none;">
     <label for="code_pattern" class="form-label">{{ __('Code Pattern') }}</label>
     <input
@@ -217,14 +217,12 @@
   </div><!-- col -->
   {{-- Active Toggle --}}
   <div class="col-12">
-    <label class="switch switch-success" for="is_active">
+    <label class="switch switch-lg switch-success" for="is_active">
       <input type="checkbox" class="switch-input" name="is_active" id="is_active" value="1" {{ old('is_active', $couponIsActive) ? 'checked' : '' }}>
       <span class="switch-toggle-slider">
         <span class="switch-on">
-          <i class="icon-base ti ti-check"></i>
         </span>
         <span class="switch-off">
-          <i class="icon-base ti ti-x"></i>
         </span>
       </span>
       <span class="switch-label">{{ __('Active') }}</span>
@@ -283,7 +281,7 @@
           }
           if (codePatternField) {
             codePatternField.style.display =
-              (mechanism === 'max_usage' || mechanism === 'max_customer_usage' || mechanism === 'one_time_usage')
+              (mechanism === 'max_usage' || mechanism === 'max_customer_usage')
               ? 'block' : 'none';
           }
 
@@ -293,9 +291,6 @@
           if (mechanism === 'max_usage' || mechanism === 'max_customer_usage') {
             if (codePatternLabel) codePatternLabel.textContent = '{{ __('Reusable Code') }}';
             if (codePatternHint) codePatternHint.textContent = '{{ __('Enter the code customers will use (e.g., SAVE2024)') }}';
-          } else if (mechanism === 'one_time_usage') {
-            if (codePatternLabel) codePatternLabel.textContent = '{{ __('Code Pattern') }}';
-            if (codePatternHint) codePatternHint.textContent = '{{ __('Pattern for generating codes. Use {RANDOM:8}, {ALPHA:4}-{NUMBER:4}, etc.') }}';
           }
 
           // Set max for discount_value based on type
@@ -327,7 +322,7 @@
           }
           if (codePatternField) {
             codePatternField.style.display =
-              (mechanism === 'max_usage' || mechanism === 'max_customer_usage' || mechanism === 'one_time_usage')
+              (mechanism === 'max_usage' || mechanism === 'max_customer_usage')
               ? 'block' : 'none';
           }
 
@@ -336,9 +331,6 @@
           if (mechanism === 'max_usage' || mechanism === 'max_customer_usage') {
             if (codePatternLabel) codePatternLabel.textContent = '{{ __('Reusable Code') }}';
             if (codePatternHint) codePatternHint.textContent = '{{ __('Enter the code customers will use (e.g., SAVE2024)') }}';
-          } else if (mechanism === 'one_time_usage') {
-            if (codePatternLabel) codePatternLabel.textContent = '{{ __('Code Pattern') }}';
-            if (codePatternHint) codePatternHint.textContent = '{{ __('Pattern for generating codes. Use {RANDOM:8}, {ALPHA:4}-{NUMBER:4}, etc.') }}';
           }
 
           updateDiscountField();
@@ -391,7 +383,8 @@
         },
         firstDayOfWeek: {{ app()->getLocale() == 'ar' ? 6 : 0 }},
         rangeSeparator: ' {{ __("to") }} ',
-        weekAbbreviation: '{{ __("week") }}'
+        weekAbbreviation: '{{ __("week") }}',
+        amPM: ['{{ __("AM") }}', '{{ __("PM") }}']
       };
 
       function parseForFlatpickr(val) {

@@ -165,7 +165,7 @@
       <hr class="my-5">
 
       <div class="d-flex align-items-center justify-content-between mb-5">
-        <h5 class="card-title m-0">{{ __('Bill items') }}</h5>
+        <h5 class="card-title m-0 text-capitalize">{{ __('Bill items') }}</h5>
         <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-repeater-create>
           <span class="icon-xs icon-base ti ti-plus me-2"></span> {{ __('Add Item') }}
         </button>
@@ -177,20 +177,29 @@
               <div data-repeater-item>
                 <div class="row g-5">
                   <div class="col-lg-6 col-xl-3 col-12">
-                    <label class="form-label" for="name">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
-                    <input type="text" id="name" class="form-control" name="name" value="{{$item['name']}}" placeholder="{{ __('Name') }}" />
+                    <label class="form-label">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
+                    <input type="text" class="form-control" name="name" value="{{$item['name']}}" placeholder="{{ __('Name') }}" />
+                    @error('items.'.$loop->index.'.name')
+                      <p class="text-danger mb-0 mt-1" role="alert">{{ $message }}</p>
+                    @enderror
                   </div><!-- col -->
                   <div class="col-lg-6 col-xl-3 col-12">
-                    <label class="form-label" for="price">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
-                    <input type="number" class="form-control qty1 product_price" id="price" name="price" value="{{$item['price']}}" placeholder="{{ __('Price') }}"  min="1" />
+                    <label class="form-label">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
+                    <input type="number" class="form-control qty1 product_price" name="price" value="{{$item['price']}}" placeholder="{{ __('Price') }}"  min="1" />
+                    @error('items.'.$loop->index.'.price')
+                      <p class="text-danger mb-0 mt-1" role="alert">{{ $message }}</p>
+                    @enderror
                   </div><!-- col -->
                   <div class="col-lg-6 col-xl-2 col-12">
-                    <label class="form-label" for="quantity">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
-                    <input type="number" class="form-control qty1 product_quantity" id="quantity" name="quantity" value="{{$item['quantity']}}" placeholder="{{ __('Quantity') }}" min="1" />
+                    <label class="form-label">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
+                    <input type="number" class="form-control qty1 product_quantity" name="quantity" value="{{$item['quantity']}}" placeholder="{{ __('Quantity') }}" min="1" />
+                    @error('items.'.$loop->index.'.quantity')
+                      <p class="text-danger mb-0 mt-1" role="alert">{{ $message }}</p>
+                    @enderror
                   </div><!-- col -->
                   <div class="col-lg-6 col-xl-2 col-12">
-                    <label class="form-label" for="total">{{ __('Total') }}</label>
-                    <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control" id="total" disabled>
+                    <label class="form-label">{{ __('Total') }}</label>
+                    <input type="tel" name="total" value="{{ $item['price']* $item['quantity']}}" class="form-control" disabled>
                   </div><!-- col -->
                   <div class="col-lg-12 col-xl-2 col-12 d-flex align-items-center">
                     <button type="button" class="btn btn-label-danger mt-xl-6" data-repeater-delete>
@@ -206,19 +215,19 @@
             <div data-repeater-item>
               <div class="row g-5">
                 <div class="col-lg-6 col-xl-3 col-12">
-                  <label class="form-label" for="name">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
+                  <label class="form-label">{{ __('Product/Service') }} <span class="requirement text-danger">*</span></label>
                   <input name="name" type="text" class="form-control" placeholder="{{ __('Name') }}" />
                 </div><!-- col -->
                 <div class="col-lg-6 col-xl-3 col-12">
-                  <label class="form-label" for="price">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
+                  <label class="form-label">{{ __('Product/Service Price') }} <span class="requirement text-danger">*</span></label>
                   <input name="price" type="number" min="1" class="form-control qty1 product_price" placeholder="{{ __('Price') }}" />
                 </div><!-- col -->
                 <div class="col-lg-6 col-xl-2 col-12">
-                  <label class="form-label" for="quantity">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
+                  <label class="form-label">{{ __('Quantity') }} <span class="requirement text-danger">*</span></label>
                   <input name="quantity" type="number" min="1" class="form-control qty1 product_quantity" placeholder="{{ __('Quantity') }}" />
                 </div><!-- col -->
                 <div class="col-lg-6 col-xl-2 col-12">
-                  <label class="form-label" for="total">{{ __('Total') }}</label>
+                  <label class="form-label">{{ __('Total') }}</label>
                   <input name="total" type="number" class="form-control fw-bold" disabled>
                 </div><!-- col -->
                 <div class="col-lg-12 col-xl-2 col-12 d-flex align-items-center">
@@ -234,7 +243,7 @@
         </div>
       </div><!-- inner-repeater -->
 
-      <h5 class="card-title mb-5">{{ __('Additonal Details') }}</h5>
+      <h5 class="card-title mb-5">{{ __('Additional Details') }}</h5>
       <div class="row g-6">
         <div class="col-12">
           <label for="coupon_code" class="form-label">{{ __('Coupon Code') }} <small class="text-muted">( {{ __('Optional') }} )</small></label>
@@ -251,14 +260,12 @@
           </div><!-- row -->
         </div><!-- col -->
         <div class="col-12 col-md-6">
-          <label for="Discount_Values_Checkbox" class="switch switch-lg m-0">
+          <label for="Discount_Values_Checkbox" class="switch switch-success switch-lg m-0">
             <input type="checkbox" class="switch-input" name="add_discount" id="Discount_Values_Checkbox" @if(old('add_discount')) checked @endif>
             <span class="switch-toggle-slider">
               <span class="switch-on">
-                <i class="icon-base ti ti-check"></i>
               </span>
               <span class="switch-off">
-                <i class="icon-base ti ti-x"></i>
               </span>
             </span>
             <span class="switch-label">{{ __('Add Discount') }}</span>
@@ -279,21 +286,22 @@
                     <i id="fixed" class="sar-icon lh-1"></i>
                     <i id="percentage" class="icon-base ti ti-percentage"></i>
                   </span>
-                  <input type="number" inputmode="numeric" name="discount_value" class="form-control" value="{{old('discount_value')}}" id="Discount_Value" aria-describedby="fixed, percentage" />
+                  <input type="number" inputmode="numeric" name="discount_value" class="form-control" value="{{old('discount_value')}}" id="Discount_Value" min="0" step="any" aria-describedby="fixed, percentage" />
                 </div><!-- input-group -->
+                @error('discount_value')
+                  <div class="invalid-feedback d-block" role="alert">{{ $message }}</div>
+                @enderror
               </div><!-- col-6 -->
             </div><!-- row -->
           </div><!-- Discount_Values -->
         </div><!-- col -->
         <div class="col-12 col-md-6">
-          <label for="Tax_Values_Checkbox" class="switch switch-lg m-0">
+          <label for="Tax_Values_Checkbox" class="switch switch-success switch-lg m-0">
             <input type="checkbox" class="switch-input" name="add_tax" id="Tax_Values_Checkbox" @if($errors->any()) @if(old('add_tax') == true) checked @endif @else @if($settings->add_tax) checked @endif @endif>
             <span class="switch-toggle-slider">
               <span class="switch-on">
-                <i class="icon-base ti ti-check"></i>
               </span>
               <span class="switch-off">
-                <i class="icon-base ti ti-x"></i>
               </span>
             </span>
             <span class="switch-label">{{ __('Add Tax') }}</span>
@@ -304,8 +312,11 @@
                 <label for="Value" class="form-label">{{ __('Tax Value') }}</label>
                 <div class="input-group input-group-merge" dir="ltr">
                   <span class="input-group-text"><i class="icon-base ti ti-percentage"></i></span>
-                  <input type="number" inputmode="numeric" name="tax_value" class="form-control" value="@if($settings->add_tax){{$settings->tax_value}}@else{{old('tax_value')}}@endif" id="Value" aria-describedby="Value" />
+                  <input type="number" inputmode="numeric" name="tax_value" class="form-control" value="@if($settings->add_tax){{$settings->tax_value}}@else{{old('tax_value')}}@endif" id="Value" min="0" step="any" aria-describedby="Value" />
                 </div><!-- input-group -->
+                @error('tax_value')
+                  <div class="invalid-feedback d-block" role="alert">{{ $message }}</div>
+                @enderror
               </div><!-- col-12 -->
             </div><!-- row -->
           </div><!-- Tax_Values -->
@@ -317,28 +328,24 @@
       <h5 class="card-title mb-5">{{ __('Send The Bill To Customer') }}</h5>
       <div class="row g-5">
         <div class="col-12 col-lg-6">
-          <label for="send_sms" class="switch switch-lg m-0">
+          <label for="send_sms" class="switch switch-success switch-lg m-0">
             <input type="checkbox" class="switch-input" name="send_sms" id="send_sms" @if($settings->create_send_sms || old('send_sms')) checked @endif>
             <span class="switch-toggle-slider">
               <span class="switch-on">
-                <i class="icon-base ti ti-check"></i>
               </span>
               <span class="switch-off">
-                <i class="icon-base ti ti-x"></i>
               </span>
             </span>
             <span class="switch-label">{{ __('Send SMS') }}</span>
           </label>
         </div><!-- col-12 -->
         <div class="col-12 col-lg-6">
-          <label for="send_email" class="switch switch-lg m-0">
+          <label for="send_email" class="switch switch-success switch-lg m-0">
             <input type="checkbox" class="switch-input" name="send_email" id="send_email" @if($settings->create_send_email || old('send_email')) checked @endif>
             <span class="switch-toggle-slider">
               <span class="switch-on">
-                <i class="icon-base ti ti-check"></i>
               </span>
               <span class="switch-off">
-                <i class="icon-base ti ti-x"></i>
               </span>
             </span>
             <span class="switch-label">{{ __('Send Email') }}</span>
@@ -454,10 +461,22 @@
       var pendingDeleteElement = null;
       var pendingDeleteRow = null;
 
+      function syncBillItemFieldIds(scope) {
+        $(scope).find('[data-repeater-item]').each(function() {
+          $(this).find('input[name], select[name], textarea[name]').each(function() {
+            if (!this.name) return;
+            var uniqueId = this.name.replace(/\]\[/g, '_').replace(/[\[\]]/g, '');
+            this.id = uniqueId;
+            $(this).closest('[class*="col-"]').find('label.form-label').attr('for', uniqueId);
+          });
+        });
+      }
+
       $('.form-repeater').repeater({
         initEmpty: false,
         show: function () {
           $(this).slideDown();
+          syncBillItemFieldIds(this);
         },
         hide: function (deleteElement) {
           pendingDeleteElement = deleteElement;
@@ -468,11 +487,16 @@
         isFirstItemUndeletable: true
       });
 
+      syncBillItemFieldIds('.inner-repeater');
+
       $('#confirmDeleteItem').on('click', function() {
         if (pendingDeleteRow && pendingDeleteElement) {
-          pendingDeleteRow.slideUp(pendingDeleteElement);
-          pendingDeleteRow = null;
-          pendingDeleteElement = null;
+          pendingDeleteRow.slideUp(function() {
+            pendingDeleteElement();
+            syncBillItemFieldIds('.inner-repeater');
+            pendingDeleteRow = null;
+            pendingDeleteElement = null;
+          });
         }
         bootstrap.Modal.getInstance(document.getElementById('deleteItemModal')).hide();
       });
@@ -563,8 +587,32 @@
         $('.Tax_Values').hide();
       }
 
+      window.clearOptionalAmount = function(selector) {
+        var $input = $(selector);
+        if (!$input.length) {
+          return;
+        }
+
+        $input.val('');
+        var validator = $('#bill_create').data('validator');
+        if (!validator) {
+          return;
+        }
+
+        var element = $input.get(0);
+        $input.removeClass(validator.settings.errorClass + ' is-invalid is-valid').removeAttr('aria-invalid');
+        validator.hideThese(validator.errorsFor(element));
+        if (element.name) {
+          delete validator.invalid[element.name];
+          delete validator.submitted[element.name];
+        }
+      }
+
       // Tax & Discount
       $('#Discount_Values_Checkbox').change(function() {
+        if (!this.checked) {
+          clearOptionalAmount('#Discount_Value');
+        }
         $('.Discount_Values').slideToggle();
         if($('#discount_type').val() === 'percentage') {
           $('#percentage').show();
@@ -585,6 +633,9 @@
       });
 
       $('#Tax_Values_Checkbox').change(function() {
+        if (!this.checked) {
+          clearOptionalAmount('#Value');
+        }
         $('.Tax_Values').slideToggle();
       });
 
@@ -661,6 +712,9 @@
           if (discountValuesDiv) {
             discountValuesDiv.style.display = 'none';
           }
+          if (window.clearOptionalAmount) {
+            window.clearOptionalAmount('#Discount_Value');
+          }
         } else {
           discountCheckbox.disabled = false;
         }
@@ -688,4 +742,62 @@
   });
 </script>
   {!! JsValidator::formRequest('App\Http\Requests\BillRequest', '#bill_create') !!}
+  <script>
+    jQuery(document).ready(function() {
+      var $form = $('#bill_create');
+      var validator = $form.data('validator');
+      if (!validator) return;
+
+      // Repeater rows must be identified by unique name, never a shared id like "price".
+      validator.idOrName = function(element) {
+        return element.name || element.id;
+      };
+
+      validator.errorsFor = function(element) {
+        return this.errors().filter(function() {
+          var describedBy = $(element).attr('aria-describedby');
+          return (describedBy && this.id === describedBy) ||
+            $(this).attr('data-error-for') === element.name;
+        });
+      };
+
+      function errorInsertTarget(element) {
+        var $group = $(element).closest('.input-group');
+        return $group.length ? $group : $(element);
+      }
+
+      validator.settings.highlight = function(element) {
+        $(element).removeClass('is-valid').addClass('is-invalid');
+      };
+      validator.settings.unhighlight = function(element) {
+        $(element).removeClass('is-invalid').addClass('is-valid');
+      };
+      validator.settings.success = function(label, element) {
+        if (element) {
+          $(element).removeClass('is-invalid');
+        }
+        $(label).remove();
+      };
+      validator.settings.errorPlacement = function(error, element) {
+        error.addClass('d-block mt-1').attr('data-error-for', element.attr('name') || '');
+        error.insertAfter(errorInsertTarget(element));
+      };
+
+      $form.on('invalid-form.validate', function(event, validatorInstance) {
+        $.each(validatorInstance.errorMap, function(name, message) {
+          var el = validatorInstance.findByName(name)[0];
+          if (!el) return;
+          $(el).removeClass('is-valid').addClass('is-invalid');
+          var $target = errorInsertTarget(el);
+          var $error = validatorInstance.errors().filter(function() {
+            return $(this).attr('data-error-for') === name;
+          }).first();
+          if (!$error.length) {
+            $error = $('<span class="invalid-feedback d-block mt-1"></span>').attr('data-error-for', name).insertAfter($target);
+          }
+          $error.text(message).show();
+        });
+      });
+    });
+  </script>
 @endpush

@@ -254,7 +254,7 @@
               </div>
             </div><!-- 2/5 -->
             <div class="w-full lg:w-1/2 self-stretch flex flex-col justify-center">
-              <form action="{{ route('contact.send_form') }}" id="contact_form" method="POST" class="flex flex-col gap-4">
+              <form action="{{ route('contact.send_form') }}" id="contact_form" method="POST" class="flex flex-col gap-4" novalidate>
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div class="form-control flex flex-col gap-1">

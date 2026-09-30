@@ -81,16 +81,14 @@
           <label for="business_mobile" class="form-label">{{ __('Mobile') }} <span class="requirement text-danger">*</span></label>
           <input value="{{ $user->business_mobile }}" name="business_mobile" type="tel" inputmode="numeric" class="form-control" id="business_mobile" placeholder="{{ __('Mobile') }}" pattern="[0-9]*" maxlength="9" autocomplete="off">
         </div><!-- col -->
-        @if(auth()->user()->source == 'sure bills')
-          <div class="col">
-            <label for="website" class="form-label">{{ __('Website') }}</label>
-            <input value="{{ $user->website }}" name="website"  type="url" inputmode="url" class="form-control" id="website" placeholder="{{ __('Website') }}" autocomplete="off">
-          </div><!-- col -->
-          <div class="col">
-            <label for="sector" class="form-label">{{ __('Sector') }}</label>
-            <input value="{{ $user->sector }}" name="sector" type="text" class="form-control" id="sector" placeholder="{{ __('Sector') }}" autocomplete="off">
-          </div><!-- col -->
-        @endif
+        <div class="col">
+          <label for="website" class="form-label">{{ __('Website') }}</label>
+          <input value="{{ $user->website }}" name="website"  type="url" inputmode="url" class="form-control" id="website" placeholder="{{ __('Website') }}" autocomplete="off">
+        </div><!-- col -->
+        <div class="col">
+          <label for="sector" class="form-label">{{ __('Sector') }}</label>
+          <input value="{{ $user->sector }}" name="sector" type="text" class="form-control" id="sector" placeholder="{{ __('Sector') }}" autocomplete="off">
+        </div><!-- col -->
         <div class="col">
           <label for="logo" class="form-label">{{ __('Logo') }}</label>
           <div class="uploadFiledArea">
@@ -115,20 +113,18 @@
             </div>
           </div><!-- col -->
         @endif
-        @if(auth()->user()->source == 'sure bills')
-          <div class="col-12 w-100">
-            <hr class="mb-6 mt-0" />
-            <label for="required_documents" class="form-label d-flex align-items-start justify-content-start flex-column">
-              <span class="d-block fs-5 mb-1">{{ __('Upload the required documents') }}</span>
-              <span class="text-muted mb-2">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</span>
-            </label>
-            @include('components.dropzone',[
-              'documents' => merchant_dropzone_documents_payload((int) $user->id, 'business_documents'),
-              'upload_context' => 'business_documents',
-              'readonly' => (bool) $user->disable_business_documents,
-            ])
-          </div><!-- col -->
-        @endif
+        <div class="col-12 w-100">
+          <hr class="mb-6 mt-0" />
+          <label for="required_documents" class="form-label d-flex align-items-start justify-content-start flex-column">
+            <span class="d-block fs-5 mb-1">{{ __('Upload the required documents') }}</span>
+            <span class="text-muted mb-2">{{ __('Commercial registry, self-employment document, ID card ..etc') }}</span>
+          </label>
+          @include('components.dropzone',[
+            'documents' => merchant_dropzone_documents_payload((int) $user->id, 'business_documents'),
+            'upload_context' => 'business_documents',
+            'readonly' => (bool) $user->disable_business_documents,
+          ])
+        </div><!-- col -->
       </div><!-- row -->
     </div><!-- card-body -->
     <div class="card-footer d-flex align-items-center justify-content-end">
@@ -150,8 +146,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p class="text-body d-block m-0">السجل التجاري يمكن إصدارة من وزارة التجارة من خلال الموقع الاكتروني الخاص بهم من خلال هذا الرابط .. <a href="http://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=2" target="_blank" title="إضغط هنا">إضغط هنا</a></p>
-          <p class="text-body d-block m-0">وثيقة العمل الحر وهي وثيقة مجانية تصدر من قبل وزارة العمل والتنمية الاجتماعية لممارسة العمل الحر، ولإصدار وثيقة العمل المجانية تقدم بطلب من خلال هذا الرابط .. <a href="https://freelance.sa/" target="_blank" title="أضغط هنا">أضغط هنا</a></p>
+          <p class="text-body d-block m-0">{{ __('The commercial register can be issued by the Ministry of Commerce through their website using this link.') }} <a href="http://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=2" target="_blank" title="{{ __('Click here') }}">{{ __('Click here') }}</a></p>
+          <p class="text-body d-block m-0">{{ __('The freelance document is a free document issued by the Ministry of Labor and Social Development for freelance work. To issue the free freelance document, apply through this link.') }} <a href="https://freelance.sa/" target="_blank" title="{{ __('Click here') }}">{{ __('Click here') }}</a></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal"> {{ __('Close') }}</button>

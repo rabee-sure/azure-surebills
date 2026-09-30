@@ -35,14 +35,12 @@
         <h5 class="card-title mb-5">{{ __('Taxes') }}</h5>
         <div class="row g-4">
           <div class="col-12">
-            <label for="Tax_Values_Checkbox" class="switch switch-lg m-0">
+            <label for="Tax_Values_Checkbox" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="add_tax" id="Tax_Values_Checkbox" @if($user->settings->add_tax || old('add_tax') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Add Tax') }}</span>
@@ -54,8 +52,11 @@
                 <label for="Tax" class="form-label">{{ __('Tax Value') }}</label>
                 <div class="input-group input-group-merge" dir="ltr">
                   <span class="input-group-text" id="percentage"><i class="icon-base ti ti-percentage"></i></span>
-                  <input type="number" inputmode="numeric" name="tax_value" class="form-control" min="0" max="100" id="Value" value="{{ old('tax_value') ?? $user->settings->tax_value }}" aria-describedby="percentage">
+                  <input type="number" inputmode="numeric" name="tax_value" class="form-control @error('tax_value') is-invalid @enderror" min="0" max="100" step="any" id="Value" value="{{ old('tax_value') ?? $user->settings->tax_value }}" aria-describedby="percentage">
                 </div><!-- input-group -->
+                @error('tax_value')
+                  <div class="invalid-feedback d-block" role="alert">{{ $message }}</div>
+                @enderror
               </div><!-- col -->
             </div><!-- row -->
           </div><!-- col-12 -->
@@ -66,14 +67,12 @@
         <h5 class="card-title mb-5">{{ __('Tax Invoice') }}</h5>
         <div class="row g-4">
           <div class="col-12">
-            <label for="Tax_Invoice_Values_Checkbox" class="switch switch-lg m-0">
+            <label for="Tax_Invoice_Values_Checkbox" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="add_tax_invoice" id="Tax_Invoice_Values_Checkbox" @if($user->settings->add_tax_invoice || old('add_tax_invoice') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Activate Tax Invoice') }}</span>
@@ -149,7 +148,7 @@
 
         <hr class="my-5">
 
-        <h5 class="card-title mb-5">{{ __('bills header and footer') }} <small class="d-inline-block text-secondary">( {{ __('optional') }} )</small></h5>
+        <h5 class="card-title mb-5 text-capitalize">{{ __('bills header and footer') }} <small class="d-inline-block text-secondary">( {{ __('optional') }} )</small></h5>
         <div class="row g-4 g-md-6">
           <div class="col-12 col-md-6">
             <label for="header_bill_ar" class="form-label">{{ __('Header ar') }}</label>
@@ -174,42 +173,36 @@
         <h5 class="card-title mb-5">{{ __('When Bill Created') }} <small class="d-inline-block text-secondary">( {{ __('Default settings') }} )</small></h5>
         <div class="row g-4 g-md-6">
           <div class="col-12 col-md-4">
-            <label for="create_send_sms" class="switch switch-lg m-0">
+            <label for="create_send_sms" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="create_send_sms" id="create_send_sms" @if($user->settings->create_send_sms || old('create_send_sms') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Send a text message to the customer') }}</span>
             </label>
           </div><!-- col-12 -->
           <div class="col-12 col-md-4">
-            <label for="create_send_email" class="switch switch-lg m-0">
+            <label for="create_send_email" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="create_send_email" id="create_send_email" @if($user->settings->create_send_email || old('create_send_email') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Send an email to the customer') }}</span>
             </label>
           </div><!-- col-12 -->
           <div class="col-12 col-md-4">
-            <label for="display_customer_details" class="switch switch-lg m-0">
+            <label for="display_customer_details" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="display_customer_details" id="display_customer_details" @if($user->settings->display_customer_details || old('display_customer_details') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Display Customer Details') }}</span>
@@ -222,28 +215,24 @@
         <h5 class="card-title mb-5">{{ __('When Bill Paid') }}</h5>
         <div class="row g-4 g-md-6">
           <div class="col-12 col-md-4">
-            <label for="paid_send_sms" class="switch switch-lg m-0">
+            <label for="paid_send_sms" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="paid_send_sms" id="paid_send_sms" @if($user->settings->paid_send_sms || old('paid_send_sms') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Send me a text message') }}</span>
             </label>
           </div><!-- col-12 -->
           <div class="col-12 col-md-4">
-            <label for="paid_send_email" class="switch switch-lg m-0">
+            <label for="paid_send_email" class="switch switch-success switch-lg m-0">
               <input type="checkbox" class="switch-input" name="paid_send_email" id="paid_send_email" @if($user->settings->paid_send_email || old('paid_send_email') == 'on') checked @endif>
               <span class="switch-toggle-slider">
                 <span class="switch-on">
-                  <i class="icon-base ti ti-check"></i>
                 </span>
                 <span class="switch-off">
-                  <i class="icon-base ti ti-x"></i>
                 </span>
               </span>
               <span class="switch-label">{{ __('Send an email to me') }}</span>
@@ -254,14 +243,12 @@
         <hr class="my-5">
 
         <h5 class="card-title mb-5">{{ __('Simple Style for API') }}</h5>
-        <label for="api_bill_style" class="switch switch-lg m-0">
+        <label for="api_bill_style" class="switch switch-success switch-lg m-0">
           <input type="checkbox" class="switch-input" name="api_bill_style" id="api_bill_style" @if($user->settings->api_bill_style || old('api_bill_style') == 'on') checked @endif>
           <span class="switch-toggle-slider">
             <span class="switch-on">
-              <i class="icon-base ti ti-check"></i>
             </span>
             <span class="switch-off">
-              <i class="icon-base ti ti-x"></i>
             </span>
           </span>
           <span class="switch-label">{{ __('Hide the additional information of the orgianization in the payment URL') }}</span>
@@ -273,16 +260,13 @@
         <div class="row">
           <div class="col-12 col-md-6">
 
-            <div class="row mb-4">
-              <label for="background_color_body" class="col-md-3 col-form-label">{{ __('Background Color') }}</label>
-              <div class="col-md-9">
-                <input type="color" name="background_color_body" id="background_color_body" class="form-control m-0 p-1 h-100" value="{{ $user->settings->background_color_body ?? '#fafafa' }}">
-              </div><!-- col-md-10 -->
-            </div><!-- row -->
+            <div class="mb-4">
+              <label for="background_color_body" class="form-label">{{ __('Background Color') }}</label>
+              <input type="color" name="background_color_body" id="background_color_body" class="form-control input-color" value="{{ $user->settings->background_color_body ?? '#fafafa' }}">
+            </div><!-- mb-4 -->
 
-            <div class="row mb-4">
-              <label for="background_image_file" class="col-md-3 col-form-label">{{ __('Background Image') }}</label>
-              <div class="col-md-9">
+            <div class="mb-4">
+              <label for="background_image_file" class="form-label">{{ __('Background Image') }}</label>
                 <div class="uploadFiledArea">
                   <div class="uploadInput">
                     <div class="fileName"></div>
@@ -329,29 +313,22 @@
                   </div><!-- modal -->
                   <!-- Delete Confirmation Modal -->
                 @endif
-              </div><!-- col-md-10 -->
-            </div><!-- row -->
+            </div><!-- mb-4 -->
 
-            <div class="row mb-4">
-              <label for="text_color_body" class="col-md-3 col-form-label">{{ __('Text Color') }}</label>
-              <div class="col-md-9">
-                <input type="color" name="text_color_body" id="text_color_body" class="form-control m-0 p-1 h-100" value="{{ $user->settings->text_color_body ?? '#000000' }}">
-              </div><!-- col-md-10 -->
-            </div><!-- row -->
+            <div class="mb-4">
+              <label for="text_color_body" class="form-label">{{ __('Text Color') }}</label>
+              <input type="color" name="text_color_body" id="text_color_body" class="form-control input-color" value="{{ $user->settings->text_color_body ?? '#000000' }}">
+            </div>
 
-            <div class="row mb-4">
-              <label for="background_color_payment_button" class="col-md-3 col-form-label">{{ __('Payment Button Background Color') }}</label>
-              <div class="col-md-9">
-                <input type="color" name="background_color_payment_button" id="background_color_payment_button" class="form-control m-0 p-1 h-100" value="{{ $user->settings->background_color_payment_button ?? '#00d595' }}">
-              </div><!-- col-md-10 -->
-            </div><!-- row -->
+            <div class="mb-4">
+              <label for="background_color_payment_button" class="form-label">{{ __('Payment Button Background Color') }}</label>
+              <input type="color" name="background_color_payment_button" id="background_color_payment_button" class="form-control input-color" value="{{ $user->settings->background_color_payment_button ?? '#00d595' }}">
+            </div><!-- mb-4 -->
 
-            <div class="row">
-              <label for="text_color_payment_button" class="col-md-3 col-form-label">{{ __('Payment Button Text Color') }}</label>
-              <div class="col-md-9">
-                <input type="color" name="text_color_payment_button" id="text_color_payment_button" class="form-control m-0 p-1 h-100" value="{{ $user->settings->text_color_payment_button ?? '#ffffff' }}">
-              </div><!-- col-md-10 -->
-            </div><!-- row -->
+            <div>
+              <label for="text_color_payment_button" class="form-label">{{ __('Payment Button Text Color') }}</label>
+              <input type="color" name="text_color_payment_button" id="text_color_payment_button" class="form-control input-color" value="{{ $user->settings->text_color_payment_button ?? '#ffffff' }}">
+            </div><!-- mb-4 -->
 
 
           </div><!-- col-12 -->

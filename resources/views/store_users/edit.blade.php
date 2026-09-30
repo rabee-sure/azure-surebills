@@ -1,5 +1,5 @@
 <div class="modal fade" id="edit_user_Modal" tabindex="-1" aria-hidden="true">
-  <form method="POST" action="" id="user_update_form" class="modal-dialog modal-lg" role="document">
+  <form method="POST" action="" id="user_update_form" class="modal-dialog modal-lg" role="document" novalidate>
     @method('PATCH')
     @csrf
     <div class="modal-content">
@@ -74,3 +74,8 @@
     </div><!-- modal-content -->
   </form>
 </div><!-- modal -->
+
+@push('footer-scripts')
+  <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.min.js')}}?v={{ config('app.asset_version') }}"></script>
+  {!! JsValidator::formRequest('App\Http\Requests\StoreUserUpdateRequest', '#user_update_form')->ignore(':hidden:not(.select2-hidden-accessible)') !!}
+@endpush

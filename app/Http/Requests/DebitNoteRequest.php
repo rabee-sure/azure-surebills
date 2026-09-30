@@ -24,6 +24,12 @@ class DebitNoteRequest extends FormRequest
         if (!$this->has('is_redirect')) {
             $this->is_redirect = false;
         }
+
+        if (!$this->has('add_discount') || $this->input('add_discount') !== 'on') {
+            $this->merge([
+                'discount_value' => null,
+            ]);
+        }
     }
 
     /**
@@ -38,7 +44,7 @@ class DebitNoteRequest extends FormRequest
             'due_date' => ['required'],
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
-            'discount_value' => ['required_if:add_discount,on'],
+            'discount_value' => ['required_if:add_discount,on', 'nullable', 'numeric', 'min:0'],
             'items' => ['required', new BillTotalValidation],
             'items.*.name' => 'required|string|max:50',
             'items.*.price' => 'required|numeric',
@@ -71,6 +77,8 @@ class DebitNoteRequest extends FormRequest
     {
         return [
           'discount_value.required_if' => __('Discount value is required'),
+          'discount_value.numeric' => __('Discount value must be a number'),
+          'discount_value.min' => __('Value must be greater than or equal to 0'),
           'items.*.name.required' => __('item name required'),
           'items.*.name.max' => __('item name should not be greater than 50 character'),
           'items.*.price.required' => __('item price required'),

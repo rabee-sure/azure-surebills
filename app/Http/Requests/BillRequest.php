@@ -22,9 +22,17 @@ class BillRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        if(!$this->has('add_tax'))
-        {
-            request()->merge(['add_tax' => 0]);
+        if (!$this->has('add_tax') || $this->input('add_tax') !== 'on') {
+            $this->merge([
+                'add_tax' => 0,
+                'tax_value' => null,
+            ]);
+        }
+
+        if (!$this->has('add_discount') || $this->input('add_discount') !== 'on') {
+            $this->merge([
+                'discount_value' => null,
+            ]);
         }
 
         if ($this->has('customer_mobile')) {
@@ -54,9 +62,9 @@ class BillRequest extends FormRequest
             'coupon_code' => ['nullable', 'string', 'max:255'],
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
-            'discount_value' => ['required_if:add_discount,on'],
+            'discount_value' => ['required_if:add_discount,on', 'nullable', 'numeric', 'min:0'],
             'add_tax' => ['nullable'],
-            'tax_value' => ['required_if:add_tax,on'],
+            'tax_value' => ['required_if:add_tax,on', 'nullable', 'numeric', 'min:0'],
             'send_sms' => ['nullable'],
             'send_email' => ['nullable'],
             'items' => ['required', new BillTotalValidation],
@@ -99,7 +107,11 @@ class BillRequest extends FormRequest
         return [
           'customer_name.required' => __('customer name required'),
           'discount_value.required_if' => __('Discount value is required'),
+          'discount_value.numeric' => __('Discount value must be a number'),
+          'discount_value.min' => __('Value must be greater than or equal to 0'),
           'tax_value.required_if' => __('Tax value is required'),
+          'tax_value.numeric' => __('Tax value must be a number'),
+          'tax_value.min' => __('Value must be greater than or equal to 0'),
           'customer_email.required_if' => __('Email is required if sending email is active'),
           'customer_mobile.required' => __('customer mobile required'),
           'customer_mobile.regex' => __('customer mobile is not correct'),
