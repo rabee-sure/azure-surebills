@@ -6,12 +6,17 @@ use App\Models\Customer;
 use App\Http\Requests\CustomerRequest;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Models\User;
+use App\Observers\CustomerObserver;
+use App\Services\Cache\CacheKeys;
+use App\Services\Cache\SureBillsCache;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(
+        private readonly SureBillsCache $cache,
+    ) {
         $this->middleware('permission:show customers', ['only' => ['index','show', 'searchByName', 'searchByMobile']]);
         $this->middleware('permission:create customer', ['only' => ['create','store']]);
         $this->middleware('permission:update customer', ['only' => ['edit','update']]);
@@ -116,14 +121,71 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Customer  $customer
+     * Ownership is authorized on the MySQL Customer. The record cache is read
+     * only after that decision and is not passed to CustomerPolicy.
+     * customers/edit.blade.php does not currently render $customer.
+     * update() and destroy() still bind a fresh MySQL Customer.
+     *
+     * @param  int|string  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit($customer)
     {
-        $this->authorize('update', $customer);
+        $id = (int) $customer;
+        $authoritative = $this->findCustomerOrFail($id);
+        $this->authorize('update', $authoritative);
         $user = User::find(auth()->user()->store_main_user_id ?? auth()->user()->id);
-        return view('customers.edit', ['customer' => $customer, 'user' => $user]);
+
+        return view('customers.edit', [
+            'customer' => $this->customerForEdit($id, $authoritative),
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * Display record for the edit view. Does not decide authorization.
+     *
+     * @param  int|string  $customer
+     */
+    protected function customerForEdit($customer, ?Customer $authoritative = null): Customer
+    {
+        $id = (int) $customer;
+
+        if (! $authoritative || (int) $authoritative->getAttribute('id') !== $id) {
+            $authoritative = $this->findCustomerOrFail($id);
+        }
+
+        if (! $this->cache->enabled('customers')) {
+            return $authoritative;
+        }
+
+        $payload = $this->cache->rememberForever(
+            CacheKeys::customer($id),
+            fn () => CustomerObserver::toPayload($authoritative),
+            'customers'
+        );
+
+        if (! CustomerObserver::isValidPayload($payload, $id)) {
+            return $authoritative;
+        }
+
+        return CustomerObserver::modelFromPayload($payload);
+    }
+
+    protected function findCustomer(int $id): ?Customer
+    {
+        return Customer::find($id);
+    }
+
+    protected function findCustomerOrFail(int $id): Customer
+    {
+        $customer = $this->findCustomer($id);
+
+        if (! $customer) {
+            throw (new ModelNotFoundException())->setModel(Customer::class, [$id]);
+        }
+
+        return $customer;
     }
 
     /**
