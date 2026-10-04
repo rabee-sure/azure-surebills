@@ -3,9 +3,19 @@
 namespace App\Observers;
 
 use App\Models\Bill;
+use App\Services\Cache\CacheKeys;
+use App\Services\Cache\SureBillsCache;
+use DateTimeInterface;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class BillObserver
 {
+    public function __construct(
+        private readonly SureBillsCache $cache,
+    ) {}
+
     public function creating(Bill $bill)
     {
         // generate QR code for pay url 
@@ -21,11 +31,11 @@ class BillObserver
      */
     public function created(Bill $bill)
     {
-        //
+        $this->syncPendingBill($bill);
     }
 
     /**
-     * Handle the Bill "updated" event.
+     * Handle the Bill "updating" event.
      *
      * @param  \App\Models\Bill  $bill
      * @return void
@@ -55,6 +65,17 @@ class BillObserver
                     break;
             }
         }
+    }
+
+    /**
+     * Handle the Bill "updated" event.
+     *
+     * @param  \App\Models\Bill  $bill
+     * @return void
+     */
+    public function updated(Bill $bill)
+    {
+        $this->syncPendingBill($bill);
     }
 
     /**
@@ -88,5 +109,124 @@ class BillObserver
     public function forceDeleted(Bill $bill)
     {
         //
+    }
+
+    /**
+     * Display map only. Payment eligibility stays on the MySQL bill.
+     */
+    private function syncPendingBill(Bill $bill): void
+    {
+        if (! $this->cache->enabled('pending_bills')) {
+            return;
+        }
+
+        $key = CacheKeys::pendingBills($bill->user_id);
+        $operation = 'get';
+
+        try {
+            $stored = Cache::get($key);
+            $map = $this->pendingMap($stored);
+            $id = (string) $bill->getAttribute('id');
+            $memberExisted = array_key_exists($id, $map);
+
+            if ($bill->status === 'pending') {
+                $map[$id] = $this->pendingPayload($bill);
+                $operation = 'put';
+                $this->cache->put($key, $map, config('surebills_cache.ttl.pending_bills'));
+
+                return;
+            }
+
+            if ($stored !== null && ! is_array($stored)) {
+                $operation = 'forget';
+                $this->cache->forget($key);
+
+                return;
+            }
+
+            if (! $memberExisted) {
+                return;
+            }
+
+            unset($map[$id]);
+
+            if ($map === []) {
+                $operation = 'forget';
+                $this->cache->forget($key);
+
+                return;
+            }
+
+            $operation = 'put';
+            $this->cache->put($key, $map, config('surebills_cache.ttl.pending_bills'));
+        } catch (Throwable $e) {
+            Log::warning('pending bills cache sync failed after bill mutation', [
+                'domain' => 'pending_bills',
+                'key' => $key,
+                'operation' => $operation,
+                'exception' => $e::class,
+            ]);
+        }
+    }
+
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    private function pendingMap(mixed $stored): array
+    {
+        if (! is_array($stored)) {
+            return [];
+        }
+
+        $map = [];
+
+        foreach ($stored as $memberId => $member) {
+            if (! is_array($member) || ! $this->isPendingMember($member, (string) $memberId)) {
+                continue;
+            }
+
+            $map[(string) $memberId] = [
+                'id' => $member['id'],
+                'amount' => $member['amount'],
+                'customer_name' => $member['customer_name'],
+                'created_at' => $member['created_at'],
+                'status' => $member['status'],
+            ];
+        }
+
+        return $map;
+    }
+
+    /**
+     * @param  array<string, mixed>  $member
+     */
+    private function isPendingMember(array $member, string $memberId): bool
+    {
+        foreach (['id', 'amount', 'customer_name', 'created_at', 'status'] as $field) {
+            if (! array_key_exists($field, $member)) {
+                return false;
+            }
+        }
+
+        return (string) $member['id'] === $memberId
+            && $member['status'] === 'pending';
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function pendingPayload(Bill $bill): array
+    {
+        $createdAt = $bill->getAttribute('created_at');
+
+        return [
+            'id' => $bill->getAttribute('id'),
+            'amount' => $bill->getAttribute('total'),
+            'customer_name' => $bill->getAttribute('customer_name'),
+            'created_at' => $createdAt instanceof DateTimeInterface
+                ? $createdAt->format('Y-m-d H:i:s')
+                : $createdAt,
+            'status' => $bill->getAttribute('status'),
+        ];
     }
 }
