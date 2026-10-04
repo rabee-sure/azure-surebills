@@ -148,10 +148,16 @@ class BillController extends Controller
 
         $bill = DB::transaction(function () use ($request) {
             $user = auth()->user();
+            $userId = $user->store_main_user_id ?? $user->id;
+            $claim = null;
+
+            if ($request->coupon_code) {
+                $claim = $this->couponService->beginRedemption($request->coupon_code, (int) $userId);
+            }
 
             // Find the customer by mobile or email (if email is provided)
             $customer = Customer::matchByMobileOrEmail(
-                $user->store_main_user_id ?? $user->id,
+                $userId,
                 $request->customer_mobile,
                 $request->customer_email
             )->first();
@@ -185,32 +191,19 @@ class BillController extends Controller
                     'additional_no' => $request->additional_no,
                     'other_buyer_id' => $request->other_buyer_id,
                     'vat_registration_number' => $request->vat_registration_number,
-                    'user_id' => $user->store_main_user_id ?? $user->id
+                    'user_id' => $userId
                 ]);
             }
 
-            // Handle coupon validation before creating bill
             $couponId = null;
             $discountType = null;
             $discountValue = null;
-            $userId = $user->store_main_user_id ?? $user->id;
-            
-            if ($request->coupon_code) {
-                // Validate coupon first (without applying/recording usage)
-                $couponResult = $this->couponService->validateCoupon(
-                    $request->coupon_code,
-                    $customer->id,
-                    $userId
-                );
 
-                if (!$couponResult['success']) {
-                    throw ValidationsException::withMessages(['coupon_code' => $couponResult['message']]);
-                }
-
-                // Use coupon discount
-                $couponId = $couponResult['coupon_id'] ?? null;
-                $discountType = $couponResult['discount']['discount_type'];
-                $discountValue = $couponResult['discount']['discount_value'];
+            if ($claim) {
+                $this->couponService->assertAvailable($claim, $customer);
+                $couponId = $claim->couponId();
+                $discountType = $claim->discountType();
+                $discountValue = $claim->discountValue();
             } elseif ($request->add_discount) {
                 // Manual discount
                 $discountType = $request->discount_type;
@@ -247,26 +240,6 @@ class BillController extends Controller
 
                 'source' => 'sure_bill',
             ]);
-
-            // Record coupon usage with bill ID if coupon was used
-            if ($request->coupon_code && $couponId) {
-                // Record usage directly without re-validation (we already validated before bill creation)
-                $usageResult = $this->couponService->recordUsage(
-                    $request->coupon_code,
-                    $customer->id,
-                    $userId,
-                    $bill->id
-                );
-                
-                // Log if usage recording failed (but don't fail the bill creation)
-                if (!$usageResult['success']) {
-                    \Illuminate\Support\Facades\Log::warning('Coupon usage recording failed for bill', [
-                        'bill_id' => $bill->id,
-                        'coupon_code' => $request->coupon_code,
-                        'message' => $usageResult['message'],
-                    ]);
-                }
-            }
 
             foreach ($request->items as $item) {
                 BillItem::create([
@@ -315,6 +288,11 @@ class BillController extends Controller
                 throw ValidationsException::withMessages(['total' => __('The total must be greater than 0')]);
             }
             $bill->save();
+
+            if ($claim) {
+                $this->couponService->recordUsage($claim, $bill->id);
+            }
+
             return $bill;
         });
 
