@@ -3,11 +3,13 @@
 namespace App\Services\Coupon;
 
 use App\Models\Coupon;
-use App\Models\CouponCode;
+use App\Models\Customer;
 use App\Enums\CouponMechanism;
 use App\Repositories\CouponRepository;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 /**
  * CouponService
@@ -29,6 +31,7 @@ class CouponService
     private CouponValidator $validator;
     private CouponGenerator $generator;
     private CouponExporter $exporter;
+    private ?RedemptionClaim $activeClaim = null;
 
     /**
      * Get all coupons for a merchant
@@ -244,97 +247,121 @@ class CouponService
     }
 
     /**
-     * Record coupon usage without re-validation (use after bill is created)
-     * 
-     * @param string $code
-     * @param int $customerId
-     * @param int $userId
-     * @param string $billId UUID of the bill
-     * @return array ['success' => bool, 'message' => string]
+     * Lock the coupon or one-time code that this transaction will redeem.
+     * Must be the first statement in the redemption transaction.
      */
-    public function recordUsage(string $code, int $customerId, int $userId, string $billId): array
+    public function beginRedemption(string $code, int $userId): RedemptionClaim
     {
-        try {
-            // Find the coupon
-            $coupon = $this->repository->findByCode($code, $userId);
-            $couponCode = null;
-            
-            if (!$coupon) {
-                // Try to find as one-time code
-                $couponCode = $this->repository->findCodeByCode($code, $userId);
-                
-                if (!$couponCode) {
-                    return [
-                        'success' => false,
-                        'message' => __('Invalid coupon code'),
-                    ];
-                }
-
-                $coupon = $couponCode->coupon;
-            }
-
-            $customer = \App\Models\Customer::find($customerId);
-            if (!$customer) {
-                return [
-                    'success' => false,
-                    'message' => __('Customer not found'),
-                ];
-            }
-
-            // Record usage directly without re-validation
-            try {
-                $usage = $this->repository->createUsage([
-                    'coupon_id' => $coupon->id,
-                    'coupon_code_id' => $couponCode ? $couponCode->id : null,
-                    'customer_id' => $customer->id,
-                    'bill_id' => $billId,
-                    'used_at' => now(),
-                ]);
-
-                // Mark code as used if it's ONE_TIME_USAGE
-                if ($couponCode && $coupon->mechanism && $coupon->mechanism->equals(\App\Enums\CouponMechanism::from(\App\Enums\CouponMechanism::ONE_TIME_USAGE))) {
-                    $this->repository->markCodeAsUsed($couponCode);
-                }
-
-                Log::info('Coupon usage recorded successfully', [
-                    'coupon_id' => $coupon->id,
-                    'customer_id' => $customer->id,
-                    'bill_id' => $billId,
-                    'usage_id' => $usage->id,
-                ]);
-
-                return [
-                    'success' => true,
-                    'message' => __('Coupon usage recorded successfully'),
-                ];
-            } catch (\Exception $e) {
-                Log::error('Failed to record coupon usage', [
-                    'coupon_id' => $coupon->id,
-                    'customer_id' => $customer->id,
-                    'bill_id' => $billId,
-                    'error' => $e->getMessage(),
-                    'trace' => $e->getTraceAsString(),
-                ]);
-
-                return [
-                    'success' => false,
-                    'message' => __('Failed to record coupon usage: ' . $e->getMessage()),
-                ];
-            }
-
-        } catch (\Exception $e) {
-            Log::error('Coupon usage recording error', [
-                'code' => $code,
-                'customer_id' => $customerId,
-                'bill_id' => $billId,
-                'error' => $e->getMessage(),
-            ]);
-
-            return [
-                'success' => false,
-                'message' => __('An error occurred while recording coupon usage'),
-            ];
+        if (DB::transactionLevel() < 1) {
+            throw new \RuntimeException('Coupon redemption requires an open database transaction.');
         }
+
+        if ($this->activeClaim !== null) {
+            throw new \RuntimeException('A coupon redemption claim is already active for this redemption.');
+        }
+
+        try {
+            $coupon = $this->repository->lockCouponByCode($code, $userId);
+            $couponCode = null;
+
+            if (!$coupon) {
+                $couponCode = $this->repository->lockCodeByCode($code);
+                $coupon = $couponCode ? $couponCode->coupon : null;
+
+                if (
+                    !$couponCode
+                    || !$coupon
+                    || (int) $coupon->user_id !== $userId
+                    || !$coupon->mechanism
+                    || !$coupon->mechanism->equals(CouponMechanism::ONE_TIME_USAGE)
+                ) {
+                    throw ValidationException::withMessages([
+                        'coupon_code' => __('Invalid coupon code'),
+                    ]);
+                }
+            }
+        } catch (QueryException $exception) {
+            if ($this->isLockWaitTimeout($exception)) {
+                throw ValidationException::withMessages([
+                    'coupon_code' => __('An error occurred while validating the coupon'),
+                ]);
+            }
+
+            throw $exception;
+        }
+
+        $this->activeClaim = new RedemptionClaim($code, $userId, $coupon, $couponCode);
+
+        return $this->activeClaim;
+    }
+
+    /**
+     * Re-check the coupon rules after the mutex row is locked and the customer exists.
+     */
+    public function assertAvailable(RedemptionClaim $claim, Customer $customer): void
+    {
+        if (DB::transactionLevel() < 1) {
+            throw new \RuntimeException('Coupon redemption requires an open database transaction.');
+        }
+
+        if ($this->activeClaim !== $claim || $claim->state() !== RedemptionClaim::STATE_LOCKED) {
+            throw new \RuntimeException('Coupon availability can only be asserted for the locked redemption claim.');
+        }
+
+        $validation = $this->validator->validate($claim->couponCode() ?? $claim->coupon(), $customer);
+
+        if (!$validation['valid']) {
+            throw ValidationException::withMessages([
+                'coupon_code' => $validation['message'],
+            ]);
+        }
+
+        $claim->markAsserted((int) $customer->id);
+    }
+
+    /**
+     * Insert the usage row for the asserted claim. Failures throw so the surrounding transaction rolls back.
+     */
+    public function recordUsage(RedemptionClaim $claim, ?string $billId = null): void
+    {
+        if (DB::transactionLevel() < 1) {
+            throw new \RuntimeException('Coupon usage recording requires an open database transaction.');
+        }
+
+        if (
+            $this->activeClaim !== $claim
+            || $claim->state() !== RedemptionClaim::STATE_ASSERTED
+            || $claim->customerId() === null
+        ) {
+            throw new \RuntimeException('Coupon usage recording requires the asserted redemption claim for the locked coupon.');
+        }
+
+        $coupon = $claim->coupon();
+        $couponCode = $claim->couponCode();
+
+        $usage = $this->repository->createUsage([
+            'coupon_id' => $coupon->id,
+            'coupon_code_id' => $couponCode ? $couponCode->id : null,
+            'customer_id' => $claim->customerId(),
+            'bill_id' => $billId,
+            'used_at' => now(),
+        ]);
+
+        if ($couponCode && $coupon->mechanism && $coupon->mechanism->equals(CouponMechanism::ONE_TIME_USAGE)) {
+            if (!$this->repository->markCodeAsUsedIfAvailable((int) $couponCode->id)) {
+                throw new \RuntimeException('Failed to mark coupon code as used.');
+            }
+        }
+
+        $claim->markRecorded();
+        $this->activeClaim = null;
+
+        Log::info('Coupon usage recorded successfully', [
+            'coupon_id' => $coupon->id,
+            'customer_id' => $claim->customerId(),
+            'bill_id' => $billId,
+            'usage_id' => $usage->id,
+        ]);
     }
 
     /**
@@ -346,65 +373,57 @@ class CouponService
     public function validateAndApply(string $code, int $customerId, int $userId, $billId = null): array
     {
         try {
-            // Try to find as reusable coupon first
-            $coupon = $this->repository->findByCode($code, $userId);
-            
-            if (!$coupon) {
-                // Try to find as one-time code
-                $couponCode = $this->repository->findCodeByCode($code, $userId);
-                
-                if (!$couponCode) {
-                    return [
-                        'success' => false,
-                        'message' => __('Invalid coupon code'),
-                    ];
-                }
+            return DB::transaction(function () use ($code, $customerId, $userId, $billId) {
+                $claim = $this->beginRedemption($code, $userId);
 
-                $coupon = $couponCode->coupon;
-                
-                // Validate and apply
-                $customer = \App\Models\Customer::find($customerId);
+                $customer = Customer::find($customerId);
                 if (!$customer) {
-                    return [
-                        'success' => false,
-                        'message' => __('Customer not found'),
-                    ];
+                    throw ValidationException::withMessages([
+                        'coupon_code' => __('Customer not found'),
+                    ]);
                 }
 
-                $result = $this->validator->apply($couponCode, $customer, $billId);
-                if ($result['success']) {
-                    $result['coupon_id'] = $coupon->id;
-                }
-                return $result;
-            }
+                $this->assertAvailable($claim, $customer);
+                $this->recordUsage($claim, $billId === null ? null : (string) $billId);
 
-            // For reusable coupons
-            $customer = \App\Models\Customer::find($customerId);
-            if (!$customer) {
                 return [
-                    'success' => false,
-                    'message' => __('Customer not found'),
+                    'success' => true,
+                    'discount' => [
+                        'discount_type' => $claim->discountType(),
+                        'discount_value' => $claim->discountValue(),
+                    ],
+                    'coupon_id' => $claim->couponId(),
+                    'message' => __('Coupon applied successfully'),
                 ];
-            }
-
-            $result = $this->validator->apply($coupon, $customer, $billId);
-            if ($result['success']) {
-                $result['coupon_id'] = $coupon->id;
-            }
-            return $result;
-
-        } catch (\Exception $e) {
+            });
+        } catch (ValidationException $exception) {
+            return [
+                'success' => false,
+                'message' => collect($exception->errors())->flatten()->first() ?: __('An error occurred while validating the coupon'),
+            ];
+        } catch (\RuntimeException $exception) {
+            throw $exception;
+        } catch (\Exception $exception) {
             Log::error('Coupon validation error', [
                 'code' => $code,
                 'customer_id' => $customerId,
-                'error' => $e->getMessage(),
+                'error' => $exception->getMessage(),
             ]);
 
             return [
                 'success' => false,
                 'message' => __('An error occurred while validating the coupon'),
             ];
+        } finally {
+            $this->activeClaim = null;
         }
+    }
+
+    private function isLockWaitTimeout(QueryException $exception): bool
+    {
+        $driverCode = (int) ($exception->errorInfo[1] ?? 0);
+
+        return $driverCode === 1205 || $driverCode === 1213;
     }
 
     /**

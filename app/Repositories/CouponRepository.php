@@ -87,6 +87,28 @@ class CouponRepository
     }
 
     /**
+     * Lock the reusable coupon row that will be redeemed.
+     */
+    public function lockCouponByCode(string $code, int $userId): ?Coupon
+    {
+        return Coupon::forMerchant($userId)
+            ->where('code_pattern', $code)
+            ->where('mechanism', '!=', CouponMechanism::ONE_TIME_USAGE)
+            ->lockForUpdate()
+            ->first();
+    }
+
+    /**
+     * Lock one one-time code row. The code column is unique, so this does not lock the parent coupon.
+     */
+    public function lockCodeByCode(string $code): ?CouponCode
+    {
+        return CouponCode::where('code', $code)
+            ->lockForUpdate()
+            ->first();
+    }
+
+    /**
      * Get usage count for a coupon
      */
     public function getUsageCount(int $couponId): int
@@ -199,5 +221,15 @@ class CouponRepository
     public function markCodeAsUsed(CouponCode $code): bool
     {
         return $code->update(['is_used' => true]);
+    }
+
+    /**
+     * Claim a one-time code only when it is still unused.
+     */
+    public function markCodeAsUsedIfAvailable(int $couponCodeId): bool
+    {
+        return CouponCode::where('id', $couponCodeId)
+            ->where('is_used', false)
+            ->update(['is_used' => true]) === 1;
     }
 }

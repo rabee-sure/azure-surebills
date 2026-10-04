@@ -21,8 +21,10 @@ use App\Rules\AmountPartialRefund;
 use App\Rules\AmountPartialRefundGTBalance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use App\Models\Tag;
 use App\Payment\Invoice;
 use App\Services\Coupon\CouponService;
@@ -63,199 +65,189 @@ class BillController extends Controller
 
         Bill::where('reference_id', $request->reference_id)->where('user_id', $bill_user_id)->where('status', 'pending')->update(['status' => 'canceled']);
 
-        // Find the customer by mobile or email (if email is provided)
-        $customer = Customer::matchByMobileOrEmail(
-            $user->id,
-            $request->customer_mobile,
-            $request->customer_email
-        )->first();
-
-        if ($customer) {
-            // Update the existing customer
-            $customer->update([
-                'name' => $request->customer_name,
-                'mobile' => $request->customer_mobile,
-                'email' => $request->customer_email,
-                'bullding_no' => $request->customer_bullding_no,
-                'street_name' => $request->customer_street_name,
-                'district' => $request->customer_district,
-                'city' => $request->customer_city,
-                'postal_code' => $request->customer_postal_code,
-                'additional_no' => $request->customer_additional_no,
-                'other_buyer_id' => $request->customer_other_buyer_id,
-                'vat_registration_number' => $request->customer_vat_registration_number,
-        ]);
-        } else {
-            // Create a new customer
-            $customer = Customer::create([
-                'name' => $request->customer_name,
-                'mobile' => $request->customer_mobile,
-                'email' => $request->customer_email,
-                'bullding_no' => $request->customer_bullding_no,
-                'street_name' => $request->customer_street_name,
-                'district' => $request->customer_district,
-                'city' => $request->customer_city,
-                'postal_code' => $request->customer_postal_code,
-                'additional_no' => $request->customer_additional_no,
-                'other_buyer_id' => $request->customer_other_buyer_id,
-                'vat_registration_number' => $request->customer_vat_registration_number,
-                'user_id' => $user->id
-            ]);
-        }
-       
         $send_sms = $request->send_sms ?? 0;
         $send_email = $request->send_email === null ? $user->settings->create_send_email : $send_email = $request->send_email;
 
-        // Handle coupon validation before creating bill
-        $couponId = null;
-        $discountType = null;
-        $discountValue = null;
-        
-        if ($request->coupon_code) {
-            // Validate coupon first (without applying/recording usage)
-            $couponResult = $this->couponService->validateCoupon(
-                $request->coupon_code,
-                $customer->id,
-                $bill_user_id
-            );
+        $upsertCustomer = function () use ($user, $request) {
+            $customer = Customer::matchByMobileOrEmail(
+                $user->id,
+                $request->customer_mobile,
+                $request->customer_email
+            )->first();
 
-            if (!$couponResult['success']) {
-                return response()->json([
-                    'success' => false,
-                    'message' => $couponResult['message'],
-                ], 400);
-            }
-
-            // Use coupon discount
-            $couponId = $couponResult['coupon_id'] ?? null;
-            $discountType = $couponResult['discount']['discount_type'];
-            $discountValue = $couponResult['discount']['discount_value'];
-        } elseif ($request->add_discount) {
-            // Manual discount
-            $discountType = $request->discount_type;
-            $discountValue = $request->discount_value;
-        }
-
-        $bill = Bill::create([
-            'user_id' => $user->id,
-            'creted_by' => $user->id,
-            'status' => 'pending',
-            'application_id' => $application->id,
-
-            'business_name' => $user->store_main_user_id ? $user->mainStoreUser->business_name : $user->business_name,
-            'customer_id' => $customer->id,
-            'coupon_id' => $couponId,
-
-            'customer_name' => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'customer_mobile' => $request->customer_mobile,
-            'customer_notes' => $request->customer_notes,
-
-            'expiry_date' => $request->expiry_date ?? 0,
-            'expiry_hours' => $request->expiry_hours ?? 0,
-            'expiry_minutes' => $request->expiry_minutes ?? 0,
-            'due_date' => Carbon::parse($request->due_date),
-
-            'add_discount' => ($request->coupon_code || $request->add_discount) ? true : false,
-            'discount_type' => $discountType,
-            'discount_value' => $discountValue,
-
-            'add_tax' => $request->add_tax ?? false,
-            'tax_name' => $request->tax_name,
-            'tax_value' => $request->tax_value,
-
-            'send_sms' => $send_sms,
-            'send_email' => $send_email,
-            'reference_id' => $request->reference_id,
-            'is_redirect' => $request->is_redirect,
-
-            'bill_redirect_url' => $request->redirect_url,
-            'bill_webhook_url' => $request->webhook_url,
-
-            'source' => 'api',
-        ]);
-
-        // Record coupon usage with bill ID if coupon was used
-        if ($request->coupon_code && $couponId) {
-            // Record usage directly without re-validation (we already validated before bill creation)
-            $usageResult = $this->couponService->recordUsage(
-                $request->coupon_code,
-                $customer->id,
-                $bill_user_id,
-                $bill->id
-            );
-            
-            // Log if usage recording failed (but don't fail the bill creation)
-            if (!$usageResult['success']) {
-                \Illuminate\Support\Facades\Log::warning('Coupon usage recording failed for bill', [
-                    'bill_id' => $bill->id,
-                    'coupon_code' => $request->coupon_code,
-                    'message' => $usageResult['message'],
+            if ($customer) {
+                $customer->update([
+                    'name' => $request->customer_name,
+                    'mobile' => $request->customer_mobile,
+                    'email' => $request->customer_email,
+                    'bullding_no' => $request->customer_bullding_no,
+                    'street_name' => $request->customer_street_name,
+                    'district' => $request->customer_district,
+                    'city' => $request->customer_city,
+                    'postal_code' => $request->customer_postal_code,
+                    'additional_no' => $request->customer_additional_no,
+                    'other_buyer_id' => $request->customer_other_buyer_id,
+                    'vat_registration_number' => $request->customer_vat_registration_number,
+                ]);
+            } else {
+                $customer = Customer::create([
+                    'name' => $request->customer_name,
+                    'mobile' => $request->customer_mobile,
+                    'email' => $request->customer_email,
+                    'bullding_no' => $request->customer_bullding_no,
+                    'street_name' => $request->customer_street_name,
+                    'district' => $request->customer_district,
+                    'city' => $request->customer_city,
+                    'postal_code' => $request->customer_postal_code,
+                    'additional_no' => $request->customer_additional_no,
+                    'other_buyer_id' => $request->customer_other_buyer_id,
+                    'vat_registration_number' => $request->customer_vat_registration_number,
+                    'user_id' => $user->id
                 ]);
             }
-        }
 
-        foreach ($request->items as $item) {
-            BillItem::create([
-                'bill_id' => $bill->id,
-                'product_name' => $item['name'],
-                'product_price' => $item['price'],
-                'quantity' => $item['quantity'],
-                'total' => $item['quantity']*$item['price'],
+            return $customer;
+        };
+
+        $writeBill = function ($customer, $couponId, $discountType, $discountValue) use ($request, $user, $application, $send_sms, $send_email) {
+            $bill = Bill::create([
+                'user_id' => $user->id,
+                'creted_by' => $user->id,
+                'status' => 'pending',
+                'application_id' => $application->id,
+
+                'business_name' => $user->store_main_user_id ? $user->mainStoreUser->business_name : $user->business_name,
+                'customer_id' => $customer->id,
+                'coupon_id' => $couponId,
+
+                'customer_name' => $request->customer_name,
+                'customer_email' => $request->customer_email,
+                'customer_mobile' => $request->customer_mobile,
+                'customer_notes' => $request->customer_notes,
+
+                'expiry_date' => $request->expiry_date ?? 0,
+                'expiry_hours' => $request->expiry_hours ?? 0,
+                'expiry_minutes' => $request->expiry_minutes ?? 0,
+                'due_date' => Carbon::parse($request->due_date),
+
+                'add_discount' => ($request->coupon_code || $request->add_discount) ? true : false,
+                'discount_type' => $discountType,
+                'discount_value' => $discountValue,
+
+                'add_tax' => $request->add_tax ?? false,
+                'tax_name' => $request->tax_name,
+                'tax_value' => $request->tax_value,
+
+                'send_sms' => $send_sms,
+                'send_email' => $send_email,
+                'reference_id' => $request->reference_id,
+                'is_redirect' => $request->is_redirect,
+
+                'bill_redirect_url' => $request->redirect_url,
+                'bill_webhook_url' => $request->webhook_url,
+
+                'source' => 'api',
             ]);
-        }
 
-        $sub_total = $bill->items->sum('total');
-        $discount = 0;
-        $vat = 0;
+            foreach ($request->items as $item) {
+                BillItem::create([
+                    'bill_id' => $bill->id,
+                    'product_name' => $item['name'],
+                    'product_price' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'total' => $item['quantity']*$item['price'],
+                ]);
+            }
+
+            $sub_total = $bill->items->sum('total');
+            $discount = 0;
+            $vat = 0;
         
-        // Calculate discount amount
-        if ($request->coupon_code || $request->add_discount) {
-            switch ($discountType) {
-                case 'fixed':
-                    $discount = $discountValue;
-                    break;
-                case 'percentage':
-                    $discount = $sub_total * $discountValue / 100;
-                    break;
+            // Calculate discount amount
+            if ($request->coupon_code || $request->add_discount) {
+                switch ($discountType) {
+                    case 'fixed':
+                        $discount = $discountValue;
+                        break;
+                    case 'percentage':
+                        $discount = $sub_total * $discountValue / 100;
+                        break;
+                }
             }
-        }
 
-        if($request->add_tax !== null){
-            $bill->add_tax = $request->add_tax;
-            $bill->tax_value = $request->tax_value;
-            $vat = ($sub_total -$discount) * $request->tax_value /100;
+            if($request->add_tax !== null){
+                $bill->add_tax = $request->add_tax;
+                $bill->tax_value = $request->tax_value;
+                $vat = ($sub_total -$discount) * $request->tax_value /100;
 
-        }elseif($user->settings->add_tax){
-            $bill->add_tax = $user->settings->add_tax;
-            $bill->tax_value = $user->settings->tax_value;
-            $vat = ($sub_total -$discount) * $user->settings->tax_value /100;
-        }
-
-        //check if bill under channel
-        if(isset($bill->application->channel_id)){
-            $bill->channel_extra_amount = $request->channel_extra_amount;
-            $bill->channel_extra_title = $request->channel_extra_title;
-            if($bill->add_tax){
-                $bill->channel_extra_vat = $bill->channel_extra_amount * $bill->tax_value / 100;
+            }elseif($user->settings->add_tax){
+                $bill->add_tax = $user->settings->add_tax;
+                $bill->tax_value = $user->settings->tax_value;
+                $vat = ($sub_total -$discount) * $user->settings->tax_value /100;
             }
-        }
 
-        $bill->discount = $discount;
-        $bill->vat = $vat;
-        $bill->number = $bill->getNumber();
-        $bill->sub_total = $sub_total;
-        $bill->total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
-        $bill->fixed_total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
-        $bill->status = 'pending';
-        $bill->save();
-
-        if(isset($request->tags)){
-            $tags = explode(',', $request->tags);
-            foreach($tags as $name){
-                $tag = Tag::firstOrCreate(['name' => $name]);
-                $tag->bills()->attach($bill);
+            //check if bill under channel
+            if(isset($bill->application->channel_id)){
+                $bill->channel_extra_amount = $request->channel_extra_amount;
+                $bill->channel_extra_title = $request->channel_extra_title;
+                if($bill->add_tax){
+                    $bill->channel_extra_vat = $bill->channel_extra_amount * $bill->tax_value / 100;
+                }
             }
+
+            $bill->discount = $discount;
+            $bill->vat = $vat;
+            $bill->number = $bill->getNumber();
+            $bill->sub_total = $sub_total;
+            $bill->total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
+            $bill->fixed_total = $sub_total - $discount + $vat + $bill->channel_extra_amount + $bill->channel_extra_vat;
+            $bill->status = 'pending';
+            $bill->save();
+
+            if(isset($request->tags)){
+                $tags = explode(',', $request->tags);
+                foreach($tags as $name){
+                    $tag = Tag::firstOrCreate(['name' => $name]);
+                    $tag->bills()->attach($bill);
+                }
+            }
+
+            return $bill;
+        };
+
+        if ($request->coupon_code) {
+            try {
+                $bill = DB::transaction(function () use ($request, $bill_user_id, $upsertCustomer, $writeBill) {
+                    $claim = $this->couponService->beginRedemption($request->coupon_code, (int) $bill_user_id);
+                    $customer = $upsertCustomer();
+                    $this->couponService->assertAvailable($claim, $customer);
+                    $bill = $writeBill(
+                        $customer,
+                        $claim->couponId(),
+                        $claim->discountType(),
+                        $claim->discountValue()
+                    );
+                    $this->couponService->recordUsage($claim, $bill->id);
+
+                    return $bill;
+                });
+            } catch (ValidationException $exception) {
+                return response()->json([
+                    'success' => false,
+                    'message' => collect($exception->errors())->flatten()->first(),
+                ], 400);
+            }
+        } else {
+            $customer = $upsertCustomer();
+            $discountType = null;
+            $discountValue = null;
+
+            if ($request->add_discount) {
+                $discountType = $request->discount_type;
+                $discountValue = $request->discount_value;
+            }
+
+            $bill = $writeBill($customer, null, $discountType, $discountValue);
         }
 
         event(new BillCreated($bill));
