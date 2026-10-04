@@ -166,45 +166,6 @@ class CouponValidator
      */
     public function apply($couponOrCode, Customer $customer, ?int $billId = null): array
     {
-        $validation = $this->validate($couponOrCode, $customer);
-
-        if (!$validation['valid']) {
-            return [
-                'success' => false,
-                'message' => $validation['message'],
-            ];
-        }
-
-        // Get the coupon
-        $coupon = $couponOrCode instanceof CouponCode 
-            ? $couponOrCode->coupon 
-            : $couponOrCode;
-        
-        $couponCode = $couponOrCode instanceof CouponCode 
-            ? $couponOrCode 
-            : null;
-
-        // Record usage
-        $usage = $this->repository->createUsage([
-            'coupon_id' => $coupon->id,
-            'coupon_code_id' => $couponCode ? $couponCode->id : null,
-            'customer_id' => $customer->id,
-            'bill_id' => $billId,
-            'used_at' => now(),
-        ]);
-
-        // Mark code as used if it's ONE_TIME_USAGE
-        if ($couponCode && $coupon->mechanism && $coupon->mechanism->equals(CouponMechanism::ONE_TIME_USAGE)) {
-            $this->repository->markCodeAsUsed($couponCode);
-        }
-
-        return [
-            'success' => true,
-            'discount' => [
-                'discount_type' => $coupon->discount_type,
-                'discount_value' => $coupon->discount_value,
-            ],
-            'message' => __('Coupon applied successfully'),
-        ];
+        throw new \RuntimeException('Coupon redemption must go through CouponService::beginRedemption(), assertAvailable(), and recordUsage().');
     }
 }
