@@ -25,8 +25,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\Tag;
 use App\Payment\Invoice;
+use App\Services\Cache\CacheKeys;
+use App\Services\Cache\SureBillsCache;
 use App\Services\Coupon\CouponService;
+use Illuminate\Support\Facades\Log;
 use phpDocumentor\Reflection\Types\Null_;
+use Throwable;
 
 class BillController extends Controller
 {
@@ -34,8 +38,10 @@ class BillController extends Controller
 
     protected $couponService;
 
-    public function __construct(CouponService $couponService)
-    {
+    public function __construct(
+        CouponService $couponService,
+        private readonly SureBillsCache $cache,
+    ) {
         $this->couponService = $couponService;
     }
 
@@ -61,7 +67,10 @@ class BillController extends Controller
             $application = $this->getApplication($application, $request);
         }
 
-        Bill::where('reference_id', $request->reference_id)->where('user_id', $bill_user_id)->where('status', 'pending')->update(['status' => 'canceled']);
+        $canceled = Bill::where('reference_id', $request->reference_id)->where('user_id', $bill_user_id)->where('status', 'pending')->update(['status' => 'canceled']);
+        if ($canceled) {
+            $this->forgetPendingBillsCache($bill_user_id);
+        }
 
         // Find the customer by mobile or email (if email is provided)
         $customer = Customer::matchByMobileOrEmail(
@@ -277,7 +286,10 @@ class BillController extends Controller
             $application = $this->getApplication($application, $request);
         }
 
-        Bill::where('reference_id', $request->reference_id)->where('user_id', $bill_user_id)->where('status', 'pending')->update(['status' => 'canceled']);
+        $canceled = Bill::where('reference_id', $request->reference_id)->where('user_id', $bill_user_id)->where('status', 'pending')->update(['status' => 'canceled']);
+        if ($canceled) {
+            $this->forgetPendingBillsCache($bill_user_id);
+        }
 
         $mainBill = Bill::find($mainBillId);
 
@@ -408,6 +420,35 @@ class BillController extends Controller
     }
 
     /**
+     * Query-builder cancellation does not fire BillObserver. One merchant key only.
+     *
+     * @param  int|string|null  $userId
+     */
+    protected function forgetPendingBillsCache($userId): void
+    {
+        if ($userId === null || $userId === '') {
+            return;
+        }
+
+        if (! $this->cache->enabled('pending_bills')) {
+            return;
+        }
+
+        $key = CacheKeys::pendingBills($userId);
+
+        try {
+            $this->cache->forget($key);
+        } catch (Throwable $e) {
+            Log::warning('pending bills cache forget failed after query cancellation', [
+                'domain' => 'pending_bills',
+                'key' => $key,
+                'operation' => 'forget',
+                'exception' => $e::class,
+            ]);
+        }
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -479,10 +520,13 @@ class BillController extends Controller
             }
         }
 
-        Bill::where('reference_id', $request->reference_id)
+        $canceled = Bill::where('reference_id', $request->reference_id)
             ->where('user_id', $bill_user_id)
             ->where('status', 'pending')
             ->update(['status' => 'canceled']);
+        if ($canceled) {
+            $this->forgetPendingBillsCache($bill_user_id);
+        }
 
         // Find the customer by mobile or email (if email is provided)
         $customer = Customer::matchByMobileOrEmail(
