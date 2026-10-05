@@ -3,19 +3,17 @@
 namespace App\Rules;
 
 use App\Models\Bill;
-use App\Models\Coupon;
-use App\Models\CouponCode;
 use App\Repositories\CouponRepository;
 use Illuminate\Contracts\Validation\Rule;
 use App\Services\Coupon\CouponService;
 use App\Services\GetAuthUser;
-use Illuminate\Support\Facades\Auth;
 
 class BillTotalValidation implements Rule
 {
     const MAX_TOTAL_AMOUNT = 150000;
 
     private $total;
+    private CouponService $couponService;
     private CouponRepository $repository;
 
     /**
@@ -23,9 +21,10 @@ class BillTotalValidation implements Rule
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(?CouponService $couponService = null, ?CouponRepository $repository = null)
     {
-        $this->repository = new CouponRepository();
+        $this->couponService = $couponService ?? new CouponService();
+        $this->repository = $repository ?? new CouponRepository();
     }
 
     /**
@@ -54,12 +53,14 @@ class BillTotalValidation implements Rule
             // Get auth user from api or web
             $authUser = GetAuthUser::authUser(request());
             
-            // Try to find as reusable coupon first
-            $coupon = $this->repository->findByCode(request()->coupon_code, $authUser->store_main_user_id ?? $authUser->id);
+            $merchantId = (int) ($authUser->store_main_user_id ?? $authUser->id);
+
+            // Reusable lookup may use the day cache. The returned model is always loaded from MySQL.
+            $coupon = $this->couponService->findReusableForBillLookup(request()->coupon_code, $merchantId);
             
             if (!$coupon) {
                 // Try to find as one-time code
-                $couponCode = $this->repository->findCodeByCode(request()->coupon_code, $authUser->store_main_user_id ?? $authUser->id);
+                $couponCode = $this->repository->findCodeByCode(request()->coupon_code, $merchantId);
                 
                 if ($couponCode) {
                     $coupon = $couponCode->coupon;

@@ -74,6 +74,55 @@ class CouponRepository
     }
 
     /**
+     * Reusable coupons that are active and in date for this merchant today.
+     * Global max_usage exhaustion is excluded. Per-customer limits are not.
+     *
+     * @return array<int, array{id: int, code_pattern: string}>
+     */
+    public function reusableAvailableToday(int $userId): array
+    {
+        $usageTable = (new CouponUsage())->getTable();
+
+        return Coupon::forMerchant($userId)
+            ->valid()
+            ->whereIn('mechanism', [
+                CouponMechanism::MAX_USAGE,
+                CouponMechanism::MAX_CUSTOMER_USAGE,
+            ])
+            ->whereNotNull('code_pattern')
+            ->where(function ($query) use ($usageTable) {
+                $query->where('mechanism', '!=', CouponMechanism::MAX_USAGE)
+                    ->orWhereNull('max_usage')
+                    ->orWhereRaw(
+                        '(select count(*) from '.$usageTable.' where '.$usageTable.'.coupon_id = coupons.id) < coupons.max_usage'
+                    );
+            })
+            ->orderBy('id')
+            ->get(['id', 'code_pattern'])
+            ->map(function (Coupon $coupon) {
+                return [
+                    'id' => (int) $coupon->id,
+                    'code_pattern' => (string) $coupon->code_pattern,
+                ];
+            })
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Reload one reusable coupon by the candidate id.
+     * Does not apply active, date, or usage filters. Those stay with the validator.
+     */
+    public function findReusableById(int $couponId, string $code, int $userId): ?Coupon
+    {
+        return Coupon::forMerchant($userId)
+            ->where('id', $couponId)
+            ->where('code_pattern', $code)
+            ->where('mechanism', '!=', CouponMechanism::ONE_TIME_USAGE)
+            ->first();
+    }
+
+    /**
      * Find coupon code by code string (for ONE_TIME_USAGE)
      */
     public function findCodeByCode(string $code, int $userId): ?CouponCode
