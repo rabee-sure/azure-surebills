@@ -79,6 +79,7 @@ return [
     'ttl' => [
         'balance' => 60,
         'last_bills' => 600,
+        'home_totals' => 60,
         'pending_bills' => 43200,
         'coupons' => 86400,
         'badges' => 60,
