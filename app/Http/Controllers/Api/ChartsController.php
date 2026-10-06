@@ -5,7 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Models\Bill;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\Cache\CacheKeys;
+use App\Services\Cache\SureBillsCache;
+use Closure;
+use DateTimeImmutable;
+use DateTimeZone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Month;
 
@@ -13,13 +19,18 @@ class ChartsController extends Controller
 {
     protected $dniw;
     protected $weeks;
+
+    /** @var SureBillsCache */
+    private $cache;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(SureBillsCache $cache)
     {
+        $this->cache = $cache;
         $this->dniw = date('w');
         $this->weeks = collect($this->getWeekAndDays(date("Y"), date("m")));
     }
@@ -32,12 +43,79 @@ class ChartsController extends Controller
      */
     public function billsPaidAmount(Request $request)
     {
-        $user = User::find($request->user_id);
+        $user = $this->chartUser($request->user_id);
+        $collection = $this->rememberChartAggregate($user, 'bills_paid_amount', $request->mode, function () use ($user, $request) {
+            return $this->queryBillsPaidAmount($user, $request->mode);
+        });
+
+        return $this->datasets($collection, [
+            'label' => __('The amount of the payments'),
+            'backgroundColor' => 'rgba(224, 123, 57, 0.51)',
+            'borderColor' => 'rgb(224, 123, 57)',
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function billsPaidCount(Request $request)
+    {
+        $user = $this->chartUser($request->user_id);
+        $collection = $this->rememberChartAggregate($user, 'bills_paid_count', $request->mode, function () use ($user, $request) {
+            return $this->queryBillsPaidCount($user, $request->mode);
+        });
+
+        return $this->datasets($collection, [
+            'label' => __('The number of bills paid'),
+            'backgroundColor' => 'rgb(25, 121, 169, 0.51)',
+            'borderColor' => 'rgb(25, 121, 169)',
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function billsCount(Request $request)
+    {
+        $user = $this->chartUser($request->user_id);
+        $collection = $this->rememberChartAggregate($user, 'bills_count', $request->mode, function () use ($user, $request) {
+            return $this->queryBillsCount($user, $request->mode);
+        });
+
+        return $this->datasets($collection, [
+            'label' => __('Total bills'),
+            'backgroundColor' => 'rgb(255, 99, 132, 0.51)',
+            'borderColor' => 'rgb(255, 99, 132)',
+        ]);
+    }
+
+    /**
+     * @param  mixed  $userId
+     * @return \App\Models\User|null
+     */
+    protected function chartUser($userId)
+    {
+        return User::find($userId);
+    }
+
+    /**
+     * @param  \App\Models\User  $user
+     * @param  mixed  $mode
+     * @return array
+     */
+    protected function queryBillsPaidAmount($user, $mode)
+    {
         $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
 
         $collection = [];
 
-        switch ($request->mode) {
+        switch ($mode) {
             case 'daily':
                 $collection['daily'] = Bill::whereIn('user_id', $userIds)
                 ->where('status', 'paid')
@@ -67,33 +145,27 @@ class ChartsController extends Controller
                 ->orderby('Month')
                 ->pluck('Total', 'Month');
                 break;
-            
+
             default:
                 # code...
                 break;
         }
-  
-        return $this->datasets($collection, [
-            'label' => __('The amount of the payments'),
-            'backgroundColor' => 'rgba(224, 123, 57, 0.51)',
-            'borderColor' => 'rgb(224, 123, 57)',
-        ]);
+
+        return $collection;
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\User  $user
+     * @param  mixed  $mode
+     * @return array
      */
-    public function billsPaidCount(Request $request)
+    protected function queryBillsPaidCount($user, $mode)
     {
-        $user = User::find($request->user_id);
         $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
 
         $collection = [];
 
-        switch ($request->mode) {
+        switch ($mode) {
             case 'daily':
                 $collection['daily'] = Bill::whereIn('user_id', $userIds)
                 ->where('status', 'paid')
@@ -123,33 +195,27 @@ class ChartsController extends Controller
                 ->orderby('Month')
                 ->pluck('BillCounter', 'Month');
                 break;
-            
+
             default:
                 # code...
                 break;
         }
 
-        return $this->datasets($collection, [
-            'label' => __('The number of bills paid'),
-            'backgroundColor' => 'rgb(25, 121, 169, 0.51)',
-            'borderColor' => 'rgb(25, 121, 169)',
-        ]);
+        return $collection;
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\User  $user
+     * @param  mixed  $mode
+     * @return array
      */
-    public function billsCount(Request $request)
+    protected function queryBillsCount($user, $mode)
     {
-        $user = User::find($request->user_id);
         $userIds = User::whereIn('id', [$user->id, $user->store_main_user_id])-> pluck('id')->toArray();
 
         $collection = [];
 
-        switch ($request->mode) {
+        switch ($mode) {
             case 'daily':
                 $collection['daily'] = Bill::whereIn('user_id', $userIds)
                 ->where(DB::raw("WEEK(created_at)"), '=', DB::raw('WEEK(now())'))
@@ -176,17 +242,135 @@ class ChartsController extends Controller
                 ->orderby('Month')
                 ->pluck('BillCounter', 'Month');
                 break;
-            
+
             default:
                 # code...
                 break;
         }
 
-        return $this->datasets($collection, [
-            'label' => __('Total bills'),
-            'backgroundColor' => 'rgb(255, 99, 132, 0.51)',
-            'borderColor' => 'rgb(255, 99, 132)',
-        ]);
+        return $collection;
+    }
+
+    /**
+     * Cache the numeric aggregate only. datasets() stays outside so labels follow the session locale.
+     *
+     * @param  \App\Models\User  $user
+     * @param  mixed  $mode
+     * @return array
+     */
+    protected function rememberChartAggregate($user, string $metric, $mode, Closure $query)
+    {
+        if (! in_array($mode, ['daily', 'weekly', 'monthly'], true) || ! $this->cache->enabled('merchant_charts')) {
+            return $query();
+        }
+
+        [$from, $to] = $this->chartWindow($mode, $this->chartToday());
+
+        return $this->cache->remember(
+            CacheKeys::charts($user->id, $metric, $mode, $from, $to),
+            $this->chartTtl($mode),
+            function () use ($query) {
+                return $this->plainAggregate($query());
+            },
+            'merchant_charts'
+        );
+    }
+
+    /**
+     * @return array{0: string, 1: string}
+     */
+    protected function chartWindow(string $mode, DateTimeImmutable $today): array
+    {
+        $today = $today->setTime(0, 0);
+
+        if ($mode === 'weekly') {
+            return [
+                $today->modify('first day of this month')->format('Y-m-d'),
+                $today->modify('last day of this month')->format('Y-m-d'),
+            ];
+        }
+
+        if ($mode === 'monthly') {
+            $year = $today->format('Y');
+
+            return [$year . '-01-01', $year . '-12-31'];
+        }
+
+        return $this->mysqlWeekMode0Bounds($today);
+    }
+
+    protected function chartToday(): DateTimeImmutable
+    {
+        $timezone = config('app.timezone') ?: 'Asia/Riyadh';
+
+        return new DateTimeImmutable('now', new DateTimeZone($timezone));
+    }
+
+    protected function chartTtl(string $mode): int
+    {
+        $name = [
+            'daily' => 'charts_week',
+            'weekly' => 'charts_month',
+            'monthly' => 'charts_year',
+        ][$mode];
+
+        return (int) config('surebills_cache.ttl.' . $name);
+    }
+
+    /**
+     * Sunday-start week used by MySQL WEEK() mode 0.
+     * Days before the first Sunday of the year are week 0, so the key is clamped
+     * to the dates that share that WEEK() value instead of the whole Sun–Sat span.
+     *
+     * @return array{0: string, 1: string}
+     */
+    protected function mysqlWeekMode0Bounds(DateTimeImmutable $today): array
+    {
+        $today = $today->setTime(0, 0);
+        $week = $this->mysqlWeekMode0($today);
+        $year = (int) $today->format('Y');
+        $start = $today->modify('-' . (int) $today->format('w') . ' days');
+        $end = $start->modify('+6 days');
+
+        while ($this->mysqlWeekMode0($start) !== $week || (int) $start->format('Y') !== $year) {
+            $start = $start->modify('+1 day');
+        }
+
+        while ($this->mysqlWeekMode0($end) !== $week || (int) $end->format('Y') !== $year) {
+            $end = $end->modify('-1 day');
+        }
+
+        return [$start->format('Y-m-d'), $end->format('Y-m-d')];
+    }
+
+    protected function mysqlWeekMode0(DateTimeImmutable $date): int
+    {
+        $date = $date->setTime(0, 0);
+        $year = (int) $date->format('Y');
+        $jan1 = $date->setDate($year, 1, 1);
+        $jan1Dow = (int) $jan1->format('w');
+        $firstSunday = $jan1Dow === 0 ? $jan1 : $jan1->modify('+' . (7 - $jan1Dow) . ' days');
+
+        if ($date < $firstSunday) {
+            return 0;
+        }
+
+        return 1 + intdiv((int) $firstSunday->diff($date)->days, 7);
+    }
+
+    /**
+     * @param  array<string, mixed>  $collection
+     * @return array<string, array<int|string, mixed>>
+     */
+    protected function plainAggregate(array $collection): array
+    {
+        $plain = [];
+
+        foreach ($collection as $series => $values) {
+            $plain[$series] = $values instanceof Collection ? $values->all() : $values;
+        }
+
+        return $plain;
     }
 
     protected function getWeekAndDays($year,$month, $day=1)
