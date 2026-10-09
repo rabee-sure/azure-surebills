@@ -127,8 +127,13 @@ class TransactionObserverBalanceCacheTest extends TestCase
         $this->assertStringContainsString('CacheKeys::uiBalance($userId)', $schedule);
         $this->assertStringNotContainsString('homeLastBills', $source);
         $this->assertStringNotContainsString('homeTotals', $source);
+        $this->assertStringNotContainsString('scheduleTransactionVersionBump', $created);
+        $this->assertStringNotContainsString('txVersion', $source);
+        $this->assertStringNotContainsString('bumpVersion', $source);
         $this->assertStringNotContainsString('function updated', $source);
         $this->assertStringNotContainsString('function deleted', $source);
+        $this->assertStringNotContainsString('function restored', $source);
+        $this->assertStringNotContainsString('function forceDeleted', $source);
     }
 
     public function test_two_transaction_owners_forget_different_keys(): void
