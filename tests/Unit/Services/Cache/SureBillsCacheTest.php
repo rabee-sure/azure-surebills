@@ -303,6 +303,7 @@ class SureBillsCacheTest extends TestCase
         $this->assertSame('admin:badges:pending-transfers', CacheKeys::adminBadge('pending-transfers'));
         $this->assertSame('merchant:9:ui:balance', CacheKeys::uiBalance(9));
         $this->assertSame('merchant:9:transfers:202607', CacheKeys::transfersMonth(9, '202607'));
+        $this->assertSame('merchant:9:transfers', CacheKeys::transfers(9));
     }
 
     public function test_helper_is_resolvable_from_container(): void

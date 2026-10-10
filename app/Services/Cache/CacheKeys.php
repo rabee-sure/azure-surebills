@@ -131,4 +131,9 @@ class CacheKeys
     {
         return 'merchant:' . $uid . ':transfers:' . $ym;
     }
+
+    public static function transfers($uid): string
+    {
+        return 'merchant:' . $uid . ':transfers';
+    }
 }
