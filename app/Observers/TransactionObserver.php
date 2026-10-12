@@ -4,10 +4,21 @@ namespace App\Observers;
 
 use App\Models\Transaction;
 use App\Models\UserBalance;
+use App\Services\Cache\CacheKeys;
+use App\Services\Cache\SureBillsCache;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class TransactionObserver
 {
+    /** @var SureBillsCache */
+    private $cache;
+
+    public function __construct(SureBillsCache $cache)
+    {
+        $this->cache = $cache;
+    }
+
     public function created(Transaction $transaction){
         // Execute the balance update logic
         $updateBalance = function () use ($transaction) {
@@ -29,6 +40,7 @@ class TransactionObserver
             }
 
             $user_balance->save();
+            $this->scheduleHomeBalanceForget($transaction->user_id);
         };
 
         // Only set isolation level if not already in a transaction
@@ -40,6 +52,30 @@ class TransactionObserver
             // Already in a transaction, just execute the logic
             // Laravel's DB::transaction() will use savepoints for nested transactions
             DB::transaction($updateBalance);
+        }
+    }
+
+    /**
+     * Forget the Home display balance after the balance write commits.
+     *
+     * @param  int|string  $userId
+     */
+    private function scheduleHomeBalanceForget($userId): void
+    {
+        try {
+            if (! $this->cache->enabled('merchant_home')) {
+                return;
+            }
+
+            DB::afterCommit(function () use ($userId) {
+                try {
+                    $this->cache->forget(CacheKeys::uiBalance($userId));
+                } catch (Throwable $e) {
+                    // A Redis failure must not fail the committed transaction.
+                }
+            });
+        } catch (Throwable $e) {
+            // Scheduling the forget must not roll back the balance write.
         }
     }
 }

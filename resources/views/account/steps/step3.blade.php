@@ -60,7 +60,7 @@
               <label class="form-label text-capitalize" for="bank_id">{{__('Bank')}} <div class="text-danger d-inline-block">*</div></label>
               <select name="bank_id" id="bank_id" class="form-control select2">
                 <option value="" disabled selected>{{__('Select your Bank')}}</option>
-                @foreach(App\Models\Bank::active()->get() as $bank)
+                @foreach($banks as $bank)
                   <option value="{{$bank->id}}" @if (old('bank_id') == $bank->id)selected="selected"@endif>{{$bank->name}}</option>
                 @endforeach
               </select>

@@ -2,6 +2,7 @@
 @section('title', __('Bill No.') . ' ' . $bill->number)
 
 @section('content')
+@php($settings = $settings ?? $bill->user->settings)
 
 <div class="singlebBillSimple_page py-4 min-vh-100">
   <div class="container">
@@ -9,7 +10,7 @@
       <div class="col-12 col-lg-5">
 
         <div class="change_lang d-flex align-items-center justify-content-end w-100 mb-2">
-          @if($bill->user->settings->active_lang == 'all')
+          @if($settings->active_lang == 'all')
             @if(App::isLocale('en'))
               <a href="{{ route('paybillpagelang', ['id' => $bill->pay_id, 'lang' => 'ar'])}}" title="عربي" class="d-block fw-medium text-capitalize">عربي</a>
             @else
@@ -27,12 +28,12 @@
               </span>
             @endif
             <div class="text-heading mb-3 d-flex flex-column text-center">
-              @if($bill->user->settings->add_tax_invoice)
+              @if($settings->add_tax_invoice)
                 <p class="m-0">@if($bill->debit_note_bill_id == null) {{ __('Simplified Tax Invoice') }} @else {{ __('Tax debit note') }} @endif</p>
               @endif
               <p class="m-0">{{ $bill->user->business_name }}</p>
-              @if(isset($bill->user->settings->header_bill))
-                <p class="m-0">{{ $bill->user->settings->header_bill }}</p>
+              @if(isset($settings->header_bill))
+                <p class="m-0">{{ $settings->header_bill }}</p>
               @endif
               
               <!-- while system language En get business address and when Ar get business_address_details until SAMA Demo -->
@@ -100,7 +101,7 @@
             @endif
 
             <div class="d-flex flex-column gap-1 mb-3">
-              @if($bill->user->settings->add_tax_invoice)
+              @if($settings->add_tax_invoice)
                 <div class="d-flex align-items-center justify-content-between gap-2">
                   <p class="mb-0">{{ __('Bill No.') }}</p>
                   <p class="mb-0">{{ $bill->number }}</p>
@@ -125,7 +126,7 @@
                   <p class="mb-0">{{ $bill->created_at->format('d/m/Y')}}</p>
                 </div><!-- d-flex -->
               @endif
-              @if($bill->user->settings->display_customer_details)
+              @if($settings->display_customer_details)
                 <div class="d-flex align-items-center justify-content-between gap-2">
                   <p class="mb-0">{{ __('Customer Name') }}</p>
                   <p class="mb-0">{{ $bill->customer_name }}</p>
@@ -278,7 +279,7 @@
               @include('bills.partials.payment_form')
             @endif
 
-            @if($bill->user->settings->add_tax_invoice)
+            @if($settings->add_tax_invoice)
               <hr class="my-3">
               <div class="card-body p-0 text-heading text-center text-capitalize">
                 <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
@@ -289,9 +290,9 @@
               </div>
             @endif
 
-            @if(isset($bill->user->settings->footer_bill))
+            @if(isset($settings->footer_bill))
               <hr class="my-3">
-              <div class="card-body p-0 text-heading text-center text-capitalize">{{ $bill->user->settings->footer_bill }}</div>
+              <div class="card-body p-0 text-heading text-center text-capitalize">{{ $settings->footer_bill }}</div>
             @endif
 
             @if($bill->application && $bill->is_redirect)

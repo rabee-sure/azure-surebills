@@ -2,6 +2,7 @@
 @section('title', __('Bill No.') . ' ' . $bill->number)
 
 @section('content')
+@php($settings = $settings ?? $bill->user->settings)
 
   {{-- Vue mounts to #app; keep it off the hosted-field form or session iframes get wiped. --}}
   <div id="app" hidden></div>

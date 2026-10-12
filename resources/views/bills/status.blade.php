@@ -1,6 +1,7 @@
 @extends('layouts.bill')
 @section('title', __('Bill No.') . ' ' . $bill->number)
 @section('content')
+@php($settings = $settings ?? $bill->user->settings)
 
   <div id="app" class="singlebBillSimple_page d-flex align-items-center justify-content-center flex-column">
     <div class="container">
@@ -8,7 +9,7 @@
         <div class="col-12 col-md-5">
           <div class="all_bill_page">
             <div class="change_lang d-flex align-items-center justify-content-end w-100 mb-1">
-              @if($bill->user->settings->active_lang == 'all')
+              @if($settings->active_lang == 'all')
                 @if(App::isLocale('en'))
                   <a href="{{ route('paybillpagelang', ['id' => $bill->pay_id, 'lang' => 'ar'])}}" title="عربي" class="d-block">عربي</a>
                 @else
@@ -21,21 +22,21 @@
                 @if($bill->user->logo)
                   <img src="{{ $bill->user->logo_url }}" alt="logo">
                 @endif
-                @if($bill->status == 'paid' && $bill->user->settings->add_tax_invoice)
+                @if($bill->status == 'paid' && $settings->add_tax_invoice)
                   <div class="taxInvoiceText">{{ __('Simplified Tax Invoice') }}</div>
                 @endif
-                @if(isset($bill->user->settings->header_bill))
-                  <p class="d-block mb-0 text-break text-center">{{ $bill->user->settings->header_bill }}</p>
+                @if(isset($settings->header_bill))
+                  <p class="d-block mb-0 text-break text-center">{{ $settings->header_bill }}</p>
                 @endif
-                @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
+                @if($bill->application_id == null || !$settings->api_bill_style)
                   <span class="d-block font-weight-bold">{{ $bill->user->business_name }}</span>
                   <p class="d-block mb-0">{{  $bill->user->business_address }}</p>
                   <b class="d-block font-weight-normal">{{  $bill->user->business_mobile }}</b>
                 @endif
               </div><!-- about -->
-              @if($bill->application_id == null || !$bill->user->settings->api_bill_style)
+              @if($bill->application_id == null || !$settings->api_bill_style)
                 <div class="bill_info">
-                  @if($bill->user->settings->add_tax_invoice)
+                  @if($settings->add_tax_invoice)
                     <div class="d-flex align-items-center justify-content-between">
                       <span>{{ __('Bill No.') }}</span>
                       <span>{{ $bill->number }}</span>
@@ -60,7 +61,7 @@
                     <span>{{ $bill->created_at->format('d/m/Y')}}</span>
                   </div><!-- d-flex -->
                   @endif
-                  @if($bill->user->settings->display_customer_details && $bill->customer_mobile != 555555555)
+                  @if($settings->display_customer_details && $bill->customer_mobile != 555555555)
                       <div class="d-flex align-items-center justify-content-between">
                         <span>{{ __('Customer Name') }}</span>
                         <span>{{ $bill->customer_name }}</span>
@@ -254,7 +255,7 @@
                   </div>
                 @endif
               </div><!-- status -->
-              @if($bill->user->settings->add_tax_invoice)
+              @if($settings->add_tax_invoice)
                 <div class="qrCode_area">
                   <a class="d-flex justify-content-center flex-column align-items-center" target="_blank" href="{{route('invoice', ['id' => $bill->pay_id])}}">
                     {!! generateQRcode($bill) !!}
@@ -263,8 +264,8 @@
                   </a>
                 </div><!-- qrCode_area -->
               @endif
-              @if(isset($bill->user->settings->footer_bill))
-                <p class="d-block mb-0 mt-3 text-break text-center">{{ $bill->user->settings->footer_bill }}</p>
+              @if(isset($settings->footer_bill))
+                <p class="d-block mb-0 mt-3 text-break text-center">{{ $settings->footer_bill }}</p>
               @endif
             </div><!-- single_bill_content -->
           </div><!-- all_bill_page -->

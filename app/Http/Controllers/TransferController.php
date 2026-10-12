@@ -13,6 +13,8 @@ use App\Models\Transfer;
 use App\Models\User;
 use App\Models\PaymentLog;
 use App\Services\BasicSettingsService;
+use App\Services\Cache\CacheKeys;
+use App\Services\Cache\SureBillsCache;
 use App\Services\TransferOperations;
 use App\Services\TransferService;
 use Carbon\Carbon;
@@ -26,9 +28,13 @@ class TransferController extends Controller
     /** @var BasicSettingsService */
     private $basicSettingsService;
 
-    public function __construct(BasicSettingsService $basicSettingsService)
+    /** @var SureBillsCache */
+    private $cache;
+
+    public function __construct(BasicSettingsService $basicSettingsService, SureBillsCache $cache)
     {
         $this->basicSettingsService = $basicSettingsService;
+        $this->cache = $cache;
         $this->middleware('permission:show bills', ['only' => ['bills']]);
         // $this->middleware('permission:show transfers');
     }
@@ -42,8 +48,67 @@ class TransferController extends Controller
         $this->authorize('show transfers');
         $user = auth()->user();
         $user->userId = auth()->user()->store_main_user_id ?? auth()->user()->id;
-        $transfers = Transfer::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)->with('created_by')->get();
+        $transfers = $this->cachedTransferHistory(auth()->user()->store_main_user_id ?? auth()->user()->id);
+
         return view('transfers.index', ['transfers' => $transfers]);
+    }
+
+    /**
+     * Full transfer history for this owner. The stored rows expire by TTL.
+     *
+     * @param  int|string  $ownerId
+     * @return array<int, object>
+     */
+    protected function cachedTransferHistory($ownerId): array
+    {
+        $rows = $this->cache->remember(
+            CacheKeys::transfers($ownerId),
+            (int) config('surebills_cache.ttl.transfers'),
+            function () use ($ownerId) {
+                return $this->loadTransferHistory($ownerId)
+                    ->map(function (Transfer $transfer) {
+                        return $this->transferHistoryDisplayRow($transfer);
+                    })
+                    ->all();
+            },
+            'transfers'
+        );
+
+        return array_map(function ($row) {
+            return (object) $row;
+        }, $rows);
+    }
+
+    /**
+     * Existing full-history query. No date window and no ORDER BY.
+     *
+     * @param  int|string  $ownerId
+     * @return \Illuminate\Support\Collection<int, Transfer>
+     */
+    protected function loadTransferHistory($ownerId)
+    {
+        return Transfer::userId($ownerId)->with('created_by')->get();
+    }
+
+    /**
+     * Scalar fields the history table prints. filters and iban_number stay out of the cache.
+     *
+     * @return array<string, mixed>
+     */
+    protected function transferHistoryDisplayRow(Transfer $transfer): array
+    {
+        return [
+            'id' => $transfer->id,
+            'amount' => $transfer->amount,
+            'transfer_fees' => $transfer->transfer_fees,
+            'net_amount' => $transfer->net_amount,
+            'note' => $transfer->note,
+            'date_from_to' => $transfer->date_from_to,
+            'created_at' => $transfer->created_at instanceof \DateTimeInterface
+                ? $transfer->created_at->toDateTimeString()
+                : $transfer->created_at,
+            'status' => $transfer->status,
+        ];
     }
 
     /**

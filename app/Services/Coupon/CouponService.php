@@ -6,6 +6,8 @@ use App\Models\Coupon;
 use App\Models\Customer;
 use App\Enums\CouponMechanism;
 use App\Repositories\CouponRepository;
+use App\Services\Cache\CacheKeys;
+use App\Services\Cache\SureBillsCache;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -19,14 +21,16 @@ use Illuminate\Validation\ValidationException;
  */
 class CouponService
 {
-    public function __construct()
+    public function __construct(?SureBillsCache $cache = null, ?CouponRepository $repository = null)
     {
-        $this->repository = new CouponRepository();
+        $this->cache = $cache ?? app(SureBillsCache::class);
+        $this->repository = $repository ?? new CouponRepository();
         $this->validator = new CouponValidator($this->repository);
         $this->generator = new CouponGenerator();
         $this->exporter = new CouponExporter($this->repository);
     }
 
+    private SureBillsCache $cache;
     private CouponRepository $repository;
     private CouponValidator $validator;
     private CouponGenerator $generator;
@@ -66,7 +70,10 @@ class CouponService
             }
         }
 
-        return $this->repository->create($data);
+        $coupon = $this->repository->create($data);
+        $this->forgetAvailableToday($userId);
+
+        return $coupon;
     }
 
     /**
@@ -74,7 +81,14 @@ class CouponService
      */
     public function updateCoupon(Coupon $coupon, array $data): bool
     {
-        return $this->repository->update($coupon, $data);
+        $userId = (int) $coupon->user_id;
+        $updated = $this->repository->update($coupon, $data);
+
+        if ($updated) {
+            $this->forgetAvailableToday($userId);
+        }
+
+        return $updated;
     }
 
     /**
@@ -82,7 +96,14 @@ class CouponService
      */
     public function deleteCoupon(Coupon $coupon): bool
     {
-        return $this->repository->delete($coupon);
+        $userId = (int) $coupon->user_id;
+        $deleted = $this->repository->delete($coupon);
+
+        if ($deleted) {
+            $this->forgetAvailableToday($userId);
+        }
+
+        return $deleted;
     }
 
     /**
@@ -127,6 +148,8 @@ class CouponService
             ];
         }
 
+        $this->forgetAvailableToday((int) $coupon->user_id);
+
         return [
             'success' => true,
             'message' => $coupon->is_active
@@ -164,6 +187,8 @@ class CouponService
                 'message' => __('Failed to delete coupon'),
             ];
         }
+
+        $this->forgetAvailableToday((int) $coupon->user_id);
 
         return [
             'success' => true,
@@ -356,6 +381,10 @@ class CouponService
         $claim->markRecorded();
         $this->activeClaim = null;
 
+        if ($couponCode === null) {
+            $this->forgetAvailableToday((int) $claim->userId());
+        }
+
         Log::info('Coupon usage recorded successfully', [
             'coupon_id' => $coupon->id,
             'customer_id' => $claim->customerId(),
@@ -417,6 +446,81 @@ class CouponService
         } finally {
             $this->activeClaim = null;
         }
+    }
+
+    /**
+     * Resolve a reusable coupon for the bill total check.
+     * Redis only supplies a candidate id. The returned model is loaded from MySQL.
+     */
+    public function findReusableForBillLookup(string $code, int $userId): ?Coupon
+    {
+        if (! $this->cache->enabled('coupons')) {
+            return $this->repository->findByCode($code, $userId);
+        }
+
+        $candidates = $this->cache->remember(
+            CacheKeys::couponsAvailable($userId, now('Asia/Riyadh')->format('Ymd')),
+            config('surebills_cache.ttl.coupons'),
+            function () use ($userId) {
+                return $this->repository->reusableAvailableToday($userId);
+            },
+            'coupons'
+        );
+
+        if (! is_array($candidates)) {
+            return $this->repository->findByCode($code, $userId);
+        }
+
+        $couponId = $this->matchingCandidateId($candidates, $code);
+
+        if ($couponId === null) {
+            return $this->repository->findByCode($code, $userId);
+        }
+
+        $coupon = $this->repository->findReusableById($couponId, $code, $userId);
+
+        if ($coupon === null) {
+            return $this->repository->findByCode($code, $userId);
+        }
+
+        return $coupon;
+    }
+
+    /**
+     * @param  array<int, mixed>  $candidates
+     */
+    private function matchingCandidateId(array $candidates, string $code): ?int
+    {
+        foreach ($candidates as $candidate) {
+            if (! is_array($candidate) || ! isset($candidate['id'], $candidate['code_pattern'])) {
+                continue;
+            }
+
+            if ($this->codesMatch((string) $candidate['code_pattern'], $code)) {
+                return (int) $candidate['id'];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * utf8mb4_unicode_ci is case-insensitive. The MySQL reload still applies the column collation.
+     */
+    private function codesMatch(string $stored, string $entered): bool
+    {
+        return mb_strtolower($stored, 'UTF-8') === mb_strtolower($entered, 'UTF-8');
+    }
+
+    private function forgetAvailableToday(int $userId): void
+    {
+        if (! $this->cache->enabled('coupons')) {
+            return;
+        }
+
+        $this->cache->forget(
+            CacheKeys::couponsAvailable($userId, now('Asia/Riyadh')->format('Ymd'))
+        );
     }
 
     private function isLockWaitTimeout(QueryException $exception): bool

@@ -7,16 +7,24 @@ use App\Http\Requests\ContactRequest;
 use App\Models\Bill;
 use App\Models\RefundedBill;
 use App\Services\BasicSettingsService;
+use App\Services\Cache\CacheKeys;
+use App\Services\Cache\SureBillsCache;
+use DateTimeInterface;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class HomeController extends Controller
 {
     /** @var BasicSettingsService */
     private $basicSettingsService;
 
-    public function __construct(BasicSettingsService $basicSettingsService)
+    /** @var SureBillsCache */
+    private $cache;
+
+    public function __construct(BasicSettingsService $basicSettingsService, ?SureBillsCache $cache = null)
     {
         $this->basicSettingsService = $basicSettingsService;
+        $this->cache = $cache ?? app(SureBillsCache::class);
     }
 
     /**
@@ -46,12 +54,103 @@ class HomeController extends Controller
         }
 
         $user = auth()->user();
-        $user->userId = auth()->user()->store_main_user_id ?? auth()->user()->id;
-        $bills = Bill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id);
+        $ownerId = $user->store_main_user_id ?? $user->id;
+        $user->userId = $ownerId;
 
-        // Create union query with refunded bills
-        $latestQuery = clone $bills;
-        $latestQuery = $latestQuery->select([
+        $latest = $this->displayLastBills($ownerId);
+        $balance = $this->displayBalance($user);
+        $totals = $this->displayTotals($ownerId);
+
+        $settings = $this->basicSettingsService->getSettings();
+
+        return view('home', [
+            'user' =>  $user,
+            'balance' =>  $balance ?? 0,
+            'latest' =>  $latest,
+            'total_paid' =>  $totals['total_paid'],
+            'total_bills' =>  $totals['total_bills'],
+            'total_paid_bills' =>  $totals['total_paid_bills'],
+            'mobile_number' => $settings['mobile_number'] ?? null,
+        ]);
+    }
+
+    /**
+     * Home display balance. Financial callers keep using User::getBalanceAttribute().
+     *
+     * @param  object  $user
+     * @return mixed
+     */
+    protected function displayBalance($user)
+    {
+        $ownerId = $user->store_main_user_id ?? $user->id;
+        $read = function () use ($user) {
+            return $this->readDisplayBalance($user);
+        };
+
+        if (! $this->cache->enabled('merchant_home')) {
+            return $read();
+        }
+
+        try {
+            return $this->cache->remember(
+                CacheKeys::uiBalance($ownerId),
+                (int) config('surebills_cache.ttl.balance'),
+                $read,
+                'merchant_home'
+            );
+        } catch (Throwable $e) {
+            return $read();
+        }
+    }
+
+    /**
+     * @param  object  $user
+     * @return mixed
+     */
+    protected function readDisplayBalance($user)
+    {
+        return $user->balance;
+    }
+
+    /**
+     * @param  int|string  $ownerId
+     * @return \Illuminate\Support\Collection
+     */
+    protected function displayLastBills($ownerId)
+    {
+        if (! $this->cache->enabled('merchant_home')) {
+            return $this->queryLastBills($ownerId);
+        }
+
+        try {
+            $payload = $this->cache->remember(
+                CacheKeys::homeLastBills($ownerId),
+                (int) config('surebills_cache.ttl.last_bills'),
+                function () use ($ownerId) {
+                    return $this->lastBillPayloads($this->queryLastBills($ownerId));
+                },
+                'merchant_home'
+            );
+        } catch (Throwable $e) {
+            return $this->queryLastBills($ownerId);
+        }
+
+        if (! $this->isLastBillPayload($payload)) {
+            return $this->queryLastBills($ownerId);
+        }
+
+        return $this->billsFromPayload($payload);
+    }
+
+    /**
+     * @param  int|string  $ownerId
+     * @return \Illuminate\Support\Collection
+     */
+    protected function queryLastBills($ownerId)
+    {
+        $bills = Bill::userId($ownerId);
+
+        $latestQuery = (clone $bills)->select([
             'id',
             'number',
             'customer_name',
@@ -60,10 +159,9 @@ class HomeController extends Controller
             'payment_way as method',
             'created_at',
             'user_id',
-            DB::raw("CASE WHEN debit_note_bill_id IS NULL THEN 'bill' ELSE 'debit_note' END as type")
+            DB::raw("CASE WHEN debit_note_bill_id IS NULL THEN 'bill' ELSE 'debit_note' END as type"),
         ])->union(
-            RefundedBill::userId(auth()->user()->store_main_user_id ?? auth()->user()->id)
-            ->select([
+            RefundedBill::userId($ownerId)->select([
                 'id',
                 'number',
                 'customer_name',
@@ -72,33 +170,134 @@ class HomeController extends Controller
                 'method',
                 'created_at',
                 'user_id',
-                DB::raw("'credit_note' as type")
+                DB::raw("'credit_note' as type"),
             ])
         );
-        
-        $latest = $latestQuery->orderBy('created_at', 'desc')->take(6)->get();
 
-        $balance = $user->balance;
+        return $latestQuery->orderBy('created_at', 'desc')->take(6)->get();
+    }
 
-        $total_paid = (clone $bills)->where('status', 'paid')->sum('total');
+    /**
+     * @param  iterable  $bills
+     * @return array<int, array<string, mixed>>
+     */
+    private function lastBillPayloads($bills): array
+    {
+        $payload = [];
 
-        $total_bills_query = clone $bills;
-        $total_bills = $total_bills_query->count();
+        foreach ($bills as $bill) {
+            $createdAt = $bill->created_at;
+            if ($createdAt instanceof DateTimeInterface) {
+                $createdAt = $createdAt->format('Y-m-d H:i:s');
+            }
 
-        $total_paid_bills_query = clone $bills;
-        $total_paid_bills = $total_paid_bills_query->where('status', 'paid')->count();
+            $payload[] = [
+                'id' => $bill->id,
+                'number' => $bill->number,
+                'customer_name' => $bill->customer_name,
+                'fixed_total' => $bill->fixed_total,
+                'status' => $bill->status,
+                'method' => $bill->method,
+                'created_at' => $createdAt,
+                'user_id' => $bill->user_id,
+                'type' => $bill->type,
+            ];
+        }
 
-        $settings = $this->basicSettingsService->getSettings();
+        return $payload;
+    }
 
-        return view('home', [
-            'user' =>  $user,
-            'balance' =>  $balance ?? 0,
-            'latest' =>  $latest,
-            'total_paid' =>  $total_paid,
-            'total_bills' =>  $total_bills,
-            'total_paid_bills' =>  $total_paid_bills,
-            'mobile_number' => $settings['mobile_number'] ?? null,
-        ]);
+    /**
+     * @param  array<int, mixed>  $rows
+     * @return \Illuminate\Support\Collection
+     */
+    private function isLastBillPayload($payload): bool
+    {
+        if (! is_array($payload)) {
+            return false;
+        }
+
+        foreach ($payload as $row) {
+            if (! is_array($row) || ! array_key_exists('id', $row) || ! array_key_exists('type', $row)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function billsFromPayload(array $rows)
+    {
+        return collect($rows)->map(function ($row) {
+            $bill = new Bill;
+            $bill->setDateFormat('Y-m-d H:i:s');
+            $bill->forceFill([
+                'id' => $row['id'] ?? null,
+                'number' => $row['number'] ?? null,
+                'customer_name' => $row['customer_name'] ?? null,
+                'fixed_total' => $row['fixed_total'] ?? null,
+                'status' => $row['status'] ?? null,
+                'method' => $row['method'] ?? null,
+                'created_at' => $row['created_at'] ?? null,
+                'user_id' => $row['user_id'] ?? null,
+                'type' => $row['type'] ?? null,
+            ]);
+
+            return $bill;
+        })->values();
+    }
+
+    /**
+     * @param  int|string  $ownerId
+     * @return array{total_paid: mixed, total_bills: mixed, total_paid_bills: mixed}
+     */
+    protected function displayTotals($ownerId): array
+    {
+        if (! $this->cache->enabled('merchant_home')) {
+            return $this->queryDisplayTotals($ownerId);
+        }
+
+        try {
+            $payload = $this->cache->remember(
+                CacheKeys::homeTotals($ownerId),
+                (int) config('surebills_cache.ttl.home_totals'),
+                function () use ($ownerId) {
+                    return $this->queryDisplayTotals($ownerId);
+                },
+                'merchant_home'
+            );
+        } catch (Throwable $e) {
+            return $this->queryDisplayTotals($ownerId);
+        }
+
+        if (! is_array($payload)
+            || ! array_key_exists('total_paid', $payload)
+            || ! array_key_exists('total_bills', $payload)
+            || ! array_key_exists('total_paid_bills', $payload)
+        ) {
+            return $this->queryDisplayTotals($ownerId);
+        }
+
+        return [
+            'total_paid' => $payload['total_paid'],
+            'total_bills' => $payload['total_bills'],
+            'total_paid_bills' => $payload['total_paid_bills'],
+        ];
+    }
+
+    /**
+     * @param  int|string  $ownerId
+     * @return array{total_paid: mixed, total_bills: mixed, total_paid_bills: mixed}
+     */
+    protected function queryDisplayTotals($ownerId): array
+    {
+        $bills = Bill::userId($ownerId);
+
+        return [
+            'total_paid' => (clone $bills)->where('status', 'paid')->sum('total'),
+            'total_bills' => (clone $bills)->count(),
+            'total_paid_bills' => (clone $bills)->where('status', 'paid')->count(),
+        ];
     }
 
     /**

@@ -10,6 +10,7 @@ use App\Http\Requests\ChangePasswordRequest;
 use App\Models\Media;
 use App\Models\User;
 use App\Rules\ValidateUploadFile;
+use App\Services\BankActiveListService;
 use App\Support\Storage\ExportStoragePaths;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,8 +22,9 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 class AccountController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(
+        private readonly BankActiveListService $bankActiveListService,
+    ) {
         $this->middleware('permission:update bank info', ['only' => ['bank_information', 'storeBankInformation']]);
         $this->middleware('permission:update business commercial info', ['only' => ['business_information', 'storeBusinessInformation']]);
     }
@@ -45,7 +47,10 @@ class AccountController extends Controller
             return view('account.account', ['user' => auth()->user()]);
         }else{
             if(session()->get(auth()->user()->id.'_complete_profile_step_2')){
-                return view('account.steps.step3', ['user' => auth()->user()]);
+                return view('account.steps.step3', [
+                    'user' => auth()->user(),
+                    'banks' => $this->bankActiveListService->getActiveBanks(),
+                ]);
             }elseif(session()->get(auth()->user()->id.'_complete_profile_step_1')){
                 return view('account.steps.step2', ['user' => auth()->user()]);
             }else{
@@ -117,7 +122,10 @@ class AccountController extends Controller
         {
             $bankInfo = auth()->user();
         }
-        return view('account.bank_information', ['user' => $bankInfo]);
+        return view('account.bank_information', [
+            'user' => $bankInfo,
+            'banks' => $this->bankActiveListService->getActiveBanks(),
+        ]);
     }
 
     /**

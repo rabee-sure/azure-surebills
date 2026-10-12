@@ -6,13 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateInformationRequest;
 use App\Http\Resources\BankResource;
 use App\Http\Resources\UserInformationResource;
-use App\Models\Bank;
+use App\Services\BankActiveListService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class BankController extends Controller
 {
+    public function __construct(
+        private readonly BankActiveListService $bankActiveListService,
+    ) {}
+
     /**
      * Show the application dashboard.
      *
@@ -20,8 +24,7 @@ class BankController extends Controller
      */
     public function index(Request $request)
     {
-        $banks = Bank::active()->get();
-        return BankResource::collection($banks);
+        return BankResource::collection($this->bankActiveListService->getActiveBanks());
     }
     /**
      * Show the application dashboard.
