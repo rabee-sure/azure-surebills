@@ -179,6 +179,7 @@
     </script>
 
     @if(in_array(request()->route()->getName(), ['channels.show', 'integration','mobile_verify', 'home' ]))
+      @include('partials.shield-vue-mustaches')
       <script src="{{ asset('assets/v2/vendor/js/app.js') }}?v={{ config('app.asset_version') }}"></script>
     @endif
 

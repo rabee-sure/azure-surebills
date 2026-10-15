@@ -214,6 +214,7 @@
 "item name required" : "item name required",
 "item price required" : "item price required",
 "item quantity required" : "item quantity required",
+"This value cannot contain {{ or }}." : "This value cannot contain {{ or }}.",
 "Bank" : "bank",
 "IBAN Number" : "iban number",
 "Beneficiary Name" : "beneficiary name",

@@ -640,6 +640,7 @@
 	"item category required" : "قسم المنتج / الخدمة مطلوب",
 	"item price required" : "سعر المنتج / الخدمة مطلوب",
 	"item quantity required" : "الكمية مطلوب",
+	"This value cannot contain {{ or }}." : "لا يمكن أن تحتوي هذه القيمة على {{ أو }}.",
 	"Bank" : "البنك",
 	"IBAN Number" : "رقم الحساب المصرفي (IBAN)",
 	"Beneficiary Name" : "اسم صاحب الحساب",

@@ -58,6 +58,7 @@
 @endsection
 
 @push('footer-scripts')
+  @include('partials.shield-vue-mustaches')
   <script src="{{ asset('assets/v2/vendor/js/app.js') }}"></script>
   <script>
     @if($bill->user->settings->api_bill_style && $bill->application_id)

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\EmailFormat;
+use App\Rules\NoTemplateSyntax;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -39,7 +40,7 @@ class CustomerApiRequest extends FormRequest
                     return $query->where('user_id', $user->id);
                 })
             ],
-            'notes' => ['nullable'],
+            'notes' => ['nullable', 'string', new NoTemplateSyntax],
         ];
     }
 }

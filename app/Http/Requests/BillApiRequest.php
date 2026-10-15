@@ -8,6 +8,7 @@ use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Rules\BillTotalValidation;
+use App\Rules\NoTemplateSyntax;
 use App\Rules\UniqeBillReference;
 
 class BillApiRequest extends FormRequest
@@ -87,6 +88,7 @@ class BillApiRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
+                new NoTemplateSyntax,
                 new UniqeBillReference
                 // Rule::unique('bills')->where(function ($query) use ($application) {
                 //     return $query->where('user_id', $application->user_id ?? null)->where('status', 'pending');
@@ -95,11 +97,11 @@ class BillApiRequest extends FormRequest
             'customer_name' => ['required', 'string', 'max:50', 'regex:/^[\p{L}\s]+$/u'],
             'customer_email' => ['required', 'string', new EmailFormat, 'max:50'],
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
-            'customer_notes' => ['nullable'],
+            'customer_notes' => ['nullable', 'string', new NoTemplateSyntax],
 
             'due_date' => ['required', 'date_format:d-m-Y'],
 
-            'coupon_code' => ['nullable', 'string', 'max:255'],
+            'coupon_code' => ['nullable', 'string', 'max:255', new NoTemplateSyntax],
             'add_discount' => ['nullable'],
             'discount_type' => [
                 'nullable',
@@ -116,15 +118,24 @@ class BillApiRequest extends FormRequest
             'is_redirect' => ['nullable'],
 
             'items' => ['required', new BillTotalValidation],
-            'items.*.name' => 'required',
+            'items.*.name' => ['required', 'string', new NoTemplateSyntax],
             'items.*.price' => 'required|numeric',
             'items.*.quantity' => 'required|numeric',
 
-            'application_name' => ['nullable'],
-            'redirect_url' => ['nullable'],
-            'webhook_url' => ['nullable'],
+            'application_name' => ['nullable', 'string', new NoTemplateSyntax],
+            'redirect_url' => ['nullable', 'string', new NoTemplateSyntax],
+            'webhook_url' => ['nullable', 'string', new NoTemplateSyntax],
 
-            'tags' => ['nullable', 'string'],
+            'tags' => ['nullable', 'string', new NoTemplateSyntax],
+            'tax_name' => ['nullable', 'string', new NoTemplateSyntax],
+            'customer_bullding_no' => ['nullable', new NoTemplateSyntax],
+            'customer_street_name' => ['nullable', new NoTemplateSyntax],
+            'customer_district' => ['nullable', new NoTemplateSyntax],
+            'customer_city' => ['nullable', new NoTemplateSyntax],
+            'customer_postal_code' => ['nullable', new NoTemplateSyntax],
+            'customer_additional_no' => ['nullable', new NoTemplateSyntax],
+            'customer_other_buyer_id' => ['nullable', new NoTemplateSyntax],
+            'customer_vat_registration_number' => ['nullable', new NoTemplateSyntax],
         ];
 
         if(config('bills.pay_page_expiration_time_type') == 'Days')
