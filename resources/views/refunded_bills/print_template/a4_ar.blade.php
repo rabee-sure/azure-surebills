@@ -34,7 +34,9 @@
         <p class="m-0">{{ __('Simplified Tax Invoice', [], $lang) }}</p>
       @endif
       <p class="m-0">{{ $refundedBill->bill->user->business_name }}</p>
-      <p class="m-0">{{  $refundedBill->bill->user->business_address }}</p>
+      <!-- comment business address and make it read from business_address_details until SAMA Demo -->
+      <!-- <p class="m-0">{{  $refundedBill->bill->user->business_address }}</p> -->
+      <p class="m-0">{{  $refundedBill->bill->user->business_address_details }}</p>
       <p class="m-0">{{  $refundedBill->bill->user->business_mobile }}</p>
     </div>
     <div id="status">
