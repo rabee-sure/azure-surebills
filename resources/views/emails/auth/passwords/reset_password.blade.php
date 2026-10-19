@@ -55,7 +55,7 @@
         }
         #mail_wrapper .content a {
           display: inline-block;
-          background: #00D595;
+          background: #004FFE;
           color: #fff;
           text-decoration: none;
           font-weight: bold;
@@ -65,7 +65,7 @@
           border-radius: 5px;
         }
         #mail_wrapper .content a:hover {
-          background: #00ac78;
+          background: #0040f0;
         }
         #mail_wrapper .copyrights {
           border: 1px solid #ddd;
