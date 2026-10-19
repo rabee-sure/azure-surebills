@@ -49,7 +49,7 @@ class BillTotalValidation implements Rule
         }
 
         // Apply coupon discount
-        if(request()->has('coupon_code') && request()->coupon_code != null){
+        if(request()->filled('coupon_code')){
             // Get auth user from api or web
             $authUser = GetAuthUser::authUser(request());
             
