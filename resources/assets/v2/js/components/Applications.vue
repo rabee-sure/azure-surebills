@@ -44,10 +44,10 @@
             <tr v-for="application in applications">
               <td>{{ application.id }}</td>
               <td>{{ application.name }}</td>
-              <td dir="ltr"><code>{{ application.secret ? application.secret : '-' }}</code></td>
-              <td>{{ application.webhook_url }}</td>
-              <td><code>{{ application.webhook_secret ? application.webhook_secret : '-' }}</code></td>
-              <td>{{ application.redirect }}</td>
+              <td><code dir="ltr">{{ application.secret ? application.secret : '-' }}</code></td>
+              <td><a :href="application.webhook_url" target="_blank" dir="ltr">{{ application.webhook_url }}</a></td>
+              <td><code dir="ltr">{{ application.webhook_secret ? application.webhook_secret : '-' }}</code></td>
+              <td><a :href="application.redirect" target="_blank" dir="ltr">{{ application.redirect }}</a></td>
               <td v-if="userPermissions.includes('update application') || userPermissions.includes('delete application')">
                 <div class="d-flex align-items-center justify-content-start gap-2">
                   <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" :title="__('Edit')" class="btn btn-icon text-white btn-sm btn-info waves-effect waves-light" @click="edit(application)" v-if="application.channel == null && userPermissions.includes('update application')">
