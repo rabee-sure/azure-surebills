@@ -118,6 +118,22 @@
       $('#edit_Role').select2({
         dropdownParent: $('#edit_user_Modal')
       });
+
+      // Select2 inserts its box after the hidden <select>, so the default
+      // error lands between the label and the dropdown. Place it under the box.
+      ['#user_form', '#user_update_form'].forEach(function(selector) {
+        const validator = $(selector).data('validator');
+        if (!validator) return;
+        const defaultErrorPlacement = validator.settings.errorPlacement;
+        validator.settings.errorPlacement = function(error, element) {
+          const select2 = element.next('.select2-container');
+          if (select2.length) {
+            error.insertAfter(select2);
+          } else if (defaultErrorPlacement) {
+            defaultErrorPlacement(error, element);
+          }
+        };
+      });
     });
 
     // Edit User Modal - populate form when opened
