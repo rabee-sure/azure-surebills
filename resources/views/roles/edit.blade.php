@@ -21,7 +21,7 @@
                   <div class="col">
                     <div class="form-check">
                       <input class="form-check-input edit-permission-checkbox" id="edit_{{ Str::slug($permission) }}" value="{{ $permission }}" name="permissions[]" type="checkbox" data-permission="{{ $permission }}" />
-                      <label class="form-check-label" for="edit_{{ Str::slug($permission) }}">{{__($permission)}}</label>
+                      <label class="form-check-label text-capitalize" for="edit_{{ Str::slug($permission) }}">{{__($permission)}}</label>
                     </div>
                   </div><!-- col -->
                 @endforeach
