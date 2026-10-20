@@ -139,7 +139,7 @@ class BillController extends Controller
                 'expiry_minutes' => $request->expiry_minutes ?? 0,
                 'due_date' => Carbon::parse($request->due_date),
 
-                'add_discount' => ($request->coupon_code || $request->add_discount) ? true : false,
+                'add_discount' => ($request->filled('coupon_code') || $request->add_discount) ? true : false,
                 'discount_type' => $discountType,
                 'discount_value' => $discountValue,
 
@@ -173,7 +173,7 @@ class BillController extends Controller
             $vat = 0;
         
             // Calculate discount amount
-            if ($request->coupon_code || $request->add_discount) {
+            if ($request->filled('coupon_code') || $request->add_discount) {
                 switch ($discountType) {
                     case 'fixed':
                         $discount = $discountValue;
@@ -224,7 +224,7 @@ class BillController extends Controller
             return $bill;
         };
 
-        if ($request->coupon_code) {
+        if ($request->filled('coupon_code')) {
             try {
                 $bill = DB::transaction(function () use ($request, $bill_user_id, $upsertCustomer, $writeBill) {
                     $claim = $this->couponService->beginRedemption($request->coupon_code, (int) $bill_user_id);

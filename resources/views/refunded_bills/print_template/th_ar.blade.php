@@ -24,7 +24,9 @@
       <div class="taxInvoiceText text-secondary">{{ __('Simplified Tax Invoice', [], $lang) }}</div>
     @endif
     <span class="d-block fw-bold mt-3">{{ $refundedBill->bill->user->business_name }}</span>
-    <p class="d-block mb-0">{{  $refundedBill->bill->user->business_address }}</p>
+    <!-- comment business address and make it read from business_address_details until SAMA Demo -->
+    <!-- <p class="d-block mb-0">{{  $refundedBill->bill->user->business_address }}</p> -->
+    <p class="d-block mb-0">{{  $refundedBill->bill->user->business_address_details }}</p>
     <b class="d-block fw-normal" dir="ltr">{{  $refundedBill->bill->user->business_mobile }}</b>
   </div><!-- aboutUser -->
 
