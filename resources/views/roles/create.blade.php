@@ -24,7 +24,7 @@
                   <div class="col">
                     <div class="form-check">
                       <input class="form-check-input" id="{{$permission}}" value="{{$permission}}" name="permissions[]" type="checkbox" />
-                      <label class="form-check-label" for="{{$permission}}">{{__($permission)}}</label>
+                      <label class="form-check-label text-capitalize" for="{{$permission}}">{{__($permission)}}</label>
                     </div>
                   </div><!-- col -->
                 @endforeach
