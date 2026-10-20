@@ -6,6 +6,7 @@ use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Rules\BillTotalValidation;
+use App\Rules\NoTemplateSyntax;
 use App\Rules\UniqeBillReference;
 
 class DebitNoteApiRequest extends FormRequest
@@ -78,19 +79,20 @@ class DebitNoteApiRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'customer_notes' => ['nullable'],
+            'customer_notes' => ['nullable', 'string', new NoTemplateSyntax],
             'due_date' => ['required'],
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
             'discount_value' => ['required_if:add_discount,on', 'nullable', 'numeric', 'min:0'],
             'items' => ['required', new BillTotalValidation],
-            'items.*.name' => 'required|string|max:50',
+            'items.*.name' => ['required', 'string', 'max:50', new NoTemplateSyntax],
             'items.*.price' => 'required|numeric',
             'items.*.quantity' => 'required|numeric',
             'reference_id' => [
                 'required',
                 'string',
                 'max:255',
+                new NoTemplateSyntax,
                 new UniqeBillReference
                 // Rule::unique('bills')->where(function ($query) use ($application) {
                 //     return $query->where('user_id', $application->user_id ?? null)->where('status', 'pending');

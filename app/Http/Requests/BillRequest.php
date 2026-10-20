@@ -7,6 +7,7 @@ use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Rules\BillTotalValidation;
+use App\Rules\NoTemplateSyntax;
 
 class BillRequest extends FormRequest
 {
@@ -57,9 +58,9 @@ class BillRequest extends FormRequest
         $rules = [
             'customer_name' => ['required', 'string', 'max:50', 'regex:/^[\p{L}\s]+$/u'],
             'customer_mobile' => ['required', 'regex:/(^[5]{1}[0-9]{8}$)/'],
-            'customer_notes' => ['nullable'],
+            'customer_notes' => ['nullable', 'string', new NoTemplateSyntax],
             'due_date' => ['required'],
-            'coupon_code' => ['nullable', 'string', 'max:255'],
+            'coupon_code' => ['nullable', 'string', 'max:255', new NoTemplateSyntax],
             'add_discount' => ['nullable'],
             'discount_type' => ['required_if:add_discount,on', Rule::in(['fixed', 'percentage'])],
             'discount_value' => ['required_if:add_discount,on', 'nullable', 'numeric', 'min:0'],
@@ -68,7 +69,7 @@ class BillRequest extends FormRequest
             'send_sms' => ['nullable'],
             'send_email' => ['nullable'],
             'items' => ['required', new BillTotalValidation],
-            'items.*.name' => 'required|string|max:50',
+            'items.*.name' => ['required', 'string', 'max:50', new NoTemplateSyntax],
             'items.*.price' => 'required|numeric',
             'items.*.quantity' => 'required|numeric',
         ];

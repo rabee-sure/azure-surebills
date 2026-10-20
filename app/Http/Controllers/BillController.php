@@ -153,7 +153,7 @@ class BillController extends Controller
             $userId = $user->store_main_user_id ?? $user->id;
             $claim = null;
 
-            if ($request->coupon_code) {
+            if ($request->filled('coupon_code')) {
                 $claim = $this->couponService->beginRedemption($request->coupon_code, (int) $userId);
             }
 
@@ -229,7 +229,7 @@ class BillController extends Controller
                 'expiry_minutes' => $request->expiry_minutes ?? 0,
                 'due_date' => date('Y-m-d', strtotime(str_replace('/', '-', $request->due_date))),
 
-                'add_discount' => ($request->coupon_code || $request->add_discount) ? true : false,
+                'add_discount' => ($request->filled('coupon_code') || $request->add_discount) ? true : false,
                 'discount_type' => $discountType,
                 'discount_value' => $discountValue,
 
@@ -264,7 +264,7 @@ class BillController extends Controller
             }
 
             // Calculate discount amount
-            if ($request->coupon_code || $request->add_discount) {
+            if ($request->filled('coupon_code') || $request->add_discount) {
                 switch ($discountType) {
                     case 'fixed':
                         $discount = $discountValue;
