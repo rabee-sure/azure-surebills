@@ -43,7 +43,7 @@
       text-align: center;
     }
     .billMailWrapper .mailContent .businessAddress {
-      text-align: center; 
+      text-align: center;
     }
     .billMailWrapper .mailContent .businessMobile {
       text-align: center;
@@ -106,10 +106,10 @@
       margin-bottom: 0.5rem;
     }
     .billMailWrapper .mailContent .totalArea .item.Discount {
-      color: #00d595;
+      color: #004FFE;
     }
     .billMailWrapper .mailContent .totalArea .item.Discount small {
-      color: #00d595;
+      color: #004FFE;
     }
     .billMailWrapper .mailContent .totalArea .item.Total {
       font-weight: bold;
@@ -166,7 +166,7 @@
       display: block;
       text-align: center;
       margin-top: 0.5rem;
-      background-color: #00d595;
+      background-color: #004FFE;
       height: 45px;
       line-height: 45px;
       font-weight: bold;
