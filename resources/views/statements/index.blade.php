@@ -269,6 +269,9 @@
         placeholder: '{{ __('Select Payment Status') }}',
         allowClear: true
       });
+      // Select2 copies the option text into title. In Arabic (RTL) the native
+      // tooltip renders as an oversized unstyled box. The label is already visible.
+      $('.select2-selection__rendered').removeAttr('title');
     });
 
     $(document).ready(function(){
